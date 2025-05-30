@@ -3,7 +3,6 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
-import { useCallback } from "@wordpress/element";
 import { OutboundLink, VideoFlow } from ".";
 import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
@@ -33,7 +32,7 @@ import classNames from "classnames";
  * @param {string} newToText The new to text.
  * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
- * @param {function} setTryAi The function to set the try AI state.
+ * @param {function} hideUpsell The function to hide the upsell.
  * @param {boolean} isLimitReached Whether the sparks limit is reached.
  * @returns {JSX.Element} The element.
  */
@@ -52,7 +51,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	newToText = "Yoast SEO Premium",
 	bundleNote = "",
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
-	setTryAi,
+	hideUpsell,
 	isLimitReached = false,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
@@ -65,10 +64,6 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 		/>,
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 	};
-
-	const handleTryAi = useCallback( () => {
-		setTryAi( true );
-	}, [ setTryAi ] );
 
 	return (
 		<>
@@ -157,7 +152,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					{ ! isLimitReached && <GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
+					{ ! isLimitReached && <GradientButton onClick={ hideUpsell } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
 						{ __( "Try for free", "wordpress-seo" ) }
 					</GradientButton> }
 				</div>

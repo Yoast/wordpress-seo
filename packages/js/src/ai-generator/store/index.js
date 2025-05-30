@@ -60,6 +60,13 @@ import {
 	aiOptimizeNotificationStatusSelectors,
 	getInitialNotificationStatusState,
 } from "./ai-optimize-notification-status";
+import {
+	UPSELL,
+	upsellActions,
+	upsellReducer,
+	upsellSelectors,
+	getInitialUpsellState,
+} from "./upsell";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -78,6 +85,7 @@ const createStore = ( initialState ) => {
 			...appliedFixesStatusActions,
 			...usageCountActions,
 			...aiOptimizeNotificationStatusActions,
+			...upsellActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
@@ -88,6 +96,7 @@ const createStore = ( initialState ) => {
 			...appliedFixesStatusSelectors,
 			...UsageCountSelectors,
 			...aiOptimizeNotificationStatusSelectors,
+			...upsellSelectors,
 		},
 		initialState: merge(
 			{},
@@ -100,6 +109,7 @@ const createStore = ( initialState ) => {
 				[ APPLIED_FIXES_STATUS_NAME ]: getInitialAppliedFixesStatusState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: getInitialNotificationStatusState(),
+				[ UPSELL ]: getInitialUpsellState(),
 			},
 			initialState
 		),
@@ -112,6 +122,7 @@ const createStore = ( initialState ) => {
 			[ APPLIED_FIXES_STATUS_NAME ]: appliedFixesStatusReducer,
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
 			[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: aiOptimizeNotificationStatusReducer,
+			[ UPSELL ]: upsellReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,

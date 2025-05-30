@@ -76,12 +76,11 @@ export const getUpsellProps = ( upsellLinks ) => {
 };
 
 /**
- *
- * @param {function} setTryAi Callback to signal the generating should start.
+ * Returns the upsell modal content.
  *
  * @returns {JSX.Element} The element.
  */
-export const UpsellModalContent = ( { setTryAi } ) => {
+export const UpsellModalContent = () => {
 	const upsellLinks = {
 		premium: useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-upsell" ), [] ),
 		bundle: useSelect( select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ), [] ),
@@ -119,14 +118,15 @@ export const UpsellModalContent = ( { setTryAi } ) => {
 	} ), [] );
 
 	const isLimitReached = counts >= limit;
+	const hideUpsell = useDispatch( STORE_NAME_AI ).hideUpsell;
 
 	return (
 		<AiGenerateTitlesAndDescriptionsUpsell
 			learnMoreLink={ learnMoreLink }
 			thumbnail={ thumbnail }
 			wistiaEmbedPermission={ wistiaEmbedPermission }
-			setTryAi={ setTryAi }
 			isLimitReached={ isLimitReached }
+			hideUpsell={ hideUpsell }
 			{ ...upsellProps }
 		/>
 	);
