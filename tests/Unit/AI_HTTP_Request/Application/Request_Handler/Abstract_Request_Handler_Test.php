@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_HTTP_Request\Application\Request_Handler;
 
@@ -45,7 +46,7 @@ class Abstract_Request_Handler_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->api_client = Mockery::mock( API_Client::class );
+		$this->api_client      = Mockery::mock( API_Client::class );
 		$this->response_parser = Mockery::mock( Response_Parser::class );
 
 		$this->instance = new Request_Handler(
