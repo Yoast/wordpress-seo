@@ -165,6 +165,8 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   padding-top: 1px;
   line-height: 20px;
   vertical-align: bottom;
+  -webkit-column-gap: 12px;
+  column-gap: 12px;
 }
 
 .c12 {
@@ -184,7 +186,6 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
 .c10 {
   width: 28px;
   height: 28px;
-  margin-right: 12px;
   border-radius: 50px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -627,6 +628,8 @@ exports[`SnippetEditor Mobile mode 1`] = `
   padding-top: 1px;
   line-height: 20px;
   vertical-align: bottom;
+  -webkit-column-gap: 12px;
+  column-gap: 12px;
 }
 
 .c11 {
@@ -646,7 +649,6 @@ exports[`SnippetEditor Mobile mode 1`] = `
 .c9 {
   width: 28px;
   height: 28px;
-  margin-right: 12px;
   border-radius: 50px;
   display: -webkit-box;
   display: -webkit-flex;
