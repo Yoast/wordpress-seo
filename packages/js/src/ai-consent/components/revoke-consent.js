@@ -24,7 +24,7 @@ export const RevokeConsent = ( { onClose } ) => {
 		setError( false );
 		setIsLoading( true );
 
-		const response = await storeAiGeneratorConsent( false, endpoint );
+		const response = await storeAiGeneratorConsent( { consent: false, endpoint } );
 		if ( response.consent === false ) {
 			setError( true );
 			setIsLoading( false );

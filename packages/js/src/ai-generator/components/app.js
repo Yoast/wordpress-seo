@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
-import { FeatureError } from "./feature-error";
+import { SeoAnalysisInactiveError } from "./errors";
 import { Introduction } from "./introduction";
 import { UpsellModalContent } from "./upsell-modal-content";
 import { ModalContent } from "./modal-content";
@@ -39,10 +39,9 @@ export const App = ( { onUseAi } ) => {
 		.selectLink( "https://yoa.st/ai-generator-help-button-modal" ), [] );
 	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const hasConsent = useSelect( select => select( STORE_NAME_AI ).selectHasAiGeneratorConsent(), [] );
-	const [ tryAi, setTryAi ] = useState( hasConsent );
+	const isUpsellOpen = useSelect( select => select( STORE_NAME_AI ).selectIsUpsellOpen(), [] );
 
 	const promptContentInitialized = useSelect( select => select( STORE_NAME_AI ).selectPromptContentInitialized(), [] );
-	const currentSubscriptions = useSelect( select => select( STORE_NAME_AI ).selectProductSubscriptions(), [] );
 	const isSeoAnalysisActive = useSelect( select => select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ), [] );
 
 	/* translators: Hidden accessibility text. */
@@ -51,8 +50,6 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
-
-	const arePreconditionsMet = isSeoAnalysisActive;
 
 	const MainModalCommonProps = {
 		onClose: closeModal,
@@ -106,7 +103,7 @@ export const App = ( { onUseAi } ) => {
 			{ isModalOpen && <Fragment>
 				<Modal
 					className="yst-introduction-modal"
-					isOpen={ ! hasConsent && arePreconditionsMet }
+					isOpen={ ! hasConsent && isSeoAnalysisActive }
 					onClose={ closeModal }
 					initialFocus={ focusElementRef }
 				>
@@ -114,33 +111,25 @@ export const App = ( { onUseAi } ) => {
 						className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 						closeButtonScreenReaderText={ closeButtonScreenReaderText }
 					>
-						{ /* WIP:
-						 * Check if user is premium show directly Introduction and it's not a product page.
-						 * If user is free and didn't grant consent show the upsell.
-						 * If user is free and granted consent show the introduction.
-						 * If user is premium and and it's a product page but user has no woo seo and didn't grant consent then show the upsell.
-						 * If user is premium and and it's a product page but user has woo seo and didn't grant consent then show the introduction.
-						 */ }
-
-						{ tryAi ? <Introduction
+						{ isUpsellOpen ? <UpsellModalContent /> : <Introduction
 							onStartGenerating={ handleStartGenerating }
 							focusElementRef={ focusElementRef }
-						/> : <UpsellModalContent setTryAi={ setTryAi } /> }
+						/> }
 					</Modal.Panel>
 				</Modal>
 
 				<MainModal
 					{ ...MainModalCommonProps }
-					isOpen={ arePreconditionsMet && hasConsent }
+					isOpen={ isSeoAnalysisActive && hasConsent }
 				>
 					<ModalContent height={ panelHeight } />
 				</MainModal>
 
 				<MainModal
 					{ ...MainModalCommonProps }
-					isOpen={ ! arePreconditionsMet }
+					isOpen={ ! isSeoAnalysisActive }
 				>
-					<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
+					<SeoAnalysisInactiveError />
 				</MainModal>
 			</Fragment> }
 		</Fragment>

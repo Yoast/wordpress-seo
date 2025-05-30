@@ -24,7 +24,7 @@ export const GrantConsent = ( { onStartGenerating } ) => {
 
 	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI_CONSENT );
 	const handleGiveConsent = useCallback( () => {
-		storeAiGeneratorConsent( true, endpoint );
+		storeAiGeneratorConsent( { consent: true, endpoint } );
 		onStartGenerating();
 	}, [ storeAiGeneratorConsent, onStartGenerating ] );
 
