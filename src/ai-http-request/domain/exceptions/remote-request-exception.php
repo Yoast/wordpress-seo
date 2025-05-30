@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 
 use Exception;
+use Throwable;
 
 /**
  * Class Remote_Request_Exception
