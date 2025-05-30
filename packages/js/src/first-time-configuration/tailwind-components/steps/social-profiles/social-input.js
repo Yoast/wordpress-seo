@@ -15,7 +15,7 @@ import TextInput from "../../base/text-input";
  *
  * @returns {WPElement} A wrapped TextInput for the social inputs.
  */
-export default function SocialInput( { id = "", onChange = () => {}, socialMedium = "", isDisabled = false, ...restProps } ) {
+export default function SocialInput( { id, onChange, socialMedium, isDisabled, ...restProps } ) {
 	const onChangeHandler = useCallback(
 		( event ) => {
 			if ( socialMedium === "other" ) {
