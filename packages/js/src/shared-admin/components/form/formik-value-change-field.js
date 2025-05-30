@@ -11,7 +11,7 @@ import { useField } from "formik";
  * @param {string} props.name The field name.
  * @returns {JSX.Element} The Formik compatible element.
  */
-const FormikValueChangeField = ( { as: Component, transformValue = identity, ...props } ) => {
+export const FormikValueChangeField = ( { as: Component, transformValue = identity, ...props } ) => {
 	const [ field, , { setTouched, setValue } ] = useField( props );
 
 	const handleChange = useCallback( ( value ) => {
@@ -33,5 +33,3 @@ FormikValueChangeField.propTypes = {
 	name: PropTypes.string.isRequired,
 	transformValue: PropTypes.func,
 };
-
-export default FormikValueChangeField;

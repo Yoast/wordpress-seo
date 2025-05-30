@@ -2,9 +2,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FormLayout, RouteLayout } from "../components";
 import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
 
