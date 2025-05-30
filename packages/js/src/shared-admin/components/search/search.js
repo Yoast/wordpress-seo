@@ -1,12 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon, XIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
-import PropTypes from "prop-types";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
@@ -18,15 +18,29 @@ import { useParsedUserAgent } from "../../hooks";
 const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
 
 /**
- * Search component providing a modal search UI with live filtering and accessibility features.
+ * Represents a single item in the searchable index.
  *
- * @param {Object} props
- * @param {string} [props.buttonId] - The ID attribute for the search button.
- * @param {string} [props.modalId] - The ID attribute for the modal dialog.
- * @param {string} [props.userLocale] - The user's locale, used for locale-sensitive operations.
- * @param {Array<Object>} props.queryableSearchIndex - The searchable index data to query against.
- * @param {RegExp} props.keyFilterPattern - Regular expression pattern used to filter keys (fieldIds).
- * @returns {JSX.Element} The rendered Search component.
+ * @typedef {Object} SearchIndexItem
+ * @property {string} fieldId - Unique identifier for the item (used for navigation).
+ * @property {string} label - The label displayed for the search result.
+ * @property {string} route - The route path to navigate to when the result is selected.
+ * @property {string[]} keywords - An array of keywords used for matching search queries.
+ */
+
+/**
+ * Props for the Search component.
+ *
+ * @typedef {Object} SearchProps
+ * @property {string} [buttonId] - Optional ID attribute for the search button. Defaults to "button-search".
+ * @property {string} [modalId] - Optional ID attribute for the modal dialog. Defaults to "modal-search".
+ * @property {string} [userLocale] - The user's locale, used to determine minimum search character count and locale-sensitive comparisons.
+ * @property {SearchIndexItem[]} queryableSearchIndex - An array of items to be searched. Each item must follow the SearchIndexItem shape.
+ * @property {RegExp} keyFilterPattern - Regular expression used to filter keys (e.g., fieldId) from the search.
+ */
+
+/**
+ * @param {SearchProps} props - The properties passed to the Search component.
+ * @returns {JSX.Element} The rendered Search modal component.
  */
 
 export const Search = ( {
@@ -166,10 +180,11 @@ export const Search = ( {
 	), [] );
 
 	return <>
-		<button
+		<Button
 			id={ buttonId }
 			type="button"
-			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
+			variant="secondary"
+			className="yst-w-full yst-flex yst-items-center yst-justify-start yst-font-normal yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3"
 			onClick={ setOpen }
 		>
 			<SearchIcon
@@ -182,7 +197,7 @@ export const Search = ( {
 					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
 				</span>
 			) }
-		</button>
+		</Button>
 		<Modal
 			id={ modalId }
 			onClose={ setClose }
@@ -212,14 +227,15 @@ export const Search = ( {
 						/>
 						{ /* Implement own close button to match the visual order to the DOM order, for a11y. */ }
 						<div className="yst-modal__close">
-							<button
+							<Button
 								type="button"
 								onClick={ setClose }
-								className="yst-modal__close-button"
+								variant="tertiary"
+								className="yst-p-0 yst-text-slate-400 hover:yst-slate-500"
 							>
 								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
-							</button>
+							</Button>
 						</div>
 					</div>
 					{ query.length >= queryMinChars && ! isEmpty( results ) && (
@@ -279,19 +295,3 @@ export const Search = ( {
 		</Modal>
 	</>;
 };
-
-Search.propTypes = {
-	buttonId: PropTypes.string,
-	modalId: PropTypes.string,
-	userLocale: PropTypes.string,
-	queryableSearchIndex: PropTypes.arrayOf(
-		PropTypes.shape( {
-			route: PropTypes.string.isRequired,
-			fieldId: PropTypes.string.isRequired,
-			keywords: PropTypes.arrayOf( PropTypes.string ).isRequired,
-			hits: PropTypes.number,
-		} )
-	).isRequired,
-	keyFilterPattern: PropTypes.instanceOf( RegExp ).isRequired,
-};
-

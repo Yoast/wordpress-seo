@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
 import { useCallback } from "react";
 import { __ } from "@wordpress/i18n";
-import { Select, TextField, useSvgAria } from "@yoast/ui-library";
+import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
 import { BULK_ACTIONS_OPTIONS, REDIRECT_TYPE_OPTIONS } from "../constants";
 import { useRedirectFilters } from "../hooks";
@@ -45,12 +45,13 @@ export const FilterControls = () => {
 					onChange={ handleBulkActionsChange }
 					className="yst-w-full"
 				/>
-				<button
+				<Button
 					type="button"
-					className="yst-button yst-button--secondary yst-min-h-[40px]"
+					variant="secondary"
+					className="yst-min-h-[40px]"
 				>
 					{ __( "Apply", "wordpress-seo" ) }
-				</button>
+				</Button>
 			</div>
 
 			<div className="yst-flex yst-items-end yst-gap-2 yst-w-full">
@@ -63,12 +64,13 @@ export const FilterControls = () => {
 					value={ filterRedirectType }
 					onChange={ handleFilterRedirectTypeChange }
 				/>
-				<button
+				<Button
 					type="button"
-					className="yst-button yst-button--secondary yst-min-h-[40px]"
+					variant="secondary"
+					className="yst-min-h-[40px]"
 				>
 					{ __( "Filter", "wordpress-seo" ) }
-				</button>
+				</Button>
 			</div>
 			<div className="yst-relative yst-w-full">
 				<SearchIcon
