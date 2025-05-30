@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group ai-http-request
  */
-class Abstract_Request_Handler_Test extends TestCase {
+abstract class Abstract_Request_Handler_Test extends TestCase {
 
 	/**
 	 * The API_Client instance.
