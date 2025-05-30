@@ -227,7 +227,7 @@ WincherUpgradeCalloutDescription.propTypes = {
  *
  * @returns {wp.Element | null} The Wincher upgrade callout.
  */
-const WincherUpgradeCallout = ( { onClose = () => {}, isTitleShortened = false, trackingInfo = {} } ) => {
+const WincherUpgradeCallout = ( { onClose, isTitleShortened, trackingInfo } ) => {
 	const upgradeCampaign = useUpgradeCampaign();
 
 	if ( trackingInfo === null ) {
