@@ -37,11 +37,11 @@ describe( "AiGenerateTitlesAndDescriptionsUpsell", () => {
 		expect( getByText( "Custom bundle note" ) ).toBeInTheDocument();
 	} );
 
-	it( "should call setTryAi when the 'Try for free' button is clicked", () => {
-		const setTryAi = jest.fn();
-		const { getByText } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props } setTryAi={ setTryAi } /> );
+	it( "should call hideUpsell when the 'Try for free' button is clicked", () => {
+		const hideUpsell = jest.fn();
+		const { getByText } = render( <AiGenerateTitlesAndDescriptionsUpsell { ...props } hideUpsell={ hideUpsell } /> );
 		getByText( "Try for free" ).click();
-		expect( setTryAi ).toHaveBeenCalled();
+		expect( hideUpsell ).toHaveBeenCalled();
 	} );
 
 	it( "should show the alert when isLimitReached is true and the 'try for free' button is not rendered", () => {
