@@ -3,7 +3,7 @@ import { useMemo } from "@wordpress/element";
 import { Modal } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { STORE_NAME_EDITOR } from "../constants";
-import { isWooActiveAndProductPostType } from "../helpers/is-woo-active-and-product-post-type";
+import { isWooActiveAndProductPostType } from "../helpers";
 import { useTypeContext } from "../hooks";
 import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
 
