@@ -41,14 +41,12 @@ export const ListRedirects = () => {
 		<Table className="yst-mt-6" variant="minimal">
 			<Table.Head>
 				<Table.Row>
-					<Table.Header>
+					<Table.Header scope="col" className="yst-flex yst-items-center yst-gap-1">
 						<Checkbox
 							aria-label={ __( "Select all", "wordpress-seo" ) }
 							checked={ allSelected }
 							onChange={ onSelectAllChange }
 						/>
-					</Table.Header>
-					<Table.Header scope="col" className="yst-flex yst-items-center yst-gap-1">
 						{ __( "Type", "wordpress-seo" ) }
 						<button
 							type="button"
@@ -69,18 +67,20 @@ export const ListRedirects = () => {
 				{ sortedRedirects.length ? sortedRedirects.map( ( { id, type, oldUrl, newUrl }, index ) => (
 					<Table.Row key={ id }>
 						<Table.Cell>
-							<Checkbox
-								checked={ selectedRedirects.includes( id ) }
-								onChange={ onToggleSelect }
-								aria-label={ __( "Select redirects", "wordpress-seo" ) }
-								data-id={ id }
-							/>
+							<div className="yst-flex yst-items-center">
+								<Checkbox
+									checked={ selectedRedirects.includes( id ) }
+									onChange={ onToggleSelect }
+									aria-label={ __( "Select redirects", "wordpress-seo" ) }
+									data-id={ id }
+								/>
+								<span className="yst-text-slate-800 yst-font-medium">{ type }</span>
+							</div>
 						</Table.Cell>
-						<Table.Cell>{ type }</Table.Cell>
 						<Table.Cell>{ oldUrl }</Table.Cell>
 						<Table.Cell>{ newUrl }</Table.Cell>
 						{ index === 0 && (
-							<Table.Cell className="yst-text-end">
+							<Table.Cell className="yst-text-end yst-w-max">
 								{ sortedRedirects.length } { __( "Items", "wordpress-seo" ) }
 							</Table.Cell>
 						) }
