@@ -31,6 +31,7 @@ export const usePopoverContext = () => useContext( PopoverContext );
  * @param {function} [onClick] Function that is called when the user clicks the button. Defaults to the handleDismiss function from the context.
  * @param {string} [className=""] The additional class name.
  * @param {React.ReactNode} [children=null] Possible to override the default screen reader text and X icon.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The close button.
  */
 const CloseButton = forwardRef( ( {
@@ -99,16 +100,19 @@ PopoverTitle.propTypes = {
  * @param {React.ReactNode} [children=null] The content.
  * @param {string} [className=""] The additional class name.
  * @param {string|JSX.Element} [as="p"] The base component to render the content as.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} [as=""] The element.
  */
 const Content = ( {
 	children = null,
 	as: Tag = "p",
 	className = "",
+	...props
 } ) => {
 	return (
 		<Tag
 			className={ classNames( "yst-popover__content", className ) }
+			{ ...props }
 		>
 			{ children }
 		</Tag>
@@ -125,10 +129,12 @@ Content.propTypes = {
 /**
  * @param {string} [className=""] The additional class name.
  * @param {boolean} isVisible Whether the backdrop is visible.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The backdrop.
  */
 const Backdrop = ( {
 	className = "", isVisible,
+	...props
 } ) => {
 	return (
 		<Transition
@@ -143,6 +149,7 @@ const Backdrop = ( {
 			leave={ classNames( "yst-popover__backdrop yst-transition yst-duration-150 yst-ease-in", className ) }
 			leaveFrom="yst-bg-opacity-75"
 			leaveTo="yst-bg-opacity-0"
+			{ ...props }
 		/>
 	);
 };
@@ -162,6 +169,7 @@ Backdrop.propTypes = {
  * @param {boolean} [isVisible] Whether the popover is visible.
  * @param {Function} [setIsVisible] Function to set the visibility of the element.
  * @param { JSX.Element } [hasBackdrop] Whether the popover has a backdrop.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The popover component.
  */
 

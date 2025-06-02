@@ -101,9 +101,7 @@ export const ButtonWithAPopover = {
 						<div className="yst-mb-5 yst-flex yst-justify-start">
 							<Popover.Title> Popover title </Popover.Title>
 						</div>
-						<Popover.Content
-							className="yst-text-slate-700 yst-font-normal yst-text-left"
-						>
+						<Popover.Content>
 							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
 						</Popover.Content>
 					</div>
