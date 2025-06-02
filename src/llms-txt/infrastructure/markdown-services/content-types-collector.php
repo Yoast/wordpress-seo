@@ -96,7 +96,7 @@ class Content_Types_Collector {
 			if ( isset( $posts[ $post->ID ] ) ) {
 				continue;
 			}
-			$posts[] = $post;
+			$posts[ $post->ID ] = $post;
 			if ( \count( $posts ) >= 5 ) {
 				break;
 			}
