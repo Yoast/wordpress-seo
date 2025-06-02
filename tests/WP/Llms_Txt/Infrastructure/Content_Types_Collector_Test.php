@@ -13,7 +13,9 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group llms.txt
  *
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_link
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_cornerstone_content
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_posts
  */
 final class Content_Types_Collector_Test extends TestCase {
 
@@ -73,7 +75,7 @@ final class Content_Types_Collector_Test extends TestCase {
 		$this->sets_cornerstone_posts( $cornerstone_posts_indexes, $post_ids );
 		$this->sets_modification_dates( $posts_indexes_sorted_by_desc_modification_date, $post_ids );
 
-		$results = $this->instance->get_posts( $post_type );
+		$results = $this->instance->get_posts( $post_type, 5 );
 
 		// Assert the expected number of posts are returned.
 		$this->assertCount( $expected_number_of_posts, $results );

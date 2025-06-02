@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 use WP_Post;
 use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * The collector of content types.
@@ -35,7 +35,8 @@ class Content_Types_Collector {
 	/**
 	 * The constructor.
 	 *
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
@@ -59,7 +60,7 @@ class Content_Types_Collector {
 				continue;
 			}
 
-			$posts      = $this->get_posts( $post_type_object->name );
+			$posts      = $this->get_posts( $post_type_object->name, 5 );
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
 				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $post->post_excerpt );
@@ -75,45 +76,63 @@ class Content_Types_Collector {
 	/**
 	 * Gets the posts that are relevant for the LLMs.txt.
 	 *
-	 * @param WP_Post_Type $post_type_object The post type object.
+	 * @param WP_Post_Type $post_type The post type.
+	 * @param int          $limit     The maximum number of posts to return.
 	 *
-	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
+	 * @return array<int, array<WP_Post>> The posts that are relevant for the LLMs.txt.
 	 */
-	public function get_posts( $post_type ): array {
-		$cornerstone_post_objects = $this->indexable_repository->get_cornerstone_per_post_type( $post_type, 5 );
+	public function get_posts( $post_type, $limit ): array {
+		$posts = $this->get_recent_cornerstone_content( $post_type, $limit );
 
-		$posts = [];
-		foreach ( $cornerstone_post_objects as $cornerstone_post_object ) {
-			$posts[ $cornerstone_post_object->object_id ] = \get_post( $cornerstone_post_object->object_id );
-		}
-
-		if ( \count( $posts ) >= 5 ) {
+		if ( \count( $posts ) >= $limit ) {
 			return $posts;
 		}
-		
-		$relevant_posts = $this->get_relevant_posts( $post_type, 5 );
-		foreach ( $relevant_posts as $post ) {
-			if ( isset( $posts[ $post->ID ] ) ) {
+
+		$recent_posts = $this->get_recent_posts( $post_type, $limit );
+		foreach ( $recent_posts as $recent_post ) {
+			// If the post is already in the list because it's cornerstone, don't add it again.
+			if ( isset( $posts[ $recent_post->ID ] ) ) {
 				continue;
 			}
-			$posts[ $post->ID ] = $post;
-			if ( \count( $posts ) >= 5 ) {
+
+			$posts[ $recent_post->ID ] = $recent_post;
+
+			if ( \count( $posts ) >= $limit ) {
 				break;
 			}
 		}
 
 		return $posts;
-
 	}
 
 	/**
-	 * Gets the posts that are relevant for the LLMs.txt.
+	 * Gets the most recently modified cornerstone content.
 	 *
 	 * @param string $post_type The post type.
+	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
+	 * @return array<int, array<WP_Post>> The most recently modified posts.
 	 */
-	public function get_relevant_posts( $post_type, $limit ): array {
+	private function get_recent_cornerstone_content( $post_type, $limit ): array {
+		$cornerstones = $this->indexable_repository->get_recent_cornerstone_per_post_type( $post_type, $limit );
+
+		$recent_cornerstone_posts = [];
+		foreach ( $cornerstones as $cornerstone ) {
+			$recent_cornerstone_posts[ $cornerstone->object_id ] = \get_post( $cornerstone->object_id );
+		}
+
+		return $recent_cornerstone_posts;
+	}
+
+	/**
+	 * Gets the most recently modified posts.
+	 *
+	 * @param string $post_type The post type.
+	 * @param int    $limit     The maximum number of posts to return.
+	 *
+	 * @return array<int, array<WP_Post>> The most recently modified posts.
+	 */
+	private function get_recent_posts( $post_type, $limit ): array {
 		$args = [
 			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
@@ -123,6 +142,7 @@ class Content_Types_Collector {
 			'has_password'   => false,
 		];
 
+		// If the post type is 'post', we only want posts from the last 12 months.
 		if ( $post_type === 'post' ) {
 			$args['date_query'] = [
 				[

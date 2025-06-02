@@ -461,14 +461,14 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Returns all subpages with a given post_parent.
+	 * Returns the most recently modified cornerstone content of a post type.
 	 *
-	 * @param int   $post_parent The post parent.
-	 * @param array $exclude_ids The id's to exclude.
+	 * @param string $post_type The post type.
+	 * @param int    $limit     The maximum number of posts to return.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
-	public function get_cornerstone_per_post_type( $post_type, $limit ) {
+	public function get_recent_cornerstone_per_post_type( $post_type, $limit ) {
 		$query = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
