@@ -52,12 +52,41 @@ export const WithMoreContent = {
 				updateArgs( { setIsVisible } );
 			}, [ setIsVisible ] );
 
-			return <Story { ...args } setIsVisible={ setIsVisible } />;
+			return <Story { ...args } />;
 		},
 	],
 };
 
 export const ButtonWithAPopover = {
+	args: {
+		isVisible: false,
+		hasBackdrop: true,
+		position: "top-right",
+		children: (
+			<>
+				<div className="yst-flex yst-gap-4">
+					<div className="yst-flex-shrink-0">
+						<ValidationIcon className="yst-w-5 yst-h-5" />
+						<span className="yst-logo-icon" aria-label="Yoast Logo" role="img" />
+					</div>
+					<div className="yst-flex-1">
+						<div className="yst-mb-5 yst-flex yst-justify-start">
+							<Popover.Title>Popover title</Popover.Title>
+						</div>
+						<Popover.Content>
+							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+						</Popover.Content>
+					</div>
+					<div>
+						<Popover.CloseButton screenReaderLabel="Dismiss" />
+					</div>
+				</div>
+				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
+					<DismissButton />
+				</div>
+			</>
+		),
+	},
 	decorators: [
 		( Story ) => {
 			const [ args, updateArgs ] = useArgs();
@@ -81,40 +110,11 @@ export const ButtonWithAPopover = {
 					>
 						Toggle popover
 					</button>
-					<Story { ...args } setIsVisible={ setIsVisible } />
+					<Story{ ...args } />
 				</>
 			);
 		},
 	],
-	args: {
-		isVisible: false,
-		hasBackdrop: true,
-		position: "top-right",
-		children: (
-			<>
-				<div className="yst-flex yst-gap-4">
-					<div className="yst-flex-shrink-0">
-						<ValidationIcon className="yst-w-5 yst-h-5" />
-						<span className="yst-logo-icon" aria-label="Yoast Logo" role="img" />
-					</div>
-					<div className="yst-flex-1">
-						<div className="yst-mb-5 yst-flex yst-justify-start">
-							<Popover.Title> Popover title </Popover.Title>
-						</div>
-						<Popover.Content>
-							The content of the popover. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-						</Popover.Content>
-					</div>
-					<div>
-						<Popover.CloseButton screenReaderLabel="Dismiss" />
-					</div>
-				</div>
-				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-					<DismissButton />
-				</div>
-			</>
-		),
-	},
 };
 
 export default {
@@ -124,11 +124,11 @@ export default {
 		children: { control: "text" },
 	},
 	args: {
-		id: "popover",
 		isVisible: true,
 		setIsVisible: noop,
 		children: "",
 		hasBackdrop: false,
+		"aria-label": "Popover",
 	},
 	parameters: {
 		controls: {

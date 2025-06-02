@@ -83,7 +83,7 @@ const PopoverTitle = ( {
 } ) => {
 	return ( <Title
 		className={ classNames( "yst-popover__title", className ) }
-		size={ 5 }
+		size="5"
 		{ ...props }
 	>
 		{ children }
