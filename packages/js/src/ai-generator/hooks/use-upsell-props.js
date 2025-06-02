@@ -22,14 +22,13 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @returns {UpsellProps} The upsell props.
  */
 export const useUpsellProps = ( upsellLinks ) => {
-	const { isPremiumActive, isWooSeoActive, isWooCommerceActive, isProductPost, isProductTerm } = useSelect( select => {
+	const { isPremiumActive, isWooSeoActive, isWooCommerceActive, isProductEntity } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			isPremiumActive: editorSelect.getIsPremium(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
-			isProductPost: editorSelect.getIsProduct(),
-			isProductTerm: editorSelect.getIsProductTerm(),
+			isProductEntity: editorSelect.getIsProductEntity(),
 		};
 	}, [] );
 
@@ -47,7 +46,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 		};
 
 		// Use specific copy for product posts and terms, otherwise revert to the defaults.
-		if ( isWooCommerceActive && ( isProductPost || isProductTerm ) ) {
+		if ( isWooCommerceActive && isProductEntity ) {
 			const upsellPremiumWooLabel = sprintf(
 				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
 				__( "%1$s + %2$s", "wordpress-seo" ),
@@ -84,13 +83,12 @@ export const useUpsellProps = ( upsellLinks ) => {
 
 		return upsellProps;
 	}, [
-		isWooCommerceActive,
-		isProductPost,
-		isProductTerm,
 		isPremiumActive,
 		isWooSeoActive,
+		isWooCommerceActive,
+		isProductEntity,
 		upsellLinks.premium,
 		upsellLinks.woo,
-		upsellLinks.woo,
+		upsellLinks.bundle,
 	] );
 };
