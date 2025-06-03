@@ -64,6 +64,9 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			->times( $get_posts_times )
 			->andReturn( [] );
 
+		Monkey\Functions\expect( 'is_post_type_hierarchical' )
+			->andReturn( false );
+
 		Monkey\Functions\expect( 'get_posts' )
 			->with( $get_posts_args )
 			->times( $get_posts_times )
