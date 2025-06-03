@@ -3,6 +3,7 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\WP\Llms_Txt\Infrastructure;
 
+use WPSEO_Options;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -54,6 +55,8 @@ final class Content_Types_Collector_Test extends TestCase {
 	 * Tests getting posts.
 	 *
 	 * @param int      $number_of_posts                                The number of posts to create.
+	 * @param string   $posts_created_at                               Posts creation date.
+	 * @param bool     $is_cornerstone_active                          Whether the cornerstone feature is active.
 	 * @param int[]    $cornerstone_posts_indexes                      An array of indexes that indicate the cornerstone posts.
 	 * @param int[]    $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by descending modification date.
 	 * @param int      $expected_number_of_posts                       The expected number of posts to be returned.
@@ -65,14 +68,17 @@ final class Content_Types_Collector_Test extends TestCase {
 	 */
 	public function test_get_posts(
 		$number_of_posts,
+		$posts_created_at,
+		$is_cornerstone_active,
 		$cornerstone_posts_indexes,
 		$posts_indexes_sorted_by_desc_modification_date,
 		$expected_number_of_posts,
 		$expected_post_titles
 	) {
+		WPSEO_Options::set( 'enable_cornerstone_content', $is_cornerstone_active );
 		$post_type = 'post';
 
-		$post_ids = $this->create_posts( $number_of_posts, $post_type );
+		$post_ids = $this->create_posts( $number_of_posts, $post_type, $posts_created_at );
 		$this->sets_cornerstone_posts( $cornerstone_posts_indexes, $post_ids );
 		$this->sets_modification_dates( $posts_indexes_sorted_by_desc_modification_date, $post_ids );
 
@@ -93,12 +99,13 @@ final class Content_Types_Collector_Test extends TestCase {
 	/**
 	 * Creates the posts.
 	 *
-	 * @param int    $number_of_posts The number of posts to create.
-	 * @param string $post_type       The post type to create the posts for.
+	 * @param int    $number_of_posts  The number of posts to create.
+	 * @param string $post_type        The post type to create the posts for.
+	 * @param string $posts_created_at Posts creation date.
 	 *
 	 * @return int[] An array of created post IDs.
 	 */
-	private function create_posts( $number_of_posts, $post_type ) {
+	private function create_posts( $number_of_posts, $post_type, $posts_created_at ) {
 
 		$post_ids = [];
 		for ( $i = 1; $i <= $number_of_posts; $i++ ) {
@@ -107,7 +114,7 @@ final class Content_Types_Collector_Test extends TestCase {
 					'post_title'  => 'Test Post ' . $i,
 					'post_type'   => $post_type,
 					'post_status' => 'publish',
-					'post_date'   => \gmdate( 'Y-m-d H:i:s', \strtotime( '-6 months' ) ),
+					'post_date'   => \gmdate( 'Y-m-d H:i:s', \strtotime( $posts_created_at ) ),
 				]
 			);
 		}
@@ -180,6 +187,8 @@ final class Content_Types_Collector_Test extends TestCase {
 	public static function generate_get_posts() {
 		yield '4 posts total with no cornerstone posts' => [
 			'number_of_posts'                                => 4,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [],
 			'posts_indexes_sorted_by_desc_modification_date' => [
 				1,
@@ -197,6 +206,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '6 posts total with no cornerstone posts' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [],
 			'posts_indexes_sorted_by_desc_modification_date' => [
 				6,
@@ -217,6 +228,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '4 posts total with one cornerstone post that is not the most recently modified one' => [
 			'number_of_posts'                                => 4,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				1,
 			],
@@ -236,6 +249,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '6 posts with 5 cornerstone posts that are also the most recent' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				2,
 				3,
@@ -262,6 +277,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '6 posts with 5 cornerstone posts that are not the most recent' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				2,
 				3,
@@ -286,8 +303,58 @@ final class Content_Types_Collector_Test extends TestCase {
 				'Test Post 2',
 			],
 		];
+		yield '6 posts, the oldest is cornerstone' => [
+			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
+			'cornerstone_posts_indexes'                      => [
+				6,
+			],
+			'posts_indexes_sorted_by_desc_modification_date' => [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+			],
+			'expected_number_of_posts'                       => 5,
+			'expected_post_titles'                           => [
+				'Test Post 6',
+				'Test Post 1',
+				'Test Post 2',
+				'Test Post 3',
+				'Test Post 4',
+			],
+		];
+		yield '6 posts, the oldest is cornerstone, but the cornerstone feature is disabled' => [
+			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => false,
+			'cornerstone_posts_indexes'                      => [
+				6,
+			],
+			'posts_indexes_sorted_by_desc_modification_date' => [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+			],
+			'expected_number_of_posts'                       => 5,
+			'expected_post_titles'                           => [
+				'Test Post 1',
+				'Test Post 2',
+				'Test Post 3',
+				'Test Post 4',
+				'Test Post 5',
+			],
+		];
 		yield '6 posts and all are cornerstone' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				1,
 				2,
@@ -315,6 +382,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '3 cornerstone posts and 3 regular ones' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				1,
 				3,
@@ -339,6 +408,8 @@ final class Content_Types_Collector_Test extends TestCase {
 		];
 		yield '4 cornerstone posts and 2 regular ones, with the regular ones being the most recently modified' => [
 			'number_of_posts'                                => 6,
+			'posts_created_at'                               => '-6 months',
+			'is_cornerstone_active'                          => true,
 			'cornerstone_posts_indexes'                      => [
 				1,
 				2,
@@ -360,6 +431,37 @@ final class Content_Types_Collector_Test extends TestCase {
 				'Test Post 3',
 				'Test Post 4',
 				'Test Post 5',
+			],
+		];
+		yield '3 old posts, none of which are cornerstone' => [
+			'number_of_posts'                                => 3,
+			'posts_created_at'                               => '-16 months',
+			'is_cornerstone_active'                          => true,
+			'cornerstone_posts_indexes'                      => [],
+			'posts_indexes_sorted_by_desc_modification_date' => [
+				1,
+				2,
+				3,
+			],
+			'expected_number_of_posts'                       => 0,
+			'expected_post_titles'                           => [],
+		];
+		yield '3 old posts, 2 of which are cornerstone' => [
+			'number_of_posts'                                => 3,
+			'posts_created_at'                               => '-16 months',
+			'is_cornerstone_active'                          => true,
+			'cornerstone_posts_indexes'                      => [
+				2,
+				3,
+			],
+			'posts_indexes_sorted_by_desc_modification_date' => [
+				3,
+				2,
+			],
+			'expected_number_of_posts'                       => 2,
+			'expected_post_titles'                           => [
+				'Test Post 3',
+				'Test Post 2',
 			],
 		];
 	}
