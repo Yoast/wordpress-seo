@@ -182,9 +182,8 @@ export const Search = ( {
 	return <>
 		<Button
 			id={ buttonId }
-			type="button"
 			variant="secondary"
-			className="yst-w-full yst-flex yst-items-center yst-justify-start yst-font-normal yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3"
+			className="yst-w-full yst-flex yst-items-center yst-justify-start yst-text-slate-500 yst-pr-3"
 			onClick={ setOpen }
 		>
 			<SearchIcon
@@ -228,7 +227,6 @@ export const Search = ( {
 						{ /* Implement own close button to match the visual order to the DOM order, for a11y. */ }
 						<div className="yst-modal__close">
 							<Button
-								type="button"
 								onClick={ setClose }
 								variant="tertiary"
 								className="yst-p-0 yst-text-slate-400 hover:yst-slate-500"

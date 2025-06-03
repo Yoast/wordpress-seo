@@ -7,8 +7,16 @@ import { BULK_ACTIONS_OPTIONS, REDIRECT_TYPE_OPTIONS } from "../constants";
 import { useRedirectFilters } from "../hooks";
 
 /**
- * @returns {JSX.Element} The element.
+ * FilterControls component
+ *
+ * This component displays the search filters and actions for the redirect list,
+ * allowing users to:
+ * - Apply bulk actions to selected redirects.
+ * - Filter redirects by their redirect type (e.g., 301, 302).
+ * - Search for redirects using a keyword input.
+ * @returns {JSX.Element} The rendered filter controls section.
  */
+
 export const FilterControls = () => {
 	const ariaSvgProps = useSvgAria();
 
@@ -46,9 +54,8 @@ export const FilterControls = () => {
 					className="yst-w-full"
 				/>
 				<Button
-					type="button"
 					variant="secondary"
-					className="yst-min-h-[40px]"
+					size="large"
 				>
 					{ __( "Apply", "wordpress-seo" ) }
 				</Button>
@@ -65,9 +72,8 @@ export const FilterControls = () => {
 					onChange={ handleFilterRedirectTypeChange }
 				/>
 				<Button
-					type="button"
 					variant="secondary"
-					className="yst-min-h-[40px]"
+					size="large"
 				>
 					{ __( "Filter", "wordpress-seo" ) }
 				</Button>

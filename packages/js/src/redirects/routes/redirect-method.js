@@ -13,7 +13,7 @@ export const RedirectMethod = () => {
 				description={ __( "Redirect Method desc", "wordpress-seo" ) }
 			>
 				<div id="yoast-configuration" className="yst-p-8 yst-max-w-[715px]">
-					Redirect method
+					{ __( "Redirect method", "wordpress-seo" ) }
 				</div>
 			</RouteLayout>
 		</Paper>
