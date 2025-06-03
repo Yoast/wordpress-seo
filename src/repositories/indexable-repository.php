@@ -463,8 +463,9 @@ class Indexable_Repository {
 	/**
 	 * Returns most recently modified posts of a post type.
 	 *
-	 * @param string $post_type The post type.
-	 * @param int    $limit     The maximum number of posts to return.
+	 * @param string $post_type   The post type.
+	 * @param int    $limit       The maximum number of posts to return.
+	 * @param bool   $exclude_old Whether to exclude posts older than one year.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */

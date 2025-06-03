@@ -87,7 +87,7 @@ class Content_Types_Collector {
 		}
 
 		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type_object->name, 5, $exclude_old );
-		
+
 		foreach ( $recently_modified_indexables as $indexable ) {
 			$posts[] = \get_post( $indexable->object_id );
 		}
