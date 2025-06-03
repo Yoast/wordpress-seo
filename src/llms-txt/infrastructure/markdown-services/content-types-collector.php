@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * The collector of content types.
@@ -22,12 +23,24 @@ class Content_Types_Collector {
 	private $post_type_helper;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper ) {
-		$this->post_type_helper = $post_type_helper;
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Indexable_Repository $indexable_repository
+	) {
+		$this->post_type_helper     = $post_type_helper;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -66,23 +79,19 @@ class Content_Types_Collector {
 	 * @return WP_Post[] The posts that are relevant for the LLMs.txt.
 	 */
 	public function get_relevant_posts( $post_type_object ): array {
-			$args = [
-				'post_type'      => $post_type_object->name,
-				'posts_per_page' => 5,
-				'post_status'    => 'publish',
-				'orderby'        => 'modified',
-				'order'          => 'DESC',
-				'has_password'   => false,
-			];
+		$exclude_old = false;
+		$posts       = [];
 
-			if ( $post_type_object->name === 'post' ) {
-				$args['date_query'] = [
-					[
-						'after' => '12 months ago',
-					],
-				];
-			}
+		if ( $post_type_object->name === 'post' ) {
+			$exclude_old = true;
+		}
 
-			return \get_posts( $args );
+		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type_object->name, 5, $exclude_old );
+		
+		foreach ( $recently_modified_indexables as $indexable ) {
+			$posts[] = \get_post( $indexable->object_id );
+		}
+
+		return $posts;
 	}
 }
