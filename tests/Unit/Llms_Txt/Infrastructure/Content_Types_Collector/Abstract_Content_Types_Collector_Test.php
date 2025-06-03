@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Infrastructure\Content_Types_Collecto
 use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -30,6 +31,13 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the indexable repository.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -37,10 +45,12 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Content_Types_Collector(
-			$this->post_type_helper
+			$this->post_type_helper,
+			$this->indexable_repository
 		);
 	}
 }
