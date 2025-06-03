@@ -33,7 +33,7 @@ describe( "Tests for the keyphrase in subheadings assessment when no keyphrase a
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 1 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+			"<a href='https://yoa.st/33n' target='_blank'>Please add both a keyphrase and some text to receive relevant feedback</a>." );
 	} );
 } );
 
@@ -83,7 +83,7 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 
 describe( "An assessment for matching keywords in subheadings", () => {
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( shortText, { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } )
@@ -97,7 +97,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 	} );
 
 	it( "returns a bad score and appropriate feedback when 2 of the 8 subheadings contain the keyphrase: too few matches.", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( longText, { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } )
@@ -112,7 +112,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when there is exactly one subheading and " +
 		"that subheading contains a match -- 1 of 1.", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( shortText, { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } )
@@ -127,7 +127,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when there are multiple subheadings of which one contains a match: " +
 		"good number of matches (singular).", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } )
@@ -142,7 +142,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when more than one subheading contains the keyphrase: " +
 		"good number of matches (plural).", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } )
@@ -157,7 +157,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a bad score and appropriate feedback when more than 75% of the H2 or H3 subheadings contains the keyphrase: " +
 		"too many matches.", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } )
@@ -197,25 +197,25 @@ describe( "An assessment for matching keywords in subheadings", () => {
 	it( "checks isApplicable for a paper without text", function() {
 		const paper = new Paper( "", { keyword: "some keyword" } );
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 
 	it( "checks isApplicable for a paper without keyword", function() {
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "" } );
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 
 	it( "checks isApplicable for a paper without subheadings", function() {
 		const paper = new Paper( "<p>some text</p><p>some more text</p>", { keyword: "some keyword" } );
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 
 	it( "checks isApplicable for a paper without h2 or h3 subheadings", function() {
 		const paper = new Paper( "<p>some text</p><h4>heading</h4><p>some more text</p>", { keyword: "some keyword" } );
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+		expect( isApplicableResult ).toBe( true );
 	} );
 
 	it( "checks isApplicable for a paper with text and keyword", function() {

@@ -48,7 +48,8 @@ const expectedResults = {
 			"<a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
 	},
 	textCompetingLinks: {
 		isApplicable: true,
