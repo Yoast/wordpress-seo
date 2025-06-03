@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use WP_Post;
-use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
@@ -87,12 +86,12 @@ class Content_Types_Collector {
 	/**
 	 * Gets the posts that are relevant for the LLMs.txt.
 	 *
-	 * @param WP_Post_Type $post_type The post type.
-	 * @param int          $limit     The maximum number of posts to return.
+	 * @param string $post_type The post type.
+	 * @param int    $limit     The maximum number of posts to return.
 	 *
 	 * @return array<int, array<WP_Post>> The posts that are relevant for the LLMs.txt.
 	 */
-	public function get_posts( $post_type, $limit ): array {
+	public function get_posts( string $post_type, int $limit ): array {
 		$posts = $this->get_recent_cornerstone_content( $post_type, $limit );
 
 		if ( \count( $posts ) >= $limit ) {
@@ -124,7 +123,7 @@ class Content_Types_Collector {
 	 *
 	 * @return array<int, array<WP_Post>> The most recently modified cornerstone content.
 	 */
-	private function get_recent_cornerstone_content( $post_type, $limit ): array {
+	private function get_recent_cornerstone_content( string $post_type, int $limit ): array {
 		if ( ! $this->options_helper->get( 'enable_cornerstone_content' ) ) {
 			return [];
 		}
@@ -148,7 +147,7 @@ class Content_Types_Collector {
 	 *
 	 * @return array<int, array<WP_Post>> The most recently modified posts.
 	 */
-	private function get_recent_posts( $post_type, $limit ): array {
+	private function get_recent_posts( string $post_type, int $limit ): array {
 		$args = [
 			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
