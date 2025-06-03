@@ -22,7 +22,7 @@ export const Introduction = ( { onStartGenerating } ) => {
 
 	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI );
 	const onGiveConsent = useCallback( async() => {
-		await storeAiGeneratorConsent( { consent: true, endpoint: consentEndpoint } );
+		await storeAiGeneratorConsent( true, consentEndpoint );
 		onStartGenerating();
 	}, [ storeAiGeneratorConsent, onStartGenerating, consentEndpoint ] );
 
