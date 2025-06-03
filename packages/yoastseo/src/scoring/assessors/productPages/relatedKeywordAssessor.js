@@ -45,13 +45,13 @@ export default class ProductRelatedKeywordAssessor extends RelatedKeywordAssesso
 				urlTitle: createAnchorOpeningTag( options.metaDescriptionKeyphraseUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.metaDescriptionKeyphraseCTAUrl ),
 			} ),
-			new TextCompetingLinksAssessment( {
-				urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
-			} ),
 			new FunctionWordsInKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( options.functionWordsInKeyphraseUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.functionWordsInKeyphraseCTAUrl ),
+			} ),
+			new TextCompetingLinksAssessment( {
+				urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 			} ),
 			new ImageKeyphraseAssessment( {
 				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
