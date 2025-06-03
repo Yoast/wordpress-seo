@@ -472,7 +472,7 @@ class Indexable_Repository {
 		$query = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
-			->where( 'post_status', 'publish' )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->where( 'is_cornerstone', 1 )
 			->order_by_desc( 'object_last_modified' )
 			->limit( $limit );
