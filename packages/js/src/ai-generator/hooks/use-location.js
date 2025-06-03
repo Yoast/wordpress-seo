@@ -1,7 +1,5 @@
-import { createContext, useContext } from "@wordpress/element";
-import { get } from "lodash";
-
-const LocationContext = get( window, "yoast.editorModules.components.contexts.location.LocationContext", createContext( "unknown" ) );
+import { useContext } from "@wordpress/element";
+import { LocationContext } from "@yoast/externals/contexts";
 
 /**
  * @returns {string} The location.
