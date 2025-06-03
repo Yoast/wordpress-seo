@@ -2,6 +2,8 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 /**
+ * Layout component for pages with a sidebar and main content.
+ *
  * @param {string} [contentClassName] Extra class name for the children container.
  * @param {JSX.node} children The children.
  * @returns {JSX.Element} The element.

@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-restricted-imports
-import { useCallback, useMemo } from "react";
 import { ChildrenLimiter, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useSelectRedirects } from "../hooks";
-import { ChevronDownIcon, ChevronUpIcon, CodeIcon, CogIcon, DownloadIcon } from "@heroicons/react/outline";
+import { CodeIcon, CogIcon, DownloadIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
@@ -21,34 +19,12 @@ export const Menu = ( { idSuffix = "" } ) => {
 	const userLocale = useSelectRedirects( "selectPreference", [], "userLocale" );
 	const queryableSearchIndex = useSelectRedirects( "selectQueryableSearchIndex" );
 
-	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
-
-		return (
-			<div className="yst-relative">
-				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
-				<button
-					type="button"
-					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
-					onClick={ toggle }
-					{ ...ariaProps }
-				>
-					{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
-					<ChevronIcon
-						className="yst-h-4 yst-w-4 yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3"
-						{ ...svgAriaProps }
-					/>
-				</button>
-			</div>
-		);
-	}, [] );
-
 	return <>
-		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
+		<header className="yst-mb-6 yst-space-y-6">
 			<Link
 				id={ `link-yoast-logo${ idSuffix }` }
 				to="/"
-				className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
+				className="yst-px-3 yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
 				aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }
 			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
@@ -104,7 +80,7 @@ export const Menu = ( { idSuffix = "" } ) => {
 				icon={ DownloadIcon }
 				label={ __( "Import & export", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 2 } renderButton={ renderMoreOrLessButton }>
+				<ChildrenLimiter limit={ 2 }>
 					<MenuItemLink to="/import-redirects" label={ __( "Import redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					<MenuItemLink to="/export-redirects" label={ __( "Export redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				</ChildrenLimiter>

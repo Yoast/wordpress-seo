@@ -5,6 +5,7 @@ import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { Helmet } from "react-helmet";
 
 /**
+ * Route layout wrapper with accessible title and description.
  * @param {Object} props The properties.
  * @param {JSX.node} children The children.
  * @param {string} title The title.

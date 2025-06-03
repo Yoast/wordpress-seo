@@ -1,6 +1,22 @@
 import useSelectRedirects from "./use-select-redirects";
 import useDispatchRedirects from "./use-dispatch-redirects";
 
+/**
+ * Custom hook to manage redirect filters state and setters.
+ *
+ * @returns {{
+*   filters: {
+*     bulkAction,
+*     filterRedirectType,
+*     searchRedirects,
+*   },
+*   setters: {
+*     setBulkAction: (value) => void,
+*     setFilterRedirectType: (value) => void,
+*     setSearchRedirects: (value) => void,
+*   }
+* }} Redirect filter values and update functions.
+*/
 const useRedirectFilters = () => {
 	const {
 		setBulkAction,

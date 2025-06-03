@@ -13,7 +13,7 @@ export const RegexRedirects = () => {
 				description={ __( "Regex Redirects desc", "wordpress-seo" ) }
 			>
 				<div id="yoast-configuration" className="yst-p-8 yst-max-w-[715px]">
-					Regex redirects
+					{ __( "Regex Redirects", "wordpress-seo" ) }
 				</div>
 			</RouteLayout>
 		</Paper>

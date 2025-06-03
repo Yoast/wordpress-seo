@@ -22,7 +22,7 @@ import { UnsavedChangesModal } from "../unsaved-changes-modal";
 export const FormLayout = ( {
 	children,
 	isExternalLoading = false,
-	onUndo,
+	onUndo = () => {},
 } ) => {
 	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
 	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );

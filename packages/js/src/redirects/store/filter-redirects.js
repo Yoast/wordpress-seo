@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const FILTER_SLICE_NAME = "filterRedirects";
 
+/**
+ * Initial state for the redirect filter slice.
+ */
 const initialState = {
 	bulkAction: "",
 	filterRedirectType: "",
@@ -25,7 +28,6 @@ const slice = createSlice( {
 			state.bulkAction = "";
 			state.filterRedirectType = "";
 			state.searchRedirects = "";
-			state.filterError = null;
 		},
 	},
 } );
