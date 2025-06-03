@@ -43,6 +43,7 @@ final class Content_Types_Collector_Test extends TestCase {
 
 		$this->instance = new Content_Types_Collector(
 			\YoastSEO()->helpers->post_type,
+			\YoastSEO()->helpers->options,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
 		);
 
