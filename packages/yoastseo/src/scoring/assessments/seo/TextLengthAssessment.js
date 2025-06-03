@@ -6,6 +6,11 @@ import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
  * Represents an assessment that checks the length of the text and gives feedback accordingly.
  */
 export default class TextLengthAssessment extends Assessment {
@@ -82,13 +87,13 @@ export default class TextLengthAssessment extends Assessment {
 		const languageSpecificConfig = researcher.getConfig( "textLength" );
 
 		// Checks if a language has configuration for custom content types.
-		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
+		if ( Object.hasOwn( languageSpecificConfig, currentConfig.customContentType ) ) {
 			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
 		}
 
 		// Checks if a language has a default cornerstone configuration.
 		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
-			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
+			Object.hasOwn( languageSpecificConfig, "defaultCornerstone" ) ) {
 			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
 		}
 
@@ -132,7 +137,7 @@ export default class TextLengthAssessment extends Assessment {
 			},
 			good: ( textContains ) => {
 				return sprintf(
-					/* translators: %1$s expands to the sentence "The text contains X word(s)." */
+					/* translators: %1$s expands to the sentence "The text contains X word(s)." or "The text contains X character(s)." */
 					__(
 						"%1$s Good job!",
 						"wordpress-seo"
@@ -234,8 +239,8 @@ export default class TextLengthAssessment extends Assessment {
 	 * Returns the score and the appropriate feedback string based on the current word count
 	 * for taxonomies (in WordPress) and collections (in Shopify).
 	 *
-	 * @param {number} textLength	The amount of words to be checked against.
-	 * @returns {Object} The score and the feedback string.
+	 * @param {number} textLength	The amount of words or characters to be checked against.
+	 * @returns {{score: number, resultText: string}} The score and the feedback string.
 	 */
 	calculateTaxonomyResult( textLength ) {
 		// Gets functions used to create feedback strings.
@@ -278,9 +283,9 @@ export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Returns the score and the appropriate feedback string based on the current word count for every type of content.
 	 *
-	 * @param {number}  textLength   The amount of words to be checked against.
+	 * @param {number}  textLength   The amount of words or characters to be checked against.
 	 *
-	 * @returns {Object} The score and the feedback string.
+	 * @returns {{score: number, resultText: string}} The score and the feedback string.
 	 */
 	calculateResult( textLength ) {
 		const customContentTypes = [ "taxonomyAssessor", "collectionSEOAssessor", "collectionCornerstoneSEOAssessor" ];
