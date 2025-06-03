@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use WP_Post;
 use WP_Post_Type;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
@@ -26,6 +27,13 @@ class Content_Types_Collector {
 	private $post_type_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -36,13 +44,16 @@ class Content_Types_Collector {
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
+	 * @param Options_Helper       $options_helper       The options helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
+		Options_Helper $options_helper,
 		Indexable_Repository $indexable_repository
 	) {
 		$this->post_type_helper     = $post_type_helper;
+		$this->options_helper       = $options_helper;
 		$this->indexable_repository = $indexable_repository;
 	}
 
@@ -111,9 +122,13 @@ class Content_Types_Collector {
 	 * @param string $post_type The post type.
 	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return array<int, array<WP_Post>> The most recently modified posts.
+	 * @return array<int, array<WP_Post>> The most recently modified cornerstone content.
 	 */
 	private function get_recent_cornerstone_content( $post_type, $limit ): array {
+		if ( ! $this->options_helper->get( 'enable_cornerstone_content' ) ) {
+			return [];
+		}
+
 		$cornerstones = $this->indexable_repository->get_recent_cornerstone_per_post_type( $post_type, $limit );
 
 		$recent_cornerstone_posts = [];
