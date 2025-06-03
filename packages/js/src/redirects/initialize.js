@@ -5,7 +5,7 @@ import { Root } from "@yoast/ui-library";
 import { HashRouter } from "react-router-dom";
 import { Formik } from "formik";
 import App from "./app";
-import { REDIRECT_TYPE_OPTIONS } from "./constants";
+import { FORMAT_PLAIN, REDIRECT_TYPE_OPTIONS } from "./constants";
 import registerStore from "./store";
 import { handleSubmit, createValidationSchema } from "./helpers";
 
@@ -20,9 +20,10 @@ domReady( () => {
 
 
 	const initialValues = {
-		redirectType: REDIRECT_TYPE_OPTIONS[ 0 ]?.value || "",
-		oldUrl: "",
-		newUrl: "",
+		type: REDIRECT_TYPE_OPTIONS[ 0 ]?.value,
+		origin: "",
+		targe: "",
+		format: FORMAT_PLAIN,
 	};
 
 	render(

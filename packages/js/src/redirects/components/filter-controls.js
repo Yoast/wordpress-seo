@@ -1,4 +1,4 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -19,24 +19,34 @@ export const FilterControls = () => {
 	const ariaSvgProps = useSvgAria();
 
 	const {
-		filters: { bulkAction, filterRedirectType, searchRedirects },
+		filters: { searchRedirects },
 		setters: { setBulkAction, setFilterRedirectType, setSearchRedirects },
 	} = useRedirectFilters();
+	const [ localRedirectType, setLocalRedirectType ] = useState( "" );
+	const [ localBulkAction, setLocalBulkAction ] = useState( "" );
 
 	const handleBulkActionsChange = useCallback(
-		( value ) => setBulkAction( value ),
-		[ setBulkAction ]
+		( value ) => setLocalBulkAction( value ),
+		[ setLocalBulkAction ]
 	);
 
 	const handleFilterRedirectTypeChange = useCallback(
-		( value ) => setFilterRedirectType( value ),
-		[ setFilterRedirectType ]
+		( value ) => setLocalRedirectType( value ),
+		[ setLocalRedirectType ]
 	);
 
 	const handleSearchRedirectsChange = useCallback(
 		( e ) => setSearchRedirects( e.target.value ),
 		[ setSearchRedirects ]
 	);
+
+	const applyFilters = useCallback( () => {
+		setFilterRedirectType( localRedirectType );
+	}, [ localRedirectType, setFilterRedirectType ] );
+
+	const applyBulkAction = useCallback( () => {
+		setBulkAction( localBulkAction );
+	}, [ localBulkAction, setBulkAction ] );
 
 	return (
 		<div className="yst-grid yst-grid-cols-3 yst-gap-8 yst-mt-4 yst-items-end">
@@ -47,13 +57,14 @@ export const FilterControls = () => {
 					options={ BULK_ACTIONS_OPTIONS }
 					label={ __( "Bulk actions", "wordpress-seo" ) }
 					hideLabel={ true }
-					value={ bulkAction }
+					value={ localBulkAction }
 					onChange={ handleBulkActionsChange }
 					className="yst-w-full"
 				/>
 				<Button
 					variant="secondary"
 					size="large"
+					onClick={ applyBulkAction }
 				>
 					{ __( "Apply", "wordpress-seo" ) }
 				</Button>
@@ -63,16 +74,16 @@ export const FilterControls = () => {
 				<Select
 					id="yst-filter-redirect-type"
 					name="filterRedirectType"
-					options={ REDIRECT_TYPE_OPTIONS }
+					options={ [ { value: "", label: __( "Select…", "wordpress-seo" ) }, ...REDIRECT_TYPE_OPTIONS ]  }
 					className="yst-w-full"
 					label={ __( "Redirect type", "wordpress-seo" ) }
-					value={ filterRedirectType }
+					value={ localRedirectType }
 					onChange={ handleFilterRedirectTypeChange }
-					placeholder={ __( "Select…", "wordpress-seo" ) }
 				/>
 				<Button
 					variant="secondary"
 					size="large"
+					onClick={ applyFilters }
 				>
 					{ __( "Filter", "wordpress-seo" ) }
 				</Button>

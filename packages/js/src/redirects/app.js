@@ -1,11 +1,7 @@
-import { useDispatch } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Notifications, SidebarNavigation } from "@yoast/ui-library";
+import {  SidebarNavigation } from "@yoast/ui-library";
 import { useLocation } from "react-router-dom";
-import { Menu } from "./components";
-import { STORE_NAME } from "./constants";
-import { useSelectRedirects } from "./hooks";
+import { Menu, Notifications } from "./components";
 import { AppRoutes } from "./routes";
 
 /**
@@ -13,15 +9,11 @@ import { AppRoutes } from "./routes";
  */
 const App = () => {
 	const { pathname } = useLocation();
-	const alertToggleError = useSelectRedirects( "selectAlertToggleError", [], [] );
-	const { setAlertToggleError } = useDispatch( STORE_NAME );
-
-	const handleDismiss = useCallback( () => {
-		setAlertToggleError( null );
-	}, [ setAlertToggleError ] );
 
 	return (
 		<>
+			<Notifications />
+
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
 					openButtonId="yst-button-open-redirects-navigation-mobile"
@@ -49,26 +41,6 @@ const App = () => {
 					</div>
 				</div>
 			</SidebarNavigation>
-			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-				position="bottom-left"
-			>
-				{ alertToggleError && <Notifications.Notification
-					id="yst-toggle-alert-error"
-					title={ __( "Something went wrong", "wordpress-seo" ) }
-					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
-					size="large"
-					autoDismiss={ 4000 }
-					onDismiss={ handleDismiss }
-				>
-					{ alertToggleError.type === "error"
-						? __( "This problem can't be hidden at this time. Please try again later.", "wordpress-seo" )
-						: __( "This notification can't be hidden at this time. Please try again later.", "wordpress-seo" )
-					}
-				</Notifications.Notification>
-				}
-			</Notifications>
 		</>
 	);
 };

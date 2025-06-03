@@ -37,7 +37,6 @@ const useRedirectFilters = () => {
 	const allRedirects = useGetRedirects();
 
 	const [ sortOrder, setSortOrder ] = useState( ASC );
-
 	const filteredRedirects = useMemo( () => {
 		return allRedirects.filter( ( r ) => {
 			const matchesType = filterRedirectType ? r.type === filterRedirectType : true;
