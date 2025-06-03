@@ -468,14 +468,17 @@ class Indexable_Repository {
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
-	public function get_recent_cornerstone_per_post_type( $post_type, $limit ) {
+	public function get_recent_cornerstone_per_post_type( string $post_type, ?int $limit ) {
 		$query = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
 			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->where( 'is_cornerstone', 1 )
-			->order_by_desc( 'object_last_modified' )
-			->limit( $limit );
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
 
 		return $query->find_many();
 	}
