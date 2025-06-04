@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Schedule_Population_On
 /**
  * Tests the register_hooks.
  *
- * @group  llms.txt
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Schedule_Population_On_Activation_Integration::register_hooks
  */

@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Enable_Llms_Txt_Option
 /**
  * Tests the register_hooks.
  *
- * @group  llms.txt
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher::register_hooks
  */

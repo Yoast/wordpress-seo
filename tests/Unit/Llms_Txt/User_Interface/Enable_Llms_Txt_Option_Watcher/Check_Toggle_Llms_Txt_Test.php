@@ -8,7 +8,7 @@ use Generator;
 /**
  * Tests the maybe_remove_llms_file.
  *
- * @group  llms.txt
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Enable_Llms_Txt_Option_Watcher::check_toggle_llms_txt
  */

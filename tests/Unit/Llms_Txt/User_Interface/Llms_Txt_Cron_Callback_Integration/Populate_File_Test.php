@@ -8,7 +8,7 @@ use Brain\Monkey;
 /**
  * Tests the maybe_remove_llms_file.
  *
- * @group  llms.txt
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\User_Interface\Llms_Txt_Cron_Callback_Integration::populate_file
  */
