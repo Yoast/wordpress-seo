@@ -14,7 +14,7 @@ const STORE_AI_GENERATOR_CONSENT_ACTION_NAME = `${ HAS_AI_GENERATOR_CONSENT_NAME
  *
  * @returns {Generator<{type: string}>} The current action object.
  */
-function* storeAiGeneratorConsent( { consent, endpoint } ) {
+function* storeAiGeneratorConsent( consent, endpoint ) {
 	try {
 		// Trigger the control flow.
 		yield{ type: STORE_AI_GENERATOR_CONSENT_ACTION_NAME, payload: { consent, endpoint } };
