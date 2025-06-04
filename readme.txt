@@ -1,4 +1,4 @@
-=== Yoast SEO ===
+=== Yoast SEO - Advanced SEO with real-time guidance and built-in AI ===
 Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
