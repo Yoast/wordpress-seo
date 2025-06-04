@@ -129,7 +129,7 @@ class Content_Types_Collector {
 		}
 
 		$cornerstone_limit = ( \is_post_type_hierarchical( $post_type ) ) ? null : $limit;
-		$cornerstones      = $this->indexable_repository->get_recent_cornerstone_per_post_type( $post_type, $cornerstone_limit );
+		$cornerstones      = $this->indexable_repository->get_recent_cornerstone_for_post_type( $post_type, $cornerstone_limit );
 
 		$recent_cornerstone_posts = [];
 		foreach ( $cornerstones as $cornerstone ) {

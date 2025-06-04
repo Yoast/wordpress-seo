@@ -60,7 +60,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			->andReturn( true );
 
 		$this->indexable_repository
-			->expects( 'get_recent_cornerstone_per_post_type' )
+			->expects( 'get_recent_cornerstone_for_post_type' )
 			->times( $get_posts_times )
 			->andReturn( [] );
 

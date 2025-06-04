@@ -468,7 +468,7 @@ class Indexable_Repository {
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
-	public function get_recent_cornerstone_per_post_type( string $post_type, ?int $limit ) {
+	public function get_recent_cornerstone_for_post_type( string $post_type, ?int $limit ) {
 		$query = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
