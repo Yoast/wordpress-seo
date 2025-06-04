@@ -26,18 +26,114 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 final class Handle_Test extends Abstract_Request_Handler_Test {
 
 	/**
-	 * Tests the handle method with different response codes.
+	 * Tests the handle method with success response code.
+	 *
+	 * @return void
+	 */
+	public function test_handle_success() {
+		$expect = $this->expect_request_response( 200, 'Success', null );
+
+		$result = $this->instance->handle( $expect['request'] );
+		$this->assertSame( $expect['response'], $result );
+	}
+
+	/**
+	 * Tests the handle method with error response codes.
 	 *
 	 * @param int         $response_code The response code.
 	 * @param string      $message       The error message.
 	 * @param string|null $error_code    The error code.
+	 * @param string|null $exception     The expected exception class.
 	 *
 	 * @dataProvider provider_handle
 	 *
 	 * @return void
 	 */
-	public function test_handle( $response_code, $message, $error_code ) {
+	public function test_handle_error( $response_code, $message, $error_code, $exception ) {
 
+		$expect = $this->expect_request_response( $response_code, $message, $error_code );
+
+		$this->expectException( $exception );
+		$this->expectExceptionMessage( $message );
+		$this->expectExceptionCode( $response_code );
+
+		$this->instance->handle( $expect['request'] );
+	}
+
+	/**
+	 * Data provider for test_handle.
+	 *
+	 * @return array<array<string, int|string|null>>
+	 */
+	public function provider_handle() {
+		return [
+			'unauthorized' => [
+				'response_code' => 401,
+				'message'       => 'Unauthorized',
+				'error_code'    => 'auth_error',
+				'exception'     => Unauthorized_Exception::class,
+			],
+			'payment_required' => [
+				'response_code' => 402,
+				'message'       => 'Payment Required',
+				'error_code'    => 'payment_needed',
+				'exception'     => Payment_Required_Exception::class,
+			],
+			'forbidden' => [
+				'response_code' => 403,
+				'message'       => 'Forbidden',
+				'error_code'    => 'access_denied',
+				'exception'     => Forbidden_Exception::class,
+			],
+			'not_found' => [
+				'response_code' => 404,
+				'message'       => 'Not Found',
+				'error_code'    => 'resource_not_found',
+				'exception'     => Not_Found_Exception::class,
+			],
+			'request_timeout' => [
+				'response_code' => 408,
+				'message'       => 'Request Timeout',
+				'error_code'    => 'timeout',
+				'exception'     => Request_Timeout_Exception::class,
+			],
+			'too_many_requests' => [
+				'response_code' => 429,
+				'message'       => 'Too Many Requests',
+				'error_code'    => 'rate_limit',
+				'exception'     => Too_Many_Requests_Exception::class,
+			],
+			'internal_server_error' => [
+				'response_code' => 500,
+				'message'       => 'Internal Server Error',
+				'error_code'    => 'server_error',
+				'exception'     => Internal_Server_Error_Exception::class,
+			],
+			'service_unavailable' => [
+				'response_code' => 503,
+				'message'       => 'Service Unavailable',
+				'error_code'    => 'service_down',
+				'exception'     => Service_Unavailable_Exception::class,
+			],
+			'bad_request' => [
+				'response_code' => 400,
+				'message'       => 'Bad Request',
+				'error_code'    => 'invalid_request',
+				'exception'     => Bad_Request_Exception::class,
+			],
+		];
+	}
+
+	/**
+	 * Mock and expects request and response for testing.
+	 *
+	 * @param int    $response_code The response code to mock.
+	 * @param string $message       The message to mock.
+	 * @param string $error_code    The error code to mock.
+	 *
+	 * @return void
+	 */
+	private function expect_request_response( $response_code, $message, $error_code ) {
 		$request = Mockery::mock( Request::class );
 		$request->shouldReceive( 'get_action_path' )->andReturn( '/test' );
 		$request->shouldReceive( 'get_body' )->andReturn( [ 'data' => 'test' ] );
@@ -59,102 +155,9 @@ final class Handle_Test extends Abstract_Request_Handler_Test {
 			->with( [ 'some_api_response' ] )
 			->andReturn( $response );
 
-		if ( $response_code === 200 ) {
-			$result = $this->instance->handle( $request );
-			$this->assertSame( $response, $result );
-			return;
-		}
-
-		switch ( $response_code ) {
-			case 401:
-				$this->expectException( Unauthorized_Exception::class );
-				break;
-			case 402:
-				$this->expectException( Payment_Required_Exception::class );
-				break;
-			case 403:
-				$this->expectException( Forbidden_Exception::class );
-				break;
-			case 404:
-				$this->expectException( Not_Found_Exception::class );
-				break;
-			case 408:
-				$this->expectException( Request_Timeout_Exception::class );
-				break;
-			case 429:
-				$this->expectException( Too_Many_Requests_Exception::class );
-				break;
-			case 500:
-				$this->expectException( Internal_Server_Error_Exception::class );
-				break;
-			case 503:
-				$this->expectException( Service_Unavailable_Exception::class );
-				break;
-			default:
-				$this->expectException( Bad_Request_Exception::class );
-				break;
-		}
-
-		$this->instance->handle( $request );
-	}
-
-	/**
-	 * Data provider for test_handle.
-	 *
-	 * @return array<array<string, int|string|null>>
-	 */
-	public function provider_handle() {
 		return [
-			'successful_response' => [
-				'response_code' => 200,
-				'message'       => 'Success',
-				'error_code'    => null,
-			],
-			'unauthorized' => [
-				'response_code' => 401,
-				'message'       => 'Unauthorized',
-				'error_code'    => 'auth_error',
-			],
-			'payment_required' => [
-				'response_code' => 402,
-				'message'       => 'Payment Required',
-				'error_code'    => 'payment_needed',
-			],
-			'forbidden' => [
-				'response_code' => 403,
-				'message'       => 'Forbidden',
-				'error_code'    => 'access_denied',
-			],
-			'not_found' => [
-				'response_code' => 404,
-				'message'       => 'Not Found',
-				'error_code'    => 'resource_not_found',
-			],
-			'request_timeout' => [
-				'response_code' => 408,
-				'message'       => 'Request Timeout',
-				'error_code'    => 'timeout',
-			],
-			'too_many_requests' => [
-				'response_code' => 429,
-				'message'       => 'Too Many Requests',
-				'error_code'    => 'rate_limit',
-			],
-			'internal_server_error' => [
-				'response_code' => 500,
-				'message'       => 'Internal Server Error',
-				'error_code'    => 'server_error',
-			],
-			'service_unavailable' => [
-				'response_code' => 503,
-				'message'       => 'Service Unavailable',
-				'error_code'    => 'service_down',
-			],
-			'bad_request' => [
-				'response_code' => 400,
-				'message'       => 'Bad Request',
-				'error_code'    => 'invalid_request',
-			],
+			'request'  => $request,
+			'response' => $response,
 		];
 	}
 }
