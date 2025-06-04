@@ -43,7 +43,7 @@ const App = () => {
 					<div className="yst-paper yst-grow yst-max-w-page">
 						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main>
-								<AppRoutes pathname={ pathname } />
+								<AppRoutes />
 							</main>
 						</div>
 					</div>
