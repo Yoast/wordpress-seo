@@ -65,7 +65,7 @@ describe( "A text length assessment", function() {
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
 			"The text contains 275 words. This is slightly below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add a bit more copy</a>." );
+			"target='_blank'>Add more content</a>." );
 	} );
 
 
@@ -201,7 +201,7 @@ describe( "A text length assessment", function() {
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
 			"The text contains 155 words. This is slightly below the recommended minimum of 200 words." +
-			" <a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
+			" <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 
@@ -372,7 +372,7 @@ describe( "Tests regular post content type in Japanese. " +
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 599 characters. " +
 			"This is slightly below the recommended minimum of 600 characters. " +
-			"<a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
+			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 	it( "should assess a 600-character text in the aboveMinimum category", function() {
