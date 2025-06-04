@@ -131,7 +131,7 @@ final class Handle_Test extends Abstract_Request_Handler_Test {
 	 * @param string $message       The message to mock.
 	 * @param string $error_code    The error code to mock.
 	 *
-	 * @return void
+	 * @return array<string, Request|Response>
 	 */
 	private function expect_request_response( $response_code, $message, $error_code ) {
 		$request = Mockery::mock( Request::class );
