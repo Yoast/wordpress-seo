@@ -13,8 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group ai-http-request
  *
- * @covers \Yoast\WP\SEO\AI_HTTP_Request\Application\Response_Parser::parse
- * @covers \Yoast\WP\SEO\AI_HTTP_Request\Application\Response_Parser::map_error_code
+ * @covers \Yoast\WP\SEO\AI_HTTP_Request\Application\Response_Parser
  */
 final class Parse_Test extends TestCase {
 
