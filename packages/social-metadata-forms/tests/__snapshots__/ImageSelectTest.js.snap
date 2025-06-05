@@ -155,9 +155,9 @@ exports[`The ImageSelect component displays warnings 1`] = `
 }
 
 .c16 {
-  background: none!important;
+  background: none !important;
   border: none;
-  padding: 0!important;
+  padding: 0 !important;
   color: #a00;
   -webkit-text-decoration: underline;
   text-decoration: underline;
@@ -166,11 +166,11 @@ exports[`The ImageSelect component displays warnings 1`] = `
 }
 
 .c16:hover {
-  color: #F00;
+  color: #f00;
 }
 
 .c16:focus {
-  color: #F00;
+  color: #f00;
 }
 
 .c8 {
