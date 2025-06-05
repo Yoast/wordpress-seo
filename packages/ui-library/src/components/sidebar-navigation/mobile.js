@@ -6,20 +6,20 @@ import { useNavigationContext } from "./index";
 
 /**
  * @param {JSX.node} children The menu items.
- * @param {string} [openButtonId] The ID of the open button.
- * @param {string} [closeButtonId] The ID of the close button.
- * @param {string} [openButtonScreenReaderText] The open button screen reader text.
- * @param {string} [closeButtonScreenReaderText] The close button screen reader text.
- * @param {string} [aria-label] The aria label for the Modal.
+ * @param {?string} [openButtonId=null] The ID of the open button.
+ * @param {?string} [closeButtonId=null] The ID of the close button.
+ * @param {string} [openButtonScreenReaderText="Open"] The open button screen reader text.
+ * @param {string} [closeButtonScreenReaderText="Close"] The close button screen reader text.
+ * @param {string} [aria-label=""] The aria label for the Modal.
  * @returns {JSX.Element} The mobile element.
  */
 const Mobile = ( {
 	children,
-	openButtonId,
-	closeButtonId,
+	openButtonId = null,
+	closeButtonId = null,
 	openButtonScreenReaderText = "Open",
 	closeButtonScreenReaderText = "Close",
-	"aria-label": ariaLabel,
+	"aria-label": ariaLabel = "",
 } ) => {
 	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
 	const openMobileMenu = useCallback( () => setMobileMenuOpen( true ), [ setMobileMenuOpen ] );

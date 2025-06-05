@@ -9,10 +9,10 @@ import React from "react";
  * This prevents Stories from passing `__forceInitialArgs` to the DocsStory components.
  * Which makes the stories are interactive on the docs page, making the `args` more like initial values.
  *
- * @param {(Object|function)[]} [stories] The stories to display.
+ * @param {(Object|function)[]} [stories=[]] The stories to display.
  * @returns {JSX.Element} The DocsPage component without stories.
  */
-export const InteractiveDocsPage = ( { stories } ) => (
+export const InteractiveDocsPage = ( { stories = [] } ) => (
 	<>
 		<Title />
 		<Subtitle />
@@ -26,7 +26,4 @@ export const InteractiveDocsPage = ( { stories } ) => (
 
 InteractiveDocsPage.propTypes = {
 	stories: PropTypes.arrayOf( PropTypes.oneOfType( [ PropTypes.object, PropTypes.func ] ) ),
-};
-InteractiveDocsPage.defaultProps = {
-	stories: [],
 };
