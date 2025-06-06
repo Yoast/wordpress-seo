@@ -7,8 +7,9 @@ import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import { FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FormLayout, RouteLayout } from "../components";
 import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 /**
  * @param {string} name The field name.
