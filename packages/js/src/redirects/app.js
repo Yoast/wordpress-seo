@@ -24,8 +24,8 @@ const App = () => {
 		<>
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
-					openButtonId="button-open-redirects-navigation-mobile"
-					closeButtonId="button-close-redirects-navigation-mobile"
+					openButtonId="yst-button-open-redirects-navigation-mobile"
+					closeButtonId="yst-button-close-redirects-navigation-mobile"
 					/* translators: Hidden accessibility text. */
 					openButtonScreenReaderText={ __( "Open redirects navigation", "wordpress-seo" ) }
 					/* translators: Hidden accessibility text. */
@@ -54,7 +54,7 @@ const App = () => {
 				position="bottom-left"
 			>
 				{ alertToggleError && <Notifications.Notification
-					id="toggle-alert-error"
+					id="yst-toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
 					variant="error"
 					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
