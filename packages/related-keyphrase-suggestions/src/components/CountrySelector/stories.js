@@ -1,8 +1,8 @@
+import { useArgs } from "@storybook/preview-api";
+import { noop } from "lodash";
 import React, { useCallback } from "react";
-import { useArgs } from "@storybook/addons";
 import { CountrySelector } from ".";
 import { component } from "./docs";
-import { noop } from "lodash";
 
 export const Factory = {
 	parameters: {

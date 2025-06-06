@@ -36,15 +36,6 @@ class Postname_Permalink_Check extends Health_Check {
 	}
 
 	/**
-	 * Returns a human-readable label for this health check.
-	 *
-	 * @return string The human-readable label.
-	 */
-	public function get_test_label() {
-		return \__( 'Postname permalink', 'wordpress-seo' );
-	}
-
-	/**
 	 * Returns the WordPress-friendly health check result.
 	 *
 	 * @return string[] The WordPress-friendly health check result.
@@ -55,5 +46,14 @@ class Postname_Permalink_Check extends Health_Check {
 		}
 
 		return $this->reports->get_has_no_postname_in_permalink_result();
+	}
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return bool false, because it's not excluded.
+	 */
+	public function is_excluded() {
+		return false;
 	}
 }

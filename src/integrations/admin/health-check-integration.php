@@ -91,6 +91,10 @@ class Health_Check_Integration implements Integration_Interface {
 	 */
 	private function add_health_checks_to_site_status_tests( $tests ) {
 		foreach ( $this->health_checks as $health_check ) {
+			if ( $health_check->is_excluded() ) {
+				continue;
+			}
+
 			$tests['direct'][ $health_check->get_test_identifier() ] = [
 				'test' => [ $health_check, 'run_and_get_result' ],
 			];

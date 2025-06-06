@@ -48,26 +48,7 @@ class Links_Table_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	public function run() {
-		if ( ! $this->should_run() ) {
-			return;
-		}
-
 		$this->links_table_accessible = $this->migration_status->is_version( 'free', \WPSEO_VERSION );
-	}
-
-	/**
-	 * Determines whether the health check should run or not.
-	 *
-	 * @return bool True if the text link counter feature is enabled.
-	 */
-	public function should_run() {
-		$text_link_counter_enabled = $this->options_helper->get( 'enable_text_link_counter' );
-
-		if ( ! \is_bool( $text_link_counter_enabled ) ) {
-			return false;
-		}
-
-		return $text_link_counter_enabled;
 	}
 
 	/**

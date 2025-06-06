@@ -57,18 +57,6 @@ final class Default_Tagline_Check_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the label is a non-empty string.
-	 *
-	 * @covers ::get_test_label
-	 *
-	 * @return void
-	 */
-	public function test_label_returns_string() {
-		$actual = $this->instance->get_test_label();
-		$this->assertNotEmpty( $actual );
-	}
-
-	/**
 	 * Checks if the correct result is returned when the health check passes.
 	 *
 	 * @covers ::get_result

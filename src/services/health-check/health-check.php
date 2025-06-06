@@ -51,13 +51,6 @@ abstract class Health_Check {
 	}
 
 	/**
-	 * Returns the name of health check implementation that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
-	 *
-	 * @return string A human-readable label for the health check.
-	 */
-	abstract public function get_test_label();
-
-	/**
 	 * Runs the health check, and returns its result in the format that WordPress requires to show the results to the user (https://developer.wordpress.org/reference/hooks/site_status_test_result/).
 	 *
 	 * @return string[] The array containing a WordPress site status report.
@@ -73,4 +66,11 @@ abstract class Health_Check {
 	 * @return string[] The array containing a WordPress site status report.
 	 */
 	abstract protected function get_result();
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return bool Whether the check should be excluded.
+	 */
+	abstract public function is_excluded();
 }

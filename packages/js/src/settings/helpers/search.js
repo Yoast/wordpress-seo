@@ -690,6 +690,13 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Additional URL parameters to allow", "wordpress-seo" ),
 			keywords: [],
 		},
+		enable_llms_txt: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_llms_txt",
+			fieldLabel: __( "llms.txt", "wordpress-seo" ),
+			keywords: [],
+		},
 	},
 	wpseo_titles: {
 		website_name: {

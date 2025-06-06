@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
+use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
+
 /**
  * Passes when the links table is accessible.
  */
@@ -22,26 +24,30 @@ class Links_Table_Check extends Health_Check {
 	private $reports;
 
 	/**
-	 * Constructor.
+	 * The conditional that checks if the links table should be indexed.
 	 *
-	 * @param Links_Table_Runner  $runner  The object that implements the actual health check.
-	 * @param Links_Table_Reports $reports The object that generates WordPress-friendly results.
+	 * @var Should_Index_Links_Conditional
 	 */
-	public function __construct( Links_Table_Runner $runner, Links_Table_Reports $reports ) {
-		$this->runner  = $runner;
-		$this->reports = $reports;
-		$this->reports->set_test_identifier( $this->get_test_identifier() );
-
-		$this->set_runner( $this->runner );
-	}
+	private $should_index_links_conditional;
 
 	/**
-	 * Returns a human-readable label for this health check.
+	 * Constructor.
 	 *
-	 * @return string The human-readable label.
+	 * @param Links_Table_Runner             $runner                         The object that implements the actual health check.
+	 * @param Links_Table_Reports            $reports                        The object that generates WordPress-friendly results.
+	 * @param Should_Index_Links_Conditional $should_index_links_conditional The conditional that checks if the links table should be indexed.
 	 */
-	public function get_test_label() {
-		return \__( 'Links table', 'wordpress-seo' );
+	public function __construct(
+		Links_Table_Runner $runner,
+		Links_Table_Reports $reports,
+		Should_Index_Links_Conditional $should_index_links_conditional
+	) {
+		$this->runner                         = $runner;
+		$this->reports                        = $reports;
+		$this->should_index_links_conditional = $should_index_links_conditional;
+
+		$this->reports->set_test_identifier( $this->get_test_identifier() );
+		$this->set_runner( $this->runner );
 	}
 
 	/**
@@ -50,14 +56,19 @@ class Links_Table_Check extends Health_Check {
 	 * @return string[] The WordPress-friendly health check result.
 	 */
 	protected function get_result() {
-		if ( ! $this->runner->should_run() ) {
-			return [];
-		}
-
 		if ( $this->runner->is_successful() ) {
 			return $this->reports->get_success_result();
 		}
 
 		return $this->reports->get_links_table_not_accessible_result();
+	}
+
+	/**
+	 * Returns whether the health check should be excluded from the results.
+	 *
+	 * @return bool false, because it's not excluded.
+	 */
+	public function is_excluded() {
+		return ! $this->should_index_links_conditional->is_met();
 	}
 }
