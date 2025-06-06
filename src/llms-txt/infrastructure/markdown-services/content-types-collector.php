@@ -158,7 +158,10 @@ class Content_Types_Collector {
 		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_old );
 
 		foreach ( $recently_modified_indexables as $indexable ) {
-			$posts[] = \get_post( $indexable->object_id );
+			$post_from_indexable = \get_post( $indexable->object_id );
+			if ( $post_from_indexable instanceof WP_Post ) {
+				$posts[] = $post_from_indexable;
+			}
 		}
 
 		return $posts;
