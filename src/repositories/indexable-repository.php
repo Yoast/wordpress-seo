@@ -461,6 +461,33 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns most recently modified posts of a post type.
+	 *
+	 * @param string $post_type   The post type.
+	 * @param int    $limit       The maximum number of posts to return.
+	 * @param bool   $exclude_old Whether to exclude posts older than one year.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recently_modified_posts( $post_type, $limit, $exclude_old ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		if ( $exclude_old ) {
+			$query->where_gte( 'object_published_at', \gmdate( 'Y-m-d H:i:s', \strtotime( '-1 year' ) ) );
+		}
+
+		$query->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		return $query->find_many();
+	}
+
+	/**
 	 * Returns the most recently modified cornerstone content of a post type.
 	 *
 	 * @param string   $post_type The post type.

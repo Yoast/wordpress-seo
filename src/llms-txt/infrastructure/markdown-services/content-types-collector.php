@@ -148,24 +148,22 @@ class Content_Types_Collector {
 	 * @return array<int, array<WP_Post>> The most recently modified posts.
 	 */
 	private function get_recent_posts( string $post_type, int $limit ): array {
-		$args = [
-			'post_type'      => $post_type,
-			'posts_per_page' => $limit,
-			'post_status'    => 'publish',
-			'orderby'        => 'modified',
-			'order'          => 'DESC',
-			'has_password'   => false,
-		];
+		$exclude_old = false;
+		$posts       = [];
 
-		// If the post type is 'post', we only want posts from the last 12 months.
 		if ( $post_type === 'post' ) {
-			$args['date_query'] = [
-				[
-					'after' => '12 months ago',
-				],
-			];
+			$exclude_old = true;
 		}
 
-		return \get_posts( $args );
+		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_old );
+
+		foreach ( $recently_modified_indexables as $indexable ) {
+			$post_from_indexable = \get_post( $indexable->object_id );
+			if ( $post_from_indexable instanceof WP_Post ) {
+				$posts[] = $post_from_indexable;
+			}
+		}
+
+		return $posts;
 	}
 }
