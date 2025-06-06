@@ -156,9 +156,13 @@ class Content_Types_Collector {
 		}
 
 		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_old );
+		error_log( 'Recently modified indexables: ' . count( $recently_modified_indexables ) );
 
 		foreach ( $recently_modified_indexables as $indexable ) {
+			error_log( 'indexable id: ' . ( $indexable ? $indexable->ID : 'null' ) );
+			error_log( 'indexable object id: ' . ( $indexable ? $indexable->object_id : 'null' ) );
 			$post_from_indexable = \get_post( $indexable->object_id );
+			error_log( 'Post from indexable: ' . ( $post_from_indexable ? $post_from_indexable->ID : 'null' ) );
 			if ( $post_from_indexable instanceof WP_Post ) {
 				$posts[] = $post_from_indexable;
 			}
