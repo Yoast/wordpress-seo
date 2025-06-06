@@ -1,6 +1,7 @@
-import { get } from "lodash";
+import { createSelector } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
-import { getIsProduct, getIsProductTerm } from "./editorContext";
+import { get } from "lodash";
+import { getIsProductEntity, getIsProductTerm } from "./editorContext";
 
 /**
  * Gets a preference.
@@ -48,18 +49,15 @@ export const getIsWooCommerceActive = state => getPreference( state, "isWooComme
 export const getIsWooSeoActive = state => getPreference( state, "isWooCommerceSeoActive", false );
 
 /**
- * Determines whether the WooCommerce SEO addon is not active in a product page.
+ * Determines whether the WooCommerce SEO addon is not active in a product entity.
  *
  * @param {Object} state The state.
- * @returns {Boolean} Whether the WooCommerce SEO addon is not active in a product page.
+ * @returns {Boolean} Whether the WooCommerce SEO addon is not active in a product entity.
  */
-export const getIsWooSeoUpsell = ( state ) => {
-	const isWooSeoActive = getIsWooSeoActive( state );
-	const isWooCommerceActive = getIsWooCommerceActive( state );
-	const isProductPage = getIsProduct( state );
-
-	return ! isWooSeoActive && isWooCommerceActive && isProductPage;
-};
+export const getIsWooSeoUpsell = createSelector(
+	[ getIsWooSeoActive, getIsWooCommerceActive, getIsProductEntity ],
+	( isWooSeoActive, isWooCommerceActive, isProduct ) => ! isWooSeoActive && isWooCommerceActive && isProduct
+);
 
 /**
  * Determines whether the WooCommerce SEO addon is not active in a product term.
@@ -67,13 +65,10 @@ export const getIsWooSeoUpsell = ( state ) => {
  * @param {Object} state The state.
  * @returns {Boolean} Whether the WooCommerce SEO addon is not active in a product term.
  */
-export const getIsWooSeoUpsellTerm = ( state ) => {
-	const isWooSeoActive = getIsWooSeoActive( state );
-	const isWooCommerceActive = getIsWooCommerceActive( state );
-	const isProductTerm = getIsProductTerm( state );
-
-	return ! isWooSeoActive && isWooCommerceActive && isProductTerm;
-};
+export const getIsWooSeoUpsellTerm = createSelector(
+	[ getIsWooSeoActive, getIsWooCommerceActive, getIsProductTerm ],
+	( isWooSeoActive, isWooCommerceActive, isProductTerm ) => ! isWooSeoActive && isWooCommerceActive && isProductTerm
+);
 
 /**
  * @deprecated This function is deprecated and will be removed in future versions.

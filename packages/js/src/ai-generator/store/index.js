@@ -11,6 +11,20 @@ import {
 } from "../../shared-admin/store";
 import { STORE_NAME_AI } from "../constants";
 import {
+	AI_OPTIMIZE_NOTIFICATION_STATUS_NAME,
+	aiOptimizeNotificationStatusActions,
+	aiOptimizeNotificationStatusReducer,
+	aiOptimizeNotificationStatusSelectors,
+	getInitialNotificationStatusState,
+} from "./ai-optimize-notification-status";
+import {
+	APPLIED_FIXES_STATUS_NAME,
+	appliedFixesStatusActions,
+	appliedFixesStatusReducer,
+	appliedFixesStatusSelectors,
+	getInitialAppliedFixesStatusState,
+} from "./applied-assessment-fixes-status";
+import {
 	APPLIED_SUGGESTIONS_NAME,
 	appliedSuggestionsActions,
 	appliedSuggestionsReducer,
@@ -34,32 +48,18 @@ import {
 import {
 	getInitialPromptContentFixAssessmentsState,
 	PROMPT_CONTENT_FIX_ASSESSMENTS_NAME,
-	promptContentFixAssessmentsSelectors,
 	promptContentFixAssessmentsActions,
 	promptContentFixAssessmentsReducer,
+	promptContentFixAssessmentsSelectors,
 } from "./prompt-content-fix-assessments";
 import {
-	APPLIED_FIXES_STATUS_NAME,
-	appliedFixesStatusActions,
-	appliedFixesStatusReducer,
-	appliedFixesStatusSelectors,
-	getInitialAppliedFixesStatusState,
-} from "./applied-assessment-fixes-status";
-import {
+	getInitialUsageCount,
 	USAGE_COUNT_NAME,
 	usageCountActions,
-	usageCountReducer,
-	UsageCountSelectors,
-	getInitialUsageCount,
 	usageCountControls,
+	usageCountReducer,
+	usageCountSelectors,
 } from "./usage-count";
-import {
-	AI_OPTIMIZE_NOTIFICATION_STATUS_NAME,
-	aiOptimizeNotificationStatusActions,
-	aiOptimizeNotificationStatusReducer,
-	aiOptimizeNotificationStatusSelectors,
-	getInitialNotificationStatusState,
-} from "./ai-optimize-notification-status";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -86,7 +86,7 @@ const createStore = ( initialState ) => {
 			...promptContentSelectors,
 			...promptContentFixAssessmentsSelectors,
 			...appliedFixesStatusSelectors,
-			...UsageCountSelectors,
+			...usageCountSelectors,
 			...aiOptimizeNotificationStatusSelectors,
 		},
 		initialState: merge(
