@@ -1,5 +1,5 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -27,11 +27,6 @@ export const AiConsent = ( {
 	const { onClose, initialFocus } = useModalContext();
 	const [ consent, toggleConsent ] = useToggleState( false );
 
-	const handleGiveConsent = useCallback( () => {
-		onClose();
-		onGiveConsent();
-	}, [ onGiveConsent, onClose ] );
-
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
 		width: "432",
@@ -42,7 +37,6 @@ export const AiConsent = ( {
 		sprintf(
 			/* translators: %1$s and %2$s are a set of anchor tags and %3$s and %4$s are a set of anchor tags. */
 			__(
-
 				"I approve the %1$sTerms of Service%2$s & %3$sPrivacy Policy%4$s of the Yoast AI service. This includes consenting to the collection and use of data to improve user experience.",
 				"wordpress-seo-premium"
 			),
@@ -76,7 +70,7 @@ export const AiConsent = ( {
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{ sprintf(
-						/* translators: %s expands to Yoast AI. */
+							/* translators: %s expands to Yoast AI. */
 							__( "Grant consent for %s", "wordpress-seo" ),
 							"Yoast AI"
 						) }
@@ -84,9 +78,8 @@ export const AiConsent = ( {
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{ safeCreateInterpolateElement(
 							sprintf(
-							/* translators: %1$s is a break tag; %2$s and %3$s are anchor tag; %4$s is the arrow icon. */
+								/* translators: %1$s is a break tag; %2$s and %3$s are anchor tag; %4$s is the arrow icon. */
 								__(
-
 									"Enable AI-powered SEO! Use all AI Generate and Optimize features to boost your efficiency. Just give us the green light. %1$s%2$sLearn more%3$s%4$s",
 									"wordpress-seo-premium"
 								),
@@ -135,7 +128,7 @@ export const AiConsent = ( {
 						className="yst-grow"
 						size="large"
 						disabled={ ! consent }
-						onClick={ handleGiveConsent }
+						onClick={ onGiveConsent }
 					>
 						{ __( "Grant consent", "wordpress-seo" ) }
 					</Button>
