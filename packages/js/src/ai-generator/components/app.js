@@ -215,7 +215,9 @@ export const App = ( { onUseAi } ) => {
 					{ ...MainModalCommonProps }
 					isOpen={ ! arePreconditionsMet }
 				>
-					<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
+					<Modal.Container.Content className="yst-pt-6">
+						<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
+					</Modal.Container.Content>
 				</MainModal>
 			</Fragment> }
 		</Fragment>
