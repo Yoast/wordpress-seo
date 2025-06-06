@@ -27,7 +27,7 @@ export const RouteLayout = ( {
 		<LiveAnnouncer>
 			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
 			<Helmet>
-				<title>Redirects</title>
+				<title>{ __( "Redirects", "wordpress-seo" ) }</title>
 			</Helmet>
 			<header className="yst-p-8 yst-border-b yst-border-slate-200">
 				<div className="yst-max-w-screen-sm">

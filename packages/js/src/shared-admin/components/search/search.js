@@ -18,29 +18,19 @@ import { useParsedUserAgent } from "../../hooks";
 const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
 
 /**
- * Represents a single item in the searchable index.
+ * Search modal component that allows users to search and navigate through indexed items.
  *
- * @typedef {Object} SearchIndexItem
- * @property {string} fieldId - Unique identifier for the item (used for navigation).
- * @property {string} label - The label displayed for the search result.
- * @property {string} route - The route path to navigate to when the result is selected.
- * @property {string[]} keywords - An array of keywords used for matching search queries.
- */
-
-/**
- * Props for the Search component.
+ * @param {string} [buttonId="button-search"] Optional ID for the search button element.
+ * @param {string} [modalId="modal-search"] Optional ID for the modal dialog element.
+ * @param {string} [userLocale] User's locale used for locale-aware sorting and filtering.
+ * @param {Object[]} queryableSearchIndex Array of searchable items.
+ * @param {string} queryableSearchIndex[].fieldId Unique identifier for the item.
+ * @param {string} queryableSearchIndex[].label Label displayed in the search results.
+ * @param {string} queryableSearchIndex[].route Route to navigate to when the item is selected.
+ * @param {string[]} queryableSearchIndex[].keywords Keywords used for matching search queries.
+ * @param {RegExp} keyFilterPattern Regular expression used to filter allowed input characters.
  *
- * @typedef {Object} SearchProps
- * @property {string} [buttonId] - Optional ID attribute for the search button. Defaults to "button-search".
- * @property {string} [modalId] - Optional ID attribute for the modal dialog. Defaults to "modal-search".
- * @property {string} [userLocale] - The user's locale, used to determine minimum search character count and locale-sensitive comparisons.
- * @property {SearchIndexItem[]} queryableSearchIndex - An array of items to be searched. Each item must follow the SearchIndexItem shape.
- * @property {RegExp} keyFilterPattern - Regular expression used to filter keys (e.g., fieldId) from the search.
- */
-
-/**
- * @param {SearchProps} props - The properties passed to the Search component.
- * @returns {JSX.Element} The rendered Search modal component.
+ * @returns {JSX.Element} The rendered search modal component.
  */
 
 export const Search = ( {
@@ -231,6 +221,7 @@ export const Search = ( {
 								variant="tertiary"
 								className="yst-p-0 yst-text-slate-400 hover:yst-slate-500"
 							>
+								{ /* translators: Hidden accessibility text. */ }
 								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
 							</Button>

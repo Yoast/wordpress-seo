@@ -1,28 +1,25 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
-import { includes, values } from "lodash";
+import { includes, noop, values } from "lodash";
 import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
+import { __ } from "@wordpress/i18n";
 import { UnsavedChangesModal } from "../unsaved-changes-modal";
-
-/**
- * @typedef {Object} FormLayoutProps
- * @property {React.ReactNode} children
- * @property {boolean} [isExternalLoading]
- * @property {Function} [onUndo]
- */
 
 /**
  *  Form Layout with save and cancel buttons
  *
- * @param {FormLayoutProps} props
+ * @param {JSX.node} children The fields.
+ * @param {boolean} [isExternalLoading=false] Whether external is loading.
+ * @param {Function} [onUndo=noop] Callback function to undo the discarding of changes.
+ *
  * @returns {JSX.Element}
  */
 export const FormLayout = ( {
 	children,
 	isExternalLoading = false,
-	onUndo = () => {},
+	onUndo = noop,
 } ) => {
 	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
 	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
@@ -56,25 +53,24 @@ export const FormLayout = ( {
 								isLoading={ isSubmitting }
 								disabled={ isSubmitting || isExternalLoading || isStatusBlocked }
 							>
-								Save changes
+								{ __( "Save changes", "wordpress-seo" ) }
 							</Button>
 							<Button
 								id="button-undo-settings"
-								type="button"
 								variant="secondary"
 								disabled={ ! dirty }
 								onClick={ setRequestUndo }
 							>
-								Discard changes
+								{ __( "Discard changes", "wordpress-seo" ) }
 							</Button>
 							<UnsavedChangesModal
 								isOpen={ isRequestUndo }
 								onClose={ unsetRequestUndo }
-								title={ "Discard all changes" }
-								description={ "You are about to discard all unsaved changes. Are you sure?" }
+								title={ __( "Discard all changes", "wordpress-seo" ) }
+								description={ __( "You are about to discard all unsaved changes. Are you sure?", "wordpress-seo" ) }
 								onDiscard={ handleUndo }
-								dismissLabel={ "No, continue editing" }
-								discardLabel={ "Yes, discard changes" }
+								dismissLabel={ __( "No, continue editing", "wordpress-seo" ) }
+								discardLabel={ __( "Yes, discard changes", "wordpress-seo" ) }
 							/>
 						</div>
 					</div>
