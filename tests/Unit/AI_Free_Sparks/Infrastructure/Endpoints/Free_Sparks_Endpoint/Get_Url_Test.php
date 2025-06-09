@@ -8,7 +8,7 @@ use Brain\Monkey;
 /**
  * Tests the Free_Sparks_Endpoint get_url method.
  *
- * @group  ai-free-sparks
+ * @group ai-free-sparks
  *
  * @covers \Yoast\WP\SEO\AI_Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_url
  */
