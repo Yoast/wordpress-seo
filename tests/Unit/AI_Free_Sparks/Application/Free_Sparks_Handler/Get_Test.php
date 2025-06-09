@@ -8,9 +8,9 @@ use Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler;
 /**
  * Tests the Free_Sparks_Handler' get method.
  *
- * @group  ai-free-sparks
+ * @group ai-free-sparks
  *
- * @covers \Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler::__start
+ * @covers \Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler::get
  */
 final class Get_Test extends Abstract_Free_Sparks_Handler_Test {
 
