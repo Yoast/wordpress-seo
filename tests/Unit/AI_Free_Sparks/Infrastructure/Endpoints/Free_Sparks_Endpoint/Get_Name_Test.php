@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI_Free_Sparks\Infrastructure\Endpoints\Free_S
 /**
  * Tests the Free_Sparks_Endpoint constructor.
  *
- * @group  ai-free-sparks
+ * @group ai-free-sparks
  *
  * @covers \Yoast\WP\SEO\AI_Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_name
  */
