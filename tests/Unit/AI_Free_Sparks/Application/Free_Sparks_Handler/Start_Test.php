@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler;
  *
  * @group ai-free-sparks
  *
- * @covers \Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler::__start
+ * @covers \Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Handler::start
  */
 final class Start_Test extends Abstract_Free_Sparks_Handler_Test {
 
