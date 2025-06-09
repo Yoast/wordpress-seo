@@ -1,6 +1,6 @@
 /* eslint-disable complexity, max-statements */
 import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
-import { useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch } from "@wordpress/data";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
