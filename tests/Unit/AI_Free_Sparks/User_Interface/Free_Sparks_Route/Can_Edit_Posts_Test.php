@@ -18,8 +18,8 @@ final class Can_Edit_Posts_Test extends Abstract_Free_Sparks_Route_Test {
 
 	/**
 	 * Tests can_edit_posts returns false if no user is logged in.
-     * 
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_posts_returns_false_when_no_user() {
 		Functions\expect( 'wp_get_current_user' )
@@ -31,8 +31,8 @@ final class Can_Edit_Posts_Test extends Abstract_Free_Sparks_Route_Test {
 
 	/**
 	 * Tests can_edit_posts returns false if user ID < 1.
-     * 
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_posts_returns_false_when_user_id_less_than_1() {
 		$user     = Mockery::mock( WP_User::class );
@@ -46,8 +46,8 @@ final class Can_Edit_Posts_Test extends Abstract_Free_Sparks_Route_Test {
 
 	/**
 	 * Tests can_edit_posts returns true if user can edit posts.
-     * 
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_posts_returns_true_when_user_can_edit_posts() {
 		$user     = Mockery::mock( WP_User::class );
@@ -65,8 +65,8 @@ final class Can_Edit_Posts_Test extends Abstract_Free_Sparks_Route_Test {
 
 	/**
 	 * Tests can_edit_posts returns false if user cannot edit posts.
-     * 
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function test_can_edit_posts_returns_false_when_user_cannot_edit_posts() {
 		$user     = Mockery::mock( WP_User::class );
