@@ -1,6 +1,6 @@
 /* eslint-disable complexity, max-statements */
 import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
-import { useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch } from "@wordpress/data";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
@@ -56,10 +56,7 @@ export const ModalContent = ( { height } ) => {
 	const location = useLocation();
 	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
 	const Preview = usePreviewContent();
-	const { addAppliedSuggestion, addUsageCount, fetchUsageCount } = useDispatch( STORE_NAME_AI );
-	const { usageCountEndpoint } = useSelect( ( select ) => ( {
-		usageCountEndpoint: select( STORE_NAME_AI ).selectUsageCountEndpoint(),
-	} ), [] );
+	const { addAppliedSuggestion, addUsageCount } = useDispatch( STORE_NAME_AI );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
@@ -168,12 +165,9 @@ export const ModalContent = ( { height } ) => {
 		if ( initialFetch === "" ) {
 			fetchSuggestions().then( status => {
 				setInitialFetch( status );
-				if ( status === FETCH_RESPONSE_STATUS.success ) {
-					fetchUsageCount( { endpoint: usageCountEndpoint } );
-				}
 			} );
 		}
-	}, [ initialFetch, fetchSuggestions, usageCountEndpoint ] );
+	}, [ initialFetch, fetchSuggestions ] );
 
 	// Initial fetch gone wrong OR subscription error on any request.
 	if ( initialFetch === FETCH_RESPONSE_STATUS.error || ( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 ) ) {
@@ -316,21 +310,21 @@ export const ModalContent = ( { height } ) => {
 			</Modal.Container.Footer>
 			<Notifications
 				className={
-				// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
+					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
 				style={ {
-				// Margin tricks to break out of the container.
+					// Margin tricks to break out of the container.
 					marginTop: margin,
 				} }
 				position="bottom-left"
 			>
-				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification
-					className="yst-mx-[calc(50%-50vw)] yst-transition-all"
-				/> }
-				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) &&
+				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
+					<SparksLimitNotification className="yst-mx-[calc(50%-50vw)] yst-transition-all" />
+				) }
+				{ ( suggestions.status === ASYNC_ACTION_STATUS.success || suggestions.status === ASYNC_ACTION_STATUS.loading ) && (
 					<TipNotification />
-				}
+				) }
 			</Notifications>
 		</Fragment>
 	);
