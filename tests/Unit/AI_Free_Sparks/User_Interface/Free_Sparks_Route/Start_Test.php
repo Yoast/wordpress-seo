@@ -26,7 +26,7 @@ final class Start_Test extends Abstract_Free_Sparks_Route_Test {
 			->with( null )
 			->andReturn( true );
 
-		mockery::mock( WP_REST_Response::class );
+		mockery::mock( 'overload:' . WP_REST_Response::class );
 
 		$result = $this->instance->start();
 		$this->assertInstanceOf( WP_REST_Response::class, $result );
@@ -44,7 +44,7 @@ final class Start_Test extends Abstract_Free_Sparks_Route_Test {
 			->with( null )
 			->andReturn( false );
 
-		mockery::mock( WP_REST_Response::class );
+		mockery::mock( 'overload:' . WP_REST_Response::class );
 
 		$result = $this->instance->start();
 		$this->assertInstanceOf( WP_REST_Response::class, $result );
