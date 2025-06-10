@@ -60,6 +60,14 @@ import {
 	usageCountReducer,
 	usageCountSelectors,
 } from "./usage-count";
+import {
+	FREE_SPARKS_NAME,
+	getInitialTrial,
+	freeSparksActions,
+	freeSparksSelectors,
+	freeSparksReducer,
+	freeSparksControls,
+} from "./free-sparks";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -78,6 +86,7 @@ const createStore = ( initialState ) => {
 			...appliedFixesStatusActions,
 			...usageCountActions,
 			...aiOptimizeNotificationStatusActions,
+			...freeSparksActions,
 		},
 		selectors: {
 			...hasAiGeneratorConsentSelectors,
@@ -88,6 +97,7 @@ const createStore = ( initialState ) => {
 			...appliedFixesStatusSelectors,
 			...usageCountSelectors,
 			...aiOptimizeNotificationStatusSelectors,
+			...freeSparksSelectors,
 		},
 		initialState: merge(
 			{},
@@ -100,6 +110,7 @@ const createStore = ( initialState ) => {
 				[ APPLIED_FIXES_STATUS_NAME ]: getInitialAppliedFixesStatusState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: getInitialNotificationStatusState(),
+				[ FREE_SPARKS_NAME ]: getInitialTrial(),
 			},
 			initialState
 		),
@@ -112,10 +123,12 @@ const createStore = ( initialState ) => {
 			[ APPLIED_FIXES_STATUS_NAME ]: appliedFixesStatusReducer,
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
 			[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: aiOptimizeNotificationStatusReducer,
+			[ FREE_SPARKS_NAME ]: freeSparksReducer,
 		} ),
 		controls: {
 			...hasAiGeneratorConsentControls,
 			...usageCountControls,
+			...freeSparksControls,
 		},
 	} );
 };

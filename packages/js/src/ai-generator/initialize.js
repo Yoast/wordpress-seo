@@ -10,6 +10,7 @@ import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWi
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
+import { FREE_SPARKS_NAME } from "./store/free-sparks";
 
 // Ignore these post types. Attachments will require a different prompt.
 const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
@@ -89,6 +90,10 @@ const initializeAiGenerator = () => {
 			endpoint: "yoast/v1/ai_generator/get_usage",
 		},
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
+		[ FREE_SPARKS_NAME ]: {
+			endpoint: "yoast/v1/ai/free_sparks",
+			isFreeSparks: get( window, "wpseoAiGenerator.isFreeSparks", false ) === "1",
+		},
 	} );
 
 	window.jQuery( window ).on( "YoastSEO:ready", () => {
