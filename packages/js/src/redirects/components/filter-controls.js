@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-restricted-imports
-import { useCallback } from "react";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -16,7 +15,6 @@ import { useRedirectFilters } from "../hooks";
  * - Search for redirects using a keyword input.
  * @returns {JSX.Element} The rendered filter controls section.
  */
-
 export const FilterControls = () => {
 	const ariaSvgProps = useSvgAria();
 
@@ -44,7 +42,7 @@ export const FilterControls = () => {
 		<div className="yst-grid yst-grid-cols-3 yst-gap-8 yst-mt-4 yst-items-end">
 			<div className="yst-flex yst-items-end yst-gap-2 yst-w-full">
 				<Select
-					id="bulk-actions"
+					id="yst-bulk-actions"
 					name="bulkAction"
 					options={ BULK_ACTIONS_OPTIONS }
 					label={ __( "Bulk actions", "wordpress-seo" ) }
@@ -63,7 +61,7 @@ export const FilterControls = () => {
 
 			<div className="yst-flex yst-items-end yst-gap-2 yst-w-full">
 				<Select
-					id="filter-redirect-type"
+					id="yst-filter-redirect-type"
 					name="filterRedirectType"
 					options={ REDIRECT_TYPE_OPTIONS }
 					className="yst-w-full"
@@ -84,7 +82,7 @@ export const FilterControls = () => {
 					{ ...ariaSvgProps }
 				/>
 				<TextField
-					id="search-redirects"
+					id="yst-search-redirects"
 					name="searchRedirects"
 					placeholder={ __( "Search…", "wordpress-seo" ) }
 					value={ searchRedirects }
