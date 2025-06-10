@@ -274,6 +274,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.4 =
+
+Release date: 2025-06-24
+
+#### Enhancements
+
+* Adds descriptions for the posts listed in the llms.txt file, using their excerpts when those are explicitly set.
+* Changes one of the feedback texts for the _text length_ assessment to be consistent with the others.
+* Improves the feedback of the _competing links_ assessment by making it clearer.
+* Makes the assessments _single title_ and _competing links_ available from the get-go in the SEO analysis.
+* Prioritizes cornerstone content for the posts lists in the llms.txt file.
+* Renames the _link keyphrase_ assessment to _competing links_.
+
+#### Other
+
+* Improves the translatability of the feedback strings for the _text length_ assessment.
+
 = 25.3 =
 
 Release date: 2025-06-10
@@ -283,26 +300,6 @@ Release date: 2025-06-10
 #### Enhancements
 
 * Introduces the llms.txt feature, which gives site owners the opportunity to automatically generate an llms.txt file. This file helps LLMs to better understand the site's content.
-
-= 25.2 =
-
-Release date: 2025-05-27
-
-Yoast SEO 25.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Makes the _keyphrase in image alt attributes_ assessment  available when no content has been added.
-* Renames _image keyphrase_ assessment to _keyphrase in image alt attributes_ assessment.
-
-#### Bugfixes
-
-* Fixes a bug in the retrieval of post categories titles where a non-existent term might be referenced. Props to [@bor0](https://github.com/bor0).
-* Fixes a bug where the Yoast introduction in the Elementor editor would not be positioned correctly when on Elementor version 3.30.0.
-
-#### Other
-
-* Excludes gallery, embed and playlist shortcodes from the _keyphrase in introduction_ analysis in Classic editor.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
