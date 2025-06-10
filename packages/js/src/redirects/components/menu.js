@@ -1,6 +1,6 @@
 import { ChildrenLimiter, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useSelectRedirects } from "../hooks";
-import { CodeIcon, CogIcon, DownloadIcon } from "@heroicons/react/outline";
+import { CodeIcon, CogIcon, DownloadIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
@@ -40,18 +40,7 @@ export const Menu = ( { idSuffix = "" } ) => {
 			<MenuItemLink
 				to={ ROUTES.redirects }
 				label={ <>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none" viewBox="0 0 24 24"
-						strokeWidth="1.5" stroke="currentColor"
-						className="yst-sidebar-navigation__icon yst-w-6 yst-h-6"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-						/>
-					</svg>
+					<SwitchHorizontalIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
 					{ __( "Redirects", "wordpress-seo" ) }
 				</> }
 				idSuffix={ idSuffix }
