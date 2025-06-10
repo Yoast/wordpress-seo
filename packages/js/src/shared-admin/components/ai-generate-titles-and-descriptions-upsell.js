@@ -33,7 +33,7 @@ import classNames from "classnames";
  * @param {string} newToText The new to text.
  * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
- * @param {function} setTryAi The function to set the try AI state.
+ * @param {function} startFreeSparks The function to start the trial.
  * @param {boolean} isLimitReached Whether the sparks limit is reached.
  * @returns {JSX.Element} The element.
  */
@@ -52,7 +52,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 	newToText = "Yoast SEO Premium",
 	bundleNote = "",
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
-	setTryAi,
+	startFreeSparks,
 	isLimitReached = false,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
@@ -66,9 +66,9 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
 	};
 
-	const handleTryAi = useCallback( () => {
-		setTryAi( true );
-	}, [ setTryAi ] );
+	const handleStartTrial = useCallback( () => {
+		startFreeSparks();
+	}, [ startFreeSparks ] );
 
 	return (
 		<>
@@ -157,7 +157,7 @@ export const AiGenerateTitlesAndDescriptionsUpsell = ( {
 							}
 						</span>
 					</Button>
-					{ ! isLimitReached && <GradientButton onClick={ handleTryAi } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
+					{ ! isLimitReached && <GradientButton onClick={ handleStartTrial } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
 						{ __( "Try for free", "wordpress-seo" ) }
 					</GradientButton> }
 				</div>
