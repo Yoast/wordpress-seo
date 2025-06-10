@@ -18,25 +18,29 @@ import { useParsedUserAgent } from "../../hooks";
 const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
 
 /**
+ * @typedef {Object} QueryableSearchIndexItem
+ * @property {string} route - Route to navigate to when the item is selected.
+ * @property {string} label - Label displayed in the search results.
+ * @property {string} fieldId Unique identifier for the item.
+ * @property {string[]} Keywords used for matching search queries..
+ */
+
+/**
  * Search modal component that allows users to search and navigate through indexed items.
  *
  * @param {string} [buttonId="button-search"] Optional ID for the search button element.
  * @param {string} [modalId="modal-search"] Optional ID for the modal dialog element.
- * @param {string} [userLocale] User's locale used for locale-aware sorting and filtering.
- * @param {Object[]} queryableSearchIndex Array of searchable items.
- * @param {string} queryableSearchIndex[].fieldId Unique identifier for the item.
- * @param {string} queryableSearchIndex[].label Label displayed in the search results.
- * @param {string} queryableSearchIndex[].route Route to navigate to when the item is selected.
- * @param {string[]} queryableSearchIndex[].keywords Keywords used for matching search queries.
+ * @param {string} [[userLocale="en-US"] User's locale used for locale-aware sorting and filtering.
+ * @param {QueryableSearchIndexItem[]} queryableSearchIndex Array of searchable items.
  * @param {RegExp} keyFilterPattern Regular expression used to filter allowed input characters.
  *
  * @returns {JSX.Element} The rendered search modal component.
  */
 
 export const Search = ( {
-	buttonId = "button-search",
-	modalId = "modal-search",
-	userLocale,
+	buttonId = "yst-button-search",
+	modalId = "yst-modal-search",
+	userLocale = "en-US",
 	queryableSearchIndex,
 	keyFilterPattern,
 } ) => {
@@ -207,7 +211,7 @@ export const Search = ( {
 						/>
 						<Combobox.Input
 							ref={ inputRef }
-							id="input-search"
+							id="yst-input-search"
 							placeholder={ __( "Search…", "wordpress-seo" ) }
 							aria-label={ __( "Search", "wordpress-seo" ) }
 							value={ query }
@@ -235,7 +239,7 @@ export const Search = ( {
 							{ map( results, ( groupedItems, index ) => (
 								<div key={ groupedItems?.[ 0 ]?.route || `group-${ index }` } role="presentation">
 									<Title
-										id={ `group-${ index }-title` } as="h4" size="5"
+										id={ `yst-group-${ index }-title` } as="h4" size="5"
 										className="yst-bg-slate-100 yst-font-semibold yst-py-3 yst-px-4" role="presentation" aria-hidden="true"
 									>
 										{ first( groupedItems ).routeLabel }

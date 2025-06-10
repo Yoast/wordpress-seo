@@ -96,7 +96,7 @@ export const Redirects = () => {
 								as={ SelectField }
 								type="select"
 								name="redirectType"
-								id="input-redirect_type"
+								id="yst-input-redirect_type"
 								label={ __( "Redirect Type", "wordpress-seo" ) }
 								options={ REDIRECT_TYPE_OPTIONS }
 								className="yst-max-w-sm"
@@ -106,7 +106,7 @@ export const Redirects = () => {
 								as={ TextField }
 								type="text"
 								name="oldURL"
-								id="input-old_url"
+								id="yst-input-old_url"
 								label={ __( "Old URL", "wordpress-seo" ) }
 								description={ oldUrlDescription }
 							/>
@@ -114,7 +114,7 @@ export const Redirects = () => {
 								as={ TextField }
 								type="text"
 								name="newURL"
-								id="input-new_url"
+								id="yst-input-new_url"
 								label={ __( "New URL", "wordpress-seo" ) }
 								description={ newUrlDescription }
 							/>

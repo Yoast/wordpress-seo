@@ -48,7 +48,7 @@ export const FormLayout = ( {
 					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
 						<div className="yst-flex yst-align-middle yst-space-x-3 rtl:yst-space-x-reverse yst-p-8">
 							<Button
-								id="button-submit-settings"
+								id="yst-button-submit-settings"
 								type="submit"
 								isLoading={ isSubmitting }
 								disabled={ isSubmitting || isExternalLoading || isStatusBlocked }
@@ -56,7 +56,7 @@ export const FormLayout = ( {
 								{ __( "Save changes", "wordpress-seo" ) }
 							</Button>
 							<Button
-								id="button-undo-settings"
+								id="yst-button-undo-settings"
 								variant="secondary"
 								disabled={ ! dirty }
 								onClick={ setRequestUndo }
