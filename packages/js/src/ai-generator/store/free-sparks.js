@@ -11,14 +11,6 @@ const slice = createSlice( {
 		isFreeSparks: false,
 		endpoint: "yoast/v1/ai/free_sparks",
 	},
-	reducers: {
-		setFreeSparks: ( state, { payload = true } ) => {
-			state.isFreeSparks = payload;
-		},
-		setFreeSparksEndpoint: ( state, { payload } ) => {
-			state.endpoint = payload;
-		},
-	},
 	extraReducers: ( builder ) => {
 		builder.addCase( START_FREE_SPARKS_ACTION_NAME, ( state ) => {
 			state.isFreeSparks = true;
