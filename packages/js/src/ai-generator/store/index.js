@@ -62,7 +62,7 @@ import {
 } from "./usage-count";
 import {
 	FREE_SPARKS_NAME,
-	getInitialTrial,
+	getInitialFreeSparks,
 	freeSparksActions,
 	freeSparksSelectors,
 	freeSparksReducer,
@@ -110,7 +110,7 @@ const createStore = ( initialState ) => {
 				[ APPLIED_FIXES_STATUS_NAME ]: getInitialAppliedFixesStatusState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
 				[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: getInitialNotificationStatusState(),
-				[ FREE_SPARKS_NAME ]: getInitialTrial(),
+				[ FREE_SPARKS_NAME ]: getInitialFreeSparks(),
 			},
 			initialState
 		),
