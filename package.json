@@ -46,7 +46,7 @@
     "@yoast/babel-preset": "^1.1.2",
     "@yoast/browserslist-config": "^1.2.4",
     "@yoast/dashboard-frontend": "^0.1.0",
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
     "@yoast/grunt-plugin-tasks": "^2.4",
     "@yoast/postcss-preset": "^1.2.0",
     "@yoast/related-keyphrase-suggestions": "^0.1.0",
@@ -76,7 +76,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "25.2"
+    "pluginVersion": "25.3"
   },
   "version": "0.0.0"
 }
