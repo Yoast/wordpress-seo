@@ -20,7 +20,7 @@ const slice = createSlice( {
 		},
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ START_FREE_SPARKS_ACTION_NAME }`, ( state ) => {
+		builder.addCase( START_FREE_SPARKS_ACTION_NAME, ( state ) => {
 			state.isFreeSparks = true;
 		} );
 	},
