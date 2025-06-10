@@ -469,7 +469,7 @@ class Indexable_Repository {
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
-	public function get_recently_modified_posts( $post_type, $limit, $exclude_old ) {
+	public function get_recently_modified_posts( string $post_type, int $limit, bool $exclude_old ) {
 		$query = $this->query()
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
@@ -477,7 +477,7 @@ class Indexable_Repository {
 			->order_by_desc( 'object_last_modified' )
 			->limit( $limit );
 
-		if ( $exclude_old ) {
+		if ( $exclude_old === true ) {
 			$query->where_gte( 'object_published_at', \gmdate( 'Y-m-d H:i:s', \strtotime( '-1 year' ) ) );
 		}
 

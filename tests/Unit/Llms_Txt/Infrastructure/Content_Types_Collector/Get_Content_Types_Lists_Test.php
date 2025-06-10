@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_content_types_lists
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_posts
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_cornerstone_content
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recently_modified_posts_indexables
  */
 final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collector_Test {
 
@@ -70,6 +72,11 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 
 		Monkey\Functions\expect( 'is_post_type_hierarchical' )
 			->andReturn( false );
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->times( $get_posts_times )
+			->andReturn( true );
 
 		$this->indexable_repository
 			->expects( 'get_recently_modified_posts' )

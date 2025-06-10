@@ -17,6 +17,9 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_posts
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_cornerstone_content
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recently_modified_posts_indexables
+ * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recently_modified_posts
+ * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recent_cornerstone_for_post_type
  */
 final class Content_Types_Collector_Test extends TestCase {
 
@@ -45,6 +48,7 @@ final class Content_Types_Collector_Test extends TestCase {
 		$this->instance = new Content_Types_Collector(
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->helpers->options,
+			\YoastSEO()->helpers->indexable,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
 		);
 
