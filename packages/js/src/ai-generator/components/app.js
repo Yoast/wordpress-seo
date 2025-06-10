@@ -184,7 +184,7 @@ export const App = ( { onUseAi } ) => {
 						className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 						closeButtonScreenReaderText={ closeButtonScreenReaderText }
 					>
-						
+
 						{ isFreeSparks ? <Introduction
 							onStartGenerating={ handleStartGenerating }
 							focusElementRef={ focusElementRef }
