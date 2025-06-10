@@ -128,12 +128,12 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 | Green	            | 9	     | Between 30 and 75% of H2/H3 headings reflect the topic		        | **Keyphrase in subheading**: (X of) your higher-level subheading(s) reflects the topic of your copy. Good job!                                        |
 | Green	            | 9	     | The only H2/H3 subheading used in the text reflects the topic		 | **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job!                                                  |
 
-### 6) Competing links (Link keyphrase)
-**What it does**: Checks if there are links in the text, which are attached to the keyphrase.
+### 6) Competing links
+**What it does**: Checks if there are any links in the text, which use the keyphrase or its synonym as the anchor text.
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a text, a keyword and a keyword in the text that has link. Does not apply to taxonomies.
+**When it applies**: Always. Does not apply to taxonomies (in WordPress) or to collection pages and store blogs (in Shopify).
 
 **Name in code**: TextCompetingLinksAssessment
 
@@ -141,10 +141,10 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Call to action URL**: [https://yoa.st/34m](https://yoast.com/what-is-anchor-text/#utm_source=yoast-seo&utm_medium=software&utm_term=competing-links-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                         | Feedback                                                                                                             |
-|-------------------|--------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Red	              | 2	     | There’s a link attached to keyphrase or synonym		 | **Link keyphrase**: You're linking to another page with the words you want this page to rank for. **Don't do that!** |
-The feedback is returned only if a competing link is found.
+| Traffic light   	 | Score	 | Criterion                                                       | Feedback                                                                                                             |
+|-------------------|--------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Red	              | 2	     | There’s a link attached to the keyphrase or synonym		           | **Competing links**: You have a link which uses your keyphrase or synonym as its anchor text.. **Fix that** |
+| Green	            | 8	     | There’re no links attached to the keyphrase or synonym		        | **Competing links**: There are no links which use your keyphrase or synonym as their anchor text. Nice! |
 
 With the example keyphrase `cat and dog` the following criteria would apply to count as a competing link:
 
@@ -276,13 +276,13 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/34o](https://yoast.com/blog-post-word-count-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=text-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	                   | Criterion                                                                                                                               | Feedback                                                                                                                                                                                                                                                                                                                     |
-|-------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | -20	                     | Between 0 and 99 words (_cornerstone_: between 0 and 0, _Japanese_: 0-199)		                                                            | **Text length**: The text contains X words/characters. This is far below the recommended minimum of 300 words (cornerstone: 900 words, JA: 600 characters, JA cornerstone: 1800 characters). **Add more content.**                                                                                                           |
-| Red	              | -10 (cornerstone: -20)		 | Between 100 and 199 words (cornerstone: between 0 and 299, Japanese: 200-399 characters, Japanese cornerstone: 0-599 characters)		      | **Text length**: The text contains X words/characters. This is far below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                                |
-| Red	              | 3 (cornerstone: -20)		   | Between 200 and 249 words (cornerstone: between 300 and 399, Japanese: 400-499 characters, Japanese cornerstone: 600-799 characters)			 | **Text length**: The text contains X words/characters. This is below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                                    |
-| Orange	           | 6	                       | Between 250 and 299 words (cornerstone: between 400 and 899, Japanese: 500-599 characters, Japanese cornerstone: 800-1799 characters)		 | **Text length**: The text contains X words/characters. This is slightly below the recommended minimum of 300 words (JA: 600 characters). **Add a bit more copy.** (cornerstone: **Text length**: The text contains X words. This is below the recommended minimum of 900 words (JA: 1800 characters). **Add more content.**) |
-| Green	            | 9	                       | More than or exactly 300 words (cornerstone: 900, Japanese: 600 characters, Japanese cornerstone: 1800 characters)		                    | **Text length**: The text contains X words/characters. Good job!                                                                                                                                                                                                                                                             |
+| Traffic light   	 | Score	                   | Criterion                                                                                                                               | Feedback                                                                                                                                                                                                                                                                                                                  |
+|-------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | -20	                     | Between 0 and 99 words (_cornerstone_: between 0 and 0, _Japanese_: 0-199)		                                                            | **Text length**: The text contains X words/characters. This is far below the recommended minimum of 300 words (cornerstone: 900 words, JA: 600 characters, JA cornerstone: 1800 characters). **Add more content.**                                                                                                        |
+| Red	              | -10 (cornerstone: -20)		 | Between 100 and 199 words (cornerstone: between 0 and 299, Japanese: 200-399 characters, Japanese cornerstone: 0-599 characters)		      | **Text length**: The text contains X words/characters. This is far below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                             |
+| Red	              | 3 (cornerstone: -20)		   | Between 200 and 249 words (cornerstone: between 300 and 399, Japanese: 400-499 characters, Japanese cornerstone: 600-799 characters)			 | **Text length**: The text contains X words/characters. This is below the recommended minimum of X words/characters. **Add more content.**                                                                                                                                                                                 |
+| Orange	           | 6	                       | Between 250 and 299 words (cornerstone: between 400 and 899, Japanese: 500-599 characters, Japanese cornerstone: 800-1799 characters)		 | **Text length**: The text contains X words/characters. This is slightly below the recommended minimum of 300 words (JA: 600 characters). **Add more content.** (cornerstone: **Text length**: The text contains X words. This is below the recommended minimum of 900 words (JA: 1800 characters). **Add more content.**) |
+| Green	            | 9	                       | More than or exactly 300 words (cornerstone: 900, Japanese: 600 characters, Japanese cornerstone: 1800 characters)		                    | **Text length**: The text contains X words/characters. Good job!                                                                                                                                                                                                                                                          |
 
 ### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
@@ -366,9 +366,10 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/3a7](https://yoast.com/one-h1-heading-per-post/#utm_source=yoast-seo&utm_medium=software&utm_term=single-h1-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                        | Feedback                                                                                                                                                          |
-|-------------------|--------|--------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | 1	     | There are at least two H1 headings in the text		 | **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+| Traffic light   	 | Score	 | Criterion                                          | Feedback                                                                                                                                                          |
+|-------------------|--------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | 1	     | There are at least two H1 headings in the text		   | **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+| Green	            | 8	     | There are less than two H1 headings in the text	 	 | **Single title**: You don't have multiple H1 headings, well done! |
 
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.

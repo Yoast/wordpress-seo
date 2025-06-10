@@ -12,11 +12,11 @@ import { YoastIcon } from "./YoastIcon";
  * @param {Function} onClose The function to call when the modal is closed.
  * @param {string} insightsLink The links to the insights.
  * @param {string} learnMoreLink The link to the learn more page.
- * @param {JSX.node} children The content of the modal.
+ * @param {JSX.node?} [children=null] The content of the modal.
  *
  * @returns {JSX.Element} The modal component.
  */
-export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children } ) => {
+export const Modal = ( { isOpen, onClose, insightsLink, learnMoreLink, children = null } ) => {
 	return (
 		<BaseModal
 			onClose={ onClose }

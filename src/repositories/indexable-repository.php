@@ -461,6 +461,29 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns the most recently modified cornerstone content of a post type.
+	 *
+	 * @param string   $post_type The post type.
+	 * @param int|null $limit     The maximum number of posts to return.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recent_cornerstone_for_post_type( string $post_type, ?int $limit ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->where( 'is_cornerstone', 1 )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		return $query->find_many();
+	}
+
+	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
 	 * @param int $indexable_id The indexable id.
