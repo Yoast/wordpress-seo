@@ -13,7 +13,7 @@ This button is not added on:
 ## Flow to the AI generator in the editor
 
 ```mermaid
-flowchart LR
+flowchart TB
   UseAI[User tries to use a Yoast AI Generate feature]
   ShowConsent[Show the AI consent modal]
   ShowUpsellWithTry[Show the AI upsell modal with a “Try for free” button]
