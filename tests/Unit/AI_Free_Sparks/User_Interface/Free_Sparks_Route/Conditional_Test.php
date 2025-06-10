@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
  *
  * @group ai-free-sparks
  *
- * @covers \Yoast\WP\SEO\AI_Free_Sparks\User_Interface\Free_Sparks_Route::_conditional
+ * @covers \Yoast\WP\SEO\AI_Free_Sparks\User_Interface\Free_Sparks_Route::get_conditionals
  */
 final class Conditional_Test extends Abstract_Free_Sparks_Route_Test {
 
@@ -22,6 +22,6 @@ final class Conditional_Test extends Abstract_Free_Sparks_Route_Test {
 	 */
 	public function test_conditional() {
 		$expected = [ AI_Conditional::class ];
-		self::assertSame( $expected, Free_Sparks_Route::get_conditionals() );
+		$this->assertSame( $expected, Free_Sparks_Route::get_conditionals() );
 	}
 }
