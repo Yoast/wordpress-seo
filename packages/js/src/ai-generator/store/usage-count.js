@@ -11,6 +11,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/cons
 
 export const USAGE_COUNT_NAME = "usageCount";
 export const FETCH_USAGE_COUNT_ACTION_NAME = "fetchUsageCount";
+export const FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME = `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`;
 
 const slice = createSlice( {
 	name: USAGE_COUNT_NAME,
@@ -38,7 +39,7 @@ const slice = createSlice( {
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
 		} );
-		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
+		builder.addCase( FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
 			state.count = payload.count;
 			state.limit = payload.limit;
