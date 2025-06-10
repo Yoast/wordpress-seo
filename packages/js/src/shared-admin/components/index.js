@@ -1,5 +1,4 @@
 export { AcademyUpsellCard } from "./academy-upsell-card";
-export { AiGenerateTitlesAndDescriptionsUpsell } from "./ai-generate-titles-and-descriptions-upsell";
 export { AIOptimizeUpsell } from "./ai-optimize-upsell";
 export { ErrorFallback } from "./error-fallback";
 export { FieldsetLayout } from "./fieldset-layout";
