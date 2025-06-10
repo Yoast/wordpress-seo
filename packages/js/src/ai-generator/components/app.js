@@ -101,6 +101,7 @@ export const App = ( { onUseAi } ) => {
 		currentSubscriptions,
 		usageCount,
 		usageCountLimit,
+		isFreeSparks,
 	} = useSelect( select => ( {
 		focusKeyphrase: select( STORE_NAME_EDITOR ).getFocusKeyphrase(),
 		isSeoAnalysisActive: select( STORE_NAME_EDITOR ).getPreference( "isKeywordAnalysisActive", true ),
@@ -110,9 +111,9 @@ export const App = ( { onUseAi } ) => {
 		currentSubscriptions: select( STORE_NAME_AI ).selectProductSubscriptions(),
 		usageCount: select( STORE_NAME_AI ).selectUsageCount(),
 		usageCountLimit: select( STORE_NAME_AI ).selectUsageCountLimit(),
+		isFreeSparks: select( STORE_NAME_AI ).selectIsFreeSparks(),
 	} ), [] );
 	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
-	const [ tryAi, setTryAi ] = useState( hasConsent );
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
@@ -183,18 +184,11 @@ export const App = ( { onUseAi } ) => {
 						className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 						closeButtonScreenReaderText={ closeButtonScreenReaderText }
 					>
-						{ /* WIP:
-						 * Check if user is premium show directly Introduction and it's not a product page.
-						 * If user is free and didn't grant consent show the upsell.
-						 * If user is free and granted consent show the introduction.
-						 * If user is premium and and it's a product page but user has no woo seo and didn't grant consent then show the upsell.
-						 * If user is premium and and it's a product page but user has woo seo and didn't grant consent then show the introduction.
-						 */ }
 
-						{ tryAi ? <Introduction
+						{ isFreeSparks ? <Introduction
 							onStartGenerating={ handleStartGenerating }
 							focusElementRef={ focusElementRef }
-						/> : <UpsellModalContent setTryAi={ setTryAi } /> }
+						/> : <UpsellModalContent /> }
 					</Modal.Panel>
 				</Modal>
 

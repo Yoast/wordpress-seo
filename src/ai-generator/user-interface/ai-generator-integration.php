@@ -148,6 +148,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 			'postType'             => $this->get_post_type(),
 			'contentType'          => $this->get_content_type(),
 			'requestTimeout'       => $this->api_client->get_request_timeout(),
+			'isFreeSparks'         => $this->options_helper->get( 'ai_free_sparks_started_on', null ) !== null,
 		];
 	}
 

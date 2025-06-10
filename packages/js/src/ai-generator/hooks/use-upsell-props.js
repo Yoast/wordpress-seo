@@ -22,13 +22,14 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @returns {UpsellProps} The upsell props.
  */
 export const useUpsellProps = ( upsellLinks ) => {
-	const { isPremiumActive, isWooSeoActive, isWooCommerceActive, isProductEntity } = useSelect( select => {
+	const { isPremiumActive, isWooSeoActive, isWooCommerceActive, isProductEntity, isProductPost } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			isPremiumActive: editorSelect.getIsPremium(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isProductEntity: editorSelect.getIsProductEntity(),
+			isProductPost: editorSelect.getIsProduct(),
 		};
 	}, [] );
 
@@ -43,6 +44,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 			newToText: "Yoast SEO Premium",
 			bundleNote: "",
 			ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+			title: __( "Use AI to generate your titles & descriptions!", "wordpress-seo" ),
 		};
 
 		// Use specific copy for product posts and terms, otherwise revert to the defaults.
@@ -53,6 +55,9 @@ export const useUpsellProps = ( upsellLinks ) => {
 				"Yoast SEO Premium",
 				"Yoast WooCommerce SEO"
 			);
+			if ( isProductPost ) {
+				upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
+			}
 			upsellProps.newToText = sprintf(
 				/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
 				__( "New in %1$s", "wordpress-seo" ),
