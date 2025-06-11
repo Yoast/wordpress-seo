@@ -15,6 +15,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
+	 * @param {Object} [config.scores] The scores to use.
 	 * @param {number} [config.parameters.goodDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
 	 * @param {number} [config.parameters.acceptableDistributionScore]
@@ -22,6 +23,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are evenly distributed.
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
+	 * @param {number} [config.scores.badNoKeyphraseOrText]  The score to return if there is way no text and/or no keyphrase set.
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
 	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
 	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
@@ -42,7 +44,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				good: 9,
 				okay: 6,
 				bad: 1,
-				consideration: 0,
+				badNoKeyphraseOrText: 1,
 			},
 			urlTitle: "https://yoa.st/33q",
 			urlCallToAction: "https://yoa.st/33u",
@@ -62,7 +64,14 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
+		this._canAssess = false;
 		this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
+
+		if( paper.hasKeyword() && paper.hasText() ){
+			this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
+			this._canAssess = true;
+		}
 
 		const assessmentResult = new AssessmentResult();
 
@@ -71,8 +80,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
-		if ( calculatedResult.score < 9 ) {
-			assessmentResult.setHasAIFixes( true );
+		if( calculatedResult.score < 9 && this._canAssess ) {
+			assessmentResult.setHasAIFixes(true);
 		}
 		return assessmentResult;
 	}
@@ -83,22 +92,24 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult() {
-		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
-		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
 		const {
 			good: goodResultText,
 			okay: okayResultText,
 			bad: badResultText,
-			consideration: considerationResultText,
+			badNoKeyphraseOrText: noKeyphraseOrTextResultText,
 		} = this.getFeedbackStrings();
 
-		if ( distributionScore === 100 ) {
+		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+
+		if ( ! this._canAssess || distributionScore === 100 ) {
 			return {
-				score: this._config.scores.consideration,
-				hasMarks: hasMarks,
-				resultText: considerationResultText,
+				score: this._config.scores.badNoKeyphraseOrText,
+				hasMarks: false,
+				resultText: noKeyphraseOrTextResultText,
 			};
 		}
+
+		const hasMarks = this._keyphraseDistribution.sentencesToHighlight?.length > 0;
 
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {
@@ -132,9 +143,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * - good: string
 	 * - okay: string
 	 * - bad: string
-	 * - consideration: string
+	 * - badNoKeyphraseOrText: string
 	 *
-	 * @returns {{good: string, okay: string, bad: string, consideration: string}} The feedback strings.
+	 * @returns {{good: string, okay: string, bad: string, badNoKeyphraseOrText: string}} The feedback strings.
 	 */
 	getFeedbackStrings() {
 		// `urlTitleAnchorOpeningTag` represents the anchor opening tag with the URL to the article about this assessment.
@@ -147,7 +158,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 				good: "%1$sKeyphrase distribution%3$s: Good job!",
 				okay: "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 				bad: "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
-				consideration: "%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
+				badNoKeyphraseOrText: "%1$sKeyphrase distribution%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase or its synonyms%3$s.",
 			};
 			return mapValues(
 				defaultResultTexts,
@@ -165,26 +176,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 */
 	getMarks() {
 		return this._keyphraseDistribution.sentencesToHighlight;
-	}
-
-	/**
-	 * Checks whether the paper has a text with at least 15 sentences and a keyword,
-	 * and whether the researcher has keyphraseDistribution research.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher object.
-	 *
-	 * @returns {boolean}   Returns true when there is a keyword and a text with 15 sentences or more
-	 *                      and the researcher has keyphraseDistribution research.
-	 */
-	isApplicable( paper, researcher ) {
-		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
-		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-		const sentences = getSentences( text, memoizedTokenizer );
-
-		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
 	}
 }
 
