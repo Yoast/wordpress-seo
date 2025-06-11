@@ -41,7 +41,7 @@ export const UpsellModalContent = () => {
 			wistiaEmbedPermissionValue: editorSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: editorSelect.selectWistiaEmbedPermissionStatus(),
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
-			startFreeSparksEndpoint: aiSelect.selectFreeSparksEndpoint(),
+			startFreeSparksEndpoint: aiSelect.selectFreeSparksStartEndpoint(),
 		};
 	}, [] );
 	const { onClose, initialFocus } = useModalContext();

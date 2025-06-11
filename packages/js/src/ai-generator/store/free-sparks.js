@@ -9,12 +9,12 @@ export const START_FREE_SPARKS_ACTION_NAME = "startFreeSparks";
 const slice = createSlice( {
 	name: FREE_SPARKS_NAME,
 	initialState: {
-		isFreeSparks: false,
+		isFreeSparksStart: false,
 		endpoint: "yoast/v1/ai/free_sparks",
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ START_FREE_SPARKS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state ) => {
-			state.isFreeSparks = true;
+			state.isFreeSparksStart = true;
 		} );
 	},
 } );
@@ -22,12 +22,12 @@ const slice = createSlice( {
 export const getInitialFreeSparks = slice.getInitialState;
 
 export const freeSparksSelectors = {
-	selectFreeSparksEndpoint: state => get( state, [ FREE_SPARKS_NAME, "endpoint" ], slice.getInitialState().endpoint ),
-	selectIsFreeSparks: state => get( state, [ FREE_SPARKS_NAME, "isFreeSparks" ], slice.getInitialState().isFreeSparks ),
+	selectFreeSparksStartEndpoint: state => get( state, [ FREE_SPARKS_NAME, "endpoint" ], slice.getInitialState().endpoint ),
+	selectIsFreeSparksStart: state => get( state, [ FREE_SPARKS_NAME, "isFreeSparksStart" ], slice.getInitialState().isFreeSparksStart ),
 };
 
 /**
- * @param {string} endpoint The endpoint to start the freeSparks from.
+ * @param {string} endpoint The endpoint to start the free sparks from.
  * @returns {Object} Success or error action object.
  */
 export function* startFreeSparks( { endpoint } ) {
