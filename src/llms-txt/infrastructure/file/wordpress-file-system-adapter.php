@@ -96,6 +96,14 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 * @return string
 	 */
 	private function get_llms_file_path(): string {
-		return \trailingslashit( \get_home_path() ) . 'llms.txt';
+
+		/**
+		 * Filter: 'wpseo_llmstxt_file_path' - Allows editing the file path of the llmst.txt file to account for server restrictions to the filesystem.
+		 *
+		 * @param string $llms_file_path The file path of the llmst.txt file that defaults to get_home_path().
+		 */
+		$llms_file_path = \apply_filters( 'wpseo_llmstxt_file_path', \trailingslashit( \get_home_path() ) . 'llms.txt' );
+
+		return $llms_file_path;
 	}
 }

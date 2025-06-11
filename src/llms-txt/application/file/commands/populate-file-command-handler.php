@@ -101,7 +101,7 @@ class Populate_File_Command_Handler {
 		/**
 		 * Filter: 'wpseo_llmstxt_encoding_prefix' - Allows editing the Byte Order Mark (BOM) for UTF-8 we prepend to the llmst.txt file.
 		 *
-		 * @param array $encoding_prefix The Byte Order Mark (BOM) for UTF-8 we prepend to the llmst.txt file.
+		 * @param string $encoding_prefix The Byte Order Mark (BOM) for UTF-8 we prepend to the llmst.txt file.
 		 */
 		$encoding_prefix = \apply_filters( 'wpseo_llmstxt_encoding_prefix', "\xEF\xBB\xBF" );
 
