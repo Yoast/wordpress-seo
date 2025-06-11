@@ -10,9 +10,10 @@ import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikAutocompleteField, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormikAutocompleteField, FormikMediaSelectField, FormikUserSelectField, FormLayout, RouteLayout } from "../components";
 import { withFormikDummyField, withFormikDummySelectField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { FormikWithErrorField } from "../../shared-admin/components/form";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 const FormikDummyAutocompleteField = withFormikDummySelectField( FormikAutocompleteField );

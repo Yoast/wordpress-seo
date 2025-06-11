@@ -5,9 +5,10 @@ import { Alert, Badge, Code, FeatureUpsell, TextField, ToggleField } from "@yoas
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Field, useFormikContext } from "formik";
 import { OutboundLink } from "../../shared-admin/components";
-import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormikTagField, FormLayout, RouteLayout } from "../components";
 import { withDisabledMessageSupport, withFormikDummySelectField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 const FormikFieldWithError = withFormikError( Field );
 const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
