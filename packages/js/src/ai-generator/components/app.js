@@ -123,7 +123,7 @@ export const App = ( { onUseAi } ) => {
 		isSeoAnalysisActive,
 		aiModalHelperLink,
 		isProductEntity,
-		isFreeSparks,
+		isFreeSparksStart,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -143,7 +143,7 @@ export const App = ( { onUseAi } ) => {
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
-			isFreeSparks: select( STORE_NAME_AI ).selectIsFreeSparks(),
+			isFreeSparksStart: select( STORE_NAME_AI ).selectIsFreeSparksStart(),
 		};
 	}, [] );
 	const [ isOpen, , , setOpen ] = useToggleState( false );
@@ -205,7 +205,7 @@ export const App = ( { onUseAi } ) => {
 		onUseAi();
 
 		// Can the user have free sparks?
-		if ( ! isPremium && ! isFreeSparks ) {
+		if ( ! isPremium && ! isFreeSparksStart ) {
 			// If the user has not used the AI feature before, we show the upsell modal.
 			setDisplay( DISPLAY.upsell );
 			return;
