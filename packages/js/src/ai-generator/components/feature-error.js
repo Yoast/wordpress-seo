@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import PropTypes from "prop-types";
@@ -15,18 +16,26 @@ import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
  */
 export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true } ) => {
 	const { postType } = useTypeContext();
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
+	const { isPremium, isWooCommerceActive } = useSelect( ( select ) => {
+		const editorSelect = select( STORE_NAME_EDITOR );
+		return {
+			isPremium: editorSelect.getIsPremium(),
+			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
+		};
+	}, [] );
 	const missingWooSeo = useMemo( () => {
 		return ! currentSubscriptions.wooCommerceSubscription && isWooActiveAndProductPostType( isWooCommerceActive, postType );
 	}, [ isWooCommerceActive, postType, currentSubscriptions.wooCommerceSubscription ] );
 
 	const invalidSubscriptions = [];
-	if ( ! currentSubscriptions.premiumSubscription ) {
-		invalidSubscriptions.push( "Yoast SEO Premium" );
-	}
+	if ( isPremium ) {
+		if ( ! currentSubscriptions.premiumSubscription ) {
+			invalidSubscriptions.push( "Yoast SEO Premium" );
+		}
 
-	if ( missingWooSeo ) {
-		invalidSubscriptions.push( "Yoast WooCommerce SEO" );
+		if ( missingWooSeo ) {
+			invalidSubscriptions.push( "Yoast WooCommerce SEO" );
+		}
 	}
 
 	if ( invalidSubscriptions.length > 0 ) {

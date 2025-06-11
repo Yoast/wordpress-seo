@@ -145,8 +145,11 @@ export const ModalContent = ( { height } ) => {
 		 * Do not add one when the last generate resulted in an error, because the total pages is adjusted for that.
 		 */
 		setCurrentPage( suggestions.status === ASYNC_ACTION_STATUS.error ? totalPages : totalPages + 1 );
-		addUsageCount();
-		fetchSuggestions();
+		fetchSuggestions().then( ( status ) => {
+			if ( status === FETCH_RESPONSE_STATUS.success ) {
+				addUsageCount();
+			}
+		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
 
@@ -163,11 +166,14 @@ export const ModalContent = ( { height } ) => {
 
 	useEffect( () => {
 		if ( initialFetch === "" ) {
-			fetchSuggestions().then( status => {
+			fetchSuggestions().then( ( status ) => {
 				setInitialFetch( status );
+				if ( status === FETCH_RESPONSE_STATUS.success ) {
+					addUsageCount();
+				}
 			} );
 		}
-	}, [ initialFetch, fetchSuggestions ] );
+	}, [ initialFetch, addUsageCount, fetchSuggestions ] );
 
 	// Initial fetch gone wrong OR subscription error on any request.
 	if ( initialFetch === FETCH_RESPONSE_STATUS.error || ( suggestions.status === ASYNC_ACTION_STATUS.error && suggestions.error.code === 402 ) ) {

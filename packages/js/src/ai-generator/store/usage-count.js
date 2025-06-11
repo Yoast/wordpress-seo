@@ -53,9 +53,10 @@ const slice = createSlice( {
 export const getInitialUsageCount = slice.getInitialState;
 
 export const usageCountSelectors = {
-	selectUsageCount: state => get( state, [ USAGE_COUNT_NAME, "count" ], slice.getInitialState().count ),
-	selectUsageCountLimit: state => get( state, [ USAGE_COUNT_NAME, "limit" ], slice.getInitialState().limit ),
-	selectUsageCountEndpoint: state => get( state, [ USAGE_COUNT_NAME, "endpoint" ], slice.getInitialState().endpoint ),
+	selectUsageCountStatus: ( state ) => get( state, [ USAGE_COUNT_NAME, "status" ], slice.getInitialState() ),
+	selectUsageCount: ( state ) => get( state, [ USAGE_COUNT_NAME, "count" ], slice.getInitialState().count ),
+	selectUsageCountLimit: ( state ) => get( state, [ USAGE_COUNT_NAME, "limit" ], slice.getInitialState().limit ),
+	selectUsageCountEndpoint: ( state ) => get( state, [ USAGE_COUNT_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 };
 usageCountSelectors.selectUsageCountRemaining = createSelector(
 	[
