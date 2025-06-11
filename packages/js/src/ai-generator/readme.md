@@ -27,7 +27,7 @@ flowchart TB
   HasSparksLeft{Does the site have sparks left?}
   LastSpark{Was this your last spark?}
   SaveFreeSparks{{Save the timestamp as a wpseo option: ai_free_sparks_started_on}}
-  PreventAI{{Prevent the user from generating more. But instead ensure the toast above is visible / show again if dismissed}}
+  PreventAI{{Prevent the user from generating more. Disable the “generate 5 more” button}}
   End((End flow))
   UseAI --> IsFreeSparks
   IsFreeSparks -->|Yes| HasConsent
