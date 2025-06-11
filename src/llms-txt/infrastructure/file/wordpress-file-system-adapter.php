@@ -97,8 +97,13 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 	 */
 	private function get_llms_file_path(): string {
 
+		$llms_filesystem_path = \get_home_path();
+
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput -- Reason: This is how we used this for the robots.txt file as well.
-		$llms_filesystem_path = \is_writable( \get_home_path() ) ? \get_home_path() : $_SERVER['DOCUMENT_ROOT'];
+		if ( ! \is_writable( $llms_filesystem_path ) && ! empty( $_SERVER['DOCUMENT_ROOT'] ) ) {
+			$llms_filesystem_path = $_SERVER['DOCUMENT_ROOT'];
+		}
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput
 
 		/**
 		 * Filter: 'wpseo_llmstxt_filesystem_path' - Allows editing the filesystem path of the llmst.txt file to account for server restrictions to the filesystem.
