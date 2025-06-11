@@ -50,54 +50,55 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase, but your text is short enough and probably doesn't need them</a>." );
+			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them</a>." );
 	} );
 	it( "shows feedback for keyphrase in subheadings when there is a long text with no subheadings", function() {
 		const paper = new Paper( longText, { keyword: "keyphrase" } );
 		const researcher = new DefaultResearcher( paper );
 		buildTree( paper, researcher );
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
-		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that!</a>." );
+			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that</a>!" );
 	} );
 	it( "shows correct feedback for keyphrase in subheadings when there is a Japanese short text with no subheadings", function() {
 		const paper = new Paper( shortTextJapanese, { keyword: "鳥" } );
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
-		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase, but your text is short enough and probably doesn't need them</a>." );
+			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them</a>." );
 	} );
-	it( "shows feedback for keyphrase in subheadings when there is a long text with no subheadings", function() {
+	it( "shows feedback for keyphrase in subheadings when there is a Japanese long text with no subheadings", function() {
 		const paper = new Paper( longTextJapanese, { keyword: "鳥" } );
-		const researcher = new DefaultResearcher( paper );
+		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
-		expect( assessment.getScore() ).toBe( 1 );
+		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that!</a>." );
+			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that</a>!" );
 	} );
 } );
 
 describe( "An assessment for matching keywords in subheadings", () => {
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", function() {
-		const mockPaper = new Paper( shortText, { keyword: "keyphrase" } );
-		const assessment = matchKeywordAssessment.getResult(
-			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } )
-		);
-
-		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual(
+		const mockPaper = new Paper( shortText + "<h2>Subheading</h2>" + shortText, { keyword: "keyphrase" } );
+		const mockResearcher = new DefaultResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		const result = new SubheadingsKeywordAssessment().getResult( mockPaper, mockResearcher );
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual(
 			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
 			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
 		);
 	} );
 
 	it( "returns a bad score and appropriate feedback when 2 of the 8 subheadings contain the keyphrase: too few matches.", function() {
-		const mockPaper = new Paper( longText, { keyword: "keyphrase" } );
+		const mockPaper = new Paper(  shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" +
+			shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" +
+			shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>",
+			{ keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } )
@@ -112,7 +113,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when there is exactly one subheading and " +
 		"that subheading contains a match -- 1 of 1.", function() {
-		const mockPaper = new Paper( shortText, { keyword: "keyphrase" } );
+		const mockPaper = new Paper( shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>", { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } )
@@ -127,7 +128,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when there are multiple subheadings of which one contains a match: " +
 		"good number of matches (singular).", function() {
-		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
+		const mockPaper = new Paper( shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>",
+			{ keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } )
@@ -142,7 +144,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a good score and appropriate feedback when more than one subheading contains the keyphrase: " +
 		"good number of matches (plural).", function() {
-		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
+		const mockPaper = new Paper( shortText + "<h2>Subheading</h2>" + shortText + "<h2>Subheading</h2>",  { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } )
@@ -157,7 +159,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 
 	it( "returns a bad score and appropriate feedback when more than 75% of the H2 or H3 subheadings contains the keyphrase: " +
 		"too many matches.", function() {
-		const mockPaper = new Paper( longText,  { keyword: "keyphrase" } );
+		const mockPaper = new Paper( shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>",  { keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } )

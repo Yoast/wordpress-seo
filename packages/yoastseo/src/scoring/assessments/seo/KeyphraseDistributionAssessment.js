@@ -66,6 +66,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
 		this._canAssess = false;
+		this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
 
 		if( paper.hasKeyword() && paper.hasText() ){
 			this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
@@ -98,7 +99,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 			badNoKeyphraseOrText: noKeyphraseOrTextResultText,
 		} = this.getFeedbackStrings();
 
-		if ( ! this._canAssess ) {
+		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+
+		if ( ! this._canAssess || distributionScore === 100 ) {
 			return {
 				score: this._config.scores.badNoKeyphraseOrText,
 				hasMarks: false,
@@ -106,8 +109,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			};
 		}
 
-		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
-		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
+		const hasMarks = this._keyphraseDistribution.sentencesToHighlight?.length > 0;
 
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {

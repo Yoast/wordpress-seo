@@ -8,7 +8,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
 import {filterShortcodesFromHTML} from "../../../languageProcessing/helpers";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
-import _i18n, {keyword} from "../../../../../../.yarn/releases/yarn-1.19.1";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -27,6 +26,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				lowerBoundary: 0.3,
+				recommendedMaximumLength: 300,
 				upperBoundary: 0.75,
 			},
 			scores: {
@@ -82,18 +82,11 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		// The configuration to use for Japanese texts.
 		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
-		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
-		this._canAssess = false;
-
-		if( paper.hasKeyword() && paper.hasText() ){
-			this._canAssess = true;
-		}
-
 		const assessmentResult = new AssessmentResult();
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( paper );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -190,7 +183,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
 	calculateResult( paper ) {
-		if ( ! this._canAssess ) {
+		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
 			return {
 				score: this._config.scores.noKeyphraseOrText,
 				resultText: sprintf(
@@ -205,7 +198,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				),
 			};
 		}
-		if ( ! this._hasSubheadings && this._textLength >= this._config.recommendedMaximumLength ) {
+		if ( ! this._hasSubheadings && this._textLength >= this._config.parameters.recommendedMaximumLength ) {
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
 				resultText: sprintf(
@@ -220,9 +213,9 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				),
 			};
 		}
-		if ( ! this._hasSubheadings && this._textLength < this._config.recommendedMaximumLength ) {
+		if ( ! this._hasSubheadings && this._textLength < this._config.parameters.recommendedMaximumLength ) {
 			return {
-				score: this._config.scores.badLongTextNoSubheadings,
+				score: this._config.scores.goodShortTextNoSubheadings,
 				resultText: sprintf(
 					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(

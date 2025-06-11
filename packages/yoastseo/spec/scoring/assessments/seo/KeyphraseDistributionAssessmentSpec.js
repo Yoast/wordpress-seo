@@ -50,6 +50,21 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
+	it( "returns a the correct feedback when there are no keyphrase occurences in the text", function() {
+		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
+		const assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 100,
+				sentencesToHighlight: [],
+			} )
+		);
+
+		expect( assessment.getScore() ).toEqual( 1 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
+	} );
+
 	it( "returns a bad score when the % of sentences between topic occurrences is above 50%", function() {
 		const mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
