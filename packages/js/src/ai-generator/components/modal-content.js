@@ -1,6 +1,6 @@
 /* eslint-disable complexity, max-statements */
 import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
@@ -138,7 +138,13 @@ export const ModalContent = ( { height } ) => {
 	const showLoading = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.loading && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 	const showError = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 
+	const isUsageCountLimitReached = useSelect( ( select ) => select( STORE_NAME_AI ).isUsageCountLimitReached(), [] );
+
 	const handleGenerateMore = useCallback( () => {
+		if ( isUsageCountLimitReached ) {
+			return;
+		}
+
 		/*
 		 * This is before the request to give the effect of the new page loading.
 		 * Total pages is not yet updated at this point.
@@ -150,7 +156,7 @@ export const ModalContent = ( { height } ) => {
 				addUsageCount();
 			}
 		} );
-	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion ] );
+	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
 
 	const setTitleOrDescription = useSetTitleOrDescription();
@@ -227,6 +233,7 @@ export const ModalContent = ( { height } ) => {
 									size="small"
 									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
 									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
+									disabled={ isUsageCountLimitReached || suggestions.status === ASYNC_ACTION_STATUS.loading }
 								>
 									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
 										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
