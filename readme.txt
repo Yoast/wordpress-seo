@@ -281,7 +281,9 @@ Release date: 2025-06-24
 #### Enhancements
 
 * Adds descriptions for the posts listed in the llms.txt file, using their excerpts when those are explicitly set.
+* Adds support for preventing specifically `noindex`ed posts from getting into the llms.txt file.
 * Changes one of the feedback texts for the _text length_ assessment to be consistent with the others.
+* Improves support for non-english characters in llms.txt, for servers that don't serve .txt files in UTF-8.
 * Improves the feedback of the _competing links_ assessment by making it clearer.
 * Makes the assessments _single title_ and _competing links_ available from the get-go in the SEO analysis.
 * Prioritizes cornerstone content for the posts lists in the llms.txt file.
@@ -289,6 +291,7 @@ Release date: 2025-06-24
 
 #### Other
 
+* Improves the internal engine that creates the post lists in the llms.txt file for a more efficient and lighter generation.
 * Improves the translatability of the feedback strings for the _text length_ assessment.
 
 = 25.3 =
