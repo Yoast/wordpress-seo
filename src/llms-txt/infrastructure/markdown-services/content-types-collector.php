@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
 use WP_Post;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
@@ -40,19 +41,29 @@ class Content_Types_Collector {
 	private $indexable_repository;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
 	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
 		Options_Helper $options_helper,
+		Indexable_Helper $indexable_helper,
 		Indexable_Repository $indexable_repository
 	) {
 		$this->post_type_helper     = $post_type_helper;
 		$this->options_helper       = $options_helper;
+		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
 	}
 
@@ -145,9 +156,55 @@ class Content_Types_Collector {
 	 * @param string $post_type The post type.
 	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return array<int, array<WP_Post>> The most recently modified posts.
+	 * @return array<WP_Post> The most recently modified posts.
 	 */
 	private function get_recent_posts( string $post_type, int $limit ): array {
+		$exclude_older_than_one_year = false;
+
+		if ( $post_type === 'post' ) {
+			$exclude_older_than_one_year = true;
+		}
+
+		if ( $this->indexable_helper->should_index_indexables() ) {
+			return $this->get_recently_modified_posts_indexables( $post_type, $limit, $exclude_older_than_one_year );
+		}
+
+		return $this->get_recently_modified_posts_wp_query( $post_type, $limit, $exclude_older_than_one_year );
+	}
+
+	/**
+	 * Returns most recently modified posts of a post type, using indexables.
+	 *
+	 * @param string $post_type                   The post type.
+	 * @param int    $limit                       The maximum number of posts to return.
+	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 *
+	 * @return array<WP_Post> The most recently modified posts.
+	 */
+	private function get_recently_modified_posts_indexables( string $post_type, int $limit, bool $exclude_older_than_one_year ) {
+		$posts                        = [];
+		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_older_than_one_year );
+
+		foreach ( $recently_modified_indexables as $indexable ) {
+			$post_from_indexable = \get_post( $indexable->object_id );
+			if ( $post_from_indexable instanceof WP_Post ) {
+				$posts[] = $post_from_indexable;
+			}
+		}
+
+		return $posts;
+	}
+
+	/**
+	 * Returns most recently modified posts of a post type, using WP_Query.
+	 *
+	 * @param string $post_type                   The post type.
+	 * @param int    $limit                       The maximum number of posts to return.
+	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 *
+	 * @return array<WP_Post> The most recently modified posts.
+	 */
+	private function get_recently_modified_posts_wp_query( string $post_type, int $limit, bool $exclude_older_than_one_year ) {
 		$args = [
 			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
@@ -157,8 +214,7 @@ class Content_Types_Collector {
 			'has_password'   => false,
 		];
 
-		// If the post type is 'post', we only want posts from the last 12 months.
-		if ( $post_type === 'post' ) {
+		if ( $exclude_older_than_one_year === true ) {
 			$args['date_query'] = [
 				[
 					'after' => '12 months ago',
