@@ -50,7 +50,7 @@ describe( "UpsellModalContent", () => {
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => false,
-						selectFreeSparksEndpoint: () => "/free-sparks-endpoint",
+						selectFreeSparksStartEndpoint: () => "/free-sparks-endpoint",
 					};
 				}
 				return {};
@@ -85,7 +85,7 @@ describe( "UpsellModalContent", () => {
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => false,
-						selectFreeSparksEndpoint: () => "/free-sparks-endpoint",
+						selectFreeSparksStartEndpoint: () => "/free-sparks-endpoint",
 					};
 				}
 				return {};
@@ -113,7 +113,7 @@ describe( "UpsellModalContent", () => {
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => true,
-						selectFreeSparksEndpoint: () => "/free-sparks-endpoint",
+						selectFreeSparksStartEndpoint: () => "/free-sparks-endpoint",
 					};
 				}
 				return {};

@@ -1,11 +1,12 @@
+/* eslint-disable complexity */
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
+import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { Badge, Link, Modal, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { noop } from "lodash";
+import { Badge, Link, Modal, Spinner, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
@@ -92,7 +93,7 @@ const IntroductionModal = ( { isOpen, onClose, closeButtonScreenReaderText, chil
 );
 
 const DISPLAY = {
-	buttonOnly: "buttonOnly",
+	inactive: "inactive",
 	askConsent: "askConsent",
 	upsell: "upsell",
 	error: "error",
@@ -104,6 +105,7 @@ const DISPLAY = {
  * @returns {JSX.Element} The element.
  */
 export const App = ( { onUseAi } ) => {
+	const [ display, setDisplay ] = useState( DISPLAY.inactive );
 	const { editType } = useTypeContext();
 	const location = useLocation();
 	const title = useModalTitle();
@@ -111,6 +113,7 @@ export const App = ( { onUseAi } ) => {
 		hasConsent,
 		promptContentInitialized,
 		currentSubscriptions,
+		usageCountStatus,
 		usageCount,
 		usageCountLimit,
 		usageCountEndpoint,
@@ -131,6 +134,7 @@ export const App = ( { onUseAi } ) => {
 			hasConsent: aiSelect.selectHasAiGeneratorConsent(),
 			promptContentInitialized: aiSelect.selectPromptContentInitialized(),
 			currentSubscriptions: aiSelect.selectProductSubscriptions(),
+			usageCountStatus: aiSelect.selectUsageCountStatus(),
 			usageCount: aiSelect.selectUsageCount(),
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
 			usageCountEndpoint: aiSelect.selectUsageCountEndpoint(),
@@ -146,8 +150,6 @@ export const App = ( { onUseAi } ) => {
 			isFreeSparksStart: select( STORE_NAME_AI ).selectIsFreeSparksStart(),
 		};
 	}, [] );
-	const [ isOpen, , , setOpen ] = useToggleState( false );
-	const [ display, setDisplay ] = useState( DISPLAY.buttonOnly );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
 	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
@@ -158,7 +160,7 @@ export const App = ( { onUseAi } ) => {
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
 
 	const closeModal = useCallback( () => {
-		setDisplay( DISPLAY.buttonOnly );
+		setDisplay( DISPLAY.inactive );
 	}, [] );
 
 	const commonModalProps = {
@@ -166,24 +168,23 @@ export const App = ( { onUseAi } ) => {
 		closeButtonScreenReaderText,
 	};
 
-	const checkFocusKeyphrase = useCallback( () => {
-		if ( isConsideredEmpty( focusKeyphrase ) ) {
-			closeModal();
-			closeEditorModal();
-			// Give JS time to close the modals (with focus traps) before trying to focus the input field.
-			setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
-			return false;
-		}
-		return true;
-	}, [ focusKeyphrase, closeModal, closeEditorModal, location ] );
+	const checkFocusKeyphrase = useCallback( () => ! isConsideredEmpty( focusKeyphrase ), [ focusKeyphrase ] );
+	const showFocusKeyphrase = useCallback( () => {
+		closeEditorModal();
+		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
+		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
+	}, [ closeEditorModal, location ] );
 
 	const checkSparks = useCallback( async() => {
-		const { type, payload } = fetchUsageCount( { endpoint: usageCountEndpoint } );
-		if ( type !== FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME ) {
-			return false;
+		if ( usageCountStatus === ASYNC_ACTION_STATUS.idle ) {
+			const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+			if ( type !== FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME ) {
+				return false;
+			}
+			return payload.count < payload.limit;
 		}
-		return payload.count < payload.limit;
-	}, [ fetchUsageCount, usageCountEndpoint ] );
+		return usageCount < usageCountLimit;
+	}, [ fetchUsageCount, usageCountEndpoint, usageCountStatus, usageCount, usageCountLimit ] );
 
 	const checkSubscriptions = useCallback( () => {
 		if ( isWooSeoActive && isWooCommerceActive && isProductEntity ) {
@@ -195,71 +196,43 @@ export const App = ( { onUseAi } ) => {
 		return true;
 	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isPremium, isWooSeoActive && isWooCommerceActive && isProductEntity ] );
 
-	// eslint-ignore-line complexity -- this is a complex component with multiple states and conditions.
-	useEffect( () => {
-		if ( ! isOpen ) {
-			return;
-		}
-
-		// Notify that the user has interacted with the feature.
+	const handleUseAi = useCallback( async() => {
 		onUseAi();
 
-		// Can the user have free sparks?
 		if ( ! isPremium && ! isFreeSparksStart ) {
-			// If the user has not used the AI feature before, we show the upsell modal.
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
-		// Do we have consent?
 		if ( ! hasConsent ) {
-			// If the user has not granted consent, we open the modal to ask for it.
 			setDisplay( DISPLAY.askConsent );
 			return;
 		}
 
-		// Are the subscriptions valid?
-		if ( isPremium && ! checkSubscriptions() ) {
-			// If the subscriptions are invalid, show an error message.
-			setDisplay( DISPLAY.error );
-			return;
-		}
-
-		// Is the SEO analysis active?
 		if ( ! isSeoAnalysisActive ) {
-			// If the SEO analysis is not active, show an error message.
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
-		// Do we have a focus keyphrase?
 		if ( ! checkFocusKeyphrase() ) {
+			setDisplay( DISPLAY.inactive );
+			showFocusKeyphrase();
 			return;
 		}
 
-		// Are we in trial mode?
-		if ( ! isPremium && isFreeSparks ) {
-			// If we are in trial mode, we check if the user has enough sparks left.
-			if ( ! checkSparks() ) {
-				// If the user has no more sparks left, we show the upsell modal.
-				setDisplay( DISPLAY.upsell );
-				return;
-			}
+		if ( isPremium && ! checkSubscriptions() ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		const hasSparks = await checkSparks();
+		if ( ! isPremium && ! hasSparks ) {
+			setDisplay( DISPLAY.upsell );
+			return;
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [
-		isOpen,
-		onUseAi,
-		setDisplay,
-		hasConsent,
-		isPremium,
-		isFreeSparks,
-		checkSubscriptions,
-		isSeoAnalysisActive,
-		checkFocusKeyphrase,
-		checkSparks,
-	] );
+	}, [ onUseAi, isPremium, isFreeSparksStart, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
 
 	return (
 		<>
@@ -267,9 +240,12 @@ export const App = ( { onUseAi } ) => {
 				type="button"
 				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
 				className="yst-replacevar__use-ai-button"
-				onClick={ setOpen }
-				disabled={ ! promptContentInitialized }
+				onClick={ handleUseAi }
+				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
 			>
+				{ usageCountStatus === ASYNC_ACTION_STATUS.loading && (
+					<Spinner className="yst-me-2" />
+				) }
 				{ __( "Use AI", "wordpress-seo" ) }
 			</button>
 
@@ -278,7 +254,7 @@ export const App = ( { onUseAi } ) => {
 				isOpen={ [ DISPLAY.askConsent, DISPLAY.upsell ].includes( display ) }
 			>
 				{ display === DISPLAY.askConsent && (
-					<Introduction onStartGenerating={ noop } />
+					<Introduction onStartGenerating={ handleUseAi } />
 				) }
 				{ display === DISPLAY.upsell && (
 					<UpsellModalContent />
@@ -293,7 +269,9 @@ export const App = ( { onUseAi } ) => {
 				title={ title }
 			>
 				{ display === DISPLAY.error && (
-					<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
+					<Modal.Container.Content className="yst-pt-6">
+						<FeatureError currentSubscriptions={ currentSubscriptions } isSeoAnalysisActive={ isSeoAnalysisActive } />
+					</Modal.Container.Content>
 				) }
 				{ display === DISPLAY.generate && (
 					<>
