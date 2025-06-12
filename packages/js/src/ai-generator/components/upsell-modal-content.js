@@ -10,11 +10,14 @@ import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import { OutboundLink, VideoFlow } from "../../shared-admin/components";
 import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
+import { DISPLAY } from "./app";
 
 /**
+ * @param {Function} setDisplay The function to set the display state..
+ *
  * @returns {JSX.Element} The element.
  */
-export const UpsellModalContent = () => {
+export const UpsellModalContent = ( { setDisplay } ) => {
 	const {
 		premiumUpsellLink,
 		bundleUpsellLink,
@@ -74,7 +77,8 @@ export const UpsellModalContent = () => {
 
 	const handleStartTrial = useCallback( () => {
 		activateFreeSparks( { endpoint: activateFreeSparksEndpoint } );
-	}, [ activateFreeSparks, activateFreeSparksEndpoint ] );
+		setDisplay( DISPLAY.askConsent );
+	}, [ activateFreeSparks, activateFreeSparksEndpoint, onClose ] );
 
 	const learnMoreLinkStructure = {
 		a: <OutboundLink

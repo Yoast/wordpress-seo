@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { Fragment, useCallback, useState } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { Badge, Link, Modal, Spinner, useSvgAria } from "@yoast/ui-library";
@@ -92,7 +92,7 @@ const IntroductionModal = ( { isOpen, onClose, closeButtonScreenReaderText, chil
 	</Modal>
 );
 
-const DISPLAY = {
+export const DISPLAY = {
 	inactive: "inactive",
 	askConsent: "askConsent",
 	upsell: "upsell",
@@ -254,10 +254,10 @@ export const App = ( { onUseAi } ) => {
 				isOpen={ [ DISPLAY.askConsent, DISPLAY.upsell ].includes( display ) }
 			>
 				{ display === DISPLAY.askConsent && (
-					<Introduction onStartGenerating={ handleUseAi } />
+					<Introduction setDisplay={ setDisplay } />
 				) }
 				{ display === DISPLAY.upsell && (
-					<UpsellModalContent />
+					<UpsellModalContent setDisplay={ setDisplay } />
 				) }
 			</IntroductionModal>
 
