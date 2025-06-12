@@ -12,7 +12,7 @@ import { STORE_NAME_EDITOR } from "../../constants";
  * @param {string[]} [invalidSubscriptions=[]] The array with the names of products with invalid subscription.
  * @returns {JSX.Element} The element.
  */
-export const SubscriptionError = ( { invalidSubscriptions } ) => {
+export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
 	const activatePremiumLink = useSelect(
 		select => select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-activate-premium" ),
 		[]

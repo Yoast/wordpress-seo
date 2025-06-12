@@ -3,12 +3,13 @@ import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { AiConsent } from "../../shared-admin/components";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
+import { DISPLAY } from "./app";
 
 /**
- * @param {Function} onStartGenerating Callback to signal the generating should start.
+ * @param {Function} setDisplay Callback to set the display state.
  * @returns {JSX.Element} The element.
  */
-export const Introduction = ( { onStartGenerating } ) => {
+export const Introduction = ( { setDisplay } ) => {
 	const { termsOfServiceLink, privacyPolicyLink, learnMoreLink, imageLink, consentEndpoint } = useSelect(
 		select => ( {
 			termsOfServiceLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/ai-generator-terms-of-service" ),
@@ -23,8 +24,8 @@ export const Introduction = ( { onStartGenerating } ) => {
 	const { storeAiGeneratorConsent } = useDispatch( STORE_NAME_AI );
 	const onGiveConsent = useCallback( async() => {
 		await storeAiGeneratorConsent( true, consentEndpoint );
-		onStartGenerating();
-	}, [ storeAiGeneratorConsent, onStartGenerating, consentEndpoint ] );
+		setDisplay( DISPLAY.generate );
+	}, [ storeAiGeneratorConsent, setDisplay, consentEndpoint ] );
 
 	return (
 		<AiConsent
@@ -37,5 +38,5 @@ export const Introduction = ( { onStartGenerating } ) => {
 	);
 };
 Introduction.propTypes = {
-	onStartGenerating: PropTypes.func.isRequired,
+	setDisplay: PropTypes.func.isRequired,
 };

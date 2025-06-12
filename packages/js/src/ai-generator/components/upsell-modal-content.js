@@ -10,11 +10,14 @@ import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import { OutboundLink, VideoFlow } from "../../shared-admin/components";
 import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
+import { DISPLAY } from "./app";
 
 /**
+ * @param {Function} setDisplay The function to set the display state..
+ *
  * @returns {JSX.Element} The element.
  */
-export const UpsellModalContent = () => {
+export const UpsellModalContent = ( { setDisplay } ) => {
 	const {
 		premiumUpsellLink,
 		bundleUpsellLink,
@@ -26,7 +29,7 @@ export const UpsellModalContent = () => {
 		wistiaEmbedPermissionValue,
 		wistiaEmbedPermissionStatus,
 		isUsageCountLimitReached,
-		startFreeSparksEndpoint,
+		activateFreeSparksEndpoint,
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -41,7 +44,7 @@ export const UpsellModalContent = () => {
 			wistiaEmbedPermissionValue: editorSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: editorSelect.selectWistiaEmbedPermissionStatus(),
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
-			startFreeSparksEndpoint: aiSelect.selectFreeSparksEndpoint(),
+			activateFreeSparksEndpoint: aiSelect.selectFreeSparksActiveEndpoint(),
 		};
 	}, [] );
 	const { onClose, initialFocus } = useModalContext();
@@ -64,7 +67,7 @@ export const UpsellModalContent = () => {
 	} ), [ imageLink ] );
 
 	const { setWistiaEmbedPermission } = useDispatch( STORE_NAME_EDITOR );
-	const { startFreeSparks } = useDispatch( STORE_NAME_AI );
+	const { activateFreeSparks } = useDispatch( STORE_NAME_AI );
 
 	const wistiaEmbedPermission = useMemo( () => ( {
 		value: wistiaEmbedPermissionValue,
@@ -73,8 +76,9 @@ export const UpsellModalContent = () => {
 	} ), [ wistiaEmbedPermissionValue, wistiaEmbedPermissionStatus, setWistiaEmbedPermission ] );
 
 	const handleStartTrial = useCallback( () => {
-		startFreeSparks( { endpoint: startFreeSparksEndpoint } );
-	}, [ startFreeSparks, startFreeSparksEndpoint ] );
+		activateFreeSparks( { endpoint: activateFreeSparksEndpoint } );
+		setDisplay( DISPLAY.askConsent );
+	}, [ activateFreeSparks, activateFreeSparksEndpoint, onClose ] );
 
 	const learnMoreLinkStructure = {
 		a: <OutboundLink

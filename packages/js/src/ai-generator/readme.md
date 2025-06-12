@@ -13,7 +13,7 @@ This button is not added on:
 ## Flow to the AI generator in the editor
 
 ```mermaid
-flowchart LR
+flowchart TB
   UseAI[User tries to use a Yoast AI Generate feature]
   ShowConsent[Show the AI consent modal]
   ShowUpsellWithTry[Show the AI upsell modal with a “Try for free” button]
@@ -27,7 +27,7 @@ flowchart LR
   HasSparksLeft{Does the site have sparks left?}
   LastSpark{Was this your last spark?}
   SaveFreeSparks{{Save the timestamp as a wpseo option: ai_free_sparks_started_on}}
-  PreventAI{{Prevent the user from generating more. But instead ensure the toast above is visible / show again if dismissed}}
+  PreventAI{{Prevent the user from generating more. Disable the “generate 5 more” button}}
   End((End flow))
   UseAI --> IsFreeSparks
   IsFreeSparks -->|Yes| HasConsent
