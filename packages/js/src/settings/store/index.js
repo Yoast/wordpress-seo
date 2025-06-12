@@ -22,6 +22,7 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -52,6 +53,7 @@ const createStore = ( { initialState } ) => {
 			...defaultSettingValuesActions,
 			...fallbacksActions,
 			...linkParamsActions,
+			...llmsTxtActions,
 			...mediaActions,
 			...notificationsActions,
 			...pageActions,
@@ -69,6 +71,7 @@ const createStore = ( { initialState } ) => {
 			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
 			...linkParamsSelectors,
+			...llmsTxtSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
 			...pageSelectors,
@@ -87,6 +90,7 @@ const createStore = ( { initialState } ) => {
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
+				llmsTxt: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
 				[ NOTIFICATIONS_NAME ]: getInitialNotificationsState(),
 				[ PAGE_NAME ]: getPageInitialState(),
@@ -104,6 +108,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
+			llmsTxt,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
 			[ NOTIFICATIONS_NAME ]: notificationsReducer,
