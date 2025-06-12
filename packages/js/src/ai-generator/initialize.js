@@ -91,7 +91,7 @@ const initializeAiGenerator = () => {
 		},
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 		[ FREE_SPARKS_NAME ]: {
-			isFreeSparksStart: get( window, "wpseoAiGenerator.isFreeSparks", false ) === "1",
+			isFreeSparksActive: get( window, "wpseoAiGenerator.isFreeSparks", false ) === "1",
 			endpoint: "yoast/v1/ai/free_sparks",
 		},
 	} );

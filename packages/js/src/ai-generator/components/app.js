@@ -126,7 +126,7 @@ export const App = ( { onUseAi } ) => {
 		isSeoAnalysisActive,
 		aiModalHelperLink,
 		isProductEntity,
-		isFreeSparksStart,
+		isFreeSparksActive,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -147,7 +147,7 @@ export const App = ( { onUseAi } ) => {
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
-			isFreeSparksStart: select( STORE_NAME_AI ).selectIsFreeSparksStart(),
+			isFreeSparksActive: select( STORE_NAME_AI ).selectIsFreeSparksActive(),
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
@@ -199,7 +199,7 @@ export const App = ( { onUseAi } ) => {
 	const handleUseAi = useCallback( async() => {
 		onUseAi();
 
-		if ( ! isPremium && ! isFreeSparksStart ) {
+		if ( ! isPremium && ! isFreeSparksActive ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
@@ -232,7 +232,7 @@ export const App = ( { onUseAi } ) => {
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [ onUseAi, isPremium, isFreeSparksStart, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
+	}, [ onUseAi, isPremium, isFreeSparksActive, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
 
 	return (
 		<>
