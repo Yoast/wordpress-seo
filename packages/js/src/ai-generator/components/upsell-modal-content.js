@@ -26,7 +26,7 @@ export const UpsellModalContent = () => {
 		wistiaEmbedPermissionValue,
 		wistiaEmbedPermissionStatus,
 		isUsageCountLimitReached,
-		startFreeSparksEndpoint,
+		activateFreeSparksEndpoint,
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -41,7 +41,7 @@ export const UpsellModalContent = () => {
 			wistiaEmbedPermissionValue: editorSelect.selectWistiaEmbedPermissionValue(),
 			wistiaEmbedPermissionStatus: editorSelect.selectWistiaEmbedPermissionStatus(),
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
-			startFreeSparksEndpoint: aiSelect.selectFreeSparksStartEndpoint(),
+			activateFreeSparksEndpoint: aiSelect.selectFreeSparksActiveEndpoint(),
 		};
 	}, [] );
 	const { onClose, initialFocus } = useModalContext();
@@ -64,7 +64,7 @@ export const UpsellModalContent = () => {
 	} ), [ imageLink ] );
 
 	const { setWistiaEmbedPermission } = useDispatch( STORE_NAME_EDITOR );
-	const { startFreeSparks } = useDispatch( STORE_NAME_AI );
+	const { activateFreeSparks } = useDispatch( STORE_NAME_AI );
 
 	const wistiaEmbedPermission = useMemo( () => ( {
 		value: wistiaEmbedPermissionValue,
@@ -73,8 +73,8 @@ export const UpsellModalContent = () => {
 	} ), [ wistiaEmbedPermissionValue, wistiaEmbedPermissionStatus, setWistiaEmbedPermission ] );
 
 	const handleStartTrial = useCallback( () => {
-		startFreeSparks( { endpoint: startFreeSparksEndpoint } );
-	}, [ startFreeSparks, startFreeSparksEndpoint ] );
+		activateFreeSparks( { endpoint: activateFreeSparksEndpoint } );
+	}, [ activateFreeSparks, activateFreeSparksEndpoint ] );
 
 	const learnMoreLinkStructure = {
 		a: <OutboundLink
