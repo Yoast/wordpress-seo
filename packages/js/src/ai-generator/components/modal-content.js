@@ -16,7 +16,7 @@ import {
 	SUGGESTIONS_PER_PAGE,
 	TITLE_VARIABLE,
 	TITLE_VARIABLE_REPLACE,
-} from "../constants";
+	STORE_NAME_EDITOR } from "../constants";
 import {
 	useApplyReplacementVariables,
 	useDescriptionTemplate,
@@ -57,6 +57,7 @@ export const ModalContent = ( { height } ) => {
 	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
 	const Preview = usePreviewContent();
 	const { addAppliedSuggestion, addUsageCount } = useDispatch( STORE_NAME_AI );
+	const isPremium = useSelect( ( select ) => select( STORE_NAME_EDITOR ).getIsPremium(), [] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
@@ -141,7 +142,7 @@ export const ModalContent = ( { height } ) => {
 	const isUsageCountLimitReached = useSelect( ( select ) => select( STORE_NAME_AI ).isUsageCountLimitReached(), [] );
 
 	const handleGenerateMore = useCallback( () => {
-		if ( isUsageCountLimitReached ) {
+		if ( isUsageCountLimitReached && ! isPremium ) {
 			return;
 		}
 
@@ -233,7 +234,7 @@ export const ModalContent = ( { height } ) => {
 									size="small"
 									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
 									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
-									disabled={ isUsageCountLimitReached || suggestions.status === ASYNC_ACTION_STATUS.loading }
+									disabled={ ( ! isPremium && isUsageCountLimitReached ) || suggestions.status === ASYNC_ACTION_STATUS.loading }
 								>
 									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
 										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
