@@ -94,7 +94,7 @@ class File_Failure_Llms_Txt_Notification_Integration implements Integration_Inte
 	 * @return bool
 	 */
 	private function should_show_file_failure_notification(): bool {
-		return \get_option( Populate_File_Command_Handler::GENERATION_FAILURE_OPTION, false ) !== false;
+		return $this->options_helper->get( 'enable_llms_txt', false ) && \get_option( Populate_File_Command_Handler::GENERATION_FAILURE_OPTION, false ) !== false;
 	}
 
 	/**
