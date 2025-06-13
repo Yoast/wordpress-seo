@@ -85,8 +85,7 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->with( 3, 7 )
 			->once();
 
-		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
-		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
+		Functions\expect( 'do_action' )->once()->with( 'wpseo_related_indexables_incoming_links_updated' );
 
 		$this->instance->delete( $indexable );
 	}
