@@ -43,13 +43,13 @@ export const TipNotification = () => {
 			/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
 			return __(
 				"%1$sTip%2$s: Improve the accuracy of your generated AI descriptions by writing more content in your page.",
-				"wordpress-seo-premium"
+				"wordpress-seo"
 			);
 		}
 		/* translators: %1$s and %2$s expand to opening and closing of a span in order to emphasise the word. */
 		return __(
 			"%1$sTip%2$s: Improve the accuracy of your generated AI titles by writing more content in your page.",
-			"wordpress-seo-premium"
+			"wordpress-seo"
 		);
 	}, [ editType ] );
 
