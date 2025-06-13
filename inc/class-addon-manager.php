@@ -712,8 +712,13 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function request_current_sites() {
 		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
+
 		if ( $api_request->fire() ) {
-			return $api_request->get_response();
+			$response = $api_request->get_response();
+
+			if ( isset( $response->url, $response->subscriptions ) && is_array( $response->subscriptions ) ) {
+				return $response;
+			}
 		}
 
 		return $this->get_site_information_default();
