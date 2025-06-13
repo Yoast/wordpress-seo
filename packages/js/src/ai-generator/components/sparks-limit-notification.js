@@ -91,21 +91,24 @@ const SparksLimitUpsellContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const SparksLimitNotification = ( { className = "" } ) => {
-	const { isUsageCountLimitReached, usageCountLimit, isPremium, upsellLink } = useSelect( ( select ) => {
+	const { isUsageCountLimitReached, usageCount, usageCountLimit, isPremium, upsellLink } = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return ( {
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
+			usageCount: aiSelect.selectUsageCount(),
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
 			isPremium: editorSelect.getIsPremium(),
 			upsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
 		} );
 	}, [] );
-	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( isUsageCountLimitReached );
+	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
 
 	useEffect( () => {
-		setShowNotification( isUsageCountLimitReached );
-	}, [ isUsageCountLimitReached ] );
+		const showNotificationPremium = isPremium && usageCount === usageCountLimit;
+		const showNotificationFree = ! isPremium && isUsageCountLimitReached;
+		setShowNotification( showNotificationPremium || showNotificationFree );
+	}, [ usageCount, usageCountLimit ] );
 
 	return showNotification && (
 		<Notifications.Notification
