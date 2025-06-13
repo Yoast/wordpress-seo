@@ -34,7 +34,7 @@ export const SeoAnalysisInactiveError = () => {
 							 */
 							__(
 								"%4$s requires the SEO analysis to be enabled. To enable it, please navigate to %2$sSite features%3$s in %1$s, turn on the SEO analysis, and click 'Save changes'. If it's disabled in your WordPress user profile, access your profile and enable it there. Please contact your administrator if you don't have access to these settings.",
-								"wordpress-seo-premium"
+								"wordpress-seo"
 							),
 							"Yoast SEO",
 							"<a>",

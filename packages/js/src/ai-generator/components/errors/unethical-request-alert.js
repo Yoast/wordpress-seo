@@ -23,7 +23,7 @@ export const UnethicalRequestAlert = () => {
 						 */
 						__(
 							"Due to %5$s's strict ethical guidelines and %1$susage policies%2$s, we cannot generate suggestions for the content on this page. If you intend to use AI, kindly avoid the use of explicit, violent, copyrighted, or sexually explicit content. In case you need further help, please %3$scontact our support team%4$s.",
-							"wordpress-seo-premium"
+							"wordpress-seo"
 						),
 						"<a1>",
 						"</a1>",

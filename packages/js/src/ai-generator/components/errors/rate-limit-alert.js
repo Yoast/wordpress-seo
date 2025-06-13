@@ -20,7 +20,7 @@ export const RateLimitAlert = () => {
 						/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 						__(
 							"You might have reached your Yoast AI rate limit for a specific time frame or your sparks limit for this month. If you have reached your rate limit, please reduce the frequency of your requests to continue using Yoast AI features. Our %1$shelp article%2$s provides guidance on effectively planning and pacing your requests for an optimized workflow.",
-							"wordpress-seo-premium"
+							"wordpress-seo"
 						),
 						"<a>",
 						"</a>"

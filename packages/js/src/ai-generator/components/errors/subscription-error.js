@@ -74,7 +74,7 @@ export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
 			 **/
 			__(
 				"To access this feature, you need an active %1$s subscription. Please %3$sactivate your subscription in %2$s%4$s or %5$sget a new %1$s subscription%6$s. Afterward, refresh this page. It may take up to 30 seconds for the feature to function correctly.",
-				"wordpress-seo-premium"
+				"wordpress-seo"
 			),
 			addonProduct,
 			"MyYoast",
@@ -102,7 +102,7 @@ export const SubscriptionError = ( { invalidSubscriptions = [] } ) => {
 			 **/
 			__(
 				"To access this feature, you need active %2$s and %3$s subscriptions. Please %5$sactivate your subscriptions in %1$s%6$s or %7$sget a new %4$s%8$s. Afterward, refresh this page. It may take up to 30 seconds for the feature to function correctly.",
-				"wordpress-seo-premium"
+				"wordpress-seo"
 			),
 			"MyYoast",
 			"Yoast SEO Premium",

@@ -21,7 +21,7 @@ export const NotEnoughContentAlert = () => {
 						/* translators: %1$s and %3$s expand to an opening tag. %2$s and %4$s expand to a closing tag. */
 						__(
 							"Please add more content to ensure a valuable AI suggestion. Learn more on our page about %1$scommon AI feature problems and errors%2$s. In case you need further help, please %3$scontact our support team%4$s.",
-							"wordpress-seo-premium"
+							"wordpress-seo"
 						),
 						"<a1>",
 						"</a1>",
