@@ -21,7 +21,7 @@ export const SiteUnreachableAlert = () => {
 						/* translators: %1$s and %3$s expand to an opening tag. %2$s and %4$s expand to a closing tag. */
 						__(
 							"To use this feature, your site must be publicly accessible. This applies to both test sites and instances where your REST API is password-protected. Please ensure your site is accessible to the public and try again. Learn more on our page about %1$scommon AI feature problems and errors%2$s. In case you need further help, please %3$scontact our support team%4$s.",
-							"wordpress-seo-premium"
+							"wordpress-seo"
 						),
 						"<a1>",
 						"</a1>",

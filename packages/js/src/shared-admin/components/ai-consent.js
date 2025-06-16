@@ -38,7 +38,7 @@ export const AiConsent = ( {
 			/* translators: %1$s and %2$s are a set of anchor tags and %3$s and %4$s are a set of anchor tags. */
 			__(
 				"I approve the %1$sTerms of Service%2$s & %3$sPrivacy Policy%4$s of the Yoast AI service. This includes consenting to the collection and use of data to improve user experience.",
-				"wordpress-seo-premium"
+				"wordpress-seo"
 			),
 			"<a1>",
 			"</a1>",
@@ -81,7 +81,7 @@ export const AiConsent = ( {
 								/* translators: %1$s is a break tag; %2$s and %3$s are anchor tag; %4$s is the arrow icon. */
 								__(
 									"Enable AI-powered SEO! Use all AI Generate and Optimize features to boost your efficiency. Just give us the green light. %1$s%2$sLearn more%3$s%4$s",
-									"wordpress-seo-premium"
+									"wordpress-seo"
 								),
 								"<br/>",
 								"<a>",
