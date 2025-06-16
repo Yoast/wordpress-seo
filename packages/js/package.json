@@ -30,7 +30,7 @@
     "@wordpress/rich-text": "^7.0.2",
     "@wordpress/server-side-render": "^1.21.1",
     "@wordpress/url": "^3.17.0",
-    "@yoast/ai-frontend": "^0.15.0",
+    "@yoast/ai-frontend": "^0.16.0",
     "@yoast/analysis-report": "^2.0.0-alpha.1",
     "@yoast/components": "^3.0.0-alpha.2",
     "@yoast/dashboard-frontend": "^0.1.0",
