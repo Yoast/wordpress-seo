@@ -572,9 +572,13 @@ class Indexable_Link_Builder {
 		}
 
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
-		if ( \wp_cache_supports( 'flush_group' ) ) {
-			\wp_cache_flush_group( 'orphaned_counts' );
-		}
+
+		/**
+		 * Fires to signal that incoming link counts for related indexables were updated.
+		 *
+		 * @internal
+		 */
+		\do_action( 'wpseo_related_indexables_incoming_links_updated' );
 
 		foreach ( $counts as $count ) {
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
