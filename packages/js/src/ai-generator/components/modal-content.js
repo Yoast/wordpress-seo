@@ -1,7 +1,7 @@
 /* eslint-disable complexity, max-statements */
 import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Label, Modal, Notifications, Pagination, useModalContext, usePrevious } from "@yoast/ui-library";
 import { map, noop } from "lodash";
@@ -21,17 +21,18 @@ import {
 import {
 	useApplyReplacementVariables,
 	useDescriptionTemplate,
+	useEffectOneAtATime,
 	useLocation,
 	useMeasuredRef,
+	useModalApplyButtonLabel,
+	useModalSuggestionsTitle,
 	usePagination,
 	usePreviewContent,
+	useSetTitleOrDescription,
 	useSuggestions,
 	useTitleTemplate,
 	useTypeContext,
 } from "../hooks";
-import { useModalApplyButtonLabel } from "../hooks/use-modal-apply-button-label";
-import { useModalSuggestionsTitle } from "../hooks/use-modal-suggestions-title";
-import { useSetTitleOrDescription } from "../hooks/use-set-title-or-description";
 
 /**
  * Aims to capture the text between badges.
@@ -209,15 +210,16 @@ export const ModalContent = ( { height } ) => {
 		onClose();
 	}, [ setTitleOrDescription, editType, previewType, suggestions.selected, titleTemplate, onClose, addAppliedSuggestion ] );
 
-	useEffect( () => {
+	useEffectOneAtATime( () => {
 		if ( initialFetch === "" ) {
-			fetchSuggestions().then( ( status ) => {
+			return fetchSuggestions().then( ( status ) => {
 				setInitialFetch( status );
 				if ( status === FETCH_RESPONSE_STATUS.success ) {
 					addUsageCount();
 				}
 			} );
 		}
+		return Promise.resolve();
 	}, [ initialFetch, addUsageCount, fetchSuggestions ] );
 
 	// Initial fetch gone wrong OR subscription error on any request.
