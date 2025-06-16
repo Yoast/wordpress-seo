@@ -7,14 +7,13 @@ import { dispatch } from "@wordpress/data";
  * @param {function} resetForm Resets the form.
  * @returns {Promise<boolean>} Promise of save result.
  */
-export const handleSubmit = async( values, { resetForm } ) => {
-	const { addNotification, addRedirect } = dispatch( STORE_NAME );
+export const handleCreateSubmit = async( values, { resetForm } ) => {
+	const { addNotification, addRedirectAsync } = dispatch( STORE_NAME );
 	try {
-		addRedirect( values );
-
+		await addRedirectAsync( values );
 		addNotification( {
 			variant: "success",
-			title: __( "Great! Your redirect has been successfully created.", "wordpress-seo" ),
+			title: __( "Successfully added!", "wordpress-seo" ),
 		} );
 
 		// Make sure the dirty state is reset after successfully saving.
@@ -24,10 +23,42 @@ export const handleSubmit = async( values, { resetForm } ) => {
 		addNotification( {
 			id: "submit-error",
 			variant: "error",
-			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
+			title: `${ __( "Redirect not created", "wordpress-seo" ) }: ${ error.message }`,
 		} );
 
 		console.error( "Error while saving:", error.message );
+		return false;
+	}
+};
+
+/**
+ * Handles the form submit.
+ * @param {Object} values The values.
+ * @param {function} resetForm Resets the form.
+ * @returns {Promise<boolean>} Promise of save result.
+ */
+export const handleEditSubmit = async( values, { resetForm } ) => {
+	const { addNotification, editRedirectAsync } = dispatch( STORE_NAME );
+	try {
+		await editRedirectAsync( values );
+		addNotification( {
+			variant: "success",
+			title: __( "Changes save successfully!", "wordpress-seo" ),
+		} );
+
+		// Make sure the dirty state is reset after successfully saving.
+		resetForm();
+		return true;
+	} catch ( error ) {
+		const errMessage = error.message || error.message.message;
+
+		addNotification( {
+			id: "submit-error",
+			variant: "error",
+			title: `${ __( "Redirect not updated", "wordpress-seo" ) }: ${ errMessage }`,
+		} );
+
+		console.error( "Error while saving:", errMessage );
 		return false;
 	}
 };

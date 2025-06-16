@@ -16,8 +16,19 @@ export const REDIRECT_TYPE_OPTIONS = [
 	{ value: 451, label: __( "451 Unavailable For Legal Reasons", "wordpress-seo" ) },
 ];
 
+/**
+ * Options for redirect select
+ */
+export const REDIRECT_TYPE_SHORTS_OPTIONS = [
+	{ value: 301, label: __( "301", "wordpress-seo" ) },
+	{ value: 302, label: __( "302", "wordpress-seo" ) },
+	{ value: 307, label: __( "307", "wordpress-seo" ) },
+	{ value: 410, label: __( "410", "wordpress-seo" ) },
+	{ value: 451, label: __( "451", "wordpress-seo" ) },
+];
+
 export const BULK_ACTIONS_OPTIONS = [
-	{ value: "", label: __( "Select…", "wordpress-seo" ) },
+	{ value: "", label: __( "All", "wordpress-seo" ) },
 	{ value: "delete", label: __( "Delete", "wordpress-seo" ) },
 ];
 
@@ -30,3 +41,11 @@ export const ROUTES = {
 export const ASC = "asc";
 export const DESC = "desc";
 export const FORMAT_PLAIN = "plain";
+
+
+export const initialValues = {
+	type: REDIRECT_TYPE_OPTIONS[ 0 ]?.value,
+	origin: "",
+	target: "",
+	format: FORMAT_PLAIN,
+};

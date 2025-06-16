@@ -1,6 +1,6 @@
 import { ChildrenLimiter, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import { useSelectRedirects } from "../hooks";
-import { CodeIcon, CogIcon, DownloadIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import { CodeIcon, CogIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
@@ -64,16 +64,6 @@ export const Menu = ( { idSuffix = "" } ) => {
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
 			/>
-			<SidebarNavigation.MenuItem
-				id={ `menu-content-types${ idSuffix }` }
-				icon={ DownloadIcon }
-				label={ __( "Import & export", "wordpress-seo" ) }
-			>
-				<ChildrenLimiter limit={ 2 }>
-					<MenuItemLink to="/import-redirects" label={ __( "Import redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					<MenuItemLink to="/export-redirects" label={ __( "Export redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
 		</ul>
 	</>;
 };

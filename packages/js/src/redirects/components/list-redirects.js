@@ -1,96 +1,161 @@
-import { Table, Checkbox } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
+/* eslint-disable camelcase */
+import { Table, Spinner } from "@yoast/ui-library";
+import { __, sprintf } from "@wordpress/i18n";
 import { useRedirectFilters } from "../hooks";
-import { useCallback } from "@wordpress/element";
-import { ChevronDownIcon } from "@heroicons/react/outline";
-import { DESC } from "../constants";
+import { useCallback, useState, useRef } from "@wordpress/element";
+import { FORMAT_PLAIN  } from "../constants";
+import { Form, Formik } from "formik";
+import { TableRows } from "./table-rows";
+import { handleEditSubmit, updateValidationSchema } from "../helpers";
+import { DeleteModal } from "./delete-modal";
+import { TableHeader } from "./table-header";
 
 export const ListRedirects = () => {
 	const {
 		sortedRedirects,
 		sortOrder,
 		toggleSortOrder,
+		onDelete,
 		selectedRedirects,
+		status,
+		isDeleteRedirectsLoading,
 		setters: { toggleSelectRedirect, clearSelectedRedirects, setSelectedRedirects },
 	} = useRedirectFilters();
 
-	const allSelected = sortedRedirects.length > 0 &&
+	const redirectsLength = sortedRedirects.length;
+	const [ selectedRedirect, setSelectedRedirect ] = useState( {} );
+	const [ selectedDeleteRedirect, setSelectedDeleteRedirect ] = useState( {} );
+	const [ showDeleteModal, setShowDeleteModal ] = useState( false );
+	const [ isDeleteLoading, setIsDeleteLoading ] = useState( false );
+	const isLoading = status !== "success" || isDeleteRedirectsLoading;
+
+	const focusElementRef = useRef( null );
+	const label = sprintf(
+		/* translators: 1: Label items, 2: Yoast SEO */
+		__( "%1$d Item%2$s", "wordpress" ),
+		redirectsLength,
+		redirectsLength > 1 ? "s" : ""
+	);
+
+	const allSelected =
+		redirectsLength > 0 &&
 		sortedRedirects.every( ( { id } ) => selectedRedirects.includes( id ) );
 
-	const onSelectAllChange = useCallback( ( event ) => {
-		if ( event.target.checked ) {
-			const allIds = sortedRedirects.map( ( { id } ) => id );
-			setSelectedRedirects( allIds );
-		} else {
-			clearSelectedRedirects();
-		}
-	}, [ sortedRedirects, setSelectedRedirects, clearSelectedRedirects ] );
+	const onSelectAllChange = useCallback(
+		( event ) => {
+			if ( event.target.checked ) {
+				const allIds = sortedRedirects.map( ( { id } ) => id );
+				setSelectedRedirects( allIds );
+			} else {
+				clearSelectedRedirects();
+			}
+		},
+		[ sortedRedirects, setSelectedRedirects, clearSelectedRedirects ]
+	);
 
 	const onToggleSelect = useCallback(
 		( event ) => {
 			const id = event.target.getAttribute( "data-id" );
-			if ( ! id ) {
-				return;
+			if ( id ) {
+				toggleSelectRedirect( id );
 			}
-			toggleSelectRedirect( +id );
 		},
 		[ toggleSelectRedirect ]
 	);
 
-	return (
-		<Table className="yst-mt-6" variant="minimal">
-			<Table.Head>
-				<Table.Row>
-					<Table.Header scope="col" className="yst-flex yst-items-center yst-gap-1">
-						<Checkbox
-							aria-label={ __( "Select all", "wordpress-seo" ) }
-							checked={ allSelected }
-							onChange={ onSelectAllChange }
-						/>
-						{ __( "Type", "wordpress-seo" ) }
-						<button
-							type="button"
-							aria-label={ __( "Sort by Type", "wordpress-seo" ) }
-							onClick={ toggleSortOrder }
-						>
-							<ChevronDownIcon
-								className={ `yst-w-4 yst-h-4 yst-transition-transform ${sortOrder === DESC ? "yst-rotate-180" : ""}` }
-							/>
-						</button>
-					</Table.Header>
-					<Table.Header scope="col">{ __( "Old URL", "wordpress-seo" ) }</Table.Header>
-					<Table.Header scope="col">{ __( "New URL", "wordpress-seo" ) }</Table.Header>
-				</Table.Row>
-			</Table.Head>
+	const handleEditClick = useCallback( ( redirect ) => {
+		setSelectedRedirect( redirect );
+	}, [ setSelectedRedirect ] );
 
-			<Table.Body>
-				{ sortedRedirects.length ? sortedRedirects.map( ( { id, type, oldUrl, newUrl }, index ) => (
-					<Table.Row key={ id }>
-						<Table.Cell>
-							<div className="yst-flex yst-items-center">
-								<Checkbox
-									checked={ selectedRedirects.includes( id ) }
-									onChange={ onToggleSelect }
-									aria-label={ __( "Select redirects", "wordpress-seo" ) }
-									data-id={ id }
-								/>
-								<span className="yst-text-slate-800 yst-font-medium">{ type }</span>
-							</div>
-						</Table.Cell>
-						<Table.Cell>{ oldUrl }</Table.Cell>
-						<Table.Cell>{ newUrl }</Table.Cell>
-						{ index === 0 && (
-							<Table.Cell className="yst-text-end yst-w-max">
-								{ sortedRedirects.length } { __( "Items", "wordpress-seo" ) }
-							</Table.Cell>
-						) }
-					</Table.Row>
-				) ) : (
-					<Table.Row>
-						<Table.Cell>{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
-					</Table.Row>
-				) }
-			</Table.Body>
-		</Table>
+	const onSubmit = useCallback( async( values, { resetForm } ) => {
+		const mappedValues = {
+			old_target: values.target,
+			old_origin: values.origin,
+			old_type: values.type,
+			new_target: values.newTarget,
+			new_origin: values.newOrigin,
+			new_type: values.newType,
+			format: values.format,
+		};
+
+		const result = await handleEditSubmit( mappedValues, { resetForm } );
+		if ( result ) {
+			setSelectedRedirect( {} );
+		}
+	}, [] );
+
+	const handleDeleteModal = useCallback( () => {
+		setShowDeleteModal( ( prev ) => ! prev );
+	}, [] );
+
+	const handleConfirmDelete = useCallback( async() => {
+		if ( ! selectedDeleteRedirect?.origin ) {
+			return;
+		}
+		try {
+			setIsDeleteLoading( true );
+			await onDelete( selectedDeleteRedirect.origin );
+			handleDeleteModal();
+		} finally {
+			setIsDeleteLoading( false );
+		}
+	}, [ selectedDeleteRedirect, onDelete ] );
+
+	if ( isLoading ) {
+		return (
+			<div className="yst-flex yst-items-center yst-justify-center yst-mt-8">
+				<Spinner size="8" />
+			</div>
+		);
+	}
+
+	return (
+		<>
+			{ redirectsLength > 0 && <div className="yst-text-slate-500 yst-mt-8">{ label }</div> }
+			<Formik
+				initialValues={ {
+					target: selectedRedirect.target,
+					origin: selectedRedirect.origin,
+					type: selectedRedirect.type,
+					newTarget: selectedRedirect.target,
+					newType: selectedRedirect.type,
+					newOrigin: selectedRedirect.origin,
+					format: FORMAT_PLAIN } }
+				onSubmit={ onSubmit }
+				enableReinitialize={ true }
+				validationSchema={ updateValidationSchema( {} ) }
+			>
+				<Form>
+					<Table className="yst-mt-4" variant="minimal">
+						<TableHeader
+							allSelected={ allSelected }
+							onSelectAllChange={ onSelectAllChange }
+							toggleSortOrder={ toggleSortOrder }
+							sortOrder={ sortOrder }
+						/>
+
+						<Table.Body>
+							<TableRows
+								sortedRedirects={ sortedRedirects }
+								selectedRedirects={ selectedRedirects }
+								onToggleSelect={ onToggleSelect }
+								handleDeleteModal={ handleDeleteModal }
+								selectedRedirect={ selectedRedirect }
+								handleEditClick={ handleEditClick }
+								setSelectedDeleteRedirect={ setSelectedDeleteRedirect }
+							/>
+						</Table.Body>
+					</Table>
+					<DeleteModal
+						isOpen={ showDeleteModal }
+						onClose={ handleDeleteModal }
+						onConfirm={ handleConfirmDelete }
+						isLoading={ isDeleteLoading }
+						redirectOrigin={ selectedDeleteRedirect.origin }
+						focusRef={ focusElementRef }
+					/>
+				</Form>
+			</Formik>
+		</>
 	);
 };

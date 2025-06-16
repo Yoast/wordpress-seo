@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import {  SidebarNavigation } from "@yoast/ui-library";
 import { useLocation } from "react-router-dom";
-import { Menu, Notifications } from "./components";
+import { Menu } from "./components";
 import { AppRoutes } from "./routes";
 
 /**
@@ -12,8 +12,6 @@ const App = () => {
 
 	return (
 		<>
-			<Notifications />
-
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
 					openButtonId="yst-button-open-redirects-navigation-mobile"

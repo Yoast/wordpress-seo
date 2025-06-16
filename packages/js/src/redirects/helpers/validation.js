@@ -1,25 +1,26 @@
 import { __ } from "@wordpress/i18n";
 import { object, string } from "yup";
 
-const RELATIVE_PATH_REGEXP = /^\/[A-Za-z0-9/_-]*$/;
-const ABSOLUTE_URL_REGEXP = /^(https?:\/\/)[^\s/$.?#].[^\s]*$/;
-
 /**
  * @returns {Object} Yup validation schema.
  */
 export const createValidationSchema = () => {
 	return object().shape( {
 		origin: string()
-			.required( __( "The Old URL field can't be empty", "wordpress-seo" ) )
-			.matches(
-				RELATIVE_PATH_REGEXP,
-				__( "Old URL must be a valid relative path starting with a slash.", "wordpress-seo" )
-			),
+			.required( __( "The Old URL field can't be empty", "wordpress-seo" ) ),
 		target: string()
-			.required( __( "The New URL field can't be empty", "wordpress-seo" ) )
-			.matches(
-				ABSOLUTE_URL_REGEXP,
-				__( "Please enter a valid absolute URL for new URL.", "wordpress-seo" )
-			),
+			.required( __( "The New URL field can't be empty", "wordpress-seo" ) ),
+	} );
+};
+
+/**
+ * @returns {Object} Yup validation schema.
+ */
+export const updateValidationSchema = () => {
+	return object().shape( {
+		newOrigin: string()
+			.required( __( "The Old URL field can't be empty", "wordpress-seo" ) ),
+		newTarget: string()
+			.required( __( "The New URL field can't be empty", "wordpress-seo" ) ),
 	} );
 };

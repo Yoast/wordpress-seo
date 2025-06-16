@@ -61,6 +61,22 @@ body.seo_page_wpseo_redirects {
 	}
 
 	.yst-root {
+		.yst-notifications {
+			max-height: calc(100% - 4rem - 32px); /* Extra 32px for the height of the WP admin bar. */
+
+			@media (max-width: 782px) {
+				max-height: calc(100% - 4rem - 48px); /* Extra 48px for the height of the mobile WP admin bar. */
+			}
+		}
+
+		.yst-notifications--bottom-left {
+			z-index: 9991; /* 1 above admin menu */
+
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+		
 		.yst-mobile-navigation__top {
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
@@ -87,11 +103,40 @@ body.seo_page_wpseo_redirects {
 		}
 
 		.yst-table-cell {
-			@apply yst-pt-4 yst-pb-4 yst-text-slate-500;
+			@apply yst-pt-5 yst-pb-5 yst-text-slate-500;
+			.yst-checkbox__label {
+				margin-inline-start: 1.5rem;
+			}
+			.yst-text-field > div:first-child {
+				display: none !important;
+			}
 		}
 
 		.yst-checkbox__label {
-			margin-inline-start: 0.5rem;
+			margin-inline-start: 1rem;
+		}
+
+		.yst-table-header:first-child {
+			padding-inline-start: 0.75rem;
+		}
+		.yst-table-cell:first-child {
+			padding-inline-start: 0.75rem;
+		}
+
+		.yst-dropdown-menu__item--button {
+			@apply yst-text-slate-600 hover:yst-text-slate-900 hover:yst-bg-slate-200 yst-justify-start yst-py-2 yst-px-3;
+		}
+
+		.yst-cell-edit-redirect {
+			td {
+				vertical-align: top;
+			}
+		}
+	}
+
+	.yst-search-block {
+		.yst-text-field__input {
+			@apply yst-pl-9;
 		}
 	}
 
