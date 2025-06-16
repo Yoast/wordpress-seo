@@ -280,6 +280,7 @@ export const App = ( { onUseAi } ) => {
 							requests={ usageCount }
 							isSkeleton={ false }
 							className={ "yst-absolute yst-top-[-11px] yst-end-12 sm:yst-end-16" }
+							mentionBetaInTooltip={ isPremium }
 						/>
 						<ModalContent height={ panelHeight } />
 					</>
