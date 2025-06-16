@@ -1,15 +1,25 @@
 /* eslint-disable camelcase */
-import { Table, Spinner } from "@yoast/ui-library";
+import { Spinner } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { useRedirectFilters } from "../hooks";
 import { useCallback, useState, useRef } from "@wordpress/element";
 import { FORMAT_PLAIN  } from "../constants";
 import { Form, Formik } from "formik";
-import { TableRows } from "./table-rows";
 import { handleEditSubmit, updateValidationSchema } from "../helpers";
 import { DeleteModal } from "./delete-modal";
-import { TableHeader } from "./table-header";
+import { TableRedirects } from "./table-redirects";
 
+/**
+ * ListRedirects — A component for displaying and managing a list of redirects.
+ *
+ * This component renders a table of sorted redirect entries. It supports:
+ * - Editing a redirect via a form inside a table row.
+ * - Selecting individual or all redirects.
+ * - Deleting single redirects with a confirmation modal.
+ * - Sorting the list by redirect type/order.
+ *
+ * @returns {JSX.Element} The rendered table of list redirects.
+*/
 export const ListRedirects = () => {
 	const {
 		sortedRedirects,
@@ -22,7 +32,7 @@ export const ListRedirects = () => {
 		setters: { toggleSelectRedirect, clearSelectedRedirects, setSelectedRedirects },
 	} = useRedirectFilters();
 
-	const redirectsLength = sortedRedirects.length;
+	const redirectsLength = sortedRedirects?.length;
 	const [ selectedRedirect, setSelectedRedirect ] = useState( {} );
 	const [ selectedDeleteRedirect, setSelectedDeleteRedirect ] = useState( {} );
 	const [ showDeleteModal, setShowDeleteModal ] = useState( false );
@@ -37,36 +47,6 @@ export const ListRedirects = () => {
 		redirectsLength > 1 ? "s" : ""
 	);
 
-	const allSelected =
-		redirectsLength > 0 &&
-		sortedRedirects.every( ( { id } ) => selectedRedirects.includes( id ) );
-
-	const onSelectAllChange = useCallback(
-		( event ) => {
-			if ( event.target.checked ) {
-				const allIds = sortedRedirects.map( ( { id } ) => id );
-				setSelectedRedirects( allIds );
-			} else {
-				clearSelectedRedirects();
-			}
-		},
-		[ sortedRedirects, setSelectedRedirects, clearSelectedRedirects ]
-	);
-
-	const onToggleSelect = useCallback(
-		( event ) => {
-			const id = event.target.getAttribute( "data-id" );
-			if ( id ) {
-				toggleSelectRedirect( id );
-			}
-		},
-		[ toggleSelectRedirect ]
-	);
-
-	const handleEditClick = useCallback( ( redirect ) => {
-		setSelectedRedirect( redirect );
-	}, [ setSelectedRedirect ] );
-
 	const onSubmit = useCallback( async( values, { resetForm } ) => {
 		const mappedValues = {
 			old_target: values.target,
@@ -79,9 +59,10 @@ export const ListRedirects = () => {
 		};
 
 		const result = await handleEditSubmit( mappedValues, { resetForm } );
-		if ( result ) {
-			setSelectedRedirect( {} );
+		if ( ! result ) {
+			return;
 		}
+		setSelectedRedirect( {} );
 	}, [] );
 
 	const handleDeleteModal = useCallback( () => {
@@ -103,7 +84,7 @@ export const ListRedirects = () => {
 
 	if ( isLoading ) {
 		return (
-			<div className="yst-flex yst-items-center yst-justify-center yst-mt-8">
+			<div className="yst-flex yst-items-center yst-justify-center yst-mt-4">
 				<Spinner size="8" />
 			</div>
 		);
@@ -111,7 +92,7 @@ export const ListRedirects = () => {
 
 	return (
 		<>
-			{ redirectsLength > 0 && <div className="yst-text-slate-500 yst-mt-8">{ label }</div> }
+			{ redirectsLength > 0 && <div className="yst-text-slate-500 yst-mt-4">{ label }</div> }
 			<Formik
 				initialValues={ {
 					target: selectedRedirect.target,
@@ -126,26 +107,19 @@ export const ListRedirects = () => {
 				validationSchema={ updateValidationSchema( {} ) }
 			>
 				<Form>
-					<Table className="yst-mt-4" variant="minimal">
-						<TableHeader
-							allSelected={ allSelected }
-							onSelectAllChange={ onSelectAllChange }
-							toggleSortOrder={ toggleSortOrder }
-							sortOrder={ sortOrder }
-						/>
-
-						<Table.Body>
-							<TableRows
-								sortedRedirects={ sortedRedirects }
-								selectedRedirects={ selectedRedirects }
-								onToggleSelect={ onToggleSelect }
-								handleDeleteModal={ handleDeleteModal }
-								selectedRedirect={ selectedRedirect }
-								handleEditClick={ handleEditClick }
-								setSelectedDeleteRedirect={ setSelectedDeleteRedirect }
-							/>
-						</Table.Body>
-					</Table>
+					<TableRedirects
+						selectedRedirect={ selectedRedirect }
+						setSelectedRedirect={ setSelectedRedirect }
+						handleDeleteModal={ handleDeleteModal }
+						setSelectedDeleteRedirect={ setSelectedDeleteRedirect }
+						sortOrder={ sortOrder }
+						toggleSortOrder={ toggleSortOrder }
+						selectedRedirects={ selectedRedirects }
+						toggleSelectRedirect={ toggleSelectRedirect }
+						clearSelectedRedirects={ clearSelectedRedirects }
+						setSelectedRedirects={ setSelectedRedirects }
+						sortedRedirects={ sortedRedirects }
+					/>
 					<DeleteModal
 						isOpen={ showDeleteModal }
 						onClose={ handleDeleteModal }

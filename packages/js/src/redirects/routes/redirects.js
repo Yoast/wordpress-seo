@@ -77,7 +77,7 @@ export const Redirects = () => {
 										as={ SelectField }
 										type="select"
 										name="type"
-										id="input-type"
+										id="yst-input-type"
 										label={ __( "Redirect Type", "wordpress-seo" ) }
 										options={ REDIRECT_TYPE_OPTIONS }
 										className="yst-max-w-sm"
@@ -91,19 +91,19 @@ export const Redirects = () => {
 									as={ TextField }
 									type="text"
 									name="origin"
-									id="input-origin"
+									id="yst-input-origin"
 									label={ __( "Old URL", "wordpress-seo" ) }
 								/>
 								<FormikWithErrorField
 									as={ TextField }
 									type="text"
 									name="target"
-									id="input-target"
+									id="yst-input-target"
 									label={ __( "New URL", "wordpress-seo" ) }
 								/>
 							</div>
 							<Button
-								id="button-submit-settings"
+								id="yst-button-submit-settings"
 								type="submit"
 								isLoading={ isSubmitting }
 								disabled={ isSubmitting }

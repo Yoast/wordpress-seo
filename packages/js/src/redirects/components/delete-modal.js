@@ -1,8 +1,19 @@
+/* eslint-disable react/prop-types */
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { Button, Modal } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 
-/* eslint-disable react/prop-types */
+/**
+  * DeleteModal — a confirmation modal for deleting a redirect.
+ *
+ * @param {boolean} isOpen - Determines if the modal is visible.
+ * @param {Function} onClose - Callback invoked when the modal is closed.
+ * @param {Function} onConfirm - Callback invoked when the user confirms the delete action.
+ * @param {boolean} isLoading - Indicates whether the delete action is in progress (shows a loading spinner).
+ * @param {string} redirectOrigin - The redirect origin to be deleted (displayed in the modal description).
+ * @param {React.RefObject} focusRef - A ref for the element to receive initial focus when the modal opens.
+ * @returns {JSX.Element} The rendered delete modal.
+ */
 export const DeleteModal = ( {
 	isOpen,
 	onClose,

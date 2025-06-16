@@ -50,8 +50,7 @@ export const handleEditSubmit = async( values, { resetForm } ) => {
 		resetForm();
 		return true;
 	} catch ( error ) {
-		const errMessage = error.message || error.message.message;
-
+		const errMessage = error.message.message || error.message;
 		addNotification( {
 			id: "submit-error",
 			variant: "error",

@@ -19,6 +19,7 @@ export const FilterControls = () => {
 	const ariaSvgProps = useSvgAria();
 
 	const {
+		isDeleteRedirectsLoading,
 		filters: { searchRedirects, filterRedirectType },
 		setters: { applyBulkAction, setFilterRedirectType, setSearchRedirects },
 	} = useRedirectFilters();
@@ -44,7 +45,7 @@ export const FilterControls = () => {
 	}, [ localBulkAction, applyBulkAction ] );
 
 	return (
-		<div className="yst-flex yst-gap-8 yst-items-start xl:yst-items-end yst-flex-col xl:yst-flex-row">
+		<div className="yst-flex yst-gap-8 yst-items-start xl:yst-items-end yst-flex-col xl:yst-flex-row yst-pb-4">
 			<div className="yst-relative yst-w-full xl:yst-max-w-[256px] yst-search-block">
 				<SearchIcon
 					className="yst-pointer-events-none yst-absolute yst-mt-5 yst-start-3 yst-h-4 yst-w-4 yst-text-slate-400 yst-z-10"
@@ -81,13 +82,14 @@ export const FilterControls = () => {
 						onChange={ handleBulkActionsChange }
 						className="yst-w-full xl:yst-min-w-[256px]"
 					/>
-					<button
-						type="button"
-						className="yst-button yst-button--secondary yst-min-h-[40px]"
+					<Button
+						variant="secondary"
+						size="large"
 						onClick={ handleApplyBulkAction }
+						isLoading={ isDeleteRedirectsLoading }
 					>
 						{ __( "Apply", "wordpress-seo" ) }
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>

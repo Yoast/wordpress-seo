@@ -50,7 +50,7 @@ export function* fetchRedirects() {
 }
 
 /**
- * Delete redirect
+ * Add redirect
  *
  * @param {Object} values Values for create redirect.
  * @returns {Generator<Object, Object, *>} Redux generator action object.
@@ -69,9 +69,9 @@ export function* addRedirectAsync( values ) {
 }
 
 /**
- * Delete redirect
+ * Edit redirect
  *
- * @param {Object} values Values for create redirect.
+ * @param {Object} values Values for update redirect.
  * @returns {Generator<Object, Object, *>} Redux generator action object.
  */
 export function* editRedirectAsync( values ) {

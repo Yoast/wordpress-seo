@@ -6,20 +6,37 @@ import { ASC, DESC } from "../constants";
 import { __ } from "@wordpress/i18n";
 
 /**
- * Custom hook to manage redirect filters state and setters.
+ * useRedirectFilters — Custom React hook to manage and apply filters, sorting, and bulk actions for redirects.
+ *
+ * This hook handles:
+ * - Fetching and filtering redirects by type and search terms.
+ * - Sorting filtered redirects.
+ * - Managing selected redirects for bulk actions.
+ * - Handling deletion of single or multiple redirects.
+ * - Managing UI state like loading indicators.
  *
  * @returns {{
+*   sortedRedirects: Array<Object>, // Sorted and filtered list of redirects
+*   selectedRedirects: Array<string>, // Array of selected redirect IDs
+*   toggleSortOrder: () => void, // Function to toggle between ascending and descending sort order
+*   sortOrder: string, // Current sort order, either 'asc' or 'desc'
+*   onDelete: (id: string) => Promise<void>, // Function to delete a single redirect
+*   status: string, // Status of the redirect fetch operation
+*   isDeleteRedirectsLoading: boolean, // Whether a bulk delete operation is in progress
 *   filters: {
-*     bulkAction,
-*     filterRedirectType,
-*     searchRedirects,
+*     bulkAction: string, // Current selected bulk action
+*     filterRedirectType: string|null, // Current redirect type filter
+*     searchRedirects: string, // Current search string
 *   },
 *   setters: {
-*     setBulkAction: (value) => void,
-*     setFilterRedirectType: (value) => void,
-*     setSearchRedirects: (value) => void,
+*     applyBulkAction: (action: string) => Promise<void>, // Applies the selected bulk action (e.g., delete)
+*     setFilterRedirectType: (type: string|null) => void, // Sets the redirect type filter
+*     setSearchRedirects: (search: string) => void, // Sets the search term
+*     setSelectedRedirects: (ids: Array<string>) => void, // Sets the selected redirect IDs
+*     clearSelectedRedirects: () => void, // Clears the selected redirects
+*     toggleSelectRedirect: (id: string) => void, // Toggles selection for a specific redirect
 *   }
-* }} Redirect filter values and update functions.
+* }}
 */
 const useRedirectFilters = () => {
 	const {

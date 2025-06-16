@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Table, Checkbox, DropdownMenu, SelectField, TextField, Button } from "@yoast/ui-library";
 import {  useFormikContext } from "formik";
 import FormikWithErrorField from "../../shared-admin/components/form/formik-with-error-field";
@@ -7,6 +6,24 @@ import { __ } from "@wordpress/i18n";
 import { REDIRECT_TYPE_SHORTS_OPTIONS } from "../constants";
 import { useCallback } from "@wordpress/element";
 
+/**
+ * TableRows — renders each row of the redirects table, including editable rows.
+ *
+ * This component displays a list of redirect entries with the ability to:
+ * - Select individual redirects via checkboxes
+ * - Edit a redirect inline using Formik fields
+ * - Trigger a dropdown menu for "Edit" and "Delete" actions
+ *
+ * @param {Array<Object>} sortedRedirects - List of redirect entries to display.
+ * @param {Array<string>} selectedRedirects - Array of selected redirect IDs.
+ * @param {Function} onToggleSelect - Handler for checkbox selection toggle.
+ * @param {Function} handleDeleteModal - Function to toggle the delete confirmation modal.
+ * @param {Object} selectedRedirect - Redirect currently being edited.
+ * @param {Function} handleEditClick - Handler to activate edit mode or cancel edit.
+ * @param {Function} setSelectedDeleteRedirect - Sets the redirect to delete (used in modal).
+ *
+ * @returns {JSX.Element} Table rows for each redirect, including editable and action-enabled rows.
+*/
 export const TableRows =   (
 	{
 		sortedRedirects,
@@ -31,17 +48,6 @@ export const TableRows =   (
 		setSelectedDeleteRedirect( values );
 		handleDeleteModal();
 	}, [ handleDeleteModal, setSelectedDeleteRedirect ] );
-
-
-	if ( sortedRedirects?.length === 0 ) {
-		return (
-			<Table.Row>
-				<Table.Cell />
-				<Table.Cell>{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
-				<Table.Cell />
-			</Table.Row>
-		);
-	}
 
 	return sortedRedirects?.map( ( { id, type, target, origin } ) => {
 		const isEditing = selectedRedirect.origin === origin;
@@ -97,7 +103,7 @@ export const TableRows =   (
 									variant="secondary"
 									onClick={ handleEditClick }
 								>
-									Cancel
+									{ __( "Cancel", "wordpress-seo" ) }
 								</Button>
 							</div>
 						</div>

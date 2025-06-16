@@ -1,6 +1,6 @@
-import { ChildrenLimiter, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
+import { useSvgAria } from "@yoast/ui-library";
 import { useSelectRedirects } from "../hooks";
-import { CodeIcon, CogIcon } from "@heroicons/react/outline";
+import { CodeIcon, CogIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";

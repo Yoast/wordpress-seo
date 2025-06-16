@@ -31,7 +31,6 @@ domReady( () => {
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-
 	render(
 		<Root context={ { isRtl } }>
 			<StyleSheetManager target={ shadowRoot }>
