@@ -47,7 +47,7 @@ export const removesLocaleVariantSuffixes = ( locale ) => {
  */
 export const fetchSuggestions = async( { endpoint, data } ) => {
 	let timerId;
-	const TIMEOUT_IN_MS = get( window, "wpseoPremiumAiGenerator.requestTimeout", 30 ) * 1000;
+	const TIMEOUT_IN_MS = get( window, "wpseoAiGenerator.requestTimeout", 30 ) * 1000;
 
 	try {
 		if ( abortController ) {
