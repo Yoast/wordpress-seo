@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
-import { BULK_ACTIONS_OPTIONS, REDIRECT_TYPE_OPTIONS } from "../constants";
+import { BULK_ACTIONS_OPTIONS, FORMAT_PLAIN, REDIRECT_TYPE_OPTIONS } from "../constants";
 import { useRedirectFilters } from "../hooks";
 
 /**
@@ -13,16 +14,18 @@ import { useRedirectFilters } from "../hooks";
  * - Apply bulk actions to selected redirects.
  * - Filter redirects by their redirect type (e.g., 301, 302).
  * - Search for redirects using a keyword input.
+ * @param {string} format - The format of the redirects being managed. Can be "plain" or "regex".
+ *
  * @returns {JSX.Element} The rendered filter controls section.
  */
-export const FilterControls = () => {
+export const FilterControls = ( { format = FORMAT_PLAIN } ) => {
 	const ariaSvgProps = useSvgAria();
 
 	const {
 		isDeleteRedirectsLoading,
 		filters: { searchRedirects, filterRedirectType },
 		setters: { applyBulkAction, setFilterRedirectType, setSearchRedirects },
-	} = useRedirectFilters();
+	} = useRedirectFilters( format );
 	const [ localBulkAction, setLocalBulkAction ] = useState( "" );
 
 	const handleBulkActionsChange = useCallback(

@@ -26,15 +26,16 @@ const prepareRedirect = ( redirect ) => ( {
 
 /**
  * Get all redirects.
+ * @param {string} format - The format of the redirects being managed. Can be "plain" or "regex".
  *
  * @returns {Generator<Object, Object, *>} Redux generator action object.
  */
-export function* fetchRedirects() {
+export function* fetchRedirects( format ) {
 	yield{ type: `${FETCH_REDIRECTS_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}` };
 	try {
 		const response = yield{
 			type: FETCH_REDIRECTS_ACTION_NAME,
-			payload: {},
+			payload: format,
 		};
 
 		yield{
@@ -60,7 +61,7 @@ export function* addRedirectAsync( values ) {
 		type: ADD_REDIRECT_ACTION_NAME,
 		payload: values,
 	};
-	yield* fetchRedirects();
+	yield* fetchRedirects( values.format );
 
 	return {
 		type: `${ADD_REDIRECT_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`,
@@ -79,7 +80,7 @@ export function* editRedirectAsync( values ) {
 		type: EDIT_REDIRECT_ACTION_NAME,
 		payload: values,
 	};
-	yield* fetchRedirects();
+	yield* fetchRedirects( values.format );
 
 	return {
 		type: `${EDIT_REDIRECT_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`,
@@ -104,9 +105,10 @@ export function* deleteRedirectAsync( values ) {
  * Delete multiple redirects
  *
  * @param {Array} ids - Redirect IDs to delete.
+ * @param {string} format - The format of the redirects being managed. Can be "plain" or "regex".
  * @returns {Generator<Object, Object, *>} Redux generator action object.
  */
-export function* deleteMultipleRedirectsAsync( ids ) {
+export function* deleteMultipleRedirectsAsync( ids, format ) {
 	yield{
 		type: `${DELETE_REDIRECT_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}`,
 	};
@@ -118,8 +120,7 @@ export function* deleteMultipleRedirectsAsync( ids ) {
 				payload: { origin: id },
 			};
 		}
-
-		yield* fetchRedirects();
+		yield* fetchRedirects( format );
 
 		yield{
 			type: `${DELETE_REDIRECT_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`,
@@ -185,12 +186,11 @@ redirectsSelectors.selectRedirectsWithType = createSelector(
 
 // Controls
 export const redirectsControls = {
-	[ FETCH_REDIRECTS_ACTION_NAME ]: async() => {
+	[ FETCH_REDIRECTS_ACTION_NAME ]: async( { payload } ) => {
 		abortController?.abort();
 		abortController = new AbortController();
-
 		const response = await apiFetch( {
-			path: "/yoast/v1/redirects/list?format=plain",
+			path: `/yoast/v1/redirects/list?format=${payload}`,
 			signal: abortController.signal,
 		} );
 		return Object.values( response.redirects ).map( ( redirect ) => ( {

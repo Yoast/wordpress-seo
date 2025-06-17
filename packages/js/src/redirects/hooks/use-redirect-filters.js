@@ -21,7 +21,7 @@ import { __ } from "@wordpress/i18n";
 *   toggleSortOrder: () => void, // Function to toggle between ascending and descending sort order
 *   sortOrder: string, // Current sort order, either 'asc' or 'desc'
 *   onDelete: (id: string) => Promise<void>, // Function to delete a single redirect
-*   status: string, // Status of the redirect fetch operation
+*   isLoading: boolean, // Loading for get redirects
 *   isDeleteRedirectsLoading: boolean, // Whether a bulk delete operation is in progress
 *   filters: {
 *     bulkAction: string, // Current selected bulk action
@@ -38,7 +38,7 @@ import { __ } from "@wordpress/i18n";
 *   }
 * }}
 */
-const useRedirectFilters = () => {
+const useRedirectFilters = ( format ) => {
 	const {
 		setBulkAction,
 		setFilterRedirectType,
@@ -57,10 +57,12 @@ const useRedirectFilters = () => {
 	const searchRedirects = useSelectRedirects( "selectSearchRedirects" );
 	const selectedRedirects = useSelectRedirects( "selectSelectedRedirects" );
 	const status = useSelectRedirects( "selectRedirectsStatus" );
-	const allRedirects =	useGetRedirects();
+	const allRedirects = useGetRedirects( format );
 	const [ isDeleteRedirectsLoading, setIsDeleteRedirectsLoading ] = useState( false );
-
 	const [ sortOrder, setSortOrder ] = useState( ASC );
+
+	const isLoading = status !== "success" || isDeleteRedirectsLoading;
+
 	const filteredRedirects = useMemo( () => {
 		return allRedirects.filter( ( r ) => {
 			const matchesType = filterRedirectType ? r.type === filterRedirectType : true;
@@ -93,7 +95,7 @@ const useRedirectFilters = () => {
 		if ( localBulkAction === "delete" && selectedRedirects.length ) {
 			try {
 				setIsDeleteRedirectsLoading( true );
-				await deleteMultipleRedirectsAsync( selectedRedirects );
+				await deleteMultipleRedirectsAsync( selectedRedirects, format );
 				clearSelectedRedirects();
 			} catch ( error ) {
 				addNotification( {
@@ -105,13 +107,13 @@ const useRedirectFilters = () => {
 				setIsDeleteRedirectsLoading( false );
 			}
 		}
-	}, [ selectedRedirects, deleteRedirectAsync, clearSelectedRedirects, fetchRedirects, setBulkAction ] );
+	}, [ selectedRedirects, deleteRedirectAsync, clearSelectedRedirects, setBulkAction ] );
 
 	const onDelete = useCallback(
 		async( id ) => {
 			try {
 				await deleteRedirectAsync( { origin: id } );
-				await fetchRedirects();
+				await fetchRedirects( format );
 				addNotification( {
 					variant: "success",
 					title: __( "Successfully deleted!", "wordpress-seo" ),
@@ -134,7 +136,7 @@ const useRedirectFilters = () => {
 		toggleSortOrder,
 		sortOrder,
 		onDelete,
-		status,
+		isLoading,
 		isDeleteRedirectsLoading,
 		filters: {
 			bulkAction,

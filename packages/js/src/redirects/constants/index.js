@@ -41,6 +41,7 @@ export const ROUTES = {
 export const ASC = "asc";
 export const DESC = "desc";
 export const FORMAT_PLAIN = "plain";
+export const FORMAT_REGEX = "regex";
 
 
 export const initialValues = {
@@ -48,4 +49,9 @@ export const initialValues = {
 	origin: "",
 	target: "",
 	format: FORMAT_PLAIN,
+};
+
+export const initialRegexValues = {
+	...initialValues,
+	format: FORMAT_REGEX,
 };

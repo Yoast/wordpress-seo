@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { Spinner } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
@@ -18,26 +19,26 @@ import { TableRedirects } from "./table-redirects";
  * - Deleting single redirects with a confirmation modal.
  * - Sorting the list by redirect type/order.
  *
+ * @param {string} format - The format of the redirects being managed. Can be "plain" or "regex".
+ *
  * @returns {JSX.Element} The rendered table of list redirects.
 */
-export const ListRedirects = () => {
+export const ListRedirects = ( { format = FORMAT_PLAIN } ) => {
 	const {
 		sortedRedirects,
 		sortOrder,
 		toggleSortOrder,
 		onDelete,
 		selectedRedirects,
-		status,
-		isDeleteRedirectsLoading,
+		isLoading,
 		setters: { toggleSelectRedirect, clearSelectedRedirects, setSelectedRedirects },
-	} = useRedirectFilters();
+	} = useRedirectFilters( format );
 
 	const redirectsLength = sortedRedirects?.length;
 	const [ selectedRedirect, setSelectedRedirect ] = useState( {} );
 	const [ selectedDeleteRedirect, setSelectedDeleteRedirect ] = useState( {} );
 	const [ showDeleteModal, setShowDeleteModal ] = useState( false );
 	const [ isDeleteLoading, setIsDeleteLoading ] = useState( false );
-	const isLoading = status !== "success" || isDeleteRedirectsLoading;
 
 	const focusElementRef = useRef( null );
 	const label = sprintf(
@@ -92,7 +93,7 @@ export const ListRedirects = () => {
 
 	return (
 		<>
-			{ redirectsLength > 0 && <div className="yst-text-slate-500 yst-mt-4">{ label }</div> }
+			{ redirectsLength > 0 && <div className="yst-text-slate-500 yst-mt-4 yst-py-2 yst-px-2">{ label }</div> }
 			<Formik
 				initialValues={ {
 					target: selectedRedirect.target,
@@ -101,7 +102,7 @@ export const ListRedirects = () => {
 					newTarget: selectedRedirect.target,
 					newType: selectedRedirect.type,
 					newOrigin: selectedRedirect.origin,
-					format: FORMAT_PLAIN } }
+					format } }
 				onSubmit={ onSubmit }
 				enableReinitialize={ true }
 				validationSchema={ updateValidationSchema( {} ) }
