@@ -50,6 +50,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			\YoastSEO()->helpers->options,
 			\YoastSEO()->helpers->indexable,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
+			\YoastSEO()->meta
 		);
 
 		$this->indexable_post_watcher = \YoastSEO()->classes->get( Indexable_Post_Watcher::class );
@@ -116,7 +117,7 @@ final class Content_Types_Collector_Test extends TestCase {
 
 		$post_titles = [];
 		foreach ( $results as $post ) {
-			$post_titles[] = $post->post_title;
+			$post_titles[] = $post->get_title();
 		}
 
 		// Assert the post titles match the expected titles.
