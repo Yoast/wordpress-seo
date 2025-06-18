@@ -234,6 +234,10 @@ export const App = ( { onUseAi } ) => {
 		setDisplay( DISPLAY.generate );
 	}, [ onUseAi, isPremium, isFreeSparksActive, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
 
+	const onStartGenerating = useCallback( () => {
+		setDisplay( DISPLAY.generate );
+	}, [ setDisplay ] );
+
 	return (
 		<>
 			<button
@@ -254,7 +258,7 @@ export const App = ( { onUseAi } ) => {
 				isOpen={ [ DISPLAY.askConsent, DISPLAY.upsell ].includes( display ) }
 			>
 				{ display === DISPLAY.askConsent && (
-					<Introduction setDisplay={ setDisplay } />
+					<Introduction onStartGenerating={ onStartGenerating } />
 				) }
 				{ display === DISPLAY.upsell && (
 					<UpsellModalContent setDisplay={ setDisplay } />
