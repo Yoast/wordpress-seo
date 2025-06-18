@@ -274,6 +274,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.3.1 =
+
+Release date: 2025-06-18
+
+
+
 = 25.3 =
 
 Release date: 2025-06-10
