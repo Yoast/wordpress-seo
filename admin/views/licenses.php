@@ -225,7 +225,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 		<hr class="yoast-hr" aria-hidden="true"/>
 
 		<section class="yoast-promo-extensions">
-			<?php if ( count($extensions) >= 1 ) : ?>
+			<?php if ( count( $extensions ) >= 1 ) : ?>
 			<h2>
 				<?php
 				printf(
