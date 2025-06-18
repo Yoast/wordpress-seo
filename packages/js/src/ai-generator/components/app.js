@@ -155,6 +155,8 @@ export const App = ( { onUseAi } ) => {
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
+	const buttonId = `yst-replacevar__use-ai-button__${ editType }__${ location }`;
+	const [ loadingButtonId, setLoadingButtonId ] = useState( null );
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
@@ -196,7 +198,10 @@ export const App = ( { onUseAi } ) => {
 		return true;
 	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isPremium, isWooSeoActive && isWooCommerceActive && isProductEntity ] );
 
-	const handleUseAi = useCallback( async() => {
+	const handleUseAi = useCallback( async( event ) => {
+		if ( event.target.id === buttonId ) {
+			setLoadingButtonId( buttonId );
+		}
 		onUseAi();
 
 		if ( ! isPremium && ! isFreeSparksActive ) {
@@ -238,12 +243,12 @@ export const App = ( { onUseAi } ) => {
 		<>
 			<button
 				type="button"
-				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
+				id={ buttonId }
 				className="yst-replacevar__use-ai-button"
 				onClick={ handleUseAi }
 				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
 			>
-				{ usageCountStatus === ASYNC_ACTION_STATUS.loading && (
+				{ loadingButtonId === buttonId && usageCountStatus === ASYNC_ACTION_STATUS.loading  && (
 					<Spinner className="yst-me-2" />
 				) }
 				{ __( "Use AI", "wordpress-seo" ) }
