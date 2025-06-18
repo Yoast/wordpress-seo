@@ -278,7 +278,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-06-18
 
-
+This is a maintenance release which is required to align with changes to Yoast SEO Premium 25.3.1.
 
 = 25.3 =
 
