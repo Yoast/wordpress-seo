@@ -299,6 +299,12 @@ Release date: 2025-06-24
 * Improves the translatability of the feedback strings for the _text length_ assessment.
 * Introduces the `wpseo_llmstxt_filesystem_path` filter that allows editing the file path of the llmst.txt file, to help users in servers with filesystem restrictions.
 
+= 25.3.1 =
+
+Release date: 2025-06-18
+
+This is a maintenance release which is required to align with changes to Yoast SEO Premium 25.3.1.
+
 = 25.3 =
 
 Release date: 2025-06-10
