@@ -52,7 +52,7 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 
 // The total number of plugins to consider is the length of the array + 1 for Premium.
 // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$number_plugins_total = ( count( $extensions ) + 1 );
+$number_plugins_total = count( $extensions );
 // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $number_plugins_active          = 0;
 $addon_manager                  = new WPSEO_Addon_Manager();
@@ -225,6 +225,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 		<hr class="yoast-hr" aria-hidden="true"/>
 
 		<section class="yoast-promo-extensions">
+			<?php if ( count($extensions) >= 1 ) : ?>
 			<h2>
 				<?php
 				printf(
@@ -236,7 +237,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				);
 				?>
 			</h2>
-
+			<?php endif; ?>
 			<?php
 			foreach ( $extensions as $slug => $extension ) :
 
