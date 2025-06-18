@@ -238,6 +238,10 @@ export const App = ( { onUseAi } ) => {
 		setDisplay( DISPLAY.generate );
 	}, [ setDisplay ] );
 
+	const onActivateFreeSparks = useCallback( () => {
+		setDisplay( DISPLAY.askConsent );
+	}, [ setDisplay ] );
+
 	return (
 		<>
 			<button
@@ -261,7 +265,7 @@ export const App = ( { onUseAi } ) => {
 					<Introduction onStartGenerating={ onStartGenerating } />
 				) }
 				{ display === DISPLAY.upsell && (
-					<UpsellModalContent setDisplay={ setDisplay } />
+					<UpsellModalContent onActivateFreeSparks={ onActivateFreeSparks } />
 				) }
 			</IntroductionModal>
 

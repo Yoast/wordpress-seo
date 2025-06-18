@@ -10,14 +10,13 @@ import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import { OutboundLink, VideoFlow } from "../../shared-admin/components";
 import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
-import { DISPLAY } from "./app";
 
 /**
- * @param {Function} setDisplay The function to set the display state..
+ * @param {Function} onActivateFreeSparks The function to set the display state to show ai consent.
  *
  * @returns {JSX.Element} The element.
  */
-export const UpsellModalContent = ( { setDisplay } ) => {
+export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 	const {
 		premiumUpsellLink,
 		bundleUpsellLink,
@@ -77,7 +76,7 @@ export const UpsellModalContent = ( { setDisplay } ) => {
 
 	const handleStartTrial = useCallback( () => {
 		activateFreeSparks( { endpoint: activateFreeSparksEndpoint } );
-		setDisplay( DISPLAY.askConsent );
+		onActivateFreeSparks();
 	}, [ activateFreeSparks, activateFreeSparksEndpoint, onClose ] );
 
 	const learnMoreLinkStructure = {
