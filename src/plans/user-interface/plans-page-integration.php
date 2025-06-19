@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\General\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -40,13 +41,6 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $current_page_helper;
 
 	/**
-	 * Holds the Product_Helper.
-	 *
-	 * @var Product_Helper
-	 */
-	private $product_helper;
-
-	/**
 	 * Holds the Short_Link_Helper.
 	 *
 	 * @var Short_Link_Helper
@@ -54,23 +48,39 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $short_link_helper;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
+	 * Holds the Product_Helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
+	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Current_Page_Helper $current_page_helper,
-		Product_Helper $product_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		WPSEO_Addon_Manager $addon_manager,
+		Product_Helper $product_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->current_page_helper = $current_page_helper;
-		$this->product_helper      = $product_helper;
 		$this->short_link_helper   = $short_link_helper;
+		$this->addon_manager       = $addon_manager;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -149,23 +159,33 @@ class Plans_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data(): array {
 		return [
-			'preferences' => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => \is_rtl(),
-				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'upsellSettings' => [
-					'premium' => [
-						'actionId' => 'load-nfd-ctb',
-						'ctbId'    => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
+			'addOns'      => [
+				'premium' => [
+					'id'           => 'premium',
+					'slug'         => WPSEO_Addon_Manager::PREMIUM_SLUG,
+					'name'         => 'Yoast SEO Premium',
+					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::PREMIUM_SLUG ),
+					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
+					'upsellConfig' => [
+						'action' => 'load-nfd-ctb',
+						'ctbId'  => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 					],
-					'woo'     => [
-						'actionId' => 'load-nfd-woo-ctb',
-						'ctbId'    => '5b32250e-e6f0-44ae-ad74-3cefc8e427f9',
+				],
+				'woo'     => [
+					'id'           => 'woo',
+					'name'         => 'Yoast WooCommerce SEO',
+					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
+					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
+					'upsellConfig' => [
+						'action' => 'load-nfd-woo-ctb',
+						'ctbId'  => '5b32250e-e6f0-44ae-ad74-3cefc8e427f9',
 					],
 				],
 			],
-			'adminUrl'    => \admin_url( 'admin.php' ),
 			'linkParams'  => $this->short_link_helper->get_query_params(),
+			'preferences' => [
+				'isRtl' => \is_rtl(),
+			],
 		];
 	}
 

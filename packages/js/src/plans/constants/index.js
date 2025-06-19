@@ -3,7 +3,7 @@
  */
 export const STORE_NAME = "@yoast/plans";
 
-export const PLUGINS = {
+export const ADD_ONS = {
 	premium: "premium",
 	woo: "woo",
 };
