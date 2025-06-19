@@ -70,7 +70,7 @@ body.seo_page_wpseo_redirects {
 		}
 
 		.yst-notifications--bottom-left {
-			z-index: 9991; /* 1 above admin menu */
+			@apply yst-z-50; /* 1 above admin menu */
 
 			@media (min-width: 783px) {
 				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
@@ -121,9 +121,9 @@ body.seo_page_wpseo_redirects {
 		}
 
 		.yst-table-cell {
-			@apply yst-pt-5 yst-pb-5 yst-text-slate-500;
+			@apply yst-py-5 yst-text-slate-500;
 			.yst-checkbox__label {
-				margin-inline-start: 1.5rem;
+				@apply yst-ms-9;
 			}
 			.yst-text-field > div:first-child {
 				display: none !important;
@@ -131,14 +131,14 @@ body.seo_page_wpseo_redirects {
 		}
 
 		.yst-checkbox__label {
-			margin-inline-start: 1rem;
+			@apply yst-ms-6;
 		}
 
 		.yst-table-header:first-child {
-			padding-inline-start: 0.75rem;
+			@apply yst-ps-3;;
 		}
 		.yst-table-cell:first-child {
-			padding-inline-start: 0.75rem;
+			@apply yst-ps-3;;
 		}
 
 		.yst-dropdown-menu__item--button {
@@ -147,14 +147,14 @@ body.seo_page_wpseo_redirects {
 
 		.yst-cell-edit-redirect {
 			td {
-				vertical-align: top;
+				@apply yst-align-top;
 			}
 		}
 	}
 
 	.yst-search-block {
 		.yst-text-field__input {
-			@apply yst-pl-9;
+			@apply yst-ps-9;
 		}
 	}
 

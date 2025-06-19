@@ -9,9 +9,13 @@ import { useDispatchRedirects, useSelectRedirects, useValidationErrorsNotificati
 import { flattenObject } from "../utils";
 
 /**
+ * Displays a notification containing validation errors.
  *
- * @param {string} id The id.
- * @returns {JSX.Element} The validation errors notification.
+ * @param {string} id                       The unique ID of the notification.
+ * @param {Function} [onDismiss]            Optional callback for when the notification is dismissed.
+ * @param {Record<string, unknown>} [props] Any additional props to spread to the Notification component.
+ *
+ * @returns {JSX.Element}                         The rendered validation error notification.
  */
 const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 	const { errors } = useFormikContext();
