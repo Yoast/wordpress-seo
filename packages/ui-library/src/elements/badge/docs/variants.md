@@ -9,4 +9,8 @@ The upsell badge is used to show premium users which features are part of their 
 3. **Plain**<br>
 The plain badge is used to represent a variable, such as in the SEO title or meta description field.
 
+4. **Success**<br>
+
+5. **Error**<br>
+
 _**Note:** It is important to use badges sparingly and only when necessary to provide meaningful information to the user. Overuse of badges can lead to clutter and confusion._
