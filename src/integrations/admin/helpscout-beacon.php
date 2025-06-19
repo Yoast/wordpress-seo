@@ -8,6 +8,7 @@ use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -74,6 +75,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		'wpseo_search_console',
 		'wpseo_tools',
 		'wpseo_licenses',
+		Plans_Page_Integration::PAGE,
 		'wpseo_workouts',
 		'wpseo_integrations',
 	];

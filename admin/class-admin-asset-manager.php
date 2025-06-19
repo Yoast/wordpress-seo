@@ -705,6 +705,11 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'inside-editor',
 				'src'  => 'inside-editor-' . $flat_version,
 			],
+			[
+				'name' => 'plans',
+				'src'  => 'plans-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
 		];
 	}
 
