@@ -14,7 +14,7 @@ import { useCallback } from "@wordpress/element";
  * - Edit a redirect inline using Formik fields
  * - Trigger a dropdown menu for "Edit" and "Delete" actions
  *
- * @param {Array<Object>} sortedRedirects - List of redirect entries to display.
+ * @param {Array<Object>} redirects - List of redirect entries to display.
  * @param {Array<string>} selectedRedirects - Array of selected redirect IDs.
  * @param {Function} onToggleSelect - Handler for checkbox selection toggle.
  * @param {Function} handleDeleteModal - Function to toggle the delete confirmation modal.
@@ -26,7 +26,7 @@ import { useCallback } from "@wordpress/element";
 */
 export const TableRows =   (
 	{
-		sortedRedirects,
+		redirects,
 		selectedRedirects,
 		onToggleSelect,
 		handleDeleteModal,
@@ -49,7 +49,7 @@ export const TableRows =   (
 		handleDeleteModal();
 	}, [ handleDeleteModal, setSelectedDeleteRedirect ] );
 
-	return sortedRedirects?.map( ( { id, type, target, origin } ) => {
+	return redirects?.map( ( { id, type, target, origin } ) => {
 		const isEditing = selectedRedirect.origin === origin;
 
 		if ( isEditing ) {

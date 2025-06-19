@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import { Spinner } from "@yoast/ui-library";
+import { Pagination, Spinner } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { useRedirectFilters } from "../hooks";
+import { usePagination, useRedirectFilters } from "../hooks";
 import { useCallback, useState, useRef } from "@wordpress/element";
-import { FORMAT_PLAIN  } from "../constants";
+import { FORMAT_PLAIN, ITEMS_PER_PAGE  } from "../constants";
 import { Form, Formik } from "formik";
 import { handleEditSubmit, updateValidationSchema } from "../helpers";
 import { DeleteModal } from "./delete-modal";
@@ -33,6 +33,13 @@ export const ListRedirects = ( { format = FORMAT_PLAIN } ) => {
 		isLoading,
 		setters: { toggleSelectRedirect, clearSelectedRedirects, setSelectedRedirects },
 	} = useRedirectFilters( format );
+
+	const {
+		currentPage,
+		totalPages,
+		visibleItems: visibleRedirects,
+		setCurrentPage,
+	} = usePagination( sortedRedirects, ITEMS_PER_PAGE );
 
 	const redirectsLength = sortedRedirects?.length;
 	const [ selectedRedirect, setSelectedRedirect ] = useState( {} );
@@ -83,6 +90,39 @@ export const ListRedirects = ( { format = FORMAT_PLAIN } ) => {
 		}
 	}, [ selectedDeleteRedirect, onDelete ] );
 
+	const renderPagination = () => {
+		if ( sortedRedirects.length <= ITEMS_PER_PAGE ) {
+			return null;
+		}
+
+		const from = ( currentPage - 1 ) * ITEMS_PER_PAGE + 1;
+		const to = Math.min( currentPage * ITEMS_PER_PAGE, sortedRedirects.length );
+
+		return (
+			<div className="yst-flex yst-justify-end yst-mt-8">
+				<div className="yst-flex yst-items-center yst-gap-6">
+					<span className="yst-text-gray-600">
+						{ sprintf(
+							/* translators: 1: From item, 2: To item, 3: Total count */
+							__( "Showing %1$d to %2$d of %3$d results", "wordpress-seo" ),
+							from,
+							to,
+							sortedRedirects.length
+						) }
+					</span>
+
+					<Pagination
+						current={ currentPage }
+						onNavigate={ setCurrentPage }
+						screenReaderTextNext={ __( "Next", "wordpress-seo" ) }
+						screenReaderTextPrevious={ __( "Previous", "wordpress-seo" ) }
+						total={ totalPages }
+					/>
+				</div>
+			</div>
+		);
+	};
+
 	if ( isLoading ) {
 		return (
 			<div className="yst-flex yst-items-center yst-justify-center yst-mt-4">
@@ -119,8 +159,9 @@ export const ListRedirects = ( { format = FORMAT_PLAIN } ) => {
 						toggleSelectRedirect={ toggleSelectRedirect }
 						clearSelectedRedirects={ clearSelectedRedirects }
 						setSelectedRedirects={ setSelectedRedirects }
-						sortedRedirects={ sortedRedirects }
+						redirects={ visibleRedirects }
 					/>
+					{ renderPagination() }
 					<DeleteModal
 						isOpen={ showDeleteModal }
 						onClose={ handleDeleteModal }

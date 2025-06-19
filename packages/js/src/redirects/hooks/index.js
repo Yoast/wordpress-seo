@@ -3,3 +3,4 @@ export { default as useDispatchRedirects } from "./use-dispatch-redirects";
 export { default as useRedirectFilters } from "./use-redirect-filters";
 export { default as useValidationErrorsNotification } from "./use-validation-error-notification";
 export { default as useGetRedirectsSettings } from "./use-get-redirects-settings";
+export { default as usePagination } from "./use-pagination";

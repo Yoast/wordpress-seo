@@ -54,3 +54,5 @@ export const initialRegexValues = {
 	...initialValues,
 	format: FORMAT_REGEX,
 };
+
+export const ITEMS_PER_PAGE = 10;

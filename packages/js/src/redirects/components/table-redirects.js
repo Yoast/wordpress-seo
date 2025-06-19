@@ -18,7 +18,7 @@ import { __ } from "@wordpress/i18n";
  * @param {Function} setSelectedRedirect - Function to set the redirect being edited.
  * @param {Function} handleDeleteModal - Function to toggle the delete confirmation modal.
  * @param {Function} setSelectedDeleteRedirect - Function to set the redirect to be deleted.
- * @param {Array<Object>} sortedRedirects - List of redirects sorted by type/order.
+ * @param {Array<Object>} redirects - List of redirects sorted by type/order.
  * @param {string} sortOrder - Current sort order ("asc" or "desc").
  * @param {Function} toggleSortOrder - Function to toggle the sort order.
  * @param {Array<string>} selectedRedirects - List of selected redirect IDs (for bulk actions).
@@ -33,7 +33,7 @@ export const TableRedirects = ( {
 	setSelectedRedirect,
 	handleDeleteModal,
 	setSelectedDeleteRedirect,
-	sortedRedirects,
+	redirects,
 	sortOrder,
 	toggleSortOrder,
 	selectedRedirects,
@@ -41,22 +41,22 @@ export const TableRedirects = ( {
 	clearSelectedRedirects,
 	setSelectedRedirects,
 } ) => {
-	const redirectsLength = sortedRedirects?.length;
+	const redirectsLength = redirects?.length;
 
 	const allSelected =
 		redirectsLength > 0 &&
-		sortedRedirects.every( ( { id } ) => selectedRedirects.includes( id ) );
+		redirects.every( ( { id } ) => selectedRedirects.includes( id ) );
 
 	const onSelectAllChange = useCallback(
 		( event ) => {
 			if ( event.target.checked ) {
-				const allIds = sortedRedirects.map( ( { id } ) => id );
+				const allIds = redirects.map( ( { id } ) => id );
 				setSelectedRedirects( allIds );
 			} else {
 				clearSelectedRedirects();
 			}
 		},
-		[ sortedRedirects, setSelectedRedirects, clearSelectedRedirects ]
+		[ redirects, setSelectedRedirects, clearSelectedRedirects ]
 	);
 
 	const onToggleSelect = useCallback(
@@ -85,7 +85,7 @@ export const TableRedirects = ( {
 			<Table.Body>
 				{ redirectsLength > 0 ? (
 					<TableRows
-						sortedRedirects={ sortedRedirects }
+						redirects={ redirects }
 						selectedRedirects={ selectedRedirects }
 						onToggleSelect={ onToggleSelect }
 						handleDeleteModal={ handleDeleteModal }
