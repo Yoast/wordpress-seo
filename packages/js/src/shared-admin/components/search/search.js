@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon, XIcon } from "@heroicons/react/outline";
