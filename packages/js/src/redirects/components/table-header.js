@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { Table, Checkbox, Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ChevronDownIcon } from "@heroicons/react/outline";

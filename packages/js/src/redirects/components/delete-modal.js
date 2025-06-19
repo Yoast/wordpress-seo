@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { Button, Modal } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";

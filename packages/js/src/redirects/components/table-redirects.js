@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { useCallback } from "@wordpress/element";
 import { Table } from "@yoast/ui-library";
 import { TableHeader } from "./table-header";
