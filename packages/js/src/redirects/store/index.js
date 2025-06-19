@@ -18,6 +18,13 @@ import {
 } from "./filter-redirects";
 import redirectsReducer, { getRedirectsInitialState, REDIRECTS_NAME, redirectsActions, redirectsControls, redirectsSelectors } from "./redirects";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
+import redirectsSettingsReducer, {
+	getRedirectsSettingsInitialState,
+	REDIRECTS_SETTINGS_NAME,
+	redirectsSettingsActions,
+	redirectsSettingsControls,
+	redirectsSettingsSelectors,
+} from "./redirects-settings";
 
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -33,6 +40,7 @@ const createStore = ( { initialState } ) => {
 			...notificationsActions,
 			...redirectsActions,
 			...preferencesActions,
+			...redirectsSettingsActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -40,10 +48,12 @@ const createStore = ( { initialState } ) => {
 			...notificationsSelectors,
 			...redirectsSelectors,
 			...preferencesSelectors,
+			...redirectsSettingsSelectors,
 		},
 		initialState: {
 			[ FILTER_SLICE_NAME ]: getInitialFilterState(),
 			[ REDIRECTS_NAME ]: getRedirectsInitialState(),
+			[ REDIRECTS_SETTINGS_NAME ]: getRedirectsSettingsInitialState(),
 			preferences: createInitialPreferencesState(),
 			...initialState,
 		},
@@ -51,10 +61,12 @@ const createStore = ( { initialState } ) => {
 			[ FILTER_SLICE_NAME ]: filterReducer,
 			[ NOTIFICATIONS_NAME ]: notificationsReducer,
 			[ REDIRECTS_NAME ]: redirectsReducer,
+			[ REDIRECTS_SETTINGS_NAME ]: redirectsSettingsReducer,
 			preferences,
 		} ),
 		controls: {
 			...redirectsControls,
+			...redirectsSettingsControls,
 		},
 	} );
 };

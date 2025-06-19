@@ -43,7 +43,6 @@ export const DESC = "desc";
 export const FORMAT_PLAIN = "plain";
 export const FORMAT_REGEX = "regex";
 
-
 export const initialValues = {
 	type: REDIRECT_TYPE_OPTIONS[ 0 ]?.value,
 	origin: "",

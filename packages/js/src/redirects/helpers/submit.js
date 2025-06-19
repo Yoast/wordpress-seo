@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../constants";
 import { dispatch } from "@wordpress/data";
+
 /**
  * Handles the form submit.
  * @param {Object} values The values.
@@ -61,3 +62,36 @@ export const handleEditSubmit = async( values, { resetForm } ) => {
 		return false;
 	}
 };
+
+/**
+ * Handles the form submit.
+ * @param {Object} values The values.
+ * @param {function} resetForm Resets the form.
+ * @returns {Promise<boolean>} Promise of save result.
+ */
+export const handleSettingsUpdateSubmit = async( values, { resetForm } ) => {
+	const { addNotification, editRedirectsSettingsAsync } = dispatch( STORE_NAME );
+
+	try {
+		await editRedirectsSettingsAsync( values );
+		addNotification( {
+			variant: "success",
+			title: __( "Great! Your settings were saved succesfully!", "wordpress-seo" ),
+		} );
+
+		// Make sure the dirty state is reset after successfully saving.
+		resetForm();
+		return true;
+	} catch ( error ) {
+		const errMessage = error.message.message || error.message;
+		addNotification( {
+			id: "submit-error",
+			variant: "error",
+			title: `${ __( "Redirects settings not updated", "wordpress-seo" ) }: ${ errMessage }`,
+		} );
+
+		console.error( "Error while saving:", errMessage );
+		return false;
+	}
+};
+

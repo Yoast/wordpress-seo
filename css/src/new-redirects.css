@@ -98,6 +98,24 @@ body.seo_page_wpseo_redirects {
 	}
 
 	.yst-table--minimal table  {
+		th:first-child,
+		td:first-child {
+			max-width: 18%;
+			width: 18%;
+		}
+
+		th:nth-child(2),
+		td:nth-child(2) {
+			max-width: 37%;
+			width: 37%;
+		}
+
+		th:nth-child(3),
+		td:nth-child(3) {
+			max-width: 45%;
+			width: 45%;
+		}
+
 		.yst-table-header {
 			@apply yst-font-medium yst-text-slate-800;
 		}
