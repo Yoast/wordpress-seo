@@ -1,24 +1,33 @@
 import { useSelect } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { escapeRegExp, get } from "lodash";
 import { CONTENT_TYPE, EDIT_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { applyPluggableReplacementVariables } from "../helpers";
 
 /**
+ * Transforms a replacement variable to a format suitable for the UI.
+ * @param {{name: string, label: string, value: string, hidden: boolean}} replaceVariable The replacement variable to transform.
+ * @returns {{name: string, label: string, value: string, hidden: boolean, badge: string}} The transformed replacement variable.
+ */
+const transformReplaceVariable = ( replaceVariable ) => {
+	const newReplaceVariable = { ...replaceVariable };
+
+	if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
+		newReplaceVariable.value = "%%" + replaceVariable.name + "%%";
+	}
+	newReplaceVariable.badge = `<badge>${ replaceVariable.label }</badge>`;
+
+	return newReplaceVariable;
+};
+
+/**
  * @returns {function} The function to apply replacement variables to content.
  */
 export const useApplyReplacementVariables = () => {
-	const replacementVariables = useSelect( select => {
-		const replaceVars = select( STORE_NAME_EDITOR ).getReplaceVars();
-		// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
-		replaceVars.forEach( ( replaceVariable ) => {
-			if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
-				replaceVariable.value = "%%" + replaceVariable.name + "%%";
-			}
-			replaceVariable.badge = `<badge>${ replaceVariable.label }</badge>`;
-		} );
-		return replaceVars;
-	}, [] );
+	const rawReplacementVariables = useSelect( ( select ) => select( STORE_NAME_EDITOR ).getReplaceVars(), [] );
+	const replacementVariables = useMemo( () => {
+		return rawReplacementVariables.map( transformReplaceVariable );
+	}, [ rawReplacementVariables ] );
 
 	return useCallback(
 		/**
