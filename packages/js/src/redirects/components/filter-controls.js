@@ -48,7 +48,7 @@ export const FilterControls = () => {
 		<div className="yst-flex yst-gap-8 yst-items-start xl:yst-items-end yst-flex-col xl:yst-flex-row yst-pb-4">
 			<div className="yst-relative yst-w-full xl:yst-max-w-[256px] yst-search-block">
 				<SearchIcon
-					className="yst-pointer-events-none yst-absolute yst-mt-5 yst-start-3 yst-h-4 yst-w-4 yst-text-slate-400 yst-z-10"
+					className="yst-pointer-events-none yst-absolute yst-mt-3 yst-start-3 yst-h-4 yst-w-4 yst-text-slate-400 yst-z-10"
 					{ ...ariaSvgProps }
 				/>
 				<TextField

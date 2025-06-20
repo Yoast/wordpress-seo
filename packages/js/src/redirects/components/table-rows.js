@@ -90,7 +90,7 @@ export const TableRows =   (
 								id="yst-input-target"
 								className="yst-w-full"
 							/>
-							<div className="yst-flex px-2 py-2.5 yst-gap-2.5 yst-mb-0.5">
+							<div className="yst-flex yst-flex-col sm:yst-flex-row px-2 py-2.5 yst-gap-2.5 yst-mb-0.5 yst-w-full sm:yst-w-auto">
 								<Button
 									id="yst-button-submit-edit-redirect"
 									type="submit"
