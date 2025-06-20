@@ -1,4 +1,4 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -19,13 +19,15 @@ export const FilterControls = () => {
 	const ariaSvgProps = useSvgAria();
 
 	const {
-		filters: { bulkAction, filterRedirectType, searchRedirects },
-		setters: { setBulkAction, setFilterRedirectType, setSearchRedirects },
+		isDeleteRedirectsLoading,
+		filters: { searchRedirects, filterRedirectType },
+		setters: { applyBulkAction, setFilterRedirectType, setSearchRedirects },
 	} = useRedirectFilters();
+	const [ localBulkAction, setLocalBulkAction ] = useState( "" );
 
 	const handleBulkActionsChange = useCallback(
-		( value ) => setBulkAction( value ),
-		[ setBulkAction ]
+		( value ) => setLocalBulkAction( value ),
+		[ setLocalBulkAction ]
 	);
 
 	const handleFilterRedirectTypeChange = useCallback(
@@ -38,47 +40,15 @@ export const FilterControls = () => {
 		[ setSearchRedirects ]
 	);
 
-	return (
-		<div className="yst-grid yst-grid-cols-3 yst-gap-8 yst-mt-4 yst-items-end">
-			<div className="yst-flex yst-items-end yst-gap-2 yst-w-full">
-				<Select
-					id="yst-bulk-actions"
-					name="bulkAction"
-					options={ BULK_ACTIONS_OPTIONS }
-					label={ __( "Bulk actions", "wordpress-seo" ) }
-					hideLabel={ true }
-					value={ bulkAction }
-					onChange={ handleBulkActionsChange }
-					className="yst-w-full"
-				/>
-				<Button
-					variant="secondary"
-					size="large"
-				>
-					{ __( "Apply", "wordpress-seo" ) }
-				</Button>
-			</div>
+	const handleApplyBulkAction = useCallback( () => {
+		applyBulkAction( localBulkAction );
+	}, [ localBulkAction, applyBulkAction ] );
 
-			<div className="yst-flex yst-items-end yst-gap-2 yst-w-full">
-				<Select
-					id="yst-filter-redirect-type"
-					name="filterRedirectType"
-					options={ REDIRECT_TYPE_OPTIONS }
-					className="yst-w-full"
-					label={ __( "Redirect type", "wordpress-seo" ) }
-					value={ filterRedirectType }
-					onChange={ handleFilterRedirectTypeChange }
-				/>
-				<Button
-					variant="secondary"
-					size="large"
-				>
-					{ __( "Filter", "wordpress-seo" ) }
-				</Button>
-			</div>
-			<div className="yst-relative yst-w-full">
+	return (
+		<div className="yst-flex yst-gap-8 yst-items-start xl:yst-items-end yst-flex-col xl:yst-flex-row yst-pb-4">
+			<div className="yst-relative yst-w-full xl:yst-max-w-[256px] yst-search-block">
 				<SearchIcon
-					className="yst-pointer-events-none yst-absolute yst-top-4 yst-start-4 yst-h-5 yst-w-5 yst-text-slate-400"
+					className="yst-pointer-events-none yst-absolute yst-mt-3 yst-start-3 yst-h-4 yst-w-4 yst-text-slate-400 yst-z-10"
 					{ ...ariaSvgProps }
 				/>
 				<TextField
@@ -88,6 +58,39 @@ export const FilterControls = () => {
 					value={ searchRedirects }
 					onChange={ handleSearchRedirectsChange }
 				/>
+			</div>
+			<div className="yst-flex yst-items-end yst-justify-end yst-flex-col xl:yst-flex-row yst-w-full yst-gap-6">
+				<div className="yst-flex yst-items-end xl:yst-max-w-[256px] yst-w-full">
+					<Select
+						id="yst-filter-redirect-type"
+						name="filterRedirectType"
+						options={ [ { value: "", label: __( "All", "wordpress-seo" ) }, ...REDIRECT_TYPE_OPTIONS ]  }
+						className="yst-w-full"
+						label={ __( "Filter Redirect type", "wordpress-seo" ) }
+						value={ filterRedirectType }
+						onChange={ handleFilterRedirectTypeChange }
+					/>
+				</div>
+				<div className="yst-flex yst-items-end yst-gap-2 yst-w-full xl:yst-w-auto">
+					<Select
+						id="yst-bulk-actions"
+						name="bulkAction"
+						options={ BULK_ACTIONS_OPTIONS }
+						label={ __( "Bulk actions", "wordpress-seo" ) }
+						hideLabel={ true }
+						value={ localBulkAction }
+						onChange={ handleBulkActionsChange }
+						className="yst-w-full xl:yst-min-w-[256px]"
+					/>
+					<Button
+						variant="secondary"
+						size="large"
+						onClick={ handleApplyBulkAction }
+						isLoading={ isDeleteRedirectsLoading }
+					>
+						{ __( "Apply", "wordpress-seo" ) }
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
