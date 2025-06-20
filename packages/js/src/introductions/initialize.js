@@ -28,6 +28,7 @@ domReady( () => {
 	const rootContext = {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
+
 	const initialComponents = {
 		"google-docs-addon-upsell": Content,
 	};

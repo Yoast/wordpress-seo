@@ -1,49 +1,33 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { OutboundLink } from ".";
 
 /**
- * @param {string} learnMoreLink The learn more link.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {string} buttonLink The button link.
  * @param {string} buttonLabel The button label.
  * @param {string} newToText The new to text.
- * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
 export const GoogleDocsAddonUpsell = ( {
-	learnMoreLink,
 	thumbnail,
 	buttonLink,
 	buttonLabel,
-	newToText,
+	productName,
 	isPremium,
-	bundleNote,
 	ctbId,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
-
-	const learnMoreLinkStructure = {
-		a: <OutboundLink
-			href={ learnMoreLink }
-			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
-			variant="primary"
-		/>,
-		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
-		br: <br />,
-	};
 
 	return (
 		<>
 			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
 				<img
 					className="yst-w-full yst-h-auto yst-rounded-md"
-					alt=""
+					alt="Thumbnail for Yoast SEO Google Docs Add-On"
 					loading="lazy"
 					decoding="async"
 					{ ...thumbnail }
@@ -51,7 +35,7 @@ export const GoogleDocsAddonUpsell = ( {
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
 						<span className="yst-logo-icon" />
-						{ newToText }
+						{ productName }
 					</span>
 				</div>
 			</div>
@@ -68,18 +52,10 @@ export const GoogleDocsAddonUpsell = ( {
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{ safeCreateInterpolateElement(
-							sprintf(
-								/* translators: %1$s is a break tag; %2$s and %3$s are anchor tags; %4$s is the arrow icon. */
-								__(
-									"Optimize as you draft for SEO, inclusivity, and readability. The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required.%1$s%2$sLearn more%3$s%4$s",
-									"wordpress-seo"
-								),
-								"<br/>",
-								"<a>",
-								"<ArrowNarrowRightIcon />",
-								"</a>"
-							),
-							learnMoreLinkStructure
+							__(
+								"Optimize as you draft for SEO, inclusivity, and readability. The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required.",
+								"wordpress-seo"
+							)
 						) }
 					</div>
 				</div>
@@ -127,7 +103,6 @@ export const GoogleDocsAddonUpsell = ( {
 						)
 					}
 				</div>
-				{ bundleNote }
 				<Button
 					as="a"
 					className="yst-mt-4"
@@ -149,12 +124,8 @@ GoogleDocsAddonUpsell.propTypes = {
 		height: PropTypes.string,
 	} ).isRequired,
 	buttonLabel: PropTypes.string,
-	newToText: PropTypes.string,
+	productName: PropTypes.string,
 	isPremium: PropTypes.bool,
-	bundleNote: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	] ),
 	ctbId: PropTypes.string,
 };
 
@@ -164,8 +135,7 @@ GoogleDocsAddonUpsell.defaultProps = {
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-	newToText: "Yoast SEO Premium",
+	productName: "Yoast SEO Premium",
 	isPremium: false,
-	bundleNote: "",
 	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
