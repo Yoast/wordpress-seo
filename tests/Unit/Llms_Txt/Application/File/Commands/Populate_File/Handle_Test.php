@@ -10,6 +10,7 @@ use Brain\Monkey;
  * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler::handle
+ * @covers Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler::encode_content
  *
  * @phpcs :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -22,6 +23,8 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 	 * @param bool   $file_written_successfully          If the file content was set successfully.
 	 * @param int    $file_written_successfully_times    The number of times the file written function is called.
 	 * @param string $new_content                        The new content to be written to the file.
+	 * @param string $encoding_prefix                    The encoding prefix to be applied to the content.
+	 * @param string $file_content                       The expected content of the file after encoding.
 	 * @param int    $update_hash_times                  The number of times the has is expected to be updated.
 	 * @param int    $delete_failure_times               The number of times the failure reason is supposed to be deleted.
 	 * @param int    $permission_failure_times           The number of times the permission failure reason is supposed to be set.
@@ -35,6 +38,8 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 		bool $file_written_successfully,
 		int $file_written_successfully_times,
 		string $new_content,
+		string $encoding_prefix,
+		string $file_content,
 		int $update_hash_times,
 		int $delete_failure_times,
 		int $permission_failure_times,
@@ -42,7 +47,13 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 	) {
 		$this->permission_gate->expects( 'is_managed_by_yoast_seo' )->andReturn( $managed_by_yoast );
 		$this->markdown_builder->expects( 'render' )->times( $file_written_successfully_times )->andReturn( $new_content );
-		$this->file_system_adapter->expects( 'set_file_content' )->times( $file_written_successfully_times )->andReturn( $file_written_successfully );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->times( $file_written_successfully_times )
+			->with( 'wpseo_llmstxt_encoding_prefix', "\xEF\xBB\xBF" )
+			->andReturn( $encoding_prefix );
+
+		$this->file_system_adapter->expects( 'set_file_content' )->times( $file_written_successfully_times )->with( $file_content )->andReturn( $file_written_successfully );
 
 		Monkey\Functions\expect( 'update_option' )
 			->with( 'wpseo_llms_txt_content_hash', \md5( $new_content ) )
@@ -74,6 +85,8 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 			false,
 			0,
 			'irrelevant',
+			'irrelevant',
+			'irrelevant',
 			0,
 			0,
 			0,
@@ -84,6 +97,8 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 			false,
 			1,
 			'irrelevant',
+			"\xEF\xBB\xBF",
+			"\xEF\xBB\xBF" . 'irrelevant',
 			0,
 			0,
 			1,
@@ -94,6 +109,20 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 			true,
 			true,
 			1,
+			'new content',
+			"\xEF\xBB\xBF",
+			"\xEF\xBB\xBF" . 'new content',
+			1,
+			1,
+			0,
+			0,
+		];
+		yield 'file managed by Yoast and written and prefix filtered into empty string' => [
+			true,
+			true,
+			1,
+			'new content',
+			'',
 			'new content',
 			1,
 			1,

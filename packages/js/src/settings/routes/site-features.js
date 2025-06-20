@@ -429,7 +429,7 @@ const SiteFeatures = () => {
 								imageSrc="/images/llms.png"
 								title={ __( "llms.txt", "wordpress-seo" ) }
 							>
-								<p>{ __( "Boost the visibility of your content in AI searches. Automatically generate an llms.txt file that lists a selection of your site's content. This helps LLMs access and provide your site's information more easily.", "wordpress-seo" ) }</p>
+								<p>{ __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ) }</p>
 								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
 									as="a"
 									id="link-llms"

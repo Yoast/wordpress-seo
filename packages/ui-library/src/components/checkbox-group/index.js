@@ -6,15 +6,17 @@ import Checkbox from "../../elements/checkbox";
 import Label from "../../elements/label";
 
 /**
- * @param {JSX.node} children Children are rendered below the checkbox group.
+ * @param {JSX.node} [children=null] Children are rendered below the checkbox group. Either use this or the `options` prop.
  * @param {string} [id] Identifier.
  * @param {string} [name] Name.
  * @param {string[]} [values] Values.
  * @param {string} [label] Label.
  * @param {string} [description] Description.
- * @param {{ value: string, label: string }[]} options Options to choose from.
- * @param {Function} onChange Change handler.
- * @param {string} [className] CSS class.
+ * @param {boolean} [disabled=false] Whether the checkbox group is disabled.
+ * @param {{value: string, label: string}[]} [options=[]] Options to choose from. Either use this or the `children` prop.
+ * @param {Function} [onChange=noop] Change handler.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Additional props.
  * @returns {JSX.Element} CheckboxGroup component.
  */
 const CheckboxGroup = ( {
@@ -25,7 +27,7 @@ const CheckboxGroup = ( {
 	label = "",
 	description = "",
 	disabled = false,
-	options,
+	options = [],
 	onChange = noop,
 	className = "",
 	...props
