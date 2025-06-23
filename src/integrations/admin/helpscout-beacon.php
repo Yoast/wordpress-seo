@@ -74,7 +74,6 @@ class HelpScout_Beacon implements Integration_Interface {
 		Support_Integration::PAGE,
 		'wpseo_search_console',
 		'wpseo_tools',
-		'wpseo_licenses',
 		Plans_Page_Integration::PAGE,
 		'wpseo_workouts',
 		'wpseo_integrations',

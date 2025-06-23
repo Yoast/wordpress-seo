@@ -84,12 +84,6 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page === 'wpseo_licenses' ) {
-			$this->asset_manager->enqueue_style( 'tailwind' );
-		}
 	}
 
 	/**

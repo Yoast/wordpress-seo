@@ -628,13 +628,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'admin-global-' . $flat_version,
 			],
 			[
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
-				'deps' => [
-					'wp-components',
-				],
-			],
-			[
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
 			],

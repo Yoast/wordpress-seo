@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\General\User_Interface;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -19,7 +18,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	/**
 	 * The page name.
 	 */
-	public const PAGE = 'wpseo_plans';
+	public const PAGE = 'wpseo_licenses';
 
 	/**
 	 * The assets name.
@@ -89,7 +88,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Non_Network_Admin_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -102,6 +101,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	public function register_hooks() {
 		// Add page with priority 7 to add it above the workouts.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], 7 );
+		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], 7 );
 
 		// Are we on our page?
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
@@ -119,7 +119,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	 */
 	public function add_page( $pages ) {
 		$pages[] = [
-			self::PAGE,
+			General_Page_Integration::PAGE,
 			'',
 			\__( 'Plans', 'wordpress-seo' ),
 			'wpseo_manage_options',

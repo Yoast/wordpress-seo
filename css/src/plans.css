@@ -1,4 +1,7 @@
-.seo_page_wpseo_plans {
+/* Non-network admin page. */
+.seo_page_wpseo_licenses,
+/* Network admin page. */
+.yoast-seo_page_wpseo_licenses {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */

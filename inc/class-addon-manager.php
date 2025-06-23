@@ -740,7 +740,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		// Check whether the licenses are valid or whether we need to show notifications.
-		$quick = ( $current_page === 'wpseo_licenses' || $current_page === General_Page_Integration::PAGE || $current_page === Plans_Page_Integration::PAGE );
+		$quick = ( $current_page === Plans_Page_Integration::PAGE || $current_page === General_Page_Integration::PAGE );
 
 		// Also do a fresh request on Plugins & Core Update pages.
 		$quick = $quick || $pagenow === 'plugins.php';
