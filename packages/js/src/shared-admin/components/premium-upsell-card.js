@@ -80,10 +80,6 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-mt-2">
-				{ ! isBlackFriday && <>
-					{ __( "Only $/€/£99 per year (ex VAT)", "wordpress-seo" ) }
-					<br />
-				</> }
 				{ __( "30-day money back guarantee.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />

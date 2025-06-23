@@ -1,25 +1,26 @@
 import { __ } from "@wordpress/i18n";
 import { Alert, InputField, SimulatedLabel } from "@yoast/components";
 import { StandardButton } from "@yoast/replacement-variable-editor";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import styled from "styled-components";
 
 const UndoButton = styled( StandardButton )`
-	background: none!important;
+	background: none !important;
 	border: none;
-	padding: 0!important;
+	padding: 0 !important;
 	color: #a00;
 	text-decoration: underline;
 	cursor: pointer;
 	box-shadow: none;
 
 	&:hover {
-		color: #F00;
+		color: #f00;
 	}
 
 	&:focus {
-		color: #F00;
+		color: #f00;
 	}
 `;
 
@@ -98,34 +99,36 @@ ImageSelectButtons.propTypes = {
  *
  * Displays an warning message when the selected image cannot be used.
  *
- * @param {object}   props                      The properties passed to this component.
- * @param {string}   props.title                The title that is displayed above the selection button.
- * @param {string[]} props.warnings             An array of warnings that detail why the image cannot be used.
- * @param {function} props.onClick              Callback called when the "Select image" or "Replace image" button is clicked.
- * @param {function} props.onRemoveImageClick   Callback called when the "Remove image" button is clicked.
- * @param {string}   props.imageUrl             The Url adress of the image
- * @param {bool}     props.isPremium            States if premium is installed.
- * @param {string}   props.imageUrlInputId      The ID for the image URL input.
- * @param {string}   props.selectImageButtonId  The ID for the select image button.
- * @param {string}   props.replaceImageButtonId The ID for the replace image button.
- * @param {string}   props.removeImageButtonId  The ID for the remove image button.
+ * @param {string} title The title that is displayed above the selection button.
+ * @param {boolean} imageSelected Whether an image is selected.
+ * @param {boolean} isPremium States if premium is installed.
+ * @param {string[]} [warnings=[]] An array of warnings that detail why the image cannot be used.
+ * @param {Function} [onClick=noop] Callback called when the "Select image" or "Replace image" button is clicked.
+ * @param {Function} [onRemoveImageClick=noop] Callback called when the "Remove image" button is clicked.
+ * @param {string} [imageUrl=""] The Url address of the image
+ * @param {Function} [onMouseEnter=noop] Callback called when the mouse enters the component.
+ * @param {Function} [onMouseLeave=noop] Callback called when the mouse leaves the component.
+ * @param {string} [imageUrlInputId=""] The ID for the image URL input.
+ * @param {string} [selectImageButtonId=""] The ID for the select image button.
+ * @param {string} [replaceImageButtonId=""] The ID for the replace image button.
+ * @param {string} [removeImageButtonId=""] The ID for the remove image button.
  *
  * @returns {JSX.Element} The ImageSelect component with a title, optional warnings and an image selection button.
  */
 const ImageSelect = ( {
 	title,
-	warnings,
 	imageSelected,
-	onClick,
-	onRemoveImageClick,
-	imageUrl,
 	isPremium,
-	onMouseEnter,
-	onMouseLeave,
-	imageUrlInputId,
-	selectImageButtonId,
-	replaceImageButtonId,
-	removeImageButtonId,
+	warnings = [],
+	onClick = noop,
+	onRemoveImageClick = noop,
+	imageUrl = "",
+	onMouseEnter = noop,
+	onMouseLeave = noop,
+	imageUrlInputId = "",
+	selectImageButtonId = "",
+	replaceImageButtonId = "",
+	removeImageButtonId = "",
 } ) => {
 	const imageSelectButtonsProps = {
 		imageSelected,
@@ -179,19 +182,6 @@ ImageSelect.propTypes = {
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
-};
-
-ImageSelect.defaultProps = {
-	warnings: [],
-	imageUrl: "",
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
-	onClick: () => {},
-	onRemoveImageClick: () => {},
-	imageUrlInputId: "",
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
 };
 
 export default ImageSelect;

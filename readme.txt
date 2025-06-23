@@ -1,11 +1,11 @@
-=== Yoast SEO ===
+=== Yoast SEO - Advanced SEO with real-time guidance and built-in AI ===
 Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.1
+Stable tag: 25.3.1
 Requires PHP: 7.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -274,35 +274,46 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 25.2 =
+= 25.4 =
 
-Release date: 2025-05-27
+Release date: 2025-06-24
 
 #### Enhancements
 
-* Makes the _keyphrase in image alt attributes_ assessment  available when no content has been added.
-* Renames _image keyphrase_ assessment to _keyphrase in image alt attributes_ assessment.
+* Adds descriptions for the posts listed in the llms.txt file, using their excerpts when those are explicitly set.
+* Adds support for preventing specifically `noindex`ed posts from getting into the llms.txt file.
+* Changes one of the feedback texts for the _text length_ assessment to be consistent with the others.
+* Improves support for non-english characters in llms.txt, for servers that don't serve .txt files in UTF-8.
+* Improves the feedback of the _competing links_ assessment by making it clearer.
+* Makes the assessments _single title_ and _competing links_ available from the get-go in the SEO analysis.
+* Prioritizes cornerstone content for the posts lists in the llms.txt file.
+* Renames the _link keyphrase_ assessment to _competing links_.
 
 #### Bugfixes
 
-* Fixes a bug in the retrieval of post categories titles where a non-existent term might be referenced. Props to [@bor0](https://github.com/bor0).
+* Fixes a bug where the llmst.txt file wouldn't be able to be generated in wp.com.
 
 #### Other
 
-* Excludes gallery, embed and playlist shortcodes from the _keyphrase in introduction_ analysis in Classic editor.
+* Improves the internal engine that creates the post lists in the llms.txt file for a more efficient and lighter generation.
+* Improves the translatability of the feedback strings for the _text length_ assessment.
+* Introduces the `wpseo_llmstxt_filesystem_path` filter that allows editing the file path of the llmst.txt file, to help users in servers with filesystem restrictions.
 
-= 25.1 =
+= 25.3.1 =
 
-Release date: 2025-05-13
+Release date: 2025-06-18
 
-Yoast SEO 25.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+This is a maintenance release which is required to align with changes to Yoast SEO Premium 25.3.1.
+
+= 25.3 =
+
+Release date: 2025-06-10
+
+*New:* Yoast SEO 25.3 introduces llms.txt support to help AI tools understand your site better. [Read the full release post here!](https://yoa.st/release-10-6-25)
 
 #### Enhancements
 
-* Adds more phrases regarding disability to the _inclusive language assessment_.
-* Improves the feedback for \"lame\" in the _inclusive language assessment_.
-* Makes the following SEO assessments available in the analysis by default, even when no content has been added: _keyphrase in introduction_, _keyphrase in meta description_, _keyphrase in SEO title_, _keyphrase in slug_ and _previously used keyphrase_.
-* Optimizes the function used to fetch post IDs which share the same focus keyphrase. Props to [dilipbheda](https://github.com/dilipbheda).
+* Introduces the llms.txt feature, which gives site owners the opportunity to automatically generate an llms.txt file. This file helps LLMs to better understand the site's content.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
