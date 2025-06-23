@@ -7,17 +7,17 @@ import Label from "../label";
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {string} label Label.
- * @param {string} [className] CSS class.
+ * @param {string} [label=""] Label.
+ * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Checkbox component.
  */
 const Checkbox = forwardRef( ( {
 	id,
 	name,
 	value,
-	label,
+	label = "",
 	disabled,
-	className,
+	className = "",
 	...props
 }, ref ) => (
 	<div
@@ -37,7 +37,7 @@ const Checkbox = forwardRef( ( {
 			className="yst-checkbox__input"
 			{ ...props }
 		/>
-		<Label htmlFor={ id } className="yst-checkbox__label" label={ label } />
+		{ label && <Label htmlFor={ id } className="yst-checkbox__label" label={ label } /> }
 	</div>
 ) );
 
@@ -46,13 +46,14 @@ Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 };
 Checkbox.defaultProps = {
 	className: "",
 	disabled: false,
+	label: "",
 };
 
 export default Checkbox;
