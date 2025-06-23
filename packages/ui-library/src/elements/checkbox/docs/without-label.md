@@ -1,0 +1,1 @@
+The component can be used without a label, which is useful for cases where the checkbox is self-explanatory or when it is used in a context where the label is not necessary. In this case, consider using the `aria-label` attribute to provide an accessible name for the checkbox.

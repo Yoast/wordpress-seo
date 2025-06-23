@@ -8,6 +8,7 @@ import Label from "../label";
  * @param {string} name Name.
  * @param {string} value Value.
  * @param {string} [label=""] Label.
+ * @param {boolean} [disabled=false] Whether the checkbox is disabled.
  * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Checkbox component.
  */
@@ -16,7 +17,7 @@ const Checkbox = forwardRef( ( {
 	name,
 	value,
 	label = "",
-	disabled,
+	disabled = false,
 	className = "",
 	...props
 }, ref ) => (
