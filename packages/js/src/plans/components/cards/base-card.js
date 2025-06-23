@@ -69,7 +69,7 @@ export const BaseCard = ( {
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<div className="yst-flex yst-relative">
+		<div className="yst-flex yst-relative yst-max-w-64">
 			<Card
 				className={ classNames(
 					hasHighlight && "yst-shadow-md",
