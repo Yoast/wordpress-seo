@@ -76,7 +76,7 @@ export const BaseCard = ( {
 					hasHighlight && ( isActiveHighlight ? "yst-border-green-400" : "yst-border-red-400" )
 				) }
 			>
-				<Card.Header className="yst-p-0">{ header }</Card.Header>
+				<Card.Header className="yst-overflow-hidden yst-h-auto yst-p-0">{ header }</Card.Header>
 				<Card.Content className="yst-flex yst-flex-col">
 					<Title as="h3">{ title }</Title>
 					<p className="yst-mt-3">{ description }</p>
