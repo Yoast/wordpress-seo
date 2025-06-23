@@ -162,8 +162,6 @@ class Plans_Page_Integration implements Integration_Interface {
 			'addOns'      => [
 				'premium' => [
 					'id'           => 'premium',
-					'slug'         => WPSEO_Addon_Manager::PREMIUM_SLUG,
-					'name'         => 'Yoast SEO Premium',
 					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::PREMIUM_SLUG ),
 					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
 					'upsellConfig' => [
@@ -173,7 +171,6 @@ class Plans_Page_Integration implements Integration_Interface {
 				],
 				'woo'     => [
 					'id'           => 'woo',
-					'name'         => 'Yoast WooCommerce SEO',
 					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
 					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
 					'upsellConfig' => [

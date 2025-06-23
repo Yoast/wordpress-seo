@@ -10,13 +10,12 @@ import { BaseCard } from "./base-card";
  * @returns {JSX.Element} The element.
  */
 export const PremiumCard = () => {
-	const { isActive, hasLicense, isWooActive, hasWooLicense, buyLink, buyConfig, manageLink, learnMoreLink } = useSelect( ( select ) => {
+	const { isActive, hasLicense, isWooActive, buyLink, buyConfig, manageLink, learnMoreLink } = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
-			isActive: plansSelect.selectAddOnValue( ADD_ONS.premium, "isActive" ),
-			hasLicense: plansSelect.selectAddOnValue( ADD_ONS.premium, "hasLicense" ),
-			isWooActive: plansSelect.selectAddOnValue( ADD_ONS.woo, "isActive" ),
-			hasWooLicense: plansSelect.selectAddOnValue( ADD_ONS.woo, "hasLicense" ),
+			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
+			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.premium ),
+			isWooActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
 			buyLink: plansSelect.selectLink( "http://yoa.st/plans-premium-buy" ),
 			buyConfig: plansSelect.selectAddOnUpsellConfigAsProps( ADD_ONS.premium ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-premium-manage" ),
@@ -26,7 +25,8 @@ export const PremiumCard = () => {
 
 	return (
 		<BaseCard
-			hasHighlight={ ( isActive || hasLicense ) && ! hasWooLicense && ! isWooActive }
+			// WooCommerce SEO take priority over Premium as it includes Premium.
+			hasHighlight={ isActive && ! isWooActive }
 			isActiveHighlight={ hasLicense }
 			isManageAvailable={ hasLicense }
 			header={ <PremiumSvg /> }

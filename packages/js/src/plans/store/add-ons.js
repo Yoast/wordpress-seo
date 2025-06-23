@@ -1,13 +1,17 @@
-import { createEntityAdapter, createSelector, createSlice, nanoid } from "@reduxjs/toolkit";
-import { get, map } from "lodash";
+import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
+import { filter, get, map } from "lodash";
+import { ADD_ONS } from "../constants";
 
-/** @typedef {import("./types").AddOn} AddOn */
+/** @type {import("./types").AddOn} AddOn */
 
+/**
+ * @type {string} The name of the add-ons slice in the Redux store.
+ */
 export const ADD_ONS_NAME = "addOns";
 
 const adapter = createEntityAdapter( {
 	selectId: ( addOn ) => addOn.id,
-	sortComparer: ( a, b ) => a.name.localeCompare( b.name ),
+	sortComparer: ( a, b ) => a.id.localeCompare( b.id ),
 } );
 
 /**
@@ -15,18 +19,24 @@ const adapter = createEntityAdapter( {
  *
  * @param {Object} addOn The add-on object to prepare.
  *
- * @returns {AddOn} The prepared add-on object.
+ * @returns {?AddOn} The prepared add-on object or null if the input is invalid.
  */
-const prepareAddOn = ( addOn ) => ( {
-	id: addOn?.id ? String( addOn.id ) : `add-on-${ nanoid() }`,
-	name: String( addOn.name ),
-	isActive: Boolean( addOn?.isActive ),
-	hasLicense: Boolean( addOn?.hasLicense ),
-	upsellConfig: {
-		action: get( addOn, "upsellConfig.action", "" ),
-		ctbId: get( addOn, "upsellConfig.ctbId", "" ),
-	},
-} );
+const prepareAddOn = ( addOn ) => {
+	// Ensure the add-on is an object and has a valid id.
+	if ( typeof addOn !== "object" || ! Object.keys( ADD_ONS ).includes( String( addOn.id ) ) ) {
+		return null;
+	}
+
+	return {
+		id: String( addOn.id ),
+		isActive: Boolean( addOn.isActive ),
+		hasLicense: Boolean( addOn.hasLicense ),
+		upsellConfig: {
+			action: get( addOn, "upsellConfig.action", "" ),
+			ctbId: get( addOn, "upsellConfig.ctbId", "" ),
+		},
+	};
+};
 
 const slice = createSlice( {
 	name: ADD_ONS_NAME,
@@ -34,7 +44,8 @@ const slice = createSlice( {
 	reducers: {
 		addManyAddOns: {
 			reducer: adapter.addMany,
-			prepare: ( addOns ) => ( { payload: map( addOns, prepareAddOn ) } ),
+			// Prepare the add-ons by filtering out invalid entries and ensuring they have the necessary properties.
+			prepare: ( addOns ) => ( { payload: filter( map( addOns, prepareAddOn ), Boolean ) } ),
 		},
 	},
 } );
@@ -43,52 +54,24 @@ export const getInitialAddOnsState = slice.getInitialState;
 
 const adapterSelectors = adapter.getSelectors( ( state ) => state[ ADD_ONS_NAME ] );
 
-/**
- * Returns a default value for a given path in an add-on object.
- * @param {string} path The path to check in the add-on object.
- * @returns {*} The default value for the specified path.
- */
-const getDefaultValueForPath = ( path ) => {
-	switch ( path ) {
-		default:
-			return "";
-		case "isActive":
-		case "hasLicense":
-			return false;
-		case "upsellConfig":
-			return {
-				action: "",
-				ctbId: "",
-			};
-		case "upsellConfig.action":
-			return "";
-		case "upsellConfig.ctbId":
-			return "";
-	}
-};
-
 export const addOnsSelectors = {
 	selectAddOns: adapterSelectors.selectAll,
 	selectAddOnById: adapterSelectors.selectById,
 };
-addOnsSelectors.selectAddOnValue = createSelector(
-	[
-		addOnsSelectors.selectAddOnById,
-		( state, id, path ) => path,
-	],
-	( addOn, path ) => get( addOn, path, getDefaultValueForPath( path ) )
+addOnsSelectors.selectAddOnIsActive = createSelector(
+	[ addOnsSelectors.selectAddOnById ],
+	( addOn ) => addOn.isActive
 );
-addOnsSelectors.selectAddOnIsActiveAndLicensed = createSelector(
-	[
-		( state, id ) => addOnsSelectors.selectAddOnValue( state, id, "isActive" ),
-		( state, id ) => addOnsSelectors.selectAddOnValue( state, id, "hasLicense" ),
-	],
-	( isActive, hasLicense ) => isActive && hasLicense
+addOnsSelectors.selectAddOnHasLicense = createSelector(
+	[ addOnsSelectors.selectAddOnById ],
+	( addOn ) => addOn.hasLicense
+);
+addOnsSelectors.selectAddOnUpsellConfig = createSelector(
+	[ addOnsSelectors.selectAddOnById ],
+	( addOn ) => addOn.upsellConfig
 );
 addOnsSelectors.selectAddOnUpsellConfigAsProps = createSelector(
-	[
-		( state, id ) => addOnsSelectors.selectAddOnValue( state, id, "upsellConfig" ),
-	],
+	[ addOnsSelectors.selectAddOnUpsellConfig ],
 	( upsellConfig ) => ( {
 		"data-action": upsellConfig.action,
 		"data-ctb-id": upsellConfig.ctbId,

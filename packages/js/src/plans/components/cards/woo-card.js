@@ -13,8 +13,8 @@ export const WooCard = () => {
 	const { isActive, hasLicense, buyLink, buyConfig, manageLink, learnMoreLink } = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
-			isActive: plansSelect.selectAddOnValue( ADD_ONS.woo, "isActive" ),
-			hasLicense: plansSelect.selectAddOnValue( ADD_ONS.woo, "hasLicense" ),
+			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
+			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.woo ),
 			buyLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-buy" ),
 			buyConfig: plansSelect.selectAddOnUpsellConfigAsProps( ADD_ONS.woo ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-manage" ),
@@ -24,7 +24,7 @@ export const WooCard = () => {
 
 	return (
 		<BaseCard
-			hasHighlight={ isActive || hasLicense }
+			hasHighlight={ isActive }
 			isActiveHighlight={ hasLicense }
 			isManageAvailable={ hasLicense }
 			header={ <WooSvg /> }
