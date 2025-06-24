@@ -8,13 +8,13 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
- * Represents the introduction for the AI fix assessments feature.
+ * Represents the introduction for the Google Docs Addon feature.
  */
-class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
+class Google_Docs_Addon_Upsell implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
-	public const ID = 'ai-fix-assessments-upsell';
+	public const ID = 'google-docs-addon-upsell';
 
 	/**
 	 * Holds the user helper.
@@ -77,6 +77,6 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return false;
+		return true;
 	}
 }

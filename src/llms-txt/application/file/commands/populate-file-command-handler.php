@@ -72,6 +72,7 @@ class Populate_File_Command_Handler {
 	public function handle() {
 		if ( $this->permission_gate->is_managed_by_yoast_seo() ) {
 			$content      = $this->markdown_builder->render();
+			$content      = $this->encode_content( $content );
 			$file_written = $this->file_system_adapter->set_file_content( $content );
 
 			if ( $file_written ) {
@@ -86,5 +87,24 @@ class Populate_File_Command_Handler {
 		}
 
 		\update_option( self::GENERATION_FAILURE_OPTION, 'not_managed_by_yoast_seo' );
+	}
+
+	/**
+	 * Encodes the content by prepending it with the Byte Order Mark (BOM) for UTF-8.
+	 *
+	 * @param string $content The content to encode.
+	 *
+	 * @return string
+	 */
+	private function encode_content( string $content ): string {
+
+		/**
+		 * Filter: 'wpseo_llmstxt_encoding_prefix' - Allows editing the Byte Order Mark (BOM) for UTF-8 we prepend to the llmst.txt file.
+		 *
+		 * @param string $encoding_prefix The Byte Order Mark (BOM) for UTF-8 we prepend to the llmst.txt file.
+		 */
+		$encoding_prefix = \apply_filters( 'wpseo_llmstxt_encoding_prefix', "\xEF\xBB\xBF" );
+
+		return $encoding_prefix . $content;
 	}
 }

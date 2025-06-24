@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.3
+Stable tag: 25.3.1
 Requires PHP: 7.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -281,15 +281,29 @@ Release date: 2025-06-24
 #### Enhancements
 
 * Adds descriptions for the posts listed in the llms.txt file, using their excerpts when those are explicitly set.
+* Adds support for preventing specifically `noindex`ed posts from getting into the llms.txt file.
 * Changes one of the feedback texts for the _text length_ assessment to be consistent with the others.
+* Improves support for non-english characters in llms.txt, for servers that don't serve .txt files in UTF-8.
 * Improves the feedback of the _competing links_ assessment by making it clearer.
 * Makes the assessments _single title_ and _competing links_ available from the get-go in the SEO analysis.
 * Prioritizes cornerstone content for the posts lists in the llms.txt file.
 * Renames the _link keyphrase_ assessment to _competing links_.
 
+#### Bugfixes
+
+* Fixes a bug where the llmst.txt file wouldn't be able to be generated in wp.com.
+
 #### Other
 
+* Improves the internal engine that creates the post lists in the llms.txt file for a more efficient and lighter generation.
 * Improves the translatability of the feedback strings for the _text length_ assessment.
+* Introduces the `wpseo_llmstxt_filesystem_path` filter that allows editing the file path of the llmst.txt file, to help users in servers with filesystem restrictions.
+
+= 25.3.1 =
+
+Release date: 2025-06-18
+
+This is a maintenance release which is required to align with changes to Yoast SEO Premium 25.3.1.
 
 = 25.3 =
 

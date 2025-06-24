@@ -78,9 +78,6 @@ class UpsellBox extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-		this.state = {
-			defaultPrice: "99",
-		};
 	}
 
 	/**
@@ -110,9 +107,6 @@ class UpsellBox extends Component {
 	 */
 	render() {
 		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2024-promotion" );
-		const { defaultPrice } = this.state;
-		const newPrice = isBlackFriday ? "69.30" : null;
-		const price = newPrice ? newPrice : defaultPrice;
 		return (
 			<Fragment>
 				{ isBlackFriday &&
@@ -129,13 +123,6 @@ class UpsellBox extends Component {
 							{ this.props.upsellButtonText }
 							{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 						</UpsellButton>
-						<div className="yst-text-slate-600 yst-my-4">
-							{ newPrice && <>
-								<span className="yst-text-slate-500 yst-line-through">{ defaultPrice }</span>
-								&nbsp;
-							</> }
-							<span className="yst-text-slate-900 yst-text-2xl yst-font-bold">{ price }</span> { __( "$ USD / € EUR / £ GBP per year (ex. VAT)", "wordpress-seo" ) }
-						</div>
 						<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 							{ this.props.upsellButtonLabel }
 						</ButtonLabel>
