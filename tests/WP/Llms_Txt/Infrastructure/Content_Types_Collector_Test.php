@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Llms_Txt\Infrastructure;
 
 use WPSEO_Options;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -55,28 +56,10 @@ final class Content_Types_Collector_Test extends TestCase {
 
 		$this->indexable_post_watcher = \YoastSEO()->classes->get( Indexable_Post_Watcher::class );
 
-		$post_type = 'custom-post-type';
-		\register_post_type(
-			$post_type,
-			[
-				'public'       => true,
-				'description'  => 'a custom post type',
-				'label'        => $post_type,
-				'hierarchical' => false,
-			]
-		);
-	}
-
-	/**
-	 * Remove the custom post type and taxonomy after each test.
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		// Remove possibly registered post type.
-		\unregister_post_type( 'custom-post-type' );
-
-		parent::tear_down();
+		// Delete all indexables before each test to ensure a clean slate.
+		global $wpdb;
+		$table = Model::get_table_name( 'Indexable' );
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 	}
 
 	/**
@@ -214,7 +197,7 @@ final class Content_Types_Collector_Test extends TestCase {
 	 */
 	public static function generate_get_posts() {
 		yield '4 posts total with no cornerstone posts' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 4,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -257,7 +240,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '4 posts total with one cornerstone post that is not the most recently modified one' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 4,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -401,7 +384,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '6 posts, the oldest is cornerstone' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -482,7 +465,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '6 posts and all are cornerstone' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -512,7 +495,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '3 cornerstone posts and 3 regular ones' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -539,7 +522,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '4 cornerstone posts and 2 regular ones, with the regular ones being the most recently modified' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
