@@ -8,7 +8,8 @@ import PropTypes from "prop-types";
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {string} buttonLink The button link.
  * @param {string} buttonLabel The button label.
- * @param {string} newToText The new to text.
+ * @param {string} productName The product name.
+ * @param {boolean} isPremium Whether the user has a premium license.
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
