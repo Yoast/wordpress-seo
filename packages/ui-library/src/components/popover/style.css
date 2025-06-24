@@ -194,6 +194,7 @@
 			yst--translate-x-1/2
 			yst-start-1/2
 			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
 			before:yst-content-['']
 			before:yst-start-1/2
 			before:yst-bottom-full
@@ -213,6 +214,7 @@
 			@apply
 			yst-end-0
 			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
 			before:yst-content-['']
 			before:yst-end-0
 			before:yst-bottom-full
@@ -232,6 +234,7 @@
 			@apply
 			yst-start-0
 			yst-top-14
+			yst-shadow-[0_-25px_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the top arrows */
 			before:yst-content-['']
 			before:yst-start-8
 			before:yst-bottom-full
