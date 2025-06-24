@@ -2,13 +2,13 @@
 
 namespace Yoast\WP\SEO\Plans\User_Interface;
 
-use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
 
 /**
  * Adds the plans page to the Yoast admin menu.
@@ -33,6 +33,13 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $asset_manager;
 
 	/**
+	 * Holds the Add_Ons_Collector.
+	 *
+	 * @var Add_Ons_Collector
+	 */
+	private $add_ons_collector;
+
+	/**
 	 * Holds the Current_Page_Helper.
 	 *
 	 * @var Current_Page_Helper
@@ -47,28 +54,21 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $short_link_helper;
 
 	/**
-	 * Holds the WPSEO_Addon_Manager.
-	 *
-	 * @var WPSEO_Addon_Manager
-	 */
-	private $addon_manager;
-
-	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The WPSEO_Addon_Manager.
+	 * @param Add_Ons_Collector         $add_ons_collector   The Add_Ons_Collector.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		WPSEO_Addon_Manager $addon_manager,
+		Add_Ons_Collector $add_ons_collector,
 		Current_Page_Helper $current_page_helper,
 		Short_Link_Helper $short_link_helper
 	) {
 		$this->asset_manager       = $asset_manager;
-		$this->addon_manager       = $addon_manager;
+		$this->add_ons_collector   = $add_ons_collector;
 		$this->current_page_helper = $current_page_helper;
 		$this->short_link_helper   = $short_link_helper;
 	}
@@ -150,26 +150,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data(): array {
 		return [
-			'addOns'      => [
-				'premium' => [
-					'id'           => 'premium',
-					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::PREMIUM_SLUG ),
-					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
-					'upsellConfig' => [
-						'action' => 'load-nfd-ctb',
-						'ctbId'  => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
-					],
-				],
-				'woo'     => [
-					'id'           => 'woo',
-					'isActive'     => $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
-					'hasLicense'   => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
-					'upsellConfig' => [
-						'action' => 'load-nfd-woo-ctb',
-						'ctbId'  => '5b32250e-e6f0-44ae-ad74-3cefc8e427f9',
-					],
-				],
-			],
+			'addOns'      => $this->add_ons_collector->to_array(),
 			'linkParams'  => $this->short_link_helper->get_query_params(),
 			'preferences' => [
 				'isRtl' => \is_rtl(),

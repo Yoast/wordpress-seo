@@ -31,9 +31,9 @@ const prepareAddOn = ( addOn ) => {
 		id: String( addOn.id ),
 		isActive: Boolean( addOn.isActive ),
 		hasLicense: Boolean( addOn.hasLicense ),
-		upsellConfig: {
-			action: get( addOn, "upsellConfig.action", "" ),
-			ctbId: get( addOn, "upsellConfig.ctbId", "" ),
+		ctb: {
+			action: get( addOn, "ctb.action", "" ),
+			id: get( addOn, "ctb.id", "" ),
 		},
 	};
 };
@@ -68,13 +68,13 @@ addOnsSelectors.selectAddOnHasLicense = createSelector(
 );
 addOnsSelectors.selectAddOnUpsellConfig = createSelector(
 	[ addOnsSelectors.selectAddOnById ],
-	( addOn ) => addOn.upsellConfig
+	( addOn ) => addOn.ctb
 );
 addOnsSelectors.selectAddOnUpsellConfigAsProps = createSelector(
 	[ addOnsSelectors.selectAddOnUpsellConfig ],
-	( upsellConfig ) => ( {
-		"data-action": upsellConfig.action,
-		"data-ctb-id": upsellConfig.ctbId,
+	( ctb ) => ( {
+		"data-action": ctb.action,
+		"data-ctb-id": ctb.id,
 	} )
 );
 
