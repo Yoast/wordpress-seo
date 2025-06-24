@@ -1,6 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Select, TextField, useSvgAria, Button } from "@yoast/ui-library";
+import { Select, useSvgAria, Button, TextInput } from "@yoast/ui-library";
 import { SearchIcon } from "@heroicons/react/outline";
 import { BULK_ACTIONS_OPTIONS, REDIRECT_TYPE_OPTIONS } from "../constants";
 import { useRedirectFilters } from "../hooks";
@@ -46,17 +46,18 @@ export const FilterControls = () => {
 
 	return (
 		<div className="yst-flex yst-gap-8 yst-items-start xl:yst-items-end yst-flex-col xl:yst-flex-row yst-pb-4">
-			<div className="yst-relative yst-w-full xl:yst-max-w-[256px] yst-search-block">
+			<div className="yst-relative yst-w-full xl:yst-max-w-[256px]">
 				<SearchIcon
 					className="yst-pointer-events-none yst-absolute yst-mt-3 yst-start-3 yst-h-4 yst-w-4 yst-text-slate-400 yst-z-10"
 					{ ...ariaSvgProps }
 				/>
-				<TextField
+				<TextInput
 					id="yst-search-redirects"
 					name="searchRedirects"
 					placeholder={ __( "Search…", "wordpress-seo" ) }
 					value={ searchRedirects }
 					onChange={ handleSearchRedirectsChange }
+					className="yst-ps-9"
 				/>
 			</div>
 			<div className="yst-flex yst-items-end yst-justify-end yst-flex-col xl:yst-flex-row yst-w-full yst-gap-6">
