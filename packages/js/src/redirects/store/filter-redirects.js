@@ -9,6 +9,7 @@ const initialState = {
 	bulkAction: "",
 	filterRedirectType: "",
 	searchRedirects: "",
+	selectedRedirects: [],
 };
 
 const slice = createSlice( {
@@ -24,10 +25,25 @@ const slice = createSlice( {
 		setSearchRedirects( state, action ) {
 			state.searchRedirects = action.payload;
 		},
+		setSelectedRedirects( state, action ) {
+			state.selectedRedirects = action.payload;
+		},
+		toggleSelectRedirect( state, action ) {
+			const id = action.payload;
+			if ( state.selectedRedirects.includes( id ) ) {
+				state.selectedRedirects = state.selectedRedirects.filter( item => item !== id );
+			} else {
+				state.selectedRedirects.push( id );
+			}
+		},
+		clearSelectedRedirects( state ) {
+			state.selectedRedirects = [];
+		},
 		resetFilters( state ) {
 			state.bulkAction = "";
 			state.filterRedirectType = "";
 			state.searchRedirects = "";
+			state.selectedRedirects = [];
 		},
 	},
 } );
@@ -40,6 +56,7 @@ export const filterSelectors = {
 	selectBulkAction: state => state[ FILTER_SLICE_NAME ].bulkAction,
 	selectFilterRedirectType: state => state[ FILTER_SLICE_NAME ].filterRedirectType,
 	selectSearchRedirects: state => state[ FILTER_SLICE_NAME ].searchRedirects,
+	selectSelectedRedirects: state => state[ FILTER_SLICE_NAME ].selectedRedirects,
 	selectFilterError: state => state[ FILTER_SLICE_NAME ].filterError,
 };
 
