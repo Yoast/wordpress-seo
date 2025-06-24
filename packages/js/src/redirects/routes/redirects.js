@@ -48,16 +48,16 @@ export const Redirects = () => {
 				validationSchema={ createValidationSchema( {} ) }
 				onSubmit={ handleCreateSubmit }
 			>
-				{ ( { isSubmitting } ) => (
+				{ ( { isSubmitting, status } ) => (
 					<Form className="yst-max-w-5xl yst-p-8">
 						<FieldsetLayout
 							title={ __( "Plain redirects", "wordpress-seo" ) }
 							description={ __( "Plain redirects automatically send visitors from one URL to another. Use them to fix broken links and improve your site's user experience.", "wordpress-seo" ) }
 							variant={ "xl" }
 						>
-							<FormAddRedirect />
+							<FormAddRedirect error={ status } />
 							<Button
-								id="yst-button-submit-settings"
+								id="yst-button-submit-redirect"
 								type="submit"
 								isLoading={ isSubmitting }
 								disabled={ isSubmitting }

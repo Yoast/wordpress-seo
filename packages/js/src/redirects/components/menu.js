@@ -7,7 +7,6 @@ import { ROUTES } from "../constants";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
-const SEARCH_REGEXP = new RegExp();
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -33,7 +32,6 @@ export const Menu = ( { idSuffix = "" } ) => {
 				buttonId={ `button-search${ idSuffix }` }
 				userLocale={ userLocale }
 				queryableSearchIndex={ queryableSearchIndex }
-				keyFilterPattern={ SEARCH_REGEXP }
 			/>
 		</header>
 		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">

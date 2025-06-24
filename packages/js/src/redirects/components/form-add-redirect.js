@@ -1,6 +1,6 @@
 import { useMemo } from "@wordpress/element";
-import { SelectField, TextField } from "@yoast/ui-library";
-import { REDIRECT_TYPE_OPTIONS } from "../constants";
+import { SelectField, TextField, Alert } from "@yoast/ui-library";
+import { FORMAT_PLAIN, REDIRECT_TYPE_OPTIONS } from "../constants";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useSelectRedirects } from "../hooks";
@@ -15,10 +15,12 @@ import FormikWithErrorField from "../../shared-admin/components/form/formik-with
  * - A select input for choosing the HTTP redirect type (301, 302, etc.).
  * - A text input for the origin (old URL).
  * - A text input for the target (new URL).
+ * @param {string} format - The format of the redirects being managed. Can be "plain" or "regex".
+ * @param {string} error - The error from submit.
  *
  * @returns {JSX.Element} The rendered form section for adding a redirect.
 */
-export const FormAddRedirect = () => {
+export const FormAddRedirect = ( { format = FORMAT_PLAIN, error = "" } ) => {
 	const redirectsTypeLink = useSelectRedirects( "selectLink", [], "https://yoa.st/2jb" );
 
 	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
@@ -39,12 +41,13 @@ export const FormAddRedirect = () => {
 
 	return (
 		<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+			{ error && <Alert variant="error">{ error }</Alert> }
 			<div>
 				<FormikValueChangeField
 					as={ SelectField }
 					type="select"
 					name="type"
-					id="yst-input-type"
+					id={ `yst-input-type-${format}` }
 					label={ __( "Redirect Type", "wordpress-seo" ) }
 					options={ REDIRECT_TYPE_OPTIONS }
 					className="yst-max-w-sm"
@@ -58,14 +61,14 @@ export const FormAddRedirect = () => {
 				as={ TextField }
 				type="text"
 				name="origin"
-				id="yst-input-origin"
+				id={ `yst-input-origin-${format}` }
 				label={ __( "Old URL", "wordpress-seo" ) }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				type="text"
 				name="target"
-				id="yst-input-target"
+				id={ `yst-input-target-${format}` }
 				label={ __( "New URL", "wordpress-seo" ) }
 			/>
 		</div>

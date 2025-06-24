@@ -8,7 +8,7 @@ import { dispatch } from "@wordpress/data";
  * @param {function} resetForm Resets the form.
  * @returns {Promise<boolean>} Promise of save result.
  */
-export const handleCreateSubmit = async( values, { resetForm } ) => {
+export const handleCreateSubmit = async( values, { resetForm, setStatus } ) => {
 	const { addNotification, addRedirectAsync } = dispatch( STORE_NAME );
 	try {
 		await addRedirectAsync( values );
@@ -21,12 +21,9 @@ export const handleCreateSubmit = async( values, { resetForm } ) => {
 		resetForm();
 		return true;
 	} catch ( error ) {
-		addNotification( {
-			id: "submit-error",
-			variant: "error",
-			title: `${ __( "Redirect not created", "wordpress-seo" ) }: ${ error.message }`,
-		} );
+		const errMessage = error.message?.message || error.message || __( "Something went wrong", "wordpress-seo" );
 
+		setStatus( errMessage );
 		console.error( "Error while saving:", error.message );
 		return false;
 	}

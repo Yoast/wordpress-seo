@@ -32,7 +32,7 @@ const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
  * @param {string} [modalId="modal-search"] Optional ID for the modal dialog element.
  * @param {string} [[userLocale="en-US"] User's locale used for locale-aware sorting and filtering.
  * @param {QueryableSearchIndexItem[]} queryableSearchIndex Array of searchable items.
- * @param {RegExp} keyFilterPattern Regular expression used to filter allowed input characters.
+ * @param {RegExp} [keyFilterPattern= new RegExp()] Regular expression used to filter allowed input characters.
  *
  * @returns {JSX.Element} The rendered search modal component.
  */
@@ -42,7 +42,7 @@ export const Search = ( {
 	modalId = "yst-modal-search",
 	userLocale = "en-US",
 	queryableSearchIndex,
-	keyFilterPattern,
+	keyFilterPattern = new RegExp(),
 } ) => {
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );

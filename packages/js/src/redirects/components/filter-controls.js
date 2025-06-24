@@ -63,7 +63,7 @@ export const FilterControls = ( { format = FORMAT_PLAIN } ) => {
 						{ ...ariaSvgProps }
 					/>
 					<TextField
-						id="yst-search-redirects"
+						id={ `yst-search-redirects-${format}` }
 						name="searchRedirects"
 						placeholder={ __( "Search…", "wordpress-seo" ) }
 						value={ searchRedirects }
@@ -74,7 +74,7 @@ export const FilterControls = ( { format = FORMAT_PLAIN } ) => {
 			<div className={ `yst-flex ${isExistsItems ? "yst-justify-end" : "yst-justify-start" }  yst-items-end yst-flex-col xl:yst-flex-row yst-w-full yst-gap-6` }>
 				<div className="yst-flex yst-items-end xl:yst-max-w-[256px] yst-w-full">
 					<Select
-						id="yst-filter-redirect-type"
+						id={ `yst-filter-redirect-type-${format}` }
 						name="filterRedirectType"
 						options={ [ { value: "", label: __( "All", "wordpress-seo" ) }, ...REDIRECT_TYPE_OPTIONS ]  }
 						className="yst-w-full"
@@ -86,7 +86,7 @@ export const FilterControls = ( { format = FORMAT_PLAIN } ) => {
 				{ isExistsItems && (
 					<div className="yst-flex yst-items-end yst-gap-2 yst-w-full xl:yst-w-auto">
 						<Select
-							id="yst-bulk-actions"
+							id={ `yst-bulk-actions-${format}` }
 							name="bulkAction"
 							options={ BULK_ACTIONS_OPTIONS }
 							label={ __( "Bulk actions", "wordpress-seo" ) }
