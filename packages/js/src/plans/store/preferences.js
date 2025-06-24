@@ -12,8 +12,8 @@ const slice = createSlice( {
 export const getInitialPreferencesState = slice.getInitialState;
 
 export const preferencesSelectors = {
-	selectPreference: ( state, preference, defaultValue = {} ) => get( state, `${ PREFERENCES_NAME }.${ preference }`, defaultValue ),
-	selectPreferences: state => get( state, PREFERENCES_NAME, {} ),
+	selectPreference: ( state, preference, defaultValue = false ) => get( state, [ PREFERENCES_NAME, preference ], defaultValue ),
+	selectPreferences: ( state ) => get( state, PREFERENCES_NAME, {} ),
 };
 
 export const preferencesActions = slice.actions;
