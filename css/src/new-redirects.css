@@ -121,10 +121,10 @@ body.seo_page_wpseo_redirects {
 		}
 
 		.yst-table-header:first-child {
-			@apply yst-ps-3;;
+			@apply yst-ps-3;
 		}
 		.yst-table-cell:first-child {
-			@apply yst-ps-3;;
+			@apply yst-ps-3;
 		}
 
 		.yst-dropdown-menu__item--button {
@@ -135,16 +135,6 @@ body.seo_page_wpseo_redirects {
 			td {
 				@apply yst-align-top;
 			}
-		}
-	}
-
-	.yst-search-block {
-		.yst-text-field__input {
-			@apply yst-ps-9;
-		}
-
-		.yst-text-field > div:first-child {
-			display: none !important;
 		}
 	}
 
