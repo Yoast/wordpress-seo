@@ -66,12 +66,12 @@ addOnsSelectors.selectAddOnHasLicense = createSelector(
 	[ addOnsSelectors.selectAddOnById ],
 	( addOn ) => addOn.hasLicense
 );
-addOnsSelectors.selectAddOnUpsellConfig = createSelector(
+addOnsSelectors.selectAddOnClickToBuy = createSelector(
 	[ addOnsSelectors.selectAddOnById ],
 	( addOn ) => addOn.ctb
 );
-addOnsSelectors.selectAddOnUpsellConfigAsProps = createSelector(
-	[ addOnsSelectors.selectAddOnUpsellConfig ],
+addOnsSelectors.selectAddOnClickToBuyAsProps = createSelector(
+	[ addOnsSelectors.selectAddOnClickToBuy ],
 	( ctb ) => ( {
 		"data-action": ctb.action,
 		"data-ctb-id": ctb.id,

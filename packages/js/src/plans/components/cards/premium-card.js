@@ -17,7 +17,7 @@ export const PremiumCard = () => {
 			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.premium ),
 			isWooActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
 			buyLink: plansSelect.selectLink( "http://yoa.st/plans-premium-buy" ),
-			buyConfig: plansSelect.selectAddOnUpsellConfigAsProps( ADD_ONS.premium ),
+			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-premium-manage" ),
 			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-premium-learn-more" ),
 		};

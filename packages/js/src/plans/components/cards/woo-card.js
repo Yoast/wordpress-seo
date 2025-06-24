@@ -16,7 +16,7 @@ export const WooCard = () => {
 			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
 			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.woo ),
 			buyLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-buy" ),
-			buyConfig: plansSelect.selectAddOnUpsellConfigAsProps( ADD_ONS.woo ),
+			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.woo ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-manage" ),
 			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-learn-more" ),
 		};
