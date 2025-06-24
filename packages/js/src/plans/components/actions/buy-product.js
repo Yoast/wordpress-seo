@@ -16,12 +16,6 @@ export const BuyProduct = ( { href, ...props } ) => {
 		<OutboundButtonLink { ...props } href={ href } variant="upsell">
 			{ __( "Buy product", "wordpress-seo" ) }
 			<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-shrink-0" { ...svgAriaProps } />
-			<span className="yst-sr-only">
-				{
-					/* translators: Hidden accessibility text. */
-					__( "(Opens in a new browser tab)", "wordpress-seo" )
-				}
-			</span>
 		</OutboundButtonLink>
 	);
 };

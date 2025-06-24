@@ -78,7 +78,7 @@ export const BaseCard = ( {
 			>
 				<Card.Header className="yst-overflow-hidden yst-h-auto yst-p-0">{ header }</Card.Header>
 				<Card.Content className="yst-flex yst-flex-col">
-					<Title as="h3">{ title }</Title>
+					<Title as="h2">{ title }</Title>
 					<p className="yst-mt-3">{ description }</p>
 					<hr className="yst-my-6 yst-border-t yst-border-slate-200" />
 					{ listDescription && <p className="yst-mb-3">{ listDescription }</p> }
