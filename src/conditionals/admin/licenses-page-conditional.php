@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Conditionals\Admin;
 
 use Yoast\WP\SEO\Conditionals\Conditional;
-use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Conditional that is only met when current page is the tools page.

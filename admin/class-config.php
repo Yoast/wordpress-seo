@@ -7,10 +7,10 @@
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
-use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -53,7 +53,7 @@ class WPSEO_Admin_Pages {
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Don't load the scripts for the following pages.
-		$page_exceptions = in_array(
+		$page_exceptions    = in_array(
 			$page,
 			[
 				Settings_Integration::PAGE,

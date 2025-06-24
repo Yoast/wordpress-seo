@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\General\User_Interface;
+namespace Yoast\WP\SEO\Plans\User_Interface;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -54,32 +54,23 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $addon_manager;
 
 	/**
-	 * Holds the Product_Helper.
-	 *
-	 * @var Product_Helper
-	 */
-	private $product_helper;
-
-	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager       The WPSEO_Addon_Manager.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		Current_Page_Helper $current_page_helper,
-		Short_Link_Helper $short_link_helper,
 		WPSEO_Addon_Manager $addon_manager,
-		Product_Helper $product_helper
+		Current_Page_Helper $current_page_helper,
+		Short_Link_Helper $short_link_helper
 	) {
 		$this->asset_manager       = $asset_manager;
+		$this->addon_manager       = $addon_manager;
 		$this->current_page_helper = $current_page_helper;
 		$this->short_link_helper   = $short_link_helper;
-		$this->addon_manager       = $addon_manager;
-		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -113,9 +104,9 @@ class Plans_Page_Integration implements Integration_Interface {
 	/**
 	 * Adds the page to the (currently) last position in the array.
 	 *
-	 * @param array<string, array<string, array>> $pages The pages.
+	 * @param array<string, array<string, array<static|string>>> $pages The pages.
 	 *
-	 * @return array<string, array<string, array>> The pages.
+	 * @return array<string, array<string, array<static|string>>> The pages.
 	 */
 	public function add_page( $pages ) {
 		$pages[] = [
@@ -155,7 +146,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	/**
 	 * Creates the script data.
 	 *
-	 * @return array The script data.
+	 * @return array<string,array<string, string|bool|array<string, string>>> The script data.
 	 */
 	private function get_script_data(): array {
 		return [

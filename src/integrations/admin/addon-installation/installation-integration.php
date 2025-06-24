@@ -15,8 +15,8 @@ use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Activate_Plugins_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
-use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Represents the Addon installation feature.

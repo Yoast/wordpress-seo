@@ -8,12 +8,12 @@ use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
-use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Class WPSEO_HelpScout

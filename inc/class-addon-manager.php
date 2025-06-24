@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
-use Yoast\WP\SEO\General\User_Interface\Plans_Page_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
