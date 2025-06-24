@@ -161,7 +161,7 @@ class Content_Types_Collector {
 				$recent_cornerstone_posts[ $cornerstone_meta->post->ID ] = new Content_Type_Entry(
 					$cornerstone_meta->post->ID,
 					$cornerstone_meta->post->post_title,
-					$cornerstone_meta->canonical, // @TODO: Needs check if it falls back in all cases to the permalink.
+					$cornerstone_meta->canonical,
 					$cornerstone_meta->post->post_excerpt
 				);
 			}
@@ -211,7 +211,7 @@ class Content_Types_Collector {
 				$posts[] = new Content_Type_Entry(
 					$indexable_meta->post->ID,
 					$indexable_meta->post->post_title,
-					$indexable_meta->canonical, // @TODO: Needs check if it falls back in all cases to the permalink.
+					$indexable_meta->canonical,
 					$indexable_meta->post->post_excerpt
 				);
 			}
