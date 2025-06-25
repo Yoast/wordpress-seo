@@ -35,7 +35,8 @@ export const WithoutLabel = {
 		docs: { description: { story: withoutLabel } },
 	},
 	args: {
-		id: "checkbox-disabled",
+		"aria-label": "A label for screen reader users",
+		id: "checkbox-without-label",
 		name: "name",
 		value: "value",
 		disabled: false,
