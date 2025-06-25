@@ -250,19 +250,15 @@ class Indexable_Link_Builder {
 	protected function create_links( $indexable, $links, $images ) {
 		$home_url    = \wp_parse_url( \home_url() );
 		$current_url = \wp_parse_url( $indexable->permalink );
-		$links       = \array_map(
-			function ( $link ) use ( $home_url, $indexable ) {
-				return $this->create_internal_link( $link, $home_url, $indexable );
-			},
-			$links
-		);
-		// Filter out links to the same page with a fragment or query.
-		$links = \array_filter(
-			$links,
-			function ( $link ) use ( $current_url ) {
-				return $this->filter_link( $link, $current_url );
+
+		foreach ( $links as $array_index => &$link ) {
+			if ( ! $this->filter_link_basic( $link, $current_url ) ) {
+				unset( $links[ $array_index ] );
+				continue;
 			}
-		);
+
+			$link = $this->create_internal_link( $link, $home_url, $indexable );
+		}
 
 		$image_links = [];
 		foreach ( $images as $image_url => $image_id ) {
@@ -434,6 +430,32 @@ class Indexable_Link_Builder {
 
 		// Always keep external links.
 		if ( $link->type === SEO_Links::TYPE_EXTERNAL ) {
+			return true;
+		}
+
+		// Always keep links with an empty path or pointing to other pages.
+		if ( isset( $url['path'] ) ) {
+			return empty( $url['path'] ) || $url['path'] !== $current_url['path'];
+		}
+
+		// Only keep links to the current page without a fragment or query.
+		return ( ! isset( $url['fragment'] ) && ! isset( $url['query'] ) );
+	}
+
+	/**
+	 * Does the same as `filter_link`, but does not rely on SEO_Links class to do it. In doing so,
+	 * we eliminate the need to query the database for every link.
+	 *
+	 * @param string $link The link.
+	 * @param string $current_url The url of the page the link is on, as parsed by wp_parse_url.
+	 *
+	 * @return bool Whether the link should be filtered.
+	 */
+	protected function filter_link_basic( $link, $current_url ) {
+		$url  = \wp_parse_url( $link );
+		$type = $this->url_helper->get_link_type( $url, $current_url );
+
+		if ( SEO_Links::TYPE_EXTERNAL === $type ) {
 			return true;
 		}
 
