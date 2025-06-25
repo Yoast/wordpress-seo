@@ -32,7 +32,7 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	private $product_helper;
 
 	/**
-	 * Holds the Current_Page_Helper.
+	 * Holds the current page helper.
 	 *
 	 * @var Current_Page_Helper
 	 */
