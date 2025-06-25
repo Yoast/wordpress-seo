@@ -6,7 +6,7 @@ use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Yoast_Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -108,7 +108,7 @@ final class Introductions_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Admin_Conditional::class ], Introductions_Integration::get_conditionals() );
+		$this->assertEquals( [ Yoast_Admin_Conditional::class ], Introductions_Integration::get_conditionals() );
 	}
 
 	/**
