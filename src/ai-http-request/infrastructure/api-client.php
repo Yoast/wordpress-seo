@@ -8,6 +8,8 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 /**
  * Class API_Client
  * Handles the API requests to the AI Generator API.
+ *
+ * @makePublic
  */
 class API_Client implements API_Client_Interface {
 

@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Consent_Handler
  * Handles the consent given or revoked by the user.
+ *
+ * @makePublic
  */
 class Consent_Handler implements Consent_Handler_Interface {
 
