@@ -4,7 +4,7 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
-import { Introduction, IntroductionProvider } from "./components";
+import { Content, Introduction, IntroductionProvider } from "./components";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -12,7 +12,6 @@ const DATA_NAME = "wpseoIntroductions";
 
 domReady( () => {
 	const initialIntroductions = get( window, `${ DATA_NAME }.introductions`, [] );
-
 	if ( isEmpty( initialIntroductions ) ) {
 		return;
 	}
@@ -29,7 +28,10 @@ domReady( () => {
 	const rootContext = {
 		isRtl: Boolean( get( window, `${ DATA_NAME }.isRtl`, false ) ),
 	};
-	const initialComponents = {};
+
+	const initialComponents = {
+		"google-docs-addon-upsell": Content,
+	};
 
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
