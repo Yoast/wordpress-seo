@@ -38,7 +38,6 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	 */
 	private $current_page_helper;
 
-
 	/**
 	 * Constructs the introduction.
 	 *
