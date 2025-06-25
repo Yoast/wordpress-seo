@@ -26,6 +26,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Token_Manager
  * Handles the management of JWT tokens used in the authorization process.
+ *
+ * @makePublic
  */
 class Token_Manager implements Token_Manager_Interface {
 
