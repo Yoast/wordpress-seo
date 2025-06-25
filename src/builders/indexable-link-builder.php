@@ -140,9 +140,12 @@ class Indexable_Link_Builder {
 			$post = $post_backup;
 		}
 
-		$content = \str_replace( ']]>', ']]&gt;', $content );
-		$links   = $this->gather_links( $content );
-		$images  = $this->image_content_extractor->gather_images( $content );
+		$content               = \str_replace( ']]>', ']]&gt;', $content );
+		$links                 = $this->gather_links( $content );
+		$links_summary         = $this->get_internal_link_count_and_unique_links( $links );
+		$links                 = $links_summary['unique_links'];
+		$indexable->link_count = $links_summary['internal_link_count'];
+		$images                = $this->image_content_extractor->gather_images( $content );
 
 		if ( empty( $links ) && empty( $images ) ) {
 			$indexable->link_count = 0;
@@ -158,8 +161,6 @@ class Indexable_Link_Builder {
 		$links = $this->create_links( $indexable, $links, $images );
 
 		$this->update_related_indexables( $indexable, $links );
-
-		$indexable->link_count = $this->get_internal_link_count( $links );
 
 		return $links;
 	}
@@ -546,6 +547,39 @@ class Indexable_Link_Builder {
 		}
 
 		return $internal_link_count;
+	}
+
+	/**
+	 * This function is meant to avoid a subsequent call to `get_internal_link_count`. In a single loop, it will count
+	 * how many internal links are contained within the `$links` array, and also return an array of unique links.
+	 *
+	 * @param string[] $links The links to check.
+	 *
+	 * @return array
+	 */
+	protected function get_internal_link_count_and_unique_links( $links ) {
+		$data = [
+			'internal_link_count' => 0,
+			'unique_links'        => [],
+		];
+
+		$home_url = \wp_parse_url( \home_url() );
+
+		foreach ( $links as $link ) {
+			$link_type = $this->url_helper->get_link_type( \wp_parse_url( $link ), $home_url );
+
+			if ( SEO_Links::TYPE_INTERNAL === $link_type ) {
+				++$data['internal_link_count'];
+			}
+
+			if ( ! array_key_exists( $link, $data['unique_links'] ) ) {
+				$data['unique_links'][ $link ] = true;
+			}
+		}
+
+		$data['unique_links'] = \array_keys( $data['unique_links'] );
+
+		return $data;
 	}
 
 	/**
