@@ -79,6 +79,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+			    AND LENGTH( P.post_content ) > 0
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
 			$public_post_types
@@ -120,6 +121,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+			    AND LENGTH( P.post_content ) > 0
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",
