@@ -15,7 +15,7 @@ export const LearnMore = ( { href, ...props } ) => {
 	return (
 		<OutboundButtonLink { ...props } href={ href } variant="tertiary">
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-shrink-0" { ...svgAriaProps } />
+			<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-shrink-0 rtl:yst-rotate-180" { ...svgAriaProps } />
 		</OutboundButtonLink>
 	);
 };
