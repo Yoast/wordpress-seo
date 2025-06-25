@@ -42,8 +42,8 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @param User_Helper         $user_helper    The user helper.
-	 * @param Product_Helper      $product_helper The product helper.
+	 * @param User_Helper         $user_helper         The user helper.
+	 * @param Product_Helper      $product_helper      The product helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( User_Helper $user_helper, Product_Helper $product_helper, Current_Page_Helper $current_page_helper ) {
