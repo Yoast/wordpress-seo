@@ -38,14 +38,14 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	}
 
 	// defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
-	let defaultAssessments = [ "introductionKeyword", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
+	let defaultAssessments = [ "introductionKeyword", "singleH1", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
 		"metaDescriptionLength", "slugKeyword", "titleWidth", "textLength" ];
 	if ( isStoreBlog ) {
-		// The introduction keyword and text length assessments are not available on store blogs.
-		defaultAssessments = defaultAssessments.slice( 1, -1 );
+		// The introduction keyword, single title and text length assessments are not available on store blogs.
+		defaultAssessments = defaultAssessments.slice( 2, -1 );
 	}
 
-	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase" ];
+	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase", "textCompetingLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
 		extraDefaultAssessments = [];
 	}
@@ -68,8 +68,9 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( "<h1>First title</h1><h1>Second title</h1>" );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "singleH1" );
-		expect( assessments.sort() ).toEqual( expected.sort() );
+		// const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "singleH1" );
+		// expect( assessments.sort() ).toEqual( expected.sort() );
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
