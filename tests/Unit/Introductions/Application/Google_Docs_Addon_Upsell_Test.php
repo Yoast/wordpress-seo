@@ -56,9 +56,9 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->user_helper    		= Mockery::mock( User_Helper::class );
-		$this->product_helper 		= Mockery::mock( Product_Helper::class );
-		$this->current_page_helper 	= Mockery::mock( Current_Page_Helper::class );
+		$this->user_helper         = Mockery::mock( User_Helper::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
 		$this->instance = new Google_Docs_Addon_Upsell( $this->user_helper, $this->product_helper, $this->current_page_helper );
 	}
