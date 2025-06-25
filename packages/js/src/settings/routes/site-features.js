@@ -422,28 +422,6 @@ const SiteFeatures = () => {
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
 							</FeatureCard>
-							<FeatureCard
-								name="wpseo.enable_llms_txt"
-								cardId="card-wpseo-enable_llms_txt"
-								inputId="input-wpseo-enable_llms_txt"
-								imageSrc="/images/llms.png"
-								title={ __( "llms.txt", "wordpress-seo" ) }
-							>
-								<p>{ __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ) }</p>
-								{ initialEnableLlmsTxt && enableLlmsTxt && <Button
-									as="a"
-									id="link-llms"
-									href={ llmsTxtUrl }
-									variant="secondary"
-									target="_blank"
-									rel="noopener"
-									className="yst-self-start"
-								>
-									{ __( "View the llms.txt file", "wordpress-seo" ) }
-									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
-								</Button> }
-								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
-							</FeatureCard>
 						</div>
 					</fieldset>
 				</div>
