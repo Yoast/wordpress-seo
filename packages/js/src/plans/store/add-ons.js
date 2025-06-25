@@ -55,7 +55,6 @@ export const getInitialAddOnsState = slice.getInitialState;
 const adapterSelectors = adapter.getSelectors( ( state ) => state[ ADD_ONS_NAME ] );
 
 export const addOnsSelectors = {
-	selectAddOns: adapterSelectors.selectAll,
 	selectAddOnById: adapterSelectors.selectById,
 };
 addOnsSelectors.selectAddOnIsActive = createSelector(

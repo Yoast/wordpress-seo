@@ -76,16 +76,6 @@ describe( "selectors", () => {
 		},
 	};
 
-	describe( "selectAddOns", () => {
-		it( "should exist", () => {
-			expect( addOnsSelectors.selectAddOns ).toBeDefined();
-		} );
-
-		it( "should return the add-ons", () => {
-			expect( addOnsSelectors.selectAddOns( state ) ).toEqual( Object.values( ENTITIES ) );
-		} );
-	} );
-
 	describe( "selectAddOnById", () => {
 		it( "should exist", () => {
 			expect( addOnsSelectors.selectAddOnById ).toBeDefined();
