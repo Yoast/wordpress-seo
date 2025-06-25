@@ -10,7 +10,7 @@ class Content_Type_Entry {
 	/**
 	 * The ID of the content type entry.
 	 *
-	 * @var string
+	 * @var int
 	 */
 	private $id;
 
@@ -38,12 +38,12 @@ class Content_Type_Entry {
 	/**
 	 * The constructor.
 	 *
-	 * @param string $id          The ID of the content type entry.
+	 * @param int    $id          The ID of the content type entry.
 	 * @param string $title       The title of the content type entry.
 	 * @param string $url         The URL of the content type entry.
 	 * @param string $description The description of the content type entry.
 	 */
-	public function __construct( string $id, ?string $title = null, ?string $url = null, ?string $description = null ) {
+	public function __construct( int $id, ?string $title = null, ?string $url = null, ?string $description = null ) {
 		$this->id          = $id;
 		$this->title       = $title;
 		$this->url         = $url;
@@ -53,9 +53,9 @@ class Content_Type_Entry {
 	/**
 	 * Gets the ID of the content type entry.
 	 *
-	 * @return string The ID of the content type entry.
+	 * @return int The ID of the content type entry.
 	 */
-	public function get_id(): string {
+	public function get_id(): int {
 		return $this->id;
 	}
 
