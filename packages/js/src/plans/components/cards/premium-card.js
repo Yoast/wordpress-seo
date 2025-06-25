@@ -38,12 +38,12 @@ export const PremiumCard = () => {
 			) }
 			listDescription={ safeCreateInterpolateElement(
 				sprintf(
-					/* translators: %1$s and %2$s expand to an opening and closing anchor tag. */
+					/* translators: %1$s and %2$s expand to an opening and closing span tag for styling. */
 					__( "Includes all %1$sFree%2$s features, plus:", "wordpress-seo" ),
-					"<strong>",
-					"</strong>"
+					"<span>",
+					"</span>"
 				),
-				{ strong: <strong /> }
+				{ span: <span className="yst-font-medium yst-text-slate-800" /> }
 			) }
 			list={ [
 				__( "AI-enhanced optimization, built right in at no extra cost", "wordpress-seo" ),
