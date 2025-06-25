@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Class WPSEO_HelpScout
@@ -73,7 +74,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		Support_Integration::PAGE,
 		'wpseo_search_console',
 		'wpseo_tools',
-		'wpseo_licenses',
+		Plans_Page_Integration::PAGE,
 		'wpseo_workouts',
 		'wpseo_integrations',
 	];
