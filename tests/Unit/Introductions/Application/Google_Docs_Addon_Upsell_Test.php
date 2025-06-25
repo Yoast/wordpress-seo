@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Introductions\Application;
+namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -48,7 +48,6 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 */
 	private $current_page_helper;
 
-
 	/**
 	 * Sets up the test fixtures.
 	 *
@@ -57,9 +56,9 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->user_helper    = Mockery::mock( User_Helper::class );
-		$this->product_helper = Mockery::mock( Product_Helper::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->user_helper    		= Mockery::mock( User_Helper::class );
+		$this->product_helper 		= Mockery::mock( Product_Helper::class );
+		$this->current_page_helper 	= Mockery::mock( Current_Page_Helper::class );
 
 		$this->instance = new Google_Docs_Addon_Upsell( $this->user_helper, $this->product_helper, $this->current_page_helper );
 	}
@@ -109,7 +108,6 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	public function test_get_priority() {
 		$this->assertSame( 10, $this->instance->get_priority() );
 	}
-
 
 	/**
 	 * Tests the conditional `should_show`.
