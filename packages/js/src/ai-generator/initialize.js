@@ -11,6 +11,7 @@ import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
+import domReady from "@wordpress/dom-ready";
 
 // Ignore these post types. Attachments will require a different prompt.
 const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
@@ -81,10 +82,6 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  * @returns {void}
  */
 const initializeAiGenerator = () => {
-	if ( ! get( window, "wpseoAiGenerator", false ) ) {
-		return;
-	}
-
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
@@ -115,4 +112,14 @@ const initializeAiGenerator = () => {
 	addAction( "yoast.elementor.loaded", "yoast/yoast-seo/AiGenerator", initializePromptContent );
 };
 
-export default initializeAiGenerator;
+domReady( () => {
+	if ( ! window.wpseoScriptData.postType ) {
+		return;
+	}
+
+	if ( window.wpseoScriptData.isElementorEditor && window.wpseoScriptData.postType === "product" ) {
+		return;
+	}
+
+	initializeAiGenerator();
+} );
