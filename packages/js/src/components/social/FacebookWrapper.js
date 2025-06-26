@@ -9,14 +9,28 @@ import { useFallbackWarning } from "./useFallbackWarning";
  * This wrapper is connected to the facebook container. So the data is connected to both components.
  * isPremium checks if premium is available and if available it doesn't render the 'free' facebook Component.
  *
- * @param {Object} props The properties object.
+ * @param {boolean} isPremium Whether premium is available.
+ * @param {Function} onLoad Function to call when loading.
+ * @param {string} location The location identifier.
+ * @param {string} [imageFallbackUrl=""] The fallback image URL.
+ * @param {string} [imageUrl=""] The image URL.
+ * @param {Array} [imageWarnings=[]] The image warnings.
+ * @param {...Object} [props] Additional props.
  *
  * @returns {JSX.Element} The FacebookWrapper.
  */
-const FacebookWrapper = ( props ) => {
+const FacebookWrapper = ( {
+	isPremium,
+	onLoad,
+	location,
+	imageFallbackUrl = "",
+	imageUrl = "",
+	imageWarnings = [],
+	...props
+} ) => {
 	const [ activeMetaTabId, setActiveMetaTabId ] = useState( "" );
 
-	const warnings = useFallbackWarning( props.imageFallbackUrl, props.imageUrl, props.imageWarnings );
+	const warnings = useFallbackWarning( imageFallbackUrl, imageUrl, imageWarnings );
 	// Set active meta tab id on window event.
 	const handleMetaTabChange = useCallback( ( event ) => {
 		setActiveMetaTabId( event.detail.metaTabId );
@@ -24,7 +38,7 @@ const FacebookWrapper = ( props ) => {
 
 	useEffect( () => {
 		// Load on the next cycle because the editor inits asynchronously, and we need to load the data after the component is fully loaded.
-		setTimeout( props.onLoad );
+		setTimeout( onLoad );
 
 		// Add event listener for meta section tab change.
 		window.addEventListener( "YoastSEO:metaTabChange", handleMetaTabChange );
@@ -36,14 +50,19 @@ const FacebookWrapper = ( props ) => {
 	}, [] );
 
 	const allProps = {
-		...props,
-		activeMetaTabId,
+		isPremium,
+		onLoad,
+		location,
+		imageFallbackUrl,
+		imageUrl,
 		imageWarnings: warnings,
+		activeMetaTabId,
+		...props,
 	};
 
 	return (
-		props.isPremium
-			? <Slot name={ `YoastFacebookPremium${ props.location.charAt( 0 ).toUpperCase() + props.location.slice( 1 ) }` } fillProps={ allProps } />
+		isPremium
+			? <Slot name={ `YoastFacebookPremium${ location.charAt( 0 ).toUpperCase() + location.slice( 1 ) }` } fillProps={ allProps } />
 			: <SocialForm { ...allProps } />
 	);
 };
@@ -55,12 +74,6 @@ FacebookWrapper.propTypes = {
 	imageFallbackUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
 	imageWarnings: PropTypes.array,
-};
-
-FacebookWrapper.defaultProps = {
-	imageFallbackUrl: "",
-	imageUrl: "",
-	imageWarnings: [],
 };
 
 export default FacebookWrapper;
