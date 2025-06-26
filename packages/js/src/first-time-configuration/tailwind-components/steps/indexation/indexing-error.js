@@ -1,6 +1,6 @@
+import { __ } from "@wordpress/i18n";
 import { strings } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 
 import RequestError from "../../../../errors/RequestError";
 import Alert from "../../base/alert";
@@ -15,11 +15,10 @@ const ALLOWED_TAGS = [ "a", "p" ];
  * If the value is `undefined`, nothing is shown.
  *
  * @param {string} title The title of the thing.
- * @param {any} value The value to show.
- *
+ * @param {any} [value=""] The value to show.
  * @returns {JSX.Element|null} The error line component, or `null` if the value is `undefined`.
  */
-function ErrorLine( { title, value } ) {
+function ErrorLine( { title, value = "" } ) {
 	if ( ! value ) {
 		return null;
 	}
@@ -34,19 +33,14 @@ ErrorLine.propTypes = {
 	value: PropTypes.any,
 };
 
-ErrorLine.defaultProps = {
-	value: "",
-};
-
 /**
  * Renders a collapsible error box. For bigger error messages or stack traces.
  *
  * @param {string} title The title of the element.
- * @param {string} value The value.
- *
+ * @param {string} [value=""] The value.
  * @returns {JSX.Element|null} The stack trace component, or `null` if no stack trace is available.
  */
-function ErrorBox( { title, value } ) {
+function ErrorBox( { title, value = "" } ) {
 	if ( ! value ) {
 		return null;
 	}
@@ -64,19 +58,15 @@ ErrorBox.propTypes = {
 	value: PropTypes.string,
 };
 
-ErrorBox.defaultProps = {
-	value: "",
-};
-
 /**
  * An error that should be shown when indexation has failed.
  *
  * @param {string} message The error message to show.
  * @param {Error|RequestError|ParseError} error The error itself.
- *
+ * @param {string} [className=""] Optional class name.
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexingError( { message, error, className } ) {
+export default function IndexingError( { message, error, className = "" } ) {
 	return <Alert
 		type={ "error" }
 		className={ className }
@@ -103,8 +93,4 @@ IndexingError.propTypes = {
 		PropTypes.instanceOf( RequestError ),
 	] ).isRequired,
 	className: PropTypes.string,
-};
-
-IndexingError.defaultProps = {
-	className: "",
 };
