@@ -43,7 +43,9 @@ const LlmTxt = () => {
 	// eslint-disable-next-line no-console
 	console.log( "initialLlmsTxtSelectionMode", initialLlmsTxtSelectionMode );
 
-	const activeTxtButton = ( initialIsLlmsTxtEnabled && isLlmsTxtEnabled );
+	const activeTxtButton = useMemo( () => (
+		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
+	), [ initialIsLlmsTxtEnabled, isLlmsTxtEnabled ] );
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
