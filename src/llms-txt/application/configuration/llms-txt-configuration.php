@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\Configuration;
 
 use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Responsible for the llms.txt configuration.
@@ -19,14 +20,24 @@ class Llms_Txt_Configuration {
 	private $runner;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param File_Runner $runner The File_Generation health check runner.
+	 * @param File_Runner    $runner         The File_Generation health check runner.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
-		File_Runner $runner
+		File_Runner $runner,
+		Options_Helper $options_helper
 	) {
 		$this->runner = $runner;
+		$this->options_helper = $options_helper;
 	}
 
 	/**

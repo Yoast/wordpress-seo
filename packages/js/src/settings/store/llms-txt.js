@@ -2,15 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
 /**
- * @returns {Object} The initial llmsTxt state from wpseoScriptData.
+ * @returns {Object} The initial llmsTxt state.
  */
 export const createInitialLlmsTxtState = () =>( { generationFailure: false, generationFailureReason: "", llmsTxtUrl: "" } );
 
-const slice = createSlice({
-    name: "llmsTxt",
-    initialState: createInitialLlmsTxtState(),
-    reducers: {},
-});
+const slice = createSlice( {
+	name: "llmsTxt",
+	initialState: createInitialLlmsTxtState(),
+	reducers: {},
+} );
 
 export const llmsTxtActions = slice.actions;
 
