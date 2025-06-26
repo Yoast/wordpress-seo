@@ -127,7 +127,7 @@ const LlmTxt = () => {
 								as={ Radio }
 								type="radio"
 								name="wpseo.llms_txt_selection_mode"
-								id="input-wpseo.llms_txt_selection_mode"
+								id="input-wpseo-llms_txt_selection_mode-auto"
 								label={ __( "Automatic selection", "wordpress-seo" ) }
 								value="auto"
 								disabled={ ! isLlmsTxtEnabled }
@@ -136,7 +136,7 @@ const LlmTxt = () => {
 								as={ Radio }
 								type="radio"
 								name="wpseo.llms_txt_selection_mode"
-								id="input-wpseo.llms_txt_selection_mode"
+								id="input-wpseo-llms_txt_selection_mode-manual"
 								label={ __( "Manual selection", "wordpress-seo" ) }
 								value="manual"
 								disabled={ ! isLlmsTxtEnabled }
