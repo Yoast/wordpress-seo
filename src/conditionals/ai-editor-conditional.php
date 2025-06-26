@@ -41,6 +41,9 @@ class AI_Editor_Conditional implements Conditional {
 	 * @return bool `true` when the AI editor integration should be active.
 	 */
 	public function is_met() {
+		if ( $this->is_attachment() ) {
+			return false;
+		}
 		return $this->post_conditional->is_met() || $this->is_term() || $this->is_elementor_editor();
 	}
 
@@ -72,5 +75,14 @@ class AI_Editor_Conditional implements Conditional {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Is an attchment post type.
+	 *
+	 * @return bool
+	 */
+	public function is_attachment() {
+		return $this->current_page_helper->get_current_post_type() === 'attachment';
 	}
 }
