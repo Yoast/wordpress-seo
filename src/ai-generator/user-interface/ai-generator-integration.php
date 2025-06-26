@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\AI_Fix_Assessments_Upsell;
@@ -62,6 +63,13 @@ class Ai_Generator_Integration implements Integration_Interface {
 	private $user_helper;
 
 	/**
+	 * Represents the product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Represents the introductions seen repository.
 	 *
 	 * @var Introductions_Seen_Repository
@@ -87,6 +95,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * @param Options_Helper                $options_helper                The options helper.
 	 * @param User_Helper                   $user_helper                   The user helper.
 	 * @param Introductions_Seen_Repository $introductions_seen_repository The introductions seen repository.
+	 * @param Product_Helper                $product_helper                The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -95,7 +104,8 @@ class Ai_Generator_Integration implements Integration_Interface {
 		Current_Page_Helper $current_page_helper,
 		Options_Helper $options_helper,
 		User_Helper $user_helper,
-		Introductions_Seen_Repository $introductions_seen_repository
+		Introductions_Seen_Repository $introductions_seen_repository,
+		Product_Helper $product_helper
 	) {
 		$this->asset_manager                 = $asset_manager;
 		$this->addon_manager                 = $addon_manager;
@@ -104,6 +114,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 		$this->options_helper                = $options_helper;
 		$this->user_helper                   = $user_helper;
 		$this->introductions_seen_repository = $introductions_seen_repository;
+		$this->product_helper                = $product_helper;
 	}
 
 	/**
@@ -114,6 +125,11 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		// Check if Premium version has ai generator.
+		if ( \version_compare( $this->product_helper->get_premium_version(), '25.6', '<' ) ) {
+			return;
+		}
+
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		// Enqueue after Elementor_Premium integration, which re-registers the assets.
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
