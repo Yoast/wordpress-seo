@@ -171,10 +171,9 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
-	const llmsTxtUrl = useSelectSettings( "selectPreference", [], "llmsTxtUrl" );
 	const { values, initialValues } = useFormikContext();
-	const { enable_xml_sitemap: enableXmlSitemap, enable_llms_txt: enableLlmsTxt } = values.wpseo;
-	const { enable_xml_sitemap: initialEnableXmlSitemap, enable_llms_txt: initialEnableLlmsTxt } = initialValues.wpseo;
+	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
+	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
