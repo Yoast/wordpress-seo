@@ -125,8 +125,8 @@ class Ai_Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Check if Premium version has ai generator.
-		if ( \version_compare( $this->product_helper->get_premium_version(), '25.6', '<' ) ) {
+		// Check if Premium version has ai generator and current post is not a product.
+		if ( \version_compare( $this->product_helper->get_premium_version(), '25.6', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product' ) {
 			return;
 		}
 
