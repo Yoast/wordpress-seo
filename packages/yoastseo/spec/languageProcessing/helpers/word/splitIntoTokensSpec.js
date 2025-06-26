@@ -73,6 +73,12 @@ const testCases = [
 		expectedResult: [ "[", "caption", "]", "test", "[", "/caption", "]" ],
 	},
 	{
+		description: "correctly tokenizes abbreviations",
+		text: "E.g. Asia contains many large flowing streams of water (i.e., rivers).",
+		expectedResult: [ "E.g.", " ", "Asia", " ", "contains", " ", "many", " ", "large", " ", "flowing", " ",
+			"streams", " ", "of", " ", "water", " ", "(", "i.e.", ",", " ", "rivers", ")", "." ],
+	},
+	{
 		description: "doesn't match with a hashed HTML entity (in this case, '#trade;' for '™') in the beginning or the end of the word",
 		text: "one trademark#trade;, and another '#trade;trademark'",
 		expectedResult: [ "one", " ", "trademark#trade;", ",", " ", "and", " ", "another", " ", "'", "#trade;trademark", "'" ],
