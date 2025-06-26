@@ -1,19 +1,18 @@
-import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
 import { ReactComponent as YoastSeoLogo } from "../../../images/Yoast_SEO_Icon.svg";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 // Note that the same logo in images has a width and height, which we do not want here.
 import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
 
 /**
  * @param {string} link The link.
- * @param {Object} [linkProps] Extra link props.
+ * @param {Object} linkProps Extra link props.
  * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @returns {JSX.Element} The premium upsell card.
  */
@@ -44,7 +43,6 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 				"<nowrap>",
 				"</nowrap>",
 				"Yoast SEO Premium"
-
 			),
 			{
 				nowrap: <span className="yst-whitespace-nowrap" />,
@@ -110,11 +108,6 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive } ) => {
 
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
-	linkProps: PropTypes.object,
-	isPromotionActive: PropTypes.func,
-};
-
-PremiumUpsellCard.defaultProps = {
-	linkProps: {},
-	isPromotionActive: noop,
+	linkProps: PropTypes.object.isRequired,
+	isPromotionActive: PropTypes.func.isRequired,
 };
