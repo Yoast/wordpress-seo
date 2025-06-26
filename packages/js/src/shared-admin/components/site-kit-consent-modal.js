@@ -10,7 +10,7 @@ import { OutboundLink } from "./outbound-link";
  *
  * @param {boolean} isOpen Whether the modal is open.
  * @param {function} onClose Callback to close the modal.
- * @param {function} onGrantConsent Callback to grant consent.
+ * @param {?function} onGrantConsent Callback to grant consent. If not provided, the modal will close on button click.
  * @param {string} [learnMoreLink] The learn more link.
  *
  * @returns {JSX.Element} The Site Kit consent modal component.
@@ -18,7 +18,7 @@ import { OutboundLink } from "./outbound-link";
 export const SiteKitConsentModal = ( {
 	isOpen,
 	onClose,
-	onGrantConsent,
+	onGrantConsent = null,
 	learnMoreLink = "",
 } ) => {
 	const svgAriaProps = useSvgAria();

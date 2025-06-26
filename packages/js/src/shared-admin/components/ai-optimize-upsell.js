@@ -1,20 +1,20 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * @param {string} learnMoreLink The learn more link.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
  * @param {string} upsellLink The upsell link.
- * @param {string} upsellLabel The upsell label.
- * @param {string} newToText The new to text.
- * @param {string|JSX.Element} bundleNote The bundle note.
- * @param {string} ctbId The click to buy to register for this upsell instance.
+ * @param {string} [upsellLabel] The upsell label.
+ * @param {string} [newToText] The new to text.
+ * @param {string|JSX.Element} [bundleNote] The bundle note.
+ * @param {string} [ctbId] The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
 export const AIOptimizeUpsell = ( {
@@ -22,10 +22,14 @@ export const AIOptimizeUpsell = ( {
 	thumbnail,
 	wistiaEmbedPermission,
 	upsellLink,
-	upsellLabel,
-	newToText,
-	bundleNote,
-	ctbId,
+	upsellLabel = sprintf(
+		/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "Unlock with %1$s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	),
+	newToText = "Yoast SEO Premium",
+	bundleNote = "",
+	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -142,15 +146,4 @@ AIOptimizeUpsell.propTypes = {
 		PropTypes.element,
 	] ),
 	ctbId: PropTypes.string,
-};
-
-AIOptimizeUpsell.defaultProps = {
-	upsellLabel: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "Unlock with %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
-	newToText: "Yoast SEO Premium",
-	bundleNote: "",
-	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
