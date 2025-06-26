@@ -116,10 +116,10 @@ const LlmTxt = () => {
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ sprintf(
-								// translators: %1$s expands to "llms.txt".
-								__( "%1$s page selection", "wordpress-seo" ),
-								label
-							) }
+							// translators: %1$s expands to "llms.txt".
+							__( "%1$s page selection", "wordpress-seo" ),
+							label
+						) }
 						description={ selectionDescription }
 					>
 						<RadioGroup disabled={ ! isLlmsTxtEnabled }>
