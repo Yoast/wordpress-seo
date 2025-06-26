@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
+use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -67,6 +68,13 @@ final class Settings_Integration_Test extends TestCase {
 	private $options;
 
 	/**
+	 * Holds the Llms_Txt_Configuration instance.
+	 *
+	 * @var Mockery\MockInterface|Llms_Txt_Configuration
+	 */
+	private $llms_txt_configuration;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -85,6 +93,7 @@ final class Settings_Integration_Test extends TestCase {
 		$user_helper             = Mockery::mock( User_Helper::class );
 		$this->options           = Mockery::mock( Options_Helper::class );
 		$content_type_visibility = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
+		$llms_txt_configuration  = Mockery::mock( Llms_Txt_Configuration::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -99,7 +108,8 @@ final class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility
+			$content_type_visibility,
+			$llms_txt_configuration
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -115,7 +125,8 @@ final class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility
+			$content_type_visibility,
+			$llms_txt_configuration
 		);
 	}
 
@@ -230,6 +241,11 @@ final class Settings_Integration_Test extends TestCase {
 			Content_Type_Visibility_Dismiss_Notifications::class,
 			$this->getPropertyValue( $this->instance, 'content_type_visibility' ),
 			'Content type visibility notifications is set.'
+		);
+		$this->assertInstanceOf(
+			Llms_Txt_Configuration::class,
+			$this->getPropertyValue( $this->instance, 'llms_txt_configuration' ),
+			'Llms_Txt_Configuration is set.'
 		);
 	}
 

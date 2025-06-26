@@ -17,7 +17,7 @@ import { useSelectSettings } from "../hooks";
  */
 const LlmTxt = () => {
 	const label = "llms.txt";
-    const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
+	const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
@@ -25,14 +25,23 @@ const LlmTxt = () => {
 
 	const { values, initialValues } = useFormikContext();
 	const {
-		"enable_llms_txt": isLlmsTxtEnabled,
-		"llms_txt_selection_mode": llmsTxtSelectionMode,
+		enable_llms_txt: isLlmsTxtEnabled,
+		llms_txt_selection_mode: llmsTxtSelectionMode,
 	} = values.wpseo;
 
 	const {
-		"enable_llms_txt": initialIsLlmsTxtEnabled,
-		"llms_txt_selection_mode": initialLlmsTxtSelectionMode,
+		enable_llms_txt: initialIsLlmsTxtEnabled,
+		llms_txt_selection_mode: initialLlmsTxtSelectionMode,
 	} = initialValues.wpseo;
+
+	// eslint-disable-next-line no-console
+	console.log( "hasGenerationFailed", hasGenerationFailed );
+	// eslint-disable-next-line no-console
+	console.log( "generationFailureReason", generationFailureReason );
+	// eslint-disable-next-line no-console
+	console.log( "llmsTxtSelectionMode", llmsTxtSelectionMode );
+	// eslint-disable-next-line no-console
+	console.log( "initialLlmsTxtSelectionMode", initialLlmsTxtSelectionMode );
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
@@ -78,7 +87,10 @@ const LlmTxt = () => {
 							) }
 							description={ sprintf(
 								// translators: %1$s expands to "llms.txt".
-								__( "By enabling this feature an %1$s file is automatically generated that lists a selection of your site's content.", "wordpress-seo" ),
+								__(
+									"By enabling this feature an %1$s file is automatically generated that lists a selection of your site's content.",
+									"wordpress-seo"
+								),
 								label
 							) }
 							className="yst-max-w-sm"
