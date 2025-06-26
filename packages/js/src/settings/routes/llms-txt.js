@@ -2,7 +2,7 @@ import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
+import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -113,6 +113,13 @@ const LlmTxt = () => {
 						) }
 						<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 					</Button>
+					{ ( ! initialIsLlmsTxtEnabled && isLlmsTxtEnabled ) && <Alert id="llms-txt-save-changes-aler" variant="info" className="yst-mt-4 yst-max-w-md">
+						{ sprintf(
+							// translators: %1$s expands to "llms.txt".
+							__( "By saving your changes we will generate your %1$s file.", "wordpress-seo" ),
+							label
+						) }
+					</Alert> }
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ sprintf(
