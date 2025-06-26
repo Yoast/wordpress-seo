@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -54,6 +55,13 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
+	 * Holds the meta surface repository.
+	 *
+	 * @var Mockery\MockInterface|Meta_Surface
+	 */
+	protected $meta;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -65,12 +73,14 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
 		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
+		$this->meta                 = Mockery::mock( Meta_Surface::class );
 
 		$this->instance = new Content_Types_Collector(
 			$this->post_type_helper,
 			$this->options_helper,
 			$this->indexable_helper,
-			$this->indexable_repository
+			$this->indexable_repository,
+			$this->meta
 		);
 	}
 }
