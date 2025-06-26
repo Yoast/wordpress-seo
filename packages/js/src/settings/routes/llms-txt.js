@@ -17,19 +17,21 @@ import { useSelectSettings } from "../hooks";
  */
 const LlmTxt = () => {
 	const label = "llms.txt";
-    const hasGenerationFailed = useSelectSettings( "selectLlmsTxtConfig", [], "generationFailure" );
-	const generationFailureReason = useSelectSettings( "selectLlmsTxtConfig", [], "generationFailureReason" );
-	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtConfig", [], "llmsTxtUrl" );
+    const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
+	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
+	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
 	const { values, initialValues } = useFormikContext();
 	const {
 		"enable_llms_txt": isLlmsTxtEnabled,
+		"llms_txt_selection_mode": llmsTxtSelectionMode,
 	} = values.wpseo;
 
 	const {
 		"enable_llms_txt": initialIsLlmsTxtEnabled,
+		"llms_txt_selection_mode": initialLlmsTxtSelectionMode,
 	} = initialValues.wpseo;
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
@@ -112,8 +114,8 @@ const LlmTxt = () => {
 							<Field
 								as={ Radio }
 								type="radio"
-								name="wpseo.llms_txt_selection"
-								id="input-wpseo.llms_txt_selection"
+								name="wpseo.llms_txt_selection_mode"
+								id="input-wpseo.llms_txt_selection_mode"
 								label={ __( "Automatic selection", "wordpress-seo" ) }
 								value="auto"
 								disabled={ ! isLlmsTxtEnabled }
@@ -121,8 +123,8 @@ const LlmTxt = () => {
 							<Field
 								as={ Radio }
 								type="radio"
-								name="wpseo.llms_txt_selection"
-								id="input-wpseo.llms_txt_selection"
+								name="wpseo.llms_txt_selection_mode"
+								id="input-wpseo.llms_txt_selection_mode"
 								label={ __( "Manual selection", "wordpress-seo" ) }
 								value="manual"
 								disabled={ ! isLlmsTxtEnabled }
