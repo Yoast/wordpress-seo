@@ -1,28 +1,25 @@
 /* eslint-disable complexity */
-import { Button } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
+import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import { Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
- * Represents an integration.
- *
- * @param {object}  integration          The integration.
- * @param {boolean} isActive             Whether the integration state is active.
- * @param {boolean} isInstalled          Whether the integration state is active.
- * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string}  activationLink       The URL to activate Yoast WooCommerce SEO.
- *
- * @returns {WPElement} A card representing an integration.
+ * @param {Object} integration The integration object.
+ * @param {boolean} [isActive=true] Whether the integration is active.
+ * @param {boolean} [isInstalled=true] Whether the integration is installed.
+ * @param {boolean} [isPrerequisiteActive=true] Whether the prerequisite plugin is active.
+ * @param {string} activationLink The URL to activate Yoast WooCommerce SEO.
+ * @returns {JSX.Element} A card representing an integration.
  */
 export const WoocommerceIntegration = ( {
 	integration,
-	isActive,
-	isInstalled,
-	isPrerequisiteActive,
+	isActive = true,
+	isInstalled = true,
+	isPrerequisiteActive = true,
 	activationLink,
 } ) => {
 	return (
@@ -95,7 +92,6 @@ export const WoocommerceIntegration = ( {
 		</SimpleIntegration>
 	);
 };
-/* eslint-enable complexity */
 
 WoocommerceIntegration.propTypes = {
 	integration: PropTypes.shape( {
@@ -112,10 +108,4 @@ WoocommerceIntegration.propTypes = {
 	isInstalled: PropTypes.bool,
 	isPrerequisiteActive: PropTypes.bool,
 	activationLink: PropTypes.string.isRequired,
-};
-
-WoocommerceIntegration.defaultProps = {
-	isActive: true,
-	isInstalled: true,
-	isPrerequisiteActive: true,
 };
