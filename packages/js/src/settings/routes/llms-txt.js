@@ -43,6 +43,8 @@ const LlmTxt = () => {
 	// eslint-disable-next-line no-console
 	console.log( "initialLlmsTxtSelectionMode", initialLlmsTxtSelectionMode );
 
+	const activeTxtButton = ( initialIsLlmsTxtEnabled && isLlmsTxtEnabled );
+
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
@@ -99,11 +101,12 @@ const LlmTxt = () => {
 					<Button
 						as="a"
 						id="link-llms"
-						href={ llmsTxtUrl }
+						href={ ( activeTxtButton ) ? llmsTxtUrl : null }
 						variant="secondary"
 						target="_blank"
 						rel="noopener"
-						disabled={ ! ( initialIsLlmsTxtEnabled && isLlmsTxtEnabled ) }
+						disabled={ ! activeTxtButton }
+						aria-disabled={ ! activeTxtButton }
 						className="yst-self-start yst-mt-8"
 					>
 						{ sprintf(
