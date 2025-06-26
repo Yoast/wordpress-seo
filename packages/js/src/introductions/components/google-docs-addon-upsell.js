@@ -21,7 +21,6 @@ export const GoogleDocsAddonUpsell = ( {
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
-
 	productName = "Yoast SEO Premium",
 	isPremium = false,
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",

@@ -1,7 +1,7 @@
 export { AcademyUpsellCard } from "./academy-upsell-card";
 export { AiGenerateTitlesAndDescriptionsUpsell } from "./ai-generate-titles-and-descriptions-upsell";
 export { AIOptimizeUpsell } from "./ai-optimize-upsell";
-export { GoogleDocsAddonUpsell } from "./google-docs-addon-upsell";
+
 export { ErrorFallback } from "./error-fallback";
 export { FieldsetLayout } from "./fieldset-layout";
 export { ReactComponent as G2LogoWhite } from "./g2-logo-white.svg";
