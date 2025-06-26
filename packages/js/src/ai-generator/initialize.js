@@ -46,13 +46,6 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
 		return buttons;
 	}
 
-	const isPremium = select( STORE_NAME_EDITOR ).getIsPremium();
-
-	// If the older version of premium is active, we don't want to show the Free AI generator button.
-	if ( isPremium && select( "yoast-seo-premium/ai-generator" ) ) {
-		return buttons;
-	}
-
 	const previewType = getPreviewType( fieldId );
 	if ( ! previewType ) {
 		// Unknown preview type.
@@ -88,6 +81,10 @@ const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editT
  * @returns {void}
  */
 const initializeAiGenerator = () => {
+	if ( ! get( window, "wpseoAiGenerator", false ) ) {
+		return;
+	}
+
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
