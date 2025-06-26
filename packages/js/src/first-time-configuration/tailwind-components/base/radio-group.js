@@ -1,6 +1,7 @@
+/* eslint-disable complexity */
+import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useCallback } from "@wordpress/element";
 
 const radioClassNameMap = {
 	variant: {
@@ -20,24 +21,27 @@ const classNameMap = {
 /**
  * @param {string} id Identifier.
  * @param {string} name Name.
- * @param {string} value Value.
+ * @param {string|number} value Value.
  * @param {string} label Label.
- * @param {string} [variant] Variant.
- * @param {string} [className] CSS class.
- * @returns {WPElement} Radio component.
+ * @param {string} [variant="default"] Variant.
+ * @param {string} [className=""] CSS class.
+ * @param {...Object} [props] Additional properties.
+ * @returns {JSX.Element} Radio element.
  */
 const Radio = ( {
 	id,
 	name,
 	value,
 	label,
-	className,
+	variant = "default",
+	className = "",
 	...props
 } ) => {
 	return (
 		<div
 			className={ classNames(
 				"yst-radio",
+				radioClassNameMap.variant[ variant ],
 				className
 			) }
 		>
@@ -63,21 +67,16 @@ Radio.propTypes = {
 	className: PropTypes.string,
 };
 
-Radio.defaultProps = {
-	variant: "default",
-	className: "",
-};
-
 /**
- * @param {JSX.node} children Content of the Label.
+ * @param {React.ReactNode} children Content of the Label.
  * @param {string|function} [as="label"] Base component.
- * @param {string} [className] CSS class.
- * @returns {WPElement} Label component.
+ * @param {string} [className=""] CSS class.
+ * @returns {JSX.Element} Label component.
  */
 const Label = ( {
 	children,
-	as: Component,
-	className,
+	as: Component = "label",
+	className = "",
 	...props
 } ) => (
 	<Component
@@ -94,33 +93,29 @@ Label.propTypes = {
 	className: PropTypes.string,
 };
 
-Label.defaultProps = {
-	as: "label",
-	className: "",
-};
-
 /**
- * @param {JSX.node} children Children are rendered below the radio group.
+ * @param {React.ReactNode} [children=null] Children are rendered below the radio group.
  * @param {string} id Identifier.
  * @param {string} name Name.
- * @param {string} value Value.
- * @param {JSX.node} [label] Label.
- * @param {{ value: string, label: string }[]} options Options to choose from.
+ * @param {string|number} value Value.
+ * @param {React.ReactNode} [label=null] Label.
+ * @param {{value: string|number, label: string}[]} options Options to choose from.
  * @param {Function} onChange Change handler.
- * @param {string} [variant] Variant.
- * @param {string} [className] CSS class.
- * @returns {WPElement} RadioGroup component.
+ * @param {string} [variant="default"] Variant.
+ * @param {string} [className=""] CSS class.
+ * @param {...Object} [props] Additional properties.
+ * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
-	children,
+	children = null,
 	id,
 	name,
 	value,
-	label,
+	label = null,
 	options,
 	onChange,
-	variant,
-	className,
+	variant = "default",
+	className = "",
 	...props
 } ) => {
 	const handleChange = useCallback( ( { target } ) => target.checked && onChange( target.value ), [ onChange ] );
@@ -168,13 +163,6 @@ RadioGroup.propTypes = {
 	label: PropTypes.node,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
-};
-
-RadioGroup.defaultProps = {
-	children: null,
-	label: null,
-	variant: "default",
-	className: "",
 };
 
 export default RadioGroup;
