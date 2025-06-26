@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-export { GoogleDocsAddonUpsell } from "./google-docs-addon-upsell";
+import { GoogleDocsAddonUpsell } from "./google-docs-addon-upsell";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 import { Modal } from "./modal";
 import { __, sprintf } from "@wordpress/i18n";
