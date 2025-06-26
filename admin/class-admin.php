@@ -67,10 +67,6 @@ class WPSEO_Admin {
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
-		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
-			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		}
-
 		$this->initialize_cornerstone_content();
 
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
@@ -137,15 +133,13 @@ class WPSEO_Admin {
 	/**
 	 * Register assets needed on admin pages.
 	 *
+	 * @deprecated 25.5
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form data.
-		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page === 'wpseo_licenses' ) {
-			$asset_manager = new WPSEO_Admin_Asset_Manager();
-			$asset_manager->enqueue_style( 'extensions' );
-		}
+		_deprecated_function( __METHOD__, 'Yoast SEO 25.5' );
 	}
 
 	/**
