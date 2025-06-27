@@ -117,9 +117,5 @@ domReady( () => {
 		return;
 	}
 
-	if ( window.wpseoScriptData.isElementorEditor && window.wpseoScriptData.postType === "product" ) {
-		return;
-	}
-
 	initializeAiGenerator();
 } );
