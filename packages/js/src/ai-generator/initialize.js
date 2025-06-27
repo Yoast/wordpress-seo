@@ -13,9 +13,6 @@ import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
 import domReady from "@wordpress/dom-ready";
 
-// Ignore these post types. Attachments will require a different prompt.
-const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
-
 /**
  * Get the preview type from the field ID.
  *
@@ -43,9 +40,6 @@ function getPreviewType( fieldId ) {
  */
 const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
 	const postType = select( STORE_NAME_EDITOR ).getPostType();
-	if ( IGNORED_POST_TYPES.includes( postType ) ) {
-		return buttons;
-	}
 
 	const previewType = getPreviewType( fieldId );
 	if ( ! previewType ) {
