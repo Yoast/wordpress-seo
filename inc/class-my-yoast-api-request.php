@@ -66,8 +66,8 @@ class WPSEO_MyYoast_Api_Request {
 	public function fire() {
 		try {
 			$response       = $this->do_request( $this->url, $this->args );
-			$this->response = $this->decode_response( $response );
-
+			$response       = $this->decode_response( $response );
+			$this->response = $this->validate_response( $response );
 			return true;
 		} catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request_exception ) {
 			$this->error_message = $bad_request_exception->getMessage();
@@ -117,7 +117,7 @@ class WPSEO_MyYoast_Api_Request {
 		$response_message = wp_remote_retrieve_response_message( $response );
 
 		// Do nothing, response code is okay.
-		if ( $response_code === 200 || strpos( $response_code, '200' ) !== false ) {
+		if ( $response_code === 200 ) {
 			return wp_remote_retrieve_body( $response );
 		}
 
@@ -142,6 +142,24 @@ class WPSEO_MyYoast_Api_Request {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Validates that all the needed fields are in de decoded response.
+	 *
+	 * @param stdClass $response The response to validate.
+	 *
+	 * @return stdClass                             The json decoded response.
+	 * @throws WPSEO_MyYoast_Invalid_JSON_Exception When not all needed fields are found.
+	 */
+	private function validate_response( $response ) {
+		if ( isset( $response->url, $response->subscriptions ) && is_array( $response->subscriptions ) ) {
+			return $response;
+		}
+
+		throw new WPSEO_MyYoast_Invalid_JSON_Exception(
+			esc_html__( 'Not all needed fields are present.', 'wordpress-seo' )
+		);
 	}
 
 	/**
