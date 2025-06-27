@@ -5,15 +5,13 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
-import { POST_TYPE, PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
+import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
-
-// Ignore these post types. Attachments will require a different prompt.
-const IGNORED_POST_TYPES = [ POST_TYPE.attachment ];
+import domReady from "@wordpress/dom-ready";
 
 /**
  * Get the preview type from the field ID.
@@ -42,9 +40,6 @@ function getPreviewType( fieldId ) {
  */
 const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
 	const postType = select( STORE_NAME_EDITOR ).getPostType();
-	if ( IGNORED_POST_TYPES.includes( postType ) ) {
-		return buttons;
-	}
 
 	const previewType = getPreviewType( fieldId );
 	if ( ! previewType ) {
@@ -111,4 +106,10 @@ const initializeAiGenerator = () => {
 	addAction( "yoast.elementor.loaded", "yoast/yoast-seo/AiGenerator", initializePromptContent );
 };
 
-export default initializeAiGenerator;
+domReady( () => {
+	if ( ! window.wpseoScriptData.postType ) {
+		return;
+	}
+
+	initializeAiGenerator();
+} );

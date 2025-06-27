@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Conditionals;
 
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
  * Conditional that is met when the AI editor integration should be active.
@@ -25,14 +26,23 @@ class AI_Editor_Conditional implements Conditional {
 	private $current_page_helper;
 
 	/**
+	 * Holds the Product_Helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Constructs Ai_Editor_Conditional.
 	 *
 	 * @param Post_Conditional    $post_conditional    The Post_Conditional.
 	 * @param Current_Page_Helper $current_page_helper The Current_Page_Helper.
+	 * @param Product_Helper      $product_helper      The Product_Helper.
 	 */
-	public function __construct( Post_Conditional $post_conditional, Current_Page_Helper $current_page_helper ) {
+	public function __construct( Post_Conditional $post_conditional, Current_Page_Helper $current_page_helper, Product_Helper $product_helper ) {
 		$this->post_conditional    = $post_conditional;
 		$this->current_page_helper = $current_page_helper;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -41,6 +51,14 @@ class AI_Editor_Conditional implements Conditional {
 	 * @return bool `true` when the AI editor integration should be active.
 	 */
 	public function is_met() {
+		if ( $this->is_attachment() ) {
+			return false;
+		}
+
+		if ( $this->is_ai_generator_premium() ) {
+			return false;
+		}
+
 		return $this->post_conditional->is_met() || $this->is_term() || $this->is_elementor_editor();
 	}
 
@@ -72,5 +90,26 @@ class AI_Editor_Conditional implements Conditional {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Is an attchment post type.
+	 *
+	 * @return bool
+	 */
+	public function is_attachment() {
+		return $this->current_page_helper->get_current_post_type() === 'attachment';
+	}
+
+	/**
+	 * Is premium version containes AI generator. We exclude product post type because it is not supported in premium version before 25.6.
+	 *
+	 * @return bool
+	 */
+	public function is_ai_generator_premium() {
+		if ( ! $this->product_helper->is_premium() ) {
+			return false;
+		}
+		return \version_compare( $this->product_helper->get_premium_version(), '25.6', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product';
 	}
 }
