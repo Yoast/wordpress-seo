@@ -140,13 +140,9 @@ class Ai_Generator_Integration implements Integration_Interface {
 		$user_id = $this->user_helper->get_current_user_id();
 
 		return [
-			'adminUrl'             => \admin_url( 'admin.php' ),
 			'hasConsent'           => $this->user_helper->get_meta( $user_id, '_yoast_wpseo_ai_consent', true ),
 			'productSubscriptions' => $this->get_product_subscriptions(),
 			'hasSeenIntroduction'  => $this->introductions_seen_repository->is_introduction_seen( $user_id, AI_Fix_Assessments_Upsell::ID ),
-			'pluginUrl'            => \plugins_url( '', \WPSEO_FILE ),
-			'postType'             => $this->get_post_type(),
-			'contentType'          => $this->get_content_type(),
 			'requestTimeout'       => $this->api_client->get_request_timeout(),
 			'isFreeSparks'         => $this->options_helper->get( 'ai_free_sparks_started_on', null ) !== null,
 		];
@@ -162,45 +158,5 @@ class Ai_Generator_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'ai-generator' );
 		$this->asset_manager->localize_script( 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );
 		$this->asset_manager->enqueue_style( 'ai-generator' );
-	}
-
-	/**
-	 * Returns the post type of the currently edited object.
-	 * In case this object is a term, returns the taxonomy.
-	 *
-	 * @return string
-	 */
-	private function get_post_type(): string {
-		// The order of checking is important here: terms have an empty post_type parameter in their GET request.
-		$taxonomy = $this->current_page_helper->get_current_taxonomy();
-		if ( $taxonomy !== '' ) {
-			return $taxonomy;
-		}
-
-		$post_type = $this->current_page_helper->get_current_post_type();
-		if ( $post_type ) {
-			return $post_type;
-		}
-
-		return '';
-	}
-
-	/**
-	 * Returns the content type (i.e., 'post' or 'term') of the currently edited object.
-	 *
-	 * @return string
-	 */
-	private function get_content_type(): string {
-		$taxonomy = $this->current_page_helper->get_current_taxonomy();
-		if ( $taxonomy !== '' ) {
-			return 'term';
-		}
-
-		$post_type = $this->current_page_helper->get_current_post_type();
-		if ( $post_type ) {
-			return 'post';
-		}
-
-		return '';
 	}
 }
