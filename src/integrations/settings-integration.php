@@ -27,6 +27,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -189,6 +190,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $content_type_visibility;
 
 	/**
+	 * Holds the Llms_Txt_Configuration instance.
+	 *
+	 * @var Llms_Txt_Configuration
+	 */
+	protected $llms_txt_configuration;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -204,6 +212,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param User_Helper                                   $user_helper             The User_Helper.
 	 * @param Options_Helper                                $options                 The options helper.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
+	 * @param Llms_Txt_Configuration                        $llms_txt_configuration  The Llms_Txt_Configuration instance.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -218,7 +227,8 @@ class Settings_Integration implements Integration_Interface {
 		Article_Helper $article_helper,
 		User_Helper $user_helper,
 		Options_Helper $options,
-		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility
+		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility,
+		Llms_Txt_Configuration $llms_txt_configuration
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->replace_vars            = $replace_vars;
@@ -233,6 +243,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->user_helper             = $user_helper;
 		$this->options                 = $options;
 		$this->content_type_visibility = $content_type_visibility;
+		$this->llms_txt_configuration  = $llms_txt_configuration;
 	}
 
 	/**
@@ -447,6 +458,7 @@ class Settings_Integration implements Integration_Interface {
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
 			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'llmsTxt'                        => $this->llms_txt_configuration->get_configuration(),
 		];
 	}
 
@@ -517,7 +529,6 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
-			'llmsTxtUrl'                    => \home_url( 'llms.txt' ),
 		];
 	}
 

@@ -235,6 +235,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'site_kit_usage_tracking',
 		'google_site_kit_feature_enabled',
 		'enable_llms_txt',
+		'llms_txt_selection_mode',
 	];
 
 	/**
