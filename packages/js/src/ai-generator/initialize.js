@@ -5,7 +5,7 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
 import { App, TypeProvider } from "./components";
-import { POST_TYPE, PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
+import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
