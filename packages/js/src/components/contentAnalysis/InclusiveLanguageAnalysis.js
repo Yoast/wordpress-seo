@@ -1,24 +1,21 @@
 /* global wpseoAdminL10n */
-/* External components */
 import { withSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Alert, SvgIcon } from "@yoast/components";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-/* Internal components */
-import ScoreIconPortal from "../portals/ScoreIconPortal";
-import Results from "../../containers/Results";
-import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import { getIconForScore } from "./mapResults";
-import { LocationConsumer } from "@yoast/externals/contexts";
+import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
+import Results from "../../containers/Results";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
-import { Alert, SvgIcon } from "@yoast/components";
-import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import ScoreIconPortal from "../portals/ScoreIconPortal";
+import Collapsible from "../SidebarCollapsible";
+import { getIconForScore } from "./mapResults";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -49,15 +46,19 @@ const ScoreIcon = styled( SvgIcon )`
 /**
  * The inclusive language analysis component.
  *
- * @param {Object} props 									The properties.
- *
- * @param {MappedResult[]} props.results 					The assessment results.
- * @param {number} props.overallScore 						The overall analysis score.
- * @param {"enabled"|"disabled"} props.marksButtonStatus 	The status of the mark buttons.
+ * @param {MappedResult[]} [results=[]] The assessment results.
+ * @param {?number} [overallScore=null] The overall analysis score.
+ * @param {"enabled"|"disabled"} marksButtonStatus The status of the mark buttons.
+ * @param {boolean} [shouldUpsellHighlighting=false] Whether to upsell highlighting.
  *
  * @returns {JSX.Element} The inclusive language analysis component.
  */
-const InclusiveLanguageAnalysis = ( props ) => {
+const InclusiveLanguageAnalysis = ( {
+	results = [],
+	overallScore = null,
+	marksButtonStatus,
+	shouldUpsellHighlighting = false,
+} ) => {
 	const analysisInfoLink = wpseoAdminL10n[ "shortlinks.inclusive_language_analysis_info" ];
 
 	/**
@@ -85,15 +86,15 @@ const InclusiveLanguageAnalysis = ( props ) => {
 					</StyledHelpLink>
 				</AnalysisHeader>
 				<Results
-					results={ props.results }
+					results={ results }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-					marksButtonStatus={ props.marksButtonStatus }
+					marksButtonStatus={ marksButtonStatus }
 					resultCategoryLabels={ {
 						problems: __( "Non-inclusive", "wordpress-seo" ),
 						improvements: __( "Potentially non-inclusive", "wordpress-seo" ),
 					} }
 					highlightingUpsellLink={ highlightingUpsellLink }
-					shouldUpsellHighlighting={ props.shouldUpsellHighlighting }
+					shouldUpsellHighlighting={ shouldUpsellHighlighting }
 				/>
 			</Fragment>
 		);
@@ -209,9 +210,9 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
-	const score = getIndicatorForScore( props.overallScore );
+	const score = getIndicatorForScore( overallScore );
 
-	if ( isNil( props.overallScore ) ) {
+	if ( isNil( overallScore ) ) {
 		score.className = "loading";
 	}
 
@@ -219,11 +220,11 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		<LocationConsumer>
 			{ location => {
 				if ( location === "sidebar" ) {
-					return renderSidebar( props.results, score );
+					return renderSidebar( results, score );
 				}
 
 				if ( location === "metabox" ) {
-					return renderMetabox( props.results, score );
+					return renderMetabox( results, score );
 				}
 			} }
 		</LocationConsumer>
@@ -232,16 +233,9 @@ const InclusiveLanguageAnalysis = ( props ) => {
 
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
-	// `marksButtonStatus` is used, but not recognized by ESLint.
 	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsellHighlighting: PropTypes.bool,
-};
-
-InclusiveLanguageAnalysis.defaultProps = {
-	results: [],
-	overallScore: null,
-	shouldUpsellHighlighting: false,
 };
 
 export default withSelect( select => {
