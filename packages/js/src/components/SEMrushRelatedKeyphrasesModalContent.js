@@ -1,8 +1,9 @@
+/* eslint-disable complexity */
 import { useCallback, useState } from "@wordpress/element";
-import { CountrySelector, KeyphrasesTable, UserMessage, PremiumUpsell } from "@yoast/related-keyphrase-suggestions";
+import { CountrySelector, KeyphrasesTable, PremiumUpsell, UserMessage } from "@yoast/related-keyphrase-suggestions";
 import { Root } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -32,19 +33,21 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
 /**
  * Gets a user message variant.
  *
- * @param {object} props The props to use within the content.
+ * @param {boolean} requestLimitReached Whether the request limit is reached.
+ * @param {boolean} isSuccess Whether the request was successful.
+ * @param {Object} response The response object.
+ * @param {boolean} requestHasData Whether the request has data.
+ * @param {Array} relatedKeyphrases The related keyphrases.
  *
  * @returns {?string} The user message variant, or null if no message is needed.
  */
-export function getUserMessage( props ) {
-	const {
-		requestLimitReached,
-		isSuccess,
-		response,
-		requestHasData,
-		relatedKeyphrases,
-	} = props;
-
+export function getUserMessage( {
+	requestLimitReached,
+	isSuccess,
+	response,
+	requestHasData,
+	relatedKeyphrases,
+} ) {
 	if ( requestLimitReached ) {
 		return "requestLimitReached";
 	}
@@ -67,28 +70,43 @@ export function getUserMessage( props ) {
 /**
  * Renders the SEMrush related keyphrases modal content.
  *
- * @param {Object} props The props to use within the content.
+ * @param {string} [keyphrase=""] The main keyphrase.
+ * @param {Array} [relatedKeyphrases=[]] The related keyphrases.
+ * @param {Function} [renderAction=null] Function to render an action button.
+ * @param {boolean} [requestLimitReached=false] Whether the request limit is reached.
+ * @param {string} countryCode The selected country code.
+ * @param {Function} setCountry Callback to set the country.
+ * @param {Function} newRequest Callback to request new keyphrases.
+ * @param {Object} [response={}] The response object.
+ * @param {boolean} [isRtl=false] Whether RTL mode is enabled.
+ * @param {string} [userLocale="en_US"] The user locale.
+ * @param {boolean} [isPending=false] Whether a request is pending.
+ * @param {boolean} [isSuccess=false] Whether the last request was successful.
+ * @param {boolean} [requestHasData=true] Whether the last request has data.
+ * @param {boolean} [isPremium=false] Whether the user has premium.
+ * @param {string} [semrushUpsellLink=""] The SEMrush upsell link.
+ * @param {string} [premiumUpsellLink=""] The premium upsell link.
  *
- * @returns {wp.Element} The SEMrush related keyphrases modal content.
+ * @returns {JSX.Element} The SEMrush related keyphrases modal content.
  */
-export default function RelatedKeyphraseModalContent( props ) {
-	const {
-		keyphrase = "",
-		relatedKeyphrases = [],
-		renderAction = null,
-		requestLimitReached = false,
-		countryCode = "us",
-		setCountry,
-		newRequest,
-		response = {},
-		isRtl = false,
-		userLocale = "en_US",
-		isPending = false,
-		isPremium = false,
-		semrushUpsellLink = "",
-		premiumUpsellLink = "",
-	} = props;
-
+export default function RelatedKeyphraseModalContent( {
+	keyphrase = "",
+	relatedKeyphrases = [],
+	renderAction = null,
+	requestLimitReached = false,
+	countryCode,
+	setCountry,
+	newRequest,
+	response = {},
+	isRtl = false,
+	userLocale = "en_US",
+	isPending = false,
+	isSuccess = false,
+	requestHasData = true,
+	isPremium = false,
+	semrushUpsellLink = "",
+	premiumUpsellLink = "",
+} ) {
 	const [ activeCountryCode, setActiveCountryCode ] = useState( countryCode );
 
 	/**
@@ -119,7 +137,13 @@ export default function RelatedKeyphraseModalContent( props ) {
 			/> }
 
 			{ ! isPending && <UserMessage
-				variant={ getUserMessage( props ) }
+				variant={ getUserMessage( {
+					requestLimitReached,
+					isSuccess,
+					response,
+					requestHasData,
+					relatedKeyphrases,
+				} ) }
 				upsellLink={ semrushUpsellLink }
 			/> }
 
@@ -147,6 +171,8 @@ RelatedKeyphraseModalContent.propTypes = {
 	isRtl: PropTypes.bool,
 	userLocale: PropTypes.string,
 	isPending: PropTypes.bool,
+	isSuccess: PropTypes.bool,
+	requestHasData: PropTypes.bool,
 	isPremium: PropTypes.bool,
 	semrushUpsellLink: PropTypes.string,
 	premiumUpsellLink: PropTypes.string,
