@@ -13,18 +13,19 @@ const upsellDescription = __(
 /**
  * Creates the content for a PremiumSEOAnalysisUpsell modal.
  *
- * @param {Object} props The props for the component.
+ * @param {string} buyLink The buy link key for the upsell.
+ * @param {string} [description] The upsell description.
  *
- * @returns {wp.Element} The PremiumSEOAnalysisUpsell component.
+ * @returns {JSX.Element} The element.
  */
-const PremiumSEOAnalysisUpsell = ( props ) => {
+const PremiumSEOAnalysisUpsell = ( { buyLink, description = upsellDescription } ) => {
 	const { locationContext } = useRootContext();
-	const buyLink = addQueryArgs( wpseoAdminL10n[ props.buyLink ], { context: locationContext } );
+	const buyLinkUrl = addQueryArgs( wpseoAdminL10n[ buyLink ], { context: locationContext } );
 
 	return (
 		<UpsellBox
 			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
-			description={ props.description }
+			description={ description }
 			benefitsTitle={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -40,7 +41,7 @@ const PremiumSEOAnalysisUpsell = ( props ) => {
 				)
 			}
 			upsellButton={ {
-				href: buyLink,
+				href: buyLinkUrl,
 				className: "yoast-button-upsell",
 				rel: null,
 				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
@@ -55,10 +56,5 @@ PremiumSEOAnalysisUpsell.propTypes = {
 	buyLink: PropTypes.string.isRequired,
 	description: PropTypes.string,
 };
-
-PremiumSEOAnalysisUpsell.defaultProps = {
-	description: upsellDescription,
-};
-
 
 export default PremiumSEOAnalysisUpsell;
