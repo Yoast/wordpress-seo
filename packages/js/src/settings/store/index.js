@@ -21,6 +21,7 @@ import defaultSettingValues, {
 	defaultSettingValuesActions,
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
+import indexablePages, { createInitialIndexablePagesState, indexablePagesActions, indexablePagesControls, indexablePagesSelectors } from "./indexable-pages";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
@@ -52,6 +53,7 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...defaultSettingValuesActions,
 			...fallbacksActions,
+			...indexablePagesActions,
 			...linkParamsActions,
 			...llmsTxtActions,
 			...mediaActions,
@@ -70,6 +72,7 @@ const createStore = ( { initialState } ) => {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
+			...indexablePagesSelectors,
 			...linkParamsSelectors,
 			...llmsTxtSelectors,
 			...mediaSelectors,
@@ -89,6 +92,7 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
+				indexablePages: createInitialIndexablePagesState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				llmsTxt: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
@@ -108,6 +112,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
+			indexablePages,
 			llmsTxt,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
@@ -128,6 +133,7 @@ const createStore = ( { initialState } ) => {
 			...postTypeControls,
 			...taxonomyControls,
 			...pageControls,
+			...indexablePagesControls,
 		},
 	} );
 };

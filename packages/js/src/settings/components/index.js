@@ -6,6 +6,7 @@ export { default as FormikReplacementVariableEditorField } from "./formik-replac
 export { default as FormikTagField } from "./formik-tag-field";
 export { default as FormikUserSelectField } from "./formik-user-select-field";
 export { default as FormikPageSelectField } from "./formik-page-select-field";
+export { default as FormikIndexablePageSelectField } from "./formik-indexable-page-select-field.js";
 export { default as FormikValueChangeField } from "./formik-value-change-field";
 export { default as FormikAutocompleteField } from "./formik-autocomplete-field";
 export { default as FormikWithErrorField } from "./formik-with-error-field";

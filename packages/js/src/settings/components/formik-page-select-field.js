@@ -34,6 +34,7 @@ PageSelectOptionsContent.propTypes = {
  */
 const FormikPageSelectField = ( { name, id, ...props } ) => {
 	const siteBasicsPolicies = useSelectSettings( "selectPreference", [], "siteBasicsPolicies", {} );
+			console.log( "siteBasicsPolicies", siteBasicsPolicies );
 	const pages = useSelectSettings( "selectPagesWith", [ siteBasicsPolicies ], values( siteBasicsPolicies ) );
 	const { fetchPages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
