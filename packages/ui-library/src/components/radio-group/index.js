@@ -14,18 +14,18 @@ const classNameMap = {
 };
 
 /**
- * @param {JSX.node} children Children are rendered below the radio group.
- * @param {string} [id] Identifier.
- * @param {string} [name] Name.
- * @param {string} [value] Value.
- * @param {string} [label] Label.
- * @param {string} [description] Description.
- * @param {{ value: string, label: string, screenReaderLabel: string }[]} options Options to choose from.
- * @param {Function} [onChange] Change handler.
- * @param {string} [variant] Variant.
- * @param {boolean} [disabled] Disabled state.
- * @param {string} [className] CSS class.
- * @param {Object} [props] Extra Radio props.
+ * @param {JSX.node} [children=null] Children are rendered below the radio group. Either use this or the `options` prop.
+ * @param {string} [id=""] Identifier.
+ * @param {string} [name=""] Name.
+ * @param {string} [value=""] Value.
+ * @param {string} [label=""] Label.
+ * @param {string} [description=""] Description.
+ * @param {{value: string, label: string, screenReaderLabel: string}[]} [options=[]] Options to choose from. Either use this or the `children` prop.
+ * @param {Function} [onChange=noop] Change handler.
+ * @param {string} [variant="default"] Variant. Either `default` or `inline-block`.
+ * @param {boolean} [disabled=false] Disabled state.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Extra Radio props.
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
@@ -33,9 +33,9 @@ const RadioGroup = ( {
 	id = "",
 	name = "",
 	value = "",
-	label,
-	description,
-	options,
+	label = "",
+	description = "",
+	options = [],
 	onChange = noop,
 	variant = "default",
 	disabled = false,

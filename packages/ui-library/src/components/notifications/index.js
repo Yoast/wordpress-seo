@@ -26,19 +26,19 @@ export const notificationClassNameMap  = {
 };
 
 /**
- * @param {Object} props The props object.
- * @param {JSX.node} children The children.
- * @param {string} [variant] The message variant. Either success or error.
- * @param {string} [size] The message size. Either default or large.
- * @param {string} [title] The message title.
- * @param {string|string[]} [description] The message description.
- * @param {Function} [onDismiss] Function to trigger on dismissal.
- * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
+ * @param {string} id The notification ID.
+ * @param {JSX.node} [children=null] The children.
+ * @param {string} [variant="info"] The message variant. Either success or error.
+ * @param {string} [size="default"] The message size. Either default or large.
+ * @param {string} [title=""] The message title.
+ * @param {string|string[]} [description=""] The message description.
+ * @param {Function} [onDismiss=noop] Function to trigger on dismissal.
+ * @param {number|null} [autoDismiss=null] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
  * @returns {JSX.Element} The Notification component.
  */
 const Notification = ( {
-	children,
+	children = null,
 	id,
 	variant = "info",
 	size = "default",
@@ -107,14 +107,14 @@ const notificationsClassNameMap = {
 
 /**
  * The Notifications component shows notifications on a specified position on the screen.
- * @param {JSX.Element} children The children.
- * @param {string} [className] Additional class names.
- * @param {string} position Position on screen.
- * @param {Object} [props] Additional props.
+ * @param {JSX.Element} [children] The children.
+ * @param {string} [className=""] Additional class names.
+ * @param {string} [position="bottom-left"] Position on screen. Either bottom-left, bottom-center or top-center.
+ * @param {...any} [props] Additional props.
  * @returns {JSX.Element} The Notifications element.
  */
 const Notifications = ( {
-	children,
+	children = null,
 	className = "",
 	position = "bottom-left",
 	...props

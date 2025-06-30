@@ -26,50 +26,7 @@ $premium_extension = [
 	'benefits' => [],
 ];
 
-$extensions = [
-	WPSEO_Addon_Manager::LOCAL_SLUG => [
-		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
-		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
-		'title'         => 'Local SEO',
-		'display_title' => __( 'Stand out for local searches', 'wordpress-seo' ),
-		'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-		'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
-		'benefits'      => [
-			__( 'Attract more customers to your site and physical store', 'wordpress-seo' ),
-			__( 'Automatically get technical SEO best practices for local businesses', 'wordpress-seo' ),
-			__( 'Easily add maps, address finders, and opening hours to your content', 'wordpress-seo' ),
-			__( 'Optimize your business for multiple locations', 'wordpress-seo' ),
-		],
-	],
-	WPSEO_Addon_Manager::VIDEO_SLUG => [
-		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zx/' ),
-		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
-		'title'         => 'Video SEO',
-		'display_title' => __( 'Drive more views to your videos', 'wordpress-seo' ),
-		'desc'          => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-		'image'         => plugins_url( 'images/video_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
-		'benefits'      => [
-			__( 'Automatically get technical SEO best practices for video content', 'wordpress-seo' ),
-			__( 'Make sure your videos load quickly for users', 'wordpress-seo' ),
-			__( 'Make your videos responsive for all screen sizes', 'wordpress-seo' ),
-			__( 'Optimize your video previews & thumbnails', 'wordpress-seo' ),
-		],
-	],
-	WPSEO_Addon_Manager::NEWS_SLUG  => [
-		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zv/' ),
-		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zu/' ),
-		'title'         => 'News SEO',
-		'display_title' => __( 'Rank higher in Google\'s news carousel', 'wordpress-seo' ),
-		'desc'          => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-		'image'         => plugins_url( 'images/news_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
-		'benefits'      => [
-			__( 'Optimize your site for Google News', 'wordpress-seo' ),
-			__( 'Ping Google on the publication of a new post', 'wordpress-seo' ),
-			__( 'Add all necessary schema.org markup', 'wordpress-seo' ),
-			__( 'Get XML sitemaps', 'wordpress-seo' ),
-		],
-	],
-];
+$extensions = [];
 
 // Add Yoast WooCommerce SEO when WooCommerce is active.
 if ( YoastSEO()->helpers->woocommerce->is_active() ) {
@@ -95,30 +52,9 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 
 // The total number of plugins to consider is the length of the array + 1 for Premium.
 // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$number_plugins_total = ( count( $extensions ) + 1 );
+$number_plugins_total = count( $extensions );
 // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$number_plugins_active = 0;
-
-$extensions['yoast-seo-plugin-subscription'] = [
-	'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-buy' ),
-	'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-info' ),
-	/* translators: used in phrases such as "More information about all the Yoast plugins" */
-	'title'         => __( 'all the Yoast plugins', 'wordpress-seo' ),
-	'display_title' => __( 'Cover all your SEO bases', 'wordpress-seo' ),
-	'desc'          => '',
-	'image'         => plugins_url( 'images/plugin_subscription.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
-	'benefits'      => [
-		__( 'Get all 5 Yoast plugins for WordPress at a big discount', 'wordpress-seo' ),
-		__( 'Reach new customers who live near your business', 'wordpress-seo' ),
-		__( 'Drive more views to your videos', 'wordpress-seo' ),
-		__( 'Rank higher in Google\'s news carousel', 'wordpress-seo' ),
-		__( 'Drive more traffic to your online store', 'wordpress-seo' ),
-
-	],
-	/* translators: used in phrases such as "Buy all the Yoast plugins" */
-	'buy_button'    => __( 'all the Yoast plugins', 'wordpress-seo' ),
-];
-
+$number_plugins_active          = 0;
 $addon_manager                  = new WPSEO_Addon_Manager();
 $has_valid_premium_subscription = YoastSEO()->helpers->product->is_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 
@@ -289,6 +225,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 		<hr class="yoast-hr" aria-hidden="true"/>
 
 		<section class="yoast-promo-extensions">
+			<?php if ( count( $extensions ) >= 1 ) : ?>
 			<h2>
 				<?php
 				printf(
@@ -300,7 +237,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				);
 				?>
 			</h2>
-
+			<?php endif; ?>
 			<?php
 			foreach ( $extensions as $slug => $extension ) :
 
