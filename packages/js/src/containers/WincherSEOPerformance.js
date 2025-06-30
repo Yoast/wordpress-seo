@@ -11,7 +11,6 @@ export default compose( [
 			isWincherNewlyAuthenticated,
 			getWincherKeyphraseLimitReached,
 			getWincherLimit,
-			getWincherHistoryDaysLimit,
 			getWincherLoginStatus,
 			getWincherRequestIsSuccess,
 			getWincherRequestResponse,
@@ -34,7 +33,6 @@ export default compose( [
 			response: getWincherRequestResponse(),
 			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
 			permalink: getWincherPermalink(),
-			historyDaysLimit: getWincherHistoryDaysLimit(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
