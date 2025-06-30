@@ -1,6 +1,7 @@
+/* eslint-disable complexity */
 /* External dependencies */
-import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
+import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import AreaChartTable from "./AreaChartTable";
@@ -8,32 +9,32 @@ import AreaChartTable from "./AreaChartTable";
 /**
  * Renders a SVG area chart.
  *
- * @param {array}    data                      Array of objects with X and Y coordinates for the SVG chart points.
- * @param {number}   width                     The SVG chart width.
- * @param {number}   height                    The SVG chart height.
- * @param {string}   fillColor                 The SVG chart area background color in HEX format.
- * @param {string}   strokeColor               The SVG chart line color in HEX format.
- * @param {number}   strokeWidth               The SVG chart line width.
- * @param {string}   className                 The CSS class name for the chart.
- * @param {Function} mapChartDataToTableData   Function to adapt the chart points to meaningful data for the table.
- * @param {string}   dataTableCaption          The data table caption text.
- * @param {array}    dataTableHeaderLabels     The text to be used for the data table headers.
- * @param {boolean}  isDataTableVisuallyHidden Whether the data table is viually hidden.
+ * @param {Array} data Array of objects with X and Y coordinates for the SVG chart points.
+ * @param {number} width The SVG chart width.
+ * @param {number} height The SVG chart height.
+ * @param {?string} [fillColor=null] The SVG chart area background color in HEX format.
+ * @param {string} [strokeColor="#000000"] The SVG chart line color in HEX format.
+ * @param {number} [strokeWidth=1] The SVG chart line width.
+ * @param {string} [className=""] The CSS class name for the chart.
+ * @param {Function} [mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
+ * @param {string} dataTableCaption The data table caption text.
+ * @param {Array} dataTableHeaderLabels The text to be used for the data table headers.
+ * @param {boolean} [isDataTableVisuallyHidden=true] Whether the data table is visually hidden.
  *
- * @returns {wp.Element} The SVG area chart component.
+ * @returns {JSX.Element} The rendered SVG area chart component.
  */
 const AreaChart = ( {
 	data,
 	width,
 	height,
-	fillColor,
-	strokeColor,
-	strokeWidth,
-	className,
-	mapChartDataToTableData,
+	fillColor = null,
+	strokeColor = "#000000",
+	strokeWidth = 1,
+	className = "",
+	mapChartDataToTableData = null,
 	dataTableCaption,
 	dataTableHeaderLabels,
-	isDataTableVisuallyHidden,
+	isDataTableVisuallyHidden = true,
 } ) => {
 	// When all the x values are zero, make sure the maximumX value is at least 1 to avoid a division by zero later.
 	const maximumXFromData = Math.max( 1, Math.max( ...data.map( point => point.x ) ) );
@@ -111,15 +112,6 @@ AreaChart.propTypes = {
 	dataTableCaption: PropTypes.string.isRequired,
 	dataTableHeaderLabels: PropTypes.array.isRequired,
 	isDataTableVisuallyHidden: PropTypes.bool,
-};
-
-AreaChart.defaultProps = {
-	fillColor: null,
-	strokeColor: "#000000",
-	strokeWidth: 1,
-	className: "",
-	mapChartDataToTableData: null,
-	isDataTableVisuallyHidden: true,
 };
 
 export default AreaChart;

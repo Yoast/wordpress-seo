@@ -25,12 +25,12 @@ const Preformatted = styled.pre`
  *
  * If the value is `undefined`, nothing is shown.
  *
- * @param {string} title The title of the thing.
- * @param {any} value The value to show.
+ * @param {string} title The label for the value.
+ * @param {any} [value=""] The value to show.
  *
- * @returns {JSX.Element|null} The error line component, or `null` if the value is `undefined`.
+ * @returns {JSX.Element} The error line component, or `null` if the value is `undefined`.
  */
-function ErrorLine( { title, value } ) {
+function ErrorLine( { title, value = "" } ) {
 	if ( ! value ) {
 		return null;
 	}
@@ -45,19 +45,15 @@ ErrorLine.propTypes = {
 	value: PropTypes.any,
 };
 
-ErrorLine.defaultProps = {
-	value: "",
-};
-
 /**
  * Renders a collapsible error box. For bigger error messages or stack traces.
  *
- * @param {string} title The title of the element.
- * @param {string} value The value.
+ * @param {string} title The label for the value.
+ * @param {string} [value=""] The value.
  *
- * @returns {JSX.Element|null} The stack trace component, or `null` if no stack trace is available.
+ * @returns {JSX.Element} The stack trace component, or `null` if no stack trace is available.
  */
-function ErrorBox( { title, value } ) {
+function ErrorBox( { title, value = "" } ) {
 	if ( ! value ) {
 		return null;
 	}
@@ -73,10 +69,6 @@ function ErrorBox( { title, value } ) {
 ErrorBox.propTypes = {
 	title: PropTypes.string.isRequired,
 	value: PropTypes.string,
-};
-
-ErrorBox.defaultProps = {
-	value: "",
 };
 
 /**
