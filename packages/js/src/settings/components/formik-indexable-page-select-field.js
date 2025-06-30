@@ -30,11 +30,11 @@ IndexablePageSelectOptionsContent.propTypes = {
  * @param {Object} props The props object.
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
+ * @param {boolean} props.disabled Whether the field is disabled.
  * @returns {JSX.Element} The indexable page select component.
  */
-const FormikIndexablePageSelectField = ( { name, id, ...props } ) => {
+const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	const llmTxtPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
-		console.log( "llmTxtPages", llmTxtPages );
 	const indexablePages = useSelectSettings( "selectIndexablePagesWith", [ llmTxtPages ], values( llmTxtPages ) );
 	const { fetchIndexablePages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
@@ -80,10 +80,11 @@ const FormikIndexablePageSelectField = ( { name, id, ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedPage changes.
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
-			placeholder={ __( "None", "wordpress-seo" ) }
+			placeholder={ __( "Select a page...", "wordpress-seo" ) }
 			selectedLabel={ selectedIndexablePage?.name }
 			onQueryChange={ handleQueryChange }
 			nullable={ true }
+			disabled={ disabled }
 			/* translators: Hidden accessibility text. */
 			clearButtonScreenReaderText={ __( "Clear selection", "wordpress-seo" ) }
 			{ ...props }

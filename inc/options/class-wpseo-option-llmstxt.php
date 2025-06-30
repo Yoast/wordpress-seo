@@ -62,8 +62,7 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
 				case 'other_included_pages':
-					$clean[ $key ] = $old[ $key ];
-
+					// @TODO: Investigate whether going through this every time an option is saved is too much overhead.
 					if ( isset( $dirty[ $key ] ) ) {
 						$items = $dirty[ $key ];
 						if ( ! is_array( $items ) ) {
@@ -71,7 +70,15 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 						}
 
 						if ( is_array( $items ) ) {
-							$clean[ $key ] = $dirty[ $key ];
+							foreach ( $items as $item ) {
+								$validated_id = WPSEO_Utils::validate_int( $item );
+
+								if ( $validated_id === false || $validated_id === 0 ) {
+									continue;
+								}
+
+								$clean[ $key ][] = $validated_id;
+							}
 						}
 					}
 
