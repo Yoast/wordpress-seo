@@ -1,14 +1,10 @@
-/* External dependencies */
+/* eslint-disable complexity */
 import PropTypes from "prop-types";
 import { useCallback, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { isEmpty } from "lodash";
+import { isEmpty, noop } from "lodash";
 import moment from "moment";
-
-/* Yoast dependencies */
 import { Checkbox, SvgIcon, Toggle, ButtonStyledLink } from "@yoast/components";
-
-/* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 import styled from "styled-components";
@@ -110,11 +106,11 @@ export function mapAreaChartDataToTableData( y ) {
 /**
  *  Generates a chart based on the passed data.
  *
- * @param {Object} chartData The chart data entry.
+ * @param {Object} [chartData={}] The chart data entry.
  *
- * @returns {wp.Element|string} The chart containing the positions over time. If there is none, return "?".
+ * @returns {JSX.Element|string} The chart containing the positions over time. If there is none, return "?".
  */
-export function PositionOverTimeChart( { chartData } ) {
+export function PositionOverTimeChart( { chartData = {} } ) {
 	if ( isEmpty( chartData ) || isEmpty( chartData.position ) ) {
 		return "?";
 	}
@@ -141,19 +137,15 @@ PositionOverTimeChart.propTypes = {
 	chartData: PropTypes.object,
 };
 
-PositionOverTimeChart.defaultProps = {
-	chartData: {},
-};
-
 /**
  * Gets the toggles state of the keyphrase.
  *
  * @param {string}   keyphrase The toggle's associated keyphrase.
  * @param {boolean}  isEnabled Whether or not the toggle is enabled.
- * @param {function} toggleAction The toggle action to call.
- * @param {function} isLoading Whether or not we're still loading initial data.
+ * @param {Function} toggleAction The toggle action to call.
+ * @param {boolean}  isLoading Whether or not we're still loading initial data.
  *
- * @returns {wp.Element} The toggle component.
+ * @returns {JSX.Element} The toggle.
  */
 export function renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) {
 	if ( isLoading ) {
@@ -198,11 +190,11 @@ const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
 /**
  * Displays the position over time cell.
  *
- * @param {object} rowData The position over time data.
+ * @param {Object} [rowData={}] The position over time data.
  *
- * @returns {wp.Element} The position over time table cell.
+ * @returns {JSX.Element} The position over time table cell.
  */
-export const PositionOverTimeCell = ( { rowData } ) => {
+export const PositionOverTimeCell = ( { rowData = {} } ) => {
 	if ( ! rowData?.position?.change ) {
 		return <PositionOverTimeChart chartData={ rowData } />;
 	}
@@ -226,15 +218,16 @@ PositionOverTimeCell.propTypes = {
 };
 
 /**
- * Gets the positional data based on the current UI state and returns the appropiate UI element.
+ * Gets the positional data based on the current UI state and returns the appropriate UI element.
  *
- * @param {Object} props The props to use.
+ * @param {Object} rowData The row data containing position information.
+ * @param {string} websiteId The ID of the website.
+ * @param {string} keyphrase The keyphrase for which the position data is being displayed.
+ * @param {Function} onSelectKeyphrases Callback function to handle keyphrase selection.
  *
- * @returns {wp.Element} The rendered element.
+ * @returns {JSX.Element} The rendered element.
  */
-export function getPositionalDataByState( props ) {
-	const { rowData, websiteId, keyphrase, onSelectKeyphrases } = props;
-
+export function getPositionalDataByState( { rowData, websiteId, keyphrase, onSelectKeyphrases } ) {
 	/**
 	 * Fires when click on position over time
 	 *
@@ -288,24 +281,31 @@ export function getPositionalDataByState( props ) {
 /**
  * The WincherTableRow component.
  *
- * @param {Object} props The props to use.
+ * @param {string} keyphrase The keyphrase.
+ * @param {Object} [rowData={}] The row data.
+ * @param {Function} [onTrackKeyphrase=noop] Callback to track keyphrase.
+ * @param {Function} [onUntrackKeyphrase=noop] Callback to untrack keyphrase.
+ * @param {boolean} [isFocusKeyphrase=false] Whether this is the focus keyphrase.
+ * @param {boolean} [isDisabled=false] Whether the row is disabled.
+ * @param {boolean} [isLoading=false] Whether the row is loading.
+ * @param {string} [websiteId=""] The website ID.
+ * @param {boolean} isSelected Whether the keyphrase is selected.
+ * @param {Function} onSelectKeyphrases Callback to select keyphrases.
  *
- * @returns {wp.element} The component.
- * @constructor
+ * @returns {JSX.Element} The component.
  */
-export default function WincherTableRow( props ) {
-	const {
-		keyphrase,
-		rowData,
-		onTrackKeyphrase,
-		onUntrackKeyphrase,
-		isFocusKeyphrase,
-		isDisabled,
-		isLoading,
-		isSelected,
-		onSelectKeyphrases,
-	} = props;
-
+export default function WincherTableRow( {
+	keyphrase,
+	rowData = {},
+	onTrackKeyphrase = noop,
+	onUntrackKeyphrase = noop,
+	isFocusKeyphrase = false,
+	isDisabled = false,
+	isLoading = false,
+	websiteId = "",
+	isSelected,
+	onSelectKeyphrases,
+} ) {
 	const isEnabled  = ! isEmpty( rowData );
 
 	const hasHistory = ! isEmpty( rowData?.position?.history );
@@ -348,7 +348,7 @@ export default function WincherTableRow( props ) {
 			{ keyphrase }{ isFocusKeyphrase && <span>*</span> }
 		</KeyphraseTdWrapper>
 
-		{ getPositionalDataByState( props ) }
+		{ getPositionalDataByState( { rowData, websiteId, keyphrase, onSelectKeyphrases } ) }
 
 		<TrackingTdWrapper>
 			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
@@ -364,18 +364,8 @@ WincherTableRow.propTypes = {
 	isFocusKeyphrase: PropTypes.bool,
 	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
-	// eslint-disable-next-line react/no-unused-prop-types
 	websiteId: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	onSelectKeyphrases: PropTypes.func.isRequired,
 };
 
-WincherTableRow.defaultProps = {
-	rowData: {},
-	onTrackKeyphrase: () => {},
-	onUntrackKeyphrase: () => {},
-	isFocusKeyphrase: false,
-	isDisabled: false,
-	isLoading: false,
-	websiteId: "",
-};
