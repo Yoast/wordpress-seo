@@ -810,7 +810,7 @@ class Settings_Integration implements Integration_Interface {
 		);
 
 		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
-			// Add an empty social URL.
+			// Append an empty page to the other included pages, so that we manage to show an empty field in the UI.
 			$settings['wpseo_llmstxt']['other_included_pages'][] = 0;
 		}
 
