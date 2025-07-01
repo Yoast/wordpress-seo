@@ -197,7 +197,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 25.4 =
 
-Release date: 2025-06-24
+Release date: 2025-07-01
 
 Yoast SEO 25.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
