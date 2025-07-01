@@ -79,8 +79,8 @@ const LlmTxt = () => {
 		}
 	) );
 
-	const handleAddPage = useCallback( async( pageArrayHelpers ) => {
-		await pageArrayHelpers.push( "" );
+	const handleAddPage = useCallback( async( arrayHelpers ) => {
+		await arrayHelpers.push( "" );
 		document.getElementById( `input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }` )?.focus();
 	}, [ otherIncludedPages ] );
 
@@ -216,47 +216,14 @@ const LlmTxt = () => {
 								/>
 								<hr class="yst-my-8 yst-max-w-md" />
 								<FieldArray name="wpseo_llmstxt.other_included_pages">
-									{ pageArrayHelpers => (
+									{ arrayHelpers => (
 										<>
 											<h4 className="yst-text-lg yst-font-semibold yst-mb-4">
 												{ __( "Content pages", "wordpress-seo" ) }
 											</h4>
-											<Transition
-												key={ `wpseo_llmstxt.other_included_pages.0` }
-												as={ Fragment }
-												appear={ true }
-												show={ true }
-												enter="yst-transition yst-ease-out yst-duration-300"
-												enterFrom="yst-transform yst-opacity-0"
-												enterTo="yst-transform yst-opacity-100"
-												leave="yst-transition yst-ease-out yst-duration-300"
-												leaveFrom="yst-transform yst-opacity-100"
-												leaveTo="yst-transform yst-opacity-0"
-											>
-												<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
-													<FormikIndexablePageSelectField
-														name={ `wpseo_llmstxt.other_included_pages.0` }
-														id={ `input-wpseo_llmstxt.other_included_pages.0` }
-														label={ __( "Content page 1", "wordpress-seo" ) }
-														className="yst-max-w-sm yst-flex-grow"
-														disabled={ llmsTxtSelectionMode === "auto" }
-													/>
-													<Button
-														variant="secondary"
-														// eslint-disable-next-line react/jsx-no-bind
-														onClick={ pageArrayHelpers.remove.bind( null, 0 ) }
-														className="yst-mt-7 yst-p-2.5"
-														// translators: %1$s expands to 1.
-														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), 1 ) }
-														disabled={ llmsTxtSelectionMode === "auto" }
-													>
-														<TrashIcon className="yst-h-5 yst-w-5" />
-													</Button>
-												</div>
-											</Transition>
 											{ otherIncludedPages.map( ( _, index ) => (
 												<Transition
-													key={ `wpseo_llmstxt.other_included_pages.${ index + 1 }` }
+													key={ `wpseo_llmstxt.other_included_pages.${ index }` }
 													as={ Fragment }
 													appear={ true }
 													show={ true }
@@ -269,20 +236,20 @@ const LlmTxt = () => {
 												>
 													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
 														<FormikIndexablePageSelectField
-															name={ `wpseo_llmstxt.other_included_pages.${ index + 1 }` }
-															id={ `input-wpseo_llmstxt-other_included_pages-${ index + 1 }` }
+															name={ `wpseo_llmstxt.other_included_pages.${ index }` }
+															id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
 															// translators: %1$s expands to array index + 2.
-															label={ sprintf( __( "Content Page %1$s", "wordpress-seo" ), index + 1 + 1 ) }
+															label={ sprintf( __( "Content Page %1$s", "wordpress-seo" ), index + 1 ) }
 															className="yst-max-w-sm yst-flex-grow"
 															disabled={ llmsTxtSelectionMode === "auto" }
 														/>
 														<Button
 															variant="secondary"
 															// eslint-disable-next-line react/jsx-no-bind
-															onClick={ pageArrayHelpers.remove.bind( null, index + 1 ) }
+															onClick={ arrayHelpers.remove.bind( null, index ) }
 															className="yst-mt-7 yst-p-2.5"
 															// translators: %1$s expands to array index + 2.
-															aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 + 1 ) }
+															aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
 															disabled={ llmsTxtSelectionMode === "auto" }
 														>
 															<TrashIcon className="yst-h-5 yst-w-5" />
@@ -294,7 +261,7 @@ const LlmTxt = () => {
 											<Button
 												id="button-add-page"
 												variant="secondary"
-												onClick={ ()=>handleAddPage( pageArrayHelpers ) }
+												onClick={ ()=>handleAddPage( arrayHelpers ) }
 												disabled={ llmsTxtSelectionMode === "auto" }
 											>
 												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />

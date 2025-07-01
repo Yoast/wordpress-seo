@@ -809,6 +809,11 @@ class Settings_Integration implements Integration_Interface {
 			'UTF-8'
 		);
 
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			// Add an empty social URL.
+			$settings['wpseo_llmstxt']['other_included_pages'][] = 0;
+		}
+
 		return $settings;
 	}
 
