@@ -195,6 +195,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.5 =
+
+Release date: 2025-07-15
+
+#### Enhancements
+
+* Changes the `Upgrades` page to a `Plans` page.
+* Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
+* Uses canonical URLs for the post lists in the llms.txt file.
+
+#### Bugfixes
+
+* Fixes a bug where the Google Docs add-on announcement modals appeared on all admin pages.
+
+#### Other
+
+* Announces the addition of the Google Docs add-on on both, the Free and Premium plugin plans.
+* Removes redundant flushing of cache groups when incoming links for posts change.
+
 = 25.4 =
 
 Release date: 2025-07-01
@@ -221,22 +240,6 @@ Yoast SEO 25.4 brings more enhancements and bugfixes. [Find more information abo
 * Improves the internal engine that creates the post lists in the llms.txt file for a more efficient and lighter generation.
 * Improves the translatability of the feedback strings for the _text length_ assessment.
 * Introduces the `wpseo_llmstxt_filesystem_path` filter that allows editing the file path of the llmst.txt file, to help users in servers with filesystem restrictions.
-
-= 25.3.1 =
-
-Release date: 2025-06-18
-
-This is a maintenance release which is required to align with changes to Yoast SEO Premium 25.3.1.
-
-= 25.3 =
-
-Release date: 2025-06-10
-
-*New:* Yoast SEO 25.3 introduces llms.txt support to help AI tools understand your site better. [Read the full release post here!](https://yoa.st/release-10-6-25)
-
-#### Enhancements
-
-* Introduces the llms.txt feature, which gives site owners the opportunity to automatically generate an llms.txt file. This file helps LLMs to better understand the site's content.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
