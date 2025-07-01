@@ -11,20 +11,6 @@ import {
 } from "../../shared-admin/store";
 import { STORE_NAME_AI } from "../constants";
 import {
-	AI_OPTIMIZE_NOTIFICATION_STATUS_NAME,
-	aiOptimizeNotificationStatusActions,
-	aiOptimizeNotificationStatusReducer,
-	aiOptimizeNotificationStatusSelectors,
-	getInitialNotificationStatusState,
-} from "./ai-optimize-notification-status";
-import {
-	APPLIED_FIXES_STATUS_NAME,
-	appliedFixesStatusActions,
-	appliedFixesStatusReducer,
-	appliedFixesStatusSelectors,
-	getInitialAppliedFixesStatusState,
-} from "./applied-assessment-fixes-status";
-import {
 	APPLIED_SUGGESTIONS_NAME,
 	appliedSuggestionsActions,
 	appliedSuggestionsReducer,
@@ -45,13 +31,6 @@ import {
 	promptContentReducer,
 	promptContentSelectors,
 } from "./prompt-content";
-import {
-	getInitialPromptContentFixAssessmentsState,
-	PROMPT_CONTENT_FIX_ASSESSMENTS_NAME,
-	promptContentFixAssessmentsActions,
-	promptContentFixAssessmentsReducer,
-	promptContentFixAssessmentsSelectors,
-} from "./prompt-content-fix-assessments";
 import {
 	getInitialUsageCount,
 	USAGE_COUNT_NAME,
@@ -82,10 +61,7 @@ const createStore = ( initialState ) => {
 			...appliedSuggestionsActions,
 			...productSubscriptionsActions,
 			...promptContentActions,
-			...promptContentFixAssessmentsActions,
-			...appliedFixesStatusActions,
 			...usageCountActions,
-			...aiOptimizeNotificationStatusActions,
 			...freeSparksActions,
 		},
 		selectors: {
@@ -93,10 +69,7 @@ const createStore = ( initialState ) => {
 			...appliedSuggestionsSelectors,
 			...productSubscriptionsSelectors,
 			...promptContentSelectors,
-			...promptContentFixAssessmentsSelectors,
-			...appliedFixesStatusSelectors,
 			...usageCountSelectors,
-			...aiOptimizeNotificationStatusSelectors,
 			...freeSparksSelectors,
 		},
 		initialState: merge(
@@ -106,10 +79,7 @@ const createStore = ( initialState ) => {
 				[ APPLIED_SUGGESTIONS_NAME ]: getInitialAppliedSuggestionsState(),
 				[ PRODUCT_SUBSCRIPTIONS_NAME ]: getInitialProductSubscriptionsState(),
 				[ PROMPT_CONTENT_NAME ]: getInitialPromptContentState(),
-				[ PROMPT_CONTENT_FIX_ASSESSMENTS_NAME ]: getInitialPromptContentFixAssessmentsState(),
-				[ APPLIED_FIXES_STATUS_NAME ]: getInitialAppliedFixesStatusState(),
 				[ USAGE_COUNT_NAME ]: getInitialUsageCount(),
-				[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: getInitialNotificationStatusState(),
 				[ FREE_SPARKS_NAME ]: getInitialFreeSparks(),
 			},
 			initialState
@@ -119,10 +89,7 @@ const createStore = ( initialState ) => {
 			[ APPLIED_SUGGESTIONS_NAME ]: appliedSuggestionsReducer,
 			[ PRODUCT_SUBSCRIPTIONS_NAME ]: productSubscriptionsReducer,
 			[ PROMPT_CONTENT_NAME ]: promptContentReducer,
-			[ PROMPT_CONTENT_FIX_ASSESSMENTS_NAME ]: promptContentFixAssessmentsReducer,
-			[ APPLIED_FIXES_STATUS_NAME ]: appliedFixesStatusReducer,
 			[ USAGE_COUNT_NAME ]: usageCountReducer,
-			[ AI_OPTIMIZE_NOTIFICATION_STATUS_NAME ]: aiOptimizeNotificationStatusReducer,
 			[ FREE_SPARKS_NAME ]: freeSparksReducer,
 		} ),
 		controls: {
