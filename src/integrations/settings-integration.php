@@ -637,7 +637,7 @@ class Settings_Integration implements Integration_Interface {
 
 				$page['name'] = $post->post_title;
 
-				$llms_txt_pages[ $key ] = $page;
+				$llms_txt_pages['other_included_pages'][] = $page;
 
 			}
 		}

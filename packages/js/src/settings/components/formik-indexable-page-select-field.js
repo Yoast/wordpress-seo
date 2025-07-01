@@ -36,6 +36,7 @@ IndexablePageSelectOptionsContent.propTypes = {
 const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	const llmTxtPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
 	const indexablePages = useSelectSettings( "selectIndexablePagesWith", [ llmTxtPages ], values( llmTxtPages ) );
+	const otherIndexablePages = useSelectSettings( "selectIndexablePagesWith", [ llmTxtPages ], values( llmTxtPages.other_included_pages ) );
 	const { fetchIndexablePages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
@@ -43,8 +44,11 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 
 	const selectedIndexablePage = useMemo( () => {
 		const indexablePageObjects = values( indexablePages );
-		return find( indexablePageObjects, [ "id", value ] );
-	}, [ value, indexablePages ] );
+		const otherIndexablePageObjects = values( otherIndexablePages );
+		const allIndexablePageObjects = [ ...indexablePageObjects, ...otherIndexablePageObjects ];
+
+		return find( allIndexablePageObjects, [ "id", value ] );
+	}, [ value, indexablePages, otherIndexablePages ] );
 
 	const debouncedFetchIndexablePages = useCallback( debounce( async search => {
 		try {
