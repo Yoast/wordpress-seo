@@ -8,7 +8,7 @@ Tested up to: 6.8
 Stable tag: 25.3.1
 Requires PHP: 7.4
 
-Improve your WordPress SEO with real-time feedback, built-in schema, and clear writing guidance. Upgrade for AI features, Google Docs integration, and 24/7 support — no hidden costs
+Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
 
 == Description ==
 
@@ -16,9 +16,9 @@ Improve your WordPress SEO with real-time feedback, built-in schema, and clear w
 
 Yoast SEO helps your WordPress site grow by making SEO clear, actionable, and fast. With real-time feedback, built-in guidance, and AI tools in our Premium plans, you don’t have to be an expert to get more traffic and better content performance.
 
-Whether you're publishing your first post or managing a high-traffic site, Yoast gives you the tools to improve visibility and reach the right audience.
+Whether you’re publishing your first post or managing a high-traffic site, Yoast gives you the tools to improve visibility and reach the right audience.
 
-Yoast SEO is **free to install and includes all the essential tools to improve your content**. Upgrade only if and when you need more — you’ll find our advanced and commerce plans below.
+Yoast SEO is **free to install and includes all the essential tools to improve your content**. Upgrade only if and when you need more. **As of July 2025, we’ve updated our pricing and packaging**, so you’re seeing the most current plans and features. You’ll find all the extensive benefits of our [Yoast SEO Premium](https://yoa.st/1v8) plugin and our [Yoast WooCommerce SEO](https://yoa.st/3rh) plan for merchants below.
 
 ### Built-in SEO tools to grow your traffic
 
@@ -26,7 +26,7 @@ Yoast SEO is **free to install and includes all the essential tools to improve y
 Yoast checks your content as you type and shows exactly what to improve for better rankings and readability. Right inside your editor, you get clear, immediate guidance on everything from keyword use to structure.
 
 #### Live snippet editor for better search visibility
-With editable SEO titles and meta descriptions, you can control your page's appearance in search results. The live preview helps you create snippets that drive clicks and attract the right traffic.
+With editable SEO titles and meta descriptions, you can control your page’s appearance in search results. The live preview helps you create snippets that drive clicks and attract the right traffic.
 
 #### Automatic structured data for rich results
 Yoast adds schema markup behind the scenes, so search engines understand your pages and can display rich results, without you touching a line of code.
@@ -69,7 +69,7 @@ Premium features like the Redirect Manager, Internal Linking suggestions, and So
 
 * **[Video SEO](https://yoa.st/1uw)** - Get your videos indexed and enhanced with rich results like thumbnails and timestamps, no coding needed
 
-* **[One seat for the _new_ Yoast SEO Google Docs Add-on] (https://yoa.st/52u)** - Optimize content directly in Docs with real-time SEO analysis, then export in WordPress-ready format.
+* **[One seat for the _new_ Yoast SEO Google Docs Add-on](https://yoa.st/52u)** - Optimize content directly in Docs with real-time SEO analysis, then export in WordPress-ready format.
 
 **AI tools are built in, with no extra cost or logins**. Whether generating metadata or optimizing content, your team can move faster and stay consistent.
 
