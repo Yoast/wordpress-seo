@@ -614,7 +614,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @param array $settings The settings.
 	 *
-	 * @return array The llms.txt pages.
+	 * @return array<string, array<string, int|string>> The llms.txt pages.
 	 */
 	private function get_site_llms_txt_pages( $settings ) {
 		$llms_txt_pages = [];
@@ -624,9 +624,9 @@ class Settings_Integration implements Integration_Interface {
 		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['terms_page'], 'terms_page' );
 		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['privacy_policy_page'], 'privacy_policy_page' );
 		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['shop_page'], 'shop_page' );
-		
-		if ( isset( $settings['wpseo_llmstxt']['other_included_pages']  ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
-			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $id ) {
+
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $id ) {
 				$page = [];
 
 				$page['id'] = $id;
@@ -638,12 +638,10 @@ class Settings_Integration implements Integration_Interface {
 				$page['name'] = $post->post_title;
 
 				$llms_txt_pages['other_included_pages'][] = $page;
-
 			}
 		}
 
 		return $llms_txt_pages;
-
 	}
 
 	/**

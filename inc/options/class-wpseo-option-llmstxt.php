@@ -22,16 +22,16 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 	 *
 	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
-	 * @var array
+	 * @var array<string, int|string|array<int>>
 	 */
 	protected $defaults = [
-		'llms_txt_selection_mode'  => 'auto',
-		'about_us_page'  => 0,
-		'contact_page'  => 0,
-		'terms_page'  => 0,
-		'privacy_policy_page'  => 0,
-		'shop_page'  => 0,
-		'other_included_pages' => [],
+		'llms_txt_selection_mode' => 'auto',
+		'about_us_page'           => 0,
+		'contact_page'            => 0,
+		'terms_page'              => 0,
+		'privacy_policy_page'     => 0,
+		'shop_page'               => 0,
+		'other_included_pages'    => [],
 	];
 
 	/**

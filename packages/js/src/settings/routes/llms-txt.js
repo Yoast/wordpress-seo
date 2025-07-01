@@ -1,9 +1,7 @@
 import { Transition } from "@headlessui/react";
-import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback } from "@wordpress/element";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { useEffect, useMemo } from "@wordpress/element";
+import { Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
@@ -33,15 +31,15 @@ const LlmTxt = () => {
 	const { values, initialValues } = useFormikContext();
 	const { other_included_pages: otherIncludedPages } = values.wpseo_llmstxt;
 	const {
-		enable_llms_txt: isLlmsTxtEnabled
+		enable_llms_txt: isLlmsTxtEnabled,
 	} = values.wpseo;
 
 	const {
-		enable_llms_txt: initialIsLlmsTxtEnabled
+		enable_llms_txt: initialIsLlmsTxtEnabled,
 	} = initialValues.wpseo;
 
 	const {
-		llms_txt_selection_mode: llmsTxtSelectionMode
+		llms_txt_selection_mode: llmsTxtSelectionMode,
 	} = values.wpseo_llmstxt;
 
 	// eslint-disable-next-line no-console
@@ -54,6 +52,10 @@ const LlmTxt = () => {
 	const activeTxtButton = useMemo( () => (
 		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
 	), [ initialIsLlmsTxtEnabled, isLlmsTxtEnabled ] );
+
+	const activeManualSelection = useMemo( () => (
+		isLlmsTxtEnabled && llmsTxtSelectionMode === "manual"
+	), [ isLlmsTxtEnabled, llmsTxtSelectionMode ] );
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
@@ -178,99 +180,99 @@ const LlmTxt = () => {
 						title={ __( "Manual page selection", "wordpress-seo" ) }
 						description={ __( "Select the pages that you want to include in the llms.txt file.", "wordpress-seo" ) }
 					>
-							<>
-								<FormikIndexablePageSelectField
-									name={ `wpseo_llmstxt.about_us_page` }
-									id={ `input-wpseo_llmstxt-about_us_page` }
-									label={ __( "About us page", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-								/>
-								<FormikIndexablePageSelectField
-									name={ `wpseo_llmstxt.contact_page` }
-									id={ `input-wpseo_llmstxt-contact_page` }
-									label={ __( "Contact page", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-								/>
-								<FormikIndexablePageSelectField
-									name={ `wpseo_llmstxt.terms_page` }
-									id={ `input-wpseo_llmstxt-terms_page` }
-									label={ __( "Terms page", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-								/>
-								<FormikIndexablePageSelectField
-									name={ `wpseo_llmstxt.privacy_policy_page` }
-									id={ `input-wpseo_llmstxt-privacy_policy_page` }
-									label={ __( "Privacy policy", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-								/>
-								<FormikIndexablePageSelectField
-									name={ `wpseo_llmstxt.shop_page` }
-									id={ `input-wpseo_llmstxt-shop_page` }
-									label={ __( "Shop page", "wordpress-seo" ) }
-									className="yst-max-w-sm"
-									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-								/>
-								<hr class="yst-my-8 yst-max-w-md" />
-								<FieldArray name="wpseo_llmstxt.other_included_pages">
-									{ arrayHelpers => (
-										<>
-											<div class="yst-space-y-4">
-												{ otherIncludedPages.map( ( _, index ) => (
-													<Transition
-														key={ `wpseo_llmstxt.other_included_pages.${ index }` }
-														as={ Fragment }
-														appear={ true }
-														show={ true }
-														enter="yst-transition yst-ease-out yst-duration-300"
-														enterFrom="yst-transform yst-opacity-0"
-														enterTo="yst-transform yst-opacity-100"
-														leave="yst-transition yst-ease-out yst-duration-300"
-														leaveFrom="yst-transform yst-opacity-100"
-														leaveTo="yst-transform yst-opacity-0"
-													>
-														<div className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2">
-															<FormikIndexablePageSelectField
-																name={ `wpseo_llmstxt.other_included_pages.${ index }` }
-																id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
-																// translators: %1$s expands to array index + 2.
-																label={`${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }`}
-																className="yst-max-w-sm yst-flex-grow"
-																disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-															/>
-															<Button
-																variant="secondary"
-																// eslint-disable-next-line react/jsx-no-bind
-																onClick={ arrayHelpers.remove.bind( null, index ) }
-																className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
-																// translators: %1$s expands to array index + 2.
-																aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
-																disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
-															>
-																<TrashIcon className="yst-h-5 yst-w-5" />
-															</Button>
-														</div>
-													</Transition>
-												) ) }
-												{ /* eslint-disable-next-line react/jsx-no-bind */ }
-												<Button
-													id="button-add-page"
-													variant="secondary"
-													onClick={ ()=>handleAddPage( arrayHelpers ) }
-													disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
+						<>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.about_us_page"
+								id="input-wpseo_llmstxt-about_us_page"
+								label={ __( "About us page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.contact_page"
+								id="input-wpseo_llmstxt-contact_page"
+								label={ __( "Contact page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.terms_page"
+								id="input-wpseo_llmstxt-terms_page"
+								label={ __( "Terms page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.privacy_policy_page"
+								id="input-wpseo_llmstxt-privacy_policy_page"
+								label={ __( "Privacy policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.shop_page"
+								id="input-wpseo_llmstxt-shop_page"
+								label={ __( "Shop page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<hr className="yst-my-8 yst-max-w-md" />
+							<FieldArray name="wpseo_llmstxt.other_included_pages">
+								{ arrayHelpers => (
+									<>
+										<div className="yst-space-y-4">
+											{ otherIncludedPages.map( ( _, index ) => (
+												<Transition
+													key={ `wpseo_llmstxt.other_included_pages.${ index }` }
+													as={ Fragment }
+													appear={ true }
+													show={ true }
+													enter="yst-transition yst-ease-out yst-duration-300"
+													enterFrom="yst-transform yst-opacity-0"
+													enterTo="yst-transform yst-opacity-100"
+													leave="yst-transition yst-ease-out yst-duration-300"
+													leaveFrom="yst-transform yst-opacity-100"
+													leaveTo="yst-transform yst-opacity-0"
 												>
-													<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
-													{ __( "Add page", "wordpress-seo" ) }
-												</Button>
-											</div>
-										</>
-									) }
-								</FieldArray>
-							</>
-					</FieldsetLayout>					
+													<div className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2">
+														<FormikIndexablePageSelectField
+															name={ `wpseo_llmstxt.other_included_pages.${ index }` }
+															id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
+															// translators: %1$s expands to array index + 2.
+															label={ `${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }` }
+															className="yst-max-w-sm yst-flex-grow"
+															disabled={ ! activeManualSelection }
+														/>
+														<Button
+															variant="secondary"
+															// eslint-disable-next-line react/jsx-no-bind
+															onClick={ arrayHelpers.remove.bind( null, index ) }
+															className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
+															// translators: %1$s expands to array index + 2.
+															aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
+															disabled={ ! activeManualSelection }
+														>
+															<TrashIcon className="yst-h-5 yst-w-5" />
+														</Button>
+													</div>
+												</Transition>
+											) ) }
+											<Button
+												id="button-add-page"
+												variant="secondary"
+												/* eslint-disable-next-line react/jsx-no-bind */
+												onClick={ ()=>handleAddPage( arrayHelpers ) }
+												disabled={ ! activeManualSelection }
+											>
+												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+												{ __( "Add page", "wordpress-seo" ) }
+											</Button>
+										</div>
+									</>
+								) }
+							</FieldArray>
+						</>
+					</FieldsetLayout>
 				</div>
 			</FormLayout>
 		</RouteLayout>

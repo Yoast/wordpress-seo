@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import { DocumentAddIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
@@ -74,7 +73,9 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	}, [ setValue, setTouched ] );
 	const handleQueryChange = useCallback( event => debouncedFetchIndexablePages( event.target.value ), [ debouncedFetchIndexablePages ] );
 	const selectableIndexablePages = useMemo( () => isEmpty( queriedIndexablePageIds ) ? map( indexablePages, "id" ) : queriedIndexablePageIds, [ queriedIndexablePageIds, indexablePages ] );
-	const hasNoIndexablePages = useMemo( () => ( status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds ) ), [ queriedIndexablePageIds, status ] );
+	const hasNoIndexablePages = useMemo( () => (
+		status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds )
+	), [ queriedIndexablePageIds, status ] );
 
 	return (
 		<AutocompleteField
@@ -84,7 +85,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedPage changes.
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
-			placeholder={ __( "Select a page...", "wordpress-seo" ) }
+			placeholder={ __( "Select a page…", "wordpress-seo" ) }
 			selectedLabel={ selectedIndexablePage?.name }
 			onQueryChange={ handleQueryChange }
 			nullable={ true }
