@@ -80,8 +80,8 @@ const LlmTxt = () => {
 	) );
 
 	const handleAddPage = useCallback( async( arrayHelpers ) => {
-		await arrayHelpers.push( "" );
-		document.getElementById( `input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }` )?.focus();
+		await arrayHelpers.push( 0 );
+		document.querySelector( `[data-id="input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }"]` )?.click();
 	}, [ otherIncludedPages ] );
 
 	useEffect( () => {
