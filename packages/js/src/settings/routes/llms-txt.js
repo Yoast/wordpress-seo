@@ -184,89 +184,88 @@ const LlmTxt = () => {
 									id={ `input-wpseo_llmstxt-about_us_page` }
 									label={ __( "About us page", "wordpress-seo" ) }
 									className="yst-max-w-sm"
-									disabled={ llmsTxtSelectionMode === "auto" }
+									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 								/>
 								<FormikIndexablePageSelectField
 									name={ `wpseo_llmstxt.contact_page` }
 									id={ `input-wpseo_llmstxt-contact_page` }
 									label={ __( "Contact page", "wordpress-seo" ) }
 									className="yst-max-w-sm"
-									disabled={ llmsTxtSelectionMode === "auto" }
+									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 								/>
 								<FormikIndexablePageSelectField
 									name={ `wpseo_llmstxt.terms_page` }
 									id={ `input-wpseo_llmstxt-terms_page` }
 									label={ __( "Terms page", "wordpress-seo" ) }
 									className="yst-max-w-sm"
-									disabled={ llmsTxtSelectionMode === "auto" }
+									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 								/>
 								<FormikIndexablePageSelectField
 									name={ `wpseo_llmstxt.privacy_policy_page` }
 									id={ `input-wpseo_llmstxt-privacy_policy_page` }
-									label={ __( "Privacy Policy", "wordpress-seo" ) }
+									label={ __( "Privacy policy", "wordpress-seo" ) }
 									className="yst-max-w-sm"
-									disabled={ llmsTxtSelectionMode === "auto" }
+									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 								/>
 								<FormikIndexablePageSelectField
 									name={ `wpseo_llmstxt.shop_page` }
 									id={ `input-wpseo_llmstxt-shop_page` }
 									label={ __( "Shop page", "wordpress-seo" ) }
 									className="yst-max-w-sm"
-									disabled={ llmsTxtSelectionMode === "auto" }
+									disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 								/>
 								<hr class="yst-my-8 yst-max-w-md" />
 								<FieldArray name="wpseo_llmstxt.other_included_pages">
 									{ arrayHelpers => (
 										<>
-											<h4 className="yst-text-lg yst-font-semibold yst-mb-4">
-												{ __( "Content pages", "wordpress-seo" ) }
-											</h4>
-											{ otherIncludedPages.map( ( _, index ) => (
-												<Transition
-													key={ `wpseo_llmstxt.other_included_pages.${ index }` }
-													as={ Fragment }
-													appear={ true }
-													show={ true }
-													enter="yst-transition yst-ease-out yst-duration-300"
-													enterFrom="yst-transform yst-opacity-0"
-													enterTo="yst-transform yst-opacity-100"
-													leave="yst-transition yst-ease-out yst-duration-300"
-													leaveFrom="yst-transform yst-opacity-100"
-													leaveTo="yst-transform yst-opacity-0"
+											<div class="yst-space-y-4">
+												{ otherIncludedPages.map( ( _, index ) => (
+													<Transition
+														key={ `wpseo_llmstxt.other_included_pages.${ index }` }
+														as={ Fragment }
+														appear={ true }
+														show={ true }
+														enter="yst-transition yst-ease-out yst-duration-300"
+														enterFrom="yst-transform yst-opacity-0"
+														enterTo="yst-transform yst-opacity-100"
+														leave="yst-transition yst-ease-out yst-duration-300"
+														leaveFrom="yst-transform yst-opacity-100"
+														leaveTo="yst-transform yst-opacity-0"
+													>
+														<div className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2">
+															<FormikIndexablePageSelectField
+																name={ `wpseo_llmstxt.other_included_pages.${ index }` }
+																id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
+																// translators: %1$s expands to array index + 2.
+																label={`${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }`}
+																className="yst-max-w-sm yst-flex-grow"
+																disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
+															/>
+															<Button
+																variant="secondary"
+																// eslint-disable-next-line react/jsx-no-bind
+																onClick={ arrayHelpers.remove.bind( null, index ) }
+																className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
+																// translators: %1$s expands to array index + 2.
+																aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
+																disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
+															>
+																<TrashIcon className="yst-h-5 yst-w-5" />
+															</Button>
+														</div>
+													</Transition>
+												) ) }
+												{ /* eslint-disable-next-line react/jsx-no-bind */ }
+												<Button
+													id="button-add-page"
+													variant="secondary"
+													onClick={ ()=>handleAddPage( arrayHelpers ) }
+													disabled={ ! isLlmsTxtEnabled || llmsTxtSelectionMode === "auto" }
 												>
-													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
-														<FormikIndexablePageSelectField
-															name={ `wpseo_llmstxt.other_included_pages.${ index }` }
-															id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
-															// translators: %1$s expands to array index + 2.
-															label={ sprintf( __( "Content Page %1$s", "wordpress-seo" ), index + 1 ) }
-															className="yst-max-w-sm yst-flex-grow"
-															disabled={ llmsTxtSelectionMode === "auto" }
-														/>
-														<Button
-															variant="secondary"
-															// eslint-disable-next-line react/jsx-no-bind
-															onClick={ arrayHelpers.remove.bind( null, index ) }
-															className="yst-mt-7 yst-p-2.5"
-															// translators: %1$s expands to array index + 2.
-															aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
-															disabled={ llmsTxtSelectionMode === "auto" }
-														>
-															<TrashIcon className="yst-h-5 yst-w-5" />
-														</Button>
-													</div>
-												</Transition>
-											) ) }
-											{ /* eslint-disable-next-line react/jsx-no-bind */ }
-											<Button
-												id="button-add-page"
-												variant="secondary"
-												onClick={ ()=>handleAddPage( arrayHelpers ) }
-												disabled={ llmsTxtSelectionMode === "auto" }
-											>
-												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
-												{ __( "Add page", "wordpress-seo" ) }
-											</Button>
+													<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+													{ __( "Add page", "wordpress-seo" ) }
+												</Button>
+											</div>
 										</>
 									) }
 								</FieldArray>
