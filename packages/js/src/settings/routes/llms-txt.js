@@ -46,8 +46,6 @@ const LlmTxt = () => {
 	console.log( "hasGenerationFailed", hasGenerationFailed );
 	// eslint-disable-next-line no-console
 	console.log( "generationFailureReason", generationFailureReason );
-	// eslint-disable-next-line no-console
-	console.log( "otherIncludedPages", otherIncludedPages );
 
 	const activeTxtButton = useMemo( () => (
 		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
@@ -59,9 +57,10 @@ const LlmTxt = () => {
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
-			__( "Future-proof your website for visibility in AI tools like ChatGPT and Google Gemini. This helps them provide better, more accurate information about your site. %1$sLearn more about the llms.txt file%2$s.", "wordpress-seo" ),
+			/* translators: %1$s and %3$s are replaced by opening and closing <a> tags, %2$s is replaced by "llms.txt". */
+			__( "Future-proof your website for visibility in AI tools like ChatGPT and Google Gemini. This helps them provide better, more accurate information about your site. %1$sLearn more about the %2$s file%3$s.", "wordpress-seo" ),
 			"<a>",
+			label,
 			"</a>"
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -71,10 +70,11 @@ const LlmTxt = () => {
 
 	const selectionDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
-			__( "Generate an automatic selection based on %1$sYoast SEO’s best practices%2$s, or manually choose the content to include in your llms.txt file.", "wordpress-seo" ),
+			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags, %3$s is replaced by "llms.txt".. */
+			__( "Generate an automatic page selection based on %1$sYoast SEO’s best practices%2$s, or manually choose the pages to be included in your %3$s file.", "wordpress-seo" ),
 			"<a>",
-			"</a>"
+			"</a>",
+			label
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a id="llms-best-practices" href={ bestPracticesLink } target="_blank" rel="noopener noreferrer" />,
@@ -112,7 +112,7 @@ const LlmTxt = () => {
 							description={ sprintf(
 								// translators: %1$s expands to "llms.txt".
 								__(
-									"By enabling this feature an %1$s file is automatically generated that lists a selection of your site's content.",
+									"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
 									"wordpress-seo"
 								),
 								label
@@ -160,7 +160,7 @@ const LlmTxt = () => {
 								type="radio"
 								name="wpseo_llmstxt.llms_txt_selection_mode"
 								id="input-wpseo_llmstxt-llms_txt_selection_mode-auto"
-								label={ __( "Automatic selection", "wordpress-seo" ) }
+								label={ __( "Automatic page selection", "wordpress-seo" ) }
 								value="auto"
 								disabled={ ! isLlmsTxtEnabled }
 							/>
@@ -169,7 +169,7 @@ const LlmTxt = () => {
 								type="radio"
 								name="wpseo_llmstxt.llms_txt_selection_mode"
 								id="input-wpseo_llmstxt-llms_txt_selection_mode-manual"
-								label={ __( "Manual selection", "wordpress-seo" ) }
+								label={ __( "Manual page selection", "wordpress-seo" ) }
 								value="manual"
 								disabled={ ! isLlmsTxtEnabled }
 							/>
@@ -178,7 +178,11 @@ const LlmTxt = () => {
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ __( "Manual page selection", "wordpress-seo" ) }
-						description={ __( "Select the pages that you want to include in the llms.txt file.", "wordpress-seo" ) }
+						description={ sprintf(
+							// translators: %1$s expands to "llms.txt".
+							__( "Select the pages that you want to include in the %1$s file", "wordpress-seo" ),
+							label
+						) }
 					>
 						<>
 							<FormikIndexablePageSelectField
