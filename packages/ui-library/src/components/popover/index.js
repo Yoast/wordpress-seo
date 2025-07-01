@@ -55,14 +55,14 @@ CloseButton.propTypes = {
 
 /**
  * @param {string} title The popover title.
- * @param {string} id The id of the title.
- * @param {string} [className] The additional class name.
+ * @param {string} [id=""] The id of the title.
+ * @param {string} [className=""] The additional class name.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
 	title,
-	id,
-	className,
+	id = "",
+	className = "",
 } ) => {
 	return <h1 id={ id } className={ classNames( "yst-popover-title", className ) }>
 		{ title }
@@ -76,15 +76,15 @@ Title.propTypes = {
 };
 
 /**
- * @param {string|string[]} content The popover content.
- * @param {string } id The id of the content for accessibility.
- * @param {string} [className] The additional class name.
+ * @param {React.ReactNode} [content=""] The popover content.
+ * @param {string } [id=""] The id of the content for accessibility.
+ * @param {string} [className=""] The additional class name.
  * @returns {JSX.Element} The content.
  */
 const Content = ( {
-	content,
-	id,
-	className,
+	content = "",
+	id = "",
+	className = "",
 } ) => {
 	return (
 		<p id={ id } className={ classNames( "yst-overflow-wrap rtl:yst-text-right", className ) }>
@@ -100,12 +100,13 @@ Content.propTypes = {
 };
 
 /**
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @param {boolean} isVisible Whether the backdrop is visible.
  * @returns {JSX.Element} The backdrop.
  */
 const Backdrop = ( {
-	className, isVisible,
+	className = "",
+	isVisible,
 } ) => {
 	useEffect( () => {
 		if ( isVisible ) {

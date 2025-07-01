@@ -16,7 +16,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=8"
+    "lint": "eslint . --max-warnings=4"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
