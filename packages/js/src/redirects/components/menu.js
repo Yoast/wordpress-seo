@@ -1,13 +1,12 @@
-import { ChildrenLimiter, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
+import { useSvgAria } from "@yoast/ui-library";
 import { useSelectRedirects } from "../hooks";
-import { CodeIcon, CogIcon, DownloadIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import { CodeIcon, CogIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
-const SEARCH_REGEXP = new RegExp();
 
 /**
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -29,12 +28,13 @@ export const Menu = ( { idSuffix = "" } ) => {
 			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
-			<Search
-				buttonId={ `button-search${ idSuffix }` }
-				userLocale={ userLocale }
-				queryableSearchIndex={ queryableSearchIndex }
-				keyFilterPattern={ SEARCH_REGEXP }
-			/>
+			{ isPremium && (
+				<Search
+					buttonId={ `button-search${ idSuffix }` }
+					userLocale={ userLocale }
+					queryableSearchIndex={ queryableSearchIndex }
+				/>
+			) }
 		</header>
 		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">
 			<MenuItemLink
@@ -54,6 +54,7 @@ export const Menu = ( { idSuffix = "" } ) => {
 				</> }
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
+				isActive={ isPremium }
 			/>
 			<MenuItemLink
 				to={ ROUTES.redirectMethod }
@@ -63,17 +64,8 @@ export const Menu = ( { idSuffix = "" } ) => {
 				</> }
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
+				isActive={ isPremium }
 			/>
-			<SidebarNavigation.MenuItem
-				id={ `menu-content-types${ idSuffix }` }
-				icon={ DownloadIcon }
-				label={ __( "Import & export", "wordpress-seo" ) }
-			>
-				<ChildrenLimiter limit={ 2 }>
-					<MenuItemLink to="/import-redirects" label={ __( "Import redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					<MenuItemLink to="/export-redirects" label={ __( "Export redirects", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				</ChildrenLimiter>
-			</SidebarNavigation.MenuItem>
 		</ul>
 	</>;
 };

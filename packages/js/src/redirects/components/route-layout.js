@@ -23,11 +23,12 @@ export const RouteLayout = ( {
 		title,
 		"Yoast SEO"
 	);
+
 	return (
 		<LiveAnnouncer>
 			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
 			<Helmet>
-				<title>{ __( "Redirects", "wordpress-seo" ) }</title>
+				<title>{ ariaLiveTitle }</title>
 			</Helmet>
 			<header className="yst-p-8 yst-border-b yst-border-slate-200">
 				<div className="yst-max-w-screen-sm">

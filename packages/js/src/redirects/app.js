@@ -1,24 +1,19 @@
-import { useDispatch } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Notifications, SidebarNavigation } from "@yoast/ui-library";
+import {  SidebarNavigation } from "@yoast/ui-library";
 import { useLocation } from "react-router-dom";
 import { Menu } from "./components";
-import { STORE_NAME } from "./constants";
-import { useSelectRedirects } from "./hooks";
 import { AppRoutes } from "./routes";
 
 /**
- * @returns {JSX.Element} The app component.
+ * Main redirects application component with responsive sidebar navigation.
+ *
+ * @param {Object} [redirectsProps={}] - Props for premium redirects page.
+ * @param {Object} [regexProps={}] - Props for premium regex redirects page.
+ * @param {Object} [redirectMethodProps={}] - Props for premium redirect method page.
+ * @returns {JSX.Element} The complete redirects application layout.
  */
-const App = () => {
+const App = ( { redirectsProps = {}, regexProps = {}, redirectMethodProps = {} } ) => {
 	const { pathname } = useLocation();
-	const alertToggleError = useSelectRedirects( "selectAlertToggleError", [], [] );
-	const { setAlertToggleError } = useDispatch( STORE_NAME );
-
-	const handleDismiss = useCallback( () => {
-		setAlertToggleError( null );
-	}, [ setAlertToggleError ] );
 
 	return (
 		<>
@@ -43,32 +38,16 @@ const App = () => {
 					<div className="yst-paper yst-grow yst-max-w-page">
 						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main>
-								<AppRoutes />
+								<AppRoutes
+									redirectsProps={ redirectsProps }
+									regexProps={ regexProps }
+									redirectMethodProps={ redirectMethodProps }
+								/>
 							</main>
 						</div>
 					</div>
 				</div>
 			</SidebarNavigation>
-			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-				position="bottom-left"
-			>
-				{ alertToggleError && <Notifications.Notification
-					id="yst-toggle-alert-error"
-					title={ __( "Something went wrong", "wordpress-seo" ) }
-					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
-					size="large"
-					autoDismiss={ 4000 }
-					onDismiss={ handleDismiss }
-				>
-					{ alertToggleError.type === "error"
-						? __( "This problem can't be hidden at this time. Please try again later.", "wordpress-seo" )
-						: __( "This notification can't be hidden at this time. Please try again later.", "wordpress-seo" )
-					}
-				</Notifications.Notification>
-				}
-			</Notifications>
 		</>
 	);
 };

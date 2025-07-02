@@ -1,20 +1,40 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { SelectField, TextField } from "@yoast/ui-library";
+import { Button } from "@yoast/ui-library";
 import {
-	FilterControls,
+	Notifications,
 	RouteLayout,
 } from "../components";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { REDIRECT_TYPE_OPTIONS } from "../constants";
 import { FieldsetLayout } from "../../shared-admin/components";
-import { FormikValueChangeField, FormikWithErrorField, FormLayout } from "../../shared-admin/components/form";
+import { Form, Formik } from "formik";
+import { FormAddRedirect } from "../components/form-add-redirect";
 
 /**
- * @returns {JSX.Element} The redirects route.
+ * Redirects component.
+ *
+ * This component renders the main interface for managing plain (non-regex) redirects
+ * within the WordPress SEO admin panel. It provides a form to add new redirects, displays
+ * a description with a help link, and includes filter controls and a list of existing redirects.
+ *
+ * @component
+ *
+ * @param {Object} [initialValues={}] - Initial values for the Formik form.
+ * @param {Function} [createValidationSchema=() => {}] - A function that returns a Yup validation schema for validating the form.
+ * @param {Function} [handleCreateSubmit=() => {}] - A function to handle form submission.
+ * @param {JSX.Element} listRedirects - A component to display the list of redirects.
+ * @param {JSX.Element} filterControls - A component to render the filter controls.
+ *
+ * @returns {JSX.Element} The rendered Redirects route.
  */
-export const Redirects = () => {
+export const Redirects = ( {
+	initialValues = {},
+	createValidationSchema = () => {},
+	handleCreateSubmit = () => {},
+	listRedirects: ListRedirects,
+	filterControls: FilterControls,
+} ) => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoast.com/yoast-seo-redirect-manager" );
 
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(
@@ -33,99 +53,43 @@ export const Redirects = () => {
 		}
 	), [] );
 
-	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
-		sprintf(
-			/**
-			 * translators: %1$s expands to an opening anchor tag.
-			 * %2$s expands to a closing anchor tag.
-			 */
-			__( "The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.", "wordpress-seo" ),
-			"<a>",
-			"</a>"
-		),
-		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ redirectsManagedLink } target="_blank" rel="noopener noreferrer" />,
-		}
-	), [] );
-
-	const newUrlDescription = useMemo( () => safeCreateInterpolateElement(
-		sprintf(
-			/**
-			 * translators: %1$s expands to an opening italics tag.
-			 * %2$s expands to a closing italics tag.
-			 */
-			__( "Example: %1$shttps://example.com/new-page%2$s", "wordpress-seo" ),
-			"<s>",
-			"</s>"
-		),
-		{
-			s: <span className="yst-font-medium" />,
-		}
-	), [] );
-
-	const oldUrlDescription = useMemo( () => safeCreateInterpolateElement(
-		sprintf(
-			/**
-			 * translators: %1$s expands to an opening italics tag.
-			 * %2$s expands to a closing italics tag.
-			 */
-			__( "Example: %1$s/old-page%2$s", "wordpress-seo" ),
-			"<s>",
-			"</s>"
-		),
-		{
-			s: <span className="yst-font-medium" />,
-		}
-	), [] );
 
 	return (
 		<RouteLayout
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
-			<FormLayout>
-				<div className="yst-max-w-5xl">
-					<FieldsetLayout
-						title={ __( "Plain redirects", "wordpress-seo" ) }
-						description={ __( "Plain redirects automatically send visitors from one URL to another. Use them to fix broken links and improve your site's user experience.", "wordpress-seo" ) }
-						variant={ "xl" }
-					>
-						<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-							<FormikValueChangeField
-								as={ SelectField }
-								type="select"
-								name="redirectType"
-								id="yst-input-redirect_type"
-								label={ __( "Redirect Type", "wordpress-seo" ) }
-								options={ REDIRECT_TYPE_OPTIONS }
-								className="yst-max-w-sm"
-								description={ redirectTypeDescription }
-							/>
-							<FormikWithErrorField
-								as={ TextField }
-								type="text"
-								name="oldURL"
-								id="yst-input-old_url"
-								label={ __( "Old URL", "wordpress-seo" ) }
-								description={ oldUrlDescription }
-							/>
-							<FormikWithErrorField
-								as={ TextField }
-								type="text"
-								name="newURL"
-								id="yst-input-new_url"
-								label={ __( "New URL", "wordpress-seo" ) }
-								description={ newUrlDescription }
-							/>
-						</div>
-					</FieldsetLayout>
-
-					<hr className="yst-my-8" />
-
-					<FilterControls />
-				</div>
-			</FormLayout>
+			<Formik
+				initialValues={ initialValues }
+				validationSchema={ createValidationSchema( {} ) }
+				onSubmit={ handleCreateSubmit }
+			>
+				{ ( { isSubmitting, status } ) => (
+					<Form className="yst-max-w-5xl yst-p-8">
+						<FieldsetLayout
+							title={ __( "Plain redirects", "wordpress-seo" ) }
+							description={ __( "Plain redirects automatically send visitors from one URL to another. Use them to fix broken links and improve your site's user experience.", "wordpress-seo" ) }
+							variant={ "xl" }
+						>
+							<FormAddRedirect error={ status } />
+							<Button
+								id="yst-button-submit-redirect"
+								type="submit"
+								isLoading={ isSubmitting }
+								disabled={ isSubmitting }
+							>
+								{ __( "Add redirect", "wordpress-seo" ) }
+							</Button>
+						</FieldsetLayout>
+						<Notifications />
+					</Form>
+				) }
+			</Formik>
+			<div className="yst-max-w-5xl yst-px-8 yst-pb-8">
+				<hr className="yst-mb-8" />
+				<FilterControls />
+				<ListRedirects />
+			</div>
 		</RouteLayout>
 	);
 };

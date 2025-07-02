@@ -2,14 +2,14 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 
 import { STORE_NAME } from "../constants";
-import { linkParamsSelectors } from "../../shared-admin/store";
 import {
-	FILTER_SLICE_NAME,
-	filterActions,
-	filterSelectors,
-	getInitialFilterState,
-	filterReducer,
-} from "./filter-redirects";
+	linkParamsSelectors,
+	NOTIFICATIONS_NAME,
+	notificationsActions,
+	notificationsReducer,
+	notificationsSelectors,
+} from "../../shared-admin/store";
+import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
@@ -21,18 +21,21 @@ import {
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
-			...filterActions,
+			...notificationsActions,
+			...preferencesActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
-			...filterSelectors,
+			...notificationsSelectors,
+			...preferencesSelectors,
 		},
 		initialState: {
-			[ FILTER_SLICE_NAME ]: getInitialFilterState(),
+			preferences: createInitialPreferencesState(),
 			...initialState,
 		},
 		reducer: combineReducers( {
-			[ FILTER_SLICE_NAME ]: filterReducer,
+			[ NOTIFICATIONS_NAME ]: notificationsReducer,
+			preferences,
 		} ),
 	} );
 };

@@ -6,15 +6,24 @@ import { Redirects } from "./redirects";
 import { RegexRedirects } from "./regex-redirects";
 import { RedirectMethod } from "./redirect-method";
 import { ROUTES } from "../constants";
+import { useSelectRedirects } from "../hooks";
 
 /**
  * Renders the application's route configuration with animated transitions.
  *
- * @component
+ * Manages routing between different redirect management pages:
+ * - Standard redirects (always available)
+ * - Regex redirects (premium only)
+ * - Redirect method settings (premium only)
+ *
+ * @param {Object} [redirectsProps={}] - Props to pass to the premium redirects page.
+ * @param {Object} [regexProps={}] - Props to pass to the premium regex redirects page.
+ * @param {Object} [redirectMethodProps] - Props to pass to the premium redirect method page.
  * @returns {JSX.Element} The routed application layout with transitions.
  */
-export const AppRoutes = () => {
+export const AppRoutes = ( { redirectsProps = {}, regexProps = {}, redirectMethodProps = {} } ) => {
 	const { pathname } = useLocation();
+	const isPremium = useSelectRedirects( "selectPreference", [], "isPremium" );
 
 	return (
 		<Transition
@@ -30,29 +39,34 @@ export const AppRoutes = () => {
 					path={ ROUTES.redirects }
 					element={
 						<SidebarLayout>
-							<Redirects />
+							<Redirects { ...redirectsProps } />
 						</SidebarLayout>
 					}
 					errorElement={ <RouteErrorFallback /> }
 				/>
-				<Route
-					path={ ROUTES.regexRedirects }
-					element={
-						<SidebarLayout>
-							<RegexRedirects />
-						</SidebarLayout>
-					}
-					errorElement={ <RouteErrorFallback /> }
-				/>
-				<Route
-					path={ ROUTES.redirectMethod }
-					element={
-						<SidebarLayout>
-							<RedirectMethod />
-						</SidebarLayout>
-					}
-					errorElement={ <RouteErrorFallback /> }
-				/>
+
+				{ isPremium && (
+					<>
+						<Route
+							path={ ROUTES.regexRedirects }
+							element={
+								<SidebarLayout>
+									<RegexRedirects { ...regexProps } />
+								</SidebarLayout>
+							}
+							errorElement={ <RouteErrorFallback /> }
+						/>
+						<Route
+							path={ ROUTES.redirectMethod }
+							element={
+								<SidebarLayout>
+									<RedirectMethod { ...redirectMethodProps } />
+								</SidebarLayout>
+							}
+							errorElement={ <RouteErrorFallback /> }
+						/>
+					</>
+				) }
 				<Route path="*" element={ <Navigate to="" replace={ true } /> } />
 			</Routes>
 		</Transition>
