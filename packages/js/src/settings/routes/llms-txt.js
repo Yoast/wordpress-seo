@@ -1,6 +1,5 @@
-import { Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
@@ -226,40 +225,30 @@ const LlmTxt = () => {
 									<>
 										<div className="yst-space-y-4">
 											{ otherIncludedPages.map( ( _, index ) => (
-												<Transition
+												<div
+													className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2"
 													key={ `wpseo_llmstxt.other_included_pages.${ index }` }
-													as={ Fragment }
-													appear={ true }
-													show={ true }
-													enter="yst-transition yst-ease-out yst-duration-300"
-													enterFrom="yst-transform yst-opacity-0"
-													enterTo="yst-transform yst-opacity-100"
-													leave="yst-transition yst-ease-out yst-duration-300"
-													leaveFrom="yst-transform yst-opacity-100"
-													leaveTo="yst-transform yst-opacity-0"
 												>
-													<div className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2">
-														<FormikIndexablePageSelectField
-															name={ `wpseo_llmstxt.other_included_pages.${ index }` }
-															id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
-															// translators: %1$s expands to array index + 2.
-															label={ `${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }` }
-															className="yst-max-w-sm yst-flex-grow"
-															disabled={ ! activeManualSelection }
-														/>
-														<Button
-															variant="secondary"
-															// eslint-disable-next-line react/jsx-no-bind
-															onClick={ arrayHelpers.remove.bind( null, index ) }
-															className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
-															// translators: %1$s expands to array index + 2.
-															aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
-															disabled={ ! activeManualSelection }
-														>
-															<TrashIcon className="yst-h-5 yst-w-5" />
-														</Button>
-													</div>
-												</Transition>
+													<FormikIndexablePageSelectField
+														name={ `wpseo_llmstxt.other_included_pages.${ index }` }
+														id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
+														// translators: %1$s expands to array index + 2.
+														label={ `${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }` }
+														className="yst-max-w-sm yst-flex-grow"
+														disabled={ ! activeManualSelection }
+													/>
+													<Button
+														variant="secondary"
+														// eslint-disable-next-line react/jsx-no-bind
+														onClick={ arrayHelpers.remove.bind( null, index ) }
+														className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
+														// translators: %1$s expands to array index + 2.
+														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
+														disabled={ ! activeManualSelection }
+													>
+														<TrashIcon className="yst-h-5 yst-w-5" />
+													</Button>
+												</div>
 											) ) }
 											<Button
 												id="button-add-page"
