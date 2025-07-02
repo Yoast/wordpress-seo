@@ -34,7 +34,7 @@ export const RegexRedirects = ( {
 	createValidationSchema = () => {},
 	handleCreateSubmit = () => {},
 	listRedirects: ListRedirects,
-	filterControls: FilterControls
+	filterControls: FilterControls,
 } ) => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoa.st/3lo" );
 

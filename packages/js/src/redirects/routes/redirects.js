@@ -33,7 +33,7 @@ export const Redirects = ( {
 	createValidationSchema = () => {},
 	handleCreateSubmit = () => {},
 	listRedirects: ListRedirects,
-	filterControls: FilterControls
+	filterControls: FilterControls,
 } ) => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoast.com/yoast-seo-redirect-manager" );
 
