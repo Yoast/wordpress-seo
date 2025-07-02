@@ -12,7 +12,21 @@ import { Form, Formik } from "formik";
 import { FormAddRedirect } from "../components/form-add-redirect";
 
 /**
- * @returns {JSX.Element} The redirects route.
+ * Redirects component.
+ *
+ * This component renders the main interface for managing plain (non-regex) redirects
+ * within the WordPress SEO admin panel. It provides a form to add new redirects, displays
+ * a description with a help link, and includes filter controls and a list of existing redirects.
+ *
+ * @component
+ *
+ * @param {Object} [initialValues={}] - Initial values for the Formik form.
+ * @param {Function} [createValidationSchema=() => {}] - A function that returns a Yup validation schema for validating the form.
+ * @param {Function} [handleCreateSubmit=() => {}] - A function to handle form submission.
+ * @param {JSX.Element} listRedirects - A component to display the list of redirects.
+ * @param {JSX.Element} filterControls - A component to render the filter controls.
+ *
+ * @returns {JSX.Element} The rendered Redirects route.
  */
 export const Redirects = ( {
 	initialValues = {},

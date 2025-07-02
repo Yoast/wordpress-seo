@@ -13,7 +13,21 @@ import { Form, Formik } from "formik";
 import { FormAddRedirect } from "../components/form-add-redirect";
 
 /**
- * @returns {JSX.Element} The redirects route.
+ * RegexRedirects component.
+ *
+ * This component renders a route for managing regex-based redirects in the admin panel.
+ * It includes a form to add a new redirect using Formik, a description with a help link,
+ * filter controls, and a list of existing redirects.
+ *
+ * @component
+ *
+ * @param {Object} [initialValues={}] - The initial form values for Formik.
+ * @param {Function} [createValidationSchema=() => {}] - A function returning a Yup validation schema for the form.
+ * @param {Function} [handleCreateSubmit=() => {}] - A callback function triggered on form submission.
+ * @param {JSX.Element} listRedirects - A component that renders the list of regex redirects.
+ * @param {JSX.Element} filterControls - A component that renders the filter controls.
+ *
+ * @returns {JSX.Element} The rendered RegexRedirects route.
  */
 export const RegexRedirects = ( {
 	initialValues = {},
