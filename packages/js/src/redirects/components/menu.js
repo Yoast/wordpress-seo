@@ -28,11 +28,13 @@ export const Menu = ( { idSuffix = "" } ) => {
 			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
-			<Search
-				buttonId={ `button-search${ idSuffix }` }
-				userLocale={ userLocale }
-				queryableSearchIndex={ queryableSearchIndex }
-			/>
+			{ isPremium && (
+				<Search
+					buttonId={ `button-search${ idSuffix }` }
+					userLocale={ userLocale }
+					queryableSearchIndex={ queryableSearchIndex }
+				/>
+			) }
 		</header>
 		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">
 			<MenuItemLink
@@ -52,6 +54,7 @@ export const Menu = ( { idSuffix = "" } ) => {
 				</> }
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
+				isActive={ isPremium }
 			/>
 			<MenuItemLink
 				to={ ROUTES.redirectMethod }
@@ -61,6 +64,7 @@ export const Menu = ( { idSuffix = "" } ) => {
 				</> }
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
+				isActive={ isPremium }
 			/>
 		</ul>
 	</>;

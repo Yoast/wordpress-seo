@@ -2,23 +2,26 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import {
-	FilterControls,
-	ListRedirects,
 	Notifications,
 	RouteLayout,
 } from "../components";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { FORMAT_REGEX, initialRegexValues } from "../constants";
+import { FORMAT_REGEX } from "../constants";
 import { FieldsetLayout } from "../../shared-admin/components";
 import { Form, Formik } from "formik";
-import { createValidationSchema, handleCreateSubmit } from "../helpers";
 import { FormAddRedirect } from "../components/form-add-redirect";
 
 /**
  * @returns {JSX.Element} The redirects route.
  */
-export const RegexRedirects = () => {
+export const RegexRedirects = ( {
+	initialValues = {},
+	createValidationSchema = () => {},
+	handleCreateSubmit = () => {},
+	listRedirects: ListRedirects,
+	filterControls: FilterControls
+} ) => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoa.st/3lo" );
 
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(
@@ -37,14 +40,13 @@ export const RegexRedirects = () => {
 		}
 	), [] );
 
-
 	return (
 		<RouteLayout
 			title={ __( "Regular Expressions redirects / Regex redirects - TBD title", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
 			<Formik
-				initialValues={ initialRegexValues }
+				initialValues={ initialValues }
 				validationSchema={ createValidationSchema( {} ) }
 				onSubmit={ handleCreateSubmit }
 			>

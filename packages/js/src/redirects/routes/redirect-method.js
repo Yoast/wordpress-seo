@@ -4,19 +4,26 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Paper, Radio, RadioGroup, Spinner } from "@yoast/ui-library";
 import { Notifications, RouteLayout } from "../components";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { useSelectRedirects, useGetRedirectsSettings } from "../hooks";
+import { useSelectRedirects } from "../hooks";
 import { Field, Formik } from "formik";
 import { FieldsetLayout } from "../../shared-admin/components";
 import { FormLayout } from "../../shared-admin/components/form";
-import { handleSettingsUpdateSubmit } from "../helpers";
 
 /**
- * @returns {JSX.Element} The redirect method route.
+ * Redirect method configuration page component.
+ *
+ * This is a premium feature that provides advanced redirect management options
+ * for users who want more control over how redirects are implemented.
+ *
+ * @param {Object} settings - Current redirect settings.
+ * @param {string} settings.disable_php_redirect - Whether PHP redirects are disabled ("on"|"off").
+ * @param {string} settings.separate_file - Whether to generate separate redirect files ("on"|"off").
+ * @param {boolean} settings.is_apache - Whether the server is Apache.
+ * @param {string} status - Loading status of settings ("success"|"loading"|"error").
+ * @param {Function} [handleSettingsUpdateSubmit] - Callback for handling settings form submission.
+ * @returns {JSX.Element} The redirect method configuration interface.
  */
-export const RedirectMethod = () => {
-	const settings = useGetRedirectsSettings();
-	const status = useSelectRedirects( "selectSettingsStatus" );
-
+export const RedirectMethod = ( { settings, status, handleSettingsUpdateSubmit = () => {} } ) => {
 	const redirectsManagedLink = useSelectRedirects(
 		"selectLink",
 		[],

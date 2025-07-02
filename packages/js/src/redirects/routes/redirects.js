@@ -2,23 +2,25 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import {
-	FilterControls,
-	ListRedirects,
 	Notifications,
 	RouteLayout,
 } from "../components";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { initialValues } from "../constants";
 import { FieldsetLayout } from "../../shared-admin/components";
 import { Form, Formik } from "formik";
-import { createValidationSchema, handleCreateSubmit } from "../helpers";
 import { FormAddRedirect } from "../components/form-add-redirect";
 
 /**
  * @returns {JSX.Element} The redirects route.
  */
-export const Redirects = () => {
+export const Redirects = ( {
+	initialValues = {},
+	createValidationSchema = () => {},
+	handleCreateSubmit = () => {},
+	listRedirects: ListRedirects,
+	filterControls: FilterControls
+} ) => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoast.com/yoast-seo-redirect-manager" );
 
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(

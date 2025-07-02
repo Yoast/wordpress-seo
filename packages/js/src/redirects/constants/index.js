@@ -27,32 +27,11 @@ export const REDIRECT_TYPE_SHORTS_OPTIONS = [
 	{ value: 451, label: __( "451", "wordpress-seo" ) },
 ];
 
-export const BULK_ACTIONS_OPTIONS = [
-	{ value: "", label: __( "All", "wordpress-seo" ) },
-	{ value: "delete", label: __( "Delete", "wordpress-seo" ) },
-];
-
 export const ROUTES = {
 	redirects: "/",
 	regexRedirects: "/regex-redirects",
 	redirectMethod: "/redirect-method",
 };
 
-export const ASC = "asc";
-export const DESC = "desc";
 export const FORMAT_PLAIN = "plain";
 export const FORMAT_REGEX = "regex";
-
-export const initialValues = {
-	type: REDIRECT_TYPE_OPTIONS[ 0 ]?.value,
-	origin: "",
-	target: "",
-	format: FORMAT_PLAIN,
-};
-
-export const initialRegexValues = {
-	...initialValues,
-	format: FORMAT_REGEX,
-};
-
-export const ITEMS_PER_PAGE = 10;
