@@ -233,8 +233,7 @@ const LlmTxt = () => {
 													<FormikIndexablePageSelectField
 														name={ `wpseo_llmstxt.other_included_pages.${ index }` }
 														id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
-														// translators: %1$s expands to array index + 2.
-														label={ `${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }` }
+														label={ index === 0 ? __( "Content pages", "wordpress-seo" ) : "" }
 														className="yst-max-w-sm yst-flex-grow"
 														disabled={ ! activeManualSelection }
 													/>
