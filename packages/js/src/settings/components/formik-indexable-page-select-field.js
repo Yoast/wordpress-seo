@@ -33,21 +33,20 @@ IndexablePageSelectOptionsContent.propTypes = {
  * @returns {JSX.Element} The indexable page select component.
  */
 const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
-	const llmTxtPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
-	const indexablePages = useSelectSettings( "selectIndexablePagesWith", [ llmTxtPages ], values( llmTxtPages ) );
-	const otherIndexablePages = useSelectSettings( "selectIndexablePagesWith", [ llmTxtPages ], values( llmTxtPages.other_included_pages ) );
+	const selectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
+	const indexablePages = useSelectSettings( "selectIndexablePages", [] );
 	const { fetchIndexablePages } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ queriedIndexablePageIds, setQueriedIndexablePageIds ] = useState( [] );
 
 	const selectedIndexablePage = useMemo( () => {
-		const indexablePageObjects = values( indexablePages );
-		const otherIndexablePageObjects = values( otherIndexablePages );
-		const allIndexablePageObjects = [ ...indexablePageObjects, ...otherIndexablePageObjects ];
-
-		return find( allIndexablePageObjects, [ "id", value ] );
-	}, [ value, indexablePages, otherIndexablePages ] );
+		const page = find( values( indexablePages ), [ "id", value ] );
+		if ( page ) {
+			return page;
+		}
+		return find( values( selectedPages ), [ "id", value ] );
+	}, [ value, indexablePages, selectedPages ] );
 
 	const debouncedFetchIndexablePages = useCallback( debounce( async search => {
 		try {
