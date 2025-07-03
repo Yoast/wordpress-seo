@@ -12,6 +12,8 @@ import { get } from "lodash";
 export const Content = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "google-docs-addon-thumbnail.png" ), [] );
 	const isPremium = useMemo( () => Boolean( get( window, "wpseoIntroductions.isPremium", false ) ), [] );
+	const upsellLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-upsell/" ), [] );
+	const premiumLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-get-started/" ), [] );
 
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
@@ -32,18 +34,10 @@ export const Content = () => {
 	}
 	, [ isPremium ] );
 
-	const buttonLink = useMemo( () => {
-		if ( isPremium ) {
-			return useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-get-started/" ), [] );
-		}
-
-		return useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-upsell/" ), [] );
-	}, [ isPremium ] );
-
 	return (
 		<Modal>
 			<GoogleDocsAddonUpsell
-				buttonLink={ buttonLink }
+				buttonLink={ isPremium ? premiumLink : upsellLink }
 				thumbnail={ thumbnail }
 				buttonLabel={ buttonLabel }
 				isPremium={ isPremium }
