@@ -1,16 +1,19 @@
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { useMemo } from "@wordpress/element";
+import { PlusIcon } from "@heroicons/react/solid";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
-import { Field, useFormikContext } from "formik";
+import classNames from "classnames";
+import { FieldArray, Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
+	FormikIndexablePageSelectField,
 	FormikValueChangeField,
 	FormLayout,
 	RouteLayout,
 } from "../components";
-import { useSelectSettings } from "../hooks";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The llms.txt feature route.
@@ -23,35 +26,41 @@ const LlmTxt = () => {
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
+	const { fetchIndexablePages } = useDispatchSettings();
+
 	const { values, initialValues } = useFormikContext();
+	const { other_included_pages: otherIncludedPages } = values.wpseo_llmstxt;
 	const {
 		enable_llms_txt: isLlmsTxtEnabled,
-		llms_txt_selection_mode: llmsTxtSelectionMode,
 	} = values.wpseo;
 
 	const {
 		enable_llms_txt: initialIsLlmsTxtEnabled,
-		llms_txt_selection_mode: initialLlmsTxtSelectionMode,
 	} = initialValues.wpseo;
+
+	const {
+		llms_txt_selection_mode: llmsTxtSelectionMode,
+	} = values.wpseo_llmstxt;
 
 	// eslint-disable-next-line no-console
 	console.log( "hasGenerationFailed", hasGenerationFailed );
 	// eslint-disable-next-line no-console
 	console.log( "generationFailureReason", generationFailureReason );
-	// eslint-disable-next-line no-console
-	console.log( "llmsTxtSelectionMode", llmsTxtSelectionMode );
-	// eslint-disable-next-line no-console
-	console.log( "initialLlmsTxtSelectionMode", initialLlmsTxtSelectionMode );
 
 	const activeTxtButton = useMemo( () => (
 		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
 	), [ initialIsLlmsTxtEnabled, isLlmsTxtEnabled ] );
 
+	const activeManualSelection = useMemo( () => (
+		isLlmsTxtEnabled && llmsTxtSelectionMode === "manual"
+	), [ isLlmsTxtEnabled, llmsTxtSelectionMode ] );
+
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
-			__( "Future-proof your website for visibility in AI tools like ChatGPT and Google Gemini. This helps them provide better, more accurate information about your site. %1$sLearn more about the llms.txt file%2$s.", "wordpress-seo" ),
+			/* translators: %1$s and %3$s are replaced by opening and closing <a> tags, %2$s is replaced by "llms.txt". */
+			__( "Future-proof your website for visibility in AI tools like ChatGPT and Google Gemini. This helps them provide better, more accurate information about your site. %1$sLearn more about the %2$s file%3$s.", "wordpress-seo" ),
 			"<a>",
+			label,
 			"</a>"
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -61,15 +70,27 @@ const LlmTxt = () => {
 
 	const selectionDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
-			__( "Generate an automatic selection based on %1$sYoast SEO’s best practices%2$s, or manually choose the content to include in your llms.txt file.", "wordpress-seo" ),
+			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags, %3$s is replaced by "llms.txt".. */
+			__( "Generate an automatic page selection based on %1$sYoast SEO’s best practices%2$s, or manually choose the pages to be included in your %3$s file.", "wordpress-seo" ),
 			"<a>",
-			"</a>"
+			"</a>",
+			label
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a id="llms-best-practices" href={ bestPracticesLink } target="_blank" rel="noopener noreferrer" />,
 		}
 	) );
+
+	const handleAddPage = useCallback( async( arrayHelpers ) => {
+		// Async/await is needed to ensure the new field is rendered before clicking it.
+		await arrayHelpers.push( 0 );
+		document.querySelector( `[data-id="input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }"]` )?.click();
+	}, [ otherIncludedPages ] );
+
+	useEffect( () => {
+		// Get initial options.
+		fetchIndexablePages();
+	}, [ fetchIndexablePages ] );
 
 	return (
 		<RouteLayout
@@ -92,7 +113,7 @@ const LlmTxt = () => {
 							description={ sprintf(
 								// translators: %1$s expands to "llms.txt".
 								__(
-									"By enabling this feature an %1$s file is automatically generated that lists a selection of your site's content.",
+									"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
 									"wordpress-seo"
 								),
 								label
@@ -138,22 +159,113 @@ const LlmTxt = () => {
 							<Field
 								as={ Radio }
 								type="radio"
-								name="wpseo.llms_txt_selection_mode"
-								id="input-wpseo-llms_txt_selection_mode-auto"
-								label={ __( "Automatic selection", "wordpress-seo" ) }
+								name="wpseo_llmstxt.llms_txt_selection_mode"
+								id="input-wpseo_llmstxt-llms_txt_selection_mode-auto"
+								label={ __( "Automatic page selection", "wordpress-seo" ) }
 								value="auto"
 								disabled={ ! isLlmsTxtEnabled }
 							/>
 							<Field
 								as={ Radio }
 								type="radio"
-								name="wpseo.llms_txt_selection_mode"
-								id="input-wpseo-llms_txt_selection_mode-manual"
-								label={ __( "Manual selection", "wordpress-seo" ) }
+								name="wpseo_llmstxt.llms_txt_selection_mode"
+								id="input-wpseo_llmstxt-llms_txt_selection_mode-manual"
+								label={ __( "Manual page selection", "wordpress-seo" ) }
 								value="manual"
 								disabled={ ! isLlmsTxtEnabled }
 							/>
 						</RadioGroup>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Manual page selection", "wordpress-seo" ) }
+						description={ sprintf(
+							// translators: %1$s expands to "llms.txt".
+							__( "Select the pages that you want to include in the %1$s file", "wordpress-seo" ),
+							label
+						) }
+					>
+						<>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.about_us_page"
+								id="input-wpseo_llmstxt-about_us_page"
+								label={ __( "About us page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.contact_page"
+								id="input-wpseo_llmstxt-contact_page"
+								label={ __( "Contact page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.terms_page"
+								id="input-wpseo_llmstxt-terms_page"
+								label={ __( "Terms page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.privacy_policy_page"
+								id="input-wpseo_llmstxt-privacy_policy_page"
+								label={ __( "Privacy policy", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<FormikIndexablePageSelectField
+								name="wpseo_llmstxt.shop_page"
+								id="input-wpseo_llmstxt-shop_page"
+								label={ __( "Shop page", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ ! activeManualSelection }
+							/>
+							<hr className="yst-my-8 yst-max-w-md" />
+							<FieldArray name="wpseo_llmstxt.other_included_pages">
+								{ arrayHelpers => (
+									<>
+										<div className="yst-space-y-4">
+											{ otherIncludedPages.map( ( _, index ) => (
+												<div
+													className="yst-w-full yst-flex yst-items-start yst-gap-2 yst-mt-2"
+													key={ `wpseo_llmstxt.other_included_pages.${ index }` }
+												>
+													<FormikIndexablePageSelectField
+														name={ `wpseo_llmstxt.other_included_pages.${ index }` }
+														id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
+														label={ index === 0 ? __( "Content pages", "wordpress-seo" ) : "" }
+														className="yst-max-w-sm yst-flex-grow"
+														disabled={ ! activeManualSelection }
+													/>
+													<Button
+														variant="secondary"
+														// eslint-disable-next-line react/jsx-no-bind
+														onClick={ arrayHelpers.remove.bind( null, index ) }
+														className={ classNames( "yst-p-2.5", index === 0 && "yst-mt-7" ) }
+														// translators: %1$s expands to array index + 1.
+														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
+														disabled={ ! activeManualSelection }
+													>
+														<TrashIcon className="yst-h-5 yst-w-5" />
+													</Button>
+												</div>
+											) ) }
+											<Button
+												id="button-add-page"
+												variant="secondary"
+												/* eslint-disable-next-line react/jsx-no-bind */
+												onClick={ ()=>handleAddPage( arrayHelpers ) }
+												disabled={ ! activeManualSelection }
+											>
+												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+												{ __( "Add page", "wordpress-seo" ) }
+											</Button>
+										</div>
+									</>
+								) }
+							</FieldArray>
+						</>
 					</FieldsetLayout>
 				</div>
 			</FormLayout>

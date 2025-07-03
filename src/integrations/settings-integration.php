@@ -49,7 +49,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var array
 	 */
-	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
+	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_llmstxt' ];
 
 	/**
 	 * Holds the disallowed settings, per option group.
@@ -529,6 +529,7 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
+			'llmTxtPages'                   => $this->get_site_llms_txt_pages( $settings ),
 		];
 	}
 
@@ -537,7 +538,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @param array $settings The settings.
 	 *
-	 * @return array The currently represented person's ID and name.
+	 * @return array The currently represented person.
 	 */
 	protected function get_site_represents_person( $settings ) {
 		$person = [
@@ -566,46 +567,80 @@ class Settings_Integration implements Integration_Interface {
 	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
-		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
+		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
 
 		return $policies;
 	}
 
 	/**
-	 * Adds policy data if it is present.
+	 * Adds page if it is present.
 	 *
-	 * @param array  $policies The existing policy data.
-	 * @param int    $policy   The policy id to check.
-	 * @param string $key      The option key name.
+	 * @param array  $pages The existing pages.
+	 * @param int    $page  The page id to check.
+	 * @param string $key   The option key name.
 	 *
 	 * @return array<int, string> The policy data.
 	 */
-	private function maybe_add_policy( $policies, $policy, $key ) {
-		$policy_array = [
-			'id'   => 0,
-			'name' => \__( 'None', 'wordpress-seo' ),
-		];
-
-		if ( isset( $policy ) && \is_int( $policy ) ) {
-			$policy_array['id'] = $policy;
-			$post               = \get_post( $policy );
+	private function maybe_add_page( $pages, $page, $key ) {
+		if ( isset( $page ) && \is_int( $page ) && $page !== 0 ) {
+			$page_array = [
+				'id'   => $page,
+				'name' => \__( 'None', 'wordpress-seo' ),
+			];
+			$post       = \get_post( $page );
 			if ( $post instanceof WP_Post ) {
 				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
-					return $policies;
+					return $pages;
 				}
-				$policy_array['name'] = $post->post_title;
+				$page_array['name'] = $post->post_title;
+			}
+
+			$pages[ $key ] = $page_array;
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * Get site llms.txt pages.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array<string, array<string, int|string>> The llms.txt pages.
+	 */
+	private function get_site_llms_txt_pages( $settings ) {
+		$llms_txt_pages = [];
+
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['about_us_page'], 'about_us_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['contact_page'], 'contact_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['terms_page'], 'terms_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['privacy_policy_page'], 'privacy_policy_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['shop_page'], 'shop_page' );
+
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $id ) {
+				// @TODO: This needs to be using the indexables table. The next PR should fix this, that's why we are duplicating some code here.
+				$page = [];
+
+				$page['id'] = $id;
+				$post       = \get_post( $id );
+				if ( ! ( $post instanceof WP_Post ) || ( $post->post_status !== 'publish' || $post->post_password !== '' ) ) {
+					continue;
+				}
+
+				$page['name'] = $post->post_title;
+
+				$llms_txt_pages[ 'other_included_pages-' . $key ] = $page;
 			}
 		}
 
-		$policies[ $key ] = $policy_array;
-
-		return $policies;
+		return $llms_txt_pages;
 	}
 
 	/**
@@ -770,6 +805,11 @@ class Settings_Integration implements Integration_Interface {
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
 			'UTF-8'
 		);
+
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			// Append an empty page to the other included pages, so that we manage to show an empty field in the UI.
+			$settings['wpseo_llmstxt']['other_included_pages'][] = 0;
+		}
 
 		return $settings;
 	}

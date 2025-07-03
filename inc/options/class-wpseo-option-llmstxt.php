@@ -22,10 +22,16 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 	 *
 	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
-	 * @var array
+	 * @var array<string, int|string|array<int>>
 	 */
 	protected $defaults = [
-		'ids_to_include' => [],
+		'llms_txt_selection_mode' => 'auto',
+		'about_us_page'           => 0,
+		'contact_page'            => 0,
+		'terms_page'              => 0,
+		'privacy_policy_page'     => 0,
+		'shop_page'               => 0,
+		'other_included_pages'    => [],
 	];
 
 	/**
@@ -55,9 +61,8 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				case 'ids_to_include':
-					$clean[ $key ] = $old[ $key ];
-
+				case 'other_included_pages':
+					// @TODO: Investigate whether going through this every time an option is saved is too much overhead.
 					if ( isset( $dirty[ $key ] ) ) {
 						$items = $dirty[ $key ];
 						if ( ! is_array( $items ) ) {
@@ -65,10 +70,41 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 						}
 
 						if ( is_array( $items ) ) {
-							$clean[ $key ] = $dirty[ $key ];
+							foreach ( $items as $item ) {
+								$validated_id = WPSEO_Utils::validate_int( $item );
+
+								if ( $validated_id === false || $validated_id === 0 ) {
+									continue;
+								}
+
+								$clean[ $key ][] = $validated_id;
+							}
 						}
 					}
 
+					break;
+				case 'about_us_page':
+				case 'contact_page':
+				case 'terms_page':
+				case 'privacy_policy_page':
+				case 'shop_page':
+					if ( isset( $dirty[ $key ] ) ) {
+						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
+						if ( $int !== false && $int >= 0 ) {
+							$clean[ $key ] = $int;
+						}
+					}
+					elseif ( isset( $old[ $key ] ) ) {
+						$int = WPSEO_Utils::validate_int( $old[ $key ] );
+						if ( $int !== false && $int >= 0 ) {
+							$clean[ $key ] = $int;
+						}
+					}
+					break;
+				case 'llms_txt_selection_mode':
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], [ 'auto', 'manual' ], true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
 					break;
 			}
 		}
