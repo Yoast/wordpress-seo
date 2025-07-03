@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\Content;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 
+/**
+ * Describes the post collection interface.
+ */
 interface Post_Collection_Interface {
 
 	/**
