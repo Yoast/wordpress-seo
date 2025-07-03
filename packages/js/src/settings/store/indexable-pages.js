@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
-import { createEntityAdapter, createSelector, createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { decodeEntities } from "@wordpress/html-entities";
 import { buildQueryString } from "@wordpress/url";
-import { map, trim, pickBy } from "lodash";
+import { map, trim } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const indexablePagesAdapter = createEntityAdapter();
@@ -87,23 +87,6 @@ export const indexablePagesSelectors = {
 	selectIndexablePageById: indexablePageAdapterSelectors.selectById,
 	selectIndexablePages: indexablePageAdapterSelectors.selectEntities,
 };
-indexablePagesSelectors.selectIndexablePagesWith = createSelector(
-	[
-		indexablePagesSelectors.selectIndexablePages,
-		( state, additionalIndexablePage = {} ) => additionalIndexablePage,
-	],
-	( indexablePages, additionalIndexablePage ) => {
-		const additionalIndexablePages = {};
-		additionalIndexablePage.forEach( indexablePage => {
-			if ( indexablePage?.id && ! indexablePages[ indexablePage.id ] ) {
-				// Add the additional page.
-				additionalIndexablePages[ indexablePage.id ] = { ...indexablePage };
-			}
-		} );
-		const cleanIndexablePages = pickBy( indexablePages, ( value ) => ! value.protected );
-		return { ...additionalIndexablePages, ...cleanIndexablePages };
-	}
-);
 
 export const indexablePagesActions = {
 	...indexablePagesSlice.actions,

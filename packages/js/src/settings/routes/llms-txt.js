@@ -1,6 +1,5 @@
-import { Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";

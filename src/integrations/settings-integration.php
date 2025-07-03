@@ -588,23 +588,21 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array<int, string> The policy data.
 	 */
 	private function maybe_add_page( $pages, $page, $key ) {
-		$page_array = [
-			'id'   => 0,
-			'name' => \__( 'None', 'wordpress-seo' ),
-		];
-
 		if ( isset( $page ) && \is_int( $page ) && $page !== 0 ) {
-			$page_array['id'] = $page;
-			$post             = \get_post( $page );
+			$page_array = [
+				'id'   => $page,
+				'name' => \__( 'None', 'wordpress-seo' ),
+			];
+			$post       = \get_post( $page );
 			if ( $post instanceof WP_Post ) {
 				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
 					return $pages;
 				}
 				$page_array['name'] = $post->post_title;
 			}
-		}
 
-		$pages[ $key ] = $page_array;
+			$pages[ $key ] = $page_array;
+		}
 
 		return $pages;
 	}
@@ -626,7 +624,8 @@ class Settings_Integration implements Integration_Interface {
 		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['shop_page'], 'shop_page' );
 
 		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
-			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $id ) {
+			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $id ) {
+				// @TODO: This needs to be using the indexables table. The next PR should fix this, that's why we are duplicating some code here.
 				$page = [];
 
 				$page['id'] = $id;
@@ -637,7 +636,7 @@ class Settings_Integration implements Integration_Interface {
 
 				$page['name'] = $post->post_title;
 
-				$llms_txt_pages['other_included_pages'][] = $page;
+				$llms_txt_pages[ 'other_included_pages-' . $key ] = $page;
 			}
 		}
 
