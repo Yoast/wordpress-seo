@@ -81,6 +81,7 @@ const LlmTxt = () => {
 	) );
 
 	const handleAddPage = useCallback( async( arrayHelpers ) => {
+		// Async/await is needed to ensure the new field is rendered before clicking it.
 		await arrayHelpers.push( 0 );
 		document.querySelector( `[data-id="input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }"]` )?.click();
 	}, [ otherIncludedPages ] );
