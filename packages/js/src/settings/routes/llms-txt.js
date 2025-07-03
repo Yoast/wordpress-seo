@@ -242,7 +242,7 @@ const LlmTxt = () => {
 														// eslint-disable-next-line react/jsx-no-bind
 														onClick={ arrayHelpers.remove.bind( null, index ) }
 														className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
-														// translators: %1$s expands to array index + 2.
+														// translators: %1$s expands to array index + 1.
 														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
 														disabled={ ! activeManualSelection }
 													>
