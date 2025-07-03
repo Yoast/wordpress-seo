@@ -4,6 +4,7 @@ import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
+import classNames from "classnames";
 import { FieldArray, Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -81,6 +82,7 @@ const LlmTxt = () => {
 	) );
 
 	const handleAddPage = useCallback( async( arrayHelpers ) => {
+		// Async/await is needed to ensure the new field is rendered before clicking it.
 		await arrayHelpers.push( 0 );
 		document.querySelector( `[data-id="input-wpseo_llmstxt-other_included_pages-${ otherIncludedPages.length }"]` )?.click();
 	}, [ otherIncludedPages ] );
@@ -232,8 +234,7 @@ const LlmTxt = () => {
 													<FormikIndexablePageSelectField
 														name={ `wpseo_llmstxt.other_included_pages.${ index }` }
 														id={ `input-wpseo_llmstxt-other_included_pages-${ index }` }
-														// translators: %1$s expands to array index + 2.
-														label={ `${ ( index === 0 ) ? __( "Content pages", "wordpress-seo" ) : "" }` }
+														label={ index === 0 ? __( "Content pages", "wordpress-seo" ) : "" }
 														className="yst-max-w-sm yst-flex-grow"
 														disabled={ ! activeManualSelection }
 													/>
@@ -241,8 +242,8 @@ const LlmTxt = () => {
 														variant="secondary"
 														// eslint-disable-next-line react/jsx-no-bind
 														onClick={ arrayHelpers.remove.bind( null, index ) }
-														className={ `yst-p-2.5${ ( index === 0 ) ? " yst-mt-7" : "" }` }
-														// translators: %1$s expands to array index + 2.
+														className={ classNames( "yst-p-2.5", index === 0 && "yst-mt-7" ) }
+														// translators: %1$s expands to array index + 1.
 														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
 														disabled={ ! activeManualSelection }
 													>

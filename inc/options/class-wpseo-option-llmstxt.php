@@ -102,7 +102,7 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 					}
 					break;
 				case 'llms_txt_selection_mode':
-					if ( isset( $dirty[ $key ] ) ) {
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], [ 'auto', 'manual' ], true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
