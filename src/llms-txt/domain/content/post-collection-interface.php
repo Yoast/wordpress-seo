@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Llms_Txt\Domain\content;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Llms_Txt\Domain\Content;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 

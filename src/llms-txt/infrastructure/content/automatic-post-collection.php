@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Content;
 use WP_Post;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Llms_Txt\Domain\content\Post_Collection_Interface;
+use Yoast\WP\SEO\Llms_Txt\Domain\Content\Post_Collection_Interface;
 use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
