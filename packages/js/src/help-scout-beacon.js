@@ -1,6 +1,6 @@
-import { render, useState, Fragment } from "@wordpress/element";
-import styled, { createGlobalStyle } from "styled-components";
+import { createRoot, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import styled, { createGlobalStyle } from "styled-components";
 
 const BeaconOffset = createGlobalStyle`
 	@media only screen and (min-width: 1024px) {
@@ -21,7 +21,7 @@ function renderComponent( component ) {
 	const element = document.createElement( "div" );
 	element.setAttribute( "id", "yoast-helpscout-beacon" );
 
-	render( component, element );
+	createRoot( element ).render( component );
 
 	document.body.appendChild( element );
 }
@@ -72,7 +72,8 @@ function loadHelpScoutSessionData( sessionData ) {
 function loadHelpScout( beaconId, sessionData = "" ) {
 	// This IIFE is directly from HelpScout to insert their beacon.
 	( function( window, document ) {
-		let beacon = window.Beacon || function() {};
+		let beacon = window.Beacon || function() {
+		};
 
 		/**
 		 * Inserts the HelpScout beacon script.
@@ -100,7 +101,8 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 		} else {
 			window.addEventListener( "load", insertScript, false );
 		}
-	}( window, document, window.Beacon || function() {} ) );
+	}( window, document, window.Beacon || function() {
+	} ) );
 
 	// eslint-disable-next-line new-cap
 	window.Beacon( "init", beaconId );
@@ -175,7 +177,10 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		return (
 			<SvgContainer>
 				<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52">
-					<path d="M27.031 32h-2.488v-2.046c0-.635.077-1.21.232-1.72.154-.513.366-.972.639-1.381.272-.41.58-.779.923-1.109.345-.328.694-.652 1.049-.97l.995-.854a6.432 6.432 0 0 0 1.475-1.568c.39-.59.585-1.329.585-2.216 0-.635-.117-1.203-.355-1.703a3.7 3.7 0 0 0-.96-1.263 4.305 4.305 0 0 0-1.401-.783A5.324 5.324 0 0 0 26 16.114c-1.28 0-2.316.375-3.11 1.124-.795.75-1.286 1.705-1.475 2.865L19 19.693c.356-1.772 1.166-3.165 2.434-4.176C22.701 14.507 24.26 14 26.107 14c.947 0 1.842.131 2.682.392.84.262 1.57.648 2.185 1.16a5.652 5.652 0 0 1 1.475 1.892c.368.75.551 1.602.551 2.556 0 .728-.083 1.364-.248 1.909a5.315 5.315 0 0 1-.693 1.467 6.276 6.276 0 0 1-1.048 1.176c-.403.351-.83.71-1.28 1.073-.498.387-.918.738-1.26 1.057a4.698 4.698 0 0 0-.836 1.006 3.847 3.847 0 0 0-.462 1.176c-.095.432-.142.955-.142 1.568V32zM26 37a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="#FFF" />
+					<path
+						d="M27.031 32h-2.488v-2.046c0-.635.077-1.21.232-1.72.154-.513.366-.972.639-1.381.272-.41.58-.779.923-1.109.345-.328.694-.652 1.049-.97l.995-.854a6.432 6.432 0 0 0 1.475-1.568c.39-.59.585-1.329.585-2.216 0-.635-.117-1.203-.355-1.703a3.7 3.7 0 0 0-.96-1.263 4.305 4.305 0 0 0-1.401-.783A5.324 5.324 0 0 0 26 16.114c-1.28 0-2.316.375-3.11 1.124-.795.75-1.286 1.705-1.475 2.865L19 19.693c.356-1.772 1.166-3.165 2.434-4.176C22.701 14.507 24.26 14 26.107 14c.947 0 1.842.131 2.682.392.84.262 1.57.648 2.185 1.16a5.652 5.652 0 0 1 1.475 1.892c.368.75.551 1.602.551 2.556 0 .728-.083 1.364-.248 1.909a5.315 5.315 0 0 1-.693 1.467 6.276 6.276 0 0 1-1.048 1.176c-.403.351-.83.71-1.28 1.073-.498.387-.918.738-1.26 1.057a4.698 4.698 0 0 0-.836 1.006 3.847 3.847 0 0 0-.462 1.176c-.095.432-.142.955-.142 1.568V32zM26 37a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+						fill="#FFF"
+					/>
 				</svg>
 			</SvgContainer>
 		);

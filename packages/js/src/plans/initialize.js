@@ -1,7 +1,7 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
@@ -29,12 +29,11 @@ domReady( () => {
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<SlotFillProvider>
 				<App />
 			</SlotFillProvider>
-		</Root>,
-		root
+		</Root>
 	);
 } );
