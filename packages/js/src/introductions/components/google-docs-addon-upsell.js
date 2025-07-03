@@ -1,6 +1,5 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 
@@ -16,10 +15,14 @@ import PropTypes from "prop-types";
 export const GoogleDocsAddonUpsell = ( {
 	thumbnail,
 	buttonLink,
-	buttonLabel,
-	productName,
-	isPremium,
-	ctbId,
+	buttonLabel = sprintf(
+	/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "Unlock with %1$s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	),
+	productName = "Yoast SEO Premium",
+	isPremium = false,
+	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -52,12 +55,12 @@ export const GoogleDocsAddonUpsell = ( {
 						}
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-						{ safeCreateInterpolateElement(
+						{
 							__(
 								"Optimize as you draft for SEO, inclusivity, and readability. The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required.",
 								"wordpress-seo"
 							)
-						) }
+						}
 					</div>
 				</div>
 				<div className="yst-w-full yst-flex yst-mt-6">
@@ -117,7 +120,6 @@ export const GoogleDocsAddonUpsell = ( {
 	);
 };
 GoogleDocsAddonUpsell.propTypes = {
-	learnMoreLink: PropTypes.string.isRequired,
 	buttonLink: PropTypes.string.isRequired,
 	thumbnail: PropTypes.shape( {
 		src: PropTypes.string.isRequired,
@@ -128,15 +130,4 @@ GoogleDocsAddonUpsell.propTypes = {
 	productName: PropTypes.string,
 	isPremium: PropTypes.bool,
 	ctbId: PropTypes.string,
-};
-
-GoogleDocsAddonUpsell.defaultProps = {
-	buttonLabel: sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "Unlock with %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
-	productName: "Yoast SEO Premium",
-	isPremium: false,
-	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
