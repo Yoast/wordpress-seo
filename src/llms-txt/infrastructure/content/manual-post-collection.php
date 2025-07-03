@@ -85,10 +85,13 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 			if ( ! empty( $this->options_helper->get( $page ) ) ) {
 				$page_id = $this->options_helper->get( $page );
 				if ( $this->indexable_helper->should_index_indexables() ) {
-					$posts[] = $this->get_content_type_entry_for_indexable( $page_id );
+					$post = $this->get_content_type_entry_for_indexable( $page_id );
 				}
 				else {
-					$posts[] = $this->get_content_type_entry_wp_query( $page_id );
+					$post = $this->get_content_type_entry_wp_query( $page_id );
+				}
+				if ( $post !== null ) {
+					$posts[] = $post;
 				}
 			}
 		}
@@ -96,10 +99,13 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 		if ( ! empty( $this->options_helper->get( 'other_included_pages' ) ) ) {
 			foreach ( $this->options_helper->get( 'other_included_pages' ) as $page_id ) {
 				if ( $this->indexable_helper->should_index_indexables() ) {
-					$posts[] = $this->get_content_type_entry_for_indexable( $page_id );
+					$post = $this->get_content_type_entry_for_indexable( $page_id );
 				}
 				else {
-					$posts[] = $this->get_content_type_entry_wp_query( $page_id );
+					$post = $this->get_content_type_entry_wp_query( $page_id );
+				}
+				if ( $post !== null ) {
+					$posts[] = $post;
 				}
 			}
 		}
@@ -114,15 +120,20 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	 *
 	 * @return Content_Type_Entry The content type entry.
 	 */
-	public function get_content_type_entry_wp_query( int $page_id ): Content_Type_Entry {
+	public function get_content_type_entry_wp_query( int $page_id ): ?Content_Type_Entry {
 		$page = \get_post( $page_id );
 
-		return new Content_Type_Entry(
-			$page->ID,
-			$page->post_title,
-			\get_permalink( $page->ID ),
-			$page->post_excerpt
-		);
+		if ( $page !== null && $page->post_password === '' && $page->post_status === 'publish' ) {
+
+			return new Content_Type_Entry(
+				$page->ID,
+				$page->post_title,
+				\get_permalink( $page->ID ),
+				$page->post_excerpt
+			);
+		}
+
+		return null;
 	}
 
 	/**
@@ -134,7 +145,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	 */
 	public function get_content_type_entry_for_indexable( int $page_id ): ?Content_Type_Entry {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $page_id, 'post' );
-		if ( $indexable->is_public ) {
+		if ( $indexable->is_public === null || $indexable->is_public == 1 ) {
 			$indexable_meta = $this->meta->for_indexable( $indexable );
 			if ( $indexable_meta->post instanceof WP_Post ) {
 				return new Content_Type_Entry(
@@ -145,5 +156,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 				);
 			}
 		}
+
+		return null;
 	}
 }
