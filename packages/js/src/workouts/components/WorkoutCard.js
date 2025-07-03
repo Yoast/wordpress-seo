@@ -1,33 +1,43 @@
-// External dependencies.
-import PropTypes from "prop-types";
-import { __, sprintf } from "@wordpress/i18n";
-import { useCallback, useState, useMemo, useEffect, Fragment } from "@wordpress/element";
+/* eslint-disable complexity */
 import { useDispatch, useSelect } from "@wordpress/data";
-// Internal dependencies.
+import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { NewButton as Button, ProgressBar } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
+import PropTypes from "prop-types";
 
-/* eslint-disable complexity */
 /**
  * The WorkoutCard component
  *
  * @param {Object} props The props object.
+ * @param {string} props.name The name of the workout.
+ * @param {string} props.title The title of the workout.
+ * @param {string} props.subtitle The subtitle of the workout.
+ * @param {Array<string>} props.usps The unique selling points of the workout.
+ * @param {string} [props.id=""] The id of the workout card.
+ * @param {React.ReactNode} [props.image=null] The image component to display in the workout card.
+ * @param {?Array<string>} [props.finishableSteps=null] The steps that can be finished in the workout.
+ * @param {?Array<string>} [props.finishedSteps=null] The steps that have been finished in the workout.
+ * @param {?string} [props.upsellLink=null] The link to the upsell page for the workout.
+ * @param {?string} [props.upsellText=null] The text for the upsell link.
+ * @param {React.ReactNode} [props.workout=null] The workout component to display when the workout is active.
+ * @param {Array<JSX.Element>} [props.badges=[]] The badges to display in the workout card.
  *
- * @returns {WPElement} The WorkoutCard component
+ * @returns {JSX.Element} The WorkoutCard component
  */
 export default function WorkoutCard( {
 	name,
 	title,
 	subtitle,
 	usps,
-	id,
-	image,
-	finishableSteps,
-	finishedSteps,
-	upsellLink,
-	upsellText,
-	workout,
-	badges,
+	id = "",
+	image = null,
+	finishableSteps = null,
+	finishedSteps = null,
+	upsellLink = null,
+	upsellText = null,
+	workout = null,
+	badges = [],
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 	const activeWorkout = useSelect( ( select ) => {
@@ -89,38 +99,44 @@ export default function WorkoutCard( {
 				{ image && <ImageComponent /> }
 			</div>
 			<span>
-				{ workout && <Button id={ `${ id }-action-button` } className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` } onClick={ onClick }>{ buttonText }</Button> }
+				{ workout && <Button
+					id={ `${ id }-action-button` } className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` }
+					onClick={ onClick }
+				>{ buttonText }</Button> }
 				{ ! workout &&
-					<UpsellButton id={ `${ id }-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">
+					<UpsellButton
+						id={ `${ id }-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell"
+						data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+					>
 						{ actualUpsellText }
 						<span aria-hidden="true" className="yoast-button-upsell__caret" />
 					</UpsellButton>
 				}
 				{ finishableSteps && finishedSteps &&
-				<div className="workout-card-progress">
-					<ProgressBar
-						id={ `${ id }-progress` }
-						max={ finishableSteps.length }
-						value={ finishedSteps.length }
-					/>
-					<label htmlFor={ `${ id }-progress` }><i>
-						{
-							sprintf(
-								// translators: %1$s: number of finished steps, %2$s: number of finishable steps
-								__(
-									"%1$s/%2$s steps completed",
-									"wordpress-seo"
-								),
-								finishedSteps.length,
-								finishableSteps.length
-							)
-						}
-					</i></label>
-				</div> }
+					<div className="workout-card-progress">
+						<ProgressBar
+							id={ `${ id }-progress` }
+							max={ finishableSteps.length }
+							value={ finishedSteps.length }
+						/>
+						<label htmlFor={ `${ id }-progress` }><i>
+							{
+								sprintf(
+									// translators: %1$s: number of finished steps, %2$s: number of finishable steps
+									__(
+										"%1$s/%2$s steps completed",
+										"wordpress-seo"
+									),
+									finishedSteps.length,
+									finishableSteps.length
+								)
+							}
+						</i></label>
+					</div> }
 			</span>
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
-	</Fragment>	);
+	</Fragment> );
 }
 
 WorkoutCard.propTypes = {
@@ -131,21 +147,9 @@ WorkoutCard.propTypes = {
 	id: PropTypes.string,
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	image: PropTypes.func,
+	image: PropTypes.elementType,
 	upsellLink: PropTypes.string,
 	upsellText: PropTypes.string,
-	workout: PropTypes.func,
+	workout: PropTypes.elementType,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
-
-WorkoutCard.defaultProps = {
-	id: "",
-	finishableSteps: null,
-	finishedSteps: null,
-	image: null,
-	upsellLink: null,
-	upsellText: null,
-	workout: null,
-	badges: [],
-};
-/* eslint-enable complexity */

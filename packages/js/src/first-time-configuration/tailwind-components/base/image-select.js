@@ -5,38 +5,37 @@ import { Button, Link } from "@yoast/ui-library";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import MultiLineText from "./multi-line-text";
 import { getErrorAriaProps, getErrorId } from "../helpers";
+import MultiLineText from "./multi-line-text";
 import Spinner from "./spinner";
 
-/* eslint-disable complexity */
 /**
  * The ImageSelect component.
  *
- * @param {object}   props                    The props for the Imageselect component.
- * @param {string}   props.id                 Id attribute.
- * @param {string}   props.imageAltText       Alternative text for image.
- * @param {string}   props.url                Url for image.
- * @param {string}   props.fallbackUrl        Fallback url for image.
- * @param {string}   props.label              Label.
- * @param {function} props.onSelectImageClick Select image handler.
- * @param {function} props.onRemoveImageClick Remove image handler.
- * @param {string}   props.className          CSS classnames.
- * @param {object}   props.error              Validation error object.
+ * @param {string} id Id attribute.
+ * @param {string} [imageAltText=""] Alternative text for image.
+ * @param {string} [url=""] Url for image.
+ * @param {string} [fallbackUrl=""] Fallback url for image.
+ * @param {string} [label=""] Label.
+ * @param {function} [onSelectImageClick=noop] Select image handler.
+ * @param {function} [onRemoveImageClick=noop] Remove image handler.
+ * @param {string} [className=""] CSS classnames.
+ * @param {{message: string, isVisible: boolean}} [error] Validation error object.
+ * @param {string} [status="idle"] Upload status.
  *
- * @returns {WPElement} The ImageSelect component.
+ * @returns {JSX.Element} The ImageSelect component.
  */
 export default function ImageSelect( {
 	id,
-	imageAltText,
-	url,
-	fallbackUrl,
-	label,
-	onSelectImageClick,
-	onRemoveImageClick,
-	className,
-	error,
-	status,
+	imageAltText = "",
+	url = "",
+	fallbackUrl = "",
+	label = "",
+	onSelectImageClick = noop,
+	onRemoveImageClick = noop,
+	className = "",
+	error = { message: "", isVisible: false },
+	status = "idle",
 } ) {
 	const imageClassName = classNames(
 		"yst-relative yst-w-full yst-h-48 yst-mt-2 yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
@@ -120,19 +119,3 @@ ImageSelect.propTypes = {
 	} ),
 	status: PropTypes.string,
 };
-
-ImageSelect.defaultProps = {
-	label: "",
-	url: "",
-	fallbackUrl: "",
-	imageAltText: "",
-	onRemoveImageClick: noop,
-	onSelectImageClick: noop,
-	className: "",
-	error: {
-		message: "",
-		isVisible: false,
-	},
-	status: "idle",
-};
-/* eslint-enable complexity */

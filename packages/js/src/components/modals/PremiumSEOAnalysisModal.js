@@ -14,9 +14,11 @@ import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 /**
  * The Premium SEO Analysis Modal.
  *
+ * @param {string} [location="sidebar"] The location where the modal is used.
+ *
  * @returns {JSX.Element} The Premium SEO Analysis Modal.
  */
-const PremiumSEOAnalysisModal = ( { location } ) => {
+const PremiumSEOAnalysisModal = ( { location = "sidebar" } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
@@ -73,9 +75,6 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 
 PremiumSEOAnalysisModal.propTypes = {
 	location: PropTypes.string,
-};
-PremiumSEOAnalysisModal.defaultProps = {
-	location: "sidebar",
 };
 
 export default PremiumSEOAnalysisModal;
