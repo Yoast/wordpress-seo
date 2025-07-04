@@ -173,23 +173,25 @@ class Content_Types_Collector {
 	/**
 	 * Gets the most recently modified posts.
 	 *
-	 * @param string $post_type The post type.
-	 * @param int    $limit     The maximum number of posts to return.
+	 * @param string $post_type                   The post type.
+	 * @param int    $limit                       The maximum number of posts to return.
+	 * @param string $search_filter               Optional. The search filter to apply to the query.
+	 * @param bool   $disable_excluding_old_posts Optional. Whether to disable excluding posts older than one year.
 	 *
 	 * @return array<Content_Type_Entry> The most recently modified posts.
 	 */
-	private function get_recent_posts( string $post_type, int $limit ): array {
+	public function get_recent_posts( string $post_type, int $limit, string $search_filter = '', bool $disable_excluding_old_posts = false ): array {
 		$exclude_older_than_one_year = false;
 
-		if ( $post_type === 'post' ) {
+		if ( $post_type === 'post' && ! $disable_excluding_old_posts ) {
 			$exclude_older_than_one_year = true;
 		}
 
 		if ( $this->indexable_helper->should_index_indexables() ) {
-			return $this->get_recently_modified_posts_indexables( $post_type, $limit, $exclude_older_than_one_year );
+			return $this->get_recently_modified_posts_indexables( $post_type, $limit, $exclude_older_than_one_year, $search_filter );
 		}
 
-		return $this->get_recently_modified_posts_wp_query( $post_type, $limit, $exclude_older_than_one_year );
+		return $this->get_recently_modified_posts_wp_query( $post_type, $limit, $exclude_older_than_one_year, $search_filter );
 	}
 
 	/**
@@ -198,12 +200,13 @@ class Content_Types_Collector {
 	 * @param string $post_type                   The post type.
 	 * @param int    $limit                       The maximum number of posts to return.
 	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 * @param string $search_filter               Optional. The search filter to apply to the query.
 	 *
 	 * @return array<Content_Type_Entry> The most recently modified posts.
 	 */
-	private function get_recently_modified_posts_indexables( string $post_type, int $limit, bool $exclude_older_than_one_year ) {
+	private function get_recently_modified_posts_indexables( string $post_type, int $limit, bool $exclude_older_than_one_year, string $search_filter = '' ): array {
 		$posts                        = [];
-		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_older_than_one_year );
+		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_older_than_one_year, $search_filter );
 
 		foreach ( $recently_modified_indexables as $indexable ) {
 			$indexable_meta = $this->meta->for_indexable( $indexable );
@@ -212,7 +215,8 @@ class Content_Types_Collector {
 					$indexable_meta->post->ID,
 					$indexable_meta->post->post_title,
 					$indexable_meta->canonical,
-					$indexable_meta->post->post_excerpt
+					$indexable_meta->post->post_excerpt,
+					$indexable_meta->post->post_name
 				);
 			}
 		}
@@ -226,10 +230,11 @@ class Content_Types_Collector {
 	 * @param string $post_type                   The post type.
 	 * @param int    $limit                       The maximum number of posts to return.
 	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 * @param string $search_filter               Optional. The search filter to apply to the query.
 	 *
 	 * @return array<WP_Post> The most recently modified posts.
 	 */
-	private function get_recently_modified_posts_wp_query( string $post_type, int $limit, bool $exclude_older_than_one_year ) {
+	private function get_recently_modified_posts_wp_query( string $post_type, int $limit, bool $exclude_older_than_one_year, string $search_filter = '' ): array {
 		$args = [
 			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
@@ -247,13 +252,18 @@ class Content_Types_Collector {
 			];
 		}
 
+		if ( $search_filter !== '' ) {
+			$args['s'] = $search_filter;
+		}
+
 		$posts = [];
 		foreach ( \get_posts( $args ) as $post ) {
 			$posts[] = new Content_Type_Entry(
 				$post->ID,
 				$post->post_title,
 				\get_permalink( $post->ID ),
-				$post->post_excerpt
+				$post->post_excerpt,
+				$post->post_name
 			);
 		}
 
