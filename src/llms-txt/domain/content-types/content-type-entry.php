@@ -36,18 +36,33 @@ class Content_Type_Entry {
 	private $description;
 
 	/**
+	 * The description of the content type entry.
+	 *
+	 * @var string
+	 */
+	private $slug;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param int    $id          The ID of the content type entry.
 	 * @param string $title       The title of the content type entry.
 	 * @param string $url         The URL of the content type entry.
 	 * @param string $description The description of the content type entry.
+	 * @param string $slug        The slug of the content type entry.
 	 */
-	public function __construct( int $id, ?string $title = null, ?string $url = null, ?string $description = null ) {
+	public function __construct(
+		int $id,
+		?string $title = null,
+		?string $url = null,
+		?string $description = null,
+		?string $slug = null
+	) {
 		$this->id          = $id;
 		$this->title       = $title;
 		$this->url         = $url;
 		$this->description = $description;
+		$this->slug        = $slug;
 	}
 
 	/**
@@ -84,5 +99,14 @@ class Content_Type_Entry {
 	 */
 	public function get_description(): string {
 		return $this->description;
+	}
+
+	/**
+	 * Gets the slug of the content type entry.
+	 *
+	 * @return string The slug of the content type entry.
+	 */
+	public function get_slug(): string {
+		return $this->slug;
 	}
 }
