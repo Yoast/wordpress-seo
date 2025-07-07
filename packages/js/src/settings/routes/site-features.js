@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { useMemo } from "@wordpress/element";
+import { useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -9,6 +9,7 @@ import { get } from "lodash";
 import PropTypes from "prop-types";
 import { FormikValueChangeField, FormLayout, RouteLayout } from "../components";
 import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { useNavigate } from "react-router-dom";
 
 /**
  * @param {string} name The field name.
@@ -174,6 +175,10 @@ const SiteFeatures = () => {
 	const { values, initialValues } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
 	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
+	const navigate = useNavigate();
+	const handleLlmsTxtNavigate = useCallback( () => {
+		navigate( "/llms-txt" );
+	}, [] );
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -420,6 +425,27 @@ const SiteFeatures = () => {
 							>
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
+								name="wpseo.enable_llms_txt"
+								cardId="card-wpseo-enable_llms_txt"
+								inputId="input-wpseo-enable_llms_txt"
+								imageSrc="/images/llms.png"
+								title={ __( "llms.txt", "wordpress-seo" ) }
+							>
+								<p>{ __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ) }</p>
+								<Button
+									onClick={ handleLlmsTxtNavigate }
+									id="link-llms"
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
+									{ __( "Customize llms.txt file", "wordpress-seo" ) }
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+								</Button>
+								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>

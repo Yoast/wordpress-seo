@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Available_Posts_D
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Available_Posts_Repository_Interface;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Parameters;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
 
 /**
  * The data provider for available posts.
@@ -14,21 +14,21 @@ use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collect
 class Available_Posts_Repository implements Available_Posts_Repository_Interface {
 
 	/**
-	 * The content type collector.
+	 * The automatic post collection.
 	 *
-	 * @var Content_Types_Collector $content_types_collector
+	 * @var Automatic_Post_Collection $automatic_post_collection
 	 */
-	private $content_types_collector;
+	private $automatic_post_collection;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Content_Types_Collector $content_types_collector The content type collector.
+	 * @param Automatic_Post_Collection $automatic_post_collection The automatic post collection.
 	 */
 	public function __construct(
-		Content_Types_Collector $content_types_collector
+		Automatic_Post_Collection $automatic_post_collection
 	) {
-		$this->content_types_collector = $content_types_collector;
+		$this->automatic_post_collection = $automatic_post_collection;
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Available_Posts_Repository implements Available_Posts_Repository_Interface
 	 * @return Data_Container
 	 */
 	public function get_posts( Parameters $parameters ): Data_Container {
-		$available_posts = $this->content_types_collector->get_recent_posts( $parameters->get_post_type(), 10, $parameters->get_search_filter(), true );
+		$available_posts = $this->automatic_post_collection->get_recent_posts( $parameters->get_post_type(), 10, $parameters->get_search_filter(), true );
 
 		$available_posts_data_container = new Data_Container();
 
