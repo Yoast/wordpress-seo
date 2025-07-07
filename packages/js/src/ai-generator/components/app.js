@@ -10,6 +10,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
+import { FETCH_USAGE_COUNT_ERROR_ACTION_NAME } from "../store/usage-count";
 import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
@@ -191,8 +192,13 @@ export const App = ( { onUseAi } ) => {
 			setLoadingButtonId( buttonId );
 		}
 		onUseAi();
-		const { payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
 		const sparksLimitReched = payload === 429 || payload.count >= payload.limit;
+
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload !== 429 ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
 
 		if ( ! isPremium && ! isFreeSparksActive ) {
 			setDisplay( DISPLAY.upsell );

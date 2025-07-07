@@ -12,6 +12,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/cons
 export const USAGE_COUNT_NAME = "usageCount";
 export const FETCH_USAGE_COUNT_ACTION_NAME = "fetchUsageCount";
 export const FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME = `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`;
+export const FETCH_USAGE_COUNT_ERROR_ACTION_NAME = `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`;
 
 const slice = createSlice( {
 	name: USAGE_COUNT_NAME,
