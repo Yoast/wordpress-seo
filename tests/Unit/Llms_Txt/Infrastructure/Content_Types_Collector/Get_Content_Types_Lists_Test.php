@@ -120,22 +120,28 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 		$post1->ID           = 1;
 		$post1->post_title   = 'Post 1';
 		$post1->post_excerpt = 'Excerpt 1';
+		$post1->post_name    = 'post_1';
 		$post2->ID           = 2;
 		$post2->post_title   = 'Post 2';
 		$post2->post_excerpt = 'Excerpt 2';
+		$post2->post_name    = 'post_2';
 		$post3->ID           = 3;
 		$post3->post_title   = 'Post 3';
 		$post3->post_excerpt = 'Excerpt 3';
+		$post3->post_name    = 'post_3';
 
 		$page1->ID           = 1;
 		$page1->post_title   = 'Page 1';
 		$page1->post_excerpt = 'Excerpt 1';
+		$post1->post_name    = 'page_1';
 		$page2->ID           = 2;
 		$page2->post_title   = 'Page 2';
 		$page2->post_excerpt = 'Excerpt 2';
+		$page2->post_name    = 'page_2';
 		$page3->ID           = 3;
 		$page3->post_title   = 'Page 3';
 		$page3->post_excerpt = 'Excerpt 3';
+		$page3->post_name    = 'page_3';
 
 		yield '1 indexable post type with 1 post' => [
 			'indexable_post_type_objects' => [
