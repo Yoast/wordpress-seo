@@ -4,10 +4,7 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import {
 	linkParamsSelectors,
-	NOTIFICATIONS_NAME,
-	notificationsActions,
-	notificationsReducer,
-	notificationsSelectors,
+
 } from "../../shared-admin/store";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
@@ -21,12 +18,10 @@ import preferences, { createInitialPreferencesState, preferencesActions, prefere
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
-			...notificationsActions,
 			...preferencesActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
-			...notificationsSelectors,
 			...preferencesSelectors,
 		},
 		initialState: {
@@ -34,7 +29,6 @@ const createStore = ( { initialState } ) => {
 			...initialState,
 		},
 		reducer: combineReducers( {
-			[ NOTIFICATIONS_NAME ]: notificationsReducer,
 			preferences,
 		} ),
 	} );

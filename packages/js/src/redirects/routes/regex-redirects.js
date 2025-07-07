@@ -2,7 +2,6 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import {
-	Notifications,
 	RouteLayout,
 } from "../components";
 import { useSelectRedirects } from "../hooks";
@@ -26,7 +25,6 @@ import { FormAddRedirect } from "../components/form-add-redirect";
  * @param {Function} [handleCreateSubmit=() => {}] - A callback function triggered on form submission.
  * @param {JSX.Element} listRedirects - A component that renders the list of regex redirects.
  * @param {JSX.Element} filterControls - A component that renders the filter controls.
- *
  * @returns {JSX.Element} The rendered RegexRedirects route.
  */
 export const RegexRedirects = ( {
@@ -81,7 +79,6 @@ export const RegexRedirects = ( {
 								{ __( "Add redirect", "wordpress-seo" ) }
 							</Button>
 						</FieldsetLayout>
-						<Notifications />
 					</Form>
 				) }
 			</Formik>

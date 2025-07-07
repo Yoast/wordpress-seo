@@ -7,13 +7,13 @@ import { HashRouter } from "react-router-dom";
  * Provider component for the redirects application.
  * @param {Object} [redirectsProps={}] - Props to pass to the redirects page.
  * @param {Object} [regexProps={}] - Props to pass to the regex redirects page.
- * @param {Object} [redirectMethodProps={}] - Props to pass to the redirect method page.
+ * @param {Function} [redirectMethod] - Redirect method component
  * @returns {JSX.Element} The wrapped redirects application with providers.
  */
 export const AppProvider = ( {
 	redirectsProps = {},
 	regexProps = {},
-	redirectMethodProps = {},
+	redirectMethod,
 } ) => {
 	// Prevent Styled Components' styles by adding the stylesheet to a div that is in the shadow DOM.
 	const shadowHost = document.createElement( "div" );
@@ -27,7 +27,7 @@ export const AppProvider = ( {
 					<App
 						redirectsProps={ redirectsProps }
 						regexProps={ regexProps }
-						redirectMethodProps={ redirectMethodProps }
+						redirectMethod={ redirectMethod }
 					/>
 				</HashRouter>
 			</SlotFillProvider>

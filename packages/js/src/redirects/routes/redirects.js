@@ -1,10 +1,7 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import {
-	Notifications,
-	RouteLayout,
-} from "../components";
+import { RouteLayout } from "../components";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
@@ -81,7 +78,6 @@ export const Redirects = ( {
 								{ __( "Add redirect", "wordpress-seo" ) }
 							</Button>
 						</FieldsetLayout>
-						<Notifications />
 					</Form>
 				) }
 			</Formik>

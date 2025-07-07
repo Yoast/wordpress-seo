@@ -4,7 +4,6 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { RouteErrorFallback, SidebarLayout } from "../components";
 import { Redirects } from "./redirects";
 import { RegexRedirects } from "./regex-redirects";
-import { RedirectMethod } from "./redirect-method";
 import { ROUTES } from "../constants";
 import { useSelectRedirects } from "../hooks";
 
@@ -18,10 +17,10 @@ import { useSelectRedirects } from "../hooks";
  *
  * @param {Object} [redirectsProps={}] - Props to pass to the premium redirects page.
  * @param {Object} [regexProps={}] - Props to pass to the premium regex redirects page.
- * @param {Object} [redirectMethodProps] - Props to pass to the premium redirect method page.
+ * @param {Function} [redirectMethod] - Redirect method component
  * @returns {JSX.Element} The routed application layout with transitions.
  */
-export const AppRoutes = ( { redirectsProps = {}, regexProps = {}, redirectMethodProps = {} } ) => {
+export const AppRoutes = ( { redirectsProps = {}, regexProps = {}, redirectMethod: RedirectMethod } ) => {
 	const { pathname } = useLocation();
 	const isPremium = useSelectRedirects( "selectPreference", [], "isPremium" );
 
@@ -60,7 +59,7 @@ export const AppRoutes = ( { redirectsProps = {}, regexProps = {}, redirectMetho
 							path={ ROUTES.redirectMethod }
 							element={
 								<SidebarLayout>
-									<RedirectMethod { ...redirectMethodProps } />
+									<RedirectMethod />
 								</SidebarLayout>
 							}
 							errorElement={ <RouteErrorFallback /> }

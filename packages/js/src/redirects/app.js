@@ -9,10 +9,10 @@ import { AppRoutes } from "./routes";
  *
  * @param {Object} [redirectsProps={}] - Props for premium redirects page.
  * @param {Object} [regexProps={}] - Props for premium regex redirects page.
- * @param {Object} [redirectMethodProps={}] - Props for premium redirect method page.
+ * @param {Function} [redirectMethod] - Redirect method component
  * @returns {JSX.Element} The complete redirects application layout.
  */
-const App = ( { redirectsProps = {}, regexProps = {}, redirectMethodProps = {} } ) => {
+const App = ( { redirectsProps = {}, regexProps = {}, redirectMethod } ) => {
 	const { pathname } = useLocation();
 
 	return (
@@ -41,7 +41,7 @@ const App = ( { redirectsProps = {}, regexProps = {}, redirectMethodProps = {} }
 								<AppRoutes
 									redirectsProps={ redirectsProps }
 									regexProps={ regexProps }
-									redirectMethodProps={ redirectMethodProps }
+									redirectMethod={ redirectMethod }
 								/>
 							</main>
 						</div>
