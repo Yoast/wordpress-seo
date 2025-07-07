@@ -692,7 +692,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 		},
 		enable_llms_txt: {
 			route: "/llms-txt",
-			routeLabel: __( "llm.txt", "wordpress-seo" ),
+			routeLabel: __( "llms.txt", "wordpress-seo" ),
 			fieldId: "input-wpseo.enable_llms_txt",
 			fieldLabel: sprintf(
 				// translators: %1$s expands to "llms.txt".
