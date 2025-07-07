@@ -99,7 +99,7 @@ export const indexablePagesControls = {
 
 		abortController = new AbortController();
 		return apiFetch( {
-			path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
+			path: `/yoast/v1/available_posts?${ buildQueryString( payload ) }`,
 			signal: abortController.signal,
 		} );
 	},

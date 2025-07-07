@@ -11,7 +11,7 @@ interface Available_Posts_Repository_Interface {
 	/**
 	 * Method to get available posts from a provider.
 	 *
-	 * @param Parameters $parameters The parameter to get the dashboard data for.
+	 * @param Parameters $parameters The parameter to get the available posts for.
 	 *
 	 * @return Data_Container
 	 */

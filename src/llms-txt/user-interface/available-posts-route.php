@@ -102,7 +102,7 @@ class Available_Posts_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the time based SEO metrics.
+	 * Gets the available posts.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *

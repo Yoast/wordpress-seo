@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider;
 use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 
 /**
- * Domain object that represents a Comparison Search Ranking record.
+ * Domain object that represents a Available Posts data record.
  */
 class Available_Posts_Data implements Data_Interface {
 

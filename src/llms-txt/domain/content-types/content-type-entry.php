@@ -36,7 +36,7 @@ class Content_Type_Entry {
 	private $description;
 
 	/**
-	 * The description of the content type entry.
+	 * The slug of the content type entry.
 	 *
 	 * @var string
 	 */

@@ -50,26 +50,4 @@ class Parameters {
 	public function get_search_filter(): string {
 		return $this->search_filter;
 	}
-
-	/**
-	 * The post type setter.
-	 *
-	 * @param string $post_type The post type.
-	 *
-	 * @return void
-	 */
-	public function set_post_type( string $post_type ): void {
-		$this->post_type = $post_type;
-	}
-
-	/**
-	 * The search filter setter.
-	 *
-	 * @param string $search_filter The search filter.
-	 *
-	 * @return void
-	 */
-	public function set_search_filter( string $search_filter ): void {
-		$this->search_filter = $search_filter;
-	}
 }
