@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
 use Exception;
+use WP_Post_Type;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Llms_Txt_Enabled_Conditional;
-use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Available_Posts\Available_Posts_Repository;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Parameters;
+use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Invalid_Post_Type_Exception;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -106,12 +107,11 @@ class Available_Posts_Route implements Route_Interface {
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The success or failure response.
-	 *
-	 * @throws Repository_Not_Found_Exception When the given widget name is not implemented yet.
 	 */
 	public function get_available_posts( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$request_parameters = new Parameters( $request->get_param( 'postType' ), $request->get_param( 'search' ) );
+			$this->validate_request_parameters( $request_parameters );
 
 			$available_posts_container = $this->available_posts_repository->get_posts( $request_parameters );
 
@@ -128,6 +128,21 @@ class Available_Posts_Route implements Route_Interface {
 			$available_posts_container->to_array(),
 			200
 		);
+	}
+
+	/**
+	 * Validates the request's parameters.
+	 *
+	 * @param Parameters $request_parameters The request parameters.
+	 *
+	 * @return void.
+	 *
+	 * @throws Invalid_Post_Type_Exception When the given post type is invalid.
+	 */
+	public function validate_request_parameters( Parameters $request_parameters ): void {
+		if ( ! \is_a( \get_post_type_object( $request_parameters->get_post_type() ), WP_Post_Type::class ) ) {
+			throw new Invalid_Post_Type_Exception();
+		}
 	}
 
 	/**

@@ -6,7 +6,6 @@ use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Available_Posts_D
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Available_Posts_Repository_Interface;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Parameters;
-use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 
 /**
@@ -33,9 +32,9 @@ class Available_Posts_Repository implements Available_Posts_Repository_Interface
 	}
 
 	/**
-	 * Gets the top queries' data.
+	 * Gets the available posts' data.
 	 *
-	 * @param Parameters $parameters The parameter to use for getting the top queries.
+	 * @param Parameters $parameters The parameters to use for getting the available posts.
 	 *
 	 * @return Data_Container
 	 */
@@ -45,10 +44,6 @@ class Available_Posts_Repository implements Available_Posts_Repository_Interface
 		$available_posts_data_container = new Data_Container();
 
 		foreach ( $available_posts as $available_post ) {
-			if ( ! \is_a( $available_post, Content_Type_Entry::class ) ) {
-				throw new Unexpected_Response_Exception();
-			}
-
 			$available_posts_data_container->add_data( new Available_Posts_Data( $available_post ) );
 		}
 
