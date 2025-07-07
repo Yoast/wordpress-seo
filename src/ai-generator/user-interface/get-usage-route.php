@@ -115,8 +115,13 @@ class Get_Usage_Route implements Route_Interface {
 			$data            = \json_decode( $response->get_body() );
 
 		}  catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
+			$message = [
+				'errorMessage'    => $e->getMessage(),
+				'errorIdentifier' => $e->get_error_identifier(),
+				'errorCode'       => $e->getCode(),
+			];
 			return new WP_REST_Response(
-				$e->getCode(),
+				$message,
 				$e->getCode()
 			);
 		}
