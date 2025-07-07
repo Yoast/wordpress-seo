@@ -66,12 +66,12 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	/**
 	 * The post method to get all relevant content type entries
 	 *
-	 * @param string $post_type The post type.
-	 * @param int    $limit     The maximum number of posts to return.
+	 * @param string $post_type Ignored for this implementation.
+	 * @param int    $limit     Ignored for this implementation.
 	 *
 	 * @return array<int, array<Content_Type_Entry>> The posts that are relevant for the LLMs.txt.
 	 */
-	public function get_posts( string $post_type, int $limit ): array {
+	public function get_posts( string $post_type, int $limit ): array { // @phpcs:ignore  VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for interface for now.
 		$posts = [];
 		$pages = [
 			'about_us_page',
@@ -82,8 +82,22 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 		];
 
 		foreach ( $pages as $page ) {
-			if ( ! empty( $this->options_helper->get( $page ) ) ) {
-				$page_id = $this->options_helper->get( $page );
+			$page_id = $this->options_helper->get( $page );
+			if ( ! empty( $page_id ) ) {
+				if ( $this->indexable_helper->should_index_indexables() ) {
+					$post = $this->get_content_type_entry_for_indexable( $page_id );
+				}
+				else {
+					$post = $this->get_content_type_entry_wp_query( $page_id );
+				}
+				if ( $post !== null ) {
+					$posts[] = $post;
+				}
+			}
+		}
+		$other_pages = $this->options_helper->get( 'other_included_pages' );
+		if ( ! empty( $other_pages ) ) {
+			foreach ( $other_pages as $page_id ) {
 				if ( $this->indexable_helper->should_index_indexables() ) {
 					$post = $this->get_content_type_entry_for_indexable( $page_id );
 				}
@@ -96,21 +110,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 			}
 		}
 
-		if ( ! empty( $this->options_helper->get( 'other_included_pages' ) ) ) {
-			foreach ( $this->options_helper->get( 'other_included_pages' ) as $page_id ) {
-				if ( $this->indexable_helper->should_index_indexables() ) {
-					$post = $this->get_content_type_entry_for_indexable( $page_id );
-				}
-				else {
-					$post = $this->get_content_type_entry_wp_query( $page_id );
-				}
-				if ( $post !== null ) {
-					$posts[] = $post;
-				}
-			}
-		}
-
-		return \array_slice( $posts, 0, $limit );
+		return $posts;
 	}
 
 	/**
@@ -125,12 +125,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 
 		if ( $page !== null && $page->post_password === '' && $page->post_status === 'publish' ) {
 
-			return new Content_Type_Entry(
-				$page->ID,
-				$page->post_title,
-				\get_permalink( $page->ID ),
-				$page->post_excerpt
-			);
+			return Content_Type_Entry::from_post( $page, \get_permalink( $page->ID ) );
 		}
 
 		return null;
@@ -145,15 +140,10 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	 */
 	public function get_content_type_entry_for_indexable( int $page_id ): ?Content_Type_Entry {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $page_id, 'post' );
-		if ( $indexable->is_public === null || $indexable->is_public == 1 ) {
+		if ( $indexable && $indexable->is_public === null || $indexable->is_public ) {
 			$indexable_meta = $this->meta->for_indexable( $indexable );
 			if ( $indexable_meta->post instanceof WP_Post ) {
-				return new Content_Type_Entry(
-					$indexable_meta->post->ID,
-					$indexable_meta->post->post_title,
-					$indexable_meta->canonical,
-					$indexable_meta->post->post_excerpt
-				);
+				return Content_Type_Entry::from_meta( $indexable_meta );
 			}
 		}
 
