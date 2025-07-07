@@ -48,9 +48,9 @@ export const GoogleDocsAddonUpsell = ( {
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{
 							sprintf(
-								/* translators: %s: Yoast SEO Google Docs Add-On" */
-								__( "%s - incl. in Premium", "wordpress-seo" ),
-								"Yoast SEO Google Docs Add-On"
+								/* translators: %s: Google Docs Add-On" */
+								__( "Get one seat for the new %s", "wordpress-seo" ),
+								"Google Docs Add-On"
 							)
 						}
 					</h3>
