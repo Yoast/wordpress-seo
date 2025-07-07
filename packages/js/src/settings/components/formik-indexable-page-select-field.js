@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { AutocompleteField, Spinner } from "@yoast/ui-library";
+import { AutocompleteField, Spinner, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, values } from "lodash";
@@ -44,6 +44,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
 	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
 	const selectedFromSelectedPages = useMemo( () => find( values( selectedPages ), [ "id", value ] ), [ selectedPages, value ] );
+	const [ hasFocus, , , setFocusTrue, setFocusFalse ] = useToggleState( false );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
@@ -75,9 +76,11 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
 			placeholder={ __( "Select a page…", "wordpress-seo" ) }
-			selectedLabel={ selectedIndexablePage?.name || query?.search || "" }
+			selectedLabel={ ( hasFocus ? query?.search : "" ) || selectedIndexablePage?.name || "" }
 			onQueryChange={ handleQueryChange }
 			onClear={ handleQueryClear }
+			onFocus={ setFocusTrue }
+			onBlur={ setFocusFalse }
 			nullable={ true }
 			disabled={ disabled }
 			/* translators: Hidden accessibility text. */
