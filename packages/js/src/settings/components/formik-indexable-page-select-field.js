@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { AutocompleteField, Spinner, useToggleState } from "@yoast/ui-library";
+import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
 import { debounce, find, isEmpty, values } from "lodash";
@@ -44,7 +44,6 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
 	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
 	const selectedFromSelectedPages = useMemo( () => find( values( selectedPages ), [ "id", value ] ), [ selectedPages, value ] );
-	const [ hasFocus, , , setFocusTrue, setFocusFalse ] = useToggleState( false );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
@@ -59,15 +58,6 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 		fetchIndexablePages( id, { search } );
 	}, FETCH_DELAY ), [ id, fetchIndexablePages ] );
 
-	const handleBlur = useCallback( ( { currentTarget, relatedTarget } ) => {
-		// If the related target is inside the current target, we don't want to do anything.
-		// This fixes an issue where the focus is lost when clicking on the clear button.
-		if ( currentTarget.contains( relatedTarget ) ) {
-			return;
-		}
-		setFocusFalse();
-	}, [ setFocusFalse ] );
-
 	useEffect( () => {
 		// Remove the scope as cleanup.
 		return () => removeIndexablePagesScope( id );
@@ -75,7 +65,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 
 	const selectedIndexablePage = selectedFromIndexablePages || selectedFromSelectedPages;
 	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds );
-	const selectedLabel = ( hasFocus ? query?.search : selectedIndexablePage?.name ) || "";
+	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
 
 	return (
 		<AutocompleteField
@@ -89,8 +79,6 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			selectedLabel={ selectedLabel }
 			onQueryChange={ handleQueryChange }
 			onClear={ handleQueryClear }
-			onFocus={ setFocusTrue }
-			onBlur={ handleBlur }
 			nullable={ true }
 			disabled={ disabled }
 			/* translators: Hidden accessibility text. */
