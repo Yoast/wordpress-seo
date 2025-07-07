@@ -84,5 +84,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-optional-chaining": "^7.27.1"
   }
 }
