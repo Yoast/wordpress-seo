@@ -10,7 +10,6 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
-import { FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME } from "../store/usage-count";
 import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
@@ -177,17 +176,6 @@ export const App = ( { onUseAi } ) => {
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
 	}, [ closeEditorModal, location ] );
 
-	const checkSparks = useCallback( async() => {
-		if ( usageCountStatus === ASYNC_ACTION_STATUS.idle ) {
-			const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
-			if ( type !== FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME ) {
-				return false;
-			}
-			return payload.count < payload.limit;
-		}
-		return usageCount < usageCountLimit;
-	}, [ fetchUsageCount, usageCountEndpoint, usageCountStatus, usageCount, usageCountLimit ] );
-
 	const checkSubscriptions = useCallback( () => {
 		if ( isWooSeoActive && isWooCommerceActive && isProductEntity ) {
 			return hasValidWooSubscription;
@@ -203,6 +191,8 @@ export const App = ( { onUseAi } ) => {
 			setLoadingButtonId( buttonId );
 		}
 		onUseAi();
+		const { payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const sparksLimitReched = payload === 429 || payload.count >= payload.limit;
 
 		if ( ! isPremium && ! isFreeSparksActive ) {
 			setDisplay( DISPLAY.upsell );
@@ -230,22 +220,33 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		const hasSparks = await checkSparks();
-		if ( ! isPremium && ! hasSparks ) {
+		if ( ! isPremium && sparksLimitReched ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [ onUseAi, isPremium, isFreeSparksActive, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
+	}, [ onUseAi,
+		isPremium,
+		isFreeSparksActive,
+		hasConsent,
+		isSeoAnalysisActive,
+		checkFocusKeyphrase,
+		showFocusKeyphrase,
+		usageCountEndpoint,
+		fetchUsageCount ] );
 
 	const onStartGenerating = useCallback( () => {
 		setDisplay( DISPLAY.generate );
 	}, [ setDisplay ] );
 
 	const onActivateFreeSparks = useCallback( () => {
-		setDisplay( DISPLAY.askConsent );
-	}, [ setDisplay ] );
+		if ( ! hasConsent ) {
+			setDisplay( DISPLAY.askConsent );
+			return;
+		}
+		setDisplay( DISPLAY.generate );
+	}, [ setDisplay, hasConsent ] );
 
 	return (
 		<>
