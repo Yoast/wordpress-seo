@@ -2,10 +2,10 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { STORE_NAME_EDITOR } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI, ASYNC_ACTION_STATUS } from "../constants";
 import { isWooActiveAndProductPostType } from "../helpers";
 import { useTypeContext } from "../hooks";
-import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
+import { SeoAnalysisInactiveError, SubscriptionError, RateLimitAlert, BadWPRequestAlert } from "./errors";
 
 /**
  * @param {Object} currentSubscriptions An object containing the information of product subscriptions validity status.
@@ -16,11 +16,13 @@ import { SeoAnalysisInactiveError, SubscriptionError } from "./errors";
  */
 export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true } ) => {
 	const { postType } = useTypeContext();
-	const { isPremium, isWooCommerceActive } = useSelect( ( select ) => {
+	const { isPremium, isWooCommerceActive, usageCountStatus, usageCountErrorCode } = useSelect( ( select ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			isPremium: editorSelect.getIsPremium(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
+			usageCountStatus: select( STORE_NAME_AI ).getUsageCountStatus(),
+			usageCountErrorCode: select( STORE_NAME_AI ).getUsageCountError(),
 		};
 	}, [] );
 	const missingWooSeo = useMemo( () => {
@@ -44,6 +46,15 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 
 	if ( ! isSeoAnalysisActive ) {
 		return <SeoAnalysisInactiveError />;
+	}
+
+	if ( usageCountStatus === ASYNC_ACTION_STATUS.error ) {
+		if ( currentSubscriptions.premiumSubscription && usageCountErrorCode === 429 ) {
+			return <RateLimitAlert />;
+		}
+		if ( usageCountErrorCode !== 429 ) {
+			return <BadWPRequestAlert />;
+		}
 	}
 };
 
