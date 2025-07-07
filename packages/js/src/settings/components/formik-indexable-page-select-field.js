@@ -53,11 +53,20 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	const handleQueryClear = useCallback( () => {
 		fetchIndexablePages( id, { search: "" } );
 		handleChange( 0 );
-	}, [ fetchIndexablePages, handleChange ] );
+	}, [ id, fetchIndexablePages, handleChange ] );
 	const handleQueryChange = useCallback( debounce( ( event ) => {
 		const search = event.target?.value?.trim() || "";
 		fetchIndexablePages( id, { search } );
 	}, FETCH_DELAY ), [ id, fetchIndexablePages ] );
+
+	const handleBlur = useCallback( ( { currentTarget, relatedTarget } ) => {
+		// If the related target is inside the current target, we don't want to do anything.
+		// This fixes an issue where the focus is lost when clicking on the clear button.
+		if ( currentTarget.contains( relatedTarget ) ) {
+			return;
+		}
+		setFocusFalse();
+	}, [ setFocusFalse ] );
 
 	useEffect( () => {
 		// Remove the scope as cleanup.
@@ -66,6 +75,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 
 	const selectedIndexablePage = selectedFromIndexablePages || selectedFromSelectedPages;
 	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds );
+	const selectedLabel = ( hasFocus ? query?.search : selectedIndexablePage?.name ) || "";
 
 	return (
 		<AutocompleteField
@@ -76,11 +86,11 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
 			placeholder={ __( "Select a page…", "wordpress-seo" ) }
-			selectedLabel={ ( hasFocus ? query?.search : "" ) || selectedIndexablePage?.name || "" }
+			selectedLabel={ selectedLabel }
 			onQueryChange={ handleQueryChange }
 			onClear={ handleQueryClear }
 			onFocus={ setFocusTrue }
-			onBlur={ setFocusFalse }
+			onBlur={ handleBlur }
 			nullable={ true }
 			disabled={ disabled }
 			/* translators: Hidden accessibility text. */
