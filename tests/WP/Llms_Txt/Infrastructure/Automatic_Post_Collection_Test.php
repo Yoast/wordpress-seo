@@ -6,23 +6,24 @@ namespace Yoast\WP\SEO\Tests\WP\Llms_Txt\Infrastructure;
 use WPSEO_Options;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
- * Class Content_Types_Collector_Test
+ * Class Automatic_Post_Collection_Test
  *
- * @group llms.txt
+ * @group  llms.txt
  *
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_posts
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_cornerstone_content
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_posts
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recently_modified_posts_indexables
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_cornerstone_content
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recently_modified_posts_indexables
  * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recently_modified_posts
  * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recent_cornerstone_for_post_type
  */
-final class Content_Types_Collector_Test extends TestCase {
+final class Automatic_Post_Collection_Test extends TestCase {
 
 	/**
 	 * Holds the indexable post watcher.
@@ -46,12 +47,11 @@ final class Content_Types_Collector_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Content_Types_Collector(
-			\YoastSEO()->helpers->post_type,
+		$this->instance = new Automatic_Post_Collection(
 			\YoastSEO()->helpers->options,
-			\YoastSEO()->helpers->indexable,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
-			\YoastSEO()->meta
+			\YoastSEO()->meta,
+			\YoastSEO()->helpers->indexable
 		);
 
 		$this->indexable_post_watcher = \YoastSEO()->classes->get( Indexable_Post_Watcher::class );
@@ -69,10 +69,13 @@ final class Content_Types_Collector_Test extends TestCase {
 	 * @param int      $number_of_posts                                The number of posts to create.
 	 * @param string   $posts_created_at                               Posts creation date.
 	 * @param bool     $is_cornerstone_active                          Whether the cornerstone feature is active.
-	 * @param int[]    $cornerstone_posts_indexes                      An array of indexes that indicate the cornerstone posts.
-	 * @param int[]    $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by descending modification date.
+	 * @param int[]    $cornerstone_posts_indexes                      An array of indexes that indicate the
+	 *                                                                 cornerstone posts.
+	 * @param int[]    $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted
+	 *                                                                 by descending modification date.
 	 * @param int      $expected_number_of_posts                       The expected number of posts to be returned.
-	 * @param string[] $expected_post_titles                           An array of expected post titles in the order they should be returned.
+	 * @param string[] $expected_post_titles                           An array of expected post titles in the order
+	 *                                                                 they should be returned.
 	 *
 	 * @dataProvider generate_get_posts
 	 *
@@ -158,8 +161,10 @@ final class Content_Types_Collector_Test extends TestCase {
 	 * Updates the modification date of the posts to match the provided order.
 	 * This is to simulate the posts having been modified at different times
 	 *
-	 * @param int[] $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by descending modification date.
-	 * @param int[] $post_ids                                       An array of post IDs to set the modification dates for.
+	 * @param int[] $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by
+	 *                                                              descending modification date.
+	 * @param int[] $post_ids                                       An array of post IDs to set the modification dates
+	 *                                                              for.
 	 *
 	 * @return void
 	 */
