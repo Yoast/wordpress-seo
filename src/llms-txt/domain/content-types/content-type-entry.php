@@ -2,6 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Content_Types;
 
+use WP_Post;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
+
 /**
  * This class describes a Content Type Entry.
  */
@@ -84,5 +87,38 @@ class Content_Type_Entry {
 	 */
 	public function get_description(): string {
 		return $this->description;
+	}
+
+	/**
+	 * Creates a new instance of the class from the provided Meta object.
+	 *
+	 * @param Meta $meta The Meta object containing the necessary data to construct the instance.
+	 *
+	 * @return self A new instance of the class.
+	 */
+	public static function from_meta( Meta $meta ): self {
+		return new self(
+			$meta->post->ID,
+			$meta->post->post_title,
+			$meta->canonical,
+			$meta->post->post_excerpt
+		);
+	}
+
+	/**
+	 * Creates an instance of the class from a WordPress post object.
+	 *
+	 * @param WP_Post $post      The WordPress post object.
+	 * @param string  $permalink The permalink of the post.
+	 *
+	 * @return self An instance of the class.
+	 */
+	public static function from_post( WP_Post $post, string $permalink ): self {
+		return new self(
+			$post->ID,
+			$post->post_title,
+			$permalink,
+			$post->post_excerpt
+		);
 	}
 }

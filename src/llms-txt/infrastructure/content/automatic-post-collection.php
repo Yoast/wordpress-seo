@@ -115,12 +115,7 @@ class Automatic_Post_Collection implements Post_Collection_Interface {
 		foreach ( $cornerstones as $cornerstone ) {
 			$cornerstone_meta = $this->meta->for_indexable( $cornerstone );
 			if ( $cornerstone_meta->post instanceof WP_Post ) {
-				$recent_cornerstone_posts[ $cornerstone_meta->post->ID ] = new Content_Type_Entry(
-					$cornerstone_meta->post->ID,
-					$cornerstone_meta->post->post_title,
-					$cornerstone_meta->canonical,
-					$cornerstone_meta->post->post_excerpt
-				);
+				$recent_cornerstone_posts[ $cornerstone_meta->post->ID ] = Content_Type_Entry::from_meta( $cornerstone_meta );
 			}
 		}
 
@@ -165,12 +160,7 @@ class Automatic_Post_Collection implements Post_Collection_Interface {
 		foreach ( $recently_modified_indexables as $indexable ) {
 			$indexable_meta = $this->meta->for_indexable( $indexable );
 			if ( $indexable_meta->post instanceof WP_Post ) {
-				$posts[] = new Content_Type_Entry(
-					$indexable_meta->post->ID,
-					$indexable_meta->post->post_title,
-					$indexable_meta->canonical,
-					$indexable_meta->post->post_excerpt
-				);
+				$posts[] = Content_Type_Entry::from_meta( $indexable_meta );
 			}
 		}
 
@@ -206,12 +196,7 @@ class Automatic_Post_Collection implements Post_Collection_Interface {
 
 		$posts = [];
 		foreach ( \get_posts( $args ) as $post ) {
-			$posts[] = new Content_Type_Entry(
-				$post->ID,
-				$post->post_title,
-				\get_permalink( $post->ID ),
-				$post->post_excerpt
-			);
+			$posts[] = Content_Type_Entry::from_post( $post, \get_permalink( $post->ID ) );
 		}
 
 		return $posts;
