@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Plans\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -14,6 +15,8 @@ use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
  * Adds the plans page to the Yoast admin menu.
  */
 class Plans_Page_Integration implements Integration_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * The page name.
@@ -54,32 +57,33 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $short_link_helper;
 
 	/**
+	 * Holds the Admin_Conditional.
+	 *
+	 * @var Admin_Conditional
+	 */
+	private $admin_conditional;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
 	 * @param Add_Ons_Collector         $add_ons_collector   The Add_Ons_Collector.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
+	 * @param Admin_Conditional         $admin_conditional   The Admin_Conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Add_Ons_Collector $add_ons_collector,
 		Current_Page_Helper $current_page_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Admin_Conditional $admin_conditional
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->add_ons_collector   = $add_ons_collector;
 		$this->current_page_helper = $current_page_helper;
 		$this->short_link_helper   = $short_link_helper;
-	}
-
-	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @return array<string>
-	 */
-	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		$this->admin_conditional   = $admin_conditional;
 	}
 
 	/**
@@ -95,7 +99,7 @@ class Plans_Page_Integration implements Integration_Interface {
 		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], 7 );
 
 		// Are we on our page?
-		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
+		if ( $this->admin_conditional->is_met() && $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 		}

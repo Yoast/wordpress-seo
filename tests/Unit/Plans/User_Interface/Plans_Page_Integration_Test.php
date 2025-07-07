@@ -61,6 +61,13 @@ final class Plans_Page_Integration_Test extends TestCase {
 	private $short_link_helper;
 
 	/**
+	 * Holds the Admin_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Admin_Conditional
+	 */
+	private $admin_conditional;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -85,12 +92,14 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->add_ons_collector   = new Add_Ons_Collector( $premium_add_on );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
+		$this->admin_conditional   = Mockery::mock( Admin_Conditional::class );
 
 		$this->instance = new Plans_Page_Integration(
 			$this->asset_manager,
 			$this->add_ons_collector,
 			$this->current_page_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
+			$this->admin_conditional
 		);
 	}
 
@@ -102,7 +111,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Admin_Conditional::class ], Plans_Page_Integration::get_conditionals() );
+		$this->assertEquals( [], Plans_Page_Integration::get_conditionals() );
 	}
 
 	/**
@@ -117,6 +126,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->assertInstanceOf( Add_Ons_Collector::class, $this->getPropertyValue( $this->instance, 'add_ons_collector' ) );
 		$this->assertInstanceOf( Current_Page_Helper::class, $this->getPropertyValue( $this->instance, 'current_page_helper' ) );
 		$this->assertInstanceOf( Short_Link_Helper::class, $this->getPropertyValue( $this->instance, 'short_link_helper' ) );
+		$this->assertInstanceOf( Admin_Conditional::class, $this->getPropertyValue( $this->instance, 'admin_conditional' ) );
 	}
 
 	/**
@@ -126,12 +136,40 @@ final class Plans_Page_Integration_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_register_hooks() {
+	public function test_register_hooks_on_admin() {
 		Filters\expectAdded( 'wpseo_submenu_pages' )->once()->with( [ $this->instance, 'add_page' ], 7 );
 		Filters\expectAdded( 'wpseo_network_submenu_pages' )->once()->with( [ $this->instance, 'add_page' ], 7 );
 
 		// Not on the plans page.
+		$this->admin_conditional->expects( 'is_met' )
+			->once()
+			->withNoArgs()
+			->andReturn( true );
 		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->once()->withNoArgs()->andReturn( 'foo' );
+
+		Actions\expectAdded( 'admin_enqueue_scripts' )->never();
+		Actions\expectAdded( 'in_admin_header' )->never();
+
+		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests filters and actions when NOT on the plans page.
+	 *
+	 * @covers ::register_hooks
+	 *
+	 * @return void
+	 */
+	public function test_register_hooks_on_frontend() {
+		Filters\expectAdded( 'wpseo_submenu_pages' )->once()->with( [ $this->instance, 'add_page' ], 7 );
+		Filters\expectAdded( 'wpseo_network_submenu_pages' )->once()->with( [ $this->instance, 'add_page' ], 7 );
+
+		// Not on the plans page.
+		$this->admin_conditional->expects( 'is_met' )
+			->once()
+			->withNoArgs()
+			->andReturn( false );
+		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )->never();
 
 		Actions\expectAdded( 'admin_enqueue_scripts' )->never();
 		Actions\expectAdded( 'in_admin_header' )->never();
@@ -151,6 +189,10 @@ final class Plans_Page_Integration_Test extends TestCase {
 		Filters\expectAdded( 'wpseo_network_submenu_pages' )->once()->with( [ $this->instance, 'add_page' ], 7 );
 
 		// On the plans page.
+		$this->admin_conditional->expects( 'is_met' )
+			->once()
+			->withNoArgs()
+			->andReturn( true );
 		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )
 			->once()
 			->withNoArgs()
