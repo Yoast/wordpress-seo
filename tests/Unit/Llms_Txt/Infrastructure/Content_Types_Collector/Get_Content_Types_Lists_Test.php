@@ -6,7 +6,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Infrastructure\Content_Types_Collecto
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
+use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
 
 /**
  * Tests get_content_types_lists.
@@ -30,7 +32,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 	 * @param array<array<string, array<string, string>>> $get_posts_args              The arguments for get_posts.
 	 * @param int                                         $get_posts_times             The number of times get_posts should be called.
 	 * @param array<object>                               $indexables                  The indexables returned by get_recently_modified_posts.
-	 * @param array<object>                               $posts                       The posts returned by get_posts.
+	 * @param bool                                        $has_page                    If there is a page post type.
 	 * @param int                                         $for_indexable_times         The number of times for_indexable should be called.
 	 * @param int                                         $number_of_lists             The expected number of lists returned.
 	 *
@@ -45,7 +47,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 		array $get_posts_args,
 		int $get_posts_times,
 		array $indexables,
-		array $posts,
+		bool $has_page,
 		int $for_indexable_times,
 		int $number_of_lists
 	) {
@@ -59,42 +61,26 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			->times( $is_indexable_times )
 			->andReturn( ...$is_indexable );
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'enable_cornerstone_content' )
-			->times( $get_posts_times )
-			->andReturn( true );
-
-		$this->indexable_repository
-			->expects( 'get_recent_cornerstone_for_post_type' )
-			->times( $get_posts_times )
-			->andReturn( [] );
+		if ( $has_page ) {
+			$this->options_helper->expects( 'get' )
+				->with( 'llms_txt_selection_mode' )
+				->andReturn( 'auto' )
+				->once();
+		}
 
 		Monkey\Functions\expect( 'is_post_type_hierarchical' )
 			->andReturn( false );
 
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->times( $get_posts_times )
-			->andReturn( true );
-
-		$this->indexable_repository
-			->expects( 'get_recently_modified_posts' )
-			->times( $get_posts_times )
-			->andReturn( $indexables );
-
-		$this->meta
-			->expects( 'for_indexable' )
+		$post_collection = Mockery::mock( Automatic_Post_Collection::class );
+		$this->post_collection_factory
+			->expects( 'get_post_collection' )
+			->with( 'auto' )
 			->times( $for_indexable_times )
-			->andReturnUsing(
-				static function ( $indexable ) use ( $posts ) {
-					$post = ( $posts[ ( $indexable->object_id - 1 ) ] ?? null );
-					return (object) [
-						'post'      => $post,
-						'canonical' => 'https://example.com/canonical/' . $indexable->object_id,
-					];
-				}
-			);
+			->andReturn( $post_collection );
+
+		$post_collection
+			->expects( 'get_posts' )
+			->times( $for_indexable_times )->andReturn( [ new Content_Type_Entry( 1, 'title', 'url', '' ) ] );
 
 		$lists = $this->instance->get_content_types_lists();
 		$this->assertSame( $number_of_lists, \count( $lists ) );
@@ -167,9 +153,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 					'object_id' => 1,
 				],
 			],
-			'posts'                       => [
-				$post1,
-			],
+			'has_page'                    => false,
 			'for_indexable_times'         => 1,
 			'number_of_lists'             => 1,
 		];
@@ -225,15 +209,8 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 					'object_id' => 3,
 				],
 			],
-			'posts'                       => [
-				$post1,
-				$post2,
-				$post3,
-				$page1,
-				$page2,
-				$page3,
-			],
-			'for_indexable_times'         => 6,
+			'has_page'                    => true,
+			'for_indexable_times'         => 2,
 			'number_of_lists'             => 2,
 		];
 		yield '1 non-indexable post type' => [
@@ -252,9 +229,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			],
 			'get_posts_times'             => 0,
 			'indexables'                  => [],
-			'posts'                       => [
-				(object) [],
-			],
+			'has_page'                    => false,
 			'for_indexable_times'         => 0,
 			'number_of_lists'             => 0,
 		];
@@ -269,9 +244,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			],
 			'get_posts_times'             => 0,
 			'indexables'                  => [],
-			'posts'                       => [
-				(object) [],
-			],
+			'has_page'                    => false,
 			'for_indexable_times'         => 0,
 			'number_of_lists'             => 0,
 		];
