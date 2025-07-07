@@ -140,7 +140,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	 */
 	public function get_content_type_entry_for_indexable( int $page_id ): ?Content_Type_Entry {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $page_id, 'post' );
-		if ( $indexable && $indexable->is_public === null || $indexable->is_public ) {
+		if ( $indexable && ( $indexable->is_public === null || $indexable->is_public ) ) {
 			$indexable_meta = $this->meta->for_indexable( $indexable );
 			if ( $indexable_meta->post instanceof WP_Post ) {
 				return Content_Type_Entry::from_meta( $indexable_meta );
