@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -121,7 +122,6 @@ export const App = ( { onUseAi } ) => {
 		hasValidWooSubscription,
 		focusKeyphrase,
 		isPremium,
-		isWooSeoActive,
 		isWooCommerceActive,
 		isSeoAnalysisActive,
 		aiModalHelperLink,
@@ -142,7 +142,6 @@ export const App = ( { onUseAi } ) => {
 			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 			focusKeyphrase: editorSelect.getFocusKeyphrase(),
 			isPremium: editorSelect.getIsPremium(),
-			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
@@ -178,14 +177,11 @@ export const App = ( { onUseAi } ) => {
 	}, [ closeEditorModal, location ] );
 
 	const checkSubscriptions = useCallback( () => {
-		if ( isWooSeoActive && isWooCommerceActive && isProductEntity ) {
+		if (  isProductEntity && isWooCommerceActive ) {
 			return hasValidWooSubscription;
 		}
-		if ( isPremium ) {
-			return hasValidPremiumSubscription;
-		}
-		return true;
-	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isPremium, isWooSeoActive && isWooCommerceActive && isProductEntity ] );
+		return hasValidPremiumSubscription;
+	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isProductEntity, isWooCommerceActive ] );
 
 	const handleUseAi = useCallback( async( event ) => {
 		if ( event.target.id === buttonId ) {
@@ -193,15 +189,21 @@ export const App = ( { onUseAi } ) => {
 		}
 		onUseAi();
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
-		const sparksLimitReched = payload === 429 || payload.count >= payload.limit;
+		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
 
-		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload !== 429 ) {
-			setDisplay( DISPLAY.error );
+
+		if ( payload?.errorCode === 403 && isFreeSparksActive ) {
+			setDisplay( DISPLAY.askConsent );
 			return;
 		}
 
-		if ( ! isPremium && ! isFreeSparksActive ) {
+		if ( ! checkSubscriptions() && ! isFreeSparksActive ) {
 			setDisplay( DISPLAY.upsell );
+			return;
+		}
+
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload !== 429 ) {
+			setDisplay( DISPLAY.error );
 			return;
 		}
 
@@ -226,7 +228,7 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		if ( ! isPremium && sparksLimitReched ) {
+		if ( ! checkSubscriptions() && sparksLimitReached ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
