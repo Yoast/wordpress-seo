@@ -66,12 +66,9 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 	/**
 	 * The post method to get all relevant content type entries
 	 *
-	 * @param string $post_type Ignored for this implementation.
-	 * @param int    $limit     Ignored for this implementation.
-	 *
 	 * @return array<int, array<Content_Type_Entry>> The posts that are relevant for the LLMs.txt.
 	 */
-	public function get_posts( string $post_type, int $limit ): array { // @phpcs:ignore  VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- needed for interface for now.
+	public function get_posts(): array {
 		$posts = [];
 		$pages = [
 			'about_us_page',
