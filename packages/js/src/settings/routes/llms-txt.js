@@ -5,6 +5,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
+import { withDisabledMessageSupport } from "../hocs";
 import { FieldArray, Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -14,6 +15,8 @@ import {
 	RouteLayout,
 } from "../components";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+
+const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The llms.txt feature route.
@@ -100,7 +103,7 @@ const LlmTxt = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
-						<FormikValueChangeField
+						<FormikValueChangeFieldWithDisabledMessage
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.enable_llms_txt"
