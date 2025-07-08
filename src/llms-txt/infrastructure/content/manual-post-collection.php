@@ -81,33 +81,51 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 		foreach ( $pages as $page ) {
 			$page_id = $this->options_helper->get( $page );
 			if ( ! empty( $page_id ) ) {
-				if ( $this->indexable_helper->should_index_indexables() ) {
-					$post = $this->get_content_type_entry_for_indexable( $page_id );
-				}
-				else {
-					$post = $this->get_content_type_entry_wp_query( $page_id );
-				}
+				$post = $this->get_content_type_entry( $page_id );
+
 				if ( $post !== null ) {
 					$posts[] = $post;
+				}
+				else {
+					// If the post is not found, we log it for debugging purposes.
+					error_log( sprintf( 'Post with ID %d for %s not found or not public.', $page_id, $page ) );
 				}
 			}
 		}
 		$other_pages = $this->options_helper->get( 'other_included_pages' );
 		if ( ! empty( $other_pages ) ) {
 			foreach ( $other_pages as $page_id ) {
-				if ( $this->indexable_helper->should_index_indexables() ) {
-					$post = $this->get_content_type_entry_for_indexable( $page_id );
-				}
-				else {
-					$post = $this->get_content_type_entry_wp_query( $page_id );
-				}
+				$post = $this->get_content_type_entry( $page_id );
+
 				if ( $post !== null ) {
 					$posts[] = $post;
+				}
+				else {
+					// If the post is not found, we log it for debugging purposes.
+					error_log( sprintf( 'Post with ID %d for %s not found or not public.', $page_id, $page ) );
 				}
 			}
 		}
 
 		return $posts;
+	}
+
+	/**
+	 * Gets the content entries.
+	 *
+	 * @param int $page_id The id of the page.
+	 *
+	 * @return Content_Type_Entry The content type entry.
+	 */
+	public function get_content_type_entry( int $page_id ): ?Content_Type_Entry {
+		if ( $this->indexable_helper->should_index_indexables() ) {
+			$post = $this->get_content_type_entry_for_indexable( $page_id );
+		}
+		else {
+			$post = $this->get_content_type_entry_wp_query( $page_id );
+		}
+
+		return $post;
 	}
 
 	/**
