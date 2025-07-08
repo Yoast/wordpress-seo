@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * Tests the Content_Types_Collector constructor.
@@ -38,6 +39,10 @@ final class Constructor_Test extends Abstract_Content_Types_Collector_Test {
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+		);
+		$this->assertInstanceOf(
+			Meta_Surface::class,
+			$this->getPropertyValue( $this->instance, 'meta' )
 		);
 	}
 }

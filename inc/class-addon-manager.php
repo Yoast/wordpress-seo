@@ -5,6 +5,8 @@
  * @package WPSEO\Inc
  */
 
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -738,7 +740,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		// Check whether the licenses are valid or whether we need to show notifications.
-		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+		$quick = ( $current_page === Plans_Page_Integration::PAGE || $current_page === General_Page_Integration::PAGE );
 
 		// Also do a fresh request on Plugins & Core Update pages.
 		$quick = $quick || $pagenow === 'plugins.php';
