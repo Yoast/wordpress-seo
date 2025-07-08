@@ -218,7 +218,6 @@ export const indexablePagesControls = {
 		abortControllers[ payload.scope ] = payload.abortController || new AbortController();
 
 		return apiFetch( {
-			// Add our wanted fields to the query string, keeping control here.
 			path: `/yoast/v1/available_posts?${ buildQueryString( payload.query ) }`,
 			signal: abortControllers[ payload.scope ].signal,
 		} );
