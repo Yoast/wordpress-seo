@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
-import { reducers, selectors, actions } from "@yoast/externals/redux";
 import {
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
@@ -21,8 +21,14 @@ import defaultSettingValues, {
 	defaultSettingValuesActions,
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
-import indexablePages, { createInitialIndexablePagesState, indexablePagesActions, indexablePagesControls, indexablePagesSelectors } from "./indexable-pages";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import indexablePages, {
+	createInitialIndexablePagesState,
+	INDEXABLE_PAGE_NAME,
+	indexablePagesActions,
+	indexablePagesControls,
+	indexablePagesSelectors,
+} from "./indexable-pages";
 import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
@@ -92,7 +98,7 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
-				indexablePages: createInitialIndexablePagesState(),
+				[ INDEXABLE_PAGE_NAME ]: createInitialIndexablePagesState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				llmsTxt: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
@@ -112,7 +118,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
-			indexablePages,
+			[ INDEXABLE_PAGE_NAME ]: indexablePages,
 			llmsTxt,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,

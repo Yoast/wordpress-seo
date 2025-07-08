@@ -1,10 +1,10 @@
 /* eslint-disable complexity */
-import { useCallback, useMemo, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
-import { debounce, find, isEmpty, map, values } from "lodash";
+import { debounce, find, isEmpty, values } from "lodash";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
@@ -34,47 +34,38 @@ IndexablePageSelectOptionsContent.propTypes = {
  */
 const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 	const selectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
-	const indexablePages = useSelectSettings( "selectIndexablePages", [] );
-	const { fetchIndexablePages } = useDispatchSettings();
+	const { fetchIndexablePages, removeIndexablePagesScope } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
-	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
-	const [ queriedIndexablePageIds, setQueriedIndexablePageIds ] = useState( [] );
-
-	const selectedIndexablePage = useMemo( () => {
-		const page = find( values( indexablePages ), [ "id", value ] );
-		if ( page ) {
-			return page;
-		}
-		return find( values( selectedPages ), [ "id", value ] );
-	}, [ value, indexablePages, selectedPages ] );
-
-	const debouncedFetchIndexablePages = useCallback( debounce( async search => {
-		try {
-			setStatus( ASYNC_ACTION_STATUS.loading );
-
-			const response = await fetchIndexablePages( { search } );
-
-			setQueriedIndexablePageIds( map( response.payload, "id" ) );
-			setStatus( ASYNC_ACTION_STATUS.success );
-		} catch ( error ) {
-			if ( error instanceof DOMException && error.name === "AbortError" ) {
-				// Expected abort errors can be ignored.
-				return;
-			}
-			setQueriedIndexablePageIds( [] );
-			setStatus( ASYNC_ACTION_STATUS.error );
-		}
-	}, FETCH_DELAY ), [ setQueriedIndexablePageIds, setStatus, fetchIndexablePages ] );
+	const {
+		query,
+		ids: queriedIndexablePageIds,
+		status,
+		entities: selectableIndexablePages,
+	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
+	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
+	const selectedFromSelectedPages = useMemo( () => find( values( selectedPages ), [ "id", value ] ), [ selectedPages, value ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
 		setValue( newValue );
 	}, [ setValue, setTouched ] );
-	const handleQueryChange = useCallback( event => debouncedFetchIndexablePages( event.target.value ), [ debouncedFetchIndexablePages ] );
-	const selectableIndexablePages = useMemo( () => isEmpty( queriedIndexablePageIds ) ? map( indexablePages, "id" ) : queriedIndexablePageIds, [ queriedIndexablePageIds, indexablePages ] );
-	const hasNoIndexablePages = useMemo( () => (
-		status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds )
-	), [ queriedIndexablePageIds, status ] );
+	const handleQueryClear = useCallback( () => {
+		fetchIndexablePages( id, { search: "" } );
+		handleChange( 0 );
+	}, [ id, fetchIndexablePages, handleChange ] );
+	const handleQueryChange = useCallback( debounce( ( event ) => {
+		const search = event.target?.value?.trim() || "";
+		fetchIndexablePages( id, { search } );
+	}, FETCH_DELAY ), [ id, fetchIndexablePages ] );
+
+	useEffect( () => {
+		// Remove the scope as cleanup.
+		return () => removeIndexablePagesScope( id );
+	}, [ id, removeIndexablePagesScope ] );
+
+	const selectedIndexablePage = selectedFromIndexablePages || selectedFromSelectedPages;
+	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds );
+	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
 
 	return (
 		<AutocompleteField
@@ -85,8 +76,9 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
 			placeholder={ __( "Select a page…", "wordpress-seo" ) }
-			selectedLabel={ selectedIndexablePage?.name }
+			selectedLabel={ selectedLabel }
 			onQueryChange={ handleQueryChange }
+			onClear={ handleQueryClear }
 			nullable={ true }
 			disabled={ disabled }
 			/* translators: Hidden accessibility text. */
@@ -100,14 +92,11 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 							<IndexablePageSelectOptionsContent>
 								{ __( "No pages found.", "wordpress-seo" ) }
 							</IndexablePageSelectOptionsContent>
-						) : map( selectableIndexablePages, indexablePageId => {
-							const indexablePage = indexablePages?.[ indexablePageId ];
-							return indexablePage ? (
-								<AutocompleteField.Option key={ indexablePage?.id } value={ indexablePage?.id }>
-									{ indexablePage?.name }
-								</AutocompleteField.Option>
-							) : null;
-						} ) }
+						) : selectableIndexablePages.map( ( indexablePage ) => (
+							<AutocompleteField.Option key={ indexablePage.id } value={ indexablePage.id }>
+								{ indexablePage.name }
+							</AutocompleteField.Option>
+						) ) }
 					</>
 				) }
 				{ status === ASYNC_ACTION_STATUS.loading && (
