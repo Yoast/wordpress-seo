@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
-import { debounce, find, isEmpty, values } from "lodash";
+import { debounce, find, values } from "lodash";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
@@ -30,20 +30,25 @@ IndexablePageSelectOptionsContent.propTypes = {
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
  * @param {boolean} props.disabled Whether the field is disabled.
+ * @param {number[]} [props.selectedIds=[]] The currently selected indexable page IDs, to filter the options.
+ * @param {...Object} [props] Additional props to pass to the field.
  * @returns {JSX.Element} The indexable page select component.
  */
-const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
-	const selectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
+const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [], ...props } ) => {
+	const initialSelectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
 	const { fetchIndexablePages, removeIndexablePagesScope } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const {
 		query,
-		ids: queriedIndexablePageIds,
 		status,
-		entities: selectableIndexablePages,
+		entities: queriedIndexablePages,
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
 	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
-	const selectedFromSelectedPages = useMemo( () => find( values( selectedPages ), [ "id", value ] ), [ selectedPages, value ] );
+	const selectedFromInitialSelectedPages = useMemo( () => find( values( initialSelectedPages ), [ "id", value ] ), [ initialSelectedPages, value ] );
+	const selectableIndexablePages = useMemo( () => {
+		// Filter out the pages that are already selected, except our own value.
+		return queriedIndexablePages.filter( ( indexablePage ) => indexablePage.id === value || ! selectedIds.includes( indexablePage.id ) );
+	}, [ queriedIndexablePages, selectedIds, value ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
@@ -63,8 +68,8 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 		return () => removeIndexablePagesScope( id );
 	}, [ id, removeIndexablePagesScope ] );
 
-	const selectedIndexablePage = selectedFromIndexablePages || selectedFromSelectedPages;
-	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds );
+	const selectedIndexablePage = selectedFromIndexablePages || selectedFromInitialSelectedPages;
+	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && selectableIndexablePages.length === 0;
 	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
 
 	return (
