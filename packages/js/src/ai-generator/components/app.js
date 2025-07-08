@@ -191,18 +191,19 @@ export const App = ( { onUseAi } ) => {
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
 
+		const subscriptions = checkSubscriptions();
 
 		if ( payload?.errorCode === 403 && isFreeSparksActive ) {
 			setDisplay( DISPLAY.askConsent );
 			return;
 		}
 
-		if ( ! checkSubscriptions() && ! isFreeSparksActive ) {
+		if ( ! subscriptions && ! isFreeSparksActive ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
-		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload !== 429 ) {
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 ) {
 			setDisplay( DISPLAY.error );
 			return;
 		}
@@ -223,12 +224,12 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		if ( isPremium && ! checkSubscriptions() ) {
+		if ( ! subscriptions && isPremium ) {
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
-		if ( ! checkSubscriptions() && sparksLimitReached ) {
+		if ( ! subscriptions && sparksLimitReached ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
