@@ -1,5 +1,5 @@
 import { SlotFillProvider } from "@wordpress/components";
-import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
+import { Component as wpComponent, createRef, createRoot, Fragment } from "@wordpress/element";
 import getL10nObject from "../analysis/getL10nObject";
 import TopLevelProviders from "../components/TopLevelProviders";
 
@@ -7,7 +7,7 @@ const registeredComponents = [];
 let containerRef = null;
 
 /**
- * Container used to render registerd components when wp.plugins is not available.
+ * Container used to render registered components when wp.plugins is not available.
  */
 class RegisteredComponentsContainer extends wpComponent {
 	/**
@@ -19,7 +19,8 @@ class RegisteredComponentsContainer extends wpComponent {
 		super( props );
 
 		this.state = {
-			registeredComponents: [],
+			// Start with the array of registered components from the module!
+			registeredComponents: [ ...registeredComponents ],
 		};
 	}
 
@@ -27,22 +28,22 @@ class RegisteredComponentsContainer extends wpComponent {
 	 * Registers a react component to be rendered within the metabox slot-fill
 	 * provider.
 	 *
-	 * @param {string}          key       Unique key to give to React to render
-	 *                                    within a list of components.
+	 * @param {string} key Unique key to give to React to render within a list of components.
 	 * @param {wp.Component} Component A valid React component to render.
 	 *
 	 * @returns {void}
 	 */
 	registerComponent( key, Component ) {
-		this.setState( {
+		this.setState( ( state ) => ( {
+			...state,
 			registeredComponents: [
-				...this.state.registeredComponents,
+				...state.registeredComponents,
 				{
 					key,
 					Component,
 				},
 			],
-		} );
+		} ) );
 	}
 
 	/**
@@ -73,26 +74,19 @@ export function renderReactRoot( target, children ) {
 		isRtl: localizedData.isRtl,
 	};
 
-	render(
-		(
-			<TopLevelProviders
-				theme={ theme }
-				location={ "sidebar" }
-			>
-				<SlotFillProvider>
-					<Fragment>
-						{ children }
-						<RegisteredComponentsContainer ref={ containerRef } />
-					</Fragment>
-				</SlotFillProvider>
-			</TopLevelProviders>
-		),
-		document.getElementById( target )
+	createRoot( document.getElementById( target ) ).render(
+		<TopLevelProviders
+			theme={ theme }
+			location={ "sidebar" }
+		>
+			<SlotFillProvider>
+				<Fragment>
+					{ children }
+					<RegisteredComponentsContainer ref={ containerRef } />
+				</Fragment>
+			</SlotFillProvider>
+		</TopLevelProviders>
 	);
-
-	registeredComponents.forEach( ( registered ) => {
-		containerRef.current.registerComponent( registered.key, registered.Component );
-	} );
 }
 
 /**
