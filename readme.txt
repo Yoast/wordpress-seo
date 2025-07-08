@@ -201,17 +201,13 @@ Release date: 2025-07-15
 
 #### Enhancements
 
-* Changes the `Upgrades` page to a `Plans` page.
 * Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
 * Uses canonical URLs for the post lists in the llms.txt file.
 
-#### Bugfixes
-
-* Fixes a bug where the Google Docs add-on announcement modals appeared on all admin pages.
-
 #### Other
 
-* Announces the addition of the Google Docs add-on on both, the Free and Premium plugin plans.
+* Adds an announcement for the Google Docs add-on.
+* Changes the `Upgrades` page to a `Plans` page.
 * Removes redundant flushing of cache groups when incoming links for posts change.
 
 = 25.4 =
