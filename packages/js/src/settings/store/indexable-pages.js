@@ -47,9 +47,8 @@ const prepareIndexablePage = indexablePage => (
 	{
 		id: indexablePage?.id,
 		// Fallbacks for page title, because we always need something to show.
-		name: decodeEntities( trim( indexablePage?.title.rendered ) ) || indexablePage?.slug || indexablePage.id,
+		name: decodeEntities( trim( indexablePage?.title ) ) || indexablePage?.slug || indexablePage.id,
 		slug: indexablePage?.slug,
-		"protected": indexablePage?.content?.protected,
 	} );
 
 const indexablePagesSlice = createSlice( {
@@ -100,7 +99,7 @@ export const indexablePagesControls = {
 
 		abortController = new AbortController();
 		return apiFetch( {
-			path: `/wp/v2/pages?${ buildQueryString( payload ) }`,
+			path: `/yoast/v1/available_posts?${ buildQueryString( payload ) }`,
 			signal: abortController.signal,
 		} );
 	},

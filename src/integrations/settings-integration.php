@@ -625,7 +625,7 @@ class Settings_Integration implements Integration_Interface {
 
 		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
 			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $id ) {
-				// @TODO: This needs to be using the indexables table. The next PR should fix this, that's why we are duplicating some code here.
+				// @TODO: This needs to be using the indexables table. The https://github.com/Yoast/ux/issues/268 task should fix this, that's why we are duplicating some code here.
 				$page = [];
 
 				$page['id'] = $id;
