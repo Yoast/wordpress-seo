@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services;
 
+use WP_Post_Type;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
@@ -62,6 +63,7 @@ class Content_Types_Collector {
 	 */
 	public function get_content_types_lists(): array {
 		$post_types = $this->post_type_helper->get_indexable_post_type_objects();
+		$post_types = $this->make_sure_pages_are_first( $post_types );
 		$link_list  = [];
 
 		foreach ( $post_types as $post_type_object ) {
@@ -85,5 +87,25 @@ class Content_Types_Collector {
 		}
 
 		return $link_list;
+	}
+
+	/**
+	 * Returns an array of indexable post types with pages and posts as the first two.
+	 *
+	 * @param array<WP_Post_Type> $post_types List of indexable post type objects.
+	 *
+	 * @return array<WP_Post_Type> List of indexable post type objects.
+	 */
+	private function make_sure_pages_are_first( array $post_types ): array {
+		$special_types = [];
+		if ( isset( $post_types['page'] ) ) {
+			$special_types['page'] = $post_types['page'];
+			unset( $post_types['page'] );
+		}
+		if ( isset( $post_types['post'] ) ) {
+			$special_types['post'] = $post_types['post'];
+			unset( $post_types['post'] );
+		}
+		return \array_merge( $special_types, $post_types );
 	}
 }
