@@ -86,18 +86,25 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 				if ( $post !== null ) {
 					$posts[] = $post;
 				}
-				// @TODO: Clean up the DB entries for these pages.
+				else {
+					$this->options_helper->set( $page, 0 );
+				}
 			}
 		}
-		$other_pages = $this->options_helper->get( 'other_included_pages' );
+		$other_pages    = $this->options_helper->get( 'other_included_pages' );
+		$filtered_pages = [];
 		if ( ! empty( $other_pages ) ) {
 			foreach ( $other_pages as $page_id ) {
 				$post = $this->get_content_type_entry( $page_id );
 
 				if ( $post !== null ) {
-					$posts[] = $post;
+					$posts[]          = $post;
+					$filtered_pages[] = $page_id;
 				}
-				// @TODO: Clean up the DB entries for these pages.
+			}
+
+			if ( \count( $filtered_pages ) !== \count( $other_pages ) ) {
+				$this->options_helper->set( 'other_included_pages', $filtered_pages );
 			}
 		}
 
