@@ -97,15 +97,11 @@ class Content_Types_Collector {
 	 * @return array<WP_Post_Type> List of indexable post type objects.
 	 */
 	private function make_sure_pages_are_first( array $post_types ): array {
-		$special_types = [];
+		$types_to_go_first = [];
 		if ( isset( $post_types['page'] ) ) {
-			$special_types['page'] = $post_types['page'];
+			$types_to_go_first['page'] = $post_types['page'];
 			unset( $post_types['page'] );
 		}
-		if ( isset( $post_types['post'] ) ) {
-			$special_types['post'] = $post_types['post'];
-			unset( $post_types['post'] );
-		}
-		return \array_merge( $special_types, $post_types );
+		return \array_merge( $types_to_go_first, $post_types );
 	}
 }
