@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import PropTypes from "prop-types";
 import {
 	BadWPRequestAlert,
@@ -8,13 +9,13 @@ import { SiteUnreachableAlert } from "./errors/site-unreachable-alert";
 
 /**
  * @param {number} errorCode The error code.
- * @param {string} [errorIdentifier] The error identifier.
+ * @param {string} [errorIdentifier=""] The error identifier.
  * @param {string} [errorMessage=""] The error message.
  * @returns {JSX.Element} The element.
  */
 export const UsageCountError = ( {
 	errorCode,
-	errorIdentifier,
+	errorIdentifier = "",
 	errorMessage = "",
 } ) => {
 	switch ( errorCode ) {

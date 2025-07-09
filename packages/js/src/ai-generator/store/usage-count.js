@@ -56,7 +56,11 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			state.error = payload;
+			// Bad gateway error will not have a payload, so we set a default error.
+			state.error = {
+				errorCode: 502,
+				...payload,
+			};
 		} );
 	},
 } );
