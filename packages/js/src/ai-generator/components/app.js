@@ -197,8 +197,28 @@ export const App = ( { onUseAi } ) => {
 		}
 		onUseAi();
 
+		// The analysis feature is not active, so we cannot use AI.
+		if ( ! isSeoAnalysisActive ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// Missing focus keyphrase, so we cannot use AI.
+		if ( ! checkFocusKeyphrase() ) {
+			setDisplay( DISPLAY.inactive );
+			showFocusKeyphrase();
+			return;
+		}
+
 		// Getting the subscriptions.
 		const subscriptions = checkSubscriptions();
+
+		// User has no subscription but premium is installed.
+		if ( ! subscriptions && isPremium ) {
+			// Let the user know that they need to activate their subscription.
+			setDisplay( DISPLAY.error );
+			return;
+		}
 
 		// User revoked consent after clicking on the "Try for free" AI button or has subscriptions.
 		if ( ! hasConsent && ( isFreeSparksActive || subscriptions ) ) {
@@ -216,19 +236,6 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		// The analysis feature is not active, so we cannot use AI.
-		if ( ! isSeoAnalysisActive ) {
-			setDisplay( DISPLAY.error );
-			return;
-		}
-
-		// Missing focus keyphrase, so we cannot use AI.
-		if ( ! checkFocusKeyphrase() ) {
-			setDisplay( DISPLAY.inactive );
-			showFocusKeyphrase();
-			return;
-		}
-
 		// User doesn't have a subscription, and never clicked on the "Try for free" AI button.
 		if ( ! subscriptions && ! isFreeSparksActive ) {
 			// Upsell with the "Try for free" AI button.
@@ -238,13 +245,6 @@ export const App = ( { onUseAi } ) => {
 
 		// The usage count endpoint returned an error that is not related to the limit or consent.
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 && payload?.errorCode !== 403 ) {
-			setDisplay( DISPLAY.error );
-			return;
-		}
-
-		// User has no subscription but premium is installed.
-		if ( ! subscriptions && isPremium ) {
-			// Let the user know that they need to activate their subscription.
 			setDisplay( DISPLAY.error );
 			return;
 		}
