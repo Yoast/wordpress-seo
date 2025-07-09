@@ -91,25 +91,20 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 				}
 			}
 		}
-		$other_pages = $this->options_helper->get( 'other_included_pages' );
+		$other_pages    = $this->options_helper->get( 'other_included_pages' );
+		$filtered_pages = [];
 		if ( ! empty( $other_pages ) ) {
-
-			$clean_up = false;
-			foreach ( $other_pages as $key => $page_id ) {
+			foreach ( $other_pages as $page_id ) {
 				$post = $this->get_content_type_entry( $page_id );
 
 				if ( $post !== null ) {
-					$posts[] = $post;
-				}
-				else {
-					unset( $other_pages[ $key ] );
-					$clean_up = true;
+					$posts[]          = $post;
+					$filtered_pages[] = $page_id;
 				}
 			}
 
-			if ( $clean_up ) {
-				$other_pages = \array_values( $other_pages );
-				$this->options_helper->set( 'other_included_pages', $other_pages );
+			if ( \count( $filtered_pages ) !== \count( $other_pages ) ) {
+				$this->options_helper->set( 'other_included_pages', $filtered_pages );
 			}
 		}
 
