@@ -71,7 +71,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 		return () => removeIndexablePagesScope( id );
 	}, [ id, removeIndexablePagesScope ] );
 
-	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && selectableIndexablePages.length === 0;
+	const hasNoIndexablePages = [ ASYNC_ACTION_STATUS.idle, ASYNC_ACTION_STATUS.success ].includes( status ) && selectableIndexablePages.length === 0;
 	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
 
 	return (
@@ -93,7 +93,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 			{ ...props }
 		>
 			<>
-				{ ( status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success ) && (
+				{ [ ASYNC_ACTION_STATUS.idle, ASYNC_ACTION_STATUS.success ].includes( status ) && (
 					<>
 						{ hasNoIndexablePages ? (
 							<IndexablePageSelectOptionsContent>
