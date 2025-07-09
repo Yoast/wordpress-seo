@@ -288,13 +288,23 @@ export const App = ( { onUseAi } ) => {
 	 *
 	 * @returns {void}
 	 */
-	const onStartGenerating = useCallback( () => {
-		if ( isUsageCountLimitReached ) {
+	const onStartGenerating = useCallback( async() => {
+		// Getting the usage count.
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
+		if ( sparksLimitReached ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
+
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME ) {
+			// User revoked consent after clicking on the "Try for free" AI button.
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
 		setDisplay( DISPLAY.generate );
-	}, [ setDisplay, isUsageCountLimitReached ] );
+	}, [ setDisplay, usageCountEndpoint, fetchUsageCount ] );
 
 	/**
 	 * Callback to activate free sparks on the upsell modal
