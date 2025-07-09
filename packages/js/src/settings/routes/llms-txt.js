@@ -25,6 +25,7 @@ const LlmTxt = () => {
 	const label = "llms.txt";
 	const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
+	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
@@ -33,6 +34,10 @@ const LlmTxt = () => {
 
 	const { values, initialValues } = useFormikContext();
 	const { other_included_pages: otherIncludedPages } = values.wpseo_llmstxt;
+	const {
+		"noindex-page": noindexPages,
+	} = values.wpseo_titles;
+
 	const {
 		enable_llms_txt: isLlmsTxtEnabled,
 	} = values.wpseo;
@@ -54,9 +59,17 @@ const LlmTxt = () => {
 		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
 	), [ initialIsLlmsTxtEnabled, isLlmsTxtEnabled ] );
 
+	const disabledPages = useMemo( () => (
+		disabledPageIndexables || noindexPages
+	), [ disabledPageIndexables, noindexPages ] );
+
+	const disabledSelection = useMemo( () => (
+		! isLlmsTxtEnabled || disabledPages
+	), [ isLlmsTxtEnabled, disabledPages ] );
+
 	const activeManualSelection = useMemo( () => (
-		isLlmsTxtEnabled && llmsTxtSelectionMode === "manual"
-	), [ isLlmsTxtEnabled, llmsTxtSelectionMode ] );
+		isLlmsTxtEnabled && ! disabledPages && llmsTxtSelectionMode === "manual"
+	), [ isLlmsTxtEnabled, disabledPages, llmsTxtSelectionMode ] );
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
@@ -81,6 +94,18 @@ const LlmTxt = () => {
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a id="llms-best-practices" href={ bestPracticesLink } target="_blank" rel="noopener noreferrer" />,
+		}
+	) );
+
+	const disabledPagesAlert = useMemo( () => safeCreateInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags */
+			__( "Pages are %1$sdisabled from being shown in the search results %2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		), {
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a id="llms-noindex-pages" href={ "admin.php?page=wpseo_page_settings#/post-type/pages" } />,
 		}
 	) );
 
@@ -158,7 +183,10 @@ const LlmTxt = () => {
 						) }
 						description={ selectionDescription }
 					>
-						<RadioGroup disabled={ ! isLlmsTxtEnabled }>
+						{ ( disabledPages ) && <Alert id="llms-txt-disabled-pages-alert" variant="info" className="yst-max-w-md">
+							{ disabledPagesAlert }
+						</Alert> }
+						<RadioGroup disabled={ disabledSelection }>
 							<Field
 								as={ Radio }
 								type="radio"
@@ -166,7 +194,7 @@ const LlmTxt = () => {
 								id="input-wpseo_llmstxt-llms_txt_selection_mode-auto"
 								label={ __( "Automatic page selection", "wordpress-seo" ) }
 								value="auto"
-								disabled={ ! isLlmsTxtEnabled }
+								disabled={ disabledSelection }
 							/>
 							<Field
 								as={ Radio }
@@ -175,7 +203,7 @@ const LlmTxt = () => {
 								id="input-wpseo_llmstxt-llms_txt_selection_mode-manual"
 								label={ __( "Manual page selection", "wordpress-seo" ) }
 								value="manual"
-								disabled={ ! isLlmsTxtEnabled }
+								disabled={ disabledSelection }
 							/>
 						</RadioGroup>
 					</FieldsetLayout>
