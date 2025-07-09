@@ -127,6 +127,7 @@ export const App = ( { onUseAi } ) => {
 		aiModalHelperLink,
 		isProductEntity,
 		isFreeSparksActive,
+		isUsageCountLimitReached,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -147,6 +148,7 @@ export const App = ( { onUseAi } ) => {
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
 			isFreeSparksActive: select( STORE_NAME_AI ).selectIsFreeSparksActive(),
+			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
@@ -183,58 +185,86 @@ export const App = ( { onUseAi } ) => {
 		return hasValidPremiumSubscription;
 	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isProductEntity, isWooCommerceActive ] );
 
+	/**
+	 * Callback to handle the "Use AI" button click.
+	 *
+	 * @param {Object} event The click event.
+	 * @returns {void}
+	 */
 	const handleUseAi = useCallback( async( event ) => {
 		if ( event.target.id === buttonId ) {
 			setLoadingButtonId( buttonId );
 		}
 		onUseAi();
+
+		// Getting the subscriptions.
+		const subscriptions = checkSubscriptions();
+
+		// User revoked consent after clicking on the "Try for free" AI button or has subscriptions.
+		if ( ! hasConsent && ( isFreeSparksActive || subscriptions ) ) {
+			setDisplay( DISPLAY.askConsent );
+			return;
+		}
+
+		// Getting the usage count.
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
 
-		const subscriptions = checkSubscriptions();
-
-		if ( payload?.errorCode === 403 && isFreeSparksActive ) {
+		// User revoked consent on a different window after clicking on the "Try for free" AI button or has subscription.
+		if ( payload?.errorCode === 403 && ( isFreeSparksActive || subscriptions ) ) {
 			setDisplay( DISPLAY.askConsent );
 			return;
 		}
 
-		if ( ! subscriptions && ! isFreeSparksActive ) {
-			setDisplay( DISPLAY.upsell );
-			return;
-		}
-
-		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 ) {
-			setDisplay( DISPLAY.error );
-			return;
-		}
-
-		if ( ! hasConsent ) {
-			setDisplay( DISPLAY.askConsent );
-			return;
-		}
-
+		// The analysis feature is not active, so we cannot use AI.
 		if ( ! isSeoAnalysisActive ) {
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
+		// Missing focus keyphrase, so we cannot use AI.
 		if ( ! checkFocusKeyphrase() ) {
 			setDisplay( DISPLAY.inactive );
 			showFocusKeyphrase();
 			return;
 		}
 
-		if ( ! subscriptions && isPremium ) {
-			setDisplay( DISPLAY.error );
-			return;
-		}
-
-		if ( ! subscriptions && sparksLimitReached ) {
+		// User doesn't have a subscription, and never clicked on the "Try for free" AI button.
+		if ( ! subscriptions && ! isFreeSparksActive ) {
+			// Upsell with the "Try for free" AI button.
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
-		setDisplay( DISPLAY.generate );
+		// The usage count endpoint returned an error that is not related to the limit or consent.
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 && payload?.errorCode !== 403 ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User has no subscription but premium is installed.
+		if ( ! subscriptions && isPremium ) {
+			// Let the user know that they need to activate their subscription.
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User has no subscription and the usage count limit is reached.
+		if ( ! subscriptions && sparksLimitReached ) {
+			// Upsell with the alert that the usage count limit is reached.
+			setDisplay( DISPLAY.upsell );
+			return;
+		}
+
+		// User has subscription, premium and consent
+		if ( subscriptions && hasConsent ) {
+			setDisplay( DISPLAY.generate );
+		}
+
+		// User has no subscription, free sparks is active, didn't reach the usage limit and consent is granted.
+		if ( ! subscriptions && isFreeSparksActive && ! sparksLimitReached && hasConsent ) {
+			setDisplay( DISPLAY.generate );
+		}
 	}, [ onUseAi,
 		isPremium,
 		isFreeSparksActive,
@@ -245,10 +275,25 @@ export const App = ( { onUseAi } ) => {
 		usageCountEndpoint,
 		fetchUsageCount ] );
 
+	/**
+	 * Callback to start generating content after granting consent.
+	 *
+	 * @returns {void}
+	 */
 	const onStartGenerating = useCallback( () => {
+		if ( isUsageCountLimitReached ) {
+			setDisplay( DISPLAY.upsell );
+			return;
+		}
 		setDisplay( DISPLAY.generate );
-	}, [ setDisplay ] );
+	}, [ setDisplay, isUsageCountLimitReached ] );
 
+	/**
+	 * Callback to activate free sparks on the upsell modal
+	 * after clicking on "Try for free" button.
+	 *
+	 * @returns {void}
+	 */
 	const onActivateFreeSparks = useCallback( () => {
 		if ( ! hasConsent ) {
 			setDisplay( DISPLAY.askConsent );
