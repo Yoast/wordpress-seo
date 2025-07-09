@@ -86,10 +86,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 				if ( $post !== null ) {
 					$posts[] = $post;
 				}
-				else {
-					// If the post is not found, we log it for debugging purposes.
-					error_log( sprintf( 'Post with ID %d for %s not found or not public.', $page_id, $page ) );
-				}
+				// @TODO: Clean up the DB entries for these pages.
 			}
 		}
 		$other_pages = $this->options_helper->get( 'other_included_pages' );
@@ -100,10 +97,7 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 				if ( $post !== null ) {
 					$posts[] = $post;
 				}
-				else {
-					// If the post is not found, we log it for debugging purposes.
-					error_log( sprintf( 'Post with ID %d for %s not found or not public.', $page_id, $page ) );
-				}
+				// @TODO: Clean up the DB entries for these pages.
 			}
 		}
 

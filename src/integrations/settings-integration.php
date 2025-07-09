@@ -28,8 +28,8 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
-use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Class Settings_Integration.
