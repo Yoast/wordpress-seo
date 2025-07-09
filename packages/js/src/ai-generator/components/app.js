@@ -192,9 +192,6 @@ export const App = ( { onUseAi } ) => {
 	 * @returns {void}
 	 */
 	const handleUseAi = useCallback( async( event ) => {
-		if ( event.target.id === buttonId ) {
-			setLoadingButtonId( buttonId );
-		}
 		onUseAi();
 
 		// The analysis feature is not active, so we cannot use AI.
@@ -224,6 +221,11 @@ export const App = ( { onUseAi } ) => {
 		if ( ! hasConsent && ( isFreeSparksActive || subscriptions ) ) {
 			setDisplay( DISPLAY.askConsent );
 			return;
+		}
+
+		// We need the loader only before we fetch the usage count.
+		if ( event.target.id === buttonId ) {
+			setLoadingButtonId( buttonId );
 		}
 
 		// Getting the usage count.
