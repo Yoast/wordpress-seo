@@ -54,7 +54,7 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 	}
 
 	if ( usageCountStatus === ASYNC_ACTION_STATUS.error ) {
-		return <UsageCountError { ...usageCountError } invalidSubscriptions={ invalidSubscriptions } />;
+		return <UsageCountError { ...usageCountError } />;
 	}
 };
 

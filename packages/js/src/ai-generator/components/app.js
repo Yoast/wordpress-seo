@@ -249,6 +249,12 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode === 429 && subscriptions ) {
+			// If the user has a subscription, but the usage count limit is reached, we show the error.
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
 		// User has no subscription and the usage count limit is reached.
 		if ( ! subscriptions && sparksLimitReached ) {
 			// Upsell with the alert that the usage count limit is reached.
