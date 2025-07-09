@@ -6,7 +6,7 @@ use Exception;
 use WP_Post_Type;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\Llms_Txt_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Available_Posts\Available_Posts_Repository;
 use Yoast\WP\SEO\Llms_Txt\Domain\Available_Posts\Data_Provider\Parameters;
@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * Available posts route.
  */
 class Available_Posts_Route implements Route_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * The namespace of the route.
@@ -46,15 +48,6 @@ class Available_Posts_Route implements Route_Interface {
 	 * @var Capability_Helper
 	 */
 	private $capability_helper;
-
-	/**
-	 * Returns the needed conditionals.
-	 *
-	 * @return array<string> The conditionals that must be met to load this.
-	 */
-	public static function get_conditionals(): array {
-		return [ Llms_Txt_Enabled_Conditional::class ];
-	}
 
 	/**
 	 * The constructor.
