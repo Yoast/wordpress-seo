@@ -83,7 +83,7 @@ usageCountSelectors.isUsageCountLimitReached = createSelector(
 		usageCountSelectors.selectUsageCountLimit,
 		usageCountSelectors.selectUsageCountError,
 	],
-	( count, limit, error ) => error.erroCode === 429 || count >= limit );
+	( count, limit, error ) => error.errorCode === 429 || count >= limit );
 
 /**
  * Validates the response structure of the usage count.
