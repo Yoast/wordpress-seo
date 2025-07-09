@@ -8,19 +8,28 @@ import PropTypes from "prop-types";
  * @param {string} buttonLink The button link.
  * @param {string} buttonLabel The button label.
  * @param {string} productName The product name.
+ * @param {string} freeCopy The copy for the free version.
+ * @param {string} premiumCopy The copy for the premium version.
  * @param {boolean} isPremium Whether the user has a premium license.
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
+// eslint-disable-next-line complexity
 export const GoogleDocsAddonUpsell = ( {
 	thumbnail,
 	buttonLink,
 	buttonLabel = sprintf(
-	/* translators: %1$s expands to Yoast SEO Premium. */
+		/* translators: %1$s expands to Yoast SEO Premium. */
 		__( "Unlock with %1$s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	),
 	productName = "Yoast SEO Premium",
+	freeCopy =  __( "Optimize as you draft for SEO, inclusivity, and readability. " +
+		"The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required. " +
+		"Purchase separately or with Yoast SEO Premium.", "wordpress-seo" ),
+	premiumCopy =  __( "Access all your favorite Yoast content analysis tools for SEO, readability, and inclusivity," +
+		"right inside Google Docs. You can draft, collaborate, edit and export content perfectly formatted for WordPress.",
+	"wordpress-seo" ),
 	isPremium = false,
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
@@ -47,18 +56,15 @@ export const GoogleDocsAddonUpsell = ( {
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{
-							sprintf(
-								/* translators: %s: Google Docs Add-On" */
-								__( "Get one seat for the new %s", "wordpress-seo" ),
-								"Google Docs Add-On"
-							)
+							__( "Get one seat for the new Google Docs Add-On", "wordpress-seo" )
 						}
 					</h3>
 					<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
 						{
-							__(
-								"Optimize as you draft for SEO, inclusivity, and readability. The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required.",
-								"wordpress-seo"
+							isPremium ? (
+								<p>{ premiumCopy }</p>
+							) : (
+								<p>{ freeCopy }</p>
 							)
 						}
 					</div>

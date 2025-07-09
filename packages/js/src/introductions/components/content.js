@@ -23,7 +23,7 @@ export const Content = () => {
 
 	const buttonLabel = useMemo( () => {
 		if ( isPremium ) {
-			return __( "Get started for free", "wordpress-seo" );
+			return __( "Activate your free seat", "wordpress-seo" );
 		}
 
 		return sprintf(
