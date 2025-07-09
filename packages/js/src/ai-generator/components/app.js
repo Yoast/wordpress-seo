@@ -238,13 +238,6 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		// User doesn't have a subscription, and never clicked on the "Try for free" AI button.
-		if ( ! subscriptions && ! isFreeSparksActive ) {
-			// Upsell with the "Try for free" AI button.
-			setDisplay( DISPLAY.upsell );
-			return;
-		}
-
 		// The usage count endpoint returned an error that is not related to the limit or consent.
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 && payload?.errorCode !== 403 ) {
 			setDisplay( DISPLAY.error );
@@ -254,6 +247,13 @@ export const App = ( { onUseAi } ) => {
 		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode === 429 && subscriptions ) {
 			// If the user has a subscription, but the usage count limit is reached, we show the error.
 			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User doesn't have a subscription, and never clicked on the "Try for free" AI button.
+		if ( ! subscriptions && ! isFreeSparksActive ) {
+			// Upsell with the "Try for free" AI button.
+			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
