@@ -102,7 +102,6 @@ class Manual_Post_Collection implements Post_Collection_Interface {
 					$posts[] = $post;
 				}
 				else {
-					// If the post is not found, we log it for debugging purposes.
 					unset( $other_pages[ $key ] );
 					$clean_up = true;
 				}
