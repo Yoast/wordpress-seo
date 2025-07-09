@@ -127,7 +127,6 @@ export const App = ( { onUseAi } ) => {
 		aiModalHelperLink,
 		isProductEntity,
 		isFreeSparksActive,
-		isUsageCountLimitReached,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -148,7 +147,6 @@ export const App = ( { onUseAi } ) => {
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
 			isFreeSparksActive: select( STORE_NAME_AI ).selectIsFreeSparksActive(),
-			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
@@ -292,7 +290,9 @@ export const App = ( { onUseAi } ) => {
 		// Getting the usage count.
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
-		if ( sparksLimitReached ) {
+		const subscriptions = checkSubscriptions();
+
+		if ( sparksLimitReached && ! subscriptions ) {
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
@@ -304,7 +304,7 @@ export const App = ( { onUseAi } ) => {
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [ setDisplay, usageCountEndpoint, fetchUsageCount ] );
+	}, [ setDisplay, usageCountEndpoint, fetchUsageCount, checkSubscriptions ] );
 
 	/**
 	 * Callback to activate free sparks on the upsell modal
