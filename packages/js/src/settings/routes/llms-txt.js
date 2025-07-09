@@ -1,5 +1,5 @@
 import { PlusIcon } from "@heroicons/react/solid";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
@@ -22,6 +22,7 @@ const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( Fo
  * @returns {JSX.Element} The llms.txt feature route.
  */
 const LlmTxt = () => {
+	const hasLoadedIndexablePages = useRef( false );
 	const label = "llms.txt";
 	const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
@@ -92,8 +93,11 @@ const LlmTxt = () => {
 
 	useEffect( () => {
 		// Get initial options.
-		fetchIndexablePages();
-	}, [ fetchIndexablePages ] );
+		if ( isLlmsTxtEnabled && llmsTxtSelectionMode === "manual" && ! hasLoadedIndexablePages.current ) {
+			hasLoadedIndexablePages.current = true;
+			fetchIndexablePages();
+		}
+	}, [ fetchIndexablePages, isLlmsTxtEnabled, llmsTxtSelectionMode ] );
 
 	return (
 		<RouteLayout
