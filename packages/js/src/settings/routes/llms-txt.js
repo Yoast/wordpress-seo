@@ -100,7 +100,7 @@ const LlmTxt = () => {
 	const disabledPagesAlert = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags */
-			__( "Pages are %1$sdisabled from being shown in the search results %2$s.", "wordpress-seo" ),
+			__( "Pages are %1$sdisabled from being shown in the search results%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		), {

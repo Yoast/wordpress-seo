@@ -51,7 +51,7 @@ class Llms_Txt_Configuration {
 			'generationFailure'       => ! $this->runner->is_successful(),
 			'generationFailureReason' => $this->runner->get_generation_failure_reason(),
 			'llmsTxtUrl'              => \home_url( 'llms.txt' ),
-			'disabledPageIndexables'  => ( $this->post_type_helper->is_of_indexable_post_type( 'post' ) === false ),
+			'disabledPageIndexables'  => ( $this->post_type_helper->is_of_indexable_post_type( 'page' ) === false ),
 		];
 
 		return $configuration;
