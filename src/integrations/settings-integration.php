@@ -28,6 +28,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -197,6 +198,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $llms_txt_configuration;
 
 	/**
+	 * The manual post collection.
+	 *
+	 * @var Manual_Post_Collection
+	 */
+	private $manual_post_collection;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -213,6 +221,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Options_Helper                                $options                 The options helper.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
 	 * @param Llms_Txt_Configuration                        $llms_txt_configuration  The Llms_Txt_Configuration instance.
+	 * @param Manual_Post_Collection                        $manual_post_collection  The manual post collection.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -228,7 +237,8 @@ class Settings_Integration implements Integration_Interface {
 		User_Helper $user_helper,
 		Options_Helper $options,
 		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility,
-		Llms_Txt_Configuration $llms_txt_configuration
+		Llms_Txt_Configuration $llms_txt_configuration,
+		Manual_Post_Collection $manual_post_collection
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->replace_vars            = $replace_vars;
@@ -244,6 +254,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->options                 = $options;
 		$this->content_type_visibility = $content_type_visibility;
 		$this->llms_txt_configuration  = $llms_txt_configuration;
+		$this->manual_post_collection  = $manual_post_collection;
 	}
 
 	/**
@@ -567,13 +578,44 @@ class Settings_Integration implements Integration_Interface {
 	private function get_site_basics_policies( $settings ) {
 		$policies = [];
 
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
-		$policies = $this->maybe_add_page( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['publishing_principles_id'], 'publishing_principles_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ownership_funding_info_id'], 'ownership_funding_info_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['actionable_feedback_policy_id'], 'actionable_feedback_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['corrections_policy_id'], 'corrections_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['ethics_policy_id'], 'ethics_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_policy_id'], 'diversity_policy_id' );
+		$policies = $this->maybe_add_policy( $policies, $settings['wpseo_titles']['diversity_staffing_report_id'], 'diversity_staffing_report_id' );
+
+		return $policies;
+	}
+
+	/**
+	 * Adds policy data if it is present.
+	 *
+	 * @param array  $policies The existing policy data.
+	 * @param int    $policy   The policy id to check.
+	 * @param string $key      The option key name.
+	 *
+	 * @return array<int, string> The policy data.
+	 */
+	private function maybe_add_policy( $policies, $policy, $key ) {
+		$policy_array = [
+			'id'   => 0,
+			'name' => \__( 'None', 'wordpress-seo' ),
+		];
+
+		if ( isset( $policy ) && \is_int( $policy ) ) {
+			$policy_array['id'] = $policy;
+			$post               = \get_post( $policy );
+			if ( $post instanceof WP_Post ) {
+				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
+					return $policies;
+				}
+				$policy_array['name'] = $post->post_title;
+			}
+		}
+
+		$policies[ $key ] = $policy_array;
 
 		return $policies;
 	}
@@ -581,27 +623,23 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Adds page if it is present.
 	 *
-	 * @param array  $pages The existing pages.
-	 * @param int    $page  The page id to check.
-	 * @param string $key   The option key name.
+	 * @param array<int, string> $pages   The existing pages.
+	 * @param int                $page_id The page id to check.
+	 * @param string             $key     The option key name.
 	 *
 	 * @return array<int, string> The policy data.
 	 */
-	private function maybe_add_page( $pages, $page, $key ) {
-		if ( isset( $page ) && \is_int( $page ) && $page !== 0 ) {
-			$page_array = [
-				'id'   => $page,
-				'name' => \__( 'None', 'wordpress-seo' ),
-			];
-			$post       = \get_post( $page );
-			if ( $post instanceof WP_Post ) {
-				if ( $post->post_status !== 'publish' || $post->post_password !== '' ) {
-					return $pages;
-				}
-				$page_array['name'] = $post->post_title;
+	private function maybe_add_page( $pages, $page_id, $key ) {
+		if ( isset( $page_id ) && \is_int( $page_id ) && $page_id !== 0 ) {
+			$post = $this->manual_post_collection->get_content_type_entry( $page_id );
+			if ( $post === null ) {
+				return $pages;
 			}
 
-			$pages[ $key ] = $page_array;
+			$pages[ $key ] = [
+				'id'   => $page_id,
+				'name' => ( $post->get_title() ) ? $post->get_title() : $post->get_slug(),
+			];
 		}
 
 		return $pages;
@@ -624,19 +662,8 @@ class Settings_Integration implements Integration_Interface {
 		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['shop_page'], 'shop_page' );
 
 		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
-			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $id ) {
-				// @TODO: This needs to be using the indexables table. The https://github.com/Yoast/ux/issues/268 task should fix this, that's why we are duplicating some code here.
-				$page = [];
-
-				$page['id'] = $id;
-				$post       = \get_post( $id );
-				if ( ! ( $post instanceof WP_Post ) || ( $post->post_status !== 'publish' || $post->post_password !== '' ) ) {
-					continue;
-				}
-
-				$page['name'] = $post->post_title;
-
-				$llms_txt_pages[ 'other_included_pages-' . $key ] = $page;
+			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $page_id ) {
+				$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $page_id, 'other_included_pages-' . $key );
 			}
 		}
 
