@@ -1,7 +1,7 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
-import { useMemo } from "@wordpress/element";
+import { useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, useModalContext, useToggleState } from "@yoast/ui-library";
+import { Button, useModalContext, useToggleState, Spinner } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { OutboundLink } from ".";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
@@ -52,6 +52,12 @@ export const AiConsent = ( {
 			a2: <OutboundLink href={ privacyPolicyLink } />,
 		}
 	);
+	const [ loading, toggleLoading ] = useToggleState( false );
+	const handleConsentChange = useCallback( async() => {
+		toggleLoading();
+		await onGiveConsent();
+		toggleLoading();
+	}, [ onGiveConsent ] );
 
 	return (
 		<>
@@ -128,8 +134,11 @@ export const AiConsent = ( {
 						className="yst-grow"
 						size="large"
 						disabled={ ! consent }
-						onClick={ onGiveConsent }
+						onClick={ handleConsentChange }
 					>
+						{ loading && (
+							<Spinner className="yst-me-2" />
+						) }
 						{ __( "Grant consent", "wordpress-seo" ) }
 					</Button>
 				</div>
