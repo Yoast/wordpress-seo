@@ -4,10 +4,12 @@ import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
-import { debounce, find, values } from "lodash";
+import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+
+const MAX_INDEXABLE_PAGES = 10;
 
 /**
  * @param {JSX.node} children The children.
@@ -35,19 +37,20 @@ IndexablePageSelectOptionsContent.propTypes = {
  * @returns {JSX.Element} The indexable page select component.
  */
 const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [], ...props } ) => {
-	const initialSelectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
 	const { fetchIndexablePages, removeIndexablePagesScope } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const {
+		ids: queriedIndexablePageIds,
 		query,
 		status,
-		entities: queriedIndexablePages,
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
-	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
-	const selectedFromInitialSelectedPages = useMemo( () => find( values( initialSelectedPages ), [ "id", value ] ), [ initialSelectedPages, value ] );
+	const queriedIndexablePages = useSelectSettings( "selectIndexablePagesById", [ queriedIndexablePageIds ], queriedIndexablePageIds );
+	const selectedIndexablePage = useSelectSettings( "selectIndexablePageById", [ value ], value );
 	const selectableIndexablePages = useMemo( () => {
-		// Filter out the pages that are already selected, except our own value.
-		return queriedIndexablePages.filter( ( indexablePage ) => indexablePage.id === value || ! selectedIds.includes( indexablePage.id ) );
+		// Filter out the pages that are already selected, except our own value. And then limit the results to MAX_INDEXABLE_PAGES.
+		return queriedIndexablePages
+			.filter( ( indexablePage ) => indexablePage.id === value || ! selectedIds.includes( indexablePage.id ) )
+			.slice( 0, MAX_INDEXABLE_PAGES );
 	}, [ queriedIndexablePages, selectedIds, value ] );
 
 	const handleChange = useCallback( newValue => {
@@ -68,7 +71,6 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 		return () => removeIndexablePagesScope( id );
 	}, [ id, removeIndexablePagesScope ] );
 
-	const selectedIndexablePage = selectedFromIndexablePages || selectedFromInitialSelectedPages;
 	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && selectableIndexablePages.length === 0;
 	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
 

@@ -49,6 +49,20 @@ const preloadUsers = async( { settings } ) => {
 };
 
 /**
+ * Preloads the indexable pages that are selected by the user.
+ *
+ * @returns {void}
+ */
+const preloadIndexablePages = () => {
+	const initialIndexablePages = Object.values( get( window, "wpseoScriptData.initialLlmTxtPages", {} ) );
+	if ( initialIndexablePages.length === 0 ) {
+		return;
+	}
+
+	dispatch( STORE_NAME ).addIndexablePages( initialIndexablePages );
+};
+
+/**
  * Fixes the WordPress skip links.
  *
  * By disabling the default behavior of the links and focusing the elements.
@@ -112,6 +126,7 @@ domReady( () => {
 
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	preloadIndexablePages();
 	fixFocusLinkCompatibility();
 	fixWordPressMenuScrolling();
 
