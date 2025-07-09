@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -10,7 +11,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
-import { FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME } from "../store/usage-count";
+import { FETCH_USAGE_COUNT_ERROR_ACTION_NAME } from "../store/usage-count";
 import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
@@ -121,7 +122,6 @@ export const App = ( { onUseAi } ) => {
 		hasValidWooSubscription,
 		focusKeyphrase,
 		isPremium,
-		isWooSeoActive,
 		isWooCommerceActive,
 		isSeoAnalysisActive,
 		aiModalHelperLink,
@@ -142,7 +142,6 @@ export const App = ( { onUseAi } ) => {
 			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 			focusKeyphrase: editorSelect.getFocusKeyphrase(),
 			isPremium: editorSelect.getIsPremium(),
-			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
@@ -177,75 +176,149 @@ export const App = ( { onUseAi } ) => {
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
 	}, [ closeEditorModal, location ] );
 
-	const checkSparks = useCallback( async() => {
-		if ( usageCountStatus === ASYNC_ACTION_STATUS.idle ) {
-			const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
-			if ( type !== FETCH_USAGE_COUNT_SUCCESS_ACTION_NAME ) {
-				return false;
-			}
-			return payload.count < payload.limit;
-		}
-		return usageCount < usageCountLimit;
-	}, [ fetchUsageCount, usageCountEndpoint, usageCountStatus, usageCount, usageCountLimit ] );
-
 	const checkSubscriptions = useCallback( () => {
-		if ( isWooSeoActive && isWooCommerceActive && isProductEntity ) {
+		if (  isProductEntity && isWooCommerceActive ) {
 			return hasValidWooSubscription;
 		}
-		if ( isPremium ) {
-			return hasValidPremiumSubscription;
-		}
-		return true;
-	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isPremium, isWooSeoActive && isWooCommerceActive && isProductEntity ] );
+		return hasValidPremiumSubscription;
+	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isProductEntity, isWooCommerceActive ] );
 
+	/**
+	 * Callback to handle the "Use AI" button click.
+	 *
+	 * @param {Object} event The click event.
+	 * @returns {void}
+	 */
 	const handleUseAi = useCallback( async( event ) => {
-		if ( event.target.id === buttonId ) {
-			setLoadingButtonId( buttonId );
-		}
 		onUseAi();
 
-		if ( ! isPremium && ! isFreeSparksActive ) {
-			setDisplay( DISPLAY.upsell );
-			return;
-		}
-
-		if ( ! hasConsent ) {
-			setDisplay( DISPLAY.askConsent );
-			return;
-		}
-
+		// The analysis feature is not active, so we cannot use AI.
 		if ( ! isSeoAnalysisActive ) {
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
+		// Missing focus keyphrase, so we cannot use AI.
 		if ( ! checkFocusKeyphrase() ) {
 			setDisplay( DISPLAY.inactive );
 			showFocusKeyphrase();
 			return;
 		}
 
-		if ( isPremium && ! checkSubscriptions() ) {
+		// Getting the subscriptions.
+		const subscriptions = checkSubscriptions();
+
+		// User has no subscription but premium is installed.
+		if ( ! subscriptions && isPremium ) {
+			// Let the user know that they need to activate their subscription.
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
-		const hasSparks = await checkSparks();
-		if ( ! isPremium && ! hasSparks ) {
+		// User revoked consent after clicking on the "Try for free" AI button or has subscriptions.
+		if ( ! hasConsent && ( isFreeSparksActive || subscriptions ) ) {
+			setDisplay( DISPLAY.askConsent );
+			return;
+		}
+
+		// We need the loader only before we fetch the usage count.
+		if ( event.target.id === buttonId ) {
+			setLoadingButtonId( buttonId );
+		}
+
+		// Getting the usage count.
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
+
+		// User revoked consent on a different window after clicking on the "Try for free" AI button or has subscription.
+		if ( payload?.errorCode === 403 && ( isFreeSparksActive || subscriptions ) ) {
+			setDisplay( DISPLAY.askConsent );
+			return;
+		}
+
+		// The usage count endpoint returned an error that is not related to the limit or consent.
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode !== 429 && payload?.errorCode !== 403 ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME && payload?.errorCode === 429 && subscriptions ) {
+			// If the user has a subscription, but the usage count limit is reached, we show the error.
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User doesn't have a subscription, and never clicked on the "Try for free" AI button.
+		if ( ! subscriptions && ! isFreeSparksActive ) {
+			// Upsell with the "Try for free" AI button.
 			setDisplay( DISPLAY.upsell );
 			return;
 		}
 
-		setDisplay( DISPLAY.generate );
-	}, [ onUseAi, isPremium, isFreeSparksActive, hasConsent, isSeoAnalysisActive, checkFocusKeyphrase, showFocusKeyphrase, checkSparks ] );
+		// User has no subscription and the usage count limit is reached.
+		if ( ! subscriptions && sparksLimitReached ) {
+			// Upsell with the alert that the usage count limit is reached.
+			setDisplay( DISPLAY.upsell );
+			return;
+		}
 
-	const onStartGenerating = useCallback( () => {
-		setDisplay( DISPLAY.generate );
-	}, [ setDisplay ] );
+		// User has subscription, premium and consent
+		if ( subscriptions && hasConsent ) {
+			setDisplay( DISPLAY.generate );
+		}
 
+		// User has no subscription, free sparks is active, didn't reach the usage limit and consent is granted.
+		if ( ! subscriptions && isFreeSparksActive && ! sparksLimitReached && hasConsent ) {
+			setDisplay( DISPLAY.generate );
+		}
+	}, [ onUseAi,
+		isPremium,
+		isFreeSparksActive,
+		hasConsent,
+		isSeoAnalysisActive,
+		checkFocusKeyphrase,
+		showFocusKeyphrase,
+		usageCountEndpoint,
+		fetchUsageCount ] );
+
+	/**
+	 * Callback to start generating content after granting consent.
+	 *
+	 * @returns {void}
+	 */
+	const onStartGenerating = useCallback( async() => {
+		// Getting the usage count.
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
+		const subscriptions = checkSubscriptions();
+
+		if ( sparksLimitReached && ! subscriptions ) {
+			setDisplay( DISPLAY.upsell );
+			return;
+		}
+
+		if ( type === FETCH_USAGE_COUNT_ERROR_ACTION_NAME ) {
+			// User revoked consent after clicking on the "Try for free" AI button.
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		setDisplay( DISPLAY.generate );
+	}, [ setDisplay, usageCountEndpoint, fetchUsageCount, checkSubscriptions ] );
+
+	/**
+	 * Callback to activate free sparks on the upsell modal
+	 * after clicking on "Try for free" button.
+	 *
+	 * @returns {void}
+	 */
 	const onActivateFreeSparks = useCallback( () => {
-		setDisplay( DISPLAY.askConsent );
-	}, [ setDisplay ] );
+		if ( ! hasConsent ) {
+			setDisplay( DISPLAY.askConsent );
+			return;
+		}
+		setDisplay( DISPLAY.generate );
+	}, [ setDisplay, hasConsent ] );
 
 	return (
 		<>
