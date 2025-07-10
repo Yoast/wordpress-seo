@@ -165,37 +165,17 @@ final class Ai_Consent_Integration_Test extends TestCase {
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 
 		// Enqueueing.
-
-		/*
-		Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'ai-consent' );
-		Monkey\Functions\expect( 'wp_localize_script' )->once()->with(
+		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
+		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-consent' );
+		$this->asset_manager->expects( 'localize_script' )->once()->with(
 			'ai-consent',
 			'wpseoAiConsent',
 			[
 				'hasConsent' => true,
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
-				'linkParams' => '',
+				'linkParams' => [],
 			]
 		);
-		*/
-		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
-		$this->asset_manager->expects( 'enqueue_script' )->once();
-		$this->asset_manager->expects( 'localize_script' )->once();
-
-		/*
-		Monkey\Functions\expect( 'get_user_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
-		Monkey\Functions\expect( 'plugin_dir_path' )
-			->once()
-			->andReturn( '/invalid/path/to/plugin/' );
-		Monkey\Functions\expect( 'wp_localize_script' )->once()->with(
-			'ai-consent',
-			'wpseoAiConsent',
-			[
-				// Null because the file does not exist.
-				'wordpress-seo-premium' => null,
-			]
-		);
-		*/
 
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );
 
