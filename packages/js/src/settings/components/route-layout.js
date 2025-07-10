@@ -7,15 +7,15 @@ import { useDocumentTitle } from "../hooks";
 
 /**
  * @param {Object} props The properties.
- * @param {JSX.node} children The children.
+ * @param {React.ReactNode} children The children.
  * @param {string} title The title.
- * @param {JSX.node} [description] The description.
+ * @param {React.ReactNode} [description=null] The description.
  * @returns {JSX.Element} The route layout component.
  */
 const RouteLayout = ( {
 	children,
 	title,
-	description,
+	description = null,
 } ) => {
 	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
 	const ariaLiveTitle = sprintf(

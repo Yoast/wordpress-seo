@@ -1,14 +1,14 @@
-import PropTypes from "prop-types";
 import { select } from "@wordpress/data";
+import PropTypes from "prop-types";
 import ConnectedPersistentDismissableNotification from "../containers/PersistentDismissableNotification";
 
 /**
- * @param {string}      store The Redux store identifier from which to determine dismissed state.
+ * @param {string} store The Redux store identifier from which to determine dismissed state.
  * @param {JSX.Element} image The image or null if no image.
- * @param {object | string}      title The title of the notification.
- * @param {string}      promoId The promotion id.
- * @param {string}      alertKey The unique id for the alert.
- * @param {JSX.node}    children The content of the notification.
+ * @param {Object|string} title The title of the notification.
+ * @param {string} promoId The promotion id.
+ * @param {string} alertKey The unique id for the alert.
+ * @param {React.ReactNode} [children=null] The content of the notification.
  *
  * @returns {JSX.Element} The TimeConstrainedNotification component.
  */
@@ -18,7 +18,7 @@ export const TimeConstrainedNotification = ( {
 	title,
 	promoId,
 	alertKey,
-	children,
+	children = null,
 	...props
 } ) => {
 	const promotionActive = select( store ).isPromotionActive( promoId );

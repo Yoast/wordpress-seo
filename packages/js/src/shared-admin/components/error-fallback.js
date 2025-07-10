@@ -53,10 +53,10 @@ VerticalButtons.propTypes = {
 
 /**
  * @param {Object} error The error instance.
- * @param {JSX.node} children The children to render.
+ * @param {React.ReactNode} [children=null] The children to render.
  * @returns {JSX.Element} The error fallback element.
  */
-export const ErrorFallback = ( { error, children } ) => {
+export const ErrorFallback = ( { error, children = null } ) => {
 	return (
 		<div role="alert" className="yst-max-w-screen-sm yst-p-8 yst-space-y-4">
 			<Title>{ __( "Something went wrong. An unexpected error occurred.", "wordpress-seo" ) }</Title>
