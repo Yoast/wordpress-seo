@@ -191,7 +191,7 @@ indexablePagesSelectors.selectIndexablePagesScope = createSelector(
 			// If the scope does not have a search query, we return all the ids.
 			return {
 				ids,
-				status: ASYNC_ACTION_STATUS.idle,
+				status: scope?.status || ASYNC_ACTION_STATUS.idle,
 				query: { search: "" },
 			};
 		}

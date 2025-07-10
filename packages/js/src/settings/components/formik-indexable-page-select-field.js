@@ -44,6 +44,8 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 		query,
 		status,
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
+	// Notice: node scope/ID is passed here, so we get the "global" status.
+	const { status: globalStatus } = useSelectSettings( "selectIndexablePagesScope", [ value ] );
 	const queriedIndexablePages = useSelectSettings( "selectIndexablePagesById", [ queriedIndexablePageIds ], queriedIndexablePageIds );
 	const selectedIndexablePage = useSelectSettings( "selectIndexablePageById", [ value ], value );
 	const selectableIndexablePages = useMemo( () => {
@@ -71,8 +73,10 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 		return () => removeIndexablePagesScope( id );
 	}, [ id, removeIndexablePagesScope ] );
 
-	const hasNoIndexablePages = [ ASYNC_ACTION_STATUS.idle, ASYNC_ACTION_STATUS.success ].includes( status ) && selectableIndexablePages.length === 0;
 	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
+
+	const hasError = status === ASYNC_ACTION_STATUS.error;
+	const isLoading = status === ASYNC_ACTION_STATUS.loading || ( globalStatus === ASYNC_ACTION_STATUS.loading && ! hasError );
 
 	return (
 		<AutocompleteField
@@ -93,9 +97,9 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 			{ ...props }
 		>
 			<>
-				{ [ ASYNC_ACTION_STATUS.idle, ASYNC_ACTION_STATUS.success ].includes( status ) && (
+				{ ! hasError && ! isLoading && (
 					<>
-						{ hasNoIndexablePages ? (
+						{ selectableIndexablePages.length === 0 ? (
 							<IndexablePageSelectOptionsContent>
 								{ __( "No pages found.", "wordpress-seo" ) }
 							</IndexablePageSelectOptionsContent>
@@ -106,13 +110,13 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 						) ) }
 					</>
 				) }
-				{ status === ASYNC_ACTION_STATUS.loading && (
+				{ isLoading && (
 					<IndexablePageSelectOptionsContent>
 						<Spinner variant="primary" />
 						{ __( "Searching pages…", "wordpress-seo" ) }
 					</IndexablePageSelectOptionsContent>
 				) }
-				{ status === ASYNC_ACTION_STATUS.error && (
+				{ hasError && (
 					<IndexablePageSelectOptionsContent className="yst-text-red-600">
 						{ __( "Failed to retrieve pages.", "wordpress-seo" ) }
 					</IndexablePageSelectOptionsContent>
