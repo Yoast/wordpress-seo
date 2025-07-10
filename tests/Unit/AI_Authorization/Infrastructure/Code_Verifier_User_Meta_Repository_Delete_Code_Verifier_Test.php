@@ -7,13 +7,13 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure\Abstract_Access_Token_User_Meta_Repository_Test;
 
 /**
- * Tests the `delete_token` method of the Access_Token_User_Meta_Repository class.
+ * Tests the `delete_token` method of the Code_Verifier_User_Meta_Repository class.
  *
  * @group ai-authorization
  *
- * @coversDefaultClass \Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository
+ * @coversDefaultClass \Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository
  */
-final class Code_Verifier_User_Meta_Repository_Delete_Token_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
+final class Code_Verifier_User_Meta_Repository_Delete_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
 
 	/**
 	 * Tests the `delete_token` method.
@@ -22,7 +22,7 @@ final class Code_Verifier_User_Meta_Repository_Delete_Token_Test extends Abstrac
 	 *
 	 * @return void
 	 */
-	public function test_delete_token() {
+	public function test_delete_code_verifier() {
 		Monkey\Functions\when( 'get_current_blog_id' )->justReturn( 1 );
 
 		$this->user_helper
