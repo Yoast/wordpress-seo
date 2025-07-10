@@ -3,8 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\Application\Consent_Handler;
 
-use Yoast\WP\SEO\Helpers\User_Helper;
-
 /**
  * Tests the Consent_Handler's grant_consent method.
  *
