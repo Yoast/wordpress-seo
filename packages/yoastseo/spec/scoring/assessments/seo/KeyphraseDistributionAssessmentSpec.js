@@ -4,8 +4,36 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
+
+describe( "Tests for the keyphrase distribution assessment when no keyphrase and/or text is added", function() {
+	it( "shows feedback for keyphrase distribution when there is no text", function() {
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new DefaultResearcher( paper );
+		const assessment = keyphraseDistributionAssessment.getResult( paper, researcher );
+		expect( assessment.getScore() ).toEqual( 1 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
+	} );
+	it( "shows feedback for keyphrase distribution when there is no keyphrase set", function() {
+		const paper = new Paper( "some text", { keyword: "" } );
+		const researcher = new DefaultResearcher( paper );
+		const assessment = keyphraseDistributionAssessment.getResult( paper, researcher );
+		expect( assessment.getScore() ).toEqual( 1 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
+	} );
+	it( "shows feedback for keyphrase distribution when there is no keyphrase set and no text", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const researcher = new DefaultResearcher( paper );
+		const assessment = keyphraseDistributionAssessment.getResult( paper, researcher );
+		expect( assessment.getScore() ).toEqual( 1 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>."  );
+	} );
+} );
 
 describe( "An assessment to check the keyphrase distribution in the text", function() {
 	it( "returns `hasAIFixes` to be true when the result is not good", function() {
@@ -18,11 +46,11 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 			} )
 		);
 
-		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
-	it( "returns a 'consideration' score when no keyword occurs", function() {
+	it( "returns a the correct feedback when there are no keyphrase occurences in the text", function() {
 		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
@@ -32,10 +60,9 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 			} )
 		);
 
-		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
-			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
-			" distribution</a>." );
+			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
 	} );
 
 	it( "returns a bad score when the % of sentences between topic occurrences is above 50%", function() {
@@ -82,109 +109,6 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
-	} );
-} );
-
-describe( "Checks if the assessment is applicable", function() {
-	let researcher;
-
-	beforeEach( () => {
-		researcher = new EnglishResearcher();
-		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
-	} );
-
-	it( "is applicable to papers with more than 10 sentences when a keyword is set", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
-		researcher.setPaper( mockPaper );
-
-		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( isAssessmentApplicable ).toBe( true );
-	} );
-
-	it( "is not applicable to papers with more than 10 sentences when no keyword is set", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse." );
-		researcher.setPaper( mockPaper );
-
-		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( isAssessmentApplicable ).toBe( false );
-	} );
-
-
-	it( "is not applicable to papers with less than 15 sentences", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
-		researcher.setPaper( mockPaper );
-
-		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( isAssessmentApplicable ).toBe( false );
-	} );
-
-	it( "is not applicable to papers with more than 15 sentences when the sentences are inside an element that should" +
-		"be excluded from the analysis", function() {
-		const mockPaper = new Paper( "<blockquote>" + "Lorem ipsum dolor sit amet. ".repeat( 16 ) + "</blockquote>",
-			{ keyword: "keyword" } );
-		researcher.setPaper( mockPaper );
-
-		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( isAssessmentApplicable ).toBe( false );
-	} );
-
-	it( "is not applicable when the researcher doesn't have the research", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
-		researcher.setPaper( mockPaper );
-		delete researcher.customResearches.keyphraseDistribution;
-		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( assessmentIsApplicable ).toBe( false );
-	} );
-
-	it( "should not be applicable to a text consisting only of shortcodes", function() {
-		const shortcodeSentence = "[shortcode]".repeat( 15 ) + ". ";
-		const mockPaper = new Paper( shortcodeSentence.repeat( 15 ), { shortcodes: [ "shortcode" ] } );
-		researcher.setPaper( mockPaper );
-
-		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
-
-		expect( assessmentIsApplicable ).toBe( false );
 	} );
 } );
 
