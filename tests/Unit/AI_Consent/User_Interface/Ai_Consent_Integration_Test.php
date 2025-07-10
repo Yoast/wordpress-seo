@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the AI generator integration.
+ * Tests the AI consent integration.
  *
  * @coversDefaultClass \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration
  *
