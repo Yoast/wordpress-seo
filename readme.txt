@@ -204,6 +204,10 @@ Release date: 2025-07-15
 * Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
 * Uses canonical URLs for the post lists in the llms.txt file.
 
+#### Bugfixes
+
+* Fixes a bug where a request limit warning would be shown, in the Semrush related keyphrases, when no warnings would be applicable.
+
 #### Other
 
 * Adds an announcement for the Google Docs add-on.
