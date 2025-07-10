@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration
  *
- * @group integrations
+ * @group ai-consent
  */
 final class Ai_Consent_Integration_Test extends TestCase {
 
