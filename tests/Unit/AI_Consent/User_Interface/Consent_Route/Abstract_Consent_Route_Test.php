@@ -17,6 +17,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 abstract class Abstract_Consent_Route_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Consent_Route
+	 */
+	protected $instance;
+
+	/**
 	 * The consent handler instance.
 	 *
 	 * @var Mockery\MockInterface|Consent_Handler
@@ -29,13 +36,6 @@ abstract class Abstract_Consent_Route_Test extends TestCase {
 	 * @var Mockery\MockInterface|Token_Manager
 	 */
 	protected $token_manager;
-
-	/**
-	 * The instance to test.
-	 *
-	 * @var Consent_Route
-	 */
-	protected $instance;
 
 	/**
 	 * Setup the test.
