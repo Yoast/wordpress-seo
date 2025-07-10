@@ -80,7 +80,7 @@ export const Redirects = () => {
 								id="yst-input-type-redirect"
 								label={ __( "Redirect Type", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								options= { [{ value: 301, label: __( "301 Moved Permatently", "wordpress-seo" ) } ]}
+								options={ [ { value: 301, label: __( "301 Moved Permatently", "wordpress-seo" ) } ] }
 								disabled={ true }
 							/>
 							<div className="yst-text-field__description">
