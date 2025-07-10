@@ -82,7 +82,7 @@ body.seo_page_wpseo_redirects {
 
 		.yst-paper {
 			/* custom for redirects page and reset WP styles */
-			@apply yst-mt-3 yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
+			@apply yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
 		}
 	}
 

@@ -73,7 +73,7 @@ class Redirects_Page_Integration implements Integration_Interface {
 
 		$asset_manager = new \WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'redirects' );
-		$asset_manager->enqueue_style( 'new-redirects' );
+		$asset_manager->enqueue_style( 'redirects' );
 
 		$asset_manager->localize_script(
 			'redirects',
