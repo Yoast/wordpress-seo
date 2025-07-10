@@ -2,8 +2,6 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import registerStore from "./store";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
-import { get } from "lodash";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "./constants";
 import { AppProvider } from "./appProvider";
@@ -14,11 +12,7 @@ domReady( () => {
 		return;
 	}
 
-	registerStore( {
-		initialState: {
-			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
-		},
-	} );
+	registerStore();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 

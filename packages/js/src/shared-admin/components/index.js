@@ -14,3 +14,4 @@ export { VideoFlow } from "./video-flow";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
 export { SiteKitConsentModal } from "./site-kit-consent-modal";
 export { Search } from "./search";
+export { SidebarLayout } from "./sidebar-layout";

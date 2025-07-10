@@ -9,10 +9,10 @@ import { AppRoutes } from "./routes";
  *
  * @param {Object} [redirectsProps={}] - Props for premium redirects page.
  * @param {Object} [regexProps={}] - Props for premium regex redirects page.
- * @param {Function} [redirectMethod] - Redirect method component
+ * @param {Object} [redirectMethodProps={}] - Props for premium redirect method page.
  * @returns {JSX.Element} The complete redirects application layout.
  */
-const App = ( { redirectsProps = {}, regexProps = {}, redirectMethod } ) => {
+const App = () => {
 	const { pathname } = useLocation();
 
 	return (
@@ -38,11 +38,7 @@ const App = ( { redirectsProps = {}, regexProps = {}, redirectMethod } ) => {
 					<div className="yst-paper yst-grow yst-max-w-page">
 						<div className="yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main>
-								<AppRoutes
-									redirectsProps={ redirectsProps }
-									regexProps={ regexProps }
-									redirectMethod={ redirectMethod }
-								/>
+								<AppRoutes />
 							</main>
 						</div>
 					</div>

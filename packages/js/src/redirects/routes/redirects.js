@@ -1,12 +1,13 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button } from "@yoast/ui-library";
-import { RouteLayout } from "../components";
+import { Button, Checkbox, Select, SelectField, Table, TextField } from "@yoast/ui-library";
+import {
+	RouteLayout,
+} from "../components";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
-import { Form, Formik } from "formik";
-import { FormAddRedirect } from "../components/form-add-redirect";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 /**
  * Redirects component.
@@ -25,15 +26,9 @@ import { FormAddRedirect } from "../components/form-add-redirect";
  *
  * @returns {JSX.Element} The rendered Redirects route.
  */
-export const Redirects = ( {
-	initialValues = {},
-	createValidationSchema = () => {},
-	handleCreateSubmit = () => {},
-	listRedirects: ListRedirects,
-	filterControls: FilterControls,
-} ) => {
+export const Redirects = () => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoast.com/yoast-seo-redirect-manager" );
-
+	const redirectsTypeLink = useSelectRedirects( "selectLink", [], "https://yoa.st/2jb" );
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
@@ -50,41 +45,125 @@ export const Redirects = ( {
 		}
 	), [] );
 
+	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening anchor tag.
+			 * %2$s expands to a closing anchor tag.
+			 */
+			__( "The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a href={ redirectsTypeLink } target="_blank" rel="noopener noreferrer" />,
+		}
+	), [] );
+
 
 	return (
 		<RouteLayout
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
-			<Formik
-				initialValues={ initialValues }
-				validationSchema={ createValidationSchema( {} ) }
-				onSubmit={ handleCreateSubmit }
-			>
-				{ ( { isSubmitting, status } ) => (
-					<Form className="yst-max-w-5xl yst-p-8">
-						<FieldsetLayout
-							title={ __( "Plain redirects", "wordpress-seo" ) }
-							description={ __( "Plain redirects automatically send visitors from one URL to another. Use them to fix broken links and improve your site's user experience.", "wordpress-seo" ) }
-							variant={ "xl" }
-						>
-							<FormAddRedirect error={ status } />
-							<Button
-								id="yst-button-submit-redirect"
-								type="submit"
-								isLoading={ isSubmitting }
-								disabled={ isSubmitting }
-							>
-								{ __( "Add redirect", "wordpress-seo" ) }
-							</Button>
-						</FieldsetLayout>
-					</Form>
-				) }
-			</Formik>
-			<div className="yst-max-w-5xl yst-px-8 yst-pb-8">
+			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">
+				<FieldsetLayout
+					title={ __( "Plain redirects", "wordpress-seo" ) }
+					description={ __( "Plain redirects automatically send visitors from one URL to another. Use them to fix broken links and improve your site's user experience.", "wordpress-seo" ) }
+					variant={ "xl" }
+				>
+					<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+						<div>
+							<SelectField
+								name="type"
+								id="yst-input-type-redirect"
+								label={ __( "Redirect Type", "wordpress-seo" ) }
+								className="yst-max-w-sm"
+								disabled={ true }
+							/>
+							<div className="yst-text-field__description">
+								{ redirectTypeDescription }
+							</div>
+						</div>
+
+						<TextField
+							type="text"
+							name="origin"
+							id="yst-input-origin-redirect"
+							label={ __( "Old URL", "wordpress-seo" ) }
+							disabled={  true }
+						/>
+						<TextField
+							type="text"
+							name="target"
+							id="yst-input-target-redirect"
+							label={ __( "New URL", "wordpress-seo" ) }
+							disabled={  true }
+						/>
+					</div>
+					<Button
+						id="yst-button-submit-redirect"
+						type="submit"
+						disabled={ true }
+						className="yst-bg-gray-400"
+					>
+						{ __( "Add redirect", "wordpress-seo" ) }
+					</Button>
+				</FieldsetLayout>
+			</div>
+			<div className="yst-max-w-5xl yst-px-8 yst-pb-8 yst-opacity-50">
 				<hr className="yst-mb-8" />
-				<FilterControls />
-				<ListRedirects />
+				<>
+					<div
+						className="yst-flex yst-justify-start yst-items-end yst-flex-row yst-w-full yst-gap-6"
+					>
+						<div className="yst-flex yst-items-end xl:yst-max-w-[256px] yst-w-full">
+							<Select
+								id="yst-filter-redirect-type-redirect"
+								name="filterRedirectType"
+								options={ [ { value: "", label: __( "All", "wordpress-seo" ) } ]  }
+								className="yst-w-full"
+								label={ __( "Filter Redirect type", "wordpress-seo" ) }
+								disabled={ true }
+							/>
+						</div>
+					</div>
+					<Table className="yst-mt-4" variant="minimal">
+						<Table.Head>
+							<Table.Row>
+								<Table.Header scope="col" className="yst-flex yst-items-center yst-gap-1">
+									<Checkbox
+										aria-label={ __( "Select all", "wordpress-seo" ) }
+										disabled={ true }
+									/>
+									{ __( "Type", "wordpress-seo" ) }
+									<Button
+										aria-label={ __( "Sort by Type", "wordpress-seo" ) }
+										as="span"
+										variant="tertiary"
+										className="yst-p-0 yst-text-slate-400"
+										disabled={ true }
+									>
+										<ChevronDownIcon
+											className="yst-w-4 yst-h-4 yst-transition-transform"
+										/>
+									</Button>
+								</Table.Header>
+								<Table.Header scope="col">{ __( "Old URL", "wordpress-seo" ) }</Table.Header>
+								<Table.Header scope="col">{ __( "New URL", "wordpress-seo" ) }</Table.Header>
+							</Table.Row>
+						</Table.Head>
+
+						<Table.Body>
+							<Table.Row>
+								<Table.Cell />
+								<Table.Cell className="yst-text-end">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
+								<Table.Cell />
+							</Table.Row>
+						</Table.Body>
+					</Table>
+				</>
 			</div>
 		</RouteLayout>
 	);

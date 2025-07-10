@@ -1,8 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { Title } from "@yoast/ui-library";
+import { Button, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { Helmet } from "react-helmet";
+import { useSelectRedirects } from "../hooks";
+import { LockClosedIcon } from "@heroicons/react/outline";
 
 /**
  * Route layout wrapper with accessible title and description.
@@ -24,6 +26,8 @@ export const RouteLayout = ( {
 		"Yoast SEO"
 	);
 
+	const upsellLink = useSelectRedirects( "selectLink", [], "https://yoa.st/redirect-manager-upsell" );
+
 	return (
 		<LiveAnnouncer>
 			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
@@ -34,6 +38,17 @@ export const RouteLayout = ( {
 				<div className="yst-max-w-screen-sm">
 					<Title>{ title }</Title>
 					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
+					<Button
+						as="a"
+						href={ upsellLink }
+						target="_blank"
+						variant="upsell"
+						size="large"
+						className="yst-flex yst-gap-1.5 yst-mt-6 yst-w-fit"
+					>
+						<LockClosedIcon className="yst-w-4 yst-h-4" />
+						<span>{ __( "Unlock with Premium", "wordpress-seo" ) }</span>
+					</Button>
 				</div>
 			</header>
 			{ children }

@@ -1,8 +1,8 @@
 import { useSvgAria } from "@yoast/ui-library";
-import { useSelectRedirects } from "../hooks";
 import { CodeIcon, CogIcon, SwitchHorizontalIcon } from "@heroicons/react/outline";
+import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
-import { MenuItemLink, Search, YoastLogo } from "../../shared-admin/components";
+import { MenuItemLink, YoastLogo } from "../../shared-admin/components";
 import { ROUTES } from "../constants";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -14,9 +14,6 @@ import PropTypes from "prop-types";
  */
 export const Menu = ( { idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
-	const isPremium = useSelectRedirects( "selectPreference", [], "isPremium" );
-	const userLocale = useSelectRedirects( "selectPreference", [], "userLocale" );
-	const queryableSearchIndex = useSelectRedirects( "selectQueryableSearchIndex" );
 
 	return <>
 		<header className="yst-mb-6 yst-space-y-6">
@@ -24,17 +21,10 @@ export const Menu = ( { idSuffix = "" } ) => {
 				id={ `link-yoast-logo${ idSuffix }` }
 				to="/"
 				className="yst-px-3 yst-inline-block yst-rounded-md focus:yst-ring-primary-500"
-				aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }
+				aria-label="Yoast SEO"
 			>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
-			{ isPremium && (
-				<Search
-					buttonId={ `button-search${ idSuffix }` }
-					userLocale={ userLocale }
-					queryableSearchIndex={ queryableSearchIndex }
-				/>
-			) }
 		</header>
 		<ul className="yst-mt-1 yst-px-0.5 yst-space-y-4">
 			<MenuItemLink
@@ -46,26 +36,46 @@ export const Menu = ( { idSuffix = "" } ) => {
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
 			/>
-			<MenuItemLink
-				to={ ROUTES.regexRedirects }
-				label={ <>
-					<CodeIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-					{ __( "Regex redirects", "wordpress-seo" ) }
-				</> }
-				idSuffix={ idSuffix }
-				className="yst-gap-3"
-				isActive={ isPremium }
-			/>
-			<MenuItemLink
-				to={ ROUTES.redirectMethod }
-				label={ <>
-					<CogIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
-					{ __( "Redirect method", "wordpress-seo" ) }
-				</> }
-				idSuffix={ idSuffix }
-				className="yst-gap-3"
-				isActive={ isPremium }
-			/>
+			<li
+				className="yst-flex
+				yst-items-center yst-gap-3
+				yst-px-3 yst-py-2
+				yst-text-slate-800
+				yst-cursor-not-allowed
+				yst-opacity-50"
+			>
+				<CodeIcon
+					className="yst-sidebar-navigation
+					__icon yst-w-6 yst-h-6"
+				/>
+				{ __( "Regex redirects", "wordpress-seo" ) }
+				<div className="yst-bg-amber-200 yst-text-amber-900 yst-rounded-2xl yst-flext yst-items-center yst-justify-center yst-py-[2px] yst-px-2">
+					<LockClosedIcon
+						className="yst-sidebar-navigation
+					__icon yst-w-2.5 yst-h-2.5"
+					/>
+				</div>
+			</li>
+			<li
+				className="yst-flex
+				yst-items-center yst-gap-3
+				yst-px-3 yst-py-2
+				yst-text-slate-800
+				yst-cursor-not-allowed
+				yst-opacity-50"
+			>
+				<CogIcon
+					className="yst-sidebar-navigation
+					__icon yst-w-6 yst-h-6"
+				/>
+				{ __( "Redirect method", "wordpress-seo" ) }
+				<div className="yst-bg-amber-200 yst-text-amber-900 yst-rounded-2xl yst-flext yst-items-center yst-justify-center yst-py-[2px] yst-px-2">
+					<LockClosedIcon
+						className="yst-sidebar-navigation
+					__icon yst-w-2.5 yst-h-2.5"
+					/>
+				</div>
+			</li>
 		</ul>
 	</>;
 };
