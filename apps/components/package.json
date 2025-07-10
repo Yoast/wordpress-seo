@@ -19,7 +19,7 @@
     "@yoast/search-metadata-previews": "^2.24.0",
     "@yoast/style-guide": "^0.13.0",
     "babel-polyfill": "^6.23.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.21",
     "lodash-es": "^4.17.11",
     "prop-types": "15.7.2",
     "react-tap-event-plugin": "^3.0.3",
