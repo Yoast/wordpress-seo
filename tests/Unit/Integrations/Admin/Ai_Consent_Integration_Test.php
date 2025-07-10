@@ -5,10 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -165,7 +165,8 @@ final class Ai_Consent_Integration_Test extends TestCase {
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 
 		// Enqueueing.
-/*
+
+		/*
 		Monkey\Functions\expect( 'wp_enqueue_script' )->once()->with( 'ai-consent' );
 		Monkey\Functions\expect( 'wp_localize_script' )->once()->with(
 			'ai-consent',
@@ -176,12 +177,12 @@ final class Ai_Consent_Integration_Test extends TestCase {
 				'linkParams' => '',
 			]
 		);
-*/
+		*/
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
 		$this->asset_manager->expects( 'enqueue_script' )->once();
 		$this->asset_manager->expects( 'localize_script' )->once();
 
-/*
+		/*
 		Monkey\Functions\expect( 'get_user_locale' )->once()->withNoArgs()->andReturn( 'en_US' );
 		Monkey\Functions\expect( 'plugin_dir_path' )
 			->once()
@@ -194,9 +195,9 @@ final class Ai_Consent_Integration_Test extends TestCase {
 				'wordpress-seo-premium' => null,
 			]
 		);
-*/
+		*/
 
-		$this->short_link_helper->expects( 'get_query_params' )->andReturn( array() );
+		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );
 
 		$this->instance->enqueue_assets();
 	}
