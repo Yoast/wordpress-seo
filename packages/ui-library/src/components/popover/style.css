@@ -72,6 +72,7 @@
 			yst--translate-y-1/2
 			yst-top-1/2
 			yst-start-full
+			yst-shadow-[-25px_0_50px_-12px_rgba(30,41,59,0.25)]  /* shadow for the left arrows */
 			before:yst-content-['']
 			before:yst-block
 			before:yst-end-full
@@ -165,6 +166,7 @@
 			yst--start-5
 			yst--translate-x-full
 			yst--translate-y-1/2
+			yst-shadow-[25px_0_50px_-12px_rgba(30,41,59,0.25)] /* shadow for the right arrows */
 			before:yst-content-['']
 			before:yst-start-full
 			before:yst-top-1/2
