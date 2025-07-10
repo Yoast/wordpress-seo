@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
