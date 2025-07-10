@@ -10,6 +10,7 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -52,7 +53,7 @@ class WPSEO_Admin_Pages {
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Don't load the scripts for the following pages.
-		$page_exceptions    = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
+		$page_exceptions    = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE, Redirects_Page_Integration::PAGE ], true );
 		$new_dashboard_page = ( $page === General_Page_Integration::PAGE && ! is_network_admin() );
 		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
