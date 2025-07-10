@@ -18,6 +18,7 @@ export const llmsTxtSelectors = {
 	selectLlmsTxtGenerationFailure: state => get( state, "llmsTxt.generationFailure", false ),
 	selectLlmsTxtGenerationFailureReason: state => get( state, "llmsTxt.generationFailureReason", "" ),
 	selectLlmsTxtUrl: state => get( state, "llmsTxt.llmsTxtUrl", "" ),
+	selectLlmsTxtDisabledPageIndexables: state => get( state, "llmsTxt.disabledPageIndexables", false ),
 };
 
 export default slice.reducer;
