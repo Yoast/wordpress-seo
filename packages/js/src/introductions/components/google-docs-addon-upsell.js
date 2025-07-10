@@ -27,7 +27,7 @@ export const GoogleDocsAddonUpsell = ( {
 	freeCopy =  __( "Optimize as you draft for SEO, inclusivity, and readability. " +
 		"The Yoast SEO Google Docs add-on lets you export content ready for WordPress, no reformatting required. " +
 		"Purchase separately or with Yoast SEO Premium.", "wordpress-seo" ),
-	premiumCopy =  __( "Access all your favorite Yoast content analysis tools for SEO, readability, and inclusivity," +
+	premiumCopy =  __( "Access all your favorite Yoast content analysis tools for SEO, readability, and inclusivity, " +
 		"right inside Google Docs. You can draft, collaborate, edit and export content perfectly formatted for WordPress.",
 	"wordpress-seo" ),
 	isPremium = false,
