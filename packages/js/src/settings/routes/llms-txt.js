@@ -105,7 +105,7 @@ const LlmTxt = () => {
 			"</a>"
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id="llms-noindex-pages" href={ "admin.php?page=wpseo_page_settings#/post-type/pages" } />,
+			a: <a id="llms-noindex-pages" href={ "admin.php?page=wpseo_page_settings#/post-type/pages#input-wpseo_titles-noindex-page" } />,
 		}
 	) );
 
