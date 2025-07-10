@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the AI generator integration.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Ai_Consent_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration
  *
  * @group integrations
  */
