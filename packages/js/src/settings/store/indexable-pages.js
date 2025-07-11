@@ -117,6 +117,12 @@ const indexablePagesSlice = createSlice( {
 	name: INDEXABLE_PAGE_NAME,
 	initialState: createInitialIndexablePagesState(),
 	reducers: {
+		addIndexablePages: {
+			reducer: indexablePagesAdapter.addMany,
+			prepare: ( pages ) => ( {
+				payload: map( pages, prepareIndexablePage ),
+			} ),
+		},
 		// Cleanup action to remove a scope.
 		removeIndexablePagesScope: ( state, { payload } ) => {
 			if ( ! ( payload in state.scopes ) ) {
@@ -177,18 +183,32 @@ export const indexablePagesSelectors = {
 };
 indexablePagesSelectors.selectIndexablePagesScope = createSelector(
 	[
-		indexablePageAdapterSelectors.selectAll,
-		// eslint-disable-next-line no-undefined -- If no scope is provided, it is "undefined". Fallback to that scope.
-		( state, scope ) => state[ INDEXABLE_PAGE_NAME ].scopes[ scope ] || state[ INDEXABLE_PAGE_NAME ].scopes[ undefined ],
+		indexablePageAdapterSelectors.selectIds,
+		( state, scope ) => state[ INDEXABLE_PAGE_NAME ].scopes[ scope ],
 	],
-	( entities, scope ) => {
+	( ids, scope ) => {
+		if ( ! scope?.query?.search ) {
+			// If the scope does not have a search query, we return all the ids.
+			return {
+				ids,
+				status: scope?.status || ASYNC_ACTION_STATUS.idle,
+				query: { search: "" },
+			};
+		}
 		return {
-			ids: scope?.ids || [],
+			ids: scope?.ids || ids,
 			status: scope?.status || ASYNC_ACTION_STATUS.idle,
 			query: scope?.query || { search: "" },
-			// Filter entities by the scope's IDs to keep the order of the entities.
-			entities: entities.filter( ( entity ) => scope?.ids?.includes( entity.id ) ),
 		};
+	}
+);
+indexablePagesSelectors.selectIndexablePagesById = createSelector(
+	[
+		indexablePageAdapterSelectors.selectAll,
+		( state, ids ) => ids,
+	],
+	( indexablePages, ids ) => {
+		return indexablePages.filter( ( page ) => ids.includes( page.id ) );
 	}
 );
 

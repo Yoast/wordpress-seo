@@ -470,6 +470,7 @@ class Settings_Integration implements Integration_Interface {
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
 			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'llmsTxt'                        => $this->llms_txt_configuration->get_configuration(),
+			'initialLlmTxtPages'             => $this->get_site_llms_txt_pages( $settings ),
 		];
 	}
 
@@ -540,7 +541,6 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
-			'llmTxtPages'                   => $this->get_site_llms_txt_pages( $settings ),
 		];
 	}
 
@@ -637,8 +637,9 @@ class Settings_Integration implements Integration_Interface {
 			}
 
 			$pages[ $key ] = [
-				'id'   => $page_id,
-				'name' => ( $post->get_title() ) ? $post->get_title() : $post->get_slug(),
+				'id'    => $page_id,
+				'title' => ( $post->get_title() ) ? $post->get_title() : $post->get_slug(),
+				'slug'  => $post->get_slug(),
 			];
 		}
 
