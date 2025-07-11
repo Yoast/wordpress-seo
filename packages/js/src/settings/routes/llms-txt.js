@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
@@ -138,6 +139,14 @@ const LlmTxt = () => {
 	}, [ fetchIndexablePages ] );
 
 	const isOptIn = checkUrlArgs( "source", "opt-in-notification" );
+	// Remove the "source" query parameter from the URL.
+	useEffect( () => {
+		if ( isOptIn ) {
+			const url = new URL( window.location.href );
+			url.searchParams.delete( "source" );
+			window.history.replaceState( {}, "", url.toString() );
+		}
+	}, [ isOptIn ] );
 
 	return (
 		<RouteLayout
