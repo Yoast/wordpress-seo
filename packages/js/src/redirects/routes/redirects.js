@@ -27,7 +27,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
  * @returns {JSX.Element} The rendered Redirects route.
  */
 export const Redirects = () => {
-	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoast.com/yoast-seo-redirect-manager" );
+	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoa.st/redirects-learn-more" );
 	const redirectsTypeLink = useSelectRedirects( "selectLink", [], "https://yoa.st/2jb" );
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
