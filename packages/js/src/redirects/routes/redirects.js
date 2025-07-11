@@ -48,16 +48,16 @@ export const Redirects = () => {
 	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to an opening anchor tag.
-			 * %2$s expands to a closing anchor tag.
+			 * translators: %1$s expands to an opening span tag.
+			 * %2$s expands to a closing span tag.
 			 */
 			__( "The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.", "wordpress-seo" ),
-			"<a>",
-			"</a>"
+			"<span>",
+			"</span>"
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ redirectsTypeLink } target="_blank" rel="noopener noreferrer" />,
+			span: <span className="yst-text-slate-600 yst-underline" />,
 		}
 	), [] );
 

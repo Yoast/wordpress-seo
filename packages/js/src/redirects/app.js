@@ -7,9 +7,6 @@ import { AppRoutes } from "./routes";
 /**
  * Main redirects application component with responsive sidebar navigation.
  *
- * @param {Object} [redirectsProps={}] - Props for premium redirects page.
- * @param {Object} [regexProps={}] - Props for premium regex redirects page.
- * @param {Object} [redirectMethodProps={}] - Props for premium redirect method page.
  * @returns {JSX.Element} The complete redirects application layout.
  */
 const App = () => {
