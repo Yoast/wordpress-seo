@@ -237,7 +237,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
 	public function is_llm_notification_seen(): bool {
-		$key = 'wpseo_dismiss_llm_txt_opt_in';
+		$key = 'wpseo_seen_llm_txt_opt_in_notification';
 		$current_user_id = $this->user_helper->get_current_user_id();
 		$seen = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
 		if ( ! $seen ) {
