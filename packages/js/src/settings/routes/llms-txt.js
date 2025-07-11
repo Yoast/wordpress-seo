@@ -4,10 +4,18 @@ import { useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
-import { withDisabledMessageSupport } from "../hocs";
-import { Field, FieldArray, useFormikContext } from "formik";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
-import { FieldsetLayout, FormikIndexablePageSelectField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { withDisabledMessageSupport } from "../hocs";
+import { checkUrlArgs } from "../helpers";
+import { FieldArray, Field, useFormikContext } from "formik";
+import {
+	FieldsetLayout,
+	FormikIndexablePageSelectField,
+	FormikValueChangeField,
+	FormLayout,
+	RouteLayout,
+	LlmTxtPopover,
+} from "../components";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
@@ -129,6 +137,8 @@ const LlmTxt = () => {
 		fetchIndexablePages();
 	}, [ fetchIndexablePages ] );
 
+	const isOptIn = checkUrlArgs( "source", "opt-in-notification" );
+
 	return (
 		<RouteLayout
 			title={ LABEL }
@@ -137,26 +147,30 @@ const LlmTxt = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
-						<FormikValueChangeFieldWithDisabledMessage
-							as={ ToggleField }
-							type="checkbox"
-							name="wpseo.enable_llms_txt"
-							id="input-wpseo.enable_llms_txt"
-							label={ sprintf(
+
+						<div className="yst-relative yst-max-w-sm">
+							<FormikValueChangeFieldWithDisabledMessage
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_llms_txt"
+								id="input-wpseo.enable_llms_txt"
+								label={ sprintf(
 								// translators: %1$s expands to "llms.txt".
-								__( "Enable %1$s file feature", "wordpress-seo" ),
-								LABEL
-							) }
-							description={ sprintf(
-								// translators: %1$s expands to "llms.txt".
-								__(
-									"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
-									"wordpress-seo"
-								),
-								LABEL
-							) }
-							className="yst-max-w-sm"
-						/>
+									__( "Enable %1$s file feature", "wordpress-seo" ),
+									LABEL
+								) }
+								description={ sprintf(
+									// translators: %1$s expands to "llms.txt".
+									__(
+										"Enabling this feature generates and updates an %1$s file weekly that lists a selection of your site's content.",
+										"wordpress-seo"
+									),
+									LABEL
+								) }
+								className={ isOptIn ? "yst-popover-backdrop-highlight-button" : "" }
+							/>
+							{ isOptIn && <LlmTxtPopover /> }
+						</div>
 					</fieldset>
 					<Button
 						as="a"
