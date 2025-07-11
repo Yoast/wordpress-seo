@@ -23,9 +23,3 @@ SidebarLayout.propTypes = {
 	contentClassName: PropTypes.string,
 	children: PropTypes.node,
 };
-
-
-SidebarLayout.propTypes = {
-	contentClassName: PropTypes.string,
-	children: PropTypes.node,
-};
