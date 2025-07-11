@@ -2,7 +2,8 @@ import { useCallback } from "@wordpress/element";
 import { Paper } from "@yoast/ui-library";
 import { useRouteError } from "react-router-dom";
 import { ErrorFallback } from "../../shared-admin/components";
-import { useSelectRedirects } from "../hooks";
+import { select } from "@wordpress/data";
+import { STORE_NAME } from "../constants";
 
 /**
  * Displays a fallback UI for route-level errors using React Router.
@@ -12,7 +13,7 @@ import { useSelectRedirects } from "../hooks";
  */
 export const RouteErrorFallback = () => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
-	const supportLink = useSelectRedirects( "selectLink", [], "https://yoa.st/general-error-support" );
+	const supportLink = select( STORE_NAME ).selectLink( "https://yoa.st/general-error-support" );
 	const error = useRouteError();
 
 	return (

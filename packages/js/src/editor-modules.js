@@ -29,6 +29,13 @@ import * as replacementVariableHelpers from "./helpers/replacementVariableHelper
 import { update as updateAdminBar } from "./ui/adminBar";
 import { createScoresInPublishBox, scrollToCollapsible, updateScore } from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
+import {
+	FieldsetLayout,
+	UnsavedChangesModal,
+	YoastLogo,
+	SidebarLayout,
+	ErrorFallback,
+} from "./shared-admin/components";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -65,6 +72,11 @@ window.yoast.editorModules = {
 			ImageSelectPortal,
 			ScoreIconPortal,
 		},
+		FieldsetLayout,
+		UnsavedChangesModal,
+		YoastLogo,
+		SidebarLayout,
+		ErrorFallback,
 	},
 	containers: {
 		EditorModal,

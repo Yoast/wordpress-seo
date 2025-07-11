@@ -1,16 +1,14 @@
 import { Transition } from "@headlessui/react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import { RouteErrorFallback, SidebarLayout } from "../components";
+import { RouteErrorFallback } from "../components";
 import { Redirects } from "./redirects";
-import { RegexRedirects } from "./regex-redirects";
-import { RedirectMethod } from "./redirect-method";
 import { ROUTES } from "../constants";
+import { SidebarLayout } from "../../shared-admin/components";
 
 /**
  * Renders the application's route configuration with animated transitions.
  *
- * @component
  * @returns {JSX.Element} The routed application layout with transitions.
  */
 export const AppRoutes = () => {
@@ -35,24 +33,7 @@ export const AppRoutes = () => {
 					}
 					errorElement={ <RouteErrorFallback /> }
 				/>
-				<Route
-					path={ ROUTES.regexRedirects }
-					element={
-						<SidebarLayout>
-							<RegexRedirects />
-						</SidebarLayout>
-					}
-					errorElement={ <RouteErrorFallback /> }
-				/>
-				<Route
-					path={ ROUTES.redirectMethod }
-					element={
-						<SidebarLayout>
-							<RedirectMethod />
-						</SidebarLayout>
-					}
-					errorElement={ <RouteErrorFallback /> }
-				/>
+
 				<Route path="*" element={ <Navigate to="" replace={ true } /> } />
 			</Routes>
 		</Transition>
