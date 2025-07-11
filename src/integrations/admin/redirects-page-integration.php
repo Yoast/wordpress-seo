@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -71,7 +72,7 @@ class Redirects_Page_Integration implements Integration_Interface {
 			return;
 		}
 
-		$asset_manager = new \WPSEO_Admin_Asset_Manager();
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'redirects' );
 		$asset_manager->enqueue_style( 'redirects' );
 
@@ -83,7 +84,7 @@ class Redirects_Page_Integration implements Integration_Interface {
 					'isPremium' => \YoastSEO()->helpers->product->is_premium(),
 					'isRtl'     => \is_rtl(),
 				],
-				'linkParams' => \YoastSEO()->helpers->short_link->get_query_params(),
+				'linkParams'  => \YoastSEO()->helpers->short_link->get_query_params(),
 			]
 		);
 	}

@@ -8,9 +8,9 @@
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
