@@ -44,7 +44,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 		query,
 		status,
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
-	// Notice: node scope/ID is passed here, so we get the "global" status.
+	// Notice: no scope/ID is passed here, so we get the "global" status.
 	const { status: globalStatus } = useSelectSettings( "selectIndexablePagesScope", [ value ] );
 	const queriedIndexablePages = useSelectSettings( "selectIndexablePagesById", [ queriedIndexablePageIds ], queriedIndexablePageIds );
 	const selectedIndexablePage = useSelectSettings( "selectIndexablePageById", [ value ], value );
