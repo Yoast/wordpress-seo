@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -81,6 +82,13 @@ class General_Page_Integration implements Integration_Interface {
 	private $alert_dismissal_action;
 
 	/**
+	 * Holds the user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Constructs Academy_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -91,6 +99,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Alert_Dismissal_Action    $alert_dismissal_action  The alert dismissal action.
 	 * @param Promotion_Manager         $promotion_manager       The promotion manager.
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
+	 * @param User_Helper               $user_helper             The user helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -100,7 +109,8 @@ class General_Page_Integration implements Integration_Interface {
 		Notification_Helper $notification_helper,
 		Alert_Dismissal_Action $alert_dismissal_action,
 		Promotion_Manager $promotion_manager,
-		Dashboard_Configuration $dashboard_configuration
+		Dashboard_Configuration $dashboard_configuration,
+		User_Helper $user_helper
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -110,6 +120,7 @@ class General_Page_Integration implements Integration_Interface {
 		$this->alert_dismissal_action  = $alert_dismissal_action;
 		$this->promotion_manager       = $promotion_manager;
 		$this->dashboard_configuration = $dashboard_configuration;
+		$this->user_helper             = $user_helper;
 	}
 
 	/**
@@ -207,6 +218,7 @@ class General_Page_Integration implements Integration_Interface {
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
+				'llmTxtNotificationSeen' => $this->is_llm_notification_seen(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
@@ -217,4 +229,21 @@ class General_Page_Integration implements Integration_Interface {
 			'dashboard'         => $this->dashboard_configuration->get_configuration(),
 		];
 	}
+
+	/**
+	 * Gets if the llm txt opt-in notification has been seen.
+	 * This is used to show the notification only once.
+	 *
+	 * @return bool True if the notification has been seen, false otherwise.
+	 */
+	public function is_llm_notification_seen(): bool {
+		$key = 'wpseo_dismiss_llm_txt_opt_in';
+		$current_user_id = $this->user_helper->get_current_user_id();
+		$seen = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
+		if ( ! $seen ) {
+			$this->user_helper->update_meta( $current_user_id, $key, true );
+		}
+		return $seen;
+	}
+
 }
