@@ -86,7 +86,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [],
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedPage changes.
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
-			placeholder={ __( "Select a page…", "wordpress-seo" ) }
+			placeholder={ __( "Search or select a page…", "wordpress-seo" ) }
 			selectedLabel={ selectedLabel }
 			onQueryChange={ handleQueryChange }
 			onClear={ handleQueryClear }
