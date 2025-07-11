@@ -16,3 +16,4 @@ export { default as OpenGraphDisabledAlert } from "./open-graph-disabled-alert";
 export { default as RouteLayout } from "./route-layout";
 export { default as Search } from "./search";
 export { ErrorFallback } from "./error-fallback";
+export { LlmTxtPopover } from "./llm-txt-popover";

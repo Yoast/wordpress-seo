@@ -6,3 +6,4 @@ export { Notifications } from "./notifications";
 export { Problems } from "./problems";
 export { RouteErrorFallback } from "./route-error-fallback";
 export { RouteLayout } from "./route-layout";
+export { LlmTxtOptInNotification } from "./llm-txt-opt-in-notification";
