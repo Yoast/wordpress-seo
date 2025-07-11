@@ -44,8 +44,8 @@ abstract class Abstract_Code_Verifier_Handler_Test extends TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
-		$this->date_helper = Mockery::mock( Date_Helper::class );
+		$this->date_helper              = Mockery::mock( Date_Helper::class );
 		$this->code_verifier_repository = Mockery::mock( Code_Verifier_User_Meta_Repository::class );
-		$this->instance    = new Code_Verifier_Handler( $this->date_helper, $this->code_verifier_repository );
+		$this->instance                 = new Code_Verifier_Handler( $this->date_helper, $this->code_verifier_repository );
 	}
 }

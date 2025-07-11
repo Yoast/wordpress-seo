@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure\Abstract_Access_Token_User_Meta_Repository_Test;
 
 /**
  * Tests the `delete_token` method of the Code_Verifier_User_Meta_Repository class.
