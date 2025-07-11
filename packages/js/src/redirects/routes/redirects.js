@@ -18,17 +18,10 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
  *
  * @component
  *
- * @param {Object} [initialValues={}] - Initial values for the Formik form.
- * @param {Function} [createValidationSchema=() => {}] - A function that returns a Yup validation schema for validating the form.
- * @param {Function} [handleCreateSubmit=() => {}] - A function to handle form submission.
- * @param {JSX.Element} listRedirects - A component to display the list of redirects.
- * @param {JSX.Element} filterControls - A component to render the filter controls.
- *
  * @returns {JSX.Element} The rendered Redirects route.
  */
 export const Redirects = () => {
 	const redirectsManagedLink = useSelectRedirects( "selectLink", [], "https://yoa.st/redirects-learn-more" );
-	const redirectsTypeLink = useSelectRedirects( "selectLink", [], "https://yoa.st/2jb" );
 	const redirectsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
@@ -56,7 +49,6 @@ export const Redirects = () => {
 			"</span>"
 		),
 		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			span: <span className="yst-text-slate-600 yst-underline" />,
 		}
 	), [] );
