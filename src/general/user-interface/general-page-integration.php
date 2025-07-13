@@ -211,10 +211,10 @@ class General_Page_Integration implements Integration_Interface {
 	private function get_script_data() {
 		return [
 			'preferences'       => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => \is_rtl(),
-				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'upsellSettings' => [
+				'isPremium'              => $this->product_helper->is_premium(),
+				'isRtl'                  => \is_rtl(),
+				'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
+				'upsellSettings'         => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
@@ -237,13 +237,12 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
 	public function is_llm_notification_seen(): bool {
-		$key = 'wpseo_seen_llm_txt_opt_in_notification';
+		$key             = 'wpseo_seen_llm_txt_opt_in_notification';
 		$current_user_id = $this->user_helper->get_current_user_id();
-		$seen = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
+		$seen            = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
 		if ( ! $seen ) {
 			$this->user_helper->update_meta( $current_user_id, $key, true );
 		}
 		return $seen;
 	}
-
 }

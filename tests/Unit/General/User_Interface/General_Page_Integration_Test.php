@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -90,6 +91,13 @@ final class General_Page_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Holds the user helper mock.
+	 *
+	 * @var Mockery\MockInterface|User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -105,6 +113,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->alert_dismissal_action  = Mockery::mock( Alert_Dismissal_Action::class );
 		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
 		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
+		$this->user_helper             = Mockery::mock( User_Helper::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -114,7 +123,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->notifications_helper,
 			$this->alert_dismissal_action,
 			$this->promotion_manager,
-			$this->dashboard_configuration
+			$this->dashboard_configuration,
+			$this->user_helper
 		);
 	}
 
@@ -136,7 +146,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->notifications_helper,
 				$this->alert_dismissal_action,
 				$this->promotion_manager,
-				$this->dashboard_configuration
+				$this->dashboard_configuration,
+				$this->user_helper
 			)
 		);
 	}
@@ -287,6 +298,22 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->asset_manager
 			->expects( 'enqueue_style' )
 			->with( 'black-friday-banner' )
+			->once();
+
+		$this->user_helper
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user_helper
+			->expects( 'get_meta' )
+			->with( 1, 'wpseo_seen_llm_txt_opt_in_notification', true )
+			->once()
+			->andReturn( false );
+
+		$this->user_helper
+			->expects( 'update_meta' )
+			->with( 1, 'wpseo_seen_llm_txt_opt_in_notification', true )
 			->once();
 
 		$this->expect_get_script_data();
