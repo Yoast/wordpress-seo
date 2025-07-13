@@ -11,7 +11,8 @@ import { useSelectGeneralPage } from "../hooks";
  */
 export const LlmTxtOptInNotification = () => {
 	const svgAriaProps = useSvgAria();
-	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings&source=opt-in-notification#/llms-txt" );
+	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
+	sessionStorage.setItem( "highlight-setting", "llm-txt" );
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( true );
 
 	return <Toast

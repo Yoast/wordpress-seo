@@ -44,6 +44,7 @@ const DismissButton = () => {
 export const LlmTxtPopover = () => {
 	const svgAriaProps = useSvgAria();
 	const [ isPopoverVisible, toggleIsPopoverVisible ] = useToggleState( true );
+	sessionStorage.removeItem( "highlight-setting" );
 
 	return <Popover
 		id="llm-txt-popover"

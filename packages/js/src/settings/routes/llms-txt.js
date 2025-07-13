@@ -7,7 +7,6 @@ import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library
 import classNames from "classnames";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { withDisabledMessageSupport } from "../hocs";
-import { checkUrlArgs } from "../helpers";
 import { FieldArray, Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -138,15 +137,7 @@ const LlmTxt = () => {
 		fetchIndexablePages();
 	}, [ fetchIndexablePages ] );
 
-	const isOptIn = checkUrlArgs( "source", "opt-in-notification" );
-	// Remove the "source" query parameter from the URL.
-	useEffect( () => {
-		if ( isOptIn ) {
-			const url = new URL( window.location.href );
-			url.searchParams.delete( "source" );
-			window.history.replaceState( {}, "", url.toString() );
-		}
-	}, [ isOptIn ] );
+	const isOptIn = sessionStorage.getItem( "highlight-setting" ) === "llm-txt";
 
 	return (
 		<RouteLayout
