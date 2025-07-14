@@ -10,6 +10,8 @@
  */
 class WPSEO_Option_Llmstxt extends WPSEO_Option {
 
+	private const OTHER_INCLUDED_PAGES_LIMIT = 100;
+
 	/**
 	 * Option name.
 	 *
@@ -62,7 +64,6 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
 				case 'other_included_pages':
-					// @TODO: Investigate whether going through this every time an option is saved is too much overhead.
 					if ( isset( $dirty[ $key ] ) ) {
 						$items = $dirty[ $key ];
 						if ( ! is_array( $items ) ) {
@@ -70,6 +71,7 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 						}
 
 						if ( is_array( $items ) ) {
+							$items = array_slice( $items, 0, $this->get_other_included_pages_limit() );
 							foreach ( $items as $item ) {
 								$validated_id = WPSEO_Utils::validate_int( $item );
 
@@ -110,5 +112,14 @@ class WPSEO_Option_Llmstxt extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Gets the limit for the other included pages.
+	 *
+	 * @return int The limit for the other included pages.
+	 */
+	public function get_other_included_pages_limit() {
+		return self::OTHER_INCLUDED_PAGES_LIMIT;
 	}
 }

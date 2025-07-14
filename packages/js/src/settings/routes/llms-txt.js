@@ -26,9 +26,10 @@ const UNIQUE_PAGES = [
  * @returns {JSX.Element} The llms.txt feature route.
  */
 const LlmTxt = () => {
+	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
-	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
+	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
 	const { fetchIndexablePages } = useDispatchSettings();
@@ -291,7 +292,7 @@ const LlmTxt = () => {
 													</Button>
 												</div>
 											) ) }
-											<Button
+											{ ( otherIncludedPages.length < otherIncludedPagesLimit ) && <Button
 												id="button-add-page"
 												variant="secondary"
 												/* eslint-disable-next-line react/jsx-no-bind */
@@ -300,7 +301,7 @@ const LlmTxt = () => {
 											>
 												<PlusIcon className="yst--ms-1 yst-me-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 												{ __( "Add page", "wordpress-seo" ) }
-											</Button>
+											</Button> }
 										</div>
 									</>
 								) }
