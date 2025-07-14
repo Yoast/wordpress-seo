@@ -240,7 +240,7 @@ class General_Page_Integration implements Integration_Interface {
 		$key             = 'wpseo_seen_llm_txt_opt_in_notification';
 		$current_user_id = $this->user_helper->get_current_user_id();
 		$seen            = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
-		if ( ! $seen ) {
+		if ( $seen === false ) {
 			$this->user_helper->update_meta( $current_user_id, $key, true );
 		}
 		return $seen;
