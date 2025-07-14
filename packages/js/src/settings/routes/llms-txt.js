@@ -110,7 +110,7 @@ const LlmTxt = () => {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a id="llms-noindex-pages" href={ "admin.php?page=wpseo_page_settings#/post-type/pages#input-wpseo_titles-noindex-page" } />,
 		}
-	) );
+	), [] );
 
 	const handleAddPage = useCallback( async( arrayHelpers ) => {
 		// Async/await is needed to ensure the new field is rendered before clicking it.

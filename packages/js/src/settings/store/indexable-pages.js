@@ -109,8 +109,8 @@ export const createInitialIndexablePagesState = () => indexablePagesAdapter.getI
 const prepareIndexablePage = ( indexablePage ) => ( {
 	id: Number( indexablePage?.id ) || 0,
 	// Fallbacks for page title, because we always need something to show.
-	name: String( decodeEntities( trim( indexablePage?.title ) ) || indexablePage?.slug || indexablePage.id ),
-	slug: String( indexablePage?.slug ) || "",
+	name: String( decodeEntities( trim( indexablePage?.title ) ) || indexablePage?.slug || indexablePage?.id || 0 ),
+	slug: String( indexablePage?.slug || "" ),
 } );
 
 const indexablePagesSlice = createSlice( {
@@ -118,7 +118,7 @@ const indexablePagesSlice = createSlice( {
 	initialState: createInitialIndexablePagesState(),
 	reducers: {
 		addIndexablePages: {
-			reducer: indexablePagesAdapter.addMany,
+			reducer: indexablePagesAdapter.upsertMany,
 			prepare: ( pages ) => ( {
 				payload: map( pages, prepareIndexablePage ),
 			} ),
@@ -155,7 +155,7 @@ const indexablePagesSlice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_INDEXABLE_PAGES_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			// Add found indexable pages to all pages.
-			indexablePagesAdapter.addMany( state, map( payload.pages, prepareIndexablePage ) );
+			indexablePagesAdapter.upsertMany( state, map( payload.pages, prepareIndexablePage ) );
 
 			// Store the query in the scope.
 			state.scopes[ payload.scope ] ||= {};
