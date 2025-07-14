@@ -26,8 +26,6 @@ const UNIQUE_PAGES = [
  * @returns {JSX.Element} The llms.txt feature route.
  */
 const LlmTxt = () => {
-	const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
-	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
@@ -59,11 +57,6 @@ const LlmTxt = () => {
 		() => Array.from( new Set( UNIQUE_PAGES.map( ( page ) => values.wpseo_llmstxt[ page ] ).flat().filter( ( id ) => id !== 0 ) ) ),
 		[ values.wpseo_llmstxt ]
 	);
-
-	// eslint-disable-next-line no-console
-	console.log( "hasGenerationFailed", hasGenerationFailed );
-	// eslint-disable-next-line no-console
-	console.log( "generationFailureReason", generationFailureReason );
 
 	const activeTxtButton = useMemo( () => (
 		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
