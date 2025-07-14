@@ -663,10 +663,8 @@ class WPSEO_Utils {
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = [
-			'wpseo_dashboard',
 			'wpseo_tools',
 			'wpseo_search_console',
-			'wpseo_licenses',
 		];
 
 		return in_array( $current_page, $yoast_seo_free_pages, true );

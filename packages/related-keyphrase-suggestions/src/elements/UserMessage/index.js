@@ -5,13 +5,13 @@ import { MaxRelatedKeyphrases, RequestEmpty, RequestFailed, RequestLimitReached 
 /**
  * Displays the user message following a request or action.
  *
- * @param {string} [variant="requestLimitReached"] The type of message to display.
+ * @param {?string} [variant=null] The type of message to display.
  * @param {string} [upsellLink=""] The link to the upsell page.
  * @param {string} [className=""] The class name for the button.
  *
  * @returns {JSX.Element} The user message.
  */
-export const UserMessage = ( { variant = "requestLimitReached", upsellLink = "", className = "" } ) => {
+export const UserMessage = ( { variant = null, upsellLink = "", className = "" } ) => {
 	switch ( variant ) {
 		case "requestLimitReached":
 			return <RequestLimitReached upsellLink={ upsellLink } className={ className } />;

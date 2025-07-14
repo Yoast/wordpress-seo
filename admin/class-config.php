@@ -10,6 +10,7 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -52,7 +53,16 @@ class WPSEO_Admin_Pages {
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Don't load the scripts for the following pages.
-		$page_exceptions    = in_array( $page, [ Settings_Integration::PAGE, Academy_Integration::PAGE, Support_Integration::PAGE ], true );
+		$page_exceptions    = in_array(
+			$page,
+			[
+				Settings_Integration::PAGE,
+				Academy_Integration::PAGE,
+				Support_Integration::PAGE,
+				Plans_Page_Integration::PAGE,
+			],
+			true
+		);
 		$new_dashboard_page = ( $page === General_Page_Integration::PAGE && ! is_network_admin() );
 		if ( $page_exceptions || $new_dashboard_page ) {
 			// Bail, this is managed in the applicable integration.
@@ -74,12 +84,6 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page === 'wpseo_licenses' ) {
-			$this->asset_manager->enqueue_style( 'tailwind' );
-		}
 	}
 
 	/**
@@ -99,7 +103,8 @@ class WPSEO_Admin_Pages {
 			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
-			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )
+				->get_current_promotions(),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),

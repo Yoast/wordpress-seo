@@ -628,13 +628,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'admin-global-' . $flat_version,
 			],
 			[
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
-				'deps' => [
-					'wp-components',
-				],
-			],
-			[
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
 			],
@@ -704,6 +697,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'inside-editor',
 				'src'  => 'inside-editor-' . $flat_version,
+			],
+			[
+				'name' => 'plans',
+				'src'  => 'plans-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 		];
 	}

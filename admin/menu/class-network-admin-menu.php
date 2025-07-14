@@ -63,9 +63,14 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 			$submenu_pages[] = $this->get_submenu_page( __( 'Edit Files', 'wordpress-seo' ), 'wpseo_files' );
 		}
 
-		$submenu_pages[] = $this->get_submenu_page( __( 'Extensions', 'wordpress-seo' ), 'wpseo_licenses' );
-
-		return $submenu_pages;
+		/**
+		 * Filter: 'wpseo_network_submenu_pages' - Collects all network submenus that need to be shown.
+		 *
+		 * @internal For internal Yoast SEO use only.
+		 *
+		 * @param array $submenu_pages List with all submenu pages.
+		 */
+		return (array) apply_filters( 'wpseo_network_submenu_pages', $submenu_pages );
 	}
 
 	/**

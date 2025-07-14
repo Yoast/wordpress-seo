@@ -2,6 +2,9 @@
 /**
  * WPSEO plugin file.
  *
+ * @deprecated 25.5
+ * @codeCoverageIgnore
+ *
  * @package WPSEO\Admin
  * @since   1.5.0
  */
@@ -12,4 +15,4 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-require WPSEO_PATH . 'admin/views/licenses.php';
+_deprecated_file( __FILE__, 'Yoast SEO 25.5' );

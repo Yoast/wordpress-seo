@@ -7,9 +7,11 @@ use WP_Post;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Llms_Txt\Domain\Content_Types\Content_Type_Entry;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items\Link;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * The collector of content types.
@@ -48,23 +50,33 @@ class Content_Types_Collector {
 	private $indexable_helper;
 
 	/**
+	 * The meta surface.
+	 *
+	 * @var Meta_Surface
+	 */
+	private $meta;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
 	 * @param Options_Helper       $options_helper       The options helper.
 	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Meta_Surface         $meta                 The meta surface.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
 		Options_Helper $options_helper,
 		Indexable_Helper $indexable_helper,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		Meta_Surface $meta
 	) {
 		$this->post_type_helper     = $post_type_helper;
 		$this->options_helper       = $options_helper;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
+		$this->meta                 = $meta;
 	}
 
 	/**
@@ -84,7 +96,7 @@ class Content_Types_Collector {
 			$posts      = $this->get_posts( $post_type_object->name, 5 );
 			$post_links = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$post_link = new Link( $post->post_title, \get_permalink( $post->ID ), $post->post_excerpt );
+				$post_link = new Link( $post->get_title(), $post->get_url(), $post->get_description() );
 				$post_links->add_link( $post_link );
 			}
 
@@ -100,7 +112,7 @@ class Content_Types_Collector {
 	 * @param string $post_type The post type.
 	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return array<int, array<WP_Post>> The posts that are relevant for the LLMs.txt.
+	 * @return array<int, array<Content_Type_Entry>> The posts that are relevant for the LLMs.txt.
 	 */
 	public function get_posts( string $post_type, int $limit ): array {
 		$posts = $this->get_recent_cornerstone_content( $post_type, $limit );
@@ -112,11 +124,11 @@ class Content_Types_Collector {
 		$recent_posts = $this->get_recent_posts( $post_type, $limit );
 		foreach ( $recent_posts as $recent_post ) {
 			// If the post is already in the list because it's cornerstone, don't add it again.
-			if ( isset( $posts[ $recent_post->ID ] ) ) {
+			if ( isset( $posts[ $recent_post->get_id() ] ) ) {
 				continue;
 			}
 
-			$posts[ $recent_post->ID ] = $recent_post;
+			$posts[ $recent_post->get_id() ] = $recent_post;
 
 			if ( \count( $posts ) >= $limit ) {
 				break;
@@ -132,7 +144,7 @@ class Content_Types_Collector {
 	 * @param string $post_type The post type.
 	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return array<int, array<WP_Post>> The most recently modified cornerstone content.
+	 * @return array<int, array<Content_Type_Entry>> The most recently modified cornerstone content.
 	 */
 	private function get_recent_cornerstone_content( string $post_type, int $limit ): array {
 		if ( ! $this->options_helper->get( 'enable_cornerstone_content' ) ) {
@@ -144,7 +156,15 @@ class Content_Types_Collector {
 
 		$recent_cornerstone_posts = [];
 		foreach ( $cornerstones as $cornerstone ) {
-			$recent_cornerstone_posts[ $cornerstone->object_id ] = \get_post( $cornerstone->object_id );
+			$cornerstone_meta = $this->meta->for_indexable( $cornerstone );
+			if ( $cornerstone_meta->post instanceof WP_Post ) {
+				$recent_cornerstone_posts[ $cornerstone_meta->post->ID ] = new Content_Type_Entry(
+					$cornerstone_meta->post->ID,
+					$cornerstone_meta->post->post_title,
+					$cornerstone_meta->canonical,
+					$cornerstone_meta->post->post_excerpt
+				);
+			}
 		}
 
 		return $recent_cornerstone_posts;
@@ -156,7 +176,7 @@ class Content_Types_Collector {
 	 * @param string $post_type The post type.
 	 * @param int    $limit     The maximum number of posts to return.
 	 *
-	 * @return array<WP_Post> The most recently modified posts.
+	 * @return array<Content_Type_Entry> The most recently modified posts.
 	 */
 	private function get_recent_posts( string $post_type, int $limit ): array {
 		$exclude_older_than_one_year = false;
@@ -179,16 +199,21 @@ class Content_Types_Collector {
 	 * @param int    $limit                       The maximum number of posts to return.
 	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
 	 *
-	 * @return array<WP_Post> The most recently modified posts.
+	 * @return array<Content_Type_Entry> The most recently modified posts.
 	 */
 	private function get_recently_modified_posts_indexables( string $post_type, int $limit, bool $exclude_older_than_one_year ) {
 		$posts                        = [];
 		$recently_modified_indexables = $this->indexable_repository->get_recently_modified_posts( $post_type, $limit, $exclude_older_than_one_year );
 
 		foreach ( $recently_modified_indexables as $indexable ) {
-			$post_from_indexable = \get_post( $indexable->object_id );
-			if ( $post_from_indexable instanceof WP_Post ) {
-				$posts[] = $post_from_indexable;
+			$indexable_meta = $this->meta->for_indexable( $indexable );
+			if ( $indexable_meta->post instanceof WP_Post ) {
+				$posts[] = new Content_Type_Entry(
+					$indexable_meta->post->ID,
+					$indexable_meta->post->post_title,
+					$indexable_meta->canonical,
+					$indexable_meta->post->post_excerpt
+				);
 			}
 		}
 
@@ -222,6 +247,16 @@ class Content_Types_Collector {
 			];
 		}
 
-		return \get_posts( $args );
+		$posts = [];
+		foreach ( \get_posts( $args ) as $post ) {
+			$posts[] = new Content_Type_Entry(
+				$post->ID,
+				$post->post_title,
+				\get_permalink( $post->ID ),
+				$post->post_excerpt
+			);
+		}
+
+		return $posts;
 	}
 }

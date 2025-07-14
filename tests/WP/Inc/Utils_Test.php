@@ -89,7 +89,7 @@ final class Utils_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_current_page_in_yoast_seo_free_pages() {
-		$current_page = 'wpseo_dashboard';
+		$current_page = 'wpseo_tools';
 
 		$this->assertTrue( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
 	}

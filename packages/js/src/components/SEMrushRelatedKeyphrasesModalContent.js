@@ -34,7 +34,7 @@ export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
  *
  * @param {object} props The props to use within the content.
  *
- * @returns {string} The user message variant.
+ * @returns {?string} The user message variant, or null if no message is needed.
  */
 export function getUserMessage( props ) {
 	const {
@@ -60,6 +60,8 @@ export function getUserMessage( props ) {
 	if ( hasMaximumRelatedKeyphrases( relatedKeyphrases ) ) {
 		return "maxRelatedKeyphrases";
 	}
+
+	return null;
 }
 
 /**
