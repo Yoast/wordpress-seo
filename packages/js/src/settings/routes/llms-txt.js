@@ -29,7 +29,7 @@ const LlmTxt = () => {
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
-	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-features-llmstxt-learn-more" );
+	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
 	const { fetchIndexablePages } = useDispatchSettings();
