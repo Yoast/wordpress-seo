@@ -199,6 +199,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-07-15
 
+Yoast SEO 25.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
