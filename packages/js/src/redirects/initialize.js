@@ -1,43 +1,24 @@
-import { SlotFillProvider } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import { HashRouter } from "react-router-dom";
-import { Formik } from "formik";
-import App from "./app";
-import { REDIRECT_TYPE_OPTIONS } from "./constants";
 import registerStore from "./store";
-import { handleSubmit, createValidationSchema } from "./helpers";
+import { select } from "@wordpress/data";
+import { STORE_NAME } from "./constants";
+import { AppProvider } from "./appProvider";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-redirects" );
 	if ( ! root ) {
 		return;
 	}
-	registerStore( {
-		initialState: {},
-	} );
 
+	registerStore();
 
-	const initialValues = {
-		redirectType: REDIRECT_TYPE_OPTIONS[ 0 ]?.value || "",
-		oldUrl: "",
-		newUrl: "",
-	};
+	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
 	render(
-		<Root>
-			<SlotFillProvider>
-				<HashRouter>
-					<Formik
-						initialValues={ initialValues }
-						validationSchema={ createValidationSchema( {} ) }
-						onSubmit={ handleSubmit }
-					>
-						<App />
-					</Formik>
-				</HashRouter>
-			</SlotFillProvider>
+		<Root context={ { isRtl } }>
+			<AppProvider />
 		</Root>,
 		root
 	);

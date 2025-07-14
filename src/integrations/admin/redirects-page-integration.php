@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -12,12 +13,18 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Redirects_Page_Integration implements Integration_Interface {
 
 	/**
+	 * The page identifier.
+	 */
+	public const PAGE = 'wpseo_redirects';
+
+	/**
 	 * Sets up the hooks.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 9 );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**
@@ -47,11 +54,39 @@ class Redirects_Page_Integration implements Integration_Interface {
 			'',
 			\__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
 			'edit_others_posts',
-			'wpseo_redirects',
+			self::PAGE,
 			[ $this, 'display' ],
 		];
 
 		return $submenu_pages;
+	}
+
+	/**
+	 * Enqueue assets on the redirects page.
+	 *
+	 * @return void
+	 */
+	public function enqueue_assets() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== self::PAGE ) {
+			return;
+		}
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'redirects' );
+		$asset_manager->enqueue_style( 'redirects' );
+
+		$asset_manager->localize_script(
+			'redirects',
+			'wpseoScriptData',
+			[
+				'preferences' => [
+					'isPremium' => \YoastSEO()->helpers->product->is_premium(),
+					'isRtl'     => \is_rtl(),
+				],
+				'linkParams'  => \YoastSEO()->helpers->short_link->get_query_params(),
+			]
+		);
 	}
 
 	/**

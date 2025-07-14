@@ -8,9 +8,10 @@ import PropTypes from "prop-types";
  * @param {JSX.node} children The children.
  * @returns {JSX.Element} The element.
  */
+
 export const SidebarLayout = ( { contentClassName, children } ) => {
 	return (
-		<div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
+		<div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col relative">
 			<div className={ classNames( "yst-@container yst-flex yst-flex-grow yst-flex-col", contentClassName ) }>
 				{ children }
 			</div>
