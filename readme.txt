@@ -203,12 +203,12 @@ Yoast SEO 25.5 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
-* Uses canonical URLs for the post lists in the llms.txt file.
+* Enhances the UX of the llms.txt feature by informing users about potential issues with generating the file via Yoast’s alert center.
+* Changes post lists in the llms.txt file to use canonical URLs.
 
 #### Bugfixes
 
-* Fixes a bug where a request limit warning would be shown, in the Semrush related keyphrases, when no warnings would be applicable.
+* Fixes a bug where a request limit warning would be shown in the Semrush related keyphrases when no warning was applicable.
 
 #### Other
 
