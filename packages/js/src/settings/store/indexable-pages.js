@@ -109,8 +109,8 @@ export const createInitialIndexablePagesState = () => indexablePagesAdapter.getI
 const prepareIndexablePage = ( indexablePage ) => ( {
 	id: Number( indexablePage?.id ) || 0,
 	// Fallbacks for page title, because we always need something to show.
-	name: String( decodeEntities( trim( indexablePage?.title ) ) || indexablePage?.slug || indexablePage.id ),
-	slug: String( indexablePage?.slug ) || "",
+	name: String( decodeEntities( trim( indexablePage?.title ) ) || indexablePage?.slug || indexablePage?.id || 0 ),
+	slug: String( indexablePage?.slug || "" ),
 } );
 
 const indexablePagesSlice = createSlice( {
