@@ -39,7 +39,7 @@ class Available_Posts_Repository implements Available_Posts_Repository_Interface
 	 * @return Data_Container
 	 */
 	public function get_posts( Parameters $parameters ): Data_Container {
-		$available_posts = $this->automatic_post_collection->get_recent_posts( $parameters->get_post_type(), 10, $parameters->get_search_filter(), true );
+		$available_posts = $this->automatic_post_collection->get_recent_posts( $parameters->get_post_type(), 100, $parameters->get_search_filter(), true );
 
 		$available_posts_data_container = new Data_Container();
 

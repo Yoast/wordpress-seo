@@ -4,8 +4,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Application\Configuration;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
-
 /**
  * Responsible for the llms.txt configuration.
  */
@@ -19,14 +20,34 @@ class Llms_Txt_Configuration {
 	private $runner;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param File_Runner $runner The File_Generation health check runner.
+	 * @param File_Runner      $runner           The File_Generation health check runner.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Options_Helper   $options_helper   The options helper.
 	 */
 	public function __construct(
-		File_Runner $runner
+		File_Runner $runner,
+		Post_Type_Helper $post_type_helper,
+		Options_Helper $options_helper
 	) {
-		$this->runner = $runner;
+		$this->runner           = $runner;
+		$this->post_type_helper = $post_type_helper;
+		$this->options_helper   = $options_helper;
 	}
 
 	/**
@@ -41,6 +62,8 @@ class Llms_Txt_Configuration {
 			'generationFailure'       => ! $this->runner->is_successful(),
 			'generationFailureReason' => $this->runner->get_generation_failure_reason(),
 			'llmsTxtUrl'              => \home_url( 'llms.txt' ),
+			'disabledPageIndexables'  => ( $this->post_type_helper->is_of_indexable_post_type( 'page' ) === false ),
+			'otherIncludedPagesLimit' => $this->options_helper->get_other_included_pages_limit(),
 		];
 
 		return $configuration;

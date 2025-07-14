@@ -4,10 +4,12 @@ import { __ } from "@wordpress/i18n";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
-import { debounce, find, isEmpty, values } from "lodash";
+import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS, FETCH_DELAY } from "../../shared-admin/constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+
+const MAX_INDEXABLE_PAGES = 10;
 
 /**
  * @param {JSX.node} children The children.
@@ -30,20 +32,28 @@ IndexablePageSelectOptionsContent.propTypes = {
  * @param {string} props.name The field name.
  * @param {string} props.id The field id.
  * @param {boolean} props.disabled Whether the field is disabled.
+ * @param {number[]} [props.selectedIds=[]] The currently selected indexable page IDs, to filter the options.
+ * @param {...Object} [props] Additional props to pass to the field.
  * @returns {JSX.Element} The indexable page select component.
  */
-const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
-	const selectedPages = useSelectSettings( "selectPreference", [], "llmTxtPages", {} );
+const FormikIndexablePageSelectField = ( { name, id, disabled, selectedIds = [], ...props } ) => {
 	const { fetchIndexablePages, removeIndexablePagesScope } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const {
-		query,
 		ids: queriedIndexablePageIds,
+		query,
 		status,
-		entities: selectableIndexablePages,
 	} = useSelectSettings( "selectIndexablePagesScope", [ value ], id );
-	const selectedFromIndexablePages = useSelectSettings( "selectIndexablePageById", [ value ], value );
-	const selectedFromSelectedPages = useMemo( () => find( values( selectedPages ), [ "id", value ] ), [ selectedPages, value ] );
+	// Notice: no scope/ID is passed here, so we get the "global" status.
+	const { status: globalStatus } = useSelectSettings( "selectIndexablePagesScope", [ value ] );
+	const queriedIndexablePages = useSelectSettings( "selectIndexablePagesById", [ queriedIndexablePageIds ], queriedIndexablePageIds );
+	const selectedIndexablePage = useSelectSettings( "selectIndexablePageById", [ value ], value );
+	const selectableIndexablePages = useMemo( () => {
+		// Filter out the pages that are already selected, except our own value. And then limit the results to MAX_INDEXABLE_PAGES.
+		return queriedIndexablePages
+			.filter( ( indexablePage ) => indexablePage.id === value || ! selectedIds.includes( indexablePage.id ) )
+			.slice( 0, MAX_INDEXABLE_PAGES );
+	}, [ queriedIndexablePages, selectedIds, value ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
@@ -63,9 +73,10 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 		return () => removeIndexablePagesScope( id );
 	}, [ id, removeIndexablePagesScope ] );
 
-	const selectedIndexablePage = selectedFromIndexablePages || selectedFromSelectedPages;
-	const hasNoIndexablePages = status === ASYNC_ACTION_STATUS.success && isEmpty( queriedIndexablePageIds );
 	const selectedLabel = selectedIndexablePage?.name || query?.search || "";
+
+	const hasError = status === ASYNC_ACTION_STATUS.error;
+	const isLoading = status === ASYNC_ACTION_STATUS.loading || ( globalStatus === ASYNC_ACTION_STATUS.loading && ! hasError );
 
 	return (
 		<AutocompleteField
@@ -75,7 +86,7 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedPage changes.
 			value={ selectedIndexablePage ? value : 0 }
 			onChange={ handleChange }
-			placeholder={ __( "Select a page…", "wordpress-seo" ) }
+			placeholder={ __( "Search or select a page…", "wordpress-seo" ) }
 			selectedLabel={ selectedLabel }
 			onQueryChange={ handleQueryChange }
 			onClear={ handleQueryClear }
@@ -86,9 +97,9 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 			{ ...props }
 		>
 			<>
-				{ ( status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success ) && (
+				{ ! hasError && ! isLoading && (
 					<>
-						{ hasNoIndexablePages ? (
+						{ selectableIndexablePages.length === 0 ? (
 							<IndexablePageSelectOptionsContent>
 								{ __( "No pages found.", "wordpress-seo" ) }
 							</IndexablePageSelectOptionsContent>
@@ -99,13 +110,13 @@ const FormikIndexablePageSelectField = ( { name, id, disabled, ...props } ) => {
 						) ) }
 					</>
 				) }
-				{ status === ASYNC_ACTION_STATUS.loading && (
+				{ isLoading && (
 					<IndexablePageSelectOptionsContent>
 						<Spinner variant="primary" />
 						{ __( "Searching pages…", "wordpress-seo" ) }
 					</IndexablePageSelectOptionsContent>
 				) }
-				{ status === ASYNC_ACTION_STATUS.error && (
+				{ hasError && (
 					<IndexablePageSelectOptionsContent className="yst-text-red-600">
 						{ __( "Failed to retrieve pages.", "wordpress-seo" ) }
 					</IndexablePageSelectOptionsContent>
