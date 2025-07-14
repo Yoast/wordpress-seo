@@ -1,6 +1,6 @@
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -26,6 +26,7 @@ const UNIQUE_PAGES = [
  * @returns {JSX.Element} The llms.txt feature route.
  */
 const LlmTxt = () => {
+	const hasLoadedIndexablePages = useRef( false );
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
@@ -120,8 +121,11 @@ const LlmTxt = () => {
 
 	useEffect( () => {
 		// Get initial options.
-		fetchIndexablePages();
-	}, [ fetchIndexablePages ] );
+		if ( isLlmsTxtEnabled && llmsTxtSelectionMode === "manual" && ! hasLoadedIndexablePages.current ) {
+			hasLoadedIndexablePages.current = true;
+			fetchIndexablePages();
+		}
+	}, [ fetchIndexablePages, isLlmsTxtEnabled, llmsTxtSelectionMode ] );
 
 	return (
 		<RouteLayout
