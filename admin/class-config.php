@@ -61,7 +61,7 @@ class WPSEO_Admin_Pages {
 				Academy_Integration::PAGE,
 				Support_Integration::PAGE,
 				Plans_Page_Integration::PAGE,
-				Redirects_Page_Integration::PAGE
+				Redirects_Page_Integration::PAGE,
 			],
 			true
 		);
