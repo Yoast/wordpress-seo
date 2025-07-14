@@ -137,7 +137,7 @@ const LlmTxt = () => {
 		fetchIndexablePages();
 	}, [ fetchIndexablePages ] );
 
-	const isOptIn = sessionStorage.getItem( "highlight-setting" ) === "llm-txt";
+	const isOptIn = ! isLlmsTxtEnabled && sessionStorage.getItem( "highlight-setting" ) === "llm-txt";
 
 	return (
 		<RouteLayout

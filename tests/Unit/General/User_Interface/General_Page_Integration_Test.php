@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -98,6 +99,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $user_helper;
 
 	/**
+	 * Holds the options helper mock.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -114,6 +122,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
 		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
 		$this->user_helper             = Mockery::mock( User_Helper::class );
+		$this->options_helper          = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -124,7 +133,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->alert_dismissal_action,
 			$this->promotion_manager,
 			$this->dashboard_configuration,
-			$this->user_helper
+			$this->user_helper,
+			$this->options_helper
 		);
 	}
 
@@ -147,7 +157,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->alert_dismissal_action,
 				$this->promotion_manager,
 				$this->dashboard_configuration,
-				$this->user_helper
+				$this->user_helper,
+				$this->options_helper
 			)
 		);
 	}
@@ -315,6 +326,12 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'update_meta' )
 			->with( 1, 'wpseo_seen_llm_txt_opt_in_notification', true )
 			->once();
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'enable_llms_txt', true )
+			->once()
+			->andReturn( false );
 
 		$this->expect_get_script_data();
 

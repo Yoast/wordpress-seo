@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelectGeneralPage } from "../hooks";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 
 /**
  * Shows only once.
@@ -11,10 +11,22 @@ import { useCallback } from "@wordpress/element";
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
 export const LlmTxtOptInNotification = () => {
+	const llmTxtNotificationSeen = useSelectGeneralPage( "selectPreference", [], "llmTxtNotificationSeen" );
+	const llmTxtEnabled = useSelectGeneralPage( "selectPreference", [], "llmTxtEnabled" );
+
+	if ( llmTxtEnabled || llmTxtNotificationSeen ) {
+		return null;
+	}
+
 	const svgAriaProps = useSvgAria();
 	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
 
-	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( true );
+	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
+	useEffect( () => {
+		// For the transition to take place.
+		toggleIsVisible();
+	}, [] );
+
 	const handleShow = useCallback( () => {
 		sessionStorage.setItem( "highlight-setting", "llm-txt" );
 		window.location.href = llmTxtSettingsUrl;

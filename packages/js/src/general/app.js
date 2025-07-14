@@ -91,7 +91,6 @@ const App = () => {
 
 	const linkParams = useSelect( select => select( STORE_NAME ).selectLinkParams(), [] );
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
-	const llmTxtNotificationSeen = useSelectGeneralPage( "selectPreference", [], "llmTxtNotificationSeen" );
 
 	return (
 		<>
@@ -154,7 +153,7 @@ const App = () => {
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
 				position="bottom-left"
 			>
-				{ ! llmTxtNotificationSeen && <LlmTxtOptInNotification /> }
+				<LlmTxtOptInNotification />
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
