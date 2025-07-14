@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Llmstxt;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
@@ -138,5 +139,14 @@ class Options_Helper {
 	 */
 	public function is_twitter_id_valid( $twitter_id ) {
 		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
+	}
+
+	/**
+	 * Gets the limit for the other included pages.
+	 *
+	 * @return int The limit for the other included pages.
+	 */
+	public function get_other_included_pages_limit() {
+		return WPSEO_Option_Llmstxt::get_instance()->get_other_included_pages_limit();
 	}
 }
