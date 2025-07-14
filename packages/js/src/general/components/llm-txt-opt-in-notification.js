@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelectGeneralPage } from "../hooks";
+import { useCallback } from "@wordpress/element";
 
 /**
  * Shows only once.
@@ -12,8 +13,12 @@ import { useSelectGeneralPage } from "../hooks";
 export const LlmTxtOptInNotification = () => {
 	const svgAriaProps = useSvgAria();
 	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
-	sessionStorage.setItem( "highlight-setting", "llm-txt" );
+
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( true );
+	const handleShow = useCallback( () => {
+		sessionStorage.setItem( "highlight-setting", "llm-txt" );
+		window.location.href = llmTxtSettingsUrl;
+	}, [ llmTxtSettingsUrl ] );
 
 	return <Toast
 		id="llmt-txt-toast"
@@ -39,7 +44,7 @@ export const LlmTxtOptInNotification = () => {
 			</div>
 			<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
 				<Button size="small" variant="tertiary" onClick={ toggleIsVisible }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
-				<Button size="small" className="yst-gap-1" as="a" href={ llmTxtSettingsUrl }>
+				<Button size="small" className="yst-gap-1" onClick={ handleShow }>
 					{ __( "Show me", "wordpress-seo" ) }
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 				</Button>
