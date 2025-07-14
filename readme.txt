@@ -12,13 +12,15 @@ Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade fo
 
 == Description ==
 
-## YOAST SEO: THE #1 WORDPRESS SEO PLUGIN
+## Yoast SEO: The #1 WordPress SEO Plugin
 
 Yoast SEO helps your WordPress site grow by making SEO clear, actionable, and fast. With real-time feedback, built-in guidance, and AI tools in our Premium plans, you don’t have to be an expert to get more traffic and better content performance.
 
 Whether you’re publishing your first post or managing a high-traffic site, Yoast gives you the tools to improve visibility and reach the right audience.
 
 Yoast SEO is **free to install and includes all the essential tools to improve your content**. Upgrade only if and when you need more. **As of July 2025, we’ve updated our pricing and packaging**, so you’re seeing the most current plans and features. You’ll find all the extensive benefits of our [Yoast SEO Premium](https://yoa.st/1v8) plugin and our [Yoast WooCommerce SEO](https://yoa.st/3rh) plan for merchants below.
+
+https://www.youtube.com/watch?v=BtqZ7EnfX1M
 
 ### Built-in SEO tools to grow your traffic
 
