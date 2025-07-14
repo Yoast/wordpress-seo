@@ -11,7 +11,7 @@ import { useRef, useEffect } from "@wordpress/element";
  */
 const DismissButton = () => {
 	const { handleDismiss } = usePopoverContext();
-	const dismissButtonText = __( "Got it!", "wordpress-seo-premium" );
+	const dismissButtonText = __( "Got it!", "wordpress-seo" );
 	const dismissButtonRef = useRef( null );
 
 	// useEffect to focus and scroll to the popover dismiss button
