@@ -7,7 +7,6 @@ import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
 import initializeInsights from "./insights/initializer";
 import { termsTmceId } from "./lib/tinymce";
-import initializeAiGenerator from "./ai-generator/initialize";
 
 domReady( () => {
 	// Backwards compatibility globals.
@@ -32,7 +31,4 @@ domReady( () => {
 
 	// Initialize the insights.
 	initializeInsights();
-
-	// Initialize the AI Generator upsell.
-	initializeAiGenerator();
 } );

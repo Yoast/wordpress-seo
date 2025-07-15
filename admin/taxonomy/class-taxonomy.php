@@ -184,7 +184,7 @@ class WPSEO_Taxonomy {
 				'metabox'               => $this->localize_term_scraper_script( $tag_id ),
 				'isTerm'                => true,
 				'postId'                => $tag_id,
-				'termType'              => $this->get_taxonomy(),
+				'postType'              => $this->get_taxonomy(),
 				'usedKeywordsNonce'     => wp_create_nonce( 'wpseo-keyword-usage' ),
 			];
 
