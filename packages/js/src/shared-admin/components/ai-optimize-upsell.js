@@ -49,7 +49,7 @@ export const AIOptimizeUpsell = ( {
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 					/>
 					<Badge className="yst-absolute yst-end-4 yst-text-center yst-justify-center" variant="info" style={ { top: "-8px" } }>
-						{ __( "Beta", "wordpress-seo-premium" ) }
+						{ __( "Beta", "wordpress-seo" ) }
 					</Badge>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">

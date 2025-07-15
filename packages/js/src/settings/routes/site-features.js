@@ -239,7 +239,7 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-enable_ai_generator"
 								inputId="input-wpseo-enable_ai_generator"
 								imageSrc="/images/ai-generator.png"
-								isPremiumFeature={ true }
+								isPremiumFeature={ false }
 								hasPremiumBadge={ false }
 								isBetaFeature={ true }
 								isPremiumLink="https://yoa.st/get-ai-generator"
