@@ -205,10 +205,6 @@ Release date: 2025-07-29
 
 * Introduces a way to manually select the pages to be included in the llms.txt file.
 
-#### Other
-
-* Adds another wpseo option in the database, one that's specific to the llms.txt feature.
-
 = 25.5 =
 
 Release date: 2025-07-15
