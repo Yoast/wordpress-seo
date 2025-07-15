@@ -12,10 +12,10 @@ use Yoast\WP\SEO\Dashboard\Application\Configuration\Dashboard_Configuration;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -276,6 +276,7 @@ final class General_Page_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_assets
 	 * @covers ::get_script_data
+	 * @covers ::is_llms_txt_notification_seen
 	 *
 	 * @return void
 	 */
