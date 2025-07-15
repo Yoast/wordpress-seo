@@ -31,7 +31,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 	 * @param int                                         $get_posts_times             The number of times get_posts should be called.
 	 * @param array<object>                               $indexables                  The indexables returned by get_recently_modified_posts.
 	 * @param array<object>                               $posts                       The posts returned by get_posts.
-	 * @param int                                         $get_permalink_times         The number of times get_permalink should be called.
+	 * @param int                                         $for_indexable_times         The number of times for_indexable should be called.
 	 * @param int                                         $number_of_lists             The expected number of lists returned.
 	 *
 	 * @dataProvider data_get_content_types_lists
@@ -46,7 +46,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 		int $get_posts_times,
 		array $indexables,
 		array $posts,
-		int $get_permalink_times,
+		int $for_indexable_times,
 		int $number_of_lists
 	) {
 		$this->post_type_helper
@@ -83,13 +83,18 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			->times( $get_posts_times )
 			->andReturn( $indexables );
 
-		Monkey\Functions\expect( 'get_post' )
-			->andReturn( ...$posts );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->with( ...$posts )
-			->times( $get_permalink_times )
-			->andReturn( 'https://example.com/permalink' );
+		$this->meta
+			->expects( 'for_indexable' )
+			->times( $for_indexable_times )
+			->andReturnUsing(
+				static function ( $indexable ) use ( $posts ) {
+					$post = ( $posts[ ( $indexable->object_id - 1 ) ] ?? null );
+					return (object) [
+						'post'      => $post,
+						'canonical' => 'https://example.com/canonical/' . $indexable->object_id,
+					];
+				}
+			);
 
 		$lists = $this->instance->get_content_types_lists();
 		$this->assertSame( $number_of_lists, \count( $lists ) );
@@ -165,7 +170,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			'posts'                       => [
 				$post1,
 			],
-			'get_permalink_times'         => 1,
+			'for_indexable_times'         => 1,
 			'number_of_lists'             => 1,
 		];
 		yield '2 post types with 3 posts each and one non-indexable post type' => [
@@ -228,7 +233,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 				$page2,
 				$page3,
 			],
-			'get_permalink_times'         => 6,
+			'for_indexable_times'         => 6,
 			'number_of_lists'             => 2,
 		];
 		yield '1 non-indexable post type' => [
@@ -250,7 +255,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			'posts'                       => [
 				(object) [],
 			],
-			'get_permalink_times'         => 0,
+			'for_indexable_times'         => 0,
 			'number_of_lists'             => 0,
 		];
 		yield 'no post types' => [
@@ -267,7 +272,7 @@ final class Get_Content_Types_Lists_Test extends Abstract_Content_Types_Collecto
 			'posts'                       => [
 				(object) [],
 			],
-			'get_permalink_times'         => 0,
+			'for_indexable_times'         => 0,
 			'number_of_lists'             => 0,
 		];
 	}
