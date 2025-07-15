@@ -46,7 +46,7 @@ export const LlmTxtPopover = () => {
 	const [ isPopoverVisible, , setIsPopoverVisible ] = useToggleState( true );
 
 	useEffect( () => {
-		sessionStorage.removeItem( "highlight-setting" );
+		sessionStorage.removeItem( "yoast-highlight-setting" );
 	}, [] );
 
 	return <Popover

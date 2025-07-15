@@ -28,7 +28,7 @@ export const LlmTxtOptInNotification = () => {
 	}, [] );
 
 	const handleShow = useCallback( () => {
-		sessionStorage.setItem( "highlight-setting", "llm-txt" );
+		sessionStorage.setItem( "yoast-highlight-setting", "llm-txt" );
 		window.location.href = llmTxtSettingsUrl;
 	}, [ llmTxtSettingsUrl ] );
 
