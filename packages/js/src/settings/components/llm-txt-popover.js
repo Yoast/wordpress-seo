@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
-import { Popover, usePopoverContext, useSvgAria, Button, useToggleState } from "@yoast/ui-library";
+import { Popover, usePopoverContext, useSvgAria, Button } from "@yoast/ui-library";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
-import { useRef, useEffect } from "@wordpress/element";
+import { useRef, useEffect, useState } from "@wordpress/element";
 
 /**
  * A button component that dismisses the popover when clicked.
@@ -43,7 +43,7 @@ const DismissButton = () => {
  */
 export const LlmTxtPopover = () => {
 	const svgAriaProps = useSvgAria();
-	const [ isPopoverVisible, , setIsPopoverVisible ] = useToggleState( true );
+	const [ isPopoverVisible, setIsPopoverVisible ] = useState( true );
 
 	useEffect( () => {
 		sessionStorage?.removeItem( "yoast-highlight-setting" );
