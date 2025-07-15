@@ -3,13 +3,13 @@
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WP_REST_Response;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -53,11 +53,11 @@ class Get_Usage_Route implements Route_Interface {
 	private $request_handler;
 
 	/**
-	 * The product helprer instance.
+	 * Represents the add-on manager.
 	 *
-	 * @var Product_Helper
+	 * @var WPSEO_Addon_Manager
 	 */
-	private $product_helper;
+	private $addon_manager;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -71,12 +71,12 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Token_Manager   $token_manager   The token manager instance.
-	 * @param Request_Handler $request_handler The request handler instance.
-	 * @param Product_Helper  $product_helper  The product helper instance.
+	 * @param Token_Manager       $token_manager   The token manager instance.
+	 * @param Request_Handler     $request_handler The request handler instance.
+	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
 	 */
-	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, Product_Helper $product_helper ) {
-		$this->product_helper  = $product_helper;
+	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager   = $addon_manager;
 		$this->token_manager   = $token_manager;
 		$this->request_handler = $request_handler;
 	}
@@ -110,17 +110,39 @@ class Get_Usage_Route implements Route_Interface {
 			$request_headers = [
 				'Authorization' => "Bearer $token",
 			];
-			$action_path     = '/usage/' . ( $this->product_helper->is_premium() ? \gmdate( 'Y-m' ) : 'free-usages' );
+			$action_path     = $this->get_action_path();
 			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
 			$data            = \json_decode( $response->get_body() );
 
 		}  catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
+			$message = [
+				'errorMessage'    => $e->getMessage(),
+				'errorIdentifier' => $e->get_error_identifier(),
+				'errorCode'       => $e->getCode(),
+			];
 			return new WP_REST_Response(
-				'Failed to get usage: ' . $e->getMessage(),
+				$message,
 				$e->getCode()
 			);
 		}
 
 		return new WP_REST_Response( $data );
+	}
+
+	/**
+	 * Get action path for the request.
+	 *
+	 * @return string The action path.
+	 */
+	public function get_action_path() {
+		$post_type = \get_post_type();
+		$unlimited = '/usage/' . \gmdate( 'Y-m' );
+		if ( $post_type === 'product' && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+			return $unlimited;
+		}
+		if ( $post_type !== 'product' && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+			return $unlimited;
+		}
+		return '/usage/free-usages';
 	}
 }
