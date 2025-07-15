@@ -5,20 +5,22 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.4
+Stable tag: 25.5
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
 
 == Description ==
 
-## YOAST SEO: THE #1 WORDPRESS SEO PLUGIN
+## Yoast SEO: The #1 WordPress SEO Plugin
 
 Yoast SEO helps your WordPress site grow by making SEO clear, actionable, and fast. With real-time feedback, built-in guidance, and AI tools in our Premium plans, you don’t have to be an expert to get more traffic and better content performance.
 
 Whether you’re publishing your first post or managing a high-traffic site, Yoast gives you the tools to improve visibility and reach the right audience.
 
 Yoast SEO is **free to install and includes all the essential tools to improve your content**. Upgrade only if and when you need more. **As of July 2025, we’ve updated our pricing and packaging**, so you’re seeing the most current plans and features. You’ll find all the extensive benefits of our [Yoast SEO Premium](https://yoa.st/1v8) plugin and our [Yoast WooCommerce SEO](https://yoa.st/3rh) plan for merchants below.
+
+https://www.youtube.com/watch?v=BtqZ7EnfX1M
 
 ### Built-in SEO tools to grow your traffic
 
@@ -199,14 +201,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-07-15
 
+Yoast SEO 25.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
-* Enhances the UX of the llms.txt feature, by informing users for potential issues with generating the file, via Yoast's alert center.
-* Uses canonical URLs for the post lists in the llms.txt file.
+* Enhances the UX of the llms.txt feature by informing users about potential issues with generating the file via Yoast’s alert center.
+* Changes post lists in the llms.txt file to use canonical URLs.
 
 #### Bugfixes
 
-* Fixes a bug where a request limit warning would be shown, in the Semrush related keyphrases, when no warnings would be applicable.
+* Fixes a bug where a request limit warning would be shown in the Semrush related keyphrases when no warning was applicable.
 
 #### Other
 
