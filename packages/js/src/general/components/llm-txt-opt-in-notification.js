@@ -14,7 +14,7 @@ export const LlmTxtOptInNotification = () => {
 	const llmTxtNotificationSeen = useSelectGeneralPage( "selectPreference", [], "llmTxtNotificationSeen" );
 	const llmTxtEnabled = useSelectGeneralPage( "selectPreference", [], "llmTxtEnabled" );
 
-	if ( llmTxtEnabled || llmTxtNotificationSeen ) {
+	if ( llmTxtEnabled || llmTxtNotificationSeen || sessionStorage === null ) {
 		return null;
 	}
 
@@ -28,7 +28,7 @@ export const LlmTxtOptInNotification = () => {
 	}, [] );
 
 	const handleShow = useCallback( () => {
-		sessionStorage.setItem( "yoast-highlight-setting", "llm-txt" );
+		sessionStorage?.setItem( "yoast-highlight-setting", "llm-txt" );
 		window.location.href = llmTxtSettingsUrl;
 	}, [ llmTxtSettingsUrl ] );
 
