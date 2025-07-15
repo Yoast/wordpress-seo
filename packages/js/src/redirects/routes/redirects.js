@@ -85,14 +85,14 @@ export const Redirects = () => {
 							name="origin"
 							id="yst-input-origin-redirect"
 							label={ __( "Old URL", "wordpress-seo" ) }
-							disabled={  true }
+							disabled={ true }
 						/>
 						<TextField
 							type="text"
 							name="target"
 							id="yst-input-target-redirect"
 							label={ __( "New URL", "wordpress-seo" ) }
-							disabled={  true }
+							disabled={ true }
 						/>
 					</div>
 					<Button
@@ -115,43 +115,41 @@ export const Redirects = () => {
 							<Select
 								id="yst-filter-redirect-type-redirect"
 								name="filterRedirectType"
-								options={ [ { value: "", label: __( "All", "wordpress-seo" ) } ]  }
+								options={ [ { value: "", label: __( "All", "wordpress-seo" ) } ] }
 								className="yst-w-full"
 								label={ __( "Filter Redirect type", "wordpress-seo" ) }
 								disabled={ true }
 							/>
 						</div>
 					</div>
-					<Table className="yst-mt-4" variant="minimal">
+					<Table className="yst-mt-4 yst-table-fixed" variant="minimal">
 						<Table.Head>
 							<Table.Row>
-								<Table.Header scope="col" className="yst-flex yst-items-center yst-gap-1">
+								<Table.Header className="yst-w-4">
 									<Checkbox
 										aria-label={ __( "Select all", "wordpress-seo" ) }
 										disabled={ true }
 									/>
-									{ __( "Type", "wordpress-seo" ) }
-									<Button
-										aria-label={ __( "Sort by Type", "wordpress-seo" ) }
-										as="span"
-										variant="tertiary"
-										className="yst-p-0 yst-text-slate-400"
-										disabled={ true }
-									>
-										<ChevronDownIcon
-											className="yst-w-4 yst-h-4 yst-transition-transform"
-										/>
-									</Button>
 								</Table.Header>
-								<Table.Header scope="col">{ __( "Old URL", "wordpress-seo" ) }</Table.Header>
-								<Table.Header scope="col">{ __( "New URL", "wordpress-seo" ) }</Table.Header>
+								<Table.Header className="yst-w-32">
+									<div className={ "yst-flex yst-flex-wrap yst-break-all yst-gap-3" }>
+										{ __( "Type", "wordpress-seo" ) }
+										<ChevronDownIcon
+											className="yst-w-4 yst-h-4 yst-text-slate-400"
+										/>
+									</div>
+								</Table.Header>
+
+								<Table.Header>{ __( "Old URL", "wordpress-seo" ) }</Table.Header>
+								<Table.Header>{ __( "New URL", "wordpress-seo" ) }</Table.Header>
 							</Table.Row>
 						</Table.Head>
 
 						<Table.Body>
 							<Table.Row>
 								<Table.Cell />
-								<Table.Cell className="yst-text-end">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
+								<Table.Cell />
+								<Table.Cell className="yst-text-center">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
 								<Table.Cell />
 							</Table.Row>
 						</Table.Body>
