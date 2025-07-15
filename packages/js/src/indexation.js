@@ -17,16 +17,10 @@ let root;
  * @returns {void}
  */
 function renderRoot() {
-	if ( ! root ) {
-		root = document.getElementById( "yoast-seo-indexing-action" );
-	}
-
-	if ( root ) {
-		createRoot( root ).render( <Indexation
-			preIndexingActions={ window.yoast.indexing.preIndexingActions }
-			indexingActions={ window.yoast.indexing.indexingActions }
-		/> );
-	}
+	root?.render( <Indexation
+		preIndexingActions={ window.yoast.indexing.preIndexingActions }
+		indexingActions={ window.yoast.indexing.indexingActions }
+	/> );
 }
 
 /**
@@ -62,5 +56,11 @@ window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
 };
 
 jQuery( function() {
+	// Create the root first.
+	const rootElement = document.getElementById( "yoast-seo-indexing-action" );
+	if ( rootElement ) {
+		root = createRoot( rootElement );
+	}
+
 	renderRoot();
 } );
