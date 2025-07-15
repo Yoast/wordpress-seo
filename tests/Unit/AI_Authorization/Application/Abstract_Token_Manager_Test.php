@@ -35,7 +35,7 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 	 *
 	 * @var MockInterface|Code_Verifier_Handler
 	 */
-	protected $code_verifier;
+	protected $code_verifier_handler;
 
 	/**
 	 * The consent handler.
@@ -94,7 +94,7 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 		$this->access_token_repository  = Mockery::Mock( Access_Token_User_Meta_Repository_Interface::class );
-		$this->code_verifier            = Mockery::Mock( Code_Verifier_Handler::class );
+		$this->code_verifier_handler            = Mockery::Mock( Code_Verifier_Handler::class );
 		$this->consent_handler          = Mockery::Mock( Consent_Handler::class );
 		$this->refresh_token_repository = Mockery::Mock( Refresh_Token_User_Meta_Repository_Interface::class );
 		$this->user_helper              = Mockery::Mock( User_Helper::class );
@@ -104,7 +104,7 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 
 		$this->instance = new Token_Manager(
 			$this->access_token_repository,
-			$this->code_verifier,
+			$this->code_verifier_handler,
 			$this->consent_handler,
 			$this->refresh_token_repository,
 			$this->user_helper,
