@@ -197,6 +197,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.6 =
+
+Release date: 2025-07-29
+
+#### Enhancements
+
+* Introduces a way to manually select the pages to be included in the llms.txt file.
+
 = 25.5 =
 
 Release date: 2025-07-15
@@ -217,33 +225,6 @@ Yoast SEO 25.5 brings more enhancements and bugfixes. [Find more information abo
 * Adds an announcement for the Google Docs add-on.
 * Changes the `Upgrades` page to a `Plans` page.
 * Removes redundant flushing of cache groups when incoming links for posts change.
-
-= 25.4 =
-
-Release date: 2025-07-01
-
-Yoast SEO 25.4 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Adds descriptions for the posts listed in the llms.txt file, using their excerpts when those are explicitly set.
-* Adds support for preventing specifically `noindex`ed posts from getting into the llms.txt file.
-* Changes one of the feedback texts for the _text length_ assessment to be consistent with the others.
-* Improves support for non-english characters in llms.txt, for servers that don't serve .txt files in UTF-8.
-* Improves the feedback of the _competing links_ assessment by making it clearer.
-* Makes the assessments _single title_ and _competing links_ available from the get-go in the SEO analysis.
-* Prioritizes cornerstone content for the posts lists in the llms.txt file.
-* Renames the _link keyphrase_ assessment to _competing links_.
-
-#### Bugfixes
-
-* Fixes a bug where the llmst.txt file wouldn't be able to be generated in wp.com.
-
-#### Other
-
-* Improves the internal engine that creates the post lists in the llms.txt file for a more efficient and lighter generation.
-* Improves the translatability of the feedback strings for the _text length_ assessment.
-* Introduces the `wpseo_llmstxt_filesystem_path` filter that allows editing the file path of the llmst.txt file, to help users in servers with filesystem restrictions.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
