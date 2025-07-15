@@ -203,7 +203,12 @@ Release date: 2025-07-29
 
 #### Enhancements
 
+* Adds a free preview of the AI features from Yoast SEO Premium.
 * Introduces a way to manually select the pages to be included in the llms.txt file.
+
+#### Bugfixes
+
+* Fixes a bug where the icon on search appearance would not be aligned when on a right-to-left locale.
 
 = 25.5 =
 
