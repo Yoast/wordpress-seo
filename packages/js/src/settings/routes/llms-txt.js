@@ -137,7 +137,7 @@ const LlmTxt = () => {
 		fetchIndexablePages();
 	}, [ fetchIndexablePages ] );
 
-	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage.getItem( "highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
+	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage.getItem( "yoast-highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
 
 	return (
 		<RouteLayout
