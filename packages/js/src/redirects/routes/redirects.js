@@ -135,7 +135,7 @@ export const Redirects = () => {
 									<div className={ "yst-flex yst-flex-wrap yst-break-all yst-gap-3" }>
 										{ __( "Type", "wordpress-seo" ) }
 										<ChevronDownIcon
-											className="yst-w-4 yst-h-4 yst-text-slate-400 yst-transition-transform"
+											className="yst-w-4 yst-h-4 yst-text-slate-400"
 										/>
 									</div>
 								</Table.Header>
