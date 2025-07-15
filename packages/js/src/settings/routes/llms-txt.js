@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { useCallback, useEffect, useMemo } from "@wordpress/element";
@@ -33,6 +32,7 @@ const UNIQUE_PAGES = [
 /**
  * @returns {JSX.Element} The llms.txt feature route.
  */
+// eslint-disable-next-line complexity
 const LlmTxt = () => {
 	const hasGenerationFailed = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
@@ -137,7 +137,7 @@ const LlmTxt = () => {
 		fetchIndexablePages();
 	}, [ fetchIndexablePages ] );
 
-	const isOptIn = ! isLlmsTxtEnabled && sessionStorage.getItem( "highlight-setting" ) === "llm-txt";
+	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage.getItem( "highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
 
 	return (
 		<RouteLayout

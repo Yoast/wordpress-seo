@@ -43,7 +43,7 @@ const DismissButton = () => {
  */
 export const LlmTxtPopover = () => {
 	const svgAriaProps = useSvgAria();
-	const [ isPopoverVisible, toggleIsPopoverVisible ] = useToggleState( true );
+	const [ isPopoverVisible, , setIsPopoverVisible ] = useToggleState( true );
 
 	useEffect( () => {
 		sessionStorage.removeItem( "highlight-setting" );
@@ -54,31 +54,33 @@ export const LlmTxtPopover = () => {
 		hasBackdrop={ true }
 		role="dialog"
 		isVisible={ isPopoverVisible }
-		setIsVisible={ toggleIsPopoverVisible }
+		setIsVisible={ setIsPopoverVisible }
 		position="right"
 		className="yst-top-3"
 	>
 		<>
-			<div className="yst-flex yst-gap-3">
+			<div className="yst-flex yst-gap-3 yst-items-center">
 				<div className="yst-flex-shrink-0">
 					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
-				<div className="yst-flex-1">
+				<div className="yst-flex-grow">
 					<Popover.Title
 						id="llmt-txt-popover-title"
 						as="h3"
 					>
 						{ __( "Enable the llms.txt feature", "wordpress-seo" ) }
 					</Popover.Title>
-					<Popover.Content
-						id="llmt-txt-popover-content"
-						className="yst-font-normal"
-					>
-						{ __( "Automatically generate an llms.txt file that points LLMs to your site's most relevant content. We also gave you editor access.", "wordpress-seo" ) }
-					</Popover.Content>
 				</div>
+
+				<Popover.CloseButton dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
 			</div>
-			<Popover.CloseButton dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
+			<Popover.Content
+				id="llmt-txt-popover-content"
+				className="yst-font-normal yst-ms-8 yst-me-5 yst-mt-1"
+			>
+				{ __( "Automatically generate an llms.txt file that points LLMs to your site's most relevant content. We also gave you editor access.", "wordpress-seo" ) }
+			</Popover.Content>
+
 			<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
 				<DismissButton />
 			</div>

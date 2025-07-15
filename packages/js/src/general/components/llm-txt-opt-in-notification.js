@@ -45,7 +45,7 @@ export const LlmTxtOptInNotification = () => {
 					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
 				<div className="yst-flex-1">
-					<Toast.Title title={  __( "New: Prepare your site for AI-driven discovery!", "wordpress-seo" ) } />
+					<Toast.Title title={  __( "New: Prepare your site for AI-driven discovery!", "wordpress-seo" ) } className="yst-mb-1" />
 					<p>
 						{  __( "Automatically generate an llms.txt file that highlights key content for AI systems.", "wordpress-seo" ) }
 					</p>
