@@ -22,6 +22,7 @@ import {
 	DateArchives,
 	FormatArchives,
 	Homepage,
+	LlmTxt,
 	MediaPages,
 	PostType,
 	Rss,
@@ -138,6 +139,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				defaultOpen={ false }
 			>
 				<MenuItemLink
+					to="/llms-txt"
+					label={ __( "llms.txt", "wordpress-seo" ) }
+					idSuffix={ idSuffix }
+				/>
+				<MenuItemLink
 					to="/crawl-optimization"
 					label={ __( "Crawl optimization", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
@@ -222,6 +228,7 @@ const App = () => {
 											<Route path="date-archives" element={ <DateArchives /> } />
 											<Route path="homepage" element={ <Homepage /> } />
 											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="llms-txt" element={ <LlmTxt /> } />
 											<Route path="media-pages" element={ <MediaPages /> } />
 											<Route path="rss" element={ <Rss /> } />
 											<Route path="site-basics" element={ <SiteBasics /> } />

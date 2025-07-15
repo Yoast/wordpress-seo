@@ -4,24 +4,26 @@
 namespace Yoast\WP\SEO\Tests\WP\Llms_Txt\Infrastructure;
 
 use WPSEO_Options;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
- * Class Content_Types_Collector_Test
+ * Class Automatic_Post_Collection_Test
  *
- * @group llms.txt
+ * @group  llms.txt
  *
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_posts
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_cornerstone_content
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recent_posts
- * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector::get_recently_modified_posts_indexables
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_cornerstone_content
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_posts
+ * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recently_modified_posts_indexables
  * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recently_modified_posts
  * @covers Yoast\WP\SEO\Repositories\Indexable_Repository::get_recent_cornerstone_for_post_type
  */
-final class Content_Types_Collector_Test extends TestCase {
+final class Automatic_Post_Collection_Test extends TestCase {
 
 	/**
 	 * Holds the indexable post watcher.
@@ -45,37 +47,19 @@ final class Content_Types_Collector_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Content_Types_Collector(
-			\YoastSEO()->helpers->post_type,
+		$this->instance = new Automatic_Post_Collection(
 			\YoastSEO()->helpers->options,
-			\YoastSEO()->helpers->indexable,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
+			\YoastSEO()->meta,
+			\YoastSEO()->helpers->indexable
 		);
 
 		$this->indexable_post_watcher = \YoastSEO()->classes->get( Indexable_Post_Watcher::class );
 
-		$post_type = 'custom-post-type';
-		\register_post_type(
-			$post_type,
-			[
-				'public'       => true,
-				'description'  => 'a custom post type',
-				'label'        => $post_type,
-				'hierarchical' => false,
-			]
-		);
-	}
-
-	/**
-	 * Remove the custom post type and taxonomy after each test.
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		// Remove possibly registered post type.
-		\unregister_post_type( 'custom-post-type' );
-
-		parent::tear_down();
+		// Delete all indexables before each test to ensure a clean slate.
+		global $wpdb;
+		$table = Model::get_table_name( 'Indexable' );
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 	}
 
 	/**
@@ -85,10 +69,13 @@ final class Content_Types_Collector_Test extends TestCase {
 	 * @param int      $number_of_posts                                The number of posts to create.
 	 * @param string   $posts_created_at                               Posts creation date.
 	 * @param bool     $is_cornerstone_active                          Whether the cornerstone feature is active.
-	 * @param int[]    $cornerstone_posts_indexes                      An array of indexes that indicate the cornerstone posts.
-	 * @param int[]    $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by descending modification date.
+	 * @param int[]    $cornerstone_posts_indexes                      An array of indexes that indicate the
+	 *                                                                 cornerstone posts.
+	 * @param int[]    $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted
+	 *                                                                 by descending modification date.
 	 * @param int      $expected_number_of_posts                       The expected number of posts to be returned.
-	 * @param string[] $expected_post_titles                           An array of expected post titles in the order they should be returned.
+	 * @param string[] $expected_post_titles                           An array of expected post titles in the order
+	 *                                                                 they should be returned.
 	 *
 	 * @dataProvider generate_get_posts
 	 *
@@ -116,7 +103,7 @@ final class Content_Types_Collector_Test extends TestCase {
 
 		$post_titles = [];
 		foreach ( $results as $post ) {
-			$post_titles[] = $post->post_title;
+			$post_titles[] = $post->get_title();
 		}
 
 		// Assert the post titles match the expected titles.
@@ -174,8 +161,10 @@ final class Content_Types_Collector_Test extends TestCase {
 	 * Updates the modification date of the posts to match the provided order.
 	 * This is to simulate the posts having been modified at different times
 	 *
-	 * @param int[] $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by descending modification date.
-	 * @param int[] $post_ids                                       An array of post IDs to set the modification dates for.
+	 * @param int[] $posts_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted by
+	 *                                                              descending modification date.
+	 * @param int[] $post_ids                                       An array of post IDs to set the modification dates
+	 *                                                              for.
 	 *
 	 * @return void
 	 */
@@ -213,7 +202,7 @@ final class Content_Types_Collector_Test extends TestCase {
 	 */
 	public static function generate_get_posts() {
 		yield '4 posts total with no cornerstone posts' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 4,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -256,7 +245,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '4 posts total with one cornerstone post that is not the most recently modified one' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 4,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -400,7 +389,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '6 posts, the oldest is cornerstone' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -481,7 +470,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '6 posts and all are cornerstone' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -511,7 +500,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '3 cornerstone posts and 3 regular ones' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,
@@ -538,7 +527,7 @@ final class Content_Types_Collector_Test extends TestCase {
 			],
 		];
 		yield '4 cornerstone posts and 2 regular ones, with the regular ones being the most recently modified' => [
-			'post_type'                                      => 'custom-post-type',
+			'post_type'                                      => 'post',
 			'number_of_posts'                                => 6,
 			'posts_created_at'                               => '-6 months',
 			'is_cornerstone_active'                          => true,

@@ -9,8 +9,10 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Configuration\Dashboard_Configuration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -81,6 +83,20 @@ class General_Page_Integration implements Integration_Interface {
 	private $alert_dismissal_action;
 
 	/**
+	 * Holds the user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
+	 * Holds the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructs Academy_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -91,6 +107,8 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Alert_Dismissal_Action    $alert_dismissal_action  The alert dismissal action.
 	 * @param Promotion_Manager         $promotion_manager       The promotion manager.
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
+	 * @param User_Helper               $user_helper             The user helper.
+	 * @param Options_Helper            $options_helper          The options helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -100,7 +118,9 @@ class General_Page_Integration implements Integration_Interface {
 		Notification_Helper $notification_helper,
 		Alert_Dismissal_Action $alert_dismissal_action,
 		Promotion_Manager $promotion_manager,
-		Dashboard_Configuration $dashboard_configuration
+		Dashboard_Configuration $dashboard_configuration,
+		User_Helper $user_helper,
+		Options_Helper $options_helper
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -110,6 +130,8 @@ class General_Page_Integration implements Integration_Interface {
 		$this->alert_dismissal_action  = $alert_dismissal_action;
 		$this->promotion_manager       = $promotion_manager;
 		$this->dashboard_configuration = $dashboard_configuration;
+		$this->user_helper             = $user_helper;
+		$this->options_helper          = $options_helper;
 	}
 
 	/**
@@ -200,13 +222,16 @@ class General_Page_Integration implements Integration_Interface {
 	private function get_script_data() {
 		return [
 			'preferences'       => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => \is_rtl(),
-				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'upsellSettings' => [
+				'isPremium'              => $this->product_helper->is_premium(),
+				'isRtl'                  => \is_rtl(),
+				'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
+				'upsellSettings'         => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
+				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
+				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
+				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
@@ -216,5 +241,21 @@ class General_Page_Integration implements Integration_Interface {
 			'dismissedAlerts'   => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'         => $this->dashboard_configuration->get_configuration(),
 		];
+	}
+
+	/**
+	 * Gets if the llms.txt opt-in notification has been seen.
+	 * This is used to show the notification only once.
+	 *
+	 * @return bool True if the notification has been seen, false otherwise.
+	 */
+	private function is_llms_txt_notification_seen(): bool {
+		$key             = 'wpseo_seen_llm_txt_opt_in_notification';
+		$current_user_id = $this->user_helper->get_current_user_id();
+		$seen            = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
+		if ( $seen === false ) {
+			$this->user_helper->update_meta( $current_user_id, $key, true );
+		}
+		return $seen;
 	}
 }
