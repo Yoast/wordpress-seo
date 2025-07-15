@@ -230,6 +230,7 @@ class General_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
+				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
 				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
