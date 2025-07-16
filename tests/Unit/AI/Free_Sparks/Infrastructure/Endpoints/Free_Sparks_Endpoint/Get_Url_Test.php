@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint;
 
 use Brain\Monkey;
-use function Brain\Monkey;
 
 /**
  * Tests the Free_Sparks_Endpoint get_url method.

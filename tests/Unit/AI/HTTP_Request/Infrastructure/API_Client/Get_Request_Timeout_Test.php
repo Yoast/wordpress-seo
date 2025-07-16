@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Infrastructure\API_Client;
 
 use Brain\Monkey\Functions;
-use function Brain\Monkey\Functions;
 
 /**
  * Class Get_Request_Timeout_Test
