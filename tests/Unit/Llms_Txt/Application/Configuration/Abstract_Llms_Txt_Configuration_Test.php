@@ -26,7 +26,7 @@ abstract class Abstract_Llms_Txt_Configuration_Test extends TestCase {
 	/**
 	 * The post type helper.
 	 *
-	 * @var Post_Type_Helper
+	 * @var Mockery\MockInterface|Post_Type_Helper
 	 */
 	protected $post_type_helper;
 
