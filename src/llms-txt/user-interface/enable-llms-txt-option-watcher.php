@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
@@ -37,20 +38,30 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 	private $populate_file_command_handler;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Llms_Txt_Cron_Scheduler       $scheduler                     The cron scheduler.
 	 * @param Remove_File_Command_Handler   $remove_file_command_handler   The remove file command handler.
 	 * @param Populate_File_Command_Handler $populate_file_command_handler The populate file command handler.
+	 * @param Options_Helper                $options_helper                The options helper.
 	 */
 	public function __construct(
 		Llms_Txt_Cron_Scheduler $scheduler,
 		Remove_File_Command_Handler $remove_file_command_handler,
-		Populate_File_Command_Handler $populate_file_command_handler
+		Populate_File_Command_Handler $populate_file_command_handler,
+		Options_Helper $options_helper
 	) {
 		$this->scheduler                     = $scheduler;
 		$this->remove_file_command_handler   = $remove_file_command_handler;
 		$this->populate_file_command_handler = $populate_file_command_handler;
+		$this->options_helper                = $options_helper;
 	}
 
 	/**
@@ -62,6 +73,7 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_wpseo', [ $this, 'check_toggle_llms_txt' ], 10, 2 );
+		\add_action( 'update_option_wpseo_llmstxt', [ $this, 'check_llms_txt_selection' ], 10, 2 );
 	}
 
 	/**
@@ -84,6 +96,27 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 				$this->scheduler->unschedule_llms_txt_population();
 				$this->remove_file_command_handler->handle();
 			}
+		}
+	}
+
+	/**
+	 * Checks if the LLMS.txt feature is toggled.
+	 *
+	 * @param array<string|int|bool|array<string|int|bool>> $old_value The old value of the option.
+	 * @param array<string|int|bool|array<string|int|bool>> $new_value The new value of the option.
+	 *
+	 * @return void
+	 */
+	public function check_llms_txt_selection( $old_value, $new_value ): void {
+		$selection_mode_option = 'llms_txt_selection_mode';
+
+		if ( $this->options_helper->get( 'enable_llms_txt', false ) !== true ) {
+			// If the feature is not enabled, do nothing.
+			return;
+		}
+
+		if ( \array_key_exists( $selection_mode_option, $old_value ) && \array_key_exists( $selection_mode_option, $new_value ) && $old_value[ $selection_mode_option ] !== $new_value[ $selection_mode_option ] ) {
+			$this->populate_file_command_handler->handle();
 		}
 	}
 }
