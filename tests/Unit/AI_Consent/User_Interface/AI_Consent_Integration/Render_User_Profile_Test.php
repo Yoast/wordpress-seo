@@ -15,8 +15,6 @@ final class Render_User_Profile_Test extends Abstract_AI_Consent_Integration_Tes
 	/**
 	 * Tests rendering the user profile.
 	 *
-	 * @covers ::render_user_profile
-	 *
 	 * @return void
 	 */
 	public function test_render_user_profile() {

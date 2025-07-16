@@ -17,8 +17,6 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 	/**
 	 * Tests enqueuing the assets.
 	 *
-	 * @covers ::enqueue_assets
-	 *
 	 * @return void
 	 */
 	public function test_enqueue_assets() {

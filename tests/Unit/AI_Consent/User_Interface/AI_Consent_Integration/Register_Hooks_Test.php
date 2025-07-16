@@ -17,8 +17,6 @@ final class Register_Hooks_Test extends Abstract_AI_Consent_Integration_Test {
 	/**
 	 * Tests the registration of the hooks.
 	 *
-	 * @covers ::register_hooks
-	 *
 	 * @dataProvider data_provider_register_hooks
 	 *
 	 * @param bool $edit_posts Whether the user can edit posts.
