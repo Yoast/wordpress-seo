@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Infrastructure\API_Client;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
-use function Brain\Monkey\Functions;
 
 /**
  * Class Perform_Request_Error_Test
