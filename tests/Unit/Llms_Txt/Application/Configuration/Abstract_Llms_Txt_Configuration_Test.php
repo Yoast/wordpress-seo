@@ -33,7 +33,7 @@ abstract class Abstract_Llms_Txt_Configuration_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options_helper;
 
