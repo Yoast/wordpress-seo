@@ -110,6 +110,7 @@ class AI_Editor_Conditional implements Conditional {
 		if ( ! $this->product_helper->is_premium() ) {
 			return false;
 		}
-		return \version_compare( $this->product_helper->get_premium_version(), '25.6', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product';
+		$premium_version = $this->product_helper->get_premium_version();
+		return \version_compare( $premium_version, '25.6-RC0', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product';
 	}
 }
