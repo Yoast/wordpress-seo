@@ -19,7 +19,7 @@ abstract class Abstract_Llms_Txt_Configuration_Test extends TestCase {
 	/**
 	 * The file runner.
 	 *
-	 * @var File_Runner
+	 * @var Mockery\MockInterface|File_Runner
 	 */
 	protected $runner;
 
