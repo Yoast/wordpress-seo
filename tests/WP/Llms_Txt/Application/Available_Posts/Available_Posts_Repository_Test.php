@@ -66,14 +66,14 @@ final class Available_Posts_Repository_Test extends TestCase {
 	/**
 	 * Tests getting posts.
 	 *
-	 * @param string   $search_filter                                  The search filter to use for getting the posts.
-	 * @param int      $number_of_pages                                The number of posts to create.
-	 * @param int[]    $pages_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted
+	 * @param string        $search_filter                                  The search filter to use for getting the posts.
+	 * @param int           $number_of_pages                                The number of posts to create.
+	 * @param array<int>    $pages_indexes_sorted_by_desc_modification_date An array of indexes that indicate posts sorted
 	 *                                                                 by descending modification date.
-	 * @param bool     $enabled_indexables                             Whether indexables are enabled.
-	 * @param int      $expected_number_of_results                     The number of expected posts to retrieve.
+	 * @param bool          $enabled_indexables                             Whether indexables are enabled.
+	 * @param int           $expected_number_of_results                     The number of expected posts to retrieve.
 	 * @param array<string> $expected_results                               An array of expected post titles in the order
-	 *                                                                 they should be returned.
+	 *                                                                      they should be returned.
 	 *
 	 * @dataProvider generate_get_posts
 	 *
@@ -110,7 +110,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 	 *
 	 * @param int $number_of_pages The number of pages to create.
 	 *
-	 * @return int[] An array of created page IDs.
+	 * @return array<int> An array of created page IDs.
 	 */
 	private function create_pages( $number_of_pages ) {
 		$post_ids = [];
@@ -131,7 +131,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 	 * Updates the modification date of the pages to match the provided order.
 	 * This is to simulate the pages having been modified at different times
 	 *
-	 * @param int[] $pages_indexes_sorted_by_desc_modification_date An array of indexes that indicate pages sorted by
+	 * @param array<int> $pages_indexes_sorted_by_desc_modification_date An array of indexes that indicate pages sorted by
 	 *                                                              descending modification date.
 	 * @param array<int> $post_ids                                       An array of post IDs to set the modification dates
 	 *                                                              for.
@@ -145,12 +145,14 @@ final class Available_Posts_Repository_Test extends TestCase {
 		foreach ( $pages_indexes_sorted_by_desc_modification_date as $post_id ) {
 			$id_to_update = $post_ids[ ( $post_id - 1 ) ];
 
+			$date = \get_date_from_gmt( \gmdate( 'Y-m-d H:i:s', ( $now - $counter ) ) );
+
 			// Directly update the post modification date in the database because wp_update_post() automatically sets it to the current time.
 			$wpdb->update(
 				$wpdb->posts,
 				[
-					'post_modified'     => \get_date_from_gmt( \gmdate( 'Y-m-d H:i:s', ( $now - $counter ) ) ),
-					'post_modified_gmt' => \get_date_from_gmt( \gmdate( 'Y-m-d H:i:s', ( $now - $counter ) ) ),
+					'post_modified'     => $date,
+					'post_modified_gmt' => $date,
 				],
 				[ 'ID' => $id_to_update ]
 			);
