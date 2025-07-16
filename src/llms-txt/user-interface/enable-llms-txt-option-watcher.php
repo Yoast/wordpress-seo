@@ -16,6 +16,16 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
+	private $option_names = [
+		'llms_txt_selection_mode',
+		'about_us_page',
+		'contact_page',
+		'terms_page',
+		'privacy_policy_page',
+		'shop_page',
+		'other_included_pages',
+	];
+
 	/**
 	 * The scheduler.
 	 *
@@ -100,23 +110,39 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if the LLMS.txt feature is toggled.
+	 * Checks if any of the llms.txt settings were changed.
 	 *
-	 * @param array<string|int|bool|array<string|int|bool>> $old_value The old value of the option.
-	 * @param array<string|int|bool|array<string|int|bool>> $new_value The new value of the option.
+	 * @param array<string, string|int|array<int>> $old_value The old value of the option.
+	 * @param array<string, string|int|array<int>> $new_value The new value of the option.
 	 *
 	 * @return void
 	 */
 	public function check_llms_txt_selection( $old_value, $new_value ): void {
-		$selection_mode_option = 'llms_txt_selection_mode';
-
 		if ( $this->options_helper->get( 'enable_llms_txt', false ) !== true ) {
-			// If the feature is not enabled, do nothing.
 			return;
 		}
 
-		if ( \array_key_exists( $selection_mode_option, $old_value ) && \array_key_exists( $selection_mode_option, $new_value ) && $old_value[ $selection_mode_option ] !== $new_value[ $selection_mode_option ] ) {
-			$this->populate_file_command_handler->handle();
+		foreach ( $this->option_names as $option_name ) {
+			if ( ! \array_key_exists( $option_name, $old_value ) || ! \array_key_exists( $option_name, $new_value ) ) {
+				continue;
+			}
+
+			if ( $option_name === 'other_included_pages' ) {
+				// @TODO: double check the way we compare the arrays both for performance and edge cases.
+				if (
+					\count( $old_value[ $option_name ] ) !== \count( $new_value[ $option_name ] ) ||
+					! empty( \array_diff( $old_value[ $option_name ], $new_value[ $option_name ] ) ) ||
+					! empty( \array_diff( $new_value[ $option_name ], $old_value[ $option_name ] ) )
+				) {
+					$this->populate_file_command_handler->handle();
+					return;
+				}
+			}
+
+			if ( $old_value[ $option_name ] !== $new_value[ $option_name ] ) {
+				$this->populate_file_command_handler->handle();
+				return;
+			}
 		}
 	}
 }
