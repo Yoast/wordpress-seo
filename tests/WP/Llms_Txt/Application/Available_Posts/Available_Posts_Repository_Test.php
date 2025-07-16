@@ -133,7 +133,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 	 *
 	 * @param int[] $pages_indexes_sorted_by_desc_modification_date An array of indexes that indicate pages sorted by
 	 *                                                              descending modification date.
-	 * @param int[] $post_ids                                       An array of post IDs to set the modification dates
+	 * @param array<int> $post_ids                                       An array of post IDs to set the modification dates
 	 *                                                              for.
 	 *
 	 * @return void
