@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\User_Interface\Free_Sparks_Route;
 
 use Brain\Monkey\Functions;
-use function Brain\Monkey\Functions;
 
 /**
  * Tests the Free_Sparks_Route's register_routes method.
