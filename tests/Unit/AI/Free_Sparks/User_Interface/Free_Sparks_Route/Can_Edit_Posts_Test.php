@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\User_Interface\Free_Sparks_Rout
 use Brain\Monkey\Functions;
 use Mockery;
 use WP_User;
-use function Brain\Monkey\Functions;
 
 /**
  * Tests the Free_Sparks_Route's can_edit_posts method.
