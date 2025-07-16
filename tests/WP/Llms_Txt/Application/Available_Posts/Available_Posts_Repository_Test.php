@@ -72,7 +72,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 	 *                                                                 by descending modification date.
 	 * @param bool     $enabled_indexables                             Whether indexables are enabled.
 	 * @param int      $expected_number_of_results                     The number of expected posts to retrieve.
-	 * @param string[] $expected_results                               An array of expected post titles in the order
+	 * @param array<string> $expected_results                               An array of expected post titles in the order
 	 *                                                                 they should be returned.
 	 *
 	 * @dataProvider generate_get_posts
