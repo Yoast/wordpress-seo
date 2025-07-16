@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Unit\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint;
 
 use Brain\Monkey;
 use function Brain\Monkey;
