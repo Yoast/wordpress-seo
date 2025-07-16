@@ -111,11 +111,6 @@ class AI_Editor_Conditional implements Conditional {
 			return false;
 		}
 		$premium_version = $this->product_helper->get_premium_version();
-		// if it's an RC version, remove the RC suffix.
-		if ( \strpos( $premium_version, '-RC' ) !== false ) {
-			// Remove '-RC' and any following characters.
-			$premium_version = \strstr( $premium_version, '-RC', true );
-		}
-		return \version_compare( $premium_version, '25.6', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product';
+		return \version_compare( $premium_version, '25.6-RC0', '<' ) && $this->current_page_helper->get_current_post_type() !== 'product';
 	}
 }
