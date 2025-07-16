@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\AI\Consent\Domain\Endpoint\Endpoint_Interface;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route;
 
 /**

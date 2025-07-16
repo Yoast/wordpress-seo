@@ -1,7 +1,6 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\AI\Generator\Domain\Endpoint;
+
+namespace Yoast\WP\SEO\Routes\Endpoint;
 
 interface Endpoint_Interface {
 
