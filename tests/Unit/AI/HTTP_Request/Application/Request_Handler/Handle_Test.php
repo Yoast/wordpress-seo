@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Unit\AI\HTTP_Request\Application\Request_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\AI\HTTP_Request\Application\Request_Handler;
 
 use Mockery;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
