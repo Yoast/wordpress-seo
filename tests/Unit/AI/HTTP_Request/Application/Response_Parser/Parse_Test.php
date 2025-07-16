@@ -7,7 +7,6 @@ use Brain\Monkey\Functions;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Parser;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use function Brain\Monkey\Functions;
 
 /**
  * Class Parse_Test
