@@ -127,6 +127,7 @@ export const App = ( { onUseAi } ) => {
 		aiModalHelperLink,
 		isProductEntity,
 		isFreeSparksActive,
+		isWooSeoActive,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -143,6 +144,7 @@ export const App = ( { onUseAi } ) => {
 			focusKeyphrase: editorSelect.getFocusKeyphrase(),
 			isPremium: editorSelect.getIsPremium(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
+			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
@@ -208,8 +210,14 @@ export const App = ( { onUseAi } ) => {
 		// Getting the subscriptions.
 		const subscriptions = checkSubscriptions();
 
-		// User has no subscription but premium is installed.
-		if ( ! subscriptions && isPremium ) {
+		// User has no subscription, but premium and woo are installed and it a product entity.
+		if ( ! subscriptions && isPremium && isWooSeoActive && isProductEntity && isWooCommerceActive ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User has no subscription but premium or woo is installed.
+		if ( ! subscriptions && isPremium && ! isProductEntity ) {
 			// Let the user know that they need to activate their subscription.
 			setDisplay( DISPLAY.error );
 			return;
@@ -279,7 +287,11 @@ export const App = ( { onUseAi } ) => {
 		checkFocusKeyphrase,
 		showFocusKeyphrase,
 		usageCountEndpoint,
-		fetchUsageCount ] );
+		fetchUsageCount,
+		isWooSeoActive,
+		isProductEntity,
+		isWooCommerceActive,
+	] );
 
 	/**
 	 * Callback to start generating content after granting consent.
