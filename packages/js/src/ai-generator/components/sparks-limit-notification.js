@@ -91,7 +91,15 @@ const SparksLimitUpsellContent = ( {
  * @returns {JSX.Element} The element.
  */
 export const SparksLimitNotification = ( { className = "" } ) => {
-	const { isUsageCountLimitReached, usageCount, usageCountLimit, isPremium, upsellLink } = useSelect( ( select ) => {
+	const {
+		isUsageCountLimitReached,
+		usageCount,
+		usageCountLimit,
+		isPremium,
+		premiumUpsellLink,
+		wooUpsellLink,
+		isProductEntity,
+	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return ( {
@@ -99,7 +107,9 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			usageCount: aiSelect.selectUsageCount(),
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
 			isPremium: editorSelect.getIsPremium(),
-			upsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
+			premiumUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
+			wooUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks-woo" ),
+			isProductEntity: editorSelect.getIsProductEntity(),
 		} );
 	}, [] );
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
@@ -109,6 +119,13 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		const showNotificationFree = ! isPremium && isUsageCountLimitReached;
 		setShowNotification( showNotificationPremium || showNotificationFree );
 	}, [ usageCount, usageCountLimit ] );
+
+	const upsellLink = isProductEntity ? wooUpsellLink : premiumUpsellLink;
+	const upsellLabel = sprintf(
+		/* translators: %1$s expands to Yoast SEO Premium. */
+		__( "Unlock with %1$s", "wordpress-seo" ),
+		isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+	);
 
 	return showNotification && (
 		<Notifications.Notification
@@ -133,7 +150,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		>
 			{ isPremium
 				? <SparksLimitContent onClose={ hideNotification } />
-				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } />
+				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } upsellLabel={ upsellLabel } />
 			}
 		</Notifications.Notification>
 	);
