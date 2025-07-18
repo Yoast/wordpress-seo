@@ -13,7 +13,6 @@ import { OutboundLink, VideoFlow } from ".";
  * @param {string} upsellLink The upsell link.
  * @param {string} upsellLabel The upsell label.
  * @param {string} newToText The new to text.
- * @param {string|JSX.Element} bundleNote The bundle note.
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
@@ -24,7 +23,6 @@ export const AIOptimizeUpsell = ( {
 	upsellLink,
 	upsellLabel,
 	newToText,
-	bundleNote,
 	ctbId,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
@@ -109,7 +107,6 @@ export const AIOptimizeUpsell = ( {
 						</span>
 					</Button>
 				</div>
-				{ bundleNote }
 				<Button
 					as="a"
 					className="yst-mt-4"
@@ -137,10 +134,6 @@ AIOptimizeUpsell.propTypes = {
 	} ).isRequired,
 	upsellLabel: PropTypes.string,
 	newToText: PropTypes.string,
-	bundleNote: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.element,
-	] ),
 	ctbId: PropTypes.string,
 };
 
@@ -151,6 +144,5 @@ AIOptimizeUpsell.defaultProps = {
 		"Yoast SEO Premium"
 	),
 	newToText: "Yoast SEO Premium",
-	bundleNote: "",
 	ctbId: "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 };
