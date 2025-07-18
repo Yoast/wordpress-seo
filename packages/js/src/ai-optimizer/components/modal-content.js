@@ -10,7 +10,6 @@ import { AIOptimizeUpsell } from "../../shared-admin/components";
 export const ModalContent = () => {
 	const {
 		premiumUpsellLink,
-		bundleUpsellLink,
 		wooUpsellLink,
 		learnMoreLink,
 		imageLink,
@@ -20,7 +19,6 @@ export const ModalContent = () => {
 		const storeSelect = select( STORE_NAME_EDITOR );
 		return {
 			premiumUpsellLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell" ),
-			bundleUpsellLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell-woo-seo-premium-bundle" ),
 			wooUpsellLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell-woo-seo" ),
 			learnMoreLink: storeSelect.selectLink( "https://yoa.st/ai-fix-assessments-upsell-learn-more" ),
 			imageLink: storeSelect.selectImageLink( "ai-fix-assessments-thumbnail.png" ),
@@ -29,7 +27,7 @@ export const ModalContent = () => {
 		};
 	}, [] );
 
-	const upsellProps = useUpsellProps( { premium: premiumUpsellLink, woo: wooUpsellLink, bundle: bundleUpsellLink } );
+	const upsellProps = useUpsellProps( { premium: premiumUpsellLink, woo: wooUpsellLink } );
 
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
