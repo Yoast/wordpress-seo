@@ -8,7 +8,7 @@ export { OutboundLink } from "./outbound-link";
 export { PremiumUpsellCard } from "./premium-upsell-card";
 export { PremiumUpsellList } from "./premium-upsell-list";
 export { SidebarRecommendations } from "./sidebar-recommendations";
-export { UnsavedChangesModal } from "./unsaved-changes-modal";
+export { ConfirmActionModal } from "./confirm-action-modal";
 export { VideoFlow } from "./video-flow";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
 export { SiteKitConsentModal } from "./site-kit-consent-modal";
