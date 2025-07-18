@@ -1,13 +1,13 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { useEffect } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Button, Notifications, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
 
 const CLASSNAMES = {
 	paragraph: "yst-mt-1 yst-mb-3",
-	buttonContainer: "yst-flex yst-justify-end yst--me-8 yst-gap-3",
+	buttonContainer: "yst-flex yst-justify-end yst--me-8 yst-gap-3 yst--ms-2",
 };
 
 /**
@@ -30,18 +30,14 @@ const SparksLimitContent = ( { onClose } ) => (
 /**
  * @param {Function} onClose Callback function to close the notification.
  * @param {string} upsellLink The link to the upsell page.
- * @param {string} [upsellLabel] The label for the upsell.
+ * @param {boolean} [isProductEntity=false] If its a product entity.
  * @param {string} [ctbId] The click to buy ID for the upsell.
  * @returns {JSX.Element} The content with upsell for the sparks limit notification.
  */
 const SparksLimitUpsellContent = ( {
 	onClose,
 	upsellLink,
-	upsellLabel = sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "Unlock with %1$s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	),
+	isProductEntity = false,
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -52,7 +48,7 @@ const SparksLimitUpsellContent = ( {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium. */
 					__( "Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
-					"Yoast SEO Premium"
+					isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 				) }
 			</p>
 			<div className={ CLASSNAMES.buttonContainer }>
@@ -70,7 +66,11 @@ const SparksLimitUpsellContent = ( {
 					data-ctb-id={ ctbId }
 				>
 					<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-me-2 yst-shrink-0" { ...svgAriaProps } />
-					{ upsellLabel }
+					{ sprintf(
+						/* translators: %1$s expands to Yoast SEO Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+					) }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
@@ -95,10 +95,11 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		isUsageCountLimitReached,
 		usageCount,
 		usageCountLimit,
-		isPremium,
 		premiumUpsellLink,
 		wooUpsellLink,
 		isProductEntity,
+		hasValidPremiumSubscription,
+		hasValidWooSubscription,
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -106,26 +107,25 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
 			usageCount: aiSelect.selectUsageCount(),
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
-			isPremium: editorSelect.getIsPremium(),
 			premiumUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
 			wooUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks-woo" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
+			hasValidPremiumSubscription: aiSelect.selectPremiumSubscription(),
+			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 		} );
 	}, [] );
+	const hasUnlimitedSparks = useMemo( () => ( hasValidPremiumSubscription && ! isProductEntity ) || ( isProductEntity && hasValidWooSubscription ),
+		[ hasValidPremiumSubscription, isProductEntity, hasValidWooSubscription ] );
+
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
 
 	useEffect( () => {
-		const showNotificationPremium = isPremium && usageCount === usageCountLimit;
-		const showNotificationFree = ! isPremium && isUsageCountLimitReached;
+		const showNotificationPremium = hasUnlimitedSparks && usageCount === usageCountLimit;
+		const showNotificationFree = ! hasUnlimitedSparks && isUsageCountLimitReached;
 		setShowNotification( showNotificationPremium || showNotificationFree );
-	}, [ usageCount, usageCountLimit ] );
+	}, [ usageCount, usageCountLimit, hasUnlimitedSparks, isUsageCountLimitReached ] );
 
-	const upsellLink = isProductEntity ? wooUpsellLink : premiumUpsellLink;
-	const upsellLabel = sprintf(
-		/* translators: %1$s expands to Yoast SEO Premium. */
-		__( "Unlock with %1$s", "wordpress-seo" ),
-		isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
-	);
+	const upsellLink = useMemo( () => isProductEntity ? wooUpsellLink : premiumUpsellLink, [ isProductEntity, wooUpsellLink, premiumUpsellLink ] );
 
 	return showNotification && (
 		<Notifications.Notification
@@ -133,7 +133,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			className={ className }
 			variant="info"
 			dismissScreenReaderLabel={ __( "Close", "wordpress-seo" ) }
-			title={ isPremium
+			title={ hasUnlimitedSparks
 				? sprintf(
 					/* translators: %s is the number of the sparks. */
 					_n(
@@ -146,11 +146,11 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 				)
 				: __( "You're out of free sparks!", "wordpress-seo" )
 			}
-			size={ isPremium ? "default" : "large" }
+			size={ hasUnlimitedSparks ? "default" : "large" }
 		>
-			{ isPremium
+			{ hasUnlimitedSparks
 				? <SparksLimitContent onClose={ hideNotification } />
-				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } upsellLabel={ upsellLabel } />
+				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } isProductEntity={ isProductEntity } />
 			}
 		</Notifications.Notification>
 	);
