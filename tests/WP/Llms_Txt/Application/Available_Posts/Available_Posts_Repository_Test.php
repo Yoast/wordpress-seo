@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  *
  * @group llms.txt
  *
+ * @covers Yoast\WP\SEO\Llms_Txt\Application\Available_Posts\Available_Posts_Repository::__construct
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Available_Posts\Available_Posts_Repository::get_posts
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recent_posts
  * @covers Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection::get_recently_modified_posts_indexables
