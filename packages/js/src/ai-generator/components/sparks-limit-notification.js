@@ -46,7 +46,7 @@ const SparksLimitUpsellContent = ( {
 		<>
 			<p className={ CLASSNAMES.paragraph }>
 				{ sprintf(
-					/* translators: %s expands to Yoast SEO Premium. */
+					/* translators: %s expands to Yoast SEO Premium or Yoast WooCommerce SEO. */
 					__( "Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
 					isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 				) }
@@ -67,7 +67,7 @@ const SparksLimitUpsellContent = ( {
 				>
 					<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-me-2 yst-shrink-0" { ...svgAriaProps } />
 					{ sprintf(
-						/* translators: %1$s expands to Yoast SEO Premium. */
+						/* translators: %1$s expands to Yoast SEO Premium or Yoast WooCommerce SEO. */
 						__( "Unlock with %1$s", "wordpress-seo" ),
 						isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 					) }
