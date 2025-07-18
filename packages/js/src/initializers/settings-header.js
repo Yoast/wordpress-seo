@@ -1,6 +1,6 @@
 import { get } from "lodash";
 import { select } from "@wordpress/data";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
@@ -20,12 +20,11 @@ const initSettingsHeader = () => {
 	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	if ( reactRoot ) {
-		render(
+		createRoot( reactRoot ).render(
 			<ThemeProvider theme={ { isRtl } }>
 				{ isWooCommerce && <BlackFridaySidebarChecklistPromotion store="yoast-seo/settings" /> }
 				{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
-			</ThemeProvider>,
-			reactRoot
+			</ThemeProvider>
 		);
 	}
 };
