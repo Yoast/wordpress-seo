@@ -1,27 +1,30 @@
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useMemo, Fragment } from "@wordpress/element";
-import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
+import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { openMedia } from "../../../../helpers/selectMedia";
-import UserSelector from "./user-selector";
 import { FadeInAlert } from "../../base/alert";
 import ImageSelect from "../../base/image-select";
+import UserSelector from "./user-selector";
 
 /**
  * The Person section.
  *
- * @param {Object}   props                      The props object.
- * @param {function} props.dispatch             The function to update the container's state.
- * @param {string}   props.imageUrl             The image URL.
- * @param {string}   props.fallbackImageUrl     The fallback image URL for when there is no image.
- * @param {object}   props.person               The user.
- * @param {Boolean}  props.canEditUser          Whether the current user can edit the selected person's profile.
-
- * @returns {WPElement} The person section.
+ * @param {function} dispatch The function to update the container's state.
+ * @param {string} [imageUrl=""] The image URL.
+ * @param {string} [fallbackImageUrl=""] The fallback image URL for when there is no image.
+ * @param {{id: number, name: string}} [person] The user.
+ * @param {boolean} canEditUser Whether the current user can edit the selected person's profile.
+ * @returns {JSX.Element} The person section.
  */
-export function PersonSection( { dispatch, imageUrl, fallbackImageUrl, person, canEditUser } ) {
+export function PersonSection( {
+	dispatch,
+	imageUrl = "",
+	fallbackImageUrl = "",
+	person = { id: 0, name: "" },
+	canEditUser,
+} ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_PERSON_LOGO", payload: { ...selectedImage } } );
@@ -30,18 +33,18 @@ export function PersonSection( { dispatch, imageUrl, fallbackImageUrl, person, c
 
 	const removeImage = useCallback( () => {
 		dispatch( { type: "REMOVE_PERSON_LOGO" } );
-	} );
+	}, [ dispatch ] );
 
 	const onUserChange = useCallback(
 		( selectedPerson ) => {
 			dispatch( { type: "SET_PERSON", payload: selectedPerson } );
 			apiFetch( {
-				path: `yoast/v1/configuration/check_capability?user_id=${ selectedPerson.value  }`,
+				path: `yoast/v1/configuration/check_capability?user_id=${ selectedPerson.value }`,
 			} ).then( response => {
 				dispatch( { type: "SET_CAN_EDIT_USER", payload: response.success } );
 			} ).catch(
 				( e ) => {
-					console.error( e.message  );
+					console.error( e.message );
 				}
 			);
 		},
@@ -119,13 +122,4 @@ PersonSection.propTypes = {
 		name: PropTypes.string,
 	} ),
 	canEditUser: PropTypes.bool.isRequired,
-};
-
-PersonSection.defaultProps = {
-	imageUrl: "",
-	fallbackImageUrl: "",
-	person: {
-		id: 0,
-		name: "",
-	},
 };

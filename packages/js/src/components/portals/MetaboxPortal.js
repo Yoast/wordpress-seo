@@ -8,10 +8,10 @@ import Portal from "./Portal";
  * Renders the metabox portal.
  *
  * @param {string} target A target element ID in which to render the portal.
- * @param {Object} store  The Redux store.
- * @param {Object} theme  The theme to use.
+ * @param {Object} store The Redux store.
+ * @param {Object} theme The theme to use.
  *
- * @returns {null|wp.Element} The element.
+ * @returns {JSX.Element} The element.
  */
 export default function MetaboxPortal( { target, store, theme } ) {
 	return (
@@ -24,6 +24,6 @@ export default function MetaboxPortal( { target, store, theme } ) {
 
 MetaboxPortal.propTypes = {
 	target: PropTypes.string.isRequired,
-	store: PropTypes.object,
-	theme: PropTypes.object,
+	store: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired,
 };

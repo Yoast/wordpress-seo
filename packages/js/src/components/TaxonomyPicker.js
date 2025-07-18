@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
  *
  * @returns {JSX.Element} The rendered TaxonomyPicker component.
  */
-const TaxonomyPicker = ( { id, value, terms, label, onChange } ) => {
+const TaxonomyPicker = ( { id, value, terms = [], label, onChange } ) => {
 	const handleChange = useCallback( ( newValue ) => {
 		onChange( parseInt( newValue, 10 ) );
 	}, [ onChange ] );
@@ -41,9 +41,9 @@ TaxonomyPicker.propTypes = {
 		name: PropTypes.string.isRequired,
 	} ) ),
 	onChange: PropTypes.func.isRequired,
-	id: PropTypes.string,
-	label: PropTypes.string,
-	value: PropTypes.number,
+	id: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	value: PropTypes.number.isRequired,
 };
 
 export default TaxonomyPicker;

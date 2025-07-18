@@ -1,17 +1,17 @@
 /* eslint-disable complexity */
-import { Button } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
 import { Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
  * Represents the ACF logo.
  *
- * @param {object}  props The props.
+ * @param {Object} props The props.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
 const AcfLogo = ( props ) => {
 	return (
@@ -35,19 +35,19 @@ const AcfLogo = ( props ) => {
 /**
  * Represents an integration.
  *
- * @param {object}  integration          The integration.
- * @param {boolean} isActive             The integration state.
- * @param {boolean} isInstalled          The integration state.
+ * @param {Object} integration The integration.
+ * @param {boolean} [isActive=true] The integration state.
+ * @param {boolean} [isInstalled=true] The integration state.
  * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string}  installationLink     The URL to install ACF Content Analysis for Yoast SEO.
- * @param {string}  activationLink       The URL to activate ACF Content Analysis for Yoast SEO.
+ * @param {string} installationLink The URL to install ACF Content Analysis for Yoast SEO.
+ * @param {string} activationLink The URL to activate ACF Content Analysis for Yoast SEO.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
 export const AcfIntegration = ( {
 	integration,
-	isActive,
-	isInstalled,
+	isActive = true,
+	isInstalled = true,
 	isPrerequisiteActive,
 	installationLink,
 	activationLink,
@@ -130,12 +130,7 @@ AcfIntegration.propTypes = {
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	isInstalled: PropTypes.bool,
-	isPrerequisiteActive: PropTypes.bool,
-	installationLink: PropTypes.string,
-	activationLink: PropTypes.string,
-};
-
-AcfIntegration.defaultProps = {
-	isActive: true,
-	isInstalled: true,
+	isPrerequisiteActive: PropTypes.bool.isRequired,
+	installationLink: PropTypes.string.isRequired,
+	activationLink: PropTypes.string.isRequired,
 };

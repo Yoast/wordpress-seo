@@ -1,10 +1,12 @@
+/* eslint-disable complexity */
 /* global wpseoAdminL10n */
 import { Fragment, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
-import { join } from "@yoast/helpers";
-import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
+import { join } from "@yoast/helpers";
+import { noop } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -59,11 +61,19 @@ const getNoIndexOptions = ( editorContext ) => {
 /**
  * Functional component for the Meta Robots No-Index option.
  *
- * @param {Object} props The props object
+ * @param {string} noIndex The current noIndex value.
+ * @param {Function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {Object} editorContext The editor context object.
+ * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
  * @returns {JSX.Element} The Meta Robots No-Index.
  */
-const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivateBlog } ) => {
+const MetaRobotsNoIndex = ( {
+	noIndex,
+	onNoIndexChange,
+	editorContext,
+	isPrivateBlog = false,
+} ) => {
 	const metaRobotsNoIndexOptions = getNoIndexOptions( editorContext );
 
 	return <LocationConsumer>
@@ -100,12 +110,11 @@ MetaRobotsNoIndex.propTypes = {
 	isPrivateBlog: PropTypes.bool,
 };
 
-MetaRobotsNoIndex.defaultProps = {
-	isPrivateBlog: false,
-};
-
 /**
  * Functional component for the Meta Robots No-Follow option.
+ *
+ * @param {string} noFollow The current noFollow value.
+ * @param {Function} onNoFollowChange Callback for when the noFollow value changes.
  *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
@@ -137,7 +146,8 @@ MetaRobotsNoFollow.propTypes = {
 /**
  * Functional component for the Meta Robots Advanced field.
  *
- * @param {Object} props The props object
+ * @param {Array} advanced The selected advanced options.
+ * @param {Function} onAdvancedChange Callback for when the advanced options change.
  *
  * @returns {JSX.Element} The Meta Robots advanced field.
  */
@@ -174,7 +184,8 @@ MetaRobotsAdvanced.propTypes = {
 /**
  * Functional component for the Breadcrumbs Title.
  *
- * @param {Object} props The props object
+ * @param {string} breadcrumbsTitle The breadcrumbs title value.
+ * @param {Function} onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
  *
  * @returns {JSX.Element} The Breadcrumbs title.
  */
@@ -204,7 +215,8 @@ BreadcrumbsTitle.propTypes = {
 /**
  * Functional component for the Canonical URL.
  *
- * @param {Object} props The props object
+ * @param {string} canonical The canonical URL value.
+ * @param {Function} onCanonicalChange Callback for when the canonical URL changes.
  *
  * @returns {JSX.Element} The canonical URL.
  */
@@ -234,29 +246,41 @@ CanonicalURL.propTypes = {
 /**
  * The Advanced Settings component.
  *
- * @param {Object} props The props object
+ * @param {string} noIndex The current noIndex value.
+ * @param {string} canonical The canonical URL value.
+ * @param {Function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {Function} onCanonicalChange Callback for when the canonical URL changes.
+ * @param {Function} onLoad Callback for when the component loads.
+ * @param {boolean} isLoading Whether the component is loading.
+ * @param {Object} editorContext The editor context object.
+ * @param {boolean} isBreadcrumbsDisabled Whether breadcrumbs are disabled.
+ * @param {Array} [advanced=[]] The selected advanced options.
+ * @param {Function} [onAdvancedChange=noop] Callback for when the advanced options change.
+ * @param {string} [noFollow=""] The current noFollow value.
+ * @param {Function} [onNoFollowChange=noop] Callback for when the noFollow value changes.
+ * @param {string} [breadcrumbsTitle=""] The breadcrumbs title value.
+ * @param {Function} [onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
+ * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
- * @returns {wp.Element} The AdvancedSettings component.
+ * @returns {JSX.Element} The AdvancedSettings component.
  */
-const AdvancedSettings = ( props ) => {
-	const {
-		noIndex,
-		noFollow,
-		advanced,
-		breadcrumbsTitle,
-		canonical,
-		onNoIndexChange,
-		onNoFollowChange,
-		onAdvancedChange,
-		onBreadcrumbsTitleChange,
-		onCanonicalChange,
-		onLoad,
-		isLoading,
-		editorContext,
-		isBreadcrumbsDisabled,
-		isPrivateBlog,
-	} = props;
-
+const AdvancedSettings = ( {
+	noIndex,
+	canonical,
+	onNoIndexChange,
+	onCanonicalChange,
+	onLoad,
+	isLoading,
+	editorContext,
+	isBreadcrumbsDisabled,
+	advanced = [],
+	onAdvancedChange = noop,
+	noFollow = "",
+	onNoFollowChange = noop,
+	breadcrumbsTitle = "",
+	onBreadcrumbsTitleChange = noop,
+	isPrivateBlog = false,
+} ) => {
 	useEffect( () => {
 		setTimeout( () => {
 			if ( isLoading ) {
@@ -324,16 +348,6 @@ AdvancedSettings.propTypes = {
 	onNoFollowChange: PropTypes.func,
 	breadcrumbsTitle: PropTypes.string,
 	onBreadcrumbsTitleChange: PropTypes.func,
-};
-
-AdvancedSettings.defaultProps = {
-	advanced: [],
-	onAdvancedChange: () => {},
-	noFollow: "",
-	onNoFollowChange: () => {},
-	breadcrumbsTitle: "",
-	onBreadcrumbsTitleChange: () => {},
-	isPrivateBlog: false,
 };
 
 export default AdvancedSettings;

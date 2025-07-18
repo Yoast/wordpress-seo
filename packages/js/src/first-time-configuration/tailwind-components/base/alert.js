@@ -1,22 +1,22 @@
+/* eslint-disable complexity */
 // Duplicated from admin-ui! ( admin-ui/packages/toolkit/components/alert.js )
 // Addition: "success" case, fade in alert.
 
+import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import { useCallback, useState } from "@wordpress/element";
-import { InformationCircleIcon, ExclamationIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 
 /**
  * Renders the alert component.
  *
- * @param {string} type The type of the alert.
- * @param {*} children The content of the alert.
- * @param {string} className The class name for the alert.
- *
- * @returns {React.Component} The Alert.
+ * @param {string} [type="info"] The type of the alert.
+ * @param {React.ReactNode} children The content of the alert.
+ * @param {string} [className=""] The class name for the alert.
+ * @returns {JSX.Element} The Alert.
  */
-export default function Alert( { type, children, className } ) {
+export default function Alert( { type = "info", children, className = "" } ) {
 	let icon;
 	let color;
 
@@ -58,16 +58,26 @@ Alert.propTypes = {
 	className: PropTypes.string,
 };
 
-Alert.defaultProps = {
-	type: "info",
-	className: "",
-};
-
 /**
  * An Alert that expands and fades in.
- * @returns {WPElement} An Alert that expands and fades in.
+ *
+ * @param {string} id The id for the alert.
+ * @param {boolean} isVisible Whether the alert is visible.
+ * @param {number} [expandDuration=400] The expand animation duration.
+ * @param {string} [type="info"] The type of the alert.
+ * @param {React.ReactNode} children The content of the alert.
+ * @param {string} [className=""] The class name for the alert.
+ *
+ * @returns {JSX.Element} An Alert that expands and fades in.
  */
-export function FadeInAlert( { id, isVisible, expandDuration, type, children, className } ) {
+export function FadeInAlert( {
+	id,
+	isVisible,
+	expandDuration = 400,
+	type = "info",
+	children,
+	className = "",
+} ) {
 	const [ alertOpacity, setAlertOpacity ] = useState( isVisible ? "yst-opacity-100" : "yst-opacity-0" );
 	const startOpacityTransition = useCallback( () => {
 		setAlertOpacity( "yst-opacity-100" );
@@ -99,10 +109,4 @@ FadeInAlert.propTypes = {
 	] ).isRequired,
 	expandDuration: PropTypes.number,
 	className: PropTypes.string,
-};
-
-FadeInAlert.defaultProps = {
-	expandDuration: 400,
-	type: "info",
-	className: "",
 };

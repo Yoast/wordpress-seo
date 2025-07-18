@@ -1,17 +1,20 @@
+/* eslint-disable complexity */
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const PluginIconSVG = styled.svg`
 	width: ${ props => props.size }px;
 	height: ${ props => props.size }px;
+
 	&&& path {
 		fill: ${ props => props.color };
 	}
+
 	&&& circle.yoast-icon-readability-score {
 		fill: ${ props => props.readabilityScoreColor };
 		display: ${ props => props.isContentAnalysisActive ? "inline" : "none" };
 	}
-	
+
 	&&& circle.yoast-icon-seo-score {
 		fill: ${ props => props.seoScoreColor };
 		display: ${ props => props.isKeywordAnalysisActive ? "inline" : "none" };
@@ -20,11 +23,37 @@ const PluginIconSVG = styled.svg`
 
 /**
  * Renders the plugin icon SVG for Yoast SEO in the editor.
- * @param {object} props The props.
- * @returns {wp.Element} The component.
+ *
+ * @param {string} [readabilityScoreColor="#000000"] The color for the readability score circle.
+ * @param {boolean} [isContentAnalysisActive=false] Whether the readability score circle is active.
+ * @param {string} [seoScoreColor="#000000"] The color for the SEO score circle.
+ * @param {boolean} [isKeywordAnalysisActive=false] Whether the SEO score circle is active.
+ * @param {number} [size=20] The icon size in pixels.
+ * @param {string} [color="#000001"] The main icon color.
+ * @param {...Object} [props] Additional props.
+ *
+ * @returns {JSX.Element} The component.
  */
-const PluginIcon = function( props ) {
-	return <PluginIconSVG { ...props } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 646.66 456.27">
+const PluginIcon = ( {
+	readabilityScoreColor = "#000000",
+	isContentAnalysisActive = false,
+	seoScoreColor = "#000000",
+	isKeywordAnalysisActive = false,
+	size = 20,
+	color = "#000001",
+	...props
+} ) => {
+	return <PluginIconSVG
+		readabilityScoreColor={ readabilityScoreColor }
+		isContentAnalysisActive={ isContentAnalysisActive }
+		seoScoreColor={ seoScoreColor }
+		isKeywordAnalysisActive={ isKeywordAnalysisActive }
+		size={ size }
+		color={ color }
+		{ ...props }
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 646.66 456.27"
+	>
 		<path
 			d="M73,405.26a68.53,68.53,0,0,1-12.82-4c-1-.42-2-.89-3-1.37-1.49-.72-3-1.56-4.77-2.56-1.5-.88-2.71-1.64-3.83-2.39-.9-.61-1.8-1.26-2.68-1.92q-2.64-2-5.08-4.19a68.26,68.26,0,0,1-8.4-9.17c-.92-1.2-1.68-2.25-2.35-3.24q-1.84-2.73-3.44-5.64a68.26,68.26,0,0,1-8.29-32.55V142.13a68.29,68.29,0,0,1,8.29-32.55,58.6,58.6,0,0,1,3.44-5.64,57.53,57.53,0,0,1,4-5.27A69.64,69.64,0,0,1,48.56,85.42,56.06,56.06,0,0,1,54.2,82,67.78,67.78,0,0,1,73,75.09,69.79,69.79,0,0,1,86.75,73.7H256.41L263,55.39H86.75A86.84,86.84,0,0,0,0,142.13V338.22A86.83,86.83,0,0,0,86.75,425H98.07V406.65H86.75A68.31,68.31,0,0,1,73,405.26ZM368.55,60.85l-1.41-.53L360.73,77.5l1.41.53a68.58,68.58,0,0,1,8.66,4,58.65,58.65,0,0,1,5.65,3.43A69.49,69.49,0,0,1,391,98.67c1.4,1.68,2.72,3.46,3.95,5.27s2.39,3.72,3.44,5.64a68.32,68.32,0,0,1,8.29,32.55V406.65H233.55l-.44.76c-3.07,5.37-6.26,10.48-9.49,15.19L222,425H425V142.13A87.19,87.19,0,0,0,368.55,60.85Z"
 			fill="#000001"
@@ -63,15 +92,6 @@ PluginIcon.propTypes = {
 	isKeywordAnalysisActive: PropTypes.bool,
 	size: PropTypes.number,
 	color: PropTypes.string,
-};
-
-PluginIcon.defaultProps = {
-	readabilityScoreColor: "#000000",
-	isContentAnalysisActive: false,
-	seoScoreColor: "#000000",
-	isKeywordAnalysisActive: false,
-	size: 20,
-	color: "#000001",
 };
 
 export default PluginIcon;
