@@ -127,6 +127,7 @@ export const App = ( { onUseAi } ) => {
 		aiModalHelperLink,
 		isProductEntity,
 		isFreeSparksActive,
+		isWooSeoActive,
 	} = useSelect( select => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -143,6 +144,7 @@ export const App = ( { onUseAi } ) => {
 			focusKeyphrase: editorSelect.getFocusKeyphrase(),
 			isPremium: editorSelect.getIsPremium(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
+			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
 			isProductEntity: editorSelect.getIsProductEntity(),
@@ -154,8 +156,7 @@ export const App = ( { onUseAi } ) => {
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
-	const buttonId = `yst-replacevar__use-ai-button__${ editType }__${ location }`;
-	const [ loadingButtonId, setLoadingButtonId ] = useState( null );
+	const [ loading, setLoading ] = useState( false );
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
@@ -189,7 +190,7 @@ export const App = ( { onUseAi } ) => {
 	 * @param {Object} event The click event.
 	 * @returns {void}
 	 */
-	const handleUseAi = useCallback( async( event ) => {
+	const handleUseAi = useCallback( async() => {
 		onUseAi();
 
 		// The analysis feature is not active, so we cannot use AI.
@@ -208,8 +209,14 @@ export const App = ( { onUseAi } ) => {
 		// Getting the subscriptions.
 		const subscriptions = checkSubscriptions();
 
-		// User has no subscription but premium is installed.
-		if ( ! subscriptions && isPremium ) {
+		// User has no subscription, but premium and woo are installed and it a product entity.
+		if ( ! subscriptions && isPremium && isWooSeoActive && isProductEntity && isWooCommerceActive ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
+
+		// User has no subscription but premium or woo is installed.
+		if ( ! subscriptions && isPremium && ! isProductEntity ) {
 			// Let the user know that they need to activate their subscription.
 			setDisplay( DISPLAY.error );
 			return;
@@ -221,14 +228,13 @@ export const App = ( { onUseAi } ) => {
 			return;
 		}
 
-		// We need the loader only before we fetch the usage count.
-		if ( event.target.id === buttonId ) {
-			setLoadingButtonId( buttonId );
-		}
+		setLoading( true );
 
 		// Getting the usage count.
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
+
+		setLoading( false );
 
 		// User revoked consent on a different window after clicking on the "Try for free" AI button or has subscription.
 		if ( payload?.errorCode === 403 && ( isFreeSparksActive || subscriptions ) ) {
@@ -279,7 +285,12 @@ export const App = ( { onUseAi } ) => {
 		checkFocusKeyphrase,
 		showFocusKeyphrase,
 		usageCountEndpoint,
-		fetchUsageCount ] );
+		fetchUsageCount,
+		isWooSeoActive,
+		isProductEntity,
+		isWooCommerceActive,
+		loading,
+	] );
 
 	/**
 	 * Callback to start generating content after granting consent.
@@ -324,12 +335,12 @@ export const App = ( { onUseAi } ) => {
 		<>
 			<button
 				type="button"
-				id={ buttonId }
+				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
 				className="yst-replacevar__use-ai-button"
 				onClick={ handleUseAi }
 				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
 			>
-				{ loadingButtonId === buttonId && usageCountStatus === ASYNC_ACTION_STATUS.loading  && (
+				{ loading && usageCountStatus === ASYNC_ACTION_STATUS.loading  && (
 					<Spinner className="yst-me-2" />
 				) }
 				{ __( "Use AI", "wordpress-seo" ) }
