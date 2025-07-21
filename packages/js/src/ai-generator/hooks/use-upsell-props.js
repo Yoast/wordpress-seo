@@ -47,11 +47,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 			if ( isProductPost ) {
 				upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
 			}
-			upsellProps.newToText = sprintf(
-				/* translators: %1$s expands to Yoast SEO Premium and Yoast WooCommerce SEO. */
-				__( "New in %1$s", "wordpress-seo" ),
-				"Yoast WooCommerce SEO"
-			);
+			upsellProps.newToText = "Yoast WooCommerce SEO";
 
 			upsellProps.upsellLabel = sprintf(
 				/* translators: %1$s expands to Yoast WooCommerce SEO. */
