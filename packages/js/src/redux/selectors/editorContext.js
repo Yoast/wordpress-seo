@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { getIsWooCommerceActive } from "./preferences";
 
 /**
  * Gets the editor context.
@@ -68,6 +69,18 @@ export const getIsProductTerm = createSelector(
 export const getIsProductEntity = createSelector(
 	[ getIsProduct, getIsProductTerm ],
 	( isProduct, isProductTerm ) => isProduct || isProductTerm
+);
+
+/**
+ * Returns whether you're editing a product entity.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product entity.
+ */
+export const getIsWooProductEntity = createSelector(
+	[ getIsProduct, getIsProductTerm, getIsWooCommerceActive ],
+	( isProduct, isProductTerm, isWooCommerceActive ) => isWooCommerceActive && ( isProduct || isProductTerm )
 );
 
 /**

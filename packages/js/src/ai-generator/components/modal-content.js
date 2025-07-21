@@ -99,7 +99,7 @@ export const ModalContent = ( { height } ) => {
 	const {
 		isUsageCountLimitReached,
 		isWooSeoActive,
-		isProductEntity,
+		isWooProductEntity,
 		isPremium,
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
@@ -107,22 +107,26 @@ export const ModalContent = ( { height } ) => {
 		return ( {
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
 			isPremium: editorSelect.getIsPremium(),
-			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooProductEntity: editorSelect.getisWooProductEntity(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 		} );
 	}, [] );
 
 	const disableGenerateMore = useMemo( () => {
-		if ( ! isWooSeoActive && isUsageCountLimitReached && isProductEntity ) {
+		if ( suggestions.status === ASYNC_ACTION_STATUS.loading ) {
 			return true;
 		}
 
-		if ( ! isPremium && isUsageCountLimitReached && ! isProductEntity ) {
+		if ( ! isWooSeoActive && isUsageCountLimitReached && isWooProductEntity ) {
 			return true;
 		}
 
-		return suggestions.status === ASYNC_ACTION_STATUS.loading;
-	}, [ isPremium, isUsageCountLimitReached, suggestions.status, isProductEntity, isWooSeoActive ] );
+		if ( ! isPremium && isUsageCountLimitReached && ! isWooProductEntity ) {
+			return true;
+		}
+
+		return false;
+	}, [ isPremium, isUsageCountLimitReached, suggestions.status, isWooProductEntity, isWooSeoActive ] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );

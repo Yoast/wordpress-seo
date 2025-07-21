@@ -4,7 +4,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Notifications, useToggleState } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { CONTENT_TYPE, EDIT_TYPE, MIN_CHARACTERS_DEFAULT, MIN_CHARACTERS_IRREGULAR, STORE_NAME_EDITOR } from "../constants";
-import { isWooActiveAndProductPostType } from "../helpers";
 import { useTypeContext } from "../hooks";
 
 const ALERT_KEY = "ai_generator_tip_notification";
@@ -16,8 +15,8 @@ const ALERT_KEY = "ai_generator_tip_notification";
  * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {number} The minimum content length.
  */
-const getMinimumContentLength = ( postType, contentType, isWooCommerceActive ) =>
-	isWooActiveAndProductPostType( isWooCommerceActive, postType ) || contentType === CONTENT_TYPE.term
+const getMinimumContentLength = ( isWooProductEntity, contentType ) =>
+	isWooProductEntity || contentType === CONTENT_TYPE.term
 		? MIN_CHARACTERS_IRREGULAR
 		: MIN_CHARACTERS_DEFAULT;
 
@@ -29,9 +28,9 @@ const getMinimumContentLength = ( postType, contentType, isWooCommerceActive ) =
 export const TipNotification = () => {
 	const isDismissed = useSelect( select => select( STORE_NAME_EDITOR ).isAlertDismissed( ALERT_KEY ), [] );
 	const content = useSelect( select => select( STORE_NAME_EDITOR ).getEditorDataContent(), [] );
-	const isWooCommerceActive = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooCommerceActive(), [] );
+	const isWooProductEntity = useSelect( select => select( STORE_NAME_EDITOR ).getisWooProductEntity(), [] );
 	const [ isIgnored, , , setIgnoredTrue ] = useToggleState( false );
-	const { editType, postType, contentType } = useTypeContext();
+	const { editType, contentType } = useTypeContext();
 	const { dismissAlert } = useDispatch( STORE_NAME_EDITOR );
 
 	const handleDismiss = useCallback( () => {
@@ -53,8 +52,8 @@ export const TipNotification = () => {
 		);
 	}, [ editType ] );
 
-	const minimumContentLength = useMemo( () => getMinimumContentLength( postType, contentType, isWooCommerceActive ),
-		[ postType, contentType, isWooCommerceActive ] );
+	const minimumContentLength = useMemo( () => getMinimumContentLength( isWooProductEntity, contentType ),
+		[ contentType, isWooProductEntity ] );
 
 	// If the tip is dismissed or ignored, or the content length is greater than the minimum required, don't show the tip.
 	if ( isDismissed || isIgnored || content.length > minimumContentLength ) {
