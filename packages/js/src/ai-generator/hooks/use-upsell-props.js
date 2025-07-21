@@ -45,12 +45,6 @@ export const useUpsellProps = ( upsellLinks ) => {
 
 		// Use specific copy for product posts and terms, otherwise revert to the defaults.
 		if ( isWooProductEntity ) {
-			const upsellPremiumWooLabel = sprintf(
-				/* translators: %1$s expands to Yoast SEO Premium, %2$s expands to Yoast WooCommerce SEO. */
-				__( "%1$s + %2$s", "wordpress-seo" ),
-				"Yoast SEO Premium",
-				"Yoast WooCommerce SEO"
-			);
 			if ( isProductPost ) {
 				upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
 			}
