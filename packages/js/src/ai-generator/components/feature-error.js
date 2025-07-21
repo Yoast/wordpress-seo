@@ -16,13 +16,15 @@ import { UsageCountError } from "./usage-count-error";
  */
 export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true } ) => {
 	const { postType } = useTypeContext();
-	const { isPremium, isWooCommerceActive, usageCountStatus, usageCountError } = useSelect( ( select ) => {
+	const { isPremium, isWooCommerceActive, usageCountStatus, usageCountError, isProductEntity, isWooSeoActive } = useSelect( ( select ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			isPremium: editorSelect.getIsPremium(),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			usageCountStatus: select( STORE_NAME_AI ).selectUsageCountStatus(),
 			usageCountError: select( STORE_NAME_AI ).selectUsageCountError(),
+			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 		};
 	}, [] );
 	const missingWooSeo = useMemo( () => {
@@ -30,20 +32,18 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 	}, [ isWooCommerceActive, postType, currentSubscriptions.wooCommerceSubscription ] );
 
 	const invalidSubscriptions = useMemo( () => {
-		if ( ! isPremium ) {
-			return [];
-		}
 		const subscriptions = [];
-		if ( ! currentSubscriptions.premiumSubscription ) {
+
+		if ( isPremium && ! currentSubscriptions.premiumSubscription && ! isProductEntity ) {
 			subscriptions.push( "Yoast SEO Premium" );
 		}
 
-		if ( missingWooSeo ) {
+		if ( missingWooSeo && isWooSeoActive ) {
 			subscriptions.push( "Yoast WooCommerce SEO" );
 		}
 
 		return subscriptions;
-	}, [ isPremium, currentSubscriptions.premiumSubscription, missingWooSeo, currentSubscriptions.wooCommerceSubscription ] );
+	}, [ isPremium, currentSubscriptions.premiumSubscription, missingWooSeo, isWooSeoActive, isProductEntity ] );
 
 	if ( invalidSubscriptions.length > 0 ) {
 		return <SubscriptionError invalidSubscriptions={ invalidSubscriptions } />;

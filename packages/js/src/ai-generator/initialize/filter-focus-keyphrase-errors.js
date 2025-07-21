@@ -1,6 +1,4 @@
 import { isConsideredEmpty } from "../helpers";
-import { select as wpSelect } from "@wordpress/data";
-import { STORE_NAME_AI } from "../constants";
 import { __ } from "@wordpress/i18n";
 
 let hasInteractedWithFeature = false;
@@ -24,8 +22,8 @@ export const updateInteractedWithFeature = () => {
  * @returns {string[]} The errors.
  */
 export const filterFocusKeyphraseErrors = ( errors, focusKeyphrase ) => {
-	if ( ! hasInteractedWithFeature || ! wpSelect( STORE_NAME_AI ).selectHasAiGeneratorConsent() ) {
-		// No interaction or consent: don't adjust the errors.
+	if ( ! hasInteractedWithFeature ) {
+		// No interaction: don't adjust the errors.
 		return errors;
 	}
 
