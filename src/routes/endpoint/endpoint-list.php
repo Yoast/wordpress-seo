@@ -39,4 +39,12 @@ class Endpoint_List {
 
 		return $result;
 	}
+
+	public function merge_with( Endpoint_List $other_list ): Endpoint_List {
+		foreach ( $other_list->endpoints as $endpoint ) {
+			$this->add_endpoint( $endpoint );
+		}
+
+		return $this;
+	}
 }
