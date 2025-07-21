@@ -4,13 +4,12 @@
 namespace Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route;
 
 /**
  * Represents the setup steps tracking endpoint.
  */
-class Consent_Endpoint implements Endpoint_Interface {
+class Consent_Endpoint implements Consent_Endpoint_Interface {
 
 	/**
 	 * Gets the name.

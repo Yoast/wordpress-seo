@@ -4,13 +4,12 @@
 namespace Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route;
 
 /**
  * Represents the setup steps tracking endpoint.
  */
-class Get_Usage_Endpoint implements Endpoint_Interface {
+class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 
 	/**
 	 * Gets the name.

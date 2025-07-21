@@ -4,12 +4,11 @@
 namespace Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route;
-use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 
 /**
  * Represents the free sparks endpoint.
  */
-class Free_Sparks_Endpoint implements Endpoint_Interface {
+class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -17,7 +16,7 @@ class Free_Sparks_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'free_sparks';
+		return 'freeSparks';
 	}
 
 	/**
