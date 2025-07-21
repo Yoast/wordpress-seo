@@ -19,7 +19,6 @@ import classNames from "classnames";
 export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 	const {
 		premiumUpsellLink,
-		bundleUpsellLink,
 		wooUpsellLink,
 		isWooCommerceActive,
 		isProductPost,
@@ -34,7 +33,6 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
 			premiumUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-generator-upsell" ),
-			bundleUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-generator-upsell-woo-seo-premium-bundle" ),
 			wooUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-generator-upsell-woo-seo" ),
 			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isProductPost: editorSelect.getIsProduct(),
@@ -53,9 +51,8 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 		upsellLabel,
 		upsellLink,
 		ctbId,
-		bundleNote,
 		newToText,
-	} = useUpsellProps( { premium: premiumUpsellLink, woo: wooUpsellLink, bundle: bundleUpsellLink } );
+	} = useUpsellProps( { premium: premiumUpsellLink, woo: wooUpsellLink } );
 	const isProductCopy = useMemo( () => isWooCommerceActive && isProductPost,
 		[ isWooCommerceActive, isProductPost ] );
 
@@ -178,7 +175,6 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 					{ __( "Try for free", "wordpress-seo" ) }
 				</GradientButton> }
 			</div>
-			{ bundleNote }
 			<Button
 				as="a"
 				className="yst-mt-4"
