@@ -32,3 +32,18 @@ export function withWindowMock( data, runTests ) {
 		spy.mockRestore();
 	}
 }
+
+/**
+ * Mocks the console.error method to prevent it from logging errors during tests.
+ * @param {(Function) => void} fn The function to execute with the mocked console.error.
+ * @returns {*} Tries to return the result of the function passed in.
+ */
+export const withConsoleErrorMock = ( fn ) => {
+	const consoleErrorImplementation = console.error;
+	console.error = jest.fn();
+	try {
+		return fn( console.error );
+	} finally {
+		console.error = consoleErrorImplementation;
+	}
+};
