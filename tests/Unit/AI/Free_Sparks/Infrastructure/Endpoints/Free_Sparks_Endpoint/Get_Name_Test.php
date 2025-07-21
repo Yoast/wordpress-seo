@@ -18,6 +18,6 @@ final class Get_Name_Test extends Abstract_Free_Sparks_Endpoint_Test {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'free_sparks', $this->instance->get_name() );
+		$this->assertSame( 'freeSparks', $this->instance->get_name() );
 	}
 }
