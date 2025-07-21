@@ -96,7 +96,33 @@ export const ModalContent = ( { height } ) => {
 	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
 	const Preview = usePreviewContent();
 	const { addAppliedSuggestion, addUsageCount } = useDispatch( STORE_NAME_AI );
-	const isPremium = useSelect( ( select ) => select( STORE_NAME_EDITOR ).getIsPremium(), [] );
+	const {
+		isUsageCountLimitReached,
+		isWooSeoActive,
+		isProductEntity,
+		isPremium,
+	} = useSelect( ( select ) => {
+		const aiSelect = select( STORE_NAME_AI );
+		const editorSelect = select( STORE_NAME_EDITOR );
+		return ( {
+			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
+			isPremium: editorSelect.getIsPremium(),
+			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooSeoActive: editorSelect.getIsWooSeoActive(),
+		} );
+	}, [] );
+
+	const disableGenerateMore = useMemo( () => {
+		if ( ! isWooSeoActive && isUsageCountLimitReached && isProductEntity ) {
+			return true;
+		}
+
+		if ( ! isPremium && isUsageCountLimitReached && ! isProductEntity ) {
+			return true;
+		}
+
+		return suggestions.status === ASYNC_ACTION_STATUS.loading;
+	}, [ isPremium, isUsageCountLimitReached, suggestions.status, isProductEntity, isWooSeoActive ] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
@@ -178,10 +204,8 @@ export const ModalContent = ( { height } ) => {
 	const showLoading = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.loading && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 	const showError = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 
-	const isUsageCountLimitReached = useSelect( ( select ) => select( STORE_NAME_AI ).isUsageCountLimitReached(), [] );
-
 	const handleGenerateMore = useCallback( () => {
-		if ( isUsageCountLimitReached && ! isPremium ) {
+		if ( disableGenerateMore ) {
 			return;
 		}
 
@@ -274,7 +298,7 @@ export const ModalContent = ( { height } ) => {
 									size="small"
 									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
 									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
-									disabled={ ( ! isPremium && isUsageCountLimitReached ) || suggestions.status === ASYNC_ACTION_STATUS.loading }
+									disabled={ disableGenerateMore }
 								>
 									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
 										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
