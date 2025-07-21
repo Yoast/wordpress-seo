@@ -40,6 +40,14 @@ class Endpoint_List {
 		return $result;
 	}
 
+	/**
+	 * Merges two Endpoint_List objects together.
+	 * Returns the current instance for method chaining.
+	 *
+	 * @param Endpoint_List $other_list The other Endpoint_List to merge with.
+	 *
+	 * @return $this
+	 */
 	public function merge_with( Endpoint_List $other_list ): Endpoint_List {
 		foreach ( $other_list->endpoints as $endpoint ) {
 			$this->add_endpoint( $endpoint );
