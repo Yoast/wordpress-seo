@@ -28,7 +28,7 @@ const getMinimumContentLength = ( isWooProductEntity, contentType ) =>
 export const TipNotification = () => {
 	const isDismissed = useSelect( select => select( STORE_NAME_EDITOR ).isAlertDismissed( ALERT_KEY ), [] );
 	const content = useSelect( select => select( STORE_NAME_EDITOR ).getEditorDataContent(), [] );
-	const isWooProductEntity = useSelect( select => select( STORE_NAME_EDITOR ).getisWooProductEntity(), [] );
+	const isWooProductEntity = useSelect( select => select( STORE_NAME_EDITOR ).getIsWooProductEntity(), [] );
 	const [ isIgnored, , , setIgnoredTrue ] = useToggleState( false );
 	const { editType, contentType } = useTypeContext();
 	const { dismissAlert } = useDispatch( STORE_NAME_EDITOR );

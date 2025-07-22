@@ -19,7 +19,7 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 			isPremium: editorSelect.getIsPremium(),
 			usageCountStatus: select( STORE_NAME_AI ).selectUsageCountStatus(),
 			usageCountError: select( STORE_NAME_AI ).selectUsageCountError(),
-			isWooProductEntity: editorSelect.getisWooProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 		};
 	}, [] );

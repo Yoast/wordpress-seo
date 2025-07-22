@@ -109,7 +109,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
 			premiumUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
 			wooUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks-woo" ),
-			isWooProductEntity: editorSelect.getisWooProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			hasValidPremiumSubscription: aiSelect.selectPremiumSubscription(),
 			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 		} );

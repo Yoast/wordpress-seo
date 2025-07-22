@@ -107,7 +107,7 @@ export const ModalContent = ( { height } ) => {
 		return ( {
 			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
 			isPremium: editorSelect.getIsPremium(),
-			isWooProductEntity: editorSelect.getisWooProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 		} );
 	}, [] );
