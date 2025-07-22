@@ -1,6 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\AI\Generator\User_Interface;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\AI\Generate\User_Interface;
 
 use WP_REST_Response;
 use WPSEO_Addon_Manager;
