@@ -45,7 +45,7 @@ describe( "UpsellModalContent", () => {
 						getIsProduct: () => false,
 						getIsPremium: () => false,
 						getIsWooSeoActive: () => false,
-						getIsProductEntity: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {
@@ -80,7 +80,7 @@ describe( "UpsellModalContent", () => {
 						getIsProduct: () => false,
 						getIsPremium: () => false,
 						getIsWooSeoActive: () => false,
-						getIsProductEntity: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {
@@ -110,6 +110,9 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
+						getIsPremium: () => false,
+						getIsWooSeoActive: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {

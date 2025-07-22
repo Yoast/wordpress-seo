@@ -25,7 +25,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 		return {
 			isPremiumActive: editorSelect.getIsPremium(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
-			isWooProductEntity: editorSelect.getisWooProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isProductPost: editorSelect.getIsProduct(),
 		};
 	}, [] );

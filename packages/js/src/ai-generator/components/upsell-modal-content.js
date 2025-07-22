@@ -74,7 +74,7 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 	const handleStartTrial = useCallback( () => {
 		activateFreeSparks( { endpoint: activateFreeSparksEndpoint } );
 		onActivateFreeSparks();
-	}, [ activateFreeSparks, activateFreeSparksEndpoint, onClose ] );
+	}, [ activateFreeSparks, activateFreeSparksEndpoint, onClose, onActivateFreeSparks ] );
 
 	const learnMoreLinkStructure = {
 		a: <OutboundLink
