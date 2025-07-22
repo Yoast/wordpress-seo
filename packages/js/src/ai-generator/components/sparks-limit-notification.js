@@ -30,14 +30,14 @@ const SparksLimitContent = ( { onClose } ) => (
 /**
  * @param {Function} onClose Callback function to close the notification.
  * @param {string} upsellLink The link to the upsell page.
- * @param {boolean} [isProductEntity=false] If its a product entity.
+ * @param {boolean} [isWooProductEntity=false] If its a product entity.
  * @param {string} [ctbId] The click to buy ID for the upsell.
  * @returns {JSX.Element} The content with upsell for the sparks limit notification.
  */
 const SparksLimitUpsellContent = ( {
 	onClose,
 	upsellLink,
-	isProductEntity = false,
+	isWooProductEntity = false,
 	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -48,7 +48,7 @@ const SparksLimitUpsellContent = ( {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium or Yoast WooCommerce SEO. */
 					__( "Keep the momentum going, unlock unlimited sparks with %s!", "wordpress-seo" ),
-					isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+					isWooProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 				) }
 			</p>
 			<div className={ CLASSNAMES.buttonContainer }>
@@ -69,7 +69,7 @@ const SparksLimitUpsellContent = ( {
 					{ sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium or Yoast WooCommerce SEO. */
 						__( "Unlock with %1$s", "wordpress-seo" ),
-						isProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+						isWooProductEntity ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 					) }
 					<span className="yst-sr-only">
 						{
@@ -97,7 +97,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		usageCountLimit,
 		premiumUpsellLink,
 		wooUpsellLink,
-		isProductEntity,
+		isWooProductEntity,
 		hasValidPremiumSubscription,
 		hasValidWooSubscription,
 	} = useSelect( ( select ) => {
@@ -109,13 +109,14 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			usageCountLimit: aiSelect.selectUsageCountLimit(),
 			premiumUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks" ),
 			wooUpsellLink: editorSelect.selectLink( "https://yoa.st/ai-toast-out-of-free-sparks-woo" ),
-			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			hasValidPremiumSubscription: aiSelect.selectPremiumSubscription(),
 			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 		} );
 	}, [] );
-	const hasUnlimitedSparks = useMemo( () => ( hasValidPremiumSubscription && ! isProductEntity ) || ( isProductEntity && hasValidWooSubscription ),
-		[ hasValidPremiumSubscription, isProductEntity, hasValidWooSubscription ] );
+	const hasUnlimitedSparks = useMemo( () =>
+		( hasValidPremiumSubscription && ! isWooProductEntity ) || ( isWooProductEntity && hasValidWooSubscription ),
+	[ hasValidPremiumSubscription, isWooProductEntity, hasValidWooSubscription ] );
 
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
 
@@ -125,7 +126,8 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		setShowNotification( showNotificationPremium || showNotificationFree );
 	}, [ usageCount, usageCountLimit, hasUnlimitedSparks, isUsageCountLimitReached ] );
 
-	const upsellLink = useMemo( () => isProductEntity ? wooUpsellLink : premiumUpsellLink, [ isProductEntity, wooUpsellLink, premiumUpsellLink ] );
+	const upsellLink = useMemo( () => isWooProductEntity ? wooUpsellLink : premiumUpsellLink,
+		[ isWooProductEntity, wooUpsellLink, premiumUpsellLink ] );
 
 	return showNotification && (
 		<Notifications.Notification
@@ -150,7 +152,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		>
 			{ hasUnlimitedSparks
 				? <SparksLimitContent onClose={ hideNotification } />
-				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } isProductEntity={ isProductEntity } />
+				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } isWooProductEntity={ isWooProductEntity } />
 			}
 		</Notifications.Notification>
 	);
