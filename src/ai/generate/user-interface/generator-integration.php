@@ -1,12 +1,12 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\AI\Generator\User_Interface;
+namespace Yoast\WP\SEO\AI\Generate\User_Interface;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
-use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
+use Yoast\WP\SEO\AI\Generate\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
@@ -18,9 +18,9 @@ use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
- * Ai_Generator_Integration class.
+ * Generator_Integration class.
  */
-class Ai_Generator_Integration implements Integration_Interface {
+class Generator_Integration implements Integration_Interface {
 
 	/**
 	 * Represents the admin asset manager.
