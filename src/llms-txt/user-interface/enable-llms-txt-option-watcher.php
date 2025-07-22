@@ -132,18 +132,6 @@ class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 				continue;
 			}
 
-			if ( $option_name === 'other_included_pages' ) {
-				// @TODO: double check the way we compare the arrays both for performance and edge cases.
-				if (
-					\count( $old_value[ $option_name ] ) !== \count( $new_value[ $option_name ] )
-					|| ! empty( \array_diff( $old_value[ $option_name ], $new_value[ $option_name ] ) )
-					|| ! empty( \array_diff( $new_value[ $option_name ], $old_value[ $option_name ] ) )
-				) {
-					$this->populate_file_command_handler->handle();
-					return;
-				}
-			}
-
 			if ( $old_value[ $option_name ] !== $new_value[ $option_name ] ) {
 				$this->populate_file_command_handler->handle();
 				return;
