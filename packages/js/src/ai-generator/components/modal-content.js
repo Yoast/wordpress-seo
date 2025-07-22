@@ -98,9 +98,9 @@ export const ModalContent = ( { height } ) => {
 	const { addAppliedSuggestion, addUsageCount } = useDispatch( STORE_NAME_AI );
 	const {
 		isUsageCountLimitReached,
-		isWooSeoActive,
 		isWooProductEntity,
-		isPremium,
+		hasValidPremiumSubscription,
+		hasValidWooSubscription
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
@@ -109,6 +109,8 @@ export const ModalContent = ( { height } ) => {
 			isPremium: editorSelect.getIsPremium(),
 			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
+			hasValidPremiumSubscription: aiSelect.selectPremiumSubscription(),
+			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 		} );
 	}, [] );
 
@@ -117,16 +119,16 @@ export const ModalContent = ( { height } ) => {
 			return true;
 		}
 
-		if ( ! isWooSeoActive && isUsageCountLimitReached && isWooProductEntity ) {
+		if ( ! hasValidWooSubscription && isUsageCountLimitReached && isWooProductEntity ) {
 			return true;
 		}
 
-		if ( ! isPremium && isUsageCountLimitReached && ! isWooProductEntity ) {
+		if ( ! hasValidPremiumSubscription && isUsageCountLimitReached && ! isWooProductEntity ) {
 			return true;
 		}
 
 		return false;
-	}, [ isPremium, isUsageCountLimitReached, suggestions.status, isWooProductEntity, isWooSeoActive ] );
+	}, [ hasValidPremiumSubscription, isUsageCountLimitReached, suggestions.status, isWooProductEntity, hasValidWooSubscription ] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
