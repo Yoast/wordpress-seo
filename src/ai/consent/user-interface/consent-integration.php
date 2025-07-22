@@ -11,9 +11,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Ai_Consent_Integration class.
+ * Consent_Integration class.
  */
-class Ai_Consent_Integration implements Integration_Interface {
+class Consent_Integration implements Integration_Interface {
 
 	/**
 	 * Represents the admin asset manager.
