@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
 import { get } from "lodash";
-import { getIsProductEntity, getIsProductTerm, getIsProduct } from "./editorContext";
+import { getIsProductEntity, getIsProductTerm } from "./editorContext";
 
 /**
  * Gets a preference.
@@ -78,8 +78,8 @@ export const getIsWooSeoUpsellTerm = createSelector(
  * @returns {boolean} Whether you're editing a product entity and WooCommerce is active.
  */
 export const getIsWooProductEntity = createSelector(
-	[ getIsProduct, getIsProductTerm, getIsWooCommerceActive ],
-	( isProduct, isProductTerm, isWooCommerceActive ) => isWooCommerceActive && ( isProduct || isProductTerm )
+	[ getIsProductEntity, getIsWooCommerceActive ],
+	( isProductEntity, isWooCommerceActive ) => isWooCommerceActive && isProductEntity
 );
 
 /**
