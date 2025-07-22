@@ -20,7 +20,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 	 * @return void
 	 */
 	public function test_enqueue_assets() {
-		// Current user ID is used for the consent and embed permission.
+		// Current user ID is used for the consent permission.
 		$user_id = 1;
 		$this->user_helper->expects( 'get_current_user_id' )->once()->withNoArgs()->andReturn( $user_id );
 		// Has consent.

@@ -18,7 +18,7 @@ final class Revoke_Consent_Test extends Abstract_Consent_Handler_Test {
 	 * @return void
 	 */
 	public function test_revoke_consent() {
-		// Current user ID is used for the consent and embed permission.
+		// Current user ID is used for the consent permission.
 		$user_id = 1;
 
 		$this->user_helper->expects( 'delete_meta' )
