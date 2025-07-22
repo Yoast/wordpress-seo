@@ -20,11 +20,10 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @returns {UpsellProps} The upsell props.
  */
 export const useUpsellProps = ( upsellLinks ) => {
-	const { isWooCommerceActive, isProductEntity, isProductPost } = useSelect( select => {
+	const { isWooProductEntity, isProductPost } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
-			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
-			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isProductPost: editorSelect.getIsProduct(),
 		};
 	}, [] );
@@ -43,7 +42,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 		};
 
 		// Use specific copy for product posts and terms, otherwise revert to the defaults.
-		if ( isWooCommerceActive && isProductEntity ) {
+		if ( isWooProductEntity ) {
 			if ( isProductPost ) {
 				upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
 			}
@@ -60,8 +59,7 @@ export const useUpsellProps = ( upsellLinks ) => {
 
 		return upsellProps;
 	}, [
-		isWooCommerceActive,
-		isProductEntity,
+		isWooProductEntity,
 		isProductPost,
 		upsellLinks.premium,
 		upsellLinks.woo,

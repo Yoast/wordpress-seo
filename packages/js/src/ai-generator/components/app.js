@@ -122,10 +122,9 @@ export const App = ( { onUseAi } ) => {
 		hasValidWooSubscription,
 		focusKeyphrase,
 		isPremium,
-		isWooCommerceActive,
 		isSeoAnalysisActive,
 		aiModalHelperLink,
-		isProductEntity,
+		isWooProductEntity,
 		isFreeSparksActive,
 		isWooSeoActive,
 	} = useSelect( select => {
@@ -143,11 +142,10 @@ export const App = ( { onUseAi } ) => {
 			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 			focusKeyphrase: editorSelect.getFocusKeyphrase(),
 			isPremium: editorSelect.getIsPremium(),
-			isWooCommerceActive: editorSelect.getIsWooCommerceActive(),
 			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isSeoAnalysisActive: editorSelect.getPreference( "isKeywordAnalysisActive", true ),
 			aiModalHelperLink: editorSelect.selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
-			isProductEntity: editorSelect.getIsProductEntity(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isFreeSparksActive: select( STORE_NAME_AI ).selectIsFreeSparksActive(),
 		};
 	}, [] );
@@ -178,11 +176,11 @@ export const App = ( { onUseAi } ) => {
 	}, [ closeEditorModal, location ] );
 
 	const checkSubscriptions = useCallback( () => {
-		if (  isProductEntity && isWooCommerceActive ) {
+		if (  isWooProductEntity ) {
 			return hasValidWooSubscription;
 		}
 		return hasValidPremiumSubscription;
-	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isProductEntity, isWooCommerceActive ] );
+	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isWooProductEntity ] );
 
 	/**
 	 * Callback to handle the "Use AI" button click.
@@ -210,13 +208,13 @@ export const App = ( { onUseAi } ) => {
 		const subscriptions = checkSubscriptions();
 
 		// User has no subscription, but premium and woo are installed and it a product entity.
-		if ( ! subscriptions && isPremium && isWooSeoActive && isProductEntity && isWooCommerceActive ) {
+		if ( ! subscriptions && isPremium && isWooSeoActive && isWooProductEntity ) {
 			setDisplay( DISPLAY.error );
 			return;
 		}
 
 		// User has no subscription but premium or woo is installed.
-		if ( ! subscriptions && isPremium && ! isProductEntity ) {
+		if ( ! subscriptions && isPremium && ! isWooProductEntity ) {
 			// Let the user know that they need to activate their subscription.
 			setDisplay( DISPLAY.error );
 			return;
@@ -287,8 +285,7 @@ export const App = ( { onUseAi } ) => {
 		usageCountEndpoint,
 		fetchUsageCount,
 		isWooSeoActive,
-		isProductEntity,
-		isWooCommerceActive,
+		isWooProductEntity,
 		loading,
 	] );
 
