@@ -119,15 +119,16 @@ const validateUsageCountResponse = ( result ) => {
 
 /**
  * @param {string} endpoint The endpoint to fetch the usage count from.
+ * @param {boolean} isWooProductEntity Whether the request is for a product entity.
  * @returns {Object} Success or error action object.
  */
-export function* fetchUsageCount( { endpoint } ) {
+export function* fetchUsageCount( { endpoint, isWooProductEntity } ) {
 	yield{ type: `${ FETCH_USAGE_COUNT_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		// Throws an error if the response structure is invalid.
 		const payload = validateUsageCountResponse(
 			// Trigger the fetch users control flow.
-			yield{ type: FETCH_USAGE_COUNT_ACTION_NAME, payload: endpoint }
+			yield{ type: FETCH_USAGE_COUNT_ACTION_NAME, payload: { endpoint, isWooProductEntity } }
 		);
 
 		// Update the store with the fetched usage count.
@@ -145,7 +146,11 @@ export const usageCountActions = {
 export const usageCountControls = {
 	[ FETCH_USAGE_COUNT_ACTION_NAME ]: async( { payload } ) => apiFetch( {
 		method: "POST",
-		path: payload,
+		path: payload.endpoint,
+		data: {
+			// eslint-disable-next-line camelcase
+			is_woo_product_entity: payload.isWooProductEntity,
+		},
 	} ),
 };
 

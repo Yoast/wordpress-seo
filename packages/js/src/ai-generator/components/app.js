@@ -229,7 +229,7 @@ export const App = ( { onUseAi } ) => {
 		setLoading( true );
 
 		// Getting the usage count.
-		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
 
 		setLoading( false );
@@ -296,7 +296,7 @@ export const App = ( { onUseAi } ) => {
 	 */
 	const onStartGenerating = useCallback( async() => {
 		// Getting the usage count.
-		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint } );
+		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity } );
 		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
 		const subscriptions = checkSubscriptions();
 
@@ -312,7 +312,7 @@ export const App = ( { onUseAi } ) => {
 		}
 
 		setDisplay( DISPLAY.generate );
-	}, [ setDisplay, usageCountEndpoint, fetchUsageCount, checkSubscriptions ] );
+	}, [ setDisplay, usageCountEndpoint, fetchUsageCount, checkSubscriptions, isWooProductEntity ] );
 
 	/**
 	 * Callback to activate free sparks on the upsell modal
