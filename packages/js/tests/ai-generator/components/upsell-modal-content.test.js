@@ -43,8 +43,6 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
-						getIsPremium: () => false,
-						getIsWooSeoActive: () => false,
 						getIsWooProductEntity: () => false,
 					};
 				}
@@ -78,8 +76,6 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
-						getIsPremium: () => false,
-						getIsWooSeoActive: () => false,
 						getIsWooProductEntity: () => false,
 					};
 				}
@@ -110,8 +106,6 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
-						getIsPremium: () => false,
-						getIsWooSeoActive: () => false,
 						getIsWooProductEntity: () => false,
 					};
 				}
