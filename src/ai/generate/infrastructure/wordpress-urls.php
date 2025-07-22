@@ -1,10 +1,10 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\AI\Generator\Infrastructure;
+namespace Yoast\WP\SEO\AI\Generate\Infrastructure;
 
 use WPSEO_Utils;
-use Yoast\WP\SEO\AI\Generator\Domain\URLs_Interface;
+use Yoast\WP\SEO\AI\Generate\Domain\URLs_Interface;
 
 /**
  * Class WordPress_URLs

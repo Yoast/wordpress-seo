@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints;
+namespace Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\AI\Generator\User_Interface\Get_Suggestions_Route;
+use Yoast\WP\SEO\AI\Generate\User_Interface\Get_Usage_Route;
 
 /**
  * Represents the setup steps tracking endpoint.
  */
-class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
+class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -17,7 +17,7 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'getSuggestions';
+		return 'getUsage';
 	}
 
 	/**
@@ -26,7 +26,7 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Get_Suggestions_Route::ROUTE_NAMESPACE;
+		return Get_Usage_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Get_Suggestions_Route::ROUTE_PREFIX;
+		return Get_Usage_Route::ROUTE_PREFIX;
 	}
 
 	/**

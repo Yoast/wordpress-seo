@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Reposito
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs;
+use Yoast\WP\SEO\AI\Generate\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
