@@ -20,11 +20,9 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @returns {UpsellProps} The upsell props.
  */
 export const useUpsellProps = ( upsellLinks ) => {
-	const { isPremiumActive, isWooSeoActive, isWooProductEntity, isProductPost } = useSelect( select => {
+	const { isWooProductEntity, isProductPost } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
 		return {
-			isPremiumActive: editorSelect.getIsPremium(),
-			isWooSeoActive: editorSelect.getIsWooSeoActive(),
 			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isProductPost: editorSelect.getIsProduct(),
 		};
@@ -61,8 +59,6 @@ export const useUpsellProps = ( upsellLinks ) => {
 
 		return upsellProps;
 	}, [
-		isPremiumActive,
-		isWooSeoActive,
 		isWooProductEntity,
 		isProductPost,
 		upsellLinks.premium,
