@@ -100,7 +100,7 @@ export const ModalContent = ( { height } ) => {
 		isUsageCountLimitReached,
 		isWooProductEntity,
 		hasValidPremiumSubscription,
-		hasValidWooSubscription
+		hasValidWooSubscription,
 	} = useSelect( ( select ) => {
 		const aiSelect = select( STORE_NAME_AI );
 		const editorSelect = select( STORE_NAME_EDITOR );
