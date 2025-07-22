@@ -93,7 +93,7 @@ final class Consent_Test extends Abstract_Consent_Route_Test {
 	/**
 	 * Data provider for test_consent.
 	 *
-	 * @return array<array<bool, int>>
+	 * @return array<array<bool>>
 	 */
 	public static function data_consent() {
 		return [
