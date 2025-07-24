@@ -50,6 +50,7 @@ describe( "UpsellModalContent", () => {
 					return {
 						isUsageCountLimitReached: () => false,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};
@@ -83,6 +84,7 @@ describe( "UpsellModalContent", () => {
 					return {
 						isUsageCountLimitReached: () => false,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};
@@ -113,6 +115,7 @@ describe( "UpsellModalContent", () => {
 					return {
 						isUsageCountLimitReached: () => true,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};

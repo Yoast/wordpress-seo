@@ -177,7 +177,7 @@ export const App = ( { onUseAi } ) => {
 
 	const checkSubscriptions = useCallback( () => {
 		if (  isWooProductEntity ) {
-			return hasValidWooSubscription;
+			return hasValidWooSubscription && hasValidPremiumSubscription;
 		}
 		return hasValidPremiumSubscription;
 	}, [ hasValidPremiumSubscription, hasValidWooSubscription, isWooProductEntity ] );

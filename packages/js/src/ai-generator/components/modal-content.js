@@ -123,7 +123,7 @@ export const ModalContent = ( { height } ) => {
 			return true;
 		}
 
-		if ( ! hasValidPremiumSubscription && isUsageCountLimitReached && ! isWooProductEntity ) {
+		if ( ! hasValidPremiumSubscription && isUsageCountLimitReached ) {
 			return true;
 		}
 
