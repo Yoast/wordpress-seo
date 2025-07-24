@@ -108,7 +108,7 @@ class Consent_Route implements Route_Interface {
 	 */
 	public function consent( WP_REST_Request $request ): WP_REST_Response {
 		$user_id = \get_current_user_id();
-		$consent = \boolval( $request['consent'] );
+		$consent = \boolval( $request->get_param( 'consent' ) );
 
 		try {
 			if ( $consent ) {
