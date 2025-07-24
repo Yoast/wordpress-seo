@@ -115,7 +115,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		} );
 	}, [] );
 	const hasUnlimitedSparks = useMemo( () =>
-		( hasValidPremiumSubscription && ! isWooProductEntity ) || ( isWooProductEntity && hasValidWooSubscription ),
+		( hasValidPremiumSubscription && ! isWooProductEntity ) || ( isWooProductEntity && hasValidWooSubscription && hasValidPremiumSubscription ),
 	[ hasValidPremiumSubscription, isWooProductEntity, hasValidWooSubscription ] );
 
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
@@ -128,6 +128,8 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 
 	const upsellLink = useMemo( () => isWooProductEntity ? wooUpsellLink : premiumUpsellLink,
 		[ isWooProductEntity, wooUpsellLink, premiumUpsellLink ] );
+
+	const isWooUpsell = useMemo( () => isWooProductEntity && ! hasValidWooSubscription, [ isWooProductEntity, hasValidWooSubscription ] );
 
 	return showNotification && (
 		<Notifications.Notification
@@ -152,7 +154,7 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 		>
 			{ hasUnlimitedSparks
 				? <SparksLimitContent onClose={ hideNotification } />
-				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } isWooProductEntity={ isWooProductEntity } />
+				: <SparksLimitUpsellContent onClose={ hideNotification } upsellLink={ upsellLink } isWooUpsell={ isWooUpsell } />
 			}
 		</Notifications.Notification>
 	);
