@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { UnsavedChangesModal } from "../../../src/shared-admin/components";
+import { ConfirmActionModal } from "../../../src/shared-admin/components";
 import { fireEvent, render, screen } from "../../test-utils";
 
-describe( "UnsavedChangesModal", () => {
+describe( "ConfirmActionModal", () => {
 	const onClose = jest.fn();
 	const onDiscard = jest.fn();
 
 	beforeEach( () => {
 		jest.clearAllMocks();
-		render( <UnsavedChangesModal
+		render( <ConfirmActionModal
 			isOpen={ true }
 			onClose={ onClose }
 			onDiscard={ onDiscard }
@@ -72,7 +72,7 @@ describe( "UnsavedChangesModal", () => {
 			const currentImplementation = console.error;
 			console.error = jest.fn();
 
-			render( <UnsavedChangesModal
+			render( <ConfirmActionModal
 				isOpen={ true }
 				title="Unsaved changes"
 				description="There are unsaved changes in one or more steps of the first-time configuration. Leaving means that those changes will be lost. Are you sure you want to leave this page?"
