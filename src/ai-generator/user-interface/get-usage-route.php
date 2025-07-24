@@ -92,6 +92,12 @@ class Get_Usage_Route implements Route_Interface {
 			self::ROUTE_PREFIX,
 			[
 				'methods'             => 'POST',
+				'args'                => [
+					'is_woo_product_entity' => [
+						'type'        => 'boolean',
+						'default'     => false,
+					],
+				],
 				'callback'            => [ $this, 'get_usage' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
 			]
@@ -101,16 +107,19 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Runs the callback that gets the monthly usage of the user.
 	 *
+	 * @param WP_REST_Response $response The response object containing the parameters for the request.
+	 *
 	 * @return WP_REST_Response The response of the callback action.
 	 */
-	public function get_usage(): WP_REST_Response {
-		$user = \wp_get_current_user();
+	public function get_usage( $response ): WP_REST_Response {
+		$is_woo_product_entity = $response->get_param( 'is_woo_product_entity' );
+		$user                  = \wp_get_current_user();
 		try {
 			$token           = $this->token_manager->get_or_request_access_token( $user );
 			$request_headers = [
 				'Authorization' => "Bearer $token",
 			];
-			$action_path     = $this->get_action_path();
+			$action_path     = $this->get_action_path( $is_woo_product_entity );
 			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
 			$data            = \json_decode( $response->get_body() );
 
@@ -132,15 +141,16 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Get action path for the request.
 	 *
+	 * @param bool $is_woo_product_entity Whether the request is for a WooCommerce product entity.
+	 *
 	 * @return string The action path.
 	 */
-	public function get_action_path() {
-		$post_type = \get_post_type();
+	public function get_action_path( $is_woo_product_entity = false ): string {
 		$unlimited = '/usage/' . \gmdate( 'Y-m' );
-		if ( $post_type === 'product' && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+		if ( $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $unlimited;
 		}
-		if ( $post_type !== 'product' && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+		if ( ! $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $unlimited;
 		}
 		return '/usage/free-usages';

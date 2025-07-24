@@ -71,6 +71,18 @@ export const getIsWooSeoUpsellTerm = createSelector(
 );
 
 /**
+ * Returns whether you're editing a product entity and WooCommerce is active.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product entity and WooCommerce is active.
+ */
+export const getIsWooProductEntity = createSelector(
+	[ getIsProductEntity, getIsWooCommerceActive ],
+	( isProductEntity, isWooCommerceActive ) => isWooCommerceActive && isProductEntity
+);
+
+/**
  * @deprecated This function is deprecated and will be removed in future versions.
  * Please use the getIsAiFeatureEnabled from yoast-seo-premium store instead.
  *
