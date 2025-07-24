@@ -1,11 +1,12 @@
-import { Fragment, useCallback, useState, useEffect, useContext, createContext } from "@wordpress/element";
+import { createContext, Fragment, useCallback, useContext, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import AnimateHeight from "react-animate-height";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
-import StepHeader from "./step-header";
+import AnimateHeight from "react-animate-height";
+import { stepperTimingClasses, stepperTimings } from "../stepper-helper";
 import { FadeInAlert } from "../tailwind-components/base/alert";
+import StepHeader from "./step-header";
 
 const {
 	slideDuration,
@@ -34,16 +35,21 @@ export function useStepperContext() {
 }
 
 /**
- * The component button used to navigate the steps
+ * The component button used to navigate the steps.
  *
- * @param {Object}     props             The props object.
- * @param {number}     props.children    The children of the component.
- * @param {function}   props.beforeGo    A function to call when the button is clicked.
- * @param {int|string} props.destination A number of steps to take relative to the current step or "first" or "last".
+ * @param {function} [beforeGo=null] A function to call when the button is clicked.
+ * @param {React.ReactNode} [children] The children of the component.
+ * @param {number|string} [destination=1] A number of steps to take relative to the current step or "first" or "last".
+ * @param {...Object} [restProps] Additional properties to pass to the button.
  *
- * @returns {WPElement} The button element.
+ * @returns {JSX.Element} The button element.
  */
-function GoButton( { beforeGo, children, destination, ...restProps } ) {
+function GoButton( {
+	beforeGo = null,
+	children = <Fragment>{ __( "Continue", "wordpress-seo" ) }</Fragment>,
+	destination = 1,
+	...restProps
+} ) {
 	const { stepIndex, setActiveStepIndex, lastStepIndex } = useStepperContext();
 	const goToDestination = useCallback( () => {
 		if ( typeof destination === "string" ) {
@@ -81,20 +87,17 @@ GoButton.propTypes = {
 	] ),
 };
 
-GoButton.defaultProps = {
-	beforeGo: null,
-	children: <Fragment>{ __( "Continue", "wordpress-seo" ) }</Fragment>,
-	destination: 1,
-};
-
 /**
  * The StepButtons component.
  *
- * @param {Object}   props The props object.
- *
- * @returns {WPElement} The EditButton component.
+ * @param {React.ReactNode} [children] The children of the component.
+ * @param {...Object} [restProps] Additional properties to pass to the button.
+ * @returns {JSX.Element} The EditButton component.
  */
-function EditButton( { children, ...restProps } ) {
+function EditButton( {
+	children = <Fragment>{ __( "Edit", "wordpress-seo" ) }</Fragment>,
+	...restProps
+} ) {
 	const { stepIndex, setActiveStepIndex } = useStepperContext();
 
 	const editFunction = useCallback( () => {
@@ -115,17 +118,12 @@ EditButton.propTypes = {
 	children: PropTypes.node,
 };
 
-EditButton.defaultProps = {
-	children: <Fragment>{ __( "Edit", "wordpress-seo" ) }</Fragment>,
-};
-
 /**
- * The Step Element
+ * The Step Element.
  *
- * @param {Object} props            The props object.
- * @param {Node}   props.children   The children of the component.
+ * @param {React.ReactNode} children The children of the component.
  *
- * @returns {WPElement} The Step
+ * @returns {JSX.Element} The Step.
  */
 export function Step( { children } ) {
 	const { lastStepIndex, stepIndex, activeStepIndex } = useStepperContext();
@@ -138,7 +136,13 @@ export function Step( { children } ) {
 					aria-hidden="true"
 				/>
 				<div
-					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+					className={ classNames(
+						"yst-h-12 yst-transition-transform yst-ease-linear",
+						delayUntilStepFaded,
+						slideDurationClass,
+						stepIndex < activeStepIndex ? "yst-scale-y-1" : "yst-scale-y-0",
+						"yst-origin-top yst--ms-px yst-absolute yst-start-4 yst-w-0.5 yst-bg-primary-500 yst-top-8"
+					) }
 					aria-hidden="true"
 				/>
 			</Fragment>
@@ -153,11 +157,14 @@ Step.propTypes = {
 
 /**
  * Provides a way to provide error messages at the Step level.
- * @param {Object} props The props.
  *
- * @returns {WPElement} The StepError component.
+ * @param {string} id The id for the error.
+ * @param {string} message The error message.
+ * @param {string} [className=""] The class name for the error.
+ *
+ * @returns {JSX.Element} The StepError component.
  */
-export function StepError( { id, message, className } ) {
+export function StepError( { id, message, className = "" } ) {
 	return <FadeInAlert
 		id={ id }
 		type="error"
@@ -183,16 +190,12 @@ StepError.propTypes = {
 	className: PropTypes.string,
 };
 
-StepError.defaultProps = {
-	className: "",
-};
-
 /**
- * The (Tailwind) Step component
+ * The (Tailwind) Step component.
  *
- * @param {Object} props The props.
+ * @param {React.ReactNode} children The children.
  *
- * @returns {WPElement} The Step component.
+ * @returns {JSX.Element} The Step component.
  */
 function Content( { children } ) {
 	const { activeStepIndex, stepIndex } = useStepperContext();
@@ -216,13 +219,19 @@ function Content( { children } ) {
 		<Fragment>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
-				id={ `content-${stepIndex}` }
+				id={ `content-${ stepIndex }` }
 				delay={ contentHeight === 0 ? delayBeforeClosing : delayBeforeOpening }
 				height={ contentHeight }
 				easing="ease-in-out"
 				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ms-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
+				<div
+					className={ classNames(
+						"yst-transition-opacity yst-relative yst-ms-12 yst-mt-4 yst-pb-1",
+						fadeDuration,
+						isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100"
+					) }
+				>
 					{ children }
 				</div>
 			</AnimateHeight>
@@ -237,15 +246,26 @@ Content.propTypes = {
 /**
  * The Tailwind Stepper component.
  *
- * @param {Object} props The props.
+ * @param {function} setActiveStepIndex The function to set the active step index.
+ * @param {number} activeStepIndex The active step index.
+ * @param {boolean} [isStepperFinished=false] Whether the stepper is finished.
+ * @param {React.ReactNode} children The stepper steps.
  *
- * @returns {WPElement} The Stepper component.
+ * @returns {JSX.Element} The Stepper.
  */
-export default function Stepper( { children, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
+export default function Stepper( {
+	children,
+	setActiveStepIndex,
+	activeStepIndex,
+	isStepperFinished = false,
+} ) {
 	return (
 		<ol>
 			{ children.map( ( child, stepIndex ) => {
-				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative yst-max-w-none" }>
+				return <li
+					key={ `${ child.props.name }-${ stepIndex }` }
+					className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative yst-max-w-none" }
+				>
 					<StepperContext.Provider
 						value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1, isStepperFinished } }
 					>
@@ -262,10 +282,6 @@ Stepper.propTypes = {
 	activeStepIndex: PropTypes.number.isRequired,
 	isStepperFinished: PropTypes.bool,
 	children: PropTypes.node.isRequired,
-};
-
-Stepper.defaultProps = {
-	isStepperFinished: false,
 };
 
 Step.Content = Content;

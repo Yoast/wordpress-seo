@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 
 /**
  * @param {string} href The href.
- * @param {JSX.node} [children] The content.
+ * @param {React.ReactNode} [children=null] The content.
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const OutboundLink = ( { href, children, ...props } ) => (
+export const OutboundLink = ( { href, children = null, ...props } ) => (
 	<Link target="_blank" rel="noopener noreferrer" { ...props } href={ href }>
 		{ children }
 		<span className="yst-sr-only">
@@ -22,7 +22,4 @@ export const OutboundLink = ( { href, children, ...props } ) => (
 OutboundLink.propTypes = {
 	href: PropTypes.string.isRequired,
 	children: PropTypes.node,
-};
-OutboundLink.defaultProps = {
-	children: null,
 };
