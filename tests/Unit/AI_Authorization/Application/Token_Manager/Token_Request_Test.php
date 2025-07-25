@@ -8,7 +8,6 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
  * Class Token_Request_Test.
@@ -71,13 +70,8 @@ final class Token_Request_Test extends Abstract_Token_Manager_Test {
 			->once()
 			->andReturn( $refresh_callback_url );
 
-		$url_helper = Mockery::mock( Url_Helper::class );
-		$url_helper->expects( 'network_safe_home_url' )->once()->andReturn( 'example.com' );
-
-		$container = $this->create_container_with( [ Url_Helper::class => $url_helper ] );
-
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+		// Mock YoastSEO function for WPSEO_Utils::get_home_url().
+		$this->WPSEO_Utils_get_home_url();
 
 		$this->request_handler
 			->expects( 'handle' )

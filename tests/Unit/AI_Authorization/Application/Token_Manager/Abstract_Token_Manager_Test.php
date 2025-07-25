@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Token_Manager;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
@@ -12,6 +13,7 @@ use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Reposit
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -79,6 +81,13 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 	protected $request_handler;
 
 	/**
+	 * The URL helper mock.
+	 *
+	 * @var Mockery\MockInterface|Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
 	 * The instance to test.
 	 *
 	 * @var Token_Manager
@@ -101,7 +110,20 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 		$this->request_handler          = Mockery::mock( Request_Handler::class );
 		$this->code_verifier_repository = Mockery::mock( Code_Verifier_User_Meta_Repository::class );
 		$this->urls                     = Mockery::mock( WordPress_URLs::class );
+		$this->url_helper               = Mockery::mock( Url_Helper::class );
 
 		$this->instance = new Token_Manager( $this->access_token_repository, $this->code_verifier, $this->consent_handler, $this->refresh_token_repository, $this->user_helper, $this->request_handler, $this->code_verifier_repository, $this->urls );
+	}
+
+	/**
+	 * Mock YoastSEO function for WPSEO_Utils::get_home_url().
+	 *
+	 * @return void
+	 */
+	protected function WPSEO_Utils_get_home_url() {
+		$this->url_helper->expects( 'network_safe_home_url' )->once()->andReturn( 'https://example.com' );
+		$container = $this->create_container_with( [ Url_Helper::class => $this->url_helper ] );
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 	}
 }
