@@ -8,7 +8,6 @@ use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
