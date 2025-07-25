@@ -207,7 +207,7 @@ final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
 
 		$result = $this->instance->has_token_expired( $jwt );
 
-		$this->assertFalse( $result );
+		$this->assertTrue( $result );
 	}
 
 	/**
