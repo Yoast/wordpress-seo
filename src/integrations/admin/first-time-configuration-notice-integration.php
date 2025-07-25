@@ -99,11 +99,6 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			return;
 		}
 
-		// Don't show on redirects page.
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo-redirects' ) {
-			return;
-		}
-
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$title    = $this->first_time_configuration_notice_helper->get_first_time_configuration_title();
