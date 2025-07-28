@@ -30,7 +30,7 @@ export const FeatureError = ( { currentSubscriptions, isSeoAnalysisActive = true
 	const invalidSubscriptions = useMemo( () => {
 		const subscriptions = [];
 
-		if ( isPremium && ! currentSubscriptions.premiumSubscription && ! isWooProductEntity ) {
+		if ( ( isPremium || isWooProductEntity ) && ! currentSubscriptions.premiumSubscription ) {
 			subscriptions.push( "Yoast SEO Premium" );
 		}
 

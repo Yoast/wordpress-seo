@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { STORE_NAME_EDITOR } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../constants";
 
 /**
  * The upsell props.
@@ -20,11 +20,13 @@ import { STORE_NAME_EDITOR } from "../constants";
  * @returns {UpsellProps} The upsell props.
  */
 export const useUpsellProps = ( upsellLinks ) => {
-	const { isWooProductEntity, isProductPost } = useSelect( select => {
+	const { isWooProductEntity, isProductPost, hasValidWooSubscription } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
+		const aiSelect = select( STORE_NAME_AI );
 		return {
 			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isProductPost: editorSelect.getIsProduct(),
+			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
 		};
 	}, [] );
 
@@ -46,15 +48,17 @@ export const useUpsellProps = ( upsellLinks ) => {
 			if ( isProductPost ) {
 				upsellProps.title = __( "Generate product titles & descriptions with AI!", "wordpress-seo" );
 			}
-			upsellProps.newToText = "Yoast WooCommerce SEO";
 
-			upsellProps.upsellLabel = sprintf(
+			if ( ! hasValidWooSubscription ) {
+				upsellProps.newToText = "Yoast WooCommerce SEO";
+				upsellProps.upsellLabel = sprintf(
 				/* translators: %1$s expands to Yoast WooCommerce SEO. */
-				__( "Unlock with %1$s", "wordpress-seo" ),
-				"Yoast WooCommerce SEO"
-			);
-			upsellProps.upsellLink = upsellLinks.woo;
-			upsellProps.ctbId = "5b32250e-e6f0-44ae-ad74-3cefc8e427f9";
+					__( "Unlock with %1$s", "wordpress-seo" ),
+					"Yoast WooCommerce SEO"
+				);
+				upsellProps.upsellLink = upsellLinks.woo;
+				upsellProps.ctbId = "5b32250e-e6f0-44ae-ad74-3cefc8e427f9";
+			}
 		}
 
 		return upsellProps;
