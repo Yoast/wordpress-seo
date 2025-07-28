@@ -1,7 +1,7 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
@@ -187,12 +187,11 @@ domReady( () => {
 		)
 	);
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
 			</SlotFillProvider>
-		</Root>,
-		root
+		</Root>
 	);
 } );

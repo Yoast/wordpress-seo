@@ -36,6 +36,8 @@ import {
 	SidebarLayout,
 	ErrorFallback,
 } from "./shared-admin/components";
+import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
+import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -45,6 +47,18 @@ window.yoast.editorModules = {
 		getIndicatorForScore,
 		constants,
 		refreshAnalysis,
+	},
+	aiGenerator: {
+		components: {
+			Introduction,
+			SuggestionError,
+			SparksLimitNotification,
+			FeatureError,
+		},
+		helpers: {
+			removesLocaleVariantSuffixes,
+			fetchSuggestions,
+		},
 	},
 	components: {
 		HelpLink,
