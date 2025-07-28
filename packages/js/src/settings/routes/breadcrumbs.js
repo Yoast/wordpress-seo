@@ -3,8 +3,9 @@ import { SelectField, TextField, ToggleField, Code } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FieldsetLayout, FormLayout, RouteLayout } from "../components";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 /**
  * @returns {JSX.Element} The breadcrumbs route.
