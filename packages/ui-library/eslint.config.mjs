@@ -40,6 +40,8 @@ export default [
 
 			// Deviate from the Yoast config to allow for not using the error that is caught.
 			"no-unused-vars": [ "error", { caughtErrors: "none" } ],
+			// Disable React default props requirement.
+			"react/require-default-props": "off",
 		},
 	},
 	{

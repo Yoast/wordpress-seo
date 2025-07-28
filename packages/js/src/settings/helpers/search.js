@@ -691,10 +691,14 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			keywords: [],
 		},
 		enable_llms_txt: {
-			route: "/site-features",
-			routeLabel: __( "Site features", "wordpress-seo" ),
-			fieldId: "card-wpseo-enable_llms_txt",
-			fieldLabel: __( "llms.txt", "wordpress-seo" ),
+			route: "/llms-txt",
+			routeLabel: __( "llms.txt", "wordpress-seo" ),
+			fieldId: "input-wpseo.enable_llms_txt",
+			fieldLabel: sprintf(
+				// translators: %1$s expands to "llms.txt".
+				__( "Enable %1$s file feature", "wordpress-seo" ),
+				"llms.txt"
+			),
 			keywords: [],
 		},
 	},

@@ -147,6 +147,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_tracking_setup_widget_temporarily_dismissed' => 'no',
 		'site_kit_tracking_setup_widget_permanently_dismissed' => 'no',
 		'google_site_kit_feature_enabled'                      => false,
+		'ai_free_sparks_started_on'                            => null,
 		'enable_llms_txt'                                      => false,
 	];
 
@@ -346,6 +347,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'site_kit_tracking_last_interaction_stage':
 				case 'site_kit_tracking_setup_widget_temporarily_dismissed':
 				case 'site_kit_tracking_setup_widget_permanently_dismissed':
+				case 'ai_free_sparks_started_on':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}

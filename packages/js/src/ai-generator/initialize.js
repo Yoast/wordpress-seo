@@ -1,76 +1,115 @@
 import { Fill } from "@wordpress/components";
 import { select } from "@wordpress/data";
-import { useCallback, useRef } from "@wordpress/element";
-import { addFilter } from "@wordpress/hooks";
-import { __ } from "@wordpress/i18n";
-import { Modal, useToggleState } from "@yoast/ui-library";
-import PropTypes from "prop-types";
-import { ModalContent } from "./components/modal-content";
+import { addAction, addFilter } from "@wordpress/hooks";
+import { Root } from "@yoast/ui-library";
+import { get } from "lodash";
+import { HAS_AI_GENERATOR_CONSENT_NAME } from "../shared-admin/store";
+import { App, TypeProvider } from "./components";
+import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
+import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
+import { registerStore } from "./store";
+import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
+import { USAGE_COUNT_NAME } from "./store/usage-count";
+import { FREE_SPARKS_NAME } from "./store/free-sparks";
+import domReady from "@wordpress/dom-ready";
 
 /**
- * The AI Generator upsell button and modal.
+ * Get the preview type from the field ID.
  *
  * @param {string} fieldId The field ID.
- *
- * @returns {JSX.Element} The AI Generator upsell button and modal.
+ * @returns {string} The preview type.
  */
-const AiGeneratorUpsell = ( { fieldId } ) => {
-	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const handleClick = useCallback( () => {
-		setIsModalOpenTrue();
-	}, [ setIsModalOpenTrue ] );
-	const focusElementRef = useRef( null );
-
-	return (
-		<>
-			<button
-				type="button"
-				id={ `yst-replacevar__use-ai-button__${ fieldId }` }
-				className="yst-replacevar__use-ai-button-upsell"
-				onClick={ handleClick }
-			>
-				{ __( "Use AI", "wordpress-seo" ) }
-			</button>
-			<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
-				<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl">
-					<ModalContent onClose={ setIsModalOpenFalse } focusElementRef={ focusElementRef } />
-				</Modal.Panel>
-			</Modal>
-		</>
-	);
-};
-
-AiGeneratorUpsell.propTypes = {
-	fieldId: PropTypes.string.isRequired,
-};
-
-const STORE = "yoast-seo/editor";
+function getPreviewType( fieldId ) {
+	if ( fieldId.startsWith( "yoast-google-preview" ) ) {
+		return PREVIEW_TYPE.google;
+	} else if ( fieldId.startsWith( "social" ) ) {
+		return PREVIEW_TYPE.social;
+	} else if ( fieldId.startsWith( "x-" ) ) {
+		return PREVIEW_TYPE.twitter;
+	}
+}
 
 /**
- * Initializes the AI Generator upsell.
+ * Adds the use AI button, if applicable.
+ *
+ * @param {JSX.node[]} buttons The current buttons.
+ * @param {string} fieldId The replacement variable editor's field ID.
+ * @param {string} type The edit type: title or description.
+ *
+ * @returns {JSX.node[]} The buttons.
+ */
+const filterReplacementVariableEditorButtons = ( buttons, { fieldId, type: editType } ) => {
+	const postType = select( STORE_NAME_EDITOR ).getPostType();
+
+	const previewType = getPreviewType( fieldId );
+	if ( ! previewType ) {
+		// Unknown preview type.
+		return buttons;
+	}
+
+	const rootContext = {
+		isRtl: select( STORE_NAME_EDITOR ).getPreference( "isRtl" ),
+	};
+	const typeContext = {
+		editType,
+		previewType,
+		postType,
+		contentType: select( STORE_NAME_EDITOR ).getIsTerm() ? "term" : "post",
+	};
+
+	buttons.push(
+		<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
+			<Root context={ rootContext }>
+				<TypeProvider value={ typeContext }>
+					<App onUseAi={ updateInteractedWithFeature } />
+				</TypeProvider>
+			</Root>
+		</Fill>
+	);
+
+	return buttons;
+};
+
+/**
+ * Initializes the AI Generator.
  *
  * @returns {void}
  */
 const initializeAiGenerator = () => {
-	const isPremium = select( STORE ).getIsPremium();
-	const isWooSeoUpsellPost = select( STORE ).getIsWooSeoUpsell();
-	const isWooSeoUpsellTerm = select( STORE ).getIsWooSeoUpsellTerm();
-	const shouldShowAiGeneratorUpsell = ! isPremium || isWooSeoUpsellPost || isWooSeoUpsellTerm;
+	registerStore( {
+		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
+			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
+			endpoint: "yoast/v1/ai_generator/consent",
+		},
+		[ USAGE_COUNT_NAME ]: {
+			endpoint: "yoast/v1/ai_generator/get_usage",
+		},
+		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
+		[ FREE_SPARKS_NAME ]: {
+			isFreeSparksActive: get( window, "wpseoAiGenerator.isFreeSparks", false ) === "1",
+			endpoint: "yoast/v1/ai/free_sparks",
+		},
+	} );
+
+	window.jQuery( window ).on( "YoastSEO:ready", () => {
+		initializePromptContent();
+	} );
 
 	addFilter(
 		"yoast.replacementVariableEditor.additionalButtons",
-		"yoast/yoast-seo-premium/AiGenerator",
-		( buttons, { fieldId } ) => {
-			if ( shouldShowAiGeneratorUpsell ) {
-				buttons.push(
-					<Fill name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` }>
-						<AiGeneratorUpsell fieldId={ fieldId } />
-					</Fill>
-				);
-			}
-			return buttons;
-		}
+		"yoast/yoast-seo/AiGenerator",
+		filterReplacementVariableEditorButtons
 	);
+
+	addFilter( "yoast.focusKeyphrase.errors", "yoast/yoast-seo/AiGenerator", filterFocusKeyphraseErrors );
+
+	addAction( "yoast.elementor.loaded", "yoast/yoast-seo/AiGenerator", initializePromptContent );
 };
 
-export default initializeAiGenerator;
+domReady( () => {
+	if ( ! window.wpseoScriptData.postType ) {
+		return;
+	}
+
+	initializeAiGenerator();
+} );

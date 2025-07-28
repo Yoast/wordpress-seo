@@ -1,5 +1,4 @@
 export { AcademyUpsellCard } from "./academy-upsell-card";
-export { AiGenerateTitlesAndDescriptionsUpsell } from "./ai-generate-titles-and-descriptions-upsell";
 export { AIOptimizeUpsell } from "./ai-optimize-upsell";
 export { ErrorFallback } from "./error-fallback";
 export { FieldsetLayout } from "./fieldset-layout";
@@ -13,3 +12,4 @@ export { UnsavedChangesModal } from "./unsaved-changes-modal";
 export { VideoFlow } from "./video-flow";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";
 export { SiteKitConsentModal } from "./site-kit-consent-modal";
+export { AiConsent } from "./ai-consent";

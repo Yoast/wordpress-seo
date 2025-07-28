@@ -54,7 +54,7 @@ class Intro_Builder {
 		if ( $sitemap_link !== null ) {
 			$intro_links[] = $sitemap_link;
 
-			$intro_content .= \PHP_EOL . \PHP_EOL . 'This is the %s of this website.';
+			$intro_content .= \PHP_EOL . \PHP_EOL . 'The XML sitemap of this website can by found by following %s.';
 		}
 
 		return new Intro( $intro_content, $intro_links );

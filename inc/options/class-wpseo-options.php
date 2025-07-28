@@ -30,6 +30,7 @@ class WPSEO_Options {
 		'wpseo_social'        => 'WPSEO_Option_Social',
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
+		'wpseo_llmstxt'       => 'WPSEO_Option_Llmstxt',
 	];
 
 	/**

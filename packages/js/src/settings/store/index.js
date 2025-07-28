@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
-import { reducers, selectors, actions } from "@yoast/externals/redux";
 import {
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
@@ -22,6 +22,14 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import indexablePages, {
+	createInitialIndexablePagesState,
+	INDEXABLE_PAGE_NAME,
+	indexablePagesActions,
+	indexablePagesControls,
+	indexablePagesSelectors,
+} from "./indexable-pages";
+import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -51,7 +59,9 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...defaultSettingValuesActions,
 			...fallbacksActions,
+			...indexablePagesActions,
 			...linkParamsActions,
+			...llmsTxtActions,
 			...mediaActions,
 			...notificationsActions,
 			...pageActions,
@@ -68,7 +78,9 @@ const createStore = ( { initialState } ) => {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
+			...indexablePagesSelectors,
 			...linkParamsSelectors,
+			...llmsTxtSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
 			...pageSelectors,
@@ -86,7 +98,9 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
+				[ INDEXABLE_PAGE_NAME ]: createInitialIndexablePagesState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
+				llmsTxt: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
 				[ NOTIFICATIONS_NAME ]: getInitialNotificationsState(),
 				[ PAGE_NAME ]: getPageInitialState(),
@@ -104,6 +118,8 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
+			[ INDEXABLE_PAGE_NAME ]: indexablePages,
+			llmsTxt,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
 			[ NOTIFICATIONS_NAME ]: notificationsReducer,
@@ -123,6 +139,7 @@ const createStore = ( { initialState } ) => {
 			...postTypeControls,
 			...taxonomyControls,
 			...pageControls,
+			...indexablePagesControls,
 		},
 	} );
 };

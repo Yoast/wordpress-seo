@@ -180,6 +180,7 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 	padding-top: 1px;
 	line-height: 20px;
 	vertical-align: bottom;
+	column-gap: 12px;
 `;
 BaseUrlOverflowContainer.displayName = "BaseUrlOverflowContainer";
 
@@ -197,7 +198,6 @@ const UrlBaseContainer = styled.span`
 const FaviconContainer = styled.div`
 width: 28px;
 height: 28px;
-margin-right: 12px;
 border-radius: 50px;
 display: flex;
 align-items: center;

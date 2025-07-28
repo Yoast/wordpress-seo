@@ -436,22 +436,22 @@ module.exports = function( webpackEnv ) {
 							exclude: /@babel(?:\/|\\{1,2})runtime/,
 							loader: require.resolve( "babel-loader" ),
 							options: {
-								babelrc: false,
-								configFile: false,
+								// Use the project's babel.config.js
+								babelrc: true,
+								configFile: path.resolve( __dirname, "../babel.config.js" ),
 								compact: false,
 								presets: [
 									[
 										require.resolve( "babel-preset-react-app/dependencies" ),
 										{ helpers: true },
 									],
+									require.resolve( "@babel/preset-env" ),
+								],
+								plugins: [
+									require.resolve( "@babel/plugin-transform-optional-chaining" ),
 								],
 								cacheDirectory: true,
-								// See #6846 for context on why cacheCompression is disabled
 								cacheCompression: false,
-
-								// Babel sourcemaps are needed for debugging into node_modules
-								// Code.  Without the options below, debuggers like VSCode
-								// Show incorrect code and set breakpoints on the wrong lines.
 								sourceMaps: shouldUseSourceMap,
 								inputSourceMap: shouldUseSourceMap,
 							},

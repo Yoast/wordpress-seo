@@ -1,21 +1,185 @@
-.yst-replacevar__use-ai-button-upsell {
-	display: flex;
-	align-items: center;
-	color: #303030;
-	box-sizing: border-box;
-	border-radius: 4px;
-	box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.1);
-	border: 1px solid #dbdbdb;
-	padding: 0 0.5em;
-	cursor: pointer;
-	min-height: 32px;
-	-webkit-transition: var(--yoast-transition-default);
-	transition: var(--yoast-transition-default);
-	background-color: #f7f7f7;
+@import "@yoast/ai-frontend/dist/index.css";
 
-	&:hover {
-		color: #000;
-		background-color: #fff;
-		border-color: var(--yoast-color-border--default);
+.yst-root {
+	/* The `--yoast` variables from @yoast/components are loaded via the monorepo stylesheet dependency. */
+
+	button.yst-replacevar__use-ai-button {
+		display: flex;
+		align-items: center;
+		color: #303030;
+		box-sizing: border-box;
+		border-radius: 4px;
+		box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.1);
+		border: 1px solid #dbdbdb;
+		padding: 0 0.5em;
+		cursor: pointer;
+		min-height: 32px;
+		-webkit-transition: var(--yoast-transition-default);
+		transition: var(--yoast-transition-default);
+		background-color: #f7f7f7;
+
+		&:hover {
+			color: #000;
+			background-color: #fff;
+			border-color: var(--yoast-color-border--default);
+		}
+		&:disabled {
+			opacity: 0.5;
+			cursor: default;
+		}
+	}
+
+	.yst-logo-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		display: inline-block;
+	}
+
+	.yst-ai-mode .yst-radio-group__options {
+		@apply yst-flex-row yst-gap-6;
+	}
+
+	.yst-length-progress-bar {
+		&.yst-score-good .yst-progress-bar__progress {
+			background-color: #7ad03a;
+		}
+
+		&.yst-score-ok .yst-progress-bar__progress {
+			background-color: #ee7c1b;
+		}
+
+		&.yst-score-bad .yst-progress-bar__progress {
+			background-color: #dc3232;
+		}
+	}
+
+	.yst-suggestions-radio-group .yst-radio-group__options {
+		@apply yst-gap-0 yst--space-y-[1px];
+	}
+
+	.yst-introduction-modal .yst-modal__close-button {
+		@apply
+		yst-bg-transparent
+		yst-text-gray-500
+		focus:yst-outline-none
+		focus:yst-ring-offset-0;
+	}
+
+	.yst-ai-modal {
+		.yst-modal__panel {
+			@apply yst-overflow-visible;
+		}
+	}
+
+	.yst-revoke-button {
+		.yst-animate-spin {
+			@apply yst-text-red-300;
+		}
+	}
+
+	#yoast-snippet-preview-container, #facebookPreview, #twitterPreview {
+		@apply yst-bg-white yst-mx-auto;
+	}
+
+	#yoast-snippet-preview-container {
+		border-bottom: 1px hidden #fff;
+		border-radius: 8px;
+		box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+	}
+
+	.yoast-snippet-preview-section {
+		@apply yst-p-2;
+	}
+
+	.yoast-snippet-preview-container__wrapper {
+		@apply yst-bg-transparent;
+	}
+
+	.desktop #yoast-snippet-preview-container {
+		padding: 12px 16px;
+	}
+
+	/* Desktop preview on a mobile user agent. */
+	.desktop.yst-user-agent__mobile {
+		.yoast-snippet-preview-section {
+			@apply yst-p-0;
+		}
+
+		.yoast-snippet-preview-container__wrapper {
+			@apply yst-relative;
+		}
+
+		#yoast-snippet-preview-container {
+			/* Possibly add extra room for the scroll hint on the bottom, as well as the box-shadow. */
+			--yst-padding-bottom: 12px;
+			&:has(+ div) {
+				--yst-padding-bottom: calc( 2rem + 22px );
+			}
+
+			/* Padding to make room for the box-shadow inside. */
+			@apply yst-grid yst-bg-transparent yst-pt-2 yst-pl-2 yst-pr-2;
+			padding-bottom: var(--yst-padding-bottom);
+			border-bottom: none;
+			border-radius: 0;
+			box-shadow: none;
+
+			> div:first-child {
+				@apply yst-bg-white yst-mx-auto;
+				padding: 12px 16px;
+				border-bottom: 1px hidden #fff;
+				border-radius: 8px;
+				box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+				width: inherit;
+			}
+
+			/* Scroll hint. */
+			& + div {
+				/* Position it over the sibling above, but make it non-interactive. */
+				@apply yst-absolute yst-bottom-0 yst-left-2 yst-right-2 yst-pointer-events-none;
+
+				/* Ensure the "Drag to view full preview" is the same space away and centered. */
+				@apply yst-flex yst-m-0 yst-items-center yst-justify-center;
+				/* Same height the parent padding, to try to accommodate multi-line text. */
+				height: calc( 2rem + 22px );
+			}
+		}
+	}
+
+    .yst-border-gradient {
+        position: relative;
+        z-index: 0;
+        border-image: linear-gradient(to bottom right, #cd82ab, #a5b4fc) 1;
+    }
+
+    .yst-border-gradient:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom right, #cd82ab, #a5b4fc);
+        border-radius: inherit; /* Match the border radius of the container */
+        padding: 1px; /* Width of the gradient border */
+        -webkit-mask:
+                linear-gradient(white, white) content-box,
+                linear-gradient(white, white) border-box;
+        mask:
+                linear-gradient(white, white) content-box,
+                linear-gradient(white, white) border-box;
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        z-index: -1; /* Place it behind the content */
+    }
+
+	svg.yst-ai-counter-badge__sparkles-icon path {
+		stroke-width: 1.3 !important;
+	}
+
+	.yst-ai-counter-badge__skeleton {
+		border-radius: 9999px !important;
 	}
 }

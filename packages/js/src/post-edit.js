@@ -2,7 +2,6 @@
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
 import { noop } from "lodash";
-import initializeAiGenerator from "./ai-generator/initialize";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
 import initFeaturedImageIntegration from "./initializers/featured-image";
@@ -50,12 +49,4 @@ domReady( () => {
 
 	// Initialize the insights.
 	initializeInsights();
-
-
-	const AI_IGNORED_POST_TYPES = [ "attachment" ];
-
-	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
-		// Initialize the AI Generator upsell.
-		initializeAiGenerator();
-	}
 } );

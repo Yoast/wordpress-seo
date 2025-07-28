@@ -7,7 +7,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Notice } from "./components";
+import { Notice, LlmTxtOptInNotification } from "./components";
 import { STORE_NAME } from "./constants";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
@@ -153,6 +153,7 @@ const App = () => {
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
 				position="bottom-left"
 			>
+				<LlmTxtOptInNotification />
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }

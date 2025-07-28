@@ -243,6 +243,10 @@ body.seo_page_wpseo_page_settings {
 		}
 	}
 
+	.yst-popover-backdrop-highlight-button button {
+		z-index:99;
+	}
+
 	/* RTL */
 
 	&.rtl {

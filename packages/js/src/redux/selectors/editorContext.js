@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
 /**
@@ -23,15 +24,27 @@ export function getPostOrPageString( state ) {
 }
 
 /**
+ * Returns post type.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The post type.
+ */
+export function getPostType( state ) {
+	return get( state, "editorContext.postType" );
+}
+
+/**
  * Returns whether you're editing a product.
  *
  * @param {Object} state The state.
  *
  * @returns {boolean} Whether you're editing a product.
  */
-export function getIsProduct( state ) {
-	return get( state, "editorContext.postType" ) === "product";
-}
+export const getIsProduct = createSelector(
+	[ getPostType ],
+	( postType ) => postType === "product"
+);
 
 /**
  * Returns whether you're editing a product term.
@@ -40,10 +53,22 @@ export function getIsProduct( state ) {
  *
  * @returns {boolean} Whether you're editing a product term.
  */
-export function getIsProductTerm( state ) {
-	const termType = get( state, "editorContext.termType" );
-	return termType === "product_cat" || termType === "product_tag";
-}
+export const getIsProductTerm = createSelector(
+	[ getPostType ],
+	( postType ) => [ "product_cat", "product_tag" ].includes( postType )
+);
+
+/**
+ * Returns whether you're editing a product entity.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether you're editing a product entity.
+ */
+export const getIsProductEntity = createSelector(
+	[ getIsProduct, getIsProductTerm ],
+	( isProduct, isProductTerm ) => isProduct || isProductTerm
+);
 
 /**
  * Returns whether this is the block editor or not.
