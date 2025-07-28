@@ -1,8 +1,7 @@
-// External dependencies.
+import { StyledHeading, StyledSection, StyledSectionBase } from "@yoast/components";
+import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { StyledSection, StyledHeading, StyledSectionBase } from "@yoast/components";
-import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 
 const Section = styled( StyledSection )`
 	&${ StyledSectionBase } {
@@ -18,15 +17,21 @@ const Section = styled( StyledSection )`
 /**
  * Creates the Snippet Preview Section.
  *
- * @param {Object}         props               The component props.
- * @param {wp.Element}     props.children      The component's children.
- * @param {string}         props.title         The heading title.
- * @param {string}         props.icon          The heading icon.
- * @param {bool}           props.hasPaperStyle Whether the section should have a paper style.
+ * @param {React.ReactNode} [children=null] The component's children.
+ * @param {string} [title=""] The heading title.
+ * @param {string} [icon=""] The heading icon.
+ * @param {boolean} [hasPaperStyle=true] Whether the section should have a paper style.
+ * @param {Object} [shoppingData=null] The shopping data object.
  *
- * @returns {wp.Element} Snippet Preview Section.
+ * @returns {JSX.Element} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle, shoppingData } ) => {
+const SnippetPreviewSection = ( {
+	children = null,
+	title = "",
+	icon = "",
+	hasPaperStyle = true,
+	shoppingData = null,
+} ) => {
 	return (
 		<Section
 			headingLevel={ 3 }
@@ -47,11 +52,6 @@ SnippetPreviewSection.propTypes = {
 	icon: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	shoppingData: PropTypes.object,
-};
-
-SnippetPreviewSection.defaultProps = {
-	hasPaperStyle: true,
-	shoppingData: null,
 };
 
 export default SnippetPreviewSection;

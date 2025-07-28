@@ -1,21 +1,19 @@
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 import { Transition } from "@headlessui/react";
-
-import Indexation from "./indexation";
+import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
 import Alert from "../../base/alert";
+import Indexation from "./indexation";
 
 /**
  * A wrapped Indexation for the first-time configuration.
  *
- * @param {Object}   props                       The props object.
- * @param {function} props.indexingStateCallback The function to call back on state updates.
- * @param {string}   props.indexingState         The state of the indexation.
- * @param {Boolean}  props.isStepperFinished     Whether the stepper has been completed.
+ * @param {function} indexingStateCallback The function to call back on state updates.
+ * @param {string} indexingState The state of the indexation.
+ * @param {boolean} [isStepperFinished=false] Whether the stepper has been completed.
  *
- * @returns {WPElement} A wrapped Indexation for the first-time configuration.
+ * @returns {JSX.Element} A wrapped Indexation for the first-time configuration.
  */
-export function ConfigurationIndexation( { indexingStateCallback, indexingState, isStepperFinished } ) {
+export function ConfigurationIndexation( { indexingStateCallback, indexingState, isStepperFinished = false } ) {
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }
@@ -42,8 +40,4 @@ ConfigurationIndexation.propTypes = {
 	indexingStateCallback: PropTypes.func.isRequired,
 	indexingState: PropTypes.string.isRequired,
 	isStepperFinished: PropTypes.bool,
-};
-
-ConfigurationIndexation.defaultProps = {
-	isStepperFinished: false,
 };
