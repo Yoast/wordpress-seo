@@ -197,6 +197,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.7 =
+
+Release date: 2025-08-12
+
+#### Enhancements
+
+* Re-generates the llms.txt file immediately when there's any change in the selection of the pages to be included.
+
+#### Other
+
+* Sets the minimum supported WordPress version to 6.7.
+
 = 25.6 =
 
 Release date: 2025-07-29
@@ -211,27 +223,6 @@ Yoast SEO 25.6 adds enhancements to the llms.txt feature, introducing manual per
 #### Bugfixes
 
 * Fixes a bug where the icon on search appearance would not be aligned when on a right-to-left locale.
-
-= 25.5 =
-
-Release date: 2025-07-15
-
-Yoast SEO 25.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Enhances the UX of the llms.txt feature by informing users about potential issues with generating the file via Yoast’s alert center.
-* Changes post lists in the llms.txt file to use canonical URLs.
-
-#### Bugfixes
-
-* Fixes a bug where a request limit warning would be shown in the Semrush related keyphrases when no warning was applicable.
-
-#### Other
-
-* Adds an announcement for the Google Docs add-on.
-* Changes the `Upgrades` page to a `Plans` page.
-* Removes redundant flushing of cache groups when incoming links for posts change.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
