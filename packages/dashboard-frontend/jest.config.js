@@ -27,7 +27,6 @@ module.exports = {
 		"clover",
 		"text-summary",
 	],
-	testURL: "http://localhost/",
 	transformIgnorePatterns: [
 		"/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
 	],
