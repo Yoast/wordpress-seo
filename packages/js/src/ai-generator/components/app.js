@@ -358,7 +358,7 @@ export const App = ( { onUseAi } ) => {
 			<MainModal
 				{ ...commonModalProps }
 				isOpen={ [ DISPLAY.error, DISPLAY.generate ].includes( display ) }
-				helpLink={ aiModalHelperLink }
+				aiModalHelperLink={ aiModalHelperLink }
 				panelRef={ panelRef }
 				title={ title }
 			>
