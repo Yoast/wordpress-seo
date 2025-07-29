@@ -37,4 +37,10 @@ module.exports = {
 		"text-summary",
 	],
 	testURL: "http://localhost/",
+	transformIgnorePatterns: [
+		// Build or process incompatible dependencies:
+		// - Memize is a dependency of @wordpress/i18n that uses ESM export syntax, which is not compatible with Jest
+		// - @yoast/ai-frontend includes CSS that needs to be processed (to mock it away)
+		"/node_modules/(?!memize|@yoast/ai-frontend).+\\.js$",
+	],
 };
