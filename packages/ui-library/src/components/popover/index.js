@@ -1,9 +1,11 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { XIcon } from "@heroicons/react/outline";
-import React, { createContext, forwardRef, useCallback, useContext, useEffect, useRef, Fragment } from "react";
+import React, { createContext, forwardRef, useCallback, useContext, Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
+import { useSvgAria } from "../../hooks";
+import Title from "../../elements/title";
 
 const PopoverContext = createContext( { handleDismiss: noop } );
 
@@ -25,142 +27,161 @@ const positionClassNameMap = {
 export const usePopoverContext = () => useContext( PopoverContext );
 
 /**
- * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
- * @param {string} [className] The additional class name.
+ * @param {string} screenReaderLabel The screen reader label for the close button.
+ * @param {function} [onClick] Function that is called when the user clicks the button. Defaults to the handleDismiss function from the context.
+ * @param {string} [className=""] The additional class name.
+ * @param {React.ReactNode} [children=null] Possible to override the default screen reader text and X icon.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The close button.
  */
-const CloseButton = ( {
-	dismissScreenReaderLabel,
-} ) => {
+const CloseButton = forwardRef( ( {
+	screenReaderLabel = "Close",
+	onClick = null,
+	className	 = "",
+	children = null,
+	...props
+}, ref ) => {
 	const { handleDismiss } = usePopoverContext();
-	const closeButtonRef = useRef( null );
+	const svgAriaProps = useSvgAria();
 
 	return (
-		<div className="yst-close-button-wrapper">
+		<div className="yst-popover__close">
 			<button
 				type="button"
-				ref={ closeButtonRef }
-				onClick={ handleDismiss }
+				ref={ ref }
+				onClick={ onClick || handleDismiss }
+				className={ classNames( "yst-popover__close-button", className ) }
+				{ ...props }
 			>
-				<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
-				<XIcon className="yst-h-5 yst-w-5" />
+				{ children || <>
+					<span className="yst-sr-only">{ screenReaderLabel }</span>
+					<XIcon className="yst-h-5 yst-w-5" { ...svgAriaProps } />
+				</> }
 			</button>
 		</div>
 	);
-};
+} );
 
+CloseButton.displayName = "Popover.CloseButton";
 CloseButton.propTypes = {
-	dismissScreenReaderLabel: PropTypes.string.isRequired,
-};
-
-/**
- * @param {string} title The popover title.
- * @param {string} [id=""] The id of the title.
- * @param {string} [className=""] The additional class name.
- * @returns {JSX.Element} The title.
- */
-const Title = ( {
-	title,
-	id = "",
-	className = "",
-} ) => {
-	return <h1 id={ id } className={ classNames( "yst-popover-title", className ) }>
-		{ title }
-	</h1>;
-};
-
-Title.propTypes = {
-	title: PropTypes.string.isRequired,
-	id: PropTypes.string,
+	screenReaderLabel: PropTypes.string,
+	onClick: PropTypes.func,
+	children: PropTypes.node,
 	className: PropTypes.string,
 };
 
 /**
- * @param {React.ReactNode} [content=""] The popover content.
- * @param {string } [id=""] The id of the content for accessibility.
+ * @param {string} [className] The additional class name.
+ * @param {React.ReactNode} [children=null] The title content.
+ * @param {Object} [props] Additional props.
+ * @returns {JSX.Element} The title.
+ */
+const PopoverTitle = ( {
+	className = "",
+	children = null,
+	...props
+} ) => {
+	return ( <Title
+		className={ classNames( "yst-popover__title", className ) }
+		size="5"
+		{ ...props }
+	>
+		{ children }
+	</Title> );
+};
+
+PopoverTitle.displayName = "Popover.Title";
+PopoverTitle.propTypes = {
+	children: PropTypes.node,
+	className: PropTypes.string,
+};
+
+/**
+ * @param {React.ReactNode} [children=null] The content.
  * @param {string} [className=""] The additional class name.
- * @returns {JSX.Element} The content.
+ * @param {string|JSX.Element} [as="p"] The base component to render the content as.
+ * @param {Object} [props] Additional props.
+ * @returns {JSX.Element} [as=""] The element.
  */
 const Content = ( {
-	content = "",
-	id = "",
+	children = null,
+	as: Tag = "p",
 	className = "",
+	...props
 } ) => {
 	return (
-		<p id={ id } className={ classNames( "yst-overflow-wrap rtl:yst-text-right", className ) }>
-			{ content }
-		</p>
+		<Tag
+			className={ classNames( "yst-popover__content", className ) }
+			{ ...props }
+		>
+			{ children }
+		</Tag>
 	);
 };
 
+Content.displayName = "Popover.Content";
 Content.propTypes = {
-	content: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
-	id: PropTypes.string,
 	className: PropTypes.string,
+	as: PropTypes.elementType,
+	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 };
 
 /**
  * @param {string} [className=""] The additional class name.
  * @param {boolean} isVisible Whether the backdrop is visible.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The backdrop.
  */
 const Backdrop = ( {
-	className = "",
-	isVisible,
+	className = "", isVisible,
+	...props
 } ) => {
-	useEffect( () => {
-		if ( isVisible ) {
-			document.body.classList.add( "backdrop-active" );
-		} else {
-			document.body.classList.remove( "backdrop-active" );
-		}
-	}, [ isVisible ] );
 	return (
 		<Transition
-			as={ Fragment }
+			as="div"
 			show={ isVisible }
 			appear={ true }
 			unmount={ true }
-			enter={ "yst-transition yst-ease-in-out yst-duration-150" }
+			enter={ classNames( "yst-popover__backdrop yst-transition yst-duration-150 yst-ease-in", className ) }
 			enterFrom="yst-bg-opacity-0"
 			enterTo="yst-bg-opacity-75"
-			leave="yst-transition yst-duration-50 yst-ease-in"
+			entered={ classNames( "yst-popover__backdrop", className ) }
+			leave={ classNames( "yst-popover__backdrop yst-transition yst-duration-150 yst-ease-in", className ) }
 			leaveFrom="yst-bg-opacity-75"
 			leaveTo="yst-bg-opacity-0"
-		>
-			<div className={ classNames( "yst-popover-backdrop", className ) } />
-		</Transition>
+			{ ...props }
+		/>
 	);
 };
 
+Backdrop.displayName = "Popover.Backdrop";
 Backdrop.propTypes = {
 	className: PropTypes.string,
 	isVisible: PropTypes.bool.isRequired,
 };
 
 /**
- * @param {JSX.node} children Children of the popover.
- * @param {string} id The popover id.
- * @param {string} role The role of the popover.
+ * @param {React.ReactNode} children The Children of the popover.
+ * @param {string} [role] The role of the popover.
  * @param {string|JSX.Element} [as] Base component.
- * @param {string} [className] Additional CSS classes.
+ * @param {string} [className=""] The additional class name.
  * @param {string} [position] The position of the popover.
- * @param {boolean} isVisible Whether the popover is visible.
- * @param {Function} setIsVisible Function to set the visibility of the element.
- * @param { JSX.Element } backdrop The backdrop of the popover.
+ * @param {boolean} [isVisible] Whether the popover is visible.
+ * @param {Function} [setIsVisible] Function to set the visibility of the element.
+ * @param { JSX.Element } [hasBackdrop] Whether the popover has a backdrop.
+ * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The popover component.
  */
 
 const Popover = forwardRef( ( {
 	children,
-	id,
-	role,
-	as: Component,
-	className,
-	isVisible,
-	setIsVisible,
-	position,
-	backdrop,
+	role = "dialog",
+	as: Component = "div",
+	className = "",
+	isVisible = false,
+	setIsVisible = noop,
+	position = "no-arrow",
+	hasBackdrop = false,
 	...props
 }, ref ) => {
 	const handleDismiss = useCallback( () => {
@@ -169,26 +190,23 @@ const Popover = forwardRef( ( {
 
 	return (
 		<PopoverContext.Provider value={ { handleDismiss } }>
-			{ backdrop && <Backdrop isVisible={ isVisible } /> }
+			{ hasBackdrop && <Backdrop isVisible={ isVisible } /> }
 			<Transition
 				as={ Fragment }
 				show={ isVisible }
 				appear={ true }
-				enter="yst-transition yst-ease-in-out yst-duration-150"
+				enter="yst-transition yst-ease-in-out yst-duration-50"
 				enterFrom="yst-bg-opacity-0"
 				enterTo="yst-bg-opacity-100"
-				leave="yst-transition yst-ease-in-out yst-duration-150"
-				leaveFrom="yst-opacity-50"
+				leave="yst-transition yst-ease-in-out yst-duration-50"
+				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 				unmount={ true }
 			>
 				<Component
 					ref={ ref }
-					id={ id }
 					role={ role }
 					aria-modal="true"
-					aria-labelledby={ children.id }
-					aria-describedby={ children.id }
 					className={ classNames( "yst-popover", positionClassNameMap[ position ], className ) }
 					{ ...props }
 				>
@@ -203,26 +221,15 @@ Popover.displayName = "Popover";
 Popover.propTypes = {
 	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
-	id: PropTypes.string.isRequired,
 	role: PropTypes.string,
 	className: PropTypes.string,
 	isVisible: PropTypes.bool,
 	setIsVisible: PropTypes.func,
 	position: PropTypes.oneOf( Object.keys( positionClassNameMap ) ),
-	backdrop: PropTypes.bool,
+	hasBackdrop: PropTypes.bool,
 };
 
-Popover.defaultProps = {
-	as: "div",
-	role: "dialog",
-	isVisible: false,
-	setIsVisible: false,
-	position: "no-arrow",
-	backdrop: false,
-	className: "",
-};
-
-Popover.Title = Title;
+Popover.Title = PopoverTitle;
 Popover.CloseButton = CloseButton;
 Popover.Content = Content;
 Popover.Backdrop = Backdrop;
