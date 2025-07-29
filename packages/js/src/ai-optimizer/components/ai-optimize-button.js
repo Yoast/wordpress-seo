@@ -34,11 +34,11 @@ const getEditorMode = () => {
  * The AI Optimize button component.
  *
  * @param {string} id The assessment ID which AI Optimize should be applied to.
- * @param {boolean} isPremium Whether the Premium add-on is active.
+ * @param {boolean} [isPremium=false] Whether the Premium add-on is active.
  *
  * @returns {JSX.Element} The AI Optimize button.
  */
-const AIOptimizeButton = ( { id, isPremium } ) => {
+const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// The AI Optimize button ID is the same as the assessment ID, with "AIFixes" appended to it.
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
@@ -192,10 +192,6 @@ const AIOptimizeButton = ( { id, isPremium } ) => {
 AIOptimizeButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
-};
-
-AIOptimizeButton.defaultProps = {
-	isPremium: false,
 };
 
 export default AIOptimizeButton;
