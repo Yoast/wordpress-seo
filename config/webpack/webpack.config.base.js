@@ -47,12 +47,6 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request.startsWith( "lodash-es/" ) ) {
 						return [ "lodash", request.substring( 10 ) ];
 					}
-					if ( request === "react-select" ) {
-						return [ "yoast", "reactSelect" ];
-					}
-					if ( request === "react-select/async" ) {
-						return [ "yoast", "reactSelectAsync" ];
-					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return [ "yoast", "externals", request.substring( 17 ) ];
 					}
@@ -71,9 +65,6 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					}
 					if ( request.startsWith( "lodash/" ) || request.startsWith( "lodash-es/" ) ) {
 						return "lodash";
-					}
-					if ( request === "react-select" || request === "react-select/async" ) {
-						return "yoast-seo-react-select";
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return "yoast-seo-externals-" + request.substring( 17 );
