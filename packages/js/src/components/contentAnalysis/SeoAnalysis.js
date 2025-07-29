@@ -196,8 +196,9 @@ class SeoAnalysis extends Component {
 	 * The button is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
 	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
-	 * - We are in the block editor.
+	 * - We are in the block editor or classic editor.
 	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
+	 * - We are not in a Taxonomy.
 	 *
 	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
 	 * @param {string} id The assessment ID.
@@ -213,8 +214,7 @@ class SeoAnalysis extends Component {
 		}
 
 		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
-		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor,
-		// WooCommerce Product pages or Taxonomy
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor, or Taxonomy.
 		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
 	};
 
