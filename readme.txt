@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.5
+Stable tag: 25.6
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -200,6 +200,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 25.6 =
 
 Release date: 2025-07-29
+
+Yoast SEO 25.6 adds enhancements to the llms.txt feature, introducing manual personalization. [Read the release post here](https://yoa.st/release-29-7-25)!
 
 #### Enhancements
 
