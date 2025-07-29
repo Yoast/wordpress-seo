@@ -96,7 +96,39 @@ export const ModalContent = ( { height } ) => {
 	const { suggestions, fetchSuggestions, setSelectedSuggestion } = useSuggestions();
 	const Preview = usePreviewContent();
 	const { addAppliedSuggestion, addUsageCount } = useDispatch( STORE_NAME_AI );
-	const isPremium = useSelect( ( select ) => select( STORE_NAME_EDITOR ).getIsPremium(), [] );
+	const {
+		isUsageCountLimitReached,
+		isWooProductEntity,
+		hasValidPremiumSubscription,
+		hasValidWooSubscription,
+	} = useSelect( ( select ) => {
+		const aiSelect = select( STORE_NAME_AI );
+		const editorSelect = select( STORE_NAME_EDITOR );
+		return ( {
+			isUsageCountLimitReached: aiSelect.isUsageCountLimitReached(),
+			isPremium: editorSelect.getIsPremium(),
+			isWooProductEntity: editorSelect.getIsWooProductEntity(),
+			isWooSeoActive: editorSelect.getIsWooSeoActive(),
+			hasValidPremiumSubscription: aiSelect.selectPremiumSubscription(),
+			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
+		} );
+	}, [] );
+
+	const disableGenerateMore = useMemo( () => {
+		if ( suggestions.status === ASYNC_ACTION_STATUS.loading ) {
+			return true;
+		}
+
+		if ( ! hasValidWooSubscription && isUsageCountLimitReached && isWooProductEntity ) {
+			return true;
+		}
+
+		if ( ! hasValidPremiumSubscription && isUsageCountLimitReached ) {
+			return true;
+		}
+
+		return false;
+	}, [ hasValidPremiumSubscription, isUsageCountLimitReached, suggestions.status, isWooProductEntity, hasValidWooSubscription ] );
 
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
@@ -178,10 +210,8 @@ export const ModalContent = ( { height } ) => {
 	const showLoading = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.loading && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 	const showError = useMemo( () => suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage, [ suggestions.status, isOnLastPage ] );
 
-	const isUsageCountLimitReached = useSelect( ( select ) => select( STORE_NAME_AI ).isUsageCountLimitReached(), [] );
-
 	const handleGenerateMore = useCallback( () => {
-		if ( isUsageCountLimitReached && ! isPremium ) {
+		if ( disableGenerateMore ) {
 			return;
 		}
 
@@ -274,7 +304,7 @@ export const ModalContent = ( { height } ) => {
 									size="small"
 									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
 									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
-									disabled={ ( ! isPremium && isUsageCountLimitReached ) || suggestions.status === ASYNC_ACTION_STATUS.loading }
+									disabled={ disableGenerateMore }
 								>
 									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
 										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />

@@ -43,15 +43,14 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
-						getIsPremium: () => false,
-						getIsWooSeoActive: () => false,
-						getIsProductEntity: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => false,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};
@@ -78,15 +77,14 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
-						getIsPremium: () => false,
-						getIsWooSeoActive: () => false,
-						getIsProductEntity: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => false,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};
@@ -110,12 +108,14 @@ describe( "UpsellModalContent", () => {
 						selectWistiaEmbedPermissionStatus: () => "granted",
 						getIsWooCommerceActive: () => false,
 						getIsProduct: () => false,
+						getIsWooProductEntity: () => false,
 					};
 				}
 				if ( storeName === "yoast-seo/ai-generator" ) {
 					return {
 						isUsageCountLimitReached: () => true,
 						selectFreeSparksActiveEndpoint: () => "/free-sparks-endpoint",
+						selectWooCommerceSubscription: () => false,
 					};
 				}
 				return {};

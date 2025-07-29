@@ -1,7 +1,8 @@
 import { preparePromptContent } from "../helpers";
 import { dispatch, select as wpSelect, subscribe } from "@wordpress/data";
-import { debounce, get, noop } from "lodash";
+import { debounce } from "lodash";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
+import createWatcher from "../../helpers/create-watcher";
 
 /**
  * Creates an updater function: updates the prompt content, which we call on load and whenever the editor content changes.
@@ -20,7 +21,6 @@ const updatePromptContent = () => {
  */
 const createSubscriber = () => {
 	const { getEditorDataContent } = wpSelect( STORE_NAME_EDITOR );
-	const createWatcher = get( window, "yoast.editorModules.helpers.createWatcher", noop );
 	const updater = updatePromptContent();
 
 	// Force an initial update after 1.5 seconds.
