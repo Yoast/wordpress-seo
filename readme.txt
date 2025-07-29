@@ -201,6 +201,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-07-29
 
+Yoast SEO 25.6 adds enhancements to the llms.txt feature, introducing manual personalization. [Read the release post here](https://yoa.st/release-29-7-25)!
+
 #### Enhancements
 
 * Adds a free preview of the AI features from Yoast SEO Premium.
