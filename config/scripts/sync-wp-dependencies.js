@@ -29,7 +29,7 @@ const { execSync } = require( "child_process" );
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
  */
-const wpPackagesAllowList = [
+const WP_PACKAGES_ALLOW_LIST = [
 	"@babel/runtime/regenerator",
 	"@wordpress/a11y",
 	"@wordpress/annotations",
@@ -99,7 +99,7 @@ const wpPackagesAllowList = [
 ];
 
 // These packages are considered tooling, and not meant to load into a WordPress environment.
-const packageFolderDisallowList = [
+const PACKAGE_FOLDER_DISALLOW_LIST = [
 	"babel-preset",
 	"browserslist-config",
 	"e2e-tests",
@@ -217,14 +217,17 @@ const filterDependencies = ( dependencies, allowList ) => {
 };
 
 /**
- * Gets the dependencies with the wanted versions.
- * @param {string[]} dependencies The dependencies we want to update.
- * @param {Object|Object<string,string>} listedVersions The versions of the dependencies we want to update.
- * @param {VersionModifier} modifier The modifier to use for the version.
- * @returns {string[]} The dependencies with the wanted versions.
+ * Gets the dependencies with the wanted versions for the specified package.
+ * @param {Object<string,string>|null} packageJson The packageJson to sync the dependencies for.
+ * @param {Object|Object<string,string>} wpDependencies The WordPress dependencies to sync with.
+ * @returns {string[]} The dependencies to update for the package.
  */
-const getDependenciesWithWantedVersions = ( dependencies, listedVersions, modifier ) => {
-	return dependencies.map( ( dependency ) => ( `${ dependency }@${ modifier }${ listedVersions[ dependency ] }` ) );
+const getDependenciesToUpdateForPackage = ( packageJson, wpDependencies ) => {
+	let dependenciesToUpdate = Object.keys( getDependenciesFromPackageJson( packageJson ) );
+	// Filter out the dependencies we don't care about.
+	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, WP_PACKAGES_ALLOW_LIST );
+	// Filter out the dependencies that are unknown to WordPress.
+	return filterDependencies( dependenciesToUpdate, Object.keys( wpDependencies ) );
 };
 
 /**
@@ -236,23 +239,33 @@ const getDependenciesWithWantedVersions = ( dependencies, listedVersions, modifi
  */
 const syncPackageDependenciesFor = async( packageFolder, wpDependencies, modifier ) => {
 	const packageJson = getPackageJsonForPackage( packageFolder );
-	let dependenciesToUpdate = Object.keys( getDependenciesFromPackageJson( packageJson ) );
-	// Filter out the dependencies we don't care about.
-	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, wpPackagesAllowList );
-	// Filter out the dependencies that are unknown to WordPress.
-	dependenciesToUpdate = filterDependencies( dependenciesToUpdate, Object.keys( wpDependencies ) );
-	const dependenciesWithWantedVersions = getDependenciesWithWantedVersions( dependenciesToUpdate, wpDependencies, modifier );
+	const dependenciesToUpdate = getDependenciesToUpdateForPackage( packageJson, wpDependencies );
+	console.log( "=============================================" );
+	console.log( packageJson.name );
+	const isUpToDate = [];
+	const dependenciesWithWantedVersions = dependenciesToUpdate.map( ( dependency ) => {
+		const version = [ modifier, wpDependencies[ dependency ] ].join( "" );
+		if ( packageJson.dependencies[ dependency ] === version ) {
+			isUpToDate.push( [ dependency, version ].join( "@" ) );
+			// If the version is already the same, we don't need to update it.
+			return null;
+		}
+		return [ dependency, version ].join( "@" );
+	} ).filter( Boolean );
+	if ( isUpToDate.length > 0 ) {
+		console.log( "Already up to date:", isUpToDate.join( ", " ) );
+	}
 
 	if ( dependenciesWithWantedVersions.length === 0 ) {
-		console.log( "=============================================" );
-		console.info( "No WordPress dependencies found in:", packageJson.name );
+		console.log( "No WordPress dependencies to sync." );
 		return true;
 	}
 
+	const command = `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }`;
 	console.log( "=============================================" );
-	console.log( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }` );
+	console.log( command );
 	try {
-		execSync( `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }`, { stdio: "inherit" } );
+		execSync( command, { stdio: "inherit" } );
 		return true;
 	} catch ( e ) {
 		console.error( "Error updating dependencies for:", packageJson.name );
@@ -296,7 +309,7 @@ const getOptionsFromArguments = () => {
 	options.packageFolders = args.length === 0 ? readdirSync( "./packages" ) : args;
 	options.packageFolders = options.packageFolders.filter( ( packageFolder ) => (
 		// Ignore folders that are not packages that run inside a WordPress environment.
-		! packageFolderDisallowList.includes( packageFolder ) &&
+		! PACKAGE_FOLDER_DISALLOW_LIST.includes( packageFolder ) &&
 		// Ignore folders that don't have a package.json.
 		existsSync( `./packages/${ packageFolder }/package.json` )
 	) );
