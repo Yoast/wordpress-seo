@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
 
       - name: Update Browserslist database and create PR
-        uses: c2corg/browserslist-update-action@b3c521a9a0336de4d4e646ddd2db5e05b2e1a2e6 # @v2.4.0 locked to a specific commit to avoid security issues due to a compromised repo.
+        uses: c2corg/browserslist-update-action@a76abb476199caea5399f9e28ff3f16e491ec566 # @v2.4.0 locked to a specific commit to avoid security issues due to a compromised repo.
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: browserslist-update
