@@ -40,7 +40,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									class="attachment-full size-full content-visible"
 									alt="Yoast SEO logo"
 									loading="lazy"
-									decoding="asyc"
+									decoding="async"
 									fetchpriority="low"
 									sizes="(min-width: 1321px) 75px">
 							</figure>
