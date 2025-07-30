@@ -1,11 +1,6 @@
-// eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-
 import { STORE_NAME } from "../constants";
-import {
-	linkParamsSelectors,
-
-} from "../../shared-admin/store";
+import { linkParamsSelectors } from "../../shared-admin/store";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 
 
