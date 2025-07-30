@@ -30,6 +30,7 @@
     "@wordpress/components": "^28.8.12",
     "@wordpress/hooks": "^4.8.2",
     "@wordpress/i18n": "^5.8.2",
+    "@wordpress/redux-routine": "^5.8.1",
     "@yoast/components": "^3.0.0-alpha.2",
     "@yoast/helpers": "^0.17.0-alpha.1",
     "@yoast/style-guide": "^0.14.0-alpha.0",
