@@ -257,6 +257,7 @@ class Index_Command implements Command_Interface {
 		if ( $total > 0 ) {
 			$limit    = $indexation_action->get_limit();
 			$progress = Utils\make_progress_bar( 'Indexing ' . $name, $total );
+			$progress->display();
 			do {
 				$indexables = $indexation_action->index();
 				$count      = \count( $indexables );
