@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Domain\Code_Verifier;
 
 /**
- * Tests the Code_Verifier get_created_at method.
+ * Tests the Code_Verifier is_expired method.
  *
  * @group ai-authorization
  * @covers \Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier::is_expired
