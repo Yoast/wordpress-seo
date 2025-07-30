@@ -13,6 +13,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Abstract class for Code_Verifier_User_Meta_Repository tests.
  *
  * @group ai-authorization
+ *
+ * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Code_Verifier_User_Meta_Repository_Test extends TestCase {
 

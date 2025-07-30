@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Abstract class for Refresh_Token_User_Meta_Repository tests.
  *
  * @group ai-authorization
+ *
+ * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Refresh_Token_User_Meta_Repository_Test extends TestCase {
 
