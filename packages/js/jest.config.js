@@ -20,6 +20,10 @@ module.exports = {
 		"^lodash-es$": "lodash",
 		"^lodash-es/(.*)$": "lodash/$1",
 		"@yoast/ui-library": "<rootDir>/../ui-library/src",
+		// The `@wordpress/i18n` package is using this module.
+		// It defaults to an ESM import in Jest for some reason.
+		// This is a workaround to point it to the CommonJS version.
+		memize: "<rootDir>/../../node_modules/memize/dist/index.cjs",
 	},
 	moduleDirectories: [
 		"<rootDir>/node_modules",
@@ -39,8 +43,7 @@ module.exports = {
 	testURL: "http://localhost/",
 	transformIgnorePatterns: [
 		// Build or process incompatible dependencies:
-		// - Memize is a dependency of @wordpress/i18n that uses ESM export syntax, which is not compatible with Jest
 		// - @yoast/ai-frontend includes CSS that needs to be processed (to mock it away)
-		"/node_modules/(?!memize|@yoast/ai-frontend).+\\.js$",
+		"/node_modules/(?!(@yoast/ai-frontend)).+\\.js$",
 	],
 };
