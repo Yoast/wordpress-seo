@@ -21,7 +21,7 @@ export const RouteLayout = ( {
 	title,
 	description,
 } ) => {
-	const documentTitle = useSelect( select => select( STORE_NAME ).selectDocumentFullTitle({ prefix: title }), [] );
+	const documentTitle = useSelect( select => select( STORE_NAME ).selectDocumentFullTitle( { prefix: title } ), [] );
 	const ariaLiveTitle = sprintf(
 		"%1$s - %2$s", "wordpress-seo",
 		title,

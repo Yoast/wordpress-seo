@@ -18,8 +18,6 @@ export const documentTitleSelectors = {
 	selectDocumentFullTitle: ( state, { prefix = "" } = {} ) => {
 		const title = get( state, DOCUMENT_TITLE_NAME, "" );
 
-		console. log( "prefix", prefix );
-		console. log( "title", title );
 		if ( title.startsWith( prefix ) ) {
 			return title;
 		}
