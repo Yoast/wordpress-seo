@@ -13,6 +13,7 @@ import {
 	FormLayout,
 	RouteLayout,
 	LlmTxtPopover,
+	LlmsTxtAlert,
 } from "../components";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
@@ -37,6 +38,8 @@ const LlmTxt = () => {
 	const hasLoadedIndexablePages = useRef( false );
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
+	const generationFailure = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
+	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
@@ -145,6 +148,8 @@ const LlmTxt = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
+
+						{ generationFailure && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
 
 						<div className="yst-relative yst-max-w-sm">
 							<FormikValueChangeFieldWithDisabledMessage
