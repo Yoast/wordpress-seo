@@ -3,6 +3,9 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 
 import { STORE_NAME } from "../constants";
 import {
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
+	documentTitleSelectors,
 	linkParamsSelectors,
 
 } from "../../shared-admin/store";
@@ -21,6 +24,7 @@ const createStore = ( { initialState } ) => {
 			...preferencesActions,
 		},
 		selectors: {
+			...documentTitleSelectors,
 			...linkParamsSelectors,
 			...preferencesSelectors,
 		},
@@ -29,6 +33,7 @@ const createStore = ( { initialState } ) => {
 			...initialState,
 		},
 		reducer: combineReducers( {
+			[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 			preferences,
 		} ),
 	} );
