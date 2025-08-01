@@ -1,33 +1,25 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+
+export const PREFERENCES_NAME = "preferences";
 
 /**
  * @returns {Object} The initial state.
  */
 export const createInitialPreferencesState = () => ( {
-	...get( window, "wpseoScriptData.preferences", {} ),
+	isRtl: false,
 } );
 
 const slice = createSlice( {
-	name: "preferences",
+	name: PREFERENCES_NAME,
 	initialState: createInitialPreferencesState(),
 	reducers: {},
 } );
 
 export const preferencesSelectors = {
-	selectPreference: ( state, preference, defaultValue = {} ) => get( state, `preferences.${ preference }`, defaultValue ),
-	selectPreferences: state => get( state, "preferences", {} ),
+	selectPreference: ( state, preference, defaultValue = {} ) => get( state, `${PREFERENCES_NAME}.${ preference }`, defaultValue ),
+	selectPreferences: state => get( state, PREFERENCES_NAME, {} ),
 };
-preferencesSelectors.selectUpsellSettingsAsProps = createSelector(
-	[
-		state => preferencesSelectors.selectPreference( state, "upsellSettings", {} ),
-		( state, ctbName = "premiumCtbId" ) => ctbName,
-	],
-	( upsellSettings, ctbName ) => ( {
-		"data-action": upsellSettings?.actionId,
-		"data-ctb-id": upsellSettings?.[ ctbName ],
-	} )
-);
 
 export const preferencesActions = slice.actions;
 

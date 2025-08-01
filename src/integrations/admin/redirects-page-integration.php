@@ -96,7 +96,6 @@ class Redirects_Page_Integration implements Integration_Interface {
 			'wpseoScriptData',
 			[
 				'preferences' => [
-					'isPremium' => \YoastSEO()->helpers->product->is_premium(),
 					'isRtl'     => \is_rtl(),
 				],
 				'linkParams'  => \YoastSEO()->helpers->short_link->get_query_params(),
