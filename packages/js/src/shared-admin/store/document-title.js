@@ -22,7 +22,7 @@ export const documentTitleSelectors = {
 			return title;
 		}
 
-		return `${prefix} < ${title}`;
+		return `${prefix} ‹ ${title}`;
 	},
 };
 
