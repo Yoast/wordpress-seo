@@ -5,7 +5,7 @@ export const DOCUMENT_TITLE_NAME = "documentTitle";
 
 const slice = createSlice( {
 	name: DOCUMENT_TITLE_NAME,
-	initialState: defaultTo( document?.title, "test" ),
+	initialState: defaultTo( document?.title, "" ),
 	reducers: {
 		setDocumentTitle: ( state, { payload } ) => payload,
 	},
