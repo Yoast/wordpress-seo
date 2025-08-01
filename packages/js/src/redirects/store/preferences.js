@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { defaultTo, get } from "lodash";
+import { get } from "lodash";
 
 export const PREFERENCES_NAME = "preferences";
 
@@ -7,9 +7,7 @@ export const PREFERENCES_NAME = "preferences";
  * @returns {Object} The initial state.
  */
 export const createInitialPreferencesState = () => ( {
-	isPremium: false,
 	isRtl: false,
-	documentTitle: defaultTo( document?.title, "" ),
 } );
 
 const slice = createSlice( {
