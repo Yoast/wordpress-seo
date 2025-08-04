@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\Endpoints\Get_Sugg
 use Brain\Monkey;
 
 /**
- * Tests the Get_Suggestions_Endpoint get_url method.
+ * Tests the Get_Suggestions_Endpoint's get_url method.
  *
  * @group ai-generator
  *

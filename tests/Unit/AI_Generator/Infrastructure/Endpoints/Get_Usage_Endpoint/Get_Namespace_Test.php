@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\Endpoints\Get_Usage_Endpoint;
 
 /**
- * Tests the Get_Usage_Endpoint get_namespace method.
+ * Tests the Get_Usage_Endpoint's get_namespace method.
  *
  * @group ai-generator
  *
