@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { register, dispatch, createReduxStore, registerStore } from "@wordpress/data";
 import { Fill } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";

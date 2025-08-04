@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { getInitialLinkParamsState, LINK_PARAMS_NAME, linkParamsActions, linkParamsReducer, linkParamsSelectors } from "../../shared-admin/store";
