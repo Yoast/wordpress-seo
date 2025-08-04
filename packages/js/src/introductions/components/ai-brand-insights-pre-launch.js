@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 import { ReactComponent as AiSparkleIcon } from "../../../../../images/ai-sparkle.svg";
 
 const StyledButton = styled( Button )`
-	background-image: linear-gradient(to bottom right, #A61E69, #6366F1) !important;
+	background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
 	font-weight: 400 !important;
 	color: white !important;
 	&:hover {
-		background-image: linear-gradient(to bottom right, #8F0F57, #4338CA) !important;
+		background-image: linear-gradient(97deg, #8F0F57 0%, #4338CA 100%) !important;
 	}
 	&:focus {
 		outline-color: #a61e69 !important;
@@ -71,7 +71,7 @@ export const AiBrandInsightsPreLaunch = ( {
 				<div className="yst-w-full yst-flex yst-mt-6">
 					<StyledButton
 						as="a"
-						className="yst-grow yst-button yst-button--upsell yst-button--extra-large"
+						className="yst-grow yst-button yst-button--upsell yst-button--extra-large yst-border-slate-200"
 						size="extra-large"
 						variant="upsell"
 						href={ buttonLink }
