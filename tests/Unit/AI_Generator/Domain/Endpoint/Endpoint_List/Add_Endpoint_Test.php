@@ -21,7 +21,7 @@ final class Add_Endpoint_Test extends Abstract_Endpoint_List_Test {
 	 * @return void
 	 */
 	public function test_add_endpoint() {
-		$this->instance->add_endpoint( new Get_Suggestions_Endpoint );
+		$this->instance->add_endpoint( new Get_Suggestions_Endpoint() );
 
 		$endpoints = new ReflectionProperty( $this->instance, 'endpoints' );
 		$endpoints->setAccessible( true );

@@ -28,7 +28,7 @@ final class To_Array_Test extends Abstract_Endpoint_List_Test {
 			->with( $url )
 			->andReturn( $url );
 
-		$this->instance->add_endpoint( new Get_Suggestions_Endpoint );
+		$this->instance->add_endpoint( new Get_Suggestions_Endpoint() );
 
 		$result = $this->instance->to_array();
 
