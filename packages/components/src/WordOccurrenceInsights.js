@@ -1,8 +1,8 @@
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "./safeCreateInterpolateElement";
 
 // Yoast dependencies.
 import WordOccurrences from "./WordOccurrences";
@@ -25,16 +25,13 @@ const getKeywordResearchArticleLink = ( url ) => {
 			"Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.",
 			"wordpress-seo"
 		),
-		"{{a}}",
-		"{{/a}}"
+		"<a>",
+		"</a>"
 	);
 
-	return interpolateComponents( {
-		mixedString: keywordsResearchLinkTranslation,
-		components: {
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ url } target="_blank" rel="noreferrer" />,
-		},
+	return safeCreateInterpolateElement( keywordsResearchLinkTranslation, {
+		// eslint-disable-next-line jsx-a11y/anchor-has-content
+		a: <a href={ url } target="_blank" rel="noreferrer" />,
 	} );
 };
 
