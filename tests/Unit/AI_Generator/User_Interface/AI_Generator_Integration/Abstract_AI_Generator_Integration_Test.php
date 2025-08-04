@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\User_Interface\AI_Generator_Integ
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\AI_Generator\User_Interface\Ai_Generator_Integration;
+use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
