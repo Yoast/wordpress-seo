@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\WordPress_URLs;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
@@ -15,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
  *
  * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs::get_license_url
  */
-final class Get_License_Url extends Abstract_WordPress_URLs_Test {
+final class Get_License_Url_Test extends Abstract_WordPress_URLs_Test {
 
 	/**
 	 * Tests the get_license_url method.
