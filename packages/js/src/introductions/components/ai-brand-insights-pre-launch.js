@@ -8,9 +8,11 @@ const StyledButton = styled( Button )`
 	background-image: linear-gradient(to bottom right, #A61E69, #6366F1) !important;
 	font-weight: 400 !important;
 	color: white !important;
-	outline-color: transparent !important;
-	&:focus, &:hover {
+	&:hover {
 		background-image: linear-gradient(to bottom right, #8F0F57, #4338CA) !important;
+	}
+	&:focus {
+		outline-color: #a61e69 !important;
 	}
 `;
 
