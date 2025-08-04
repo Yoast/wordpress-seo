@@ -27,4 +27,14 @@
 		width: 17px;
 		height: 17px;
 	}
+	
+	.yst-ai-insights-icon {
+		background-image: linear-gradient(to bottom right, #A61E69, #6366F1) !important;
+		mask-image: var(--yoast-svg-icon-yoast-insight-sparkle);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast-insight-sparkle);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 17px;
+		height: 17px;
+	}
 }
