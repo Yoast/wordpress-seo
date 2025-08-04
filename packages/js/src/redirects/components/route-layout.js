@@ -47,6 +47,8 @@ export const RouteLayout = ( {
 						variant="upsell"
 						size="large"
 						className="yst-flex yst-gap-1.5 yst-mt-6 yst-w-fit"
+						data-action="load-nfd-ctb"
+						data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 					>
 						<LockClosedIcon className="yst-w-4 yst-h-4" />
 						<span>{ __( "Unlock with Premium", "wordpress-seo" ) }</span>
