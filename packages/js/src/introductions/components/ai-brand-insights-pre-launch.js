@@ -45,7 +45,7 @@ export const AiBrandInsightsPreLaunch = ( {
 			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
 				<img
 					className="yst-w-full yst-h-auto yst-rounded-md yst-drop-shadow-md"
-					alt="Thumbnail for Yoast AI Brand Insights Pre-Launch"
+					alt={ __( "Web chart showing aspects of brand visibility in AI responses", "wordpress-seo" )} 
 					loading="lazy"
 					decoding="async"
 					{ ...thumbnail }
