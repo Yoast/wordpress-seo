@@ -77,8 +77,6 @@ export const AiBrandInsightsPreLaunch = ( {
 						href={ buttonLink }
 						target="_blank"
 						ref={ initialFocus }
-						data-action="load-nfd-ctb"
-						data-ctb-id={ ctbId }
 					>
 						<AiSparkleIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-mt-[3px]" />
 						{ buttonLabel }
