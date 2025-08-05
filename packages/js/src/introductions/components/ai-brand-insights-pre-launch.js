@@ -36,7 +36,6 @@ export const AiBrandInsightsPreLaunch = ( {
 	),
 	description =  __( "Track visibility, control perception, and stay ahead" +
 		" - tools to manage your AI presence are coming soon!", "wordpress-seo" ),
-	ctbId = "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
@@ -45,7 +44,7 @@ export const AiBrandInsightsPreLaunch = ( {
 			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
 				<img
 					className="yst-w-full yst-h-auto yst-rounded-md yst-drop-shadow-md"
-					alt={ __( "Web chart showing aspects of brand visibility in AI responses", "wordpress-seo" )} 
+					alt={ __( "Web chart showing aspects of brand visibility in AI responses", "wordpress-seo" ) }
 					loading="lazy"
 					decoding="async"
 					{ ...thumbnail }
