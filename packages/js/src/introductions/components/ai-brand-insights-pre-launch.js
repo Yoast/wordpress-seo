@@ -34,8 +34,7 @@ export const AiBrandInsightsPreLaunch = ( {
 		__( "Introducing %1$s", "wordpress-seo" ),
 		"Yoast AI brand insights"
 	),
-	description =  __( "Track visibility, control perception, and stay ahead" +
-		" - tools to manage your AI presence are coming soon!", "wordpress-seo" ),
+	description =  __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are coming soon!", "wordpress-seo" ),
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
