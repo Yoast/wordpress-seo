@@ -1,7 +1,6 @@
 // External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import { __ } from "@wordpress/i18n";
@@ -19,6 +18,7 @@ const {
 } = languageProcessing;
 
 // Internal dependencies.
+import { safeCreateInterpolateElement } from "../helpers/safeCreateInterpolateElement";
 import FixedWidthContainer from "./FixedWidthContainer";
 import ProductDataDesktop from "./ProductDataDesktop";
 import ProductDataMobile from "./ProductDataMobile";
@@ -383,13 +383,10 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 	const keywordFormsMatcher = createRegexFromArray( wordsToHighlightCleaned, false, "", false );
 
 	textToUse = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
-		return `{{strong}}${ matchedKeyword }{{/strong}}`;
+		return `<strong>${ matchedKeyword }</strong>`;
 	} );
 
-	return interpolateComponents( {
-		mixedString: textToUse,
-		components: { strong: <strong /> },
-	} );
+	return safeCreateInterpolateElement( textToUse, { strong: <strong /> } );
 }
 
 /**
