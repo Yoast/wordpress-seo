@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\User_Interface\Bust_Subscription_Cache_Route;
 
-use Brain\Monkey;
 use Mockery;
 use WP_REST_Response;
 
