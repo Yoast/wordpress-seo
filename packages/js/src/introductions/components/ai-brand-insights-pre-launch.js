@@ -1,20 +1,7 @@
-import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ReactComponent as AiSparkleIcon } from "../../../../../images/ai-sparkle.svg";
-
-const StyledButton = styled( Button )`
-	background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
-	font-weight: 400 !important;
-	color: white !important;
-	&:hover {
-		background-image: linear-gradient(97deg, #8F0F57 0%, #4338CA 100%) !important;
-	}
-	&:focus {
-		outline-color: #a61e69 !important;
-	}
-`;
 
 /**
  * @param {Object} thumbnail The thumbnail: img props.
@@ -67,9 +54,9 @@ export const AiBrandInsightsPreLaunch = ( {
 					</div>
 				</div>
 				<div className="yst-w-full yst-flex yst-mt-6">
-					<StyledButton
+					<Button
 						as="a"
-						className="yst-grow yst-button yst-button--upsell yst-button--extra-large yst-border-slate-200"
+						className="yst-grow yst-border-slate-200 yst-ai-insights-waitlist-button"
 						size="extra-large"
 						variant="upsell"
 						href={ buttonLink }
@@ -84,7 +71,7 @@ export const AiBrandInsightsPreLaunch = ( {
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-					</StyledButton>
+					</Button>
 				</div>
 				<Button
 					className="yst-mt-4"
