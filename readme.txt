@@ -207,6 +207,7 @@ Release date: 2025-08-12
 
 #### Other
 
+* Adds an announcement for the upcoming AI Brand Insights feature.
 * Sets the minimum supported WordPress version to 6.7.
 
 = 25.6 =
