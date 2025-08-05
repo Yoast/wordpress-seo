@@ -87,7 +87,6 @@ export const AiBrandInsightsPreLaunch = ( {
 					</StyledButton>
 				</div>
 				<Button
-					as="a"
 					className="yst-mt-4"
 					variant="tertiary"
 					onClick={ onClose }
