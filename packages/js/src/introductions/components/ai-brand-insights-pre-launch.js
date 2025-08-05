@@ -56,14 +56,14 @@ export const AiBrandInsightsPreLaunch = ( {
 				<div className="yst-w-full yst-flex yst-mt-6">
 					<Button
 						as="a"
-						className="yst-grow yst-border-slate-200 yst-ai-insights-waitlist-button"
+						className="yst-grow yst-gap-2 yst-border-slate-200 yst-ai-insights-waitlist-button"
 						size="extra-large"
 						variant="upsell"
 						href={ buttonLink }
 						target="_blank"
 						ref={ initialFocus }
 					>
-						<AiSparkleIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-mt-[3px]" />
+						<AiSparkleIcon className="yst-mt-[1px]" />
 						{ buttonLabel }
 						<span className="yst-sr-only">
 							{
