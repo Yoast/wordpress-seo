@@ -4,42 +4,26 @@ namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Introductions\Application\Google_Docs_Addon_Upsell;
+use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Pre_Launch;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Google Docs Addon upsell.
+ * Tests the AI Brand Insights pre-launch.
  *
  * @group introductions
  *
- * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Google_Docs_Addon_Upsell
+ * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Pre_Launch
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Google_Docs_Addon_Upsell_Test extends TestCase {
+final class AI_Brand_Insights_Pre_Launch_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Google_Docs_Addon_Upsell
+	 * @var AI_Brand_Insights_Pre_Launch
 	 */
 	private $instance;
-
-	/**
-	 * Holds the user helper.
-	 *
-	 * @var Mockery\MockInterface|User_Helper
-	 */
-	private $user_helper;
-
-	/**
-	 * Holds the product helper.
-	 *
-	 * @var Mockery\MockInterface|Product_Helper
-	 */
-	private $product_helper;
 
 	/**
 	 * Holds the current page helper.
@@ -56,11 +40,9 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->user_helper         = Mockery::mock( User_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$this->instance = new Google_Docs_Addon_Upsell( $this->user_helper, $this->product_helper, $this->current_page_helper );
+		$this->instance = new AI_Brand_Insights_Pre_Launch( $this->current_page_helper );
 	}
 
 	/**
@@ -71,16 +53,6 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor() {
-		$this->assertInstanceOf(
-			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
-		);
-
-		$this->assertInstanceOf(
-			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
-		);
-
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
 			$this->getPropertyValue( $this->instance, 'current_page_helper' )
@@ -95,7 +67,7 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'google-docs-addon-upsell', $this->instance->get_id() );
+		$this->assertSame( 'ai-brand-insights-pre-launch', $this->instance->get_id() );
 	}
 
 	/**
@@ -114,9 +86,36 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 *
 	 * @covers ::should_show
 	 *
+	 * @dataProvider should_show_data
+	 *
+	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
+	 * @param bool $expected          The expected result.
+	 *
 	 * @return void
 	 */
-	public function test_should_show() {
-		$this->assertSame( false, $this->instance->should_show() );
+	public function test_should_show( $is_yoast_seo_page, $expected ) {
+		$this->current_page_helper->expects( 'is_yoast_seo_page' )
+			->withNoArgs()
+			->andReturn( $is_yoast_seo_page );
+
+		$this->assertSame( $expected, $this->instance->should_show() );
+	}
+
+	/**
+	 * Provides the data for `test_should_show`.
+	 *
+	 * @return array<string, array<string, bool>>
+	 */
+	public static function should_show_data() {
+		return [
+			'on a Yoast admin page'     => [
+				'is_yoast_seo_page' => true,
+				'expected'          => true,
+			],
+			'not on a Yoast admin page' => [
+				'is_yoast_seo_page' => false,
+				'expected'          => false,
+			],
+		];
 	}
 }

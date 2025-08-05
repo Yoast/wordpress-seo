@@ -27,4 +27,27 @@
 		width: 17px;
 		height: 17px;
 	}
+	
+	.yst-ai-insights-icon {
+		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
+		mask-image: var(--yoast-svg-icon-yoast-insight-sparkle);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast-insight-sparkle);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 17px;
+		height: 17px;
+	}
+
+	.yst-ai-insights-waitlist-button {
+		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
+		font-weight: 400 !important;
+		color: white !important;
+
+		&:hover {
+			background-image: linear-gradient(97deg, #8F0F57 0%, #4338CA 100%) !important;
+		}
+		&:focus {
+			outline-color: #a61e69 !important;
+		}
+	}
 }

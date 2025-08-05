@@ -30,7 +30,7 @@ domReady( () => {
 	};
 
 	const initialComponents = {
-		"google-docs-addon-upsell": Content,
+		"ai-brand-insights-pre-launch": Content,
 	};
 
 	const root = document.createElement( "div" );
