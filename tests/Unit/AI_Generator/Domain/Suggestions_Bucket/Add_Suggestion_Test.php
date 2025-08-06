@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Domain\Suggestions_Bucket;
 
-use ReflectionProperty;
 use Yoast\WP\SEO\AI_Generator\Domain\Suggestion;
 
 /**
@@ -23,14 +22,10 @@ final class Add_Suggestion_Test extends Abstract_Suggestions_Bucket_Test {
 	public function test_add_suggestion() {
 		$this->instance->add_suggestion( new Suggestion( 'test' ) );
 
-		$suggestions = new ReflectionProperty( $this->instance, 'suggestions' );
-		$suggestions->setAccessible( true );
+		$suggestions = $this->getPropertyValue( $this->instance, 'suggestions' );
 
-		$this->assertArrayHasKey( 0, $suggestions->getValue( $this->instance ) );
-
-		$suggestion = $suggestions->getValue( $this->instance )[0];
-
-		$this->assertInstanceOf( Suggestion::class, $suggestion );
-		$this->assertSame( 'test', $suggestion->get_value() );
+		$this->assertArrayHasKey( 0, $suggestions );
+		$this->assertInstanceOf( Suggestion::class, $suggestions[0] );
+		$this->assertSame( 'test', $suggestions[0]->get_value() );
 	}
 }
