@@ -8,6 +8,7 @@ import {
 	pluginUrlReducer,
 	WISTIA_EMBED_PERMISSION_NAME,
 	wistiaEmbedPermissionReducer,
+	documentTitleReducer,
 } from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
@@ -78,4 +79,5 @@ export default {
 	WincherRequest,
 	WincherSEOPerformance,
 	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
+	documentTitle: documentTitleReducer,
 };
