@@ -33,7 +33,7 @@ const UNIQUE_PAGES = [
 /**
  * @returns {JSX.Element} The llms.txt feature route.
  */
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity, max-statements
 const LlmTxt = () => {
 	const hasLoadedIndexablePages = useRef( false );
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );

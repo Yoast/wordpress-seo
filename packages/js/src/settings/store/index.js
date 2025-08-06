@@ -36,7 +36,7 @@ import llmsTxt, {
 	createInitialLlmsTxtState,
 	llmsTxtActions,
 	llmsTxtSelectors,
-	llmsTxtControls
+	llmsTxtControls,
 } from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
