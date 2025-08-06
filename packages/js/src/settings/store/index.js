@@ -32,7 +32,12 @@ import indexablePages, {
 	indexablePagesControls,
 	indexablePagesSelectors,
 } from "./indexable-pages";
-import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
+import llmsTxt, {
+	createInitialLlmsTxtState,
+	llmsTxtActions,
+	llmsTxtSelectors,
+	llmsTxtControls
+} from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -145,6 +150,7 @@ const createStore = ( { initialState } ) => {
 			...taxonomyControls,
 			...pageControls,
 			...indexablePagesControls,
+			...llmsTxtControls,
 		},
 	} );
 };

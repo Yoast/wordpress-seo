@@ -40,11 +40,13 @@ const LlmTxt = () => {
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const generationFailure = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
+	const failureFetchStatus = useSelectSettings( "selectLlmsTxtFailureFetchStatus", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
 	const { fetchIndexablePages } = useDispatchSettings();
+	const { fetchGenerationFailure } = useDispatchSettings();
 
 	const { values, initialValues } = useFormikContext();
 	const {
@@ -57,6 +59,11 @@ const LlmTxt = () => {
 	} = values.wpseo_llmstxt;
 	const { enable_llms_txt: isLlmsTxtEnabled } = values.wpseo;
 	const { enable_llms_txt: initialIsLlmsTxtEnabled } = initialValues.wpseo;
+
+	useEffect( () => {
+		fetchGenerationFailure();
+	}, [ fetchGenerationFailure, initialValues.wpseo_llmstxt ] );
+
 
 	/** @type {number[]} */
 	const selectedIndexablePageIds = useMemo(
