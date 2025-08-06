@@ -62,7 +62,7 @@ const LlmTxt = () => {
 
 	useEffect( () => {
 		fetchGenerationFailure();
-	}, [ fetchGenerationFailure, initialValues.wpseo_llmstxt ] );
+	}, [ fetchGenerationFailure, initialValues.wpseo_llmstxt, initialIsLlmsTxtEnabled ] );
 
 
 	/** @type {number[]} */
