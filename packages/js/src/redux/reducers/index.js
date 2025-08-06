@@ -2,13 +2,14 @@ import insights from "../../insights/redux/reducer";
 import {
 	ADMIN_URL_NAME,
 	adminUrlReducer,
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
 	LINK_PARAMS_NAME,
 	linkParamsReducer,
 	PLUGIN_URL_NAME,
 	pluginUrlReducer,
 	WISTIA_EMBED_PERMISSION_NAME,
 	wistiaEmbedPermissionReducer,
-	documentTitleReducer,
 } from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
@@ -52,6 +53,7 @@ export default {
 	checklist,
 	currentPromotions,
 	dismissedAlerts,
+	[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 	editorContext,
 	editorData,
 	editorModals,
@@ -79,5 +81,4 @@ export default {
 	WincherRequest,
 	WincherSEOPerformance,
 	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
-	documentTitle: documentTitleReducer,
 };
