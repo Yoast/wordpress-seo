@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
-use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -49,14 +48,14 @@ class Generation_Failure_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param File_Runner $runner The file runner instance.
-	 * @param Capability_Helper $capability_helper The capability helper instance.
+	 * @param File_Runner       $runner            The file runner.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct(
 		File_Runner $runner,
 		Capability_Helper $capability_helper
 	) {
-		$this->runner = $runner;
+		$this->runner            = $runner;
 		$this->capability_helper = $capability_helper;
 	}
 
@@ -82,22 +81,10 @@ class Generation_Failure_Route implements Route_Interface {
 	/**
 	 * Gets the generation failure info.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @return WP_REST_Response The success or failure response.
 	 */
-	public function get_generation_failure( WP_REST_Request $request ): WP_REST_Response {
-		try {
-			$this->runner->run();
-
-		} catch ( Exception $exception ) {
-			return new WP_REST_Response(
-				[
-					'error' => $exception->getMessage(),
-				],
-				$exception->getCode()
-			);
-		}
+	public function get_generation_failure(): WP_REST_Response {
+		$this->runner->run();
 
 		return new WP_REST_Response(
 			[
