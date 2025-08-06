@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import apiFetch from "@wordpress/api-fetch";
 
 // Action name constants
@@ -17,7 +16,6 @@ export const createInitialLlmsTxtState = () =>(
 		llmsTxtUrl: "",
 		disabledPageIndexables: false,
 		otherIncludedPagesLimit: 100,
-		failureFetchStatus: ASYNC_ACTION_STATUS.idle,
 	}
 );
 
@@ -25,7 +23,6 @@ export const createInitialLlmsTxtState = () =>(
  * @returns {Object} Success or error action object.
  */
 export function* fetchGenerationFailure() {
-	yield{ type: `${FETCH_GENERATION_FAILURE_ACTION_NAME}/request` };
 	try {
 		const result = yield{
 			type: FETCH_GENERATION_FAILURE_ACTION_NAME,
@@ -33,7 +30,6 @@ export function* fetchGenerationFailure() {
 		return { type: `${FETCH_GENERATION_FAILURE_ACTION_NAME}/success`, payload: result };
 	} catch ( error ) {
 		console.error( "Error fetching generation failure:", error );
-		return { type: `${FETCH_GENERATION_FAILURE_ACTION_NAME}/error`, payload: {} };
 	}
 }
 
@@ -42,16 +38,9 @@ const slice = createSlice( {
 	initialState: createInitialLlmsTxtState(),
 	reducers: {},
 	extraReducers: builder => {
-		builder.addCase( `${FETCH_GENERATION_FAILURE_ACTION_NAME}/request`, state => {
-			state.failureFetchStatus = ASYNC_ACTION_STATUS.loading;
-		} );
 		builder.addCase( `${FETCH_GENERATION_FAILURE_ACTION_NAME}/success`, ( state, { payload } ) => {
-			state.failureFetchStatus = ASYNC_ACTION_STATUS.success;
 			state.generationFailure = payload.generationFailure;
 			state.generationFailureReason = payload.generationFailureReason;
-		} );
-		builder.addCase( `${FETCH_GENERATION_FAILURE_ACTION_NAME}/error`, state => {
-			state.failureFetchStatus = ASYNC_ACTION_STATUS.error;
 		} );
 	},
 } );
@@ -73,7 +62,6 @@ export const llmsTxtSelectors = {
 	selectLlmsTxtUrl: state => get( state, "llmsTxt.llmsTxtUrl", "" ),
 	selectLlmsTxtDisabledPageIndexables: state => get( state, "llmsTxt.disabledPageIndexables", false ),
 	selectLlmsTxtOtherIncludedPagesLimit: state => get( state, "llmsTxt.otherIncludedPagesLimit", 100 ),
-	selectLlmsTxtFailureFetchStatus: state => get( state, "llmsTxt.failureFetchStatus", "idle" ),
 };
 
 export default slice.reducer;

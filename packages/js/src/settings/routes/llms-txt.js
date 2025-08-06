@@ -33,14 +33,13 @@ const UNIQUE_PAGES = [
 /**
  * @returns {JSX.Element} The llms.txt feature route.
  */
-// eslint-disable-next-line complexity, max-statements
+// eslint-disable-next-line complexity
 const LlmTxt = () => {
 	const hasLoadedIndexablePages = useRef( false );
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
 	const generationFailure = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
 	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
-	const failureFetchStatus = useSelectSettings( "selectLlmsTxtFailureFetchStatus", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
@@ -63,7 +62,6 @@ const LlmTxt = () => {
 	useEffect( () => {
 		fetchGenerationFailure();
 	}, [ fetchGenerationFailure, initialValues.wpseo_llmstxt, initialIsLlmsTxtEnabled ] );
-
 
 	/** @type {number[]} */
 	const selectedIndexablePageIds = useMemo(
