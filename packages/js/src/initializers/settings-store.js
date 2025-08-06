@@ -3,9 +3,9 @@ import { reducers, selectors, actions } from "@yoast/externals/redux";
 import { get } from "lodash";
 import * as controls from "../redux/controls/dismissedAlerts";
 
-const { currentPromotions, dismissedAlerts, isPremium, linkParams  } = reducers;
-const { isAlertDismissed, getIsPremium, isPromotionActive, selectLinkParams, selectLink } = selectors;
-const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setLinkParams, setIsPremium } = actions;
+const { currentPromotions, dismissedAlerts, isPremium, linkParams, documentTitle  } = reducers;
+const { isAlertDismissed, getIsPremium, isPromotionActive, selectLinkParams, selectLink, selectDocumentFullTitle } = selectors;
+const { dismissAlert, setCurrentPromotions, setDismissedAlerts, setLinkParams, setIsPremium, setDocumentTitle } = actions;
 
 /**
  * Populates the store.
@@ -33,12 +33,14 @@ export default function initSettingsStore() {
 			dismissedAlerts,
 			isPremium,
 			linkParams,
+			documentTitle,
 		} ),
 		selectors: {
 			isAlertDismissed,
 			getIsPremium,
 			isPromotionActive,
 			selectLinkParams,
+			selectDocumentFullTitle,
 			selectLink,
 		},
 		actions: {
@@ -47,6 +49,7 @@ export default function initSettingsStore() {
 			setDismissedAlerts,
 			setLinkParams,
 			setIsPremium,
+			setDocumentTitle,
 		},
 		controls,
 	} );
