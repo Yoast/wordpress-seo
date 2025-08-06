@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
-use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
