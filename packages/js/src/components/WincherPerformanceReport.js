@@ -6,11 +6,11 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { isEmpty, map } from "lodash";
-import interpolateComponents from "interpolate-components";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
 import { Alert, NewButton } from "@yoast/components";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 /* Internal dependencies */
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
@@ -319,33 +319,30 @@ const TableExplanation = ( { isLoggedIn } ) => {
 	const loggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
 		__( "This overview only shows you keyphrases added to Yoast SEO. There may be other keyphrases added to your %s.", "wordpress-seo" ),
-		"{{wincherAccountLink/}}"
+		"<wincherAccountLink/>"
 	);
 
 	const notLoggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
 		__( "This overview will show you your top performing keyphrases in Google. Connect with %s to get started.", "wordpress-seo" ),
-		"{{wincherLink/}}"
+		"<wincherLink/>"
 	);
 
 	const message = isLoggedIn ? loggedInMessage : notLoggedInMessage;
 
 	return <p>
 		{
-			interpolateComponents( {
-				mixedString: message,
-				components: {
-					wincherAccountLink: <WincherAccountLink href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }>
-						{
-							sprintf(
-								/* translators: %s : Expands to "Wincher". */
-								__( "%s account", "wordpress-seo" ),
-								"Wincher"
-							)
-						}
-					</WincherAccountLink>,
-					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>Wincher</WincherLink>,
-				},
+			safeCreateInterpolateElement( message, {
+				wincherAccountLink: <WincherAccountLink href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }>
+					{
+						sprintf(
+							/* translators: %s : Expands to "Wincher". */
+							__( "%s account", "wordpress-seo" ),
+							"Wincher"
+						)
+					}
+				</WincherAccountLink>,
+				wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>Wincher</WincherLink>,
 			} )
 		}
 	</p>;

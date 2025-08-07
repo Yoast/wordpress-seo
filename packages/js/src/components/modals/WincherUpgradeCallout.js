@@ -2,7 +2,6 @@
 
 /* External dependencies */
 import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { makeOutboundLink } from "@yoast/helpers";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /* Internal dependencies */
 import { checkLimit, getUpgradeCampaign } from "../../helpers/wincherEndpoints";
@@ -197,20 +197,13 @@ const WincherUpgradeCalloutDescription = ( { discount, months } ) => {
 			"%1$s and get an exclusive %2$s discount for %3$s month(s).",
 			"wordpress-seo"
 		),
-		"{{wincherAccountUpgradeLink/}}",
+		"<wincherAccountUpgradeLink/>",
 		discountPercentage + "%",
 		months
 	);
 
 	return <DescriptionContainer>
-		{
-			interpolateComponents( {
-				mixedString: description,
-				components: {
-					wincherAccountUpgradeLink,
-				},
-			} )
-		}
+		{ safeCreateInterpolateElement( description, { wincherAccountUpgradeLink } ) }
 	</DescriptionContainer>;
 };
 
