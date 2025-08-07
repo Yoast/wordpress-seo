@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\User_Interface\AI_Generator_Integration;
 
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\Introductions\Application\AI_Fix_Assessments_Upsell;
+use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 
 /**
  * Tests the AI_Generator_Integration's get_script_data method.
