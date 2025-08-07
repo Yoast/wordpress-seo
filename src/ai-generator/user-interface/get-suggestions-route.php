@@ -8,6 +8,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
@@ -149,7 +150,7 @@ class Get_Suggestions_Route implements Route_Interface {
 				'message'         => $e->getMessage(),
 				'errorIdentifier' => $e->get_error_identifier(),
 			];
-			if ( $e instanceof Payment_Required_Exception ) {
+			if ( $e instanceof Payment_Required_Exception || $e instanceof Too_Many_Requests_Exception ) {
 				$message['missingLicenses'] = $e->get_missing_licenses();
 			}
 			return new WP_REST_Response(
