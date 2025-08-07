@@ -40,28 +40,28 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
 	 */
-	private $addon_manager;
+	protected $addon_manager;
 
 	/**
 	 * Holds the API client instance.
 	 *
 	 * @var Mockery\MockInterface|API_Client
 	 */
-	private $api_client;
+	protected $api_client;
 
 	/**
 	 * Represents the current page helper.
 	 *
 	 * @var Mockery\MockInterface|Current_Page_Helper
 	 */
-	private $current_page_helper;
+	protected $current_page_helper;
 
 	/**
 	 * Represents the options manager.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * Represents the user helper.
@@ -75,7 +75,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Introductions_Seen_Repository
 	 */
-	private $introductions_seen_repository;
+	protected $introductions_seen_repository;
 
 	/**
 	 * Sets an instance for test purposes.

@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Generator_Integration::get_conditionals
+ * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\AI_Generator_Integration::get_conditionals
  */
 final class Conditional_Test extends Abstract_AI_Generator_Integration_Test {
 
