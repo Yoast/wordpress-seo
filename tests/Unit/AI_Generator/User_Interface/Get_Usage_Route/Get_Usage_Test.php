@@ -63,7 +63,8 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 		$http_response
 			->expects( 'get_body' )
 			->once()
-			->withNoArgs();
+			->withNoArgs()
+			->andReturn( '' );
 
 		$wp_rest_response
 			->expects( '__construct' )
