@@ -1,23 +1,23 @@
-import { Card } from "./tailwind-components/card";
-import { Badge, Link, Button } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
-import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
-import { useSelect } from "@wordpress/data";
-
 /* eslint-disable complexity */
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
+import { useSelect } from "@wordpress/data";
+import { __ } from "@wordpress/i18n";
+import { Badge, Button, Link } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
+import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
+import { Card } from "./tailwind-components/card";
+
 /**
  * Represents an integration.
  *
- * @param {object}     integration The integration.
- * @param {boolean}    isActive    The integration state.
- * @param {wp.Element} children    The child components.
+ * @param {Object} integration The integration.
+ * @param {boolean} [isActive=true] The integration state.
+ * @param {React.ReactNode} [children=null] The child components.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
-export const SimpleIntegration = ( { integration, isActive, children } ) => {
+export const SimpleIntegration = ( { integration, isActive = true, children = null } ) => {
 	const IntegrationLogo = integration.logo;
 
 	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
@@ -30,7 +30,10 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					href={ logoLink }
 					target="_blank"
 				>
-					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+					{ integration.logo && <IntegrationLogo
+						alt={ `${ integration.name } logo` }
+						className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }
+					/> }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
@@ -98,14 +101,13 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					</span>
 				</Button>
 				}
-				{  getIsFreeIntegrationOrPremiumAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
+				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
 					{ children }
 				</p> }
 			</Card.Footer>
 		</Card>
 	);
 };
-/* eslint-enable complexity */
 
 SimpleIntegration.propTypes = {
 	integration: PropTypes.shape( {
@@ -125,9 +127,4 @@ SimpleIntegration.propTypes = {
 		PropTypes.node,
 		PropTypes.arrayOf( PropTypes.node ),
 	] ),
-};
-
-SimpleIntegration.defaultProps = {
-	isActive: true,
-	children: [],
 };

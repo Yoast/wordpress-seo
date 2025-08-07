@@ -16,12 +16,15 @@ import { FormikValueChangeField } from "../../shared-admin/components/form";
  * @param {string} name The field name.
  * @param {string} cardId The card ID.
  * @param {string} inputId The input ID.
+ * @param {React.ReactNode} children The card content.
  * @param {string} imageSrc The image src, will get prefixed with the plugin URL.
- * @param {string} imageAlt The image alt text.
- * @param {JSX.node} children The card content.
- * @param {boolean} isPremiumFeature Whether this card is for a premium feature.
- * @param {boolean}  isBetaFeature Whether this card is for a beta feature.
- * @param {string} isPremiumLink The link to use for the upsell. Required for premium features.
+ * @param {string} [imageAlt] The image alt text.
+ * @param {boolean} [isPremiumFeature] Whether this card is for a premium feature.
+ * @param {string} [isPremiumLink] The link to use for the upsell. Required for premium features.
+ * @param {boolean} [isBetaFeature] Whether this card is for a beta feature.
+ * @param {boolean} [isNewFeature] Whether this card is for a new feature.
+ * @param {boolean} [hasPremiumBadge] Whether this card has a premium badge.
+ * @param {string} title The card title.
  * @returns {JSX.Element} The card.
  */
 const FeatureCard = ( {
@@ -30,7 +33,7 @@ const FeatureCard = ( {
 	inputId,
 	children,
 	imageSrc: rawImageSrc,
-	imageAlt,
+	imageAlt = "",
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	isBetaFeature = false,
@@ -62,7 +65,7 @@ const FeatureCard = ( {
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
-					alt={ imageAlt ?? "" }
+					alt={ imageAlt }
 					width={ 500 }
 					height={ 250 }
 					loading="lazy"
@@ -132,7 +135,9 @@ FeatureCard.propTypes = {
 
 /**
  * @param {string} id The ID.
- * @param {string} href The link.
+ * @param {string} link The link URL.
+ * @param {string} ariaLabel The aria label for the link a11y.
+ * @param {...Object} [props] Additional props.
  * @returns {JSX.Element} The learn more link.
  */
 const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {

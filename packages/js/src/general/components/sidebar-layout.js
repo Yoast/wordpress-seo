@@ -6,10 +6,10 @@ import { useSelectGeneralPage } from "../hooks";
 
 /**
  * @param {string} [contentClassName=""] Extra class name for the children container.
- * @param {JSX.node} children The children.
- * @returns {JSX.Element} The element.
+ * @param {React.ReactNode} [children=null] The children.
+ * @returns {React.ReactNode} The element.
  */
-export const SidebarLayout = ( { contentClassName = "", children } ) => {
+export const SidebarLayout = ( { contentClassName = "", children = null } ) => {
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const premiumLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/jj" );
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
