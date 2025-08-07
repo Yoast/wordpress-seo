@@ -205,6 +205,10 @@ Release date: 2025-08-12
 
 * Re-generates the llms.txt file immediately when there's any change in the selection of the pages to be included.
 
+#### Bugfixes
+
+* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error when rate limit is reached in the AI generator before reaching the free sparks limit.
+
 #### Other
 
 * Adds an announcement for the upcoming AI Brand Insights feature.
