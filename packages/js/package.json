@@ -51,7 +51,6 @@
     "draft-js": "^0.11.7",
     "find-with-regex": "~1.0.2",
     "formik": "^2.2.9",
-    "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.21",
     "marked": "^0.7.0",
