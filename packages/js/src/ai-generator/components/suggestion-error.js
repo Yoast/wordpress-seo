@@ -86,6 +86,9 @@ export const SuggestionError = ( {
 				? <WithActions onRetry={ onRetry }><TimeoutAlert /></WithActions>
 				: <TimeoutAlert />;
 		case 429:
+			if ( errorIdentifier === "USAGE_LIMIT_REACHED" ) {
+				return <SubscriptionError invalidSubscriptions={ invalidSubscriptions } />;
+			}
 			return <RateLimitAlert />;
 		case 410:
 			return <UpgradeAlert />;
