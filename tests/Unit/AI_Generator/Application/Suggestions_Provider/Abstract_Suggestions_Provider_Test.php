@@ -30,21 +30,21 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Consent_Handler
 	 */
-	private $consent_handler;
+	protected $consent_handler;
 
 	/**
 	 * The request handler instance.
 	 *
 	 * @var Mockery\MockInterface|Request_Handler
 	 */
-	private $request_handler;
+	protected $request_handler;
 
 	/**
 	 * The token manager instance.
 	 *
 	 * @var Mockery\MockInterface|Token_Manager
 	 */
-	private $token_manager;
+	protected $token_manager;
 
 	/**
 	 * The options helper instance.
