@@ -2,10 +2,10 @@
 /* eslint-disable complexity */
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { UsageCounter } from "@yoast/ai-frontend";
-import { Badge, Link, Modal, Spinner, useSvgAria } from "@yoast/ui-library";
+import { UsageCounter, GradientButton } from "@yoast/ai-frontend";
+import { Badge, Link, Modal, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
@@ -107,7 +107,7 @@ export const DISPLAY = {
  */
 export const App = ( { onUseAi } ) => {
 	const [ display, setDisplay ] = useState( DISPLAY.inactive );
-	const { editType } = useTypeContext();
+	const { editType, previewType } = useTypeContext();
 	const location = useLocation();
 	const title = useModalTitle();
 	const {
@@ -333,20 +333,33 @@ export const App = ( { onUseAi } ) => {
 		setDisplay( DISPLAY.generate );
 	}, [ setDisplay, hasConsent ] );
 
+	const getButtonLabel = useMemo( () => {
+		if ( previewType === "google" ) {
+			if ( editType === "title" ) {
+				return __( "Generate SEO title", "wordpress-seo" );
+			}
+			return __( "Generate meta description", "wordpress-seo" );
+		}
+		if ( previewType === "social" || previewType === "twitter" ) {
+			if ( editType === "title" ) {
+				return __( "Generate social title", "wordpress-seo" );
+			}
+			return __( "Generate social description", "wordpress-seo" );
+		}
+	}, [ previewType, editType ] );
+
 	return (
 		<>
-			<button
+			<GradientButton
 				type="button"
 				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
 				className="yst-replacevar__use-ai-button"
 				onClick={ handleUseAi }
 				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
+				isLoading={ loading && usageCountStatus === ASYNC_ACTION_STATUS.loading }
 			>
-				{ loading && usageCountStatus === ASYNC_ACTION_STATUS.loading  && (
-					<Spinner className="yst-me-2" />
-				) }
-				{ __( "Use AI", "wordpress-seo" ) }
-			</button>
+				{ getButtonLabel }
+			</GradientButton>
 
 			<IntroductionModal
 				{ ...commonModalProps }

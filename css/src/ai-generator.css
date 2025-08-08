@@ -4,28 +4,27 @@
 	/* The `--yoast` variables from @yoast/components are loaded via the monorepo stylesheet dependency. */
 
 	button.yst-replacevar__use-ai-button {
-		display: flex;
-		align-items: center;
-		color: #303030;
-		box-sizing: border-box;
-		border-radius: 4px;
-		box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.1);
-		border: 1px solid #dbdbdb;
-		padding: 0 0.5em;
-		cursor: pointer;
-		min-height: 32px;
+		border-radius: 3px;
 		-webkit-transition: var(--yoast-transition-default);
 		transition: var(--yoast-transition-default);
-		background-color: #f7f7f7;
+		background: linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%);
+		border-image-source: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
+		color: #303030;
+		box-shadow: 0px 1px 0px 0px rgba(204, 204, 204, 0.7);
+		@apply 
+		yst-h-8
+		yst-flex
+		yst-items-center
+		yst-cursor-pointer
+		yst-text-sm
+		yst-ps-2 yst-pe-2.5
+		disabled:yst-cursor-default;
 
 		&:hover {
-			color: #000;
-			background-color: #fff;
-			border-color: var(--yoast-color-border--default);
+			background: linear-gradient(96.67deg, #F3E5ED 1.02%, #E0E7FF 100%);
 		}
-		&:disabled {
-			opacity: 0.5;
-			cursor: default;
+		svg {
+			@apply yst-me-1.5 yst-ms-0;
 		}
 	}
 
