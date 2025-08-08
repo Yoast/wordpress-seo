@@ -8,7 +8,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
 /**
  * @param {string} reason The reason for the alert to appear.
  *
- * @returns {JSX.Element|null} The llms.txt alert or null.
+ * @returns {JSX.Element} The llms.txt alert.
  */
 export const LlmsTxtAlert = ( { reason } ) => {
 	const link = useSelectSettings( "selectLink", [], "https://yoa.st/llms-txt-file-deletion-settings" );
