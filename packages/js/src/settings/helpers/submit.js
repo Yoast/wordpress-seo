@@ -4,6 +4,45 @@ import { forEach, get, includes, isArray, isObject, omit } from "lodash";
 import { STORE_NAME } from "../constants";
 
 /**
+ * @param {string} responseText The responseText.
+ * @returns {void}
+ */
+const handleLlmstxtFailure = ( responseText ) => {
+	const { setGenerationFailure } = dispatch( STORE_NAME );
+
+	if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: " ) ) {
+		// We do a nested if here for performance reasons, so that we add a single `includes` operation and not more, in most cases.
+		if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: filesystem_permissions }}" ) ) {
+			setGenerationFailure( {
+				generationFailure: true,
+				generationFailureReason: "filesystem_permissions",
+			} );
+			return;
+		}
+
+		if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: not_managed_by_yoast_seo }}" ) ) {
+			setGenerationFailure( {
+				generationFailure: true,
+				generationFailureReason: "not_managed_by_yoast_seo",
+			} );
+			return;
+		}
+
+		setGenerationFailure( {
+			generationFailure: true,
+			generationFailureReason: "unknown",
+		} );
+
+		return;
+	}
+
+	setGenerationFailure( {
+		generationFailure: false,
+		generationFailureReason: "",
+	} );
+};
+
+/**
  * @param {Object} values The values.
  * @returns {Promise<void>} Promise of save result. Errors when failing.
  */
@@ -40,6 +79,9 @@ const submitSettings = async( values ) => {
 		if ( includes( responseText, "{{ yoast-success: false }}" ) ) {
 			throw new Error( "Yoast options invalid." );
 		}
+
+		handleLlmstxtFailure( responseText );
+
 		if ( ! response.url.endsWith( "settings-updated=true" ) ) {
 			throw new Error( "WordPress options save did not get to the end." );
 		}

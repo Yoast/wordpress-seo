@@ -45,7 +45,6 @@ const LlmTxt = () => {
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
 
 	const { fetchIndexablePages } = useDispatchSettings();
-	const { fetchGenerationFailure } = useDispatchSettings();
 
 	const { values, initialValues } = useFormikContext();
 	const {
@@ -58,10 +57,6 @@ const LlmTxt = () => {
 	} = values.wpseo_llmstxt;
 	const { enable_llms_txt: isLlmsTxtEnabled } = values.wpseo;
 	const { enable_llms_txt: initialIsLlmsTxtEnabled } = initialValues.wpseo;
-
-	useEffect( () => {
-		fetchGenerationFailure();
-	}, [ fetchGenerationFailure, initialValues.wpseo_llmstxt, initialIsLlmsTxtEnabled ] );
 
 	/** @type {number[]} */
 	const selectedIndexablePageIds = useMemo(
