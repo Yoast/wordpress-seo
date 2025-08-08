@@ -6,6 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Configuration\Dashboard_Configuration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
@@ -97,6 +98,13 @@ class General_Page_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Holds the WooCommerce conditional.
+	 *
+	 * @var WooCommerce_Conditional
+	 */
+	private $woocommerce_conditional;
+
+	/**
 	 * Constructs Academy_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -109,6 +117,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
 	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
+	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -120,7 +129,8 @@ class General_Page_Integration implements Integration_Interface {
 		Promotion_Manager $promotion_manager,
 		Dashboard_Configuration $dashboard_configuration,
 		User_Helper $user_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		WooCommerce_Conditional $woocommerce_conditional
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -132,6 +142,7 @@ class General_Page_Integration implements Integration_Interface {
 		$this->dashboard_configuration = $dashboard_configuration;
 		$this->user_helper             = $user_helper;
 		$this->options_helper          = $options_helper;
+		$this->woocommerce_conditional = $woocommerce_conditional;
 	}
 
 	/**
@@ -232,6 +243,7 @@ class General_Page_Integration implements Integration_Interface {
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
 				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
 				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
+				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),

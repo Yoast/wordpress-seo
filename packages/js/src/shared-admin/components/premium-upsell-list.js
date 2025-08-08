@@ -3,17 +3,22 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button, Paper, Title } from "@yoast/ui-library";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
-import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
+import { ReactComponent as CrownIcon } from "../../../images/icon-crown.svg";
+import { ReactComponent as TrolleyIcon } from "../../../images/icon-trolley.svg";
 
 /**
  * @param {string} premiumLink The premium link.
  * @param {Object} [premiumUpsellConfig] The premium upsell configuration data.
  * @param {function} isPromotionActive Callback to get whether a promotion is active.
+ * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive } ) => {
+export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive, isWooCommerceActive } ) => {
 	const isBlackFriday = isPromotionActive( "black-friday-2024-promotion" );
+	const getBenefits = isWooCommerceActive
+		? getWooSeoBenefits
+		: getPremiumBenefits;
 
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
@@ -24,18 +29,34 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 				<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
 			</div> }
 			<div className="yst-p-6 yst-flex yst-flex-col">
-				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
-					{ sprintf(
-						/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Upgrade to %s", "wordpress-seo" ),
-						"Yoast SEO Premium"
-					) }
-				</Title>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-ps-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
-					{ getPremiumBenefits().map( ( benefit, index ) => (
-						<li key={ `upsell-benefit-${ index }` }>
-							{ safeCreateInterpolateElement( benefit, { strong: <span className="yst-font-semibold" /> } ) }
-						</li>
+				<div className="yst-flex yst-items-center">
+					{	isWooCommerceActive
+						? <>
+							<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
+								{ sprintf(
+									/* translators: %s expands to "Yoast SEO" Premium */
+									__( "Upgrade to %s", "wordpress-seo" ),
+									"Yoast WooCommerce SEO"
+								) }
+							</Title>
+							<TrolleyIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+						</>
+						: <>
+							<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
+								{ sprintf(
+								/* translators: %s expands to "Yoast SEO" Premium */
+									__( "Upgrade to %s", "wordpress-seo" ),
+									"Yoast SEO Premium"
+								) }
+							</Title>
+							<CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+						</>
+					}
+				</div>
+				<span className="yst-font-medium yst-text-slate-500 yst-text-xs yst-leading-5 yst-uppercase yst-mt-2">Now includes Local, News & Video SEO + 1 Google Docs seat!</span>
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-ps-[1em] yst-list-outside yst-text-slate-600 yst-mt-6 marker:yst-text-[8px] marker:yst-align-middle marker:yst-mr-4">
+					{ getBenefits().map( ( benefit, index ) => (
+						<li key={ `upsell-benefit-${ index }` }>{ benefit }</li>
 					) ) }
 				</ul>
 				<Button
@@ -64,6 +85,7 @@ PremiumUpsellList.propTypes = {
 	premiumLink: PropTypes.string.isRequired,
 	premiumUpsellConfig: PropTypes.object,
 	isPromotionActive: PropTypes.func,
+	isWooCommerceActive: PropTypes.bool.isRequired,
 };
 
 PremiumUpsellList.defaultProps = {

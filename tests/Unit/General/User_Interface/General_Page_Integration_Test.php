@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Configuration\Dashboard_Configuration;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -106,6 +107,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $options_helper;
 
 	/**
+	 * Holds the WooCommerce conditional.
+	 *
+	 * @var Mockery\MockInterface|WooCommerce_Conditional
+	 */
+	private $woocommerce_conditional;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -123,6 +131,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->dashboard_configuration = Mockery::mock( Dashboard_Configuration::class );
 		$this->user_helper             = Mockery::mock( User_Helper::class );
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
+		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -134,7 +143,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->promotion_manager,
 			$this->dashboard_configuration,
 			$this->user_helper,
-			$this->options_helper
+			$this->options_helper,
+			$this->woocommerce_conditional
 		);
 	}
 
@@ -158,7 +168,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->promotion_manager,
 				$this->dashboard_configuration,
 				$this->user_helper,
-				$this->options_helper
+				$this->options_helper,
+				$this->woocommerce_conditional
 			)
 		);
 	}
@@ -331,6 +342,11 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'enable_llms_txt', true )
+			->once()
+			->andReturn( false );
+
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
 			->once()
 			->andReturn( false );
 

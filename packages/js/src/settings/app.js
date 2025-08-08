@@ -179,6 +179,7 @@ const App = () => {
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSettings( "selectPreference", [], "isWooCommerceActive" );
 
 	useRouterScrollRestore();
 
@@ -263,6 +264,7 @@ const App = () => {
 								premiumLink={ premiumLinkList }
 								premiumUpsellConfig={ premiumUpsellConfig }
 								isPromotionActive={ isPromotionActive }
+								isWooCommerceActive={ isWooCommerceActive }
 							/> }
 						</div>
 						{ ! isPremium &&
@@ -272,6 +274,7 @@ const App = () => {
 									premiumUpsellConfig={ premiumUpsellConfig }
 									academyLink={ academyLink }
 									isPromotionActive={ isPromotionActive }
+									isWooCommerceActive={ isWooCommerceActive }
 								/>
 							</div>
 						}

@@ -11,7 +11,7 @@ export const ConnectedPremiumUpsellList = () => {
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
 	const premiumLinkList = useSelectGeneralPage( "selectLink", [], "https://yoa.st/17h" );
-
+	const isWooCommerceActive = useSelectGeneralPage( "selectPreference", [], "isWooCommerceActive" );
 	if ( isPremium ) {
 		return null;
 	}
@@ -19,6 +19,7 @@ export const ConnectedPremiumUpsellList = () => {
 		premiumLink={ premiumLinkList }
 		premiumUpsellConfig={ premiumUpsellConfig }
 		isPromotionActive={ isPromotionActive }
+		isWooCommerceActive={ isWooCommerceActive }
 	/>;
 };
 
