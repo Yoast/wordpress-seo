@@ -2,6 +2,7 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { Fragment, useMemo } from "@wordpress/element";
+import { useSelectGeneralPage } from "../general/hooks";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 import { __, sprintf } from "@wordpress/i18n";
@@ -47,6 +48,7 @@ export const App = () => {
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSupport( "selectPreference", [], "isWooCommerceActive" );
 
 	const faq = useMemo( () => ( [
 		{
@@ -244,6 +246,7 @@ export const App = () => {
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
+							isWooCommerceActive={ isWooCommerceActive }
 						/>
 					</div>
 				}
