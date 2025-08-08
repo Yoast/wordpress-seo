@@ -15,6 +15,7 @@ export const SidebarLayout = ( { contentClassName = "", children } ) => {
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectGeneralPage( "selectPreference", [], "isWooCommerceActive" );
 
 	return (
 		<div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
@@ -29,6 +30,7 @@ export const SidebarLayout = ( { contentClassName = "", children } ) => {
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
+							isWooCommerceActive={ isWooCommerceActive }
 						/>
 					</div>
 				</div>
