@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Domain\Endpoint\Endpoint_List::add_suggestion
+ * @covers \Yoast\WP\SEO\AI_Generator\Domain\Endpoint\Endpoint_List::add_endpoint
  */
 final class Add_Endpoint_Test extends Abstract_Endpoint_List_Test {
 
