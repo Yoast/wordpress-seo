@@ -117,7 +117,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Dashboard_Configuration   $dashboard_configuration The dashboard configuration.
 	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
-	 * @param WooCommerce_Conditional    $woocommerce_conditional The WooCommerce conditional.
+	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -243,7 +243,7 @@ class General_Page_Integration implements Integration_Interface {
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
 				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
 				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
-				'isWooCommerceActive' => $this->woocommerce_conditional->is_met(),
+				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
 			'linkParams'        => $this->shortlink_helper->get_query_params(),

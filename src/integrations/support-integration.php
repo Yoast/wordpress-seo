@@ -58,11 +58,11 @@ class Support_Integration implements Integration_Interface {
 	/**
 	 * Constructs Support_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
-	 * @param Short_Link_Helper         $shortlink_helper    The Short_Link_Helper.
-	 * @param WooCommerce_Conditional    $woocommerce_conditional The WooCommerce_Conditional.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
+	 * @param Current_Page_Helper       $current_page_helper     The Current_Page_Helper.
+	 * @param Product_Helper            $product_helper          The Product_Helper.
+	 * @param Short_Link_Helper         $shortlink_helper        The Short_Link_Helper.
+	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce_Conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -71,10 +71,10 @@ class Support_Integration implements Integration_Interface {
 		Short_Link_Helper $shortlink_helper,
 		WooCommerce_Conditional $woocommerce_conditional
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->current_page_helper = $current_page_helper;
-		$this->product_helper      = $product_helper;
-		$this->shortlink_helper    = $shortlink_helper;
+		$this->asset_manager           = $asset_manager;
+		$this->current_page_helper     = $current_page_helper;
+		$this->product_helper          = $product_helper;
+		$this->shortlink_helper        = $shortlink_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
 	}
 
@@ -170,10 +170,10 @@ class Support_Integration implements Integration_Interface {
 	public function get_script_data() {
 		return [
 			'preferences'       => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => \is_rtl(),
-				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'upsellSettings' => [
+				'isPremium'           => $this->product_helper->is_premium(),
+				'isRtl'               => \is_rtl(),
+				'pluginUrl'           => \plugins_url( '', \WPSEO_FILE ),
+				'upsellSettings'      => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
