@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\User_Interface\Get_Suggestions_Route;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 use Mockery;
 use RuntimeException;
 use WP_REST_Request;
@@ -28,7 +28,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 	public function test_get_suggestions() {
 		$user = Mockery::mock( WP_User::class );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Functions\expect( 'wp_get_current_user' )
 			->once()
 			->withNoArgs()
 			->andReturn( $user );
@@ -81,7 +81,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 	public function test_get_suggestions_with_missing_license() {
 		$user = Mockery::mock( WP_User::class );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Functions\expect( 'wp_get_current_user' )
 			->once()
 			->withNoArgs()
 			->andReturn( $user );
@@ -155,7 +155,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 	public function test_get_suggestions_with_runtime_exception() {
 		$user = Mockery::mock( WP_User::class );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Functions\expect( 'wp_get_current_user' )
 			->once()
 			->withNoArgs()
 			->andReturn( $user );

@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\Endpoints\Get_Usage_Endpoint;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 
 /**
  * Tests the Get_Usage_Endpoint's get_url method.
@@ -22,7 +22,7 @@ final class Get_Url_Test extends Abstract_Get_Usage_Endpoint_Test {
 	public function test_get_url() {
 		$url = 'yoast/v1/ai_generator/get_usage';
 
-		Monkey\Functions\expect( 'rest_url' )
+		Functions\expect( 'rest_url' )
 			->once()
 			->with( $url )
 			->andReturn( $url );

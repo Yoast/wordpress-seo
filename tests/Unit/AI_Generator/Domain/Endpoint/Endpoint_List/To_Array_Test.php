@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Domain\Endpoint\Endpoint_List;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 use Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint;
 
 /**
@@ -23,7 +23,7 @@ final class To_Array_Test extends Abstract_Endpoint_List_Test {
 	public function test_to_array() {
 		$url = 'yoast/v1/ai_generator/get_suggestions';
 
-		Monkey\Functions\expect( 'rest_url' )
+		Functions\expect( 'rest_url' )
 			->once()
 			->with( $url )
 			->andReturn( $url );

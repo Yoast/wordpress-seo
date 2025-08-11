@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\WordPress_URLs;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 
@@ -35,7 +35,7 @@ final class Get_License_Url_Test extends Abstract_WordPress_URLs_Test {
 			]
 		);
 
-		Monkey\Functions\expect( 'YoastSEO' )
+		Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertSame( $url, $this->instance->get_license_url() );

@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\Infrastructure\WordPress_URLs;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 
 /**
  * Tests the WordPress_URLs' get_refresh_callback_url method.
@@ -22,7 +22,7 @@ final class Get_Refresh_Callback_Url_Test extends Abstract_WordPress_URLs_Test {
 	public function test_get_refresh_callback_url() {
 		$url = 'yoast/v1/ai_generator/refresh_callback';
 
-		Monkey\Functions\expect( 'get_rest_url' )
+		Functions\expect( 'get_rest_url' )
 			->once()
 			->with( null, $url )
 			->andReturn( $url );

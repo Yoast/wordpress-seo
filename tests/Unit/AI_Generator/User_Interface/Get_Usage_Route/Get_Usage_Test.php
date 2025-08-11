@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI_Generator\User_Interface\Get_Usage_Route;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -29,7 +29,7 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 	public function test_get_usage() {
 		$user = Mockery::mock( WP_User::class );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Functions\expect( 'wp_get_current_user' )
 			->once()
 			->withNoArgs()
 			->andReturn( $user );
@@ -84,7 +84,7 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 	public function test_get_usage_with_bad_http_request() {
 		$user = Mockery::mock( WP_User::class );
 
-		Monkey\Functions\expect( 'wp_get_current_user' )
+		Functions\expect( 'wp_get_current_user' )
 			->once()
 			->withNoArgs()
 			->andReturn( $user );
