@@ -21,7 +21,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
-		$is_woocommerce_active = \class_exists( 'woocommerce' );
+		$is_woocommerce_active   = \class_exists( 'woocommerce' );
 
 		\ob_start();
 		?>
@@ -35,12 +35,12 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					</div>
 
 					<div class="yoast-sidebar__product"
-					     style="background-color: <?php echo $is_woocommerce_active ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
+						style="background-color: <?php echo $is_woocommerce_active ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
 						<figure class="product-image">
 							<figure class="product-image">
 								<img
 									width="64" height="64"
-									src="<?php echo $is_woocommerce_active ?  \esc_url( $assets_uri . 'packages/js/images/woo-seo-logo-new.svg' ) :  \esc_url( $assets_uri . 'packages/js/images/yoast-premium-logo-new.svg' ); ?>"
+									src="<?php echo $is_woocommerce_active ? \esc_url( $assets_uri . 'packages/js/images/woo-seo-logo-new.svg' ) : \esc_url( $assets_uri . 'packages/js/images/yoast-premium-logo-new.svg' ); ?>"
 									class="attachment-full size-full content-visible"
 									alt="Yoast SEO logo"
 									loading="lazy"
@@ -70,7 +70,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							}
 							?>
 						</h2>
-						<span> <?php  echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!' ); ?></span>
+						<span> <?php echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!' ); ?></span>
 							<?php
 							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 								echo '<p>';
@@ -83,7 +83,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 								echo '<li>';
 									/* translators: %1$s expands to "Yoast SEO academy". */
 									\printf( \esc_html__( '%1$s access', 'wordpress-seo' ), 'Yoast SEO academy' );
-									echo'</li>';
+									echo '</li>';
 								echo '<li>' . \esc_html__( '24/7 support', 'wordpress-seo' ) . '</li>';
 								echo '</ul>';
 							}

@@ -52,7 +52,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	public function render() {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
-		$is_woocommerce_active = \class_exists( 'woocommerce' );
+		$is_woocommerce_active = class_exists( 'woocommerce' );
 
 		[ $header_text, $header_icon ] = $this->get_header( $is_woocommerce_active );
 
@@ -88,7 +88,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
 		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
-			. esc_html( "Now includes Local, News & Video SEO + 1 Google Docs seat!" )
+			. esc_html( 'Now includes Local, News & Video SEO + 1 Google Docs seat!' )
 		. '</span>';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
@@ -135,16 +135,16 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 */
 	private function get_arguments( bool $is_woocommerce_active ) {
 		$arguments = [
-			esc_html__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
-			esc_html__( "Make your articles visible, be seen in Google News", "wordpress-seo" ),
-			esc_html__( "Built to get found by search, AI, and real users", "wordpress-seo" ),
-			esc_html__( "Easy Local SEO. Show up in Google Maps results", "wordpress-seo" ),
-			esc_html__( "Internal links and redirect management, easy", "wordpress-seo" ),
-			esc_html__( "Access to friendly help when you need it, day or night", "wordpress-seo" ),
+			esc_html__( 'Generate SEO optimized metadata in seconds with AI', 'wordpress-seo' ),
+			esc_html__( 'Make your articles visible, be seen in Google News', 'wordpress-seo' ),
+			esc_html__( 'Built to get found by search, AI, and real users', 'wordpress-seo' ),
+			esc_html__( 'Easy Local SEO. Show up in Google Maps results', 'wordpress-seo' ),
+			esc_html__( 'Internal links and redirect management, easy', 'wordpress-seo' ),
+			esc_html__( 'Access to friendly help when you need it, day or night', 'wordpress-seo' ),
 		];
 
 		if ( $is_woocommerce_active ) {
-			$arguments[1] = esc_html__( "Boost visibility for your products, from 10 or 10,000+", "wordpress-seo" );
+			$arguments[1] = esc_html__( 'Boost visibility for your products, from 10 or 10,000+', 'wordpress-seo' );
 		}
 
 		return $arguments;
@@ -158,7 +158,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return array<string, string> The header text and icon.
 	 */
 	private function get_header( bool $is_woocommerce_active ) {
-		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
+		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
 		if ( $is_woocommerce_active ) {
 			$header_text = sprintf(
 			/* translators: %s expands to Yoast WooCommerce SEO */
@@ -167,11 +167,12 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			);
 
 			$header_icon = '<img src="'
-						   . esc_url( $assets_uri. 'packages/js/images/icon-trolley.svg' )
-						   . '" alt="' . esc_html__( "this is a trolley icon", "wordpress-seo" )
-						   . '" width="14" height="14" '
-						   .' style="margin-inline-start: 8px;">';
-		} else {
+							. esc_url( $assets_uri . 'packages/js/images/icon-trolley.svg' )
+							. '" alt="' . esc_html__( 'this is a trolley icon', 'wordpress-seo' )
+							. '" width="14" height="14" '
+							. ' style="margin-inline-start: 8px;">';
+		}
+		else {
 			$header_text = sprintf(
 			/* translators: %s expands to Yoast SEO Premium*/
 				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
@@ -179,12 +180,11 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			);
 
 			$header_icon = '<img src="'
-						   . esc_url( $assets_uri. 'packages/js/images/icon-crown.svg' )
-						   . '" alt="' . esc_html__( "this is a crown icon", "wordpress-seo" )
-						   . '" width="14" height="14" '
-						   .' style="margin-inline-start: 8px;">';
+							. esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' )
+							. '" alt="' . esc_html__( 'this is a crown icon', 'wordpress-seo' )
+							. '" width="14" height="14" '
+							. ' style="margin-inline-start: 8px;">';
 		}
-	return [ $header_text, $header_icon ];
+		return [ $header_text, $header_icon ];
 	}
-
 }
