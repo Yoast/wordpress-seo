@@ -68,7 +68,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							}
 							?>
 						</h2>
-						<span> <?php echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!' ); ?></span>
+						<span> <?php echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' ); ?></span>
 							<?php
 							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 								echo '<p>';
