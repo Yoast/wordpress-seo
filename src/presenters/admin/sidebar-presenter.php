@@ -21,6 +21,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
+		$is_woocommerce_active = \class_exists( 'woocommerce' );
+
 		\ob_start();
 		?>
 			<div class="wpseo_content_cell" id="sidebar-container">
@@ -31,18 +33,20 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						\printf( \esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
 						?>
 					</div>
-					<div class="yoast-sidebar__product">
+
+					<div class="yoast-sidebar__product"
+					     style="background-color: <?php echo $is_woocommerce_active ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
 						<figure class="product-image">
 							<figure class="product-image">
 								<img
-									width="75" height="75"
-									src="<?php echo \esc_url( $assets_uri . 'packages/js/images/Yoast_SEO_Icon.svg' ); ?>"
+									width="64" height="64"
+									src="<?php echo $is_woocommerce_active ?  \esc_url( $assets_uri . 'packages/js/images/woo-seo-logo-new.svg' ) :  \esc_url( $assets_uri . 'packages/js/images/yoast-premium-logo-new.svg' ); ?>"
 									class="attachment-full size-full content-visible"
 									alt="Yoast SEO logo"
 									loading="lazy"
-									decoding="asyc"
+									decoding="async"
 									fetchpriority="low"
-									sizes="(min-width: 1321px) 75px">
+									sizes="(min-width: 1321px) 64">
 							</figure>
 						</figure>
 						<?php if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) : ?>
