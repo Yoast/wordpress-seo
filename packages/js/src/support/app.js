@@ -42,6 +42,7 @@ export const App = () => {
 	const linkParams = useSelectSupport( "selectLinkParams" );
 	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/3t6" );
 	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/jj" );
+	const wooLink = useSelectSupport( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/help-center-support-card" );
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
@@ -241,7 +242,7 @@ export const App = () => {
 				{ ! isPremium &&
 					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 						<SidebarRecommendations
-							premiumLink={ premiumLink }
+							premiumLink={ isWooCommerceActive ? wooLink :  premiumLink }
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }

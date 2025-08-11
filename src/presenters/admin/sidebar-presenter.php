@@ -21,7 +21,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 
 		$assets_uri            = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$is_woocommerce_active = \class_exists( 'woocommerce' );
-		$shortlink             = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-sidebar-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+		$shortlink             = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-sidebar-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 
 		\ob_start();
 		?>

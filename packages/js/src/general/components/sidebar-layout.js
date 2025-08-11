@@ -1,5 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import classNames from "classnames";
+import { useSelectSettings } from "../../settings/hooks";
 import { SidebarRecommendations } from "../../shared-admin/components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
@@ -12,6 +13,7 @@ import { useSelectGeneralPage } from "../hooks";
 export const SidebarLayout = ( { contentClassName = "", children } ) => {
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const premiumLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/jj" );
+	const wooLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
@@ -26,7 +28,7 @@ export const SidebarLayout = ( { contentClassName = "", children } ) => {
 				<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
 					<div className="yst-sticky yst-top-16">
 						<SidebarRecommendations
-							premiumLink={ premiumLinkSidebar }
+							premiumLink={ isWooCommerceActive ? wooLinkSidebar : premiumLinkSidebar }
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
