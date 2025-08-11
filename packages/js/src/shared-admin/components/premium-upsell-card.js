@@ -78,7 +78,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 			) }
 		>
 			<figure
-				className="yst-logo-square yst-w-16 yst-h-16 yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none yst-relative yst-z-10 yst-mt-[-2.6rem]"
+				className="yst-logo-square yst-w-16 yst-h-16 yst-mx-auto yst-overflow-hidden yst-relative yst-z-10 yst-mt-[-2.6rem]"
 			>
 				{ isWooCommerceActive
 					? <WooSeoLogo />
