@@ -1,5 +1,4 @@
 import { useSelect } from "@wordpress/data";
-import { useSelectSettings } from "../../settings/hooks";
 import { PremiumUpsellList } from "../../shared-admin/components";
 import { STORE_NAME } from "../constants";
 import { useSelectGeneralPage } from "../hooks";
