@@ -207,7 +207,7 @@ Release date: 2025-08-12
 
 #### Bugfixes
 
-* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error, when the rate limit is reached in the AI generator, before reaching the free sparks limit.
+* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error in cases where the rate limit for AI Generate was reached before the free sparks limit.
 
 #### Other
 
