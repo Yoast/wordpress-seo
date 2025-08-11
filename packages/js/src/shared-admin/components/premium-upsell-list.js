@@ -54,9 +54,9 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 					}
 				</div>
 				<span className="yst-font-medium yst-text-slate-500 yst-text-xs yst-leading-5 yst-uppercase yst-mt-2">Now includes Local, News & Video SEO + 1 Google Docs seat!</span>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-ps-[1em] yst-list-outside yst-text-slate-600 yst-mt-6 marker:yst-text-[8px] marker:yst-align-middle marker:yst-mr-4">
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-none yst-list-outside yst-text-slate-600 yst-mt-6">
 					{ getBenefits().map( ( benefit, index ) => (
-						<li key={ `upsell-benefit-${ index }` }>{ benefit }</li>
+						<li key={ `upsell-benefit-${ index }` }><span className="yst-mx-2">•</span>{ benefit }</li>
 					) ) }
 				</ul>
 				<Button
