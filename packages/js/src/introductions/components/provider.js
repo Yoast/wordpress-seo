@@ -19,10 +19,10 @@ export const useIntroductionsContext = () => useContext( IntroductionsContext );
 /**
  * @param {JSX.node} children The children.
  * @param {Object} initialComponents The initial components.
- * @param {bool} abortDisplay Whether the introduction should be aborted.
+ * @param {bool} [abortDisplay=false] Whether the introduction should be aborted.
  * @returns {JSX.Element} The element.
  */
-export const IntroductionProvider = ( { children, initialComponents, abortDisplay } ) => {
+export const IntroductionProvider = ( { children, initialComponents, abortDisplay = false } ) => {
 	const [ components, setComponents ] = useState( initialComponents );
 	const introductions = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectIntroductions(), [] );
 
@@ -64,4 +64,5 @@ export const IntroductionProvider = ( { children, initialComponents, abortDispla
 IntroductionProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 	initialComponents: PropTypes.object.isRequired,
+	abortDisplay: PropTypes.bool,
 };
