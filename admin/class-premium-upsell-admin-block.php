@@ -87,6 +87,9 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
+		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
+			. esc_html( "Now includes Local, News & Video SEO + 1 Google Docs seat!" )
+		. '</span>';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
