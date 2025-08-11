@@ -52,45 +52,11 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	public function render() {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
-		$arguments = [
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sSuper fast%2$s internal linking suggestions.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sAppealing social previews%2$s people actually want to click on.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
-		];
+		$is_woocommerce_active = \class_exists( 'woocommerce' );
+
+		[ $header_text, $header_icon ] = $this->get_header( $is_woocommerce_active );
+
+		$arguments = $this->get_arguments( $is_woocommerce_active );
 
 		$arguments_html = implode( '', array_map( [ $this, 'get_argument_html' ], $arguments ) );
 
@@ -119,13 +85,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		}
 
 		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">'
-			. sprintf(
-				/* translators: %s expands to Yoast SEO Premium */
-				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			)
-		. '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
