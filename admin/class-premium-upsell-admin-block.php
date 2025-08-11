@@ -148,7 +148,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		return sprintf(
-			'<li><div class="%1$s">%2$s</div></li>',
+			'<li style="margin-inline-start: 8px;"><span>•</span><div class="%1$s">%2$s</div></li>',
 			esc_attr( $class . '--argument' ),
 			$argument
 		);
