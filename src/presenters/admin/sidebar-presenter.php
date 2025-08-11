@@ -110,9 +110,6 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<hr class="yoast-upsell-hr" aria-hidden="true">
 						<div class="review-container">
 							<a href="https://www.g2.com/products/yoast-yoast/reviews" target="_blank" rel="noopener">
-								<span class="claim">
-									<?php \esc_html_e( 'Read reviews from real users', 'wordpress-seo' ); ?>
-								</span>
 								<span class="rating">
 									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/g2_logo_white_optm.svg' ); ?>">
 									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20" width="20" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
