@@ -70,17 +70,24 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							}
 							?>
 						</h2>
-						<p>
 						<span> <?php  echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!' ); ?></span>
 							<?php
 							if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+								echo '<p>';
 								echo \esc_html__( 'If you were thinking about upgrading, now\'s the time! 30% OFF ends 3rd Dec 11am (CET)', 'wordpress-seo' );
+								echo '</p>';
 							}
 							else {
-								echo \esc_html__( 'Use AI to generate titles and meta descriptions, automatically redirect deleted pages, get 24/7 support, and much, much more!', 'wordpress-seo' );
+								echo '<ul>';
+								echo '<li>' . \esc_html__( 'AI tools included', 'wordpress-seo' ) . '</li>';
+								echo '<li>';
+									/* translators: %1$s expands to "Yoast SEO academy". */
+									\printf( \esc_html__( '%1$s access', 'wordpress-seo' ), 'Yoast SEO academy' );
+									echo'</li>';
+								echo '<li>' . \esc_html__( '24/7 support', 'wordpress-seo' ) . '</li>';
+								echo '</ul>';
 							}
 							?>
-						</p>
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
