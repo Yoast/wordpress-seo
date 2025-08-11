@@ -10,12 +10,12 @@ import { FieldArray, Field, useFormikContext } from "formik";
 import {
 	FieldsetLayout,
 	FormikIndexablePageSelectField,
-	FormikValueChangeField,
 	FormLayout,
 	RouteLayout,
 	LlmTxtPopover,
 } from "../components";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 const FormikValueChangeFieldWithDisabledMessage = withDisabledMessageSupport( FormikValueChangeField );
 

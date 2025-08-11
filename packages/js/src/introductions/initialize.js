@@ -1,6 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
@@ -30,21 +30,18 @@ domReady( () => {
 	};
 
 	const initialComponents = {
-		"google-docs-addon-upsell": Content,
+		"ai-brand-insights-pre-launch": Content,
 	};
 
 	const root = document.createElement( "div" );
 	root.id = "wpseo-introductions";
 	document.body.appendChild( root );
 
-	render(
-		(
-			<Root context={ rootContext }>
-				<IntroductionProvider initialComponents={ initialComponents }>
-					<Introduction />
-				</IntroductionProvider>
-			</Root>
-		),
-		root
+	createRoot( root ).render(
+		<Root context={ rootContext }>
+			<IntroductionProvider initialComponents={ initialComponents }>
+				<Introduction />
+			</IntroductionProvider>
+		</Root>
 	);
 } );

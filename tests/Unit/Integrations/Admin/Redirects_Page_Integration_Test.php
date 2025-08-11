@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -26,6 +27,13 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the current page helper.
+	 *
+	 * @var Current_Page_Helper|Mockery\Mock
+	 */
+	protected $current_page_helper;
+
+	/**
 	 * Set up the fixtures for the tests.
 	 *
 	 * @return void
@@ -33,7 +41,9 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Redirects_Page_Integration();
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+
+		$this->instance = new Redirects_Page_Integration( $this->current_page_helper );
 	}
 
 	/**
@@ -61,8 +71,19 @@ final class Redirects_Page_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
+		$this->current_page_helper->expects( 'get_current_yoast_seo_page' )
+			->andReturn( Redirects_Page_Integration::PAGE );
 		$this->instance->register_hooks();
-		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_submenu_pages', [ $this->instance, 'add_submenu_page' ] ), 'Does not have expected wpseo_submenu_pages filter' );
+		$this->assertNotFalse(
+			Monkey\Filters\has(
+				'wpseo_submenu_pages',
+				[
+					$this->instance,
+					'add_submenu_page',
+				]
+			),
+			'Does not have expected wpseo_submenu_pages filter'
+		);
 	}
 
 	/**

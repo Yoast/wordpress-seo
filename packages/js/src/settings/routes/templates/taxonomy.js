@@ -10,11 +10,11 @@ import {
 	FormikFlippedToggleField,
 	FormikMediaSelectField,
 	FormikReplacementVariableEditorField,
-	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { FormikValueChangeField } from "../../../shared-admin/components/form";
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";

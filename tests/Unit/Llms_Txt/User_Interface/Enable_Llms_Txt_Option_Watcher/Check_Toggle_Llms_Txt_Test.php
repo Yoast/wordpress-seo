@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Enable_Llms_Txt_Option
 use Generator;
 
 /**
- * Tests the maybe_remove_llms_file.
+ * Tests the check_toggle_llms_txt.
  *
  * @group llms.txt
  *

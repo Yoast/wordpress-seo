@@ -2,6 +2,8 @@ import insights from "../../insights/redux/reducer";
 import {
 	ADMIN_URL_NAME,
 	adminUrlReducer,
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
 	LINK_PARAMS_NAME,
 	linkParamsReducer,
 	PLUGIN_URL_NAME,
@@ -51,6 +53,7 @@ export default {
 	checklist,
 	currentPromotions,
 	dismissedAlerts,
+	[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 	editorContext,
 	editorData,
 	editorModals,

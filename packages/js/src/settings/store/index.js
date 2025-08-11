@@ -3,6 +3,9 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
 import {
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
+	documentTitleSelectors,
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
 	LINK_PARAMS_NAME,
@@ -77,6 +80,7 @@ const createStore = ( { initialState } ) => {
 		selectors: {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
+			...documentTitleSelectors,
 			...fallbacksSelectors,
 			...indexablePagesSelectors,
 			...linkParamsSelectors,
@@ -117,6 +121,7 @@ const createStore = ( { initialState } ) => {
 		),
 		reducer: combineReducers( {
 			defaultSettingValues,
+			[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 			fallbacks,
 			[ INDEXABLE_PAGE_NAME ]: indexablePages,
 			llmsTxt,

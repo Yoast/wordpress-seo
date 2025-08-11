@@ -1,6 +1,6 @@
 /* global wpseoWincherDashboardWidgetL10n */
 // External dependencies.
-import { Component, render } from "@wordpress/element";
+import { Component, createRoot } from "@wordpress/element";
 
 // Internal dependencies.
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
@@ -223,5 +223,5 @@ class WincherDashboardWidget extends Component {
 const element = document.getElementById( "yoast-seo-wincher-dashboard-widget" );
 
 if ( element ) {
-	render( <WincherDashboardWidget />, element );
+	createRoot( element ).render( <WincherDashboardWidget /> );
 }

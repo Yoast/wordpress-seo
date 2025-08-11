@@ -230,10 +230,15 @@ export const App = ( { onUseAi } ) => {
 
 		// Getting the usage count.
 		const { type, payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity } );
-		const sparksLimitReached = payload?.errorCode === 429 || payload.count >= payload.limit;
+		const rateLimited = payload?.errorCode === 429 && ! payload?.errorIdentifier && payload?.missingLicenses.length === 0;
+
+		const sparksLimitReached = ( payload?.errorCode === 429 && payload?.errorIdentifier === "USAGE_LIMIT_REACHED" ) || payload.count >= payload.limit;
 
 		setLoading( false );
-
+		if ( rateLimited ) {
+			setDisplay( DISPLAY.error );
+			return;
+		}
 		// User revoked consent on a different window after clicking on the "Try for free" AI button or has subscription.
 		if ( payload?.errorCode === 403 && ( isFreeSparksActive || subscriptions ) ) {
 			setDisplay( DISPLAY.askConsent );
@@ -375,6 +380,7 @@ export const App = ( { onUseAi } ) => {
 							isSkeleton={ false }
 							className={ "yst-absolute yst-top-[-11px] yst-end-12 sm:yst-end-16" }
 							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
 						/>
 						<ModalContent height={ panelHeight } />
 					</>
