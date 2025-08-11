@@ -2,7 +2,6 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { Fragment, useMemo } from "@wordpress/element";
-import { useSelectGeneralPage } from "../general/hooks";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 import { __, sprintf } from "@wordpress/i18n";
