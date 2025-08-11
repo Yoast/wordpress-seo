@@ -32,7 +32,7 @@ tr.yst_row {
 
 #sidebar-container {
   /* For historical reasons banner images have a 261px width. */
-  width: 300px;
+  width: 256px;
   padding-left: 20px;
 }
 
@@ -557,12 +557,21 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-top: 34px;
 	border-radius: 8px;
 	color: #FFFFFF;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .yoast-sidebar__product h2 {
 	color: #FFFFFF;
-	font-size: 22px;
+	font-size: 16px;
 	font-weight: bold;
+}
+
+.yoast-sidebar__product ul {
+	list-style-type: disc;
+	margin-inline-start: 24px;
+}
+.yoast-sidebar__product ul li {
+	margin-bottom: 0;
 }
 
 .yoast-get-premium-title {
@@ -578,14 +587,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast-sidebar__product .product-image {
 	position: relative;
 	z-index: 2;
-	max-width: 75px;
-	max-height: 75px;
+	max-width: 64px;
+	max-height: 64px;
 	margin: -50px auto 16px;
 }
 
 .yoast-sidebar__product .product-image img {
-	border: solid 1px #FFFFFF;
-	border-radius: 12px 12px 0 12px;
 	overflow: hidden;
 }
 
@@ -603,6 +610,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-bottom: 16px;
 }
 
+.yoast-sidebar__product .yoast-button-upsell {
+	background-color: rgb(252, 211, 77);
+}
+
 .yoast-sidebar__product .yoast-upsell-hr {
 	border-color: #CD82AB;
 	border-top: 1px;
@@ -610,9 +621,24 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .plugin-buy-button .yoast-button-upsell {
+	box-shadow: none;
+	filter: none;
 	width: 100%;
+	font-size: 13px;
+	min-height:36px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
+#wpseo-premium_upsell-popup-button {
+	box-shadow: none;
+	filter: none;
+	width:100%;
+	padding-top: 0;
+	padding-bottom:0;
+	background-color: rgb(252, 211, 77);
+
+}
 .yoast-sidebar__product .review-container {
 	margin-top: 16px;
 }
@@ -649,7 +675,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .review-container .rating .rating-text {
-	font-size: 16px;
 	font-weight: 600;
 }
 
@@ -696,11 +721,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__section {
-	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-	border: 1px solid #dcdcdc;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
 	background-color: #fff;
 	padding: 16px;
 	margin: 10px 0 20px 0;
+	color: #404040;
 }
 
 .yoast-sidebar__section h2 {
@@ -756,16 +782,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
  * @since 5.1
  */
 .yoast_premium_upsell {
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-  border: 1px solid #dcdcdc;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
   background-color: #fff;
-  max-width: 715px;
+  max-width: 768px;
   overflow: hidden;
   margin-top: 2em;
 }
 
 .yoast_premium_upsell--container {
-  padding: 16px;
+  padding: 24px;
 }
 
 .black-friday-container {
@@ -781,33 +807,46 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-weight: 600;
 }
 .yoast_premium_upsell--header {
-  color: #A4286A;
-  margin-top: 0.3em;
-  font-size: 1.7em;
-  font-weight: bold;
+  color: rgb(166, 30, 105);
+  font-size: 1.5em;
+  font-weight: 500;
+  line-height: 25px;
+	margin: 0;
+}
+
+.yoast_premium_upsell--subheader {
+	color: rgb(100, 116, 139);
+	display:block;
+	margin-top: 8px;
+	margin-bottom: 2em;
+	font-size: 1em;
+	font-weight: 500;
+	line-height: 1.5;
+	text-transform: uppercase;
 }
 
 .yoast_premium_upsell--motivation {
-  display: flex;
-  flex-wrap: wrap;
+	display: grid;
+	column-gap: 1.5rem;
+	list-style-type: none;
+	color: rgb(71, 85, 105);
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	line-height: 1em;
+}
+
+@media (min-width: 640px) {
+	.yoast_premium_upsell--motivation {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 .yoast_premium_upsell--motivation li {
+ display: flex;
   flex: 0 0 50%;
-  list-style: none;
 }
 
 .yoast_premium_upsell--argument {
-  padding: 0 8px 0 20px;
-}
-
-.yoast_premium_upsell--argument::before {
-  position: relative;
-  left: -16px;
-  margin-right: -10px;
-  font-weight: bold;
-  content: "+";
-  top: -1px;
+  padding-left: 10px;
 }
 
 @media screen and (max-width: 480px) {
