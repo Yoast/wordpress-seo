@@ -16,6 +16,8 @@ domReady( () => {
 		return;
 	}
 
+	const abortDisplay = location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1;
+
 	registerStore( {
 		[ LINK_PARAMS_NAME ]: get( window, `${ DATA_NAME }.linkParams`, {} ),
 		[ PLUGIN_URL_NAME ]: get( window, `${ DATA_NAME }.pluginUrl`, "" ),
@@ -39,7 +41,7 @@ domReady( () => {
 
 	createRoot( root ).render(
 		<Root context={ rootContext }>
-			<IntroductionProvider initialComponents={ initialComponents }>
+			<IntroductionProvider initialComponents={ initialComponents } abortDisplay={ abortDisplay }>
 				<Introduction />
 			</IntroductionProvider>
 		</Root>
