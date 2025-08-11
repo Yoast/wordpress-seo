@@ -53,7 +53,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		$is_woocommerce_active = class_exists( 'woocommerce' );
 
-		$url = $is_woocommerce_active ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-footer-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+		$url = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-footer-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		[ $header_text, $header_icon ] = $this->get_header( $is_woocommerce_active );
 
