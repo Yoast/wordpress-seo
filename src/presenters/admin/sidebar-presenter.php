@@ -19,9 +19,9 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	public function present() {
 		$title = \__( '30% OFF - BLACK FRIDAY', 'wordpress-seo' );
 
-		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
-		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
-		$is_woocommerce_active   = \class_exists( 'woocommerce' );
+		$assets_uri            = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
+		$is_woocommerce_active = \class_exists( 'woocommerce' );
+		$shortlink             = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-sidebar-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		\ob_start();
 		?>
@@ -35,12 +35,12 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					</div>
 
 					<div class="yoast-sidebar__product"
-						style="background-color: <?php echo $is_woocommerce_active ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
+						style="background-color: <?php echo ( $is_woocommerce_active ) ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
 						<figure class="product-image">
 							<figure class="product-image">
 								<img
 									width="64" height="64"
-									src="<?php echo $is_woocommerce_active ? \esc_url( $assets_uri . 'packages/js/images/woo-seo-logo-new.svg' ) : \esc_url( $assets_uri . 'packages/js/images/yoast-premium-logo-new.svg' ); ?>"
+									src="<?php echo ( $is_woocommerce_active ) ? \esc_url( $assets_uri . 'packages/js/images/woo-seo-logo-new.svg' ) : \esc_url( $assets_uri . 'packages/js/images/yoast-premium-logo-new.svg' ); ?>"
 									class="attachment-full size-full content-visible"
 									alt="Yoast SEO logo"
 									loading="lazy"
@@ -64,9 +64,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							}
 							else {
 								/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
-								echo $is_woocommerce_active
-								? \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast WooCommerce SEO' )
-								: \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
+								echo ( $is_woocommerce_active ) ? \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast WooCommerce SEO' ) : \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 							}
 							?>
 						</h2>
@@ -89,7 +87,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							}
 							?>
 						<p class="plugin-buy-button">
-							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $shortlink ); ?>">
 								<?php
 								if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 									echo \esc_html__( 'Buy now', 'wordpress-seo' );

@@ -69,11 +69,21 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 					rel="noopener"
 					{ ...premiumUpsellConfig }
 				>
-					{ isBlackFriday ? __( "Claim your 30% off now!", "wordpress-seo" ) : sprintf(
-						/* translators: %s expands to "Yoast SEO" Premium */
-						__( "Explore %s now!", "wordpress-seo" ),
-						"Yoast SEO Premium"
-					) }
+					{ isBlackFriday
+						?  __( "Claim your 30% off now!", "wordpress-seo" )
+						: ( isWooCommerceActive
+							? sprintf(
+								/* translators: %s expands to "Yoast WooCommerce SEO" */
+								__( "Explore %s now!", "wordpress-seo" ),
+								"Yoast WooCommerce SEO"
+							)
+							: sprintf(
+								/* translators: %s expands to "Yoast SEO" Premium */
+								__( "Explore %s now!", "wordpress-seo" ),
+								"Yoast SEO Premium"
+							)
+						)
+					}
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 				</Button>
 			</div>

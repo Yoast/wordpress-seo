@@ -63,7 +63,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ? esc_html__( 'Upgrade now', 'wordpress-seo' ) : sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = $this->get_button_text( $is_woocommerce_active );
 		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 			. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
@@ -85,6 +85,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		}
 
 		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in get_header() method.
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
 		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
@@ -165,12 +166,11 @@ class WPSEO_Premium_Upsell_Admin_Block {
 				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
 				'Yoast WooCommerce SEO'
 			);
-
-			$header_icon = '<img src="'
-							. esc_url( $assets_uri . 'packages/js/images/icon-trolley.svg' )
-							. '" alt="' . esc_html__( 'this is a trolley icon', 'wordpress-seo' )
-							. '" width="14" height="14" '
-							. ' style="margin-inline-start: 8px;">';
+			$header_icon = sprintf(
+				'<img src="%s" alt="%s" width="14" height="14" style="margin-inline-start: 8px;">',
+				esc_url( $assets_uri . 'packages/js/images/icon-trolley.svg' ),
+				esc_attr__( 'this is a trolley icon', 'wordpress-seo' )
+			);
 		}
 		else {
 			$header_text = sprintf(
@@ -179,12 +179,33 @@ class WPSEO_Premium_Upsell_Admin_Block {
 				'Yoast SEO Premium'
 			);
 
-			$header_icon = '<img src="'
-							. esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' )
-							. '" alt="' . esc_html__( 'this is a crown icon', 'wordpress-seo' )
-							. '" width="14" height="14" '
-							. ' style="margin-inline-start: 8px;">';
+			$header_icon = sprintf(
+				'<img src="%s" alt="%s" width="14" height="14" style="margin-inline-start: 8px;">',
+				esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' ),
+				esc_attr__( 'this is a crown icon', 'wordpress-seo' )
+			);
 		}
 		return [ $header_text, $header_icon ];
+	}
+
+	/**
+	 * Returns the button text based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return string The button text.
+	 */
+	private function get_button_text( bool $is_woocommerce_active ): string {
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+			return esc_html__( 'Upgrade now', 'wordpress-seo' );
+		}
+		else {
+			// phpcs:disable Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine -- needed to add translators comments.
+			return $is_woocommerce_active
+				/* translators: %s expands to Yoast WooCommerce SEO */
+				? sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast WooCommerce SEO' )
+				/* translators: %s expands to Yoast SEO Premium */
+				: sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		}
 	}
 }
