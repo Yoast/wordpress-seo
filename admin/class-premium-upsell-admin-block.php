@@ -162,4 +162,66 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	protected function get_html_class() {
 		return 'yoast_' . $this->identifier;
 	}
+
+	/**
+	 * Returns the arguments based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return array<string> The arguments list.
+	 */
+	private function get_arguments( bool $is_woocommerce_active ) {
+		$arguments = [
+			esc_html__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
+			esc_html__( "Make your articles visible, be seen in Google News", "wordpress-seo" ),
+			esc_html__( "Built to get found by search, AI, and real users", "wordpress-seo" ),
+			esc_html__( "Easy Local SEO. Show up in Google Maps results", "wordpress-seo" ),
+			esc_html__( "Internal links and redirect management, easy", "wordpress-seo" ),
+			esc_html__( "Access to friendly help when you need it, day or night", "wordpress-seo" ),
+		];
+
+		if ( $is_woocommerce_active ) {
+			$arguments[1] = esc_html__( "Boost visibility for your products, from 10 or 10,000+", "wordpress-seo" );
+		}
+
+		return $arguments;
+	}
+
+	/**
+	 * Returns the header text and icon based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return array<string, string> The header text and icon.
+	 */
+	private function get_header( bool $is_woocommerce_active ) {
+		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
+		if ( $is_woocommerce_active ) {
+			$header_text = sprintf(
+			/* translators: %s expands to Yoast WooCommerce SEO */
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast WooCommerce SEO'
+			);
+
+			$header_icon = '<img src="'
+						   . esc_url( $assets_uri. 'packages/js/images/icon-trolley.svg' )
+						   . '" alt="' . esc_html__( "this is a trolley icon", "wordpress-seo" )
+						   . '" width="14" height="14" '
+						   .' style="margin-inline-start: 8px;">';
+		} else {
+			$header_text = sprintf(
+			/* translators: %s expands to Yoast SEO Premium*/
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+
+			$header_icon = '<img src="'
+						   . esc_url( $assets_uri. 'packages/js/images/icon-crown.svg' )
+						   . '" alt="' . esc_html__( "this is a crown icon", "wordpress-seo" )
+						   . '" width="14" height="14" '
+						   .' style="margin-inline-start: 8px;">';
+		}
+	return [ $header_text, $header_icon ];
+	}
+
 }
