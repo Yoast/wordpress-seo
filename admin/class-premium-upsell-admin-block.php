@@ -94,7 +94,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
-		echo '<p>' . $upgrade_button . '</p>';
+		echo '<p style="max-width: inherit;">' . $upgrade_button . '</p>';
 		echo '</div>';
 
 		echo '</div>';
