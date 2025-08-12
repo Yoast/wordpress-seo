@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.6
+Stable tag: 25.7
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -201,13 +201,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-08-12
 
+Yoast SEO 25.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Re-generates the llms.txt file immediately when there's any change in the selection of the pages to be included.
 
 #### Bugfixes
 
-* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error, when the rate limit is reached in the AI generator, before reaching the free sparks limit.
+* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error in cases where the rate limit for AI Generate was reached before the free sparks limit.
 
 #### Other
 
