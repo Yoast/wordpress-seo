@@ -7,6 +7,7 @@ use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -66,6 +67,13 @@ final class Support_Integration_Test extends TestCase {
 	private $container;
 
 	/**
+	 * Holds the WooCommerce_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|WooCommerce_Conditional
+	 */
+	private $woocommerce_conditional;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var Support_Integration
@@ -80,18 +88,20 @@ final class Support_Integration_Test extends TestCase {
 	public function set_up() {
 		$this->stubTranslationFunctions();
 
-		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
-		$this->promotion_manager   = Mockery::mock( Promotion_Manager::class );
-		$this->container           = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
+		$this->asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper     = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper          = Mockery::mock( Product_Helper::class );
+		$this->shortlink_helper        = Mockery::mock( Short_Link_Helper::class );
+		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
+		$this->container               = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
+		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 
 		$this->instance = new Support_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
-			$this->shortlink_helper
+			$this->shortlink_helper,
+			$this->woocommerce_conditional,
 		);
 	}
 
@@ -109,7 +119,8 @@ final class Support_Integration_Test extends TestCase {
 				$this->asset_manager,
 				$this->current_page_helper,
 				$this->product_helper,
-				$this->shortlink_helper
+				$this->shortlink_helper,
+				$this->woocommerce_conditional,
 			)
 		);
 	}
@@ -313,6 +324,11 @@ final class Support_Integration_Test extends TestCase {
 			->expects( 'localize_script' )
 			->once();
 
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
 		$this->expect_get_script_data();
 
 		$this->instance->enqueue_assets();
@@ -365,15 +381,21 @@ final class Support_Integration_Test extends TestCase {
 
 		$this->assert_promotions();
 
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
 		$expected = [
 			'preferences'       => [
-				'isPremium'      => false,
-				'isRtl'          => false,
-				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
-				'upsellSettings' => [
+				'isPremium'           => false,
+				'isRtl'               => false,
+				'pluginUrl'           => 'http://basic.wordpress.test/wp-content/worspress-seo',
+				'upsellSettings'      => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
+				'isWooCommerceActive' => false,
 			],
 			'linkParams'        => $link_params,
 			'currentPromotions' => [ 'black-friday-2024-promotion' ],
