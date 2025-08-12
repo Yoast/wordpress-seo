@@ -95,23 +95,19 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			->with( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' )
 			->andReturn( true );
 
-		try {
-			$suggestions_array = $this->instance->get_suggestions(
-				$user,
-				'test',
-				'',
-				'',
-				'',
-				'',
-				'',
-				$retry_on_unauthorized
-			);
+		$this->expectException( Unauthorized_Exception::class );
+		$this->expectExceptionMessage( 'unauthorized' );
 
-			$this->assertArrayHasKey( 0, $suggestions_array );
-			$this->assertSame( 'test', $suggestions_array[0] );
-		} catch ( Unauthorized_Exception $exception ) {
-			$this->assertSame( 'unauthorized', $exception->getMessage() );
-		}
+		$this->instance->get_suggestions(
+			$user,
+			'test',
+			'',
+			'',
+			'',
+			'',
+			'',
+			$retry_on_unauthorized
+		);
 	}
 
 	/**
@@ -153,22 +149,18 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			->once()
 			->with( $user->ID );
 
-		try {
-			$suggestions_array = $this->instance->get_suggestions(
-				$user,
-				'test',
-				'',
-				'',
-				'',
-				'',
-				'',
-				false
-			);
+		$this->expectException( Forbidden_Exception::class );
+		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
 
-			$this->assertArrayHasKey( 0, $suggestions_array );
-			$this->assertSame( 'test', $suggestions_array[0] );
-		} catch ( Forbidden_Exception $exception ) {
-			$this->assertSame( 'CONSENT_REVOKED', $exception->getMessage() );
-		}
+		$this->instance->get_suggestions(
+			$user,
+			'test',
+			'',
+			'',
+			'',
+			'',
+			'',
+			false
+		);
 	}
 }
