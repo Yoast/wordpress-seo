@@ -20,10 +20,11 @@ const StyledHeroIcon = styled( LightBulbIcon )`
 
 /**
  * Insights modal component.
- * @param {string} location The location of this modal.
- * @returns {JSX.Element} The element.
+ *
+ * @param {string} [location="sidebar"] The location of this modal.
+ * @returns {React.ReactNode} The element.
  */
-const InsightsModal = ( { location } ) => {
+const InsightsModal = ( { location = "sidebar" } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
@@ -57,10 +58,6 @@ const InsightsModal = ( { location } ) => {
 
 InsightsModal.propTypes = {
 	location: PropTypes.string,
-};
-
-InsightsModal.defaultProps = {
-	location: "sidebar",
 };
 
 export default InsightsModal;

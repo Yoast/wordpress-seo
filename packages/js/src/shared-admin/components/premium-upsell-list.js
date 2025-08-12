@@ -1,14 +1,13 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Paper, Title } from "@yoast/ui-library";
-import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * @param {string} premiumLink The premium link.
- * @param {Object} [premiumUpsellConfig] The premium upsell configuration data.
+ * @param {Object} premiumUpsellConfig The premium upsell configuration data.
  * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @returns {JSX.Element} The premium upsell card.
  */
@@ -62,11 +61,6 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 
 PremiumUpsellList.propTypes = {
 	premiumLink: PropTypes.string.isRequired,
-	premiumUpsellConfig: PropTypes.object,
-	isPromotionActive: PropTypes.func,
-};
-
-PremiumUpsellList.defaultProps = {
-	premiumUpsellConfig: {},
-	isPromotionActive: noop,
+	premiumUpsellConfig: PropTypes.object.isRequired,
+	isPromotionActive: PropTypes.func.isRequired,
 };
