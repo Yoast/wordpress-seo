@@ -1,4 +1,3 @@
-import apiFetch from "@wordpress/api-fetch";
 import { useSelect } from "@wordpress/data";
 import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
@@ -19,10 +18,9 @@ export const useIntroductionsContext = () => useContext( IntroductionsContext );
 /**
  * @param {JSX.node} children The children.
  * @param {Object} initialComponents The initial components.
- * @param {bool} [abortDisplay=false] Whether the introduction should be aborted.
  * @returns {JSX.Element} The element.
  */
-export const IntroductionProvider = ( { children, initialComponents, abortDisplay = false } ) => {
+export const IntroductionProvider = ( { children, initialComponents } ) => {
 	const [ components, setComponents ] = useState( initialComponents );
 	const introductions = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectIntroductions(), [] );
 
@@ -42,21 +40,8 @@ export const IntroductionProvider = ( { children, initialComponents, abortDispla
 		doAction( "yoast.introductions.ready" );
 	}, [ registerComponent ] );
 
-	useEffect( () => {
-		if ( abortDisplay ) {
-			Object.keys( components ).forEach( async introId => {
-				await apiFetch( {
-					path: `/yoast/v1/introductions/${ introId }/seen`,
-					method: "POST",
-					// eslint-disable-next-line camelcase
-					data: { is_seen: false },
-				} );
-			} );
-		}
-	}, [ components, abortDisplay ] );
-
 	return (
-		! abortDisplay && <IntroductionsContext.Provider value={ components }>
+		<IntroductionsContext.Provider value={ components }>
 			{ children }
 		</IntroductionsContext.Provider>
 	);
@@ -64,5 +49,4 @@ export const IntroductionProvider = ( { children, initialComponents, abortDispla
 IntroductionProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 	initialComponents: PropTypes.object.isRequired,
-	abortDisplay: PropTypes.bool,
 };
