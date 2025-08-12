@@ -197,6 +197,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.8 =
+
+Release date: 2025-08-26
+
+#### Enhancements
+
+* Changes the AI generator button label and design.
+
+#### Other
+
+* Fixes a console warning message triggered by the introductions in the Yoast admin page.
+* Updates ads to reflect the new pricing scheme.
+
 = 25.7 =
 
 Release date: 2025-08-12
@@ -215,21 +228,6 @@ Yoast SEO 25.7 brings more enhancements and bugfixes. [Find more information abo
 
 * Adds an announcement for the upcoming AI Brand Insights feature.
 * Sets the minimum supported WordPress version to 6.7.
-
-= 25.6 =
-
-Release date: 2025-07-29
-
-Yoast SEO 25.6 adds enhancements to the llms.txt feature, introducing manual personalization. [Read the release post here](https://yoa.st/release-29-7-25)!
-
-#### Enhancements
-
-* Adds a free preview of the AI features from Yoast SEO Premium.
-* Introduces a way to manually select the pages to be included in the llms.txt file.
-
-#### Bugfixes
-
-* Fixes a bug where the icon on search appearance would not be aligned when on a right-to-left locale.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
