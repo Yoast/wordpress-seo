@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -51,9 +52,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 */
 	public function render() {
 
-		$is_woocommerce_active = class_exists( 'woocommerce' );
-
-		$url = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-footer-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+		$is_woocommerce_active = ( new WooCommerce_Conditional() )->is_met();
+		$url                   = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-footer-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		[ $header_text, $header_icon ] = $this->get_header( $is_woocommerce_active );
 
@@ -90,7 +90,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
 		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
-			. esc_html( 'Now includes Local, News & Video SEO + 1 Google Docs seat!' )
+			. esc_html__( 'Now includes Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' )
 		. '</span>';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
