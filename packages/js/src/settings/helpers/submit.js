@@ -1,7 +1,7 @@
 import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { forEach, get, includes, isArray, isObject, omit } from "lodash";
-import { STORE_NAME } from "../constants";
+import { LLMS_TXT_GENERATION_FAILURE_REASONS, STORE_NAME } from "../constants";
 
 /**
  * @param {string} responseText The responseText.
@@ -12,18 +12,18 @@ const handleLlmstxtFailure = ( responseText ) => {
 
 	if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: " ) ) {
 		// We do a nested if here for performance reasons, so that we add a single `includes` operation and not more, in most cases.
-		if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: filesystem_permissions }}" ) ) {
+		if ( includes( responseText, `{{ yoast-llms-txt-generation-failure: ${ LLMS_TXT_GENERATION_FAILURE_REASONS.filesystemPermissions } }}` ) ) {
 			setGenerationFailure( {
 				generationFailure: true,
-				generationFailureReason: "filesystem_permissions",
+				generationFailureReason: LLMS_TXT_GENERATION_FAILURE_REASONS.filesystemPermissions,
 			} );
 			return;
 		}
 
-		if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: not_managed_by_yoast_seo }}" ) ) {
+		if ( includes( responseText, `{{ yoast-llms-txt-generation-failure: ${ LLMS_TXT_GENERATION_FAILURE_REASONS.notManagedByYoastSeo } }}` ) ) {
 			setGenerationFailure( {
 				generationFailure: true,
-				generationFailureReason: "not_managed_by_yoast_seo",
+				generationFailureReason: LLMS_TXT_GENERATION_FAILURE_REASONS.notManagedByYoastSeo,
 			} );
 			return;
 		}

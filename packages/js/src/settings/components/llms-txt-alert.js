@@ -4,6 +4,7 @@ import { Alert } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { useSelectSettings } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { LLMS_TXT_GENERATION_FAILURE_REASONS } from "../constants";
 
 /**
  * @param {string} reason The reason for the alert to appear.
@@ -13,7 +14,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
 export const LlmsTxtAlert = ( { reason } ) => {
 	const link = useSelectSettings( "selectLink", [], "https://yoa.st/llms-txt-file-deletion-settings" );
 	const alertText = useMemo( () => {
-		if ( reason === "not_managed_by_yoast_seo" ) {
+		if ( reason === LLMS_TXT_GENERATION_FAILURE_REASONS.notManagedByYoastSeo ) {
 			return safeCreateInterpolateElement(
 				sprintf(
 					/* translators: %1$s and %2$s are replaced by opening and closing <a> tags */
@@ -27,7 +28,7 @@ export const LlmsTxtAlert = ( { reason } ) => {
 			);
 		}
 
-		if ( reason === "filesystem_permissions" ) {
+		if ( reason === LLMS_TXT_GENERATION_FAILURE_REASONS.filesystemPermissions ) {
 			return __( "You have activated the Yoast llms.txt feature, but we couldn't generate an llms.txt file. It looks like there aren't sufficient permissions on the web server's filesystem.", "wordpress-seo" );
 		}
 
