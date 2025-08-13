@@ -591,6 +591,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'ai-generator',
 				'src'  => 'ai-generator-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'ai-frontend',
 					self::PREFIX . 'tailwind',
 					self::PREFIX . 'introductions',
 				],
@@ -598,6 +599,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'ai-fix-assessments',
 				'src'  => 'ai-fix-assessments-' . $flat_version,
+			],
+			[
+				'name' => 'ai-frontend',
+				'src'  => 'ai-frontend-' . $flat_version,
 			],
 			[
 				'name' => 'introductions',
