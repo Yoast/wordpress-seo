@@ -32,7 +32,7 @@ export const LlmsTxtAlert = ( { reason } ) => {
 		}
 
 		return __( "You have activated the Yoast llms.txt feature, but we couldn't generate an llms.txt file, for unknown reasons", "wordpress-seo" );
-	}, [] );
+	}, [ reason ] );
 
 	return (
 		<Alert className="yst-max-w-xl" variant="error">
