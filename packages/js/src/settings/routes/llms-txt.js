@@ -149,7 +149,7 @@ const LlmTxt = () => {
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
 
-						{ generationFailure && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
+						{ generationFailure && initialIsLlmsTxtEnabled && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
 
 						<div className="yst-relative yst-max-w-sm">
 							<FormikValueChangeFieldWithDisabledMessage
