@@ -106,7 +106,7 @@ class UpsellBox extends Component {
 	 * @returns {wp.Element} The rendered UpsellBox component.
 	 */
 	render() {
-		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-2024-promotion" );
+		const isBlackFriday = select( "yoast-seo/editor" ).isPromotionActive( "black-friday-promotion" );
 		return (
 			<Fragment>
 				{ isBlackFriday &&
