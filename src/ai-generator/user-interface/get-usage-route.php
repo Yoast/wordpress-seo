@@ -7,6 +7,7 @@ use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
@@ -129,6 +130,9 @@ class Get_Usage_Route implements Route_Interface {
 				'errorIdentifier' => $e->get_error_identifier(),
 				'errorCode'       => $e->getCode(),
 			];
+			if ( $e instanceof Too_Many_Requests_Exception ) {
+				$message['missingLicenses'] = $e->get_missing_licenses();
+			}
 			return new WP_REST_Response(
 				$message,
 				$e->getCode()

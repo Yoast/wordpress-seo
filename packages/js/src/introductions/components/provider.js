@@ -27,8 +27,6 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	const registerComponent = useCallback( ( id, Component ) => {
 		const introduction = find( introductions, { id } );
 		if ( ! introduction ) {
-			// Bail when unknown.
-			console.error( "Warning: Introductions received a registration for an unknown key:", id );
 			return;
 		}
 		setComponents( currentComponents => ( { ...currentComponents, [ id ]: Component } ) );
