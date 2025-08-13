@@ -96,7 +96,7 @@ class Request_Handler implements Request_Handler_Interface {
 			case 408:
 				throw new Request_Timeout_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
 			case 429:
-				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
 			case 500:
 				throw new Internal_Server_Error_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
 			case 503:

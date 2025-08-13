@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -50,54 +51,20 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return void
 	 */
 	public function render() {
-		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
-		$arguments = [
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sAI%2$s: Better SEO titles and meta descriptions, faster.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sMultiple keywords%2$s: Rank higher for more searches.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sSuper fast%2$s internal linking suggestions.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sNo more broken links%2$s: Automatic redirect manager.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$sAppealing social previews%2$s people actually want to click on.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			sprintf(
-				/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-				esc_html__( '%1$s24/7 support%2$s: Also on evenings and weekends.', 'wordpress-seo' ),
-				'<strong>',
-				'</strong>'
-			),
-			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
-		];
+		$is_woocommerce_active = ( new WooCommerce_Conditional() )->is_met();
+		$url                   = ( $is_woocommerce_active ) ? WPSEO_Shortlinker::get( 'https://yoa.st/admin-footer-upsell-woocommerce' ) : WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+
+		[ $header_text, $header_icon ] = $this->get_header( $is_woocommerce_active );
+
+		$arguments = $this->get_arguments( $is_woocommerce_active );
 
 		$arguments_html = implode( '', array_map( [ $this, 'get_argument_html' ], $arguments ) );
 
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text = YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ? esc_html__( 'Upgrade now', 'wordpress-seo' ) : sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$button_text = $this->get_button_text( $is_woocommerce_active );
 		/* translators: Hidden accessibility text. */
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 			. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
@@ -119,19 +86,17 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		}
 
 		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">'
-			. sprintf(
-				/* translators: %s expands to Yoast SEO Premium */
-				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			)
-		. '</h2>';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in get_header() method.
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
 
+		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
+			. esc_html__( 'Now includes Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' )
+		. '</span>';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
-		echo '<p>' . $upgrade_button . '</p>';
+		echo '<p style="max-width: inherit;">' . $upgrade_button . '</p>';
 		echo '</div>';
 
 		echo '</div>';
@@ -148,7 +113,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		return sprintf(
-			'<li><div class="%1$s">%2$s</div></li>',
+			'<li style="margin-inline-start: 8px;"><span>•</span><div class="%1$s">%2$s</div></li>',
 			esc_attr( $class . '--argument' ),
 			$argument
 		);
@@ -161,5 +126,87 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 */
 	protected function get_html_class() {
 		return 'yoast_' . $this->identifier;
+	}
+
+	/**
+	 * Returns the arguments based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return array<string> The arguments list.
+	 */
+	private function get_arguments( bool $is_woocommerce_active ) {
+		$arguments = [
+			esc_html__( 'Generate SEO optimized metadata in seconds with AI', 'wordpress-seo' ),
+			esc_html__( 'Make your articles visible, be seen in Google News', 'wordpress-seo' ),
+			esc_html__( 'Built to get found by search, AI, and real users', 'wordpress-seo' ),
+			esc_html__( 'Easy Local SEO. Show up in Google Maps results', 'wordpress-seo' ),
+			esc_html__( 'Internal links and redirect management, easy', 'wordpress-seo' ),
+			esc_html__( 'Access to friendly help when you need it, day or night', 'wordpress-seo' ),
+		];
+
+		if ( $is_woocommerce_active ) {
+			$arguments[1] = esc_html__( 'Boost visibility for your products, from 10 or 10,000+', 'wordpress-seo' );
+		}
+
+		return $arguments;
+	}
+
+	/**
+	 * Returns the header text and icon based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return array<string, string> The header text and icon.
+	 */
+	private function get_header( bool $is_woocommerce_active ) {
+		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
+		if ( $is_woocommerce_active ) {
+			$header_text = sprintf(
+			/* translators: %s expands to Yoast WooCommerce SEO */
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast WooCommerce SEO'
+			);
+			$header_icon = sprintf(
+				'<img src="%s" alt="%s" width="14" height="14" style="margin-inline-start: 8px;">',
+				esc_url( $assets_uri . 'packages/js/images/icon-trolley.svg' ),
+				esc_attr__( 'this is a trolley icon', 'wordpress-seo' )
+			);
+		}
+		else {
+			$header_text = sprintf(
+			/* translators: %s expands to Yoast SEO Premium*/
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+
+			$header_icon = sprintf(
+				'<img src="%s" alt="%s" width="14" height="14" style="margin-inline-start: 8px;">',
+				esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' ),
+				esc_attr__( 'this is a crown icon', 'wordpress-seo' )
+			);
+		}
+		return [ $header_text, $header_icon ];
+	}
+
+	/**
+	 * Returns the button text based on whether WooCommerce is active.
+	 *
+	 * @param bool $is_woocommerce_active Whether WooCommerce is active.
+	 *
+	 * @return string The button text.
+	 */
+	private function get_button_text( bool $is_woocommerce_active ): string {
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+			return esc_html__( 'Upgrade now', 'wordpress-seo' );
+		}
+		else {
+			// phpcs:disable Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine -- needed to add translators comments.
+			return $is_woocommerce_active
+				/* translators: %s expands to Yoast WooCommerce SEO */
+				? sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast WooCommerce SEO' )
+				/* translators: %s expands to Yoast SEO Premium */
+				: sprintf( esc_html__( 'Explore %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		}
 	}
 }
