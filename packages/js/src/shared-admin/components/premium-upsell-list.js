@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Paper, Title } from "@yoast/ui-library";
@@ -24,16 +25,16 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 		? sprintf(
 			/* translators: %s expands to "Yoast WooCommerce SEO" */
 			__( "Explore %s now!", "wordpress-seo" ),
-			"Yoast WooCommerce SEO",
+			"Yoast WooCommerce SEO"
 		)
 		: sprintf(
 			/* translators: %s expands to "Yoast SEO" Premium */
 			__( "Explore %s now!", "wordpress-seo" ),
-			"Yoast SEO Premium",
+			"Yoast SEO Premium"
 		);
 
-	if(isBlackFriday){
-		upsellTitle = __( " Get 30% off now!", "wordpress-seo" );
+	if ( isBlackFriday ) {
+		upsellTitle = __( "Get 30% off now!", "wordpress-seo" );
 	}
 	return (
 		<Paper as="div" className="xl:yst-max-w-3xl">
@@ -47,21 +48,21 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 				<div className="yst-flex yst-items-center">
 					{ isWooCommerceActive
 						? <>
-							<Title as="h2" size="4" className={`yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }`}>
+							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }` }>
 								{ sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),
-									"Yoast WooCommerce SEO",
+									"Yoast WooCommerce SEO"
 								) }
 							</Title>
 							<TrolleyIcon className="yst-ml-2 yst-w-4 yst-h-3" />
 						</>
 						: <>
-							<Title as="h2" size="4" className={`yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }`}>
+							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }` }>
 								{ sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),
-									"Yoast SEO Premium",
+									"Yoast SEO Premium"
 								) }
 							</Title>
 							<CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
@@ -69,7 +70,8 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 					}
 				</div>
 				<span
-					className="yst-font-medium yst-text-slate-500 yst-text-xs yst-leading-5 yst-uppercase yst-mt-2">{ __( "Now includes Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" ) }</span>
+					className="yst-font-medium yst-text-slate-500 yst-text-xs yst-leading-5 yst-uppercase yst-mt-2"
+				>{ __( "Now includes Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" ) }</span>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-none yst-list-outside yst-text-slate-600 yst-mt-6">
 					{ getBenefits().map( ( benefit, index ) => (
 						<li key={ `upsell-benefit-${ index }` }><span className="yst-mx-2">•</span>{ benefit }</li>
