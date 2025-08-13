@@ -1,15 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
+// Action name constants
+export const LLMS_TXT_NAME = "llmsTxt";
+
 /**
  * @returns {Object} The initial llmsTxt state.
  */
-export const createInitialLlmsTxtState = () =>( { generationFailure: false, generationFailureReason: "", llmsTxtUrl: "" } );
+export const createInitialLlmsTxtState = () =>(
+	{
+		generationFailure: false,
+		generationFailureReason: "",
+		llmsTxtUrl: "",
+		disabledPageIndexables: false,
+		otherIncludedPagesLimit: 100,
+	}
+);
 
 const slice = createSlice( {
-	name: "llmsTxt",
+	name: LLMS_TXT_NAME,
 	initialState: createInitialLlmsTxtState(),
-	reducers: {},
+	reducers: {
+		setGenerationFailure: ( state, { payload } ) => {
+			state.generationFailure = payload.generationFailure;
+			state.generationFailureReason = payload.generationFailureReason;
+		},
+	},
 } );
 
 export const llmsTxtActions = slice.actions;
