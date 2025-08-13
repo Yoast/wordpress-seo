@@ -11,14 +11,16 @@ export const ConnectedPremiumUpsellList = () => {
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
 	const premiumLinkList = useSelectGeneralPage( "selectLink", [], "https://yoa.st/17h" );
-
+	const wooLinkList = useSelectGeneralPage( "selectLink", [], "https://yoa.st/admin-footer-upsell-woocommerce" );
+	const isWooCommerceActive = useSelectGeneralPage( "selectPreference", [], "isWooCommerceActive" );
 	if ( isPremium ) {
 		return null;
 	}
 	return <PremiumUpsellList
-		premiumLink={ premiumLinkList }
+		premiumLink={ isWooCommerceActive ? wooLinkList : premiumLinkList }
 		premiumUpsellConfig={ premiumUpsellConfig }
 		isPromotionActive={ isPromotionActive }
+		isWooCommerceActive={ isWooCommerceActive }
 	/>;
 };
 
