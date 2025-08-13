@@ -23,7 +23,7 @@ export const LlmsTxtAlert = ( { reason } ) => {
 					"</a>"
 				), {
 					// eslint-disable-next-line jsx-a11y/anchor-has-content
-					a: <a id="llms-delete-file-link" href={ link } />,
+					a: <a id="llms-delete-file-link" href={ link } target="_blank" rel="noopener noreferrer" />,
 				}
 			);
 		}
