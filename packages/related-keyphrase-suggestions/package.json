@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@wordpress/i18n": "^5.10.0",
+    "@wordpress/i18n": "^5.8.2",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1"
