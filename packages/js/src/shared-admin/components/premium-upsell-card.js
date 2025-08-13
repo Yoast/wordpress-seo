@@ -27,6 +27,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 		? getWooSeoBenefits
 		: getPremiumBenefits;
 	let info = useMemo( () => __( "Now with Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" ), [] );
+	let upsellButtonText = __( "Buy now", "wordpress-seo" );
 	let upsellTitle = isWooCommerceActive
 		? safeCreateInterpolateElement(
 			sprintf(
@@ -52,24 +53,10 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				nowrap: <span className="yst-whitespace-nowrap" />,
 			}
 		);
-	const isBlackFriday = isPromotionActive( "black-friday-2024-promotion" );
+	const isBlackFriday = isPromotionActive( "black-friday-promotion" );
 
 	if ( isBlackFriday ) {
-		info = useMemo( () => __( "If you were thinking about upgrading, now's the time! 30% OFF ends 3rd Dec 11am (CET)", "wordpress-seo" ), [] );
-
-		upsellTitle = safeCreateInterpolateElement(
-			sprintf(
-				/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
-				__( "%1$sBuy%2$s %3$s", "wordpress-seo" ),
-				"<nowrap>",
-				"</nowrap>",
-				"Yoast SEO Premium"
-
-			),
-			{
-				nowrap: <span className="yst-whitespace-nowrap" />,
-			}
-		);
+		upsellButtonText = __( "Buy now for 30% off", "wordpress-seo" );
 	}
 	return (
 		<div
@@ -87,7 +74,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 			</figure>
 			{ isBlackFriday && <div className="sidebar__sale_banner_container">
 				<div className="sidebar__sale_banner">
-					<span className="banner_text">{ __( "30% OFF - BLACK FRIDAY", "wordpress-seo" ) }</span>
+					<span className="banner_text">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</span>
 				</div>
 			</div> }
 			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
@@ -111,10 +98,10 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<span>{ __( "Buy now", "wordpress-seo" ) }</span>
+				<span>{ upsellButtonText }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-mt-2">
+			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-italic yst-mt-2">
 				{ __( "30-day money back guarantee", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />

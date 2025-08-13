@@ -53,7 +53,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					<?php
 					if (
 						\YoastSEO()->classes->get( Promotion_Manager::class )
-							->is( 'black-friday-2024-promotion' ) ) :
+							->is( 'black-friday-promotion' ) ) :
 						?>
 						<div class="sidebar__sale_banner_container">
 							<div class="sidebar__sale_banner">
@@ -65,7 +65,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<?php
 						if (
 							\YoastSEO()->classes->get( Promotion_Manager::class )
-								->is( 'black-friday-2024-promotion' ) ) {
+								->is( 'black-friday-promotion' ) ) {
 							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 							\printf( \esc_html__( '%1$sBuy%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 						}
@@ -77,7 +77,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					</h2>
 					<span> <?php echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' ); ?></span>
 					<?php
-					if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+					if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 						echo '<p>';
 						echo \esc_html__( 'If you were thinking about upgrading, now\'s the time! 30% OFF ends 3rd Dec 11am (CET)', 'wordpress-seo' );
 						echo '</p>';
@@ -100,7 +100,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							<?php
 							if (
 								\YoastSEO()->classes->get( Promotion_Manager::class )
-									->is( 'black-friday-2024-promotion' ) ) {
+									->is( 'black-friday-promotion' ) ) {
 								echo \esc_html__( 'Buy now', 'wordpress-seo' );
 							}
 							else {
