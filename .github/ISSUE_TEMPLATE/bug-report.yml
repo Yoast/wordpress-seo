@@ -1,0 +1,167 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please use this template when creating an issue.
+        - Please check the boxes after you've created your issue.
+        - Please use the latest version of Yoast SEO.
+  
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your bug report
+      options:
+        - label: I've read and understood the [contribution guidelines](https://github.com/Yoast/wordpress-seo/blob/trunk/.github/CONTRIBUTING.md).
+          required: true
+        - label: I've searched for any related issues and avoided creating a duplicate issue.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Please give us a description of what happened
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Step-by-step reproduction instructions
+      description: Tell us how to reproduce this behavior
+      placeholder: |
+        1. 
+        2. 
+        3. 
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-results
+    attributes:
+      label: Expected results
+      description: What did you expect to happen?
+      placeholder: |
+        1. 
+      value: |
+        1. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-results
+    attributes:
+      label: Actual results
+      description: What actually happened?
+      placeholder: |
+        1. 
+      value: |
+        1. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots, screen recording, code snippet
+      description: If possible, please provide a screenshot, a screen recording or a code snippet which demonstrates the bug.
+      placeholder: You can drag and drop images here or paste them directly.
+
+  - type: checkboxes
+    id: editors
+    attributes:
+      label: Which editor is affected (or editors)
+      description: If relevant, which editor is affected
+      options:
+        - label: Block Editor
+        - label: Gutenberg Editor
+        - label: Elementor Editor
+        - label: Classic Editor
+        - label: Other (please specify in additional info)
+
+  - type: checkboxes
+    id: browsers
+    attributes:
+      label: Which browser is affected (or browsers)
+      description: Select all browsers where you've experienced this issue
+      options:
+        - label: Chrome
+        - label: Firefox
+        - label: Safari
+        - label: Other (please specify in additional info)
+
+  - type: input
+    id: device
+    attributes:
+      label: Device you are using
+      placeholder: e.g., Desktop, iPhone 12, Samsung Galaxy S21
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      placeholder: e.g., Windows 11, macOS 13.0, iOS 16.1
+
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version
+      placeholder: e.g., 8.1.2
+
+  - type: input
+    id: wordpress-version
+    attributes:
+      label: WordPress version
+      placeholder: e.g., 6.3.1
+    validations:
+      required: true
+
+  - type: input
+    id: wordpress-theme
+    attributes:
+      label: WordPress Theme
+      placeholder: e.g., Twenty Twenty-Three
+
+  - type: input
+    id: yoast-seo-version
+    attributes:
+      label: Yoast SEO version
+      placeholder: e.g., 21.5
+    validations:
+      required: true
+
+  - type: input
+    id: gutenberg-version
+    attributes:
+      label: Gutenberg plugin version (if relevant)
+      placeholder: e.g., 16.7.0
+
+  - type: input
+    id: elementor-version
+    attributes:
+      label: Elementor plugin version (if relevant)
+      placeholder: e.g., 3.15.2
+
+  - type: input
+    id: classic-editor-version
+    attributes:
+      label: Classic Editor plugin version (if relevant)
+      placeholder: e.g., 1.6.3
+
+  - type: textarea
+    id: relevant-plugins
+    attributes:
+      label: Relevant plugins in case of a bug
+      description: List any other plugins that might be related to this issue
+      placeholder: Plugin Name - Version

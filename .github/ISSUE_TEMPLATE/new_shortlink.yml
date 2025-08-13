@@ -1,0 +1,55 @@
+name: New shortlink
+description: Request a shortlink
+title: "[Shortlink]: "
+labels: ["shortlink", "research"]
+assignees: 
+  - "@Yoast/research"
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      value: yoast-seo
+    validations:
+      required: true
+
+  - type: input
+    id: campaign
+    attributes:
+      label: Campaign
+      value: wordpress
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: content-type
+    attributes:
+      label: Content type
+      description: What type of content are you linking to?
+      options:
+        - label: "`general` (a blogpost or general info page)"
+        - label: "`support` (a kb page)"
+        - label: "`ad` (a product page)"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: content-location
+    attributes:
+      label: Content
+      description: Where in the plugin will this link be?
+      options:
+        - label: "`banners`"
+        - label: "`content-analysis`"
+        - label: "`go-premium`"
+        - label: "`helpcenter`"
+        - label: "`post-overview`"
+        - label: "`settings`"
+        - label: "`wordpress-dashboard`"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        cc: @Yoast/research
