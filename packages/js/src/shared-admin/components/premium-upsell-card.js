@@ -26,7 +26,12 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	const getBenefits = isWooCommerceActive
 		? getWooSeoBenefits
 		: getPremiumBenefits;
-	let info = useMemo( () => __( "Now with Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" ), [] );
+	let info = useMemo( () => {
+		if(isWooCommerceActive) {
+		return	__( "SEO that scales with your product catalog.", "wordpress-seo" )
+		}
+		return __( "Now with Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" );
+	}, [isWooCommerceActive] );
 	let upsellButtonText = __( "Buy now", "wordpress-seo" );
 	let upsellTitle = isWooCommerceActive
 		? safeCreateInterpolateElement(
