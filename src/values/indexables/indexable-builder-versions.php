@@ -22,7 +22,7 @@ class Indexable_Builder_Versions {
 		'home-page'         => 2,
 		'post'              => 2,
 		'post-type-archive' => 2,
-		'term'              => 2,
+		'term'              => 3,
 		'user'              => 2,
 		'system-page'       => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 	];
