@@ -61,11 +61,10 @@ abstract class Abstract_Consent_Integration_Test extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->user_helper       = Mockery::mock( User_Helper::class );
-		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
+		$this->asset_manager               = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->user_helper                 = Mockery::mock( User_Helper::class );
+		$this->short_link_helper           = Mockery::mock( Short_Link_Helper::class );
 		$this->consent_endpoint_repository = Mockery::mock( Consent_Endpoints_Repository::class );
-
 
 		$this->instance = new Consent_Integration( $this->asset_manager, $this->user_helper, $this->short_link_helper, $this->consent_endpoint_repository );
 	}
