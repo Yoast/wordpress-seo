@@ -1,22 +1,22 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface\Consent_Route;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Route;
 
 use Brain\Monkey;
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
-use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 
 /**
  * Tests the Consent_Route's consent method.
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route::consent
+ * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::consent
  */
 final class Consent_Test extends Abstract_Consent_Route_Test {
 

@@ -1,11 +1,12 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface\AI_Consent_Integration;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Integration;
 
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
+use Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -15,12 +16,12 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group ai-consent
  */
-abstract class Abstract_AI_Consent_Integration_Test extends TestCase {
+abstract class Abstract_Consent_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Ai_Consent_Integration
+	 * @var Consent_Integration
 	 */
 	protected $instance;
 
@@ -46,6 +47,13 @@ abstract class Abstract_AI_Consent_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * The consent endpoint repository.
+	 *
+	 * @var Mockery\MockInterface|Consent_Endpoints_Repository
+	 */
+	protected $consent_endpoint_repository;
+
+	/**
 	 * Sets an instance for test purposes.
 	 *
 	 * @return void
@@ -56,7 +64,9 @@ abstract class Abstract_AI_Consent_Integration_Test extends TestCase {
 		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->user_helper       = Mockery::mock( User_Helper::class );
 		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
+		$this->consent_endpoint_repository = Mockery::mock( Consent_Endpoints_Repository::class );
 
-		$this->instance = new Ai_Consent_Integration( $this->asset_manager, $this->user_helper, $this->short_link_helper );
+
+		$this->instance = new Consent_Integration( $this->asset_manager, $this->user_helper, $this->short_link_helper, $this->consent_endpoint_repository );
 	}
 }

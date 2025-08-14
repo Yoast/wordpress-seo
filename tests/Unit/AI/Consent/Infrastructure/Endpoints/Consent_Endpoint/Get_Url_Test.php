@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\Infrastructure\Endpoints\Consent_Endpoint;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint;
 
 use Brain\Monkey;
 
@@ -10,7 +10,7 @@ use Brain\Monkey;
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url
+ * @covers \Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url
  */
 final class Get_Url_Test extends Abstract_Consent_Endpoint_Test {
 
