@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 
 use Brain\Monkey;
 
@@ -9,7 +9,7 @@ use Brain\Monkey;
  * Tests the Code_Verifier_User_Meta_Repository store_code_verifier.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier
+ * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier
  */
 final class Store_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Repository_Test {
 

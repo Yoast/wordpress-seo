@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 
 /**
- * Tests the Access_Token_User_Meta_Repository store_token.
+ * Tests the Refresh_Token_User_Meta_Repository store_token.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token
+ * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::store_token
  */
-final class Store_Token_Test extends Abstract_Access_Token_User_Meta_Repository_Test {
+final class Store_Token_Test extends Abstract_Refresh_Token_User_Meta_Repository_Test {
 
 	/**
 	 * Tests the store_token method.
@@ -18,13 +18,13 @@ final class Store_Token_Test extends Abstract_Access_Token_User_Meta_Repository_
 	 */
 	public function test_store_token() {
 		$user_id = 456;
-		$token   = 'example_access_token_jwt_value';
+		$token   = 'example_refresh_token_jwt_value';
 
 		$this->user_helper->expects( 'update_meta' )
 			->once()
 			->with(
 				$user_id,
-				'_yoast_wpseo_ai_generator_access_jwt',
+				'_yoast_wpseo_ai_generator_refresh_jwt',
 				$token
 			);
 
