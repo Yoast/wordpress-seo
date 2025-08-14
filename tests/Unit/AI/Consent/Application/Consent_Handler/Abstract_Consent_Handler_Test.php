@@ -1,10 +1,10 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\Application\Consent_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 
 use Mockery;
-use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

@@ -1,14 +1,14 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\Application\Consent_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Application\Consent_Handler;
 
 /**
  * Tests the Consent_Handler's grant_consent method.
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\Application\Consent_Handler::grant_consent
+ * @covers \Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent
  */
 final class Grant_Consent_Test extends Abstract_Consent_Handler_Test {
 

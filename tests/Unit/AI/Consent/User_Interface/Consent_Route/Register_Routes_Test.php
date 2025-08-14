@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface\Consent_Route;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Route;
 
 use Brain\Monkey\Functions;
 
@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route::register_routes
+ * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::register_routes
  */
 final class Register_Routes_Test extends Abstract_Consent_Route_Test {
 

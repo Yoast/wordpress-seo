@@ -1,18 +1,19 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface\AI_Consent_Integration;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Integration;
 
 use Brain\Monkey;
-
+use Mockery;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 /**
  * Tests the AI_Consent_Integration's enqueue_assets method.
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration::enqueue_assets
+ * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration::enqueue_assets
  */
-final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
+final class Enqueue_Assets_Test extends Abstract_Consent_Integration_Test {
 
 	/**
 	 * Tests enqueuing the assets.
@@ -43,11 +44,19 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 				'hasConsent' => true,
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'linkParams' => [],
+				'endpoints'   =>[ 'consent' => 'yoast/v1/ai_generator/consent' ],
 			]
 		);
 
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );
 
+		$endpoint_list = Mockery::mock( Endpoint_List::class );
+		$this->consent_endpoint_repository->expects( 'get_all_endpoints' )
+			->once()
+			->andReturn(  $endpoint_list );
+		$endpoint_list->expects( 'to_array' )
+			->once()
+			->andReturn( [ 'consent' => 'yoast/v1/ai_generator/consent' ] );
 		$this->instance->enqueue_assets();
 	}
 }
