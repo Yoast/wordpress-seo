@@ -12,7 +12,7 @@ class Endpoints_Repository {
 	 *
 	 * @var array<Endpoint_Interface>
 	 */
-	private $endpoints;
+	protected $endpoints;
 
 	/**
 	 * Constructs the repository.

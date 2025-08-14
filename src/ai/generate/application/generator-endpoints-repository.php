@@ -12,13 +12,6 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoints_Repository;
 class Generator_Endpoints_Repository extends Endpoints_Repository {
 
 	/**
-	 * Holds the endpoints.
-	 *
-	 * @var array<Generator_Endpoint_Interface>
-	 */
-	private $endpoints;
-
-	/**
 	 * Constructs the repository.
 	 *
 	 * @param Generator_Endpoint_Interface ...$endpoints The endpoints to add to the repository.
