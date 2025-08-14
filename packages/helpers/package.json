@@ -9,15 +9,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/helpers"
   },
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=0",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0"
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
