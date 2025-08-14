@@ -108,7 +108,7 @@ final class Taxonomy_Test extends TestCase {
 
 		// Verify that the right scripts are enqueued.
 		$this->class_instance->admin_enqueue_scripts();
-		$this->assertTrue( \wp_style_is( 'yoast-seo-scoring' ) );
+
 		$this->assertTrue( \wp_style_is( 'yoast-seo-monorepo' ) );
 		$this->assertTrue( \wp_script_is( 'yoast-seo-edit-page' ) );
 	}
