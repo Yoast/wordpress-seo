@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\User_Interface\AI_Consent_Integration;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\Consent_Integration;
 
 use Brain\Monkey;
 
@@ -10,9 +10,9 @@ use Brain\Monkey;
  *
  * @group ai-consent
  *
- * @covers \Yoast\WP\SEO\AI_Consent\User_Interface\Ai_Consent_Integration::register_hooks
+ * @covers \Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_AI_Consent_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Consent_Integration_Test {
 
 	/**
 	 * Tests the registration of the hooks.

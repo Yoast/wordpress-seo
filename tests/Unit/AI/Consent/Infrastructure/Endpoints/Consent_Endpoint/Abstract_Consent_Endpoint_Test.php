@@ -1,9 +1,9 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Consent\Infrastructure\Endpoints\Consent_Endpoint;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint;
 
-use Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints\Consent_Endpoint;
+use Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
