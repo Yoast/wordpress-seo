@@ -2,4 +2,17 @@
 # directory at the root of the repository and any of its
 # subdirectories.
 
-/packages/ui-library/ @Yoast/team-ui-library
+/packages/ui-library/ @Yoast/team-ui-library @Yoast/shopify 
+
+# The Yoast SEO for Shopify app re-uses several packages. They like to 
+# be up to date about any changes to these, so they'll help assessing 
+# the impact of changes to these packages for consumers of them.
+/packages/yoastseo @Yoast/shopify 
+/packages/feature-flag @Yoast/shopify 
+/packages/analysis-report @Yoast/shopify 
+/packages/components @Yoast/shopify 
+/packages/helpers @Yoast/shopify 
+/packages/search-metadata-previews @Yoast/shopify 
+/packages/social-metadata-previews @Yoast/shopify 
+/packages/replacement-variable-editor @Yoast/shopify 
+/packages/browserslist-config @Yoast/shopify 
