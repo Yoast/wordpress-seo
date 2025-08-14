@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
 
 use RuntimeException;
 
@@ -9,7 +9,7 @@ use RuntimeException;
  * Tests the Refresh_Token_User_Meta_Repository get_token.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::get_token
+ * @covers \Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::get_token
  */
 final class Get_Token_Test extends Abstract_Refresh_Token_User_Meta_Repository_Test {
 
