@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/social-metadata-forms"
   },
   "author": "Team Yoast",
@@ -18,8 +18,10 @@
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=1",
     "test": "jest",
-    "lint": "eslint . --max-warnings=1"
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "publishConfig": {
     "access": "public"

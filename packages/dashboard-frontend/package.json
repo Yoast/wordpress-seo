@@ -21,7 +21,7 @@
     "lint": "eslint . --max-warnings=0",
     "storybook": "storybook dev -p 6008",
     "test": "jest",
-    "watch": "yarn watch:js",
+    "watch": "yarn clean:build && yarn watch:js",
     "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
