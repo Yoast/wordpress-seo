@@ -40,7 +40,7 @@ final class Get_Script_Data_Test extends Abstract_Consent_Integration_Test {
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$this->consent_endpoint_repository->expects( 'get_all_endpoints' )
 			->once()
-			->andReturn(  $endpoint_list );
+			->andReturn( $endpoint_list );
 		$endpoint_list->expects( 'to_array' )
 			->once()
 			->andReturn( [ 'consent' => 'yoast/v1/ai_generator/consent' ] );
