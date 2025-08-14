@@ -1,0 +1,65 @@
+name: Task
+description: A template for general issues
+title: "[Task]: "
+labels: []
+assignees: []
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context - Why was this issue created?
+      description: Provide background information and explain the reasoning behind creating this issue.
+      placeholder: Explain the context and background that led to this issue...
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: What is the goal of this issue?
+      description: Clearly define what you want to achieve with this issue.
+      placeholder: Describe the specific goal or objective...
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks-needed
+    attributes:
+      label: What needs to be done to achieve the goal?
+      description: List the specific tasks, steps, or actions required.
+      placeholder: |
+        - Task 1
+        - Task 2
+        - Task 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: ux-research-needed
+    attributes:
+      label: Does the issue still need UX or research?
+      description: Specify if UX design or research is required before implementation.
+      placeholder: Yes/No - and explain what type of UX or research is needed if applicable...
+
+  - type: textarea
+    id: solutions-tips
+    attributes:
+      label: If available, what are the tips for fixing the problem or possible solutions?
+      description: Share any known solutions, approaches, or helpful tips.
+      placeholder: Describe potential solutions, approaches, or helpful tips...
+
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: What is the expected result/behavior?
+      description: Define what the outcome should look like when this issue is completed.
+      placeholder: Describe the expected outcome or behavior...
+    validations:
+      required: true
+
+  - type: textarea
+    id: documentation
+    attributes:
+      label: Should documentation be added or updated for this change? And if so, where?
+      description: Specify if documentation needs to be created or updated, and indicate the location.
+      placeholder: Yes/No - and specify where documentation should be added or updated...
