@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository;
 
 use Mockery;

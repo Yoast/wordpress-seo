@@ -44,7 +44,7 @@ final class Enqueue_Assets_Test extends Abstract_Consent_Integration_Test {
 				'hasConsent' => true,
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'linkParams' => [],
-				'endpoints'   =>[ 'consent' => 'yoast/v1/ai_generator/consent' ],
+				'endpoints'  => [ 'consent' => 'yoast/v1/ai_generator/consent' ],
 			]
 		);
 
@@ -53,7 +53,7 @@ final class Enqueue_Assets_Test extends Abstract_Consent_Integration_Test {
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
 		$this->consent_endpoint_repository->expects( 'get_all_endpoints' )
 			->once()
-			->andReturn(  $endpoint_list );
+			->andReturn( $endpoint_list );
 		$endpoint_list->expects( 'to_array' )
 			->once()
 			->andReturn( [ 'consent' => 'yoast/v1/ai_generator/consent' ] );
