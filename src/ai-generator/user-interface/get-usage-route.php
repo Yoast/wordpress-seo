@@ -108,12 +108,12 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Runs the callback that gets the monthly usage of the user.
 	 *
-	 * @param WP_REST_Response $response The response object containing the parameters for the request.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The response of the callback action.
 	 */
-	public function get_usage( $response ): WP_REST_Response {
-		$is_woo_product_entity = $response->get_param( 'is_woo_product_entity' );
+	public function get_usage( $request ): WP_REST_Response {
+		$is_woo_product_entity = $request->get_param( 'is_woo_product_entity' );
 		$user                  = \wp_get_current_user();
 		try {
 			$token           = $this->token_manager->get_or_request_access_token( $user );
