@@ -19,7 +19,9 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0"
+    "lint": "eslint . --max-warnings=0",
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "publishConfig": {
     "access": "public"
