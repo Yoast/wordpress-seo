@@ -935,6 +935,17 @@ body.folded .wpseo-admin-submit-fixed {
 	text-wrap: nowrap;
 }
 
+.yoast-update-plugin-bf-sale-badge {
+	margin: auto 8px;
+	border-radius: 16px;
+	background-color: #000;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+}
+
 @media (min-width: 768px) {
 	.wpseo_table_page .tablenav.bottom {
 		margin-bottom: 40px;
