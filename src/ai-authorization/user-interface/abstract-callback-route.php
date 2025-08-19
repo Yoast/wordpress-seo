@@ -30,21 +30,21 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 *
 	 * @var Access_Token_User_Meta_Repository_Interface
 	 */
-	private $access_token_repository;
+	protected $access_token_repository;
 
 	/**
 	 * The refresh token repository instance.
 	 *
 	 * @var Refresh_Token_User_Meta_Repository_Interface
 	 */
-	private $refresh_token_repository;
+	protected $refresh_token_repository;
 
 	/**
 	 * The code verifier instance.
 	 *
 	 * @var Code_Verifier_User_Meta_Repository_Interface
 	 */
-	private $code_verifier_repository;
+	protected $code_verifier_repository;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
