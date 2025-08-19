@@ -219,7 +219,7 @@ class General_Page_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'general-page' );
 		$this->asset_manager->enqueue_style( 'general-page' );
-		if ( $this->promotion_manager->is( 'black-friday-2024-promotion' ) ) {
+		if ( $this->promotion_manager->is( 'black-friday-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'general-page', 'wpseoScriptData', $this->get_script_data() );
