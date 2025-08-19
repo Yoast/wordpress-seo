@@ -41,7 +41,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 			{ isBlackFriday && <div
 				className="yst-rounded-t-lg yst-h-9 yst-flex yst-justify-between yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-medium"
 			>
-				<div>{ __( "30% OFF WORDPRESS SEO", "wordpress-seo" ) }</div>
+				<div>{ __( "30% OFF", "wordpress-seo" ) }</div>
 				<div>{ __( "BLACK FRIDAY", "wordpress-seo" ) }</div>
 			</div> }
 			<div className="yst-p-6 yst-flex yst-flex-col">
