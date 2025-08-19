@@ -48,7 +48,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 				<div className="yst-flex yst-items-center">
 					{ isWooCommerceActive
 						? <>
-							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }` }>
+							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
 								{ sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),
@@ -58,7 +58,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 							<TrolleyIcon className="yst-ml-2 yst-w-4 yst-h-3" />
 						</>
 						: <>
-							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-[#0075B3]" : "yst-text-primary-500 " }` }>
+							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
 								{ sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),

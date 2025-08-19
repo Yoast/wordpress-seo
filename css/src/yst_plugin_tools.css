@@ -819,7 +819,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin: 0;
 }
 .yoast_premium_upsell--header.woo-header {
-	color: #0075B3;
+	@apply yst-text-woo-light;
 }
 
 .yoast_premium_upsell--subheader {

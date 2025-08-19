@@ -66,7 +66,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	return (
 		<div
 			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-white  yst-shadow",
-				isWooCommerceActive ? "yst-bg-[#0e1e65]" : "yst-bg-primary-500"
+				isWooCommerceActive ? "yst-bg-woo-dark" : "yst-bg-primary-500"
 			) }
 		>
 			<figure
