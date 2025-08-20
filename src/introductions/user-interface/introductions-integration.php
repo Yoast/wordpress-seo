@@ -150,7 +150,7 @@ class Introductions_Integration implements Integration_Interface {
 				'linkParams'            => $this->short_link_helper->get_query_params(),
 				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
-				'isWooEnabled'          => $this->woocommerce_conditional->is_met()
+				'isWooEnabled'          => $this->woocommerce_conditional->is_met(),
 			]
 		);
 		$this->admin_asset_manager->enqueue_style( 'introductions' );
