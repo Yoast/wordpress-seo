@@ -10,6 +10,8 @@ import {
 	pluginUrlReducer,
 	WISTIA_EMBED_PERMISSION_NAME,
 	wistiaEmbedPermissionReducer,
+	currentPromotionsReducer,
+	CURRENT_PROMOTIONS_NAME,
 } from "../../shared-admin/store";
 import analysis from "../reducers/contentAnalysis";
 import activeMarker from "./activeMarker";
@@ -18,7 +20,6 @@ import AIButton from "./AIButton";
 import analysisData from "./analysisData";
 import checklist from "./checklist";
 import isCornerstone from "./cornerstoneContent";
-import currentPromotions from "./currentPromotions";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
 import editorData from "./editorData";
@@ -51,7 +52,6 @@ export default {
 	analysis,
 	analysisData,
 	checklist,
-	currentPromotions,
 	dismissedAlerts,
 	[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 	editorContext,
@@ -81,4 +81,5 @@ export default {
 	WincherRequest,
 	WincherSEOPerformance,
 	[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
+	[ CURRENT_PROMOTIONS_NAME ]: currentPromotionsReducer,
 };
