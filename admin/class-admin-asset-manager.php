@@ -325,7 +325,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 		];
 
-		$plugin_scripts   = $this->load_generated_asset_file(
+		$plugin_scripts   = self::load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/plugin.php',
 				'ext_length'      => 3,
@@ -333,7 +333,7 @@ class WPSEO_Admin_Asset_Manager {
 				'header_scripts'  => $header_scripts,
 			]
 		);
-		$external_scripts = $this->load_generated_asset_file(
+		$external_scripts = self::load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/externals.php',
 				'ext_length'      => 3,
@@ -343,7 +343,7 @@ class WPSEO_Admin_Asset_Manager {
 				'header_scripts'  => $header_scripts,
 			]
 		);
-		$language_scripts = $this->load_generated_asset_file(
+		$language_scripts = self::load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/languages.php',
 				'ext_length'      => 3,
@@ -448,14 +448,15 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 *     @type string   $name      The name of the asset.
 	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
+	 *     @type string[] $deps      The dependencies of the asset.
 	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */
-	protected function load_generated_asset_file( $args ) {
+	public static function load_generated_asset_file( $args ) {
 		$args    = wp_parse_args(
 			$args,
 			[
+				'prefix'          => '',
 				'suffix'          => '',
 				'additional_deps' => [],
 				'base_dir'        => '',
@@ -465,9 +466,9 @@ class WPSEO_Admin_Asset_Manager {
 		$scripts = [];
 		$assets  = require $args['asset_file'];
 		foreach ( $assets as $file => $data ) {
-			$name  = substr( $file, 0, -$args['ext_length'] );
-			$name  = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
-			$name .= $args['suffix'];
+			$name = substr( $file, 0, -$args['ext_length'] );
+			$name = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
+			$name = $args['prefix'] . $name . $args['suffix'];
 
 			$deps = $data['dependencies'];
 			if ( isset( $args['additional_deps'][ $name ] ) ) {
@@ -494,7 +495,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 *     @type string   $name      The name of the asset.
 	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
+	 *     @type string[] $deps      The dependencies of the asset.
 	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */
