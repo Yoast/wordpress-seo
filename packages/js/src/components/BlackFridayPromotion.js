@@ -42,9 +42,9 @@ export const BlackFridayPromotion = ( {
 		);
 	return isPremium ? null : (
 		<TimeConstrainedNotification
-			id={ `black-friday-2024-promotion-${ location }` }
-			promoId="black-friday-2024-promotion"
-			alertKey="black-friday-2024-promotion"
+			id={ `black-friday-promotion-${ location }` }
+			promoId="black-friday-promotion"
+			alertKey="black-friday-promotion"
 			store={ store }
 			title={ title }
 			{ ...props }

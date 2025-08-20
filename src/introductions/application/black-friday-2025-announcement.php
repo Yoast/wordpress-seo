@@ -79,6 +79,6 @@ class Black_Friday_2025_Announcement implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page() && $this->promotion_manager->is( 'black-friday-2025-promotion' );
+		return $this->current_page_helper->is_yoast_seo_page() && $this->promotion_manager->is( 'black-friday-promotion' );
 	}
 }
