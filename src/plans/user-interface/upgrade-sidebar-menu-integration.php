@@ -23,18 +23,24 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 
 	/**
 	 * The WooCommerce conditional.
+	 *
+	 * @var WooCommerce_Conditional
 	 */
-	private WooCommerce_Conditional $woocommerce_conditional;
+	private $woocommerce_conditional;
 
 	/**
 	 * The shortlinker.
+	 *
+	 * @var WPSEO_Shortlinker
 	 */
-	private WPSEO_Shortlinker $shortlinker;
+	private $shortlinker;
 
 	/**
 	 * The product helper.
+	 *
+	 * @var Product_Helper
 	 */
-	private Product_Helper $product_helper;
+	private $product_helper;
 
 	/**
 	 * Constructor.
