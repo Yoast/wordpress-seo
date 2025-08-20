@@ -8,6 +8,7 @@ import { get, isEmpty, find } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { Introduction, IntroductionProvider } from "./components";
 import { AiBrandInsightsPreLaunch } from "./components/modals/ai-brand-insights-pre-launch";
+import { BlackFriday2025Announcement } from "./components/modals/black-friday-2025-announcement";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -21,6 +22,7 @@ domReady( () => {
 
 	const initialComponents = {
 		"ai-brand-insights-pre-launch": AiBrandInsightsPreLaunch,
+		"black-friday-2025-announcement": BlackFriday2025Announcement,
 	};
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {

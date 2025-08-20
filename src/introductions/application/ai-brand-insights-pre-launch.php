@@ -57,7 +57,7 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	 * @return int The priority.
 	 */
 	public function get_priority() {
-		return 10;
+		return 20;
 	}
 
 	/**
