@@ -14,7 +14,7 @@ import { get } from "lodash";
  * @param {Boolean} isWoo Whether the user has WooCommerce enabled.
  * @returns {JSX.Element} The element.
  */
-const BlackFriday2025AnnouncementContent = ( {
+const BlackFridayAnnouncementContent = ( {
 	thumbnail,
 	buttonLink,
 	description =  __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are coming soon!", "wordpress-seo" ),
@@ -99,7 +99,7 @@ const BlackFriday2025AnnouncementContent = ( {
 /**
  * @returns {JSX.Element} The element.
  */
-export const BlackFriday2025Announcement = () => {
+export const BlackFridayAnnouncement = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
 	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-pre-launch/" ), [] );
 	const isWooEnabled = useMemo( () => Boolean( get( window, "wpseoIntroductions.isWooEnabled", false ) ), [] );
@@ -112,7 +112,7 @@ export const BlackFriday2025Announcement = () => {
 
 	return (
 		<Modal>
-			<BlackFriday2025AnnouncementContent
+			<BlackFridayAnnouncementContent
 				buttonLink={ joinWishlistLink }
 				thumbnail={ thumbnail }
 				isWooEnabled={ isWooEnabled }

@@ -8,13 +8,13 @@ use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
- * Represents the introduction for the Black Friday 2025 announcement.
+ * Represents the introduction for the Black Friday announcement.
  */
-class Black_Friday_2025_Announcement implements Introduction_Interface {
+class Black_Friday_Announcement implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
-	public const ID = 'black-friday-2025-announcement';
+	public const ID = 'black-friday-announcement';
 
 	/**
 	 * Holds the current page helper.
