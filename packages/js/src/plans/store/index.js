@@ -6,15 +6,16 @@ import {
 	linkParamsActions,
 	linkParamsReducer,
 	linkParamsSelectors,
-	currentPromotionsActions,
-	currentPromotionsSelectors,
-	currentPromotionsReducer,
-	CURRENT_PROMOTIONS_NAME,
-	getInitialCurrentPromotionsState,
 } from "../../shared-admin/store";
 import { STORE_NAME } from "../constants";
 import { ADD_ONS_NAME, addOnsActions, addOnsReducer, addOnsSelectors, getInitialAddOnsState } from "./add-ons";
 import { getInitialPreferencesState, PREFERENCES_NAME, preferencesActions, preferencesReducer, preferencesSelectors } from "./preferences";
+import { reducers, selectors } from "@yoast/externals/redux";
+
+const { currentPromotions } = reducers;
+const { isPromotionActive } = selectors;
+
+const CURRENT_PROMOTIONS_NAME = "currentPromotions";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -28,13 +29,12 @@ const createStore = ( { initialState } ) => {
 			...addOnsActions,
 			...linkParamsActions,
 			...preferencesActions,
-			...currentPromotionsActions,
 		},
 		selectors: {
 			...addOnsSelectors,
 			...linkParamsSelectors,
 			...preferencesSelectors,
-			...currentPromotionsSelectors,
+			isPromotionActive,
 		},
 		initialState: merge(
 			{},
@@ -42,7 +42,7 @@ const createStore = ( { initialState } ) => {
 				[ ADD_ONS_NAME ]: getInitialAddOnsState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				[ PREFERENCES_NAME ]: getInitialPreferencesState(),
-				[ CURRENT_PROMOTIONS_NAME ]: getInitialCurrentPromotionsState(),
+				[ CURRENT_PROMOTIONS_NAME ]: { promotions: [] },
 			},
 			initialState
 		),
@@ -50,7 +50,7 @@ const createStore = ( { initialState } ) => {
 			[ ADD_ONS_NAME ]: addOnsReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			[ PREFERENCES_NAME ]: preferencesReducer,
-			[ CURRENT_PROMOTIONS_NAME ]: currentPromotionsReducer,
+			currentPromotions,
 		} ),
 	} );
 };
