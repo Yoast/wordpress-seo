@@ -944,6 +944,8 @@ body.folded .wpseo-admin-submit-fixed {
 	font-size: 10px;
 	font-weight: 600;
 	line-height: normal;
+	display: inline-block;
+	height: 13px;
 }
 
 @media (min-width: 768px) {
