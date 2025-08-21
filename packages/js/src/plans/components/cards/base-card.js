@@ -8,9 +8,10 @@ import { LearnMore } from "../actions/learn-more";
 import { ManageInMyYoast } from "../actions/manage-in-my-yoast";
 
 /**
- * Plans badge component.
+ * Plans card badge component.
  *
  * @param {string} variant The variant of the badge (success or error).
+ * @param {string} className Additional class names for the badge.
  * @param {React.ReactNode} children The content of the badge.
  *
  * @returns {JSX.Element} The element.
