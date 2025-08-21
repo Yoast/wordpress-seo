@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import { SparklesIcon } from "@heroicons/react/outline";
+import { LockOpenIcon } from "@heroicons/react/outline";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";
 import { get } from "lodash";
@@ -10,14 +10,12 @@ import { get } from "lodash";
 /**
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {string} buttonLink The button link.
- * @param {string} description The description for the introduction
- * @param {Boolean} isWoo Whether the user has WooCommerce enabled.
+ * @param {Boolean} isWooEnabled Whether WooCommerce is enabled.
  * @returns {JSX.Element} The element.
  */
 const BlackFridayAnnouncementContent = ( {
 	thumbnail,
 	buttonLink,
-	description =  __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are coming soon!", "wordpress-seo" ),
 	isWooEnabled,
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
@@ -36,19 +34,50 @@ const BlackFridayAnnouncementContent = ( {
 		);
 	}, [ isWooEnabled ] );
 
+	const iconClass = useMemo( () => {
+		return isWooEnabled ? "yst-cart-icon" : "yst-logo-icon";
+	}, [ isWooEnabled ] );
+
+	const introductionClass = useMemo( () => {
+		return isWooEnabled ? "yst-woo-introduction-gradient" : "yst-introduction-gradient";
+	}, [ isWooEnabled ] );
+
+	const description = useMemo( () => {
+		/* eslint-disable stylistic/max-len */
+		return isWooEnabled
+			? sprintf(
+				/* translators: %1$s expands to Premium, %2$s expands to Local, %3$s expands to News, %4$s expands to Video SEO, %5$s expands to Google. */
+				__( "We added even more value than ever this year: %1$s, %2$s, %3$s, %4$s, and seamless %5$s Docs add-on, all included. If you've been waiting to upgrade, now’s the time..", "wordpress-seo" ),
+				"Premium",
+				"Local",
+				"News",
+				"Video SEO",
+				"Google"
+			)
+			: sprintf(
+				/* translators: %1$s expands to Local, %2$s expands to News, %3$s expands to Video SEO, %4$s expands to Google. */
+				__( "We added even more value than ever this year: %1$s, %2$s, %3$s, and seamless %4$s Docs add-on, all included. If you've been waiting to upgrade, now’s the time.", "wordpress-seo" ),
+				"Local",
+				"News",
+				"Video SEO",
+				"Google"
+			);
+		/* eslint-enable stylistic/max-len */
+	}, [ isWooEnabled ] );
+
 	return (
 		<>
-			<div className="yst-px-10 yst-pt-10 yst-introduction-gradient yst-text-center">
+			<div className={ `yst-px-10 yst-pt-10 yst-text-center ${introductionClass}` }>
 				<img
 					className="yst-w-full yst-h-auto yst-rounded-md yst-drop-shadow-md"
-					alt={ __( "Web chart showing aspects of brand visibility in AI responses", "wordpress-seo" ) }
+					alt={ __( "Thumbnail for the Black Friday announcement", "wordpress-seo" ) }
 					loading="lazy"
 					decoding="async"
 					{ ...thumbnail }
 				/>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
-						<span className="yst-ai-insights-icon" />
+						<span className={ iconClass } />
 						{ productName }
 					</span>
 				</div>
@@ -67,14 +96,14 @@ const BlackFridayAnnouncementContent = ( {
 				<div className="yst-w-full yst-flex yst-mt-6">
 					<Button
 						as="a"
-						className="yst-grow yst-border-slate-200 yst-ai-insights-waitlist-button"
+						className="yst-grow yst-border-slate-200"
 						size="extra-large"
 						variant="upsell"
 						href={ buttonLink }
 						target="_blank"
 						ref={ initialFocus }
 					>
-						<SparklesIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-white" />
+						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ buttonLabel }
 						<span className="yst-sr-only">
 							{
@@ -101,8 +130,9 @@ const BlackFridayAnnouncementContent = ( {
  */
 export const BlackFridayAnnouncement = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
-	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-pre-launch/" ), [] );
 	const isWooEnabled = useMemo( () => Boolean( get( window, "wpseoIntroductions.isWooEnabled", false ) ), [] );
+	const buttonPremiumLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-premium/" ), [] );
+	const buttonWooLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/black-friday-modal-ecommerce/" ), [] );
 
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
@@ -113,7 +143,7 @@ export const BlackFridayAnnouncement = () => {
 	return (
 		<Modal>
 			<BlackFridayAnnouncementContent
-				buttonLink={ joinWishlistLink }
+				buttonLink={ isWooEnabled ? buttonWooLink : buttonPremiumLink }
 				thumbnail={ thumbnail }
 				isWooEnabled={ isWooEnabled }
 			/>
