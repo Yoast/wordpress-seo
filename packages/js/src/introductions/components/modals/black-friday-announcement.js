@@ -42,7 +42,7 @@ const BlackFridayAnnouncementContent = ( {
 		return isWooEnabled ? "yst-woo-introduction-gradient" : "yst-introduction-gradient";
 	}, [ isWooEnabled ] );
 
-	const ctb = useMemo( () => {
+	const ctbId = useMemo( () => {
 		return isWooEnabled ? "c7e7baa1-2020-420c-a427-89701700b607" : "f6a84663-465f-4cb5-8ba5-f7a6d72224b2";
 	}, [ isWooEnabled ] );
 
@@ -107,7 +107,7 @@ const BlackFridayAnnouncementContent = ( {
 						target="_blank"
 						ref={ initialFocus }
 						data-action="load-nfd-ctb"
-						data-ctb-id={ ctb }
+						data-ctb-id={ ctbId }
 					>
 						<LockOpenIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5" />
 						{ buttonLabel }
