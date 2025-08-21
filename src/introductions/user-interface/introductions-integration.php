@@ -174,8 +174,8 @@ class Introductions_Integration implements Integration_Interface {
 			return;
 		}
 
-		// Find the introduction with the lowest priority, because JS will only show that one.
-		$lowest_priority_intro = \array_reduce(
+		// Find the introduction with the highest priority, because JS will only show that one.
+		$highest_priority_intro = \array_reduce(
 			$introductions,
 			static function ( $carry, $item ) {
 				return ( $carry === null || $item['priority'] < $carry['priority'] ) ? $item : $carry;
@@ -183,12 +183,12 @@ class Introductions_Integration implements Integration_Interface {
 			null
 		);
 
-		if ( $lowest_priority_intro === null ) {
+		if ( $highest_priority_intro === null ) {
 			return;
 		}
 
-		// Mark the introduction with the lowest priority as seen.
-		$metadata[ $lowest_priority_intro['id'] ] = true;
+		// Mark the introduction with the highest priority as seen.
+		$metadata[ $highest_priority_intro['id'] ] = true;
 
 		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
