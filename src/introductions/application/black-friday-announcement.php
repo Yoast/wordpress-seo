@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
  */
 class Black_Friday_Announcement implements Introduction_Interface {
 
-	use User_Allowed_Trait;
-
 	public const ID = 'black-friday-announcement';
 
 	/**
