@@ -1,13 +1,5 @@
-import {
-	adminUrlActions,
-	linkParamsActions,
-	pluginUrlActions,
-	wistiaEmbedPermissionActions,
-	documentTitleActions,
-	currentPromotionsActions,
-} from "../../shared-admin/store";
+import { adminUrlActions, linkParamsActions, pluginUrlActions, wistiaEmbedPermissionActions, documentTitleActions } from "../../shared-admin/store";
 
-export const { setCurrentPromotions } = currentPromotionsActions;
 export const { setAdminUrl } = adminUrlActions;
 export const { setLinkParams } = linkParamsActions;
 export const { setPluginUrl } = pluginUrlActions;
@@ -28,6 +20,7 @@ export {
 	setInclusiveLanguageResults,
 } from "./contentAnalysis";
 export * from "./cornerstoneContent";
+export * from "./currentPromotions";
 export * from "./editorData";
 export * from "./editorModals";
 export * from "./focusKeyword";

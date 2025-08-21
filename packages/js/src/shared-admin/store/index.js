@@ -5,4 +5,3 @@ export * from "./notifications";
 export * from "./plugin-url";
 export * from "./wistia-embed-permission";
 export * from "./document-title";
-export * from "./current-promotions";

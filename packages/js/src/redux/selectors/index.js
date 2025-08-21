@@ -1,11 +1,4 @@
-import {
-	adminUrlSelectors,
-	documentTitleSelectors,
-	linkParamsSelectors,
-	pluginUrlSelectors,
-	wistiaEmbedPermissionSelectors,
-	currentPromotionsSelectors,
-} from "../../shared-admin/store";
+import { adminUrlSelectors, documentTitleSelectors, linkParamsSelectors, pluginUrlSelectors, wistiaEmbedPermissionSelectors } from "../../shared-admin/store";
 
 export const { selectAdminUrl, selectAdminLink } = adminUrlSelectors;
 export const { selectLinkParams, selectLinkParam, selectLink } = linkParamsSelectors;
@@ -17,13 +10,13 @@ export const {
 	selectWistiaEmbedPermissionStatus,
 	selectWistiaEmbedPermissionError,
 } = wistiaEmbedPermissionSelectors;
-export const { isPromotionActive } = currentPromotionsSelectors;
 export * from "../../insights/redux/selectors";
 export * from "./AIButton";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
 export * from "./checklist";
+export * from "./currentPromotions";
 export * from "./editorContext";
 export * from "./editorData";
 export * from "./editorModals";
