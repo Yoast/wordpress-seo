@@ -107,7 +107,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
 		}
 
-		\wp_safe_redirect( $link );
+		\wp_redirect( $link );//phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Safe redirect is used here.
 		exit;
 	}
 }
