@@ -133,6 +133,8 @@ class Indexable_Term_Builder {
 
 		$indexable->version = $this->version;
 
+		$indexable->post_count = $term->count;
+
 		return $indexable;
 	}
 
