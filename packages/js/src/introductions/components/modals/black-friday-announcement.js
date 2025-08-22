@@ -142,8 +142,8 @@ export const BlackFridayAnnouncement = () => {
 
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
-		width: "450",
-		height: "253",
+		width: "432",
+		height: "243",
 	} ), [ imageLink ] );
 
 	return (
