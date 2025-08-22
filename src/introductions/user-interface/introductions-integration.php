@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\Current_Page_Trait;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
+use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 
 /**
@@ -152,13 +153,13 @@ class Introductions_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	private function update_user_introductions( $user_id, $introductions ) {
-		$metadata = $this->user_helper->get_meta( $user_id, '_yoast_wpseo_introductions', true );
+		$metadata = $this->user_helper->get_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, true );
 		if ( ! \is_array( $metadata ) ) {
 			$metadata = [];
 		}
 		foreach ( $introductions as $introduction ) {
 			$metadata[ $introduction['id'] ] = true;
 		}
-		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_introductions', $metadata );
+		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }
