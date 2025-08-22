@@ -40,7 +40,6 @@
 
 	.yst-ai-insights-waitlist-button {
 		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
-		font-weight: 400 !important;
 		color: white !important;
 
 		&:hover {
