@@ -6,6 +6,7 @@ use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -43,20 +44,30 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WooCommerce_Conditional $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Shortlinker       $shortlinker             The shortlinker.
 	 * @param Product_Helper          $product_helper          The product helper.
+	 * @param Current_Page_Helper     $current_page_helper     The current page helper.
 	 */
 	public function __construct(
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Shortlinker $shortlinker,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Current_Page_Helper $current_page_helper
 	) {
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->shortlinker             = $shortlinker;
 		$this->product_helper          = $product_helper;
+		$this->current_page_helper     = $current_page_helper;
 	}
 
 	/**
@@ -70,6 +81,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 		// Add page with PHP_INT_MAX so its always the last item.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
 		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
+		\add_action( 'admin_init', [ $this, 'do_redirect' ], 1 );
 	}
 
 	/**
@@ -88,7 +100,9 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 				'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . \__( 'Upgrade', 'wordpress-seo' ) . ' </span></span>',
 				'wpseo_manage_options',
 				self::PAGE,
-				[ $this, 'do_redirect' ],
+				static function () {
+					echo 'redirecting...';
+				},
 			];
 		}
 
@@ -100,8 +114,11 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function do_redirect() {
+	public function do_redirect(): void {
 
+		if ( $this->current_page_helper->get_current_yoast_seo_page() !== self::PAGE ) {
+			return;
+		}
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-premium' );
 		if ( $this->woocommerce_conditional->is_met() ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
