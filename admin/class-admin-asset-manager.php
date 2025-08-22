@@ -411,7 +411,6 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'analysis',
-				self::PREFIX . 'react-select',
 				self::PREFIX . 'components-new-package',
 			],
 			'version' => $scripts['workouts']['version'],

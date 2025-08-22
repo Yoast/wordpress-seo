@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { ReactComponent as AiSparkleIcon } from "../../../../../images/ai-sparkle.svg";
+import { SparklesIcon } from "@heroicons/react/outline";
 
 /**
  * @param {Object} thumbnail The thumbnail: img props.
@@ -56,14 +56,14 @@ export const AiBrandInsightsPreLaunch = ( {
 				<div className="yst-w-full yst-flex yst-mt-6">
 					<Button
 						as="a"
-						className="yst-grow yst-gap-2 yst-border-slate-200 yst-ai-insights-waitlist-button"
+						className="yst-grow yst-border-slate-200 yst-ai-insights-waitlist-button"
 						size="extra-large"
 						variant="upsell"
 						href={ buttonLink }
 						target="_blank"
 						ref={ initialFocus }
 					>
-						<AiSparkleIcon className="yst-mt-[1px]" />
+						<SparklesIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-white" />
 						{ buttonLabel }
 						<span className="yst-sr-only">
 							{
