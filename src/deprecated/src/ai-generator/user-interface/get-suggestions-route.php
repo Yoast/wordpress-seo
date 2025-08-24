@@ -18,6 +18,9 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get suggestions from the AI API
  *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ *
  * @makePublic
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -51,9 +54,13 @@ class Get_Suggestions_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::get_conditionals' );
 		return [ AI_Conditional::class ];
 	}
 
@@ -69,9 +76,13 @@ class Get_Suggestions_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_routes() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::register_routes' );
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,
 			self::ROUTE_PREFIX,
@@ -138,11 +149,15 @@ class Get_Suggestions_Route implements Route_Interface {
 	/**
 	 * Runs the callback to get AI-generated suggestions.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The response of the get_suggestions action.
 	 */
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::get_suggestions' );
 		try {
 			$user = \wp_get_current_user();
 			$data = $this->suggestions_provider->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );

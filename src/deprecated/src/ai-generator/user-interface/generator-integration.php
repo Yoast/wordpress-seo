@@ -19,6 +19,9 @@ use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
  * Generator_Integration class.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
  */
 class Generator_Integration implements Integration_Interface {
 
@@ -88,9 +91,13 @@ class Generator_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_conditionals' );
 		return [ AI_Conditional::class, AI_Editor_Conditional::class ];
 	}
 
@@ -134,9 +141,13 @@ class Generator_Integration implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_hooks() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::register_hooks' );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		// Enqueue after Elementor_Premium integration, which re-registers the assets.
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
@@ -145,9 +156,13 @@ class Generator_Integration implements Integration_Interface {
 	/**
 	 * Gets the subscription status for Yoast SEO Premium and Yoast WooCommerce SEO.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string, bool>
 	 */
 	public function get_product_subscriptions() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_product_subscriptions' );
 		return [
 			'premiumSubscription'     => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
 			'wooCommerceSubscription' => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
@@ -157,9 +172,13 @@ class Generator_Integration implements Integration_Interface {
 	/**
 	 * Returns the data that should be passed to the script.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string|array<string>>
 	 */
 	public function get_script_data() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_script_data' );
 		$user_id = $this->user_helper->get_current_user_id();
 
 		$endpoints = $this->generator_endpoints_repository->get_all_endpoints()
@@ -179,9 +198,13 @@ class Generator_Integration implements Integration_Interface {
 	/**
 	 * Enqueues the required assets.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function enqueue_assets() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::enqueue_assets' );
 
 		$this->asset_manager->enqueue_script( 'ai-generator' );
 		$this->asset_manager->localize_script( 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );
