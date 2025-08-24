@@ -15,10 +15,19 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
+/**
+ * Request handler interface.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ */
 interface Request_Handler_Interface {
 
 	/**
 	 * Executes the request to the API.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.
 	 *

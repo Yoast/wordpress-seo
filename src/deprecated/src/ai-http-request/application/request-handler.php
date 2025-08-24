@@ -21,6 +21,9 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  * Class Request_Handler
  * Handles the request to Yoast AI API.
  *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ *
  * @makePublic
  */
 class Request_Handler implements Request_Handler_Interface {
@@ -44,10 +47,14 @@ class Request_Handler implements Request_Handler_Interface {
 	/**
 	 * Request_Handler constructor.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param API_Client      $api_client      The API client.
 	 * @param Response_Parser $response_parser The response parser.
 	 */
 	public function __construct( API_Client $api_client, Response_Parser $response_parser ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct' );
 		$this->api_client      = $api_client;
 		$this->response_parser = $response_parser;
 	}
@@ -56,6 +63,9 @@ class Request_Handler implements Request_Handler_Interface {
 
 	/**
 	 * Executes the request to the API.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.
 	 *
@@ -73,6 +83,7 @@ class Request_Handler implements Request_Handler_Interface {
 	 * @throws WP_Request_Exception When the request fails for any other reason.
 	 */
 	public function handle( Request $request ): Response {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle' );
 				$api_response = $this->api_client->perform_request(
 					$request->get_action_path(),
 					$request->get_body(),
