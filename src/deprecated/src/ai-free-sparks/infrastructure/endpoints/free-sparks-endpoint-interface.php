@@ -5,4 +5,10 @@ namespace Yoast\WP\SEO\AI_Free_Sparks\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 
+/**
+ * Interface for the Free Sparks endpoint.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ */
 interface Free_Sparks_Endpoint_Interface extends Endpoint_Interface {}
