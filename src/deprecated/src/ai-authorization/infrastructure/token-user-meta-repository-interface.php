@@ -5,11 +5,17 @@ namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 /**
  * Interface Token_Repository_Interface
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
  */
 interface Token_User_Meta_Repository_Interface {
 
 	/**
 	 * Get the token for a user.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -20,6 +26,9 @@ interface Token_User_Meta_Repository_Interface {
 	/**
 	 * Store the token for a user.
 	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $value   The token value.
 	 *
@@ -29,6 +38,9 @@ interface Token_User_Meta_Repository_Interface {
 
 	/**
 	 * Delete the token for a user.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *
