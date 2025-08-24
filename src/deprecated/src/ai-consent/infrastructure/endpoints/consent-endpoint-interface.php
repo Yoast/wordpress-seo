@@ -5,4 +5,10 @@ namespace Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 
+/**
+ * Interface for the Consent endpoint.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ */
 interface Consent_Endpoint_Interface extends Endpoint_Interface {}
