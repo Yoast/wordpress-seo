@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 
 /**
  * Class to manage a 404 - not found response.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
  */
 class Not_Found_Exception extends Remote_Request_Exception {
 
