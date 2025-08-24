@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 /**
  * Interface Access_Token_User_Meta_Repository_Interface
  *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 interface Access_Token_User_Meta_Repository_Interface extends Token_User_Meta_Repository_Interface {
