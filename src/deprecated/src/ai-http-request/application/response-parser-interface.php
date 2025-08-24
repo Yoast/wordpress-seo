@@ -5,10 +5,19 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
+/**
+ * Response parser interface.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ */
 interface Response_Parser_Interface {
 
 	/**
 	 * Parses the response from the API.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array<int|string|array<string>> $response The response from the API.
 	 *
