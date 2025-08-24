@@ -6,6 +6,9 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 /**
  * Class to manage a 429 - Too many requests response.
  *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Too_Many_Requests_Exception extends Payment_Required_Exception {
