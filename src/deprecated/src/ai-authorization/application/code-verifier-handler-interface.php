@@ -9,11 +9,17 @@ use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
  * Interface Code_Verifier_Handler_Interface
  *
  * This interface defines the methods for handling code verifier.
+ *
+ * @deprecated 26.0
+ * @codeCoverageIgnore
  */
 interface Code_Verifier_Handler_Interface {
 
 	/**
 	 * Generate a code verifier for a user.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_email The user email.
 	 *
@@ -23,6 +29,9 @@ interface Code_Verifier_Handler_Interface {
 
 	/**
 	 * Validate the code verifier for a user.
+	 *
+	 * @deprecated 26.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *
