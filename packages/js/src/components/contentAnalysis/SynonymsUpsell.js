@@ -11,7 +11,7 @@ export const SynonymsUpsell = ( { location } ) => {
 		<button
 			type="button"
 			onClick={ openModal }
-			className="button-link"
+			className="button-link yst-block"
 			id="yoast-keyword-synonyms-button"
 		>
 			{ `+ ${ __( "Add synonyms", "wordpress-seo" ) }` }
