@@ -10,11 +10,8 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { ModalSmallContainer } from "../modals/Container";
 import { SynonymsUpsell } from "./SynonymsUpsell";
-import { defaultModalClassName } from "../modals/Modal";
-import MultipleKeywords from "../modals/MultipleKeywords";
-import Modal from "../modals/SeoAnalysisModal";
+import { MultipleKeywordsUpsell } from "./MultipleKeywordsUpsell";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
@@ -33,42 +30,6 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
-	/**
-	 * Renders the multiple keywords upsell modal.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 * @param {string} locationContext In which editor this component is rendered.
-	 *
-	 * @returns {JSX.Element} A modalButtonContainer component with the modal for a multiple keywords upsell.
-	 */
-	renderMultipleKeywordsUpsell( location, locationContext ) {
-		const modalProps = {
-			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
-			classes: {
-				openButton: "wpseo-multiple-keywords button-link",
-			},
-			labels: {
-				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
-				modalAriaLabel: __( "Add related keyphrases", "wordpress-seo" ),
-				heading: __( "Add related keyphrases", "wordpress-seo" ),
-			},
-		};
-
-		const buyLink = wpseoAdminL10n[
-			location.toLowerCase() === "sidebar"
-				? "shortlinks.upsell.sidebar.focus_keyword_additional_button"
-				: "shortlinks.upsell.metabox.focus_keyword_additional_button"
-		];
-
-		return (
-			<Modal { ...modalProps }>
-				<ModalSmallContainer>
-					<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalSmallContainer>
-			</Modal>
-		);
-	}
-
 	/**
 	 * Renders the AnalysisUpsell component.
 	 *
@@ -226,7 +187,7 @@ class SeoAnalysis extends Component {
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
 												<SynonymsUpsell location={ location } />
-												{ this.renderMultipleKeywordsUpsell( location, locationContext ) }
+												<MultipleKeywordsUpsell location={ location } locationContext={ locationContext } />
 											</Fragment> }
 											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
 											<AnalysisHeader>
