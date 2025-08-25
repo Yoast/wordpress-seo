@@ -207,6 +207,7 @@ Release date: 2025-08-26
 
 #### Other
 
+* Improves response validation of the Yoast license check. Props to [aryanjasala](https://github.com/aryanjasala).
 * Fixes a console warning message triggered by the introductions in the Yoast admin page.
 * Updates ads to reflect the new pricing scheme.
 
