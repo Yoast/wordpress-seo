@@ -57,7 +57,7 @@ export const UpsellModal = ( {
 					</div> }
 					<div className="yst-py-6 yst-px-12">
 						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm">{ title }</Title>
-						<p>{ description }</p>
+						<p className="yst-mb-2">{ description }</p>
 						{ benefits.length > 0 &&
 						<ul className="yst-my-2">
 							{ benefits.map( ( benefit, index ) => {
