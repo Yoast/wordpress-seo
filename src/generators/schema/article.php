@@ -227,7 +227,13 @@ class Article extends Abstract_Schema_Piece {
 			$characters  = \preg_split( '//u', $characters, -1, \PREG_SPLIT_NO_EMPTY );
 			$characters  = \array_unique( $characters );
 			$characters  = \implode( '', $characters );
-			$characters .= \mb_strtoupper( $characters );
+
+            // Handle mbstring edge case
+            if ( \function_exists( 'mb_strtoupper' ) ) {
+                $characters .= \mb_strtoupper( $characters );
+            } else {
+                $characters .= \strtoupper( $characters );
+            }
 		}
 
 		// Remove characters from HTML entities.
