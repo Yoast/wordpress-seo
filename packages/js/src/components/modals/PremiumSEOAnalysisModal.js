@@ -60,6 +60,11 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 					"Yoast SEO Premium"
 				)
 			}
+			modalTitle={ sprintf(
+				/* translators: %1$s is for Premium SEO analysis. */
+				__( "Unlock %1$s", "wordpress-seo" ),
+				"Premium SEO analysis"
+			) }
 		/>
 	);
 };

@@ -18,6 +18,7 @@ import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
  * @param {string} note The note to display in the upsell box.
  * @param {string} ctbId The ID of the call-to-action button.
  * @param {string} buttonLabel The label of the call-to-action button.
+ * @param {string} modalTitle The title of the modal.
  *
  * @returns {JSX.Element} The rendered upsell modal.
  */
@@ -32,6 +33,7 @@ export const UpsellModal = ( {
 	note = "",
 	ctbId = "",
 	buttonLabel,
+	modalTitle,
 } ) => {
 	const isBlackFriday = select( STORE_NAME_EDITOR ).isPromotionActive( "black-friday-promotion" );
 	return <Modal
@@ -44,7 +46,7 @@ export const UpsellModal = ( {
 				<Modal.Container.Header className="yst-py-6 yst-text-center yst-border-b-slate-200 yst-border-b">
 					<YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5 yst-absolute yst-top-7 yst-start-6" />
 					<Modal.Title as="h3" className="yst-text-xl yst-text-primary-500 ">
-						{ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
+						{ modalTitle }
 					</Modal.Title>
 					<Modal.CloseButton className="yst-top-2.5" onClick={ onClose } screenReaderText={ __( "Close modal", "wordpress-seo" ) } />
 				</Modal.Container.Header>
