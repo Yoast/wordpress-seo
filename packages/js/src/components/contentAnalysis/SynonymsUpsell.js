@@ -12,7 +12,7 @@ export const SynonymsUpsell = ( { location } ) => {
 			type="button"
 			onClick={ openModal }
 			className="button-link yst-block"
-			id="yoast-keyword-synonyms-button"
+			id={ `yoast-keyword-synonyms-button-${location}` }
 		>
 			{ `+ ${ __( "Add synonyms", "wordpress-seo" ) }` }
 		</button>
@@ -20,7 +20,7 @@ export const SynonymsUpsell = ( { location } ) => {
 			isOpen={ isOpen }
 			closeModal={ closeModal }
 			upsellLink={ buyLink }
-			id="yoast-synonyms-upsell-modal"
+			id={ `yoast-synonyms-upsell-modal-${location}` }
 		/>
 	</>;
 };

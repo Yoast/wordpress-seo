@@ -71,7 +71,7 @@ export const UpsellModal = ( {
 						{ benefits.length > 0 &&
 						<ul className="yst-my-2">
 							{ benefits.map( ( benefit, index ) => {
-								return <li key={ `upsell-benefit-${ index }` } className="yst-flex yst-gap-1 yst-mb-2">
+								return <li key={ `${id}-upsell-benefit-${ index }` } className="yst-flex yst-gap-1 yst-mb-2">
 									<CheckIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0 yst-inline yst-text-green-600" />
 									<p className="yst-text-slate-600">{ benefit }</p>
 								</li>;
