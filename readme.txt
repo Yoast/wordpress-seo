@@ -201,6 +201,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-08-26
 
+Yoast SEO 25.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Changes the AI generator button label and design.
