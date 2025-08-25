@@ -53,13 +53,6 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 			benefits={ benefits }
 			note={ __( "Upgrade to optimize with precision", "wordpress-seo" ) }
 			ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-			buttonLabel={
-				sprintf(
-					/* translators: %1$s is for Yoast SEO Premium. */
-					__( "Explore %1$s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				)
-			}
 			modalTitle={ sprintf(
 				/* translators: %1$s is for Premium SEO analysis. */
 				__( "Unlock %1$s", "wordpress-seo" ),

@@ -3,7 +3,7 @@ import { Button, Modal, Title } from "@yoast/ui-library";
 import { ReactComponent as YoastLogo } from "../../../images/Yoast_icon_kader.svg";
 import { select } from "@wordpress/data";
 import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
@@ -19,7 +19,6 @@ import classNames from "classnames";
  * @param {string[]} benefits The benefits of the upsell box.
  * @param {string} note The note to display in the upsell box.
  * @param {string} ctbId The ID of the call-to-action button.
- * @param {string} buttonLabel The label of the call-to-action button.
  * @param {string} modalTitle The title of the modal.
  *
  * @returns {JSX.Element} The rendered upsell modal.
@@ -34,7 +33,6 @@ export const UpsellModal = ( {
 	benefits = [],
 	note = "",
 	ctbId = "",
-	buttonLabel,
 	modalTitle,
 } ) => {
 	const isBlackFriday = select( STORE_NAME_EDITOR ).isPromotionActive( "black-friday-promotion" );
@@ -88,7 +86,11 @@ export const UpsellModal = ( {
 								data-ctb-id={ ctbId }
 							>
 								<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
-								{ buttonLabel }
+								{ sprintf(
+									/* translators: %s expands to 'Yoast SEO Premium' or 'Yoast Woocommerce SEO'. */
+									__( "Unlock with %s", "wordpress-seo" ),
+									isWooCommerceActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+								) }
 								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
 							</Button>
 							<div>{ note }</div>
