@@ -10,9 +10,8 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
  * Base class for assets enqueuing.
  *
  * @group ai-generator
- *
  */
- abstract class Base_Assets_Test extends Abstract_Generator_Integration_Test {
+abstract class Base_Assets_Test extends Abstract_Generator_Integration_Test {
 
 	/**
 	 * Mock for the generator endpoint list.
