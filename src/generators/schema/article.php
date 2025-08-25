@@ -228,10 +228,11 @@ class Article extends Abstract_Schema_Piece {
 			$characters  = \array_unique( $characters );
 			$characters  = \implode( '', $characters );
 
-            // Handle mbstring edge case
+            // Handle mbstring edge case.
             if ( \function_exists( 'mb_strtoupper' ) ) {
                 $characters .= \mb_strtoupper( $characters );
-            } else {
+            }
+            else {
                 $characters .= \strtoupper( $characters );
             }
 		}
