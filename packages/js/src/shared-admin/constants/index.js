@@ -23,3 +23,9 @@ export const VIDEO_FLOW = {
 };
 
 export const FETCH_DELAY = 200;
+
+/**
+ * The Redux store name of the editor.
+ * @type {string}
+ */
+export const STORE_NAME_EDITOR = "yoast-seo/editor";

@@ -11,7 +11,7 @@ import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { ModalSmallContainer } from "../modals/Container";
-import KeywordSynonyms from "../modals/KeywordSynonyms";
+import { SynonymsUpsell } from "./SynonymsUpsell";
 import { defaultModalClassName } from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import Modal from "../modals/SeoAnalysisModal";
@@ -33,42 +33,6 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
-	/**
-	 * Renders the keyword synonyms upsell modal.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 * @param {string} locationContext In which editor this component is rendered.
-	 *
-	 * @returns {JSX.Element} A modalButtonContainer component with the modal for a keyword synonyms upsell.
-	 */
-	renderSynonymsUpsell( location, locationContext ) {
-		const modalProps = {
-			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
-			classes: {
-				openButton: "wpseo-keyword-synonyms button-link",
-			},
-			labels: {
-				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				modalAriaLabel: __( "Add synonyms", "wordpress-seo" ),
-				heading: __( "Add synonyms", "wordpress-seo" ),
-			},
-		};
-
-		const buyLink = wpseoAdminL10n[
-			location.toLowerCase() === "sidebar"
-				? "shortlinks.upsell.sidebar.focus_keyword_synonyms_button"
-				: "shortlinks.upsell.metabox.focus_keyword_synonyms_button"
-		];
-
-		return (
-			<Modal { ...modalProps }>
-				<ModalSmallContainer>
-					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalSmallContainer>
-			</Modal>
-		);
-	}
-
 	/**
 	 * Renders the multiple keywords upsell modal.
 	 *
@@ -261,7 +225,7 @@ class SeoAnalysis extends Component {
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
-												{ this.renderSynonymsUpsell( location, locationContext ) }
+												<SynonymsUpsell location={ location } />
 												{ this.renderMultipleKeywordsUpsell( location, locationContext ) }
 											</Fragment> }
 											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
