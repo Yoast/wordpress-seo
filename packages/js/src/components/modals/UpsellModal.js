@@ -5,6 +5,8 @@ import { select } from "@wordpress/data";
 import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 import { __ } from "@wordpress/i18n";
 import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
+import { ShoppingCartIcon } from "@heroicons/react/solid";
+import classNames from "classnames";
 
 /**
  *
@@ -36,6 +38,7 @@ export const UpsellModal = ( {
 	modalTitle,
 } ) => {
 	const isBlackFriday = select( STORE_NAME_EDITOR ).isPromotionActive( "black-friday-promotion" );
+	const isWooCommerceActive = select( STORE_NAME_EDITOR ).getIsWooCommerceActive();
 	return <Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
@@ -43,12 +46,19 @@ export const UpsellModal = ( {
 	>
 		<Modal.Panel className="yst-max-w-[26.25rem] yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
-				<Modal.Container.Header className="yst-py-6 yst-text-center yst-border-b-slate-200 yst-border-b">
-					<YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5 yst-absolute yst-top-7 yst-start-6" />
-					<Modal.Title as="h3" className="yst-text-xl yst-text-primary-500 ">
+				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-4 yst-items-center">
+					{ isWooCommerceActive ? <ShoppingCartIcon className="yst-text-woo-light yst-w-6 yst-h-6 yst-scale-x-[-1]" />
+						: <YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5" /> }
+					<Modal.Title
+						as="h3" className={
+							classNames(
+								isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500",
+								"yst-text-xl"
+							) }
+					>
 						{ modalTitle }
 					</Modal.Title>
-					<Modal.CloseButton className="yst-top-2.5" onClick={ onClose } screenReaderText={ __( "Close modal", "wordpress-seo" ) } />
+					<Modal.CloseButton className="yst-top-2" onClick={ onClose } screenReaderText={ __( "Close modal", "wordpress-seo" ) } />
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-p-0">
 					{ isBlackFriday &&
@@ -56,7 +66,7 @@ export const UpsellModal = ( {
 						<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
 					</div> }
 					<div className="yst-py-6 yst-px-12">
-						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm">{ title }</Title>
+						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-normal">{ title }</Title>
 						<p className="yst-mb-2">{ description }</p>
 						{ benefits.length > 0 &&
 						<ul className="yst-my-2">
