@@ -19,7 +19,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
-import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
+import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
@@ -94,7 +94,7 @@ export default function MetaboxFill( { settings } ) {
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
+						{ settings.shouldUpsell && <PremiumSEOAnalysisUpsell location="metabox" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
