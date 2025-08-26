@@ -65,7 +65,7 @@ export default function MetaboxFill( { settings } ) {
 					renderPriority={ 2 }
 				>
 					{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
-					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
+					<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
