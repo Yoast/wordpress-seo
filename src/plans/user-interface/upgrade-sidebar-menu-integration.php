@@ -9,6 +9,7 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Adds the plans page to the Yoast admin menu.
@@ -51,23 +52,33 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	private $current_page_helper;
 
 	/**
+	 * The promotion manager.
+	 *
+	 * @var Promotion_Manager
+	 */
+	private $promotion_manager;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WooCommerce_Conditional $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Shortlinker       $shortlinker             The shortlinker.
 	 * @param Product_Helper          $product_helper          The product helper.
 	 * @param Current_Page_Helper     $current_page_helper     The current page helper.
+	 * @param Promotion_Manager       $promotion_manager       The promotion manager.
 	 */
 	public function __construct(
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Shortlinker $shortlinker,
 		Product_Helper $product_helper,
-		Current_Page_Helper $current_page_helper
+		Current_Page_Helper $current_page_helper,
+		Promotion_Manager $promotion_manager
 	) {
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->shortlinker             = $shortlinker;
 		$this->product_helper          = $product_helper;
 		$this->current_page_helper     = $current_page_helper;
+		$this->promotion_manager       = $promotion_manager;
 	}
 
 	/**
@@ -93,11 +104,17 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 */
 	public function add_page( $pages ) {
 
+		$button_label = \__( 'Upgrade', 'wordpress-seo' );
+
+		if ( $this->promotion_manager->is( 'black-friday-promotion' ) ) {
+			$button_label = \__( '30% off - BF Sale', 'wordpress-seo' );
+		}
+
 		if ( ! $this->product_helper->is_premium() ) {
 			$pages[] = [
 				General_Page_Integration::PAGE,
 				'',
-				'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . \__( 'Upgrade', 'wordpress-seo' ) . ' </span></span>',
+				'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . $button_label . ' </span></span>',
 				'wpseo_manage_options',
 				self::PAGE,
 				static function () {
