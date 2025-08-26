@@ -4,7 +4,7 @@ import { useSelect, dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import PropTypes from "prop-types";
-import { Button, Badge } from "@yoast/ui-library";
+import { Button, Badge, useSvgAria } from "@yoast/ui-library";
 import { XIcon, ArrowNarrowRightIcon, ShoppingCartIcon } from "@heroicons/react/solid";
 import { useCallback } from "@wordpress/element";
 import { ReactComponent as CrownIcon } from "../../images/icon-crown.svg";
@@ -15,7 +15,6 @@ import classNames from "classnames";
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
- * @param {Object} props The props.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
@@ -35,6 +34,7 @@ export const BlackFridayPromotion = ( {
 		dispatch( store ).dismissAlert( alertKey );
 	}, [ store, alertKey ] );
 	const upsellLink = addQueryArgs( "https://yoa.st/black-friday-sale", linkParams );
+	const svgAriaProps = useSvgAria();
 
 	if ( isPremium ) {
 		return null;
@@ -69,8 +69,8 @@ export const BlackFridayPromotion = ( {
 						</div>
 						<div className="yst-flex yst-gap-2 yst-font-semibold yst-text-tiny">
 							{ isWooCommerceActive
-								? <>Yoast WooCommerce SEO <ShoppingCartIcon className="yst-w-4 yst-scale-x-[-1]" /></>
-								: <> Yoast SEO Premium <CrownIcon className="yst-w-4" /></> }
+								? <>Yoast WooCommerce SEO <ShoppingCartIcon className="yst-w-4 yst-scale-x-[-1]" { ...svgAriaProps } /></>
+								: <> Yoast SEO Premium <CrownIcon className="yst-w-4" { ...svgAriaProps } /></> }
 						</div>
 					</div>
 					<div className="yst-flex yst-items-end">
@@ -85,7 +85,7 @@ export const BlackFridayPromotion = ( {
 							rel="noreferrer"
 						>
 							{ __( "Buy now!", "wordpress-seo" ) }
-							<ArrowNarrowRightIcon className="yst-w-4 rtl:yst-rotate-180" />
+							<ArrowNarrowRightIcon className="yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 						</Button>
 					</div>
 				</div>
