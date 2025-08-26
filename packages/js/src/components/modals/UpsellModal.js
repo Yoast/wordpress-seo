@@ -2,11 +2,16 @@
 import { Button, Modal, Title } from "@yoast/ui-library";
 import { ReactComponent as YoastLogo } from "../../../images/Yoast_icon_kader.svg";
 import { select } from "@wordpress/data";
-import { STORE_NAME_EDITOR } from "../../shared-admin/constants";
 import { __, sprintf } from "@wordpress/i18n";
 import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
+
+/**
+ * The Redux store name of the editor.
+ * @type {string}
+ */
+export const STORE_NAME_EDITOR = "yoast-seo/editor";
 
 /**
  *
