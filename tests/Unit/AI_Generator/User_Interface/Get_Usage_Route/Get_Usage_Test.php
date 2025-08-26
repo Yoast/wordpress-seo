@@ -151,7 +151,6 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 
 		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$request_exception = Mockery::mock( Too_Many_Requests_Exception::class );
-		$http_response     = Mockery::mock( Response::class );
 
 		$this->token_manager
 			->expects( 'get_or_request_access_token' )
