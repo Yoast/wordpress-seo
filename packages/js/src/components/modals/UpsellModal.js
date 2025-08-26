@@ -88,7 +88,7 @@ export const UpsellModal = ( {
 								<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 								{ sprintf(
 									/* translators: %s expands to 'Yoast SEO Premium' or 'Yoast Woocommerce SEO'. */
-									__( "Unlock with %s", "wordpress-seo" ),
+									__( "Explore %s", "wordpress-seo" ),
 									isWooCommerceActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 								) }
 								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
