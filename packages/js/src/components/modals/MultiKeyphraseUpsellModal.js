@@ -4,12 +4,14 @@ import { UpsellModal } from "../modals/UpsellModal";
 /**
  * MultiKeyphraseUpsellModal component.
  *
+ * @param {boolean} isOpen If the modal is open.
+ * @param {function} closeModal The function to close the modal.
+ * @param {string} id The ID of the modal.
+ * @param {string} upsellLink The upsell link.
  *
  * @returns {JSX.Element} The rendered modal.
  */
-export const MultiKeyphraseUpsellModal = ( {
-	isOpen, closeModal, id, upsellLink,
-} ) => {
+export const MultiKeyphraseUpsellModal = ( { isOpen, closeModal, id, upsellLink } ) => {
 	return <UpsellModal
 		isOpen={ isOpen }
 		onClose={ closeModal }

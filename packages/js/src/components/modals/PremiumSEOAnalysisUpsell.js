@@ -10,9 +10,11 @@ import SidebarButton from "../SidebarButton";
 import { PremiumSEOAnalysisModal } from "./PremiumSEOAnalysisModal";
 
 /**
- * The Premium SEO Analysis Modal.
+ * The Premium SEO Analysis Upsell.
  *
- * @returns {JSX.Element} The Premium SEO Analysis Modal.
+ * @param {string} location The location where the button is shown. Either "sidebar" or "metabox". Default is "sidebar".
+ *
+ * @returns {JSX.Element} The Premium SEO Analysis upsell.
  */
 const PremiumSEOAnalysisUpsell = ( { location = "sidebar" } ) => {
 	const svgAriaProps = useSvgAria();
