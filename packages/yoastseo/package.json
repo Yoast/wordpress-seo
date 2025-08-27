@@ -32,7 +32,10 @@
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 19"
+    "lint": "eslint . --max-warnings 19",
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch",
+    "watch:types": "tsc --watch"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -60,7 +63,7 @@
     "url": "https://github.com/Yoast/wordpress-seo/issues"
   },
   "dependencies": {
-    "@wordpress/i18n": "^5.11.0",
+    "@wordpress/i18n": "^5.8.2",
     "@yoast/feature-flag": "^0.6.0-alpha.1",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",

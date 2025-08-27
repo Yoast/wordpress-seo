@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Introductions\Application\AI_Fix_Assessments_Upsell;
+use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
 use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**

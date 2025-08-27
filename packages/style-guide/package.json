@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/wordpress-seo",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/style-guide"
   },
   "author": "Yoast",
@@ -19,7 +19,9 @@
     "build": "yarn clean && yarn build:js && yarn build:json",
     "build:js": "babel src --out-dir build",
     "build:json": "cp src/*.json build/",
-    "clean": "rm -rf build"
+    "clean": "rm -rf build",
+    "watch": "yarn clean && yarn watch:js && yarn build:json",
+    "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

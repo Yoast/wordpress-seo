@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.7
+Stable tag: 25.8
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -197,9 +197,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 25.9 =
+
+Release date: 2025-09-09
+
+#### Enhancements
+
+* Enhances the UX of the llms.txt feature by displaying errors with generating the llms.txt file in the relevant settings page.
+* Improves the UX of onboarding new users by preventing irrelevant modals from displaying in the First Time Configuration.
+
 = 25.8 =
 
 Release date: 2025-08-26
+
+Yoast SEO 25.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
@@ -207,27 +218,9 @@ Release date: 2025-08-26
 
 #### Other
 
+* Improves response validation of the Yoast license check. Props to [aryanjasala](https://github.com/aryanjasala).
 * Fixes a console warning message triggered by the introductions in the Yoast admin page.
 * Updates ads to reflect the new pricing scheme.
-
-= 25.7 =
-
-Release date: 2025-08-12
-
-Yoast SEO 25.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Re-generates the llms.txt file immediately when there's any change in the selection of the pages to be included.
-
-#### Bugfixes
-
-* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error in cases where the rate limit for AI Generate was reached before the free sparks limit.
-
-#### Other
-
-* Adds an announcement for the upcoming AI Brand Insights feature.
-* Sets the minimum supported WordPress version to 6.7.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

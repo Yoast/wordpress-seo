@@ -50,7 +50,6 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"faq-block": `${ sourceDirectory }/structured-data-blocks/faq/block.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,
-	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 	"ai-generator": `${ sourceDirectory }/ai-generator/initialize.js`,
