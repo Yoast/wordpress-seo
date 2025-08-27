@@ -203,12 +203,8 @@ Release date: 2025-09-09
 
 #### Enhancements
 
-* Improves the UX of onboarding new users by preventing irrelevant modals from displaying in the First Time Configuration.
 * Enhances the UX of the llms.txt feature by displaying errors with generating the llms.txt file in the relevant settings page.
-
-#### Bugfixes
-
-* Fixes a bug where users could not enter leading zeros in HowTo block time duration fields when specifying cooking or preparation times.
+* Improves the UX of onboarding new users by preventing irrelevant modals from displaying in the First Time Configuration.
 
 = 25.8 =
 
