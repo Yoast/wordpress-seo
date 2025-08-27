@@ -18,7 +18,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$title = \__( 'BLACK FRIDAY | 30% OFF', 'wordpress-seo' );
+		$title = \__( '30% OFF - BLACK FRIDAY', 'wordpress-seo' );
 
 		$assets_uri            = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$is_woocommerce_active = ( new WooCommerce_Conditional() )->is_met();
@@ -53,7 +53,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					<?php
 					if (
 						\YoastSEO()->classes->get( Promotion_Manager::class )
-							->is( 'black-friday-promotion' ) ) :
+							->is( 'black-friday-2024-promotion' ) ) :
 						?>
 						<div class="sidebar__sale_banner_container">
 							<div class="sidebar__sale_banner">
@@ -63,13 +63,26 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					<?php endif; ?>
 					<h2 class="yoast-get-premium-title">
 						<?php
+						if (
+							\YoastSEO()->classes->get( Promotion_Manager::class )
+								->is( 'black-friday-2024-promotion' ) ) {
+							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+							\printf( \esc_html__( '%1$sBuy%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
+						}
+						else {
 							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
 							echo ( $is_woocommerce_active ) ? \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast WooCommerce SEO' ) : \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
+						}
 						?>
 					</h2>
-					<span> 
+					<span> <?php echo \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' ); ?></span>
 					<?php
-						echo ( $is_woocommerce_active ) ? \esc_html__( 'SEO that scales with your product catalog.', 'wordpress-seo' ) : \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' );
+					if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+						echo '<p>';
+						echo \esc_html__( 'If you were thinking about upgrading, now\'s the time! 30% OFF ends 3rd Dec 11am (CET)', 'wordpress-seo' );
+						echo '</p>';
+					}
+					else {
 						echo '<ul>';
 						echo '<li>' . \esc_html__( 'AI tools included', 'wordpress-seo' ) . '</li>';
 						echo '<li>';
@@ -78,6 +91,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						echo '</li>';
 						echo '<li>' . \esc_html__( '24/7 support', 'wordpress-seo' ) . '</li>';
 						echo '</ul>';
+					}
 					?>
 					<p class="plugin-buy-button">
 						<a class="yoast-button-upsell" data-action="load-nfd-ctb"
@@ -86,8 +100,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							<?php
 							if (
 								\YoastSEO()->classes->get( Promotion_Manager::class )
-									->is( 'black-friday-promotion' ) ) {
-								echo \esc_html__( 'Buy now for 30% off', 'wordpress-seo' );
+									->is( 'black-friday-2024-promotion' ) ) {
+								echo \esc_html__( 'Buy now', 'wordpress-seo' );
 							}
 							else {
 								echo \esc_html__( 'Buy now', 'wordpress-seo' );
@@ -97,8 +111,9 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</a>
 					</p>
 					<p class="yoast-price-micro-copy">
+
 						<?php
-							echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
+						echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
 						?>
 					</p>
 					<hr class="yoast-upsell-hr" aria-hidden="true">

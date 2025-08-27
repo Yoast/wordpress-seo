@@ -10,7 +10,6 @@ use WP_REST_Response;
 use WP_User;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
 /**
@@ -120,65 +119,6 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 					'errorMessage'    => '',
 					'errorIdentifier' => 'test',
 					'errorCode'       => 0,
-				],
-				0
-			);
-
-		$result = $this->instance->get_usage( $wp_rest_request );
-
-		$this->assertInstanceOf( WP_REST_Response::class, $result );
-	}
-
-	/**
-	 * Tests the "Too many requests" exception.
-	 *
-	 * @return void
-	 */
-	public function test_get_usage_with_too_many_requests_exception() {
-		$user = Mockery::mock( WP_User::class );
-
-		Functions\expect( 'wp_get_current_user' )
-			->once()
-			->withNoArgs()
-			->andReturn( $user );
-
-		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
-		$wp_rest_request
-			->expects( 'get_param' )
-			->once()
-			->with( 'is_woo_product_entity' )
-			->andReturn( true );
-
-		$wp_rest_response  = Mockery::mock( 'overload:' . WP_REST_Response::class );
-		$request_exception = Mockery::mock( Too_Many_Requests_Exception::class );
-
-		$this->token_manager
-			->expects( 'get_or_request_access_token' )
-			->once()
-			->with( $user )
-			->andThrows( $request_exception );
-
-		$request_exception
-			->expects( 'get_error_identifier' )
-			->once()
-			->withNoArgs()
-			->andReturn( 'test' );
-
-		$request_exception
-			->expects( 'get_missing_licenses' )
-			->once()
-			->withNoArgs()
-			->andReturn( 'test' );
-
-		$wp_rest_response
-			->expects( '__construct' )
-			->once()
-			->with(
-				[
-					'errorMessage'    => '',
-					'errorIdentifier' => 'test',
-					'errorCode'       => 0,
-					'missingLicenses' => 'test',
 				],
 				0
 			);

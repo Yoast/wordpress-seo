@@ -1,17 +1,21 @@
-import { useSelect } from "@wordpress/data";
-import { useMemo } from "@wordpress/element";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import { STORE_NAME_INTRODUCTIONS } from "../../constants";
-import { Modal } from "../modal";
-import { get } from "lodash";
+import PropTypes from "prop-types";
 
 /**
+ * @param {Object} thumbnail The thumbnail: img props.
+ * @param {string} buttonLink The button link.
+ * @param {string} buttonLabel The button label.
+ * @param {string} productName The product name.
+ * @param {string} freeCopy The copy for the free version.
+ * @param {string} premiumCopy The copy for the premium version.
+ * @param {boolean} isPremium Whether the user has a premium license.
+ * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
 // eslint-disable-next-line complexity
-const GoogleDocsAddonUpsellContent = ( {
+export const GoogleDocsAddonUpsell = ( {
 	thumbnail,
 	buttonLink,
 	buttonLabel = sprintf(
@@ -121,43 +125,15 @@ const GoogleDocsAddonUpsellContent = ( {
 		</>
 	);
 };
-
-/**
- * @returns {JSX.Element} The element.
- */
-export const GoogleDocsAddonUpsell = () => {
-	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "google-docs-addon-thumbnail.png" ), [] );
-	const isPremium = useMemo( () => Boolean( get( window, "wpseoIntroductions.isPremium", false ) ), [] );
-	const upsellLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-upsell/" ), [] );
-	const premiumLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/google-docs-add-on-introduction-get-started/" ), [] );
-
-	const thumbnail = useMemo( () => ( {
-		src: imageLink,
-		width: "432",
-		height: "243",
-	} ), [ imageLink ] );
-
-	const buttonLabel = useMemo( () => {
-		if ( isPremium ) {
-			return __( "Activate your free seat", "wordpress-seo" );
-		}
-
-		return sprintf(
-			/* translators: %1$s expands to Yoast SEO Premium. */
-			__( "Unlock with %1$s", "wordpress-seo" ),
-			"Yoast SEO Premium"
-		);
-	}
-	, [ isPremium ] );
-
-	return (
-		<Modal>
-			<GoogleDocsAddonUpsellContent
-				buttonLink={ isPremium ? premiumLink : upsellLink }
-				thumbnail={ thumbnail }
-				buttonLabel={ buttonLabel }
-				isPremium={ isPremium }
-			/>
-		</Modal>
-	);
+GoogleDocsAddonUpsell.propTypes = {
+	buttonLink: PropTypes.string.isRequired,
+	thumbnail: PropTypes.shape( {
+		src: PropTypes.string.isRequired,
+		width: PropTypes.string,
+		height: PropTypes.string,
+	} ).isRequired,
+	buttonLabel: PropTypes.string,
+	productName: PropTypes.string,
+	isPremium: PropTypes.bool,
+	ctbId: PropTypes.string,
 };

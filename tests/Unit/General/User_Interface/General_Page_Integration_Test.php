@@ -315,7 +315,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->promotion_manager
 			->expects( 'is' )
 			->once()
-			->with( 'black-friday-promotion' )
+			->with( 'black-friday-2024-promotion' )
 			->andReturn( true );
 
 		$this->asset_manager

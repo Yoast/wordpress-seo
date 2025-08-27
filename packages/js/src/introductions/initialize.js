@@ -6,9 +6,7 @@ import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get, isEmpty, find } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
-import { Introduction, IntroductionProvider } from "./components";
-import { AiBrandInsightsPreLaunch } from "./components/modals/ai-brand-insights-pre-launch";
-import { BlackFridayAnnouncement } from "./components/modals/black-friday-announcement";
+import { Content, Introduction, IntroductionProvider } from "./components";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -21,8 +19,7 @@ domReady( () => {
 	}
 
 	const initialComponents = {
-		"ai-brand-insights-pre-launch": AiBrandInsightsPreLaunch,
-		"black-friday-announcement": BlackFridayAnnouncement,
+		"ai-brand-insights-pre-launch": Content,
 	};
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {

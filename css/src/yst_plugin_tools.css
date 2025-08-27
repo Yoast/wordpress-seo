@@ -607,14 +607,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast-sidebar__product .yoast-price-micro-copy {
 	font-weight: 300;
 	font-size: 12px;
-	font-style: italic;
 	text-align: center;
 	line-height: 20px;
 	margin-bottom: 16px;
 }
 
 .yoast-sidebar__product .yoast-button-upsell {
-	@apply yst-bg-amber-300 yst-text-amber-900;
+	@apply yst-bg-amber-300;
 
 }
 
@@ -640,7 +639,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	width: 100%;
 	padding-top: 0;
 	padding-bottom: 0;
-	@apply yst-bg-amber-300 yst-text-amber-900;
+	@apply yst-bg-amber-300;
 
 }
 
@@ -692,31 +691,33 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
-	color: #fcd34d;
+	background: #000;
+	@apply yst-text-amber-300;
 	width: calc(100% + 60px);
 	line-height: 30px;
 	margin-left: -30px;
+	transform: rotate(-5deg);
+	font-size: 20px;
+	font-weight: 500;
 	letter-spacing: 0.5px;
-	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
-	margin-top: 2.5rem;
-	margin-bottom: 10px;
-	--tw-bg-opacity: 1;
-	background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-	padding: 0.25rem 0;
 	text-align: center;
-	font-size: 1.125rem;
-	font-weight: 700;
+	z-index: 1;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0 -1px 4px 0 #fcd34d, 0 1px 4px 0 #fcd34d, 0 -1px 0 0 #fcd34d, 0 1px 0 0 #fcd34d;
+	padding: 7px 0;
 }
 
 .yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner .banner_text {
-	margin: 0 35px;
 	display: inline-block;
+	margin: 0 40px;
 }
 
 .yoast-sidebar__product .sidebar__sale_text {
 	text-align: center;
 	border-top: solid 1px #ffffff;
 	font-style: italic;
+
 }
 
 .yoast-sidebar__product .sidebar__sale_text p {
@@ -808,7 +809,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .black-friday-container span {
 	@apply yst-text-amber-300;
 	font-size: 1.2rem;
-	font-weight: 500;
+	font-weight: 600;
 }
 
 .yoast_premium_upsell--header {
@@ -817,9 +818,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-weight: 500;
 	line-height: 25px;
 	margin: 0;
-}
-.yoast_premium_upsell--header.woo-header {
-	@apply yst-text-woo-light;
 }
 
 .yoast_premium_upsell--subheader {

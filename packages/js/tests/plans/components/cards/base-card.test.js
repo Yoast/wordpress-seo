@@ -104,35 +104,4 @@ describe( "highlighting", () => {
 		expect( container.firstChild.firstChild.className ).toContain( "yst-border-red-400" );
 		expect( container.firstChild.firstChild.className ).toContain( "yst-shadow" );
 	} );
-
-	it( "should have a black friday highlight", () => {
-		const { getByText } = render( <BaseCard
-			{ ...PROPS }
-			hasHighlight={ false }
-			isActiveHighlight={ false }
-			isBlackFridayPromotionActive={ true }
-		/> );
-		const badge = getByText( "30% off - Black Friday" );
-		expect( badge ).toBeInTheDocument();
-
-		expect( badge.className ).toContain( "yst-border-amber-300" );
-		expect( badge.className ).toContain( "yst-text-amber-300" );
-		expect( badge.className ).toContain( "yst-bg-black" );
-	} );
-
-	it.each(
-		[
-			[ "has no highlight and no BF promotion active", { hasHighlight: false, isActiveHighlight: false, isBlackFridayPromotionActive: false } ],
-			[ "has highlight, not active and with BG promotion", { hasHighlight: true, isActiveHighlight: false, isBlackFridayPromotionActive: true } ],
-			[ "has highlight, active and with BG promotion", { hasHighlight: true, isActiveHighlight: true, isBlackFridayPromotionActive: true } ],
-		]
-	)( "should not have a black friday badge when %s", ( _, { hasHighlight, isActiveHighlight, isBlackFridayPromotionActive } ) => {
-		const { queryByText } = render( <BaseCard
-			{ ...PROPS }
-			hasHighlight={ hasHighlight }
-			isActiveHighlight={ isActiveHighlight }
-			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
-		/> );
-		expect( queryByText( "30% off - Black Friday" ) ).not.toBeInTheDocument();
-	} );
 } );

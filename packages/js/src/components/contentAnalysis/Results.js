@@ -11,7 +11,9 @@ import PropTypes from "prop-types";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
-import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
+import { ModalSmallContainer } from "../modals/Container";
+import Modal, { defaultModalClassName } from "../modals/Modal";
+import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -300,12 +302,20 @@ class Results extends Component {
 			"Highlight areas of improvement in your text, no more searching for a needle in a haystack, straight to optimizing! Now also in Elementor!",
 			"wordpress-seo" );
 
-		return <PremiumSEOAnalysisModal
-			isOpen={ isOpen }
-			closeModal={ closeModal }
-			id="yoast-premium-seo-analysis-highlighting-modal"
-			upsellLink={ this.props.highlightingUpsellLink } description={ upsellDescription }
-		/>;
+		return isOpen && (
+			<Modal
+				title={ __( "Unlock Premium SEO analysis", "wordpress-seo" ) }
+				onRequestClose={ closeModal }
+				additionalClassName=""
+				className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
+				id="yoast-premium-seo-analysis-highlighting-modal"
+				shouldCloseOnClickOutside={ true }
+			>
+				<ModalSmallContainer>
+					<PremiumSEOAnalysisUpsell buyLink={ this.props.highlightingUpsellLink } description={ upsellDescription } />
+				</ModalSmallContainer>
+			</Modal>
+		);
 	}
 
 	/**

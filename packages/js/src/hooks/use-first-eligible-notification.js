@@ -43,7 +43,7 @@ export const useFirstEligibleNotification = ( { webinarIntroUrl } ) => {
 		},
 		{
 			getIsEligible: () => true,
-			component: () => <BlackFridayPromotion />,
+			component: () => <BlackFridayPromotion hasIcon={ false } />,
 		},
 	] );
 

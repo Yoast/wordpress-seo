@@ -67,7 +67,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 * @return int The priority.
 	 */
 	public function get_priority() {
-		return 20;
+		return 10;
 	}
 
 	/**

@@ -123,7 +123,6 @@ function registerFills( store ) {
 	const icon = <YoastIcon />;
 	updateCategory( "yoast-structured-data-blocks", { icon } );
 	updateCategory( "yoast-internal-linking-blocks", { icon } );
-	updateCategory( "yoast-ai-blocks", { icon } );
 
 	const theme = {
 		isRtl: localizedData.isRtl,

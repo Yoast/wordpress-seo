@@ -279,11 +279,6 @@ class Token_Manager implements Token_Manager_Interface {
 			return true;
 		}
 
-		// Ensure exp is a valid numeric value.
-		if ( ! \is_numeric( $json->exp ) ) {
-			return true;
-		}
-
 		return $json->exp < \time();
 	}
 

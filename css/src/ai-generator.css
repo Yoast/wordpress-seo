@@ -1,3 +1,5 @@
+@import "@yoast/ai-frontend/dist/index.css";
+
 .yst-root {
 	/* The `--yoast` variables from @yoast/components are loaded via the monorepo stylesheet dependency. */
 

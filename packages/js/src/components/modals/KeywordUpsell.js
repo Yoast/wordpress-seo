@@ -9,7 +9,9 @@ import { colors } from "@yoast/style-guide";
 import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
-import { MultiKeyphraseUpsellModal } from "../modals/MultiKeyphraseUpsellModal";
+import { ModalSmallContainer } from "./Container";
+import Modal, { defaultModalClassName } from "./Modal";
+import MultipleKeywords from "./MultipleKeywords";
 
 /**
  * @returns {Object} The location context.
@@ -35,13 +37,20 @@ const KeywordUpsell = () => {
 
 	return (
 		<>
-			<MultiKeyphraseUpsellModal
-				isOpen={ isOpen }
-				closeModal={ closeModal }
-				upsellLink={ addQueryArgs( buyLink, { context: locationContext } ) }
-				id={ `yoast-additional-keyphrases-modal-${ location }` }
-			/>
-
+			{ isOpen && (
+				<Modal
+					title={ __( "Add related keyphrases", "wordpress-seo" ) }
+					onRequestClose={ closeModal }
+					additionalClassName=""
+					id="yoast-additional-keyphrases-modal"
+					className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
+					shouldCloseOnClickOutside={ true }
+				>
+					<ModalSmallContainer>
+						<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
+					</ModalSmallContainer>
+				</Modal>
+			) }
 			{ location === "sidebar" && (
 				<SidebarButton
 					id="yoast-additional-keyphrase-modal-open-button"

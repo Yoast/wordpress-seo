@@ -10,7 +10,7 @@ import { BaseCard } from "./base-card";
  * @returns {JSX.Element} The element.
  */
 export const WooCard = () => {
-	const { isActive, hasLicense, buyLink, buyConfig, manageLink, learnMoreLink, isBlackFridayPromotionActive } = useSelect( ( select ) => {
+	const { isActive, hasLicense, buyLink, buyConfig, manageLink, learnMoreLink } = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
 			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
@@ -19,7 +19,6 @@ export const WooCard = () => {
 			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.woo ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-manage" ),
 			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-woocommerce-learn-more" ),
-			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
 		};
 	}, [] );
 
@@ -54,7 +53,6 @@ export const WooCard = () => {
 			manageLink={ manageLink }
 			learnMoreLink={ learnMoreLink }
 			includes="Local SEO + Video SEO + News SEO"
-			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>
 	);
 };
