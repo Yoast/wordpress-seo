@@ -88,7 +88,6 @@ final class Post_Site_Information_Test extends TestCase {
 		parent::set_up();
 		$this->promotion_manager = Mockery::mock( Promotion_Manager::class );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [] );
-		$this->promotion_manager->expects( 'is' )->with( 'black-friday-2023-checklist' )->andReturn( false );
 		$this->short_link_helper = \YoastSEO()->helpers->short_link;
 		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 0 )->andReturnTrue();
