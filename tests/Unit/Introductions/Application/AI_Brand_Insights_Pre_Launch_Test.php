@@ -78,7 +78,7 @@ final class AI_Brand_Insights_Pre_Launch_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_priority() {
-		$this->assertSame( 10, $this->instance->get_priority() );
+		$this->assertSame( 20, $this->instance->get_priority() );
 	}
 
 	/**

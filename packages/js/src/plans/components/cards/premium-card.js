@@ -10,7 +10,16 @@ import { BaseCard } from "./base-card";
  * @returns {JSX.Element} The element.
  */
 export const PremiumCard = () => {
-	const { isActive, hasLicense, isWooActive, buyLink, buyConfig, manageLink, learnMoreLink } = useSelect( ( select ) => {
+	const {
+		isActive,
+		hasLicense,
+		isWooActive,
+		buyLink,
+		buyConfig,
+		manageLink,
+		learnMoreLink,
+		isBlackFridayPromotionActive,
+	} = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
 			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
@@ -20,6 +29,7 @@ export const PremiumCard = () => {
 			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-premium-manage" ),
 			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-premium-learn-more" ),
+			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
 		};
 	}, [] );
 
@@ -55,6 +65,7 @@ export const PremiumCard = () => {
 			manageLink={ manageLink }
 			learnMoreLink={ learnMoreLink }
 			includes="Local SEO + Video SEO + News SEO"
+			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>
 	);
 };
