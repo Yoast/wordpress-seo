@@ -138,7 +138,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => false,
 			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -182,7 +181,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => true,
 			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$site_info = $this->instance->get_site_information();
