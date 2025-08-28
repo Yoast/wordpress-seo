@@ -19,8 +19,6 @@ final class Schedule_Quick_Population_Test extends Abstract_Llms_Txt_Cron_Schedu
 	/**
 	 * Tests the schedule_quick_llms_txt_population method when llms txt is enabled.
 	 *
-	 * @covers ::schedule_quick_llms_txt_population
-	 * @covers ::unschedule_llms_txt_population
 	 * @dataProvider schedule_quick_llms_txt_population_data
 	 *
 	 * @param bool $enabled           If the feature is enabled.
