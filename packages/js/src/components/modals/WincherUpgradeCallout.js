@@ -217,7 +217,7 @@ WincherUpgradeCalloutDescription.propTypes = {
 /**
  * Displays a wincher upgrade callout.
  *
- * @param {?Function} [onClose=null] The close callback.
+ * @param {?function}  [onClose=null] The close callback.
  * @param {boolean} [isTitleShortened=false] Whether the title is shortened.
  * @param {?Object} [trackingInfo=null] The tracking info object.
  *
