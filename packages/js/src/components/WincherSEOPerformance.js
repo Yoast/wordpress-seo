@@ -553,7 +553,6 @@ WincherSEOPerformance.propTypes = {
 	response: PropTypes.object,
 	shouldTrackAll: PropTypes.bool,
 	permalink: PropTypes.string,
-	historyDaysLimit: PropTypes.number,
 	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
 	isSuccess: PropTypes.bool.isRequired,
 	keyphraseLimitReached: PropTypes.bool.isRequired,

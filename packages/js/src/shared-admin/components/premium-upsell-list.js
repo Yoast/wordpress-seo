@@ -14,7 +14,7 @@ import { ReactComponent as TrolleyIcon } from "../../../images/icon-trolley.svg"
  * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive, isWooCommerceActive } ) => {
+export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPromotionActive, isWooCommerceActive } ) => {
 	const isBlackFriday = isPromotionActive( "black-friday-promotion" );
 	const getBenefits = isWooCommerceActive
 		? getWooSeoBenefits
@@ -97,6 +97,6 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 PremiumUpsellList.propTypes = {
 	premiumLink: PropTypes.string.isRequired,
 	premiumUpsellConfig: PropTypes.object,
-	isPromotionActive: PropTypes.func,
+	isPromotionActive: PropTypes.func.isRequired,
 	isWooCommerceActive: PropTypes.bool.isRequired,
 };
