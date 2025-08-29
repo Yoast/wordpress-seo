@@ -1,7 +1,46 @@
 import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { forEach, get, includes, isArray, isObject, omit } from "lodash";
-import { STORE_NAME } from "../constants";
+import { LLMS_TXT_GENERATION_FAILURE_REASONS, STORE_NAME } from "../constants";
+
+/**
+ * @param {string} responseText The responseText.
+ * @returns {void}
+ */
+const handleLlmstxtFailure = ( responseText ) => {
+	const { setGenerationFailure } = dispatch( STORE_NAME );
+
+	if ( includes( responseText, "{{ yoast-llms-txt-generation-failure: " ) ) {
+		// We do a nested if here for performance reasons, so that we add a single `includes` operation and not more, in most cases.
+		if ( includes( responseText, `{{ yoast-llms-txt-generation-failure: ${ LLMS_TXT_GENERATION_FAILURE_REASONS.filesystemPermissions } }}` ) ) {
+			setGenerationFailure( {
+				generationFailure: true,
+				generationFailureReason: LLMS_TXT_GENERATION_FAILURE_REASONS.filesystemPermissions,
+			} );
+			return;
+		}
+
+		if ( includes( responseText, `{{ yoast-llms-txt-generation-failure: ${ LLMS_TXT_GENERATION_FAILURE_REASONS.notManagedByYoastSeo } }}` ) ) {
+			setGenerationFailure( {
+				generationFailure: true,
+				generationFailureReason: LLMS_TXT_GENERATION_FAILURE_REASONS.notManagedByYoastSeo,
+			} );
+			return;
+		}
+
+		setGenerationFailure( {
+			generationFailure: true,
+			generationFailureReason: "unknown",
+		} );
+
+		return;
+	}
+
+	setGenerationFailure( {
+		generationFailure: false,
+		generationFailureReason: "",
+	} );
+};
 
 /**
  * @param {Object} values The values.
@@ -40,6 +79,9 @@ const submitSettings = async( values ) => {
 		if ( includes( responseText, "{{ yoast-success: false }}" ) ) {
 			throw new Error( "Yoast options invalid." );
 		}
+
+		handleLlmstxtFailure( responseText );
+
 		if ( ! response.url.endsWith( "settings-updated=true" ) ) {
 			throw new Error( "WordPress options save did not get to the end." );
 		}

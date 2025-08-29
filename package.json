@@ -41,8 +41,8 @@
     "@slack/webhook": "^5.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.9",
-    "@wordpress/dependency-extraction-webpack-plugin": "^4.28.0",
-    "@wordpress/scripts": "^26.16.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.6.0",
+    "@wordpress/scripts": "^28.6.0",
     "@yoast/babel-preset": "^1.1.2",
     "@yoast/browserslist-config": "^1.2.4",
     "@yoast/dashboard-frontend": "^0.1.0",
@@ -76,7 +76,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "25.8"
+    "pluginVersion": "25.9"
   },
   "version": "0.0.0"
 }

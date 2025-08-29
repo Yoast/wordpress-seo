@@ -1,7 +1,10 @@
+import { useSelect } from "@wordpress/data";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { SparklesIcon } from "@heroicons/react/outline";
+import { STORE_NAME_INTRODUCTIONS } from "../../constants";
+import { Modal } from "../modal";
 
 /**
  * @param {Object} thumbnail The thumbnail: img props.
@@ -12,7 +15,7 @@ import { SparklesIcon } from "@heroicons/react/outline";
  * @param {string} ctbId The click to buy to register for this upsell instance.
  * @returns {JSX.Element} The element.
  */
-export const AiBrandInsightsPreLaunch = ( {
+const AiBrandInsightsPreLaunchContent = ( {
 	thumbnail,
 	buttonLink,
 	buttonLabel = __( "Join the waitlist", "wordpress-seo" ),
@@ -84,15 +87,26 @@ export const AiBrandInsightsPreLaunch = ( {
 		</>
 	);
 };
-AiBrandInsightsPreLaunch.propTypes = {
-	buttonLink: PropTypes.string.isRequired,
-	thumbnail: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		width: PropTypes.string,
-		height: PropTypes.string,
-	} ).isRequired,
-	buttonLabel: PropTypes.string,
-	productName: PropTypes.string,
-	description: PropTypes.string,
-	ctbId: PropTypes.string,
+
+/**
+ * @returns {JSX.Element} The element.
+ */
+export const AiBrandInsightsPreLaunch = () => {
+	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
+	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-pre-launch/" ), [] );
+
+	const thumbnail = useMemo( () => ( {
+		src: imageLink,
+		width: "432",
+		height: "243",
+	} ), [ imageLink ] );
+
+	return (
+		<Modal>
+			<AiBrandInsightsPreLaunchContent
+				buttonLink={ joinWishlistLink }
+				thumbnail={ thumbnail }
+			/>
+		</Modal>
+	);
 };

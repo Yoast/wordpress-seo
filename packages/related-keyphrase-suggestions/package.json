@@ -13,11 +13,11 @@
   "private": false,
   "sideEffects": false,
   "scripts": {
-    "clean:build": "rm -rf build",
     "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\",\"src/**/docs/**/*.js\"",
     "build:css": "node ./scripts/build-css.js",
-    "watch": "yarn watch:js & yarn watch:css",
+    "clean:build": "rm -rf build",
+    "watch": "yarn clean:build && ( yarn watch:js & yarn watch:css )",
     "watch:js": "yarn build:js --watch",
     "watch:css": "node ./scripts/watch-css.js",
     "storybook": "storybook dev -p 6007",
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@wordpress/i18n": "^5.10.0",
+    "@wordpress/i18n": "^5.8.2",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1"
