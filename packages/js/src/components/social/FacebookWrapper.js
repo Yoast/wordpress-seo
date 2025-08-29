@@ -10,7 +10,7 @@ import { useFallbackWarning } from "./useFallbackWarning";
  * isPremium checks if premium is available and if available it doesn't render the 'free' facebook Component.
  *
  * @param {boolean} isPremium Whether premium is available.
- * @param {Function} onLoad Function to call when loading.
+ * @param {function}  onLoad Function to call when loading.
  * @param {string} location The location identifier.
  * @param {string} [imageFallbackUrl=""] The fallback image URL.
  * @param {string} [imageUrl=""] The image URL.

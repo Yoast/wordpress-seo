@@ -72,11 +72,11 @@ export function getUserMessage( {
  *
  * @param {string} [keyphrase=""] The main keyphrase.
  * @param {Array} [relatedKeyphrases=[]] The related keyphrases.
- * @param {Function} [renderAction=null] Function to render an action button.
+ * @param {function} [renderAction=null] Function to render an action button.
  * @param {boolean} [requestLimitReached=false] Whether the request limit is reached.
  * @param {string} countryCode The selected country code.
- * @param {Function} setCountry Callback to set the country.
- * @param {Function} newRequest Callback to request new keyphrases.
+ * @param {function} setCountry Callback to set the country.
+* @param {function} newRequest Callback to request new keyphrases.
  * @param {Object} [response={}] The response object.
  * @param {boolean} [isRtl=false] Whether RTL mode is enabled.
  * @param {string} [userLocale="en_US"] The user locale.

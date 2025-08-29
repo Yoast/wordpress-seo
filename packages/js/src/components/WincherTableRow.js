@@ -142,7 +142,7 @@ PositionOverTimeChart.propTypes = {
  *
  * @param {string}   keyphrase The toggle's associated keyphrase.
  * @param {boolean}  isEnabled Whether or not the toggle is enabled.
- * @param {Function} toggleAction The toggle action to call.
+ * @param {function}  toggleAction The toggle action to call.
  * @param {boolean}  isLoading Whether or not we're still loading initial data.
  *
  * @returns {JSX.Element} The toggle.
@@ -223,7 +223,7 @@ PositionOverTimeCell.propTypes = {
  * @param {Object} rowData The row data containing position information.
  * @param {string} websiteId The ID of the website.
  * @param {string} keyphrase The keyphrase for which the position data is being displayed.
- * @param {Function} onSelectKeyphrases Callback function to handle keyphrase selection.
+ * @param {function}  onSelectKeyphrases Callback function to handle keyphrase selection.
  *
  * @returns {JSX.Element} The rendered element.
  */
@@ -283,14 +283,14 @@ export function getPositionalDataByState( { rowData, websiteId, keyphrase, onSel
  *
  * @param {string} keyphrase The keyphrase.
  * @param {Object} [rowData={}] The row data.
- * @param {Function} [onTrackKeyphrase=noop] Callback to track keyphrase.
- * @param {Function} [onUntrackKeyphrase=noop] Callback to untrack keyphrase.
+ * @param {function}  [onTrackKeyphrase=noop] Callback to track keyphrase.
+ * @param {function}  [onUntrackKeyphrase=noop] Callback to untrack keyphrase.
  * @param {boolean} [isFocusKeyphrase=false] Whether this is the focus keyphrase.
  * @param {boolean} [isDisabled=false] Whether the row is disabled.
  * @param {boolean} [isLoading=false] Whether the row is loading.
  * @param {string} [websiteId=""] The website ID.
  * @param {boolean} isSelected Whether the keyphrase is selected.
- * @param {Function} onSelectKeyphrases Callback to select keyphrases.
+ * @param {function}  onSelectKeyphrases Callback to select keyphrases.
  *
  * @returns {JSX.Element} The component.
  */

@@ -14,7 +14,7 @@ const LearnMoreLink = makeOutboundLink();
  * Renders the collapsible cornerstone toggle.
  *
  * @param {boolean} [isCornerstone=true] Whether the content is marked as cornerstone.
- * @param {Function} [onChange=noop] Callback when the toggle changes.
+ * @param {function} [onChange=noop] Callback when the toggle changes.
  * @param {string} learnMoreUrl The URL for the "Learn more" link.
  * @param {string} [location=""] The location identifier.
  *

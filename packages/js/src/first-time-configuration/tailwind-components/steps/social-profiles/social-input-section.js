@@ -9,7 +9,7 @@ import SocialInput from "./social-input";
  *
  * @param {Object} socialProfiles An associative array containing { socialmedium : url } pairs.
  * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
- * @param {Function} dispatch A dispatch function to communicate with the Stepper store.
+ * @param {function}  dispatch A dispatch function to communicate with the Stepper store.
  * @returns {JSX.Element} The SocialInputSectionContainer.
  */
 export default function SocialInputSectionContainer( { socialProfiles, errorFields = [], dispatch } ) {
@@ -61,10 +61,10 @@ SocialInputSectionContainer.propTypes = {
  * The social input section.
  *
  * @param {Object} socialProfiles The social profiles object.
- * @param {Function} onChangeHandler Handler for changing a social profile.
- * @param {Function} onChangeOthersHandler Handler for changing other social profiles.
- * @param {Function} onAddProfileHandler Handler for adding a social profile.
- * @param {Function} onRemoveProfileHandler Handler for removing a social profile.
+ * @param {function}  onChangeHandler Handler for changing a social profile.
+ * @param {function}  onChangeOthersHandler Handler for changing other social profiles.
+ * @param {function}  onAddProfileHandler Handler for adding a social profile.
+ * @param {function}  onRemoveProfileHandler Handler for removing a social profile.
  * @param {Array} errorFields The array containing the names of the fields with an invalid value.
  * @returns {JSX.Element} The Social Input Section.
  */

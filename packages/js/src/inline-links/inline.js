@@ -19,9 +19,9 @@ import { createLinkFormat, isValidHref } from "./utils";
  * @param {Object} [activeAttributes={}] The attributes of the active link.
  * @param {boolean} [addingLink=false] Whether a link is being added or edited.
  * @param {Object} [value={}] The current value of the rich text.
- * @param {Function} [onChange=noop] The rich text change handler.
- * @param {Function} speak The speak function.
- * @param {Function} stopAddingLink The stop adding link handler.
+ * @param {function}  [onChange=noop] The rich text change handler.
+ * @param {function}  speak The speak function.
+ * @param {function}  stopAddingLink The stop adding link handler.
  * @param {Object} [contentRef={}] The ref containing the current content element.
  *
  * @returns {React.ReactNode} The inline link UI.

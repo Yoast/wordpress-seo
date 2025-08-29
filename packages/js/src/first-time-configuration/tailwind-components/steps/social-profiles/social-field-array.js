@@ -9,9 +9,9 @@ import PropTypes from "prop-types";
  * The FieldArray component.
  *
  * @param {Array} items The array containing the organization's social profiles.
- * @param {Function} onAddProfile Function to call when a new field is added to the field array.
- * @param {Function} onRemoveProfile Function to call when a field is removed from the field array.
- * @param {Function} onChangeProfile Function to call when the content of a field is edited.
+ * @param {function}  onAddProfile Function to call when a new field is added to the field array.
+ * @param {function}  onRemoveProfile Function to call when a field is removed from the field array.
+ * @param {function}  onChangeProfile Function to call when the content of a field is edited.
  * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
  * @param {React.ElementType} fieldType The component to render each item with.
  * @param {React.ReactNode} [addButtonChildren] Children for the add item button.

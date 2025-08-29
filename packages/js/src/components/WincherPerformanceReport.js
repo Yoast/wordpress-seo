@@ -80,7 +80,7 @@ const checkFailedRequest = ( data ) => data && [ 401, 403, 404 ].includes( data.
  * Creates the Connect to Wincher button.
  *
  * @param {boolean} isLoggedIn Whether the user is logged in.
- * @param {Function} onConnectAction The function to call when the user wants to connect.
+ * @param {function} onConnectAction The function to call when the user wants to connect.
  *
  * @returns {JSX.Element} The connect button or reconnect alert, or null if the user is logged in.
  */
@@ -241,7 +241,7 @@ WincherConnectSuccessAlert.propTypes = {
  * Gets a connection alert based on the passed props and the data status.
  *
  * @param {Object} data The Wincher performance data.
- * @param {Function} onConnectAction The function to call when the user wants to connect.
+ * @param {function} onConnectAction The function to call when the user wants to connect.
  * @param {boolean} isConnectSuccess Whether the connection was successful.
  * @param {boolean} isNetworkError Whether there was a network error.
  * @param {boolean} isFailedRequest Whether the request failed.
@@ -279,7 +279,7 @@ GetConnectionAlert.propTypes = {
  * Gets the proper user message based on the current login state and presence of data.
  *
  * @param {Object} data The Wincher performance data.
- * @param {Function} onConnectAction The function to call when the user wants to connect.
+ * @param {function} onConnectAction The function to call when the user wants to connect.
  * @param {boolean} isConnectSuccess Whether the connection was successful.
  * @param {boolean} isNetworkError Whether there was a network error.
  *
@@ -397,7 +397,7 @@ const checkHasResults = ( data ) => data && ! isEmpty( data ) && ! isEmpty( data
  * @param {boolean} isLoggedIn Whether the user is logged in.
  * @param {boolean} isConnectSuccess Whether the connection was successful.
  * @param {boolean} isNetworkError Whether there was a network error.
- * @param {Function} onConnectAction Callback to connect.
+ * @param {function} onConnectAction Callback to connect.
  *
  * @returns {JSX.Element} The react component.
  */

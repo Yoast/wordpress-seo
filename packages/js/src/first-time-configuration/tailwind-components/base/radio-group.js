@@ -100,7 +100,7 @@ Label.propTypes = {
  * @param {string|number} value Value.
  * @param {React.ReactNode} [label=null] Label.
  * @param {{value: string|number, label: string}[]} options Options to choose from.
- * @param {Function} onChange Change handler.
+ * @param {function}  onChange Change handler.
  * @param {string} [variant="default"] Variant.
  * @param {string} [className=""] CSS class.
  * @param {...Object} [props] Additional properties.

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /**
  * Sidebar Collapsible component with default padding and separator.
  *
- * @param {Function} onClick The click handler.
+ * @param {function} onClick The click handler.
  * @param {string} title The button title.
  * @param {string} [id=""] The button id.
  * @param {string} [subTitle=""] The subtitle.

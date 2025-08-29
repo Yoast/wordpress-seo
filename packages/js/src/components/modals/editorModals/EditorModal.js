@@ -16,8 +16,8 @@ import Modal from "../Modal";
  * @param {React.ReactNode} children The modal content.
  * @param {string} title The modal title.
  * @param {boolean} isOpen Whether the modal is open.
- * @param {Function} open Function to open the modal.
- * @param {Function} close Function to close the modal.
+ * @param {function}  open Function to open the modal.
+ * @param {function}  close Function to close the modal.
  * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
  * @param {boolean} [showChangesWarning=true] Whether to show the changes warning.
  * @param {JSX.Element} [SuffixHeroIcon=null] Optional icon component.

@@ -64,17 +64,17 @@ const debouncedGetKeyphrases = debounce( getKeyphrases, 500, {
 /**
  * The WincherKeyphrasesTable component.
  *
- * @param {Function} addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {function} addTrackedKeyphrase Callback to add a tracked keyphrase.
  * @param {boolean} [isLoggedIn=false] Whether the user is logged in.
  * @param {boolean} [isNewlyAuthenticated=false] Whether the user is newly authenticated.
  * @param {Array} [keyphrases=[]] The keyphrases.
- * @param {Function} newRequest Callback for new request.
- * @param {Function} removeTrackedKeyphrase Callback to remove a tracked keyphrase.
- * @param {Function} setRequestFailed Callback to set request failed.
- * @param {Function} setKeyphraseLimitReached Callback to set keyphrase limit reached.
- * @param {Function} setRequestSucceeded Callback to set request succeeded.
- * @param {Function} setTrackedKeyphrases Callback to set tracked keyphrases.
- * @param {Function} setHasTrackedAll Callback to set has tracked all.
+ * @param {function} newRequest Callback for new request.
+ * @param {function} removeTrackedKeyphrase Callback to remove a tracked keyphrase.
+ * @param {function} setRequestFailed Callback to set request failed.
+ * @param {function} setKeyphraseLimitReached Callback to set keyphrase limit reached.
+ * @param {function} setRequestSucceeded Callback to set request succeeded.
+ * @param {function} setTrackedKeyphrases Callback to set tracked keyphrases.
+ * @param {function} setHasTrackedAll Callback to set has tracked all.
  * @param {boolean} [trackAll=false] Whether to track all keyphrases.
  * @param {?Object} [trackedKeyphrases=null] The tracked keyphrases.
  * @param {string} [websiteId=""] The website ID.
@@ -82,7 +82,7 @@ const debouncedGetKeyphrases = debounce( getKeyphrases, 500, {
  * @param {string} [focusKeyphrase=""] The focus keyphrase.
  * @param {?string} [startAt=null] The start date.
  * @param {Array<string>} selectedKeyphrases The selected keyphrases.
- * @param {Function} onSelectKeyphrases Callback to select keyphrases.
+ * @param {function} onSelectKeyphrases Callback to select keyphrases.
  *
  * @returns {JSX.Element} The WincherKeyphrasesTable.
  */

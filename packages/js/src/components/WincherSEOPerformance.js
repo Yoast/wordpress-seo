@@ -28,7 +28,7 @@ import WincherRankingHistoryChart from "./WincherRankingHistoryChart";
  * Gets the proper error message component.
  *
  * @param {Object} response The response object to base the error message on.
- * @param {Function} onLogin The onLogin callback used when reconnecting.
+ * @param {function} onLogin The onLogin callback used when reconnecting.
  *
  * @returns {wp.Element} The error message component.
  */
@@ -51,7 +51,7 @@ GetErrorMessage.propTypes = {
  * @param {boolean} isSuccess Whether the request was successful.
  * @param {Object} [response={}] The response object.
  * @param {boolean} allKeyphrasesMissRanking Whether all keyphrases miss ranking.
- * @param {Function} onLogin Callback for login.
+ * @param {function} onLogin Callback for login.
  * @param {boolean} keyphraseLimitReached Whether the keyphrase limit is reached.
  * @param {number} limit The keyphrase limit.
  *
@@ -95,12 +95,12 @@ let currentPopup = null;
  * Get the tokens using the provided code after user has granted authorization.
  *
  * @param {Object} props The props.
- * @param {Function} props.onAuthentication Callback to call when authentication is successful.
- * @param {Function} props.setRequestSucceeded Callback to call when the request is successful.
- * @param {Function} props.setRequestFailed Callback to call when the request fails.
+ * @param {function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {function}  props.setRequestFailed Callback to call when the request fails.
  * @param {Array} props.keyphrases The keyphrases to track.
- * @param {Function} props.addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {Function} props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  * @param {Object} data The message data.
  *
  * @returns {void}
@@ -150,12 +150,12 @@ const performAuthenticationRequest = async( {
  * Opens the popup window.
  *
  * @param {Object} props The props.
- * @param {Function} props.onAuthentication Callback to call when authentication is successful.
- * @param {Function} props.setRequestSucceeded Callback to call when the request is successful.
- * @param {Function} props.setRequestFailed Callback to call when the request fails.
+ * @param {function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {function}  props.setRequestFailed Callback to call when the request fails.
  * @param {Array} props.keyphrases The keyphrases to track.
- * @param {Function} props.addTrackedKeyphrase Callback to add a tracked keyphrase.
- * @param {Function} props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  *
  * @returns {void}
  */
@@ -290,7 +290,7 @@ const WINCHER_PERIOD_OPTIONS = [
 /**
  * Displays the Wincher period picker.
  *
- * @param {Function} onSelect The callback to call when a period is selected.
+ * @param {function}  onSelect The callback to call when a period is selected.
  * @param {?{name: string, value: string, defaultIndex: number}} [selected=null] The currently selected period.
  * @param {{name: string, value: string, defaultIndex: number}[]} options The available period options.
  * @param {boolean} isLoggedIn Whether the user is logged in to Wincher.
@@ -459,7 +459,7 @@ TableContent.propTypes = {
  *
  * @param {Object} props The props to use within the content.
  * @param {Object} [trackedKeyphrases=null] The tracked keyphrases.
- * @param {Function} addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {function}  addTrackedKeyphrase Callback to add a tracked keyphrase.
  * @param {boolean} [isLoggedIn=false] Whether the user is logged in.
  * @param {boolean} [isNewlyAuthenticated=false] Whether the user is newly authenticated.
  * @param {Array} [keyphrases=[]] The keyphrases.
@@ -470,10 +470,10 @@ TableContent.propTypes = {
  * @param {boolean} isSuccess Whether the request was successful.
  * @param {boolean} keyphraseLimitReached Whether the keyphrase limit is reached.
  * @param {number} limit The keyphrase limit.
- * @param {Function} setRequestSucceeded Callback to set the request succeeded state.
- * @param {Function} setRequestFailed Callback to set the request failed state.
- * @param {Function} setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
- * @param {Function} onAuthentication Callback to call when authentication is successful.
+ * @param {function}  setRequestSucceeded Callback to set the request succeeded state.
+ * @param {function}  setRequestFailed Callback to set the request failed state.
+ * @param {function}  setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {function}  onAuthentication Callback to call when authentication is successful.
  *
  * @returns {JSX.Element} The Wincher SEO Performance modal content.
  */

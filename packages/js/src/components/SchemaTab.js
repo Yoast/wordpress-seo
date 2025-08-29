@@ -166,10 +166,10 @@ function isNewsArticleType( selectedValue, defaultValue ) {
 /**
  * Returns the content of the schema tab.
  *
- * @param {Function} [schemaPageTypeChange=noop] Callback for page type change.
+ * @param {function} [schemaPageTypeChange=noop] Callback for page type change.
  * @param {?string} [schemaPageTypeSelected=null] The selected page type.
  * @param {Array<SchemaTypeOption>} pageTypeOptions The page type options.
- * @param {Function} [schemaArticleTypeChange=noop] Callback for article type change.
+ * @param {function} [schemaArticleTypeChange=noop] Callback for article type change.
  * @param {?string} [schemaArticleTypeSelected=null] The selected article type.
  * @param {Array<SchemaTypeOption>} articleTypeOptions The article type options.
  * @param {boolean} showArticleTypeInput Whether to show the article type input.
@@ -305,8 +305,8 @@ Content.propTypes = {
  * @param {boolean} isMetabox Whether this is in the metabox.
  * @param {string} postTypeName The post type name.
  * @param {boolean} [displayFooter=false] Whether to display the footer.
- * @param {Function} loadSchemaArticleData Callback to load schema article data.
- * @param {Function} loadSchemaPageData Callback to load schema page data.
+ * @param {function} loadSchemaArticleData Callback to load schema article data.
+ * @param {function} loadSchemaPageData Callback to load schema page data.
  * @param {string} location The location identifier.
  * @param {...Object} [props] Additional props.
  *

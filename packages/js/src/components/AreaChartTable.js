@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * Renders a table for an accessible representation of the SVG area chart.
  *
  * @param {Array} data Array of objects with X and Y coordinates for the SVG chart points.
- * @param {Function} [mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
+ * @param {function} [mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
  * @param {string} dataTableCaption The data table caption text.
  * @param {Array} dataTableHeaderLabels The text to be used for the data table headers.
  * @param {boolean} [isDataTableVisuallyHidden=true] Whether the data table is visually hidden.

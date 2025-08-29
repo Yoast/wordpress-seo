@@ -62,7 +62,7 @@ const getNoIndexOptions = ( editorContext ) => {
  * Functional component for the Meta Robots No-Index option.
  *
  * @param {string} noIndex The current noIndex value.
- * @param {Function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {function} onNoIndexChange Callback for when the noIndex value changes.
  * @param {Object} editorContext The editor context object.
  * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
@@ -114,7 +114,7 @@ MetaRobotsNoIndex.propTypes = {
  * Functional component for the Meta Robots No-Follow option.
  *
  * @param {string} noFollow The current noFollow value.
- * @param {Function} onNoFollowChange Callback for when the noFollow value changes.
+ * @param {function} onNoFollowChange Callback for when the noFollow value changes.
  *
  * @returns {JSX.Element} The Meta Robots No-Follow option.
  */
@@ -147,7 +147,7 @@ MetaRobotsNoFollow.propTypes = {
  * Functional component for the Meta Robots Advanced field.
  *
  * @param {Array} advanced The selected advanced options.
- * @param {Function} onAdvancedChange Callback for when the advanced options change.
+ * @param {function} onAdvancedChange Callback for when the advanced options change.
  *
  * @returns {JSX.Element} The Meta Robots advanced field.
  */
@@ -185,7 +185,7 @@ MetaRobotsAdvanced.propTypes = {
  * Functional component for the Breadcrumbs Title.
  *
  * @param {string} breadcrumbsTitle The breadcrumbs title value.
- * @param {Function} onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
+ * @param {function} onBreadcrumbsTitleChange Callback for when the breadcrumbs title changes.
  *
  * @returns {JSX.Element} The Breadcrumbs title.
  */
@@ -216,7 +216,7 @@ BreadcrumbsTitle.propTypes = {
  * Functional component for the Canonical URL.
  *
  * @param {string} canonical The canonical URL value.
- * @param {Function} onCanonicalChange Callback for when the canonical URL changes.
+ * @param {function} onCanonicalChange Callback for when the canonical URL changes.
  *
  * @returns {JSX.Element} The canonical URL.
  */
@@ -248,18 +248,18 @@ CanonicalURL.propTypes = {
  *
  * @param {string} noIndex The current noIndex value.
  * @param {string} canonical The canonical URL value.
- * @param {Function} onNoIndexChange Callback for when the noIndex value changes.
- * @param {Function} onCanonicalChange Callback for when the canonical URL changes.
- * @param {Function} onLoad Callback for when the component loads.
+ * @param {function} onNoIndexChange Callback for when the noIndex value changes.
+ * @param {function} onCanonicalChange Callback for when the canonical URL changes.
+ * @param {function} onLoad Callback for when the component loads.
  * @param {boolean} isLoading Whether the component is loading.
  * @param {Object} editorContext The editor context object.
  * @param {boolean} isBreadcrumbsDisabled Whether breadcrumbs are disabled.
  * @param {Array} [advanced=[]] The selected advanced options.
- * @param {Function} [onAdvancedChange=noop] Callback for when the advanced options change.
+ * @param {function} [onAdvancedChange=noop] Callback for when the advanced options change.
  * @param {string} [noFollow=""] The current noFollow value.
- * @param {Function} [onNoFollowChange=noop] Callback for when the noFollow value changes.
+ * @param {function} [onNoFollowChange=noop] Callback for when the noFollow value changes.
  * @param {string} [breadcrumbsTitle=""] The breadcrumbs title value.
- * @param {Function} [onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
+ * @param {function} [onBreadcrumbsTitleChange=noop] Callback for when the breadcrumbs title changes.
  * @param {boolean} [isPrivateBlog=false] Whether the blog is private.
  *
  * @returns {JSX.Element} The AdvancedSettings component.

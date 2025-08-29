@@ -28,8 +28,8 @@ const StyledHeroIcon = styled( ChartBarIcon )`
  * Handles the click event on the "Track SEO performance" button.
  *
  * @param {Array} keyphrases The keyphrases array.
- * @param {Function} onNoKeyphraseSet Callback when no keyphrase is set.
- * @param {Function} onOpen Callback to open the modal.
+ * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {function}  onOpen Callback to open the modal.
  * @param {string} location The location identifier.
  *
  * @returns {void}
@@ -59,9 +59,9 @@ function openModal( { keyphrases, onNoKeyphraseSet, onOpen, location } ) {
  * @param {"none"|"metabox"|"sidebar"|"postpublish"} [whichModalOpen="none"] Which modal is open.
  * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
  * @param {Array} keyphrases The keyphrases array.
- * @param {Function} onNoKeyphraseSet Callback when no keyphrase is set.
- * @param {Function} onOpen Callback to open the modal.
- * @param {Function} onClose Callback to close the modal.
+ * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {function}  onOpen Callback to open the modal.
+ * @param {function}  onClose Callback to close the modal.
  *
  * @returns {JSX.Element}
  */

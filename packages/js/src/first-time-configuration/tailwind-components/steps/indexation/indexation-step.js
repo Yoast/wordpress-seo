@@ -8,7 +8,7 @@ import { ConfigurationIndexation } from "./configuration-indexation";
  * The indexation step.
  *
  * @param {string}   indexingState          The indexing state.
- * @param {Function} setIndexingState       A callback to set the indexing state.
+ * @param {function}  setIndexingState       A callback to set the indexing state.
  * @param {boolean}  [showRunIndexationAlert=false] Whether the alert to run indexation needs to be shown.
  * @param {boolean}  [isStepperFinished=false] Whether the stepper is finished.
  *
