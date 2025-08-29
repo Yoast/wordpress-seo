@@ -149,7 +149,6 @@ final class Term_Site_Information_Test extends TestCase {
 				'the promotion',
 				'another one',
 			],
-			'blackFridayBlockEditorUrl' => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -160,7 +159,6 @@ final class Term_Site_Information_Test extends TestCase {
 			->andReturn( '0' );
 
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
-		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}
@@ -208,14 +206,12 @@ final class Term_Site_Information_Test extends TestCase {
 				'the promotion',
 				'another one',
 			],
-			'blackFridayBlockEditorUrl' => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
 		Monkey\Functions\expect( 'home_url' )->andReturn( 'https://example.org' );
 
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
-		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}

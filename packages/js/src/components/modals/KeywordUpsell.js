@@ -17,9 +17,9 @@ import { MultiKeyphraseUpsellModal } from "../modals/MultiKeyphraseUpsellModal";
 const useLocation = () => useContext( LocationContext );
 
 /**
- * Renders the UpsellBox component.
+ * Renders the upsell button and modal.
  *
- * @returns {JSX.Element} The UpsellBox component.
+ * @returns {JSX.Element} The KeywordUpsell component.
  */
 const KeywordUpsell = () => {
 	const [ isOpen, , , openModal, closeModal ] = useToggleState( false );
