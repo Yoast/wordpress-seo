@@ -5,6 +5,9 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
 import AssessmentResult from "../../../values/AssessmentResult";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import {filterShortcodesFromHTML} from "../../../languageProcessing/helpers";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -23,12 +26,16 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				lowerBoundary: 0.3,
+				recommendedMaximumLength: 300,
 				upperBoundary: 0.75,
 			},
 			scores: {
+				noKeyphraseOrText: 1,
+				badLongTextNoSubheadings: 2,
 				noMatches: 3,
 				tooFewMatches: 3,
 				goodNumberOfMatches: 9,
+				goodShortTextNoSubheadings: 9,
 				tooManyMatches: 3,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
@@ -40,6 +47,23 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
+	 * Gets the text length from the paper. Remove unwanted element first before calculating.
+	 *
+	 * @param {Paper} paper The Paper object to analyse.
+	 * @param {Researcher} researcher The researcher to use.
+	 * @returns {number} The length of the text.
+	 */
+	getTextLength( paper, researcher ) {
+		// Give specific feedback for cases where the post starts with a long text without subheadings.
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+
+		return customCountLength ? customCountLength( text ) : getWords( text ).length;
+	}
+
+	/**
 	 * Runs the matchKeywordInSubheadings research and based on this returns an assessment result.
 	 *
 	 * @param {Paper} paper             The paper to use for the assessment.
@@ -48,13 +72,21 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
+		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+		this._hasSubheadings = this.hasSubheadings( paper );
+		this._textLength = this.getTextLength( paper, researcher );
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+
+		// The configuration to use for Japanese texts.
+		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
 		const assessmentResult = new AssessmentResult();
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( paper );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -63,7 +95,26 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a subheadings.
+	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {SubheadingDistributionConfig} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && Object.hasOwn( languageSpecificConfig,  "cornerstoneParameters" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+		}
+
+		// Use the default language-specific config for non-cornerstone condition.
+		return merge( currentConfig, languageSpecificConfig.defaultParameters );
+	}
+
+	/**
+	 * Checks whether the paper has subheadings.
 	 *
 	 * @param {Paper} paper The paper to use for the check.
 	 *
@@ -72,17 +123,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	hasSubheadings( paper ) {
 		const subheadings =  getSubheadingsTopLevel( paper.getText() );
 		return subheadings.length > 0;
-	}
-
-	/**
-	 * Checks whether the paper has a text and a keyword.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text and a keyword.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper );
 	}
 
 	/**
@@ -138,10 +178,56 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 	/**
 	 * Determines the score and the Result text for the subheadings.
+	 * @param {Paper} paper to use for the check.
 	 *
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
-	calculateResult() {
+	calculateResult( paper ) {
+		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
+			return {
+				score: this._config.scores.noKeyphraseOrText,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: %2$sPlease add both a keyphrase and some text to receive relevant feedback%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+		if ( ! this._hasSubheadings && this._textLength >= this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.badLongTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: %2$sYou are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that%3$s!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+		if ( ! this._hasSubheadings && this._textLength < this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.goodShortTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: %2$sYou are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.tooFewMatches,
