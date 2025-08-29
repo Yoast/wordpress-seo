@@ -12,9 +12,11 @@ import { useSelectGeneralPage } from "../hooks";
 export const SidebarLayout = ( { contentClassName = "", children = null } ) => {
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const premiumLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/jj" );
+	const wooLinkSidebar = useSelectGeneralPage( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const premiumUpsellConfig = useSelectGeneralPage( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectGeneralPage( "selectPreference", [], "isWooCommerceActive" );
 
 	return (
 		<div className="yst-flex yst-gap-6 xl:yst-flex-row yst-flex-col">
@@ -25,10 +27,11 @@ export const SidebarLayout = ( { contentClassName = "", children = null } ) => {
 				<div className="yst-min-w-[16rem] xl:yst-max-w-[16rem]">
 					<div className="yst-sticky yst-top-16">
 						<SidebarRecommendations
-							premiumLink={ premiumLinkSidebar }
+							premiumLink={ isWooCommerceActive ? wooLinkSidebar : premiumLinkSidebar }
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
+							isWooCommerceActive={ isWooCommerceActive }
 						/>
 					</div>
 				</div>

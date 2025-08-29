@@ -27,7 +27,7 @@ class Response_Parser implements Response_Parser_Interface {
 			if ( $json_body !== null ) {
 				$response_message = ( $json_body->message ?? $response_message );
 				$error_code       = ( $json_body->error_code ?? $this->map_message_to_code( $response_message ) );
-				if ( $response_code === 402 ) {
+				if ( $response_code === 402 || $response_code === 429 ) {
 					$missing_licenses = isset( $json_body->missing_licenses ) ? (array) $json_body->missing_licenses : [];
 				}
 			}

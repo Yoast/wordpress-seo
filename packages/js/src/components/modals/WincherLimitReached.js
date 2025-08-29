@@ -1,9 +1,9 @@
 /* global wpseoAdminGlobalL10n */
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const UpdateWincherPlanLink = makeOutboundLink();
 
@@ -22,25 +22,22 @@ const WincherLimitReached = ( { limit = 10 } ) => {
 			"wordpress-seo"
 		),
 		limit,
-		"{{updateWincherPlanLink/}}"
+		"<UpdateWincherPlanLink/>"
 	);
 
 	return (
 		<Alert type="error">
 			{
-				interpolateComponents( {
-					mixedString: message,
-					components: {
-						updateWincherPlanLink: <UpdateWincherPlanLink href={ wpseoAdminGlobalL10n[ "links.wincher.pricing" ] }>
-							{
-								sprintf(
-									/* translators: %s : Expands to "Wincher". */
-									__( "upgrade your %s plan", "wordpress-seo" ),
-									"Wincher"
-								)
-							}
-						</UpdateWincherPlanLink>,
-					},
+				safeCreateInterpolateElement( message, {
+					updateWincherPlanLink: <UpdateWincherPlanLink href={ wpseoAdminGlobalL10n[ "links.wincher.pricing" ] }>
+						{
+							sprintf(
+								/* translators: %s : Expands to "Wincher". */
+								__( "upgrade your %s plan", "wordpress-seo" ),
+								"Wincher"
+							)
+						}
+					</UpdateWincherPlanLink>,
 				} )
 			}
 		</Alert>

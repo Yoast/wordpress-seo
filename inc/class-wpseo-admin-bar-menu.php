@@ -5,6 +5,7 @@
  * @package WPSEO
  */
 
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Integrations\Support_Integration;
@@ -590,12 +591,15 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		$sale_percentage = '';
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
-			$sale_percentage = sprintf(
-				'<span class="admin-bar-premium-promotion">%1$s</span>',
-				esc_html__( '30% OFF', 'wordpress-seo' )
-			);
+		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
+		$link            = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
+		if ( $has_woocommerce ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
+		}
+
+		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
+			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
 		}
 		$wp_admin_bar->add_menu(
 			[
@@ -603,10 +607,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-get-premium',
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
-					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" style="padding:0;">%2$s &raquo; %3$s</a>',
-					esc_url( $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ) ),
-					esc_html__( 'Get Yoast SEO Premium', 'wordpress-seo' ),
-					$sale_percentage
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>',
+					esc_url( $link ),
+					$button_label,
 				),
 				'meta'   => [
 					'tabindex' => '0',

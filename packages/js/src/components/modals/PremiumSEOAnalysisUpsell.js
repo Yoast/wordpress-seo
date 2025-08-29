@@ -1,60 +1,73 @@
-/* global wpseoAdminL10n */
-import { __, sprintf } from "@wordpress/i18n";
-import { addQueryArgs } from "@wordpress/url";
-import { useRootContext } from "@yoast/externals/contexts";
+import { LockClosedIcon } from "@heroicons/react/solid";
+import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { SvgIcon } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
+import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
-import UpsellBox from "../UpsellBox";
-
-const upsellDescription = __(
-	"Check your text on even more SEO criteria and get an enhanced keyphrase analysis, making it easier to optimize your content.",
-	"wordpress-seo" );
+import { MetaboxButton } from "../MetaboxButton";
+import SidebarButton from "../SidebarButton";
+import { PremiumSEOAnalysisModal } from "./PremiumSEOAnalysisModal";
 
 /**
- * Creates the content for a PremiumSEOAnalysisUpsell modal.
+ * The Premium SEO Analysis Upsell.
  *
- * @param {string} buyLink The buy link key for the upsell.
- * @param {string} [description] The upsell description.
+ * @param {string} location The location where the button is shown. Either "sidebar" or "metabox". Default is "sidebar".
  *
- * @returns {JSX.Element} The element.
+ * @returns {JSX.Element} The Premium SEO Analysis upsell.
  */
-const PremiumSEOAnalysisUpsell = ( { buyLink, description = upsellDescription } ) => {
-	const { locationContext } = useRootContext();
-	const buyLinkUrl = addQueryArgs( wpseoAdminL10n[ buyLink ], { context: locationContext } );
+const PremiumSEOAnalysisUpsell = ( { location = "sidebar" } ) => {
+	const svgAriaProps = useSvgAria();
+	const [ isOpen, , , openModal, closeModal ] = useToggleState( false );
+	const link = `shortlinks.upsell.${ location }.premium_seo_analysis_button`;
 
 	return (
-		<UpsellBox
-			title={ __( "Get more help with writing content that ranks", "wordpress-seo" ) }
-			description={ description }
-			benefitsTitle={
-				sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "%s also gives you:", "wordpress-seo" ),
-					"Yoast SEO Premium" )
-			}
-			benefits={ getPremiumBenefits() }
-			upsellButtonText={
-				sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Unlock with %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				)
-			}
-			upsellButton={ {
-				href: buyLinkUrl,
-				className: "yoast-button-upsell",
-				rel: null,
-				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
-				"data-action": "load-nfd-ctb",
-			} }
-			upsellButtonLabel={ __( "1 year of premium support and updates included!", "wordpress-seo" ) }
-		/>
+		<Fragment>
+			<PremiumSEOAnalysisModal
+				isOpen={ isOpen }
+				closeModal={ closeModal }
+				id="yoast-premium-seo-analysis-modal"
+				upsellLink={ link }
+			/>
+			{ location === "sidebar" && (
+				<SidebarButton
+					id="yoast-premium-seo-analysis-modal-open-button"
+					title={ __( "Premium SEO analysis", "wordpress-seo" ) }
+					prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
+					onClick={ openModal }
+				>
+					<div className="yst-root">
+						<Badge size="small" variant="upsell">
+							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+						</Badge>
+					</div>
+				</SidebarButton>
+			) }
+			{ location === "metabox" && (
+				<div className="yst-root">
+					<MetaboxButton
+						id="yoast-premium-seo-analysis-metabox-modal-open-button"
+						onClick={ openModal }
+					>
+						<SvgIcon icon="seo-score-none" color={ colors.$color_grey } />
+						<MetaboxButton.Text>
+							{ __( "Premium SEO analysis", "wordpress-seo" ) }
+						</MetaboxButton.Text>
+						<Badge size="small" variant="upsell">
+							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
+							<span>Premium</span>
+						</Badge>
+					</MetaboxButton>
+				</div>
+			) }
+		</Fragment>
 	);
 };
 
 PremiumSEOAnalysisUpsell.propTypes = {
-	buyLink: PropTypes.string.isRequired,
-	description: PropTypes.string,
+	location: PropTypes.string,
 };
 
 export default PremiumSEOAnalysisUpsell;
+
+

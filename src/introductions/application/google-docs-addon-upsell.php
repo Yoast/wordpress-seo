@@ -77,7 +77,7 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	 * @return int The priority.
 	 */
 	public function get_priority() {
-		return 10;
+		return 20;
 	}
 
 	/**
@@ -87,6 +87,6 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page();
+		return false;
 	}
 }

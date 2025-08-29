@@ -3,9 +3,9 @@ import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordp
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, FieldGroup, Select } from "@yoast/components";
 import { makeOutboundLink, join } from "@yoast/helpers";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import WooCommerceUpsell from "./WooCommerceUpsell";
 import { useSelect } from "@wordpress/data";
 import { noop } from "lodash";
@@ -105,8 +105,8 @@ const footerText = ( postTypeName ) => sprintf(
 	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Settings page */
 	__( "You can change the default type for %1$s under Content types in the %2$sSettings%3$s.", "wordpress-seo" ),
 	postTypeName,
-	"{{link}}",
-	"{{/link}}"
+	"<link>",
+	"</link>"
 );
 
 /**
@@ -117,12 +117,10 @@ const footerText = ( postTypeName ) => sprintf(
  *
  * @returns {string} A link to the Search Appearance settings.
  */
-const footerWithLink = ( postTypeName, href ) => interpolateComponents(
-	{
-		mixedString: footerText( postTypeName ),
-		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href={ href } target="_blank" rel="noreferrer" /> },
-	}
+const footerWithLink = ( postTypeName, href ) => safeCreateInterpolateElement(
+	footerText( postTypeName ),
+	// eslint-disable-next-line jsx-a11y/anchor-has-content
+	{ link: <a href={ href } target="_blank" rel="noreferrer" /> }
 );
 
 /**
