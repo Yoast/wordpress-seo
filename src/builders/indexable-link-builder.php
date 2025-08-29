@@ -140,9 +140,12 @@ class Indexable_Link_Builder {
 			$post = $post_backup;
 		}
 
-		$content = \str_replace( ']]>', ']]&gt;', $content );
-		$links   = $this->gather_links( $content );
-		$images  = $this->image_content_extractor->gather_images( $content );
+		$content               = \str_replace( ']]>', ']]&gt;', $content );
+		$links                 = $this->gather_links( $content );
+		$links_summary         = $this->get_internal_link_count_and_unique_links( $links );
+		$links                 = $links_summary['unique_links'];
+		$indexable->link_count = $links_summary['internal_link_count'];
+		$images                = $this->image_content_extractor->gather_images( $content );
 
 		if ( empty( $links ) && empty( $images ) ) {
 			$indexable->link_count = 0;
@@ -158,8 +161,6 @@ class Indexable_Link_Builder {
 		$links = $this->create_links( $indexable, $links, $images );
 
 		$this->update_related_indexables( $indexable, $links );
-
-		$indexable->link_count = $this->get_internal_link_count( $links );
 
 		return $links;
 	}
@@ -250,19 +251,15 @@ class Indexable_Link_Builder {
 	protected function create_links( $indexable, $links, $images ) {
 		$home_url    = \wp_parse_url( \home_url() );
 		$current_url = \wp_parse_url( $indexable->permalink );
-		$links       = \array_map(
-			function ( $link ) use ( $home_url, $indexable ) {
-				return $this->create_internal_link( $link, $home_url, $indexable );
-			},
-			$links
-		);
-		// Filter out links to the same page with a fragment or query.
-		$links = \array_filter(
-			$links,
-			function ( $link ) use ( $current_url ) {
-				return $this->filter_link( $link, $current_url );
+
+		foreach ( $links as $array_index => &$link ) {
+			if ( ! $this->filter_link_basic( $link, $current_url ) ) {
+				unset( $links[ $array_index ] );
+				continue;
 			}
-		);
+
+			$link = $this->create_internal_link( $link, $home_url, $indexable );
+		}
 
 		$image_links = [];
 		foreach ( $images as $image_url => $image_id ) {
@@ -447,6 +444,32 @@ class Indexable_Link_Builder {
 	}
 
 	/**
+	 * Does the same as `filter_link`, but does not rely on SEO_Links class to do it. In doing so,
+	 * we eliminate the need to query the database for every link.
+	 *
+	 * @param string $link The link.
+	 * @param string $current_url The url of the page the link is on, as parsed by wp_parse_url.
+	 *
+	 * @return bool Whether the link should be filtered.
+	 */
+	protected function filter_link_basic( $link, $current_url ) {
+		$url  = \wp_parse_url( $link );
+		$type = $this->url_helper->get_link_type( $url, $current_url );
+
+		if ( SEO_Links::TYPE_EXTERNAL === $type ) {
+			return true;
+		}
+
+		// Always keep links with an empty path or pointing to other pages.
+		if ( isset( $url['path'] ) ) {
+			return empty( $url['path'] ) || $url['path'] !== $current_url['path'];
+		}
+
+		// Only keep links to the current page without a fragment or query.
+		return ( ! isset( $url['fragment'] ) && ! isset( $url['query'] ) );
+	}
+
+	/**
 	 * Updates the link counts for related indexables.
 	 *
 	 * @param Indexable   $indexable The indexable.
@@ -524,6 +547,39 @@ class Indexable_Link_Builder {
 		}
 
 		return $internal_link_count;
+	}
+
+	/**
+	 * This function is meant to avoid a subsequent call to `get_internal_link_count`. In a single loop, it will count
+	 * how many internal links are contained within the `$links` array, and also return an array of unique links.
+	 *
+	 * @param string[] $links The links to check.
+	 *
+	 * @return array
+	 */
+	protected function get_internal_link_count_and_unique_links( $links ) {
+		$data = [
+			'internal_link_count' => 0,
+			'unique_links'        => [],
+		];
+
+		$home_url = \wp_parse_url( \home_url() );
+
+		foreach ( $links as $link ) {
+			$link_type = $this->url_helper->get_link_type( \wp_parse_url( $link ), $home_url );
+
+			if ( SEO_Links::TYPE_INTERNAL === $link_type ) {
+				++$data['internal_link_count'];
+			}
+
+			if ( ! array_key_exists( $link, $data['unique_links'] ) ) {
+				$data['unique_links'][ $link ] = true;
+			}
+		}
+
+		$data['unique_links'] = \array_keys( $data['unique_links'] );
+
+		return $data;
 	}
 
 	/**
