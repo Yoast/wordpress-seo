@@ -1,26 +1,26 @@
-import { useCallback, useState } from "@wordpress/element";
-import { Card } from "./tailwind-components/card";
-import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
-import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
-import { __, sprintf } from "@wordpress/i18n";
-import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { PropTypes } from "prop-types";
-import { Slot } from "@wordpress/components";
-
 /* eslint-disable complexity */
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
+import { Slot } from "@wordpress/components";
+import { useCallback, useState } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
+import { PropTypes } from "prop-types";
+import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
+import { Card } from "./tailwind-components/card";
+
 /**
  * An integration which can be toggled on and off.
  *
- * @param {object}    integration             The integration.
- * @param {bool}      initialActivationState  True if the integration has been activated by the user.
- * @param {bool}      isNetworkControlEnabled True if the integration is network-enabled.
- * @param {bool}      isMultisiteAvailable    True if the integration is available on multisites.
- * @param {string}    toggleLabel             The toggle label.
- * @param {function}  beforeToggle            Check function to call before toggling the integration.
- * @param {boolean}   isPrerequisiteActive    Whether the plugin to which we want to integrate is active.
+ * @param {Object} integration The integration.
+ * @param {boolean} initialActivationState True if the integration has been activated by the user.
+ * @param {boolean} isNetworkControlEnabled True if the integration is network-enabled.
+ * @param {boolean} isMultisiteAvailable True if the integration is available on multisites.
+ * @param {string} toggleLabel The toggle label.
+ * @param {function} beforeToggle Check function to call before toggling the integration.
+ * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
  *
- * @returns {WPElement} A card representing an integration which can be toggled active by the user.
+ * @returns {JSX.Element} A card representing an integration which can be toggled active by the user.
  */
 export const AlgoliaIntegration = ( {
 	integration,
@@ -73,7 +73,9 @@ export const AlgoliaIntegration = ( {
 								integration.name
 							)
 						}
-						className={ `${ isPrerequisiteActive && getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }
+						className={ `${ isPrerequisiteActive && getIsCardActive( integration, isActive )
+							? ""
+							: "yst-opacity-50 yst-filter yst-grayscale" }` }
 					/> }
 					<span className="yst-sr-only">
 						{
@@ -82,8 +84,10 @@ export const AlgoliaIntegration = ( {
 						}
 					</span>
 				</Link>
-				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
-				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "New", "wordpress-seo" ) }</Badge> }
+				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) &&
+					<Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
+				{ ( isNetworkControlEnabled && integration.isNew ) &&
+					<Badge className="yst-absolute yst-top-2 yst-end-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
 				<div>
@@ -109,7 +113,7 @@ export const AlgoliaIntegration = ( {
 				</div>
 				{ isActive &&
 					<Slot
-						name={ `${integration.name}Slot` }
+						name={ `${ integration.name }Slot` }
 					/> }
 			</Card.Content>
 			<Card.Footer>
@@ -144,12 +148,15 @@ export const AlgoliaIntegration = ( {
 					</span>
 				</Button>
 				}
-				{ isPrerequisiteActive && getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
-					<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
-					<XIcon
-						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
-					/>
-				</p>  }
+				{ isPrerequisiteActive && getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) &&
+					<p className="yst-flex yst-items-start yst-justify-between">
+						<span
+							className="yst-text-slate-700 yst-font-medium"
+						>{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
+						<XIcon
+							className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
+						/>
+					</p> }
 				{ isPrerequisiteActive &&
 					getIsFreeIntegrationOrPremiumAvailable( integration ) &&
 					getIsMultisiteAvailable( integration ) &&
@@ -179,11 +186,11 @@ AlgoliaIntegration.propTypes = {
 		isNew: PropTypes.bool,
 		isMultisiteAvailable: PropTypes.bool,
 		upsellLink: PropTypes.string,
-	} ),
-	initialActivationState: PropTypes.bool,
-	isNetworkControlEnabled: PropTypes.bool,
-	isMultisiteAvailable: PropTypes.bool,
-	toggleLabel: PropTypes.string,
-	beforeToggle: PropTypes.func,
-	isPrerequisiteActive: PropTypes.bool,
+	} ).isRequired,
+	initialActivationState: PropTypes.bool.isRequired,
+	isNetworkControlEnabled: PropTypes.bool.isRequired,
+	isMultisiteAvailable: PropTypes.bool.isRequired,
+	toggleLabel: PropTypes.string.isRequired,
+	beforeToggle: PropTypes.func.isRequired,
+	isPrerequisiteActive: PropTypes.bool.isRequired,
 };

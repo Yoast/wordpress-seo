@@ -1,12 +1,13 @@
-import Modal, { defaultModalClassName } from "./Modal";
-import { Fragment, useState, useCallback } from "@wordpress/element";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Modal, { defaultModalClassName } from "./Modal";
 
 const StyledButton = styled.button`
 	// Increase specificity to override WP rules.
+
 	&& {
 		display: flex;
 		align-items: center;
@@ -26,16 +27,26 @@ const defaultLabels = {
 };
 
 /**
- * The SeoAnalyssModal.
+ * The SeoAnalysisModal.
  *
- * @param {object} props Functional Component props.
+ * @param {string} [openButtonIcon=""] The icon name for the open button.
+ * @param {Object} labels The labels for the modal and buttons.
+ * @param {Object} [classes={}] The classes for the modal and buttons.
+ * @param {string} [className=defaultModalClassName] The className for the modal.
+ * @param {React.ReactNode} children The modal content.
  *
- * @returns {*} The SeoAnalysisModal.
+ * @returns {JSX.Element} The element.
  */
-const SeoAnalysisModal = ( props ) => {
+const SeoAnalysisModal = ( {
+	openButtonIcon = "",
+	labels,
+	classes = {},
+	className = defaultModalClassName,
+	children,
+} ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	const modalLabels = Object.assign( {}, defaultLabels, props.labels );
+	const modalLabels = Object.assign( {}, defaultLabels, labels );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
@@ -45,18 +56,18 @@ const SeoAnalysisModal = ( props ) => {
 			<StyledButton
 				type="button"
 				onClick={ openModal }
-				className={ `${ props.classes.openButton } yoast-modal__button-open` }
+				className={ `${ classes.openButton } yoast-modal__button-open` }
 			>
-				{ props.openButtonIcon && <SvgIcon icon={ props.openButtonIcon } size="13px" /> }
+				{ openButtonIcon && <SvgIcon icon={ openButtonIcon } size="13px" /> }
 				{ modalLabels.open }
 			</StyledButton>
 			{ isOpen &&
 				<Modal
 					onRequestClose={ closeModal }
-					className={ props.className }
+					className={ className }
 					title={ modalLabels.heading }
 				>
-					{ props.children }
+					{ children }
 				</Modal>
 			}
 		</Fragment>
@@ -79,12 +90,6 @@ SeoAnalysisModal.propTypes = {
 	} ),
 	className: PropTypes.string,
 	children: PropTypes.any.isRequired,
-};
-
-SeoAnalysisModal.defaultProps = {
-	className: defaultModalClassName,
-	openButtonIcon: "",
-	classes: {},
 };
 
 export default SeoAnalysisModal;

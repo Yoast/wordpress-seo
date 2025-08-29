@@ -1,18 +1,18 @@
-import { __ } from "@wordpress/i18n";
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
 import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
 /**
  * Represents an integration.
  *
- * @param {object}  integration The integration.
- * @param {boolean} isActive    The integration state.
+ * @param {Object} integration The integration.
+ * @param {boolean} [isActive=true] The integration state.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
-export const PluginIntegration = ( { integration, isActive } ) => {
+export const PluginIntegration = ( { integration, isActive = true } ) => {
 	return (
 		<SimpleIntegration
 			integration={ integration }
@@ -49,8 +49,4 @@ PluginIntegration.propTypes = {
 		isNew: PropTypes.bool,
 	} ).isRequired,
 	isActive: PropTypes.bool,
-};
-
-PluginIntegration.defaultProps = {
-	isActive: true,
 };

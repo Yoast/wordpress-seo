@@ -8,18 +8,25 @@ import PropTypes from "prop-types";
 /**
  * The FieldArray component.
  *
- * @param {Object}     props                 The props object
- * @param {array}      props.items           The array containing the organization's social profiles.
- * @param {function}   props.onAddProfile    Function to call when a new field is added to the field array.
- * @param {function}   props.onRemoveProfile Function to call when a field is removed from the field array.
- * @param {function}   props.onChangeProfile Function to call when a the content of a field is edited.
- * @param {array}      props.errorFields     The array containing the names of the fields with an invalid value.
- * @param {WPElement}  fieldType             The component to render each item with.
- * @param {Node}       addButtonChildren     Children for the add item button.
+ * @param {Array} items The array containing the organization's social profiles.
+ * @param {function}  onAddProfile Function to call when a new field is added to the field array.
+ * @param {function}  onRemoveProfile Function to call when a field is removed from the field array.
+ * @param {function}  onChangeProfile Function to call when the content of a field is edited.
+ * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
+ * @param {React.ElementType} fieldType The component to render each item with.
+ * @param {React.ReactNode} [addButtonChildren] Children for the add item button.
  *
- * @returns {WPElement} The FieldArray component.
+ * @returns {JSX.Element} The FieldArray component.
  */
-const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, errorFields, fieldType: Component, addButtonChildren } ) => {
+const SocialFieldArray = ( {
+	items,
+	onAddProfile,
+	onRemoveProfile,
+	onChangeProfile,
+	errorFields = [],
+	fieldType: Component,
+	addButtonChildren = __( "Add another profile", "wordpress-seo" ),
+} ) => {
 	const handleRemove = useCallback( ( event ) => {
 		onRemoveProfile( parseInt( event.currentTarget.dataset.index, 10 ) );
 	}, [ onRemoveProfile ] );
@@ -32,7 +39,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 						<Component
 							className="yst-grow"
 							label={ __( "Other social profile", "wordpress-seo" ) }
-							id={ `social-input-other-url-${index}` }
+							id={ `social-input-other-url-${ index }` }
 							value={ item }
 							socialMedium="other"
 							index={ index }
@@ -85,11 +92,4 @@ SocialFieldArray.propTypes = {
 	errorFields: PropTypes.array,
 	addButtonChildren: PropTypes.node,
 };
-
-SocialFieldArray.defaultProps = {
-	errorFields: [],
-	addButtonChildren: __( "Add another profile", "wordpress-seo" ),
-};
-
 export default SocialFieldArray;
-

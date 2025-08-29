@@ -1,30 +1,38 @@
-import { useState } from "@wordpress/element";
+/* eslint-disable complexity */
+import { useCallback, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import PropTypes from "prop-types";
-/* eslint-disable complexity */
 
 /**
- * Sidebar Collapsible component with default padding and separator
+ * Sidebar Collapsible component with default padding and separator.
  *
- * @param {Object} props The properties for the component.
+ * @param {string} title The main title.
+ * @param {React.ReactNode} children The collapsible content.
+ * @param {?{icon: string, color: ?string, size: ?string}} [prefixIcon=null] The icon object for the prefix.
+ * @param {string} [subTitle=""] The subtitle.
+ * @param {boolean} [hasBetaBadgeLabel=false] Whether to show the beta badge.
+ * @param {?string} [buttonId=null] The button id.
  *
- * @returns {wp.Element} The Collapsible component.
+ * @returns {JSX.Element} The element.
  */
-const SidebarCollapsible = ( props ) => {
+const SidebarCollapsible = ( {
+	title,
+	children,
+	prefixIcon = null,
+	subTitle = "",
+	hasBetaBadgeLabel = false,
+	buttonId = null,
+} ) => {
 	const [ isOpen, toggleOpen ] = useState( false );
-
-	const {
-		prefixIcon,
-	} = props;
 
 	/**
 	 * Toggles the SidebarCollapsible open and closed state.
 	 *
 	 * @returns {void}
 	 */
-	function handleClick() {
-		toggleOpen( ! isOpen );
-	}
+	const handleClick = useCallback( () => {
+		toggleOpen( currentIsOpen => ! currentIsOpen );
+	}, [ toggleOpen ] );
 
 	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
@@ -32,7 +40,7 @@ const SidebarCollapsible = ( props ) => {
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
 				type="button"
-				id={ props.buttonId }
+				id={ buttonId }
 			>
 				<span
 					className="yoast-icon-span"
@@ -47,17 +55,16 @@ const SidebarCollapsible = ( props ) => {
 					}
 				</span>
 				<span className="yoast-title-container">
-					<div className="yoast-title">{ props.title }</div>
-					<div className="yoast-subtitle">{ props.subTitle }</div>
+					<div className="yoast-title">{ title }</div>
+					<div className="yoast-subtitle">{ subTitle }</div>
 				</span>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
+				{ hasBetaBadgeLabel && <BetaBadge /> }
 				<span className="yoast-chevron" aria-hidden="true" />
 			</button>
 		</h2>
-		{ isOpen && props.children }
+		{ isOpen && children }
 	</div>;
 };
-/* eslint-enable complexity */
 
 export default SidebarCollapsible;
 
@@ -71,11 +78,4 @@ SidebarCollapsible.propTypes = {
 	subTitle: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
 	buttonId: PropTypes.string,
-};
-
-SidebarCollapsible.defaultProps = {
-	prefixIcon: null,
-	subTitle: "",
-	hasBetaBadgeLabel: false,
-	buttonId: null,
 };
