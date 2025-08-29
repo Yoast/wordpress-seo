@@ -6,7 +6,7 @@ import { includes, values } from "lodash";
 import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 import { useSelectSettings } from "../hooks";
-import { UnsavedChangesModal } from "../../shared-admin/components";
+import { ConfirmActionModal } from "../../shared-admin/components";
 
 /**
  * @returns {JSX.Element} The form layout component.
@@ -53,7 +53,7 @@ const FormLayout = ( { children } ) => {
 							>
 								{ __( "Discard changes", "wordpress-seo" ) }
 							</Button>
-							<UnsavedChangesModal
+							<ConfirmActionModal
 								isOpen={ isRequestUndo }
 								onClose={ unsetRequestUndo }
 								title={ __( "Discard all changes", "wordpress-seo" ) }
