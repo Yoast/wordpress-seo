@@ -1,24 +1,24 @@
-import { useCallback } from "@wordpress/element";
-import { useDispatch } from "@wordpress/data";
-import { STORE_NAME } from "../constants";
 import { XIcon } from "@heroicons/react/outline";
+import { useDispatch } from "@wordpress/data";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import { STORE_NAME } from "../constants";
 
 /**
  * Renders the notice component.
  *
- * @param {string} type The title of the notice.
+ * @param {string} title The notice title.
  * @param {string} id The id of the notice.
  * @param {boolean} isDismissable Whether the notice is dismissable.
  * @param {string} children The content of the notice.
- * @param {string} [className] The class name to add to the notice.
+ * @param {string} [className=""] The class name to add to the notice.
  *
- * @returns {React.Component} The Notice.
+ * @returns {JSX.Element} The Notice.
  */
-export function Notice( { title, id, isDismissable, children, className } ) {
+export function Notice( { title, id, isDismissable, children, className = "" } ) {
 	const ariaSvgProps = useSvgAria();
 	const { dismissNotice } = useDispatch( STORE_NAME );
 

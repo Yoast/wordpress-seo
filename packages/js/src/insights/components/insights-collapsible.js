@@ -11,10 +11,11 @@ import TextFormality from "./text-formality";
 
 /**
  * Insights collapsible component.
- * @param {string} location The location of this modal.
- * @returns {JSX.Element} The element.
+ *
+ * @param {string} [location="metabox"] The location of this modal.
+ * @returns {React.ReactNode} The element.
  */
-const InsightsCollapsible = ( { location } ) => {
+const InsightsCollapsible = ( { location = "metabox" } ) => {
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
 	return (
@@ -41,10 +42,6 @@ const InsightsCollapsible = ( { location } ) => {
 
 InsightsCollapsible.propTypes = {
 	location: PropTypes.string,
-};
-
-InsightsCollapsible.defaultProps = {
-	location: "metabox",
 };
 
 export default InsightsCollapsible;
