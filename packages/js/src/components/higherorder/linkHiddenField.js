@@ -36,9 +36,21 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 				this.state = state;
 			}
 
+			/**
+			 * @returns {{children: React.ReactNode}} The prop types.
+			 */
 			static get propTypes() {
 				return {
 					children: PropTypes.node,
+				};
+			}
+
+			/**
+			 * @returns {{children: null}} The default props.
+			 */
+			static get defaultProps() {
+				return {
+					children: null,
 				};
 			}
 

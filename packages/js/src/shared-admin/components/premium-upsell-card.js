@@ -1,4 +1,3 @@
-import { noop } from "lodash";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -17,7 +16,7 @@ import classNames  from "classnames";
 
 /**
  * @param {string} link The link.
- * @param {Object} [linkProps] Extra link props.
+ * @param {Object} linkProps Extra link props.
  * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {JSX.Element} The premium upsell card.
@@ -134,11 +133,6 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 
 PremiumUpsellCard.propTypes = {
 	link: PropTypes.string.isRequired,
-	linkProps: PropTypes.object,
-	isPromotionActive: PropTypes.func,
-};
-
-PremiumUpsellCard.defaultProps = {
-	linkProps: {},
-	isPromotionActive: noop,
+	linkProps: PropTypes.object.isRequired,
+	isPromotionActive: PropTypes.func.isRequired,
 };
