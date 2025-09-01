@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "@wo
 import { __, sprintf } from "@wordpress/i18n";
 import { Checkbox } from "@yoast/components";
 import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
-import { debounce, difference, filter, isEmpty, orderBy, without, has } from "lodash";
+import { debounce, difference, filter, isEmpty, orderBy, without } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { handleAPIResponse } from "../helpers/api";
@@ -122,7 +122,7 @@ const WincherKeyphrasesTable = ( {
 	const getKeyphraseData = useCallback( ( keyphrase ) => {
 		const targetKeyphrase = keyphrase.toLowerCase();
 
-		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && has( trackedKeyphrases, targetKeyphrase ) ) {
+		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
 			return trackedKeyphrases[ targetKeyphrase ];
 		}
 
