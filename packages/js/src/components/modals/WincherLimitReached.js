@@ -29,7 +29,7 @@ const WincherLimitReached = ( { limit = 10 } ) => {
 		<Alert type="error">
 			{
 				safeCreateInterpolateElement( message, {
-					updateWincherPlanLink: <UpdateWincherPlanLink href={ wpseoAdminGlobalL10n[ "links.wincher.pricing" ] }>
+					UpdateWincherPlanLink: <UpdateWincherPlanLink href={ wpseoAdminGlobalL10n[ "links.wincher.pricing" ] }>
 						{
 							sprintf(
 								/* translators: %s : Expands to "Wincher". */
