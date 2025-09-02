@@ -37,6 +37,10 @@ module.exports = {
 					bad: "#dc3232",
 					na: "#cbd5e1",
 				},
+				woo: {
+					dark: "#0e1e65",
+					light: "#0075B3"
+				}
 			},
 			strokeWidth: {
 				3: "3px",

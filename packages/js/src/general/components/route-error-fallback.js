@@ -6,10 +6,10 @@ import { ErrorFallback } from "../../shared-admin/components";
 import { useSelectGeneralPage } from "../hooks";
 
 /**
- * @param {string} className The class name.
- * @returns {JSX.Element} The element.
+ * @param {string} [className=""] The class name.
+ * @returns {React.ReactNode} The element.
  */
-export const RouteErrorFallback = ( { className } ) => {
+export const RouteErrorFallback = ( { className = "" } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
 	const supportLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/general-error-support" );
 	const error = useRouteError();

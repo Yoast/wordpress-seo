@@ -120,7 +120,8 @@ final class Wistia_Embed_Permission_Repository_Test extends TestCase {
 			->with( $user_id, Wistia_Embed_Permission_Repository::USER_META_KEY, true )
 			->andReturn( false );
 
-		$this->expectErrorMessage( 'Invalid User ID' );
+		$this->expectException( Exception::class );
+		$this->expectExceptionMessage( 'Invalid User ID' );
 
 		$this->instance->get_value_for_user( $user_id );
 	}

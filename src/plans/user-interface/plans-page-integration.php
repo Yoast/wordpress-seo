@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
+use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
  * Adds the plans page to the Yoast admin menu.
@@ -64,6 +65,13 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $admin_conditional;
 
 	/**
+	 * The promotion manager.
+	 *
+	 * @var Promotion_Manager
+	 */
+	private $promotion_manager;
+
+	/**
 	 * Constructs the instance.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
@@ -71,19 +79,22 @@ class Plans_Page_Integration implements Integration_Interface {
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
 	 * @param Admin_Conditional         $admin_conditional   The Admin_Conditional.
+	 * @param Promotion_Manager         $promotion_manager   The promotion manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Add_Ons_Collector $add_ons_collector,
 		Current_Page_Helper $current_page_helper,
 		Short_Link_Helper $short_link_helper,
-		Admin_Conditional $admin_conditional
+		Admin_Conditional $admin_conditional,
+		Promotion_Manager $promotion_manager
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->add_ons_collector   = $add_ons_collector;
 		$this->current_page_helper = $current_page_helper;
 		$this->short_link_helper   = $short_link_helper;
 		$this->admin_conditional   = $admin_conditional;
+		$this->promotion_manager   = $promotion_manager;
 	}
 
 	/**
@@ -154,11 +165,12 @@ class Plans_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data(): array {
 		return [
-			'addOns'      => $this->add_ons_collector->to_array(),
-			'linkParams'  => $this->short_link_helper->get_query_params(),
-			'preferences' => [
+			'addOns'            => $this->add_ons_collector->to_array(),
+			'linkParams'        => $this->short_link_helper->get_query_params(),
+			'preferences'       => [
 				'isRtl' => \is_rtl(),
 			],
+			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
 		];
 	}
 
