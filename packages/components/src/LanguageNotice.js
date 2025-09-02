@@ -1,12 +1,9 @@
-/* External dependencies */
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import interpolateComponents from "interpolate-components";
-
-/* Internal dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
+import styled from "styled-components";
+import { safeCreateInterpolateElement } from "./safeCreateInterpolateElement";
 
 const YoastLanguageNotice = styled.p`
 	margin: 1em 0;
@@ -50,22 +47,19 @@ export default class LanguageNotice extends PureComponent {
 		let text = sprintf(
 			/* Translators: %s expands to the actual language. */
 			__( "Your site language is set to %s.", "wordpress-seo" ),
-			`{{strong}}${ language }{{/strong}}`
+			`<strong>${ language }</strong>`
 		);
 
 		if ( ! canChangeLanguage ) {
 			text = sprintf(
 				/* Translators: %s expands to the actual language. */
 				__( "Your site language is set to %s. If this is not correct, contact your site administrator.", "wordpress-seo" ),
-				`{{strong}}${ language }{{/strong}}`
+				`<strong>${ language }</strong>`
 			);
 		}
 
 		// Replace the strong marking with an actual ReactComponent.
-		text = interpolateComponents( {
-			mixedString: text,
-			components: { strong: <strong /> },
-		} );
+		text = safeCreateInterpolateElement( text, { strong: <strong /> } );
 
 		return (
 			<YoastLanguageNotice>

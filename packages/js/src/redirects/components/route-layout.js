@@ -19,7 +19,7 @@ import { STORE_NAME } from "../constants";
 export const RouteLayout = ( {
 	children,
 	title,
-	description,
+	description = null,
 } ) => {
 	const documentTitle = useSelect( select => select( STORE_NAME ).selectDocumentFullTitle( { prefix: title } ), [] );
 	const ariaLiveTitle = sprintf(

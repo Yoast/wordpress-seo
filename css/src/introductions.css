@@ -13,6 +13,10 @@
 	.yst-introduction-gradient {
 		background: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
 	}
+
+	.yst-woo-introduction-gradient {
+		background: linear-gradient(180deg, rgba(0, 117, 179, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
+	}
 	.yst-introduction-modal-uppercase {
 		letter-spacing: 0.8px;
 		@apply yst-uppercase yst-text-slate-500;
@@ -26,6 +30,18 @@
 		-webkit-mask-size: 100% 100%;
 		width: 17px;
 		height: 17px;
+	}
+	
+	.yst-cart-icon {
+		background-color: #0075B3;
+		mask-image: var(--yoast-svg-icon-cart);
+		-webkit-mask-image: var(--yoast-svg-icon-cart);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 16px;
+		height: 16px;
+		transform: scaleX(-1);
+		-webkit-transform: scaleX(-1);
 	}
 	
 	.yst-ai-insights-icon {
