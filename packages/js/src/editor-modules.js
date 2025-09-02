@@ -20,10 +20,9 @@ import EditorModal from "./containers/EditorModal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
 import Results from "./containers/Results";
 import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
-import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import createWatcher from "./helpers/create-watcher";
-import { setTextdomainL10n, safeCreateInterpolateElement } from "./helpers/i18n";
+import { safeCreateInterpolateElement, setTextdomainL10n } from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import { update as updateAdminBar } from "./ui/adminBar";
@@ -97,7 +96,6 @@ window.yoast.editorModules = {
 		PersistentDismissableAlert,
 		Results,
 		SEMrushRelatedKeyphrases,
-		WincherSEOPerformance,
 	},
 	helpers: {
 		ajaxHelper,

@@ -1,5 +1,5 @@
 import { CheckIcon } from "@heroicons/react/solid";
-import { useState, useEffect } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";
 import { useStepperContext } from "./stepper";
@@ -21,12 +21,11 @@ function getCommonClasses( isVisible ) {
 /**
  * The ActiveCircle element.
  *
- * @param {Object} props The props object.
- * @param {bool} props.isVisible Whether this circle is visible or not.
+ * @param {boolean} [isVisible=true] Whether this circle is visible or not.
  *
- * @returns {WPElement} The ActiveCircle element.
+ * @returns {JSX.Element} The ActiveCircle element.
  */
-export function ActiveCircle( { isVisible } ) {
+export function ActiveCircle( { isVisible = true } ) {
 	return <span
 		className={ `yst-bg-white yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
@@ -38,19 +37,14 @@ ActiveCircle.propTypes = {
 	isVisible: PropTypes.bool,
 };
 
-ActiveCircle.defaultProps = {
-	isVisible: true,
-};
-
 /**
  * The SavedCircle element.
  *
- * @param {Object} props The props object.
- * @param {bool} props.isVisible Whether this circle is visible or not.
+ * @param {boolean} [isVisible=true] Whether this circle is visible or not.
  *
- * @returns {WPElement} The SavedCircle element
+ * @returns {JSX.Element} The SavedCircle element.
  */
-function SavedCircle( { isVisible } ) {
+function SavedCircle( { isVisible = true } ) {
 	return <span
 		className={ `yst-bg-primary-500 yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
@@ -62,19 +56,14 @@ SavedCircle.propTypes = {
 	isVisible: PropTypes.bool,
 };
 
-SavedCircle.defaultProps = {
-	isVisible: true,
-};
-
 /**
  * The UpcomingCircle element.
  *
- * @param {Object} props The props object.
- * @param {bool} props.isVisible Whether this circle is visible or not.
+ * @param {boolean} [isVisible=true] Whether this circle is visible or not.
  *
- * @returns {WPElement} The UpcomingCircle element
+ * @returns {JSX.Element} The UpcomingCircle element.
  */
-function UpcomingCircle( { isVisible } ) {
+function UpcomingCircle( { isVisible = true } ) {
 	return <span
 		className={ `yst-bg-white yst-border-slate-300 ${ getCommonClasses( isVisible ) }` }
 	>
@@ -86,18 +75,20 @@ UpcomingCircle.propTypes = {
 	isVisible: PropTypes.bool,
 };
 
-UpcomingCircle.defaultProps = {
-	isVisible: true,
-};
-
 /**
  * The Circle that accompanies a step, in all its active-inactive saved-unsaved flavours.
  *
- * @param {Object} props The props to pass to the StepCircle.
+ * @param {boolean} isFinished Whether the step is finished.
+ * @param {number} [activationDelay=0] Activation delay in ms.
+ * @param {number} [deactivationDelay=0] Deactivation delay in ms.
  *
- * @returns {WPElement} The StepCircle component.
+ * @returns {JSX.Element} The StepCircle component.
  */
-export function StepCircle( { activationDelay, deactivationDelay, isFinished } ) {
+export function StepCircle( {
+	activationDelay = 0,
+	deactivationDelay = 0,
+	isFinished,
+} ) {
 	const { activeStepIndex, stepIndex, lastStepIndex } = useStepperContext();
 	const isLastStep = stepIndex === lastStepIndex;
 	const isActive = activeStepIndex === stepIndex;
@@ -133,9 +124,4 @@ StepCircle.propTypes = {
 	isFinished: PropTypes.bool.isRequired,
 	activationDelay: PropTypes.number,
 	deactivationDelay: PropTypes.number,
-};
-
-StepCircle.defaultProps = {
-	activationDelay: 0,
-	deactivationDelay: 0,
 };

@@ -77,7 +77,7 @@ class Google_Docs_Addon_Upsell implements Introduction_Interface {
 	 * @return int The priority.
 	 */
 	public function get_priority() {
-		return 10;
+		return 20;
 	}
 
 	/**

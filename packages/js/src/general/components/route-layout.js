@@ -5,16 +5,15 @@ import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { Helmet } from "react-helmet";
 
 /**
- * @param {Object} props The properties.
  * @param {JSX.node} children The children.
  * @param {string} title The title.
- * @param {JSX.node} [description] The description.
+ * @param {React.ReactNode} [description=null] The description.
  * @returns {JSX.Element} The route layout component.
  */
 export const RouteLayout = ( {
 	children,
 	title,
-	description,
+	description = null,
 } ) => {
 	const ariaLiveTitle = sprintf(
 		/* translators: 1: Settings' section title, 2: Yoast SEO */

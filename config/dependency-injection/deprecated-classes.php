@@ -35,18 +35,6 @@ use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
 use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
 
 $deprecated_classes = [
-	Old_Premium_Integration::class                                 => '20.10',
-	Wincher::class                                                 => '21.6',
-	Wordproof_Integration_Toggle::class                            => '21.6',
-	Wordproof::class                                               => '22.10',
-	Wordproof_Integration_Active_Conditional::class                => '22.10',
-	Wordproof_Plugin_Inactive_Conditional::class                   => '22.10',
-	Wordproof_App_Config::class                                    => '22.10',
-	Wordproof_Translations::class                                  => '22.10',
-	Wordproof_Helper::class                                        => '22.10',
-	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => '23.2',
-	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
-	Duplicate_Post_Integration::class                              => '23.4',
 	Request_Helper::class                                          => '23.6',
 	Unsupported_PHP_Version_Notice::class                          => '25.0',
 ];

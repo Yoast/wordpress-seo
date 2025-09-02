@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Introductions\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -65,6 +66,13 @@ class Introductions_Integration implements Integration_Interface {
 	private $wistia_embed_permission_repository;
 
 	/**
+	 * Holds the WooCommerce conditional.
+	 *
+	 * @var WooCommerce_Conditional
+	 */
+	private $woocommerce_conditional;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * In this case: when on an admin page.
@@ -84,6 +92,7 @@ class Introductions_Integration implements Integration_Interface {
 	 * @param User_Helper                        $user_helper                        The user helper.
 	 * @param Short_Link_Helper                  $short_link_helper                  The short link helper.
 	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The repository.
+	 * @param WooCommerce_Conditional            $woocommerce_conditional            The WooCommerce conditional.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -91,7 +100,8 @@ class Introductions_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		User_Helper $user_helper,
 		Short_Link_Helper $short_link_helper,
-		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository
+		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository,
+		WooCommerce_Conditional $woocommerce_conditional
 	) {
 		$this->admin_asset_manager                = $admin_asset_manager;
 		$this->introductions_collector            = $introductions_collector;
@@ -99,6 +109,7 @@ class Introductions_Integration implements Integration_Interface {
 		$this->user_helper                        = $user_helper;
 		$this->short_link_helper                  = $short_link_helper;
 		$this->wistia_embed_permission_repository = $wistia_embed_permission_repository;
+		$this->woocommerce_conditional            = $woocommerce_conditional;
 	}
 
 	/**
@@ -139,6 +150,7 @@ class Introductions_Integration implements Integration_Interface {
 				'linkParams'            => $this->short_link_helper->get_query_params(),
 				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
+				'isWooEnabled'          => $this->woocommerce_conditional->is_met(),
 			]
 		);
 		$this->admin_asset_manager->enqueue_style( 'introductions' );
@@ -157,9 +169,27 @@ class Introductions_Integration implements Integration_Interface {
 		if ( ! \is_array( $metadata ) ) {
 			$metadata = [];
 		}
-		foreach ( $introductions as $introduction ) {
-			$metadata[ $introduction['id'] ] = true;
+
+		if ( empty( $introductions ) || ! \is_array( $introductions ) ) {
+			return;
 		}
+
+		// Find the introduction with the highest priority, because JS will only show that one.
+		$highest_priority_intro = \array_reduce(
+			$introductions,
+			static function ( $carry, $item ) {
+				return ( $carry === null || $item['priority'] < $carry['priority'] ) ? $item : $carry;
+			},
+			null
+		);
+
+		if ( $highest_priority_intro === null ) {
+			return;
+		}
+
+		// Mark the introduction with the highest priority as seen.
+		$metadata[ $highest_priority_intro['id'] ] = true;
+
 		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }

@@ -7,6 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -76,6 +77,13 @@ final class Introductions_Integration_Test extends TestCase {
 	private $wistia_embed_permission_repository;
 
 	/**
+	 * Holds the WooCommerce conditional.
+	 *
+	 * @var Mockery\MockInterface|WooCommerce_Conditional
+	 */
+	private $woocommerce_conditional;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -89,6 +97,7 @@ final class Introductions_Integration_Test extends TestCase {
 		$this->user_helper                        = Mockery::mock( User_Helper::class );
 		$this->short_link_helper                  = Mockery::mock( Short_Link_Helper::class );
 		$this->wistia_embed_permission_repository = Mockery::mock( Wistia_Embed_Permission_Repository::class );
+		$this->woocommerce_conditional            = Mockery::mock( WooCommerce_Conditional::class );
 
 		$this->instance = new Introductions_Integration(
 			$this->admin_asset_manager,
@@ -96,7 +105,8 @@ final class Introductions_Integration_Test extends TestCase {
 			$this->product_helper,
 			$this->user_helper,
 			$this->short_link_helper,
-			$this->wistia_embed_permission_repository
+			$this->wistia_embed_permission_repository,
+			$this->woocommerce_conditional
 		);
 	}
 
@@ -142,6 +152,10 @@ final class Introductions_Integration_Test extends TestCase {
 		$this->assertInstanceOf(
 			Wistia_Embed_Permission_Repository::class,
 			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' )
+		);
+		$this->assertInstanceOf(
+			WooCommerce_Conditional::class,
+			$this->getPropertyValue( $this->instance, 'woocommerce_conditional' )
 		);
 	}
 
@@ -211,6 +225,7 @@ final class Introductions_Integration_Test extends TestCase {
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
 		$this->expect_localized_data_for( $introductions, $user_id );
 		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
+		$this->woocommerce_conditional->expects( 'is_met' )->never()->withAnyArgs();
 
 		$this->instance->enqueue_assets();
 	}
@@ -235,6 +250,7 @@ final class Introductions_Integration_Test extends TestCase {
 
 		// Next mock in line is not reached.
 		$this->user_helper->expects( 'get_meta' )->never()->withAnyArgs();
+		$this->woocommerce_conditional->expects( 'is_met' )->never()->withAnyArgs();
 
 		$this->instance->enqueue_assets();
 	}
@@ -274,6 +290,7 @@ final class Introductions_Integration_Test extends TestCase {
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
 		$this->expect_localized_data_for( $introductions, $user_id );
 		$this->admin_asset_manager->expects( 'enqueue_style' )->once()->with( 'introductions' );
+		$this->woocommerce_conditional->expects( 'is_met' )->never()->withAnyArgs();
 
 		$this->instance->enqueue_assets();
 	}
@@ -300,6 +317,7 @@ final class Introductions_Integration_Test extends TestCase {
 			->once()
 			->with( $user_id )
 			->andReturn( $wistia_embed_permission );
+		$this->woocommerce_conditional->expects( 'is_met' )->once()->withNoArgs()->andReturn( true );
 		$this->admin_asset_manager->expects( 'localize_script' )->once()->with(
 			'introductions',
 			'wpseoIntroductions',
@@ -310,6 +328,7 @@ final class Introductions_Integration_Test extends TestCase {
 				'linkParams'            => $link_params,
 				'pluginUrl'             => $plugin_url,
 				'wistiaEmbedPermission' => $wistia_embed_permission,
+				'isWooEnabled'          => true,
 			]
 		);
 	}

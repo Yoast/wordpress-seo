@@ -1,42 +1,41 @@
+/* eslint-disable complexity */
 import PropTypes from "prop-types";
 
 import ImageSelectComponent from "../ImageSelectComponent";
 import Portal from "./Portal";
 
 /**
+ * @param {string} target The target element ID in which to render the portal.
+ * @param {string} label The label for the Image Select component.
+ * @param {boolean} hasPreview A boolean to determine if a preview should be rendered.
+ * @param {string} hiddenField A hidden field to save the image.
+ * @param {string} [hiddenFieldImageId=""] The ID for the hidden field.
+ * @param {string} [hiddenFieldFallbackImageId=""] The ID for the hidden fallback image field.
+ * @param {string} [selectImageButtonId=""] The ID for the image select button.
+ * @param {string} [replaceImageButtonId=""] The ID for the image replace button.
+ * @param {string} [removeImageButtonId=""] The ID for the image remove button.
+ * @param {boolean} [hasNewBadge=false] Whether the ImageSelectComponent has a 'New' badge.
+ * @param {boolean} [isDisabled=false] Whether the ImageSelectComponent is disabled.
+ * @param {boolean} [hasPremiumBadge=false] Whether the ImageSelectComponent has a 'Premium' badge.
+ * @param {boolean} [hasImageValidation=false] Whether the uploaded image uses validation.
  *
- * @param {string} target                       A target element ID in which to render the portal.
- * @param {string} label                        The label for the Image Select component.
- * @param {bool}   hasPreview                   A boolean to determine if a preview should be rendered.
- * @param {string} hiddenField                  A hidden field to save the image.
- * @param {string} hiddenFieldImageId           The ID for the hidden field.
- * @param {string} hiddenFieldFallbackImageId   The ID for the hidden fallback image field.
- * @param {string} selectImageButtonId          The ID for the image select button.
- * @param {string} replaceImageButtonId         The ID for the image replace button.
- * @param {string} removeImageButtonId          The ID for the image remove button.
- * @param {bool}   hasNewBadge                  Optional. Whether the ImageSelectComponent has a 'New' badge.
- * @param {bool}   isDisabled                   Optional. Whether the ImageSelectComponent is disabled.
- * @param {bool}   hasPremiumBadge              Optional. Whether the ImageSelectComponent has a 'Premium' badge.
- * @param {bool}   hasImageValidation           Optional. Whether the uploaded image uses validation.
- *
- * @returns {null|wp.Element} The element.
- * @constructor
+ * @returns {React.ReactNode} The element.
  */
-export default function ImageSelectPortal(
-	{ target,
-		label,
-		hasPreview,
-		hiddenField,
-		hiddenFieldImageId,
-		hiddenFieldFallbackImageId,
-		selectImageButtonId,
-		replaceImageButtonId,
-		removeImageButtonId,
-		hasNewBadge,
-		isDisabled,
-		hasPremiumBadge,
-		hasImageValidation,
-	} ) {
+export default function ImageSelectPortal( {
+	target,
+	label,
+	hasPreview,
+	hiddenField,
+	hiddenFieldImageId = "",
+	hiddenFieldFallbackImageId = "",
+	selectImageButtonId = "",
+	replaceImageButtonId = "",
+	removeImageButtonId = "",
+	hasNewBadge = false,
+	isDisabled = false,
+	hasPremiumBadge = false,
+	hasImageValidation = false,
+} ) {
 	return (
 		<Portal target={ target }>
 			<ImageSelectComponent
@@ -71,16 +70,4 @@ ImageSelectPortal.propTypes = {
 	isDisabled: PropTypes.bool,
 	hasPremiumBadge: PropTypes.bool,
 	hasImageValidation: PropTypes.bool,
-};
-
-ImageSelectPortal.defaultProps = {
-	hiddenFieldImageId: "",
-	hiddenFieldFallbackImageId: "",
-	selectImageButtonId: "",
-	replaceImageButtonId: "",
-	removeImageButtonId: "",
-	hasNewBadge: false,
-	isDisabled: false,
-	hasPremiumBadge: false,
-	hasImageValidation: false,
 };
