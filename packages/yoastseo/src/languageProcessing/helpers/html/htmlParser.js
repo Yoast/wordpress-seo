@@ -30,6 +30,7 @@ const IGNORED_TAGS = [ "script", "style", "code", "pre", "blockquote", "textarea
  * @type {string[]}
  */
 const IGNORED_CLASSES = [
+	"yoast-ai-summarize",
 	"yoast-table-of-contents",
 	"yoast-reading-time__wrapper",
 	"elementor-button-wrapper",
