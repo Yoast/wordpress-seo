@@ -91,6 +91,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'26.0-RC0'   => 'upgrade_260',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1153,6 +1154,18 @@ class WPSEO_Upgrade {
 		if ( get_option( Cleanup_Integration::CURRENT_TASK_OPTION ) === false ) {
 			$cleanup_integration = YoastSEO()->classes->get( Cleanup_Integration::class );
 			$cleanup_integration->start_cron_job( 'clean_selected_empty_usermeta', DAY_IN_SECONDS );
+		}
+	}
+
+	/**
+	 * Performs the 26.0 upgrade routine.
+	 * Enables the Site Kit integration feature flag if Site Kit is active.
+	 *
+	 * @return void
+	 */
+	private function upgrade_260() {
+		if ( is_plugin_active( 'google-site-kit/google-site-kit.php' ) ) {
+			WPSEO_Options::set( 'google_site_kit_feature_enabled', true, 'wpseo' );
 		}
 	}
 
