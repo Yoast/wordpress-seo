@@ -14,8 +14,6 @@ final class Get_Generation_Failure_Result_Test extends Abstract_File_Reports_Tes
 	/**
 	 * Check if the generation failure report is built correctly for not_managed_by_yoast_seo reason.
 	 *
-	 * @covers ::get_generation_failure_result
-	 *
 	 * @return void
 	 */
 	public function test_creates_generation_failure_report_for_not_managed_by_yoast_seo() {
@@ -47,8 +45,6 @@ final class Get_Generation_Failure_Result_Test extends Abstract_File_Reports_Tes
 
 	/**
 	 * Check if the generation failure report is built correctly for filesystem_permissions reason.
-	 *
-	 * @covers ::get_generation_failure_result
 	 *
 	 * @return void
 	 */
@@ -82,8 +78,6 @@ final class Get_Generation_Failure_Result_Test extends Abstract_File_Reports_Tes
 	/**
 	 * Check if the generation failure report is built correctly for unknown reason.
 	 *
-	 * @covers ::get_generation_failure_result
-	 *
 	 * @return void
 	 */
 	public function test_creates_generation_failure_report_for_unknown_reason() {
@@ -115,8 +109,6 @@ final class Get_Generation_Failure_Result_Test extends Abstract_File_Reports_Tes
 
 	/**
 	 * Check if the generation failure report defaults to unknown reason for invalid reason.
-	 *
-	 * @covers ::get_generation_failure_result
 	 *
 	 * @return void
 	 */
