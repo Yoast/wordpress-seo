@@ -1,5 +1,5 @@
 /**
- * This file is used for HTML parsing for assessment that not use the HTML Parser.
+ * This file provides HTML parsing for assessments that do NOT use the HTML Parser.
  * We use a (simpler) external library, which can be found here: https://github.com/fb55/htmlparser2.
  */
 import htmlparser from "htmlparser2";
