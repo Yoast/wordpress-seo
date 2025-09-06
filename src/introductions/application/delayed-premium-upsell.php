@@ -82,14 +82,17 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 	private function should_show_after_delay(): bool {
 		$delay        = ( self::DELAY_DAYS * \DAY_IN_SECONDS );
 		$current_time = \time();
+		$previous_version = $this->options_helper->get( 'previous_version' );
+		$first_activated_on = $this->options_helper->get( 'first_activated_on' );
 
-		$last_updated_on = $this->options_helper->get( 'last_updated_on' );
-		if ( ( $current_time - $last_updated_on ) >= $delay ) {
+		// Case where the user has installed the plugin for the first time and the delay has passed.
+		if ( ( $current_time - $first_activated_on ) >= $delay  && $previous_version === '' ) {
 			return true;
 		}
 
-		$first_activated_on = $this->options_helper->get( 'first_activated_on' );
-		if ( ( $current_time - $first_activated_on ) >= $delay ) {
+		// Case where the user has updated the plugin and the delay has passed since the last update.
+		$last_updated_on = $this->options_helper->get( 'last_updated_on' );
+		if ( ( $current_time - $last_updated_on ) >= $delay ) {
 			return true;
 		}
 
