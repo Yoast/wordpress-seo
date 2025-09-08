@@ -9,6 +9,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
+use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
  * This code handles the option upgrades.
@@ -91,6 +92,7 @@ class WPSEO_Upgrade {
 			'20.7-RC0'   => 'upgrade_207',
 			'20.8-RC0'   => 'upgrade_208',
 			'22.6-RC0'   => 'upgrade_226',
+			'25.9-RC0'   => 'upgrade_260',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1159,6 +1161,46 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 2.6.0 upgrade routine.
+	 * Updates the format of the introductions user meta to include a timestamp in case an introduction has been seen already.
+	 *
+	 * @return void
+	 */
+	protected function upgrade_260() {
+		global $wpdb;
+
+		$meta_key = Introductions_Seen_Repository::USER_META_KEY;
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$usermetas = $wpdb->get_results(
+			$wpdb->prepare(
+				'
+				SELECT %i, %i
+				FROM %i
+				WHERE %i = %s
+				',
+				[
+					'user_id',
+					'meta_value',
+					$wpdb->usermeta,
+					'meta_key',
+					$meta_key,
+				]
+			),
+			ARRAY_A
+		);
+
+		if ( empty( $usermetas ) ) {
+			return;
+		}
+
+		foreach ( $usermetas as $usermeta ) {
+			$this->update_introductions_format( $usermeta );
+		}
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1869,5 +1911,27 @@ class WPSEO_Upgrade {
 	 */
 	public function delete_user_introduction_meta() {
 		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
+	}
+
+	/**
+	 * Updates the introductions meta format to include a timestamp of when the introduction was seen.
+	 *
+	 * @param array<string,int|string> $usermeta The usermeta row containing the introductions data.
+	 *
+	 * @return void
+	 */
+	public function update_introductions_format( $usermeta ) {
+		$introductions     = unserialize( $usermeta['meta_value'] );
+		$new_introductions = [];
+		foreach ( $introductions as $introduction => $is_seen ) {
+			if ( (bool) $is_seen === true ) {
+				$new_introductions[ $introduction ]['is_seen'] = true;
+				$new_introductions[ $introduction ]['seen_on'] = time();
+			}
+			else {
+				$new_introductions[ $introduction ] = false;
+			}
+		}
+		update_user_meta( $usermeta['user_id'], Introductions_Seen_Repository::USER_META_KEY, $new_introductions );
 	}
 }
