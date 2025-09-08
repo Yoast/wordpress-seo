@@ -76,7 +76,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
 			->andReturn( $meta );
 
 		$this->assertEquals( $expected, $this->instance->get_all_introductions( $user_id ) );
@@ -94,8 +94,18 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'expected' => Introductions_Seen_Repository::DEFAULT_VALUE,
 			],
 			'introduction seen' => [
-				'meta'     => [ 'foo' => true ],
-				'expected' => [ 'foo' => true ],
+				'meta'     => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
+				'expected' => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
 			],
 			'string'            => [
 				'meta'     => 'foo',
@@ -117,7 +127,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
 			->andReturn( false );
 
 		$this->expectException( Invalid_User_Id_Exception::class );
@@ -162,7 +172,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
 			->andReturn( $meta );
 
 		$this->assertSame( $expected, $this->instance->is_introduction_seen( $user_id, $introduction_id ) );
@@ -177,12 +187,17 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		return [
 			'seen'             => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => true ],
+				'meta'            => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
 				'expected'        => true,
 			],
 			'not seen'         => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => false ],
+				'meta'            => [ 'foo' => [ 'is_seen' => false ] ],
 				'expected'        => false,
 			],
 			'not present'      => [
@@ -192,22 +207,32 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 			],
 			'type juggle: 1'   => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => 1 ],
+				'meta'            => [
+					'foo' => [
+						'is_seen' => 1,
+						'seen_on' => 12345678,
+					],
+				],
 				'expected'        => true,
 			],
 			'type juggle: 0'   => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => 0 ],
+				'meta'            => [ 'foo' => [ 'is_seen' => 0 ] ],
 				'expected'        => false,
 			],
 			'type juggle: "1"' => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => '1' ],
+				'meta'            => [
+					'foo' => [
+						'is_seen' => '1',
+						'seen_on' => 12345678,
+					],
+				],
 				'expected'        => true,
 			],
 			'type juggle: "0"' => [
 				'introduction_id' => 'foo',
-				'meta'            => [ 'foo' => 0 ],
+				'meta'            => [ 'foo' => [ 'is_seen' => '0' ] ],
 				'expected'        => false,
 			],
 		];
@@ -233,7 +258,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
 			->andReturn( $meta );
 		$this->user_helper->expects( 'update_meta' )
 			->times( ( $meta === $expected_meta ) ? 0 : 1 )
@@ -260,13 +285,23 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'introduction_id' => 'foo',
 				'is_seen'         => false,
 				'meta'            => [],
-				'expected_meta'   => [ 'foo' => false ],
+				'expected_meta'   => [ 'foo' => [ 'is_seen' => false ] ],
 			],
 			'no change' => [
 				'introduction_id' => 'foo',
 				'is_seen'         => true,
-				'meta'            => [ 'foo' => true ],
-				'expected_meta'   => [ 'foo' => true ],
+				'meta'            => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
+				'expected_meta'   => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
 			],
 		];
 	}
