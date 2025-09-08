@@ -227,6 +227,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			'term_id'     => 1,
 			'name'        => 'some_category',
 			'description' => 'description',
+			'count'       => 5,
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
@@ -320,6 +321,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			'readability_score'           => 50,
 			'inclusive_language_score'    => 42,
 			'version'                     => 1,
+			'post_count'                  => 5,
 		];
 
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
