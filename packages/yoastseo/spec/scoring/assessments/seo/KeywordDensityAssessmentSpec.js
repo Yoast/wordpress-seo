@@ -13,8 +13,6 @@ const morphologyDataDe = getMorphologyData( "de" );
 const morphologyDataJA = getMorphologyData( "ja" );
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
-const shortTextJapanese = "熱".repeat( 199 );
-const longTextJapanese = "熱".repeat( 200 );
 
 describe( "Tests for the keyphrase density assessment when no keyphrase and/or text is added", function() {
 	it( "shows feedback for keyphrase density when there is no keyphrase set", function() {

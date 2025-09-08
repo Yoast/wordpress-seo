@@ -7,7 +7,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -110,11 +109,10 @@ class KeyphraseDensityAssessment extends Assessment {
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
 		this._canAssess = false;
 
-		if( paper.hasKeyword() && paper.hasText() ){
+		if ( paper.hasKeyword() && paper.hasText() ) {
 			this._canAssess = true;
 			this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
 		}
-
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
@@ -193,7 +191,7 @@ class KeyphraseDensityAssessment extends Assessment {
 	 *
 	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
 	 */
-	calculateResult( paper ) {
+	calculateResult() {
 		if ( ! this._canAssess ) {
 			return {
 				score: this._config.scores.noKeyphraseOrText,
