@@ -188,7 +188,8 @@ class Introductions_Integration implements Integration_Interface {
 		}
 
 		// Mark the introduction with the highest priority as seen.
-		$metadata[ $highest_priority_intro['id'] ] = true;
+		$metadata[ $highest_priority_intro['id'] ]['is_seen'] = true;
+		$metadata[ $highest_priority_intro['id'] ]['seen_on'] = \time();
 
 		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}

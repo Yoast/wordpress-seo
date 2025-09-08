@@ -40,7 +40,7 @@ class Introductions_Seen_Repository {
 	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function get_all_introductions( $user_id ): array {
-		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
+		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY );
 		if ( $seen_introductions === false ) {
 			throw new Invalid_User_Id_Exception();
 		}
@@ -84,7 +84,7 @@ class Introductions_Seen_Repository {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		if ( \array_key_exists( $introduction_id, $introductions ) ) {
-			return (bool) $introductions[ $introduction_id ];
+			return (bool) $introductions[ $introduction_id ]['is_seen'];
 		}
 
 		return false;
@@ -105,10 +105,14 @@ class Introductions_Seen_Repository {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		// Check if the wanted value is already set.
-		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ] === $is_seen ) {
+		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ]['is_seen'] === $is_seen ) {
 			return true;
 		}
-		$introductions[ $introduction_id ] = $is_seen;
+		$introductions[ $introduction_id ]['is_seen'] = $is_seen;
+		if ( $is_seen ) {
+			$introductions[ $introduction_id ]['seen_on'] = \time();
+		}
+
 
 		return $this->set_all_introductions( $user_id, $introductions );
 	}
