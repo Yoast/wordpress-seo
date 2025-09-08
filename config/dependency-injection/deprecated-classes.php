@@ -19,20 +19,8 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
-use Yoast\WP\SEO\Config\Wordproof_App_Config;
-use Yoast\WP\SEO\Config\Wordproof_Translations;
 use Yoast\WP\SEO\Helpers\Request_Helper;
-use Yoast\WP\SEO\Helpers\Wordproof_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Disable_Concatenate_Scripts_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
-use Yoast\WP\SEO\Integrations\Duplicate_Post_Integration;
-use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
-use Yoast\WP\SEO\Integrations\Third_Party\Wordproof;
-use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
-use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
 
 $deprecated_classes = [
 	Request_Helper::class                                          => '23.6',
