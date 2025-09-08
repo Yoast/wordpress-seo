@@ -1,5 +1,4 @@
 const fs = require( "fs" );
-const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
 const githubApi = require( "../lib/github-api" );
 
 /**
@@ -66,13 +65,6 @@ module.exports = function( grunt ) {
 
 			const issueResponse = await githubApi( "issues", issueData, "POST" );
 			const issueResponseData = await issueResponse.json();
-
-			// Send a message to the slack plugin channel.
-			const slackWebhook = new IncomingWebhook( process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN );
-			const slackMessageIssueLink = issueResponseData.html_url || "_GitHub issue creation failed. Please check your .env config._";
-			await slackWebhook.send( {
-				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ slackMessageIssueLink }`,
-			} );
 
 			const finalMessage = "You can now celebrate, but there is work to be done!";
 

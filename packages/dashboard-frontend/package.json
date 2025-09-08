@@ -21,7 +21,7 @@
     "lint": "eslint . --max-warnings=0",
     "storybook": "storybook dev -p 6008",
     "test": "jest",
-    "watch": "yarn watch:js",
+    "watch": "yarn clean:build && yarn watch:js",
     "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.3",
-    "@wordpress/i18n": "^5.0.1",
+    "@wordpress/i18n": "^5.8.2",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21"
   },

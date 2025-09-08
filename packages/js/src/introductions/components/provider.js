@@ -40,7 +40,6 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 		doAction( "yoast.introductions.ready" );
 	}, [ registerComponent ] );
 
-
 	return (
 		<IntroductionsContext.Provider value={ components }>
 			{ children }

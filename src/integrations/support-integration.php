@@ -144,7 +144,7 @@ class Support_Integration implements Integration_Interface {
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		$this->asset_manager->enqueue_script( 'support' );
 		$this->asset_manager->enqueue_style( 'support' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'support', 'wpseoScriptData', $this->get_script_data() );

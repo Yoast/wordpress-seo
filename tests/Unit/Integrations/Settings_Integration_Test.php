@@ -20,6 +20,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
+use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -83,6 +84,13 @@ final class Settings_Integration_Test extends TestCase {
 	private $manual_post_collection;
 
 	/**
+	 * Holds the File_Runner instance.
+	 *
+	 * @var Mockery\MockInterface|File_Runner
+	 */
+	private $file_runner;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -103,6 +111,7 @@ final class Settings_Integration_Test extends TestCase {
 		$content_type_visibility = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
 		$llms_txt_configuration  = Mockery::mock( Llms_Txt_Configuration::class );
 		$manual_post_collection  = Mockery::mock( Manual_Post_Collection::class );
+		$file_runner             = Mockery::mock( File_Runner::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -119,7 +128,8 @@ final class Settings_Integration_Test extends TestCase {
 			$this->options,
 			$content_type_visibility,
 			$llms_txt_configuration,
-			$manual_post_collection
+			$manual_post_collection,
+			$file_runner
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -137,7 +147,8 @@ final class Settings_Integration_Test extends TestCase {
 			$this->options,
 			$content_type_visibility,
 			$llms_txt_configuration,
-			$manual_post_collection
+			$manual_post_collection,
+			$file_runner
 		);
 	}
 

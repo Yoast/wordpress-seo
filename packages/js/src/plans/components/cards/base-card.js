@@ -8,28 +8,40 @@ import { LearnMore } from "../actions/learn-more";
 import { ManageInMyYoast } from "../actions/manage-in-my-yoast";
 
 /**
+ * Plans card badge component.
+ *
+ * @param {string} variant The variant of the badge (success or error).
+ * @param {string} className Additional class names for the badge.
+ * @param {React.ReactNode} children The content of the badge.
+ *
+ * @returns {JSX.Element} The element.
+ */
+const CardBadge = ( { variant, className, children } ) => <div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
+	<Badge size="small" className={ classNames( "yst-border", className ) } variant={ variant }>
+		{ children }
+	</Badge>
+</div>;
+
+/**
  * A badge component that highlights the current plan status.
  *
  * @param {boolean} hasHighlight Whether the card should have a highlight (shadow and border).
  * @param {boolean} isActiveHighlight Whether the card is an active plan, which will determine the badge color and highlight text.
+ * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  *
  * @returns {?JSX.Element} The element or null if not current.
  */
-const CardHighlightBadge = ( { hasHighlight, isActiveHighlight } ) => {
+const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPromotionActive } ) => {
 	if ( ! hasHighlight ) {
-		return null;
+		return isBlackFridayPromotionActive && <CardBadge className="yst-bg-black yst-text-amber-300 yst-border-amber-300">{ __( "30% off - Black Friday", "wordpress-seo" ) }</CardBadge>;
 	}
 
-	return (
-		<div className="yst-absolute yst-top-0 yst--translate-y-1/2 yst-w-full yst-text-center">
-			<Badge size="small" className="yst-border" variant={ isActiveHighlight ? "success" : "error" }>
-				{ isActiveHighlight
-					? __( "Current active plan", "wordpress-seo" )
-					: __( "Plan not activated", "wordpress-seo" )
-				}
-			</Badge>
-		</div>
-	);
+	return <CardBadge variant={ isActiveHighlight ? "success" : "error" }>
+		{ isActiveHighlight
+			? __( "Current active plan", "wordpress-seo" )
+			: __( "Plan not activated", "wordpress-seo" )
+		}
+	</CardBadge>;
 };
 
 /**
@@ -48,6 +60,7 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight } ) => {
  * @param {...Object} buyConfig Additional configuration for the buy button, for the CTB attributes.
  * @param {string} manageLink The URL to manage the product in MyYoast.
  * @param {string} learnMoreLink The URL to learn more about the product.
+ * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  *
  * @returns {JSX.Element} The element.
  */
@@ -65,6 +78,7 @@ export const BaseCard = ( {
 	buyConfig,
 	manageLink,
 	learnMoreLink,
+	isBlackFridayPromotionActive,
 } ) => {
 	const svgAriaProps = useSvgAria();
 
@@ -108,7 +122,11 @@ export const BaseCard = ( {
 					</div>
 				</Card.Footer>
 			</Card>
-			<CardHighlightBadge hasHighlight={ hasHighlight } isActiveHighlight={ isActiveHighlight } />
+			<CardHighlightBadge
+				hasHighlight={ hasHighlight }
+				isActiveHighlight={ isActiveHighlight }
+				isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
+			/>
 		</div>
 	);
 };
