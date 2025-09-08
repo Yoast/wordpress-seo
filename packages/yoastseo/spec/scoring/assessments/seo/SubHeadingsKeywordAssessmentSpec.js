@@ -50,7 +50,7 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them</a>." );
+			"You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them." );
 	} );
 	it( "shows feedback for keyphrase in subheadings when there is a long text with no subheadings", function() {
 		const paper = new Paper( longText, { keyword: "keyphrase" } );
@@ -59,7 +59,7 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that</a>!" );
+			"You are not using any higher-level subheadings containing the keyphrase or its synonyms. <a href='https://yoa.st/33n' target='_blank'>Fix that</a>!" );
 	} );
 	it( "shows correct feedback for keyphrase in subheadings when there is a Japanese short text with no subheadings", function() {
 		const paper = new Paper( shortTextJapanese, { keyword: "鳥" } );
@@ -68,7 +68,7 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them</a>." );
+			"You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them." );
 	} );
 	it( "shows feedback for keyphrase in subheadings when there is a Japanese long text with no subheadings", function() {
 		const paper = new Paper( longTextJapanese, { keyword: "鳥" } );
@@ -77,7 +77,7 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 		const assessment = new SubheadingsKeywordAssessment().getResult( paper, researcher );
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"<a href='https://yoa.st/33n' target='_blank'>You are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that</a>!" );
+			"You are not using any higher-level subheadings containing the keyphrase or its synonyms. <a href='https://yoa.st/33n' target='_blank'>Fix that</a>!" );
 	} );
 } );
 
@@ -98,7 +98,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper(  shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" +
 			shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" +
 			shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>" + shortText + "<h2>subheading</h2>",
-			{ keyword: "keyphrase" } );
+		{ keyword: "keyphrase" } );
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } )
@@ -224,5 +224,32 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
+	} );
+} );
+
+describe( "Tests for SubheadingsKeywordAssessment in cornerstone content", () => {
+	it( "should return the correct config when cornerstone content is on: non-Japanese", () => {
+		const assessment = new SubheadingsKeywordAssessment( {
+			cornerstoneContent: true,
+			parameters: { recommendedMaximumLength: 250 },
+		} );
+		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
+		const config = assessment.getLanguageSpecificConfig( new DefaultResearcher( paper ) );
+		expect( config.parameters ).toEqual(
+			{
+				recommendedMaximumLength: 250,
+				lowerBoundary: 0.3,
+				upperBoundary: 0.75,
+			} );
+		expect( config.cornerstoneContent ).toBe( true );
+	} );
+	it( "should return the correct config when cornerstone content is on: Japanese", () => {
+		const assessment = new SubheadingsKeywordAssessment( {
+			cornerstoneContent: true,
+		} );
+		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
+		const config = assessment.getLanguageSpecificConfig( new JapaneseResearcher( paper ) );
+		expect( config.parameters.recommendedMaximumLength ).toEqual( 500 );
+		expect( config.cornerstoneContent ).toBe( true );
 	} );
 } );
