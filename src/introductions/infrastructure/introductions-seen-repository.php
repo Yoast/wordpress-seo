@@ -113,7 +113,6 @@ class Introductions_Seen_Repository {
 			$introductions[ $introduction_id ]['seen_on'] = \time();
 		}
 
-
 		return $this->set_all_introductions( $user_id, $introductions );
 	}
 }
