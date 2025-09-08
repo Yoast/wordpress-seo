@@ -205,7 +205,7 @@ Yoast SEO 25.9 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Enhances the UX of the llms.txt feature by displaying errors with generating the llms.txt file in the relevant settings page.
+* Improves the UX of the llms.txt feature by displaying errors with generating the llms.txt file in the relevant settings page.
 * Improves the UX of onboarding new users by preventing irrelevant modals from displaying in the First Time Configuration.
 
 #### Other
