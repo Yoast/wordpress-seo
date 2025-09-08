@@ -6,7 +6,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
 import AssessmentResult from "../../../values/AssessmentResult";
 import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
-import {filterShortcodesFromHTML} from "../../../languageProcessing/helpers";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
@@ -40,6 +40,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33n" ),
+			cornerstoneContent: false,
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -54,7 +55,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {number} The length of the text.
 	 */
 	getTextLength( paper, researcher ) {
-		// Give specific feedback for cases where the post starts with a long text without subheadings.
 		const customCountLength = researcher.getHelper( "customCountLength" );
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
@@ -177,10 +177,47 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
+	 * Determines the score and the Result text for the case there are no subheadings.
+	 *
+	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
+	 */
+	getResultForNoSubheadings() {
+		if ( this._textLength >= this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.badLongTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms. %2$sFix that%3$s!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+		if ( this._textLength < this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.goodShortTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s expands to a link on yoast.com and %2$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
+	}
+
+	/**
 	 * Determines the score and the Result text for the subheadings.
 	 * @param {Paper} paper to use for the check.
 	 *
-	 * @returns {Object} The object with the calculated score and the result text.
+	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
 	calculateResult( paper ) {
 		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
@@ -198,36 +235,11 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				),
 			};
 		}
-		if ( ! this._hasSubheadings && this._textLength >= this._config.parameters.recommendedMaximumLength ) {
-			return {
-				score: this._config.scores.badLongTextNoSubheadings,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-					__(
-						"%1$sKeyphrase in subheading%3$s: %2$sYou are not using any higher-level subheadings containing the keyphrase or its synonyms. Fix that%3$s!",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
+
+		if ( ! this._hasSubheadings ) {
+			return this.getResultForNoSubheadings();
 		}
-		if ( ! this._hasSubheadings && this._textLength < this._config.parameters.recommendedMaximumLength ) {
-			return {
-				score: this._config.scores.goodShortTextNoSubheadings,
-				resultText: sprintf(
-					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-					__(
-						"%1$sKeyphrase in subheading%3$s: %2$sYou are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them%3$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
-		}
+
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.tooFewMatches,
