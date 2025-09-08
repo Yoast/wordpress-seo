@@ -1,23 +1,24 @@
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
-import { useDocumentTitle } from "../hooks";
+import { STORE_NAME } from "../constants";
 
 /**
  * @param {Object} props The properties.
- * @param {JSX.node} children The children.
+ * @param {React.ReactNode} children The children.
  * @param {string} title The title.
- * @param {JSX.node} [description] The description.
+ * @param {React.ReactNode} [description=null] The description.
  * @returns {JSX.Element} The route layout component.
  */
 const RouteLayout = ( {
 	children,
 	title,
-	description,
+	description = null,
 } ) => {
-	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
+	const documentTitle = useSelect( select => select( STORE_NAME ).selectDocumentFullTitle( { prefix: title } ), [] );
 	const ariaLiveTitle = sprintf(
 		/* translators: 1: Settings' section title, 2: Yoast SEO */
 		__( "%1$s Settings - %2$s", "wordpress-seo" ),

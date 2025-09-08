@@ -106,6 +106,20 @@ class Elementor implements Integration_Interface {
 	protected $promotion_manager;
 
 	/**
+	 * Whether the insights feature is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_insights_enabled;
+
+	/**
+	 * Whether the cornerstone content feature is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_cornerstone_enabled;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -138,6 +152,8 @@ class Elementor implements Integration_Interface {
 		$this->inclusive_language_analysis  = new WPSEO_Metabox_Analysis_Inclusive_Language();
 		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->is_insights_enabled          = $this->options->get( 'enable_metabox_insights', false );
+		$this->is_cornerstone_enabled       = $this->options->get( 'enable_cornerstone_content', false );
 	}
 
 	/**
@@ -370,7 +386,9 @@ class Elementor implements Integration_Interface {
 
 		$this->asset_manager->enqueue_style( 'admin-global' );
 		$this->asset_manager->enqueue_style( 'metabox-css' );
-		$this->asset_manager->enqueue_style( 'scoring' );
+		if ( $this->readability_analysis->is_enabled() ) {
+			$this->asset_manager->enqueue_style( 'scoring' );
+		}
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'ai-generator' );
@@ -416,6 +434,7 @@ class Elementor implements Integration_Interface {
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor'         => true,
+			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
@@ -437,7 +456,30 @@ class Elementor implements Integration_Interface {
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
-		$this->asset_manager->enqueue_user_language_script();
+		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
+			$this->asset_manager->enqueue_user_language_script();
+		}
+	}
+
+	/**
+	 * Checks whether the current Elementor version is compatible with our introduction v2.
+	 *
+	 * In version 3.30.0, Elementor removed the experimental flag for the editor v2.
+	 * Resulting in the editor v2 being the default.
+	 *
+	 * @return bool Whether the Elementor version is compatible with introduction v2.
+	 */
+	private function is_elementor_version_compatible_with_introduction_v2(): bool {
+		if ( ! \defined( 'ELEMENTOR_VERSION' ) ) {
+			return false;
+		}
+
+		// Take the semver version from their version string.
+		$matches = [];
+		$version = ( \preg_match( '/^([0-9]+.[0-9]+.[0-9]+)/', \ELEMENTOR_VERSION, $matches ) > 0 ) ? $matches[1] : \ELEMENTOR_VERSION;
+
+		// Check if the version is 3.30.0 or higher. This is where the editor v2 was taken out of the experimental into the default state.
+		return \version_compare( $version, '3.30.0', '>=' );
 	}
 
 	/**

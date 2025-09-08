@@ -7,7 +7,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/javascript",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/feature-flag"
   },
   "author": "Team Yoast",
@@ -17,8 +17,10 @@
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=0",
     "test": "jest",
-    "lint": "eslint . --max-warnings=0"
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -26,7 +28,7 @@
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
     "@yoast/browserslist-config": "^1.2.4",
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^9.16.0",
     "globals": "^15.13.0"

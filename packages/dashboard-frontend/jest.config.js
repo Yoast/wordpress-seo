@@ -11,6 +11,10 @@ module.exports = {
 		"\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
 		"@yoast/ui-library": "<rootDir>/../ui-library/src",
+		// The `@wordpress/i18n` package is using this module.
+		// It defaults to an ESM import in Jest for some reason.
+		// This is a workaround to point it to the CommonJS version.
+		memize: "<rootDir>/../../node_modules/memize/dist/index.cjs",
 	},
 	moduleDirectories: [
 		"<rootDir>/node_modules",
@@ -26,10 +30,6 @@ module.exports = {
 		"text",
 		"clover",
 		"text-summary",
-	],
-	testURL: "http://localhost/",
-	transformIgnorePatterns: [
-		"/node_modules/(?!memize|@wordpress/i18n).+\\.js$",
 	],
 	transform: {
 		"^.+\\.[jt]sx?$": "babel-jest",

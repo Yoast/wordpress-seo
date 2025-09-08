@@ -84,8 +84,8 @@ final class Track_Setup_Steps_Test extends Abstract_Setup_Steps_Tracking_Route_T
 	 */
 	public static function track_setup_steps_provider() {
 		return [
-			'Update site_kit_usage_tracking succeeded' => [ true, 200, 'yes', 'setup', 'setup', 'no', 'no' ],
-			'Update site_kit_usage_tracking failed'    => [ true, 200, 'yes', null, null, null, null ],
+			'Update site_kit_tracking succeeded' => [ true, 200, 'yes', 'setup', 'setup', 'no', 'no' ],
+			'Update site_kit_tracking failed'    => [ true, 200, 'yes', null, null, null, null ],
 		];
 	}
 }

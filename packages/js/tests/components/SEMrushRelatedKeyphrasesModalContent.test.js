@@ -166,6 +166,17 @@ describe( "SEMrushRelatedKeyphrasesModalContent", () => {
 
 			expect( actual ).toEqual( "requestEmpty" );
 		} );
+
+		it( "returns null when none of the messages apply", () => {
+			props = {
+				...props,
+				requestHasData: true,
+			};
+
+			const actual = getUserMessage( props );
+
+			expect( actual ).toBeNull();
+		} );
 	} );
 
 	describe( "hasMaximumRelatedKeyphrases", () => {

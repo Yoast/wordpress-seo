@@ -10,17 +10,14 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import MetaboxCollapsible from "../MetaboxCollapsible";
-import { ModalSmallContainer } from "../modals/Container";
-import KeywordSynonyms from "../modals/KeywordSynonyms";
-import { defaultModalClassName } from "../modals/Modal";
-import MultipleKeywords from "../modals/MultipleKeywords";
-import Modal from "../modals/SeoAnalysisModal";
+import { SynonymsUpsell } from "./SynonymsUpsell";
+import { MultipleKeywordsUpsell } from "./MultipleKeywordsUpsell";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
-import isBlockEditor from "../../helpers/isBlockEditor";
-import AIAssessmentFixesButton from "../../ai-assessment-fixes/components/ai-assessment-fixes-button";
+import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -33,78 +30,6 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
-	/**
-	 * Renders the keyword synonyms upsell modal.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 * @param {string} locationContext In which editor this component is rendered.
-	 *
-	 * @returns {JSX.Element} A modalButtonContainer component with the modal for a keyword synonyms upsell.
-	 */
-	renderSynonymsUpsell( location, locationContext ) {
-		const modalProps = {
-			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
-			classes: {
-				openButton: "wpseo-keyword-synonyms button-link",
-			},
-			labels: {
-				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				modalAriaLabel: __( "Add synonyms", "wordpress-seo" ),
-				heading: __( "Add synonyms", "wordpress-seo" ),
-			},
-		};
-
-		const buyLink = wpseoAdminL10n[
-			location.toLowerCase() === "sidebar"
-				? "shortlinks.upsell.sidebar.focus_keyword_synonyms_button"
-				: "shortlinks.upsell.metabox.focus_keyword_synonyms_button"
-		];
-
-		return (
-			<Modal { ...modalProps }>
-				<ModalSmallContainer>
-					<KeywordSynonyms buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalSmallContainer>
-			</Modal>
-		);
-	}
-
-	/**
-	 * Renders the multiple keywords upsell modal.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 * @param {string} locationContext In which editor this component is rendered.
-	 *
-	 * @returns {JSX.Element} A modalButtonContainer component with the modal for a multiple keywords upsell.
-	 */
-	renderMultipleKeywordsUpsell( location, locationContext ) {
-		const modalProps = {
-			className: `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding`,
-			classes: {
-				openButton: "wpseo-multiple-keywords button-link",
-			},
-			labels: {
-				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
-				modalAriaLabel: __( "Add related keyphrases", "wordpress-seo" ),
-				heading: __( "Add related keyphrases", "wordpress-seo" ),
-			},
-		};
-
-		const buyLink = wpseoAdminL10n[
-			location.toLowerCase() === "sidebar"
-				? "shortlinks.upsell.sidebar.focus_keyword_additional_button"
-				: "shortlinks.upsell.metabox.focus_keyword_additional_button"
-		];
-
-		return (
-			<Modal { ...modalProps }>
-				<ModalSmallContainer>
-					<MultipleKeywords buyLink={ addQueryArgs( buyLink, { context: locationContext } ) } />
-				</ModalSmallContainer>
-			</Modal>
-		);
-	}
-
 	/**
 	 * Renders the AnalysisUpsell component.
 	 *
@@ -190,38 +115,34 @@ class SeoAnalysis extends Component {
 		];
 	}
 
-	/* eslint-disable complexity */
+
 	/**
 	 * Renders the Yoast AI Optimize button.
 	 * The button is shown when:
 	 * - The assessment can be fixed through Yoast AI Optimize.
 	 * - The AI feature is enabled (for Yoast SEO Premium users; for Free users, the button is shown with an upsell).
-	 * - We are in the block editor.
+	 * - We are in the block editor or classic editor.
 	 * - We are not in the Elementor editor, nor in the Elementor in-between screen.
+	 * - We are not in a Taxonomy.
 	 *
 	 * @param {boolean} hasAIFixes Whether the assessment can be fixed through Yoast AI Optimize.
 	 * @param {string} id The assessment ID.
 	 *
 	 * @returns {void|JSX.Element} The AI Optimize button, or nothing if the button should not be shown.
 	 */
-	renderAIFixesButton = ( hasAIFixes, id ) => {
-		const { isElementor, isAiFeatureEnabled, isPremium } = this.props;
+	renderAIOptimizeButton = ( hasAIFixes, id ) => {
+		const { isElementor, isAiFeatureEnabled, isPremium, isTerm } = this.props;
 
 		// Don't show the button if the AI feature is not enabled for Yoast SEO Premium users.
 		if ( isPremium && ! isAiFeatureEnabled ) {
 			return;
 		}
 
-		const isElementorEditorPageActive =  document.body.classList.contains( "elementor-editor-active" );
-		const isNotElementorPage =  ! isElementor && ! isElementorEditorPageActive;
-
-		// The reason of adding the check if Elementor is active or not is because `isBlockEditor` method also returns `true` for Elementor.
-		// The reason of adding the check if the Elementor editor is active, is to stop showing the buttons in the in-between screen.
-		return hasAIFixes && isBlockEditor() && isNotElementorPage && (
-			<AIAssessmentFixesButton id={ id } isPremium={ isPremium } />
-		);
+		const shouldRenderAIButton = shouldRenderAIOptimizeButton( hasAIFixes, isElementor, isTerm );
+		// Show the button if the assessment can be fixed through Yoast AI Optimize, and we are not in the Elementor editor, or Taxonomy.
+		return shouldRenderAIButton && ( <AIOptimizeButton id={ id } isPremium={ isPremium } /> );
 	};
-	/* eslint-enable complexity */
+
 
 	/**
 	 * Renders the SEO Analysis component.
@@ -265,8 +186,8 @@ class SeoAnalysis extends Component {
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
-												{ this.renderSynonymsUpsell( location, locationContext ) }
-												{ this.renderMultipleKeywordsUpsell( location, locationContext ) }
+												<SynonymsUpsell location={ location } />
+												<MultipleKeywordsUpsell location={ location } locationContext={ locationContext } />
 											</Fragment> }
 											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
 											<AnalysisHeader>
@@ -281,7 +202,7 @@ class SeoAnalysis extends Component {
 												location={ location }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIFixesButton={ this.renderAIFixesButton }
+												renderAIOptimizeButton={ this.renderAIOptimizeButton }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
@@ -307,6 +228,7 @@ SeoAnalysis.propTypes = {
 	isElementor: PropTypes.bool,
 	isAiFeatureEnabled: PropTypes.bool,
 	isPremium: PropTypes.bool,
+	isTerm: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -320,6 +242,7 @@ SeoAnalysis.defaultProps = {
 	isElementor: false,
 	isAiFeatureEnabled: false,
 	isPremium: false,
+	isTerm: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -330,6 +253,7 @@ export default withSelect( ( select, ownProps ) => {
 		getIsElementorEditor,
 		getIsPremium,
 		getIsAiFeatureEnabled,
+		getIsTerm,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -341,5 +265,6 @@ export default withSelect( ( select, ownProps ) => {
 		isElementor: getIsElementorEditor(),
 		isPremium: getIsPremium(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
+		isTerm: getIsTerm(),
 	};
 } )( SeoAnalysis );

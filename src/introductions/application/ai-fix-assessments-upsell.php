@@ -51,7 +51,7 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	}
 
 	/**
-	 * Returns the name of the introdyction.
+	 * Returns the name of the introduction.
 	 *
 	 * @return string The name.
 	 */
@@ -67,30 +67,16 @@ class Ai_Fix_Assessments_Upsell implements Introduction_Interface {
 	 * @return int The priority.
 	 */
 	public function get_priority() {
-		return 10;
+		return 20;
 	}
 
 	/**
 	 * Returns whether this introduction should show.
+	 * We no longer show this introduction, so we always return false.
 	 *
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-
-		if ( $this->product_helper->is_premium() ) {
-			return false;
-		}
-
-		// Get the current user ID, if no user is logged in we bail as this is needed for the next checks.
-		$current_user_id = $this->user_helper->get_current_user_id();
-		if ( $current_user_id === 0 ) {
-			return false;
-		}
-
-		if ( ! $this->is_user_allowed( [ 'edit_posts' ] ) ) {
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 }

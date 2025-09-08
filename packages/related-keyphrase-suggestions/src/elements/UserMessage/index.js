@@ -1,17 +1,17 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { RequestFailed, RequestLimitReached, RequestEmpty, MaxRelatedKeyphrases } from "./components";
+import React from "react";
+import { MaxRelatedKeyphrases, RequestEmpty, RequestFailed, RequestLimitReached } from "./components";
 
 /**
  * Displays the user message following a request or action.
  *
- * @param {string} [variant] The type of message to display.
+ * @param {?string} [variant=null] The type of message to display.
  * @param {string} [upsellLink=""] The link to the upsell page.
  * @param {string} [className=""] The class name for the button.
  *
- * @returns {React.Component} The user message.
+ * @returns {JSX.Element} The user message.
  */
-export const UserMessage = ( { variant, upsellLink = "", className = "" } ) => {
+export const UserMessage = ( { variant = null, upsellLink = "", className = "" } ) => {
 	switch ( variant ) {
 		case "requestLimitReached":
 			return <RequestLimitReached upsellLink={ upsellLink } className={ className } />;
