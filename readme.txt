@@ -197,6 +197,22 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.0 =
+
+Release date: 2025-09-23
+
+#### Enhancements
+
+* Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
+
+#### Bugfixes
+
+* Fixes a bug where a string in the AI Generate usage counter tooltip was missing in RTL languages.
+
+#### Other
+
+* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to @bor0.
+
 = 25.9 =
 
 Release date: 2025-09-09
@@ -211,22 +227,6 @@ Yoast SEO 25.9 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Updates the copy of the consent modal for using the Yoast AI features.
-
-= 25.8 =
-
-Release date: 2025-08-26
-
-Yoast SEO 25.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Changes the AI generator button label and design.
-
-#### Other
-
-* Improves response validation of the Yoast license check. Props to [aryanjasala](https://github.com/aryanjasala).
-* Fixes a console warning message triggered by the introductions in the Yoast admin page.
-* Updates ads to reflect the new pricing scheme.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
