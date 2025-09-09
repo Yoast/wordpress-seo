@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Item;
 use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
@@ -21,21 +20,12 @@ class Introductions_Collector {
 	private $introductions;
 
 	/**
-	 * Holds the options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
 	 * Constructs the collector.
 	 *
-	 * @param Options_Helper         $options_helper   The options helper.
 	 * @param Introduction_Interface ...$introductions All the introductions.
 	 */
-	public function __construct( Options_Helper $options_helper, Introduction_Interface ...$introductions ) {
-		$this->options_helper = $options_helper;
-		$this->introductions  = $this->add_introductions( ...$introductions );
+	public function __construct( Introduction_Interface ...$introductions ) {
+		$this->introductions = $this->add_introductions( ...$introductions );
 	}
 
 	/**
