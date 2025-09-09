@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-
 import { STORE_NAME } from "../constants";
 import {
 	DOCUMENT_TITLE_NAME,
