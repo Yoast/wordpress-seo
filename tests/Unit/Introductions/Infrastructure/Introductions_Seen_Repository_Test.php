@@ -285,7 +285,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'introduction_id' => 'foo',
 				'is_seen'         => false,
 				'meta'            => [],
-				'expected_meta'   => [ 'foo' => [ 'is_seen' => false ] ],
+				'expected_meta'   => [ 'foo' => false ],
 			],
 			'no change' => [
 				'introduction_id' => 'foo',

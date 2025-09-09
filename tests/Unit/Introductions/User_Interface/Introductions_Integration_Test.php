@@ -212,6 +212,10 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( $introductions );
 
+		$this->introductions_collector->expects( 'update_metadata_for' )
+			->once()
+			->with( $user_id );
+
 		// Marks the introductions as seen.
 		$this->user_helper->expects( 'get_meta' )
 			->once()
@@ -248,6 +252,10 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( [] );
 
+		$this->introductions_collector->expects( 'update_metadata_for' )
+			->once()
+			->with( $user_id );
+
 		// Next mock in line is not reached.
 		$this->user_helper->expects( 'get_meta' )->never()->withAnyArgs();
 		$this->woocommerce_conditional->expects( 'is_met' )->never()->withAnyArgs();
@@ -275,6 +283,10 @@ final class Introductions_Integration_Test extends TestCase {
 			->once()
 			->with( $user_id )
 			->andReturn( $introductions );
+
+		$this->introductions_collector->expects( 'update_metadata_for' )
+			->once()
+			->with( $user_id );
 
 		// Marks the introductions as seen.
 		$this->user_helper->expects( 'get_meta' )
