@@ -72,9 +72,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
-			this._config = this.getLanguageSpecificConfig( researcher );
-		}
+		this._config = this.getLanguageSpecificConfig( researcher );
 		this._hasSubheadings = this.hasSubheadings( paper );
 		this._textLength = this.getTextLength( paper, researcher );
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
