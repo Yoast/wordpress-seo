@@ -145,9 +145,9 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Call to action URL**: [https://yoa.st/34m](https://yoast.com/what-is-anchor-text/#utm_source=yoast-seo&utm_medium=software&utm_term=competing-links-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                                 | Feedback                                                                                                             |
-|-------------------|--------|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Red	              | 2	     | There’s a link attached to the keyphrase or synonym		     | **Competing links**: You have a link which uses your keyphrase or synonym as its anchor text.. **Fix that** |
+| Traffic light   	 | Score	 | Criterion                                                 | Feedback                                                                                                            |
+|-------------------|--------|-----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Red	              | 2	     | There’s a link attached to the keyphrase or synonym		     | **Competing links**: You have a link which uses your keyphrase or synonym as its anchor text. **Fix that** |
 | Green	            | 8	     | There are no links attached to the keyphrase or synonym		 | **Competing links**: There are no links which use your keyphrase or synonym as their anchor text. Nice! |
 
 With the example keyphrase `cat and dog` the following criteria would apply to count as a competing link:
