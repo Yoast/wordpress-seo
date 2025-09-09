@@ -130,6 +130,7 @@ class Indexable extends Model {
 		'author_id',
 		'post_parent',
 		'primary_focus_keyword_score',
+		'post_count',
 		'readability_score',
 		'inclusive_language_score',
 		'link_count',
