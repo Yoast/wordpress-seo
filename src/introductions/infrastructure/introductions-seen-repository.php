@@ -108,8 +108,11 @@ class Introductions_Seen_Repository {
 		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ]['is_seen'] === $is_seen ) {
 			return true;
 		}
-		$introductions[ $introduction_id ]['is_seen'] = $is_seen;
-		if ( $is_seen ) {
+		if ( $is_seen === false ) {
+			$introductions[ $introduction_id ] = false;
+		}
+		else {
+			$introductions[ $introduction_id ]['is_seen'] = true;
 			$introductions[ $introduction_id ]['seen_on'] = \time();
 		}
 
