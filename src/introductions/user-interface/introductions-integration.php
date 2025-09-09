@@ -130,8 +130,10 @@ class Introductions_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		$user_id       = $this->user_helper->get_current_user_id();
+		$user_id = $this->user_helper->get_current_user_id();
+		$this->introductions_collector->update_metadata_for( $user_id );
 		$introductions = $this->introductions_collector->get_for( $user_id );
+
 		if ( ! $introductions ) {
 			// Bail when there are no introductions to show.
 			return;

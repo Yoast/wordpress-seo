@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Introductions\Application;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Item;
 use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
@@ -20,12 +21,21 @@ class Introductions_Collector {
 	private $introductions;
 
 	/**
+	 * Holds the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Constructs the collector.
 	 *
+	 * @param Options_Helper         $options_helper   The options helper.
 	 * @param Introduction_Interface ...$introductions All the introductions.
 	 */
-	public function __construct( Introduction_Interface ...$introductions ) {
-		$this->introductions = $this->add_introductions( ...$introductions );
+	public function __construct( Options_Helper $options_helper, Introduction_Interface ...$introductions ) {
+		$this->options_helper = $options_helper;
+		$this->introductions  = $this->add_introductions( ...$introductions );
 	}
 
 	/**
@@ -127,5 +137,26 @@ class Introductions_Collector {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Updates the introductions metadata format for the user
+	 * This is needed because we're introducing timestamps for introductions that have been seen, thus changing the format.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	public function update_metadata_for( int $user_id ) {
+		$metadata = $this->get_metadata( $user_id );
+		foreach ( $metadata as $introduction_name => $introduction_data ) {
+			if ( $introduction_data === true ) {
+				$metadata[ $introduction_name ] = [
+					'is_seen' => true,
+					'seen_on' => \time(),
+				];
+			}
+		}
+		\update_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }
