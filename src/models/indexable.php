@@ -81,6 +81,8 @@ use Yoast\WP\Lib\Model;
  * @property string $object_last_modified
  * @property string $object_published_at
  *
+ * @property int    $post_count
+ *
  * @property int    $version
  */
 class Indexable extends Model {
@@ -128,6 +130,7 @@ class Indexable extends Model {
 		'author_id',
 		'post_parent',
 		'primary_focus_keyword_score',
+		'post_count',
 		'readability_score',
 		'inclusive_language_score',
 		'link_count',

@@ -114,10 +114,32 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
+		Monkey\Functions\expect( 'wp_get_wp_version' )->andReturn( '6.9' );
+
 		$this->instance->register_hooks();
 
+		$this->assertNotFalse( \has_action( 'created_term', [ $this->instance, 'build_indexable' ] ) );
 		$this->assertNotFalse( \has_action( 'edited_term', [ $this->instance, 'build_indexable' ] ) );
 		$this->assertNotFalse( \has_action( 'delete_term', [ $this->instance, 'delete_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'update_term_count', [ $this->instance, 'update_term_count' ] ) );
+	}
+
+	/**
+	 * Tests if the expected hooks are registered when WP is below 6.9.
+	 *
+	 * @covers ::register_hooks
+	 *
+	 * @return void
+	 */
+	public function test_register_hooks_old_wp() {
+		Monkey\Functions\expect( 'wp_get_wp_version' )->andReturn( '6.8.12' );
+
+		$this->instance->register_hooks();
+
+		$this->assertNotFalse( \has_action( 'created_term', [ $this->instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'edited_term', [ $this->instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'delete_term', [ $this->instance, 'delete_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'edited_term_taxonomy', [ $this->instance, 'edited_term_taxonomy' ] ) );
 	}
 
 	/**
@@ -386,5 +408,33 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 			->once();
 
 		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the update_term_count functionality.
+	 *
+	 * @covers ::update_term_count
+	 *
+	 * @return void
+	 */
+	public function test_update_term_count() {
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'term', true )
+			->andReturn( $indexable );
+
+		$indexable->orm->expects( 'set' )->with( 'post_count', '5' );
+
+		$this->indexable_helper
+			->expects( 'save_indexable' )
+			->with( $indexable )
+			->once();
+
+		$this->instance->update_term_count( 1, 'category', 5 );
 	}
 }

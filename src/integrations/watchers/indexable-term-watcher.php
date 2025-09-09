@@ -91,6 +91,13 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		\add_action( 'created_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX );
+
+		if ( \version_compare( \wp_get_wp_version(), '6.9-alpha', '>=' ) ) {
+			\add_action( 'update_term_count', [ $this, 'update_term_count' ], \PHP_INT_MAX, 3 );
+		}
+		else {
+			\add_action( 'edited_term_taxonomy', [ $this, 'edited_term_taxonomy' ], \PHP_INT_MAX, 3 );
+		}
 	}
 
 	/**
@@ -149,4 +156,59 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
 		$this->indexable_helper->save_indexable( $indexable );
 	}
+
+	/**
+	 * Update the term indexable with the new post count.
+	 *
+	 * @param int    $tt_id         Term taxonomy ID.
+	 * @param string $taxonomy_name Taxonomy slug.
+	 * @param int    $count         Term count.
+	 *
+	 * @return void
+	 */
+	public function update_term_count( $tt_id, $taxonomy_name, $count ) {
+		$indexable = $this->repository->find_by_id_and_type( $tt_id, 'term', true );
+
+		if ( ! $indexable ) {
+			return;
+		}
+
+		$indexable->post_count = $count;
+		$this->indexable_helper->save_indexable( $indexable );
+	}
+
+	// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification -- Reason: We have no control over $args.
+
+	/**
+	 * Update the term indexable with the new post count.
+	 *
+	 * @param int    $tt_id         Term taxonomy ID.
+	 * @param string $taxonomy_name Taxonomy slug.
+	 * @param array  $args          Arguments passed to wp_update_term().
+	 *
+	 * @return void
+	 */
+	public function edited_term_taxonomy( $tt_id, $taxonomy_name, $args = [] ) {
+		global $wpdb;
+
+		if ( ! empty( $args ) ) {
+			// If args are passed, this is not a count update.
+			return;
+		}
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		$new_count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT count FROM {$wpdb->term_taxonomy} WHERE term_taxonomy_id = %d",
+				$tt_id
+			)
+		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery
+
+		$this->update_term_count( $tt_id, $taxonomy_name, (int) $new_count );
+	}
+
+	// phpcs:enable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
 }
