@@ -121,7 +121,9 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 
 		// Case where the user has updated the plugin and the delay has passed since the last update.
 		$last_updated_on = $this->options_helper->get( 'last_updated_on' );
-		if ( ( $current_time - $last_updated_on ) >= $delay ) {
+
+		$uniform_last_updated_on = \is_int( $last_updated_on ) ? $last_updated_on : 0;
+		if ( ( $current_time - $uniform_last_updated_on ) >= $delay ) {
 			return $this->is_last_introduction_seen_older_than_a_week();
 		}
 
