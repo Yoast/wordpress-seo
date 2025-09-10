@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
 /**
  * Test class for the constructor.
  *
- * @group Llms_Txt_Configuration
+ * @group llms.txt
  *
  * @covers Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration::__construct
  *
