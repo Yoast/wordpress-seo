@@ -10,7 +10,12 @@ import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
- * Represents the assessment that checks if the keyword is present in one of the subheadings.
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Represents the assessment that checks if the keyphrase is present in one of the subheadings.
  */
 export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
@@ -18,7 +23,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *
 	 * @param {object} config The configuration to use.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -72,13 +76,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		this._config = this.getLanguageSpecificConfig( researcher );
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Only overwrite the config when there is a language-specific config.
+		if ( languageSpecificConfig ) {
+			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
+		}
 		this._hasSubheadings = this.hasSubheadings( paper );
 		this._textLength = this.getTextLength( paper, researcher );
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-
-		// The configuration to use for Japanese texts.
-		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -96,12 +101,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
 	 *
 	 * @param {Researcher} researcher The researcher to use.
+	 * @param {object} languageSpecificConfig The language-specific config to use.
 	 *
-	 * @returns {SubheadingDistributionConfig} The config that should be used.
+	 * @returns {object} The language-specific config or the current config if there is no language-specific config.
 	 */
-	getLanguageSpecificConfig( researcher ) {
+	getLanguageSpecificConfig( researcher, languageSpecificConfig ) {
 		const currentConfig = this._config;
-		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
 		// Check if a language has a default cornerstone configuration.
 		if ( currentConfig.cornerstoneContent === true && Object.hasOwn( languageSpecificConfig,  "cornerstoneParameters" ) ) {
 			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );

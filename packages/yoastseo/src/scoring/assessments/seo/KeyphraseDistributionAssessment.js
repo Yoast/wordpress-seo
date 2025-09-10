@@ -5,7 +5,12 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
 
 /**
- * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Represents an assessment that returns a score based on the largest percentage of text in which no keyphrase occurs.
  */
 class KeyphraseDistributionAssessment extends Assessment {
 	/**
@@ -13,10 +18,12 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 *
 	 * @param {Object} [config] The configuration to use.
 	 * @param {Object} [config.scores] The scores to use.
+	 * @param {Object} [config.parameters] The parameters to use.
 	 * @param {number} [config.parameters.goodDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
 	 * @param {number} [config.parameters.acceptableDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
+	 * @param {Object} [config.scores]                The scores to use.
 	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are evenly distributed.
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
@@ -26,7 +33,6 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {object} [config.callbacks] 				The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts]	The function that returns the result texts.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -84,7 +90,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the keyphraseDistribution research.
 	 *
-	 * @returns {Object} Object with score and feedback text.
+	 * @returns {{score: number, hasMarks: boolean, resultText: string}} The calculated result.
 	 */
 	calculateResult() {
 		const {
@@ -166,7 +172,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Creates a marker for all content words in keyphrase and synonyms.
 	 *
-	 * @returns {Array} All markers for the current text.
+	 * @returns {string[]} All markers for the current text.
 	 */
 	getMarks() {
 		return this._keyphraseDistribution.sentencesToHighlight;

@@ -9,6 +9,12 @@ import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 
 /**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../../values/Mark").default } Mark
+ */
+
+/**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
  */
 class KeyphraseDensityAssessment extends Assessment {
@@ -16,19 +22,22 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 *
+	 * @param {Object} [config.parameters] The parameters to use.
 	 * If word forms are not available:
+	 * @param {Object} [config.parameters.noWordForms] The parameters to use when no morphological forms are available.
 	 * @param {number} [config.parameters.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
 	 * @param {number} [config.parameters.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
 	 * @param {number} [config.parameters.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 *
 	 * If word forms are available:
+	 * @param {Object} [config.parameters.multipleWordForms] The parameters to use when morphological forms are available.
 	 * @param {number} [config.parameters.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
 	 * @param {number} [config.parameters.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
 	 * @param {number} [config.parameters.multipleWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 *
+	 * @param {Object} [config.scores] The scores to use.
 	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyphrase in the text.
 	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyphrase in the text.
 	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyphrase instances in the text.
@@ -37,7 +46,6 @@ class KeyphraseDensityAssessment extends Assessment {
 	 *
 	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -81,10 +89,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {void}
 	 */
 	setBoundaries( paper, keyphraseLength, customGetWords ) {
+		this._boundaries = this._config.parameters.noWordForms;
+
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
-		} else {
-			this._boundaries = this._config.parameters.noWordForms;
 		}
 		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
 		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
@@ -325,7 +333,7 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Marks the occurrences of keyphrase in the text for the keyphrase density assessment.
 	 *
-	 * @returns {Array<Mark>} Marks that should be applied.
+	 * @returns {Mark[]} Marks that should be applied.
 	 */
 	getMarks() {
 		return this._keyphraseCount.markings;
@@ -344,7 +352,6 @@ class KeywordDensityAssessment extends KeyphraseDensityAssessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config   The configuration to use.
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super( config );

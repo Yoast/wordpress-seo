@@ -234,7 +234,9 @@ describe( "Tests for SubheadingsKeywordAssessment in cornerstone content", () =>
 			parameters: { recommendedMaximumLength: 250 },
 		} );
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
-		const config = assessment.getLanguageSpecificConfig( new DefaultResearcher( paper ) );
+		const researcher = new DefaultResearcher( paper );
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		const config = assessment.getLanguageSpecificConfig( new DefaultResearcher( paper ), languageSpecificConfig );
 		expect( config.parameters ).toEqual(
 			{
 				recommendedMaximumLength: 250,
@@ -248,7 +250,9 @@ describe( "Tests for SubheadingsKeywordAssessment in cornerstone content", () =>
 			cornerstoneContent: true,
 		} );
 		const paper = new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } );
-		const config = assessment.getLanguageSpecificConfig( new JapaneseResearcher( paper ) );
+		const researcher = new JapaneseResearcher( paper );
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		const config = assessment.getLanguageSpecificConfig( new JapaneseResearcher( paper ), languageSpecificConfig );
 		expect( config.parameters.recommendedMaximumLength ).toEqual( 500 );
 		expect( config.cornerstoneContent ).toBe( true );
 	} );
