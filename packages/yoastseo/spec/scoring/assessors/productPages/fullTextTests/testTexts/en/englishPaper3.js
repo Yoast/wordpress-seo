@@ -58,7 +58,10 @@ const expectedResults = {
 			"target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/shopify16' target='_blank'>Keyphrase in subheading</a>: You are not using any higher-level subheadings" +
+			" containing the keyphrase or its synonyms. <a href='https://yoa.st/shopify17' target='_blank'>Fix that</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
