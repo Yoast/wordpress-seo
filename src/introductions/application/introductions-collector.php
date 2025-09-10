@@ -87,7 +87,7 @@ class Introductions_Collector {
 	 *
 	 * @return array The introductions' metadata.
 	 */
-	private function get_metadata( $user_id ) {
+	public function get_metadata( $user_id ) {
 		$metadata = \get_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, true );
 		if ( \is_array( $metadata ) ) {
 			return $metadata;
@@ -127,26 +127,5 @@ class Introductions_Collector {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Updates the introductions metadata format for the user
-	 * This is needed because we're introducing timestamps for introductions that have been seen, thus changing the format.
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return void
-	 */
-	public function update_metadata_for( int $user_id ) {
-		$metadata = $this->get_metadata( $user_id );
-		foreach ( $metadata as $introduction_name => $introduction_data ) {
-			if ( $introduction_data === true ) {
-				$metadata[ $introduction_name ] = [
-					'is_seen' => true,
-					'seen_on' => \time(),
-				];
-			}
-		}
-		\update_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }

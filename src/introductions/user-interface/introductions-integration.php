@@ -131,7 +131,7 @@ class Introductions_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		$user_id = $this->user_helper->get_current_user_id();
-		$this->introductions_collector->update_metadata_for( $user_id );
+		$this->update_metadata_for( $user_id );
 		$introductions = $this->introductions_collector->get_for( $user_id );
 
 		if ( ! $introductions ) {
@@ -194,5 +194,26 @@ class Introductions_Integration implements Integration_Interface {
 		$metadata[ $highest_priority_intro['id'] ]['seen_on'] = \time();
 
 		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
+	}
+
+	/**
+	 * Updates the introductions metadata format for the user
+	 * This is needed because we're introducing timestamps for introductions that have been seen, thus changing the format.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return void
+	 */
+	private function update_metadata_for( int $user_id ) {
+		$metadata = $this->introductions_collector->get_metadata( $user_id );
+		foreach ( $metadata as $introduction_name => $introduction_data ) {
+			if ( $introduction_data === true ) {
+				$metadata[ $introduction_name ] = [
+					'is_seen' => true,
+					'seen_on' => \time(),
+				];
+			}
+		}
+		\update_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }
