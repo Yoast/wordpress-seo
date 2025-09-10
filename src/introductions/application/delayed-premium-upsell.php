@@ -104,7 +104,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 	}
 
 	/**
-	 * Determines if the introduction should show based on the selff:DELAY_DAY delay from installation or update.
+	 * Determines if the introduction should show based on the self:DELAY_DAY delay from installation or update.
 	 *
 	 * @return bool Whether the introduction should show after the delay.
 	 */
