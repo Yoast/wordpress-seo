@@ -81,15 +81,13 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		if ( languageSpecificConfig ) {
 			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
 		}
-		this._hasSubheadings = this.hasSubheadings( paper );
-		this._textLength = this.getTextLength( paper, researcher );
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult( paper );
+		const calculatedResult = this.calculateResult( paper, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -182,9 +180,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the Result text for the case there are no subheadings.
 	 *
+	 * @param {Paper} paper to use for the check.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
-	getResultForNoSubheadings() {
+	getResultForNoSubheadings( paper, researcher ) {
+		this._textLength = this.getTextLength( paper, researcher );
+
 		if ( this._textLength >= this._config.parameters.recommendedMaximumLength ) {
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
@@ -219,10 +222,10 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the Result text for the subheadings.
 	 * @param {Paper} paper to use for the check.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
-	calculateResult( paper ) {
+	calculateResult( paper, researcher ) {
 		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
 			return {
 				score: this._config.scores.noKeyphraseOrText,
@@ -239,8 +242,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			};
 		}
 
-		if ( ! this._hasSubheadings ) {
-			return this.getResultForNoSubheadings();
+		if ( ! this.hasSubheadings( paper ) ) {
+			return this.getResultForNoSubheadings( paper, researcher );
 		}
 
 		if ( this.hasTooFewMatches() ) {
