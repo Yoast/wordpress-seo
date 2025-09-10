@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Code_Verifier_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Code_Verifier_Handler;
 
-use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
 
 /**
  * Class Generate_Test.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler::generate
+ * @covers \Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::generate
  */
 final class Generate_Test extends Abstract_Code_Verifier_Handler_Test {
 

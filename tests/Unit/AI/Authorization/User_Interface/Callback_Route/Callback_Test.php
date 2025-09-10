@@ -1,19 +1,19 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\User_Interface\Callback_Route;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\User_Interface\Callback_Route;
 
 use Mockery;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
 
 /**
  * Tests the Abstract_Callback_Route's callback method.
  *
  * @group ai-authorization
  *
- * @covers \Yoast\WP\SEO\AI_Authorization\User_Interface\Abstract_Callback_Route::callback
+ * @covers \Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback
  */
 final class Callback_Test extends Abstract_Callback_Route_Test {
 

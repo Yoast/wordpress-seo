@@ -1,19 +1,19 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Token_Manager;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
 
 use Mockery;
 use RuntimeException;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 
 /**
  * Class Token_Invalidate_Test.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Application\Token_Manager::token_invalidate
+ * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_invalidate
  */
 final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 

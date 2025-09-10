@@ -1,7 +1,7 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\User_Interface\Callback_Route;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\User_Interface\Callback_Route;
 
 use Brain\Monkey\Functions;
 
@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-authorization
  *
- * @covers \Yoast\WP\SEO\AI_Authorization\User_Interface\Callback_Route::register_routes
+ * @covers \Yoast\WP\SEO\AI\Authorization\User_Interface\Callback_Route::register_routes
  */
 final class Register_Routes_Test extends Abstract_Callback_Route_Test {
 

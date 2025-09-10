@@ -2,13 +2,13 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 // phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Reason: Used for legitimate JWT testing, not obfuscation.
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Token_Manager;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
 
 /**
  * Class Has_Token_Expired_Test.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Application\Token_Manager::has_token_expired
+ * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::has_token_expired
  */
 final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
 

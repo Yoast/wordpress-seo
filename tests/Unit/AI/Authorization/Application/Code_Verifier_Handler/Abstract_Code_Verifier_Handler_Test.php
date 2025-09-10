@@ -1,11 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Code_Verifier_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Code_Verifier_Handler;
 
 use Mockery;
-use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

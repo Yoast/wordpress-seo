@@ -2,28 +2,28 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 // phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Reason: Used for legitimate JWT testing, not obfuscation.
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Token_Manager;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
 
 use Brain\Monkey;
 use Mockery;
 use RuntimeException;
 use WP_User;
-use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Not_Found_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
+use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 
 /**
  * Class Get_Or_Request_Access_Token_Test.
  *
  * @group ai-authorization
- * @covers \Yoast\WP\SEO\AI_Authorization\Application\Token_Manager::get_or_request_access_token
+ * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::get_or_request_access_token
  */
 final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test {
 
