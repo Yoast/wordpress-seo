@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Token_Manager;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\Application\Token_Manager;
 
-use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
-use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
-use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
-use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI\Generate\Infrastructure\WordPress_URLs;
+use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @group ai-authorization
  *
- * @covers \Yoast\WP\SEO\AI_Authorization\Application\Token_Manager::__construct
+ * @covers \Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::__construct
  */
 final class Constructor_Test extends Abstract_Token_Manager_Test {
 
