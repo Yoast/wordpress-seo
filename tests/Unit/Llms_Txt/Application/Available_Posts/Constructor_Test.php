@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Available_Posts;
 
-use Yoast\WP\SEO\Llms_Txt\Application\Available_Posts;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Automatic_Post_Collection;
 
 /**
