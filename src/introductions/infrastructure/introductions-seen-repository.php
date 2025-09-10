@@ -40,7 +40,7 @@ class Introductions_Seen_Repository {
 	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function get_all_introductions( $user_id ): array {
-		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY );
+		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
 		if ( $seen_introductions === false ) {
 			throw new Invalid_User_Id_Exception();
 		}
