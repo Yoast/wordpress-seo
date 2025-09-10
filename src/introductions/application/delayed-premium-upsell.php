@@ -135,7 +135,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 	 */
 	private function is_last_introduction_seen_older_than_a_week(): bool {
 		$seen_introductions = $this->introductions_seen_repository->get_all_introductions( \get_current_user_id() );
-		// No other introductions has been seen.
+		// No other introduction has been seen.
 		if ( empty( $seen_introductions ) ) {
 			return true;
 		}
