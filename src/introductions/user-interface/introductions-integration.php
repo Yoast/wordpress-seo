@@ -210,7 +210,7 @@ class Introductions_Integration implements Integration_Interface {
 			if ( \is_bool( $introduction_data ) ) {
 				$metadata[ $introduction_name ] = [
 					'is_seen' => $introduction_data,
-					'seen_on' => $introduction_data === true ? \time() : 0,
+					'seen_on' => ( $introduction_data === true ) ? \time() : 0,
 				];
 			}
 		}

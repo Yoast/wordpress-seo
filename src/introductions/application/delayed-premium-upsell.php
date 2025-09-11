@@ -155,7 +155,6 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 			return false;
 		}
 
-
 		// Find the most recent introduction seen.
 		$most_recent_introduction = \array_reduce(
 			$seen_introductions,
