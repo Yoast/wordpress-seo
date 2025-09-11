@@ -203,6 +203,15 @@ final class Introductions_Integration_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_current_user_id' )->once()->withNoArgs()->andReturn( $user_id );
 
+		// Mock metadata update call first (called at start of enqueue_assets).
+		$this->introductions_collector->expects( 'get_metadata' )
+			->once()
+			->with( $user_id )
+			->andReturn( [] );
+		$this->user_helper->expects( 'update_meta' )
+			->once()
+			->with( $user_id, '_yoast_wpseo_introductions', [] );
+
 		// Collect the introductions.
 		$bucket = new Introductions_Bucket();
 		$bucket->add_introduction( new Introduction_Item( 'foo', 10 ) );
@@ -212,18 +221,20 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( $introductions );
 
-		$this->introductions_collector->expects( 'update_metadata_for' )
-			->once()
-			->with( $user_id );
-
 		// Marks the introductions as seen.
 		$this->user_helper->expects( 'get_meta' )
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			->andReturn( [] );
+		$expected_meta = [
+			'foo' => [
+				'is_seen' => true,
+				'seen_on' => \time(),
+			],
+		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', [ 'foo' => true ] );
+			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );
@@ -246,15 +257,20 @@ final class Introductions_Integration_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_current_user_id' )->once()->withNoArgs()->andReturn( $user_id );
 
+		// Mock metadata update call first (called at start of enqueue_assets).
+		$this->introductions_collector->expects( 'get_metadata' )
+			->once()
+			->with( $user_id )
+			->andReturn( [] );
+		$this->user_helper->expects( 'update_meta' )
+			->once()
+			->with( $user_id, '_yoast_wpseo_introductions', [] );
+
 		// Collect the introductions.
 		$this->introductions_collector->expects( 'get_for' )
 			->once()
 			->with( $user_id )
 			->andReturn( [] );
-
-		$this->introductions_collector->expects( 'update_metadata_for' )
-			->once()
-			->with( $user_id );
 
 		// Next mock in line is not reached.
 		$this->user_helper->expects( 'get_meta' )->never()->withAnyArgs();
@@ -275,6 +291,15 @@ final class Introductions_Integration_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_current_user_id' )->once()->withNoArgs()->andReturn( $user_id );
 
+		// Mock metadata update call first (called at start of enqueue_assets).
+		$this->introductions_collector->expects( 'get_metadata' )
+			->once()
+			->with( $user_id )
+			->andReturn( [] );
+		$this->user_helper->expects( 'update_meta' )
+			->once()
+			->with( $user_id, '_yoast_wpseo_introductions', [] );
+
 		// Collect the introductions.
 		$bucket = new Introductions_Bucket();
 		$bucket->add_introduction( new Introduction_Item( 'foo', 10 ) );
@@ -284,19 +309,21 @@ final class Introductions_Integration_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( $introductions );
 
-		$this->introductions_collector->expects( 'update_metadata_for' )
-			->once()
-			->with( $user_id );
-
 		// Marks the introductions as seen.
 		$this->user_helper->expects( 'get_meta' )
 			->once()
 			->with( $user_id, '_yoast_wpseo_introductions', true )
 			// Point of this test: returning false results in using an empty array as default.
 			->andReturn( false );
+		$expected_meta = [
+			'foo' => [
+				'is_seen' => true,
+				'seen_on' => \time(),
+			],
+		];
 		$this->user_helper->expects( 'update_meta' )
 			->once()
-			->with( $user_id, '_yoast_wpseo_introductions', [ 'foo' => true ] );
+			->with( $user_id, '_yoast_wpseo_introductions', $expected_meta );
 
 		// Enqueueing.
 		$this->admin_asset_manager->expects( 'enqueue_script' )->once()->with( 'introductions' );

@@ -76,7 +76,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
 			->andReturn( $meta );
 
 		$this->assertEquals( $expected, $this->instance->get_all_introductions( $user_id ) );
@@ -127,7 +127,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
 			->andReturn( false );
 
 		$this->expectException( Invalid_User_Id_Exception::class );
@@ -172,7 +172,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, true )
 			->andReturn( $meta );
 
 		$this->assertSame( $expected, $this->instance->is_introduction_seen( $user_id, $introduction_id ) );
@@ -258,7 +258,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
-			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY )
+			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, 1 )
 			->andReturn( $meta );
 		$this->user_helper->expects( 'update_meta' )
 			->times( ( $meta === $expected_meta ) ? 0 : 1 )
