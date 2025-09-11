@@ -207,10 +207,10 @@ class Introductions_Integration implements Integration_Interface {
 	private function update_metadata_for( int $user_id ) {
 		$metadata = $this->introductions_collector->get_metadata( $user_id );
 		foreach ( $metadata as $introduction_name => $introduction_data ) {
-			if ( $introduction_data === true ) {
+			if ( \is_bool( $introduction_data ) ) {
 				$metadata[ $introduction_name ] = [
-					'is_seen' => true,
-					'seen_on' => \time(),
+					'is_seen' => $introduction_data,
+					'seen_on' => $introduction_data === true ? \time() : 0,
 				];
 			}
 		}
