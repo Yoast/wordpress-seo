@@ -106,7 +106,7 @@ class Introductions_Collector {
 	 */
 	private function is_seen( $name, $metadata ) {
 		if ( \array_key_exists( $name, $metadata ) ) {
-			if( \is_array( $metadata[ $name ] ) ) {
+			if ( \is_array( $metadata[ $name ] ) ) {
 				return (bool) ( $metadata[ $name ]['is_seen'] );
 			}
 			return (bool) $metadata[ $name ];
@@ -128,7 +128,6 @@ class Introductions_Collector {
 				return true;
 			}
 		}
-
 		return false;
 	}
 }
