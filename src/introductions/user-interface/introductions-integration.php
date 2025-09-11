@@ -214,6 +214,6 @@ class Introductions_Integration implements Integration_Interface {
 				];
 			}
 		}
-		\update_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
+		$this->user_helper->update_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, $metadata );
 	}
 }
