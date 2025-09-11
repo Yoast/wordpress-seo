@@ -18,7 +18,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 	const { onClose } = useModalContext();
 	return (
 		<>
-			<div className="yst-px-10 yst-pt-10 yst-mb-8 yst-introduction-gradient">
+			<div className="yst-px-10 yst-pt-10 yst-mb-8  yst-delayed-introduction-gradient">
 				<h1 className="yst-text-black yst-font yst-font-medium yst-text-2xl yst-leading-7">{ sprintf(
 				/* translators: %1$s expands to Yoast SEO. */
 					__( "You've been optimizing with %1$s for a while!", "wordpress-seo" ),
@@ -33,7 +33,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 							"Yoast SEO Premium",
 							"</strong>" ),
 						{
-							strong: <strong className="yst-font-semibold" />,
+							strong: <strong className="yst-font-semibold yst-text-primary-500" />,
 						} ) }
 				</div>
 			</div>
@@ -64,7 +64,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 				<ExternalLinkIcon className=" yst-inline yst--me-2 yst-ms-2 yst-h-3 yst-w-3 yst-text-indigo-600 rtl:yst-rotate-[270deg]" />
 			</div>
 
-			<div className="yst-mt-8 yst-mx-10 yst-text-slate-900 yst-text-[16px] yst-border-b yst-border-black yst-pb-2">
+			<div className="yst-mt-8 yst-mx-10 yst-text-slate-900 yst-text-[16px] yst-border-b yst-border-black yst-pb-2 yst-font-medium">
 				{ __( "Extra perks & help to make SEO even easier", "wordpress-seo" ) }
 			</div>
 
@@ -72,7 +72,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 				{ perksData.map( ( perk, index ) =>
 					<div key={ index }>
 						<CheckIcon className="yst-inline yst-text-green-600 yst-w-6 yst-h-6" />
-						<span className="yst-slate-800">{ perk }</span>
+						<span className="yst-text-slate-800 yst-font-medium">{ perk }</span>
 					</div> )
 				}
 			</div>
