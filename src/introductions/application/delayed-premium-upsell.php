@@ -142,6 +142,20 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 			return true;
 		}
 
+		$old_format_introductions = \array_filter(
+			$seen_introductions,
+			static function ( $item ) {
+				return \is_bool( $item );
+			}
+		);
+
+		if ( ! empty( $old_format_introductions ) ) {
+			// There are introductions in the old format, so we cannot determine when they were seen.
+			// To be safe, we assume the user has seen an introduction recently.
+			return false;
+		}
+
+
 		// Find the most recent introduction seen.
 		$most_recent_introduction = \array_reduce(
 			$seen_introductions,
