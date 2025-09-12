@@ -3,6 +3,7 @@ import KeywordInputContainer from "../components/contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../components/contentAnalysis/SeoAnalysis";
 import InclusiveLanguageAnalysis from "../components/contentAnalysis/InclusiveLanguageAnalysis";
+import { YoastCustomBlocks } from "../components/YoastCustomBlocks";
 
 window.yoast = window.yoast || {};
 window.yoast.externals = window.yoast.externals || {};
@@ -12,4 +13,5 @@ window.yoast.externals.components = {
 	ReadabilityAnalysis,
 	SeoAnalysis,
 	InclusiveLanguageAnalysis,
+	YoastCustomBlocks,
 };

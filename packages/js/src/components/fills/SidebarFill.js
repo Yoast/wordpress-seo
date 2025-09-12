@@ -8,7 +8,7 @@ import { get } from "lodash";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, YoastCustomBlocks } from "@yoast/externals/components";
 import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -40,7 +40,8 @@ export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
 
-	if ( isBlockEditor() ) {
+	const isBlockEditorActive = isBlockEditor();
+	if ( isBlockEditorActive ) {
 		useToggleMarkerStatus();
 	}
 
@@ -102,6 +103,7 @@ export default function SidebarFill( { settings } ) {
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
+				{ isBlockEditorActive && <YoastCustomBlocks /> }
 				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
