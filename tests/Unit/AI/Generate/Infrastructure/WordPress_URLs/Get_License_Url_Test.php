@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs::get_license_url
+ * @covers \Yoast\WP\SEO\AI\Generate\Infrastructure\WordPress_URLs::get_license_url
  */
 final class Get_License_Url_Test extends Abstract_WordPress_URLs_Test {
 

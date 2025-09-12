@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Route_Permission_Trait::check_permissions
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Route_Permission_Trait::check_permissions
  */
 final class Check_Permissions_Test extends TestCase {
 

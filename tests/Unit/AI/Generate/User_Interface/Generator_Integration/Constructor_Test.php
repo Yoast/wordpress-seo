@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::__construct
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Generator_Integration::__construct
  */
 final class Constructor_Test extends Abstract_Generator_Integration_Test {
 

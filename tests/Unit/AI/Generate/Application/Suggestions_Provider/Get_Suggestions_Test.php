@@ -14,7 +14,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider::get_suggestions
+ * @covers \Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::get_suggestions
  */
 final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 

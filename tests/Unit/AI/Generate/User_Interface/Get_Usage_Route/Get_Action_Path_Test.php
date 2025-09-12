@@ -10,7 +10,7 @@ use WPSEO_Addon_Manager;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Get_Usage_Route::get_action_path
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Get_Usage_Route::get_action_path
  */
 final class Get_Action_Path_Test extends Abstract_Get_Usage_Route_Test {
 
