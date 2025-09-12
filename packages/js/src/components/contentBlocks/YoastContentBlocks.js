@@ -6,16 +6,16 @@ import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
 
 const CONTENT_BLOCKS = [
-	{ title: "FAQ", name: "yoast/faq-block" },
-	{ title: "How-to", name: "yoast/how-to-block" },
-	{ title: "Breadcrumbs", name: "yoast/breadcrumbs-block" },
+	{ title: __( "FAQ", "wordpress-seo" ), name: "yoast/faq-block", isPremiumBlock: false },
+	{ title: __( "How-to", "wordpress-seo" ), name: "yoast/how-to-block", isPremiumBlock: false },
+	{ title: __( "Breadcrumbs", "wordpress-seo" ), name: "yoast-seo/breadcrumbs", isPremiumBlock: false },
 ];
 
 const PREMIUM_CONTENT_BLOCKS = [
-	{ title: "AI Summarize", name: "yoast-seo/ai-summarize" },
-	{ title: "Estimated reading time", name: "yoast-seo/estimated-reading-time" },
-	{ title: "Related links", name: "yoast-seo/related-links" },
-	{ title: "Table of contents", name: "yoast-seo/table-of-contents" },
+	{ title: __( "AI Summarize", "wordpress-seo" ), name: "yoast-seo/ai-summarize", isPremiumBlock: true },
+	{ title: __( "Estimated reading time", "wordpress-seo" ), name: "yoast-seo/estimated-reading-time", isPremiumBlock: true },
+	{ title: __( "Related links", "wordpress-seo" ), name: "yoast-seo/related-links", isPremiumBlock: true },
+	{ title: __( "Table of contents", "wordpress-seo" ), name: "yoast-seo/table-of-contents", isPremiumBlock: true },
 ];
 
 /**
@@ -42,13 +42,13 @@ export const YoastContentBlocks = () => {
 				{ __( "While writing your post, add custom Yoast blocks directly from here to enhance your content.", "wordpress-seo" ) }
 			</div>
 			{
-				allContentBlocks.map( ( { title, name } ) => (
+				allContentBlocks.map( ( block ) => (
 					<ContentBlock
-						key={ name }
-						blockTitle={ title }
-						blockName={ name }
-						isPremiumBlock={ name.startsWith( "yoast-seo/" ) }
-						hasNewBadgeLabel={ title === "AI Summarize" }
+						key={ block.name }
+						blockTitle={ block.title }
+						blockName={ block.name }
+						isPremiumBlock={ block.isPremiumBlock }
+						hasNewBadgeLabel={ block.title === "AI Summarize" }
 					/>
 				) )
 			}
