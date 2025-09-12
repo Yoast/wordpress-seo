@@ -123,13 +123,11 @@ class Introductions_Seen_Repository {
 			}
 		}
 
-		if ( $is_seen === false ) {
-			$introductions[ $introduction_id ] = false;
-		}
-		else {
-			$introductions[ $introduction_id ]['is_seen'] = true;
-			$introductions[ $introduction_id ]['seen_on'] = \time();
-		}
+		//If not, set it.
+		$introductions[ $introduction_id ] = [
+			'is_seen' => $is_seen,
+			'seen_on' => ( $is_seen === true ) ? \time() : 0,
+		];
 
 		return $this->set_all_introductions( $user_id, $introductions );
 	}
