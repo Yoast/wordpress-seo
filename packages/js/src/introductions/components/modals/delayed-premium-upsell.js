@@ -106,8 +106,8 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
  * @returns {JSX.Element} The element.
  */
 export const DelayedPremiumUpsell = () => {
-	const buttonUpgradeLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoast.com/cart/?add-to-cart=4113952" ), [] );
-	const exploreFeaturesLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoast.com/seo-blog/yoast-seo-premium-features/" ), [] );
+	const buttonUpgradeLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/delayed-upsell-premium-upgrade" ), [] );
+	const exploreFeaturesLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/delayed-upsell-explore-premium-features" ), [] );
 	return (
 		<Modal maxWidth="yst-max-w-3xl">
 			<DelayedPremiumUpsellContent
