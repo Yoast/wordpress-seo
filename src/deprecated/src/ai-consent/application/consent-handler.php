@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Consent_Handler
  * Handles the consent given or revoked by the user.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  * @makePublic
  */
@@ -25,13 +25,13 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct' );
 
 		$this->user_helper = $user_helper;
 	}
@@ -39,7 +39,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Handles consent revoked by deleting the consent user metadata from the database.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -47,7 +47,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @return void
 	 */
 	public function revoke_consent( int $user_id ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::revoke_consent' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::revoke_consent' );
 
 		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 	}
@@ -55,7 +55,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Handles consent granted by adding the consent user metadata to the database.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -63,7 +63,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @return void
 	 */
 	public function grant_consent( int $user_id ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent' );
 
 		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
 	}

@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Ai_Generator\Domain;
  * Class Suggestions_Bucket
  * Represents a collection of Suggestion objects.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 class Suggestions_Bucket {
@@ -22,11 +22,11 @@ class Suggestions_Bucket {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::__construct' );
 
 		$this->suggestions = [];
 	}
@@ -34,7 +34,7 @@ class Suggestions_Bucket {
 	/**
 	 * Adds a suggestion to the bucket.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param Suggestion $suggestion The suggestion to add.
@@ -42,7 +42,7 @@ class Suggestions_Bucket {
 	 * @return void
 	 */
 	public function add_suggestion( Suggestion $suggestion ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::add_suggestion' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::add_suggestion' );
 
 		$this->suggestions[] = $suggestion;
 	}
@@ -50,13 +50,13 @@ class Suggestions_Bucket {
 	/**
 	 * Returns the suggestions as an array.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string>
 	 */
 	public function to_array() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::to_array' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::to_array' );
 
 		return \array_map(
 			static function ( $item ) {

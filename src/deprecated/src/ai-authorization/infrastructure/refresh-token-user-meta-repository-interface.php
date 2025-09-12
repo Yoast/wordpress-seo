@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 /**
  * Interface Refresh_Token_User_Meta_Repository_Interface
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
