@@ -5,6 +5,19 @@ import { ContentBlock } from "./ContentBlock";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
 
+const CONTENT_BLOCKS = [
+	{ title: "FAQ", name: "yoast/faq-block" },
+	{ title: "How-to", name: "yoast/how-to-block" },
+	{ title: "Breadcrumbs", name: "yoast/breadcrumbs-block" },
+];
+
+const PREMIUM_CONTENT_BLOCKS = [
+	{ title: "AI Summarize", name: "yoast-seo/ai-summarize" },
+	{ title: "Estimated reading time", name: "yoast-seo/estimated-reading-time" },
+	{ title: "Related links", name: "yoast-seo/related-links" },
+	{ title: "Table of contents", name: "yoast-seo/table-of-contents" },
+];
+
 /**
  * Renders the Yoast Custom Blocks component.
  *
@@ -15,21 +28,8 @@ export const YoastContentBlocks = () => {
 	const location = useContext( LocationContext );
 	const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
 
-	const contentBlocks = [
-		"FAQ",
-		"How-to",
-		"Breadcrumbs",
-	];
-
-	const premiumContentBlocks = [
-		"AI Summarize",
-		"Estimated reading time",
-		"Related links",
-		"Table of contents",
-	];
-
 	// Render the premium blocks first.
-	const allContentBlocks = premiumContentBlocks.concat( contentBlocks );
+	const allContentBlocks = PREMIUM_CONTENT_BLOCKS.concat( CONTENT_BLOCKS );
 
 	const collapsibleId = `yoast-custom-blocks-collapsible-${location}`;
 	return (
@@ -42,12 +42,13 @@ export const YoastContentBlocks = () => {
 				{ __( "While writing your post, add custom Yoast blocks directly from here to enhance your content.", "wordpress-seo" ) }
 			</div>
 			{
-				allContentBlocks.map( ( block ) => (
+				allContentBlocks.map( ( { title, name } ) => (
 					<ContentBlock
-						key={ block }
-						blockName={ block }
-						isPremiumBlock={ premiumContentBlocks.includes( block ) }
-						hasNewBadgeLabel={ block === "AI Summarize" }
+						key={ name }
+						blockTitle={ title }
+						blockName={ name }
+						isPremiumBlock={ name.startsWith( "yoast-seo/" ) }
+						hasNewBadgeLabel={ title === "AI Summarize" }
 					/>
 				) )
 			}
