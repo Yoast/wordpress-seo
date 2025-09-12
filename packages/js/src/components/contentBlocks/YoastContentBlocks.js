@@ -19,7 +19,7 @@ const PREMIUM_CONTENT_BLOCKS = [
 ];
 
 /**
- * Renders the Yoast Custom Blocks component.
+ * Renders the Yoast Content Blocks component.
  *
  * @returns {JSX.Element} The Yoast Custom Blocks component.
  */
@@ -31,12 +31,13 @@ export const YoastContentBlocks = () => {
 	// Render the premium blocks first.
 	const allContentBlocks = PREMIUM_CONTENT_BLOCKS.concat( CONTENT_BLOCKS );
 
-	const collapsibleId = `yoast-custom-blocks-collapsible-${location}`;
+	const collapsibleId = `yoast-content-blocks-collapsible-${location}`;
 	return (
 		<Collapsible
 			id={ collapsibleId }
 			title={ __( "Content blocks", "wordpress-seo" ) }
 			hasNewBadgeLabel={ true }
+			className={ "yoast-content-blocks" }
 		>
 			<div className="yst-mt-2 yst-font-normal yst-text-sm">
 				{ __( "While writing your post, add custom Yoast blocks directly from here to enhance your content.", "wordpress-seo" ) }

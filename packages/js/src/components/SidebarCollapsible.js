@@ -74,7 +74,7 @@ const SidebarCollapsible = ( {
 							<div className="yoast-title">{ title }</div>
 							<div className="yoast-subtitle">{ subTitle }</div>
 						</span>
-						<div className="yst-root">
+						<div className="yst-root yst-items-center">
 							<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
 						</div>
 					</div>

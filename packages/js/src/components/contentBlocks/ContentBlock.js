@@ -41,7 +41,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 				<div className="yst-flex yst-items-center yst-flex-grow yst-p-0 yst-gap-2">
 					<SvgIcon icon="circle" size="4px" />
 					<span className="yst-ms-1 yst-font-medium">{ blockTitle }</span>
-					{ hasNewBadgeLabel && <div className="yst-root">
+					{ hasNewBadgeLabel && <div className="yst-root yst-items-center">
 						<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
 					</div>
 					}
