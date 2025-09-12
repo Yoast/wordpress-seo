@@ -115,8 +115,8 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 		$first_activated_on = $this->options_helper->get( 'first_activated_on' );
 
 		// Case where the user has installed the plugin for the first time and the delay has passed.
-		if ( $previous_version === '' && ( $current_time - $first_activated_on ) >= $delay ) {
-			return $this->is_last_introduction_seen_older_than_a_week();
+		if ( $previous_version === '' ) {
+			return ( $current_time - $first_activated_on ) >= $delay && $this->is_last_introduction_seen_older_than_a_week();
 		}
 
 		// Case where the user has updated the plugin and the delay has passed since the last update.
