@@ -123,7 +123,7 @@ class Introductions_Seen_Repository {
 			}
 		}
 
-		//If not, set it.
+		// If not, set it.
 		$introductions[ $introduction_id ] = [
 			'is_seen' => $is_seen,
 			'seen_on' => ( $is_seen === true ) ? \time() : 0,
