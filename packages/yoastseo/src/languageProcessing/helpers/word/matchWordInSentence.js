@@ -1,7 +1,8 @@
-import wordBoundariesFactory from "../../../config/wordBoundaries.js";
-const wordBoundaries = wordBoundariesFactory();
-import { escapeRegExp, includes } from "lodash";
+import wordBoundaries from "../../../config/wordBoundaries.js";
+import { escapeRegExp } from "lodash";
 import addWordBoundary from "./addWordboundary.js";
+
+const WORD_BOUNDARIES = new Set( wordBoundaries() );
 
 /**
  * Checks whether a character is present in the list of word boundaries.
@@ -10,7 +11,7 @@ import addWordBoundary from "./addWordboundary.js";
  * @returns {boolean} Whether or not the character is present in the list of word boundaries.
  */
 const characterInBoundary = function( character ) {
-	return includes( wordBoundaries, character );
+	return WORD_BOUNDARIES.has( character );
 };
 
 /**
@@ -47,7 +48,7 @@ const isWordInSentence = function( word, sentence ) {
 	const previousCharacter = characterInBoundary( sentence[ occurrenceStart - 1 ] ) || occurrenceStart === 0;
 	const nextCharacter = characterInBoundary( sentence[ occurrenceEnd ] ) || occurrenceEnd === sentence.length;
 
-	return ( ( previousCharacter ) && ( nextCharacter ) );
+	return previousCharacter && nextCharacter;
 };
 
 export {
