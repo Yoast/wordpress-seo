@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 /**
  * Interface for the Consent endpoint.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 interface Consent_Endpoint_Interface extends Endpoint_Interface {}

@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Class Remote_Request_Exception
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 abstract class Remote_Request_Exception extends Exception {
@@ -24,7 +24,7 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Constructor.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param string         $message          The error message.
@@ -33,7 +33,7 @@ abstract class Remote_Request_Exception extends Exception {
 	 * @param Throwable|null $previous         The previously thrown exception.
 	 */
 	public function __construct( $message = '', $code = 0, $error_identifier = '', ?Throwable $previous = null ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception::__construct' );
 		parent::__construct( $message, $code, $previous );
 		$this->error_identifier = (string) $error_identifier;
 	}
@@ -41,13 +41,13 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Returns the error identifier.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The error identifier.
 	 */
 	public function get_error_identifier(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception::get_error_identifier' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception::get_error_identifier' );
 		return $this->error_identifier;
 	}
 }
