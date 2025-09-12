@@ -1,6 +1,7 @@
 import checkNofollow from "../helpers/link/checkNofollow.js";
 import getAnchors from "../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../helpers/link/getLinkType.js";
+import removeHtmlBlocks from "../../languageProcessing/helpers/html/htmlParser";
 
 /**
  * @typedef {import("../../values/").Paper } Paper
@@ -29,7 +30,9 @@ import getLinkType from "../helpers/link/getLinkType.js";
  * @returns {LinkStatistics} The object containing all link types.
  */
 export default function( paper ) {
-	const anchors = getAnchors( paper.getText() );
+	// We remove HTML blocks that should be ignored.
+	const filteredText = removeHtmlBlocks( paper.getText() );
+	const anchors = getAnchors( filteredText );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.

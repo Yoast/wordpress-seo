@@ -1,5 +1,5 @@
 import wordCount from "../helpers/word/countWords.js";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
+import removeHtmlBlocks, { IGNORED_CLASSES } from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 
 /**
@@ -20,7 +20,8 @@ import { filterShortcodesFromHTML } from "../helpers";
  */
 export default function( paper ) {
 	let text = paper.getText();
-	text = removeHtmlBlocks( text );
+	const customIgnoredClasses = IGNORED_CLASSES.filter( c => c !== "yoast-ai-summarize" );
+	text = removeHtmlBlocks( text, customIgnoredClasses );
 	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 	return {
 		text: text,
