@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generate\Domain\Suggestion;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Domain\Suggestion::get_value
+ * @covers \Yoast\WP\SEO\AI\Generate\Domain\Suggestion::get_value
  */
 final class Get_Value_Test extends Abstract_Suggestion_Test {
 

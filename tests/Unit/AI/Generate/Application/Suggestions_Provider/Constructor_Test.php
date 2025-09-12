@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider::__construct
+ * @covers \Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::__construct
  */
 final class Constructor_Test extends Abstract_Suggestions_Provider_Test {
 

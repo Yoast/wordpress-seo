@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::enqueue_assets
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Generator_Integration::enqueue_assets
  */
 final class Enqueue_Assets_Test extends Base_Assets_Test {
 

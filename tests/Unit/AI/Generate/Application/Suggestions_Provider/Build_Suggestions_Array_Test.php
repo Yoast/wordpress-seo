@@ -12,7 +12,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider::build_suggestions_array
+ * @covers \Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::build_suggestions_array
  */
 final class Build_Suggestions_Array_Test extends Abstract_Suggestions_Provider_Test {
 

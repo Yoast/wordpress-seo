@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_url
+ * @covers \Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_url
  */
 final class Get_Url_Test extends Abstract_Get_Suggestions_Endpoint_Test {
 

@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs::get_callback_url
+ * @covers \Yoast\WP\SEO\AI\Generate\Infrastructure\WordPress_URLs::get_callback_url
  */
 final class Get_Callback_Url_Test extends Abstract_WordPress_URLs_Test {
 

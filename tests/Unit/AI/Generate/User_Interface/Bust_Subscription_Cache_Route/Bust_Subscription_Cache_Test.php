@@ -11,7 +11,7 @@ use WP_REST_Response;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Bust_Subscription_Cache_Route::bust_subscription_cache
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Bust_Subscription_Cache_Route::bust_subscription_cache
  */
 final class Bust_Subscription_Cache_Test extends Abstract_Bust_Subscription_Cache_Route_Test {
 

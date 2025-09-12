@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Bust_Subscription_Cache_Route::register_routes
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Bust_Subscription_Cache_Route::register_routes
  */
 final class Register_Routes_Test extends Abstract_Bust_Subscription_Cache_Route_Test {
 
