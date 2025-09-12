@@ -10,7 +10,7 @@ use WPSEO_Addon_Manager;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\AI_Generator_Integration::get_product_subscriptions
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Generator_Integration::get_product_subscriptions
  */
 final class Get_Product_Subscriptions_Test extends Abstract_Generator_Integration_Test {
 
