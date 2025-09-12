@@ -8,7 +8,7 @@ use Throwable;
 /**
  * Class to manage a 402 - payment required response.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 class Payment_Required_Exception extends Remote_Request_Exception {
@@ -23,7 +23,7 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	/**
 	 * Payment_Required_Exception constructor.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param string          $message          The error message.
@@ -33,7 +33,7 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	 * @param string[]        $missing_licenses The missing plugin licenses.
 	 */
 	public function __construct( $message = '', $code = 0, $error_identifier = '', $previous = null, $missing_licenses = [] ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::__construct' );
 		$this->missing_licenses = $missing_licenses;
 		parent::__construct( $message, $code, $error_identifier, $previous );
 	}
@@ -41,13 +41,13 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	/**
 	 * Gets the missing plugin licences.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return string[] The missing plugin licenses.
 	 */
 	public function get_missing_licenses() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::get_missing_licenses' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::get_missing_licenses' );
 		return $this->missing_licenses;
 	}
 }

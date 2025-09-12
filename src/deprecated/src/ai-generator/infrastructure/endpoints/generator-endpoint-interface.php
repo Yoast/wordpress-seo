@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 /**
  * Interface for Generator endpoints.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 interface Generator_Endpoint_Interface extends Endpoint_Interface {}

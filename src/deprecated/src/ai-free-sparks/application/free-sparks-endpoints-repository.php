@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoints_Repository;
 /**
  * Repository for endpoints.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 class Free_Sparks_Endpoints_Repository extends Endpoints_Repository {
@@ -17,13 +17,13 @@ class Free_Sparks_Endpoints_Repository extends Endpoints_Repository {
 	/**
 	 * Constructs the repository.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param Free_Sparks_Endpoint_Interface ...$endpoints The endpoints to add to the repository.
 	 */
 	public function __construct( Free_Sparks_Endpoint_Interface ...$endpoints ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository::__construct' );
 
 		parent::__construct( ...$endpoints );
 		$this->endpoints = $endpoints;

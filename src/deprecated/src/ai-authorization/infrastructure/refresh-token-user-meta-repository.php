@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Refresh_Token_Repository
  * Handles the storage and retrieval of refresh tokens for users.
  *
- * @deprecated 26.0
+ * @deprecated 26.1
  * @codeCoverageIgnore
  */
 class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repository_Interface {
@@ -25,13 +25,13 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Refresh_Token_Repository constructor.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::__construct' );
 
 		$this->user_helper = $user_helper;
 	}
@@ -39,7 +39,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Get the token for a user.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -49,7 +49,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	 * @throws RuntimeException If the token is not found or invalid.
 	 */
 	public function get_token( int $user_id ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::get_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::get_token' );
 
 		$refresh_jwt = $this->user_helper->get_meta( $user_id, self::META_KEY, true );
 		if ( ! \is_string( $refresh_jwt ) || $refresh_jwt === '' ) {
@@ -62,7 +62,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Store the token for a user.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id The user ID.
@@ -71,7 +71,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	 * @return void
 	 */
 	public function store_token( int $user_id, string $value ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::store_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::store_token' );
 
 		$this->user_helper->update_meta(
 			$user_id,
@@ -82,7 +82,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Delete the token for a user.
 	 *
-	 * @deprecated 26.0
+	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -90,7 +90,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	 * @return void
 	 */
 	public function delete_token( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.0', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::delete_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Refresh_Token_User_Meta_Repository::delete_token' );
 
 		$this->user_helper->delete_meta( $user_id, self::META_KEY );
 	}
