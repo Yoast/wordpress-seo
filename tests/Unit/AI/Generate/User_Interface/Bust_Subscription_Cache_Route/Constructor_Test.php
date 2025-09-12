@@ -10,7 +10,7 @@ use WPSEO_Addon_Manager;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Bust_Subscription_Cache_Route::__construct
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Bust_Subscription_Cache_Route::__construct
  */
 final class Constructor_Test extends Abstract_Bust_Subscription_Cache_Route_Test {
 

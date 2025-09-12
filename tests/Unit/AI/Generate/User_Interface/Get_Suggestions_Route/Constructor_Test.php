@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Get_Suggestions_Route::__construct
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Get_Suggestions_Route::__construct
  */
 final class Constructor_Test extends Abstract_Get_Suggestions_Route_Test {
 

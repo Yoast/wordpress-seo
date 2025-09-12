@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generate\Infrastructure\Endpoints\Get_Sugge
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_namespace
+ * @covers \Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_namespace
  */
 final class Get_Namespace_Test extends Abstract_Get_Suggestions_Endpoint_Test {
 

@@ -10,7 +10,7 @@ use Brain\Monkey;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::register_hooks
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Generator_Integration::register_hooks
  */
 final class Register_Hooks_Test extends Abstract_Generator_Integration_Test {
 

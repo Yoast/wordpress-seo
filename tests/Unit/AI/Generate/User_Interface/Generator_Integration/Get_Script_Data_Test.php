@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Generator_Integration::get_script_data
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Generator_Integration::get_script_data
  */
 final class Get_Script_Data_Test extends Base_Assets_Test {
 

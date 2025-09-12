@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Conditionals\AI_Conditional;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Get_Suggestions_Route::get_conditionals
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Get_Suggestions_Route::get_conditionals
  */
 final class Conditional_Test extends Abstract_Get_Suggestions_Route_Test {
 

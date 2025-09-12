@@ -10,7 +10,7 @@ use Brain\Monkey\Functions;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Get_Suggestions_Route::register_routes
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Get_Suggestions_Route::register_routes
  */
 final class Register_Routes_Test extends Abstract_Get_Suggestions_Route_Test {
 

@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generate\Infrastructure\Endpoints\Get_Usage
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_name
+ * @covers \Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint::get_name
  */
 final class Get_Name_Test extends Abstract_Get_Usage_Endpoint_Test {
 

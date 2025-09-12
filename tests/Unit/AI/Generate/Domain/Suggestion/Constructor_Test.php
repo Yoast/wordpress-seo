@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI\Generate\Domain\Suggestion;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\Domain\Suggestion::__construct
+ * @covers \Yoast\WP\SEO\AI\Generate\Domain\Suggestion::__construct
  */
 final class Constructor_Test extends Abstract_Suggestion_Test {
 

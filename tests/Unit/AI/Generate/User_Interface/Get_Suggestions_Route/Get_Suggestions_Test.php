@@ -16,7 +16,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
  *
  * @group ai-generator
  *
- * @covers \Yoast\WP\SEO\AI_Generator\User_Interface\Get_Suggestions_Route::get_suggestions
+ * @covers \Yoast\WP\SEO\AI\Generate\User_Interface\Get_Suggestions_Route::get_suggestions
  */
 final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 
