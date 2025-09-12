@@ -5,9 +5,17 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
 import AssessmentResult from "../../../values/AssessmentResult";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
+import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
- * Represents the assessment that checks if the keyword is present in one of the subheadings.
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
+
+/**
+ * Represents the assessment that checks if the keyphrase is present in one of the subheadings.
  */
 export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
@@ -15,7 +23,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *
 	 * @param {object} config The configuration to use.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -23,20 +30,41 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				lowerBoundary: 0.3,
+				recommendedMaximumLength: 300,
 				upperBoundary: 0.75,
 			},
 			scores: {
+				noKeyphraseOrText: 1,
+				badLongTextNoSubheadings: 2,
 				noMatches: 3,
 				tooFewMatches: 3,
 				goodNumberOfMatches: 9,
+				goodShortTextNoSubheadings: 9,
 				tooManyMatches: 3,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33n" ),
+			cornerstoneContent: false,
 		};
 
 		this.identifier = "subheadingsKeyword";
 		this._config = merge( defaultConfig, config );
+	}
+
+	/**
+	 * Gets the text length from the paper. Remove unwanted element first before calculating.
+	 *
+	 * @param {Paper} paper The Paper object to analyse.
+	 * @param {Researcher} researcher The researcher to use.
+	 * @returns {number} The length of the text.
+	 */
+	getTextLength( paper, researcher ) {
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+
+		return customCountLength ? customCountLength( text ) : getWords( text ).length;
 	}
 
 	/**
@@ -48,13 +76,18 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Only overwrite the config when there is a language-specific config.
+		if ( languageSpecificConfig ) {
+			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
+		}
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( paper, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -63,7 +96,26 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a subheadings.
+	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 * @param {object} languageSpecificConfig The language-specific config to use.
+	 *
+	 * @returns {object} The language-specific config or the current config if there is no language-specific config.
+	 */
+	getLanguageSpecificConfig( researcher, languageSpecificConfig ) {
+		const currentConfig = this._config;
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && Object.hasOwn( languageSpecificConfig,  "cornerstoneParameters" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+		}
+
+		// Use the default language-specific config for non-cornerstone condition.
+		return merge( currentConfig, languageSpecificConfig.defaultParameters );
+	}
+
+	/**
+	 * Checks whether the paper has subheadings.
 	 *
 	 * @param {Paper} paper The paper to use for the check.
 	 *
@@ -72,17 +124,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	hasSubheadings( paper ) {
 		const subheadings =  getSubheadingsTopLevel( paper.getText() );
 		return subheadings.length > 0;
-	}
-
-	/**
-	 * Checks whether the paper has a text and a keyword.
-	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True when there is text and a keyword.
-	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper );
 	}
 
 	/**
@@ -137,11 +178,74 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines the score and the Result text for the subheadings.
+	 * Determines the score and the Result text for the case there are no subheadings.
 	 *
-	 * @returns {Object} The object with the calculated score and the result text.
+	 * @param {Paper} paper to use for the check.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
+	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
-	calculateResult() {
+	getResultForNoSubheadings( paper, researcher ) {
+		this._textLength = this.getTextLength( paper, researcher );
+
+		if ( this._textLength >= this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.badLongTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms. %2$sFix that%3$s!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+		if ( this._textLength < this._config.parameters.recommendedMaximumLength ) {
+			return {
+				score: this._config.scores.goodShortTextNoSubheadings,
+				resultText: sprintf(
+					/* translators: %1$s expands to a link on yoast.com and %2$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
+	}
+
+	/**
+	 * Determines the score and the Result text for the subheadings.
+	 * @param {Paper} paper to use for the check.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
+	 */
+	calculateResult( paper, researcher ) {
+		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
+			return {
+				score: this._config.scores.noKeyphraseOrText,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in subheading%3$s: %2$sPlease add both a keyphrase and some text to receive relevant feedback%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		if ( ! this.hasSubheadings( paper ) ) {
+			return this.getResultForNoSubheadings( paper, researcher );
+		}
+
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.tooFewMatches,

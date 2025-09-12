@@ -59,7 +59,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 | Traffic light   	 | Score	 | Criterion                                                                                                              | Feedback                                                                                                                                                                      |
 |-------------------|--------|------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red   	           | -999	  | No focus keyword set		                                                                                                 | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**.                                               |
+| Red   	           | -999	  | No focus keyphrase set		                                                                                               | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**.                                               |
 | Red   	           | 3		    | Keyphrase length > 8 words (> 9 for languages without function words support, > 18 characters for Japanese)	           | **Keyphrase length**: The keyphrase contains X (content) words/characters. That's way more than the recommended maximum of X (content) words/characters. **Make it shorter!** |
 | Orange   	        | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support, 13-18 characters for Japanese)		 | **Keyphrase length**: The keyphrase contains X (content) words/characters. That's more than the recommended maximum of X (content) words/characters. **Make it shorter!**     |
 | Green   	         | 9	     | Keyphrase length between 1-4 words (1-6 for languages without function words support, 1-12 characters for Japanese)		  | **Keyphrase length**: Good job!                                                                                                                                               |
@@ -69,7 +69,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 **Uses synonyms**: no
 
-**When it applies**: If there is a text of at least 100 words and a keyword.
+**When it applies**: Always.
 
 **Name in code**: KeywordDensityAssessment
 
@@ -79,6 +79,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 | Traffic light   	 | Score	 | Criterion                                               | Feedback                                                                                                                                                            |
 |-------------------|--------|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | -50	   | There is no keyphrase and/or content		                  | **Keyphrase density**: **Please add both a keyphrase and some text containing the keyphrase.**                                                                          |
 | Red	              | -50	   | kd > 4		                                                | **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**  |
 | Red	              | -10	   | 3 < kd ≤ 4 (3.5 < kd ≤ 4 for multiple word forms)		     | **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**      |
 | Red	              | 4	     | 0 kd		                                                  | **Keyphrase density**: The keyphrase was found 0 times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
@@ -89,7 +90,7 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 A simple model shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
 
 ### 4) Keyphrase in meta description
-**What it does**: Checks whether all (content) words from the keyphrase are used in the metadescription. A match is counted if all words from the keyphrase appear in a sentence. Multiple matches per sentence are counted multiple times.
+**What it does**: Checks whether all (content) words from the keyphrase are used in the meta description. A match is counted if all words from the keyphrase appear in a sentence. Multiple matches per sentence are counted multiple times.
 
 **Uses synonyms**: yes
 
@@ -104,16 +105,16 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 | Traffic light   	 | Score	 | Criterion                                       | Feedback                                                                                                                                               |
 |-------------------|--------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Red	              | 3	     | There is no keyphrase and/or meta description		 | **Keyphrase in meta description**: **Please add both a keyphrase and a meta description containing the keyphrase.**                                    |
-| Red	              | 3	     | 0 keyword matches		                             | **Keyphrase in meta description**: The metadescription has been specified, but it does not contain the keyphrase. **Fix that!**                        |
+| Red	              | 3	     | 0 keyphrase matches		                           | **Keyphrase in meta description**: The meta description has been specified, but it does not contain the keyphrase. **Fix that!**                       |
 | Red	              | 3	     | >2 found matches		                              | **Keyphrase in meta description**: The meta description contains the keyphrase __ times, which is over the advised maximum of 2 times. **Limit that!** |
-| Green	            | 9	     | 1-2 sentences with a found match		              | **Keyphrase in meta description**: Keyphrase or synonym appear in the metadescription. Well done!                                                      |
+| Green	            | 9	     | 1-2 sentences with a found match		              | **Keyphrase in meta description**: Keyphrase or synonym appear in the meta description. Well done!                                                     |
 
 ### 5) Keyphrase in subheadings
 **What it does**: Checks whether H2 and H3 subheadings reflect the topic of the copy (based on keyphrase or synonyms). For languages with function word support, a subheading is considered to reflect the topic if at least half of words from the keyphrase are used in it. For languages without function word support, a subheading is considered to reflect the topic if all content words from the keyphrase are used in it.
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
+**When it applies**: Always applicable, except in taxonomies.
 
 **Name in code**: SubHeadingsKeywordAssessment
 
@@ -121,12 +122,15 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Call to action URL**: [https://yoa.st/33l](https://yoast.com/how-to-use-headings-on-your-site/#utm_source=yoast-seo&utm_medium=software&utm_term=subheadingskeyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                                       | Feedback                                                                                                                                              |
-|-------------------|--------|-----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | 3	     | Less than 30% of H2/H3 headings reflect the topic		             | **Keyphrase in subheading**: **Use more keyphrases or synonyms in your higher-level subheadings!**                                                    |
-| Red	              | 3	     | More than 75% of H2/H3 headings reflect the topic		             | **Keyphrase in subheading**: More than 75% of your higher-level subheadings reflect the topic of your copy. That's too much. **Don't over-optimize!** |
-| Green	            | 9	     | Between 30 and 75% of H2/H3 headings reflect the topic		        | **Keyphrase in subheading**: (X of) your higher-level subheading(s) reflects the topic of your copy. Good job!                                        |
-| Green	            | 9	     | The only H2/H3 subheading used in the text reflects the topic		 | **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job!                                                  |
+| Traffic light   	 | Score	 | Criterion                                                                                                                                                                                              | Feedback                                                                                                                                          |
+|-------------------|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | 1	     | No focus keyphrase set an/or no content			                                                                                                                                                             | **Keyphrase in subheading**: **Please add both a keyphrase and some text to receive relevant feedback**.                                                 |
+| Red	              | 2	     | **Default**: A text with more than 300 words (cornerstone: 250) and no subheading is present. <br> **Japanese**: A text with more than 600 characters (cornerstone: 500) and no subheading is present. | **Keyphrase in subheading**: You are not using any higher-level subheadings containing the keyphrase or its synonyms. **Fix that!**                                                |
+| Red	              | 3	     | Less than 30% of H2/H3 headings reflect the topic		                                                                                                                                                    | **Keyphrase in subheading**: **Use more keyphrases or synonyms in your higher-level subheadings!**                                                |
+| Red	              | 3	     | More than 75% of H2/H3 headings reflect the topic		                                                                                                                                                    | **Keyphrase in subheading**: More than 75% of your higher-level subheadings reflect the topic of your copy. That's too much. **Don't over-optimize!** |
+| Green	            | 9	     | Between 30 and 75% of H2/H3 headings reflect the topic		                                                                                                                                               | **Keyphrase in subheading**: (X of) your higher-level subheading(s) reflects the topic of your copy. Good job!                                    |
+| Green	            | 9	     | The only H2/H3 subheading used in the text reflects the topic		                                                                                                                                        | **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job!                                              |
+| Green	            | 9	     | **Default**: A text with 300 (cornerstone: 250) or less words and no subheading is present. <br> **Japanese**: A text with 600 (cornerstone: 500) or less characters and no subheading is present.		   | **Keyphrase in subheading**: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.                                              |
 
 ### 6) Competing links
 **What it does**: Checks if there are any links in the text, which use the keyphrase or its synonym as the anchor text.
@@ -141,10 +145,10 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Call to action URL**: [https://yoa.st/34m](https://yoast.com/what-is-anchor-text/#utm_source=yoast-seo&utm_medium=software&utm_term=competing-links-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                                       | Feedback                                                                                                             |
-|-------------------|--------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Red	              | 2	     | There’s a link attached to the keyphrase or synonym		           | **Competing links**: You have a link which uses your keyphrase or synonym as its anchor text.. **Fix that** |
-| Green	            | 8	     | There’re no links attached to the keyphrase or synonym		        | **Competing links**: There are no links which use your keyphrase or synonym as their anchor text. Nice! |
+| Traffic light   	 | Score	 | Criterion                                                 | Feedback                                                                                                            |
+|-------------------|--------|-----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Red	              | 2	     | There’s a link attached to the keyphrase or synonym		     | **Competing links**: You have a link which uses your keyphrase or synonym as its anchor text. **Fix that** |
+| Green	            | 8	     | There are no links attached to the keyphrase or synonym		 | **Competing links**: There are no links which use your keyphrase or synonym as their anchor text. Nice! |
 
 With the example keyphrase `cat and dog` the following criteria would apply to count as a competing link:
 
@@ -249,7 +253,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When it applies**: If there is a text with at least 15 sentences and a keyword.
+**When it applies**: Always.
 
 **Name in code**: KeyphraseDistribution
 
@@ -257,12 +261,12 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/33u](https://yoast.com/keyphrase-distribution-what-it-is-and-how-to-balance-it/#utm_source=yoast-seo&utm_medium=software&utm_term=keyworddistribution-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                       | Feedback                                                                                                                                         |
-|-------------------|--------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| Grey	             | 0	     | Keyphrase was not set or not used in the text		 | **Keyphrase distribution**: **Include your keyphrase or its synonyms in the text so that we can check keyword distribution.**                    |
-| Red	              | 1	     | The resulting score is >0.6	                    | **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distribute them more evenly.** |
-| Orange	           | 6	     | The resulting score is between 0.4 and 0.6		    | **Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	     |
-| Green	            | 9	     | The resulting score is <0.4		                   | **Keyphrase distribution**: Good job!                                                                                                            |
+| Traffic light   	 | Score	 | Criterion                                     | Feedback                                                                                                                                         |
+|-------------------|--------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | 1	     | Keyphrase was not set and/or no content yet		 | **Keyphrase distribution**: **Please add both a keyphrase and some text containing the keyphrase or its synonyms.**                    |
+| Red	              | 1	     | The resulting score is >0.6	                  | **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distribute them more evenly.** |
+| Orange	           | 6	     | The resulting score is between 0.4 and 0.6		  | **Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	     |
+| Green	            | 9	     | The resulting score is <0.4		                 | **Keyphrase distribution**: Good job!                                                                                                            |
 
 ## Other SEO assessments scoring criteria
 ### 1) Text length
