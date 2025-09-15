@@ -13,6 +13,7 @@ import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
+import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -111,6 +112,7 @@ class SeoAnalysis extends Component {
 											id={ `yoast-seo-analysis-collapsible-${ location }` }
 										>
 											<SynonymSlot location={ location } />
+											{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }
 
 											<AnalysisHeader>
 												{ __( "Analysis results", "wordpress-seo" ) }
