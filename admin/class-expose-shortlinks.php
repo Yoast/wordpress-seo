@@ -106,10 +106,10 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 
 		$shortlinks = $this->shortlinks;
 
-		$shortlinks['shortlinks.upsell.metabox.additional_link']                 = 'https://yoa.st/textlink-keywords-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.additional_button']               = 'https://yoa.st/add-keywords-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.word_complexity']                 = 'https://yoa.st/word-complexity-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.internal_linking_suggestions']    = 'https://yoa.st/internal-linking-suggestions-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.additional_link']              = 'https://yoa.st/textlink-keywords-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.additional_button']            = 'https://yoa.st/add-keywords-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.word_complexity']              = 'https://yoa.st/word-complexity-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.internal_linking_suggestions'] = 'https://yoa.st/internal-linking-suggestions-metabox-term';
 
 		return $shortlinks;
 	}
