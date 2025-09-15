@@ -93,6 +93,8 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 					target="_blank"
 					rel="noopener noreferrer"
 					className="yst-mt-2"
+					data-action="load-nfd-ctb"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 				>
 					<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
