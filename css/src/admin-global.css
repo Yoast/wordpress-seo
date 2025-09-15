@@ -948,6 +948,21 @@ body.folded .wpseo-admin-submit-fixed {
 	height: 13px;
 }
 
+#wpseo-new-badge-upgrade {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	margin: 0.125rem 0.5rem;
+	width: 2rem;
+	height: 1rem;
+	border-radius: 18px;
+	background-color: #bfdbfe;
+	color: #1e40af;
+	font-size: 0.625rem;
+	font-weight: 600;
+}
+
 @media (min-width: 768px) {
 	.wpseo_table_page .tablenav.bottom {
 		margin-bottom: 40px;
