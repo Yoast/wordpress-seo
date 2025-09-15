@@ -598,6 +598,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
+		$badge = '<div id="wpseo-new-badge-upgrade">' . __( "New", "wordpress-seo" ) . '</div>';
+
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
 		}
@@ -609,7 +611,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'title'  => sprintf(
 					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>',
 					esc_url( $link ),
-					$button_label,
+					$button_label . $badge,
 				),
 				'meta'   => [
 					'tabindex' => '0',
