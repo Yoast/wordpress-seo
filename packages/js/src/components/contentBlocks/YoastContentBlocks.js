@@ -6,16 +6,16 @@ import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
 
 const CONTENT_BLOCKS = [
-	{ title: __( "FAQ", "wordpress-seo" ), name: "yoast/faq-block", isPremiumBlock: false },
-	{ title: __( "How-to", "wordpress-seo" ), name: "yoast/how-to-block", isPremiumBlock: false },
-	{ title: __( "Breadcrumbs", "wordpress-seo" ), name: "yoast-seo/breadcrumbs", isPremiumBlock: false },
+	{ title: __( "FAQ", "wordpress-seo" ), name: "yoast/faq-block", isPremiumBlock: false, supportMultiple: true },
+	{ title: __( "How-to", "wordpress-seo" ), name: "yoast/how-to-block", isPremiumBlock: false, supportMultiple: false },
+	{ title: __( "Breadcrumbs", "wordpress-seo" ), name: "yoast-seo/breadcrumbs", isPremiumBlock: false, supportMultiple: true },
 ];
 
 const PREMIUM_CONTENT_BLOCKS = [
-	{ title: __( "AI Summarize", "wordpress-seo" ), name: "yoast-seo/ai-summarize", isPremiumBlock: true },
-	{ title: __( "Estimated reading time", "wordpress-seo" ), name: "yoast-seo/estimated-reading-time", isPremiumBlock: true },
-	{ title: __( "Related links", "wordpress-seo" ), name: "yoast-seo/related-links", isPremiumBlock: true },
-	{ title: __( "Table of contents", "wordpress-seo" ), name: "yoast-seo/table-of-contents", isPremiumBlock: true },
+	{ title: __( "AI Summarize", "wordpress-seo" ), name: "yoast-seo/ai-summarize", isPremiumBlock: true, supportMultiple: false },
+	{ title: __( "Estimated reading time", "wordpress-seo" ), name: "yoast-seo/estimated-reading-time", isPremiumBlock: true, supportMultiple: true },
+	{ title: __( "Related links", "wordpress-seo" ), name: "yoast-seo/related-links", isPremiumBlock: true, supportMultiple: true },
+	{ title: __( "Table of contents", "wordpress-seo" ), name: "yoast-seo/table-of-contents", isPremiumBlock: true, supportMultiple: true },
 ];
 
 /**
@@ -32,6 +32,7 @@ export const YoastContentBlocks = () => {
 	const allContentBlocks = PREMIUM_CONTENT_BLOCKS.concat( CONTENT_BLOCKS );
 
 	const collapsibleId = `yoast-content-blocks-collapsible-${location}`;
+
 	return (
 		<Collapsible
 			id={ collapsibleId }
@@ -50,6 +51,7 @@ export const YoastContentBlocks = () => {
 						blockName={ block.name }
 						isPremiumBlock={ block.isPremiumBlock }
 						hasNewBadgeLabel={ block.title === "AI Summarize" }
+						doesSupportMultiple={ block.supportMultiple }
 					/>
 				) )
 			}

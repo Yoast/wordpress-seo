@@ -1,8 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
+import {  useSelect } from "@wordpress/data";
+import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { createBlock } from "@wordpress/blocks";
-import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { Badge, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -16,23 +15,14 @@ import { AddBlockButton } from "./AddBlockButton";
  * @param {string} props.blockTitle The title of the block to display.
  * @param {string} props.blockName The name of the block to insert.
  * @param {boolean} props.isPremiumBlock Whether the block is a premium block.
+ * @param {boolean} props.doesSupportMultiple Whether the block supports multiple instances.
  * @param {boolean} props.hasNewBadgeLabel Whether the block is newly introduced.
  * @returns {JSX.Element} The ContentBlock component.
  */
-export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel } ) => {
+export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, doesSupportMultiple, hasNewBadgeLabel } ) => {
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
 	const showUpsellBadge = useMemo( () => isPremiumBlock && ! isPremium, [ isPremiumBlock, isPremium ] );
-	const { insertBlock } = useDispatch( "core/block-editor" );
-
-	const handleButtonClick = useCallback( () => {
-		if ( showUpsellBadge ) {
-			// Open the upsell modal.
-		} else {
-			const block = createBlock( `${ blockName }` );
-			insertBlock( block );
-		}
-	}, [ showUpsellBadge ] );
 
 	return (
 		<>
@@ -47,7 +37,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 					}
 				</div>
 				<div className="yst-relative yst-inline-block">
-					<AddBlockButton onClick={ handleButtonClick } />
+					<AddBlockButton showUpsellBadge={ showUpsellBadge } blockName={ blockName } doesSupportMultiple={ doesSupportMultiple } />
 					{ showUpsellBadge &&
 						<div className="yst-root">
 							<Badge className="yst-absolute yst-p-0.5 yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
@@ -65,5 +55,6 @@ ContentBlock.propTypes = {
 	blockTitle: PropTypes.string.isRequired,
 	blockName: PropTypes.string.isRequired,
 	isPremiumBlock: PropTypes.bool.isRequired,
+	doesSupportMultiple: PropTypes.bool.isRequired,
 	hasNewBadgeLabel: PropTypes.bool.isRequired,
 };
