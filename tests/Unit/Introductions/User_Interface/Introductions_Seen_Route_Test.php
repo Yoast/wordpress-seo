@@ -161,9 +161,9 @@ final class Introductions_Seen_Route_Test extends TestCase {
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
 		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
-			->expects( 'set_introduction' )
+			->expects( 'set_introductions' )
 			->once()
-			->with( $user_id, $introduction_id, true )
+			->with( $user_id, [ $introduction_id ], true )
 			->andReturnTrue();
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
@@ -197,6 +197,54 @@ final class Introductions_Seen_Route_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the set_introduction_seen route's happy path.
+	 *
+	 * @covers ::set_introduction_seen
+	 *
+	 * @return void
+	 */
+	public function test_set_introductions_seen() {
+		$user_id          = 1;
+		$introductions_id = [ 'intro' ];
+		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( 'intro' )->andReturnTrue();
+		$this->introductions_seen_repository
+			->expects( 'set_introductions' )
+			->once()
+			->with( $user_id, $introductions_id, true )
+			->andReturnTrue();
+
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$wp_rest_response_mock
+			->expects( '__construct' )
+			->with(
+				[
+					'json' => (object) [
+						'success' => true,
+					],
+				],
+				200
+			)
+			->once();
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_params' )
+			->once()
+			->andReturn(
+				[
+					'introduction_ids' => $introductions_id,
+					'are_seen'         => true,
+				]
+			);
+
+		$this->assertInstanceOf(
+			'WP_REST_Response',
+			$this->instance->set_introductions_seen( $wp_rest_request )
+		);
+	}
+
+	/**
 	 * Tests the set_introduction_seen route that failed.
 	 *
 	 * @covers ::set_introduction_seen
@@ -209,9 +257,9 @@ final class Introductions_Seen_Route_Test extends TestCase {
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
 		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
-			->expects( 'set_introduction' )
+			->expects( 'set_introductions' )
 			->once()
-			->with( $user_id, $introduction_id, true )
+			->with( $user_id, [ $introduction_id ], true )
 			->andReturnFalse();
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
@@ -245,6 +293,56 @@ final class Introductions_Seen_Route_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the set_introduction_seen route that failed.
+	 *
+	 * @covers ::set_introductions_seen
+	 *
+	 * @return void
+	 */
+	public function test_set_introductions_seen_failed() {
+		$user_id          = 1;
+		$introduction_ids = [
+			'intro',
+		];
+		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
+		$this->introductions_collector->expects( 'is_available_introduction' )->with( 'intro' )->andReturnTrue();
+		$this->introductions_seen_repository
+			->expects( 'set_introductions' )
+			->once()
+			->with( $user_id, $introduction_ids, true )
+			->andReturnFalse();
+
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$wp_rest_response_mock
+			->expects( '__construct' )
+			->with(
+				[
+					'json' => (object) [
+						'success' => false,
+					],
+				],
+				400
+			)
+			->once();
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_params' )
+			->once()
+			->andReturn(
+				[
+					'introduction_ids' => $introduction_ids,
+					'are_seen'         => true,
+				]
+			);
+
+		$this->assertInstanceOf(
+			'WP_REST_Response',
+			$this->instance->set_introductions_seen( $wp_rest_request )
+		);
+	}
+
+	/**
 	 * Tests the set_introduction_seen route with error.
 	 *
 	 * @covers ::set_introduction_seen
@@ -257,9 +355,9 @@ final class Introductions_Seen_Route_Test extends TestCase {
 		$this->user_helper->expects( 'get_current_user_id' )->andReturn( $user_id );
 		$this->introductions_collector->expects( 'is_available_introduction' )->with( $introduction_id )->andReturnTrue();
 		$this->introductions_seen_repository
-			->expects( 'set_introduction' )
+			->expects( 'set_introductions' )
 			->once()
-			->with( $user_id, $introduction_id, true )
+			->with( $user_id, [ $introduction_id ], true )
 			->andThrow( new Exception( 'Invalid User ID' ) );
 
 		$wp_rest_request = Mockery::mock( WP_REST_Request::class );

@@ -30,6 +30,13 @@ class Introductions_Seen_Route implements Route_Interface {
 	public const ROUTE_PREFIX = '/introductions/(?P<introduction_id>[\w-]+)/seen';
 
 	/**
+	 * Represents the prefix.
+	 *
+	 * @var string
+	 */
+	public const MULTIPLE_INTRO_ROUTE_PREFIX = '/introductions/set_multiple_seen';
+
+	/**
 	 * Holds the introductions collector instance.
 	 *
 	 * @var Introductions_Collector
@@ -97,6 +104,33 @@ class Introductions_Seen_Route implements Route_Interface {
 				],
 			]
 		);
+
+		\register_rest_route(
+			Main::API_V1_NAMESPACE,
+			self::MULTIPLE_INTRO_ROUTE_PREFIX,
+			[
+				[
+					'methods'             => 'POST',
+					'callback'            => [ $this, 'set_introductions_seen' ],
+					'permission_callback' => [ $this, 'permission_edit_posts' ],
+					'args'                => [
+						'introduction_ids' => [
+							'type'              => 'array',
+							'required'          => true,
+							'sanitize_callback' => static function ( $param ) {
+								return \array_map( 'sanitize_text_field', (array) $param );
+							},
+						],
+						'are_seen'         => [
+							'required'          => false,
+							'type'              => 'bool',
+							'default'           => true,
+							'sanitize_callback' => 'rest_sanitize_boolean',
+						],
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -114,7 +148,7 @@ class Introductions_Seen_Route implements Route_Interface {
 		if ( $this->introductions_collector->is_available_introduction( $introduction_id ) ) {
 			try {
 				$user_id = $this->user_helper->get_current_user_id();
-				$result  = $this->introductions_seen_repository->set_introduction( $user_id, $introduction_id, $is_seen );
+				$result  = $this->introductions_seen_repository->set_introductions( $user_id, [ $introduction_id ], $is_seen );
 			} catch ( Exception $exception ) {
 				return new WP_Error(
 					'wpseo_introductions_seen_error',
@@ -133,6 +167,45 @@ class Introductions_Seen_Route implements Route_Interface {
 			);
 		}
 		return new WP_REST_Response( [], 400 );
+	}
+
+	/**
+	 * Sets whether multiple introductions are seen.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response|WP_Error The success or failure response.
+	 */
+	public function set_introductions_seen( WP_REST_Request $request ) {
+		$params           = $request->get_params();
+		$introduction_ids = $params['introduction_ids'];
+		$are_seen         = $params['are_seen'];
+
+		foreach ( $introduction_ids as $introduction_id ) {
+			if ( ! $this->introductions_collector->is_available_introduction( $introduction_id ) ) {
+				return new WP_REST_Response( [], 400 );
+			}
+		}
+
+		try {
+			$user_id = $this->user_helper->get_current_user_id();
+			$result  = $this->introductions_seen_repository->set_introductions( $user_id, $introduction_ids, $are_seen );
+		} catch ( Exception $exception ) {
+			return new WP_Error(
+				'wpseo_introductions_seen_error',
+				$exception->getMessage(),
+				(object) []
+			);
+		}
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => $result,
+				],
+			],
+			( $result ) ? 200 : 400
+		);
 	}
 
 	/**

@@ -239,22 +239,22 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests setting the introduction.
+	 * Tests setting the introductions.
 	 *
-	 * @covers ::set_introduction
+	 * @covers ::set_introductions
 	 *
-	 * @dataProvider provide_set_introduction_test_data
+	 * @dataProvider provide_set_introductions_test_data
 	 *
-	 * @param string $introduction_id The introduction ID.
-	 * @param bool   $is_seen         Whether the introduction is seen.
-	 * @param mixed  $meta            The get_meta return value.
-	 * @param array  $expected_meta   The expected meta.
+	 * @param int[] $introduction_ids The introduction ID.
+	 * @param bool  $is_seen          Whether the introduction is seen.
+	 * @param mixed $meta             The get_meta return value.
+	 * @param array $expected_meta    The expected meta.
 	 *
 	 * @return void
 	 *
 	 * @throws Invalid_User_Id_Exception Invalid User ID.
 	 */
-	public function test_set_introduction( $introduction_id, $is_seen, $meta, $expected_meta ) {
+	public function test_set_introductions( $introduction_ids, $is_seen, $meta, $expected_meta ) {
 		$user_id = 1;
 		$this->user_helper->expects( 'get_meta' )
 			->once()
@@ -265,44 +265,92 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 			->with( $user_id, Introductions_Seen_Repository::USER_META_KEY, $expected_meta )
 			->andReturnTrue();
 
-		$this->instance->set_introduction( $user_id, $introduction_id, $is_seen, $meta );
+		$this->instance->set_introductions( $user_id, $introduction_ids, $is_seen, $meta );
 	}
 
 	/**
-	 * Provides data for `test_set_introduction()`.
+	 * Provides data for `test_set_introductions()`.
 	 *
 	 * @return array
 	 */
-	public static function provide_set_introduction_test_data() {
+	public static function provide_set_introductions_test_data() {
 		return [
-			'seen'      => [
-				'introduction_id' => 'foo',
-				'is_seen'         => true,
-				'meta'            => [],
-				'expected_meta'   => [ 'foo' => true ],
+			'seen'               => [
+				'introduction_ids' => [ 'foo' ],
+				'is_seen'          => true,
+				'meta'             => [],
+				'expected_meta'    => [ 'foo' => true ],
 			],
-			'not seen'  => [
-				'introduction_id' => 'foo',
-				'is_seen'         => false,
-				'meta'            => [],
-				'expected_meta'   => [
+			'not seen'           => [
+				'introduction_ids' => [ 'foo' ],
+				'is_seen'          => false,
+				'meta'             => [],
+				'expected_meta'    => [
 					'foo' => [
 						'is_seen' => false,
 						'seen_on' => 0,
 					],
 				],
 			],
-			'no change' => [
-				'introduction_id' => 'foo',
-				'is_seen'         => true,
-				'meta'            => [
+			'no change'          => [
+				'introduction_ids' => [ 'foo' ],
+				'is_seen'          => true,
+				'meta'             => [
 					'foo' => [
 						'is_seen' => true,
 						'seen_on' => 12345678,
 					],
 				],
-				'expected_meta'   => [
+				'expected_meta'    => [
 					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
+			],
+			'multiple seen'      => [
+				'introduction_ids' => [ 'foo', 'bar' ],
+				'is_seen'          => true,
+				'meta'             => [],
+				'expected_meta'    => [
+					'foo' => true,
+					'bar' => true,
+				],
+			],
+			'multiple not seen'  => [
+				'introduction_ids' => [ 'foo', 'bar' ],
+				'is_seen'          => false,
+				'meta'             => [],
+				'expected_meta'    => [
+					'foo' => [
+						'is_seen' => false,
+						'seen_on' => 0,
+					],
+					'bar' => [
+						'is_seen' => false,
+						'seen_on' => 0,
+					],
+				],
+			],
+			'multiple no change' => [
+				'introduction_ids' => [ 'foo', 'bar' ],
+				'is_seen'          => true,
+				'meta'             => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+					'bar' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+				],
+				'expected_meta'    => [
+					'foo' => [
+						'is_seen' => true,
+						'seen_on' => 12345678,
+					],
+					'bar' => [
 						'is_seen' => true,
 						'seen_on' => 12345678,
 					],

@@ -96,7 +96,56 @@ class Introductions_Seen_Repository {
 	}
 
 	/**
+	 * Sets the introductions as seen.
+	 *
+	 * @param int   $user_id          The user ID.
+	 * @param int[] $introduction_ids The IDs if the introductions to be set.
+	 * @param bool  $are_seen         Whether the introductions are seen.
+	 *
+	 * @return bool False on failure. Not having to update is a success.
+	 *
+	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
+	 */
+	public function set_introductions( int $user_id, array $introduction_ids, bool $are_seen ): bool {
+		$introductions         = $this->get_all_introductions( $user_id );
+		$changed_introductions = false;
+
+		foreach ( $introduction_ids as $introduction_id ) {
+			// Check if the wanted value is already set.
+			if ( \array_key_exists( $introduction_id, $introductions ) ) {
+				if ( \is_array( $introductions[ $introduction_id ] ) ) {
+					// New format with seen_on timestamp.
+					if ( $introductions[ $introduction_id ]['is_seen'] === $are_seen ) {
+						continue;
+					}
+				}
+					// Old format with just a boolean.
+				elseif ( $introductions[ $introduction_id ] === $are_seen ) {
+						continue;
+				}
+			}
+
+			// If not, set it.
+			$introductions[ $introduction_id ] = [
+				'is_seen' => $are_seen,
+				'seen_on' => ( $are_seen === true ) ? \time() : 0,
+			];
+
+			$changed_introductions = true;
+		}
+
+		if ( ! $changed_introductions ) {
+			return true;
+		}
+
+		return $this->set_all_introductions( $user_id, $introductions );
+	}
+
+	/**
 	 * Sets the introduction as seen.
+	 *
+	 * @deprecated 26.1
+	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id         The user ID.
 	 * @param string $introduction_id The introduction ID.
@@ -107,6 +156,8 @@ class Introductions_Seen_Repository {
 	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function set_introduction( $user_id, string $introduction_id, bool $is_seen = true ): bool {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1' );
+
 		$introductions = $this->get_all_introductions( $user_id );
 
 		// Check if the wanted value is already set.
