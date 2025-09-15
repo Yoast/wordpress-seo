@@ -74,11 +74,6 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 							blockName={ blockName }
 							showTooltip={ showTooltip }
 						/>
-						{ /* { showTooltip && */ }
-						{ /* 	<div className="yst-root yst-absolute yst-end-full yst-top-1/2 yst--translate-y-1/2 yst-me-2"> */ }
-						{ /* 		<Tooltip>{ __( "Add block to content.", "wordpress-seo" ) }</Tooltip> */ }
-						{ /* 	</div> */ }
-						{ /* } */ }
 						{ showUpsellBadge &&
 							<div className="yst-root">
 								<Badge className="yst-absolute yst-p-0.5 yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
