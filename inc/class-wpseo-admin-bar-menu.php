@@ -596,10 +596,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
-		$badge        = '<div id="wpseo-new-badge-upgrade">' . __( 'New', 'wordpress-seo' ) . '</div>';
+		$badge        = '';
+		if ( $this->product_helper->is_premium() ) {
+			$badge = '<div id="wpseo-new-badge-upgrade">' . __( 'New', 'wordpress-seo' ) . '</div>';
+		}
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
-			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
+			$button_label = ( $this->product_helper->is_premium() === true ) ? esc_html__( '30% off', 'wordpress-seo' ) : esc_html__( '30% off - BF Sale', 'wordpress-seo' );
 		}
 		$wp_admin_bar->add_menu(
 			[
