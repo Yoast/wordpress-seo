@@ -1,6 +1,7 @@
-import { useContext } from "@wordpress/element";
+import { useCallback, useContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationContext } from "@yoast/externals/contexts";
+import { Badge } from "@yoast/ui-library";
 import { ContentBlock } from "./ContentBlock";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
@@ -31,6 +32,18 @@ export const YoastContentBlocks = () => {
 	// Render the premium blocks first.
 	const allContentBlocks = PREMIUM_CONTENT_BLOCKS.concat( CONTENT_BLOCKS );
 
+	/*
+	 * The MetaboxCollapsible is using Collapsible from the old @yoast/components package,
+	 * which doesn't have support for the `@yoast/ui-library` Badge component.
+	 * Therefore, we need to create a custom render function for the "New" badge label here,
+	 * and pass it as a prop.
+	 */
+	const renderNewBadgeLabel = useCallback( () => {
+		return <div className="yst-root yst-items-center">
+			<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
+		</div>;
+	}, [] );
+
 	const collapsibleId = `yoast-content-blocks-collapsible-${location}`;
 
 	return (
@@ -38,6 +51,7 @@ export const YoastContentBlocks = () => {
 			id={ collapsibleId }
 			title={ __( "Content blocks", "wordpress-seo" ) }
 			hasNewBadgeLabel={ true }
+			renderNewBadgeLabel={ renderNewBadgeLabel }
 			className={ "yoast-content-blocks" }
 		>
 			<div className="yst-mt-2 yst-font-normal yst-text-sm">
@@ -51,6 +65,7 @@ export const YoastContentBlocks = () => {
 						blockName={ block.name }
 						isPremiumBlock={ block.isPremiumBlock }
 						hasNewBadgeLabel={ block.title === "AI Summarize" }
+						renderNewBadgeLabel={ renderNewBadgeLabel }
 					/>
 				) )
 			}

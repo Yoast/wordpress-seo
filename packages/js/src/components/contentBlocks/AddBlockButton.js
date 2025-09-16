@@ -21,13 +21,15 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 	const handleButtonClick = useCallback( () => {
 		setIsClicked( true );
 		if ( showUpsellBadge ) {
+			// We don't want to show the clicked state when the upsell modal is opened.
+			setIsClicked( false );
 			// Open the upsell modal.
 		} else {
 			setTimeout( () => {
 				const block = createBlock( blockName );
 				insertBlock( block );
 				setIsClicked( false );
-			}, 600 );
+			}, 300 );
 		}
 	}, [ showUpsellBadge, blockName, insertBlock ] );
 	const handleMouseEnter = useCallback( () => {
@@ -40,7 +42,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 
 
 	const baseButtonClass = "yst-box-border yst-flex yst-flex-row yst-justify-center yst-items-center yst-p-1.5 yst-gap-1.5 yst-w-7 yst-h-7 " +
-		"yst-border yst-border-solid yst-border-slate-300 yst-shadow-sm yst-rounded-md";
+		"yst-border yst-border-solid yst-border-slate-300 yst-shadow-sm yst-rounded-md active:yst-bg-[#a4286a] yst-duration-200";
 	const backgroundClass = isClicked ? "yst-bg-[#a4286a]" : "yst-bg-white";
 	const tooltipClass = showTooltip ? "hover:yst-bg-slate-50 yoast-tooltip yoast-tooltip-w" : "";
 	const buttonClass = `${baseButtonClass} ${backgroundClass} ${tooltipClass}`;
