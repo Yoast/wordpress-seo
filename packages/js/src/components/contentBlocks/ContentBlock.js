@@ -1,7 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { CheckIcon } from "@heroicons/react/outline";
-import {  useSelect } from "@wordpress/data";
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
+import { useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 import { Badge, useSvgAria } from "@yoast/ui-library";
@@ -28,15 +28,6 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 	const svgAriaProps = useSvgAria();
 	const showUpsellBadge = useMemo( () => isPremiumBlock && ! isPremium, [ isPremiumBlock, isPremium ] );
 	const [ isBlockPresent, setIsBlockPresent ] = useState( false );
-	const [ showTooltip, setShowTooltip ] = useState( false );
-
-	const handleMouseEnter = useCallback( () => {
-		setShowTooltip( true );
-	}, [] );
-
-	const handleMouseLeave = useCallback( () => {
-		setShowTooltip( false );
-	}, [] );
 
 	useEffect( () => {
 		// If no block is found, set isBlockAdded to false.
@@ -53,11 +44,11 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 
 	return (
 		<>
-			<hr style={ { borderTop: "0" } } />
+			<hr className="yst-border-t-slate-200 yst-mx-0 yst-w-auto yst-my-5" />
 			<div className="yst-flex yst-items-center">
-				<div className="yst-flex yst-items-center yst-flex-grow yst-p-0 yst-gap-2">
+				<div className="yst-flex yst-items-center yst-flex-grow yst-p-0 yst-gap-2 yst-ms-2">
 					<SvgIcon icon="circle" size="4px" />
-					<span className="yst-ms-1 yst-font-medium">{ blockTitle }</span>
+					<span className="yst-font-medium">{ blockTitle }</span>
 					{ hasNewBadgeLabel && <div className="yst-root yst-items-center">
 						<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
 					</div>
@@ -66,13 +57,10 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 				{ ! isBlockPresent &&
 					<div
 						className="yst-relative yst-inline-block"
-						onMouseEnter={ handleMouseEnter }
-						onMouseLeave={ handleMouseLeave }
 					>
 						<AddBlockButton
 							showUpsellBadge={ showUpsellBadge }
 							blockName={ blockName }
-							showTooltip={ showTooltip }
 						/>
 						{ showUpsellBadge &&
 							<div className="yst-root">
@@ -85,7 +73,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 				}
 				{ isBlockPresent &&
 					<div className="yst-flex yst-flex-row yst-justify-center yst-items-center yst-p-1.5 yst-gap-1.5">
-						<CheckIcon className="yst-h-4 yst-w-4 yst-text-green-600" />
+						<CheckIcon className="yst-h-4 yst-w-4 yst-stroke-green-600" />
 					</div>
 				}
 			</div>
