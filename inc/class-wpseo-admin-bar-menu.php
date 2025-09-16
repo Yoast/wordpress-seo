@@ -289,9 +289,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$this->add_network_settings_submenu( $wp_admin_bar );
 		}
 
-		if ( ! $this->product_helper->is_premium() ) {
-			$this->add_premium_link( $wp_admin_bar );
-		}
+		$this->add_premium_link( $wp_admin_bar );
 	}
 
 	/**
