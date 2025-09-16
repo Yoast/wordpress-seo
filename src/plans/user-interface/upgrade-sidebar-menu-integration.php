@@ -110,19 +110,18 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			$button_label = \__( '30% off - BF Sale', 'wordpress-seo' );
 		}
 
-		$badge = '<div id="wpseo-new-badge-upgrade">' . __( "New", "wordpress-seo" ) . '</div>';
-		if ( ! $this->product_helper->is_premium() ) {
-			$pages[] = [
-				General_Page_Integration::PAGE,
-				'',
-				'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . $button_label . $badge .' </span></span>',
-				'wpseo_manage_options',
-				self::PAGE,
-				static function () {
-					echo 'redirecting...';
-				},
-			];
-		}
+		$badge = '<div id="wpseo-new-badge-upgrade">' . \__( 'New', 'wordpress-seo' ) . '</div>';
+
+		$pages[] = [
+			General_Page_Integration::PAGE,
+			'',
+			'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . $button_label . $badge . ' </span></span>',
+			'wpseo_manage_options',
+			self::PAGE,
+			static function () {
+				echo 'redirecting...';
+			},
+		];
 
 		return $pages;
 	}
