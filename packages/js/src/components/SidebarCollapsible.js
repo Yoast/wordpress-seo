@@ -1,8 +1,6 @@
 /* eslint-disable complexity */
 import { useCallback, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 import { BetaBadge, SvgIcon } from "@yoast/components";
-import { Badge } from "@yoast/ui-library";
 
 import PropTypes from "prop-types";
 
@@ -16,6 +14,7 @@ import PropTypes from "prop-types";
  * @param {boolean} [hasBetaBadgeLabel=false] Whether to show the beta badge.
  * @param {boolean} [hasNewBadgeLabel=false] Whether to show the new badge.
  * @param {?string} [buttonId=null] The button id.
+ * @param {Function} [renderNewBadgeLabel] Function to render a "New" badge label.
  *
  * @returns {JSX.Element} The element.
  */
@@ -27,6 +26,7 @@ const SidebarCollapsible = ( {
 	hasBetaBadgeLabel = false,
 	hasNewBadgeLabel = false,
 	buttonId = null,
+	renderNewBadgeLabel = () => {},
 } ) => {
 	const [ isOpen, toggleOpen ] = useState( false );
 
@@ -74,9 +74,7 @@ const SidebarCollapsible = ( {
 							<div className="yoast-title">{ title }</div>
 							<div className="yoast-subtitle">{ subTitle }</div>
 						</span>
-						<div className="yst-root yst-items-center">
-							<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
-						</div>
+						{ renderNewBadgeLabel() }
 					</div>
 				}
 				<span className="yoast-chevron" aria-hidden="true" />
@@ -99,4 +97,5 @@ SidebarCollapsible.propTypes = {
 	hasBetaBadgeLabel: PropTypes.bool,
 	hasNewBadgeLabel: PropTypes.bool,
 	buttonId: PropTypes.string,
+	renderNewBadgeLabel: PropTypes.func,
 };

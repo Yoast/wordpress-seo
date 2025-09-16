@@ -2,7 +2,6 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
 import { useEffect, useMemo, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 import { Badge, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -17,9 +16,10 @@ import { AddBlockButton } from "./AddBlockButton";
  * @param {string} props.blockName The name of the block to insert.
  * @param {boolean} props.isPremiumBlock Whether the block is a premium block.
  * @param {boolean} props.hasNewBadgeLabel Whether the block is newly introduced.
+ * @param {Function} props.renderNewBadgeLabel Function to render the "New" badge label.
  * @returns {JSX.Element} The ContentBlock component.
  */
-export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel } ) => {
+export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel, renderNewBadgeLabel } ) => {
 	const { isPremium, addedBlock } = useSelect( select => ( {
 		isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 		addedBlock: select( "core/block-editor" ).getBlocksByName( blockName ),
@@ -49,10 +49,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 				<div className="yst-flex yst-items-center yst-flex-grow yst-p-0 yst-gap-2 yst-ms-2">
 					<SvgIcon icon="circle" size="4px" />
 					<span className="yst-font-medium">{ blockTitle }</span>
-					{ hasNewBadgeLabel && <div className="yst-root yst-items-center">
-						<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
-					</div>
-					}
+					{ hasNewBadgeLabel && renderNewBadgeLabel() }
 				</div>
 				{ ! isBlockPresent &&
 					<div
@@ -86,4 +83,5 @@ ContentBlock.propTypes = {
 	blockName: PropTypes.string.isRequired,
 	isPremiumBlock: PropTypes.bool.isRequired,
 	hasNewBadgeLabel: PropTypes.bool.isRequired,
+	renderNewBadgeLabel: PropTypes.func.isRequired,
 };
