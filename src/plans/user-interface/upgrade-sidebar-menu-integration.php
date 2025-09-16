@@ -115,7 +115,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 		$pages[] = [
 			General_Page_Integration::PAGE,
 			'',
-			'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . $button_label . $badge . ' </span></span>',
+			'<span class="yst-root"><span class="yst-button yst-w-full yst-whitespace-nowrap yst-button--upsell yst-button--small">' . $button_label . $badge . ' </span></span>',
 			'wpseo_manage_options',
 			self::PAGE,
 			static function () {
