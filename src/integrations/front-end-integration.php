@@ -142,6 +142,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Webmaster\Google',
 		'Webmaster\Pinterest',
 		'Webmaster\Yandex',
+		'Webmaster\Ahrefs',
 	];
 
 	/**

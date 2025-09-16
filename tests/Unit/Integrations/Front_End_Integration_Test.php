@@ -312,6 +312,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter',
 			'Yoast\WP\SEO\Presenters\Webmaster\Pinterest_Presenter',
 			'Yoast\WP\SEO\Presenters\Webmaster\Yandex_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Ahrefs_Presenter',
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 

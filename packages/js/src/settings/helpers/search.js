@@ -448,6 +448,16 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				"gsc",
 			],
 		},
+		ahrefsverify: {
+			route: "/site-connections",
+			routeLabel: __( "Site connections", "wordpress-seo" ),
+			fieldId: "input-wpseo-ahrefsverify",
+			fieldLabel: __( "Ahrefs", "wordpress-seo" ),
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+				__( "Ahrefs", "wordpress-seo" ),
+			],
+		},
 		msverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
