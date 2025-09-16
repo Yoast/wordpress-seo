@@ -596,7 +596,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
-		$badge = '<div id="wpseo-new-badge-upgrade">' . __( "New", "wordpress-seo" ) . '</div>';
+		$badge        = '<div id="wpseo-new-badge-upgrade">' . __( 'New', 'wordpress-seo' ) . '</div>';
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
