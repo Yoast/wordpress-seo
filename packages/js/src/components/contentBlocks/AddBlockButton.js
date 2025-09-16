@@ -19,19 +19,20 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 	const [ showTooltip, setShowTooltip ] = useState( false );
 
 	const handleButtonClick = useCallback( () => {
-		setIsClicked( true );
 		if ( showUpsellBadge ) {
 			// We don't want to show the clicked state when the upsell modal is opened.
-			setIsClicked( false );
 			// Open the upsell modal.
 		} else {
+			setIsClicked( true );
+
 			setTimeout( () => {
 				const block = createBlock( blockName );
 				insertBlock( block );
 				setIsClicked( false );
-			}, 300 );
+			}, 500 );
 		}
 	}, [ showUpsellBadge, blockName, insertBlock ] );
+
 	const handleMouseEnter = useCallback( () => {
 		setShowTooltip( true );
 	}, [] );
