@@ -5,9 +5,22 @@ import { ReactComponent as CrownIcon } from "../../../images/icon-crown.svg";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { WooSeoAnalysisUpsellAd } from "./WooSeoAnalysisUpsellAd";
-import { useMemo } from "@wordpress/element";
 
 const STORE_NAME_EDITOR = "yoast-seo/editor";
+
+/**
+ * Get the location key for the upsell link.
+ *
+ * @param {string} location The current location.
+ * @param {boolean} isElementorEditor Whether the editor is Elementor.
+ * @returns {string} The location key.
+ */
+export const getLocationKey = ( location, isElementorEditor ) => {
+	if ( isElementorEditor ) {
+		return "elementor";
+	}
+	return location;
+};
 
 /**
  * Renders an upsell ad for Yoast SEO Premium in the SEO analysis section.
@@ -33,20 +46,16 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	}
 
 	const svgAriaProps = useSvgAria();
-
-	const upsellLink = useMemo( () => {
-		if ( isElementorEditor ) {
-			return elementorUrl;
-		}
-		if ( location === "sidebar" ) {
-			return sidebarUrl;
-		}
-		return metaboxUrl;
-	}, [ location, isElementorEditor, metaboxUrl, sidebarUrl, elementorUrl ] );
+	const locationKey = getLocationKey( location, isElementorEditor );
+	const upsellLinks = {
+		metabox: metaboxUrl,
+		sidebar: sidebarUrl,
+		elementor: elementorUrl,
+	};
 
 	return (
 		<div className="yst-root">
-			<div className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
+			<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
 				<Title as="h4" variant="h4" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
 					{ __( "Premium SEO analysis", "wordpress-seo" ) }
 					<CrownIcon className="yst-w-4" { ...svgAriaProps } />
@@ -89,7 +98,7 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 				<Button
 					variant="upsell"
 					as="a"
-					href={ upsellLink }
+					href={ upsellLinks[ locationKey ] }
 					target="_blank"
 					rel="noopener noreferrer"
 					className="yst-mt-2"

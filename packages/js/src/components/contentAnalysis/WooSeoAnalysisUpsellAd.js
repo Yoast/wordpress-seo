@@ -3,7 +3,7 @@ import { Title, useSvgAria, Button } from "@yoast/ui-library";
 import { LockOpenIcon, PhotographIcon, TagIcon, IdentificationIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
-import { useMemo } from "@wordpress/element";
+import { getLocationKey } from "./PremiumSeoAnalysisUpsellAd";
 
 const STORE_NAME_EDITOR = "yoast-seo/editor";
 
@@ -33,19 +33,17 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 		};
 	}, [] );
 
-	const upsellLink = useMemo( () => {
-		if ( isElementorEditor ) {
-			return elementorUrl;
-		}
-		if ( location === "sidebar" ) {
-			return sidebarUrl;
-		}
-		return metaboxUrl;
-	}, [ location, isElementorEditor, metaboxUrl, sidebarUrl, elementorUrl ] );
+	const upsellLinks = {
+		metabox: metaboxUrl,
+		sidebar: sidebarUrl,
+		elementor: elementorUrl,
+	};
+
+	const locationKey = getLocationKey( location, isElementorEditor );
 
 	return (
 		<div className="yst-root">
-			<div className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
+			<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
 				<Title as="h4" variant="h4" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
 					{ __( "Premium SEO analysis", "wordpress-seo" ) }
 					<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
@@ -70,7 +68,7 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 				<Button
 					variant="upsell"
 					as="a"
-					href={ upsellLink }
+					href={ upsellLinks[ locationKey ] }
 					target="_blank"
 					rel="noopener noreferrer"
 					className="yst-mt-2"
