@@ -29,7 +29,7 @@ domReady( () => {
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
 		// When on the FTC, we should abort displaying introductions and to mark them as not seen.
-		window.YoastSEO._registerIntroductionComponent = ( id ) => {
+		window.YoastSEO._registerIntroductionComponent = async( id ) => {
 			const introduction = find( initialIntroductions, { id } );
 			if ( ! introduction ) {
 				return;
