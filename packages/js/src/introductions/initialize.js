@@ -29,25 +29,30 @@ domReady( () => {
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
 		// When on the FTC, we should abort displaying introductions and to mark them as not seen.
-		window.YoastSEO._registerIntroductionComponent = ( id ) => {
+		window.YoastSEO._registerIntroductionComponent = async( id ) => {
 			const introduction = find( initialIntroductions, { id } );
 			if ( ! introduction ) {
 				return;
 			}
 
-			apiFetch( {
-				path: `/yoast/v1/introductions/${ id }/seen`,
-				method: "POST",
-				// eslint-disable-next-line camelcase
-				data: { is_seen: false },
-			} );
+			try {
+				await apiFetch( {
+					path: `/yoast/v1/introductions/${ id }/seen`,
+					method: "POST",
+					// eslint-disable-next-line camelcase
+					data: { is_seen: false },
+				} );
+			} catch ( e ) {
+				console.error( e );
+			}
 		};
 
-		Object.keys( initialComponents ).forEach( ( id ) => {
-			window.YoastSEO._registerIntroductionComponent( id );
-		} );
-
-		doAction( "yoast.introductions.ready" );
+		( async() => {
+			for ( const id of Object.keys( initialComponents ) ) {
+				await window.YoastSEO._registerIntroductionComponent( id );
+			}
+			doAction( "yoast.introductions.ready" );
+		} )();
 
 		return;
 	}
