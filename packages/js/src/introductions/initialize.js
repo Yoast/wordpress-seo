@@ -35,21 +35,21 @@ domReady( () => {
 				return;
 			}
 
-			return apiFetch( {
-				path: `/yoast/v1/introductions/${ id }/seen`,
-				method: "POST",
-				// eslint-disable-next-line camelcase
-				data: { is_seen: false },
-			} );
+			try {
+				await apiFetch( {
+					path: `/yoast/v1/introductions/${ id }/seen`,
+					method: "POST",
+					// eslint-disable-next-line camelcase
+					data: { is_seen: false },
+				} );
+			} catch ( e ) {
+				console.error( e );
+			}
 		};
 
 		( async() => {
-			const ids = Object.keys( initialComponents );
-			const promises = ids.map( id => window.YoastSEO._registerIntroductionComponent( id ) );
-			try {
-				await Promise.all( promises );
-			} catch ( e ) {
-				console.error( e );
+			for ( const id of Object.keys( initialComponents ) ) {
+				await window.YoastSEO._registerIntroductionComponent( id );
 			}
 			doAction( "yoast.introductions.ready" );
 		} )();
