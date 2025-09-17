@@ -589,9 +589,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
 		$link            = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
-		if ( $has_woocommerce ) {
+		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
+
+		if ( $this->product_helper->is_premium() ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-ai-insights' );
+		}
+		elseif ( $has_woocommerce ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
 		}
 
