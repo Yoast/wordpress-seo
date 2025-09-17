@@ -69,7 +69,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 					</div>
 				}
 				{ isBlockPresent &&
-					<div className="yst-flex yst-flex-row yst-justify-center yst-items-center yst-p-1.5 yst-gap-1.5">
+					<div className="yst-flex yst-flex-row yst-p-1.5">
 						<CheckIcon className="yst-h-4 yst-w-4 yst-stroke-green-700" />
 					</div>
 				}

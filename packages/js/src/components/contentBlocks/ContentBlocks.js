@@ -39,9 +39,11 @@ export const ContentBlocks = () => {
 	 * and pass it as a prop.
 	 */
 	const renderNewBadgeLabel = useCallback( () => {
-		return <div className="yst-root yst-items-center">
-			<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
-		</div>;
+		return (
+			<div className="yst-root">
+				<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
+			</div>
+		);
 	}, [] );
 
 	const collapsibleId = `yoast-content-blocks-collapsible-${location}`;
