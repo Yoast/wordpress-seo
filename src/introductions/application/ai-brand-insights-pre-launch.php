@@ -66,6 +66,6 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page();
+		return false;
 	}
 }
