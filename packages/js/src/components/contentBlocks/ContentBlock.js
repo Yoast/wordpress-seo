@@ -44,7 +44,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 
 	return (
 		<>
-			<hr className="yst-border-t-slate-200 yst-mx-0 yst-w-auto yst-my-5" />
+			<hr className="yst-border-t-slate-200 yst-mx-0 yst-w-auto yst-my-4" />
 			<div className="yst-flex yst-items-center">
 				<div className="yst-flex yst-items-center yst-flex-grow yst-p-0 yst-gap-2 yst-ms-2">
 					<SvgIcon icon="circle" size="4px" />
