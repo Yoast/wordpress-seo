@@ -8,7 +8,7 @@ import { get } from "lodash";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, YoastContentBlocks } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -103,7 +103,7 @@ export default function SidebarFill( { settings } ) {
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ isBlockEditorActive && <YoastContentBlocks /> }
+				{ isBlockEditorActive && <ContentBlocks /> }
 				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }

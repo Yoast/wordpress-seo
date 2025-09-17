@@ -10,7 +10,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, YoastContentBlocks } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -119,7 +119,7 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
 					<SchemaTabContainer />
 				</SidebarItem> }
-				{ isBlockEditorActive && <YoastContentBlocks /> }
+				{ isBlockEditorActive && <ContentBlocks /> }
 				<SidebarItem
 					key="social"
 					renderPriority={ -1 }

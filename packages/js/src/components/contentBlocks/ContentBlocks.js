@@ -24,7 +24,7 @@ const PREMIUM_CONTENT_BLOCKS = [
  *
  * @returns {JSX.Element} The Yoast Custom Blocks component.
  */
-export const YoastContentBlocks = () => {
+export const ContentBlocks = () => {
 	// Use useContext to access the LocationContext.
 	const location = useContext( LocationContext );
 	const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
