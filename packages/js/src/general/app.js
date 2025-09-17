@@ -147,7 +147,7 @@ const App = () => {
 				</div>
 			</SidebarNavigation>
 			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
+				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
 				position="bottom-left"
 			>
 				<LlmTxtOptInNotification />
