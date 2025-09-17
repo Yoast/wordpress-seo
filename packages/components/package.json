@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/components"
   },
   "author": "Yoast",
@@ -20,22 +20,24 @@
     "build:js": "babel src --out-dir build",
     "build:css": "postcss src/**/*.css --base src --dir build",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=98",
     "test": "jest",
-    "lint": "eslint . --max-warnings=98"
+    "watch": "yarn clean && ( yarn watch:js & yarn watch:css )",
+    "watch:js": "yarn build:js --watch",
+    "watch:css": "yarn build:css --watch"
   },
   "dependencies": {
     "@wordpress/a11y": "^4.8.2",
     "@wordpress/i18n": "^5.8.2",
+    "@wordpress/element": "^6.8.1",
     "@yoast/helpers": "^0.17.0-alpha.1",
     "@yoast/style-guide": "^0.14.0-alpha.0",
-    "interpolate-components": "^1.1.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.8.1",
     "react-select": "^5.10.2",
-    "react-tabs": "^2.3.0",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {

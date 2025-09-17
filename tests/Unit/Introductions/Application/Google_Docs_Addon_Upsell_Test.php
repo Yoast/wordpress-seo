@@ -106,7 +106,7 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_priority() {
-		$this->assertSame( 10, $this->instance->get_priority() );
+		$this->assertSame( 20, $this->instance->get_priority() );
 	}
 
 	/**
@@ -114,36 +114,9 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	 *
 	 * @covers ::should_show
 	 *
-	 * @dataProvider should_show_data
-	 *
-	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
-	 * @param bool $expected          The expected result.
-	 *
 	 * @return void
 	 */
-	public function test_should_show( $is_yoast_seo_page, $expected ) {
-		$this->current_page_helper->expects( 'is_yoast_seo_page' )
-			->withNoArgs()
-			->andReturn( $is_yoast_seo_page );
-
-		$this->assertSame( $expected, $this->instance->should_show() );
-	}
-
-	/**
-	 * Provides the data for `test_should_show`.
-	 *
-	 * @return array<string, array<string, bool>>
-	 */
-	public static function should_show_data() {
-		return [
-			'on a Yoast admin page'     => [
-				'is_yoast_seo_page' => true,
-				'expected'          => true,
-			],
-			'not on a Yoast admin page' => [
-				'is_yoast_seo_page' => false,
-				'expected'          => false,
-			],
-		];
+	public function test_should_show() {
+		$this->assertSame( false, $this->instance->should_show() );
 	}
 }

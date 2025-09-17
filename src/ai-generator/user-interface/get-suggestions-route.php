@@ -8,6 +8,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
+use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
@@ -143,13 +144,21 @@ class Get_Suggestions_Route implements Route_Interface {
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$user = \wp_get_current_user();
-			$data = $this->suggestions_provider->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );
+			$data = $this->suggestions_provider->get_suggestions(
+				$user,
+				$request->get_param( 'type' ),
+				$request->get_param( 'prompt_content' ),
+				$request->get_param( 'focus_keyphrase' ),
+				$request->get_param( 'language' ),
+				$request->get_param( 'platform' ),
+				$request->get_param( 'editor' )
+			);
 		} catch ( Remote_Request_Exception $e ) {
 			$message = [
 				'message'         => $e->getMessage(),
 				'errorIdentifier' => $e->get_error_identifier(),
 			];
-			if ( $e instanceof Payment_Required_Exception ) {
+			if ( $e instanceof Payment_Required_Exception || $e instanceof Too_Many_Requests_Exception ) {
 				$message['missingLicenses'] = $e->get_missing_licenses();
 			}
 			return new WP_REST_Response(

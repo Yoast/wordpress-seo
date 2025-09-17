@@ -1,26 +1,23 @@
-/* External dependencies */
 import PropTypes from "prop-types";
 
 /**
  * Adds a priority prop to a React component.
  *
- * @param {function} WrappedComponent the component to give priority.
- * @returns {function} the wrapped function.
+ * @param {React.ComponentType} WrappedComponent the component to give priority.
+ * @returns {React.ComponentType} the wrapped function.
  */
 const withYoastSidebarPriority = ( WrappedComponent ) => {
 	/**
-	 * The new function in which the wrapped component is returned.
-	 * @param {object} props The props.
-	 * @returns {wp.Element} The component.
-	 * @constructor
+	 * The new component in which the wrapped component is returned.
+	 *
+	 * @param {number|undefined} [renderPriority] The priority of the component.
+	 * @param {...Object} [props] The props to pass to the component.
+	 *
+	 * @returns {JSX.Element} The element.
 	 */
-	const YoastSidebarPriority = ( props ) => {
-		const {
-			// eslint-disable-next-line
-			renderPriority,
-			...otherProps
-		} = props;
-		return <WrappedComponent { ...otherProps } />;
+	// eslint-disable-next-line no-unused-vars, no-undefined -- The renderPriority is consumed by the slot.
+	const YoastSidebarPriority = ( { renderPriority = undefined, ...props } ) => {
+		return <WrappedComponent { ...props } />;
 	};
 	YoastSidebarPriority.propTypes = {
 		renderPriority: PropTypes.number,

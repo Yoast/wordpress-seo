@@ -2,7 +2,7 @@ import { ExternalLinkIcon, TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { useCallback, useEffect, useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, ToggleField } from "@yoast/ui-library";
+import { Alert, Button, Radio, RadioGroup, ToggleField, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { withDisabledMessageSupport } from "../hocs";
@@ -13,6 +13,8 @@ import {
 	FormLayout,
 	RouteLayout,
 	LlmTxtPopover,
+	LlmsTxtAlert,
+	LlmsTxtUnsavedChangesModal,
 } from "../components";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
@@ -37,6 +39,8 @@ const LlmTxt = () => {
 	const hasLoadedIndexablePages = useRef( false );
 	const otherIncludedPagesLimit = useSelectSettings( "selectLlmsTxtOtherIncludedPagesLimit", [] );
 	const disabledPageIndexables = useSelectSettings( "selectLlmsTxtDisabledPageIndexables", [] );
+	const generationFailure = useSelectSettings( "selectLlmsTxtGenerationFailure", [] );
+	const generationFailureReason = useSelectSettings( "selectLlmsTxtGenerationFailureReason", [] );
 	const llmsTxtUrl = useSelectSettings( "selectLlmsTxtUrl", [] );
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-learn-more" );
 	const bestPracticesLink = useSelectSettings( "selectLink", [], "https://yoa.st/llmstxt-best-practices" );
@@ -68,10 +72,6 @@ const LlmTxt = () => {
 		[ values.wpseo_llmstxt ]
 	);
 
-	const activeTxtButton = useMemo( () => (
-		initialIsLlmsTxtEnabled && isLlmsTxtEnabled
-	), [ initialIsLlmsTxtEnabled, isLlmsTxtEnabled ] );
-
 	const disabledPages = useMemo( () => (
 		disabledPageIndexables || noindexPages
 	), [ disabledPageIndexables, noindexPages ] );
@@ -83,6 +83,13 @@ const LlmTxt = () => {
 	const activeManualSelection = useMemo( () => (
 		isLlmsTxtEnabled && ! disabledPages && llmsTxtSelectionMode === "manual"
 	), [ isLlmsTxtEnabled, disabledPages, llmsTxtSelectionMode ] );
+
+	const showUnsavedChangesModal = useMemo( () => (
+		isLlmsTxtEnabled && (
+			values.wpseo_llmstxt !== initialValues.wpseo_llmstxt ||
+			initialIsLlmsTxtEnabled !== isLlmsTxtEnabled
+		)
+	), [ isLlmsTxtEnabled, initialIsLlmsTxtEnabled, values.wpseo_llmstxt, initialValues.wpseo_llmstxt ] );
 
 	const featureDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
@@ -137,6 +144,8 @@ const LlmTxt = () => {
 
 	const isOptIn = useMemo( () => ! isLlmsTxtEnabled && sessionStorage?.getItem( "yoast-highlight-setting" ) === "llm-txt", [ isLlmsTxtEnabled ] );
 
+	const [ openUnsavedFile, , , setOpenUnsavedFile, unsetOpenUnsavedFile ] = useToggleState( false );
+
 	return (
 		<RouteLayout
 			title={ LABEL }
@@ -145,6 +154,8 @@ const LlmTxt = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
+
+						{ generationFailure && initialIsLlmsTxtEnabled && isLlmsTxtEnabled && <LlmsTxtAlert reason={ generationFailureReason } /> }
 
 						<div className="yst-relative yst-max-w-sm">
 							<FormikValueChangeFieldWithDisabledMessage
@@ -170,15 +181,15 @@ const LlmTxt = () => {
 							{ isOptIn && <LlmTxtPopover /> }
 						</div>
 					</fieldset>
-					<Button
+					{ ! showUnsavedChangesModal && <Button
 						as="a"
 						id="link-llms"
-						href={ ( activeTxtButton ) ? llmsTxtUrl : null }
+						href={ ( isLlmsTxtEnabled ) ? llmsTxtUrl : null }
 						variant="secondary"
 						target="_blank"
 						rel="noopener"
-						disabled={ ! activeTxtButton }
-						aria-disabled={ ! activeTxtButton }
+						disabled={ ! isLlmsTxtEnabled }
+						aria-disabled={ ! isLlmsTxtEnabled }
 						className="yst-self-start yst-mt-8"
 					>
 						{ sprintf(
@@ -187,15 +198,34 @@ const LlmTxt = () => {
 							LABEL
 						) }
 						<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
-					</Button>
-					{ ( ! initialIsLlmsTxtEnabled && isLlmsTxtEnabled ) &&
-						<Alert id="llms-txt-save-changes-aler" variant="info" className="yst-mt-4 yst-max-w-md">
-							{ sprintf(
+					</Button> }
+					{ showUnsavedChangesModal && <Button
+						id="link-llms-unsaved-changes"
+						variant="secondary"
+						className="yst-self-start yst-mt-8"
+						onClick={ setOpenUnsavedFile }
+					>
+						{ sprintf(
+							// translators: %1$s expands to "llms.txt".
+							__( "View the %1$s file", "wordpress-seo" ),
+							LABEL
+						) }
+						<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+					</Button> }
+					<LlmsTxtUnsavedChangesModal
+						isOpen={ openUnsavedFile }
+						onClose={ unsetOpenUnsavedFile }
+						title={ __( "Unsaved changes", "wordpress-seo" ) }
+						description={
+							sprintf(
 								// translators: %1$s expands to "llms.txt".
-								__( "By saving your changes we will generate your %1$s file.", "wordpress-seo" ),
+								__( "You have unsaved changes. Please save to view the updated %1$s file.", "wordpress-seo" ),
 								LABEL
-							) }
-						</Alert> }
+							)
+						}
+						onDiscard={ unsetOpenUnsavedFile }
+						dismissLabel={ __( "Got it", "wordpress-seo" ) }
+					/>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ sprintf(

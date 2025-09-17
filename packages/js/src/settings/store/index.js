@@ -2,6 +2,9 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
 import {
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
+	documentTitleSelectors,
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
 	LINK_PARAMS_NAME,
@@ -28,7 +31,12 @@ import indexablePages, {
 	indexablePagesControls,
 	indexablePagesSelectors,
 } from "./indexable-pages";
-import llmsTxt, { createInitialLlmsTxtState, llmsTxtActions, llmsTxtSelectors } from "./llms-txt";
+import llmsTxt, {
+	createInitialLlmsTxtState,
+	llmsTxtActions,
+	LLMS_TXT_NAME,
+	llmsTxtSelectors,
+} from "./llms-txt";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -76,6 +84,7 @@ const createStore = ( { initialState } ) => {
 		selectors: {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
+			...documentTitleSelectors,
 			...fallbacksSelectors,
 			...indexablePagesSelectors,
 			...linkParamsSelectors,
@@ -99,7 +108,7 @@ const createStore = ( { initialState } ) => {
 				fallbacks: createInitialFallbacksState(),
 				[ INDEXABLE_PAGE_NAME ]: createInitialIndexablePagesState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
-				llmsTxt: createInitialLlmsTxtState(),
+				[ LLMS_TXT_NAME ]: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
 				[ NOTIFICATIONS_NAME ]: getInitialNotificationsState(),
 				[ PAGE_NAME ]: getPageInitialState(),
@@ -116,6 +125,7 @@ const createStore = ( { initialState } ) => {
 		),
 		reducer: combineReducers( {
 			defaultSettingValues,
+			[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 			fallbacks,
 			[ INDEXABLE_PAGE_NAME ]: indexablePages,
 			llmsTxt,
