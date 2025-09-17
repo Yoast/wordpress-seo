@@ -114,7 +114,7 @@ const AiBrandInsightsPostLaunchContent = ( {
  */
 export const AiBrandInsightsPostLaunch = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
-	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-pre-launch/" ), [] );
+	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-post-launch/" ), [] );
 	const isPremium = get( window, "wpseoIntroductions.isPremium", false );
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
