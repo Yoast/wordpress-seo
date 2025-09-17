@@ -7,9 +7,9 @@ import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarCollapsible from "../SidebarCollapsible";
 
 const CONTENT_BLOCKS = [
+	{ title: __( "Breadcrumbs", "wordpress-seo" ), name: "yoast-seo/breadcrumbs", isPremiumBlock: false },
 	{ title: __( "FAQ", "wordpress-seo" ), name: "yoast/faq-block", isPremiumBlock: false },
 	{ title: __( "How-to", "wordpress-seo" ), name: "yoast/how-to-block", isPremiumBlock: false },
-	{ title: __( "Breadcrumbs", "wordpress-seo" ), name: "yoast-seo/breadcrumbs", isPremiumBlock: false },
 ];
 
 const PREMIUM_CONTENT_BLOCKS = [

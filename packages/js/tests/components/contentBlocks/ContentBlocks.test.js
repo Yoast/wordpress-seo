@@ -160,9 +160,9 @@ describe( "ContentBlocks", () => {
 				"Estimated reading time",
 				"Related links",
 				"Table of contents",
+				"Breadcrumbs",
 				"FAQ",
 				"How-to",
-				"Breadcrumbs",
 			] );
 		} );
 
@@ -184,10 +184,10 @@ describe( "ContentBlocks", () => {
 			const blocks = screen.getAllByTestId( "content-block" );
 
 			// Check FAQ block (first non-premium block)
-			const faqBlock = blocks[ 4 ];
-			expect( faqBlock.querySelector( '[data-testid="block-name"]' ) ).toHaveTextContent( "yoast/faq-block" );
-			expect( faqBlock.querySelector( '[data-testid="is-premium"]' ) ).toHaveTextContent( "false" );
-			expect( faqBlock.querySelector( '[data-testid="has-new-badge"]' ) ).toHaveTextContent( "false" );
+			const breadcrumbsBlock = blocks[ 4 ];
+			expect( breadcrumbsBlock.querySelector( '[data-testid="block-name"]' ) ).toHaveTextContent( "yoast-seo/breadcrumbs" );
+			expect( breadcrumbsBlock.querySelector( '[data-testid="is-premium"]' ) ).toHaveTextContent( "false" );
+			expect( breadcrumbsBlock.querySelector( '[data-testid="has-new-badge"]' ) ).toHaveTextContent( "false" );
 		} );
 
 		it( "only shows new badge for AI Summarize block", () => {
