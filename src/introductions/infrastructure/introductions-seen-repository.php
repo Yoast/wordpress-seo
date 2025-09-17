@@ -84,7 +84,12 @@ class Introductions_Seen_Repository {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		if ( \array_key_exists( $introduction_id, $introductions ) ) {
-			return (bool) $introductions[ $introduction_id ];
+			if ( \is_array( $introductions[ $introduction_id ] ) ) {
+				return (bool) $introductions[ $introduction_id ]['is_seen'];
+			}
+			else {
+				return (bool) $introductions[ $introduction_id ];
+			}
 		}
 
 		return false;
@@ -105,10 +110,24 @@ class Introductions_Seen_Repository {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		// Check if the wanted value is already set.
-		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ] === $is_seen ) {
-			return true;
+		if ( \array_key_exists( $introduction_id, $introductions ) ) {
+			if ( \is_array( $introductions[ $introduction_id ] ) ) {
+				// New format with seen_on timestamp.
+				if ( $introductions[ $introduction_id ]['is_seen'] === $is_seen ) {
+					return true;
+				}
+			}
+				// Old format with just a boolean.
+			elseif ( $introductions[ $introduction_id ] === $is_seen ) {
+					return true;
+			}
 		}
-		$introductions[ $introduction_id ] = $is_seen;
+
+		// If not, set it.
+		$introductions[ $introduction_id ] = [
+			'is_seen' => $is_seen,
+			'seen_on' => ( $is_seen === true ) ? \time() : 0,
+		];
 
 		return $this->set_all_introductions( $user_id, $introductions );
 	}

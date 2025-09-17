@@ -16,3 +16,4 @@ export { default as Search } from "./search";
 export { ErrorFallback } from "./error-fallback";
 export { LlmsTxtAlert } from "./llms-txt-alert";
 export { LlmTxtPopover } from "./llm-txt-popover";
+export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
