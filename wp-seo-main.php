@@ -345,7 +345,7 @@ function wpseo_init() {
 		 * Filter: 'Yoast\WP\SEO\should_invalidate_opcache' - Allow developers to enable / disable
 		 * opcache invalidation upon upgrade of the Yoast SEO plugin.
 		 *
-		 * @since 18.2
+		 * @since 26.1
 		 *
 		 * @param bool $should_invalidate Whether opcache should be invalidated.
 		 */
