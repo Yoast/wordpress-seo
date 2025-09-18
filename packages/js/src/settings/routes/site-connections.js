@@ -43,6 +43,25 @@ const SiteConnections = () => {
 						<FormikValueChangeWithErrorField
 							as={ TextField }
 							type="text"
+							name="wpseo.ahrefsverify"
+							id="input-wpseo-ahrefsverify"
+							label={ __( "Ahrefs", "wordpress-seo" ) }
+							description={ addLinkToString(
+								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags, respectively.
+									__( "Get your verification code in %1$sAhrefs%2$s.", "wordpress-seo" ),
+									"<a>",
+									"</a>"
+								),
+								"https://yoa.st/ahrefs-verification-code",
+								"link-ahrefs-webmaster-tools"
+							) }
+							placeholder={ __( "Add verification code", "wordpress-seo" ) }
+							transformValue={ transformContentTag }
+						/>
+						<FormikValueChangeWithErrorField
+							as={ TextField }
+							type="text"
 							name="wpseo.baiduverify"
 							id="input-wpseo-baiduverify"
 							label={ __( "Baidu", "wordpress-seo" ) }
@@ -131,25 +150,6 @@ const SiteConnections = () => {
 								),
 								"https://webmaster.yandex.com/sites/add/",
 								"link-yandex-webmaster-tools"
-							) }
-							placeholder={ __( "Add verification code", "wordpress-seo" ) }
-							transformValue={ transformContentTag }
-						/>
-						<FormikValueChangeWithErrorField
-							as={ TextField }
-							type="text"
-							name="wpseo.ahrefsverify"
-							id="input-wpseo-ahrefsverify"
-							label={ __( "Ahrefs", "wordpress-seo" ) }
-							description={ addLinkToString(
-								sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <a> tags, respectively.
-									__( "Get your verification code in %1$sAhrefs%2$s.", "wordpress-seo" ),
-									"<a>",
-									"</a>"
-								),
-								"https://yoa.st/ahrefs-verification-code",
-								"link-ahrefs-webmaster-tools"
 							) }
 							placeholder={ __( "Add verification code", "wordpress-seo" ) }
 							transformValue={ transformContentTag }

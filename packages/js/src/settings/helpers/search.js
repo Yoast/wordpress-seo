@@ -455,7 +455,6 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Ahrefs", "wordpress-seo" ),
 			keywords: [
 				__( "Webmaster", "wordpress-seo" ),
-				__( "Ahrefs", "wordpress-seo" ),
 			],
 		},
 		msverify: {
