@@ -1,12 +1,17 @@
 import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
 
 /**
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
  * Calculates the keyphrase density.
  *
  * @param {Paper} paper The paper containing keyphrase and text.
  * @param {Researcher} researcher The researcher.
  *
- * @returns {number} The keyphrase density.
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
  */
 export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
@@ -20,12 +25,18 @@ export default function getKeyphraseDensity( paper, researcher ) {
 	}
 
 	if ( wordCount === 0 ) {
-		return 0;
+		return {
+			density: 0,
+			textLength: wordCount,
+		};
 	}
 
 	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
-	return ( keyphraseCount.count / wordCount ) * 100;
+	return {
+		density: ( keyphraseCount.count / wordCount ) * 100,
+		textLength: wordCount,
+	};
 }
 
 /**
@@ -36,7 +47,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
  * @param {Paper} paper The paper containing keyphrase and text.
  * @param {Researcher} researcher The researcher.
  *
- * @returns {number} The keyphrase density.
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
  */
 export function getKeywordDensity( paper, researcher ) {
 	console.warn( "This function is deprecated, use getKeyphraseDensity instead." );
