@@ -201,6 +201,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-09-23
 
+Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
@@ -212,7 +214,8 @@ Release date: 2025-09-23
 #### Other
 
 * Adds an introduction which would show after 14 days of the plugin activation or update.
-* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to @bor0.
+* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
+* Ensures compatibility with the recent Wincher API changes.
 
 = 25.9 =
 
