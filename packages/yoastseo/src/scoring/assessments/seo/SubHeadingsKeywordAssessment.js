@@ -5,9 +5,6 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
 import AssessmentResult from "../../../values/AssessmentResult";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
-import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
@@ -49,22 +46,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		this.identifier = "subheadingsKeyword";
 		this._config = merge( defaultConfig, config );
-	}
-
-	/**
-	 * Gets the text length from the paper. Remove unwanted element first before calculating.
-	 *
-	 * @param {Paper} paper The Paper object to analyse.
-	 * @param {Researcher} researcher The researcher to use.
-	 * @returns {number} The length of the text.
-	 */
-	getTextLength( paper, researcher ) {
-		const customCountLength = researcher.getHelper( "customCountLength" );
-		let text = paper.getText();
-		text = removeHtmlBlocks( text );
-		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-
-		return customCountLength ? customCountLength( text ) : getWords( text ).length;
 	}
 
 	/**
@@ -142,9 +123,9 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * Checks whether there are too many subheadings with the keyphrase.
 	 *
 	 * The upper limit is only applicable if there is more than one subheading. If there is only one subheading with
-	 * the keyphrase this would otherwise always lead to a 100% match rate.
+	 * the keyphrase, this would otherwise always lead to a 100% match rate.
 	 *
-	 * @returns {boolean} Returns true if there is more than one subheading and if the keyphrase is included in less
+	 * @returns {boolean} Returns true if there is more than one subheading and if the keyphrase is included in fewer
 	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
@@ -180,15 +161,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the Result text for the case there are no subheadings.
 	 *
-	 * @param {Paper} paper to use for the check.
-	 * @param {Researcher} researcher The researcher used for calling research.
-	 *
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
-	getResultForNoSubheadings( paper, researcher ) {
-		this._textLength = this.getTextLength( paper, researcher );
+	getResultForNoSubheadings() {
+		const textLength = this._subHeadings.textLength;
 
-		if ( this._textLength >= this._config.parameters.recommendedMaximumLength ) {
+		if ( textLength >= this._config.parameters.recommendedMaximumLength ) {
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
 				resultText: sprintf(
@@ -203,7 +181,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				),
 			};
 		}
-		if ( this._textLength < this._config.parameters.recommendedMaximumLength ) {
+		if ( textLength < this._config.parameters.recommendedMaximumLength ) {
 			return {
 				score: this._config.scores.goodShortTextNoSubheadings,
 				resultText: sprintf(
@@ -222,10 +200,9 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the Result text for the subheadings.
 	 * @param {Paper} paper to use for the check.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
-	calculateResult( paper, researcher ) {
+	calculateResult( paper ) {
 		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
 			return {
 				score: this._config.scores.noKeyphraseOrText,
@@ -243,7 +220,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		}
 
 		if ( ! this.hasSubheadings( paper ) ) {
-			return this.getResultForNoSubheadings( paper, researcher );
+			return this.getResultForNoSubheadings();
 		}
 
 		if ( this.hasTooFewMatches() ) {
