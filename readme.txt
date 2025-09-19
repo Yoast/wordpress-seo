@@ -212,7 +212,8 @@ Release date: 2025-09-23
 #### Other
 
 * Adds an introduction which would show after 14 days of the plugin activation or update.
-* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to @bor0.
+* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
+* Ensures compatibility with the recent Wincher API changes.
 
 = 25.9 =
 
