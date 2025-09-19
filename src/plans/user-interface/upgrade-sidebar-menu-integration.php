@@ -104,24 +104,26 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 */
 	public function add_page( $pages ) {
 
-		$button_label = \__( 'Upgrade', 'wordpress-seo' );
+		$button_content = \__( 'Upgrade', 'wordpress-seo' );
 
 		if ( $this->promotion_manager->is( 'black-friday-promotion' ) ) {
-			$button_label = \__( '30% off - BF Sale', 'wordpress-seo' );
+			$button_content = ( $this->product_helper->is_premium() ) ? \__( 'Get 30% off', 'wordpress-seo' ) : \__( '30% off - BF Sale', 'wordpress-seo' );
 		}
 
-		if ( ! $this->product_helper->is_premium() ) {
-			$pages[] = [
-				General_Page_Integration::PAGE,
-				'',
-				'<span class="yst-root"><span class="yst-button yst-w-full yst-button--upsell yst-button--small">' . $button_label . ' </span></span>',
-				'wpseo_manage_options',
-				self::PAGE,
-				static function () {
-					echo 'redirecting...';
-				},
-			];
+		if ( $this->product_helper->is_premium() ) {
+			$button_content .= '<div id="wpseo-new-badge-upgrade">' . \__( 'New', 'wordpress-seo' ) . '</div>';
 		}
+
+		$pages[] = [
+			General_Page_Integration::PAGE,
+			'',
+			'<span class="yst-root"><span class="yst-button yst-w-full yst-whitespace-nowrap yst-button--upsell yst-button--small">' . $button_content . ' </span></span>',
+			'wpseo_manage_options',
+			self::PAGE,
+			static function () {
+				echo 'redirecting...';
+			},
+		];
 
 		return $pages;
 	}
@@ -137,7 +139,10 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			return;
 		}
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-premium' );
-		if ( $this->woocommerce_conditional->is_met() ) {
+		if ( $this->product_helper->is_premium() ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-ai-insights' );
+		}
+		elseif ( $this->woocommerce_conditional->is_met() ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
 		}
 
