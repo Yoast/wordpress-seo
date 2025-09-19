@@ -1,5 +1,5 @@
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { __, sprintf } from "@wordpress/i18n";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
 import { OutboundButtonLink } from "./outbound-button-link";
 
@@ -17,7 +17,7 @@ export const LearnMoreButton = ( { href, ...props } ) => {
 			{
 				__( "Learn more", "wordpress-seo" )
 			}
-			<ExternalLinkIcon className="yst-h-5 yst-w-5 yst-shrink-0 rtl:yst-rotate-[270deg]" { ...svgAriaProps } />
+			<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-shrink-0 rtl:yst-rotate-180" { ...svgAriaProps } />
 		</OutboundButtonLink>
 	);
 };
