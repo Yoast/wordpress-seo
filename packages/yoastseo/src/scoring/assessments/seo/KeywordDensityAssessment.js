@@ -15,41 +15,46 @@ import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFact
  */
 
 /**
- * Represents the assessment that will look if the keyphrase density is within the recommended range.
+ * @typedef {Object} KeyphraseDensityConfig
+ * @property {Object} parameters The parameters to use.
+ * If word forms are not available:
+ * @property {Object} parameters.noWordForms The parameters to use when no morphological forms are available.
+ * @property {number} parameters.noWordForms.overMaximum The percentage of keyphrase instances in the text that
+ * is way over the maximum.
+ * @property {number} parameters.noWordForms.maximum The maximum percentage of keyphrase instances in the text.
+ * @property {number} parameters.noWordForms.minimum The minimum percentage of keyphrase instances in the text.
+ * If word forms are available:
+ * @property {Object} parameters.multipleWordForms The parameters to use when morphological forms are available.
+ * @property {number} parameters.multipleWordForms.overMaximum The percentage of keyphrase instances in the text that
+ * is way over the maximum.
+ * @property {number} parameters.multipleWordForms.maximum The maximum percentage of keyphrase instances in the text.
+ * @property {number} parameters.multipleWordForms.minimum The minimum percentage of keyphrase instances in the text.
+ * @property {Object} scores The scores to use.
+ * @property {number} scores.wayOverMaximum The score to return if there are way too many instances of keyphrase in the text.
+ * @property {number} scores.overMaximum The score to return if there are too many instances of keyphrase in the text.
+ * @property {number} scores.correctDensity The score to return if there is a good number of keyphrase instances in the text.
+ * @property {number} scores.underMinimum The score to return if there are not enough keyphrase instances in the text.
+ * @property {number} scores.noKeyphraseOrText The score to return if there is no text or no keyphrase set.
+ * @property {number} shortText The text length below in which the keyphrase should appear exactly once.
+ * @property {string} urlTitle The URL to the Yoast article about keyphrase density.
+ * @property {string} urlCallToAction The URL to the Yoast article about keyphrase density.
+ */
+
+/**
+ * Represents the assessment that will assess if the keyphrase density is within the recommended range.
  */
 class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
-	 *
-	 * @param {Object} [config] The configuration to use.
-	 * @param {Object} [config.parameters] The parameters to use.
-	 * If word forms are not available:
-	 * @param {Object} [config.parameters.noWordForms] The parameters to use when no morphological forms are available.
-	 * @param {number} [config.parameters.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
-	 * is way over the maximum.
-	 * @param {number} [config.parameters.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
-	 * @param {number} [config.parameters.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
-	 *
-	 * If word forms are available:
-	 * @param {Object} [config.parameters.multipleWordForms] The parameters to use when morphological forms are available.
-	 * @param {number} [config.parameters.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text that
-	 * is way over the maximum.
-	 * @param {number} [config.parameters.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
-	 * @param {number} [config.parameters.multipleWordForms.minimum] The minimum percentage of keyphrase instances in the text.
-	 *
-	 * @param {Object} [config.scores] The scores to use.
-	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyphrase in the text.
-	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyphrase in the text.
-	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyphrase instances in the text.
-	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyphrase instances in the text.
-	 * @param {number} [config.scores.noKeyphraseOrText] The score to return if there is no text or no keyhprase set.
-	 *
-	 * @param {string} [config.url] The URL to the relevant KB article.
-	 *
+	 * @param {Object} [config={}]   The configuration to use.
 	 */
 	constructor( config = {} ) {
 		super();
 
+		/**
+		 * The default configuration.
+		 * @type KeyphraseDensityConfig
+		 */
 		const defaultConfig = {
 			parameters: {
 				noWordForms: {
@@ -70,6 +75,7 @@ class KeyphraseDensityAssessment extends Assessment {
 				underMinimum: 4,
 				noKeyphraseOrText: -50,
 			},
+			shortText: 100,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
 		};
@@ -108,6 +114,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
+		const languageSpecificConfig = researcher.getConfig( "keyphraseDensity" );
+		if ( languageSpecificConfig ) {
+			this._config = this.getLanguageSpecificConfig( languageSpecificConfig );
+		}
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
 		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 		const keyphraseLength = this._keyphraseCount.keyphraseLength;
@@ -115,18 +125,20 @@ class KeyphraseDensityAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
-		this._canAssess = false;
+		this._canAssess = paper.hasKeyword() && paper.hasText();
 
-		if ( paper.hasKeyword() && paper.hasText() ) {
-			this._canAssess = true;
-			this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
+		if ( this._canAssess ) {
+			this._keyphraseDensityResult = researcher.getResearch( "getKeyphraseDensity" );
+		} else {
+			this._keyphraseDensityResult = { density: 0, textLength: 0 };
 		}
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
 		this.setBoundaries( paper, keyphraseLength, customGetWords );
-
-		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
+		// Safe access with fallback
+		const density = this._keyphraseDensityResult?.density ?? 0;
+		this._keyphraseDensity = density * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
@@ -134,10 +146,21 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 
 		// Only shows the AI button when there is a text with a keyphrase and not enough keyphrase density.
-		if ( calculatedScore.score === this._config.scores.underMinimum  && this._canAssess ) {
+		if ( calculatedScore.score === this._config.scores.underMinimum && this._canAssess ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
+	}
+
+	/**
+	 * Merges the default config with language-specific config.
+	 *
+	 * @param {Object} languageSpecificConfig The language-specific config to merge in.
+	 *
+	 * @returns {KeyphraseDensityConfig} The merged config including language-specific config if available.
+	 */
+	getLanguageSpecificConfig( languageSpecificConfig ) {
+		return merge( this._config, languageSpecificConfig );
 	}
 
 	/**
@@ -170,11 +193,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * and the recommended maximum or if the keyphrase count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
-		return inRangeStartEndInclusive(
-			this._keyphraseDensity,
-			this._boundaries.minimum,
-			this._boundaries.maximum
-		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 );
+		const textLength = this._keyphraseDensityResult.textLength;
+		return inRangeStartEndInclusive( this._keyphraseDensity, this._boundaries.minimum, this._boundaries.maximum ) ||
+			( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 ) ||
+			( textLength < this._config.shortText && this._keyphraseCount.count === 1 );
 	}
 
 	/**

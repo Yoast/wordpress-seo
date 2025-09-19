@@ -6,8 +6,17 @@ import { filterShortcodesFromHTML } from "../helpers";
 import getWords from "../helpers/word/getWords";
 
 /**
- * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
- * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
+ */
+
+/**
+ * @typedef {Object} KeyphraseInSubheadingsResult
+ * @property {number} count The number of subheadings.
+ * @property {number} matches The number of subheadings reflecting the topic.
+ * @property {number} percentReflectingTopic The percentage of subheadings reflecting the topic.
+ * @property {string} text The text that was analyzed.
+ * @property {number} textLength The length of the text that was analyzed in words.
  */
 
 /**
@@ -39,7 +48,7 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  * @param {Paper}		paper      The paper object containing the text and keyword.
  * @param {Researcher}	researcher The researcher object.
  *
- * @returns {{count: number, matches: number, percentReflectingTopic: number, text: string}} An object containing the number of subheadings,
+ * @returns {KeyphraseInSubheadingsResult} An object containing the number of subheadings,
  * the number of subheadings reflecting the topic, the percentage of subheadings reflecting the topic and an empty string.
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {

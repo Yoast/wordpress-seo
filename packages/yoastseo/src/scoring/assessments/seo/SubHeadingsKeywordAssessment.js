@@ -62,13 +62,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		if ( languageSpecificConfig ) {
 			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
 		}
-		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+
+		this._subHeadingsResearchResult = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
 
-		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
-		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult( paper, researcher );
+		this._minNumberOfSubheadings = Math.ceil( this._subHeadingsResearchResult.count * this._config.parameters.lowerBoundary );
+		this._maxNumberOfSubheadings = Math.floor( this._subHeadingsResearchResult.count * this._config.parameters.upperBoundary );
+		const calculatedResult = this.calculateResult( paper );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -116,7 +117,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase is included in too few subheadings.
 	 */
 	hasTooFewMatches() {
-		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
+		return this._subHeadingsResearchResult.matches > 0 && this._subHeadingsResearchResult.matches < this._minNumberOfSubheadings;
 	}
 
 	/**
@@ -129,7 +130,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
-		return this._subHeadings.count > 1 && this._subHeadings.matches > this._maxNumberOfSubheadings;
+		return this._subHeadingsResearchResult.count > 1 && this._subHeadingsResearchResult.matches > this._maxNumberOfSubheadings;
 	}
 
 	/**
@@ -139,7 +140,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * subheading has a keyphrase match.
 	 */
 	isOneOfOne() {
-		return this._subHeadings.count === 1 && this._subHeadings.matches === 1;
+		return this._subHeadingsResearchResult.count === 1 && this._subHeadingsResearchResult.matches === 1;
 	}
 
 	/**
@@ -152,7 +153,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
-			this._subHeadings.matches,
+			this._subHeadingsResearchResult.matches,
 			this._minNumberOfSubheadings,
 			this._maxNumberOfSubheadings
 		);
@@ -164,7 +165,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
 	getResultForNoSubheadings() {
-		const textLength = this._subHeadings.textLength;
+		const textLength = this._subHeadingsResearchResult.textLength;
 
 		if ( textLength >= this._config.parameters.recommendedMaximumLength ) {
 			return {
@@ -267,7 +268,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._subHeadings.matches
+					this._subHeadingsResearchResult.matches
 				),
 			};
 		}
@@ -281,12 +282,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					_n(
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
-						this._subHeadings.matches,
+						this._subHeadingsResearchResult.matches,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._subHeadings.matches
+					this._subHeadingsResearchResult.matches
 				),
 			};
 		}
