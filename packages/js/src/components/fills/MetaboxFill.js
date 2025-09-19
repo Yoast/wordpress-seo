@@ -119,7 +119,11 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
 					<SchemaTabContainer />
 				</SidebarItem> }
-				{ isBlockEditorActive && <ContentBlocks /> }
+				{ isBlockEditorActive &&
+					<SidebarItem key="content-blocks" renderPriority={ 24 }>
+						<ContentBlocks />
+					</SidebarItem>
+				}
 				<SidebarItem
 					key="social"
 					renderPriority={ -1 }

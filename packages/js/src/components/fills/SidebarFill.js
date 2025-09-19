@@ -103,15 +103,19 @@ export default function SidebarFill( { settings } ) {
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ isBlockEditorActive && <ContentBlocks /> }
-				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
+				{ isBlockEditorActive &&
+					<SidebarItem key="content-blocks" renderPriority={ 29 }>
+						<ContentBlocks />
+					</SidebarItem>
+				}
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 30 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 31 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
 				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
