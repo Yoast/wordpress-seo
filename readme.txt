@@ -201,6 +201,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-09-23
 
+Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
