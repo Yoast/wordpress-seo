@@ -928,10 +928,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
-
-		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
-			$asset_manager->enqueue_user_language_script();
-		}
 	}
 
 	/**

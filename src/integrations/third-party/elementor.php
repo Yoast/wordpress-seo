@@ -456,9 +456,6 @@ class Elementor implements Integration_Interface {
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
-		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
-			$this->asset_manager->enqueue_user_language_script();
-		}
 	}
 
 	/**
