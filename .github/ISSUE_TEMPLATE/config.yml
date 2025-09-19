@@ -1,1 +1,17 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Yoast SEO free plugin support
+    url: https://yoast.com/help/support/#support-free-plugins
+    about: For general support questions about the free Yoast SEO plugin, please check our support documentation and community forums.
+  
+  - name: Premium plugins support (Yoast SEO Premium, Yoast WooCommerce SEO, Yoast Local SEO, Yoast Video SEO, Yoast News SEO)
+    url: https://yoast.com/help/support/
+    about: This repository is for the free Yoast SEO plugin issues only. For premium plugin support, please contact our support team.
+  
+  - name: Duplicate Post plugin issues
+    url: https://github.com/Yoast/duplicate-post/issues
+    about: Issues related to the Duplicate Post plugin should be reported in its dedicated repository.
+  
+  - name: ACF Content Analysis plugin issues
+    url: https://github.com/Yoast/yoast-acf-analysis/issues
+    about: Issues related to the ACF Content Analysis plugin should be reported in its dedicated repository.
