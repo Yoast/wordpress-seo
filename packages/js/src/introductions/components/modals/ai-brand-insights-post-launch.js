@@ -24,14 +24,14 @@ const AiBrandInsightsPostLaunchContent = ( {
 	isPremium,
 	buttonLabel = __( "Discover Brand Insights now", "wordpress-seo" ),
 	productName = sprintf(
-		/* translators: %1$s expands to Yoast AI brand insights. */
-		__( "Available now - %1$s", "wordpress-seo" ),
-		"Yoast AI brand insights"
+		/* translators: %1$s expands to Yoast SEO AI+. */
+		__( "New - Upgrade to %1$s", "wordpress-seo" ),
+		"Yoast SEO AI+"
 	),
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
-	const premiumDescription = 					safeCreateInterpolateElement(
+	const premiumDescription = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s expand to <span> and </span> respectively.
 			__(
@@ -45,7 +45,7 @@ const AiBrandInsightsPostLaunchContent = ( {
 			span: <span className="yst-font-bold yst-text-slate-600" />,
 		}
 	);
-	const	description =  isPremium
+	const description =  isPremium
 		?  premiumDescription
 		: __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are now live!", "wordpress-seo" );
 
