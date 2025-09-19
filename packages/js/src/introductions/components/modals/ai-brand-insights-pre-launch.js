@@ -2,9 +2,10 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import { SparklesIcon } from "@heroicons/react/outline";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";
+import { GradientButton } from "@yoast/ai-frontend";
+
 
 /**
  * @param {Object} thumbnail The thumbnail: img props.
@@ -56,17 +57,16 @@ const AiBrandInsightsPreLaunchContent = ( {
 						<p>{ description }</p>
 					</div>
 				</div>
-				<div className="yst-w-full yst-flex yst-mt-6">
-					<Button
+				<div className="yst-w-full yst-mt-6">
+					<GradientButton
 						as="a"
-						className="yst-grow yst-border-slate-200 yst-ai-insights-waitlist-button"
+						variant="primary"
 						size="extra-large"
-						variant="upsell"
 						href={ buttonLink }
 						target="_blank"
 						ref={ initialFocus }
+						className="yst-w-full"
 					>
-						<SparklesIcon className="yst--ms-1 yst-me-2 yst-h-5 yst-w-5 yst-text-white" />
 						{ buttonLabel }
 						<span className="yst-sr-only">
 							{
@@ -74,7 +74,7 @@ const AiBrandInsightsPreLaunchContent = ( {
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-					</Button>
+					</GradientButton>
 				</div>
 				<Button
 					className="yst-mt-2"
