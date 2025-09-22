@@ -55,8 +55,6 @@ class Request_Handler implements Request_Handler_Interface {
 	 */
 	public function __construct( API_Client $api_client, Response_Parser $response_parser ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct' );
-		$this->api_client      = $api_client;
-		$this->response_parser = $response_parser;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -84,40 +82,12 @@ class Request_Handler implements Request_Handler_Interface {
 	 */
 	public function handle( Request $request ): Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle' );
-				$api_response = $this->api_client->perform_request(
-					$request->get_action_path(),
-					$request->get_body(),
-					$request->get_headers(),
-					$request->is_post()
-				);
 
-		$response = $this->response_parser->parse( $api_response );
-
-		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-		switch ( $response->get_response_code() ) {
-			case 200:
-				return $response;
-			case 401:
-				throw new Unauthorized_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			case 402:
-				throw new Payment_Required_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
-			case 403:
-				throw new Forbidden_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			case 404:
-				throw new Not_Found_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			case 408:
-				throw new Request_Timeout_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			case 429:
-				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
-			case 500:
-				throw new Internal_Server_Error_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			case 503:
-				throw new Service_Unavailable_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-			default:
-				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
-		}
-		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		return new Response( '', 200, '' );
 	}
+
+		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
+}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }

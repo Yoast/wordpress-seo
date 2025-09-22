@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_HTTP_Request\Infrastructure;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 
 /**
@@ -41,35 +40,8 @@ class API_Client implements API_Client_Interface {
 	 */
 	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::perform_request' );
-		// Our API expects JSON.
-		// The request times out after 30 seconds.
-		$headers   = \array_merge( $headers, [ 'Content-Type' => 'application/json' ] );
-		$arguments = [
-			'timeout' => $this->get_request_timeout(),
-			'headers' => $headers,
-		];
 
-		if ( $is_post ) {
-			// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- Reason: We don't want the debug/pretty possibility.
-			$arguments['body'] = WPSEO_Utils::format_json_encode( $body );
-		}
-
-		/**
-		 * Filter: 'Yoast\WP\SEO\ai_api_url' - Replaces the default URL for the AI API with a custom one.
-		 *
-		 * @internal
-		 *
-		 * @param string $url The default URL for the AI API.
-		 */
-		$url      = \apply_filters( 'Yoast\WP\SEO\ai_api_url', $this->base_url );
-		$response = ( $is_post ) ? \wp_remote_post( $url . $action_path, $arguments ) : \wp_remote_get( $url . $action_path, $arguments );
-
-		if ( \is_wp_error( $response ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			throw new WP_Request_Exception( $response->get_error_message() );
-		}
-
-		return $response;
+		return [];
 	}
 
 	/**
@@ -82,14 +54,6 @@ class API_Client implements API_Client_Interface {
 	 */
 	public function get_request_timeout(): int {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::get_request_timeout' );
-		/**
-		 * Filter: 'Yoast\WP\SEO\ai_suggestions_timeout' - Replaces the default timeout with a custom one, for testing purposes.
-		 *
-		 * @since 22.7
-		 * @internal
-		 *
-		 * @param int $timeout The default timeout in seconds.
-		 */
-		return (int) \apply_filters( 'Yoast\WP\SEO\ai_suggestions_timeout', 60 );
+		return -1;
 	}
 }

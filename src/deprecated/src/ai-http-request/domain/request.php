@@ -53,10 +53,6 @@ class Request {
 	 */
 	public function __construct( string $action_path, array $body = [], array $headers = [], bool $is_post = true ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::__construct' );
-		$this->action_path = $action_path;
-		$this->body        = $body;
-		$this->headers     = $headers;
-		$this->is_post     = $is_post;
 	}
 
 	/**
@@ -69,7 +65,7 @@ class Request {
 	 */
 	public function get_action_path(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_action_path' );
-		return $this->action_path;
+		return '';
 	}
 
 	/**
@@ -82,7 +78,7 @@ class Request {
 	 */
 	public function get_body(): array {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_body' );
-		return $this->body;
+		return [];
 	}
 
 	/**
@@ -95,7 +91,7 @@ class Request {
 	 */
 	public function get_headers(): array {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_headers' );
-		return $this->headers;
+		return [];
 	}
 
 	/**
@@ -108,6 +104,6 @@ class Request {
 	 */
 	public function is_post(): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::is_post' );
-		return $this->is_post;
+		return false;
 	}
 }

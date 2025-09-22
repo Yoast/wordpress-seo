@@ -61,11 +61,6 @@ class Response {
 	 */
 	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::__construct' );
-		$this->body             = $body;
-		$this->response_code    = $response_code;
-		$this->message          = $message;
-		$this->error_code       = $error_code;
-		$this->missing_licenses = $missing_licenses;
 	}
 
 	/**
@@ -78,7 +73,7 @@ class Response {
 	 */
 	public function get_body() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::get_body' );
-		return $this->body;
+		return '';
 	}
 
 	/**
@@ -91,7 +86,7 @@ class Response {
 	 */
 	public function get_response_code(): int {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::get_response_code' );
-		return $this->response_code;
+		return -1;
 	}
 
 	/**
@@ -104,7 +99,7 @@ class Response {
 	 */
 	public function get_message(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::get_message' );
-		return $this->message;
+		return '';
 	}
 
 	/**
@@ -117,7 +112,7 @@ class Response {
 	 */
 	public function get_error_code(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::get_error_code' );
-		return $this->error_code;
+		return '';
 	}
 
 	/**
@@ -130,6 +125,6 @@ class Response {
 	 */
 	public function get_missing_licenses(): array {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::get_missing_licenses' );
-		return $this->missing_licenses;
+		return [];
 	}
 }
