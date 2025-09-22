@@ -71,8 +71,8 @@ class WPSEO_Taxonomy {
 		$this->analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
 		$this->analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->is_insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false );
-		$this->is_cornerstone_enabled      = WPSEO_Options::get( 'enable_cornerstone_content', false );
+		$this->is_insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false, [ 'wpseo' ] );
+		$this->is_cornerstone_enabled      = WPSEO_Options::get( 'enable_cornerstone_content', false, [ 'wpseo' ] );
 	}
 
 	/**
