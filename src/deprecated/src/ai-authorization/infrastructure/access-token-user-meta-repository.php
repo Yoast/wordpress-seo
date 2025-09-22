@@ -32,8 +32,6 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 */
 	public function __construct( User_Helper $user_helper ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::__construct' );
-
-		$this->user_helper = $user_helper;
 	}
 
 	/**
@@ -51,12 +49,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	public function get_token( int $user_id ): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::get_token' );
 
-		$access_jwt = $this->user_helper->get_meta( $user_id, self::META_KEY, true );
-		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
-			throw new RuntimeException( 'Unable to retrieve the access token.' );
-		}
-
-		return $access_jwt;
+		return '';
 	}
 
 	/**
@@ -72,12 +65,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 */
 	public function store_token( int $user_id, string $value ): void {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token' );
-
-		$this->user_helper->update_meta(
-			$user_id,
-			self::META_KEY,
-			$value
-		); }
+	}
 
 	/**
 	 * Delete the token for a user.
@@ -91,7 +79,5 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 */
 	public function delete_token( int $user_id ): void {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token' );
-
-		$this->user_helper->delete_meta( $user_id, self::META_KEY );
 	}
 }

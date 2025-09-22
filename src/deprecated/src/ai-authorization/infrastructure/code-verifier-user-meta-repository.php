@@ -42,9 +42,6 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 */
 	public function __construct( Date_Helper $date_helper, User_Helper $user_helper ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::__construct' );
-
-		$this->date_helper = $date_helper;
-		$this->user_helper = $user_helper;
 	}
 
 	/**
@@ -61,15 +58,6 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 */
 	public function store_code_verifier( int $user_id, string $code, int $created_at ): void {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier' );
-
-		$this->user_helper->update_meta(
-			$user_id,
-			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),
-			[
-				'code'       => $code,
-				'created_at' => $created_at,
-			]
-		);
 	}
 
 	/**
@@ -86,18 +74,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	public function get_code_verifier( int $user_id ): ?Code_Verifier {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::get_code_verifier' );
 
-		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
-
-		if ( ! \is_array( $data ) || ! isset( $data['code'] ) || $data['code'] === '' ) {
-			throw new RuntimeException( 'Unable to retrieve the verification code.' );
-		}
-
-		if ( ! isset( $data['created_at'] ) || $data['created_at'] < ( $this->date_helper->current_time() - self::CODE_VERIFIER_VALIDITY ) ) {
-			$this->delete_code_verifier( $user_id );
-			throw new RuntimeException( 'Code verifier has expired.' );
-		}
-
-		return new Code_Verifier( $data['code'], $data['created_at'] );
+		return null;
 	}
 
 	/**
@@ -112,7 +89,5 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 */
 	public function delete_code_verifier( int $user_id ): void {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::delete_code_verifier' );
-
-		$this->user_helper->delete_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id() );
 	}
 }

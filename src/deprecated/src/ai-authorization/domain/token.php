@@ -37,9 +37,6 @@ class Token {
 	 */
 	public function __construct( string $value, int $expiration ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::__construct' );
-
-		$this->value      = $value;
-		$this->expiration = $expiration;
 	}
 
 	/**
@@ -53,7 +50,7 @@ class Token {
 	public function get_value(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::get_value' );
 
-		return $this->value;
+		return '';
 	}
 
 	/**
@@ -67,6 +64,6 @@ class Token {
 	public function is_expired(): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::is_expired' );
 
-		return $this->expiration < \time();
+		return false;
 	}
 }

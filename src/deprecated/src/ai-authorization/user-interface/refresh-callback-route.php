@@ -30,37 +30,5 @@ class Refresh_Callback_Route extends Abstract_Callback_Route {
 	 */
 	public function register_routes() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Refresh_Callback_Route::register_routes' );
-
-		\register_rest_route(
-			parent::ROUTE_NAMESPACE,
-			self::ROUTE_PREFIX,
-			[
-				'methods'             => 'POST',
-				'args'                => [
-					'access_jwt'     => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The access JWT.',
-					],
-					'refresh_jwt'    => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The JWT to be used when the access JWT needs to be refreshed.',
-					],
-					'code_challenge' => [
-						'required'    => true,
-						'type'        => 'string',
-						'description' => 'The SHA266 of the verification code used to check the authenticity of a callback call.',
-					],
-					'user_id'        => [
-						'required'    => true,
-						'type'        => 'integer',
-						'description' => 'The id of the user associated to the code verifier.',
-					],
-				],
-				'callback'            => [ $this, 'callback' ],
-				'permission_callback' => '__return_true',
-			]
-		);
 	}
 }

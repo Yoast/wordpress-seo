@@ -53,7 +53,7 @@ class Code_Verifier {
 	public function get_code(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_code' );
 
-		return $this->code;
+		return '';
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Code_Verifier {
 	public function get_created_at(): int {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_created_at' );
 
-		return $this->created_at;
+		return -1;
 	}
 
 	/**
@@ -83,6 +83,6 @@ class Code_Verifier {
 	public function is_expired( int $validity_in_seconds ): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::is_expired' );
 
-		return $this->created_at < ( \time() - $validity_in_seconds );
+		return false;
 	}
 }
