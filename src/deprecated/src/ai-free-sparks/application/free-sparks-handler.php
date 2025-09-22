@@ -37,8 +37,6 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::__construct' );
-
-		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -54,12 +52,7 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	public function get( string $format = 'Y-m-d H:i:s' ): ?string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::get' );
 
-		$timestamp = $this->options_helper->get( self::OPTION_KEY, null );
-		if ( $timestamp === null ) {
-			return null;
-		}
-
-		return \gmdate( $format, (int) $timestamp );
+		return null;
 	}
 
 	/**
@@ -76,6 +69,6 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	public function start( ?int $timestamp = null ): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::start' );
 
-		return (bool) $this->options_helper->set( self::OPTION_KEY, ( $timestamp === null ) ? \time() : $timestamp, 'wpseo' );
+		return null;
 	}
 }

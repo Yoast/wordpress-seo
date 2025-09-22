@@ -24,7 +24,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	public function get_name(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_name' );
 
-		return 'freeSparks';
+		return '';
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	public function get_namespace(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_namespace' );
 
-		return Free_Sparks_Route::ROUTE_NAMESPACE;
+		return '';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	public function get_route(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_route' );
 
-		return Free_Sparks_Route::ROUTE_PREFIX;
+		return '';
 	}
 
 	/**
@@ -66,6 +66,6 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	public function get_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Free_Sparks\Infrastructure\Endpoints\Free_Sparks_Endpoint::get_url' );
 
-		return \rest_url( $this->get_namespace() . $this->get_route() );
+		return '';
 	}
 }
