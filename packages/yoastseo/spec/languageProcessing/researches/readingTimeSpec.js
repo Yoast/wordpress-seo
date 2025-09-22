@@ -263,5 +263,16 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 3 );
 	} );
+
+	it( "calculates the reading time for a paper with a yoast-ai-summarize block", function() {
+		const mockPaper = new Paper(
+			"<h2>Key Takeaways</h2><ul class='yoast-ai-summarize'><li>robot vacuum cleaners with a built-in dustbin, ensuring optimal performance by automatically emptying at the charging station.</li>" +
+			"<li>The brand features models with mopping functions, using either dry or wet methods to combat fine dust and reduce manual cleaning.</li>" +
+			"<li>Bep is a specially designed vacuum for pet owners, equipped with a powerful motor to effectively handle pet hair without tangling.</li></ul>",
+			{ locale: "en_US" }
+		);
+		const researcher = new EnglishResearcher( mockPaper );
+		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
+	} );
 } );
 

@@ -2,6 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { Paper, Title } from "@yoast/ui-library";
 import { PremiumCard } from "./components/cards/premium-card";
 import { WooCard } from "./components/cards/woo-card";
+import { AiPlusCard } from "./components/cards/ai-plus-card";
 
 /**
  * @returns {JSX.Element} The app component.
@@ -21,6 +22,7 @@ export const App = () => (
 				<div className="yst-max-w-6xl yst-flex yst-gap-6 yst-flex-wrap">
 					<PremiumCard />
 					<WooCard />
+					<AiPlusCard />
 				</div>
 			</div>
 		</Paper>

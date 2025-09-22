@@ -47,6 +47,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'googleverify'                                         => '', // Text field.
 		'msverify'                                             => '', // Text field.
 		'yandexverify'                                         => '',
+		'ahrefsverify'                                         => '',
 		'site_type'                                            => '', // List of options.
 		'has_multiple_authors'                                 => '',
 		'environment_type'                                     => '',
@@ -164,6 +165,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'googleverify',
 		'msverify',
 		'yandexverify',
+		'ahrefsverify',
 	];
 
 	/**
@@ -359,6 +361,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'googleverify':
 				case 'msverify':
 				case 'yandexverify':
+				case 'ahrefsverify':
 					$this->validate_verification_string( $key, $dirty, $old, $clean );
 					break;
 
