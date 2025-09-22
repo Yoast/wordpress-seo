@@ -26,7 +26,7 @@ class WordPress_URLs implements URLs_Interface {
 	public function get_license_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs::get_license_url' );
 
-		return WPSEO_Utils::get_home_url();
+		return '';
 	}
 
 	/**
@@ -40,7 +40,7 @@ class WordPress_URLs implements URLs_Interface {
 	public function get_callback_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs::get_callback_url' );
 
-		return \get_rest_url( null, 'yoast/v1/ai_generator/callback' );
+		return '';
 	}
 
 	/**
@@ -54,6 +54,6 @@ class WordPress_URLs implements URLs_Interface {
 	public function get_refresh_callback_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs::get_refresh_callback_url' );
 
-		return \get_rest_url( null, 'yoast/v1/ai_generator/refresh_callback' );
+		return '';
 	}
 }

@@ -39,7 +39,7 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	public function get_namespace(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_namespace' );
 
-		return Get_Suggestions_Route::ROUTE_NAMESPACE;
+		return '';
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	public function get_route(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_route' );
 
-		return Get_Suggestions_Route::ROUTE_PREFIX;
+		return '';
 	}
 
 	/**
@@ -68,6 +68,6 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	public function get_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_url' );
 
-		return \rest_url( $this->get_namespace() . $this->get_route() );
+		return '';
 	}
 }

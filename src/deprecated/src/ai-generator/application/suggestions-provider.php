@@ -7,7 +7,6 @@ use RuntimeException;
 use WP_User;
 use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\Ai_Generator\Domain\Suggestion;
 use Yoast\WP\SEO\Ai_Generator\Domain\Suggestions_Bucket;
 use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
@@ -19,7 +18,6 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\Helpers\User_Helper;
 
@@ -65,23 +63,9 @@ class Suggestions_Provider {
 	 * @deprecated 26.1
 	 * @codeCoverageIgnore
 	 *
-	 * @param Consent_Handler $consent_handler The consent handler instance.
-	 * @param Request_Handler $request_handler The request handler instance.
-	 * @param Token_Manager   $token_manager   The token manager instance.
-	 * @param User_Helper     $user_helper     The user helper instance.
 	 */
-	public function __construct(
-		Consent_Handler $consent_handler,
-		Request_Handler $request_handler,
-		Token_Manager $token_manager,
-		User_Helper $user_helper
-	) {
+	public function __construct() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::__construct' );
-
-		$this->consent_handler = $consent_handler;
-		$this->request_handler = $request_handler;
-		$this->token_manager   = $token_manager;
-		$this->user_helper     = $user_helper;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -125,45 +109,7 @@ class Suggestions_Provider {
 	): array {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::get_suggestions' );
 
-		$token = $this->token_manager->get_or_request_access_token( $user );
-
-		$request_body    = [
-			'service' => 'openai',
-			'user_id' => (string) $user->ID,
-			'subject' => [
-				'content'         => $prompt_content,
-				'focus_keyphrase' => $focus_keyphrase,
-				'language'        => $language,
-				'platform'        => $platform,
-			],
-		];
-		$request_headers = [
-			'Authorization' => "Bearer $token",
-			'X-Yst-Cohort'  => $editor,
-		];
-
-		try {
-			$response = $this->request_handler->handle( new Request( "/openai/suggestions/$suggestion_type", $request_body, $request_headers ) );
-		} catch ( Unauthorized_Exception $exception ) {
-			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
-			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
-
-			if ( ! $retry_on_unauthorized ) {
-				throw $exception;
-			}
-
-			// Try again once more by fetching a new set of tokens and trying the suggestions endpoint again.
-			return $this->get_suggestions( $user, $suggestion_type, $prompt_content, $focus_keyphrase, $language, $platform, $editor, false );
-		} catch ( Forbidden_Exception $exception ) {
-			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
-			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-			$this->consent_handler->revoke_consent( $user->ID );
-			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
-			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
-		}
-
-		return $this->build_suggestions_array( $response )->to_array();
+		return [];
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
@@ -181,15 +127,6 @@ class Suggestions_Provider {
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::build_suggestions_array' );
 
-		$suggestions_bucket = new Suggestions_Bucket();
-		$json               = \json_decode( $response->get_body() );
-		if ( $json === null || ! isset( $json->choices ) ) {
-			return $suggestions_bucket;
-		}
-		foreach ( $json->choices as $suggestion ) {
-			$suggestions_bucket->add_suggestion( new Suggestion( $suggestion->text ) );
-		}
-
-		return $suggestions_bucket;
+		return new Suggestions_Bucket();
 	}
 }
