@@ -64,6 +64,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $is_advanced_metadata_enabled;
 
 	/**
+	 * Whether the insights feature is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_insights_enabled;
+
+	/**
+	 * Whether the cornerstone content feature is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_cornerstone_enabled;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -79,15 +93,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'edit_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
 
-		$this->editor = new WPSEO_Metabox_Editor();
-		$this->editor->register_hooks();
-
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false, [ 'wpseo_social' ] ) || WPSEO_Options::get( 'twitter', false, [ 'wpseo_social' ] );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta', null, [ 'wpseo' ] ) === false;
 
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->is_insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false, [ 'wpseo' ] );
+		$this->is_cornerstone_enabled      = WPSEO_Options::get( 'enable_cornerstone_content', false, [ 'wpseo' ] );
 	}
 
 	/**
@@ -808,6 +821,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function enqueue() {
 		global $pagenow;
 
+		if ( $this->readability_analysis->is_enabled() ) {
+			$this->editor = new WPSEO_Metabox_Editor();
+			$this->editor->register_hooks();
+		}
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		if ( self::is_post_overview( $pagenow ) ) {
@@ -832,7 +850,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->enqueue_style( 'metabox-css' );
-		$asset_manager->enqueue_style( 'scoring' );
+		if ( $this->readability_analysis->is_enabled() ) {
+			$asset_manager->enqueue_style( 'scoring' );
+		}
 		$asset_manager->enqueue_style( 'monorepo' );
 		$asset_manager->enqueue_style( 'ai-generator' );
 		$asset_manager->enqueue_style( 'ai-fix-assessments' );
@@ -908,7 +928,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
-		$asset_manager->enqueue_user_language_script();
+
+		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
+			$asset_manager->enqueue_user_language_script();
+		}
 	}
 
 	/**

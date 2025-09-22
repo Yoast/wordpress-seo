@@ -31,6 +31,6 @@ class Google_Site_Kit_Feature_Conditional implements Conditional {
 	 * @return bool `true` when the Site Kit feature is enabled.
 	 */
 	public function is_met() {
-		return $this->options->get( 'google_site_kit_feature_enabled' ) === true;
+		return $this->options->get( 'google_site_kit_feature_enabled' ) === true || \apply_filters( 'googlesitekit_is_feature_enabled', false, 'yoastIntegration' );
 	}
 }

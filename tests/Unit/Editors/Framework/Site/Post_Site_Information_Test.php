@@ -150,8 +150,6 @@ final class Post_Site_Information_Test extends TestCase {
 				'the promotion',
 				'another one',
 			],
-			'blackFridayBlockEditorUrl'  => '',
-
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -159,7 +157,6 @@ final class Post_Site_Information_Test extends TestCase {
 
 		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( [ 'the alert' ] );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
-		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
@@ -214,7 +211,6 @@ final class Post_Site_Information_Test extends TestCase {
 				'the promotion',
 				'another one',
 			],
-			'blackFridayBlockEditorUrl'      => '',
 		];
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://example.org' );
@@ -226,7 +222,6 @@ final class Post_Site_Information_Test extends TestCase {
 
 		$this->alert_dismissal_action->expects( 'all_dismissed' )->andReturn( [ 'the alert' ] );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [ 'the promotion', 'another one' ] );
-		$this->promotion_manager->expects( 'is' )->andReturnFalse();
 		$this->short_link_helper->expects( 'get' )->andReturn( 'https://expl.c' );
 		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );

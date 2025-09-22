@@ -6,9 +6,10 @@ import PropTypes from "prop-types";
  * Modal containing information about new features added in the current release.
  *
  * @params {JSX.node} children The children.
+ * @params {string} maxWidth The max-width class for the modal panel.
  * @returns {JSX.Element} The modal.
  */
-export const Modal = ( { children } ) => {
+export const Modal = ( { children, maxWidth = "yst-max-w-lg" } ) => {
 	const [ isModalOpen, setIsModalOpen ] = useState( true );
 	const initialFocusRef = useRef( null );
 
@@ -22,7 +23,7 @@ export const Modal = ( { children } ) => {
 			onClose={ handleClose }
 			initialFocus={ initialFocusRef }
 		>
-			<PureModal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl">
+			<PureModal.Panel className={ `${maxWidth} yst-p-0 yst-rounded-3xl` }>
 				{ children }
 			</PureModal.Panel>
 		</PureModal>
@@ -30,4 +31,5 @@ export const Modal = ( { children } ) => {
 };
 Modal.propTypes = {
 	children: PropTypes.node.isRequired,
+	maxWidth: PropTypes.string,
 };

@@ -1,27 +1,29 @@
-// External dependencies.
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-// Internal dependencies.
-import WorkoutCard from "./WorkoutCard";
+import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
 import { ReactComponent as OrphanedImageBubble } from "../../../../../images/mirrored_fit_bubble_woman_2_optim.svg";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
+import WorkoutCard from "./WorkoutCard";
 
 /**
  * The CornerstoneWorkoutCard component.
  *
  * @param {Object} props The props object.
+ * @param {React.ReactNode} [props.workout=null] The workout function.
+ * @param {Array<JSX.Element>} [props.badges=[]] The badges to display in the card.
+ * @param {?string} [props.upsellLink=null] The link to the upsell page for the workout.
+ * @param {?string} [props.upsellText=null] The text for the upsell link.
  *
- * @returns {WPElement} The CornerstoneWorkoutCard component.
+ * @returns {JSX.Element} The CornerstoneWorkoutCard component.
  */
 export default function OrphanedWorkoutCard( {
-	workout,
-	badges,
-	upsellLink,
-	upsellText,
+	workout = null,
+	badges = [],
+	upsellLink = null,
+	upsellText = null,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned ) );
-	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-orphaned-content-upsell";
+	const actualUpsellLink = upsellLink ? upsellLink : "https://yoa.st/workout-orphaned-content-upsell";
 
 	return <WorkoutCard
 		id={ "orphaned-workout-card" }
@@ -43,15 +45,8 @@ export default function OrphanedWorkoutCard( {
 }
 
 OrphanedWorkoutCard.propTypes = {
-	workout: PropTypes.func,
+	workout: PropTypes.elementType,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 	upsellLink: PropTypes.string,
 	upsellText: PropTypes.string,
-};
-
-OrphanedWorkoutCard.defaultProps = {
-	workout: null,
-	badges: [],
-	upsellLink: null,
-	upsellText: null,
 };

@@ -45,11 +45,10 @@ const subscribedFeedback = __( "Thank you! Check your inbox for the confirmation
 /**
  * The newsletter signup section.
  *
- * @param {string} gdprLink Shortlink to the Yoast privacy policy.
- *
- * @returns {WPElement} A newslettersignup element.
+ * @param {string} [gdprLink=""] Shortlink to the Yoast privacy policy.
+ * @returns {JSX.Element} An element.
  */
-export function NewsletterSignup( { gdprLink } ) {
+export function NewsletterSignup( { gdprLink = "" } ) {
 	const [ newsletterEmail, setNewsletterEmail ] = useState( "" );
 	const [ signUpState, setSignUpState ] = useState( "waiting" );
 	const [ emailFeedback, setEmailFeedback ] = useState( "" );
@@ -154,8 +153,4 @@ export function NewsletterSignup( { gdprLink } ) {
 
 NewsletterSignup.propTypes = {
 	gdprLink: PropTypes.string,
-};
-
-NewsletterSignup.defaultProps = {
-	gdprLink: "",
 };

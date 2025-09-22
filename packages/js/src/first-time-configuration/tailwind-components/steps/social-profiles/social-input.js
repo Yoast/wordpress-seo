@@ -1,21 +1,24 @@
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-
 import TextInput from "../../base/text-input";
 
 /**
  * A wrapped TextInput for the social inputs
  *
- * @param {Object}   props              The props object.
- * @param {string}   props.id           The id to associate to the text field element.
- * @param {function} props.onChange     The function to update the container's state.
- * @param {string}   props.socialMedium The social medium this fields refers to.
- * @param {bool}     props.isDisabled   A flag to disable the field.
- * @param {object}   props.restProps    The other props.
- *
- * @returns {WPElement} A wrapped TextInput for the social inputs.
+ * @param {string} id The id to associate to the text field element.
+ * @param {function} onChange The function to update the container's state.
+ * @param {string} [socialMedium=""] The social medium this field refers to.
+ * @param {boolean} [isDisabled=false] A flag to disable the field.
+ * @param {...Object} restProps The other props.
+ * @returns {JSX.Element} A wrapped TextInput for the social inputs.
  */
-export default function SocialInput( { id, onChange, socialMedium, isDisabled, ...restProps } ) {
+export default function SocialInput( {
+	id,
+	onChange,
+	socialMedium = "",
+	isDisabled = false,
+	...restProps
+} ) {
 	const onChangeHandler = useCallback(
 		( event ) => {
 			if ( socialMedium === "other" ) {
@@ -40,9 +43,4 @@ SocialInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	socialMedium: PropTypes.string,
 	isDisabled: PropTypes.bool,
-};
-
-SocialInput.defaultProps = {
-	socialMedium: "",
-	isDisabled: false,
 };

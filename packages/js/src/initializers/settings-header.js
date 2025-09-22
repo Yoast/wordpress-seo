@@ -4,8 +4,6 @@ import { createRoot } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
-import { BlackFridaySidebarChecklistPromotion } from "../components/BlackFridaySidebarChecklistPromotion";
-import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 
 /**
  * Initializes the React settings header, just below the title.
@@ -17,13 +15,11 @@ const initSettingsHeader = () => {
 	const isRtl = Boolean( get( window, "wpseoScriptData.isRtl", false ) );
 	const linkParams = select( "yoast-seo/settings" ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
-	const isWooCommerce = get( window, "wpseoScriptData.isWooCommerceActive", "" );
 
 	if ( reactRoot ) {
 		createRoot( reactRoot ).render(
 			<ThemeProvider theme={ { isRtl } }>
-				{ isWooCommerce && <BlackFridaySidebarChecklistPromotion store="yoast-seo/settings" /> }
-				{ shouldShowWebinarPromotionNotificationInDashboard( "yoast-seo/settings" ) && <WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } /> }
+				<WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } />
 			</ThemeProvider>
 		);
 	}

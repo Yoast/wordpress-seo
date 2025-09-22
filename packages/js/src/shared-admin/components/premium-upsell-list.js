@@ -2,7 +2,6 @@
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Paper, Title } from "@yoast/ui-library";
-import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
 import { ReactComponent as CrownIcon } from "../../../images/icon-crown.svg";
@@ -10,12 +9,12 @@ import { ReactComponent as TrolleyIcon } from "../../../images/icon-trolley.svg"
 
 /**
  * @param {string} premiumLink The premium link.
- * @param {Object} [premiumUpsellConfig] The premium upsell configuration data.
+ * @param {Object} premiumUpsellConfig The premium upsell configuration data.
  * @param {function} isPromotionActive Callback to get whether a promotion is active.
  * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
  * @returns {JSX.Element} The premium upsell card.
  */
-export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromotionActive, isWooCommerceActive } ) => {
+export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPromotionActive, isWooCommerceActive } ) => {
 	const isBlackFriday = isPromotionActive( "black-friday-promotion" );
 	const getBenefits = isWooCommerceActive
 		? getWooSeoBenefits
@@ -98,11 +97,6 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig, isPromoti
 PremiumUpsellList.propTypes = {
 	premiumLink: PropTypes.string.isRequired,
 	premiumUpsellConfig: PropTypes.object,
-	isPromotionActive: PropTypes.func,
+	isPromotionActive: PropTypes.func.isRequired,
 	isWooCommerceActive: PropTypes.bool.isRequired,
-};
-
-PremiumUpsellList.defaultProps = {
-	premiumUpsellConfig: {},
-	isPromotionActive: noop,
 };
