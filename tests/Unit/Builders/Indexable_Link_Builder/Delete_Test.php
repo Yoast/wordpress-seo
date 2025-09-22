@@ -85,7 +85,7 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->with( 3, 7 )
 			->once();
 
-		Functions\expect( 'do_action' )->once()->with( 'wpseo_related_indexables_incoming_links_updated' );
+		Functions\expect( 'do_action' )->once()->with( 'wpseo_related_indexables_incoming_links_updated', [ $seo_link->target_indexable_id ] );
 
 		$this->instance->delete( $indexable );
 	}

@@ -15,7 +15,6 @@ import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalys
 import SidebarItem from "../../../components/SidebarItem";
 import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
 import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
-import PremiumSEOAnalysisUpsell from "../../../components/modals/PremiumSEOAnalysisUpsell";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
@@ -72,10 +71,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 							shouldUpsellHighlighting={ settings.shouldUpsell }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisUpsell /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>

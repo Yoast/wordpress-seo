@@ -14,6 +14,10 @@
 		background: linear-gradient(180deg, rgba(166, 30, 105, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
 	}
 
+	.yst-delayed-introduction-gradient {
+		background: linear-gradient(180deg, #E0B3CC40 25%, #FFFFFF00 75%);
+	}
+
 	.yst-woo-introduction-gradient {
 		background: linear-gradient(180deg, rgba(0, 117, 179, 0.25) 10%, rgba(255, 255, 255, 0) 80%);
 	}
@@ -21,7 +25,7 @@
 		letter-spacing: 0.8px;
 		@apply yst-uppercase yst-text-slate-500;
 	}
-	
+
 	.yst-logo-icon {
 		background-color: var(--yoast-color-primary);
 		mask-image: var(--yoast-svg-icon-yoast);
@@ -31,7 +35,7 @@
 		width: 17px;
 		height: 17px;
 	}
-	
+
 	.yst-cart-icon {
 		background-color: #0075B3;
 		mask-image: var(--yoast-svg-icon-cart);
@@ -43,7 +47,7 @@
 		transform: scaleX(-1);
 		-webkit-transform: scaleX(-1);
 	}
-	
+
 	.yst-ai-insights-icon {
 		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
 		mask-image: var(--yoast-svg-icon-yoast-insight-sparkle);
@@ -52,17 +56,5 @@
 		-webkit-mask-size: 100% 100%;
 		width: 17px;
 		height: 17px;
-	}
-
-	.yst-ai-insights-waitlist-button {
-		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
-		color: white !important;
-
-		&:hover {
-			background-image: linear-gradient(97deg, #8F0F57 0%, #4338CA 100%) !important;
-		}
-		&:focus {
-			outline-color: #a61e69 !important;
-		}
 	}
 }
