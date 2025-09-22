@@ -7,17 +7,17 @@ import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
  * @param {number}	keyphraseLength				The length of the focus keyphrase in words.
  * @param {number}	recommendedKeyphraseDensity	The recommended keyphrase density (either maximum or minimum).
  * @param {string}	maxOrMin					Whether it's a maximum or minimum recommended keyphrase density.
- * @param {number}	textLength					The length of the text in words.
+ * @param {number}	wordCount					The length of the text in words.
  *
  * @returns {number} The recommended keyphrase count.
  */
-export default function( keyphraseLength, recommendedKeyphraseDensity, maxOrMin, textLength ) {
-	if ( textLength === 0 ) {
+export default function( keyphraseLength, recommendedKeyphraseDensity, maxOrMin, wordCount ) {
+	if ( wordCount === 0 ) {
 		return 0;
 	}
 
 	const lengthKeyphraseFactor = keyphraseLengthFactor( keyphraseLength );
-	const recommendedKeyphraseCount = ( recommendedKeyphraseDensity * textLength ) / ( 100 * lengthKeyphraseFactor );
+	const recommendedKeyphraseCount = ( recommendedKeyphraseDensity * wordCount ) / ( 100 * lengthKeyphraseFactor );
 
 	/*
 	The recommended keyphrase count should always be at least 2,
