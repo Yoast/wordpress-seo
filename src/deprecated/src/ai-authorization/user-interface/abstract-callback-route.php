@@ -10,6 +10,7 @@ use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Reposito
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -60,7 +61,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	public static function get_conditionals() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals' );
 
-		return [ '' ];
+		return [ AI_Conditional::class ];
 	}
 
 	/**
