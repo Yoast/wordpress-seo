@@ -19,7 +19,10 @@ export default function( keyphraseLength, recommendedKeyphraseDensity, maxOrMin,
 	const lengthKeyphraseFactor = keyphraseLengthFactor( keyphraseLength );
 	const recommendedKeyphraseCount = ( recommendedKeyphraseDensity * textLength ) / ( 100 * lengthKeyphraseFactor );
 
-	// Always recommend at least two occurrences for longer texts.
+	/*
+	The recommended keyphrase count should always be at least 2,
+	regardless of the keyphrase density, the word count, or the keyphrase length.
+	*/
 	if ( recommendedKeyphraseCount < 2 ) {
 		return 2;
 	}
