@@ -32,8 +32,6 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 */
 	public function __construct( User_Helper $user_helper ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct' );
-
-		$this->user_helper = $user_helper;
 	}
 
 	/**
@@ -48,8 +46,6 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 */
 	public function revoke_consent( int $user_id ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::revoke_consent' );
-
-		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_consent' );
 	}
 
 	/**
@@ -64,7 +60,5 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 */
 	public function grant_consent( int $user_id ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::grant_consent' );
-
-		$this->user_helper->update_meta( $user_id, '_yoast_wpseo_ai_consent', true );
 	}
 }
