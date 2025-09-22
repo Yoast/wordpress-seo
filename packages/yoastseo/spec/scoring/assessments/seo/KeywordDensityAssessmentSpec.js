@@ -137,7 +137,7 @@ const testDataWithDefaultResearcher = [
 	},
 	{
 		description: "should not count shortcodes when calculating keyphrase density",
-		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "[keyword]</p>", { keyword: "keyword", shortcodes: [ "keyword" ] } ),
+		paper: new Paper( "<p>" + nonkeyword.repeat( 300 ) + "[keyword]</p>", { keyword: "keyword", shortcodes: [ "keyword" ] } ),
 		expectedResult: {
 			score: 4,
 			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 0 times." +
@@ -171,7 +171,7 @@ const testDataWithDefaultResearcher = [
 		expectedResult: {
 			score: 9,
 			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-				"The keyphrase was found 1 times. This is great!",
+				"The keyphrase was found 1 time. This is great!",
 		},
 	},
 ];
@@ -256,7 +256,7 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 1 times. This is great!" );
+			"The keyphrase was found 1 time. This is great!" );
 	} );
 	it( "gives a bad result when the text is short (less than 100 words) and the keyphrase is not used at all", () => {
 		const paper = new Paper( "<p>" + nonkeyword.repeat( 10 ) + "</p>", { keyword: "keyword", locale: "en_US" } );
@@ -266,7 +266,7 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 4 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 0 times. That's less than the recommended minimum of 1 times for a text of this length. " +
+			"The keyphrase was found 0 times. That's less than the recommended minimum of 1 time for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
 	} );
 	it( "give bad result when the text is short (less than 100 words) and the keyphrase is used too many times", () => {
@@ -277,7 +277,18 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -50 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The keyphrase was found 10 times. That's way more than the recommended maximum of 3 times for a text of this length. " +
+			"The keyphrase was found 10 times. That's way more than the recommended maximum of 1 time for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+	} );
+	it( "gives a bad result when the text is short and the keyphrase is used twice", () => {
+		const paper = new Paper( "<p>" + nonkeyword.repeat( 10 ) + keyword.repeat( 2 ) + "</p>", { keyword: "keyword", locale: "en_US" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( -10 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The keyphrase was found 2 times. That's more than the recommended maximum of 1 time for a text of this length. " +
 			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
 } );
@@ -495,7 +506,7 @@ const testDataJapanese = [
 		expectedResult: {
 			score: 9,
 			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-				"The keyphrase was found 1 times. This is great!",
+				"The keyphrase was found 1 time. This is great!",
 		},
 	},
 	{
@@ -504,19 +515,32 @@ const testDataJapanese = [
 			{ keyword: "一冊の本を読む", locale: "ja" } ),
 		expectedResult: {
 			score: 4,
-			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-				"The keyphrase was found 1 times. This is great!",
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 0 times. " +
+				"That's less than the recommended minimum of 1 time for a text of this length. " +
+				"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 		},
 	},
 	{
-		description: "gives a bad result when the text is short (less than 200 characters) and the keyphrase is used too many times",
+		description: "gives a bad result when the text is short (less than 200 characters) and the keyphrase is used way too many times",
 		paper: new Paper( "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。" +
 			japaneseSentenceWithKeyphrase.repeat( 5 ),
 		{ keyword: "一冊の本を読む", locale: "ja" } ),
 		expectedResult: {
+			score: -50,
+			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+				"The keyphrase was found 5 times. That's way more than the recommended maximum of 1 time for a text of this length. " +
+				"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		},
+	},
+	{
+		description: "gives a bad result when the text is short and the keyphrase is used twice",
+		paper: new Paper( "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。" +
+			japaneseSentenceWithKeyphrase.repeat( 2 ),
+		{ keyword: "一冊の本を読む", locale: "ja" } ),
+		expectedResult: {
 			score: -10,
 			text: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-				"The keyphrase was found 5 times. That's more than the recommended maximum of 3 times for a text of this length. " +
+				"The keyphrase was found 2 times. That's more than the recommended maximum of 1 time for a text of this length. " +
 				"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
 		},
 	},
