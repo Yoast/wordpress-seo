@@ -8,18 +8,12 @@ import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
  * @param {number}	recommendedKeyphraseDensity	The recommended keyphrase density (either maximum or minimum).
  * @param {string}	maxOrMin					Whether it's a maximum or minimum recommended keyphrase density.
  * @param {number}	textLength					The length of the text in words.
- * @param {boolean}	isShortText					Whether the text is considered short.
  *
  * @returns {number} The recommended keyphrase count.
  */
-export default function( keyphraseLength, recommendedKeyphraseDensity, maxOrMin, textLength, isShortText ) {
+export default function( keyphraseLength, recommendedKeyphraseDensity, maxOrMin, textLength ) {
 	if ( textLength === 0 ) {
 		return 0;
-	}
-
-	if ( isShortText ) {
-		// For short texts, we recommend using the keyphrase exactly once.
-		return 1;
 	}
 
 	const lengthKeyphraseFactor = keyphraseLengthFactor( keyphraseLength );
