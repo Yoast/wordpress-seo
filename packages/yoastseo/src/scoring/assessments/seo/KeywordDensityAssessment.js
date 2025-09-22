@@ -88,20 +88,19 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
-	 * @param {Paper} paper The paper to analyze.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
-	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
-	 *
+	 * @param {number} textLength The length of the text in words.
+	 * @param {boolean} isShortText Whether the text is considered short.
 	 * @returns {void}
 	 */
-	setBoundaries( paper, keyphraseLength, customGetWords ) {
+	setBoundaries( keyphraseLength, textLength, isShortText ) {
 		this._boundaries = this._config.parameters.noWordForms;
 
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
 		}
-		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( keyphraseLength, this._boundaries.minimum, "min", textLength, isShortText );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount(  keyphraseLength, this._boundaries.maximum, "max", textLength, isShortText );
 	}
 
 	/**
@@ -134,8 +133,9 @@ class KeyphraseDensityAssessment extends Assessment {
 		}
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
-
-		this.setBoundaries( paper, keyphraseLength, customGetWords );
+		this._textLength = this._keyphraseDensityResult.textLength;
+		this._isShortText = this._textLength < this._config.shortText;
+		this.setBoundaries( keyphraseLength, this._textLength, this._isShortText );
 		// Safe access with fallback
 		const density = this._keyphraseDensityResult?.density ?? 0;
 		this._keyphraseDensity = density * keyphraseLengthFactor( keyphraseLength );
