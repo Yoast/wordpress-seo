@@ -3,8 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Free_Sparks\Infrastructure\Endpoints;
 
-use Yoast\WP\SEO\AI_Free_Sparks\User_Interface\Free_Sparks_Route;
-
 /**
  * Represents the free sparks endpoint.
  *

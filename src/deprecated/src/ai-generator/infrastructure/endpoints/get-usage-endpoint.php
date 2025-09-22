@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Ai_Generator\Infrastructure\Endpoints;
 
 use Exception;
-use Yoast\WP\SEO\Ai_Generator\User_Interface\Get_Usage_Route;
 
 /**
  * Represents the get usage endpoint.

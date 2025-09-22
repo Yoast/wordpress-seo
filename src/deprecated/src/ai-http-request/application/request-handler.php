@@ -88,6 +88,3 @@ class Request_Handler implements Request_Handler_Interface {
 
 		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 }
-
-	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
-}

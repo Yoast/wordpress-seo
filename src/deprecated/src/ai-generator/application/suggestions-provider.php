@@ -62,7 +62,6 @@ class Suggestions_Provider {
 	 *
 	 * @deprecated 26.1
 	 * @codeCoverageIgnore
-	 *
 	 */
 	public function __construct() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::__construct' );
