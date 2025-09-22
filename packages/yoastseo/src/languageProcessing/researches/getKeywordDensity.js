@@ -27,7 +27,7 @@ export default function getKeyphraseDensity( paper, researcher ) {
 	if ( wordCount === 0 ) {
 		return {
 			density: 0,
-			textLength: wordCount,
+			textLength: 0,
 		};
 	}
 
