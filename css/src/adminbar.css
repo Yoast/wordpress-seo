@@ -194,4 +194,19 @@
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-upgrade-sidebar {
 	@apply yst-hidden;
 }
+
+#wpseo-new-badge-upgrade {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	margin: 0.125rem 0.5rem;
+	width: 2.375rem;
+	height: 1rem;
+	border-radius: 18px;
+	background-color: #bfdbfe;
+	color: #1e40af;
+	font-size: 0.625rem;
+	font-weight: 600;
+}
 /*# sourceMappingURL=adminbar.css.map */
