@@ -200,6 +200,61 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
+	 * Returns the feedback strings for the different keyphrase density scenarios.
+	 *
+	 * @returns {{noMatches: function, tooFewMatches: function, tooManyMatches: function, wayTooManyMatches: function}} The feedback strings.
+	 */
+	getFeedbackStrings() {
+		return {
+			noMatches: ( lessThanRecommended ) => {
+				const noKeyphraseFound = sprintf(
+					/* translators: %1$s and %4$s expand to links to Yoast.com, %2$s expands to the anchor end tag */
+					__(
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>"
+				);
+				return noKeyphraseFound + " " + lessThanRecommended;
+			},
+			tooFewMatches: ( keyphraseFound, lessThanRecommended ) => {
+				return keyphraseFound + " " + lessThanRecommended;
+			},
+			tooManyMatches: ( keyphraseFound ) => {
+				const moreThanRecommended = sprintf(
+					/* translators: %1$d expands to the recommended maximal number of times the keyphrase should occur in the text. */
+					_n(
+						"That's more than the recommended maximum of %1$d time for a text of this length. %2$sDon't overoptimize%3$s!",
+						"That's more than the recommended maximum of %1$d times for a text of this length. %2$sDon't overoptimize%3$s!",
+						this._maxRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					this._maxRecommendedKeyphraseCount,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				return keyphraseFound + " " + moreThanRecommended;
+			},
+			wayTooManyMatches: ( keyphraseFound ) => {
+				const wayMoreThanRecommended = sprintf(
+					/* translators: %1$d expands to the recommended maximal number of times the keyphrase should occur in the text. */
+					_n(
+						"That's way more than the recommended maximum of %1$d time for a text of this length. %2$sDon't overoptimize%3$s!",
+						"That's way more than the recommended maximum of %1$d times for a text of this length. %2$sDon't overoptimize%3$s!",
+						this._maxRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					this._maxRecommendedKeyphraseCount,
+					this._config.urlCallToAction,
+					"</a>"
+				);
+				return keyphraseFound + " " + wayMoreThanRecommended;
+			},
+		};
+	}
+
+	/**
 	 * Returns the score for the keyphrase density.
 	 *
 	 *
@@ -222,7 +277,9 @@ class KeyphraseDensityAssessment extends Assessment {
 			};
 		}
 
-		const keyphraseTimes = sprintf(
+		const { noMatches, tooFewMatches, tooManyMatches, wayTooManyMatches } = this.getFeedbackStrings();
+
+		const keyphraseFound = sprintf(
 			/* translators: %1$s expands to a link to Yoast.com, %2$s expands to the anchor end tag, %3$d expands to the number of times the keyphrase occurred in the text. */
 			_n(
 				"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time.",
@@ -234,6 +291,7 @@ class KeyphraseDensityAssessment extends Assessment {
 			"</a>",
 			this._keyphraseCount.count
 		);
+
 		const lessThanRecommended = sprintf(
 			/* translators: %1$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 			_n(
@@ -248,25 +306,16 @@ class KeyphraseDensityAssessment extends Assessment {
 		);
 
 		if ( this.hasNoMatches() ) {
-			const noKeyphraseFound = sprintf(
-				/* translators: %1$s and %4$s expand to links to Yoast.com, %2$s expands to the anchor end tag */
-				__(
-					"%1$sKeyphrase density%2$s: The keyphrase was found 0 times.",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				"</a>"
-			);
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: noKeyphraseFound + " " + lessThanRecommended,
+				resultText: noMatches( lessThanRecommended ),
 			};
 		}
 
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: keyphraseTimes + " " + lessThanRecommended,
+				resultText: tooFewMatches( keyphraseFound, lessThanRecommended ),
 			};
 		}
 
@@ -292,41 +341,16 @@ class KeyphraseDensityAssessment extends Assessment {
 		}
 
 		if ( this.hasTooManyMatches() ) {
-			const moreThanRecommended = sprintf(
-				/* translators: %1$d expands to the recommended maximal number of times the keyphrase should occur in the text. */
-				_n(
-					"That's more than the recommended maximum of %1$d time for a text of this length. %2$sDon't overoptimize%3$s!",
-					"That's more than the recommended maximum of %1$d times for a text of this length. %2$sDon't overoptimize%3$s!",
-					this._maxRecommendedKeyphraseCount,
-					"wordpress-seo"
-				),
-				this._maxRecommendedKeyphraseCount,
-				this._config.urlCallToAction,
-				"</a>"
-			);
 			return {
 				score: this._config.scores.overMaximum,
-				resultText: keyphraseTimes + " " + moreThanRecommended,
+				resultText: tooManyMatches( keyphraseFound ),
 			};
 		}
-
-		const wayMoreThanRecommended = sprintf(
-			/* translators: %1$d expands to the recommended maximal number of times the keyphrase should occur in the text. */
-			_n(
-				"That's way more than the recommended maximum of %1$d time for a text of this length. %2$sDon't overoptimize%3$s!",
-				"That's way more than the recommended maximum of %1$d times for a text of this length. %2$sDon't overoptimize%3$s!",
-				this._maxRecommendedKeyphraseCount,
-				"wordpress-seo"
-			),
-			this._maxRecommendedKeyphraseCount,
-			this._config.urlCallToAction,
-			"</a>"
-		);
 
 		// Implicitly returns this if the rounded keyphrase density is higher than overMaximum.
 		return {
 			score: this._config.scores.wayOverMaximum,
-			resultText: keyphraseTimes + " " + wayMoreThanRecommended,
+			resultText: wayTooManyMatches( keyphraseFound ),
 		};
 	}
 
