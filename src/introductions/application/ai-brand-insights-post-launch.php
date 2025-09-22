@@ -7,13 +7,13 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
- * Represents the introduction for the AI Brand Insights pre-launch.
+ * Represents the introduction for the AI Brand Insights post-launch.
  */
-class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
+class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
-	public const ID = 'ai-brand-insights-pre-launch';
+	public const ID = 'ai-brand-insights-post-launch';
 
 	/**
 	 * Holds the current page helper.
@@ -25,8 +25,6 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Constructs the introduction.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
@@ -36,8 +34,6 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns the ID.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return string The ID.
 	 */
 	public function get_id() {
@@ -46,8 +42,6 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 
 	/**
 	 * Returns the name of the introduction.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return string The name.
 	 */
@@ -60,8 +54,6 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return int The priority.
 	 */
 	public function get_priority() {
@@ -71,11 +63,9 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns whether this introduction should show.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return false;
+		return $this->current_page_helper->is_yoast_seo_page();
 	}
 }
