@@ -48,17 +48,15 @@ const BaseAiPlusCard = ( {
 						) ) }
 					</div>
 				</Card.Content>
-				<Card.Footer>
+				<Card.Footer className="yst-pt-4 yst-mt-auto">
 					{ includes && (
 						<>
-							<span className="yst-block yst-font-medium">{ __( "Now includes:", "wordpress-seo" ) }</span>
+							<span className="yst-block yst-font-medium yst-leading-none">{ __( "Now includes:", "wordpress-seo" ) }</span>
 							<span className="yst-text-xxs yst-text-slate-500">{ includes }</span>
 							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200" />
 						</>
 					) }
-					<div className="yst-mb-10">
-						<LearnMoreButton href={ learnMoreLink } />
-					</div>
+					<LearnMoreButton href={ learnMoreLink } />
 				</Card.Footer>
 			</Card>
 		</div>
