@@ -35,7 +35,6 @@ import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFact
  * @property {number} scores.correctDensity The score to return if there is a good number of keyphrase instances in the text.
  * @property {number} scores.underMinimum The score to return if there are not enough keyphrase instances in the text.
  * @property {number} scores.noKeyphraseOrText The score to return if there is no text or no keyphrase set.
- * @property {number} shortText The text length below in which the keyphrase should appear exactly once.
  * @property {string} urlTitle The URL to the Yoast article about keyphrase density.
  * @property {string} urlCallToAction The URL to the Yoast article about keyphrase density.
  */
