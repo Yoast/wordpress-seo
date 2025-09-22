@@ -75,9 +75,10 @@ export default function AnalysisList( {
 		{ results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
 			const isMarkButtonPressed = result.markerId === marksButtonActivatedResult;
+			const editFieldName = result.editFieldName;
 
 			const markButtonId = result.id + "Mark";
-			const editButtonId = result.id + "Edit";
+			const editButtonId = editFieldName + "Edit";
 
 			let ariaLabelMarks = "";
 			if ( marksButtonStatus === "disabled" ) {
@@ -88,11 +89,7 @@ export default function AnalysisList( {
 				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
 
-			const editFieldName = result.editFieldName;
-			const ariaLabelEdit = editFieldName === "" ? ""
-				: sprintf(
-					/* Translators: %1$s refers to the name of the field that should be edited (keyphrase, meta description, slug or SEO title). */
-					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
+			const ariaLabelEdit = result.editFieldAriaLabel;
 
 			return <AnalysisResult
 				key={ result.id }
@@ -110,7 +107,7 @@ export default function AnalysisList( {
 				buttonIdMarks={ markButtonId }
 				buttonIdEdit={ editButtonId }
 				onButtonClickMarks={ () => onMarksButtonClick( result.id, result.marker ) }
-				onButtonClickEdit={ () => onEditButtonClick( result.id ) }
+				onButtonClickEdit={ () => onEditButtonClick( editFieldName ) }
 				marksButtonClassName={ marksButtonClassName }
 				editButtonClassName={ editButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
