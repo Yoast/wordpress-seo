@@ -217,10 +217,6 @@ class WPSEO_Taxonomy {
 			$script_data = array_merge_recursive( $term_information->get_legacy_site_information(), $script_data );
 
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
-
-			if ( $this->analysis_readability->is_enabled() || $this->analysis_inclusive_language->is_enabled() || $this->analysis_seo->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
-				$asset_manager->enqueue_user_language_script();
-			}
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
