@@ -343,7 +343,7 @@ function wpseo_init() {
 		// Invalidate the opcache in 10% of the cases, randomly staggered based on the site URL.
 		// @TODO: Move the staggering logic to its own class, but only after a few releases after the complete sunset of the opcache invalidation.
 		$random_seed               = hexdec( substr( hash( 'sha256', site_url() ), 0, 8 ) );
-		$should_invalidate_opcache = ( $random_seed % 10 ) === 0;
+		$should_invalidate_opcache = ( $random_seed % 10 ) !== 0;
 
 		/**
 		 * Filter: 'Yoast\WP\SEO\should_invalidate_opcache' - Allow developers to enable / disable
