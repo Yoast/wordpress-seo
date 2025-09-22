@@ -113,10 +113,6 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
-		const languageSpecificConfig = researcher.getConfig( "keyphraseDensity" );
-		if ( languageSpecificConfig ) {
-			this._config = this.getLanguageSpecificConfig( languageSpecificConfig );
-		}
 		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 		const keyphraseLength = this._keyphraseCount.keyphraseLength;
 
@@ -149,17 +145,6 @@ class KeyphraseDensityAssessment extends Assessment {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
-	}
-
-	/**
-	 * Merges the default config with language-specific config.
-	 *
-	 * @param {Object} languageSpecificConfig The language-specific config to merge in.
-	 *
-	 * @returns {KeyphraseDensityConfig} The merged config including language-specific config if available.
-	 */
-	getLanguageSpecificConfig( languageSpecificConfig ) {
-		return merge( this._config, languageSpecificConfig );
 	}
 
 	/**
