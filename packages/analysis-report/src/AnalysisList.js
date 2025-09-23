@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 import noop from "lodash/noop";
 import PropTypes from "prop-types";
