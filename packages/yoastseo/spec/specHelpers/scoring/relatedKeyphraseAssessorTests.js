@@ -11,49 +11,32 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
+		let defaultAssessments = [ "introductionKeyword",
+			"keyphraseLength", "metaDescriptionKeyword", "textCompetingLinks", "imageKeyphrase" ];
+
+		// The introduction keyword, single title and text length assessments are not available on store blogs.
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 3 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 
-	it( "runs assessments that only require a keyword", function() {
-		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
-	} );
-
-	it( "runs assessments that only require a keyword that consists of function words only", function() {
+	it( "additionally runs assessments that only require a keyword that consists of function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"functionWordsInKeyphrase",
-		] );
-	} );
-
-	it( "additionally runs assessments that require a text and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"introductionKeyword",
-			"keyphraseLength",
-		] );
-	} );
-
-	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
+		let defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
-		] );
+			"functionWordsInKeyphrase",
+			"textCompetingLinks",
+			"imageKeyphrase",
+		];
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 4 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 
 	it( "additionally runs assessments that require a text of at least 100 words and a keyword", function() {
@@ -68,11 +51,18 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( paper );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
+		let defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
 			"keyphraseDensity",
-		] );
+			"metaDescriptionKeyword",
+			"textCompetingLinks",
+			"imageKeyphrase",
+		];
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 4 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 }
 
@@ -83,6 +73,7 @@ export function checkAssessmentAvailability( assessor ) {
  */
 export function checkUrls( assessor ) {
 	const isCollection = assessor.type.startsWith( "collection" );
+	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
 
 	test( "IntroductionKeyword", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );
@@ -123,7 +114,7 @@ export function checkUrls( assessor ) {
 	test( "TextCompetingLinks", () => {
 		const assessment = assessor.getAssessment( "textCompetingLinks" );
 
-		if ( isCollection ) {
+		if ( isCollection || isTaxonomy ) {
 			expect( assessment ).toBeUndefined();
 		} else {
 			expect( assessment ).toBeDefined();

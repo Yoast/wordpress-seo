@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-max-depth */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement, Fragment, useMemo } from "@wordpress/element";
+import { Fragment, useMemo } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
+
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, FeatureUpsell, Link, Paper, Title } from "@yoast/ui-library";
@@ -40,11 +42,13 @@ export const App = () => {
 	const linkParams = useSelectSupport( "selectLinkParams" );
 	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/3t6" );
 	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/jj" );
+	const wooLink = useSelectSupport( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/help-center-support-card" );
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
 	const contactSupportLink = useSelectSupport( "selectLink", [], "https://yoa.st/contact-support-to-unlock-premium-support-section" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSupport( "selectPreference", [], "isWooCommerceActive" );
 
 	const faq = useMemo( () => ( [
 		{
@@ -84,7 +88,7 @@ export const App = () => {
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8">
 			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
-				<Paper as="main" className="yst-flex-grow yst-mb-8 xl:yst-mb-0">
+				<Paper as="main" className="yst-max-w-page yst-flex-grow yst-mb-8 xl:yst-mb-0">
 					<Paper.Header>
 						<div className="yst-max-w-screen-sm">
 							<Title>{ __( "Support", "wordpress-seo" ) }</Title>
@@ -184,7 +188,7 @@ export const App = () => {
 								description={ (
 									<>
 										<span>{ __( "If you don't find the answers you're looking for and need personalized help, you can get 24/7 support from one of our support engineers.", "wordpress-seo" ) }</span>
-										<span className="yst-block yst-mt-4">{ createInterpolateElement(
+										<span className="yst-block yst-mt-4">{ safeCreateInterpolateElement(
 											sprintf(
 												/* translators: %1$s expands to an opening span tag, %2$s expands to a closing span tag. */
 												__( "%1$sSupport language:%2$s English", "wordpress-seo" ),
@@ -238,10 +242,11 @@ export const App = () => {
 				{ ! isPremium &&
 					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 						<SidebarRecommendations
-							premiumLink={ premiumLink }
+							premiumLink={ isWooCommerceActive ? wooLink :  premiumLink }
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
+							isWooCommerceActive={ isWooCommerceActive }
 						/>
 					</div>
 				}

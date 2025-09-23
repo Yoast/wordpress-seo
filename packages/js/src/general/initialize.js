@@ -1,14 +1,14 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import { Dashboard } from "../dashboard";
-import { DataFormatter } from "../dashboard/services/data-formatter";
 import { DataProvider } from "../dashboard/services/data-provider";
-import { RemoteDataProvider } from "../dashboard/services/remote-data-provider";
+import { DataTracker } from "../dashboard/services/data-tracker";
 import { WidgetFactory } from "../dashboard/services/widget-factory";
 import { ADMIN_URL_NAME, LINK_PARAMS_NAME } from "../shared-admin/store";
 import App from "./app";
@@ -28,6 +28,7 @@ import { ALERT_CENTER_NAME } from "./store/alert-center";
  * @type {import("../index").Endpoints} Endpoints
  */
 
+// eslint-disable-next-line complexity
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-general" );
 	if ( ! root ) {
@@ -65,6 +66,7 @@ domReady( () => {
 		timeBasedSeoMetrics: get( window, "wpseoScriptData.dashboard.endpoints.timeBasedSeoMetrics", "" ),
 		siteKitConfigurationDismissal: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConfigurationDismissal", "" ),
 		siteKitConsentManagement: get( window, "wpseoScriptData.dashboard.endpoints.siteKitConsentManagement", "" ),
+		setupStepsTracking: get( window, "wpseoScriptData.dashboard.endpoints.setupStepsTracking", "" ),
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
@@ -77,18 +79,17 @@ domReady( () => {
 		errorSupport: select( STORE_NAME ).selectAdminLink( "?page=wpseo_page_support" ),
 		siteKitLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-learn-more" ),
 		siteKitConsentLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-site-kit-consent-learn-more" ),
-		topPagesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-content-learn-more" ),
-		topQueriesInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-top-queries-learn-more" ),
-		organicSessionsInfoLearnMore: select( STORE_NAME ).selectLink( "https://yoa.st/dashboard-organic-sessions-learn-more" ),
 	};
 
 	const siteKitConfiguration = get( window, "wpseoScriptData.dashboard.siteKitConfiguration", {
 		installUrl: "",
 		activateUrl: "",
 		setupUrl: "",
+		dashboardUrl: "",
 		isAnalyticsConnected: false,
 		isFeatureEnabled: false,
 		isSetupWidgetDismissed: false,
+		isVersionSupported: false,
 		capabilities: {
 			installPlugins: false,
 			viewSearchConsoleData: false,
@@ -100,13 +101,51 @@ domReady( () => {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		},
+		isRedirectedFromSiteKit: false,
 	} );
+
+	const cacheConfig = {
+		storagePrefix: get( window, "wpseoScriptData.dashboard.browserCache.storagePrefix", "" ),
+		yoastVersion: get( window, "wpseoScriptData.dashboard.browserCache.yoastVersion", "" ),
+		widgetsCacheTtl: get( window, "wpseoScriptData.dashboard.browserCache.widgetsCacheTtl", {} ),
+	};
 
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
-	const dataFormatter = new DataFormatter( { locale: userLocale } );
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatter );
-	if ( dataProvider.isSiteKitConnectionCompleted() ) {
+	const dataFormatters = {
+		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
+		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
+	};
+
+	const remoteCachedDataProviders = Object.entries( cacheConfig.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+		providers[ key ] = new RemoteCachedDataProvider(
+			{ headers },
+			cacheConfig.storagePrefix,
+			cacheConfig.yoastVersion,
+			value.ttl
+		);
+		return providers;
+	}, {} );
+
+	const setupStepsTrackingData = {
+		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
+		firstInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.firstInteractionStage", "" ),
+		lastInteractionStage: get( window, "wpseoScriptData.dashboard.setupStepsTracking.lastInteractionStage", "" ),
+		setupWidgetTemporarilyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetTemporarilyDismissed", "" ),
+		setupWidgetPermanentlyDismissed: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetPermanentlyDismissed", "" ),
+	};
+
+	const setupStepsTrackingRoute = {
+		data: setupStepsTrackingData,
+		endpoint: dataProvider.getEndpoint( "setupStepsTracking" ),
+	};
+
+	const dataTrackers = {
+		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
+	};
+
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers );
+	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 
@@ -148,12 +187,11 @@ domReady( () => {
 		)
 	);
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
 			</SlotFillProvider>
-		</Root>,
-		root
+		</Root>
 	);
 } );

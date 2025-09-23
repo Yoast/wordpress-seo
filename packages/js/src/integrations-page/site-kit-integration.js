@@ -2,7 +2,8 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import apiFetch from "@wordpress/api-fetch";
 import { useSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useState } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -11,11 +12,11 @@ import { SiteKitConsentModal, UnsavedChangesModal as DisconnectModal } from "../
 import { SimpleIntegration } from "./simple-integration";
 import classNames from "classnames";
 import { values } from "lodash";
-import { STEP_NAME } from "../dashboard/widgets/site-kit-setup-widget";
+import { STEP_NAME, isUpdatePluginStatus } from "../dashboard/widgets/site-kit-setup-widget";
 
 const integration = {
 	name: __( "Site Kit by Google", "wordpress-seo" ),
-	claim: createInterpolateElement(
+	claim: safeCreateInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: bold close tag. */
 			__( "Get valuable insights with %1$sSite Kit by Google%2$s", "wordpress-seo" ),
@@ -87,30 +88,50 @@ const SuccessfullyConnected = () => {
 };
 
 /**
- * The no permission warning component.
+ * Status info component.
  *
  * @param {CapabilitiesForSiteKit} capabilities The capabilities.
  * @param {number} currentStep The current step.
+ * @param {boolean} successfullyConnected Whether the connection was successful.
+ * @param {boolean} isVersionSupported Whether the version is supported.
  *
- * @returns {JSX.Element} The no permission warning component.
+ * @returns {JSX.Element} The status info component.
  */
-const NoPermissionWarning = ( { capabilities, currentStep } ) => {
-	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfulyConnected ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500">
-			{  __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+const StatusInfo = ( { capabilities, currentStep, successfullyConnected, isVersionSupported } ) => {
+	const warningClass = "yst-text-slate-500 yst-italic";
+
+	if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
+		return <ContentWithBottomDivider className={ warningClass }>
+			{ sprintf(
+			/* translators: %s for Yoast SEO. */
+				__( "Update Site Kit by Google to the latest version to connect %s.", "wordpress-seo" ),
+				"Yoast SEO"
+			) }
 		</ContentWithBottomDivider>;
 	}
 
-	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfulyConnected ) ) {
-		return <ContentWithBottomDivider className="yst-text-slate-500">
+	if ( ! capabilities.installPlugins && currentStep < STEP_NAME.grantConsent && currentStep !== STEP_NAME.successfullyConnected ) {
+		return <ContentWithBottomDivider className={ warningClass }>
+			{ __( "Please contact your WordPress admin to install, activate, and set up the Site Kit by Google plugin.", "wordpress-seo" ) }
+		</ContentWithBottomDivider>;
+	}
+
+	if ( ! capabilities.viewSearchConsoleData && ( currentStep === STEP_NAME.grantConsent || currentStep === STEP_NAME.successfullyConnected ) ) {
+		return <ContentWithBottomDivider className={ warningClass }>
 			{ __( "You don’t have view access to Site Kit by Google. Please contact the admin who set it up.", "wordpress-seo" ) }
 		</ContentWithBottomDivider>;
 	}
+
+	if ( successfullyConnected && capabilities.viewSearchConsoleData ) {
+		return <SuccessfullyConnected />;
+	}
 };
 
-NoPermissionWarning.propTypes = {
+StatusInfo.propTypes = {
 	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
 	currentStep: PropTypes.number.isRequired,
+	successfullyConnected: PropTypes.bool.isRequired,
+	isVersionSupported: PropTypes.bool.isRequired,
 };
 
 /**
@@ -120,8 +141,10 @@ NoPermissionWarning.propTypes = {
  * @param {string} installUrl The installation url.
  * @param {string} activateUrl The activation url.
  * @param {string} setupUrl The setup url.
+ * @param {string} updateUrl The update url.
  * @param {string} consentManagementUrl The consent management url.
  * @param {import("../dashboard/index").CapabilitiesForSiteKit} capabilities The user capabilities.
+ * @param {boolean} isVersionSupported Whether the version is supported.
  *
  * @returns {WPElement} The Site Kit integration component.
  */
@@ -129,16 +152,18 @@ export const SiteKitIntegration = ( {
 	installUrl,
 	activateUrl,
 	setupUrl,
+	updateUrl,
 	consentManagementUrl,
 	capabilities,
 	connectionStepsStatuses,
+	isVersionSupported,
 } ) => {
 	const [ isModalOpen, toggleModal ] = useToggleState( false );
 	const [ isDisconnectModalOpen, toggleDisconnectModal ] = useToggleState( false );
 	const [ isConsentGranted, setConnected ] = useState( connectionStepsStatuses.isConsentGranted );
 	const stepsStatuses = values( { ...connectionStepsStatuses, isConsentGranted } );
 	const currentStep = stepsStatuses.findIndex( status => ! status );
-	const successfullyConnected = currentStep === STEP_NAME.successfulyConnected;
+	const successfullyConnected = currentStep === STEP_NAME.successfullyConnected;
 
 	const consentLearnMoreLink = useSelect(
 		select => select( "yoast-seo/settings" ).selectLink( "https://yoa.st/integrations-site-kit-consent-learn-more" ),
@@ -193,7 +218,14 @@ export const SiteKitIntegration = ( {
 	];
 
 	const getButtonProps = useCallback( ( step ) => {
-		if ( step === STEP_NAME.successfulyConnected ) {
+		if ( isUpdatePluginStatus( currentStep, isVersionSupported ) ) {
+			return {
+				children: __( "Update Site Kit by Google", "wordpress-seo" ),
+				as: "a",
+				href: updateUrl,
+			};
+		}
+		if ( step === STEP_NAME.successfullyConnected ) {
 			return {
 				children: __( "Disconnect", "wordpress-seo" ),
 				variant: "secondary",
@@ -212,12 +244,13 @@ export const SiteKitIntegration = ( {
 				isActive={ successfullyConnected }
 			>
 				<span className="yst-flex yst-flex-col yst-flex-1">
-					{ successfullyConnected && capabilities.viewSearchConsoleData && <SuccessfullyConnected /> }
-
-					<NoPermissionWarning
+					<StatusInfo
 						capabilities={ capabilities }
 						currentStep={ currentStep }
+						successfullyConnected={ successfullyConnected }
+						isVersionSupported={ isVersionSupported }
 					/>
+
 					<Button
 						className="yst-w-full"
 						id="site-kit-integration__button"
@@ -251,7 +284,9 @@ SiteKitIntegration.propTypes = {
 	installUrl: PropTypes.string.isRequired,
 	activateUrl: PropTypes.string.isRequired,
 	setupUrl: PropTypes.string.isRequired,
+	updateUrl: PropTypes.string.isRequired,
 	consentManagementUrl: PropTypes.string.isRequired,
 	capabilities: PropTypes.objectOf( PropTypes.bool ).isRequired,
 	connectionStepsStatuses: PropTypes.objectOf( PropTypes.bool ).isRequired,
+	isVersionSupported: PropTypes.bool.isRequired,
 };

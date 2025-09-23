@@ -75,20 +75,23 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: You don't have multiple H1 headings, well done!",
 	},
 	keyphraseDistribution: {
 		// Not applicable because the text has less than 15 sentences.
 		isApplicable: false,
 	},
 	subheadingsTooLong: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: You are not using any subheadings," +
+			" but your text is short enough and probably doesn't need them.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -117,8 +120,7 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough " +
-			"variety in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	wordComplexity: {
 		isApplicable: true,

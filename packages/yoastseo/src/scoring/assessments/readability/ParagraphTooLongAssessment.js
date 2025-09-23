@@ -77,6 +77,10 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @returns {number} The score.
 	 */
 	getScore( paragraphsLength, config ) {
+		if ( paragraphsLength.length === 0 ) {
+			return 9;
+		}
+
 		const sortedParagraphsLength = paragraphsLength.sort( ( a, b ) => b.paragraphLength - a.paragraphLength );
 
 		const longestParagraphLength = sortedParagraphsLength[ 0 ].paragraphLength;
@@ -111,10 +115,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		if ( paragraphsLength.length === 0 ) {
-			return assessmentResult;
-		}
-
 		const score = this.getScore( paragraphsLength, config );
 
 		assessmentResult.setScore( score );
@@ -124,7 +124,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			assessmentResult.setText( sprintf(
 				/* translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				__(
-					"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
+					"%1$sParagraph length%2$s: There are no paragraphs that are too long. Great job!",
 					"wordpress-seo"
 				),
 				config.urlTitle,
@@ -226,16 +226,5 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		this._config.countCharacters = !! researcher.getConfig( "countCharacters" );
 
 		return this.calculateResult( paragraphsLength, this.getConfig( researcher ) );
-	}
-
-	/**
-	 * Checks if the paragraphTooLong assessment is applicable to the paper.
-	 *
-	 * @param {Paper} paper The paper to check.
-	 *
-	 * @returns {boolean} Returns true if the assessment is applicable to the paper.
-	 */
-	isApplicable( paper ) {
-		return this.hasEnoughContentForAssessment( paper );
 	}
 }

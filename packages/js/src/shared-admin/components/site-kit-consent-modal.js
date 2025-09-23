@@ -10,7 +10,7 @@ import { OutboundLink } from "./outbound-link";
  *
  * @param {boolean} isOpen Whether the modal is open.
  * @param {function} onClose Callback to close the modal.
- * @param {function} onGrantConsent Callback to grant consent.
+ * @param {?function} onGrantConsent Callback to grant consent. If not provided, the modal will close on button click.
  * @param {string} [learnMoreLink] The learn more link.
  *
  * @returns {JSX.Element} The Site Kit consent modal component.
@@ -18,7 +18,7 @@ import { OutboundLink } from "./outbound-link";
 export const SiteKitConsentModal = ( {
 	isOpen,
 	onClose,
-	onGrantConsent,
+	onGrantConsent = null,
 	learnMoreLink = "",
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -35,7 +35,7 @@ export const SiteKitConsentModal = ( {
 					screenReaderText={ __( "Close", "wordpress-seo" ) }
 				/>
 				<div className="yst-px-10 yst-pt-10 yst-bg-gradient-to-b yst-from-primary-500/25 yst-to-[80%]">
-					<YoastConnectSiteKit width="432" height="243" className="yst-p-7 yst-bg-white yst-rounded-md yst-drop-shadow-md" />
+					<YoastConnectSiteKit className="yst-aspect-video yst-max-w-[432px] yst-p-7 yst-bg-white yst-rounded-md yst-drop-shadow-md" />
 				</div>
 				<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
 					<div className="yst-mt-4 yst-mx-1.5 yst-text-center">

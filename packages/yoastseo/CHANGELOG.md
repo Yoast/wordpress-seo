@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.3.0 (2025-05-09)
+
+### Enhancements:
+* Allows overriding the classes that are used to center elements in the _text alignment_ assessment. [#22242](https://github.com/Yoast/wordpress-seo/pull/22242)
+
+## 3.2.0 (2025-05-02)
+
+### Enhancements:
+* Adds new phrases regarding disability and forms of the word _insane_ to the _inclusive language assessment_. [#22221](https://github.com/Yoast/wordpress-seo/pull/22221)
+* Improves the feedback for "lame" in the _inclusive language assessment_ by considering homonyms. [#22221](https://github.com/Yoast/wordpress-seo/pull/22221)
+* Improves the feedback texts for the _passive voice_ and _consecutive sentences_ assessments in case there is nothing to report. [#22194](https://github.com/Yoast/wordpress-seo/pull/22194)
+* Makes the _images_, _internal links_, and _external links_ assessments available when no content has been added. [#22192](https://github.com/Yoast/wordpress-seo/pull/22192)
+* Makes the following SEO assessments available in the analysis by default, even when no content has been added: _keyphrase in introduction_, _keyphrase in meta description_, _keyphrase in SEO title_, _keyphrase in slug_ and _previously used keyphrase_. [#22219](https://github.com/Yoast/wordpress-seo/pull/22219)
+* Removes unnecessary config for the _outbound links_ assessment from the cornerstone SEO assessor, which is the same as the default config. [#22197](https://github.com/Yoast/wordpress-seo/pull/22197)
+
+### Bugfixes:
+* Fixes a bug where prominent words would not be updated when switching languages. [#22222](https://github.com/Yoast/wordpress-seo/pull/22222)
+
+### Other:
+* Updates assessment scoring documentation to include e-commerce assessments. [#22197](https://github.com/Yoast/wordpress-seo/pull/22197)
+
+### Non user facing:
+* Fixes broken links in the assessors documentation. [#22225](https://github.com/Yoast/wordpress-seo/pull/22225)
+
+## 3.1.0 (2025-04-11)
+### Enhancements:
+* Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis. [#22086](https://github.com/Yoast/wordpress-seo/pull/22086)
+* Converts the _consecutive sentences_ assessment highlighting approach from search and replace to position-based approach. [#21974](https://github.com/Yoast/wordpress-seo/pull/21974)
+* Converts the _consecutive sentences_ assessment to use HTML parser in its analysis. [#21974](https://github.com/Yoast/wordpress-seo/pull/21974)
+* Expands and updates the function words list for Farsi. Props to [nshayanfar](https://github.com/nshayanfar). [#21958](https://github.com/Yoast/wordpress-seo/pull/21958)
+* Extends the transition words list for Farsi. [#22158](https://github.com/Yoast/wordpress-seo/pull/22158)
+* Improves the inclusive language analysis feedback for the potentially non-inclusive word _exotic_, and prevents the feedback from appearing when _exotic_ is followed by words common in scientific contexts. [#22087](https://github.com/Yoast/wordpress-seo/pull/22087)
+* Removes applicability criteria from readability assessments that are related to a minimum text length. [#22156](https://github.com/Yoast/wordpress-seo/pull/22156)
+* Splits Farsi function words with spaces into separate strings. [#21958](https://github.com/Yoast/wordpress-seo/pull/21958)
+
+### Other:
+* Improves the translatability of feedback strings for the keyphrase length assessment. [#22173](https://github.com/Yoast/wordpress-seo/pull/22173)
+* Updates the assessment scoring documentation for the _paragraph length_ assessment. [#22161](https://github.com/Yoast/wordpress-seo/pull/22161)
+
 ## 3.0.0 (2025-03-07)
 ### Enhancements:
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. [#21440](https://github.com/Yoast/wordpress-seo/pull/21440)

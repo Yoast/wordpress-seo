@@ -663,10 +663,8 @@ class WPSEO_Utils {
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = [
-			'wpseo_dashboard',
 			'wpseo_tools',
 			'wpseo_search_console',
-			'wpseo_licenses',
 		];
 
 		return in_array( $current_page, $yoast_seo_free_pages, true );
@@ -911,7 +909,7 @@ class WPSEO_Utils {
 	 *
 	 * @param array $data The data to format.
 	 *
-	 * @return false|string The prepared JSON string.
+	 * @return string|false The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
 		$flags = ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
@@ -1092,7 +1090,7 @@ class WPSEO_Utils {
 		/**
 		 * The feature flag integration.
 		 *
-		 * @var Feature_Flag_Integration $feature_flag_integration;
+		 * @var Feature_Flag_Integration $feature_flag_integration
 		 */
 		$feature_flag_integration = YoastSEO()->classes->get( Feature_Flag_Integration::class );
 		return $feature_flag_integration->get_enabled_features();

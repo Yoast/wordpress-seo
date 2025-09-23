@@ -1,8 +1,9 @@
 import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
-import { createInterpolateElement, createRoot } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { CheckIcon } from "@heroicons/react/solid";
-import { ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { safeCreateInterpolateElement } from "./helpers/i18n";
 
 /**
  * The installation success page.
@@ -14,7 +15,7 @@ export function InstallationSuccessPage() {
 		<div className="yst-root yst-my-auto yst-flex yst-flex-col yst-h-[90vh] yst-justify-center">
 			<h1 className="yst-text-4xl yst-text-gray-900 yst-w-[350px] yst-font-extrabold yst-leading-10 yst-mx-auto yst-mt-6 yst-mb-16 yst-text-center yst-tracking-tight">
 				{
-					createInterpolateElement(
+					safeCreateInterpolateElement(
 						sprintf(
 							/* translators: %s expands to Yoast SEO. */
 							__( "You've successfully installed %s!", "wordpress-seo" ),
@@ -44,7 +45,7 @@ export function InstallationSuccessPage() {
 						</div>
 					</div>
 					<div>
-						<ArrowRightIcon className="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180" />
+						<ArrowNarrowRightIcon className="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180" />
 					</div>
 					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
 						<h2 className=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
@@ -74,20 +75,7 @@ export function InstallationSuccessPage() {
 								data-hiive-event-name="clicked_start_first_time_configuration"
 							>
 								{ __( "Start first-time configuration!", "wordpress-seo" ) }
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="yst-ms-3 yst-me-1 yst-h-5 yst-w-5 rtl:yst-rotate-180"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M14 5l7 7m0 0l-7 7m7-7H3"
-									/>
-								</svg>
+								<ArrowNarrowRightIcon className="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180" />
 							</a>
 						</div>
 					</div>

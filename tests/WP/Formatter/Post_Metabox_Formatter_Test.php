@@ -8,6 +8,8 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
  * Unit Test Class.
+ *
+ * @covers WPSEO_Post_Metabox_Formatter
  */
 final class Post_Metabox_Formatter_Test extends TestCase {
 
@@ -32,12 +34,6 @@ final class Post_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Test with a post being set but with no options being set.
 	 *
-	 * @covers WPSEO_Post_Metabox_Formatter::get_values
-	 * @covers WPSEO_Post_Metabox_Formatter::get_focus_keyword_usage
-	 * @covers WPSEO_Post_Metabox_Formatter::get_title_template
-	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_template
-	 * @covers WPSEO_Post_Metabox_Formatter::get_template
-	 *
 	 * @return void
 	 */
 	public function test_post_with_empty_options() {
@@ -55,8 +51,6 @@ final class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Testing with a post and needed options being set.
-	 *
-	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_date
 	 *
 	 * @return void
 	 */

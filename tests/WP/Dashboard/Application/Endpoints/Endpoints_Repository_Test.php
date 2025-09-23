@@ -37,7 +37,7 @@ final class Endpoints_Repository_Test extends TestCase {
 	/**
 	 * Data provider for test_get_all_endpoints.
 	 *
-	 * @return array<array<Endpoint_Interface[],array<string>>>
+	 * @return array<string, array<string, Endpoint_Interface[]|array<string, string>>>
 	 */
 	public static function data_get_all_endpoints() {
 		$readability_endpoint        = new Readability_Scores_Endpoint();

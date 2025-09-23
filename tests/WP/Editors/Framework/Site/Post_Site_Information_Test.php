@@ -68,7 +68,7 @@ final class Post_Site_Information_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper $options_helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
 
@@ -88,7 +88,6 @@ final class Post_Site_Information_Test extends TestCase {
 		parent::set_up();
 		$this->promotion_manager = Mockery::mock( Promotion_Manager::class );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [] );
-		$this->promotion_manager->expects( 'is' )->with( 'black-friday-2023-checklist' )->andReturn( false );
 		$this->short_link_helper = \YoastSEO()->helpers->short_link;
 		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 0 )->andReturnTrue();
@@ -117,22 +116,21 @@ final class Post_Site_Information_Test extends TestCase {
 		$expected = [
 			'dismissedAlerts'            => false,
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'metabox'                    =>
-				[
-					'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
-					'post_edit_url' => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
-					'base_url'      => 'http://example.org/',
-					'site_name'     => 'Test Blog',
-					'contentLocale' => 'en_US',
-					'userLocale'    => 'en_US',
-					'isRtl'         => false,
-					'isPremium'     => false,
-					'siteIconUrl'   => '',
-					'showSocial'    => [
-						'facebook' => true,
-						'twitter'  => true,
-					],
+			'metabox'                    => [
+				'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
+				'post_edit_url' => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
+				'base_url'      => 'http://example.org/',
+				'site_name'     => 'Test Blog',
+				'contentLocale' => 'en_US',
+				'userLocale'    => 'en_US',
+				'isRtl'         => false,
+				'isPremium'     => false,
+				'siteIconUrl'   => '',
+				'showSocial'    => [
+					'facebook' => true,
+					'twitter'  => true,
 				],
+			],
 			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
 			'linkParams'                 => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
@@ -140,7 +138,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => false,
 			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -184,7 +181,6 @@ final class Post_Site_Information_Test extends TestCase {
 			'sitewideSocialImage'        => '',
 			'isPrivateBlog'              => true,
 			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
 		];
 
 		$site_info = $this->instance->get_site_information();

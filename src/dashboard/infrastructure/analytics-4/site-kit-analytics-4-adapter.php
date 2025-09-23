@@ -3,11 +3,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4;
 
-use Google\Site_Kit\Core\Modules\Module;
-use Google\Site_Kit\Core\Modules\Modules;
-use Google\Site_Kit\Modules\Analytics_4;
-use Google\Site_Kit\Plugin;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
+use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Unexpected_Response_Exception;
@@ -22,23 +20,21 @@ use Yoast\WP\SEO\Dashboard\Domain\Traffic\Traffic_Data;
 class Site_Kit_Analytics_4_Adapter {
 
 	/**
-	 * The Analytics 4 module class from Site kit.
+	 * Holds the api call class.
 	 *
-	 * @var Module
+	 * @var Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call
 	 */
-	private static $analytics_4_module;
+	private $site_kit_search_console_api_call;
 
 	/**
 	 * The register method that sets the instance in the adapter.
 	 *
+	 * @param Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call The api call class.
+	 *
 	 * @return void
 	 */
-	public function __construct() {
-		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
-			$site_kit_plugin          = Plugin::instance();
-			$modules                  = new Modules( $site_kit_plugin->context() );
-			self::$analytics_4_module = $modules->get_module( Analytics_4::MODULE_SLUG );
-		}
+	public function __construct( Site_Kit_Analytics_4_Api_Call $site_kit_analytics_4_api_call ) {
+		$this->site_kit_search_console_api_call = $site_kit_analytics_4_api_call;
 	}
 
 	/**
@@ -55,11 +51,11 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_comparison_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
-		return $this->parse_comparison_response( $response );
+		return $this->parse_comparison_response( $response->get_data() );
 	}
 
 	/**
@@ -76,25 +72,11 @@ class Site_Kit_Analytics_4_Adapter {
 	public function get_daily_data( Analytics_4_Parameters $parameters ): Data_Container {
 		$api_parameters = $this->build_parameters( $parameters );
 
-		$response = self::$analytics_4_module->get_data( 'report', $api_parameters );
+		$response = $this->site_kit_search_console_api_call->do_request( $api_parameters );
 
 		$this->validate_response( $response );
 
-		return $this->parse_daily_response( $response );
-	}
-
-	/**
-	 * Checks whether the module is connected.
-	 *
-	 * A module being connected means that all steps required as part of its activation are completed.
-	 *
-	 * @return bool True if module is connected, false otherwise.
-	 */
-	public function is_connected(): bool {
-		if ( self::$analytics_4_module !== null ) {
-			return self::$analytics_4_module->is_connected();
-		}
-		return false;
+		return $this->parse_daily_response( $response->get_data() );
 	}
 
 	/**
@@ -195,7 +177,7 @@ class Site_Kit_Analytics_4_Adapter {
 		$comparison_traffic_data = new Comparison_Traffic_Data();
 
 		// First row is the current date range's data, second row is the previous date range's data.
-		foreach ( $response->getRows() as $date_range_key => $date_range_row ) {
+		foreach ( $response->getRows() as $date_range_row ) {
 			$traffic_data = new Traffic_Data();
 
 			// Loop through all the metrics of the date range.
@@ -214,10 +196,12 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			if ( $date_range_key === 0 ) {
+			$period = $this->get_period( $date_range_row );
+
+			if ( $period === Comparison_Traffic_Data::CURRENT_PERIOD_KEY ) {
 				$comparison_traffic_data->set_current_traffic_data( $traffic_data );
 			}
-			elseif ( $date_range_key === 1 ) {
+			elseif ( $period === Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY ) {
 				$comparison_traffic_data->set_previous_traffic_data( $traffic_data );
 			}
 		}
@@ -225,6 +209,30 @@ class Site_Kit_Analytics_4_Adapter {
 		$data_container->add_data( $comparison_traffic_data );
 
 		return $data_container;
+	}
+
+	/**
+	 * Parses the response row and returns whether it's about the current period or the previous period.
+	 *
+	 * @see https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DateRange
+	 *
+	 * @param Row $date_range_row The response row.
+	 *
+	 * @return string The key associated with the current or the previous period.
+	 *
+	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
+	 */
+	private function get_period( Row $date_range_row ): string {
+		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
+			if ( $dimension_value->getValue() === 'date_range_0' ) {
+				return Comparison_Traffic_Data::CURRENT_PERIOD_KEY;
+			}
+			elseif ( $dimension_value->getValue() === 'date_range_1' ) {
+				return Comparison_Traffic_Data::PREVIOUS_PERIOD_KEY;
+			}
+		}
+
+		throw new Invalid_Request_Exception( 'Unexpected date range names' );
 	}
 
 	/**
@@ -249,29 +257,25 @@ class Site_Kit_Analytics_4_Adapter {
 		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- We have no control over the response (in fact that's why this function exists).
-
 	/**
 	 * Validates the response coming from Google Analytics.
 	 *
-	 * @param mixed $response The response we want to validate.
+	 * @param WP_REST_Response $response The response we want to validate.
 	 *
-	 * @return void.
+	 * @return void
 	 *
 	 * @throws Failed_Request_Exception      When the request responds with an error from Site Kit.
 	 * @throws Unexpected_Response_Exception When the request responds with an unexpected format.
 	 */
-	private function validate_response( $response ): void {
-		if ( \is_wp_error( $response ) ) {
-			$error_data        = $response->get_error_data();
+	private function validate_response( WP_REST_Response $response ): void {
+		if ( $response->is_error() ) {
+			$error_data        = $response->as_error()->get_error_data();
 			$error_status_code = ( $error_data['status'] ?? 500 );
-			throw new Failed_Request_Exception( \wp_kses_post( $response->get_error_message() ), (int) $error_status_code );
+			throw new Failed_Request_Exception( \wp_kses_post( $response->as_error()->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( ! \is_a( $response, RunReportResponse::class ) ) {
+		if ( ! \is_a( $response->get_data(), RunReportResponse::class ) ) {
 			throw new Unexpected_Response_Exception();
 		}
 	}
-
-	// phpcs:enable
 }

@@ -1,52 +1,40 @@
-/**
- * External dependencies
- */
-import { uniqueId } from "lodash";
-import PropTypes from "prop-types";
-
-/**
- * WordPress dependencies
- */
+/* eslint-disable complexity */
+import { Popover, withSpokenMessages } from "@wordpress/components";
 import { useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { withSpokenMessages, Popover } from "@wordpress/components";
-import { prependHTTP } from "@wordpress/url";
 import { applyFormat, create, insert, isCollapsed, useAnchor } from "@wordpress/rich-text";
-
-/**
- * Internal dependencies
- */
-import { createLinkFormat, isValidHref } from "./utils";
+import { prependHTTP } from "@wordpress/url";
+import { noop, uniqueId } from "lodash";
+import PropTypes from "prop-types";
 import HelpLink from "../components/HelpLink";
-import createInterpolateElement from "../helpers/createInterpolateElement";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { link as linkSettings } from "./edit-link";
+import { createLinkFormat, isValidHref } from "./utils";
 
 /**
  * Component to render the inline link UI.
- * This component is rendered when adding or editing a
- * link.
+ * This component is rendered when adding or editing a link.
  *
- * @param {Object} props Component props.
- * @param {boolean} props.isActive Whether a link is active.
- * @param {Object} props.activeAttributes The attributes of the active link.
- * @param {boolean} props.addingLink Whether a link is being added or edited.
- * @param {object} props.value The current value of the rich text.
- * @param {Function} props.onChange The rich text change handler.
- * @param {Function} props.speak The speak function.
- * @param {Function} props.stopAddingLink The stop adding link handler.
- * @param {Object} props.contentRef The ref containing the current content element.
+ * @param {boolean} [isActive=false] Whether a link is active.
+ * @param {Object} [activeAttributes={}] The attributes of the active link.
+ * @param {boolean} [addingLink=false] Whether a link is being added or edited.
+ * @param {Object} [value={}] The current value of the rich text.
+ * @param {function}  [onChange=noop] The rich text change handler.
+ * @param {function}  speak The speak function.
+ * @param {function}  stopAddingLink The stop adding link handler.
+ * @param {Object} [contentRef={}] The ref containing the current content element.
  *
- * @returns {WPElement} The inline link UI.
+ * @returns {React.ReactNode} The inline link UI.
  */
 function InlineLinkUI( {
-	isActive,
-	activeAttributes,
-	addingLink,
-	value,
-	onChange,
+	isActive = false,
+	activeAttributes = {},
+	addingLink = false,
+	value = {},
+	onChange = noop,
 	speak,
 	stopAddingLink,
-	contentRef,
+	contentRef = {},
 } ) {
 	/**
 	 * A unique key is generated when switching between editing and not editing
@@ -99,11 +87,11 @@ function InlineLinkUI( {
 	 *
 	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
-	const isToggleSetting = ( nextValue ) =>{
+	const isToggleSetting = ( nextValue ) => {
 		return linkValue.url === nextValue.url &&
-		linkValue.opensInNewTab !== nextValue.opensInNewTab ||
-		linkValue.noFollow !== nextValue.noFollow ||
-		linkValue.sponsored !== nextValue.sponsored;
+			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
+			linkValue.noFollow !== nextValue.noFollow ||
+			linkValue.sponsored !== nextValue.sponsored;
 	};
 
 	/**
@@ -166,7 +154,7 @@ function InlineLinkUI( {
 	 * @param {string} newUrl The new link URL.
 	 * @returns {string} The new text for the link.
 	 */
-	const getNewText = ( nextValue, newUrl ) =>{
+	const getNewText = ( nextValue, newUrl ) => {
 		return nextValue.title ? nextValue.title : newUrl;
 	};
 
@@ -199,7 +187,7 @@ function InlineLinkUI( {
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
- 		 */
+		 */
 		nextValue = {
 			...nextLinkValue,
 			...nextValue,
@@ -275,7 +263,7 @@ function InlineLinkUI( {
 		</span>
 	</HelpLink>;
 
-	const noFollowLabel = createInterpolateElement(
+	const noFollowLabel = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
@@ -289,7 +277,7 @@ function InlineLinkUI( {
 		}
 	);
 
-	const sponsoredLabel = createInterpolateElement(
+	const sponsoredLabel = safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),

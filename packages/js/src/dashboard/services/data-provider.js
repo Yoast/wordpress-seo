@@ -73,7 +73,7 @@ export class DataProvider {
 	}
 
 	/**
-	 * @returns {boolean} The possible stepper statuses.
+	 * @returns {boolean[]} The possible stepper statuses.
 	 */
 	getStepsStatuses() {
 		return [

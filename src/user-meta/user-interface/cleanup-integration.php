@@ -16,7 +16,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * The cleanup service.
 	 *
-	 * @var Cleanup_Service $cleanup_service The cleanup service.
+	 * @var Cleanup_Service
 	 */
 	private $cleanup_service;
 

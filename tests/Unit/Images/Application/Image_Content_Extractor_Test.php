@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group images
  *
  * @coversDefaultClass \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
- * @covers \Yoast\WP\SEO\Images\Application\Image_Content_Extractor
  */
 final class Image_Content_Extractor_Test extends TestCase {
 
@@ -65,7 +64,6 @@ final class Image_Content_Extractor_Test extends TestCase {
 	/**
 	 * Tests the build function.
 	 *
-	 * @covers ::__construct
 	 * @covers ::gather_images
 	 * @covers ::gather_images_wp
 	 * @covers ::gather_images_domdocument
@@ -87,7 +85,6 @@ final class Image_Content_Extractor_Test extends TestCase {
 				->once()
 				->with( 'wpseo_image_attribute_containing_id', 'class' )
 				->andReturn( 'class' );
-
 		}
 		if ( $should_content_regex ) {
 			Functions\expect( 'apply_filters' )

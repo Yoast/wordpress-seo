@@ -2,7 +2,6 @@
 import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import { getParentNode } from "../helpers/sentence/getSentencesFromTree";
 import { createShortcodeTagsRegex } from "../helpers";
 
 
@@ -27,15 +26,17 @@ import { createShortcodeTagsRegex } from "../helpers";
  */
 export default function( paper, researcher ) {
 	let paragraphs = researcher.getResearch( "getParagraphs" );
+	const tree = paper.getTree();
 	// Filter captions from non-Classic editors.
 	paragraphs = paragraphs.filter( paragraph => {
-		const parentNode = getParentNode( paper, paragraph );
+		const parentNode = paragraph.getParentNode( tree );
 		return ! ( paragraph.isImplicit && parentNode && parentNode.name === "figcaption" );
 	} );
-	// Filter captions from Classic editor and from classic block inside Block editor.
+	// Filter captions from classic block inside Block editor.
+	// Filter caption, gallery, embed and playlist shortcodes from Classic editor.
 	paragraphs = paragraphs.filter( paragraph => {
 		return ! ( paragraph.childNodes && paragraph.childNodes[ 0 ] &&
-			createShortcodeTagsRegex( [ "caption" ] ).test( paragraph.childNodes[ 0 ].value ) );
+			createShortcodeTagsRegex( [ "caption", "gallery", "embed", "playlist" ] ).test( paragraph.childNodes[ 0 ].value ) );
 	} );
 	const firstParagraph = paragraphs[ 0 ];
 
@@ -44,14 +45,17 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 	const startOffset = firstParagraph && firstParagraph.sourceCodeLocation.startOffset;
 
+	// Block editor-specific processing to retrieve the parent block of the introduction node.
 	const mappedBlocks = paper._attributes.wpBlocks;
 	const filteredIntroductionBlock = mappedBlocks && mappedBlocks.filter( block => inRange( startOffset, block.startOffset, block.endOffset ) )[ 0 ];
+	// In case of non-Block editor, we return the introduction's parent node.
+	const introductionParentNode = firstParagraph?.getParentNode( tree );
 	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 		introduction: firstParagraph,
-		parentBlock: filteredIntroductionBlock || null,
+		parentBlock: filteredIntroductionBlock || introductionParentNode,
 	};
 
 	if ( isEmpty( firstParagraph ) ) {

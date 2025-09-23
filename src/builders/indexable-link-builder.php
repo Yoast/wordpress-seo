@@ -110,10 +110,7 @@ class Indexable_Link_Builder {
 	 *
 	 * @return void
 	 */
-	public function set_dependencies(
-		Indexable_Repository $indexable_repository,
-		Image_Helper $image_helper
-	) {
+	public function set_dependencies( Indexable_Repository $indexable_repository, Image_Helper $image_helper ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->image_helper         = $image_helper;
 	}
@@ -575,9 +572,15 @@ class Indexable_Link_Builder {
 		}
 
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
-		if ( \wp_cache_supports( 'flush_group' ) ) {
-			\wp_cache_flush_group( 'orphaned_counts' );
-		}
+
+		/**
+		 * Fires to signal that incoming link counts for related indexables were updated.
+		 *
+		 * @param int[] $related_indexable_ids The related indexable Ids to this link change.
+		 *
+		 * @internal
+		 */
+		\do_action( 'wpseo_related_indexables_incoming_links_updated', $related_indexable_ids );
 
 		foreach ( $counts as $count ) {
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );

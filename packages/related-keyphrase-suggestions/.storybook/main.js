@@ -16,9 +16,11 @@ const config = {
 		"../src/**/stories.@(js)",
 	],
 	addons: [
-		getAbsolutePath( "@storybook/addon-links" ),
+		getAbsolutePath( "@storybook/addon-webpack5-compiler-swc" ),
 		getAbsolutePath( "@storybook/addon-essentials" ),
-		"@storybook/addon-a11y",
+		getAbsolutePath( "@storybook/addon-interactions" ),
+		getAbsolutePath( "@storybook/addon-links" ),
+		getAbsolutePath( "@storybook/addon-a11y" ),
 		{
 			name: getAbsolutePath( "@storybook/addon-styling-webpack" ),
 			options: {
@@ -28,10 +30,7 @@ const config = {
 						sideEffects: true,
 						use: [
 							getAbsolutePath( "style-loader" ),
-							{
-								loader: getAbsolutePath( "css-loader" ),
-								options: { importLoaders: 1 },
-							},
+							getAbsolutePath( "css-loader" ),
 							{
 								loader: getAbsolutePath( "postcss-loader" ),
 								options: { implementation: getAbsolutePath( "postcss" ) },
@@ -46,34 +45,12 @@ const config = {
 		disableTelemetry: true,
 		disableWhatsNewNotifications: true,
 	},
-	features: {
-		previewMdx2: true,
-	},
 	framework: {
 		name: getAbsolutePath( "@storybook/react-webpack5" ),
 		options: {},
 	},
 	docs: {
 		autodocs: true,
-	},
-
-	// Add Webpack customization here
-	webpackFinal: async ( webpackConfig ) => {
-		webpackConfig.module.rules.push( {
-			test: /\.(js|jsx|mjs)$/,
-			exclude: /node_modules/,
-			use: {
-				loader: "babel-loader",
-				options: {
-					presets: [
-						"@babel/preset-env",
-						"@babel/preset-react",
-					],
-				},
-			},
-		} );
-		webpackConfig.resolve.extensions.push( ".js", ".jsx" );
-		return webpackConfig;
 	},
 };
 

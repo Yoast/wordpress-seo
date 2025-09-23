@@ -54,8 +54,8 @@ const expectedResults = {
 	textCompetingLinks: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with the " +
-			"words you want this page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: You have a link which uses your " +
+			"keyphrase or synonym as its anchor text. <a href='https://yoa.st/34m' target='_blank'>Fix that</a>!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -112,7 +112,7 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -128,7 +128,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -138,13 +138,12 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety " +
-			"in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes with at least" +
 			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {

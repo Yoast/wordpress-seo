@@ -27,6 +27,9 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
+use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -48,7 +51,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var array
 	 */
-	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
+	public const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_llmstxt' ];
 
 	/**
 	 * Holds the disallowed settings, per option group.
@@ -93,6 +96,7 @@ class Settings_Integration implements Integration_Interface {
 			'deny_ccbot_crawling',
 			'deny_google_extended_crawling',
 			'deny_gptbot_crawling',
+			'enable_llms_txt',
 		],
 	];
 
@@ -188,6 +192,27 @@ class Settings_Integration implements Integration_Interface {
 	protected $content_type_visibility;
 
 	/**
+	 * Holds the Llms_Txt_Configuration instance.
+	 *
+	 * @var Llms_Txt_Configuration
+	 */
+	protected $llms_txt_configuration;
+
+	/**
+	 * The manual post collection.
+	 *
+	 * @var Manual_Post_Collection
+	 */
+	private $manual_post_collection;
+
+	/**
+	 * Runs the health check.
+	 *
+	 * @var File_Runner
+	 */
+	private $runner;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -203,6 +228,9 @@ class Settings_Integration implements Integration_Interface {
 	 * @param User_Helper                                   $user_helper             The User_Helper.
 	 * @param Options_Helper                                $options                 The options helper.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
+	 * @param Llms_Txt_Configuration                        $llms_txt_configuration  The Llms_Txt_Configuration instance.
+	 * @param Manual_Post_Collection                        $manual_post_collection  The manual post collection.
+	 * @param File_Runner                                   $runner                  The file runner.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -217,7 +245,10 @@ class Settings_Integration implements Integration_Interface {
 		Article_Helper $article_helper,
 		User_Helper $user_helper,
 		Options_Helper $options,
-		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility
+		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility,
+		Llms_Txt_Configuration $llms_txt_configuration,
+		Manual_Post_Collection $manual_post_collection,
+		File_Runner $runner
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->replace_vars            = $replace_vars;
@@ -232,6 +263,9 @@ class Settings_Integration implements Integration_Interface {
 		$this->user_helper             = $user_helper;
 		$this->options                 = $options;
 		$this->content_type_visibility = $content_type_visibility;
+		$this->llms_txt_configuration  = $llms_txt_configuration;
+		$this->manual_post_collection  = $manual_post_collection;
+		$this->runner                  = $runner;
 	}
 
 	/**
@@ -342,16 +376,23 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The pages.
 	 */
 	public function add_settings_saved_page( $pages ) {
+		$runner = $this->runner;
 		\add_submenu_page(
 			'',
 			'',
 			'',
 			'wpseo_manage_options',
 			self::PAGE . '_saved',
-			static function () {
+			static function () use ( $runner ) {
 				// Add success indication to HTML response.
 				$success = empty( \get_settings_errors() ) ? 'true' : 'false';
 				echo \esc_html( "{{ yoast-success: $success }}" );
+
+				$runner->run();
+				if ( ! $runner->is_successful() ) {
+					$failure_reason = $runner->get_generation_failure_reason();
+					echo \esc_html( "{{ yoast-llms-txt-generation-failure: $failure_reason }}" );
+				}
 			}
 		);
 
@@ -378,7 +419,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
@@ -446,6 +487,8 @@ class Settings_Integration implements Integration_Interface {
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
 			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'llmsTxt'                        => $this->llms_txt_configuration->get_configuration(),
+			'initialLlmTxtPages'             => $this->get_site_llms_txt_pages( $settings ),
 		];
 	}
 
@@ -524,7 +567,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @param array $settings The settings.
 	 *
-	 * @return array The currently represented person's ID and name.
+	 * @return array The currently represented person.
 	 */
 	protected function get_site_represents_person( $settings ) {
 		$person = [
@@ -571,7 +614,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param int    $policy   The policy id to check.
 	 * @param string $key      The option key name.
 	 *
-	 * @return array<int,string> The policy data.
+	 * @return array<int, string> The policy data.
 	 */
 	private function maybe_add_policy( $policies, $policy, $key ) {
 		$policy_array = [
@@ -593,6 +636,57 @@ class Settings_Integration implements Integration_Interface {
 		$policies[ $key ] = $policy_array;
 
 		return $policies;
+	}
+
+	/**
+	 * Adds page if it is present.
+	 *
+	 * @param array<int, string> $pages   The existing pages.
+	 * @param int                $page_id The page id to check.
+	 * @param string             $key     The option key name.
+	 *
+	 * @return array<int, string> The policy data.
+	 */
+	private function maybe_add_page( $pages, $page_id, $key ) {
+		if ( isset( $page_id ) && \is_int( $page_id ) && $page_id !== 0 ) {
+			$post = $this->manual_post_collection->get_content_type_entry( $page_id );
+			if ( $post === null ) {
+				return $pages;
+			}
+
+			$pages[ $key ] = [
+				'id'    => $page_id,
+				'title' => ( $post->get_title() ) ? $post->get_title() : $post->get_slug(),
+				'slug'  => $post->get_slug(),
+			];
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * Get site llms.txt pages.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array<string, array<string, int|string>> The llms.txt pages.
+	 */
+	private function get_site_llms_txt_pages( $settings ) {
+		$llms_txt_pages = [];
+
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['about_us_page'], 'about_us_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['contact_page'], 'contact_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['terms_page'], 'terms_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['privacy_policy_page'], 'privacy_policy_page' );
+		$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $settings['wpseo_llmstxt']['shop_page'], 'shop_page' );
+
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) && \is_array( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			foreach ( $settings['wpseo_llmstxt']['other_included_pages'] as $key => $page_id ) {
+				$llms_txt_pages = $this->maybe_add_page( $llms_txt_pages, $page_id, 'other_included_pages-' . $key );
+			}
+		}
+
+		return $llms_txt_pages;
 	}
 
 	/**
@@ -757,6 +851,11 @@ class Settings_Integration implements Integration_Interface {
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
 			'UTF-8'
 		);
+
+		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
+			// Append an empty page to the other included pages, so that we manage to show an empty field in the UI.
+			$settings['wpseo_llmstxt']['other_included_pages'][] = 0;
+		}
 
 		return $settings;
 	}

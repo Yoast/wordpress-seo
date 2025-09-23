@@ -25,7 +25,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 	/**
 	 * Default notification arguments to set up a fake Yoast_Notification.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $fake_notification_defaults = [
 		'id'            => 'some_id',
@@ -943,7 +943,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 	 *
 	 * This method is used as a filter to override notifications.
 	 *
-	 * @return array List of notification objects.
+	 * @return array<Yoast_Notification>
 	 */
 	public function get_sample_notifications() {
 		return [
@@ -961,7 +961,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 	/**
 	 * Values for the has stored notifications test.
 	 *
-	 * @return array The test values.
+	 * @return array<array<string, bool|string|array<string>>>
 	 */
 	public static function has_stored_notifications_provider() {
 		return [

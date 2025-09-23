@@ -1,6 +1,6 @@
-import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { get } from "lodash";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
@@ -10,7 +10,7 @@ import { ToggleableIntegration } from "./toggleable-integration";
 const integrations = [
 	{
 		name: "Semrush",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: Semrush; 3: bold close tag. */
 				__( "Use %1$s%2$s%3$s to do keyword research - without leaving your post", "wordpress-seo" ),
@@ -36,7 +36,7 @@ const integrations = [
 	},
 	{
 		name: "Wincher",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: Wincher; 3: bold close tag. */
 				__( "Track your rankings through time with %1$s%2$s%3$s", "wordpress-seo" ),
@@ -85,6 +85,7 @@ if ( isSiteKitFeatureEnabled ) {
 		installUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.installUrl", "" ) }
 		activateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.activateUrl", "" ) }
 		setupUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.setupUrl", "" ) }
+		updateUrl={ get( window, "wpseoIntegrationsData.site_kit_configuration.updateUrl", "" ) }
 		consentManagementUrl={ get( window, "wpseoIntegrationsData.site_kit_consent_management_url", "" ) }
 		capabilities={ get( window, "wpseoIntegrationsData.site_kit_configuration.capabilities", {
 			installPlugins: false,
@@ -96,6 +97,7 @@ if ( isSiteKitFeatureEnabled ) {
 			isSetupCompleted: false,
 			isConsentGranted: false,
 		} ) }
+		isVersionSupported={ get( window, "wpseoIntegrationsData.site_kit_configuration.isVersionSupported", false ) }
 	/> );
 }
 

@@ -19,34 +19,12 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
-use Yoast\WP\SEO\Config\Wordproof_App_Config;
-use Yoast\WP\SEO\Config\Wordproof_Translations;
 use Yoast\WP\SEO\Helpers\Request_Helper;
-use Yoast\WP\SEO\Helpers\Wordproof_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Disable_Concatenate_Scripts_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
-use Yoast\WP\SEO\Integrations\Duplicate_Post_Integration;
-use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
-use Yoast\WP\SEO\Integrations\Third_Party\Wordproof;
-use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
-use Yoast\WP\SEO\Introductions\Application\Ai_Generate_Titles_And_Descriptions_Introduction_Upsell;
+use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 
 $deprecated_classes = [
-	Old_Premium_Integration::class                                 => '20.10',
-	Wincher::class                                                 => '21.6',
-	Wordproof_Integration_Toggle::class                            => '21.6',
-	Wordproof::class                                               => '22.10',
-	Wordproof_Integration_Active_Conditional::class                => '22.10',
-	Wordproof_Plugin_Inactive_Conditional::class                   => '22.10',
-	Wordproof_App_Config::class                                    => '22.10',
-	Wordproof_Translations::class                                  => '22.10',
-	Wordproof_Helper::class                                        => '22.10',
-	Ai_Generate_Titles_And_Descriptions_Introduction_Upsell::class => '23.2',
-	Disable_Concatenate_Scripts_Integration::class                 => '23.2',
-	Duplicate_Post_Integration::class                              => '23.4',
 	Request_Helper::class                                          => '23.6',
+	Unsupported_PHP_Version_Notice::class                          => '25.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {

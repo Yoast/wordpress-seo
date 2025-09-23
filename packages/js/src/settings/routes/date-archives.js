@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -15,6 +15,7 @@ import {
 import { safeToLocaleLower } from "../helpers";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
@@ -34,7 +35,7 @@ const DateArchives = () => {
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/2020/" );
 
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -50,7 +51,7 @@ const DateArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const description = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to "Date archives".

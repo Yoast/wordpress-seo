@@ -22,13 +22,14 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		return getResults( assessor.getValidResults() );
 	}
 
+	// Let's define a few variables to determine the type of the assessor.
 	const isStoreBlog = assessor.type.startsWith( "storeBlog" );
 	const isCollection = assessor.type.startsWith( "collection" );
 	const isProduct = assessor.type.startsWith( "product" );
 	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
 
+	// Add the Keyphrase distribution assessment to the assessor, which is available for product assessors (except store blogs) in Shopify.
 	if ( isProductAssessor && ! isStoreBlog ) {
-		// Add the Keyphrase distribution assessment to the assessor, which is available in these assessors in Shopify.
 		assessor._researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
 			urlTitle: isProduct ? "https://yoast.com/33" : "https://yoa.st/shopify30",
@@ -36,25 +37,25 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		} ) );
 	}
 
-	const defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength" ];
+	// defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
+	let defaultAssessments = [ "introductionKeyword", "singleH1", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
+		"metaDescriptionLength", "slugKeyword", "titleWidth", "textLength" ];
 	if ( isStoreBlog ) {
-		defaultAssessments.pop();
+		// The introduction keyword, single title and text length assessments are not available on store blogs.
+		defaultAssessments = defaultAssessments.slice( 2, -1 );
 	}
 
-	let requiresTextAssessments = [ "images", "externalLinks", "internalLinks" ];
+	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase", "textCompetingLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
-		requiresTextAssessments = [];
+		extraDefaultAssessments = [];
 	}
 	if ( isProduct ) {
-		requiresTextAssessments = [ "images" ];
+		extraDefaultAssessments = [ "images" ];
 	}
 
-	const requiresKeyphraseAssessments = [ "introductionKeyword" ];
-	if ( isStoreBlog ) {
-		requiresKeyphraseAssessments.pop();
-	}
+	defaultAssessments = [ ...defaultAssessments, ...extraDefaultAssessments ];
 
-	const mostAssessments = [ ...defaultAssessments, ...requiresTextAssessments, ...requiresKeyphraseAssessments ];
+	// Now, let's run those tests!
 
 	it( "runs assessments without any specific requirements", function() {
 		const paper = new Paper( "" );
@@ -63,26 +64,13 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
-	it( "additionally runs assessments that only require a text", function() {
-		const paper = new Paper( "text" );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( [ ...defaultAssessments, ...requiresTextAssessments ].sort() );
-	} );
-
 	it( "additionally runs singleH1assessment if the text contains two H1s", function() {
 		const paper = new Paper( "<h1>First title</h1><h1>Second title</h1>" );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...requiresTextAssessments ].concat( "singleH1" );
-		expect( assessments.sort() ).toEqual( expected.sort() );
-	} );
-
-	it( "additionally runs assessments that only require a text and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( mostAssessments.sort() );
+		// const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "singleH1" );
+		// expect( assessments.sort() ).toEqual( expected.sort() );
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
@@ -92,35 +80,13 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		expect( assessments.sort() ).toEqual( defaultAssessments.concat( "functionWordsInKeyphrase" ).sort() );
 	} );
 
-	it( "additionally runs assessments that require text and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( mostAssessments.sort() );
-	} );
-
 	it( "additionally runs assessments that require a long enough text and a keyword and a synonym", function() {
 		const text = "a ".repeat( 200 );
 		const paper = new Paper( text, { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? mostAssessments : mostAssessments.concat( "keyphraseDensity" );
+		const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "keyphraseDensity" );
 		expect( assessments.sort() ).toEqual( expected.sort() );
-	} );
-
-	it( "additionally runs assessments that require a text and a super-long slug with stop words", function() {
-		const paper = new Paper( "text",
-			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( [ ...defaultAssessments, ...requiresTextAssessments ].sort() );
-	} );
-
-	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword", slug: "sample-slug" } );
-		const assessments = assess( paper );
-
-		expect( assessments.sort() ).toEqual( mostAssessments.concat( "slugKeyword" ).sort() );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
@@ -141,7 +107,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const assessments = assess( paper );
 
 		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? mostAssessments : [ ...mostAssessments, ...keyphraseAssessments ];
+		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 
@@ -162,7 +128,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const assessments = assess( paper );
 
 		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? mostAssessments : [ ...mostAssessments, ...keyphraseAssessments ];
+		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 }
@@ -191,7 +157,6 @@ export function checkConfigOverrides( assessor ) {
 		expect( assessment._config ).toBeDefined();
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.withAlt ).toBe( 3 );
 		expect( assessment._config.scores.noAlt ).toBe( 3 );
 	} );
 

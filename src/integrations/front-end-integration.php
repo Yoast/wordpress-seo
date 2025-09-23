@@ -137,6 +137,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array<string>
 	 */
 	protected $webmaster_verification_presenters = [
+		'Webmaster\Ahrefs',
 		'Webmaster\Baidu',
 		'Webmaster\Bing',
 		'Webmaster\Google',
@@ -319,7 +320,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		// Check $this->next or $this->prev for existing links.
-		if ( \is_null( $this->$rel ) ) {
+		if ( $this->$rel === null ) {
 			return $link;
 		}
 
@@ -433,7 +434,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
 	public function get_presenters( $page_type, $context = null ) {
-		if ( \is_null( $context ) ) {
+		if ( $context === null ) {
 			$context = $this->context_memoizer->for_current_page();
 		}
 

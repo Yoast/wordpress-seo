@@ -5,7 +5,7 @@ import { useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useDispatchSettings, useSelectSettings, useNewContentTypeNotification } from "../hooks";
+import { useDispatchSettings, useNewContentTypeNotification, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
 
 /**
@@ -35,17 +35,17 @@ const useValidationErrorsNotification = () => {
 };
 
 /**
- *
  * @param {string} id The id.
+ * @param {...Object} props Extra props for the Notification.
  * @returns {JSX.Element} The validation errors notification.
  */
-const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
+const ValidationErrorsNotification = ( { id, ...props } ) => {
 	const { errors } = useFormikContext();
 	const searchIndex = useSelectSettings( "selectSearchIndex" );
 	const flatErrors = useMemo( () => flattenObject( errors ), [ errors ] );
 
 	return (
-		<NotificationsUi.Notification key={ id } id={ id } onDismiss={ onDismiss } { ...props }>
+		<NotificationsUi.Notification key={ id } id={ id } { ...props }>
 			<ul className="yst-list-disc yst-mt-1 yst-ms-4 yst-space-y-2">
 				{ map( flatErrors, ( error, name ) => error && (
 					<li key={ name }>
@@ -63,7 +63,6 @@ const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 
 ValidationErrorsNotification.propTypes = {
 	id: PropTypes.string.isRequired,
-	onDismiss: PropTypes.func,
 };
 
 /**

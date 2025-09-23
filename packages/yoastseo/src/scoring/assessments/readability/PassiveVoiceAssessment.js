@@ -4,11 +4,16 @@ import { map, merge } from "lodash";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import marker from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Represents the assessment that checks whether there are passive sentences in the text.
@@ -18,8 +23,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {object} config The configuration to use.
-	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
@@ -36,12 +39,12 @@ export default class PassiveVoiceAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the number of sentences and passives.
 	 *
-	 * @param {object} passiveVoice     The object containing the number of sentences and passives.
+	 * @param {{total: number, passives:{length: number, total: number}}} passiveVoice Object containing the number of sentences and passives.
 	 *
-	 * @returns {{score: number, text}} resultobject with score and text.
+	 * @returns {{score: number, text: string, hasMarks: boolean}} Result object with score and text, and whether there are marks.
 	 */
 	calculatePassiveVoiceResult( passiveVoice ) {
-		let score;
+		let score = 0;
 		let percentage = 0;
 		const recommendedValue = 10;
 
@@ -74,7 +77,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 				text: sprintf(
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
-						"%1$sPassive voice%2$s: You're using enough active voice. That's great!",
+						"%1$sPassive voice%2$s: You are not using too much passive voice. That's great!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -104,10 +107,10 @@ export default class PassiveVoiceAssessment extends Assessment {
 	/**
 	 * Marks all sentences that have the passive voice.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
-	 * @returns {object} All marked sentences.
+	 * @returns {Mark[]} All marked sentences.
 	 */
 	getMarks( paper, researcher ) {
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
@@ -124,10 +127,10 @@ export default class PassiveVoiceAssessment extends Assessment {
 	/**
 	 * Runs the passiveVoice module, based on this returns an assessment result with score and text.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
-	 * @returns {object} the Assessmentresult
+	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
@@ -149,9 +152,9 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
+	 * @returns {boolean} Returns true if the researcher has the passive voice research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getPassiveVoiceResult" );
+		return researcher.hasResearch( "getPassiveVoiceResult" );
 	}
 }

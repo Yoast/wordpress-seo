@@ -2,9 +2,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormikValueChangeField, FormLayout, RouteLayout } from "../components";
+import { FormLayout, RouteLayout } from "../components";
 import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
 
@@ -39,6 +40,25 @@ const SiteConnections = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">
+						<FormikValueChangeWithErrorField
+							as={ TextField }
+							type="text"
+							name="wpseo.ahrefsverify"
+							id="input-wpseo-ahrefsverify"
+							label={ __( "Ahrefs", "wordpress-seo" ) }
+							description={ addLinkToString(
+								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags, respectively.
+									__( "Get your verification code in %1$sAhrefs%2$s.", "wordpress-seo" ),
+									"<a>",
+									"</a>"
+								),
+								"https://yoa.st/ahrefs-verification-code",
+								"link-ahrefs-webmaster-tools"
+							) }
+							placeholder={ __( "Add verification code", "wordpress-seo" ) }
+							transformValue={ transformContentTag }
+						/>
 						<FormikValueChangeWithErrorField
 							as={ TextField }
 							type="text"

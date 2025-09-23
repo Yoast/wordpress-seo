@@ -64,6 +64,7 @@ jobs:
           - 'analysis-report'
           - 'browserslist-config'
           - 'components'
+          - 'dashboard-frontend'
           - 'feature-flag'
           - 'helpers'
           - 'js'

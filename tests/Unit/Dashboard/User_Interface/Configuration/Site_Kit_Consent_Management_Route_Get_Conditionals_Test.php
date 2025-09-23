@@ -2,6 +2,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Consent_Management_Route;
 
 /**
@@ -18,11 +20,9 @@ final class Site_Kit_Consent_Management_Route_Get_Conditionals_Test extends Abst
 	/**
 	 * Tests the get_conditionals function.
 	 *
-	 * @covers ::get_conditionals
-	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [], Site_Kit_Consent_Management_Route::get_conditionals() );
+		$this->assertEquals( [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ], Site_Kit_Consent_Management_Route::get_conditionals() );
 	}
 }

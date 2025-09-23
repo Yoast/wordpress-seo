@@ -448,6 +448,15 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				"gsc",
 			],
 		},
+		ahrefsverify: {
+			route: "/site-connections",
+			routeLabel: __( "Site connections", "wordpress-seo" ),
+			fieldId: "input-wpseo-ahrefsverify",
+			fieldLabel: __( "Ahrefs", "wordpress-seo" ),
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
+		},
 		msverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
@@ -617,7 +626,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-deny_google_extended_crawling",
-			fieldLabel: __( "Prevent Google Bard and Vertex AI bots from crawling", "wordpress-seo" ),
+			fieldLabel: __( "Prevent Google Gemini and Vertex AI bots from crawling", "wordpress-seo" ),
 			keywords: [ "robots" ],
 		},
 		deny_gptbot_crawling: {
@@ -688,6 +697,17 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-clean_permalinks_extra_variables",
 			fieldLabel: __( "Additional URL parameters to allow", "wordpress-seo" ),
+			keywords: [],
+		},
+		enable_llms_txt: {
+			route: "/llms-txt",
+			routeLabel: __( "llms.txt", "wordpress-seo" ),
+			fieldId: "input-wpseo.enable_llms_txt",
+			fieldLabel: sprintf(
+				// translators: %1$s expands to "llms.txt".
+				__( "Enable %1$s file feature", "wordpress-seo" ),
+				"llms.txt"
+			),
 			keywords: [],
 		},
 	},

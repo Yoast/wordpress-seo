@@ -54,8 +54,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -115,7 +115,7 @@ const expectedResults = {
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. " +
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: There are no paragraphs that are too long. " +
 			"Great job!",
 	},
 	textSentenceLength: {
@@ -146,13 +146,13 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There are no repetitive sentence beginnings. " +
 			"That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes " +
 			"that reflect the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags " +
 			"of relevant images</a>!",
 	},

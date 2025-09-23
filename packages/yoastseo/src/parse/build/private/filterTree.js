@@ -1,6 +1,10 @@
 import { Paragraph } from "../../structure";
 
 /**
+ * @typedef {import("../../structure").Node} Node
+ */
+
+/**
  * Checks if a node should be kept or discarded.
  * @param {Node} 		node 		A node.
  * @param {Function[]} 	filters 	An array of filter callbacks.
