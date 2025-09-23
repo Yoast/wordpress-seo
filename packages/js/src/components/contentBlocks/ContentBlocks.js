@@ -56,7 +56,7 @@ export const ContentBlocks = () => {
 			renderNewBadgeLabel={ renderNewBadgeLabel }
 			className={ "yoast-content-blocks" }
 		>
-			<div className="yst-mt-2 yst-font-normal yst-text-sm">
+			<div className="yst-font-normal yst-text-sm">
 				{ __( "While writing your post, add custom Yoast blocks directly from here to enhance your content.", "wordpress-seo" ) }
 			</div>
 			{

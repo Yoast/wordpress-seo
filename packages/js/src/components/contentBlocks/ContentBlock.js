@@ -1,7 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { CheckIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { useEffect, useMemo, useState } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { Badge, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -26,11 +26,11 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 	} ), [ blockName ] );
 
 	const svgAriaProps = useSvgAria();
-	const showUpsellBadge = useMemo( () => isPremiumBlock && ! isPremium, [ isPremiumBlock, isPremium ] );
+	const showUpsellBadge = isPremiumBlock && ! isPremium;
 	const [ isBlockPresent, setIsBlockPresent ] = useState( false );
 
 	useEffect( () => {
-		// If no block is found, set isBlockAdded to false.
+		// If no block is found, set isBlockPresent to false.
 		if ( addedBlock.length === 0 ) {
 			setIsBlockPresent( false );
 		} else {
