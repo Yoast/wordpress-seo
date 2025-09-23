@@ -67,16 +67,8 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 		setShowTooltip( false );
 	}, [] );
 
-
-	const baseButtonClass = "yst-box-border yst-flex yst-flex-row yst-p-1.5 yst-w-7 yst-h-7 " +
-		"yst-border yst-border-solid yst-border-slate-300 yst-shadow-sm yst-rounded-md";
-	// The background color for the clicked state is the same color as the highlighting button when is clicked.
-	const backgroundClass = isClicked ? "yst-bg-primary-500" : "yst-bg-white";
-	// The check for `! isClicked` is to prevent `hover:yst-bg-slate-50` to override `yst-bg-primary-500` when the button is clicked.
-	// This is because the `hover` class has higher specificity than the normal class.
-	const tooltipClass = showTooltip && ! isClicked ? "hover:yst-bg-slate-50 yoast-tooltip yoast-tooltip-w" : "";
-	const buttonClass = `${baseButtonClass} ${backgroundClass} ${tooltipClass}`;
-	const plusIconClass = isClicked ? "yst-h-4 yst-w-4 yst-stroke-white" : "yst-h-4 yst-w-4";
+	const buttonClass = `yoast-add-block-button${isClicked ? " yoast-add-block-button--clicked" : ""}${showTooltip && ! isClicked ? " yoast-tooltip yoast-tooltip-w" : ""}`;
+	const plusIconClass = `yoast-add-block-button__icon${isClicked ? " yoast-add-block-button__icon--clicked" : ""}`;
 
 	const ariaLabel = showTooltip
 		? __( "Add block to content.", "wordpress-seo" )
