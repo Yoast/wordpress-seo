@@ -203,7 +203,6 @@ Release date: 2025-10-07
 
 #### Enhancements
 
-* Adds a `Pronouns` field to the user profile and includes these pronouns in the Schema.org output. Props to [jdevalk](https://github.com/jdevalk).
 * Improves the UX of the llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
 * Introduces the ability to add a Ahrefs verification code via Yoast settings.
 
