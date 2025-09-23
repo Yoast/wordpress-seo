@@ -197,6 +197,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.1 =
+
+Release date: 2025-10-07
+
+#### Enhancements
+
+* Adds a `Pronouns` field to the user profile and includes these pronouns in the Schema.org output. Props to [jdevalk](https://github.com/jdevalk).
+* Improves the UX of the llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
+* Introduces the ability to add a Ahrefs verification code via Yoast settings.
+
+#### Bugfixes
+
+* Fixes a bug where the llm.txt opt-in would hide behind the WordPress sidebar when on RTL language.
+
+#### Other
+
+* Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
+* Lets users know about the new `Yoast AI+` plan and relative features.
+* Updates the `Site features` page to include icons instead of images.
+
 = 26.0 =
 
 Release date: 2025-09-23
@@ -217,21 +237,6 @@ Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information abo
 * Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
 * Allow changing the main image ID through a filter `wpseo_schema_main_image_id`. Props to [@JoryHogeveen](https://github.com/JoryHogeveen).
 * Ensures compatibility with the recent Wincher API changes.
-
-= 25.9 =
-
-Release date: 2025-09-09
-
-Yoast SEO 25.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Improves the UX of the llms.txt feature by displaying errors with generating the llms.txt file in the relevant settings page.
-* Improves the UX of onboarding new users by preventing irrelevant modals from displaying in the First Time Configuration.
-
-#### Other
-
-* Updates the copy of the consent modal for using the Yoast AI features.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
