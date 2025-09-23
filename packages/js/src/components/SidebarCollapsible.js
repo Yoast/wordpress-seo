@@ -63,7 +63,7 @@ const SidebarCollapsible = ( {
 					<>
 						<span className="yoast-title-container">
 							<div className="yoast-title">{ title }</div>
-							<div className="yoast-subtitle">{ subTitle }</div>
+							{ subTitle && <div className="yoast-subtitle">{ subTitle }</div> }
 						</span>
 						{ hasBetaBadgeLabel && <BetaBadge /> }
 					</>
@@ -72,7 +72,7 @@ const SidebarCollapsible = ( {
 					<div className="yst-flex-grow yst-flex yst-items-center yst-gap-2">
 						<span className="yst-overflow-x-hidden yst-leading-normal">
 							<div className="yoast-title">{ title }</div>
-							<div className="yoast-subtitle">{ subTitle }</div>
+							{ subTitle && <div className="yoast-subtitle">{ subTitle }</div> }
 						</span>
 						{ renderNewBadgeLabel() }
 					</div>
