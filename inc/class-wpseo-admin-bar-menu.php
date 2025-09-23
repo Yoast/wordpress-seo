@@ -289,9 +289,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$this->add_network_settings_submenu( $wp_admin_bar );
 		}
 
-		if ( ! $this->product_helper->is_premium() ) {
-			$this->add_premium_link( $wp_admin_bar );
-		}
+		$this->add_premium_link( $wp_admin_bar );
 	}
 
 	/**
@@ -591,13 +589,22 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
 		$link            = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
-		if ( $has_woocommerce ) {
+		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
+
+		if ( $this->product_helper->is_premium() ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-ai-insights' );
+		}
+		elseif ( $has_woocommerce ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
 		}
 
 		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
+		$badge        = '';
+		if ( $this->product_helper->is_premium() ) {
+			$badge = '<div id="wpseo-new-badge-upgrade">' . __( 'New', 'wordpress-seo' ) . '</div>';
+		}
+
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
 		}
@@ -607,9 +614,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-get-premium',
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
-					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>',
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>%3$s',
 					esc_url( $link ),
 					$button_label,
+					$badge,
 				),
 				'meta'   => [
 					'tabindex' => '0',

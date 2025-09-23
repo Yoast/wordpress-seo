@@ -106,20 +106,6 @@ class Elementor implements Integration_Interface {
 	protected $promotion_manager;
 
 	/**
-	 * Whether the insights feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_insights_enabled;
-
-	/**
-	 * Whether the cornerstone content feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_cornerstone_enabled;
-
-	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -152,8 +138,6 @@ class Elementor implements Integration_Interface {
 		$this->inclusive_language_analysis  = new WPSEO_Metabox_Analysis_Inclusive_Language();
 		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
-		$this->is_insights_enabled          = $this->options->get( 'enable_metabox_insights', false );
-		$this->is_cornerstone_enabled       = $this->options->get( 'enable_cornerstone_content', false );
 	}
 
 	/**
@@ -456,9 +440,6 @@ class Elementor implements Integration_Interface {
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
-		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
-			$this->asset_manager->enqueue_user_language_script();
-		}
 	}
 
 	/**

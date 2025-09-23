@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '26.0-RC2' );
+define( 'WPSEO_VERSION', '26.0' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -340,7 +340,17 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1, [ 'wpseo' ] ), WPSEO_VERSION, '<' ) ) {
-		if ( function_exists( 'opcache_reset' ) ) {
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\should_invalidate_opcache' - Allow developers to enable / disable
+		 * opcache invalidation upon upgrade of the Yoast SEO plugin.
+		 *
+		 * @since 26.1
+		 *
+		 * @param bool $should_invalidate Whether opcache should be invalidated.
+		 */
+		$should_invalidate_opcache = (bool) apply_filters( 'Yoast\WP\SEO\should_invalidate_opcache', true );
+		if ( $should_invalidate_opcache && function_exists( 'opcache_reset' ) ) {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}
