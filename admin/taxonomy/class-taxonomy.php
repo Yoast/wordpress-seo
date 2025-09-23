@@ -42,20 +42,6 @@ class WPSEO_Taxonomy {
 	private $analysis_inclusive_language;
 
 	/**
-	 * Whether the insights feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_insights_enabled;
-
-	/**
-	 * Whether the cornerstone content feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_cornerstone_enabled;
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -71,8 +57,6 @@ class WPSEO_Taxonomy {
 		$this->analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
 		$this->analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->is_insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false, [ 'wpseo' ] );
-		$this->is_cornerstone_enabled      = WPSEO_Options::get( 'enable_cornerstone_content', false, [ 'wpseo' ] );
 	}
 
 	/**
