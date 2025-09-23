@@ -122,17 +122,6 @@ describe( "ContentBlocks", () => {
 			);
 		} );
 
-		it( "sets correct className", () => {
-			useContext.mockReturnValue( "sidebar" );
-
-			render( <ContentBlocks /> );
-
-			expect( screen.getByTestId( "sidebar-collapsible" ) ).toHaveAttribute(
-				"data-class",
-				"yoast-content-blocks"
-			);
-		} );
-
 		it( "sets hasNewBadgeLabel to true", () => {
 			useContext.mockReturnValue( "sidebar" );
 
@@ -242,7 +231,7 @@ describe( "ContentBlocks", () => {
 
 			const description = screen.getByText( "While writing your post, add custom Yoast blocks directly from here to enhance your content." );
 			expect( description ).toBeInTheDocument();
-			expect( description ).toHaveClass( "yst-mt-2", "yst-font-normal", "yst-text-sm" );
+			expect( description ).toHaveClass( "yst-font-normal", "yst-text-sm" );
 		} );
 	} );
 } );

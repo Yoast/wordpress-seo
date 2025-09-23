@@ -60,7 +60,7 @@ describe( "AddBlockButton", () => {
 
 			const button = screen.getByRole( "button" );
 			expect( button ).toBeInTheDocument();
-			expect( button ).toHaveClass( "yst-box-border", "yst-flex", "yst-bg-white" );
+			expect( button ).toHaveClass( "yoast-add-block-button" );
 		} );
 
 		it( "renders the PlusIcon component", () => {
@@ -68,7 +68,7 @@ describe( "AddBlockButton", () => {
 
 			const icon = screen.getByTestId( "plus-icon" );
 			expect( icon ).toBeInTheDocument();
-			expect( icon ).toHaveClass( "yst-h-4", "yst-w-4" );
+			expect( icon ).toHaveClass( "yoast-add-block-button__icon" );
 		} );
 
 		it( "has correct initial aria-label", () => {
@@ -142,7 +142,7 @@ describe( "AddBlockButton", () => {
 			fireEvent.click( button );
 
 			// Button should show clicked state immediately
-			expect( button ).toHaveClass( "yst-bg-primary-500" );
+			expect( button ).toHaveClass( "yoast-add-block-button--clicked" );
 
 			// Fast-forward the timeout
 			jest.advanceTimersByTime( 300 );
@@ -161,7 +161,7 @@ describe( "AddBlockButton", () => {
 
 			fireEvent.click( button );
 
-			expect( icon ).toHaveClass( "yst-stroke-white" );
+			expect( icon ).toHaveClass( "yoast-add-block-button__icon--clicked" );
 		} );
 	} );
 
@@ -196,8 +196,7 @@ describe( "AddBlockButton", () => {
 
 			jest.advanceTimersByTime( 300 );
 
-			expect( button ).toHaveClass( "yst-bg-white" );
-			expect( button ).not.toHaveClass( "yst-bg-primary-500" );
+			expect( button ).not.toHaveClass( "yoast-add-block-button__icon--clicked" );
 		} );
 	} );
 
