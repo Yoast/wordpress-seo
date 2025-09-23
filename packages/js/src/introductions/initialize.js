@@ -9,6 +9,7 @@ import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from 
 import { Introduction, IntroductionProvider } from "./components";
 import { AiBrandInsightsPreLaunch } from "./components/modals/ai-brand-insights-pre-launch";
 import { BlackFridayAnnouncement } from "./components/modals/black-friday-announcement";
+import { DelayedPremiumUpsell } from "./components/modals/delayed-premium-upsell";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -23,6 +24,7 @@ domReady( () => {
 	const initialComponents = {
 		"ai-brand-insights-pre-launch": AiBrandInsightsPreLaunch,
 		"black-friday-announcement": BlackFridayAnnouncement,
+		"delayed-premium-upsell": DelayedPremiumUpsell,
 	};
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {

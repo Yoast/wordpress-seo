@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { SvgIcon, UpsellLinkButton } from "@yoast/components";
 import { getDirectionalStyle as getRtlStyle, makeOutboundLink } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
-import { SvgIcon, UpsellLinkButton } from "@yoast/components";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };
@@ -35,16 +35,12 @@ const OutboundLinkButton = makeOutboundLink( UpsellLinkButton );
 /**
  * Renders the AnalysisUpsell component.
  *
- * @param {Object} props The component's props.
+ * @param {"horizontal"|"vertical"} [alignment="vertical"] The layout alignment.
+ * @param {string} url The upsell URL.
  *
- * @returns {wp.Element} The rendered AnalysisUpsell component.
+ * @returns {JSX.Element} The rendered AnalysisUpsell component.
  */
-const AnalysisUpsell = ( props ) => {
-	const {
-		alignment,
-		url,
-	} = props;
-
+const AnalysisUpsell = ( { alignment = "vertical", url } ) => {
 	return (
 		<Container alignment={ alignment }>
 			<TextContainer>
@@ -75,10 +71,6 @@ const AnalysisUpsell = ( props ) => {
 AnalysisUpsell.propTypes = {
 	alignment: PropTypes.oneOf( [ "horizontal", "vertical" ] ),
 	url: PropTypes.string.isRequired,
-};
-
-AnalysisUpsell.defaultProps = {
-	alignment: "vertical",
 };
 
 export default AnalysisUpsell;
