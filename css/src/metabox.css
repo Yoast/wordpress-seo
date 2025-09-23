@@ -709,7 +709,8 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
   background-color: var(--yoast-color-primary);
 }
 
-.yoast-add-block-button:hover:not(.yoast-add-block-button--clicked) {
+.yoast-add-block-button:hover:not(.yoast-add-block-button--clicked),
+.yoast-add-block-button:focus:not(.yoast-add-block-button--clicked) {
   background-color: #F8FAFC;
 }
 

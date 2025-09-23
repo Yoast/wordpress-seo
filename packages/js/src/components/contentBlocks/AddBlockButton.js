@@ -59,11 +59,11 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 		}
 	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks ] );
 
-	const handleMouseEnter = useCallback( () => {
+	const handleFocusAndMouseEnter = useCallback( () => {
 		setShowTooltip( true );
 	}, [] );
 
-	const handleMouseLeave = useCallback( () => {
+	const handleBlurAndMouseLeave = useCallback( () => {
 		setShowTooltip( false );
 	}, [] );
 
@@ -79,8 +79,10 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 			className={ buttonClass }
 			aria-label={ ariaLabel }
 			onClick={ handleButtonClick }
-			onMouseEnter={ handleMouseEnter }
-			onMouseLeave={ handleMouseLeave }
+			onMouseEnter={ handleFocusAndMouseEnter }
+			onMouseLeave={ handleBlurAndMouseLeave }
+			onFocus={ handleFocusAndMouseEnter }
+			onBlur={ handleBlurAndMouseLeave }
 		>
 			<PlusIcon className={ plusIconClass } />
 		</button>
