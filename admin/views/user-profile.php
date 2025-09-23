@@ -32,10 +32,6 @@ $wpseo_no_index_author_label = sprintf(
 		class="yoast-settings__textarea yoast-settings__textarea--medium"
 		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea><br>
 
-	<label for="wpseo_author_pronouns"><?php esc_html_e( 'Pronouns to use', 'wordpress-seo' ); ?></label>
-	<input id="wpseo_author_pronouns" class="yoast-settings__text regular-text" name="wpseo_author_pronouns"
-		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_pronouns', $user->ID ) ); ?>" /><br>
-
 	<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_noindex_author"
 		name="wpseo_noindex_author"
 		value="on" <?php echo ( get_the_author_meta( 'wpseo_noindex_author', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
