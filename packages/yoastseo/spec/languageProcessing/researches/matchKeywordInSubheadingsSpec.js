@@ -197,4 +197,3 @@ describe( "Matching keyphrase in subheadings with custom helper to match word in
 		expect( result.textLength ).toBe( 205 );
 	} );
 } );
-
