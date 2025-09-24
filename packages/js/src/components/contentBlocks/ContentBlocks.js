@@ -29,8 +29,22 @@ export const ContentBlocks = () => {
 	const location = useContext( LocationContext );
 	const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
 
+	/*
+	 * Check if the AI feature is enabled.
+	 * It's a conscious decision not to use getIsAiFeatureEnabled selector here.
+	 * This is because that selector depends on the Premium store.
+	 * In this component we also want to know if the AI feature is enabled for Free users.
+	 * The window.wpseoAiGenerator global is set in both Free and Premium.
+	 */
+	const isAIFeatureEnabled = !! window.wpseoAiGenerator;
+	const premiumBlocks = isAIFeatureEnabled
+		? PREMIUM_CONTENT_BLOCKS
+		: PREMIUM_CONTENT_BLOCKS.filter(
+			block => block.name !== "yoast-seo/ai-summarize"
+		);
+
 	// Render the premium blocks first.
-	const allContentBlocks = PREMIUM_CONTENT_BLOCKS.concat( CONTENT_BLOCKS );
+	const allContentBlocks = premiumBlocks.concat( CONTENT_BLOCKS );
 
 	/*
 	 * The MetaboxCollapsible is using Collapsible from the old @yoast/components package,
