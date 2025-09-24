@@ -196,17 +196,22 @@
 }
 
 #wpseo-new-badge-upgrade {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	white-space: nowrap;
-	margin: 0.125rem 0.5rem;
-	width: 2.375rem;
-	height: 1rem;
-	border-radius: 18px;
-	background-color: #bfdbfe;
-	color: #1e40af;
-	font-size: 0.625rem;
-	font-weight: 600;
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
 }
 /*# sourceMappingURL=adminbar.css.map */
