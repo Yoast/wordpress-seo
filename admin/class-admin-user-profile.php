@@ -70,21 +70,4 @@ class WPSEO_Admin_User_Profile {
 		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $wpseo_keyword_analysis_disable );
 		update_user_meta( $user_id, 'wpseo_inclusive_language_analysis_disable', $wpseo_inclusive_language_analysis_disable );
 	}
-
-	/**
-	 * Add the inputs needed for SEO values to the User Profile page.
-	 *
-	 * @deprecated 23.4
-	 * @codeCoverageIgnore
-	 *
-	 * @param WP_User $user User instance to output for.
-	 *
-	 * @return void
-	 */
-	public function user_profile( $user ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 23.4' );
-		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
-
-		require_once WPSEO_PATH . 'admin/views/user-profile.php';
-	}
 }
