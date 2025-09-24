@@ -57,4 +57,16 @@
 		width: 17px;
 		height: 17px;
 	}
+
+	.yst-ai-insights-waitlist-button {
+		background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
+		color: white !important;
+
+		&:hover {
+			background-image: linear-gradient(97deg, #8F0F57 0%, #4338CA 100%) !important;
+		}
+		&:focus {
+			outline-color: #a61e69 !important;
+		}
+	}
 }
