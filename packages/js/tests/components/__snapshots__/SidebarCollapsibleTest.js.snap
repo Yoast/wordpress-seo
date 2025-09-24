@@ -23,9 +23,6 @@ exports[`SidebarCollapsible is closed 1`] = `
           >
             Test title
           </div>
-          <div
-            class="yoast-subtitle"
-          />
         </span>
         <span
           aria-hidden="true"
@@ -60,9 +57,6 @@ exports[`SidebarCollapsible is opened 1`] = `
           >
             Test title
           </div>
-          <div
-            class="yoast-subtitle"
-          />
         </span>
         <span
           aria-hidden="true"
