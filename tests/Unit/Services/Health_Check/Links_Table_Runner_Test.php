@@ -56,7 +56,6 @@ final class Links_Table_Runner_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
-	 * @covers ::should_run
 	 *
 	 * @return void
 	 */
@@ -82,7 +81,6 @@ final class Links_Table_Runner_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
-	 * @covers ::should_run
 	 *
 	 * @return void
 	 */

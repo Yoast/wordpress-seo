@@ -576,9 +576,11 @@ class Indexable_Link_Builder {
 		/**
 		 * Fires to signal that incoming link counts for related indexables were updated.
 		 *
+		 * @param int[] $related_indexable_ids The related indexable Ids to this link change.
+		 *
 		 * @internal
 		 */
-		\do_action( 'wpseo_related_indexables_incoming_links_updated' );
+		\do_action( 'wpseo_related_indexables_incoming_links_updated', $related_indexable_ids );
 
 		foreach ( $counts as $count ) {
 			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );

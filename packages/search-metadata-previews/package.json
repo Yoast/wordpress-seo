@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/javascript.git",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/search-metadata-previews"
   },
   "author": "Team Yoast",
@@ -17,23 +17,24 @@
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
-    "watch": "yarn build:js --watch",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=7",
     "test": "jest",
-    "lint": "eslint . --max-warnings=7"
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "dependencies": {
-    "@wordpress/a11y": "^1.0.7",
-    "@wordpress/i18n": "^1.1.0",
+    "@wordpress/a11y": "^4.8.2",
+    "@wordpress/i18n": "^5.8.2",
+    "@wordpress/element": "^6.8.1",
     "@yoast/components": "^3.0.0-alpha.2",
     "@yoast/helpers": "^0.17.0-alpha.1",
     "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
     "@yoast/style-guide": "^0.14.0-alpha.0",
-    "interpolate-components": "^1.1.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
     "yoastseo": "^3.3.0"

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* External dependencies */
 import { ChartBarIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback } from "@wordpress/element";
@@ -26,13 +27,14 @@ const StyledHeroIcon = styled( ChartBarIcon )`
 /**
  * Handles the click event on the "Track SEO performance" button.
  *
- * @param {Object} props The props to use.
+ * @param {Array} keyphrases The keyphrases array.
+ * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {function}  onOpen Callback to open the modal.
+ * @param {string} location The location identifier.
  *
  * @returns {void}
  */
-function openModal( props ) {
-	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
-
+function openModal( { keyphrases, onNoKeyphraseSet, onOpen, location } ) {
 	if ( ! keyphrases.length ) {
 		// This is fragile, should replace with a real React ref.
 		let input = document.querySelector( "#focus-keyword-input-metabox" );
@@ -53,16 +55,28 @@ function openModal( props ) {
 /**
  * The WincherSEOPerformanceModal modal.
  *
- * @param {Object} props The props to use.
+ * @param {string} [location=""] The location identifier.
+ * @param {"none"|"metabox"|"sidebar"|"postpublish"} [whichModalOpen="none"] Which modal is open.
+ * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
+ * @param {Array} keyphrases The keyphrases array.
+ * @param {function}  onNoKeyphraseSet Callback when no keyphrase is set.
+ * @param {function}  onOpen Callback to open the modal.
+ * @param {function}  onClose Callback to close the modal.
  *
- * @returns {wp.Element} The WincherSEOPerformanceModal.
+ * @returns {JSX.Element}
  */
-export default function WincherSEOPerformanceModal( props ) {
-	const { location, whichModalOpen, shouldCloseOnClickOutside } = props;
-
+export default function WincherSEOPerformanceModal( {
+	location = "",
+	whichModalOpen = "none",
+	shouldCloseOnClickOutside = true,
+	keyphrases,
+	onNoKeyphraseSet,
+	onOpen,
+	onClose,
+} ) {
 	const onModalOpen = useCallback( () => {
-		openModal( props );
-	}, [ openModal, props ] );
+		openModal( { keyphrases, onNoKeyphraseSet, onOpen, location } );
+	}, [ openModal, keyphrases, onNoKeyphraseSet, onOpen, location ] );
 
 	const title = __( "Track SEO performance", "wordpress-seo" );
 
@@ -73,7 +87,7 @@ export default function WincherSEOPerformanceModal( props ) {
 			{ whichModalOpen === location &&
 			<Modal
 				title={ title }
-				onRequestClose={ props.onClose }
+				onRequestClose={ onClose }
 				icon={ <YoastIcon /> }
 				additionalClassName="yoast-wincher-seo-performance-modal yoast-gutenberg-modal__no-padding"
 				shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
@@ -123,10 +137,4 @@ WincherSEOPerformanceModal.propTypes = {
 	onNoKeyphraseSet: PropTypes.func.isRequired,
 	onOpen: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
-};
-
-WincherSEOPerformanceModal.defaultProps = {
-	location: "",
-	whichModalOpen: "none",
-	shouldCloseOnClickOutside: true,
 };

@@ -59,6 +59,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		$arguments = $this->get_arguments( $is_woocommerce_active );
 
+		$header_class   = ( $is_woocommerce_active ) ? 'woo-header' : '';
 		$arguments_html = implode( '', array_map( [ $this, 'get_argument_html' ], $arguments ) );
 
 		$class = $this->get_html_class();
@@ -78,7 +79,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		echo '<div class="' . esc_attr( $class ) . '">';
 
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$bf_label   = esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
 			$sale_label = esc_html__( '30% OFF', 'wordpress-seo' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.
@@ -87,7 +88,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		echo '<div class="' . esc_attr( $class . '--container' ) . '">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in get_header() method.
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . $header_text . $header_icon . '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . ' ' . esc_attr( $header_class ) . ' ">' . $header_text . $header_icon . '</h2>';
 
 		echo '<span class="' . esc_attr( $class . '--subheader' ) . '">'
 			. esc_html__( 'Now includes Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' )
@@ -197,8 +198,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return string The button text.
 	 */
 	private function get_button_text( bool $is_woocommerce_active ): string {
-		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
-			return esc_html__( 'Upgrade now', 'wordpress-seo' );
+		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
+			return esc_html__( 'Get 30% off now!', 'wordpress-seo' );
 		}
 		else {
 			// phpcs:disable Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine -- needed to add translators comments.

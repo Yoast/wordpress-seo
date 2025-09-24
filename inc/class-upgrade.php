@@ -151,6 +151,8 @@ class WPSEO_Upgrade {
 	protected function finish_up( $previous_version = null ) {
 		if ( $previous_version ) {
 			WPSEO_Options::set( 'previous_version', $previous_version, 'wpseo' );
+			// Store timestamp when plugin is updated from a previous version.
+			WPSEO_Options::set( 'last_updated_on', time(), 'wpseo' );
 		}
 		WPSEO_Options::set( 'version', WPSEO_VERSION, 'wpseo' );
 

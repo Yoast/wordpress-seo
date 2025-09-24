@@ -16,12 +16,15 @@ import { FormikValueChangeField } from "../../shared-admin/components/form";
  * @param {string} name The field name.
  * @param {string} cardId The card ID.
  * @param {string} inputId The input ID.
+ * @param {React.ReactNode} children The card content.
  * @param {string} imageSrc The image src, will get prefixed with the plugin URL.
- * @param {string} imageAlt The image alt text.
- * @param {JSX.node} children The card content.
- * @param {boolean} isPremiumFeature Whether this card is for a premium feature.
- * @param {boolean}  isBetaFeature Whether this card is for a beta feature.
- * @param {string} isPremiumLink The link to use for the upsell. Required for premium features.
+ * @param {string} [imageAlt] The image alt text.
+ * @param {boolean} [isPremiumFeature] Whether this card is for a premium feature.
+ * @param {string} [isPremiumLink] The link to use for the upsell. Required for premium features.
+ * @param {boolean} [isBetaFeature] Whether this card is for a beta feature.
+ * @param {boolean} [isNewFeature] Whether this card is for a new feature.
+ * @param {boolean} [hasPremiumBadge] Whether this card has a premium badge.
+ * @param {string} title The card title.
  * @returns {JSX.Element} The card.
  */
 const FeatureCard = ( {
@@ -30,7 +33,7 @@ const FeatureCard = ( {
 	inputId,
 	children,
 	imageSrc: rawImageSrc,
-	imageAlt,
+	imageAlt = "",
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	isBetaFeature = false,
@@ -55,16 +58,16 @@ const FeatureCard = ( {
 
 	return (
 		<Card id={ cardId }>
-			<Card.Header className="yst-h-auto yst-p-0">
+			<Card.Header className="yst-h-auto yst-p-0 yst-justify-start yst-m-0 yst-bg-white">
 				<img
 					className={ classNames(
-						"yst-w-full yst-transition yst-duration-200",
+						"yst-transition yst-duration-200",
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
-					alt={ imageAlt ?? "" }
-					width={ 500 }
-					height={ 250 }
+					alt={ imageAlt }
+					width={ 42 }
+					height={ 42 }
 					loading="lazy"
 					decoding="async"
 				/>
@@ -132,7 +135,9 @@ FeatureCard.propTypes = {
 
 /**
  * @param {string} id The ID.
- * @param {string} href The link.
+ * @param {string} link The link URL.
+ * @param {string} ariaLabel The aria label for the link a11y.
+ * @param {...Object} [props] Additional props.
  * @returns {JSX.Element} The learn more link.
  */
 const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
@@ -198,6 +203,51 @@ const SiteFeatures = () => {
 			<FormLayout>
 				<div className="yst-max-w-6xl">
 					<fieldset className="yst-min-w-0">
+						<legend className="yst-sr-only">{ __( "AI tools", "wordpress-seo" ) }</legend>
+						<div className="yst-max-w-screen-sm yst-mb-8">
+							<Title as="h2" size="2">
+								{ __( "AI tools", "wordpress-seo" ) }
+							</Title>
+						</div>
+						<div className={ gridClassNames }>
+							<FeatureCard
+								name="wpseo.enable_ai_generator"
+								cardId="card-wpseo-enable_ai_generator"
+								inputId="input-wpseo-enable_ai_generator"
+								imageSrc="/images/icon-sparkles.svg"
+								isPremiumFeature={ false }
+								hasPremiumBadge={ false }
+								isPremiumLink="https://yoa.st/get-ai-generator"
+								title={ "Yoast AI" }
+							>
+								<p>{ __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
+								name="wpseo.enable_llms_txt"
+								cardId="card-wpseo-enable_llms_txt"
+								inputId="input-wpseo-enable_llms_txt"
+								imageSrc="/images/icon-llms-txt.svg"
+								title={ __( "llms.txt", "wordpress-seo" ) }
+							>
+								<p>{ __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ) }</p>
+								<Button
+									onClick={ handleLlmsTxtNavigate }
+									id="link-llms"
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
+									{ __( "Customize llms.txt file", "wordpress-seo" ) }
+									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+								</Button>
+								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
+							</FeatureCard>
+						</div>
+					</fieldset>
+					<hr className="yst-my-8" />
+					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Writing", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
 							<Title as="h2" size="2">
@@ -209,7 +259,7 @@ const SiteFeatures = () => {
 								name="wpseo.keyword_analysis_active"
 								cardId="card-wpseo-keyword_analysis_active"
 								inputId="input-wpseo-keyword_analysis_active"
-								imageSrc="/images/seo_analysis.png"
+								imageSrc="/images/icon-seo-analysis.svg"
 								title={ __( "SEO analysis", "wordpress-seo" ) }
 							>
 								<p>{ __( "The SEO analysis offers suggestions to improve the findability of your text and makes sure that your content meets best practices.", "wordpress-seo" ) }</p>
@@ -219,7 +269,7 @@ const SiteFeatures = () => {
 								name="wpseo.content_analysis_active"
 								cardId="card-wpseo-content_analysis_active"
 								inputId="input-wpseo-content_analysis_active"
-								imageSrc="/images/readability_analysis.png"
+								imageSrc="/images/icon-readability-analysis.svg"
 								title={ __( "Readability analysis", "wordpress-seo" ) }
 							>
 								<p>{ __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ) }</p>
@@ -229,31 +279,17 @@ const SiteFeatures = () => {
 								name="wpseo.inclusive_language_analysis_active"
 								cardId="card-wpseo-inclusive_language_analysis_active"
 								inputId="input-wpseo-inclusive_language_analysis_active"
-								imageSrc="/images/inclusive_language_analysis.png"
+								imageSrc="/images/icon-inclusive-language-analysis.svg"
 								title={ __( "Inclusive language analysis", "wordpress-seo" ) }
 							>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-feature-learn-more" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
-								name="wpseo.enable_ai_generator"
-								cardId="card-wpseo-enable_ai_generator"
-								inputId="input-wpseo-enable_ai_generator"
-								imageSrc="/images/ai-generator.png"
-								isPremiumFeature={ false }
-								hasPremiumBadge={ false }
-								isBetaFeature={ true }
-								isPremiumLink="https://yoa.st/get-ai-generator"
-								title={ "Yoast AI" }
-							>
-								<p>{ __( "The AI features help you create better content by providing optimization suggestions that you can apply as you wish.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-ai-generator" link="https://yoa.st/ai-generator-feature" ariaLabel={ __( "AI title & description generator", "wordpress-seo" ) } />
-							</FeatureCard>
-							<FeatureCard
 								name="wpseo.enable_metabox_insights"
 								cardId="card-wpseo-enable_metabox_insights"
 								inputId="input-wpseo-enable_metabox_insights"
-								imageSrc="/images/insights.png"
+								imageSrc="/images/icon-insights.svg"
 								title={ __( "Insights", "wordpress-seo" ) }
 							>
 								<p>{ __( "Get more insights into what you are writing. What words do you use most often? How much time does it take to read your text? Is your text easy to read?", "wordpress-seo" ) }</p>
@@ -272,7 +308,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_cornerstone_content"
 								cardId="card-wpseo-enable_cornerstone_content"
 								inputId="input-wpseo-enable_cornerstone_content"
-								imageSrc="/images/cornerstone_content.png"
+								imageSrc="/images/icon-cornerstone-content.svg"
 								title={ __( "Cornerstone content", "wordpress-seo" ) }
 							>
 								<p>{ __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve. To help you write excellent copy, we’ll assess your text more strictly.", "wordpress-seo" ) }</p>
@@ -282,7 +318,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_text_link_counter"
 								cardId="card-wpseo-enable_text_link_counter"
 								inputId="input-wpseo-enable_text_link_counter"
-								imageSrc="/images/text_link_counter.png"
+								imageSrc="/images/icon-text-link-counter.svg"
 								title={ __( "Text link counter", "wordpress-seo" ) }
 							>
 								<p>{ __( "Count the number of internal links from and to your posts to improve your site structure.", "wordpress-seo" ) }</p>
@@ -292,7 +328,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_link_suggestions"
 								cardId="card-wpseo-enable_link_suggestions"
 								inputId="input-wpseo-enable_link_suggestions"
-								imageSrc="/images/link_suggestions.png"
+								imageSrc="/images/icon-internal-linking-suggestions.svg"
 								isPremiumFeature={ true }
 								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
@@ -314,7 +350,7 @@ const SiteFeatures = () => {
 								name="wpseo_social.opengraph"
 								cardId="card-wpseo_social-opengraph"
 								inputId="input-wpseo_social-opengraph"
-								imageSrc="/images/open_graph.png"
+								imageSrc="/images/icon-open-graph.svg"
 								title={ __( "Open Graph data", "wordpress-seo" ) }
 							>
 								<p>
@@ -326,7 +362,7 @@ const SiteFeatures = () => {
 								name="wpseo_social.twitter"
 								cardId="card-wpseo_social-twitter"
 								inputId="input-wpseo_social-twitter"
-								imageSrc="/images/twitter_card.png"
+								imageSrc="/images/icon-x-card-data.svg"
 								title={ __( "X card data", "wordpress-seo" ) }
 							>
 								<p>{ __( "Allows for X to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
@@ -336,7 +372,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_enhanced_slack_sharing"
 								cardId="card-wpseo-enable_enhanced_slack_sharing"
 								inputId="input-wpseo-enable_enhanced_slack_sharing"
-								imageSrc="/images/slack_sharing.png"
+								imageSrc="/images/icon-slack-sharing.svg"
 								title={ __( "Slack sharing", "wordpress-seo" ) }
 							>
 								<p>{ __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ) }</p>
@@ -355,7 +391,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_admin_bar_menu"
 								cardId="card-wpseo-enable_admin_bar_menu"
 								inputId="input-wpseo-enable_admin_bar_menu"
-								imageSrc="/images/admin_bar.png"
+								imageSrc="/images/icon-admin-bar.svg"
 								title={ __( "Admin bar menu", "wordpress-seo" ) }
 							>
 								<p>
@@ -380,7 +416,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_headless_rest_endpoints"
 								cardId="card-wpseo-enable_headless_rest_endpoints"
 								inputId="input-wpseo-enable_headless_rest_endpoints"
-								imageSrc="/images/rest_api.png"
+								imageSrc="/images/icon-rest-api-endpoint.svg"
 								title={ __( "REST API endpoint", "wordpress-seo" ) }
 							>
 								<p>{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }</p>
@@ -390,7 +426,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_xml_sitemap"
 								cardId="card-wpseo-enable_xml_sitemap"
 								inputId="input-wpseo-enable_xml_sitemap"
-								imageSrc="/images/xml_sitemaps.png"
+								imageSrc="/images/icon-xml-sitemaps.svg"
 								title={ __( "XML sitemaps", "wordpress-seo" ) }
 							>
 								<p>
@@ -418,7 +454,7 @@ const SiteFeatures = () => {
 								name="wpseo.enable_index_now"
 								cardId="card-wpseo-enable_index_now"
 								inputId="input-wpseo-enable_index_now"
-								imageSrc="/images/indexnow.png"
+								imageSrc="/images/icon-index-now.svg"
 								isPremiumFeature={ true }
 								hasPremiumBadge={ true }
 								isPremiumLink="https://yoa.st/get-indexnow"
@@ -427,27 +463,7 @@ const SiteFeatures = () => {
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
 							</FeatureCard>
-							<FeatureCard
-								name="wpseo.enable_llms_txt"
-								cardId="card-wpseo-enable_llms_txt"
-								inputId="input-wpseo-enable_llms_txt"
-								imageSrc="/images/llms.png"
-								title={ __( "llms.txt", "wordpress-seo" ) }
-							>
-								<p>{ __( "Generate a file that points to your website's most relevant content. Designed to help AI Assistants understand your website better.", "wordpress-seo" ) }</p>
-								<Button
-									onClick={ handleLlmsTxtNavigate }
-									id="link-llms"
-									variant="secondary"
-									target="_blank"
-									rel="noopener"
-									className="yst-self-start"
-								>
-									{ __( "Customize llms.txt file", "wordpress-seo" ) }
-									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
-								</Button>
-								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
-							</FeatureCard>
+
 						</div>
 					</fieldset>
 				</div>

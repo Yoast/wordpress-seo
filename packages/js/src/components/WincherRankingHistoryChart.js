@@ -164,7 +164,7 @@ export default function WincherRankingHistoryChart( { datasets, isChartShown, ke
 							precision: 0,
 							color: "black",
 						},
-						max: 101,
+						max: 31,
 					},
 				},
 			} }

@@ -8,6 +8,7 @@ import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { noop } from "lodash";
 
 /**
  * Redirects component.
@@ -72,8 +73,10 @@ export const Redirects = () => {
 								id="yst-input-type-redirect"
 								label={ __( "Redirect Type", "wordpress-seo" ) }
 								className="yst-max-w-sm"
-								options={ [ { value: 301, label: __( "301 Moved Permatently", "wordpress-seo" ) } ] }
+								options={ [ { value: 301, label: __( "301 Moved Permanently", "wordpress-seo" ) } ] }
 								disabled={ true }
+								value={ false }
+								onChange={ noop }
 							/>
 							<div className="yst-text-field__description">
 								{ redirectTypeDescription }
@@ -86,6 +89,7 @@ export const Redirects = () => {
 							id="yst-input-origin-redirect"
 							label={ __( "Old URL", "wordpress-seo" ) }
 							disabled={ true }
+							onChange={ noop }
 						/>
 						<TextField
 							type="text"
@@ -93,6 +97,7 @@ export const Redirects = () => {
 							id="yst-input-target-redirect"
 							label={ __( "New URL", "wordpress-seo" ) }
 							disabled={ true }
+							onChange={ noop }
 						/>
 					</div>
 					<Button
@@ -119,6 +124,8 @@ export const Redirects = () => {
 								className="yst-w-full"
 								label={ __( "Filter Redirect type", "wordpress-seo" ) }
 								disabled={ true }
+								value={ false }
+								onChange={ noop }
 							/>
 						</div>
 					</div>
@@ -127,8 +134,11 @@ export const Redirects = () => {
 							<Table.Row>
 								<Table.Header className="yst-w-4">
 									<Checkbox
+										id="yst-select-all-redirects"
+										name="selectAllRedirects"
 										aria-label={ __( "Select all", "wordpress-seo" ) }
 										disabled={ true }
+										value="dummy-value"
 									/>
 								</Table.Header>
 								<Table.Header className="yst-w-32">
@@ -147,10 +157,10 @@ export const Redirects = () => {
 
 						<Table.Body>
 							<Table.Row>
-								<Table.Cell />
-								<Table.Cell />
+								<Table.Cell><></></Table.Cell>
+								<Table.Cell><></></Table.Cell>
 								<Table.Cell className="yst-text-center">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
-								<Table.Cell />
+								<Table.Cell><></></Table.Cell>
 							</Table.Row>
 						</Table.Body>
 					</Table>

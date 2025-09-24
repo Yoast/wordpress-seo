@@ -298,7 +298,7 @@ final class Support_Integration_Test extends TestCase {
 
 		// In enqueue_assets method.
 		$this->promotion_manager->expects( 'is' )
-			->with( 'black-friday-2024-promotion' )
+			->with( 'black-friday-promotion' )
 			->once()
 			->andReturn( $is_black_friday );
 
@@ -398,7 +398,7 @@ final class Support_Integration_Test extends TestCase {
 				'isWooCommerceActive' => false,
 			],
 			'linkParams'        => $link_params,
-			'currentPromotions' => [ 'black-friday-2024-promotion' ],
+			'currentPromotions' => [ 'black-friday-promotion' ],
 		];
 
 		$this->assertSame( $expected, $this->instance->get_script_data() );
@@ -412,7 +412,7 @@ final class Support_Integration_Test extends TestCase {
 	protected function assert_promotions() {
 		$this->promotion_manager->expects( 'get_current_promotions' )
 			->once()
-			->andReturn( [ 'black-friday-2024-promotion' ] );
+			->andReturn( [ 'black-friday-promotion' ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $this->container ) ] );

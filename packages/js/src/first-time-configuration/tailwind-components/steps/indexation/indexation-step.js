@@ -8,13 +8,18 @@ import { ConfigurationIndexation } from "./configuration-indexation";
  * The indexation step.
  *
  * @param {string}   indexingState          The indexing state.
- * @param {Function} setIndexingState       A callback to set the indexing state.
- * @param {boolean}  showRunIndexationAlert Whether the alert to run indexation needs to be shown.
- * @param {boolean}  isStepperFinished      Whether the stepper is finished.
+ * @param {function}  setIndexingState       A callback to set the indexing state.
+ * @param {boolean}  [showRunIndexationAlert=false] Whether the alert to run indexation needs to be shown.
+ * @param {boolean}  [isStepperFinished=false] Whether the stepper is finished.
  *
- * @returns {WPElement} The indexation step.
+ * @returns {JSX.Element} The indexation step.
  */
-export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert, isStepperFinished } ) {
+export default function IndexationStep( {
+	indexingState,
+	setIndexingState,
+	showRunIndexationAlert = false,
+	isStepperFinished = false,
+} ) {
 	return <div className="yst-@container">
 		<div className="yst-flex yst-flex-col @lg:yst-flex-row yst-gap-6 yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line">
@@ -56,8 +61,4 @@ IndexationStep.propTypes = {
 	setIndexingState: PropTypes.func.isRequired,
 	showRunIndexationAlert: PropTypes.bool,
 	isStepperFinished: PropTypes.bool,
-};
-IndexationStep.defaultProps = {
-	showRunIndexationAlert: false,
-	isStepperFinished: false,
 };

@@ -42,6 +42,7 @@ import {
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
+	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
@@ -78,7 +79,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
+		<div className="yst-px-0.5 yst-space-y-6" key={ `menu-${ idSuffix }-${ pathname }` }>
 			<SidebarNavigation.MenuItem
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
@@ -136,7 +137,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ false }
+				defaultOpen={ pathname === "/llms-txt" }
 			>
 				<MenuItemLink
 					to="/llms-txt"

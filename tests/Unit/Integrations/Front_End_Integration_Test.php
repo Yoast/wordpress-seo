@@ -307,6 +307,7 @@ final class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
 			'Yoast\WP\SEO\Presenters\Schema_Presenter',
+			'Yoast\WP\SEO\Presenters\Webmaster\Ahrefs_Presenter',
 			'Yoast\WP\SEO\Presenters\Webmaster\Baidu_Presenter',
 			'Yoast\WP\SEO\Presenters\Webmaster\Bing_Presenter',
 			'Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter',

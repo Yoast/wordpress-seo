@@ -2,8 +2,8 @@
 
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import interpolateComponents from "interpolate-components";
 import { makeOutboundLink } from "@yoast/helpers";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /* Yoast dependencies */
 const WincherLink = makeOutboundLink();
@@ -21,23 +21,20 @@ const WincherExplanation = () => {
 			"With %1$s you can track the ranking position of your page in the search results based on your keyphrase(s). %2$s",
 			"wordpress-seo"
 		),
-		"{{wincherLink/}}",
-		"{{wincherReadMoreLink/}}"
+		"<wincherLink/>",
+		"<wincherReadMoreLink/>"
 	);
 
 	return (
 		<p>
 			{
-				interpolateComponents( {
-					mixedString: message,
-					components: {
-						wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.website" ] }>
-							Wincher
-						</WincherLink>,
-						wincherReadMoreLink: <WincherReadMoreLink href={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }>
-							{ __( "Read more about keyphrase tracking with Wincher", "wordpress-seo" ) }
-						</WincherReadMoreLink>,
-					},
+				safeCreateInterpolateElement( message, {
+					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.website" ] }>
+						Wincher
+					</WincherLink>,
+					wincherReadMoreLink: <WincherReadMoreLink href={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }>
+						{ __( "Read more about keyphrase tracking with Wincher", "wordpress-seo" ) }
+					</WincherReadMoreLink>,
 				} )
 			}
 		</p>

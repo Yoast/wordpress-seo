@@ -18,7 +18,7 @@ In this document, only the shortlinks used in WordPress are listed.
 - [Keyphrase in image alt attributes](SCORING%20SEO.md#7-keyphrase-in-image-alt-attributes)
 - [Keyphrase in SEO title](SCORING%20SEO.md#8-keyphrase-in-seo-title)
 - [Keyphrase in slug](SCORING%20SEO.md#9-keyphrase-in-slug)
-- [Previously used keyphrase](SCORING%20SEO.md#10-previously-used-keyphrase)
+- [Previously used keyphrase](SCORING%20SEO.md#10-previously-used-keyphrase) (not available in Shopify)
 - [Keyphrase distribution](SCORING%20SEO.md#11-keyphrase-distribution-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 
 ### Assessments with different scoring criteria than with the regular SEO assessor

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 25.7
+Stable tag: 26.0
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -197,37 +197,45 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 25.8 =
+= 26.1 =
 
-Release date: 2025-08-26
-
-#### Enhancements
-
-* Changes the AI generator button label and design.
-
-#### Other
-
-* Fixes a console warning message triggered by the introductions in the Yoast admin page.
-* Updates ads to reflect the new pricing scheme.
-
-= 25.7 =
-
-Release date: 2025-08-12
-
-Yoast SEO 25.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Release date: 2025-10-07
 
 #### Enhancements
 
-* Re-generates the llms.txt file immediately when there's any change in the selection of the pages to be included.
+* Improves the UX of the llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
+* Introduces the ability to add a Ahrefs verification code via Yoast settings.
 
 #### Bugfixes
 
-* Fixes a bug where the AI free sparks upsell would appear instead of the rate limit error in cases where the rate limit for AI Generate was reached before the free sparks limit.
+* Fixes a bug where the llm.txt opt-in would hide behind the WordPress sidebar when on RTL language.
 
 #### Other
 
-* Adds an announcement for the upcoming AI Brand Insights feature.
-* Sets the minimum supported WordPress version to 6.7.
+* Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
+* Lets users know about the new `Yoast AI+` plan and relative features.
+* Updates the `Site features` page to include icons instead of images.
+
+= 26.0 =
+
+Release date: 2025-09-23
+
+Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
+#### Enhancements
+
+* Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
+
+#### Bugfixes
+
+* Fixes a bug where a string in the AI Generate usage counter tooltip was missing in RTL languages.
+
+#### Other
+
+* Adds an introduction which would show after 14 days of the plugin activation or update.
+* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
+* Allow changing the main image ID through a filter `wpseo_schema_main_image_id`. Props to [@JoryHogeveen](https://github.com/JoryHogeveen).
+* Ensures compatibility with the recent Wincher API changes.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
