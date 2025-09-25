@@ -665,9 +665,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
-				'deps' => [
-					self::PREFIX . 'tailwind',
-				],
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'redirects',

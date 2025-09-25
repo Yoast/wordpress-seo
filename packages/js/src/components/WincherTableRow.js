@@ -74,7 +74,7 @@ const WincherTableRowElement = styled.tr`
  * @returns {Array} An array of x/y coordinates objects.
  */
 export function transformTrendDataToChartPoints( chartEntry ) {
-	return chartEntry.position.history.map( ( entry, index ) => ( { x: index, y: 101 - entry.value } ) );
+	return chartEntry.position.history.map( ( entry, index ) => ( { x: index, y: 31 - entry.value } ) );
 }
 
 /**
@@ -127,7 +127,7 @@ export function PositionOverTimeChart( { chartData = {} } ) {
 		fillColor="#ade3fc"
 		mapChartDataToTableData={ mapAreaChartDataToTableData }
 		dataTableCaption={
-			__( "Keyphrase position in the last 90 days on a scale from 0 to 100.", "wordpress-seo" )
+			__( "Keyphrase position in the last 90 days on a scale from 0 to 30.", "wordpress-seo" )
 		}
 		dataTableHeaderLabels={ areaChartDataTableHeaderLabels }
 	/>;
@@ -171,8 +171,8 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction, isLoadi
  * @returns {string} The keyphrase position.
  */
 export function getKeyphrasePosition( keyphrase ) {
-	if ( ! keyphrase || ! keyphrase.position || keyphrase.position.value > 100 ) {
-		return "> 100";
+	if ( ! keyphrase || ! keyphrase.position || keyphrase.position.value > 30 ) {
+		return "> 30";
 	}
 
 	return keyphrase.position.value;

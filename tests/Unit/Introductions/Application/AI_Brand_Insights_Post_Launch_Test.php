@@ -4,24 +4,24 @@ namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Pre_Launch;
+use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Post_Launch;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the AI Brand Insights pre-launch.
+ * Tests the AI Brand Insights post-launch.
  *
  * @group introductions
  *
- * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Pre_Launch
+ * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Post_Launch
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class AI_Brand_Insights_Pre_Launch_Test extends TestCase {
+final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var AI_Brand_Insights_Pre_Launch
+	 * @var AI_Brand_Insights_Post_Launch
 	 */
 	private $instance;
 
@@ -42,7 +42,7 @@ final class AI_Brand_Insights_Pre_Launch_Test extends TestCase {
 
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$this->instance = new AI_Brand_Insights_Pre_Launch( $this->current_page_helper );
+		$this->instance = new AI_Brand_Insights_Post_Launch( $this->current_page_helper );
 	}
 
 	/**
@@ -67,7 +67,7 @@ final class AI_Brand_Insights_Pre_Launch_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'ai-brand-insights-pre-launch', $this->instance->get_id() );
+		$this->assertSame( 'ai-brand-insights-post-launch', $this->instance->get_id() );
 	}
 
 	/**

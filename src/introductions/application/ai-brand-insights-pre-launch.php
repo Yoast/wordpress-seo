@@ -25,6 +25,8 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Constructs the introduction.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
@@ -34,6 +36,8 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns the ID.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The ID.
 	 */
 	public function get_id() {
@@ -42,6 +46,8 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 
 	/**
 	 * Returns the name of the introduction.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The name.
 	 */
@@ -54,6 +60,8 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return int The priority.
 	 */
 	public function get_priority() {
@@ -63,9 +71,11 @@ class AI_Brand_Insights_Pre_Launch implements Introduction_Interface {
 	/**
 	 * Returns whether this introduction should show.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page();
+		return false;
 	}
 }

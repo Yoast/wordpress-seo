@@ -155,7 +155,7 @@
 	yst-justify-center
 	yst-h-4
 	yst-mt-2
-	yst-mx-auto
+	yst-mx-3
 	yst-text-xs
 	yst-leading-4
 	yst-px-2.5
@@ -193,5 +193,25 @@
 
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-upgrade-sidebar {
 	@apply yst-hidden;
+}
+
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
 }
 /*# sourceMappingURL=adminbar.css.map */

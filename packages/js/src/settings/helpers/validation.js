@@ -77,6 +77,8 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_VERIFY_REGEXP, __( "The verification code is not valid. Please use only letters, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			googleverify: string()
 				.matches( ALPHA_NUMERIC_VERIFY_REGEXP, __( "The verification code is not valid. Please use only letters, numbers, underscores and dashes.", "wordpress-seo" ) ),
+			ahrefsverify: string()
+				.matches( ALPHA_NUMERIC_VERIFY_REGEXP, __( "The verification code is not valid. Please use only letters, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			msverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			yandexverify: string()

@@ -105,10 +105,10 @@ export const BaseCard = ( {
 						) ) }
 					</div>
 				</Card.Content>
-				<Card.Footer>
+				<Card.Footer className="yst-pt-4">
 					{ includes && (
 						<>
-							<span className="yst-block yst-font-medium">{ __( "Now includes:", "wordpress-seo" ) }</span>
+							<span className="yst-block yst-font-medium yst-leading-none">{ __( "Now includes:", "wordpress-seo" ) }</span>
 							<span className="yst-text-xxs yst-text-slate-500">{ includes }</span>
 							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200" />
 						</>
@@ -118,7 +118,7 @@ export const BaseCard = ( {
 							? <ManageInMyYoast href={ manageLink } />
 							: <BuyProduct href={ buyLink } { ...buyConfig } />
 						}
-						<LearnMore href={ learnMoreLink } />
+						<LearnMore className="yst-pb-0" href={ learnMoreLink } />
 					</div>
 				</Card.Footer>
 			</Card>
