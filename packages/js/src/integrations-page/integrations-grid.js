@@ -1,22 +1,22 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { Title } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
-import { Title  } from "@yoast/ui-library";
+import { addLinkToString } from "../helpers/stringHelpers";
 import { OtherIntegrations } from "./other-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
-import { schemaAPIIntegrations } from "./schema-api-integrations";
 import { RecommendedIntegrations } from "./recommended-integrations";
-import { addLinkToString } from "../helpers/stringHelpers";
+import { schemaAPIIntegrations } from "./schema-api-integrations";
 
 /**
  * Renders a section.
  *
- * @param {string}    title       The section title.
- * @param {WPElement} description The section description.
- * @param {array}     elements    Array of elements to be rendered.
+ * @param {string} [title] The section title.
+ * @param {JSX.Element} [description] The section description.
+ * @param {Array<JSX.Element>} [elements] Array of elements to be rendered.
  *
- * @returns {WPElement} The section.
+ * @returns {JSX.Element} The section.
  */
-const Section = ( { title, description, elements } ) => {
+const Section = ( { title = "", description = "", elements = [] } ) => {
 	return (
 		<section>
 			<div className="yst-mb-8">
@@ -39,8 +39,8 @@ Section.propTypes = {
 /**
  * Renders a grid of integrations subdivided into sections.
  *
- * @returns {WPElement} The integration grid.
-*/
+ * @returns {JSX.Element} The integration grid.
+ */
 export default function IntegrationsGrid() {
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">

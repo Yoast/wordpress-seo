@@ -28,6 +28,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
+use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
@@ -205,6 +206,13 @@ class Settings_Integration implements Integration_Interface {
 	private $manual_post_collection;
 
 	/**
+	 * Runs the health check.
+	 *
+	 * @var File_Runner
+	 */
+	private $runner;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -222,6 +230,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_visibility The Content_Type_Visibility_Dismiss_Notifications instance.
 	 * @param Llms_Txt_Configuration                        $llms_txt_configuration  The Llms_Txt_Configuration instance.
 	 * @param Manual_Post_Collection                        $manual_post_collection  The manual post collection.
+	 * @param File_Runner                                   $runner                  The file runner.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -238,7 +247,8 @@ class Settings_Integration implements Integration_Interface {
 		Options_Helper $options,
 		Content_Type_Visibility_Dismiss_Notifications $content_type_visibility,
 		Llms_Txt_Configuration $llms_txt_configuration,
-		Manual_Post_Collection $manual_post_collection
+		Manual_Post_Collection $manual_post_collection,
+		File_Runner $runner
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->replace_vars            = $replace_vars;
@@ -255,6 +265,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->content_type_visibility = $content_type_visibility;
 		$this->llms_txt_configuration  = $llms_txt_configuration;
 		$this->manual_post_collection  = $manual_post_collection;
+		$this->runner                  = $runner;
 	}
 
 	/**
@@ -365,16 +376,23 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The pages.
 	 */
 	public function add_settings_saved_page( $pages ) {
+		$runner = $this->runner;
 		\add_submenu_page(
 			'',
 			'',
 			'',
 			'wpseo_manage_options',
 			self::PAGE . '_saved',
-			static function () {
+			static function () use ( $runner ) {
 				// Add success indication to HTML response.
 				$success = empty( \get_settings_errors() ) ? 'true' : 'false';
 				echo \esc_html( "{{ yoast-success: $success }}" );
+
+				$runner->run();
+				if ( ! $runner->is_successful() ) {
+					$failure_reason = $runner->get_generation_failure_reason();
+					echo \esc_html( "{{ yoast-llms-txt-generation-failure: $failure_reason }}" );
+				}
 			}
 		);
 
@@ -401,7 +419,7 @@ class Settings_Integration implements Integration_Interface {
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
-		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
+		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );

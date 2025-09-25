@@ -1,8 +1,8 @@
-import { Fragment, useState, useCallback } from "@wordpress/element";
+import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import ReactAnimateHeight from "react-animate-height";
-import classNames from "classnames";
 
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
@@ -27,11 +27,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	const [ sectionOpacity, setSectionOpacity ] = useState( state.companyOrPerson === "emptyChoice" ? "yst-opacity-0" : "yst-opacity-100" );
 	const startOpacityTransition = useCallback( () => {
 		setSectionOpacity( "yst-opacity-100" );
-	} );
+	}, [ setSectionOpacity ] );
 
 	const handleWebsiteNameChange = useCallback( ( event ) => {
 		dispatch( { type: "CHANGE_WEBSITE_NAME", payload: event.target.value } );
-	} );
+	}, [ dispatch ] );
 
 	const richResultsMessage = addLinkToString(
 		sprintf(

@@ -110,7 +110,7 @@ final class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Li
 				->once();
 		}
 
-		Functions\expect( 'do_action' )->times( $get_incoming_link_counts_for_indexable_ids_times )->with( 'wpseo_related_indexables_incoming_links_updated' );
+		Functions\expect( 'do_action' )->times( $get_incoming_link_counts_for_indexable_ids_times )->with( 'wpseo_related_indexables_incoming_links_updated', $related_indexable_ids );
 
 		$this->instance->exposed_update_incoming_links_for_related_indexables( $related_indexable_ids );
 	}

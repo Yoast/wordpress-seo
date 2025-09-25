@@ -1,8 +1,8 @@
 import { checkForMetaboxWarnings  } from "../../helpers/checkForMetaboxWarnings";
 /**
  * Adds a check  for any warnings in the metabox before rendering the component.
- * @param {JSX.ElementClass} Component The component.
- * @returns {JSX.ElementClass} The wrapped component.
+ * @param {React.ComponentType} Component The component.
+ * @returns {React.ComponentType} The wrapped component.
  */
 export const withMetaboxWarningsCheck = ( Component ) => {
 	/**

@@ -12,5 +12,5 @@ class Black_Friday_Promotion_Notification extends Abstract_Dismissable_Alert {
 	 *
 	 * @var string
 	 */
-	protected $alert_identifier = 'black-friday-2024-promotion';
+	protected $alert_identifier = 'black-friday-promotion';
 }
