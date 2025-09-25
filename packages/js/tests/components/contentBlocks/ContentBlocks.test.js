@@ -135,8 +135,15 @@ describe( "ContentBlocks", () => {
 		beforeEach( () => {
 			useContext.mockReturnValue( "sidebar" );
 		} );
+		afterEach( () => {
+			// Clean up the mock
+			delete window.wpseoAiGenerator;
+			jest.clearAllMocks();
+		} );
 
-		it( "renders all content blocks in correct order (premium first)", () => {
+		it( "renders all content blocks in correct order (premium first) and the AI feature is enabled", () => {
+			// Mock window.wpseoAiGenerator
+			window.wpseoAiGenerator = { hasConsent: "1" };
 			render( <ContentBlocks /> );
 
 			const blocks = screen.getAllByTestId( "content-block" );
@@ -155,7 +162,30 @@ describe( "ContentBlocks", () => {
 			] );
 		} );
 
+		it( "renders all content blocks in correct order (premium first) and the AI feature is disabled", () => {
+			// Mock window.wpseoAiGenerator as undefined
+			window.wpseoAiGenerator = undefined;
+			render( <ContentBlocks /> );
+
+			const blocks = screen.getAllByTestId( "content-block" );
+			const blockTitles = blocks.map( block =>
+				block.querySelector( '[data-testid="block-title"]' ).textContent
+			);
+
+			expect( blockTitles ).toEqual( [
+				"Estimated reading time",
+				"Related links",
+				"Table of contents",
+				"Breadcrumbs",
+				"FAQ",
+				"How-to",
+			] );
+			expect( blockTitles ).not.toContain( "AI Summarize" );
+		} );
+
 		it( "renders premium blocks with correct properties", () => {
+			// Mock window.wpseoAiGenerator
+			window.wpseoAiGenerator = { hasConsent: "1" };
 			render( <ContentBlocks /> );
 
 			const blocks = screen.getAllByTestId( "content-block" );
@@ -168,11 +198,13 @@ describe( "ContentBlocks", () => {
 		} );
 
 		it( "renders non-premium blocks with correct properties", () => {
+			// Mock window.wpseoAiGenerator
+			window.wpseoAiGenerator = { hasConsent: "1" };
 			render( <ContentBlocks /> );
 
 			const blocks = screen.getAllByTestId( "content-block" );
 
-			// Check FAQ block (first non-premium block)
+			// Check Breadcrumbs block (first non-premium block)
 			const breadcrumbsBlock = blocks[ 4 ];
 			expect( breadcrumbsBlock.querySelector( '[data-testid="block-name"]' ) ).toHaveTextContent( "yoast-seo/breadcrumbs" );
 			expect( breadcrumbsBlock.querySelector( '[data-testid="is-premium"]' ) ).toHaveTextContent( "false" );
@@ -180,6 +212,8 @@ describe( "ContentBlocks", () => {
 		} );
 
 		it( "only shows new badge for AI Summarize block", () => {
+			// Mock window.wpseoAiGenerator
+			window.wpseoAiGenerator = { hasConsent: "1" };
 			render( <ContentBlocks /> );
 
 			const blocks = screen.getAllByTestId( "content-block" );
@@ -200,6 +234,13 @@ describe( "ContentBlocks", () => {
 	describe( "Badge rendering", () => {
 		beforeEach( () => {
 			useContext.mockReturnValue( "sidebar" );
+			// Mock window.wpseoAiGenerator
+			window.wpseoAiGenerator = { hasConsent: "1" };
+		} );
+		afterEach( () => {
+			// Clean up the mock
+			delete window.wpseoAiGenerator;
+			jest.clearAllMocks();
 		} );
 
 		it( "renders new badge label correctly", () => {
@@ -224,6 +265,10 @@ describe( "ContentBlocks", () => {
 	describe( "Description text", () => {
 		beforeEach( () => {
 			useContext.mockReturnValue( "sidebar" );
+		} );
+		afterEach( () => {
+			// Clean up the mock
+			jest.clearAllMocks();
 		} );
 
 		it( "renders description text with correct styling", () => {
