@@ -144,18 +144,6 @@ abstract class WPSEO_Option {
 	 */
 	protected function __construct() {
 
-		if ( defined( 'WERE_ARE_DOING_TESTS' ) && WERE_ARE_DOING_TESTS ) {
-			add_action( 'doing_it_wrong_trigger_error', function ( $function_name, $message, $error_level  ) {
-				// We only expect 1 notice and should only silence that 1 notice to prevent new notices from being introduced unnoticed.
-				static $counter = 0;
-
-				if ( $counter === 0 && '_load_textdomain_just_in_time' === $function_name ) {
-					++$counter;
-					return false;
-				}
-			}, 10, 3 );
-		}
-
 		/* Add filters which get applied to the get_options() results. */
 		$this->add_default_filters(); // Return defaults if option not set.
 		$this->add_option_filters(); // Merge with defaults if option *is* set.
