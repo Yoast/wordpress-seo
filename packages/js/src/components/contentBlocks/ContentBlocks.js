@@ -67,6 +67,7 @@ export const ContentBlocks = () => {
 						isPremiumBlock={ block.isPremiumBlock }
 						hasNewBadgeLabel={ block.title === "AI Summarize" }
 						renderNewBadgeLabel={ renderNewBadgeLabel }
+						location={ location }
 					/>
 				) )
 			}

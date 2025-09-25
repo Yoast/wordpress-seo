@@ -17,9 +17,10 @@ import { AddBlockButton } from "./AddBlockButton";
  * @param {boolean} props.isPremiumBlock Whether the block is a premium block.
  * @param {boolean} props.hasNewBadgeLabel Whether the block is newly introduced.
  * @param {Function} props.renderNewBadgeLabel Function to render the "New" badge label.
+ * @param {string} props.location The location where the button is rendered, either 'metabox' or 'sidebar'.
  * @returns {JSX.Element} The ContentBlock component.
  */
-export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel, renderNewBadgeLabel } ) => {
+export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBadgeLabel, renderNewBadgeLabel, location } ) => {
 	const { isPremium, addedBlock } = useSelect( select => ( {
 		isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 		addedBlock: select( "core/block-editor" ).getBlocksByName( blockName ),
@@ -58,6 +59,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 						<AddBlockButton
 							showUpsellBadge={ showUpsellBadge }
 							blockName={ blockName }
+							location={ location }
 						/>
 						{ showUpsellBadge &&
 							<div className="yst-root">
@@ -84,4 +86,5 @@ ContentBlock.propTypes = {
 	isPremiumBlock: PropTypes.bool.isRequired,
 	hasNewBadgeLabel: PropTypes.bool.isRequired,
 	renderNewBadgeLabel: PropTypes.func.isRequired,
+	location: PropTypes.oneOf( [ "metabox", "sidebar" ] ).isRequired,
 };

@@ -3,7 +3,10 @@ import { createBlock } from "@wordpress/blocks";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { useToggleState } from "@yoast/ui-library";
 import PropTypes from "prop-types";
+
+import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
 
 /**
  * AddBlockButton component to render the 'add block' button.
@@ -11,9 +14,10 @@ import PropTypes from "prop-types";
  * @param {Object} props Component props.
  * @param {boolean} props.showUpsellBadge Whether to show the upsell badge.
  * @param {string} props.blockName The name of the block to insert.
+ * @param {string} props.location The location where the button is rendered, either 'metabox' or 'sidebar'.
  * @returns {JSX.Element} The AddBlockButton component.
  */
-export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
+export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const { insertBlock, replaceBlock } = useDispatch( "core/block-editor" );
 	const { blockInsertionPoint, blocks } = useSelect( select => ( {
 		blockInsertionPoint: select( "core/block-editor" ).getBlockInsertionPoint(),
@@ -21,11 +25,13 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 	} ), [] );
 	const [ isClicked, setIsClicked ] = useState( false );
 	const [ showTooltip, setShowTooltip ] = useState( false );
+	const [ isUpsellModalOpen, , , openUpsellModal, closeUpsellModal ] = useToggleState( false );
 
 	const handleButtonClick = useCallback( () => {
 		if ( showUpsellBadge ) {
 			// We don't want to show the clicked state when the upsell modal is opened.
 			// Open the upsell modal.
+			openUpsellModal();
 		} else {
 			setIsClicked( true );
 			const index = blockInsertionPoint.index;
@@ -75,21 +81,29 @@ export const AddBlockButton = ( { showUpsellBadge, blockName } ) => {
 		: __( "Add block", "wordpress-seo" );
 
 	return (
-		<button
-			className={ buttonClass }
-			aria-label={ ariaLabel }
-			onClick={ handleButtonClick }
-			onMouseEnter={ handleFocusAndMouseEnter }
-			onMouseLeave={ handleBlurAndMouseLeave }
-			onFocus={ handleFocusAndMouseEnter }
-			onBlur={ handleBlurAndMouseLeave }
-		>
-			<PlusIcon className={ plusIconClass } />
-		</button>
+		<>
+			<ContentBlocksUpsell
+				isOpen={ isUpsellModalOpen }
+				closeModal={ closeUpsellModal }
+				location={ location }
+			/>
+			<button
+				className={ buttonClass }
+				aria-label={ ariaLabel }
+				onClick={ handleButtonClick }
+				onMouseEnter={ handleFocusAndMouseEnter }
+				onMouseLeave={ handleBlurAndMouseLeave }
+				onFocus={ handleFocusAndMouseEnter }
+				onBlur={ handleBlurAndMouseLeave }
+			>
+				<PlusIcon className={ plusIconClass } />
+			</button>
+		</>
 	);
 };
 
 AddBlockButton.propTypes = {
 	showUpsellBadge: PropTypes.bool.isRequired,
 	blockName: PropTypes.string.isRequired,
+	location: PropTypes.string.isRequired,
 };
