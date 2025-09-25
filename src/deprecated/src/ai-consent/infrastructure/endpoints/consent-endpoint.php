@@ -8,7 +8,7 @@ use Exception;
 /**
  * Represents the setup steps tracking endpoint.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 class Consent_Endpoint implements Consent_Endpoint_Interface {
@@ -16,40 +16,40 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name' );
 		return '';
 	}
 
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_namespace' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_namespace' );
 		return '';
 	}
 
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_route' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_route' );
 
 		return '';
 	}
@@ -57,13 +57,13 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url' );
 
 		return '';
 	}

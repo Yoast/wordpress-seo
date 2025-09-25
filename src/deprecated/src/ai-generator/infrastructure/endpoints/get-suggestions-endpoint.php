@@ -8,7 +8,7 @@ use Exception;
 /**
  * Represents the get suggestions endpoint.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
@@ -16,13 +16,13 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_name' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_name' );
 
 		return 'getSuggestions';
 	}
@@ -30,13 +30,13 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_namespace' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_namespace' );
 
 		return '';
 	}
@@ -44,14 +44,14 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_route' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_route' );
 
 		return '';
 	}
@@ -59,13 +59,13 @@ class Get_Suggestions_Endpoint implements Generator_Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_url' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint::get_url' );
 
 		return '';
 	}

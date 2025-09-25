@@ -21,7 +21,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  * Class Request_Handler
  * Handles the request to Yoast AI API.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -47,14 +47,14 @@ class Request_Handler implements Request_Handler_Interface {
 	/**
 	 * Request_Handler constructor.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param API_Client      $api_client      The API client.
 	 * @param Response_Parser $response_parser The response parser.
 	 */
 	public function __construct( API_Client $api_client, Response_Parser $response_parser ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct' );
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -62,7 +62,7 @@ class Request_Handler implements Request_Handler_Interface {
 	/**
 	 * Executes the request to the API.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.
@@ -81,7 +81,7 @@ class Request_Handler implements Request_Handler_Interface {
 	 * @throws WP_Request_Exception When the request fails for any other reason.
 	 */
 	public function handle( Request $request ): Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::handle' );
 
 		return new Response( '', 200, '' );
 	}

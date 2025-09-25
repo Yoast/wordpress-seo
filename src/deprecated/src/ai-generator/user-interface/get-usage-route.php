@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get suggestions from the AI API
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -63,13 +63,13 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_conditionals' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_conditionals' );
 		return [ AI_Conditional::class ];
 	}
 
@@ -86,19 +86,19 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::register_routes' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::register_routes' );
 	}
 
 	/**
 	 * Runs the callback that gets the monthly usage of the user.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Response $response The response object containing the parameters for the request.
@@ -106,7 +106,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function get_usage( $response ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_usage' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_usage' );
 
 		return new WP_REST_Response( '' );
 	}
@@ -114,7 +114,7 @@ class Get_Usage_Route implements Route_Interface {
 	/**
 	 * Get action path for the request.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param bool $is_woo_product_entity Whether the request is for a WooCommerce product entity.
@@ -122,7 +122,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return string The action path.
 	 */
 	public function get_action_path( $is_woo_product_entity = false ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_action_path' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_action_path' );
 
 		return '';
 	}

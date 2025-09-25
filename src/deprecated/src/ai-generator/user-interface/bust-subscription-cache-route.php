@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to bust the subscription cache.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -47,13 +47,13 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::get_conditionals' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::get_conditionals' );
 		return [ AI_Conditional::class ];
 	}
 
@@ -68,25 +68,25 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::register_routes' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::register_routes' );
 	}
 
 	/**
 	 * Runs the callback that busts the subscription cache.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function bust_subscription_cache(): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
 
 		return new WP_REST_Response( '' );
 	}

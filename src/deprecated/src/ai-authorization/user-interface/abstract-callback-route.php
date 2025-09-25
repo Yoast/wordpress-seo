@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * The base class for the callback routes.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 abstract class Abstract_Callback_Route implements Route_Interface {
@@ -53,13 +53,13 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals' );
 
 		return [ AI_Conditional::class ];
 	}
@@ -67,7 +67,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Callback_Route constructor.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
@@ -75,7 +75,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::__construct' );
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -83,7 +83,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store connection credentials and the tokens locally.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -94,7 +94,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @throws RuntimeException If the verification code is not found.
 	 */
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
 
 		return new WP_REST_Response(
 			[

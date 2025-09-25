@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Code_Verifier representing a challenge code and its creation time.
  * This is used during the authorization process to verify the user requesting a token.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 class Code_Verifier {
@@ -29,14 +29,14 @@ class Code_Verifier {
 	/**
 	 * Code_Verifier constructor.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $code       The code.
 	 * @param int    $created_at The time the code was created.
 	 */
 	public function __construct( string $code, int $created_at ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::__construct' );
 
 		$this->code       = $code;
 		$this->created_at = $created_at;
@@ -45,13 +45,13 @@ class Code_Verifier {
 	/**
 	 * Get the code.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The code.
 	 */
 	public function get_code(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_code' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_code' );
 
 		return '';
 	}
@@ -59,13 +59,13 @@ class Code_Verifier {
 	/**
 	 * Get the creation time of the code.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The creation time of the code.
 	 */
 	public function get_created_at(): int {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_created_at' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::get_created_at' );
 
 		return -1;
 	}
@@ -73,7 +73,7 @@ class Code_Verifier {
 	/**
 	 * Check if the code is expired.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $validity_in_seconds The validity of the code in seconds.
@@ -81,7 +81,7 @@ class Code_Verifier {
 	 * @return bool True if the code is expired, false otherwise.
 	 */
 	public function is_expired( int $validity_in_seconds ): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::is_expired' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::is_expired' );
 
 		return false;
 	}

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Access_Token_Repository
  * Handles the storage and retrieval of access tokens for users.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Repository_Interface {
@@ -25,19 +25,19 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Access_Token_Repository constructor.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::__construct' );
 	}
 
 	/**
 	 * Get the token for a user.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -47,7 +47,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @throws RuntimeException If the token is not found or invalid.
 	 */
 	public function get_token( int $user_id ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::get_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::get_token' );
 
 		return '';
 	}
@@ -55,7 +55,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Store the token for a user.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id The user ID.
@@ -64,13 +64,13 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @return void
 	 */
 	public function store_token( int $user_id, string $value ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token' );
 	}
 
 	/**
 	 * Delete the token for a user.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -78,6 +78,6 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @return void
 	 */
 	public function delete_token( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token' );
 	}
 }

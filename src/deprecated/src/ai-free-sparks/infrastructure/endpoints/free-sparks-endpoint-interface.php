@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoint_Interface;
 /**
  * Interface for the Free Sparks endpoint.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 interface Free_Sparks_Endpoint_Interface extends Endpoint_Interface {}

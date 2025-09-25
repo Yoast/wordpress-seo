@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  *
- * @deprecated 26.1
+ * @deprecated 26.2
  * @codeCoverageIgnore
  */
 class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
@@ -34,14 +34,14 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated 26.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param Date_Helper                        $date_helper              The date helper.
 	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
 	 */
 	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::construct' );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @return Code_Verifier The generated code verifier.
 	 */
 	public function generate( string $user_email ): Code_Verifier {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::generate' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::generate' );
 
 		return new Code_Verifier( '', -1 );
 	}
@@ -67,7 +67,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @throws RuntimeException If the code verifier is expired or invalid.
 	 */
 	public function validate( int $user_id ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::validate' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::validate' );
 
 		return '';
 	}
