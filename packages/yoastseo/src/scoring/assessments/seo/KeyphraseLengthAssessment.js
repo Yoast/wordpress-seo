@@ -114,7 +114,8 @@ export default class KeyphraseLengthAssessment extends Assessment {
 		assessmentResult.setText( calculatedResult.resultText );
 		if ( assessmentResult.getScore() < 9  ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "keyphrase", "wordpress-seo" ) );
+			assessmentResult.setEditFieldName( "keyphrase" );
+			assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
 		}
 
 		return assessmentResult;

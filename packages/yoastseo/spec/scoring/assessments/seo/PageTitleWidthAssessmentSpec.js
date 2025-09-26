@@ -12,7 +12,8 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
 			"<a href='https://yoa.st/34i' target='_blank'>Please create an SEO title</a>." );
 		expect( result.hasJumps() ).toBeTruthy();
-		expect( result.getEditFieldName() ).toBe( "SEO title" );
+		expect( result.getEditFieldName() ).toBe( "title" );
+		expect( result.getEditFieldAriaLabel() ).toBe( "Edit your SEO title" );
 	} );
 
 	it( "should assess a paper with an SEO title that's under the recommended value", function() {

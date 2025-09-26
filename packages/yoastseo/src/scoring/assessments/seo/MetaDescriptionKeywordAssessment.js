@@ -62,9 +62,15 @@ export default class MetaDescriptionKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9 && this._canAssess  ) {
+		if ( assessmentResult.getScore() < 9 ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "meta description", "wordpress-seo" ) );
+			if ( paper.hasKeyword() ) {
+				assessmentResult.setEditFieldName( "description" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your meta description", "wordpress-seo" ) );
+			} else {
+				assessmentResult.setEditFieldName( "keyphrase" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
+			}
 		}
 
 		return assessmentResult;

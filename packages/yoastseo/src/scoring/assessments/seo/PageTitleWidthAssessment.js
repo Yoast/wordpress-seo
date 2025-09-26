@@ -66,7 +66,8 @@ export default class PageTitleWidthAssessment extends Assessment {
 		assessmentResult.setText( this.translateScore( pageTitleWidth ) );
 		if ( assessmentResult.getScore() < 9  ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "SEO title", "wordpress-seo" ) );
+			assessmentResult.setEditFieldName( "title" );
+			assessmentResult.setEditFieldAriaLabel( __( "Edit your SEO title", "wordpress-seo" ) );
 		}
 
 		// Max and actual are used in the snippet editor progress bar.

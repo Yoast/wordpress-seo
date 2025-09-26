@@ -23,6 +23,7 @@ describe( "A keyword in slug count assessment", function() {
 			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
 		expect( assessment.getEditFieldName() ).toBe( "slug" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your slug" );
 	} );
 
 	it( "assesses a keyword was found in the slug: short keyphrase", function() {
@@ -101,7 +102,9 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
 	it( "assesses a paper with no keyphrase", function() {
@@ -114,11 +117,13 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
 	it( "assesses a paper with no slug", function() {
-		const paper = new Paper( "", { keyphrase: "keyphrase" } );
+		const paper = new Paper( "", { keyword: "keyphrase" } );
 		const assessment = keywordCountInSlug.getResult(
 			paper,
 			Factory.buildMockResearcher()
@@ -127,7 +132,9 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"<a href='https://yoa.st/33p' target='_blank'>Please add both a keyphrase and a slug containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "slug" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your slug" );
 	} );
 } );
 
