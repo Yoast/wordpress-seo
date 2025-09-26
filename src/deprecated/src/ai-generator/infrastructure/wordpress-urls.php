@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Ai_Generator\Infrastructure;
 
+use WPSEO_Utils;
 use Yoast\WP\SEO\Ai_Generator\Domain\URLs_Interface;
 
 /**
