@@ -27,6 +27,8 @@ class Suggestions_Bucket {
 	 */
 	public function __construct() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::__construct' );
+
+		$this->suggestions = [];
 	}
 
 	/**
@@ -41,6 +43,8 @@ class Suggestions_Bucket {
 	 */
 	public function add_suggestion( Suggestion $suggestion ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::add_suggestion' );
+
+		$this->suggestions[] = $suggestion;
 	}
 
 	/**
@@ -54,6 +58,11 @@ class Suggestions_Bucket {
 	public function to_array() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket::to_array' );
 
-		return [];
+		return \array_map(
+			static function ( $item ) {
+				return $item->get_value();
+			},
+			$this->suggestions
+		);
 	}
 }

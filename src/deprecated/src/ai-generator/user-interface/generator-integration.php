@@ -97,7 +97,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::get_conditionals' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_conditionals' );
 		return [ AI_Conditional::class, AI_Editor_Conditional::class ];
 	}
 
@@ -126,6 +126,15 @@ class Generator_Integration implements Integration_Interface {
 		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository
 	) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::__construct' );
+		$this->asset_manager                    = $asset_manager;
+		$this->addon_manager                    = $addon_manager;
+		$this->api_client                       = $api_client;
+		$this->current_page_helper              = $current_page_helper;
+		$this->options_helper                   = $options_helper;
+		$this->user_helper                      = $user_helper;
+		$this->introductions_seen_repository    = $introductions_seen_repository;
+		$this->generator_endpoints_repository   = $generator_endpoints_repository;
+		$this->free_sparks_endpoints_repository = $free_sparks_endpoints_repository;
 	}
 
 	/**
@@ -139,7 +148,10 @@ class Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::register_hooks' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::register_hooks' );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		// Enqueue after Elementor_Premium integration, which re-registers the assets.
+		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
 	}
 
 	/**
@@ -151,7 +163,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string, bool>
 	 */
 	public function get_product_subscriptions() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::get_product_subscriptions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_product_subscriptions' );
 		return [
 			'premiumSubscription'     => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
 			'wooCommerceSubscription' => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
@@ -167,8 +179,21 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string|array<string>>
 	 */
 	public function get_script_data() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::get_script_data' );
-		return [];
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_script_data' );
+		$user_id = $this->user_helper->get_current_user_id();
+
+		$endpoints = $this->generator_endpoints_repository->get_all_endpoints()
+			->merge_with(
+				$this->free_sparks_endpoints_repository->get_all_endpoints()
+			)->to_array();
+		return [
+			'hasConsent'           => $this->user_helper->get_meta( $user_id, '_yoast_wpseo_ai_consent', true ),
+			'productSubscriptions' => $this->get_product_subscriptions(),
+			'hasSeenIntroduction'  => $this->introductions_seen_repository->is_introduction_seen( $user_id, AI_Fix_Assessments_Upsell::ID ),
+			'requestTimeout'       => $this->api_client->get_request_timeout(),
+			'isFreeSparks'         => $this->options_helper->get( 'ai_free_sparks_started_on', null ) !== null,
+			'endpoints'            => $endpoints,
+		];
 	}
 
 	/**
@@ -180,6 +205,10 @@ class Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\Yoast\WP\SEO\AI\Generator\User_Interface\Generator_Integration::enqueue_assets' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::enqueue_assets' );
+
+		$this->asset_manager->enqueue_script( 'ai-generator' );
+		$this->asset_manager->localize_script( 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );
+		$this->asset_manager->enqueue_style( 'ai-generator' );
 	}
 }

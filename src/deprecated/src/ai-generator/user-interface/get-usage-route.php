@@ -85,6 +85,9 @@ class Get_Usage_Route implements Route_Interface {
 	 * @param WPSEO_Addon_Manager $addon_manager   The add-on manager instance.
 	 */
 	public function __construct( Token_Manager $token_manager, Request_Handler $request_handler, WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager   = $addon_manager;
+		$this->token_manager   = $token_manager;
+		$this->request_handler = $request_handler;
 	}
 
 	/**
@@ -97,6 +100,21 @@ class Get_Usage_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::register_routes' );
+		\register_rest_route(
+			self::ROUTE_NAMESPACE,
+			self::ROUTE_PREFIX,
+			[
+				'methods'             => 'POST',
+				'args'                => [
+					'is_woo_product_entity' => [
+						'type'        => 'boolean',
+						'default'     => false,
+					],
+				],
+				'callback'            => [ $this, 'get_usage' ],
+				'permission_callback' => [ $this, 'check_permissions' ],
+			]
+		);
 	}
 
 	/**
@@ -111,8 +129,33 @@ class Get_Usage_Route implements Route_Interface {
 	 */
 	public function get_usage( $response ): WP_REST_Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_usage' );
+		$is_woo_product_entity = $response->get_param( 'is_woo_product_entity' );
+		$user                  = \wp_get_current_user();
+		try {
+			$token           = $this->token_manager->get_or_request_access_token( $user );
+			$request_headers = [
+				'Authorization' => "Bearer $token",
+			];
+			$action_path     = $this->get_action_path( $is_woo_product_entity );
+			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
+			$data            = \json_decode( $response->get_body() );
 
-		return new WP_REST_Response( '' );
+		}  catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
+			$message = [
+				'errorMessage'    => $e->getMessage(),
+				'errorIdentifier' => $e->get_error_identifier(),
+				'errorCode'       => $e->getCode(),
+			];
+			if ( $e instanceof Too_Many_Requests_Exception ) {
+				$message['missingLicenses'] = $e->get_missing_licenses();
+			}
+			return new WP_REST_Response(
+				$message,
+				$e->getCode()
+			);
+		}
+
+		return new WP_REST_Response( $data );
 	}
 
 	/**
@@ -127,7 +170,13 @@ class Get_Usage_Route implements Route_Interface {
 	 */
 	public function get_action_path( $is_woo_product_entity = false ): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_action_path' );
-
-		return '';
+		$unlimited = '/usage/' . \gmdate( 'Y-m' );
+		if ( $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+			return $unlimited;
+		}
+		if ( ! $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+			return $unlimited;
+		}
+		return '/usage/free-usages';
 	}
 }

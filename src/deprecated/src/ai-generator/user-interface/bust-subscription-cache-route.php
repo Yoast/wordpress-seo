@@ -63,6 +63,7 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 * @param WPSEO_Addon_Manager $addon_manager The addon manager instance.
 	 */
 	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
+		$this->addon_manager = $addon_manager;
 	}
 
 	/**
@@ -75,6 +76,16 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::register_routes' );
+		\register_rest_route(
+			self::ROUTE_NAMESPACE,
+			self::ROUTE_PREFIX,
+			[
+				'methods'             => 'POST',
+				'args'                => [],
+				'callback'            => [ $this, 'bust_subscription_cache' ],
+				'permission_callback' => [ $this, 'check_permissions' ],
+			]
+		);
 	}
 
 	/**
@@ -87,7 +98,8 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 */
 	public function bust_subscription_cache(): WP_REST_Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
+		$this->addon_manager->remove_site_information_transients();
 
-		return new WP_REST_Response( '' );
+		return new WP_REST_Response( 'Subscription cache successfully busted.' );
 	}
 }

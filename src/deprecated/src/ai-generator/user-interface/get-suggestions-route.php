@@ -70,6 +70,7 @@ class Get_Suggestions_Route implements Route_Interface {
 	 * @param Suggestions_Provider $suggestions_provider The suggestions provider instance.
 	 */
 	public function __construct( Suggestions_Provider $suggestions_provider ) {
+		$this->suggestions_provider = $suggestions_provider;
 	}
 
 	/**
@@ -82,6 +83,67 @@ class Get_Suggestions_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::register_routes' );
+		\register_rest_route(
+			self::ROUTE_NAMESPACE,
+			self::ROUTE_PREFIX,
+			[
+				'methods'             => 'POST',
+				'args'                => [
+					'type'            => [
+						'required'    => true,
+						'type'        => 'string',
+						'enum'        => [
+							'seo-title',
+							'meta-description',
+							'product-seo-title',
+							'product-meta-description',
+							'product-taxonomy-seo-title',
+							'product-taxonomy-meta-description',
+							'taxonomy-seo-title',
+							'taxonomy-meta-description',
+						],
+						'description' => 'The type of suggestion requested.',
+					],
+					'prompt_content'  => [
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'The content needed by the prompt to ask for suggestions.',
+					],
+					'focus_keyphrase' => [
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'The focus keyphrase associated to the post.',
+					],
+					'language'        => [
+						'required'    => true,
+						'type'        => 'string',
+						'description' => 'The language the post is written in.',
+					],
+					'platform'        => [
+						'required'    => true,
+						'type'        => 'string',
+						'enum'        => [
+							'Google',
+							'Facebook',
+							'Twitter',
+						],
+						'description' => 'The platform the post is intended for.',
+					],
+					'editor' => [
+						'required'    => true,
+						'type'        => 'string',
+						'enum'        => [
+							'classic',
+							'elementor',
+							'gutenberg',
+						],
+						'description' => 'The current editor.',
+					],
+				],
+				'callback'            => [ $this, 'get_suggestions' ],
+				'permission_callback' => [ $this, 'check_permissions' ],
+			]
+		);
 	}
 
 	/**
@@ -96,7 +158,25 @@ class Get_Suggestions_Route implements Route_Interface {
 	 */
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::get_suggestions' );
+		try {
+			$user = \wp_get_current_user();
+			$data = $this->suggestions_provider->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );
+		} catch ( Remote_Request_Exception $e ) {
+			$message = [
+				'message'         => $e->getMessage(),
+				'errorIdentifier' => $e->get_error_identifier(),
+			];
+			if ( $e instanceof Payment_Required_Exception || $e instanceof Too_Many_Requests_Exception ) {
+				$message['missingLicenses'] = $e->get_missing_licenses();
+			}
+			return new WP_REST_Response(
+				$message,
+				$e->getCode()
+			);
+		} catch ( RuntimeException $e ) {
+			return new WP_REST_Response( 'Failed to get suggestions.', 500 );
+		}
 
-		return new WP_REST_Response( '' );
+		return new WP_REST_Response( $data );
 	}
 }

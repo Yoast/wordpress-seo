@@ -23,7 +23,11 @@ trait Route_Permission_Trait {
 	 */
 	public function check_permissions(): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Route_Permission_Trait::check_permissions' );
+		$user = \wp_get_current_user();
+		if ( $user === null || $user->ID < 1 ) {
+			return false;
+		}
 
-		return false;
+		return \user_can( $user, 'edit_posts' );
 	}
 }
