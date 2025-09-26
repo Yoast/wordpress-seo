@@ -1,10 +1,12 @@
 /* global wpseoAdminL10n */
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
 import PropTypes from "prop-types";
 
 import { UpsellModal } from "./UpsellModal.js";
+import { BenefitItems } from "../contentBlocks/BenefitItems.js";
 
 /**
  * ContentBlocksUpsell component.
@@ -21,6 +23,13 @@ export const ContentBlocksUpsell = ( { isOpen, closeModal, location } ) => {
 			? "shortlinks.upsell.sidebar.content_blocks"
 			: "shortlinks.upsell.metabox.content_blocks"
 	];
+	const upsellId = "yoast-content-blocks-upsell";
+	const renderBenefitItems = useCallback( () => {
+		return (
+			<BenefitItems id={ upsellId } />
+		);
+	}, [] );
+
 	return (
 		<UpsellModal
 			isOpen={ isOpen }
@@ -30,12 +39,7 @@ export const ContentBlocksUpsell = ( { isOpen, closeModal, location } ) => {
 			modalTitle={ __( "Enhance your content", "wordpress-seo" ) }
 			title={ __( "Make your post more engaging at a click", "wordpress-seo" ) }
 			description={ __( "Add rich elements that improve readability, structure, and SEO. Easily insert smart blocks to enrich your content directly in the Block Editor. Includes:", "wordpress-seo" ) }
-			benefits={ [
-				__( "AI Summarize", "wordpress-seo" ),
-				__( "Estimated reading time", "wordpress-seo" ),
-				__( "Related links", "wordpress-seo" ),
-				__( "Table of contents", "wordpress-seo" ),
-			] }
+			benefits={ renderBenefitItems }
 			note={ __( "Get a tailored experience for the Block Editor", "wordpress-seo" ) }
 			ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 		/>

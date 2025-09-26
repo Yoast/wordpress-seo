@@ -21,7 +21,7 @@ export const STORE_NAME_EDITOR = "yoast-seo/editor";
  * @param {string} upsellLink The upsell link to use.
  * @param {string} title The title of the upsell box.
  * @param {string} description The description of the upsell box.
- * @param {string[]} benefits The benefits of the upsell box.
+ * @param {string[]|Function} benefits The benefits of the upsell box. Can be an array of strings or a function that returns JSX.
  * @param {string} note The note to display in the upsell box.
  * @param {string} ctbId The ID of the call-to-action button.
  * @param {string} modalTitle The title of the modal.
@@ -69,9 +69,9 @@ export const UpsellModal = ( {
 						<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
 					</div> }
 					<div className="yst-py-6 yst-px-12">
-						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-normal">{ title }</Title>
+						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-medium">{ title }</Title>
 						<p className="yst-mb-2">{ description }</p>
-						{ benefits.length > 0 &&
+						{ ( Array.isArray( benefits ) && benefits.length > 0 ) &&
 						<ul className="yst-my-2">
 							{ benefits.map( ( benefit, index ) => {
 								return <li key={ `${id}-upsell-benefit-${ index }` } className="yst-flex yst-gap-1 yst-mb-2">
@@ -80,6 +80,7 @@ export const UpsellModal = ( {
 								</li>;
 							} ) }
 						</ul> }
+						{ ( typeof benefits === "function" ) && benefits() }
 						<div className="yst-text-center">
 							<Button
 								as="a"
