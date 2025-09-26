@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\AI_Consent\Infrastructure\Endpoints;
 
 use Exception;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 
 /**
  * Represents the setup steps tracking endpoint.
@@ -23,7 +24,8 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	 */
 	public function get_name(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name' );
-		return '';
+
+		return 'consent';
 	}
 
 	/**
@@ -36,7 +38,8 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	 */
 	public function get_namespace(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_namespace' );
-		return '';
+
+		return Consent_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -51,7 +54,7 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	public function get_route(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_route' );
 
-		return '';
+		return Consent_Route::ROUTE_PREFIX;
 	}
 
 	/**
@@ -65,6 +68,6 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	public function get_url(): string {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url' );
 
-		return '';
+		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}
 }
