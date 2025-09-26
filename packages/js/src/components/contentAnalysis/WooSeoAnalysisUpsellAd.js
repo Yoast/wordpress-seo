@@ -23,13 +23,14 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 		{ icon: IdentificationIcon, text: __( "SKUs", "wordpress-seo" ) },
 	];
 
-	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor } = useSelect( ( select ) => {
+	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor, isWooSEOActive } = useSelect( ( select ) => {
 		const { selectLink } = select( STORE_NAME_EDITOR );
 		return {
 			metaboxUrl: selectLink( "https://yoa.st/seo-analysis-metabox-woocommerce" ),
 			sidebarUrl: selectLink( "https://yoa.st/seo-analysis-sidebar-woocommerce" ),
 			elementorUrl: selectLink( "https://yoa.st/seo-analysis-woocommerce-elementor" ),
 			isElementorEditor: select( STORE_NAME_EDITOR ).getIsElementorEditor(),
+			isWooSEOActive: select( STORE_NAME_EDITOR ).getIsWooSeoActive(),
 		};
 	}, [] );
 
@@ -76,7 +77,7 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 				>
 					<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
-					{ sprintf(
+					{ isWooSEOActive ? __( "Unlock with Premium", "wordpress-seo" )  : sprintf(
 						/* translators: WooCommerce SEO */
 						__( "Get %s", "wordpress-seo" ),
 						"WooCommerce SEO"
