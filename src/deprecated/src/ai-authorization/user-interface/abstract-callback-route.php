@@ -10,6 +10,7 @@ use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Reposito
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository_Interface;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
@@ -60,7 +61,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	public static function get_conditionals() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals' );
 
-		return [ '' ];
+		return [ AI_Conditional::class ];
 	}
 
 	/**
@@ -75,6 +76,10 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::__construct' );
+
+		$this->access_token_repository  = $access_token_repository;
+		$this->refresh_token_repository = $refresh_token_repository;
+		$this->code_verifier_repository = $code_verifier_repository;
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -95,10 +100,25 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
 
+		$user_id = $request['user_id'];
+		try {
+			$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
+
+			if ( $request['code_challenge'] !== \hash( 'sha256', $code_verifier->get_code() ) ) {
+				throw new Unauthorized_Exception( 'Unauthorized' );
+			}
+
+			$this->access_token_repository->store_token( $user_id, $request['access_jwt'] );
+			$this->refresh_token_repository->store_token( $user_id, $request['refresh_jwt'] );
+			$this->code_verifier_repository->delete_code_verifier( $user_id );
+		} catch ( Unauthorized_Exception | RuntimeException $e ) {
+			return new WP_REST_Response( 'Unauthorized.', 401 );
+		}
+
 		return new WP_REST_Response(
 			[
-				'message'       => '',
-				'code_verifier' => -1,
+				'message'       => 'Tokens successfully stored.',
+				'code_verifier' => $code_verifier->get_code(),
 			]
 		);
 	}
