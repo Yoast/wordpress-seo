@@ -62,6 +62,8 @@ class Free_Sparks_Route implements Route_Interface {
 	 */
 	public function __construct( Free_Sparks_Handler_Interface $free_sparks_handler ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::__construct' );
+
+		$this->free_sparks_handler = $free_sparks_handler;
 	}
 
 	/**
@@ -74,6 +76,16 @@ class Free_Sparks_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::register_routes' );
+
+		\register_rest_route(
+			self::ROUTE_NAMESPACE,
+			self::ROUTE_PREFIX,
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'start' ],
+				'permission_callback' => [ $this, 'can_edit_posts' ],
+			]
+		);
 	}
 
 	/**
@@ -87,7 +99,12 @@ class Free_Sparks_Route implements Route_Interface {
 	public function start(): WP_REST_Response {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::start' );
 
-		return new WP_REST_Response( '' );
+		$result = $this->free_sparks_handler->start( null );
+		if ( ! $result ) {
+			new WP_REST_Response( 'Failed to start free sparks.', 500 );
+		}
+
+		return new WP_REST_Response( 'Free sparks successfully started.' );
 	}
 
 	/**
@@ -101,6 +118,11 @@ class Free_Sparks_Route implements Route_Interface {
 	public function can_edit_posts(): bool {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::can_edit_posts' );
 
-		return false;
+		$user = \wp_get_current_user();
+		if ( $user === null || $user->ID < 1 ) {
+			return false;
+		}
+
+		return \user_can( $user, 'edit_posts' );
 	}
 }

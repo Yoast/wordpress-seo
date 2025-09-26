@@ -26,5 +26,6 @@ class Free_Sparks_Endpoints_Repository extends Endpoints_Repository {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository::__construct' );
 
 		parent::__construct( ...$endpoints );
+		$this->endpoints = $endpoints;
 	}
 }
