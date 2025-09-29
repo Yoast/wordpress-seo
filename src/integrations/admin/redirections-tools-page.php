@@ -30,7 +30,7 @@ class Redirections_Tools_Page implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Redirect_Helper $redirect_Helper The redirect helper.
+	 * @param Redirect_Helper $redirect_helper The redirect helper.
 	 */
 	public function __construct(
 		Redirect_Helper $redirect_helper
