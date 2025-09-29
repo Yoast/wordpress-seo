@@ -1,7 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { createBlock } from "@wordpress/blocks";
+import { ContentBlocksUpsell } from "../../../src/components/modals/ContentBlocksUpsell";
 import { AddBlockButton } from "../../../src/components/contentBlocks/AddBlockButton";
+
 
 // Mock WordPress dependencies
 jest.mock( "@wordpress/data", () => ( {
@@ -18,6 +20,10 @@ jest.mock( "@heroicons/react/outline", () => ( {
 	PlusIcon: ( { className } ) => <svg className={ className } data-testid="plus-icon" />,
 } ) );
 
+jest.mock( "../../../src/components/modals/ContentBlocksUpsell", () => ( {
+	ContentBlocksUpsell: jest.fn( () => <div data-testid="upsell-modal" /> ),
+} ) );
+
 describe( "AddBlockButton", () => {
 	const mockInsertBlock = jest.fn();
 	const mockReplaceBlock = jest.fn();
@@ -25,6 +31,7 @@ describe( "AddBlockButton", () => {
 	const defaultProps = {
 		showUpsellBadge: false,
 		blockName: "test/block",
+		location: "sidebar",
 	};
 
 	beforeEach( () => {
@@ -345,6 +352,47 @@ describe( "AddBlockButton", () => {
 				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 1 );
 				expect( mockReplaceBlock ).not.toHaveBeenCalled();
 			} );
+		} );
+	} );
+
+	describe( "Upsell modal rendering", () => {
+		const mockedProps = {
+			showUpsellBadge: true,
+			blockName: "test/block",
+			location: "metabox",
+		};
+
+		beforeEach( () => {
+			useSelect.mockReturnValue( {
+				blockInsertionPoint: { index: 1 },
+				blocks: [],
+			} );
+		} );
+
+		it( "renders ContentBlocksUpsell with correct props", () => {
+			render( <AddBlockButton { ...mockedProps } /> );
+			expect( ContentBlocksUpsell ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					isOpen: false,
+					location: "metabox",
+					closeModal: expect.any( Function ),
+				} ),
+				{}
+			);
+		} );
+
+		it( "opens ContentBlocksUpsell modal when button is clicked and showUpsellBadge is true", () => {
+			render( <AddBlockButton { ...mockedProps } /> );
+			const button = screen.getByRole( "button" );
+			fireEvent.click( button );
+
+			// After click, isOpen should be true
+			expect( ContentBlocksUpsell ).toHaveBeenLastCalledWith(
+				expect.objectContaining( {
+					isOpen: true,
+				} ),
+				{}
+			);
 		} );
 	} );
 } );
