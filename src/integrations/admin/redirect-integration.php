@@ -45,6 +45,7 @@ class Redirect_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_loaded', [ $this, 'old_settings_redirect' ] );
+		\add_action( 'wp_loaded', [ $this, 'redirection_redirect' ] );
 	}
 
 	/**
@@ -63,6 +64,28 @@ class Redirect_Integration implements Integration_Interface {
 		switch ( $current_page ) {
 			case 'wpseo_titles':
 				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ), 301 );
+				return;
+			default:
+				return;
+		}
+	}
+
+	/**
+	 * Redirect to Yoast redirection page, from the respective WP tools page.
+	 *
+	 * @return void
+	 */
+	public function redirection_redirect() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['page'] ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
+
+		switch ( $current_page ) {
+			case 'wpseo_redirects_tools':
+				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_redirects&from_tools=1' ) );
 				return;
 			default:
 				return;

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -24,7 +25,10 @@ class Redirections_Tools_Page implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Premium_Inactive_Conditional::class,
+		];
 	}
 
 	/**
@@ -63,12 +67,11 @@ class Redirections_Tools_Page implements Integration_Interface {
 	}
 
 	/**
-	 * The redirects tools page, that redirects to the respective Yoast admin page.
+	 * The redirects tools page render function, noop.
 	 *
 	 * @return void
 	 */
 	public function show_redirects_page() {
-		$this->redirect_helper->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_redirects&from_tools=1' ) );
-		exit;
+		// Do nothing and let the redirect happen from the redirect integration.
 	}
 }
