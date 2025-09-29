@@ -19,6 +19,7 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Unsupported_PHP_Version_Notice;
 
@@ -149,15 +150,28 @@ $complex_deprecated_classes = [
 
 foreach ( $complex_deprecated_classes as $class_name => $version ) {
 	// Register without autowiring to avoid interface dependency issues
-	$container->register( $class_name, $class_name )
+	$definition = $container->register( $class_name, $class_name )
 		->setAutowired( false )  // Disable autowiring
 		->setAutoconfigured( false )
 		->setPublic( true );
 
 	// Set deprecation if method exists (Symfony version compatibility)
-	$definition = $container->getDefinition( $class_name );
 	if ( method_exists( $definition, 'setDeprecated' ) ) {
 		$definition->setDeprecated( true, "%service_id% is deprecated since version $version!" );
+	}
+
+	// Add manual constructor arguments for Token_Manager
+	if ( $class_name === 'Yoast\WP\SEO\AI_Authorization\Application\Token_Manager' ) {
+		$definition->setArguments([
+			new Reference('Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository'),
+			new Reference('Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler'),
+			new Reference('Yoast\WP\SEO\AI_Consent\Application\Consent_Handler'),
+			new Reference('Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository'),
+			new Reference('Yoast\WP\SEO\Helpers\User_Helper'),
+			new Reference('Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler'),
+			new Reference('Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository'),
+			new Reference('Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs'),
+		]);
 	}
 }
 
@@ -178,17 +192,19 @@ $namespace_aliases = [
 	'Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Integration' => 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration',
 
 	// AI Generator aliases (note: old uses Ai_Generator, new uses AI\Generator)
-	'Yoast\WP\SEO\Ai_Generator\Infrastructure\WordPress_URLs' => 'Yoast\WP\SEO\AI\Generator\Infrastructure\WordPress_URLs',
-	'Yoast\WP\SEO\Ai_Generator\User_Interface\Bust_Subscription_Cache_Route' => 'Yoast\WP\SEO\AI\Generator\User_Interface\Bust_Subscription_Cache_Route',
-	'Yoast\WP\SEO\Ai_Generator\Application\Generator_Endpoints_Repository' => 'Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository',
-	'Yoast\WP\SEO\Ai_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint' => 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint',
-	'Yoast\WP\SEO\Ai_Generator\Infrastructure\Endpoints\Get_Usage_Endpoint' => 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint',
-	'Yoast\WP\SEO\Ai_Generator\User_Interface\Get_Suggestions_Route' => 'Yoast\WP\SEO\AI\Generator\User_Interface\Get_Suggestions_Route',
-	'Yoast\WP\SEO\Ai_Generator\User_Interface\Get_Usage_Route' => 'Yoast\WP\SEO\AI\Generator\User_Interface\Get_Usage_Route',
-	'Yoast\WP\SEO\Ai_Generator\User_Interface\Route_Permission_Trait' => 'Yoast\WP\SEO\AI\Generator\User_Interface\Route_Permission_Trait',
-	'Yoast\WP\SEO\Ai_Generator\Application\Suggestions_Provider' => 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider',
-	'Yoast\WP\SEO\Ai_Generator\Domain\Suggestions_Bucket' => 'Yoast\WP\SEO\AI\Generator\Domain\Suggestions_Bucket',
-	'Yoast\WP\SEO\AI_Generator\Domain\Suggestion' => 'Yoast\WP\SEO\AI\Generator\Domain\Suggestion',
+
+
+	'Yoast\WP\SEO\Ai_Generator\Infrastructure\WordPress_URLs' => 'Yoast\WP\SEO\AI\Generate\Infrastructure\WordPress_URLs',
+	'Yoast\WP\SEO\Ai_Generator\User_Interface\Bust_Subscription_Cache_Route' => 'Yoast\WP\SEO\AI\Generate\User_Interface\Bust_Subscription_Cache_Route',
+	'Yoast\WP\SEO\Ai_Generator\Application\Generator_Endpoints_Repository' => 'Yoast\WP\SEO\AI\Generate\Application\Generate_Endpoints_Repository',
+	'Yoast\WP\SEO\Ai_Generator\Infrastructure\Endpoints\Get_Suggestions_Endpoint' => 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Suggestions_Endpoint',
+	'Yoast\WP\SEO\Ai_Generator\Infrastructure\Endpoints\Get_Usage_Endpoint' => 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint',
+	'Yoast\WP\SEO\Ai_Generator\User_Interface\Get_Suggestions_Route' => 'Yoast\WP\SEO\AI\Generate\User_Interface\Get_Suggestions_Route',
+	'Yoast\WP\SEO\Ai_Generator\User_Interface\Get_Usage_Route' => 'Yoast\WP\SEO\AI\Generate\User_Interface\Get_Usage_Route',
+	'Yoast\WP\SEO\Ai_Generator\User_Interface\Route_Permission_Trait' => 'Yoast\WP\SEO\AI\Generate\User_Interface\Route_Permission_Trait',
+	'Yoast\WP\SEO\Ai_Generator\Application\Suggestions_Provider' => 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider',
+	'Yoast\WP\SEO\Ai_Generator\Domain\Suggestions_Bucket' => 'Yoast\WP\SEO\AI\Generate\Domain\Suggestions_Bucket',
+	'Yoast\WP\SEO\AI_Generator\Domain\Suggestion' => 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion',
 
 	// AI HTTP Request aliases
 	'Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client' => 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client',
