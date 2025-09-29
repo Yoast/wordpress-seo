@@ -44,7 +44,7 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 	return (
 		<div className="yst-root">
 			<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
-				<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
+				<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
 					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 					<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
 				</Title>
