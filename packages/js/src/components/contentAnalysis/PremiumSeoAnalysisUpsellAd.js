@@ -30,7 +30,7 @@ export const getLocationKey = ( location, isElementorEditor ) => {
  * @returns {JSX.Element} The PremiumSEOAnalysisUpsellAd component.
  */
 export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
-	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor, isWooCommerceActive } = useSelect( ( select ) => {
+	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor, isWooCommerceActive, isProductEntity } = useSelect( ( select ) => {
 		const { selectLink } = select( STORE_NAME_EDITOR );
 		return {
 			metaboxUrl: selectLink( "https://yoa.st/premium-seo-analysis-metabox" ),
@@ -38,10 +38,11 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 			elementorUrl: selectLink( "https://yoa.st/premium-seo-analysis-elementor" ),
 			isElementorEditor: select( STORE_NAME_EDITOR ).getIsElementorEditor(),
 			isWooCommerceActive: select( STORE_NAME_EDITOR ).getIsWooCommerceActive(),
+			isProductEntity: select( STORE_NAME_EDITOR ).getIsProductEntity(),
 		};
 	}, [] );
 
-	if ( isWooCommerceActive ) {
+	if ( isWooCommerceActive && isProductEntity ) {
 		return <WooSeoAnalysisUpsellAd location={ location } />;
 	}
 
@@ -56,8 +57,8 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	return (
 		<div className="yst-root">
 			<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
-				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
-					{ __( "Premium SEO analysis", "wordpress-seo" ) }
+				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 					<CrownIcon className="yst-w-4" { ...svgAriaProps } />
 				</Title>
 				<p>
