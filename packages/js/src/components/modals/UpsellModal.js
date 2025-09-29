@@ -41,12 +41,13 @@ export const UpsellModal = ( {
 	ctbId = "",
 	modalTitle,
 } ) => {
-	const { isBlackFriday, isWooCommerceActive, isProductEntity } = useSelect( ( select ) => {
+	const { isBlackFriday, isWooCommerceActive, isProductEntity, isWooSEOActive } = useSelect( ( select ) => {
 		const editorStore = select( STORE_NAME_EDITOR );
 		return {
 			isProductEntity: editorStore.getIsProductEntity(),
 			isWooCommerceActive: editorStore.getIsWooCommerceActive(),
 			isBlackFriday: editorStore.isPromotionActive( "black-friday-promotion" ),
+			isWooSEOActive: editorStore.getIsWooSeoActive(),
 		};
 	}, [] );
 
@@ -103,7 +104,7 @@ export const UpsellModal = ( {
 								{ sprintf(
 									/* translators: %s expands to 'Yoast SEO Premium' or 'Yoast Woocommerce SEO'. */
 									__( "Explore %s", "wordpress-seo" ),
-									isWooAd ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+									isWooAd && ! isWooSEOActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 								) }
 								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
 							</Button>
