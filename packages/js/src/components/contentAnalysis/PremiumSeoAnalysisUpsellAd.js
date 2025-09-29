@@ -57,8 +57,8 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	return (
 		<div className="yst-root">
 			<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
-				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
-					{ __( "Premium SEO analysis", "wordpress-seo" ) }
+				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 					<CrownIcon className="yst-w-4" { ...svgAriaProps } />
 				</Title>
 				<p>
