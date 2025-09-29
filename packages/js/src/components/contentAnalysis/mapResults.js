@@ -14,6 +14,7 @@ import { interpreters } from "yoastseo";
  * @property {bool} hasBetaBadge
  * @property {bool} hasJumps
  * @property {string} editFieldName
+ * @property {string} editFieldAriaLabel
  */
 
 /**
@@ -48,6 +49,7 @@ function mapResult( result, key = "" ) {
 		hasJumps: result.hasJumps(),
 		hasAIFixes: result.hasAIFixes(),
 		editFieldName: result.editFieldName,
+		editFieldAriaLabel: result.editFieldAriaLabel,
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
