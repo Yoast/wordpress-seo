@@ -1,11 +1,12 @@
 /* eslint-disable complexity */
 import { Button, Modal, Title } from "@yoast/ui-library";
 import { ReactComponent as YoastLogo } from "../../../images/Yoast_icon_kader.svg";
-import { select } from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
+import { useMemo } from "@wordpress/element";
 
 /**
  * The Redux store name of the editor.
@@ -40,8 +41,17 @@ export const UpsellModal = ( {
 	ctbId = "",
 	modalTitle,
 } ) => {
-	const isBlackFriday = select( STORE_NAME_EDITOR ).isPromotionActive( "black-friday-promotion" );
-	const isWooCommerceActive = select( STORE_NAME_EDITOR ).getIsWooCommerceActive();
+	const { isBlackFriday, isWooCommerceActive, isProductEntity, isWooSEOActive } = useSelect( ( select ) => {
+		const editorStore = select( STORE_NAME_EDITOR );
+		return {
+			isProductEntity: editorStore.getIsProductEntity(),
+			isWooCommerceActive: editorStore.getIsWooCommerceActive(),
+			isBlackFriday: editorStore.isPromotionActive( "black-friday-promotion" ),
+			isWooSEOActive: editorStore.getIsWooSeoActive(),
+		};
+	}, [] );
+
+	const isWooAd = useMemo( () => isWooCommerceActive && isProductEntity, [ isWooCommerceActive, isProductEntity ] );
 	return <Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
@@ -50,12 +60,12 @@ export const UpsellModal = ( {
 		<Modal.Panel className="yst-max-w-[26.25rem] yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-4 yst-items-center">
-					{ isWooCommerceActive ? <ShoppingCartIcon className="yst-text-woo-light yst-w-6 yst-h-6 yst-scale-x-[-1]" />
+					{ isWooAd ? <ShoppingCartIcon className="yst-text-woo-light yst-w-6 yst-h-6 yst-scale-x-[-1]" />
 						: <YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5" /> }
 					<Modal.Title
 						as="h3" className={
 							classNames(
-								isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500",
+								isWooAd ? "yst-text-woo-light" : "yst-text-primary-500",
 								"yst-text-xl"
 							) }
 					>
@@ -94,7 +104,7 @@ export const UpsellModal = ( {
 								{ sprintf(
 									/* translators: %s expands to 'Yoast SEO Premium' or 'Yoast Woocommerce SEO'. */
 									__( "Explore %s", "wordpress-seo" ),
-									isWooCommerceActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
+									isWooAd && ! isWooSEOActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 								) }
 								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
 							</Button>

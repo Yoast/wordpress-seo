@@ -23,13 +23,14 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 		{ icon: IdentificationIcon, text: __( "SKUs", "wordpress-seo" ) },
 	];
 
-	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor } = useSelect( ( select ) => {
+	const { metaboxUrl, sidebarUrl, elementorUrl, isElementorEditor, isWooSEOActive } = useSelect( ( select ) => {
 		const { selectLink } = select( STORE_NAME_EDITOR );
 		return {
 			metaboxUrl: selectLink( "https://yoa.st/seo-analysis-metabox-woocommerce" ),
 			sidebarUrl: selectLink( "https://yoa.st/seo-analysis-sidebar-woocommerce" ),
 			elementorUrl: selectLink( "https://yoa.st/seo-analysis-woocommerce-elementor" ),
 			isElementorEditor: select( STORE_NAME_EDITOR ).getIsElementorEditor(),
+			isWooSEOActive: select( STORE_NAME_EDITOR ).getIsWooSeoActive(),
 		};
 	}, [] );
 
@@ -44,13 +45,13 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 	return (
 		<div className="yst-root">
 			<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
-				<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2">
-					{ __( "Premium SEO analysis", "wordpress-seo" ) }
+				<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
 					<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
 				</Title>
 				<p>
 					{ __(
-						"Benefit from all Premium SEO analyses, plus product-specific checks like:",
+						"Benefit from all premium SEO analyses, plus product-specific checks like:",
 						"wordpress-seo"
 					) }
 				</p>
@@ -76,7 +77,7 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 				>
 					<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
-					{ sprintf(
+					{ isWooSEOActive ? __( "Unlock with Premium", "wordpress-seo" )  : sprintf(
 						/* translators: WooCommerce SEO */
 						__( "Get %s", "wordpress-seo" ),
 						"WooCommerce SEO"
