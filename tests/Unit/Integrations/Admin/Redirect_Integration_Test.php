@@ -81,44 +81,46 @@ final class Redirect_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( Monkey\Actions\has( 'wp_loaded', [ $this->instance, 'old_settings_redirect' ] ), 'Does not have expected wp_loaded filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp_loaded', [ $this->instance, 'settings_redirect' ] ), 'Does not have expected wp_loaded filter' );
 	}
 
 	/**
-	 * Tests old_settings_redirect.
+	 * Tests settings_redirect.
 	 *
-	 * @dataProvider provider_old_settings_redirect
-	 * @covers ::old_settings_redirect
+	 * @dataProvider provider_settings_redirect
+	 * @covers ::settings_redirect
 	 *
 	 * @param string $current_page   The current page parameter.
 	 * @param int    $redirect_times The times we will redirect.
 	 *
 	 * @return void
 	 */
-	public function test_old_settings_redirect( $current_page, $redirect_times ) {
+	public function test_old_settings_redirect( $current_page, $redirect_times, $expected_parameter, $expected_redirect_url, $status_code ) {
 		$_GET['page'] = $current_page;
 
 		Monkey\Functions\expect( 'admin_url' )
 			->times( $redirect_times )
-			->with( 'admin.php?page=wpseo_page_settings#/site-representation' )
-			->andReturn( 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation' );
+			->with( $expected_parameter )
+			->andReturn( $expected_redirect_url );
 
 		$this->redirect->expects( 'do_safe_redirect' )
 			->times( $redirect_times )
-			->with( 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 );
+			->with( $expected_redirect_url, $status_code );
 
-		$this->instance->old_settings_redirect();
+		$this->instance->settings_redirect();
 	}
 
 	/**
-	 * Data provider for test_old_settings_redirect().
+	 * Data provider for test_settings_redirect().
 	 *
 	 * @return array
 	 */
-	public static function provider_old_settings_redirect() {
+	public static function provider_settings_redirect() {
 		return [
-			[ 'wpseo_titles', 1 ],
-			[ 'NOT_wpseo_titles', 0 ],
+			[ 'wpseo_titles', 1, 'admin.php?page=wpseo_page_settings#/site-representation', 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 ],
+			[ 'NOT_wpseo_titles', 0, 'admin.php?page=wpseo_page_settings#/site-representation', 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 ],
+			[ 'wpseo_redirects_tools', 1, 'admin.php?page=wpseo_redirects&from_tools=1', 'https://example.com/wp-admin/admin.php?page=wpseo_redirects&from_tools=1', 302 ],
+			[ 'NOT_wpseo_redirects_tools', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 'https://example.com/wp-admin/admin.php?page=admin.php?page=wpseo_redirects&from_tools=1', 302 ],
 		];
 	}
 }
