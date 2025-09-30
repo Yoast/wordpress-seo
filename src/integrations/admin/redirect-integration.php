@@ -77,8 +77,10 @@ class Redirect_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 26.2
 	 * @codeCoverageIgnore Because of deprecation.
+	 * @return void
 	 */
 	public function old_settings_redirect() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Use settings_redirect() instead.' );
 		$this->settings_redirect();
 	}
 }

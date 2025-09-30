@@ -90,8 +90,11 @@ final class Redirect_Integration_Test extends TestCase {
 	 * @dataProvider provider_settings_redirect
 	 * @covers ::settings_redirect
 	 *
-	 * @param string $current_page   The current page parameter.
-	 * @param int    $redirect_times The times we will redirect.
+	 * @param string $current_page          The current page parameter.
+	 * @param int    $redirect_times        The times we will redirect.
+	 * @param string $expected_parameter    The expected parameter to pass to admin_url.
+	 * @param string $expected_redirect_url The expected redirect URL.
+	 * @param int    $status_code           The expected status code for the redirect.
 	 *
 	 * @return void
 	 */
