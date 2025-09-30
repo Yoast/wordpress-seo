@@ -100,11 +100,11 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
+		const assessmentResult = new AssessmentResult();
+
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
 		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 		const keyphraseLength = this._keyphraseCount.keyphraseLength;
-
-		const assessmentResult = new AssessmentResult();
 
 		this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
 
@@ -118,8 +118,8 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-		// Only shows the AI button when there is not enough keyphrase density.
-		if ( calculatedScore.score === this._config.scores.underMinimum ) {
+		// Shows the AI button when there is not enough keyphrase density or when there's missing keyphrase/text
+		if ( calculatedScore.score === this._config.scores.underMinimum || ! paper.hasKeyword() || ! paper.hasText() ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
@@ -325,9 +325,14 @@ class KeyphraseDensityAssessment extends Assessment {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
 
+		// Allow assessment to run when keyphrase or text is missing to provide AI optimization
+		if ( ! paper.hasKeyword() || ! paper.hasText() ) {
+			return true;
+		}
+
 		const textLength = customCountLength ? customCountLength( paper.getText() ) : getAllWordsFromTree( paper ).length;
 
-		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
+		return textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 

@@ -169,10 +169,10 @@ const testDataForApplicability = [
 		expectedResult: false,
 	},
 	{
-		description: "does not apply to a paper with text of 100 words but without a keyphrase",
+		description: "applies to a paper with text of 100 words but without a keyphrase (to provide AI optimization)",
 		paper: new Paper( "<p>" + nonkeyword.repeat( 100 ) + "</p>", { keyword: "" } ),
 		researcher: new DefaultResearcher(),
-		expectedResult: false,
+		expectedResult: true,
 	},
 	{
 		description: "does not apply to a paper with a text containing less than 100 words and with a keyphrase",
@@ -181,10 +181,10 @@ const testDataForApplicability = [
 		expectedResult: false,
 	},
 	{
-		description: "does not apply to a paper with a text containing less than 100 words and without a keyphrase",
+		description: "applies to a paper with a text containing less than 100 words and without a keyphrase (to provide AI optimization)",
 		paper: new Paper( "<p>" + nonkeyword.repeat( 99 ) + "</p>", { keyword: "" } ),
 		researcher: new DefaultResearcher(),
-		expectedResult: false,
+		expectedResult: true,
 	},
 	{
 		description: "applies to a Japanese paper with a keyphrase and a text of at least 200 characters",

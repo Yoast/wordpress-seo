@@ -71,7 +71,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
-		if ( calculatedResult.score < 9 ) {
+		// Show AI fixes when score is less than perfect or when there's missing keyphrase/text
+		if ( calculatedResult.score < 9 || ! paper.hasKeyword() || ! paper.hasText() ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
@@ -169,13 +170,14 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 	/**
 	 * Checks whether the paper has a text with at least 15 sentences and a keyword,
-	 * and whether the researcher has keyphraseDistribution research.
+	 * and whether the researcher has keyphraseDistribution research. This assessment is now
+	 * also applicable when keyphrase or text is genuinely missing to provide AI optimization suggestions.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
 	 * @returns {boolean}   Returns true when there is a keyword and a text with 15 sentences or more
-	 *                      and the researcher has keyphraseDistribution research.
+	 *                      and the researcher has keyphraseDistribution research, or when keyphrase/text is missing.
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
@@ -184,7 +186,30 @@ class KeyphraseDistributionAssessment extends Assessment {
 		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
 		const sentences = getSentences( text, memoizedTokenizer );
 
-		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
+		// Standard logic first
+		const hasValidContent = sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
+		
+		if ( hasValidContent ) {
+			return true;
+		}
+		
+		// If standard logic fails, check if it's because of genuinely missing keyphrase or text 
+		// (not because of technical filtering issues)
+		if ( ! paper.hasKeyword() && paper.hasText() ) {
+			// Only enable for missing keyphrase if there's substantial meaningful text
+			const originalSentences = getSentences( paper.getText(), memoizedTokenizer );
+			// Check if the difference between original and filtered sentences suggests meaningful content was filtered out
+			const filteredRatio = sentences.length / originalSentences.length;
+			// If most content was filtered out (e.g., shortcodes), don't enable AI fixes
+			return originalSentences.length >= 10 && filteredRatio > 0.3; 
+		}
+		
+		if ( ! paper.hasText() ) {
+			// Always enable for missing text
+			return true;
+		}
+
+		return false;
 	}
 }
 

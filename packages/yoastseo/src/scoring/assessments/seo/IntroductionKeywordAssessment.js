@@ -63,7 +63,7 @@ export default class IntroductionKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( calculatedResult.score < 9 && this._canAssess ) {
+		if ( calculatedResult.score < 9 ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;

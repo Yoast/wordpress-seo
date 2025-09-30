@@ -114,7 +114,7 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( isAssessmentApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable to papers with more than 10 sentences when no keyword is set", function() {
+	it( "is applicable to papers with more than 10 sentences when no keyword is set (to provide AI optimization)", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
@@ -132,7 +132,7 @@ describe( "Checks if the assessment is applicable", function() {
 
 		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
 
-		expect( isAssessmentApplicable ).toBe( false );
+		expect( isAssessmentApplicable ).toBe( true );
 	} );
 
 

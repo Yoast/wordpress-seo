@@ -128,31 +128,31 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
-	it( "returns `hasAIFixes` to be false when the result is BAD and the paper doesn't have text or a keyphrase", function() {
+	it( "returns `hasAIFixes` to be true when the result is BAD and the paper doesn't have text or a keyphrase", function() {
 		const paper = new Paper( "" );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.hasAIFixes() ).toBeFalsy();
+		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
-	it( "returns `hasAIFixes` to be false when the result is BAD and the paper doesn't have text", function() {
+	it( "returns `hasAIFixes` to be true when the result is BAD and the paper doesn't have text", function() {
 		const paper = new Paper( "", { keyword: "ponies" } );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.hasAIFixes() ).toBeFalsy();
+		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
-	it( "returns `hasAIFixes` to be false when the result is BAD and the paper doesn't have a keyphrase", function() {
+	it( "returns `hasAIFixes` to be true when the result is BAD and the paper doesn't have a keyphrase", function() {
 		const paper = new Paper( "text" );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( paper, researcher );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.hasAIFixes() ).toBeFalsy();
+		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 } );
 
