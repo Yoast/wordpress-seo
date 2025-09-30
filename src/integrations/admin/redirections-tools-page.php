@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -27,7 +26,6 @@ class Redirections_Tools_Page implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Admin_Conditional::class,
-			Premium_Inactive_Conditional::class,
 		];
 	}
 
