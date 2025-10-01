@@ -151,6 +151,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ai_free_sparks_started_on'                            => null,
 		'enable_llms_txt'                                      => false,
 		'last_updated_on'                                      => false,
+		'default_seo_title'                                    => [],
+		'default_seo_meta_desc'                                => [],
 	];
 
 	/**
@@ -432,6 +434,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'last_known_public_taxonomies':
 				case 'new_post_types':
 				case 'new_taxonomies':
+				case 'default_seo_title':
+				case 'default_seo_meta_desc':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
