@@ -31,9 +31,11 @@ global.window.YoastSEO = {
  * @param {object[]} blocks The blocks.
  * @param {string} activeMarker The active marker.
  * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
+ * @param {string} keyword The focus keyphrase.
+ * @param {string} content The editor content.
  * @returns {function} The mock.
  */
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false ) => {
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some test content with the keyphrase in it." ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
@@ -43,6 +45,8 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorMode: () => editorMode,
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
+		getFocusKeyphrase: () => keyword,
+		getEditorDataContent: () => content,
 	} ) ) );
 
 	isTextViewActive.mockReturnValue( editorMode === "text" );
@@ -208,6 +212,42 @@ describe( "AIOptimizeButton", () => {
 		expect( setActiveMarker ).toHaveBeenCalledWith( null );
 		expect( setMarkerPauseStatus ).toHaveBeenCalledWith( false );
 		expect( window.YoastSEO.analysis.applyMarks ).toHaveBeenCalled();
+	} );
+
+	test( "should be disabled when keyphrase is missing for keyphrase-specific assessments", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "Some test content" );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please set a focus keyphrase" );
+	} );
+
+	test( "should be disabled when content is missing for keyphrase-specific assessments", () => {
+		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [], "", false, "test keyphrase", "" );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please add text content" );
+	} );
+
+	test( "should be enabled for keyphrase-specific assessments when both keyphrase and content are present", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "test keyphrase", "Some test content with the keyphrase in it." );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
+	} );
+
+	test( "should not apply keyphrase validation to non-keyphrase assessments", () => {
+		mockSelect( "someOtherAssessmentAIFixes", "visual", "blockEditor", [], "", false, "", "" );
+		render( <AIOptimizeButton id="someOtherAssessment" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
 	} );
 } );
 

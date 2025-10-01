@@ -43,11 +43,13 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyword, content } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
+		keyword: select( "yoast-seo/editor" ).getFocusKeyphrase(),
+		content: select( "yoast-seo/editor" ).getEditorDataContent(),
 	} ), [] );
 	const editorMode = getEditorMode();
 
@@ -85,6 +87,26 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			};
 		}
 
+		// Check if this is a keyphrase-specific assessment and validate keyphrase/text availability
+		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
+		if ( keyphraseAssessments.includes( id ) ) {
+			// Check if keyphrase is missing
+			if ( ! keyword || keyword.trim() === "" ) {
+				return {
+					isEnabled: false,
+					ariaLabel: __( "Please set a focus keyphrase", "wordpress-seo" ),
+				};
+			}
+			
+			// Check if text content is missing
+			if ( ! content || content.trim() === "" ) {
+				return {
+					isEnabled: false,
+					ariaLabel: __( "Please add text content", "wordpress-seo" ),
+				};
+			}
+		}
+
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
@@ -105,7 +127,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			isEnabled: true,
 			ariaLabel: defaultLabel,
 		};
-	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyword, content ] );
 
 	/**
 	 * Handles the button press state.
