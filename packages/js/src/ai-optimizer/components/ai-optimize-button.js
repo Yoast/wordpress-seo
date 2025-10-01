@@ -72,7 +72,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// (4) all blocks are in visual mode.
 	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
-		// Check for Keyphrase related assessments using Paper validation (same as assessments use)
 		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
 		if ( keyphraseAssessments.includes( id ) ) {
 			// Create a Paper object with current content to use consistent validation
@@ -80,6 +79,17 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			const hasValidKeyphrase = paper.hasKeyword();
 			const hasValidContent = paper.hasText();
 
+			// Check global disabled reasons first (for unsupported content)
+			const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+			if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
+				// Always show the global disabled reason when content is unsupported
+				return {
+					isEnabled: false,
+					ariaLabel: disabledAIButtons[ aiOptimizeId ],
+				};
+			}
+
+			// If not globally disabled, check keyphrase and content requirements
 			if ( ! hasValidKeyphrase || ! hasValidContent ) {
 				return {
 					isEnabled: false,
@@ -105,16 +115,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				ariaLabel: allVisual ? defaultLabel : htmlLabel,
 			};
 		}
-
-		// Check the global disabled reason for the button
-		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
-			return {
-				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiOptimizeId ],
-			};
-		}
-
+		// Classic editor visual mode check
 		return {
 			isEnabled: true,
 			ariaLabel: defaultLabel,
