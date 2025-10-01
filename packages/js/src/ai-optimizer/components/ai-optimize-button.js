@@ -72,41 +72,23 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// (4) all blocks are in visual mode.
 	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
-		if ( activeAIButtonId !== null && ! isButtonPressed ) {
-			return {
-				isEnabled: false,
-				ariaLabel: null,
-			};
-		}
-
-		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
-			return {
-				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiOptimizeId ],
-			};
-		}
-
-		// Check if this is a keyphrase-specific assessment and validate keyphrase/text availability
+		// Check for Keyphrase related assessments using Paper validation (same as assessments use)
 		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
 		if ( keyphraseAssessments.includes( id ) ) {
-			// Check if keyphrase is missing
-			if ( ! keyword || keyword.trim() === "" ) {
+			// Create a Paper object with current content to use consistent validation
+			const paper = new Paper( content || "", { keyword: keyword || "" } );
+			const hasValidKeyphrase = paper.hasKeyword();
+			const hasValidContent = paper.hasText();
+
+			if ( ! hasValidKeyphrase || ! hasValidContent ) {
 				return {
 					isEnabled: false,
-					ariaLabel: __( "Please set a focus keyphrase", "wordpress-seo" ),
-				};
-			}
-			
-			// Check if text content is missing
-			if ( ! content || content.trim() === "" ) {
-				return {
-					isEnabled: false,
-					ariaLabel: __( "Please add text content", "wordpress-seo" ),
+					ariaLabel: __( "Please add both a keyphrase and text", "wordpress-seo" ),
 				};
 			}
 		}
 
+		// Editor mode check
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
@@ -114,12 +96,22 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			};
 		}
 
+		// Block editor visual mode check
 		if ( editorType === "blockEditor" ) {
 			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
 			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 			return {
 				isEnabled: allVisual,
 				ariaLabel: allVisual ? defaultLabel : htmlLabel,
+			};
+		}
+
+		// Check the global disabled reason for the button
+		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
+			return {
+				isEnabled: false,
+				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
 
@@ -177,10 +169,10 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
 		if ( ariaLabel ) {
-			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
+			const direction = "yoast-tooltip-w";
 			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
 		}
-	}, [ isEnabled, ariaLabel ] );
+	}, [ ariaLabel ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave
