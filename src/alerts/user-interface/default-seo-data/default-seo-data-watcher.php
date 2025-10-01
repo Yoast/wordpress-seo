@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Alerts\User_Interface;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Alerts\User_Interface\Default_SEO_Data;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
