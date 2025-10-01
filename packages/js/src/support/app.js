@@ -32,8 +32,11 @@ const openHelpScoutBeacon = () => {
 	}
 };
 
+/* eslint-disable complexity */
+
 /**
  * @returns {JSX.Element} The app component.
+ *
  */
 export const App = () => {
 	const hasPremiumSubscription = useSelectSupport( "selectPreference", [], "hasPremiumSubscription", false );
