@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Alerts\Application\Default_SEO_Data;
 use Yoast\WP\SEO\Alerts\Infrastructure\Default_SEO_Data\Default_SEO_Data_Collector;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -54,6 +55,13 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	private $indexable_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Default_SEO_Data_Alert constructor.
 	 *
 	 * @param Yoast_Notification_Center  $notification_center        The notification center.
@@ -61,19 +69,22 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 * @param Short_Link_Helper          $short_link_helper          The short link helper.
 	 * @param Product_Helper             $product_helper             The product helper.
 	 * @param Indexable_Helper           $indexable_helper           The indexable helper.
+	 * @param Post_Type_Helper           $post_type_helper           The post type helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
 		Default_SEO_Data_Collector $default_seo_data_collector,
 		Short_Link_Helper $short_link_helper,
 		Product_Helper $product_helper,
-		Indexable_Helper $indexable_helper
+		Indexable_Helper $indexable_helper,
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->notification_center        = $notification_center;
 		$this->default_seo_data_collector = $default_seo_data_collector;
 		$this->short_link_helper          = $short_link_helper;
 		$this->product_helper             = $product_helper;
 		$this->indexable_helper           = $indexable_helper;
+		$this->post_type_helper           = $post_type_helper;
 	}
 
 	/**
@@ -102,6 +113,12 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	public function add_notifications() {
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			// Do not show the notification when indexables are disabled.
+			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+			return;
+		}
+
+		if ( ! $this->post_type_helper->is_indexable( 'post' ) || ! $this->post_type_helper->has_metabox( 'post' ) ) {
+			// Do not show the notification when posts are not indexable or have no metabox.
 			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
 			return;
 		}

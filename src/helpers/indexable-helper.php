@@ -316,7 +316,7 @@ class Indexable_Helper {
 
 		/**
 		 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-		 * right after the indexable is updated.
+		 * right after the indexable is created or updated.
 		 *
 		 * @param Indexable $indexable The saved indexable.
 		 */
