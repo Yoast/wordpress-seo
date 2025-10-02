@@ -1,3 +1,4 @@
+import { ClockIcon, LinkIcon, SparklesIcon, ViewListIcon } from "@heroicons/react/outline";
 import { useCallback, useContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationContext } from "@yoast/externals/contexts";
@@ -12,11 +13,31 @@ const CONTENT_BLOCKS = [
 	{ title: __( "How-to", "wordpress-seo" ), name: "yoast/how-to-block", isPremiumBlock: false },
 ];
 
-const PREMIUM_CONTENT_BLOCKS = [
-	{ title: __( "AI Summarize", "wordpress-seo" ), name: "yoast-seo/ai-summarize", isPremiumBlock: true },
-	{ title: __( "Estimated reading time", "wordpress-seo" ), name: "yoast-seo/estimated-reading-time", isPremiumBlock: true },
-	{ title: __( "Related links", "wordpress-seo" ), name: "yoast-seo/related-links", isPremiumBlock: true },
-	{ title: __( "Table of contents", "wordpress-seo" ), name: "yoast-seo/table-of-contents", isPremiumBlock: true },
+export const PREMIUM_CONTENT_BLOCKS = [
+	{
+		title: __( "AI Summarize", "wordpress-seo" ),
+		name: "yoast-seo/ai-summarize",
+		isPremiumBlock: true,
+		icon: SparklesIcon,
+	},
+	{
+		title: __( "Estimated reading time", "wordpress-seo" ),
+		name: "yoast-seo/estimated-reading-time",
+		isPremiumBlock: true,
+		icon: ClockIcon,
+	},
+	{
+		title: __( "Related links", "wordpress-seo" ),
+		name: "yoast-seo/related-links",
+		isPremiumBlock: true,
+		icon: LinkIcon,
+	},
+	{
+		title: __( "Table of contents", "wordpress-seo" ),
+		name: "yoast-seo/table-of-contents",
+		isPremiumBlock: true,
+		icon: ViewListIcon,
+	},
 ];
 
 /**
@@ -81,6 +102,7 @@ export const ContentBlocks = () => {
 						isPremiumBlock={ block.isPremiumBlock }
 						hasNewBadgeLabel={ block.title === "AI Summarize" }
 						renderNewBadgeLabel={ renderNewBadgeLabel }
+						location={ location }
 					/>
 				) )
 			}
