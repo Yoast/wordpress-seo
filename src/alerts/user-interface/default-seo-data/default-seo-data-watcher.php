@@ -66,26 +66,19 @@ class Default_SEO_Data_Watcher implements Integration_Interface {
 
 		$recent_posts = $this->indexable_repository->get_recently_modified_posts( 'post', 5, false );
 
-		if ( \count( $recent_posts ) < 5 ) {
-			return;
-		}
-
-		$default_seo_title_in_all_recent     = true;
-		$default_seo_meta_desc_in_all_recent = true;
+		$recent_default_seo_title     = [];
+		$recent_default_seo_meta_desc = [];
 		foreach ( $recent_posts as $post ) {
-			if ( $post->title !== null ) {
-				$default_seo_title_in_all_recent = false;
+			if ( $post->title === null ) {
+				$recent_default_seo_title[] = $post->object_id;
 			}
 
-			if ( $post->description !== null ) {
-				$default_seo_meta_desc_in_all_recent = false;
+			if ( $post->description === null ) {
+				$recent_default_seo_meta_desc[] = $post->object_id;
 			}
 		}
 
-		$default_seo_title = ( $default_seo_title_in_all_recent ) ? [ 'post' ] : [];
-		$this->options_helper->set( 'default_seo_title', $default_seo_title );
-
-		$default_seo_meta_desc = ( $default_seo_meta_desc_in_all_recent ) ? [ 'post' ] : [];
-		$this->options_helper->set( 'default_seo_meta_desc', $default_seo_meta_desc );
+		$this->options_helper->set( 'default_seo_title', $recent_default_seo_title );
+		$this->options_helper->set( 'default_seo_meta_desc', $recent_default_seo_meta_desc );
 	}
 }

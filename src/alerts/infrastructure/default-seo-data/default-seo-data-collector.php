@@ -26,20 +26,20 @@ class Default_SEO_Data_Collector {
 	}
 
 	/**
-	 * Returns the content types with default SEO title in their most recent.
+	 * Returns the posts with default SEO title in their most recent.
 	 *
-	 * @return string[] The content types with default SEO title in their most recent.
+	 * @return string[] The posts with default SEO title in their most recent.
 	 */
-	public function get_types_with_default_seo_title(): array {
+	public function get_posts_with_default_seo_title(): array {
 		return $this->options_helper->get( 'default_seo_title', [] );
 	}
 
 	/**
-	 * Returns the content types with default SEO description in their most recent.
+	 * Returns the posts with default SEO description in their most recent.
 	 *
-	 * @return string[] The content types with default SEO description in their most recent.
+	 * @return string[] The posts with default SEO description in their most recent.
 	 */
-	public function get_types_with_default_seo_description(): array {
+	public function get_posts_with_default_seo_description(): array {
 		return $this->options_helper->get( 'default_seo_meta_desc', [] );
 	}
 }

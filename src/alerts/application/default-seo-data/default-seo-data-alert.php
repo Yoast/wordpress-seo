@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Alerts\Application\Default_SEO_Data;
 
 use Yoast\WP\SEO\Alerts\Infrastructure\Default_SEO_Data\Default_SEO_Data_Collector;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
@@ -30,17 +32,37 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	private $default_seo_data_collector;
 
 	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	private $short_link_helper;
+
+	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Default_SEO_Data_Alert constructor.
 	 *
 	 * @param Yoast_Notification_Center  $notification_center        The notification center.
 	 * @param Default_SEO_Data_Collector $default_seo_data_collector The default SEO data collector.
+	 * @param Short_Link_Helper          $short_link_helper          The short link helper.
+	 * @param Product_Helper             $product_helper             The product helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
-		Default_SEO_Data_Collector $default_seo_data_collector
+		Default_SEO_Data_Collector $default_seo_data_collector,
+		Short_Link_Helper $short_link_helper,
+		Product_Helper $product_helper
 	) {
 		$this->notification_center        = $notification_center;
 		$this->default_seo_data_collector = $default_seo_data_collector;
+		$this->short_link_helper          = $short_link_helper;
+		$this->product_helper             = $product_helper;
 	}
 
 	/**
@@ -67,15 +89,18 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 * @return void
 	 */
 	public function add_notifications() {
-		$default_seo_title_types = $this->default_seo_data_collector->get_types_with_default_seo_title();
-		$default_seo_desc_types  = $this->default_seo_data_collector->get_types_with_default_seo_description();
+		$default_seo_titles = $this->default_seo_data_collector->get_posts_with_default_seo_title();
+		$default_seo_descs  = $this->default_seo_data_collector->get_posts_with_default_seo_description();
 
-		if ( empty( $default_seo_title_types ) && empty( $default_seo_desc_types ) ) {
+		$has_enough_posts_with_default_title = \count( $default_seo_titles ) > 4;
+		$has_enough_posts_with_default_desc  = \count( $default_seo_descs ) > 4;
+
+		if ( ! $has_enough_posts_with_default_title && ! $has_enough_posts_with_default_desc ) {
 			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
 			return;
 		}
 
-		$notification = $this->get_default_seo_data_notification( ! empty( $default_seo_title_types ), ! empty( $default_seo_desc_types ) );
+		$notification = $this->get_default_seo_data_notification( $has_enough_posts_with_default_title, $has_enough_posts_with_default_desc );
 
 		$this->notification_center->add_notification( $notification );
 	}
@@ -83,13 +108,13 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	/**
 	 * Build the default SEO data notification.
 	 *
-	 * @param bool $default_seo_title Whether there are content types with default SEO title in their most recent posts.
-	 * @param bool $default_seo_desc  Whether there are content types with default SEO description in their most recent posts.
+	 * @param bool $default_seo_titles Whether there are content types with default SEO title in their most recent posts.
+	 * @param bool $default_seo_descs  Whether there are content types with default SEO description in their most recent posts.
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
-	protected function get_default_seo_data_notification( $default_seo_title, $default_seo_desc ) {
-		$message = $this->get_default_seo_data_message( $default_seo_title, $default_seo_desc );
+	protected function get_default_seo_data_notification( $default_seo_titles, $default_seo_descs ) {
+		$message = $this->get_default_seo_data_message( $default_seo_titles, $default_seo_descs );
 
 		return new Yoast_Notification(
 			$message,
@@ -104,43 +129,37 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	/**
 	 * Creates a message to inform users that they are using only default SEO data lately.
 	 *
-	 * @param bool $default_seo_title Whether there are content types with default SEO title in their most recent posts.
-	 * @param bool $default_seo_desc  Whether there are content types with default SEO description in their most recent posts.
+	 * @param bool $default_seo_titles Whether there are content types with default SEO title in their most recent posts.
+	 * @param bool $default_seo_descs  Whether there are content types with default SEO description in their most recent posts.
 	 *
 	 * @return string The default SEO data message.
 	 */
-	protected function get_default_seo_data_message( $default_seo_title, $default_seo_desc ) {
-		if ( $default_seo_title && $default_seo_desc ) {
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-			$message = \esc_html__( 'It looks like you are using default SEO title and meta description for your most recent modified posts. %1$sChange your SEO title and meta description%2$s to make your content stand out in search results.', 'wordpress-seo' );
+	protected function get_default_seo_data_message( $default_seo_titles, $default_seo_descs ) {
+		$shortlink = ( $this->product_helper->is_premium() ) ? $this->short_link_helper->get( 'https://yoast.com/help/how-to-use-ai-in-yoast-seo-premium/' ) : $this->short_link_helper->get( 'https://yoast.com/free-sparks/' );
 
-			return \sprintf(
-				$message,
-				'<strong>',
-				'</strong>'
-			);
+		if ( $default_seo_titles && $default_seo_descs ) {
+			$default_seo_data = \esc_html__( 'SEO titles and meta descriptions', 'wordpress-seo' );
 		}
-		elseif ( $default_seo_title ) {
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-			$message = \esc_html__( 'It looks like you are using the default SEO title for your most recent posts. %1$sChange your SEO title%2$s to make your content stand out in search results.', 'wordpress-seo' );
-
-			return \sprintf(
-				$message,
-				'<strong>',
-				'</strong>'
-			);
+		elseif ( $default_seo_titles ) {
+			$default_seo_data = \esc_html__( 'SEO titles', 'wordpress-seo' );
 		}
-		elseif ( $default_seo_desc ) {
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-			$message = \esc_html__( 'It looks like you are using the default meta description for your most recent posts. %1$sChange your meta description%2$s to make your content stand out in search results.', 'wordpress-seo' );
-
-			return \sprintf(
-				$message,
-				'<strong>',
-				'</strong>'
-			);
+		elseif ( $default_seo_descs ) {
+			$default_seo_data = \esc_html__( 'meta descriptions', 'wordpress-seo' );
+		}
+		else {
+			$default_seo_data = \esc_html__( 'SEO data', 'wordpress-seo' );
 		}
 
-		return '';
+		/* translators: %1$s expands to "SEO title" or "meta description", %2$s expands to an opening strong tag, %3$s expands to a closing strong tag, %4$s expands to an opening link tag, %5$s expands to a closing link tag. */
+		$message = \esc_html__( 'It looks like you are using default %1$s for your most recent posts. Our %2$sAI Generate feature%3$s can help you create unique and quality SEO titles and meta descriptions easily. %4$sLearn how%5$s.', 'wordpress-seo' );
+
+		return \sprintf(
+			$message,
+			$default_seo_data,
+			'<strong>',
+			'</strong>',
+			'<a href="' . \esc_url( $shortlink ) . '">',
+			'</a>'
+		);
 	}
 }
