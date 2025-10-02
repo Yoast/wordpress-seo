@@ -119,7 +119,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi, isNew } ) =>
 	const { opengraph } = formValues.wpseo_social;
 
 	const taxonomyMessage = useMemo( () => {
-		return initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage;
+		return initialPostTypeValues.length >= 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage;
 	}, [ initialPostTypeValues, taxonomyMultiplePostTypesMessage, taxonomySinglePostTypeMessage ] );
 
 	const enableSeoControl = useCallback( () => {
