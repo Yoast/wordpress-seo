@@ -215,8 +215,8 @@ describe( "AIOptimizeButton", () => {
 		expect( window.YoastSEO.analysis.applyMarks ).toHaveBeenCalled();
 	} );
 
-	test( "should be disabled when keyphrase is missing for keyphrase-specific assessments", () => {
-		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "Some test content" );
+	test( "should be disabled when both keyphrase and content are missing for keyphrase-specific assessments", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "" );
 		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
@@ -224,9 +224,9 @@ describe( "AIOptimizeButton", () => {
 		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
 	} );
 
-	test( "should be disabled when content is missing for keyphrase-specific assessments", () => {
-		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", [], "", false, "test keyphrase", "" );
-		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+	test( "should be disabled when keyphrase is missing for keyphrase-specific assessments", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "Some test content" );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
