@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Alerts\Application\Default_SEO_Data;
 
 use Yoast\WP\SEO\Alerts\Infrastructure\Default_SEO_Data\Default_SEO_Data_Collector;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -46,23 +47,33 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Default_SEO_Data_Alert constructor.
 	 *
 	 * @param Yoast_Notification_Center  $notification_center        The notification center.
 	 * @param Default_SEO_Data_Collector $default_seo_data_collector The default SEO data collector.
 	 * @param Short_Link_Helper          $short_link_helper          The short link helper.
 	 * @param Product_Helper             $product_helper             The product helper.
+	 * @param Indexable_Helper           $indexable_helper           The indexable helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
 		Default_SEO_Data_Collector $default_seo_data_collector,
 		Short_Link_Helper $short_link_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Indexable_Helper $indexable_helper
 	) {
 		$this->notification_center        = $notification_center;
 		$this->default_seo_data_collector = $default_seo_data_collector;
 		$this->short_link_helper          = $short_link_helper;
 		$this->product_helper             = $product_helper;
+		$this->indexable_helper           = $indexable_helper;
 	}
 
 	/**
@@ -89,6 +100,12 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 * @return void
 	 */
 	public function add_notifications() {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			// Do not show the notification when indexables are disabled.
+			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+			return;
+		}
+
 		$default_seo_titles = $this->default_seo_data_collector->get_posts_with_default_seo_title();
 		$default_seo_descs  = $this->default_seo_data_collector->get_posts_with_default_seo_description();
 
