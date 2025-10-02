@@ -129,7 +129,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns `hasAIFixes` to be true even when the result is BAD and the paper doesn't have text or a keyphrase", function() {
-		const mockPaper = new Paper( "", { "keyword": "" } );
+		const mockPaper = new Paper( "", { keyword: "" } );
 		const researcher = Factory.buildMockResearcher( {} );
 		const assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
 

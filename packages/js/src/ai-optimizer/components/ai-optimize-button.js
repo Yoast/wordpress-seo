@@ -89,11 +89,23 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				};
 			}
 
-			// If not globally disabled, check keyphrase and content requirements
-			if ( ! hasValidKeyphrase || ! hasValidContent ) {
+			// If not globally disabled, check keyphrase and content requirements with specific messages
+			if ( ! hasValidKeyphrase && ! hasValidContent ) {
 				return {
 					isEnabled: false,
 					ariaLabel: __( "Please add both a keyphrase and text", "wordpress-seo" ),
+				};
+			}
+			if ( ! hasValidKeyphrase ) {
+				return {
+					isEnabled: false,
+					ariaLabel: __( "Please set a focus keyphrase", "wordpress-seo" ),
+				};
+			}
+			if ( ! hasValidContent ) {
+				return {
+					isEnabled: false,
+					ariaLabel: __( "Please add text content", "wordpress-seo" ),
 				};
 			}
 		}

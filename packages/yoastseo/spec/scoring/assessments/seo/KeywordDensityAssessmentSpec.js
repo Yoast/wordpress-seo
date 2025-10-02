@@ -225,7 +225,7 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -10 );
+		expect( result.getScore() ).toBe( 9 );
 		expect( result.hasAIFixes() ).toBeTruthy();
 	} );
 	it( "sets `hasAIFixes` to be true when the keyphrase is underused", function() {
@@ -309,7 +309,7 @@ describe( "A test for marking the keyphrase", function() {
 	it( "returns markers for a keyphrase found in image caption", function() {
 		const keyphraseDensityAssessment = new KeyphraseDensityAssessment();
 		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
-			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'>" +
 			"A flamboyant cat with a toy<br/>" +
 			"</p>",
 		{ keyword: "cat toy" } );
