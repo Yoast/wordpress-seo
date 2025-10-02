@@ -221,7 +221,7 @@ describe( "AIOptimizeButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please set a focus keyphrase" );
+		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
 	} );
 
 	test( "should be disabled when content is missing for keyphrase-specific assessments", () => {
@@ -230,7 +230,7 @@ describe( "AIOptimizeButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please add text content" );
+		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
 	} );
 
 	test( "should be enabled for keyphrase-specific assessments when both keyphrase and content are present", () => {

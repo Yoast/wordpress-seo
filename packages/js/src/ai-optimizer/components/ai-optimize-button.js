@@ -77,7 +77,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			// Create a Paper object with current content to use consistent validation
 			const paper = new Paper( content || "", { keyword: keyword || "" } );
 			const hasValidKeyphrase = paper.hasKeyword();
-			const hasValidContent = paper.hasText();
+			// const hasValidContent = paper.hasText();
 
 			// Check global disabled reasons first (for unsupported content)
 			const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
@@ -89,23 +89,11 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				};
 			}
 
-			// If not globally disabled, check keyphrase and content requirements with specific messages
-			if ( ! hasValidKeyphrase && ! hasValidContent ) {
-				return {
-					isEnabled: false,
-					ariaLabel: __( "Please add both a keyphrase and text", "wordpress-seo" ),
-				};
-			}
+			// If no keyphrase is set, disable the button and show the relevant tooltip
 			if ( ! hasValidKeyphrase ) {
 				return {
 					isEnabled: false,
-					ariaLabel: __( "Please set a focus keyphrase", "wordpress-seo" ),
-				};
-			}
-			if ( ! hasValidContent ) {
-				return {
-					isEnabled: false,
-					ariaLabel: __( "Please add text content", "wordpress-seo" ),
+					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
 				};
 			}
 		}
