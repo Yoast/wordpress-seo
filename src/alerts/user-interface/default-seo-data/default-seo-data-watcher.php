@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Alerts\User_Interface\Default_SEO_Data;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -29,17 +30,27 @@ class Default_SEO_Data_Watcher implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->options_helper       = $options_helper;
+		$this->post_type_helper     = $post_type_helper;
 	}
 
 	/**
@@ -61,6 +72,12 @@ class Default_SEO_Data_Watcher implements Integration_Interface {
 	public function check_for_default_seo_data( $saved_indexable ): void {
 		// We are activating this feature only for posts for now.
 		if ( $saved_indexable->object_sub_type !== 'post' ) {
+			return;
+		}
+
+		if ( ! $this->post_type_helper->is_indexable( 'post' ) || ! $this->post_type_helper->has_metabox( 'post' ) ) {
+			$this->options_helper->set( 'default_seo_title', [] );
+			$this->options_helper->set( 'default_seo_meta_desc', [] );
 			return;
 		}
 
