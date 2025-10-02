@@ -28,7 +28,7 @@ class Suggestion {
 	 * @param string $value The suggestion text.
 	 */
 	public function __construct( string $value ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestion::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion::__construct' );
 
 		$this->value = $value;
 	}
@@ -42,7 +42,7 @@ class Suggestion {
 	 * @return string
 	 */
 	public function get_value(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Domain\Suggestion::get_value' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion::get_value' );
 
 		return $this->value;
 	}

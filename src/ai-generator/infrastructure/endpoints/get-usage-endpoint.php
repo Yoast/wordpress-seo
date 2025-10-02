@@ -23,7 +23,7 @@ class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_name' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint::get_name' );
 
 		return 'getUsage';
 	}
@@ -37,7 +37,7 @@ class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_namespace' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint::get_namespace' );
 
 		return Get_Usage_Route::ROUTE_NAMESPACE;
 	}
@@ -52,7 +52,7 @@ class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_route' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint::get_route' );
 
 		return Get_Usage_Route::ROUTE_PREFIX;
 	}
@@ -66,7 +66,7 @@ class Get_Usage_Endpoint implements Generator_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints\Get_Usage_Endpoint::get_url' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Infrastructure\Endpoints\Get_Usage_Endpoint::get_url' );
 
 		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}

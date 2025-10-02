@@ -76,7 +76,7 @@ class Suggestions_Provider {
 		Token_Manager $token_manager,
 		User_Helper $user_helper
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::__construct' );
 
 		$this->consent_handler = $consent_handler;
 		$this->request_handler = $request_handler;
@@ -123,7 +123,7 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::get_suggestions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::get_suggestions' );
 
 		$token = $this->token_manager->get_or_request_access_token( $user );
 
@@ -179,7 +179,7 @@ class Suggestions_Provider {
 	 * @return Suggestions_Bucket The array of suggestions.
 	 */
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generator\Application\Suggestions_Provider::build_suggestions_array' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::build_suggestions_array' );
 
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );
