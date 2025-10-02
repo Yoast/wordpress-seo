@@ -55,9 +55,15 @@ class Redirections_Tools_Page implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_admin_menu() {
+		$page_title = \sprintf(
+			/* translators: %s: expands to Yoast */
+			\esc_html__( '%s redirects', 'wordpress-seo' ),
+			'Yoast'
+		);
+
 		\add_management_page(
-			\esc_html__( 'Redirects', 'wordpress-seo' ),
-			\esc_html__( 'Redirects', 'wordpress-seo' ),
+			$page_title,
+			$page_title,
 			'edit_others_posts',
 			'wpseo_redirects_tools',
 			[ $this, 'show_redirects_page' ]
