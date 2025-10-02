@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
  * Class Request
  * Represents a request to the AI Generator API.
  *
- * @deprecated 26.1
+ * @deprecated
  * @codeCoverageIgnore
  */
 class Request {
@@ -43,7 +43,7 @@ class Request {
 	/**
 	 * Constructor for the Request class.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated
 	 * @codeCoverageIgnore
 	 *
 	 * @param string        $action_path The action path for the request.
@@ -52,7 +52,7 @@ class Request {
 	 * @param bool          $is_post     Whether the request is a POST request. Default is true.
 	 */
 	public function __construct( string $action_path, array $body = [], array $headers = [], bool $is_post = true ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::__construct' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::__construct' );
 		$this->action_path = $action_path;
 		$this->body        = $body;
 		$this->headers     = $headers;
@@ -62,52 +62,52 @@ class Request {
 	/**
 	 * Get the action path for the request.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The action path for the request.
 	 */
 	public function get_action_path(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_action_path' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_action_path' );
 		return $this->action_path;
 	}
 
 	/**
 	 * Get the body of the request.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The body of the request.
 	 */
 	public function get_body(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_body' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_body' );
 		return $this->body;
 	}
 
 	/**
 	 * Get the headers for the request.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The headers for the request.
 	 */
 	public function get_headers(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_headers' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_headers' );
 		return $this->headers;
 	}
 
 	/**
 	 * Whether the request is a POST request.
 	 *
-	 * @deprecated 26.1
+	 * @deprecated
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if the request is a POST request, false otherwise.
 	 */
 	public function is_post(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 26.1', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::is_post' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::is_post' );
 		return $this->is_post;
 	}
 }

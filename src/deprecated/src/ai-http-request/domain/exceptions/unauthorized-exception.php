@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 /**
  * Class to manage a 401 - unauthorized response.
  *
- * @deprecated 26.1
+ * @deprecated
  * @codeCoverageIgnore
  */
 class Unauthorized_Exception extends Remote_Request_Exception {

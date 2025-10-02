@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions;
 /**
  * Class to manage a 403 - Forbidden response.
  *
- * @deprecated 26.1
+ * @deprecated
  * @codeCoverageIgnore
  */
 class Forbidden_Exception extends Remote_Request_Exception {
