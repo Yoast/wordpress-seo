@@ -151,7 +151,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 		}
 
 		/* translators: %1$s expands to "SEO title" or "meta description", %2$s expands to an opening strong tag, %3$s expands to a closing strong tag, %4$s expands to an opening link tag, %5$s expands to a closing link tag. */
-		$message = \esc_html__( 'It looks like you are using default %1$s for your most recent posts. Our %2$sAI Generate feature%3$s can help you create unique and quality SEO titles and meta descriptions easily. %4$sLearn how%5$s.', 'wordpress-seo' );
+		$message = \esc_html__( 'It looks like you are using default %1$s for your most recent posts. Our %2$sAI Generate%3$s feature can help you create unique and quality SEO titles and meta descriptions easily. %4$sLearn more for the AI Generate feature here%5$s.', 'wordpress-seo' );
 
 		return \sprintf(
 			$message,
