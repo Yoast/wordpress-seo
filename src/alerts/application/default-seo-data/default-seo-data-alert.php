@@ -171,7 +171,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 *
 	 * @return string The default SEO data message.
 	 */
-	protected function get_default_seo_data_message( $default_seo_titles, $default_seo_descs ) {
+	private function get_default_seo_data_message( $default_seo_titles, $default_seo_descs ): string {
 		$shortlink = ( $this->product_helper->is_premium() ) ? $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-premium/' ) : $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-free/' );
 
 		if ( $default_seo_titles && $default_seo_descs ) {
