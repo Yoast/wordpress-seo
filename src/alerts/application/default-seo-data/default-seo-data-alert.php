@@ -169,7 +169,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 * @return string The default SEO data message.
 	 */
 	protected function get_default_seo_data_message( $default_seo_titles, $default_seo_descs ) {
-		$shortlink = ( $this->product_helper->is_premium() ) ? $this->short_link_helper->get( 'https://yoast.com/help/how-to-use-ai-in-yoast-seo-premium/' ) : $this->short_link_helper->get( 'https://yoast.com/free-sparks/' );
+		$shortlink = ( $this->product_helper->is_premium() ) ? $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-premium/' ) : $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-free/' );
 
 		if ( $default_seo_titles && $default_seo_descs ) {
 			$default_seo_data = \esc_html__( 'SEO titles and meta descriptions', 'wordpress-seo' );
@@ -185,7 +185,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 		}
 
 		/* translators: %1$s expands to "SEO title" or "meta description", %2$s expands to an opening strong tag, %3$s expands to a closing strong tag, %4$s expands to an opening link tag, %5$s expands to a closing link tag. */
-		$message = \esc_html__( 'It looks like you are using default %1$s for your most recent posts. Our %2$sAI Generate%3$s feature can help you create unique and quality SEO titles and meta descriptions easily. %4$sLearn more for the AI Generate feature here%5$s.', 'wordpress-seo' );
+		$message = ( $this->product_helper->is_premium() ) ? \esc_html__( 'Your recent posts are using default %1$s, making them less appealing in search. Create custom titles and descriptions instantly with %2$sYoast AI Generate%3$s. %4$sLearn how to use it%5$s.', 'wordpress-seo' ) : \esc_html__( 'Your recent posts are using default %1$s, which makes them easy to overlook. Catch attention in search with custom titles and descriptions from %2$sYoast AI Generate%3$s. %4$sTry it for free.%5$s', 'wordpress-seo' );
 
 		return \sprintf(
 			$message,
