@@ -108,6 +108,9 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	/**
 	 * Adds notifications (when necessary).
 	 *
+	 * We want to show this notification only when there are enough posts that have the default SEO title or meta description, or both.
+	 * If this is not the case we will not show the notification at all since it does not serve a purpose yet.
+	 *
 	 * @return void
 	 */
 	public function add_notifications() {
