@@ -126,11 +126,11 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 			return;
 		}
 
-		$default_seo_titles = $this->default_seo_data_collector->get_posts_with_default_seo_title();
-		$default_seo_descs  = $this->default_seo_data_collector->get_posts_with_default_seo_description();
+		$posts_with_default_seo_title       = $this->default_seo_data_collector->get_posts_with_default_seo_title();
+		$posts_with_default_seo_description = $this->default_seo_data_collector->get_posts_with_default_seo_description();
 
-		$has_enough_posts_with_default_title = \count( $default_seo_titles ) > 4;
-		$has_enough_posts_with_default_desc  = \count( $default_seo_descs ) > 4;
+		$has_enough_posts_with_default_title = \count( $posts_with_default_seo_title ) > 4;
+		$has_enough_posts_with_default_desc  = \count( $posts_with_default_seo_description ) > 4;
 
 		if ( ! $has_enough_posts_with_default_title && ! $has_enough_posts_with_default_desc ) {
 			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
@@ -145,13 +145,13 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	/**
 	 * Build the default SEO data notification.
 	 *
-	 * @param bool $default_seo_titles Whether there are content types with default SEO title in their most recent posts.
-	 * @param bool $default_seo_descs  Whether there are content types with default SEO description in their most recent posts.
+	 * @param bool $has_enough_posts_with_default_title Whether there are content types with default SEO title in their most recent posts.
+	 * @param bool $has_enough_posts_with_default_desc  Whether there are content types with default SEO description in their most recent posts.
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
-	private function get_default_seo_data_notification( $default_seo_titles, $default_seo_descs ):  Yoast_Notification{
-		$message = $this->get_default_seo_data_message( $default_seo_titles, $default_seo_descs );
+	private function get_default_seo_data_notification( $has_enough_posts_with_default_title, $has_enough_posts_with_default_desc ): Yoast_Notification {
+		$message = $this->get_default_seo_data_message( $has_enough_posts_with_default_title, $has_enough_posts_with_default_desc );
 
 		return new Yoast_Notification(
 			$message,
@@ -166,21 +166,21 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	/**
 	 * Creates a message to inform users that they are using only default SEO data lately.
 	 *
-	 * @param bool $default_seo_titles Whether there are content types with default SEO title in their most recent posts.
-	 * @param bool $default_seo_descs  Whether there are content types with default SEO description in their most recent posts.
+	 * @param bool $has_enough_posts_with_default_title Whether there are content types with default SEO title in their most recent posts.
+	 * @param bool $has_enough_posts_with_default_desc  Whether there are content types with default SEO description in their most recent posts.
 	 *
 	 * @return string The default SEO data message.
 	 */
-	private function get_default_seo_data_message( $default_seo_titles, $default_seo_descs ): string {
+	private function get_default_seo_data_message( $has_enough_posts_with_default_title, $has_enough_posts_with_default_desc ): string {
 		$shortlink = ( $this->product_helper->is_premium() ) ? $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-premium/' ) : $this->short_link_helper->get( 'https://yoa.st/ai-generate-alert-free/' );
 
-		if ( $default_seo_titles && $default_seo_descs ) {
+		if ( $has_enough_posts_with_default_title && $has_enough_posts_with_default_desc ) {
 			$default_seo_data = \esc_html__( 'SEO titles and meta descriptions', 'wordpress-seo' );
 		}
-		elseif ( $default_seo_titles ) {
+		elseif ( $has_enough_posts_with_default_title ) {
 			$default_seo_data = \esc_html__( 'SEO titles', 'wordpress-seo' );
 		}
-		elseif ( $default_seo_descs ) {
+		elseif ( $has_enough_posts_with_default_desc ) {
 			$default_seo_data = \esc_html__( 'meta descriptions', 'wordpress-seo' );
 		}
 		else {
