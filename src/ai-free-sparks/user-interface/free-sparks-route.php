@@ -59,7 +59,6 @@ class Free_Sparks_Route implements Route_Interface {
 	 * @param Free_Sparks_Handler_Interface $free_sparks_handler The free sparks handler instance.
 	 */
 	public function __construct( Free_Sparks_Handler_Interface $free_sparks_handler ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::__construct' );
 
 		$this->free_sparks_handler = $free_sparks_handler;
 	}

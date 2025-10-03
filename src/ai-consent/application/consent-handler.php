@@ -31,8 +31,6 @@ class Consent_Handler implements Consent_Handler_Interface {
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\Application\Consent_Handler::__construct' );
-
 		$this->user_helper = $user_helper;
 	}
 

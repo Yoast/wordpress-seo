@@ -28,7 +28,6 @@ class Suggestion {
 	 * @param string $value The suggestion text.
 	 */
 	public function __construct( string $value ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion::__construct' );
 
 		$this->value = $value;
 	}

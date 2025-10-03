@@ -60,7 +60,6 @@ class Response {
 	 * @param array<string> $missing_licenses The missing licenses.
 	 */
 	public function __construct( string $body, int $response_code, string $message, string $error_code = '', $missing_licenses = [] ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Response::__construct' );
 		$this->body             = $body;
 		$this->response_code    = $response_code;
 		$this->message          = $message;

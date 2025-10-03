@@ -33,7 +33,6 @@ abstract class Remote_Request_Exception extends Exception {
 	 * @param Throwable|null $previous         The previously thrown exception.
 	 */
 	public function __construct( $message = '', $code = 0, $error_identifier = '', ?Throwable $previous = null ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception::__construct' );
 		parent::__construct( $message, $code, $previous );
 		$this->error_identifier = (string) $error_identifier;
 	}

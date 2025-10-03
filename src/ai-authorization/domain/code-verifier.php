@@ -36,7 +36,6 @@ class Code_Verifier {
 	 * @param int    $created_at The time the code was created.
 	 */
 	public function __construct( string $code, int $created_at ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Domain\Code_Verifier::__construct' );
 
 		$this->code       = $code;
 		$this->created_at = $created_at;

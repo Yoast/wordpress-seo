@@ -26,7 +26,6 @@ class Suggestions_Bucket {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestions_Bucket::__construct' );
 
 		$this->suggestions = [];
 	}

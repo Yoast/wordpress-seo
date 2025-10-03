@@ -75,8 +75,6 @@ class Consent_Integration implements Integration_Interface {
 		Short_Link_Helper $short_link_helper,
 		Consent_Endpoints_Repository $endpoints_repository
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration::__construct' );
-
 		$this->asset_manager        = $asset_manager;
 		$this->user_helper          = $user_helper;
 		$this->short_link_helper    = $short_link_helper;

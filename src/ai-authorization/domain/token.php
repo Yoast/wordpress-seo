@@ -36,7 +36,6 @@ class Token {
 	 * @param int    $expiration The expiration time.
 	 */
 	public function __construct( string $value, int $expiration ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::__construct' );
 
 		$this->value      = $value;
 		$this->expiration = $expiration;

@@ -76,7 +76,6 @@ class Suggestions_Provider {
 		Token_Manager $token_manager,
 		User_Helper $user_helper
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::__construct' );
 
 		$this->consent_handler = $consent_handler;
 		$this->request_handler = $request_handler;

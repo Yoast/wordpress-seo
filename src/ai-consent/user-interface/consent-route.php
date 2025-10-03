@@ -80,7 +80,6 @@ class Consent_Route implements Route_Interface {
 	 * @param Token_Manager   $token_manager   The token manager.
 	 */
 	public function __construct( Consent_Handler $consent_handler, Token_Manager $token_manager ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::__construct' );
 
 		$this->consent_handler = $consent_handler;
 		$this->token_manager   = $token_manager;

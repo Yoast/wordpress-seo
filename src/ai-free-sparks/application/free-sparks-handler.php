@@ -36,7 +36,6 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Handler::__construct' );
 
 		$this->options_helper = $options_helper;
 	}

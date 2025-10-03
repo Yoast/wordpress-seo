@@ -41,8 +41,6 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
 	 */
 	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::construct' );
-
 		$this->date_helper              = $date_helper;
 		$this->code_verifier_repository = $code_verifier_repository;
 	}

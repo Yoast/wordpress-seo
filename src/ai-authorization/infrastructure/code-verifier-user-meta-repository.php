@@ -41,7 +41,6 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( Date_Helper $date_helper, User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::__construct' );
 
 		$this->date_helper = $date_helper;
 		$this->user_helper = $user_helper;

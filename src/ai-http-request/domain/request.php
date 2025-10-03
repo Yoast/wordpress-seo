@@ -52,7 +52,6 @@ class Request {
 	 * @param bool          $is_post     Whether the request is a POST request. Default is true.
 	 */
 	public function __construct( string $action_path, array $body = [], array $headers = [], bool $is_post = true ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::__construct' );
 		$this->action_path = $action_path;
 		$this->body        = $body;
 		$this->headers     = $headers;

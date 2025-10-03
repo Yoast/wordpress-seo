@@ -54,7 +54,6 @@ class Request_Handler implements Request_Handler_Interface {
 	 * @param Response_Parser $response_parser The response parser.
 	 */
 	public function __construct( API_Client $api_client, Response_Parser $response_parser ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler::__construct' );
 		$this->api_client      = $api_client;
 		$this->response_parser = $response_parser;
 	}

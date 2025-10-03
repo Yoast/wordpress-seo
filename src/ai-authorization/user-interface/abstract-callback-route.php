@@ -73,7 +73,6 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::__construct' );
 
 		$this->access_token_repository  = $access_token_repository;
 		$this->refresh_token_repository = $refresh_token_repository;

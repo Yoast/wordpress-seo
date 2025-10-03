@@ -31,7 +31,6 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( User_Helper $user_helper ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::__construct' );
 
 		$this->user_helper = $user_helper;
 	}

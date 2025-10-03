@@ -115,7 +115,6 @@ class Token_Manager implements Token_Manager_Interface {
 		Code_Verifier_User_Meta_Repository $code_verifier_repository,
 		WordPress_URLs $urls
 	) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::__construct' );
 
 		$this->access_token_repository  = $access_token_repository;
 		$this->code_verifier            = $code_verifier;

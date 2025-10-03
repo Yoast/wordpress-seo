@@ -33,7 +33,6 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	 * @param string[]        $missing_licenses The missing plugin licenses.
 	 */
 	public function __construct( $message = '', $code = 0, $error_identifier = '', $previous = null, $missing_licenses = [] ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::__construct' );
 		$this->missing_licenses = $missing_licenses;
 		parent::__construct( $message, $code, $error_identifier, $previous );
 	}
