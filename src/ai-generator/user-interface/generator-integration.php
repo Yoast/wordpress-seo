@@ -97,7 +97,6 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_conditionals' );
 		return [ AI_Conditional::class, AI_Editor_Conditional::class ];
 	}
 

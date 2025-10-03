@@ -55,8 +55,6 @@ class Consent_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals(): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Integration::get_conditionals' );
-
 		return [ User_Profile_Conditional::class ];
 	}
 

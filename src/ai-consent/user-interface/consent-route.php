@@ -67,8 +67,6 @@ class Consent_Route implements Route_Interface {
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::get_conditionals' );
-
 		return [ AI_Conditional::class ];
 	}
 

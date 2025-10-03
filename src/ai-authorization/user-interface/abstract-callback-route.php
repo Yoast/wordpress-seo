@@ -59,8 +59,6 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::get_conditionals' );
-
 		return [ AI_Conditional::class ];
 	}
 

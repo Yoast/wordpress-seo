@@ -47,8 +47,6 @@ class Free_Sparks_Route implements Route_Interface {
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::get_conditionals' );
-
 		return [ AI_Conditional::class ];
 	}
 
