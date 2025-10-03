@@ -1,12 +1,12 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Ai_Generator\User_Interface;
+namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\AI_Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
-use Yoast\WP\SEO\Ai_Generator\Application\Generator_Endpoints_Repository;
+use Yoast\WP\SEO\AI_Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Conditionals\AI_Editor_Conditional;
