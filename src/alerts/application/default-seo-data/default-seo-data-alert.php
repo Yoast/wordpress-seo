@@ -150,7 +150,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
-	protected function get_default_seo_data_notification( $default_seo_titles, $default_seo_descs ) {
+	private function get_default_seo_data_notification( $default_seo_titles, $default_seo_descs ):  Yoast_Notification{
 		$message = $this->get_default_seo_data_message( $default_seo_titles, $default_seo_descs );
 
 		return new Yoast_Notification(
