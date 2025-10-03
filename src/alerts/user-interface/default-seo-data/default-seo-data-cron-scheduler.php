@@ -44,8 +44,7 @@ class Default_SEO_Data_Cron_Scheduler implements Integration_Interface {
 	 * @return void
 	 */
 	public function unschedule_default_seo_data_detection() {
-		$scheduled = \wp_next_scheduled( self::CRON_HOOK );
-		if ( $scheduled ) {
+		if ( \wp_next_scheduled( self::CRON_HOOK ) ) {
 			\wp_unschedule_event( $scheduled, self::CRON_HOOK );
 		}
 	}
