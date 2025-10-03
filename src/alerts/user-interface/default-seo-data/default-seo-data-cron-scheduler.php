@@ -28,7 +28,7 @@ class Default_SEO_Data_Cron_Scheduler implements Integration_Interface {
 	}
 
 	/**
-	 * Schedules the default SEO data detection cron a week from now.
+	 * Schedules the default SEO data detection cron.
 	 *
 	 * @return void
 	 */

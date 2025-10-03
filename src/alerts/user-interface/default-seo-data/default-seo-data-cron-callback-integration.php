@@ -56,7 +56,7 @@ class Default_SEO_Data_Cron_Callback_Integration implements Integration_Interfac
 	}
 
 	/**
-	 * Registers the hooks with WordPress.
+	 * Registers the hooks.
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class Default_SEO_Data_Cron_Callback_Integration implements Integration_Interfac
 	}
 
 	/**
-	 * Populates and creates the file.
+	 * Detects default SEO data in recent posts and updates the relevant options.
 	 *
 	 * @return void
 	 */

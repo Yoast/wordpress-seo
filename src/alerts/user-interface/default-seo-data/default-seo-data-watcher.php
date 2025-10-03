@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
- * This handles the process of checking for default SEO in the latest content and updates the relevant options.
+ * This handles the process of checking for non-default SEO in the latest content and updating the relevant options right away.
  */
 class Default_SEO_Data_Watcher implements Integration_Interface {
 
@@ -59,7 +59,7 @@ class Default_SEO_Data_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function check_for_default_seo_data( $saved_indexable ): void {
-		// We are activating this feature only for posts for now.
+		// We have activated this feature only for posts for now.
 		if ( $saved_indexable->object_type !== 'post' || $saved_indexable->object_sub_type !== 'post' ) {
 			return;
 		}
