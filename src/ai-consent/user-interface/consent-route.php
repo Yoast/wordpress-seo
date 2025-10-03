@@ -94,7 +94,6 @@ class Consent_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::register_routes' );
 
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,

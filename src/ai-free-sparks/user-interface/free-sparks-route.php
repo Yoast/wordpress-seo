@@ -72,7 +72,6 @@ class Free_Sparks_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route::register_routes' );
 
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,

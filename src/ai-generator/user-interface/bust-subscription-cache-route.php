@@ -74,7 +74,6 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::register_routes' );
 		\register_rest_route(
 			self::ROUTE_NAMESPACE,
 			self::ROUTE_PREFIX,
