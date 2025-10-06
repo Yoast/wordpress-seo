@@ -201,19 +201,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-10-07
 
+Yoast SEO 26.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
-* Improves the UX of the `llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
-* Introduces the ability to add a Ahrefs verification code via Yoast settings.
+* Improves the UX of the `llms.txt` settings page, by informing the user that they have to save their changes in order for the file to be generated.
+* Introduces the option to add an Ahrefs verification code via the Yoast Settings page.
 
 #### Bugfixes
 
-* Fixes a bug where the llm.txt opt-in would hide behind the WordPress sidebar when on RTL language.
+* Fixes a bug where the `llms.txt` opt-in would hide behind the WordPress sidebar when on RTL language.
 
 #### Other
 
 * Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
-* Lets users know about the new `Yoast AI+` plan and relative features.
+* Lets users know about the new `Yoast SEO AI+` plan and related features.
 * Updates the `Site features` page to include icons instead of images.
 
 = 26.0 =
