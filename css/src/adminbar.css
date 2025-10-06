@@ -16,10 +16,7 @@
   margin-bottom: 5px;
 }
 
-#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium a {
-	font-weight: bold !important;
-	color: #fff !important;
-}
+
 
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium span {
 	color: rgb(252, 211, 77);
@@ -150,4 +147,71 @@
   }
 }
 
+/** A lot of CSS for this stolen from the UI libary but slightly modified since the site bar css is very aggressive */
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium .ab-empty-item{
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-h-4
+	yst-mt-2
+	yst-mx-3
+	yst-text-xs
+	yst-leading-4
+	yst-px-2.5
+	yst-py-1.5
+	yst-ring-inset
+	yst-ring-1
+	yst-ring-transparent
+	yst-shadow-sm
+	yst-no-underline
+	yst-cursor-pointer
+	yst-rounded-md
+	yst-font-medium
+	yst-text-center
+
+	focus:yst-outline
+	focus:yst-outline-2
+	focus:yst-outline-offset-2
+	yst-bg-amber-300
+	yst-border-transparent
+	hover:yst-text-amber-900
+	hover:yst-bg-amber-400
+	focus:yst-text-amber-900
+	focus:yst-outline-amber-400
+	visited:yst-text-amber-900
+	visited:hover:yst-text-amber-900;
+
+}
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium {
+ @apply yst-flex;
+}
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium .ab-empty-item a{
+	@apply
+	yst-text-amber-900;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-upgrade-sidebar {
+	@apply yst-hidden;
+}
+
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
+}
 /*# sourceMappingURL=adminbar.css.map */

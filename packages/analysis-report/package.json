@@ -8,33 +8,35 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/javascript",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/analysis-report"
   },
   "scripts": {
     "build": "yarn clean && yarn build:js",
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
+    "lint": "eslint . --max-warnings=4",
     "test": "jest",
-    "lint": "eslint . --max-warnings=2"
+    "watch": "yarn clean && yarn watch:js",
+    "watch:js": "yarn build:js --watch"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "dependencies": {
-    "@wordpress/i18n": "^1.1.0",
+    "@wordpress/i18n": "^5.8.2",
     "@yoast/components": "^3.0.0-alpha.2",
     "@yoast/helpers": "^0.17.0-alpha.1",
     "@yoast/style-guide": "^0.14.0-alpha.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@yoast/babel-preset": "^1.1.2",
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^9.16.0",

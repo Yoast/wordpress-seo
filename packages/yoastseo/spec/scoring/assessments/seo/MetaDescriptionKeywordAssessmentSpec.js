@@ -13,7 +13,7 @@ const morphologyData = getMorphologyData( "en" );
 
 describe( "a test for the meta description keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( "", { keyword: "keyword", description: "description" } );
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
@@ -21,12 +21,13 @@ describe( "a test for the meta description keyword assessment", function() {
 			"The meta description has been specified, but it does not contain the keyphrase. " +
 			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
-		expect( assessment.getEditFieldName() ).toBe( "meta description" );
+		expect( assessment.getEditFieldName() ).toBe( "description" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your meta description" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
 		"at least once in the same sentence.", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( "", { keyword: "keyword", description: "description" } );
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch );
 
 		expect( assessment.getScore() ).toBe( 9 );
@@ -37,7 +38,7 @@ describe( "a test for the meta description keyword assessment", function() {
 
 	it( "returns a good result and an appropriate feedback message when the meta description contains the keyword " +
 		"two times in the same sentence", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( "", { keyword: "keyword", description: "description" } );
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches );
 
 		expect( assessment.getScore() ).toBe( 9 );
@@ -47,7 +48,7 @@ describe( "a test for the meta description keyword assessment", function() {
 	} );
 
 	it( "returns a bad result when the meta description contains the keyword three times in the same sentence", function() {
-		const mockPaper = new Paper();
+		const mockPaper = new Paper( "", { keyword: "keyword", description: "description" } );
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
@@ -56,20 +57,40 @@ describe( "a test for the meta description keyword assessment", function() {
 			"of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
 	} );
 
-	it( "is not applicable when the paper doesn't have a keyword", function() {
-		const isApplicableResult = new MetaDescriptionKeywordAssessment().isApplicable( new Paper( "text", { description: "description" } ) );
-		expect( isApplicableResult ).toBe( false );
+	it( "returns a bad result when there is no keyphrase and no meta description", function() {
+		const mockPaper = new Paper( "" );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
-	it( "is not applicable when the paper doesn't have a meta description", function() {
-		const isApplicableResult = new MetaDescriptionKeywordAssessment().isApplicable( new Paper( "text", { keyword: "keyword" } ) );
-		expect( isApplicableResult ).toBe( false );
+	it( "returns a bad result when there is no keyphrase", function() {
+		const mockPaper = new Paper( "", { description: "description" } );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
-	it( "is  applicable when the paper has a meta description and a keyword", function() {
-		const isApplicableResult = new MetaDescriptionKeywordAssessment().isApplicable( new Paper( "text",
-			{ keyword: "keyword", description: "description" } ) );
-		expect( isApplicableResult ).toBe( true );
+	it( "returns a bad result when there is no meta description", function() {
+		const mockPaper = new Paper( "", { keyword: "keyword", description: "" } );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "description" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your meta description" );
 	} );
 } );
 

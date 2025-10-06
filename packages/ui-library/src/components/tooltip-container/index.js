@@ -39,11 +39,11 @@ export const useTooltipContext = () => useContext( TooltipContext );
  * - It adds a keydown event listener to hide the tooltip when the user presses Escape.
  * - It contains the styling to center and control the tooltip visibility.
  * @param {JSX.ElementClass} [as="span"] Base component.
- * @param {string} [className] CSS class.
- * @param {JSX.node} [children] The tooltip trigger and tooltip.
+ * @param {string} [className=""] CSS class.
+ * @param {React.ReactNode} [children=null] The tooltip trigger and tooltip.
  * @returns {JSX.Element} The element.
  */
-export const TooltipContainer = ( { as: Component = "span", className, children } ) => {
+export const TooltipContainer = ( { as: Component = "span", className = "", children = null } ) => {
 	const [ isVisible, , , show, hide ] = useToggleState( false );
 	const [ tooltipPosition, setTooltipPosition ] = useState( {} );
 
@@ -79,13 +79,13 @@ TooltipContainer.propTypes = {
  * - It adds the aria-disabled attribute to indicate the trigger is not actually doing anything.
  * - It has styling for keyboard focus and none for hover.
  * @param {string|JSX.node} [as="button"] Base component. Needs to be focusable.
- * @param {string} [className] CSS class.
- * @param {JSX.node} [children] What the tooltip should center on.
- * @param {string} [ariaDescribedby] The ID of the tooltip, so that screen readers can associate the tooltip with the trigger.
- * @param {Object} [props] Additional props.
+ * @param {string} [className=""] CSS class.
+ * @param {React.ReactNode} [children=null] What the tooltip should center on.
+ * @param {?string} [ariaDescribedby=null] The ID of the tooltip, so that screen readers can associate the tooltip with the trigger.
+ * @param {...any} [props] Additional props.
  * @returns {JSX.Element} The element.
  */
-export const TooltipTrigger = ( { as: Component = "button", className, children, ariaDescribedby, ...props } ) => {
+export const TooltipTrigger = ( { as: Component = "button", className = "", children = null, ariaDescribedby = null, ...props } ) => {
 	const { show, hide, tooltipPosition, isVisible } = useTooltipContext();
 	const triggerRef = useRef();
 
@@ -145,12 +145,12 @@ TooltipTrigger.propTypes = {
  * - It gets the `isVisible` from the context.
  * - It hides the Tooltip via the `yst-hidden` className when `isVisible` is false.
  * - It forwards any props to the Tooltip element.
- * @param {string} [className] CSS class.
- * @param {JSX.node} [children] What the tooltip should center on.
- * @param {Object} [props] Additional props.
+ * @param {string} [className=""] CSS class.
+ * @param {React.ReactNode} [children=null] What the tooltip should center on.
+ * @param {...any} [props] Additional props.
  * @returns {JSX.Element} The element.
  */
-export const TooltipWithContext = ( { className, children, ...props } ) => {
+export const TooltipWithContext = ( { className = "", children = null, ...props } ) => {
 	const { isVisible, setTooltipPosition } = useTooltipContext();
 	const tooltipRef = useRef();
 

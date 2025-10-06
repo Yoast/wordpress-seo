@@ -2,34 +2,34 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
+
+/**
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ */
 
 /**
  * Assessment for checking the keyword matches in the meta description.
  */
-class MetaDescriptionKeywordAssessment extends Assessment {
+export default class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the meta description.
 	 * @param {number} [config.scores.good] The score to return if there are enough keyword occurrences in the meta description.
-	 * @param {number} [config.scores.bad] The score to return if there aren't enough keyword occurrences in the meta description.
-	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
+	 * @param {number} [config.scores.bad] The score to return if there are no or too many keyword occurrences in the meta description.
+	 * @param {string} [config.urlTitle] The URL to the relevant article on Yoast.com to add to the title of the assessment in the feedback.
+	 * @param {string} [config.urlCallToAction] The URL to the relevant article on Yoast.com to add to the call to action in the assessment feedback.
 	 *
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
 		const defaultConfig = {
-			parameters: {
-				recommendedMinimum: 1,
-			},
 			scores: {
 				good: 9,
-				ok: 6,
 				bad: 3,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33k" ),
@@ -49,15 +49,28 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher ) {
-		this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and meta description).
+		this._canAssess = false;
+
+		if ( paper.hasKeyword() && paper.hasDescription() ) {
+			this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
+			this._canAssess = true;
+		}
+
 		const assessmentResult = new AssessmentResult();
 		const calculatedResult = this.calculateResult();
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9  ) {
+		if ( assessmentResult.getScore() < 9 ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "meta description", "wordpress-seo" ) );
+			if ( paper.hasKeyword() ) {
+				assessmentResult.setEditFieldName( "description" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your meta description", "wordpress-seo" ) );
+			} else {
+				assessmentResult.setEditFieldName( "keyphrase" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
+			}
 		}
 
 		return assessmentResult;
@@ -66,9 +79,25 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
-	 * @returns {Object} Result object with score and text.
+	 * @returns {{score: number, resultText: string}} Result object with score and text.
 	 */
 	calculateResult() {
+		if ( ! this._canAssess ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase in meta description%3$s: %2$sPlease add both a keyphrase and a meta description containing the keyphrase%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
 		// GOOD result when the meta description contains a keyphrase or synonym 1 or 2 times.
 		if ( this._keyphraseCounts === 1 || this._keyphraseCounts === 2 ) {
 			return {
@@ -109,7 +138,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			};
 		}
 
-		// BAD if the keyphrases is not contained in the meta description.
+		// BAD if the keyphrase is not contained in the meta description.
 		return {
 			score: this._config.scores.bad,
 			resultText: sprintf(
@@ -129,17 +158,4 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			),
 		};
 	}
-
-	/**
-	 * Checks whether the paper has a keyword and a meta description.
-	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True if the paper has a keyword and a meta description.
-	 */
-	isApplicable( paper ) {
-		return paper.hasKeyword() && paper.hasDescription();
-	}
 }
-
-export default MetaDescriptionKeywordAssessment;

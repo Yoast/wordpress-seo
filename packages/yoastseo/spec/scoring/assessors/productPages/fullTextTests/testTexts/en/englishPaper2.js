@@ -62,8 +62,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/shopify18' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -93,8 +93,8 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: You don't have multiple H1 headings, well done!",
 	},
 	productIdentifiers: {
 		isApplicable: true,
@@ -114,7 +114,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt " +
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt " +
 			"attributes that reflect the topic of your text. <a href='https://yoa.st/shopify23' target='_blank'>" +
 			"Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 	},
@@ -126,7 +126,7 @@ const expectedResults = {
 	imageAltTags: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: None of the images has alt attributes. " +
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt attributes</a>: None of the images have alt attributes. " +
 			"<a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
 	},
 	keyphraseDistribution: {

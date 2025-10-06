@@ -30,7 +30,7 @@ const META = {
 };
 
 /**
- * @param {ReactNode} children The children.
+ * @param {React.ReactNode} children The children.
  * @returns {JSX.Element} The element.
  */
 const SearchRankingCompareLayout = ( { children } ) => (
@@ -107,6 +107,7 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 			data={ data.impressions }
 			tooltipLocalizedContent={ META.impressions.tooltip }
 			dataSources={ META.impressions.dataSources }
+			moreIsGood={ true }
 		/>
 		<SearchRankingCompareMetric
 			className="@lg:yst-ps-4 @lg:yst-pb-4"
@@ -114,6 +115,7 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 			data={ data.clicks }
 			tooltipLocalizedContent={ META.clicks.tooltip }
 			dataSources={ META.clicks.dataSources }
+			moreIsGood={ true }
 		/>
 		<SearchRankingCompareMetric
 			className="@lg:yst-pe-4 @lg:yst-pt-4"
@@ -121,13 +123,16 @@ export const SearchRankingCompareWidgetContent = ( { dataProvider, remoteDataPro
 			data={ data.ctr }
 			tooltipLocalizedContent={ META.ctr.tooltip }
 			dataSources={ META.ctr.dataSources }
+			moreIsGood={ true }
 		/>
+
 		<SearchRankingCompareMetric
 			className="@lg:yst-ps-4 @lg:yst-pt-4"
 			metricName={ META.position.name }
 			data={ data.position }
 			tooltipLocalizedContent={ META.position.tooltip }
 			dataSources={ META.position.dataSources }
+			moreIsGood={ false }
 		/>
 	</SearchRankingCompareLayout>;
 };

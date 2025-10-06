@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { RemoteDataProvider } from "../../src/services/remote-data-provider";
+import { RemoteDataProvider } from "../../src";
 
 /**
  * Mock remote data provider.

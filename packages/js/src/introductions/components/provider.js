@@ -1,5 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
 import { find } from "lodash";
 import PropTypes from "prop-types";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
@@ -26,8 +27,6 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	const registerComponent = useCallback( ( id, Component ) => {
 		const introduction = find( introductions, { id } );
 		if ( ! introduction ) {
-			// Bail when unknown.
-			console.error( "Warning: Introductions received a registration for an unknown key:", id );
 			return;
 		}
 		setComponents( currentComponents => ( { ...currentComponents, [ id ]: Component } ) );
@@ -36,8 +35,10 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	useEffect( () => {
 		// Update the global window registration method.
 		window.YoastSEO._registerIntroductionComponent = registerComponent;
-	}, [ registerComponent ] );
 
+		// Signal that the introductions API is ready.
+		doAction( "yoast.introductions.ready" );
+	}, [ registerComponent ] );
 
 	return (
 		<IntroductionsContext.Provider value={ components }>

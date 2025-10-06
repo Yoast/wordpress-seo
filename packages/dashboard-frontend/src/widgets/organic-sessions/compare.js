@@ -1,6 +1,6 @@
-import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader, Title } from "@yoast/ui-library";
+import { useCallback, useMemo } from "react";
 import { ErrorAlert } from "../../components/error-alert";
 import { Trend } from "../../components/trend";
 import { useRemoteData } from "../../services/use-remote-data";
@@ -59,10 +59,14 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 	 * @returns {Promise<OrganicSessionsCompareData|Error>} The promise of OrganicSessionsCompareData or an Error.
 	 */
 	const getOrganicSessionsCompare = useCallback( ( options ) => {
+		const widgetName = "organicSessionsCompare";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "organicSessionsCompare" } },
-			options );
+			{
+				options: { widget: widgetName },
+			},
+			options
+		);
 	}, [ dataProvider ] );
 
 	/**
@@ -76,7 +80,7 @@ export const useOrganicSessionsCompare = ( dataProvider, remoteDataProvider, dat
 
 /**
  * Shared layout between loading and actual.
- * @param {ReactNode} children The sessions and difference.
+ * @param {React.ReactNode} children The sessions and difference.
  * @returns {JSX.Element} The element.
  */
 const Layout = ( { children } ) => (
@@ -113,7 +117,7 @@ export const OrganicSessionsCompare = ( { data, isPending, error, supportLink } 
 	return (
 		<Layout>
 			<Title as="h2" size="1" className="yst-font-bold">{ data.sessions }</Title>
-			<Trend value={ data.difference } formattedValue={ data.formattedDifference } />
+			<Trend value={ data.difference } formattedValue={ data.formattedDifference } moreIsGood={ true } />
 		</Layout>
 	);
 };

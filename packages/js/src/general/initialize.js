@@ -1,8 +1,8 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
-import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteDataProvider } from "@yoast/dashboard-frontend";
+import { createRoot } from "@wordpress/element";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
@@ -104,12 +104,28 @@ domReady( () => {
 		isRedirectedFromSiteKit: false,
 	} );
 
+	const cacheConfig = {
+		storagePrefix: get( window, "wpseoScriptData.dashboard.browserCache.storagePrefix", "" ),
+		yoastVersion: get( window, "wpseoScriptData.dashboard.browserCache.yoastVersion", "" ),
+		widgetsCacheTtl: get( window, "wpseoScriptData.dashboard.browserCache.widgetsCacheTtl", {} ),
+	};
+
 	const remoteDataProvider = new RemoteDataProvider( { headers } );
 	const dataProvider = new DataProvider( { contentTypes, userName, features, endpoints, headers, links, siteKitConfiguration } );
 	const dataFormatters = {
 		comparisonMetricsDataFormatter: new ComparisonMetricsDataFormatter( { locale: userLocale } ),
 		plainMetricsDataFormatter: new PlainMetricsDataFormatter( { locale: userLocale } ),
 	};
+
+	const remoteCachedDataProviders = Object.entries( cacheConfig.widgetsCacheTtl ).reduce( ( providers, [ key, value ] ) => {
+		providers[ key ] = new RemoteCachedDataProvider(
+			{ headers },
+			cacheConfig.storagePrefix,
+			cacheConfig.yoastVersion,
+			value.ttl
+		);
+		return providers;
+	}, {} );
 
 	const setupStepsTrackingData = {
 		setupWidgetLoaded: get( window, "wpseoScriptData.dashboard.setupStepsTracking.setupWidgetLoaded", "no" ),
@@ -128,7 +144,7 @@ domReady( () => {
 		setupWidgetDataTracker: new DataTracker( setupStepsTrackingRoute, remoteDataProvider ),
 	};
 
-	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, dataFormatters, dataTrackers );
+	const widgetFactory = new WidgetFactory( dataProvider, remoteDataProvider, remoteCachedDataProviders, dataFormatters, dataTrackers );
 	if ( dataProvider.isSiteKitConnectionCompleted() && siteKitConfiguration.isVersionSupported ) {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
@@ -171,12 +187,11 @@ domReady( () => {
 		)
 	);
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<SlotFillProvider>
 				<RouterProvider router={ router } />
 			</SlotFillProvider>
-		</Root>,
-		root
+		</Root>
 	);
 } );

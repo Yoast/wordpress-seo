@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { LocationProvider } from "@yoast/externals/contexts";
@@ -10,9 +11,31 @@ import Modal from "../Modal";
  *
  * Warning: contains styling that is specific for the Sidebar.
  *
- * @returns {*} A button wrapped in a div.
+ * @param {string} id The unique identifier for the modal.
+ * @param {string} postTypeName The post type label in singular form.
+ * @param {React.ReactNode} children The modal content.
+ * @param {string} title The modal title.
+ * @param {boolean} isOpen Whether the modal is open.
+ * @param {function}  open Function to open the modal.
+ * @param {function}  close Function to close the modal.
+ * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
+ * @param {boolean} [showChangesWarning=true] Whether to show the changes warning.
+ * @param {JSX.Element} [SuffixHeroIcon=null] Optional icon component.
+ *
+ * @returns {JSX.Element} The modal and its open button.
  */
-const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside, showChangesWarning, SuffixHeroIcon } ) => (
+const EditorModal = ( {
+	id,
+	postTypeName,
+	children,
+	title,
+	isOpen,
+	open,
+	close,
+	shouldCloseOnClickOutside = true,
+	showChangesWarning = true,
+	SuffixHeroIcon = null,
+} ) => (
 	<Fragment>
 		{ isOpen &&
 			<LocationProvider value="modal">
@@ -73,12 +96,7 @@ EditorModal.propTypes = {
 	close: PropTypes.func.isRequired,
 	shouldCloseOnClickOutside: PropTypes.bool,
 	showChangesWarning: PropTypes.bool,
-	SuffixHeroIcon: PropTypes.object,
-};
-
-EditorModal.defaultProps = {
-	shouldCloseOnClickOutside: true,
-	showChangesWarning: true,
+	SuffixHeroIcon: PropTypes.element,
 };
 
 export default EditorModal;

@@ -7,11 +7,10 @@ import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Notice } from "./components";
+import { Notice, LlmTxtOptInNotification } from "./components";
 import { STORE_NAME } from "./constants";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
-import { shouldShowWebinarPromotionNotificationInDashboard } from "../helpers/shouldShowWebinarPromotionNotification";
 import { useNotificationCountSync, useSelectGeneralPage } from "./hooks";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { ROUTES } from "./routes";
@@ -124,9 +123,7 @@ const App = () => {
 									enterTo="yst-opacity-100"
 								>
 									{ pathname !== ROUTES.firstTimeConfiguration && <div>
-										{ shouldShowWebinarPromotionNotificationInDashboard( STORE_NAME ) &&
-											<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
-										}
+										<WebinarPromoNotification store={ STORE_NAME } url={ webinarIntroSettingsUrl } image={ null } />
 										{ notices.length > 0 && <div className={ notices.filter( notice => ! notice.isDismissed ).length > 0 ? "yst-space-y-3 yoast-general-page-notices" : "yst-hidden" }> {
 											notices.map( ( notice, index ) =>
 												<Notice
@@ -150,9 +147,10 @@ const App = () => {
 				</div>
 			</SidebarNavigation>
 			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
+				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
 				position="bottom-left"
 			>
+				<LlmTxtOptInNotification />
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }

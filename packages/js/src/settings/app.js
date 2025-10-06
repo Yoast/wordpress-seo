@@ -22,6 +22,7 @@ import {
 	DateArchives,
 	FormatArchives,
 	Homepage,
+	LlmTxt,
 	MediaPages,
 	PostType,
 	Rss,
@@ -41,6 +42,7 @@ import {
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
+	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
@@ -77,7 +79,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
+		<div className="yst-px-0.5 yst-space-y-6" key={ `menu-${ idSuffix }-${ pathname }` }>
 			<SidebarNavigation.MenuItem
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
@@ -135,8 +137,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ false }
+				defaultOpen={ pathname === "/llms-txt" }
 			>
+				<MenuItemLink
+					to="/llms-txt"
+					label={ __( "llms.txt", "wordpress-seo" ) }
+					idSuffix={ idSuffix }
+				/>
 				<MenuItemLink
 					to="/crawl-optimization"
 					label={ __( "Crawl optimization", "wordpress-seo" ) }
@@ -169,10 +176,13 @@ const App = () => {
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const wooLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/admin-footer-upsell-woocommerce" );
 	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
+	const wooLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSettings( "selectPreference", [], "isWooCommerceActive" );
 
 	useRouterScrollRestore();
 
@@ -222,6 +232,7 @@ const App = () => {
 											<Route path="date-archives" element={ <DateArchives /> } />
 											<Route path="homepage" element={ <Homepage /> } />
 											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="llms-txt" element={ <LlmTxt /> } />
 											<Route path="media-pages" element={ <MediaPages /> } />
 											<Route path="rss" element={ <Rss /> } />
 											<Route path="site-basics" element={ <SiteBasics /> } />
@@ -253,18 +264,20 @@ const App = () => {
 								</ErrorBoundary>
 							</Paper>
 							{ ! isPremium && <PremiumUpsellList
-								premiumLink={ premiumLinkList }
+								premiumLink={ isWooCommerceActive ? wooLinkList : premiumLinkList }
 								premiumUpsellConfig={ premiumUpsellConfig }
 								isPromotionActive={ isPromotionActive }
+								isWooCommerceActive={ isWooCommerceActive }
 							/> }
 						</div>
 						{ ! isPremium &&
 							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 								<SidebarRecommendations
-									premiumLink={ premiumLinkSidebar }
+									premiumLink={ isWooCommerceActive ? wooLinkSidebar : premiumLinkSidebar }
 									premiumUpsellConfig={ premiumUpsellConfig }
 									academyLink={ academyLink }
 									isPromotionActive={ isPromotionActive }
+									isWooCommerceActive={ isWooCommerceActive }
 								/>
 							</div>
 						}

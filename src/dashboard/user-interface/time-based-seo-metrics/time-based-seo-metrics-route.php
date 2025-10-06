@@ -8,6 +8,7 @@ use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Search_Ranking_Compare_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Page_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Search_Rankings\Top_Query_Repository;
@@ -76,7 +77,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	private $search_ranking_compare_repository;
 
 	/**
-	 * Holds the capabilit helper instance.
+	 * Holds the capability helper instance.
 	 *
 	 * @var Capability_Helper
 	 */
@@ -88,7 +89,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals(): array {
-		return [ Google_Site_Kit_Feature_Conditional::class ];
+		return [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ];
 	}
 
 	/**
@@ -242,11 +243,11 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return Parameters The request parameters with configured date range.
 	 */
 	public function set_date_range_parameters( Parameters $request_parameters ): Parameters {
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-28 days' );
 		$start_date = $date->format( 'Y-m-d' );
 
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-1 days' );
 		$end_date = $date->format( 'Y-m-d' );
 
@@ -264,7 +265,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 	 * @return Parameters The request parameters with configured comparison date range.
 	 */
 	public function set_comparison_date_range_parameters( Parameters $request_parameters ): Parameters {
-		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$date = $this->get_base_date();
 		$date->modify( '-29 days' );
 		$compare_end_date = $date->format( 'Y-m-d' );
 
@@ -275,6 +276,26 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 		$request_parameters->set_compare_end_date( $compare_end_date );
 
 		return $request_parameters;
+	}
+
+	/**
+	 * Gets the base date.
+	 *
+	 * @return DateTime The base date.
+	 */
+	private function get_base_date() {
+		/**
+		 * Filter: 'wpseo_custom_site_kit_base_date' - Allow the base date for Site Kit requests to be dynamically set.
+		 *
+		 * @param string $base_date The custom base date for Site Kit requests, defaults to 'now'.
+		 */
+		$base_date = \apply_filters( 'wpseo_custom_site_kit_base_date', 'now' );
+
+		try {
+			return new DateTime( $base_date, new DateTimeZone( 'UTC' ) );
+		} catch ( Exception $e ) {
+			return new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		}
 	}
 
 	/**

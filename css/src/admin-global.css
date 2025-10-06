@@ -860,7 +860,7 @@ body.folded .wpseo-admin-submit-fixed {
 	color: #dba617;
 }
 
-#black-friday-2024-promotion-sidebar.notice-yoast {
+#black-friday-promotion-sidebar.notice-yoast {
 	border-color: #fcd34d;
 	border-width: 2px;
 	border-radius: 8px;
@@ -873,12 +873,12 @@ body.folded .wpseo-admin-submit-fixed {
 	margin-top: 20px;
 }
 
-#black-friday-2024-promotion-sidebar .notice-yoast__header {
+#black-friday-promotion-sidebar .notice-yoast__header {
 	margin-bottom: 2px;
     padding-right: 20px;
 }
 
-#black-friday-2024-promotion-metabox.notice-yoast {
+#black-friday-promotion-metabox.notice-yoast {
 	border-color: #fcd34d;
 	border-width: 2px;
 	border-radius: 8px;
@@ -887,23 +887,23 @@ body.folded .wpseo-admin-submit-fixed {
 	margin: 20px;
 }
 
-#black-friday-2024-promotion-metabox h2.notice-yoast__header-heading {
+#black-friday-promotion-metabox h2.notice-yoast__header-heading {
 	padding: 0px;
 }
 
-#black-friday-2024-promotion-metabox .notice-yoast__container {
+#black-friday-promotion-metabox .notice-yoast__container {
 	padding-bottom: 0px;
 }
 
-#black-friday-2024-promotion-metabox .notice-yoast__container p {
+#black-friday-promotion-metabox .notice-yoast__container p {
 	display: inline;
 }
 
-#black-friday-2024-promotion-metabox .notice-yoast__header {
+#black-friday-promotion-metabox .notice-yoast__header {
 	margin-bottom: 8px;
 }
 
-#black-friday-2024-promotion-metabox .notice-yoast__header a {
+#black-friday-promotion-metabox .notice-yoast__header a {
 	font-weight: 400;
 	margin-left: 13px;
 }
@@ -933,6 +933,39 @@ body.folded .wpseo-admin-submit-fixed {
 	font-weight: 600;
 	line-height: normal;
 	text-wrap: nowrap;
+}
+
+.yoast-update-plugin-bf-sale-badge {
+	margin: auto 8px;
+	border-radius: 16px;
+	background-color: #000;
+	color: #FCD34D;
+	padding: 2px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: normal;
+	display: inline-block;
+	height: 13px;
+}
+
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
 }
 
 @media (min-width: 768px) {

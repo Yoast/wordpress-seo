@@ -1,7 +1,7 @@
-import { useCallback, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 import { SkeletonLoader } from "@yoast/ui-library";
 import { CategoryScale, Chart, Filler, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";
+import { useCallback, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { ErrorAlert } from "../../components/error-alert";
 import { useRemoteData } from "../../services/use-remote-data";
@@ -170,7 +170,7 @@ const OrganicSessionsChart = ( { data } ) => (
 				data={ data }
 			/>
 		</div>
-		<table className="yst-sr-only">
+		<table className="yst-sr-only yst-table-fixed">
 			<caption>{ __( "Organic sessions chart", "wordpress-seo" ) }</caption>
 			<thead>
 				<tr>
@@ -209,10 +209,14 @@ export const useOrganicSessionsDaily = ( dataProvider, remoteDataProvider, dataF
 	 * @returns {Promise<OrganicSessionsDailyData[]|Error>} The promise of OrganicSessionsData or an Error.
 	 */
 	const getOrganicSessionsDaily = useCallback( ( options ) => {
+		const widgetName = "organicSessionsDaily";
 		return remoteDataProvider.fetchJson(
 			dataProvider.getEndpoint( "timeBasedSeoMetrics" ),
-			{ options: { widget: "organicSessionsDaily" } },
-			options );
+			{
+				options: { widget: widgetName },
+			},
+			options
+		);
 	}, [ dataProvider ] );
 
 	/**

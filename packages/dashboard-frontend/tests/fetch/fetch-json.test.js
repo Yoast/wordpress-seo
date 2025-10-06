@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, jest } from "@jest/globals";
-import { fetchJson } from "../../src/fetch/fetch-json";
+import { fetchJson } from "../../src";
 
 describe( "fetchJson", () => {
 	beforeAll( () => {

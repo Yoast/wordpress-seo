@@ -14,4 +14,9 @@ describe( "a test for counting the words in the text", function() {
 		const paper = new Paper( "Tell me a story on [shortcode]how to love[/shortcode] your cats", { shortcodes: [ "shortcode" ] } );
 		expect( wordCountInText( paper ).count ).toBe( 10 );
 	} );
+	it( "should count words inside elements with the yoast-ai-summarize class", function() {
+		const paper = new Paper(
+			"Tell me a story on <div class='yoast-ai-summarize'>how to love</div> your cats", { keyword: "how to love your cats" } );
+		expect( wordCountInText( paper ).count ).toBe( 10 );
+	} );
 } );

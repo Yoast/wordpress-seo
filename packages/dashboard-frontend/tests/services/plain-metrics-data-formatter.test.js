@@ -1,5 +1,5 @@
 import { describe, expect } from "@jest/globals";
-import { PlainMetricsDataFormatter } from "../../src/services/plain-metrics-data-formatter";
+import { PlainMetricsDataFormatter } from "../../src";
 
 describe( "PlainMetricsDataFormatter", () => {
 	// Use variable here so the memory address stays the same, so we can keep testing with toBe.

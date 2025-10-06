@@ -26,7 +26,8 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 			"write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>."
 		);
 		expect( assessment.hasJumps() ).toBeTruthy();
-		expect( assessment.getEditFieldName() ).toBe( "SEO title" );
+		expect( assessment.getEditFieldName() ).toBe( "title" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your SEO title" );
 	} );
 
 	it( "returns an assessment result with an exact match of the keyword found at start", function() {
@@ -64,7 +65,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 			"<a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>."
 		);
 		expect( assessment.hasJumps() ).toBeTruthy();
-		expect( assessment.getEditFieldName() ).toBe( "SEO title" );
+		expect( assessment.getEditFieldName() ).toBe( "title" );
 	} );
 
 	it( "returns an assessment result with keyword not found at all", function() {
@@ -138,25 +139,47 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 			"focus keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
-} );
 
-describe( "a test to check for the assessment's applicability", () => {
-	it( "returns false isApplicable for a paper without SEO title", function() {
-		const paper = new Paper( "", { keyword: "some keyword", title: "" } );
-		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+	it( "returns a bad result when the paper has no keyphrase and no title", function() {
+		const paper = new Paper( "" );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
+			"<a href='https://yoa.st/33h' target='_blank'>Please add both a keyphrase and an SEO title beginning with the keyphrase</a>."
+		);
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
-	it( "returns false isApplicable for a paper without keyword", function() {
-		const paper = new Paper( "", { keyword: "", title: "some title" } );
-		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( false );
+	it( "returns a bad result when the paper has no keyphrase", function() {
+		const paper = new Paper( "", { title: "title" } );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
+			"<a href='https://yoa.st/33h' target='_blank'>Please add both a keyphrase and an SEO title beginning with the keyphrase</a>."
+		);
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
-	it( "returns true isApplicable for a paper with keyword and SEO title", function() {
-		const paper = new Paper( "", { keyword: "keyword", title: "some title" } );
-		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
-		expect( isApplicableResult ).toBe( true );
+	it( "returns a bad result when the paper has no title", function() {
+		const paper = new Paper( "", { keyword: "keyphrase" } );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, Factory.buildMockResearcher() );
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
+			"<a href='https://yoa.st/33h' target='_blank'>Please add both a keyphrase and an SEO title beginning with the keyphrase</a>."
+		);
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "title" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your SEO title" );
 	} );
 } );
 

@@ -1,8 +1,9 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo, useEffect } from "@wordpress/element";
+import { useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
@@ -12,7 +13,6 @@ import {
 	FormikMediaSelectField,
 	FormikReplacementVariableEditorField,
 	FormikTagField,
-	FormikValueChangeField,
 	FormLayout,
 	NewsSeoAlert,
 	OpenGraphDisabledAlert,
@@ -21,6 +21,7 @@ import {
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField, withFormikDummyTagField } from "../../hocs";
 import { useSelectSettings, useDispatchSettings } from "../../hooks";
+import { FormikValueChangeField } from "../../../shared-admin/components/form";
 
 const FormikTagFieldWithDummy = withFormikDummyTagField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
@@ -70,7 +71,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -112,7 +113,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			"link-edit-woocommerce-shop-page"
 		);
 	}, [ hasWooCommerceShopPage, wooCommerceShopPageSettingUrl, editWooCommerceShopPageUrl ] );
-	const customFieldsDescription = useMemo( () => createInterpolateElement(
+	const customFieldsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			// translators: %1$s and %2$s are replaced by opening and closing <em> tags.
 			__( "You can add multiple custom fields and separate them by using %1$senter%2$s or %1$scomma%2$s.", "wordpress-seo" ),

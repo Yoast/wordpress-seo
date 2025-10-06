@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get, reduce, join, filter, isArray } from "lodash";
-import { preferencesSelectors } from "./preferences";
+import { filter, get, isArray, join, reduce } from "lodash";
 import { createSearchIndex, safeToLocaleLower } from "../helpers";
+import { preferencesSelectors } from "./preferences";
 
 /**
  * @param {Object} item Search index entry.
@@ -25,6 +25,7 @@ const createSearchItemKeywords = ( item, { userLocale } ) => safeToLocaleLower( 
  */
 const flattenAndLowerSearchIndex = ( searchIndex, parentPath = "", { userLocale } ) => reduce(
 	searchIndex,
+	// eslint-disable-next-line complexity
 	( acc, item, key ) => {
 		const flatKey = join( filter( [ parentPath, key ], Boolean ), "." );
 

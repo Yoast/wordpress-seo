@@ -6,13 +6,23 @@ import { fetchJson } from "../fetch/fetch-json";
  */
 export class RemoteDataProvider {
 	#options;
+	#doFetch;
 
 	/**
-	 * @param {RequestInit} options The fetch options.
+	 * @param {RequestInit} options The default fetch options.
+	 * @param {function(string, RequestInit): Promise<any>} [doFetch] The fetch function.
 	 * @throws {TypeError} If the baseUrl is invalid.
 	 */
-	constructor( options ) {
+	constructor( options, doFetch = fetchJson ) {
 		this.#options = options;
+		this.#doFetch = doFetch;
+	}
+
+	/**
+	 * @returns {RequestInit} The fetch options.
+	 */
+	getOptions() {
+		return this.#options;
 	}
 
 	/**
@@ -45,7 +55,7 @@ export class RemoteDataProvider {
 	 * @returns {Promise<any|Error>} The promise of a result, or an error.
 	 */
 	async fetchJson( endpoint, params, options ) {
-		return fetchJson(
+		return this.#doFetch(
 			this.getUrl( endpoint, params ),
 			defaultsDeep( options, this.#options, { headers: { "Content-Type": "application/json" } } )
 		);

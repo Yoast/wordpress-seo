@@ -1,16 +1,15 @@
 import { Slot } from "@wordpress/components";
-import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
-import TopLevelProviders from "../TopLevelProviders";
 import { ErrorBoundary } from "@yoast/ui-library";
+import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
 import { MetaboxErrorFallback } from "../metabox-error-fallback";
+import TopLevelProviders from "../TopLevelProviders";
 
 /**
  * Renders the metabox portal.
  *
- * @param {Object} props The props.
- * @param {Object} props.theme The theme.
+ * @param {Object} theme The theme.
  *
- * @returns {null|wp.Element} The element.
+ * @returns {JSX.Element} The element.
  */
 export default function MetaboxSlot( { theme } ) {
 	return (

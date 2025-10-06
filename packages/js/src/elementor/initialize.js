@@ -1,6 +1,5 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import initializeAiGenerator from "../ai-generator/initialize";
 import initAnalysis, { collectData } from "../initializers/analysis";
 import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "../initializers/pluggable";
 import initializeInsights from "../insights/initializer";
@@ -13,7 +12,7 @@ import initializeIntroductionEditorV2 from "./initializers/introduction-editor-v
 import initializeUsedKeywords from "./initializers/used-keywords-assessment";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./replaceVars/elementor-replacevar-plugin";
 
-/* eslint-disable complexity */
+
 /**
  * Initializes Yoast SEO for Elementor.
  *
@@ -63,7 +62,7 @@ function initialize() {
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
 	// Initialize the introduction.
-	if ( window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+	if ( window.wpseoScriptData.isAlwaysIntroductionV2 === "1" || window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
 		initializeIntroductionEditorV2();
 	} else {
 		initializeIntroduction();
@@ -72,18 +71,10 @@ function initialize() {
 	// Initialize the editor integration.
 	initializeElementEditorIntegration();
 
-	const AI_IGNORED_POST_TYPES = [ "attachment", "product" ];
-
-	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
-		// Initialize the AI Generator upsell.
-		initializeAiGenerator();
-	}
-
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
 }
 
-/* eslint-enable complexity */
 
 // Wait on `window.elementor`.
 jQuery( window ).on( "elementor:init", () => {

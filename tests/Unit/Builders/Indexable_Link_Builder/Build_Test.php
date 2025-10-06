@@ -214,8 +214,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
-		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
-		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
+		Functions\expect( 'do_action' )->once()->with( 'wpseo_related_indexables_incoming_links_updated', [ $old_seo_link->target_indexable_id ] );
 
 		$links = $this->instance->build( $indexable, $content );
 
@@ -344,8 +343,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 			->with( $target_indexable->permalink )
 			->andReturn( $target_indexable->object_id );
 
-		Functions\expect( 'wp_cache_supports' )->once()->andReturnTrue();
-		Functions\expect( 'wp_cache_flush_group' )->once()->andReturnTrue();
+		Functions\expect( 'do_action' )->once()->with( 'wpseo_related_indexables_incoming_links_updated', [ 2, 3 ] );
 
 		$links = $this->instance->build( $indexable, $content );
 

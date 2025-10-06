@@ -54,8 +54,8 @@ const expectedResults = {
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textImages: {
 		isApplicable: true,
@@ -148,7 +148,9 @@ const expectedResults = {
 			"<a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
 	imageKeyphrase: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
