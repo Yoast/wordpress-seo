@@ -6,7 +6,8 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 /**
  * Trait for common permission checks in route classes.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  */
 trait Route_Permission_Trait {

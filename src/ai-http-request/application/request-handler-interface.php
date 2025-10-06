@@ -18,7 +18,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 /**
  * Request handler interface.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 interface Request_Handler_Interface {
@@ -26,7 +26,7 @@ interface Request_Handler_Interface {
 	/**
 	 * Executes the request to the API.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.

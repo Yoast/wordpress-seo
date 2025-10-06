@@ -21,7 +21,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  * Class Request_Handler
  * Handles the request to Yoast AI API.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -47,7 +47,7 @@ class Request_Handler implements Request_Handler_Interface {
 	/**
 	 * Request_Handler constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param API_Client      $api_client      The API client.
@@ -63,7 +63,7 @@ class Request_Handler implements Request_Handler_Interface {
 	/**
 	 * Executes the request to the API.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Consent_Handler
  * Handles the consent given or revoked by the user.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  * @makePublic
  */
@@ -25,7 +25,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Class constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
@@ -37,7 +37,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Handles consent revoked by deleting the consent user metadata from the database.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -53,7 +53,7 @@ class Consent_Handler implements Consent_Handler_Interface {
 	/**
 	 * Handles consent granted by adding the consent user metadata to the database.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.

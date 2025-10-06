@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to start free sparks.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Free_Sparks_Route implements Route_Interface {
@@ -41,7 +41,7 @@ class Free_Sparks_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
@@ -53,7 +53,7 @@ class Free_Sparks_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Free_Sparks_Handler_Interface $free_sparks_handler The free sparks handler instance.
@@ -66,7 +66,7 @@ class Free_Sparks_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -87,7 +87,7 @@ class Free_Sparks_Route implements Route_Interface {
 	/**
 	 * Runs the callback to start the free sparks.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return WP_REST_Response The response of the callback action.
@@ -106,7 +106,7 @@ class Free_Sparks_Route implements Route_Interface {
 	/**
 	 * Checks whether the user is logged in and can edit posts.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the user is logged in and can edit posts.

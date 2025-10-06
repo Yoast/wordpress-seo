@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * The base class for the callback routes.
  *
- * @deprecated
+@deprecated 26.3
  * @codeCoverageIgnore
  */
 abstract class Abstract_Callback_Route implements Route_Interface {
@@ -53,7 +53,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
@@ -65,7 +65,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Callback_Route constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
@@ -84,7 +84,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store connection credentials and the tokens locally.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.

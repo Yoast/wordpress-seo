@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
  * Class Request
  * Represents a request to the AI Generator API.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Request {
@@ -43,7 +43,7 @@ class Request {
 	/**
 	 * Constructor for the Request class.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string        $action_path The action path for the request.
@@ -61,7 +61,7 @@ class Request {
 	/**
 	 * Get the action path for the request.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The action path for the request.
@@ -74,7 +74,7 @@ class Request {
 	/**
 	 * Get the body of the request.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The body of the request.
@@ -87,7 +87,7 @@ class Request {
 	/**
 	 * Get the headers for the request.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The headers for the request.
@@ -100,7 +100,7 @@ class Request {
 	/**
 	 * Whether the request is a POST request.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if the request is a POST request, false otherwise.

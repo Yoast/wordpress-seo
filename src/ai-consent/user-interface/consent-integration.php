@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Consent_Integration class.
  *
-deprecated 26.3
+@deprecated 26.3
  * @codeCoverageIgnore
  */
 class Consent_Integration implements Integration_Interface {
@@ -49,7 +49,7 @@ class Consent_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string>
@@ -61,7 +61,7 @@ class Consent_Integration implements Integration_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WPSEO_Admin_Asset_Manager    $asset_manager        The admin asset manager.
@@ -86,7 +86,7 @@ class Consent_Integration implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -104,7 +104,7 @@ class Consent_Integration implements Integration_Interface {
 	/**
 	 * Returns the script data for the AI consent button.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string, string|bool>
@@ -123,7 +123,7 @@ class Consent_Integration implements Integration_Interface {
 	/**
 	 * Enqueues the required assets.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -139,7 +139,7 @@ class Consent_Integration implements Integration_Interface {
 	/**
 	 * Renders the AI consent button for the user profile.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void

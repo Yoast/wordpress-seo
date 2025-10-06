@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * Handles the free sparks started on timestamp.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
@@ -30,7 +30,7 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	/**
 	 * Class constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper $options_helper The options helper.
@@ -43,7 +43,7 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	/**
 	 * Retrieves the timestamp.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $format The format in which to return the timestamp. Defaults to 'Y-m-d H:i:s'.
@@ -64,7 +64,7 @@ class Free_Sparks_Handler implements Free_Sparks_Handler_Interface {
 	/**
 	 * Registers the starting of the free sparks.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param ?int $timestamp The timestamp when the user started using free sparks. If null, the current time will be

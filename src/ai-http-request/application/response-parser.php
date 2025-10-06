@@ -9,7 +9,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
  * Class Response_Parser
  * Parses the response from the AI API and creates a Response object.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Response_Parser implements Response_Parser_Interface {
@@ -17,7 +17,7 @@ class Response_Parser implements Response_Parser_Interface {
 	/**
 	 * Parses the response from the API.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param array<int|string|array<string>> $response The response from the API.

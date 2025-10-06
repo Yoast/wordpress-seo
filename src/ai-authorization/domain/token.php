@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Token
  * Represents a token used for authentication with the AI Generator API.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Token {
@@ -29,7 +29,7 @@ class Token {
 	/**
 	 * Token constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $value      The token value.
@@ -44,7 +44,7 @@ class Token {
 	/**
 	 * Get the token value.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The token value.
@@ -58,7 +58,7 @@ class Token {
 	/**
 	 * Whether the token is expired.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if the token is expired, false otherwise.

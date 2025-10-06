@@ -26,7 +26,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * The class that handles the suggestions from the AI API.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  */
 class Suggestions_Provider {

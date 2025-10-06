@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Refresh_Token_Repository
  * Handles the storage and retrieval of refresh tokens for users.
  *
- * @deprecated
+@deprecated 26.3
  * @codeCoverageIgnore
  */
 class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repository_Interface {
@@ -25,7 +25,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Refresh_Token_Repository constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
@@ -38,7 +38,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Get the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -61,7 +61,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Store the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id The user ID.
@@ -81,7 +81,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 	/**
 	 * Delete the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.

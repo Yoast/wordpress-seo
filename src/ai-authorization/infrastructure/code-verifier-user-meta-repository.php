@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Code_Verifier_Repository
  *
- * @deprecated
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repository_Interface {
@@ -34,7 +34,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Code_Verifier_Repository constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Date_Helper $date_helper The date helper.
@@ -49,7 +49,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Store the verification code for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id    The user ID.
@@ -74,7 +74,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Get the verification code for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -102,7 +102,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Delete the verification code for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.

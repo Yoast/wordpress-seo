@@ -10,7 +10,8 @@ use Yoast\WP\SEO\AI_Generator\Domain\URLs_Interface;
  * Class WordPress_URLs
  * Provides URLs for the AI Generator API in a WordPress context.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  */
 class WordPress_URLs implements URLs_Interface {
@@ -18,7 +19,8 @@ class WordPress_URLs implements URLs_Interface {
 	/**
 	 * Gets the license URL.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The license URL.
@@ -32,7 +34,8 @@ class WordPress_URLs implements URLs_Interface {
 	/**
 	 * Gets the callback URL to be used by the API to send back the access token, refresh token and code challenge.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The callbacks URL.
@@ -46,7 +49,8 @@ class WordPress_URLs implements URLs_Interface {
 	/**
 	 * Gets the callback URL to be used by the API to send back the refreshed JWTs once they expire.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The callbacks URL.

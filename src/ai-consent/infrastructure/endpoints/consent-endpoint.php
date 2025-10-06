@@ -9,7 +9,7 @@ use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 /**
  * Represents the setup steps tracking endpoint.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Consent_Endpoint implements Consent_Endpoint_Interface {
@@ -17,7 +17,7 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -31,7 +31,7 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the namespace.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -45,7 +45,7 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @throws Exception If the route prefix is not overwritten this throws.
@@ -60,7 +60,7 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string

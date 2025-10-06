@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Class Remote_Request_Exception
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 abstract class Remote_Request_Exception extends Exception {
@@ -24,7 +24,7 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string         $message          The error message.
@@ -40,7 +40,7 @@ abstract class Remote_Request_Exception extends Exception {
 	/**
 	 * Returns the error identifier.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The error identifier.

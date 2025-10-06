@@ -28,7 +28,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Token_Manager
  * Handles the management of JWT tokens used in the authorization process.
  *
- * @deprecated
+ * @deprecated 26.3
  * @codeCoverageIgnore
  * @makePublic
  */
@@ -93,7 +93,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Token_Manager constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository.
@@ -131,7 +131,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_id The user ID.
@@ -186,7 +186,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -240,7 +240,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Refreshes a stored JWT access token for a user with the Yoast AI Service and stores it in the database under
 	 * usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
@@ -283,7 +283,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Checks whether the token has expired.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $jwt The JWT.
@@ -312,7 +312,7 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Retrieves the access token.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.

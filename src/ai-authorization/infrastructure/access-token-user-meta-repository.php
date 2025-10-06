@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Access_Token_Repository
  * Handles the storage and retrieval of access tokens for users.
  *
- * @deprecated
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Repository_Interface {
@@ -25,7 +25,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Access_Token_Repository constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param User_Helper $user_helper The user helper.
@@ -38,7 +38,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Get the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
@@ -61,7 +61,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Store the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id The user ID.
@@ -81,7 +81,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	/**
 	 * Delete the token for a user.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.

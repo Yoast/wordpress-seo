@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 /**
  * Registers the callback route used in the authorization process.
  *
- * @deprecated
+@deprecated 26.3
  * @codeCoverageIgnore
  * @makePublic
  *
@@ -23,7 +23,7 @@ class Callback_Route extends Abstract_Callback_Route {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void

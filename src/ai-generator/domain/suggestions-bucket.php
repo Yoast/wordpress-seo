@@ -7,7 +7,8 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
  * Class Suggestions_Bucket
  * Represents a collection of Suggestion objects.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  */
 class Suggestions_Bucket {
@@ -22,7 +23,8 @@ class Suggestions_Bucket {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
@@ -33,7 +35,8 @@ class Suggestions_Bucket {
 	/**
 	 * Adds a suggestion to the bucket.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param Suggestion $suggestion The suggestion to add.
@@ -49,7 +52,8 @@ class Suggestions_Bucket {
 	/**
 	 * Returns the suggestions as an array.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string>

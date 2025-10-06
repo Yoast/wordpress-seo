@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
  * Class Response
  * Represents a response from the AI Generator API.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Response {
@@ -50,7 +50,7 @@ class Response {
 	/**
 	 * Response constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string        $body             The response body.
@@ -70,7 +70,7 @@ class Response {
 	/**
 	 * Gets the response body.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The response body.
@@ -83,7 +83,7 @@ class Response {
 	/**
 	 * Gets the response code.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The response code.
@@ -96,7 +96,7 @@ class Response {
 	/**
 	 * Gets the response message.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The response message.
@@ -109,7 +109,7 @@ class Response {
 	/**
 	 * Gets the error code.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The error code.
@@ -122,7 +122,7 @@ class Response {
 	/**
 	 * Gets the missing licenses.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The missing licenses.

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  *
- * @deprecated
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
@@ -34,7 +34,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Date_Helper                        $date_helper              The date helper.

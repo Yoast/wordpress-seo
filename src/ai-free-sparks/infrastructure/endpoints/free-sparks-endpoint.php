@@ -8,7 +8,7 @@ use Yoast\WP\SEO\AI_Free_Sparks\User_Interface\Free_Sparks_Route;
 /**
  * Represents the free sparks endpoint.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
@@ -16,7 +16,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -30,7 +30,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -44,7 +44,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
@@ -58,7 +58,7 @@ class Free_Sparks_Endpoint implements Free_Sparks_Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string

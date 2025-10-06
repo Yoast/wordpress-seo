@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route toget suggestions from the AI API
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  * @makePublic
  *
@@ -61,7 +61,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
@@ -73,7 +73,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Consent_Handler $consent_handler The consent handler.
@@ -88,7 +88,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -116,7 +116,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store the consent given by the user to use AI-based services.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -152,7 +152,7 @@ class Consent_Route implements Route_Interface {
 	 * - if the user is logged
 	 * - if the user can edit posts
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the user is logged in, can edit posts and the feature is active.

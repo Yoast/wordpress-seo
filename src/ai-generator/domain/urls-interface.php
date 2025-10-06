@@ -6,7 +6,8 @@ namespace Yoast\WP\SEO\AI_Generator\Domain;
 /**
  * Helper class to get the URLs needed for the AI Generator API.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  */
 interface URLs_Interface {
@@ -14,7 +15,8 @@ interface URLs_Interface {
 	/**
 	 * Gets the licence URL.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The license URL.
@@ -24,7 +26,8 @@ interface URLs_Interface {
 	/**
 	 * Gets the callback URL to be used by the API to send back the access token, refresh token and code challenge.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The callback URL.
@@ -34,7 +37,8 @@ interface URLs_Interface {
 	/**
 	 * Gets the callback URL to be used by the API to send back the refreshed JWTs once they expire.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The refresh callback URL.

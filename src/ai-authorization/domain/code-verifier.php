@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Code_Verifier representing a challenge code and its creation time.
  * This is used during the authorization process to verify the user requesting a token.
  *
-deprecated 26.3
+ * @deprecated 26.3
  * @codeCoverageIgnore
  */
 class Code_Verifier {
@@ -29,7 +29,7 @@ class Code_Verifier {
 	/**
 	 * Code_Verifier constructor.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $code       The code.
@@ -44,7 +44,7 @@ class Code_Verifier {
 	/**
 	 * Get the code.
 	 *
-	deprecated 26.3
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The code.
@@ -58,7 +58,7 @@ class Code_Verifier {
 	/**
 	 * Get the creation time of the code.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The creation time of the code.
@@ -72,7 +72,7 @@ class Code_Verifier {
 	/**
 	 * Check if the code is expired.
 	 *
-	 * @deprecated
+	 * @deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $validity_in_seconds The validity of the code in seconds.

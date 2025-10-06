@@ -12,7 +12,8 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to bust the subscription cache.
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  *
  * @makePublic

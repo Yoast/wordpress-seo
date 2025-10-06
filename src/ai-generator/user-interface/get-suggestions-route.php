@@ -18,7 +18,8 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get suggestions from the AI API
  *
- * @deprecated
+@deprecated 26.3
+ *
  * @codeCoverageIgnore
  *
  * @makePublic
