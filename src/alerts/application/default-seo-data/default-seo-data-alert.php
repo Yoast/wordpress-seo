@@ -195,7 +195,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 			$default_seo_data,
 			'<strong>',
 			'</strong>',
-			'<a href="' . \esc_url( $shortlink ) . '">',
+			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
 			'</a>'
 		);
 	}
