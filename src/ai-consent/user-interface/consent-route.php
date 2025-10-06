@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route toget suggestions from the AI API
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  * @makePublic
  *
@@ -61,7 +61,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
@@ -73,7 +73,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Consent_Handler $consent_handler The consent handler.
@@ -88,7 +88,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Registers routes with WordPress.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -116,7 +116,7 @@ class Consent_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store the consent given by the user to use AI-based services.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -124,7 +124,7 @@ class Consent_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function consent( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::consent' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::consent' );
 
 		$user_id = \get_current_user_id();
 		$consent = \boolval( $request->get_param( 'consent' ) );
@@ -152,13 +152,13 @@ class Consent_Route implements Route_Interface {
 	 * - if the user is logged
 	 * - if the user can edit posts
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
 	 */
 	public function check_permissions(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::check_permissions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\User_Interface\Consent_Route::check_permissions' );
 
 		$user = \wp_get_current_user();
 		if ( $user === null || $user->ID < 1 ) {

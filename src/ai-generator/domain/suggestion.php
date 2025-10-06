@@ -41,7 +41,7 @@ class Suggestion {
 	 * @return string
 	 */
 	public function get_value(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion::get_value' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Generate\Domain\Suggestion::get_value' );
 
 		return $this->value;
 	}

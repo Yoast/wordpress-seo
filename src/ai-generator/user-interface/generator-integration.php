@@ -146,7 +146,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::register_hooks' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::register_hooks' );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		// Enqueue after Elementor_Premium integration, which re-registers the assets.
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
@@ -161,7 +161,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string, bool>
 	 */
 	public function get_product_subscriptions() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_product_subscriptions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_product_subscriptions' );
 		return [
 			'premiumSubscription'     => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
 			'wooCommerceSubscription' => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
@@ -177,7 +177,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return array<string|array<string>>
 	 */
 	public function get_script_data() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_script_data' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::get_script_data' );
 		$user_id = $this->user_helper->get_current_user_id();
 
 		$endpoints = $this->generator_endpoints_repository->get_all_endpoints()
@@ -203,7 +203,7 @@ class Generator_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::enqueue_assets' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Generator_Integration::enqueue_assets' );
 
 		$this->asset_manager->enqueue_script( 'ai-generator' );
 		$this->asset_manager->localize_script( 'ai-generator', 'wpseoAiGenerator', $this->get_script_data() );

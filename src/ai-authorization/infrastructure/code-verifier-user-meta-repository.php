@@ -59,7 +59,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return void
 	 */
 	public function store_code_verifier( int $user_id, string $code, int $created_at ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier' );
 
 		$this->user_helper->update_meta(
 			$user_id,
@@ -83,7 +83,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return Code_Verifier The verification code or null if not found.
 	 */
 	public function get_code_verifier( int $user_id ): ?Code_Verifier {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::get_code_verifier' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::get_code_verifier' );
 
 		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
 
@@ -110,7 +110,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return void
 	 */
 	public function delete_code_verifier( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::delete_code_verifier' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::delete_code_verifier' );
 
 		$this->user_helper->delete_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id() );
 	}

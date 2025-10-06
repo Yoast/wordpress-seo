@@ -7,7 +7,7 @@ use Throwable;
 /**
  * Class to manage an error response in wp_remote_*() requests.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -17,7 +17,7 @@ class WP_Request_Exception extends Remote_Request_Exception {
 	/**
 	 * WP_Request_Exception constructor.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string          $message  The error message.

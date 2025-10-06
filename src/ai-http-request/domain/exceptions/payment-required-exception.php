@@ -8,7 +8,7 @@ use Throwable;
 /**
  * Class to manage a 402 - payment required response.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  */
 class Payment_Required_Exception extends Remote_Request_Exception {
@@ -23,7 +23,7 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	/**
 	 * Payment_Required_Exception constructor.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string          $message          The error message.
@@ -40,13 +40,13 @@ class Payment_Required_Exception extends Remote_Request_Exception {
 	/**
 	 * Gets the missing plugin licences.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string[] The missing plugin licenses.
 	 */
 	public function get_missing_licenses() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::get_missing_licenses' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception::get_missing_licenses' );
 		return $this->missing_licenses;
 	}
 }

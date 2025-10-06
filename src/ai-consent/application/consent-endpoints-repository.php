@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoints_Repository;
 /**
  * Repository for endpoints.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  */
 class Consent_Endpoints_Repository extends Endpoints_Repository {
@@ -16,7 +16,7 @@ class Consent_Endpoints_Repository extends Endpoints_Repository {
 	/**
 	 * Constructs the repository.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param Consent_Endpoint_Interface ...$endpoints The endpoints to add to the repository.

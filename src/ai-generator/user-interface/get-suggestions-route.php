@@ -155,7 +155,7 @@ class Get_Suggestions_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the get_suggestions action.
 	 */
 	public function get_suggestions( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::get_suggestions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Suggestions_Route::get_suggestions' );
 		try {
 			$user = \wp_get_current_user();
 			$data = $this->suggestions_provider->get_suggestions( $user, $request['type'], $request['prompt_content'], $request['focus_keyphrase'], $request['language'], $request['platform'], $request['editor'] );

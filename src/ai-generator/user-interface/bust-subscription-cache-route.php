@@ -95,7 +95,7 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function bust_subscription_cache(): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
 		$this->addon_manager->remove_site_information_transients();
 
 		return new WP_REST_Response( 'Subscription cache successfully busted.' );

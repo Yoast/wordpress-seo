@@ -122,7 +122,7 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::get_suggestions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::get_suggestions' );
 
 		$token = $this->token_manager->get_or_request_access_token( $user );
 
@@ -178,7 +178,7 @@ class Suggestions_Provider {
 	 * @return Suggestions_Bucket The array of suggestions.
 	 */
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::build_suggestions_array' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::build_suggestions_array' );
 
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );

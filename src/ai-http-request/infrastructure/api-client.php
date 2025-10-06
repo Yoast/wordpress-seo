@@ -10,7 +10,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
  * Class API_Client
  * Handles the API requests to the AI Generator API.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  *
  * @makePublic
@@ -27,7 +27,7 @@ class API_Client implements API_Client_Interface {
 	/**
 	 * Performs a request to the API.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param string        $action_path The action path for the request.
@@ -40,7 +40,7 @@ class API_Client implements API_Client_Interface {
 	 * @throws WP_Request_Exception When the wp_remote_post() returns an error.
 	 */
 	public function perform_request( string $action_path, $body, $headers, bool $is_post ): array {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::perform_request' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::perform_request' );
 		// Our API expects JSON.
 		// The request times out after 30 seconds.
 		$headers   = \array_merge( $headers, [ 'Content-Type' => 'application/json' ] );
@@ -75,13 +75,13 @@ class API_Client implements API_Client_Interface {
 	/**
 	 * Gets the timeout of the requests in seconds.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */
 	public function get_request_timeout(): int {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::get_request_timeout' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client::get_request_timeout' );
 		/**
 		 * Filter: 'Yoast\WP\SEO\ai_suggestions_timeout' - Replaces the default timeout with a custom one, for testing purposes.
 		 *

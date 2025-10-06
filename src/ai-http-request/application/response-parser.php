@@ -9,7 +9,7 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
  * Class Response_Parser
  * Parses the response from the AI API and creates a Response object.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  */
 class Response_Parser implements Response_Parser_Interface {
@@ -17,7 +17,7 @@ class Response_Parser implements Response_Parser_Interface {
 	/**
 	 * Parses the response from the API.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @param array<int|string|array<string>> $response The response from the API.
@@ -25,7 +25,7 @@ class Response_Parser implements Response_Parser_Interface {
 	 * @return Response The parsed response.
 	 */
 	public function parse( $response ): Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Parser::parse' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Application\Response_Parser::parse' );
 		$response_code    = ( \wp_remote_retrieve_response_code( $response ) !== '' ) ? \wp_remote_retrieve_response_code( $response ) : 0;
 		$response_message = \esc_html( \wp_remote_retrieve_response_message( $response ) );
 		$error_code       = '';

@@ -22,7 +22,7 @@ trait Route_Permission_Trait {
 	 * @return bool Whether the user is logged in, can edit posts and the feature is active.
 	 */
 	public function check_permissions(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Route_Permission_Trait::check_permissions' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Route_Permission_Trait::check_permissions' );
 		$user = \wp_get_current_user();
 		if ( $user === null || $user->ID < 1 ) {
 			return false;

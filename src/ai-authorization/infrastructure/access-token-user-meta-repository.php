@@ -48,7 +48,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @throws RuntimeException If the token is not found or invalid.
 	 */
 	public function get_token( int $user_id ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::get_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::get_token' );
 
 		$access_jwt = $this->user_helper->get_meta( $user_id, self::META_KEY, true );
 		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
@@ -70,7 +70,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @return void
 	 */
 	public function store_token( int $user_id, string $value ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::store_token' );
 
 		$this->user_helper->update_meta(
 			$user_id,
@@ -89,7 +89,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 	 * @return void
 	 */
 	public function delete_token( int $user_id ): void {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Access_Token_User_Meta_Repository::delete_token' );
 
 		$this->user_helper->delete_meta( $user_id, self::META_KEY );
 	}

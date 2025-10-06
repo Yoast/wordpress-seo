@@ -126,7 +126,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function get_usage( $response ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_usage' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_usage' );
 		$is_woo_product_entity = $response->get_param( 'is_woo_product_entity' );
 		$user                  = \wp_get_current_user();
 		try {
@@ -167,7 +167,7 @@ class Get_Usage_Route implements Route_Interface {
 	 * @return string The action path.
 	 */
 	public function get_action_path( $is_woo_product_entity = false ): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_action_path' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Get_Usage_Route::get_action_path' );
 		$unlimited = '/usage/' . \gmdate( 'Y-m' );
 		if ( $is_woo_product_entity && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $unlimited;

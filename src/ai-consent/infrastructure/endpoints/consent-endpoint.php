@@ -9,7 +9,7 @@ use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
 /**
  * Represents the setup steps tracking endpoint.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  */
 class Consent_Endpoint implements Consent_Endpoint_Interface {
@@ -17,13 +17,13 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the name.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_name' );
 
 		return 'consent';
 	}
@@ -31,13 +31,13 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the namespace.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_namespace' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_namespace' );
 
 		return Consent_Route::ROUTE_NAMESPACE;
 	}
@@ -45,14 +45,14 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the route.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @throws Exception If the route prefix is not overwritten this throws.
 	 * @return string
 	 */
 	public function get_route(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_route' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_route' );
 
 		return Consent_Route::ROUTE_PREFIX;
 	}
@@ -60,13 +60,13 @@ class Consent_Endpoint implements Consent_Endpoint_Interface {
 	/**
 	 * Gets the URL.
 	 *
-	 * @deprecated
+	deprecated 26.3
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_url(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Consent\Infrastructure\Endpoints\Consent_Endpoint::get_url' );
 
 		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}

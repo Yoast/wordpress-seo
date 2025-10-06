@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI_Authorization\Domain;
  * Class Token
  * Represents a token used for authentication with the AI Generator API.
  *
- * @deprecated
+deprecated 26.3
  * @codeCoverageIgnore
  */
 class Token {
@@ -50,7 +50,7 @@ class Token {
 	 * @return string The token value.
 	 */
 	public function get_value(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::get_value' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::get_value' );
 
 		return $this->value;
 	}
@@ -64,7 +64,7 @@ class Token {
 	 * @return bool True if the token is expired, false otherwise.
 	 */
 	public function is_expired(): bool {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::is_expired' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Domain\Token::is_expired' );
 
 		return $this->expiration < \time();
 	}

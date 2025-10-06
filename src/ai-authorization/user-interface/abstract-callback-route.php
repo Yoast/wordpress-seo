@@ -95,7 +95,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @throws RuntimeException If the verification code is not found.
 	 */
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
-		\_deprecated_function( __METHOD__, 'Yoast SEO ', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
 
 		$user_id = $request['user_id'];
 		try {
