@@ -44,15 +44,15 @@ class Redirect_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_loaded', [ $this, 'old_settings_redirect' ] );
+		\add_action( 'wp_loaded', [ $this, 'settings_redirect' ] );
 	}
 
 	/**
-	 * Redirect to new settings URLs. We're adding this, so that not-updated add-ons don't point to non-existent pages.
+	 * Catch all method to redirect certain pages related to redirects.
 	 *
 	 * @return void
 	 */
-	public function old_settings_redirect() {
+	public function settings_redirect() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! isset( $_GET['page'] ) ) {
 			return;
@@ -61,11 +61,26 @@ class Redirect_Integration implements Integration_Interface {
 		$current_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 
 		switch ( $current_page ) {
-			case 'wpseo_titles':
+			case 'wpseo_titles': // Redirect to new settings URLs. We're adding this, so that not-updated add-ons don't point to non-existent pages.
 				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ), 301 );
+				return;
+			case 'wpseo_redirects_tools': // Redirect to Yoast redirection page, from the respective WP tools page.
+				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_redirects&from_tools=1' ), 302 );
 				return;
 			default:
 				return;
 		}
+	}
+
+	/**
+	 * Old method kept for backward compatibility.
+	 *
+	 * @deprecated 26.2
+	 * @codeCoverageIgnore Because of deprecation.
+	 * @return void
+	 */
+	public function old_settings_redirect() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.2', 'Use settings_redirect() instead.' );
+		$this->settings_redirect();
 	}
 }
