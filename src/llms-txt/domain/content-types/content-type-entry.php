@@ -121,11 +121,18 @@ class Content_Type_Entry {
 	 * @return self A new instance of the class.
 	 */
 	public static function from_meta( Meta $meta ): self {
+		/**
+		 * Filter the excerpt that is included in the llms.txt file.
+		 *
+		 * @param string  $excerpt The excerpt content.
+		 * @param WP_Post $post    The post object.
+		 */
+		$excerpt = \apply_filters( 'wpseo_llmstxt_include_excerpt', $meta->post->post_excerpt, $meta->post );
 		return new self(
 			$meta->post->ID,
 			$meta->post->post_title,
 			$meta->canonical,
-			$meta->post->post_excerpt,
+			$excerpt,
 			$meta->post->post_name
 		);
 	}
@@ -139,11 +146,18 @@ class Content_Type_Entry {
 	 * @return self An instance of the class.
 	 */
 	public static function from_post( WP_Post $post, string $permalink ): self {
+		/**
+		 * Filter the excerpt that is included in the llms.txt file.
+		 *
+		 * @param string  $excerpt The excerpt content.
+		 * @param WP_Post $post    The post object.
+		 */
+		$excerpt = \apply_filters( 'wpseo_llmstxt_include_excerpt', $post->post_excerpt, $post );
 		return new self(
 			$post->ID,
 			$post->post_title,
 			$permalink,
-			$post->post_excerpt,
+			$excerpt,
 			$post->post_name
 		);
 	}
