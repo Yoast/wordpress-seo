@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -28,6 +29,13 @@ class Installation_Success_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * The shortlinker.
+	 *
+	 * @var WPSEO_Shortlinker
+	 */
+	private $shortlinker;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -37,12 +45,14 @@ class Installation_Success_Integration implements Integration_Interface {
 	/**
 	 * Installation_Success_Integration constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 * @param Product_Helper $product_helper The product helper.
+	 * @param Options_Helper    $options_helper The options helper.
+	 * @param Product_Helper    $product_helper The product helper.
+	 * @param WPSEO_Shortlinker $shortlinker    The shortlinker.
 	 */
-	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper, WPSEO_Shortlinker $shortlinker ) {
 		$this->options_helper = $options_helper;
 		$this->product_helper = $product_helper;
+		$this->shortlinker    = $shortlinker;
 	}
 
 	/**
@@ -124,7 +134,7 @@ class Installation_Success_Integration implements Integration_Interface {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'installation-success' );
-		$asset_manager->enqueue_style( 'tailwind' );
+		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$ftc_url = \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) );
@@ -136,6 +146,7 @@ class Installation_Success_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'firstTimeConfigurationUrl' => $ftc_url,
 				'dashboardUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard' ) ),
+				'explorePremiumUrl'         => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-premium-link' ),
 			]
 		);
 	}
