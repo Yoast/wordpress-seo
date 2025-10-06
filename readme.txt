@@ -203,7 +203,7 @@ Release date: 2025-10-07
 
 #### Enhancements
 
-* Improves the UX of the llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
+* Improves the UX of the `llms.txt settings, by informing the user that they have to save their changes in order for the file to be generated.
 * Introduces the ability to add a Ahrefs verification code via Yoast settings.
 
 #### Bugfixes
