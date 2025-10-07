@@ -100,7 +100,7 @@ export function InstallationSuccessPage() {
 						</Button>
 						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2">
 							{
-								__( "Trusted by more than 9 million site owners", "wordpress-seo" )
+								__( "Trusted by millions of site owners", "wordpress-seo" )
 							}
 							<br />
 							{
