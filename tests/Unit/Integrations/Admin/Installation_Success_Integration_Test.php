@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -57,7 +58,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
-		$this->shortlinker    = Mockery::mock( \WPSEO_Shortlinker::class );
+		$this->shortlinker    = Mockery::mock( WPSEO_Shortlinker::class );
 
 		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
