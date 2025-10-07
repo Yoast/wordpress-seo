@@ -7,6 +7,7 @@ describe( "InstallationSuccessPage", () => {
 			pluginUrl: "http://wordpress.test/wp-content/plugins/wordpress-seo",
 			firstTimeConfigurationUrl: "http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration",
 			dashboardUrl: "http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard",
+			explorePremiumUrl: "https://yoa.st/ftc-premium-link",
 		};
 
 		const { queryByText } = render( <InstallationSuccessPage /> );
