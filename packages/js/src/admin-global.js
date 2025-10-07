@@ -176,6 +176,18 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Makes the AI+ link in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeAIPlusPremiumLinkOpenInNewTab() {
+		var element = $( "a[href=\"admin.php?page=wpseo_ai_plus_premium\"]" );
+		if ( element.length ) {
+			element.attr( "target", "_blank" );
+		}
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -466,5 +478,6 @@ import jQuery from "jquery";
 		resolveNotificationMismatch();
 		makeUpgradesOpenInNewTab();
 		makeAIPlusLinkOpenInNewTab();
+		makeAIPlusPremiumLinkOpenInNewTab();
 	} );
 }( jQuery ) );
