@@ -11,7 +11,7 @@ describe( "InstallationSuccessPage", () => {
 		};
 
 		const { queryByText } = render( <InstallationSuccessPage /> );
-		expect( queryByText( "Your site is now easier for search engines to find." ) ).toBeInTheDocument();
+		expect( queryByText( "Get better results with the First-time configuration" ) ).toBeInTheDocument();
 	} );
 	it( "should match the snapshot", () => {
 		const { container } = render( <InstallationSuccessPage /> );
