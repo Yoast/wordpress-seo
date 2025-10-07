@@ -41,6 +41,13 @@ final class Installation_Success_Integration_Test extends TestCase {
 	protected $product_helper;
 
 	/**
+	 * Shortlinker mock.
+	 *
+	 * @var WPSEO_Shortlinker|Mockery\Mock
+	 */
+	protected $shortlinker;
+
+	/**
 	 * Set up the fixtures for the tests.
 	 *
 	 * @return void
@@ -50,12 +57,14 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
+		$this->shortlinker    = Mockery::mock( \WPSEO_Shortlinker::class );
 
 		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
 			[
 				$this->options_helper,
 				$this->product_helper,
+				$this->shortlinker,
 			]
 		)->makePartial();
 	}
