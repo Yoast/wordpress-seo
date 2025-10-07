@@ -36,7 +36,7 @@ class Redirect_Integration implements Integration_Interface {
 		Redirect_Helper $redirect,
 		Short_Link_Helper $short_link_helper
 	) {
-		$this->redirect = $redirect;
+		$this->redirect          = $redirect;
 		$this->short_link_helper = $short_link_helper;
 	}
 

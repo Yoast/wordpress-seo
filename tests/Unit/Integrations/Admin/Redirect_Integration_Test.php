@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Redirect_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -33,6 +34,13 @@ final class Redirect_Integration_Test extends TestCase {
 	private $redirect;
 
 	/**
+	 * The shortlink helper mock.
+	 *
+	 * @var Mockery\MockInterface|Short_Link_Helper
+	 */
+	private $short_link_helper;
+
+	/**
 	 * Set up the fixtures for the tests.
 	 *
 	 * @return void
@@ -40,9 +48,10 @@ final class Redirect_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->redirect = Mockery::mock( Redirect_Helper::class );
+		$this->redirect          = Mockery::mock( Redirect_Helper::class );
+		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
 
-		$this->instance = new Redirect_Integration( $this->redirect );
+		$this->instance = new Redirect_Integration( $this->redirect, $this->short_link_helper );
 	}
 
 	/**
