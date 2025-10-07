@@ -303,6 +303,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.2 =
+
+Release date: 2025-10-21
+
+#### Enhancements
+
+* Adds a `Pronouns` field to the user profile and includes these pronouns in the Schema.org output. Props to [jdevalk](https://github.com/jdevalk).
+* Adds edit buttons next to the _keyphrase in meta description_, _keyphrase in slug_, and _keyphrase in SEO title_ assessments when there is no keyphrase and/or no meta description, slug, or SEO title.
+* Introduces Content blocks collapsible inside Yoast Metabox and Sidebar to improve Yoast custom blocks discoverability.
+
+#### Other
+
+* Adapts the behavior of the `Contact our support team` button in the `Support` page to our new Premium and WooCommerce SEO subscription plans.
+* Disables opcache invalidation on plugin upgrade for a subset of the userbase.
+
 = 26.1 =
 
 Release date: 2025-10-07
@@ -323,27 +338,6 @@ Yoast SEO 26.1 brings more enhancements and bugfixes. [Find more information abo
 * Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
 * Lets users know about the new `Yoast SEO AI+` plan and related features.
 * Updates the `Site features` page to include icons instead of images.
-
-= 26.0 =
-
-Release date: 2025-09-23
-
-Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
-
-#### Bugfixes
-
-* Fixes a bug where a string in the AI Generate usage counter tooltip was missing in RTL languages.
-
-#### Other
-
-* Adds an introduction which would show after 14 days of the plugin activation or update.
-* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
-* Allow changing the main image ID through a filter `wpseo_schema_main_image_id`. Props to [@JoryHogeveen](https://github.com/JoryHogeveen).
-* Ensures compatibility with the recent Wincher API changes.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
