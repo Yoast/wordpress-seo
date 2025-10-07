@@ -7,9 +7,9 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Ai_Plus_Page class
+ * Brand_Insights_Page class
  */
-class Ai_Plus_Page implements Integration_Interface {
+class Brand_Insights_Page implements Integration_Interface {
 
 	/**
 	 * The product helper.
@@ -50,14 +50,14 @@ class Ai_Plus_Page implements Integration_Interface {
 	}
 
 	/**
-	 * Adds the Yoast SEO AI+ submenu page.
+	 * Adds the Brand Insights submenu page.
 	 *
 	 * @param string[] $submenu_pages The Yoast SEO submenu pages.
 	 *
 	 * @return string[] The filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
-		$page = $this->product_helper->is_premium() ? 'wpseo_ai_plus_premium' : 'wpseo_ai_plus';
+		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
 		$submenu_pages[] = [
 			'wpseo_dashboard',
@@ -65,18 +65,18 @@ class Ai_Plus_Page implements Integration_Interface {
 			'Brand Insights <span class="yoast-badge yoast-ai-plus-badge"></span>',
 			'edit_others_posts',
 			$page,
-			[ $this, 'show_ai_plus_page' ],
+			[ $this, 'show_brand_insights_page' ],
 		];
 
 		return $submenu_pages;
 	}
 
 	/**
-	 * The AI+ page render function, noop.
+	 * The Brand Insights page render function, noop.
 	 *
 	 * @return void
 	 */
-	public function show_ai_plus_page() {
+	public function show_brand_insights_page() {
 		// Do nothing and let the redirect happen from the redirect integration.
 	}
 }

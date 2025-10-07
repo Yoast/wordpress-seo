@@ -168,10 +168,13 @@ import jQuery from "jquery";
 	 *
 	 * @returns {void}
 	 */
-	function makeAIPlusLinkOpenInNewTab() {
-		var element = $( "a[href=\"admin.php?page=wpseo_ai_plus\"]" );
-		if ( element.length ) {
-			element.attr( "target", "_blank" );
+	function makeBrandInsightsLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
 		}
 	}
 
@@ -180,10 +183,13 @@ import jQuery from "jquery";
 	 *
 	 * @returns {void}
 	 */
-	function makeAIPlusPremiumLinkOpenInNewTab() {
-		var element = $( "a[href=\"admin.php?page=wpseo_ai_plus_premium\"]" );
-		if ( element.length ) {
-			element.attr( "target", "_blank" );
+	function makeBrandInsightsPremiumLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights_premium']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
 		}
 	}
 
@@ -477,7 +483,7 @@ import jQuery from "jquery";
 		createScrollableTables();
 		resolveNotificationMismatch();
 		makeUpgradesOpenInNewTab();
-		makeAIPlusLinkOpenInNewTab();
-		makeAIPlusPremiumLinkOpenInNewTab();
+		makeBrandInsightsLinkOpenInNewTab();
+		makeBrandInsightsPremiumLinkOpenInNewTab();
 	} );
 }( jQuery ) );

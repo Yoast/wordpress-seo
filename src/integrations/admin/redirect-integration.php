@@ -80,11 +80,11 @@ class Redirect_Integration implements Integration_Interface {
 			case 'wpseo_redirects_tools': // Redirect to Yoast redirection page, from the respective WP tools page.
 				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_redirects&from_tools=1' ), 302 );
 				return;
-			case 'wpseo_ai_plus':
-				$this->redirect->do_unsafe_redirect( $this->short_link_helper->get( 'https://yoa.st/ai-plus-wp-admin' ), 302 );
+			case 'wpseo_brand_insights':
+				$this->redirect->do_unsafe_redirect( $this->short_link_helper->get( 'https://yoa.st/brand-insights-wp-admin' ), 302 );
 				return;
-			case 'wpseo_ai_plus_premium':
-				$this->redirect->do_unsafe_redirect( $this->short_link_helper->get( 'https://yoa.st/ai-plus-wp-admin-premium' ), 302 );
+			case 'wpseo_brand_insights_premium':
+				$this->redirect->do_unsafe_redirect( $this->short_link_helper->get( 'https://yoa.st/brand-insights-wp-admin-premium' ), 302 );
 				return;
 			default:
 				return;
