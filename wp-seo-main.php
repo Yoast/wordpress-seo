@@ -207,8 +207,6 @@ function _wpseo_activate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 	require_once WPSEO_PATH . 'inc/class-wpseo-installation.php';
 
-	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
-
 	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
