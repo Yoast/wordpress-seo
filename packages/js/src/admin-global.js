@@ -164,6 +164,18 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Makes the AI+ link in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeAIPlusLinkOpenInNewTab() {
+		var element = $( "a[href=\"admin.php?page=wpseo_ai_plus\"]" );
+		if ( element.length ) {
+			element.attr( "target", "_blank" );
+		}
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -453,5 +465,6 @@ import jQuery from "jquery";
 		createScrollableTables();
 		resolveNotificationMismatch();
 		makeUpgradesOpenInNewTab();
+		makeAIPlusLinkOpenInNewTab();
 	} );
 }( jQuery ) );
