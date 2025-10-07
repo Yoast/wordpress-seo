@@ -187,15 +187,15 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 			$default_seo_data = \esc_html__( 'SEO data', 'wordpress-seo' );
 		}
 
-		/* translators: %1$s expands to "SEO title" or "meta description", %2$s expands to an opening strong tag, %3$s expands to a closing strong tag, %4$s expands to an opening link tag, %5$s expands to a closing link tag. */
-		$message = ( $this->product_helper->is_premium() ) ? \esc_html__( 'Your recent posts are using default %1$s, making them less appealing in search. Create custom titles and descriptions instantly with %2$sYoast AI Generate%3$s. %4$sLearn how to use it%5$s.', 'wordpress-seo' ) : \esc_html__( 'Your recent posts are using default %1$s, which makes them easy to overlook. Catch attention in search with custom titles and descriptions from %2$sYoast AI Generate%3$s. %4$sTry it for free.%5$s', 'wordpress-seo' );
+		/* translators: %1$s expands to "SEO title" or "meta description", %2$s expands to an opening link tag, %3$s expands to an opening strong tag, %4$s expands to a closing strong tag, %5$s expands to a closing link tag. */
+		$message = ( $this->product_helper->is_premium() ) ? \esc_html__( 'Your recent posts are using default %1$s, which can make them easy to overlook in search results. Update them manually or %2$sfind out how %3$sYoast AI Generate%4$s can improve them for you.%5$s', 'wordpress-seo' ) : \esc_html__( 'Your recent posts are using default %1$s, which can make them easy to overlook in search results. Update them for better visibility or %2$stry %3$sYoast AI Generate%4$s for free to do it faster.%5$s', 'wordpress-seo' );
 
 		return \sprintf(
 			$message,
 			$default_seo_data,
+			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
 			'<strong>',
 			'</strong>',
-			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
 			'</a>'
 		);
 	}
