@@ -164,7 +164,7 @@ import jQuery from "jquery";
 	}
 
 	/**
-	 * Makes the AI+ link in the admin sidebar open in a new tab.
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab.
 	 *
 	 * @returns {void}
 	 */
@@ -179,7 +179,7 @@ import jQuery from "jquery";
 	}
 
 	/**
-	 * Makes the AI+ link in the admin sidebar open in a new tab.
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab, when Premium is enabled.
 	 *
 	 * @returns {void}
 	 */
