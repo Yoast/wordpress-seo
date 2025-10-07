@@ -4,6 +4,8 @@ import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../../analysis/isInclusiveLanguageAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
+import isRecentSeoTitlesDefault from "../../analysis/isRecentSeoTitlesDefault";
+import isRecentSeoDescriptionsDefault from "../../analysis/isRecentSeoDescriptionsDefault";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
 import isWincherIntegrationActive from "../../analysis/isWincherIntegrationActive";
@@ -40,6 +42,9 @@ function getDefaultState() {
 		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
 		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
 		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
+		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
+		isRecentSeoTitlesDefault: isRecentSeoTitlesDefault(),
+		isRecentSeoDescriptionsDefault: isRecentSeoDescriptionsDefault(),
 	};
 }
 
