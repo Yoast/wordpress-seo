@@ -143,8 +143,8 @@ final class Redirect_Integration_Test extends TestCase {
 			[ 'NOT_wpseo_titles', 0, 'admin.php?page=wpseo_page_settings#/site-representation', 0, 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 ],
 			[ 'wpseo_redirects_tools', 1, 'admin.php?page=wpseo_redirects&from_tools=1', 0, 'https://example.com/wp-admin/admin.php?page=wpseo_redirects&from_tools=1', 302 ],
 			[ 'NOT_wpseo_redirects_tools', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 0, 'https://example.com/wp-admin/admin.php?page=admin.php?page=wpseo_redirects&from_tools=1', 302 ],
-			[ 'wpseo_brand_insights', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 1, 'https://yoa.st/ai-plus-wp-admin', 302 ],
-			[ 'wpseo_brand_insights_premium', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 1, 'https://yoa.st/ai-plus-wp-admin-premium', 302 ],
+			[ 'wpseo_brand_insights', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 1, 'https://yoa.st/brand-insights-wp-admin', 302 ],
+			[ 'wpseo_brand_insights_premium', 0, 'admin.php?page=wpseo_redirects&from_tools=1', 1, 'https://yoa.st/brand-insights-wp-admin-premium', 302 ],
 		];
 	}
 }
