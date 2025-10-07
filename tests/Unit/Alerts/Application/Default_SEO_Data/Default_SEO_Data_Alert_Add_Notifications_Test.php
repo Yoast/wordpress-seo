@@ -221,7 +221,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-free/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default SEO titles, which makes them easy to overlook. Catch attention in search with custom titles and descriptions from <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-free/">Try it for free.</a>',
+			'expected_message'          => 'Your recent posts are using default SEO titles, which can make them easy to overlook in search results. Update them for better visibility or <a href="https://yoa.st/ai-generate-alert-free/" target="_blank">try <strong>Yoast AI Generate</strong> for free to do it faster.</a>',
 		];
 
 		yield 'Enough posts with default descriptions only - add notification (free)' => [
@@ -240,7 +240,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-free/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default meta descriptions, which makes them easy to overlook. Catch attention in search with custom titles and descriptions from <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-free/">Try it for free.</a>',
+			'expected_message'          => 'Your recent posts are using default meta descriptions, which can make them easy to overlook in search results. Update them for better visibility or <a href="https://yoa.st/ai-generate-alert-free/" target="_blank">try <strong>Yoast AI Generate</strong> for free to do it faster.</a>',
 		];
 
 		yield 'Enough posts with default titles and descriptions - add notification (free)' => [
@@ -259,7 +259,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-free/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default SEO titles and meta descriptions, which makes them easy to overlook. Catch attention in search with custom titles and descriptions from <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-free/">Try it for free.</a>',
+			'expected_message'          => 'Your recent posts are using default SEO titles and meta descriptions, which can make them easy to overlook in search results. Update them for better visibility or <a href="https://yoa.st/ai-generate-alert-free/" target="_blank">try <strong>Yoast AI Generate</strong> for free to do it faster.</a>',
 		];
 
 		yield 'Enough posts with default titles only - add notification (premium)' => [
@@ -278,7 +278,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-premium/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default SEO titles, making them less appealing in search. Create custom titles and descriptions instantly with <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-premium/">Learn how to use it</a>.',
+			'expected_message'          => 'Your recent posts are using default SEO titles, which can make them easy to overlook in search results. Update them manually or <a href="https://yoa.st/ai-generate-alert-premium/" target="_blank">find out how <strong>Yoast AI Generate</strong> can improve them for you.</a>',
 		];
 
 		yield 'Enough posts with default descriptions only - add notification (premium)' => [
@@ -297,7 +297,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-premium/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default meta descriptions, making them less appealing in search. Create custom titles and descriptions instantly with <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-premium/">Learn how to use it</a>.',
+			'expected_message'          => 'Your recent posts are using default meta descriptions, which can make them easy to overlook in search results. Update them manually or <a href="https://yoa.st/ai-generate-alert-premium/" target="_blank">find out how <strong>Yoast AI Generate</strong> can improve them for you.</a>',
 		];
 
 		yield 'Enough posts with default titles and descriptions - add notification (premium)' => [
@@ -316,7 +316,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 			'get_shortlink_times'       => 1,
 			'shortlink'                 => 'https://yoa.st/ai-generate-alert-premium/',
 			'add_notification_times'    => 1,
-			'expected_message'          => 'Your recent posts are using default SEO titles and meta descriptions, making them less appealing in search. Create custom titles and descriptions instantly with <strong>Yoast AI Generate</strong>. <a href="https://yoa.st/ai-generate-alert-premium/">Learn how to use it</a>.',
+			'expected_message'          => 'Your recent posts are using default SEO titles and meta descriptions, which can make them easy to overlook in search results. Update them manually or <a href="https://yoa.st/ai-generate-alert-premium/" target="_blank">find out how <strong>Yoast AI Generate</strong> can improve them for you.</a>',
 		];
 	}
 }
