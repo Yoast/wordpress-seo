@@ -948,6 +948,26 @@ body.folded .wpseo-admin-submit-fixed {
 	height: 13px;
 }
 
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
+}
+
 @media (min-width: 768px) {
 	.wpseo_table_page .tablenav.bottom {
 		margin-bottom: 40px;

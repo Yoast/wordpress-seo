@@ -120,7 +120,7 @@ final class Patch_Seo_Links_Test extends Abstract_Indexable_Link_Builder_TestCas
 			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
 
-		Functions\expect( 'do_action' )->times( $update_target_indexable_id_times )->with( 'wpseo_related_indexables_incoming_links_updated' );
+		Functions\expect( 'do_action' )->times( $update_target_indexable_id_times )->with( 'wpseo_related_indexables_incoming_links_updated', [ $indexable_id ] );
 
 		$this->instance->patch_seo_links( $indexable );
 	}

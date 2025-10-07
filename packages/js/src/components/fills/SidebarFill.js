@@ -14,7 +14,6 @@ import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
 import SidebarItem from "../SidebarItem";
 import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
-import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
@@ -62,9 +61,7 @@ export default function SidebarFill( { settings } ) {
 					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisUpsell location="sidebar" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
