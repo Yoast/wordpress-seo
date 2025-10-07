@@ -607,6 +607,12 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast-new-badge {
 	background-color: #cce5ff;
 	color: #004973;
+
+}
+
+.yoast-ai-plus-badge {
+	background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
+	color: #ffffff;
 }
 
 .yoast-premium-badge {

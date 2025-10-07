@@ -46,7 +46,7 @@ class Ai_Plus_Page implements Integration_Interface {
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			'Yoast SEO AI+ <span class="yoast-badge yoast-premium-badge"></span>',
+			'Brand Insights <span class="yoast-badge yoast-ai-plus-badge"></span>',
 			'edit_others_posts',
 			self::PAGE,
 			[ $this, 'show_ai_plus_page' ],
