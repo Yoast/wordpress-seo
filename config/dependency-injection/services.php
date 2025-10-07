@@ -70,6 +70,49 @@ $yoast_seo_excluded_directories = [
 	'values/robots',
 ];
 
+// TODO: Remove this entire conditional block when Premium 26.4 is released.
+// Premium is up to date, old AI-related classes are excluded to avoid double loading of all Loadable classes.
+
+$premium_version = null;
+$wordpress_dir = defined( 'ABSPATH' ) ? ABSPATH : dirname( __DIR__, 4 );
+$premium_file = $wordpress_dir . '/wp-content/plugins/wordpress-seo-premium/wp-seo-premium.php';
+if ( file_exists( $premium_file ) ) {
+	$premium_content = file_get_contents( $premium_file );
+	if ( preg_match( "/WPSEO_PREMIUM_VERSION.*?([\\d\\.-RC]+)/", $premium_content, $matches ) ) {
+		$premium_version = $matches[1];
+	}
+}
+
+if ( \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
+	$premium_version = \WPSEO_PREMIUM_VERSION;
+}
+
+// Premium version 26.1+ or no Premium installed: exclude old AI directories, keep new ones.
+if ( $premium_version === null || \version_compare( $premium_version, '26.1', '>=' ) ) {
+	$yoast_seo_excluded_directories = \array_merge(
+		$yoast_seo_excluded_directories,
+		[
+			'ai-authorization',
+			'ai-consent',
+			'ai-free-sparks',
+			'ai-generator',
+			'ai-http-request',
+		]
+	);
+// Premium is outdated: exclude new AI classes instead.
+} else {
+	$yoast_seo_excluded_directories = \array_merge(
+		$yoast_seo_excluded_directories,
+		[
+			'ai/authorization',
+			'ai/consent',
+			'ai/free-sparks',
+			'ai/generate',
+			'ai/http-request',
+		]
+	);
+}
+
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
 
 $yoast_seo_base_definition = new Definition();
