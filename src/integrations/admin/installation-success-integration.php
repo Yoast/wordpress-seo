@@ -3,10 +3,10 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -31,7 +31,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	/**
 	 * The shortlinker.
 	 *
-	 * @var WPSEO_Shortlinker
+	 * @var Short_Link_Helper
 	 */
 	private $shortlinker;
 
@@ -47,9 +47,9 @@ class Installation_Success_Integration implements Integration_Interface {
 	 *
 	 * @param Options_Helper    $options_helper The options helper.
 	 * @param Product_Helper    $product_helper The product helper.
-	 * @param WPSEO_Shortlinker $shortlinker    The shortlinker.
+	 * @param Short_Link_Helper $shortlinker    The shortlinker.
 	 */
-	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper, WPSEO_Shortlinker $shortlinker ) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper, Short_Link_Helper $shortlinker ) {
 		$this->options_helper = $options_helper;
 		$this->product_helper = $product_helper;
 		$this->shortlinker    = $shortlinker;
@@ -146,7 +146,7 @@ class Installation_Success_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'firstTimeConfigurationUrl' => $ftc_url,
 				'dashboardUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard' ) ),
-				'explorePremiumUrl'         => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-premium-link' ),
+				'explorePremiumUrl'         => $this->shortlinker->build( 'https://yoa.st/ftc-premium-link' ),
 			]
 		);
 	}
