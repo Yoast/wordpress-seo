@@ -317,7 +317,6 @@ Release date: 2025-10-21
 
 * Adapts the behavior of the `Contact our support team` button in the `Support` page to our new Premium and WooCommerce SEO subscription plans.
 * Disables opcache invalidation on plugin upgrade for a subset of the userbase.
-* Updates an outdated piece of copy.
 
 = 26.1.1 =
 
