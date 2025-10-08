@@ -64,8 +64,15 @@ export const ContentBlocks = () => {
 			block => block.name !== "yoast-seo/ai-summarize"
 		);
 
+	// Conditionally include Siblings and Sub-pages for pages only.
+	const isPage = Boolean( window?.wpseoScriptData?.isPage );
+	const pageOnlyBlocks = isPage ? [
+		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: false },
+		{ title: __( "Sub-pages", "wordpress-seo" ), name: "yoast-seo/sub-pages", isPremiumBlock: false },
+	] : [];
+
 	// Render the premium blocks first.
-	const allContentBlocks = premiumBlocks.concat( CONTENT_BLOCKS );
+	const allContentBlocks = premiumBlocks.concat( pageOnlyBlocks, CONTENT_BLOCKS );
 
 	/*
 	 * The MetaboxCollapsible is using Collapsible from the old @yoast/components package,
