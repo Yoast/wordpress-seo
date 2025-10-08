@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Installation_Success_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -41,6 +42,13 @@ final class Installation_Success_Integration_Test extends TestCase {
 	protected $product_helper;
 
 	/**
+	 * Shortlinker mock.
+	 *
+	 * @var Short_Link_Helper|Mockery\Mock
+	 */
+	protected $shortlinker;
+
+	/**
 	 * Set up the fixtures for the tests.
 	 *
 	 * @return void
@@ -50,12 +58,14 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
+		$this->shortlinker    = Mockery::mock( Short_Link_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Installation_Success_Integration::class,
 			[
 				$this->options_helper,
 				$this->product_helper,
+				$this->shortlinker,
 			]
 		)->makePartial();
 	}
