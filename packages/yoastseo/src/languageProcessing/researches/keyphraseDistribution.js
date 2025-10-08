@@ -1,11 +1,33 @@
-import { flattenDeep, max, uniq as unique, zipWith } from "lodash";
+import { max, zipWith } from "lodash";
 import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
-import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
-import getSentences from "../helpers/sentence/getSentences";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
-import { mergeListItems } from "../helpers/sanitize/mergeListItems";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFromTree";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
+
+/**
+ * @typedef {import("../../values/Mark").default} Mark
+ * @typedef {import("../../values/Paper").default} Paper
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../parse/structure/Sentence").default} Sentence
+ */
+
+/**
+ * @typedef MaximizedSentenceScore
+ * @property {number} score The maximized score of topic relevance for the sentence.
+ * @property {string[]} matches An array of all topic word matches in the sentence.
+ */
+
+/**
+ * @typedef SentenceScoresResult
+ * @property {MaximizedSentenceScore[]} maximizedSentenceScores The maximized scores per sentence.
+ * @property {Mark[]} sentencesToHighlight An array of markings for sentences that contain topic words.
+ */
+
+/**
+ * @typedef KeyphraseDistributionResult
+ * @property {number} keyphraseDistributionScore The keyphrase distribution score.
+ * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
+ */
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -13,23 +35,23 @@ import { filterShortcodesFromHTML } from "../helpers/sanitize/filterShortcodesFr
  * 9 if at least half of the content words from the topic are in the sentence,
  * 3 otherwise.
  *
- * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
- * @param {Array}  sentences An array of all sentences in the text.
- * @param {string} locale    The locale of the paper to analyse.
+ * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
+ * @param {Sentence[]}	sentences An array of all sentences in the text.
+ * @param {string} 		locale    The locale of the paper to analyse.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  *
- * @returns {Array} The scores per sentence.
- */
+ * @returns {MaximizedSentenceScore[]} The scores per sentence along with the found matches. */
 const computeScoresPerSentenceLongTopic = function( topic, sentences, locale, matchWordCustomHelper ) {
-	const sentenceScores = Array( sentences.length );
+	const sentenceScores = [];
 
 	for ( let i = 0; i < sentences.length; i++ ) {
-		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale, matchWordCustomHelper );
+		const sentenceText = sentences[ i ].text;
+		const { percentWordMatches, matches } = findWordFormsInString( topic, sentenceText, locale, matchWordCustomHelper );
 
-		if ( foundInCurrentSentence.percentWordMatches >= 50 ) {
-			sentenceScores[ i ] = 9;
+		if ( percentWordMatches >= 50 ) {
+			sentenceScores[ i ] = { score: 9, matches };
 		} else {
-			sentenceScores[ i ] = 3;
+			sentenceScores[ i ] = { score: 3, matches };
 		}
 	}
 
@@ -43,23 +65,23 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale, ma
  * 9 if all content words from the topic are in the sentence,
  * 3 if not all content words from the topic were found in the sentence.
  *
- * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
- * @param {Array}  sentences An array of all sentences in the text.
- * @param {string} locale    The locale of the paper to analyse.
+ * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
+ * @param {Sentence[]}  sentences An array of all sentences in the text.
+ * @param {string} 		locale    The locale of the paper to analyse.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  *
- * @returns {Array} The scores per sentence.
+ * @returns {MaximizedSentenceScore[]} The scores per sentence along with the found matches.
  */
 const computeScoresPerSentenceShortTopic = function( topic, sentences, locale, matchWordCustomHelper ) {
-	const sentenceScores = Array( sentences.length );
+	const sentenceScores = [];
 
 	for ( let i = 0; i < sentences.length; i++ ) {
-		const currentSentence = sentences[ i ];
-		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale, matchWordCustomHelper );
-		if ( foundInCurrentSentence.percentWordMatches === 100 ) {
-			sentenceScores[ i ] = 9;
+		const currentSentenceText = sentences[ i ].text;
+		const { percentWordMatches, matches } = findWordFormsInString( topic, currentSentenceText, locale, matchWordCustomHelper );
+		if ( percentWordMatches === 100 ) {
+			sentenceScores[ i ] = { score: 9, matches };
 		} else {
-			sentenceScores[ i ] = 3;
+			sentenceScores[ i ] = { score: 3, matches };
 		}
 	}
 	return sentenceScores;
@@ -68,9 +90,9 @@ const computeScoresPerSentenceShortTopic = function( topic, sentences, locale, m
 /**
  * Maximizes scores: Give every sentence a maximal score that it got from analysis of all topics
  *
- * @param {Array} sentenceScores The scores for every sentence, as assessed per keyphrase and every synonym.
+ * @param {MaximizedSentenceScore[]} sentenceScores The scores for every sentence, as assessed per keyphrase and every synonym.
  *
- * @returns {Array} Maximal scores of topic relevance per sentence.
+ * @returns {MaximizedSentenceScore[]} Maximal scores of topic relevance per sentence.
  */
 const maximizeSentenceScores = function( sentenceScores ) {
 	const sentenceScoresTransposed = sentenceScores[ 0 ].map( function( col, i ) {
@@ -80,7 +102,12 @@ const maximizeSentenceScores = function( sentenceScores ) {
 	} );
 
 	return sentenceScoresTransposed.map( function( scoresForOneSentence ) {
-		return max( scoresForOneSentence );
+		return scoresForOneSentence.reduce( ( maxScore, current ) => {
+			if ( current.score > maxScore.score ) {
+				return current;
+			}
+			return maxScore;
+		}, { score: -1, matches: [] } );
 	} );
 };
 
@@ -88,7 +115,7 @@ const maximizeSentenceScores = function( sentenceScores ) {
 /**
  * Computes the maximally long piece of text that does not include the topic.
  *
- * @param {Array} sentenceScores The array of scores per sentence.
+ * @param {number[]} sentenceScores The array of scores per sentence.
  *
  * @returns {number} The maximum number of sentences that do not include the topic.
  */
@@ -127,17 +154,17 @@ const getDistraction = function( sentenceScores ) {
 /**
  * Computes the per-sentence scores depending on the length of the topic phrase and maximizes them over all topic phrases.
  *
- * @param {Array}       sentences              The sentences to get scores for.
+ * @param {Sentence[]}  sentences              The sentences to get scores for.
  * @param {Array}       topicFormsInOneArray   The topic phrases forms to search for in the sentences.
  * @param {string}      locale                 The locale to work in.
  * @param {Array}       functionWords           The function words list.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  * @param {int}         topicLengthCriteria     The topic length criteria. The default value is 4, where a topic is considered short
- *                                              if it's less than 4 word long, and otherwise long.
+ *                                              if it's less than 4 words long, and otherwise long.
  * @param {Array}       originalTopic           The array of the original form of the topic with function words filtered out.
- * @param {function}    wordsCharacterCount     The helper to calculate the characters length of all the words in the array.
+ * @param {function}    wordsCharacterCount     The helper to calculate the character length of all the words in the array.
  *
- * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
+ * @returns {{maximizedSentenceScores: number[], sentencesToHighlight: Mark[]}} The maximized scores per sentence and the sentences that contain topic words for future highlights.
  */
 const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
 	topicLengthCriteria = 4, originalTopic, wordsCharacterCount ) {
@@ -146,12 +173,12 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 
 	const sentenceScores = Array( topicNumber );
 
-	// For languages with function words apply either full match or partial match depending on topic length
+	// For languages with function words apply either full match or partial match depending on the topic length.
 	if ( functionWords.length > 0 ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			/*
-			 * If the helper to calculate the characters length of all the words in the array is available,
+			 * If the helper to calculate the character length of all the words in the array is available,
 			 * we use this helper to calculate the characters length of the original topic form.
 			 * We then use the result and compare it with the topicLengthCriteria.
 			 */
@@ -163,7 +190,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 			}
 		}
 	} else {
-		// For languages without function words apply the full match always
+		// For languages without function words apply the full match always.
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
 			sentenceScores[ i ] = computeScoresPerSentenceShortTopic( topic, sentences, locale, matchWordCustomHelper );
@@ -174,43 +201,38 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
 	// Zip an array combining each sentence with the associated maximized score.
-	const sentencesWithMaximizedScores =  zipWith( sentences, maximizedSentenceScores, ( sentence, score ) => {
-		return { sentence, score };
+	const sentencesWithMaximizedScores =  zipWith( sentences, maximizedSentenceScores, ( sentence, sentenceScore ) => {
+		const { score, matches } = sentenceScore;
+		return { sentence, score, matches };
 	} );
 
 	// Filter sentences that contain topic words for future highlights.
 	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > 3 );
 
 	return {
-		maximizedSentenceScores: maximizedSentenceScores,
-		sentencesWithTopic: sentencesWithTopic.map( sentenceObject => sentenceObject.sentence ),
+		maximizedSentenceScores: maximizedSentenceScores.map( sentenceScore => sentenceScore.score ),
+		sentencesToHighlight: sentencesWithTopic.map( ( { sentence, matches } ) => getMarkingsInSentence( sentence, matches ) ),
 	};
 };
-
 
 /**
  * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
  *
- * @param {Paper}       paper               The paper to check the keyphrase distribution for.
- * @param {Researcher}  researcher          The researcher to use for analysis.
+ * @param {Paper}       paper		The paper to check the keyphrase distribution for.
+ * @param {Researcher}  researcher	The researcher to use for analysis.
  *
- * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
+ * @returns {KeyphraseDistributionResult} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
 const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
 	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
-	let text = paper.getText();
-	text = removeHtmlBlocks( text );
-	text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
-	text = mergeListItems( text );
-	const sentences = getSentences( text, memoizedTokenizer );
+	const sentences = getSentencesFromTree( paper.getTree() );
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];
@@ -224,16 +246,17 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		topicFormsInOneArray.push( synonym );
 	} );
 
-	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
-
-	// Get per-sentence scores and sentences that have topic.
-	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
+	// Get per-sentence scores and sentences that have a topic.
+	const {
+		maximizedSentenceScores,
+		sentencesToHighlight,
+	} = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
 		topicLengthCriteria, originalTopic, wordsCharacterCount );
-	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
+
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 
 	return {
-		sentencesToHighlight: markWordsInSentences( allTopicWords, sentenceScores.sentencesWithTopic, locale, matchWordCustomHelper ),
+		sentencesToHighlight: sentencesToHighlight,
 		keyphraseDistributionScore: maxLengthDistraction / sentences.length * 100,
 	};
 };

@@ -13,6 +13,7 @@ import DefaultResearcher from "../../../src/languageProcessing/languages/_defaul
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
+import buildTree from "../../specHelpers/parse/buildTree";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
@@ -20,26 +21,61 @@ const morphologyDataJA = getMorphologyData( "ja" );
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {
 		const inputArray = [
-			[ 1, 2, 3 ],
-			[ 10, 0, -3 ],
-			[ 4, 5, 6 ],
-			[ 100, 2, 0 ],
-			[ 7, 8, 9 ],
+			[
+				{ score: 1, matches: [] },
+				{ score: 2, matches: [] },
+				{ score: 3, matches: [] },
+			],
+			[
+				{ score: 4, matches: [ "a" ] },
+				{ score: 5, matches: [ "a" ] },
+				{ score: 6, matches: [ "a", "b" ] },
+			],
+			[
+				{ score: 100, matches: [ "a", "b", "c" ] },
+				{ score: 2, matches: [] },
+				{ score: 0, matches: [] },
+			],
+			[
+				{ score: 7, matches: [ "a", "b" ] },
+				{ score: 8, matches: [ "a", "b" ] },
+				{ score: 9, matches: [ "a", "b" ] },
+			],
 		];
 
-		const expectedOutput = [ 100, 8, 9 ];
+		const expectedOutput = [
+			{ score: 100, matches: [ "a", "b", "c"  ] },
+			{ score: 8, matches: [ "a", "b" ] },
+			{ score: 9, matches: [ "a", "b" ] },
+		];
 
 		expect( maximizeSentenceScores( inputArray ) ).toEqual( expectedOutput );
 	} );
 
 	it( "returns the largest score per sentence over all topics", function() {
 		const inputArray = [
-			[ 0, 0, 0 ],
-			[ 5, 4, 1 ],
-			[ 2, 10, -3 ],
+			[
+				{ score: 0, matches: [] },
+				{ score: 0, matches: [] },
+				{ score: 0, matches: [] },
+			],
+			[
+				{ score: 5, matches: [ "a" ] },
+				{ score: 4, matches: [ "a" ] },
+				{ score: 1, matches: [] },
+			],
+			[
+				{ score: 2, matches: [] },
+				{ score: 10, matches: [ "a", "b" ] },
+				{ score: -3, matches: [] },
+			],
 		];
 
-		const expectedOutput = [ 5, 10, 1 ];
+		const expectedOutput = [
+			{ score: 5, matches: [ "a" ] },
+			{ score: 10, matches: [ "a", "b" ] },
+			{ score: 1, matches: [] },
+		];
 
 		expect( maximizeSentenceScores( inputArray ) ).toEqual( expectedOutput );
 	} );
@@ -84,75 +120,130 @@ describe( "Test for finding the longest distraction trains", function() {
 	} );
 } );
 
-const sentences = [
-	"How remarkable!",
-	"Remarkable is a funny word.",
-	"I have found a key and a remarkable word.",
-	"And again a key something.",
-	"Here comes something that has nothing to do with a keyword.",
-	"Ha, a key!",
-	"Again nothing!",
-	"Words, words, words, how boring!",
-];
-
-const topicShort = [
-	[ "key", "keys" ],
-	[ "word", "words" ],
-];
-
-const topicLong = [
-	[ "key", "keys" ],
-	[ "word", "words" ],
-	[ "remarkable", "remarkables", "remarkably" ],
-	[ "something", "somethings" ],
+const sentencesEN = [
+	{ text: "How remarkable!", tokens: [ "How", " ", "remarkable", "!" ] },
+	{ text: "Remarkable is a funny word.", tokens: [ "Remarkable", " ", "is", " ", "a", " ", "funny", " ", "word", "." ] },
+	{ text: "I have found a key and a remarkable word.", tokens: [ "I", " ", "have", " ", "found", " ", "a", " ", "key", " ", "and", " ", "a", " ", "remarkable", " ", "word", "." ] },
+	{ text: "And again a key something.", tokens: [ "And", " ", "again", " ", "a", " ", "key", " ", "something", "." ] },
+	{ text: "Here comes something that has nothing to do with a keyword.", tokens: [ "Here", " ", "comes", " ", "something", " ", "that", " ", "has", " ", "nothing", " ", "to", " ", "do", " ", "with", " ", "a", " ", "keyword", "." ] },
+	{ text: "Ha, a key!", tokens: [ "Ha", ",", " ", "a", " ", "key", "!" ] },
+	{ text: "Again nothing!", tokens: [ "Again", " ", "nothing", "!" ] },
+	{ text: "Words, words, words, how boring!", tokens: [ "Words", ",", " ", "words", ",", " ", "words", ",", " ", "how", " ", "boring", "!" ] },
 ];
 
 const sentencesIT = [
-	"Che cosa straordinaria!",
-	"Straordinaria è una parola strana.",
-	"Ho trovato una chiave e una parola straordinaria.",
-	"E ancora una chiave e qualcosa.",
-	"È qualcosa che non ha niente da fare con questo che cerchiamo.",
-	"Ah, una chiave!",
-	"Ancora niente!",
-	"Una parola e ancora un'altra e poi un'altra ancora, che schifo!",
-];
-
-const topicShortIT = [
-	[ "parola" ],
-	[ "chiave" ],
-];
-
-const topicLongIT = [
-	[ "parola" ],
-	[ "chiave" ],
-	[ "straordinaria" ],
-	[ "qualcosa" ],
+	{ text: "Che cosa straordinaria!", tokens: [ "Che", " ", "cosa", " ", "straordinaria", "!" ] },
+	{ text: "Straordinaria è una parola strana.", tokens: [ "Straordinaria", " ", "è", " ", "una", " ", "parola", " ", "strana", "." ] },
+	{ text: "Ho trovato una chiave e una parola straordinaria.", tokens: [ "Ho", " ", "trovato", " ", "una", " ", "chiave", " ", "e", " ", "una", " ", "parola", " ", "straordinaria", "." ] },
+	{ text: "E ancora una chiave e qualcosa.", tokens: [ "E", " ", "ancora", " ", "una", " ", "chiave", " ", "e", " ", "qualcosa", "." ] },
+	{ text: "È qualcosa che non ha niente da fare con questo che cerchiamo.", tokens: [ "È", " ", "qualcosa", " ", "che", " ", "non", " ", "ha", " ", "niente", " ", "da", " ", "fare", " ", "con", " ", "questo", " ", "che", " ", "cerchiamo", "." ] },
+	{ text: "Ah, una chiave!", tokens: [ "Ah", ",", " ", "una", " ", "chiave", "!" ] },
+	{ text: "Ancora niente!", tokens: [ "Ancora", " ", "niente", "!" ] },
+	{ text: "Una parola e ancora un'altra e poi un'altra ancora, che schifo!", tokens: [ "Una", " ", "parola", " ", "e", " ", "ancora", " ", "un'altra", " ", "e", " ", "poi", " ", "un'altra", " ", "ancora", ",", " ", "che", " ", "schifo", "!" ] },
 ];
 
 
-describe( "Test for computing the sentence score", function() {
-	it( "for a short topic", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 3, 9, 3, 3, 3, 3, 3 ] );
-	} );
+const testCasesSentenceScore = [
+	{
+		description: "English, short topic, morphology data",
+		topic: [
+			[ "key", "keys" ],
+			[ "word", "words" ],
+		],
+		sentences: sentencesEN,
+		locale: "en_US",
+		expected: [
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "word" ] },
+			{ score: 9, matches: [ "key", "word" ] },
+			{ score: 3, matches: [ "key" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "key" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "Words", "words", "words" ] },
+		],
+	},
+	{
+		description: "English, long topic, morphology data",
+		topic: [
+			[ "key", "keys" ],
+			[ "word", "words" ],
+			[ "remarkable", "remarkables", "remarkably" ],
+			[ "something", "somethings" ],
+		],
+		sentences: sentencesEN,
+		locale: "en_US",
+		expected: [
+			{ score: 3, matches: [ "remarkable" ] },
+			{ score: 9, matches: [ "word", "Remarkable" ] },
+			{ score: 9, matches: [ "key", "word", "remarkable" ] },
+			{ score: 9, matches: [ "key", "something" ] },
+			{ score: 3, matches: [ "something" ] },
+			{ score: 3, matches: [ "key" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "Words", "words", "words" ] },
+		],
+	},
+	{
+		description: "Italian, short topic, no morphology data",
+		topic: [
+			[ "parola" ],
+			[ "chiave" ],
+		],
+		sentences: sentencesIT,
+		locale: "it_IT",
+		expected: [
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "parola" ] },
+			{ score: 9, matches: [ "parola", "chiave" ] },
+			{ score: 3, matches: [ "chiave" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "chiave" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "parola" ] },
+		],
+	},
+	{
+		description: "Italian, long topic, no morphology data",
+		topic: [
+			[ "parola" ],
+			[ "chiave" ],
+			[ "straordinaria" ],
+			[ "qualcosa" ],
+		],
+		sentences: sentencesIT,
+		locale: "it_IT",
+		expected: [
+			{ score: 3, matches: [ "straordinaria" ] },
+			{ score: 9, matches: [ "parola", "Straordinaria" ] },
+			{ score: 9, matches: [ "parola", "chiave", "straordinaria" ] },
+			{ score: 9, matches: [ "chiave", "qualcosa" ] },
+			{ score: 3, matches: [ "qualcosa" ] },
+			{ score: 3, matches: [ "chiave" ] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [ "parola" ] },
+		],
+	},
+];
 
-	it( "for a long topic", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ]  );
-	} );
-
-	it( "for a short topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 3, 9, 3, 3, 3, 3, 3 ] );
-	} );
-
-	it( "for a long topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ] );
-	} );
+describe.each( testCasesSentenceScore )( "Test for computing sentence scores", ( {
+	description, topic, sentences, locale, expected,
+} ) => {
+	if ( description.includes( "short topic" ) ) {
+		it( description, () => {
+			expect( computeScoresPerSentenceShortTopic( topic, sentences, locale ) ).toEqual( expected );
+		} );
+	} else {
+		it( description, () => {
+			expect( computeScoresPerSentenceLongTopic( topic, sentences, locale ) ).toEqual( expected );
+		} );
+	}
 } );
 
 describe( "Test for the research", function() {
 	it( "returns a score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
-			sentences.join( " " ),
+			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
 				locale: "en_EN",
 				keyword: "key word",
@@ -161,6 +252,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -199,13 +291,13 @@ describe( "Test for the research", function() {
 
 	it( "returns the same score when function words are added", function() {
 		const paper = new Paper(
-			sentences.join( " " ),
+			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
 				locale: "en_EN",
 				keyword: "the key word",
 				/*
 				 * No function word has been added to something; something is already a function word. In topics
-				 * that solely consist of function words, these words are not filtered. Therefore adding another
+				 * that solely consist of function words, these words are not filtered. Therefore, adding another
 				 * function word to "something" would change the result because it would get analyzed like a content word.
 				 */
 				synonyms: "such remarkable, something, very word",
@@ -213,6 +305,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -315,6 +408,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new ItalianResearcher( paper );
+		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -358,7 +452,7 @@ describe( "Test for the research", function() {
 				locale: "xx_XX",
 				keyword: "parola chiave",
 				/*
-				 * Since there are only content words the score doesn't change.
+				 * Since there are only content words, the score doesn't change.
 				 * (Qualcosa is technically a function word but is analyzed as a content word here since it's the
 				 * only word in the synonym.)
 				 */
@@ -367,6 +461,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -417,6 +512,7 @@ describe( "Test for the research", function() {
 		);
 
 		const defaultResearcher = new DefaultResearcher( paper );
+		buildTree( paper, defaultResearcher );
 
 		expect( keyphraseDistributionResearcher( paper, defaultResearcher ) ).toEqual( {
 			keyphraseDistributionScore: 37.5,
@@ -447,6 +543,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -466,6 +563,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -486,6 +584,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -500,7 +599,52 @@ describe( "Test for the research", function() {
 	const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
 		"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
 
-	it( "doesn't return a skewed result when there is a list with many single-word list items - " +
+	it( "calculates keyphrase distribution score correctly for content with plain text structure", function() {
+		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
+		const fruitString = fruits.join( " " );
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + fruitString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		const result = keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition );
+
+		// Test that the score is reasonable (expected 33.33...)
+		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
+	} );
+
+	it( "calculates keyphrase distribution score correctly for content with HTML list structure", function() {
+		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
+		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + fruitList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
+
+		// Test that the score is reasonable (not 77.77...)
+		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
+	} );
+
+
+	xit( "doesn't return a skewed result when there is a list with many single-word list items - " +
 		"a list with single words should not be treated differently than if that list were a long string of words", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 
@@ -524,9 +668,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -563,9 +709,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -600,9 +748,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -637,9 +787,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -690,9 +842,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -738,9 +892,11 @@ describe( "Test for the research", function() {
 		);
 
 		const researcherListCondition = new Researcher( paperWithList );
+		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
 
 		const researcherWordsCondition = new Researcher( paperWithWords );
+		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
@@ -760,6 +916,7 @@ describe( "Test for the research", function() {
 		);
 
 		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -773,127 +930,147 @@ describe( "Test for the research", function() {
 	} );
 } );
 
-describe( "a test for focus keyphrase in uppercase that contains period", () => {
-	it( "should match keyphrase in upper case with a period in the text", function() {
-		let text = "An example text. What is ASP.NET.";
-		let paper = new Paper( text, { keyword: "ASP.NET" } );
-		let researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual(
-			{
-				keyphraseDistributionScore: 50,
-				sentencesToHighlight: [
-					new Mark( {
-						marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
-						original: "What is ASP.NET.",
-					} ) ],
-			}
-		);
-		text = "An example text. What is ASP.net.";
-		paper = new Paper( text, { keyword: "ASP.NET" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+const testData = [
+	{
+		description: "keyphrase in uppercase with a period 'ASP.NET' and its exact match is found in the text",
+		text: "An example text. What is ASP.NET.",
+		keyphrase: "ASP.NET",
+		expected: {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+					original: "What is ASP.NET.",
+				} ) ],
+		},
+	},
+	{
+		description: "keyphrase in uppercase with a period 'ASP.NET' and its match in different case 'ASP.net' is found in the text",
+		text: "An example text. What is ASP.net.",
+		keyphrase: "ASP.NET",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
 					original: "What is ASP.net.",
 				} ) ],
-		} );
-
-		text = "An example text. What is asp.NET?";
-		paper = new Paper( text, { keyword: "ASP.NET" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+		},
+	},
+	{
+		description: "keyphrase in uppercase with a period 'ASP.NET' and its match in different case 'asp.NET' is found in the text",
+		text: "An example text. What is asp.NET?",
+		keyphrase: "ASP.NET",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
 					original: "What is asp.NET?",
 				} ) ],
-		} );
+		},
 
-		text = "An example text. What is asp.net.";
-		paper = new Paper( text, { keyword: "ASP.NET" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+	},
+	{
+		description: "keyphrase in uppercase with a period 'ASP.NET' and its match in different case 'asp.net' is found in the text",
+		text: "An example text. What is asp.net.",
+		keyphrase: "ASP.NET",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
 					original: "What is asp.net.",
 				} ) ],
-		} );
+		},
+	},
+];
+
+describe.each( testData )( "a test for keyphrase containing a period", ( { description, text, keyphrase, expected } ) => {
+	const testDescription = `returns the result for ${description}`;
+	it( testDescription, () => {
+		const paper = new Paper( text, { keyword: keyphrase } );
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( expected );
 	} );
+} );
 
-	it( "should still match keyphrase in upper case with a period in the text when the keyphrase is in double quote", function() {
-		let text = "An example text. What is ASP.NET.";
-		let paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
-		let researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual(
-			{
-				keyphraseDistributionScore: 50,
-				sentencesToHighlight: [
-					new Mark( {
-						marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
-						original: "What is ASP.NET.",
-					} ) ],
-			}
-		);
-		text = "An example text. What is ASP.net.";
-		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+const testDataExactMatch = [
+	{
+		description: "keyphrase in double quote with a period '\"ASP.NET\"' and its exact match is found in the text",
+		text: "An example text. What is ASP.NET.",
+		keyphrase: "\"ASP.NET\"",
+		expected: {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+					original: "What is ASP.NET.",
+				} ) ],
+		},
+	},
+	{
+		description: "keyphrase in double quote with a period '\"ASP.NET\"' and its match in different case 'ASP.net' is found in the text",
+		text: "An example text. What is ASP.net.",
+		keyphrase: "\"ASP.NET\"",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
 					original: "What is ASP.net.",
 				} ) ],
-		} );
-
-		text = "An example text. What is asp.NET?";
-		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+		},
+	},
+	{
+		description: "keyphrase in double quote with a period '\"ASP.NET\"' and its match in different case 'asp.NET' is found in the text",
+		text: "An example text. What is asp.NET?",
+		keyphrase: "\"ASP.NET\"",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
 					original: "What is asp.NET?",
 				} ) ],
-		} );
-
-		text = "An example text. What is asp.net.";
-		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
-		researcher = new Researcher( paper );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+		},
+	},
+	{
+		description: "keyphrase in double quote with a period '\"ASP.NET\"' and its match in different case 'asp.net' is found in the text",
+		text: "An example text. What is asp.net.",
+		keyphrase: "\"ASP.NET\"",
+		expected: {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
 					original: "What is asp.net.",
 				} ) ],
-		} );
+		},
+	},
+];
+describe.each( testDataExactMatch )( "a test for keyphrase containing a period in double quotation marks", ( { description, text, keyphrase, expected } ) => {
+	const testDescription = `returns the result for ${description}`;
+	it( testDescription, () => {
+		const paper = new Paper( text, { keyword: keyphrase } );
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( expected );
 	} );
 } );
 
 // Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength.
 
-const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
-	"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +
-	"彼らが好きなタイプの猫用フードは新鮮なものです。" +
-	"加工が少ない猫用食品の一種。";
-
-
 describe( "Test for the research for Japanese language", function() {
+	const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
+		"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +
+		"彼らが好きなタイプの猫用フードは新鮮なものです。" +
+		"加工が少ない猫用食品の一種。";
 	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
 		"(when morphology data is available)", function() {
 		const paper = new Paper(
@@ -906,6 +1083,8 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 50,
@@ -940,6 +1119,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0,
@@ -976,6 +1156,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0,
@@ -1010,6 +1191,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 100,
@@ -1028,6 +1210,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 100,
@@ -1046,7 +1229,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
-
+		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
@@ -1078,7 +1261,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
-
+		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 100,
 			sentencesToHighlight: [],
@@ -1096,7 +1279,7 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
-
+		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
