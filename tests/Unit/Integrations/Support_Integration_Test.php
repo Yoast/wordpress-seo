@@ -361,6 +361,9 @@ final class Support_Integration_Test extends TestCase {
 			'user_language'    => 'en_US',
 		];
 
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->andReturn( true );
+
 		$this->addon_manager
 			->expects( 'has_valid_subscription' )
 			->once()
