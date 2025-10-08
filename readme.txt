@@ -303,6 +303,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.1.1 =
+
+Release date: 2025-10-08
+
+#### Other
+
+* Updates an outdated piece of copy.
+
 = 26.1 =
 
 Release date: 2025-10-07
