@@ -24,7 +24,7 @@ class Redirect_Integration implements Integration_Interface {
 	 *
 	 * @var Short_Link_Helper
 	 */
-	protected $short_link_helper;
+	private $short_link_helper;
 
 	/**
 	 * Sets the helpers.
