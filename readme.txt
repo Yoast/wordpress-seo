@@ -302,7 +302,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
-
 = 26.2 =
 
 Release date: 2025-10-21
@@ -317,6 +316,14 @@ Release date: 2025-10-21
 
 * Adapts the behavior of the `Contact our support team` button in the `Support` page to our new Premium and WooCommerce SEO subscription plans.
 * Disables opcache invalidation on plugin upgrade for a subset of the userbase.
+
+= 26.1.1 =
+
+Release date: 2025-10-08
+
+#### Other
+
+* Updates an outdated piece of copy.
 
 = 26.1 =
 
