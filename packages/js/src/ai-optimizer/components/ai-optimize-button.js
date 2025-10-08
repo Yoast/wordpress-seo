@@ -8,6 +8,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { IconAIFixesButton, SparklesIcon } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
+import get from "lodash/get";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
@@ -43,13 +44,12 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyword, content } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyword } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 		keyword: select( "yoast-seo/editor" ).getFocusKeyphrase(),
-		content: select( "yoast-seo/editor" ).getEditorDataContent(),
 	} ), [] );
 	const editorMode = getEditorMode();
 
@@ -74,23 +74,26 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
 		if ( keyphraseAssessments.includes( id ) ) {
-			// Create a Paper object with current content to use consistent validation
-			const paper = new Paper( content || "", { keyword: keyword || "" } );
-			const hasValidKeyphrase = paper.hasKeyword();
-			// const hasValidContent = paper.hasText();
+			const hasValidKeyphrase = !! keyword && keyword.trim().length > 0;
+			const collectData = get( window, "YoastSEO.analysis.collectData", false );
+			const editorData = collectData ? collectData() : {};
+			const text = editorData?._text || "";
+			const hasContent = text.trim().length > 0;
 
 			// Check global disabled reasons first (for unsupported content)
 			const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
 			if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
-				// Always show the global disabled reason when content is unsupported
-				return {
-					isEnabled: false,
-					ariaLabel: disabledAIButtons[ aiOptimizeId ],
-				};
+				// Show global disabled reason only if there is some content (unsupported content case)
+				if ( hasContent ) {
+					return {
+						isEnabled: false,
+						ariaLabel: disabledAIButtons[ aiOptimizeId ],
+					};
+				}
 			}
 
-			// If no keyphrase is set, disable the button and show the relevant tooltip
-			if ( ! hasValidKeyphrase ) {
+			// If missing keyphrase or missing content, ask user to add both
+			if ( ! hasValidKeyphrase || ! hasContent ) {
 				return {
 					isEnabled: false,
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
@@ -120,7 +123,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			isEnabled: true,
 			ariaLabel: defaultLabel,
 		};
-	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyword, content ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyword ] );
 
 	/**
 	 * Handles the button press state.
@@ -170,10 +173,10 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// Add tooltip classes on mouse enter and remove them on mouse leave.
 	const handleMouseEnter = useCallback( () => {
 		if ( ariaLabel ) {
-			const direction = "yoast-tooltip-w";
+			const direction = isEnabled ? "yoast-tooltip-w" : "yoast-tooltip-nw";
 			setButtonClass( `yoast-tooltip yoast-tooltip-multiline ${ direction }` );
 		}
-	}, [ ariaLabel ] );
+	}, [ isEnabled, ariaLabel ] );
 
 	const handleMouseLeave = useCallback( () => {
 		// Remove tooltip classes on mouse leave

@@ -20,6 +20,7 @@ jest.mock( "../../../src/lib/tinymce", () => ( {
 global.window.YoastSEO = {
 	analysis: {
 		applyMarks: jest.fn(),
+		collectData: () => ( { _text: "Some text content with the keyphrase in it." } ),
 	},
 };
 
@@ -47,8 +48,10 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => keyword,
-		getEditorDataContent: () => content,
 	} ) ) );
+
+	// Mock collectData to reflect the provided content
+	global.window.YoastSEO.analysis.collectData = () => ( { _text: content } );
 
 	isTextViewActive.mockReturnValue( editorMode === "text" );
 };
