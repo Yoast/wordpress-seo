@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 26.1
+Stable tag: 26.1.1
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -317,7 +317,6 @@ Release date: 2025-10-21
 
 * Adapts the behavior of the `Contact our support team` button in the `Support` page to our new Premium and WooCommerce SEO subscription plans.
 * Disables opcache invalidation on plugin upgrade for a subset of the userbase.
-* Updates an outdated piece of copy.
 
 = 26.1.1 =
 
