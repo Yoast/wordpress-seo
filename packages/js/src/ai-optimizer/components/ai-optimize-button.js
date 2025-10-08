@@ -72,10 +72,28 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// (4) all blocks are in visual mode.
 	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+		// When Premium add-on is not active (upsell), always show the generic tooltip
+		if ( shouldShowUpsell ) {
+			// Keep enablement tied to visual mode state, but always show "Optimize with AI" as tooltip
+			if ( editorType === "blockEditor" ) {
+				const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+				return {
+					isEnabled: allVisual,
+					ariaLabel: defaultLabel,
+				};
+			}
+			// Classic editor
+			return {
+				isEnabled: editorMode === "visual",
+				ariaLabel: defaultLabel,
+			};
+		}
 		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
 		if ( keyphraseAssessments.includes( id ) ) {
 			const hasValidKeyphrase = !! keyword && keyword.trim().length > 0;
 			const collectData = get( window, "YoastSEO.analysis.collectData", false );
+			// Ensures the button uses the same analysis-ready content source, while staying safe if the analysis API hasn’t initialized.
 			const editorData = collectData ? collectData() : {};
 			const text = editorData?._text || "";
 			const hasContent = text.trim().length > 0;
