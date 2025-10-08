@@ -27,12 +27,17 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const [ showTooltip, setShowTooltip ] = useState( false );
 	const [ isUpsellModalOpen, , , openUpsellModal, closeUpsellModal ] = useToggleState( false );
 
-	// eslint-disable-next-line complexity
-	const handleButtonClick = useCallback( ( event ) => {
+	// Helper to manage tooltip and focus logic
+	const handleTooltipAndFocus = useCallback( ( event ) => {
 		// Remove focus from the button when clicked to prevent it from staying focused and tooltip showing.
 		event?.currentTarget?.blur();
 		// Hide the tooltip when the button is clicked.
 		setShowTooltip( false );
+	}, [] );
+
+
+	const handleButtonClick = useCallback( ( event ) => {
+		handleTooltipAndFocus( event );
 
 		if ( showUpsellBadge ) {
 			// We don't want to show the clicked state when the upsell modal is opened.
