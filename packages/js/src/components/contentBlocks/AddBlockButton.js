@@ -27,14 +27,13 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const [ showTooltip, setShowTooltip ] = useState( false );
 	const [ isUpsellModalOpen, , , openUpsellModal, closeUpsellModal ] = useToggleState( false );
 
-	// Helper to manage tooltip and focus logic
+	// Helper to manage the tooltip and focus logic
 	const handleTooltipAndFocus = useCallback( ( event ) => {
-		// Remove focus from the button when clicked to prevent it from staying focused and tooltip showing.
+		// Remove the focus from the button when clicked to prevent it from staying focused and showing the tooltip.
 		event?.currentTarget?.blur();
 		// Hide the tooltip when the button is clicked.
 		setShowTooltip( false );
 	}, [] );
-
 
 	const handleButtonClick = useCallback( ( event ) => {
 		handleTooltipAndFocus( event );
