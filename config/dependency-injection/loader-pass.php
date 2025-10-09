@@ -92,29 +92,31 @@ class Loader_Pass implements CompilerPassInterface {
 		if ( $this->should_make_public( $definition ) ) {
 			$definition->setPublic( true );
 		}
+		if ( ! $definition->isDeprecated() ) {
+			if ( \is_subclass_of( $class, Conditional::class ) ) {
+				$definition->setPublic( true );
+			}
 
-		if ( \is_subclass_of( $class, Conditional::class ) ) {
-			$definition->setPublic( true );
-		}
+			if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 
-		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
-			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
-			$definition->setPublic( true );
-		}
+				$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
+				$definition->setPublic( true );
+			}
 
-		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
-			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
-			$definition->setPublic( true );
-		}
+			if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
+				$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+				$definition->setPublic( true );
+			}
 
-		if ( \is_subclass_of( $class, Route_Interface::class ) ) {
-			$loader_definition->addMethodCall( 'register_route', [ $class ] );
-			$definition->setPublic( true );
-		}
+			if ( \is_subclass_of( $class, Route_Interface::class ) ) {
+				$loader_definition->addMethodCall( 'register_route', [ $class ] );
+				$definition->setPublic( true );
+			}
 
-		if ( \is_subclass_of( $class, Command_Interface::class ) ) {
-			$loader_definition->addMethodCall( 'register_command', [ $class ] );
-			$definition->setPublic( true );
+			if ( \is_subclass_of( $class, Command_Interface::class ) ) {
+				$loader_definition->addMethodCall( 'register_command', [ $class ] );
+				$definition->setPublic( true );
+			}
 		}
 
 		if ( \is_subclass_of( $class, Migration::class ) ) {
