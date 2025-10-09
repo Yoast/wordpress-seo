@@ -195,17 +195,4 @@ class Support_Integration implements Integration_Interface {
 			'currentPromotions' => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
-
-	/**
-	 * Checks whether any Yoast SEO addon is activated.
-	 *
-	 * @return bool True if any Yoast SEO addon is activated, false otherwise.
-	 */
-	private function check_addons_activation(): bool {
-		return \is_plugin_active( 'wordpress-seo-premium/wp-seo-premium.php' ) ||
-		\is_plugin_active( 'wordpress-seo-local/local-seo.php' ) ||
-		\is_plugin_active( 'wpseo-news/wpseo-news.php' ) ||
-		\is_plugin_active( 'wpseo-video/video-seo.php' ) ||
-		\is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
-	}
 }
