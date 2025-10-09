@@ -71,19 +71,17 @@ $yoast_seo_excluded_directories = [
 ];
 
 // TODO: Remove this entire conditional block when Premium 26.4 is released.
-$premium_version = null;
-$plugins_dir     = \dirname( __DIR__, 3 );
+$yoast_seo_premium_version = null;
 
-$premium_file = \implode( \DIRECTORY_SEPARATOR, [ $plugins_dir, 'wordpress-seo-premium', 'wp-seo-premium.php' ] );
-if ( \file_exists( $premium_file ) ) {
-	$premium_content = \file_get_contents( $premium_file );
-	if ( \preg_match( '/WPSEO_PREMIUM_VERSION.*?([\\d\\.-RC]+)/', $premium_content, $matches ) ) {
-		$premium_version = $matches[1];
-
+$yoast_seo_premium_file = \implode( \DIRECTORY_SEPARATOR, [ \dirname( __DIR__, 3 ), 'wordpress-seo-premium', 'wp-seo-premium.php' ] );
+if ( \file_exists( $yoast_seo_premium_file ) ) {
+	$yoast_seo_premium_content = \file_get_contents( $yoast_seo_premium_file );
+	if ( \preg_match( '/WPSEO_PREMIUM_VERSION.*?([\\d\\.-RC]+)/', $yoast_seo_premium_content, $matches ) ) {
+		$yoast_seo_premium_version = $matches[1];
 	}
 }
 // Premium version 26.2+ or no Premium installed: exclude old AI directories, keep new ones.
-if ( $premium_version === null || \version_compare( $premium_version, '26.2', '>=' ) ) {
+if ( $yoast_seo_premium_version === null || \version_compare( $yoast_seo_premium_version, '26.2', '>=' ) ) {
 	$yoast_seo_excluded_directories = \array_merge(
 		$yoast_seo_excluded_directories,
 		[
