@@ -7,32 +7,43 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
-
 /**
  * The alert item object.
  *
  * @param {string} [id=""] The alert id.
  * @param {string} [nonce=""] The alert nonce.
  * @param {boolean} [dismissed=false] Whether the alert is dismissed or not.
+ * @param {boolean} [dismissable=true] Whether the alert is dismissable or not.
  * @param {string} [message=""] The alert message.
  *
  * @returns {JSX.Element} The alert item component.
  */
-const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) => {
+
+const AlertItem = ( {
+	id = "",
+	nonce = "",
+	dismissed = false,
+	dismissable = true,
+	message = "",
+} ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
 
 	const toggleAlert = useCallback( async() => {
-		toggleAlertStatus( id, nonce, dismissed );
-	}, [ id, nonce, dismissed, toggleAlertStatus ] );
+		if ( dismissable ) {
+			toggleAlertStatus( id, nonce, dismissed );
+		}
+	}, [ id, nonce, dismissed, dismissable, toggleAlertStatus ] );
+
+	const isDimmed = dismissable && dismissed;
 
 	return (
 		<li
 			key={ id }
 			className="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
 		>
-			<div className={ classNames( "yst-mt-1", dismissed && "yst-opacity-50" ) }>
+			<div className={ classNames( "yst-mt-1", isDimmed && "yst-opacity-50" ) }>
 				<svg width="11" height="11" className={ bulletClass }>
 					<circle cx="5.5" cy="5.5" r="5.5" />
 				</svg>
@@ -40,13 +51,15 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) =
 			<div
 				className={ classNames(
 					"yst-text-sm yst-text-slate-600 yst-grow",
-					dismissed && "yst-opacity-50" ) }
+					isDimmed && "yst-opacity-50" ) }
 				dangerouslySetInnerHTML={ { __html: message } }
 			/>
 
-			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
-				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
-			</Button>
+			{ dismissable && (
+				<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
+					<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
+				</Button>
+			) }
 		</li>
 	);
 };
@@ -56,6 +69,7 @@ AlertItem.propTypes = {
 	nonce: PropTypes.string,
 	dismissed: PropTypes.bool,
 	message: PropTypes.string,
+	dismissable: PropTypes.bool,
 };
 
 /**
@@ -77,6 +91,7 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 					id={ item.id }
 					nonce={ item.nonce }
 					dismissed={ item.dismissed }
+					dismissable={ item.dismissable }
 					message={ item.message }
 				/>
 			) ) }
@@ -91,5 +106,6 @@ AlertsList.propTypes = {
 		id: PropTypes.string,
 		nonce: PropTypes.string,
 		dismissed: PropTypes.bool,
+		dismissable: PropTypes.bool,
 	} ) ),
 };
