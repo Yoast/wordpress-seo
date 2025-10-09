@@ -79,7 +79,15 @@ class Content_Types_Collector {
 			$posts               = $collection_strategy->get_posts( $post_type_object->name, 5 );
 			$post_links          = new Link_List( $post_type_object->label, [] );
 			foreach ( $posts as $post ) {
-				$post_link = new Link( $post->get_title(), $post->get_url(), $post->get_description() );
+				/**
+				 * Filter 'wpseo_llmstxt_link_description' - Allow filtering the description of links in the llms.txt post lists.
+				 *
+				 * @param string $link_description The description of the link.
+				 * @param string $post_id          The ID of the post that is being added as a link.
+				 */
+				$link_description = \apply_filters( 'wpseo_llmstxt_link_description', $post->get_description(), $post->get_id() );
+
+				$post_link = new Link( $post->get_title(), $post->get_url(), $link_description );
 				$post_links->add_link( $post_link );
 			}
 
