@@ -474,12 +474,12 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	private function get_beacon_id() {
 		// Case where the user has a Yoast WooCommerce SEO plan subscription (highest priority).
-		if ( $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+		if ( $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $this->beacon_id_woocommerce;
 		}
 
 		// Case where the user has a Yoast SEO Premium plan subscription.
-		if ( $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+		if ( $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $this->beacon_id_premium;
 		}
 

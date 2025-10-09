@@ -73,7 +73,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * The expected addon data.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected static $addons = [
 		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
@@ -86,7 +86,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * The addon data for the shortlinks.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
 	private $addon_details = [
 		self::PREMIUM_SLUG     => [
@@ -211,7 +211,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves a list of (subscription) slugs by the active addons.
 	 *
-	 * @return array The slugs.
+	 * @return array<string, stdClass> The slugs.
 	 */
 	public function get_subscriptions_for_active_addons() {
 		$active_addons      = array_keys( $this->get_active_addons() );
@@ -227,7 +227,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves a list of versions for each addon.
 	 *
-	 * @return array The addon versions.
+	 * @return array<string, string> The addon versions.
 	 */
 	public function get_installed_addons_versions() {
 		$addon_versions = [];
@@ -488,6 +488,17 @@ class WPSEO_Addon_Manager {
 
 			$notification_center->remove_notification( $notification );
 		}
+	}
+
+	/**
+	 * Checks if the user has any active addons.
+	 *
+	 * @return bool Whether there are active addons.
+	 */
+	public function has_active_addons() {
+		$active_addons = $this->get_active_addons();
+
+		return ! empty( $active_addons );
 	}
 
 	/**
