@@ -421,6 +421,7 @@ class Elementor implements Integration_Interface {
 			'isAlwaysIntroductionV2'    => $this->is_elementor_version_compatible_with_introduction_v2(),
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
+			'isPage'                    => \get_post_type( $post_id ) === 'page',
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,

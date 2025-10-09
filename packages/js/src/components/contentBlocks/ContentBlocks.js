@@ -67,8 +67,8 @@ export const ContentBlocks = () => {
 	// Conditionally include Siblings and Sub-pages for pages only.
 	const isPage = Boolean( window?.wpseoScriptData?.isPage );
 	const pageOnlyBlocks = isPage ? [
-		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: false },
-		{ title: __( "Sub-pages", "wordpress-seo" ), name: "yoast-seo/sub-pages", isPremiumBlock: false },
+		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: true },
+		{ title: __( "Sub-pages", "wordpress-seo" ), name: "yoast-seo/sub-pages", isPremiumBlock: true },
 	] : [];
 
 	// Render the premium blocks first.
