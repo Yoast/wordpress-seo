@@ -82,8 +82,8 @@ if ( file_exists( $premium_file ) ) {
 
 	}
 }
-// Premium version 26.1+ or no Premium installed: exclude old AI directories, keep new ones.
-if ( $premium_version === null || \version_compare( $premium_version, '26.1', '>=' ) ) {
+// Premium version 26.2+ or no Premium installed: exclude old AI directories, keep new ones.
+if ( $premium_version === null || \version_compare( $premium_version, '26.2', '>=' ) ) {
 	$yoast_seo_excluded_directories = \array_merge(
 		$yoast_seo_excluded_directories,
 		[
