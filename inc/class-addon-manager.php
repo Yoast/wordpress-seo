@@ -491,6 +491,17 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Checks if the user has any active addons.
+	 *
+	 * @return bool Whether there are active addons.
+	 */
+	public function has_active_addons() {
+		$active_addons = $this->get_active_addons();
+
+		return ! empty( $active_addons );
+	}
+
+	/**
 	 * Removes the site information transients.
 	 *
 	 * @codeCoverageIgnore
