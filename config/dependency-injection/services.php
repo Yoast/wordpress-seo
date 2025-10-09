@@ -75,7 +75,7 @@ $yoast_seo_premium_version = null;
 
 $yoast_seo_premium_file = \implode( \DIRECTORY_SEPARATOR, [ \dirname( __DIR__, 3 ), 'wordpress-seo-premium', 'wp-seo-premium.php' ] );
 if ( \file_exists( $yoast_seo_premium_file ) ) {
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents - this is a local file.
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- This is a local file.
 	$yoast_seo_premium_content = \file_get_contents( $yoast_seo_premium_file );
 	if ( \preg_match( '/WPSEO_PREMIUM_VERSION.*?([\\d\\.-RC]+)/', $yoast_seo_premium_content, $matches ) ) {
 		$yoast_seo_premium_version = $matches[1];
