@@ -1,4 +1,4 @@
-import { flattenDeep, max, zipWith } from "lodash";
+import { flattenDeep, max } from "lodash";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
@@ -29,6 +29,9 @@ import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSente
  * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
  */
 
+// The threshold above which a sentence is considered to contain the topic.
+const TOPIC_RELEVANCE_THRESHOLD = 3;
+
 /**
  * Checks whether all content words from the topic are found within one sentence.
  * Assigns a score to every sentence following the following schema:
@@ -45,28 +48,26 @@ import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSente
  */
 const computeScoresPerSentence = function( topic, sentences, locale, isShortTopic = true, matchWordCustomHelper,
 	customSplitIntoTokensHelper ) {
-	const sentenceScores = [];
-
-	for ( let i = 0; i < sentences.length; i++ ) {
-		const currentSentence = sentences[ i ];
-		const matchedKeyphrase = topic.map( wordForms => matchWordFormsWithSentence( currentSentence,
+	return sentences.map( sentence => {
+		// UseExactMatching is always false here because we always want to match different forms of the words in the topic.
+		const matchedKeyphrase = topic.map( wordForms => matchWordFormsWithSentence( sentence,
 			wordForms, locale, matchWordCustomHelper, false, customSplitIntoTokensHelper ) );
 		const foundWords = matchedKeyphrase.reduce( ( count, { count: matchCount } ) => {
 			return matchCount > 0 ? count + 1 : count;
 		}, 0 );
 
 		const matches = flattenDeep( matchedKeyphrase.map( match => match.matches ) );
-		let matchedPercentage = 0;
-		if ( topic.length > 0 ) {
-			matchedPercentage = Math.round( ( foundWords / topic.length ) * 100 );
-		}
+		const matchedPercentage = topic.length > 0 ? Math.round( ( foundWords / topic.length ) * 100 ) : 0;
+
+		/*
+		 For short topics (less than 4 words) we require a full match to give the highest score.
+		 For longer topics (4 words or more) we require at least half of the content words to be present in the sentence.
+		 */
 		if ( ( isShortTopic && matchedPercentage === 100 ) || ( ! isShortTopic && matchedPercentage >= 50 ) ) {
-			sentenceScores[ i ] = { score: 9, matches };
-		} else {
-			sentenceScores[ i ] = { score: 3, matches: [] };
+			return { score: 9, matches };
 		}
-	}
-	return sentenceScores;
+		return { score: 3, matches: [] };
+	} );
 };
 
 /**
@@ -109,34 +110,35 @@ const maximizeSentenceScores = function( sentenceScores ) {
  */
 const getDistraction = function( sentenceScores ) {
 	const numberOfSentences = sentenceScores.length;
-	const allTopicSentencesIndices = [];
+	// Get the indices of sentences that contain the topic.
+	const topicSentenceIndices = sentenceScores
+		.map( ( score, index ) => score > TOPIC_RELEVANCE_THRESHOLD ? index : -1 )
+		.filter( index => index !== -1 );
 
-	for ( let i = 0; i < numberOfSentences; i++ ) {
-		if ( sentenceScores[ i ] > 3 ) {
-			allTopicSentencesIndices.push( i );
-		}
-	}
-
-	const numberOfTopicSentences = allTopicSentencesIndices.length;
-
-	if ( numberOfTopicSentences === 0 ) {
+	// Early return if there are no topic sentences at all.
+	if ( topicSentenceIndices.length === 0 ) {
 		return numberOfSentences;
 	}
 
-	/**
-	 * Add fake topic sentences at the very beginning and at the very end
-	 * to account for cases when the text starts or ends with a train of distraction.
+	/*
+	 Add boundaries to the array of topic sentence indices to make sure we also consider the text before the first and after the last topic sentence.
+	 -1 is added before the first index to represent the position before the first sentence.
+	 numberOfSentences is added after the last index to represent the position after the last sentence.
+	 This way we can calculate the lengths of the pieces of text before the first topic sentence and after the last topic sentence in the same way
+	 as we calculate the lengths of the pieces of text between topic sentences.
 	 */
-	allTopicSentencesIndices.unshift( -1 );
-	allTopicSentencesIndices.push( numberOfSentences );
+	const topicIndicesWithBoundaries = [ -1, ...topicSentenceIndices, numberOfSentences ];
 
-	const distances = [];
-
-	for ( let i = 1; i < numberOfTopicSentences + 2; i++ ) {
-		distances.push( allTopicSentencesIndices[ i ] - allTopicSentencesIndices[ i - 1 ] - 1 );
-	}
-
-	return max( distances );
+	/*
+	 Calculate the lengths of all pieces of text that do not contain the topic.
+	 This is done by calculating the difference between every two subsequent topic sentence indices,
+	 subtracting 1 to not include the topic sentence itself.
+	 We loop from the second element to the last element and subtract from each the previous element.
+	 */
+	const distractionsLength = topicIndicesWithBoundaries
+		.slice( 1 )
+		.map( ( topicIndex, index ) => topicIndex - topicIndicesWithBoundaries[ index ] - 1 );
+	return max( distractionsLength );
 };
 
 /**
@@ -156,48 +158,36 @@ const getDistraction = function( sentenceScores ) {
  */
 const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
 	topicLengthCriteria = 4, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper ) {
-	// Compute per-sentence scores of topic-relatedness.
-	const topicNumber = topicFormsInOneArray.length;
+	// Determine whether the language has function words.
+	const hasFunctionWords = functionWords.length > 0;
 
-	const sentenceScores = Array( topicNumber );
-
-	// For languages with function words apply either full match or partial match depending on the topic length.
-	if ( functionWords.length > 0 ) {
-		for ( let i = 0; i < topicNumber; i++ ) {
-			const topic = topicFormsInOneArray[ i ];
-			/*
-			 * If the helper to calculate the character length of all the words in the array is available,
-			 * we use this helper to calculate the characters length of the original topic form.
-			 * We then use the result and compare it with the topicLengthCriteria.
-			 */
-			const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ i ] ) : topic.length;
-			if ( topicLength < topicLengthCriteria ) {
-				sentenceScores[ i ] = computeScoresPerSentence( topic, sentences, locale, true, matchWordCustomHelper,
-					customSplitIntoTokensHelper );
-			} else {
-				sentenceScores[ i ] = computeScoresPerSentence( topic, sentences, locale, false, matchWordCustomHelper,
-					customSplitIntoTokensHelper );
-			}
+	const sentenceScores = topicFormsInOneArray.map( ( topic, index ) => {
+		if ( ! hasFunctionWords ) {
+			// For languages without function words apply the full match always.
+			return computeScoresPerSentence( topic, sentences, locale, true, matchWordCustomHelper, customSplitIntoTokensHelper );
 		}
-	} else {
-		// For languages without function words apply the full match always.
-		for ( let i = 0; i < topicNumber; i++ ) {
-			const topic = topicFormsInOneArray[ i ];
-			sentenceScores[ i ] = computeScoresPerSentence( topic, sentences, locale, true, matchWordCustomHelper, customSplitIntoTokensHelper );
-		}
-	}
+		// For languages with function words we decide whether to apply full or partial match depending on the topic length.
+		/*
+		 * If the helper to calculate the character length of all the words in the array is available,
+		 * we use this helper to calculate the characters length of the original topic form.
+		 * We then use the result and compare it with the topicLengthCriteria.
+		 */
+		const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ index ] ) : topic.length;
+		const isShortTopic = topicLength < topicLengthCriteria;
+		return computeScoresPerSentence( topic, sentences, locale, isShortTopic, matchWordCustomHelper, customSplitIntoTokensHelper );
+	} );
 
-	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
+	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics.
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
-	// Zip an array combining each sentence with the associated maximized score.
-	const sentencesWithMaximizedScores =  zipWith( sentences, maximizedSentenceScores, ( sentence, sentenceScore ) => {
-		const { score, matches } = sentenceScore;
+	// Combine sentences with their scores.
+	const sentencesWithMaximizedScores = sentences.map( ( sentence, index ) => {
+		const { score, matches } = maximizedSentenceScores[ index ];
 		return { sentence, score, matches };
 	} );
 
 	// Filter sentences that contain topic words for future highlights.
-	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > 3 );
+	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > TOPIC_RELEVANCE_THRESHOLD );
 
 	return {
 		maximizedSentenceScores: maximizedSentenceScores.map( sentenceScore => sentenceScore.score ),
