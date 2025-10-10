@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { LocationProvider } from "@yoast/externals/contexts";
 
 import AnalysisChecklist from "./AnalysisChecklist";
 import AiGenerateChecklist from "./AiGenerateChecklist";
@@ -26,9 +27,11 @@ export default function PrePublish( {
     }
 
     return <Fragment>
-        <p>{ intro }</p>
-        <AnalysisChecklist checklist={ checklist } onClick={ onClick } />
-        <AiGenerateChecklist showAiGenerateCheck={ showAiGenerateCheck } />
+		<LocationProvider value="pre-publish">
+            <p>{ intro }</p>
+            <AnalysisChecklist checklist={ checklist } onClick={ onClick } />
+            <AiGenerateChecklist showAiGenerateCheck={ showAiGenerateCheck } />
+		</LocationProvider>
     </Fragment>;
 }
 
