@@ -3,6 +3,9 @@ import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
+import getSentences from "../helpers/sentence/getSentences";
+import { filterShortcodesFromHTML } from "../helpers";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 
 /**
  * @typedef {import("../../values/Mark").default} Mark
@@ -189,9 +192,17 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 	// Filter sentences that contain topic words for future highlights.
 	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > TOPIC_RELEVANCE_THRESHOLD );
 
+	const sentencesToHighlight = sentencesWithTopic.map( ( { sentence, matches } ) => {
+		if ( matchWordCustomHelper ) {
+			// Currently, this check is only applicable for Japanese.
+			return markWordsInASentence( sentence, matches, matchWordCustomHelper );
+		}
+		return getMarkingsInSentence( sentence, matches );
+	} );
+
 	return {
 		maximizedSentenceScores: maximizedSentenceScores.map( sentenceScore => sentenceScore.score ),
-		sentencesToHighlight: sentencesWithTopic.map( ( { sentence, matches } ) => getMarkingsInSentence( sentence, matches ) ),
+		sentencesToHighlight,
 	};
 };
 
@@ -207,13 +218,19 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
-	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
+	const wordsCharacterCount = researcher.getHelper( "wordsCharacterCount" );
 	const customSplitIntoTokensHelper = researcher.getHelper( "splitIntoTokensCustom" );
+	const customSentenceTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
-	const sentences = getSentencesFromTree( paper.getTree() );
+	const text = matchWordCustomHelper
+		? filterShortcodesFromHTML( paper.getText(), paper._attributes && paper._attributes.shortcodes )
+		: paper.getText();
+
+	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
+	const sentences = matchWordCustomHelper ? getSentences( text, customSentenceTokenizer ) : getSentencesFromTree( paper.getTree() );
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];

@@ -1,4 +1,3 @@
-import { noop } from "lodash";
 import {
 	computeScoresPerSentence,
 	maximizeSentenceScores,
@@ -14,6 +13,7 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
 import buildTree from "../../specHelpers/parse/buildTree";
+import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
@@ -470,9 +470,6 @@ describe.each( testCasesSentenceScore )( "Test for computing sentence scores", (
 } );
 
 describe( "Test for the research", function() {
-	afterEach( () => {
-		jest.resetModules();
-	} );
 	it( "should not find a match for a two-word topic (short topic less than 4) and only one of the words is present", () => {
 		const paper = new Paper(
 			"And again a key something.",
@@ -754,13 +751,13 @@ describe( "Test for the research", function() {
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
 			{
-				locale: "it_IT",
+				locale: "jv_ID",
 				keyword: "parola chiave",
 				synonyms: "straordinaria, qualcosa, parola",
 			}
 		);
 
-		const researcher = new Researcher( paper );
+		const researcher = new DefaultResearcher( paper );
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
@@ -836,6 +833,8 @@ describe( "Test for the research", function() {
 	 */
 	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
 		"e.g. Italian in Free)", function() {
+		primeLanguageSpecificData.cache.clear();
+
 		const paper = new Paper(
 			"Che cosa straordinaria! Straordinaria è una parola strana. Ho trovato una chiave e una parola straordinaria. " +
 			"E ancora una chiave e qualcosa. È qualcosa che non ha niente da fare con questo che cerchiamo. " +
@@ -1452,8 +1451,11 @@ const testData = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
-					original: "What is ASP.NET.",
+					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+					original: " What is ASP.NET.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1465,8 +1467,11 @@ const testData = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
-					original: "What is ASP.net.",
+					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
+					original: " What is ASP.net.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1478,8 +1483,11 @@ const testData = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
-					original: "What is asp.NET?",
+					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
+					original: " What is asp.NET?",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 
@@ -1492,8 +1500,11 @@ const testData = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
-					original: "What is asp.net.",
+					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
+					original: " What is asp.net.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1520,8 +1531,11 @@ const testDataExactMatch = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
-					original: "What is ASP.NET.",
+					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+					original: " What is ASP.NET.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1533,8 +1547,11 @@ const testDataExactMatch = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
-					original: "What is ASP.net.",
+					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
+					original: " What is ASP.net.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1546,8 +1563,11 @@ const testDataExactMatch = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
-					original: "What is asp.NET?",
+					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
+					original: " What is asp.NET?",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1559,8 +1579,11 @@ const testDataExactMatch = [
 			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
 				new Mark( {
-					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
-					original: "What is asp.net.",
+					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
+					original: " What is asp.net.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 32, endOffsetBlock: 32, isFirstSection: false, startOffset: 25, startOffsetBlock: 25,
+					},
 				} ) ],
 		},
 	},
@@ -1580,14 +1603,11 @@ describe.each( testDataExactMatch )( "a test for keyphrase containing a period i
 // Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength.
 
 describe( "Test for the research for Japanese language", function() {
-	const sentencesJP = [
-		{ text: "私はペットとして2匹の猫を飼っています。", tokens: [
-			{ text: "私", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
-		] },
-		{ text: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" },
-		{ text: "彼らが好きなタイプの猫用フードは新鮮なものです。" },
-		{ text: "加工が少ない猫用食品の一種。" },
-	];
+	const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
+		"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +
+		"彼らが好きなタイプの猫用フードは新鮮なものです。" +
+		"加工が少ない猫用食品の一種。";
+
 	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
 		"(when morphology data is available)", function() {
 		const paper = new Paper(
@@ -1600,7 +1620,6 @@ describe( "Test for the research for Japanese language", function() {
 		);
 
 		const researcher = new JapaneseResearcher( paper );
-		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
