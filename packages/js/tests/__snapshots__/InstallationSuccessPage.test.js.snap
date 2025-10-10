@@ -3,10 +3,27 @@
 exports[`InstallationSuccessPage should match the snapshot 1`] = `
 <div>
   <div
-    class="yst-root yst-my-auto yst-flex yst-flex-col yst-h-[90vh] yst-justify-center"
+    class="yst-root yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center"
   >
+    <div
+      class="yst-bg-green-200 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-0 yst-flex yst-items-center yst-justify-center"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-w-8 yst-text-green-600"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </div>
     <h1
-      class="yst-text-4xl yst-text-gray-900 yst-w-[350px] yst-font-extrabold yst-leading-10 yst-mx-auto yst-mt-6 yst-mb-16 yst-text-center yst-tracking-tight"
+      class="yst-text-4xl yst-text-slate-900 yst-w-[350px] yst-font-extrabold yst-leading-10 yst-mx-auto yst-mt-8 yst-mb-0 yst-text-center yst-tracking-tight"
     >
       You've successfully installed 
       <span
@@ -16,64 +33,19 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
       </span>
       !
     </h1>
+    <p
+      class="yst-font-normal yst-text-slate-600 yst-text-lg yst-text-center yst-mt-4 yst-mb-8"
+    >
+      Your site is now easier for search engines to find.
+      <br />
+      Let's finish setup to make the most of Yoast SEO.
+    </p>
     <div
       class="installation-success-content"
     >
       <div
-        class="yst-flex yst-flex-col md:yst-flex-row yst-justify-center yst-items-center yst-gap-8"
+        class="yst-flex yst-flex-col yst-justify-center yst-items-center yst-gap-8"
       >
-        <div
-          class="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-shadow-md yst-h-4/5 yst-leading-6"
-          id="installation-success-card-optimized-site"
-        >
-          <h2
-            class="yst-tracking-tight yst-text-gray-900 yst-text-2xl yst-leading-8 yst-font-extrabold"
-          >
-            Your site is now easier for search engines to find.
-          </h2>
-          <p
-            class="yst-text-gray-500 yst-text-base yst-my-4"
-          >
-            Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.
-          </p>
-          <div
-            class="card-button-section"
-          />
-          <div
-            class="yst-bg-green-100 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-2 yst-flex yst-items-center yst-justify-center"
-          >
-            <svg
-              aria-hidden="true"
-              class="yst-w-8 yst-text-green-600"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                clip-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                fill-rule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
-        <div>
-          <svg
-            aria-hidden="true"
-            class="yst-w-8 yst-text-gray-500 rtl:yst-rotate-180"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
         <div
           class="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6"
           id="installation-success-card-configuration"
@@ -81,18 +53,13 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
           <h2
             class=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold"
           >
-            For the best ranking results: configure Yoast SEO!
+            Get better results with the First-time configuration
           </h2>
           <p
-            class="yst-font-medium yst-text-white yst-text-base yst-my-4"
+            class="yst-font-normal yst-text-white yst-text-base yst-mb-4 yst-mt-2"
           >
-            Set the essential Yoast SEO settings for your site in a few steps.
+            Complete quick setup to enable essential SEO settings for your site.
           </p>
-          <img
-            alt=""
-            class="yst-my-6 yst-mx-auto yst-w-[150px] yst-h-[120px]"
-            src="http://wordpress.test/wp-content/plugins/wordpress-seo/images/indexables_3_left_bubble_optm.svg"
-          />
           <div
             class="yst-flex yst-grow-1 yst-mt-auto"
           >
@@ -102,7 +69,7 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
               href="http://wordpress.test/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration"
               id="installation-successful-configuration-link"
             >
-              Start first-time configuration!
+              Start configuration
               <svg
                 aria-hidden="true"
                 class="yst-w-5 yst-h-5 yst-ms-3 yst-me-1 rtl:yst-rotate-180"
@@ -120,6 +87,56 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
               </svg>
             </a>
           </div>
+          <p
+            class="yst-font-normal yst-italic yst-text-center yst-text-white yst-text-sm yst-mt-3"
+          >
+            Takes a few minutes · Recommended
+          </p>
+        </div>
+        <div
+          class="yst-shrink-0 yst-bg-white yst-rounded-lg yst-p-4 yst-flex yst-flex-col yst-max-w-xs yst-shadow-md yst-h-4/5 yst-leading-6"
+          id="installation-success-card-optimized-site"
+        >
+          <h2
+            class="yst-tracking-tight yst-text-primary-500 yst-text-lg yst-leading-8 yst-font-extrabold"
+          >
+            Unlock more powerful SEO tools
+          </h2>
+          <p
+            class="yst-text-slate-600 yst-text-sm yst-mb-1"
+          >
+            Consider Yoast SEO Premium for faster, easier SEO with AI features that save time.
+          </p>
+          <a
+            class="yst-button yst-button--secondary yst-button--small yst-gap-2 yst-text-xs yst-mt-2"
+            href="https://yoa.st/ftc-premium-link"
+            rel="noopener"
+            target="_blank"
+          >
+            Explore Premium features
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-icon-rtl yst-text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+          <p
+            class="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2"
+          >
+            Trusted by millions of site owners
+            <br />
+            30-day money-back guarantee
+          </p>
         </div>
         <a
           class="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute"
