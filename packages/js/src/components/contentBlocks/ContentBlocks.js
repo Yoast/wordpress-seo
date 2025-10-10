@@ -68,11 +68,17 @@ export const ContentBlocks = () => {
 	const isPage = Boolean( window?.wpseoScriptData?.isPage );
 	const pageOnlyBlocks = isPage ? [
 		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: true },
-		{ title: __( "Sub-pages", "wordpress-seo" ), name: "yoast-seo/sub-pages", isPremiumBlock: true },
+		{ title: __( "Subpages", "wordpress-seo" ), name: "yoast-seo/subpages", isPremiumBlock: true },
 	] : [];
 
-	// Render the premium blocks first.
-	const allContentBlocks = premiumBlocks.concat( pageOnlyBlocks, CONTENT_BLOCKS );
+	// Separate Table of contents from other premium blocks to alter the order in the Yoast blocks menu tab
+	const tableOfContentsBlock = premiumBlocks.find( block => block.name === "yoast-seo/table-of-contents" );
+	const otherPremiumBlocks = premiumBlocks.filter( block => block.name !== "yoast-seo/table-of-contents" );
+
+	// Render premium blocks, then page-only blocks, then table of contents (on pages), then content blocks
+	const allContentBlocks = isPage
+		? otherPremiumBlocks.concat( pageOnlyBlocks, tableOfContentsBlock ? [ tableOfContentsBlock ] : [], CONTENT_BLOCKS )
+		: premiumBlocks.concat( CONTENT_BLOCKS );
 
 	/*
 	 * The MetaboxCollapsible is using Collapsible from the old @yoast/components package,
