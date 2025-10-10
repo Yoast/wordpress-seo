@@ -1442,6 +1442,8 @@ describe( "Test for the research", function() {
 	} );
 } );
 
+// TODO: add tests for keyphrases with double quotes when exact match functionality is implemented.
+
 const testData = [
 	{
 		description: "keyphrase in uppercase with a period 'ASP.NET' and its exact match is found in the text",

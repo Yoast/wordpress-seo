@@ -6,6 +6,8 @@ import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSente
 import getSentences from "../helpers/sentence/getSentences";
 import { filterShortcodesFromHTML } from "../helpers";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
+import { mergeListItems } from "../helpers/sanitize/mergeListItems";
+import removeHtmlBlocks from "../helpers/html/htmlParser";
 
 /**
  * @typedef {import("../../values/Mark").default} Mark
@@ -224,13 +226,19 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
-
-	const text = matchWordCustomHelper
-		? filterShortcodesFromHTML( paper.getText(), paper._attributes && paper._attributes.shortcodes )
-		: paper.getText();
+	let sentences = [];
+	if ( matchWordCustomHelper ) {
+		// This is currently only applicable for Japanese.
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+		text = mergeListItems( text );
+		sentences = getSentences( text, customSentenceTokenizer );
+	} else {
+		sentences = getSentencesFromTree( paper.getTree() );
+	}
 
 	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
-	const sentences = matchWordCustomHelper ? getSentences( text, customSentenceTokenizer ) : getSentencesFromTree( paper.getTree() );
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];
