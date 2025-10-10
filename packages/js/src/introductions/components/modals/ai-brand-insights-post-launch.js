@@ -3,15 +3,12 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import { SparklesIcon } from "@heroicons/react/outline";
-import { get } from "lodash";
-import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { STORE_NAME_INTRODUCTIONS } from "../../constants";
 import { Modal } from "../modal";
 
 /**
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {string} buttonLink The button link.
- * @param {boolean} isPremium Whether the user has Premium activated.
  * @param {string} buttonLabel The button label.
  * @param {string} productName The product name.
  * @param {string} description The description for the introduction
@@ -21,7 +18,6 @@ import { Modal } from "../modal";
 const AiBrandInsightsPostLaunchContent = ( {
 	thumbnail,
 	buttonLink,
-	isPremium,
 	buttonLabel = __( "Discover Brand Insights now", "wordpress-seo" ),
 	productName = sprintf(
 		/* translators: %1$s expands to Yoast SEO AI+. */
@@ -31,23 +27,7 @@ const AiBrandInsightsPostLaunchContent = ( {
 } ) => {
 	const { onClose, initialFocus } = useModalContext();
 
-	const premiumDescription = safeCreateInterpolateElement(
-		sprintf(
-			// translators: %1$s and %2$s expand to <span> and </span> respectively.
-			__(
-				"Track visibility, control perception, and stay ahead - tools to manage your AI presence are now live. %1$sTry it for free, on us!%2$s",
-				"wordpress-seo-premium"
-			),
-			"<span>",
-			"</span>"
-		),
-		{
-			span: <span className="yst-font-bold yst-text-slate-600" />,
-		}
-	);
-	const description =  isPremium
-		?  premiumDescription
-		: __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are now live!", "wordpress-seo" );
+	const description = __( "Track visibility, control perception, and stay ahead - tools to manage your AI presence are now live!", "wordpress-seo" );
 
 	return (
 		<>
@@ -114,8 +94,8 @@ const AiBrandInsightsPostLaunchContent = ( {
  */
 export const AiBrandInsightsPostLaunch = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
-	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectLink( "https://yoa.st/ai-brand-insights-introduction-post-launch/" ), [] );
-	const isPremium = get( window, "wpseoIntroductions.isPremium", false );
+	const joinWishlistLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS )
+		.selectLink( "https://yoa.st/ai-brand-insights-introduction-post-launch/" ), [] );
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
 		width: "432",
@@ -127,7 +107,6 @@ export const AiBrandInsightsPostLaunch = () => {
 			<AiBrandInsightsPostLaunchContent
 				buttonLink={ joinWishlistLink }
 				thumbnail={ thumbnail }
-				isPremium={ isPremium }
 			/>
 		</Modal>
 	);
