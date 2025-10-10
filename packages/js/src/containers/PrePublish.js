@@ -8,13 +8,14 @@ import {
 	maybeAddSEOCheck,
 	maybeAddInclusiveLanguageCheck,
 } from "../helpers/addCheckToChecklist";
+import { shouldShowAiGenerateCheck } from "../helpers/addAiGenerateToChecklist";
 
 /**
  * Maps the select function to props for the checklist.
  *
  * @param {function} select The WordPress select function.
  *
- * @returns {{checklist: []}} The props for the checklist.
+ * @returns {{checklist: [], showAiGenerateCheck: boolean}} The props for the checklist.
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
@@ -28,7 +29,10 @@ export function mapSelectToProps( select ) {
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
-	return { checklist };
+	return { 
+		checklist,
+		showAiGenerateCheck: shouldShowAiGenerateCheck( yoastStore ),
+	};
 }
 
 /**
