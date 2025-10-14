@@ -93,7 +93,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 							<Badge
 								size="small"
 								variant="plain"
-								className={ classNames( "yst-mr-2 yst-bg-opacity-15 yst-text-", badgeClasses ) }
+								className={ classNames( "yst-mr-2 yst-bg-opacity-15", badgeClasses ) }
 								key={ `now-including-${ index }` }
 							>
 								{ addon }
