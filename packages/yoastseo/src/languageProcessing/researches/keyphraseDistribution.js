@@ -200,7 +200,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
-	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
+	const wordsCharacterCount = researcher.getHelper( "wordsCharacterCount" );
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
