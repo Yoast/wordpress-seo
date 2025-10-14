@@ -153,6 +153,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'last_updated_on'                                      => false,
 		'default_seo_title'                                    => [],
 		'default_seo_meta_desc'                                => [],
+		'first_activated_by'                                   => 0,
 	];
 
 	/**
@@ -407,6 +408,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexing_started':
 				case 'activation_redirect_timestamp_free':
 				case 'last_updated_on':
+				case 'first_activated_by':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
