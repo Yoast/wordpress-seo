@@ -1,7 +1,9 @@
 /* eslint-disable complexity */
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Paper, Title } from "@yoast/ui-library";
+import { Badge, Button, Paper, Title } from "@yoast/ui-library";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
 import { ReactComponent as CrownIcon } from "../../../images/icon-crown.svg";
@@ -20,6 +22,18 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 		? getWooSeoBenefits
 		: getPremiumBenefits;
 
+	const nowIncluding = [
+		...( isWooCommerceActive ? [ "Yoast SEO Premium" ] : [] ),
+		"Local SEO",
+		"News SEO",
+		"Video SEO",
+		__( "Google Docs add-on (1 seat)", "wordpress-seo" ),
+	];
+
+	const badgeClasses = isWooCommerceActive
+		? classNames( "yst-bg-woo-light", "yst-text-[#006499]" )
+		: classNames( "yst-bg-primary-500", "yst-text-primary-500" );
+
 	let upsellTitle = isWooCommerceActive
 		? sprintf(
 			/* translators: %s expands to "Yoast WooCommerce SEO" */
@@ -36,7 +50,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 		upsellTitle = __( "Get 30% off now!", "wordpress-seo" );
 	}
 	return (
-		<Paper as="div" className="xl:yst-max-w-3xl">
+		<Paper as="div" className="yst-max-w-4xl">
 			{ isBlackFriday && <div
 				className="yst-rounded-t-lg yst-h-9 yst-flex yst-justify-between yst-items-center yst-bg-black yst-text-amber-300 yst-px-4 yst-text-lg yst-border-b yst-border-amber-300 yst-border-solid yst-font-medium"
 			>
@@ -68,12 +82,28 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 						</>
 					}
 				</div>
-				<span
-					className="yst-font-medium yst-text-slate-500 yst-text-xs yst-leading-5 yst-uppercase yst-mt-2"
-				>{ __( "Now includes Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" ) }</span>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-none yst-list-outside yst-text-slate-600 yst-mt-6">
+				<div
+					className="yst-font-medium yst-text-slate-800 yst-text-xs yst-leading-7 yst-mt-2"
+				>
+					<span className="yst-mr-2">
+						{ __( "Now includes:", "wordpress-seo" ) }
+					</span>
+					<div className="yst-inline-block">
+						{ nowIncluding.map( ( addon, index ) => (
+							<Badge
+								size="small"
+								variant="plain"
+								className={ classNames( "yst-mr-2 yst-bg-opacity-15 yst-text-", badgeClasses ) }
+								key={ `now-including-${ index }` }
+							>
+								{ addon }
+							</Badge>
+						) ) }
+					</div>
+				</div>
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-gap-y-2 yst-list-none yst-list-outside yst-text-slate-600 yst-mt-4">
 					{ getBenefits().map( ( benefit, index ) => (
-						<li key={ `upsell-benefit-${ index }` }><span className="yst-mx-2">•</span>{ benefit }</li>
+						<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-start"><CheckCircleIcon className="yst-mr-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px]" />{ benefit }</li>
 					) ) }
 				</ul>
 				<Button
@@ -81,12 +111,18 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 					variant="upsell"
 					size="extra-large"
 					href={ premiumLink }
-					className="yst-gap-2 yst-mt-4"
+					className="yst-gap-2 yst-mt-6 sm:yst-max-w-sm"
 					target="_blank"
 					rel="noopener"
 					{ ...premiumUpsellConfig }
 				>
 					{ upsellTitle }
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 				</Button>
 			</div>

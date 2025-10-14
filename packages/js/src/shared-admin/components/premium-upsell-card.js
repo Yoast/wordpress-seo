@@ -85,7 +85,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				{ upsellTitle }
 			</Title>
 			<p className="yst-mt-2 yst-font-medium">{ info }</p>
-			<ul className="yst-ps-[1em] yst-list-outside yst-text-white yst-mt-2">
+			<ul className="yst-list-outside yst-text-white yst-mt-2">
 				{ getBenefits( true ).map( ( benefit, index ) => (
 					<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-center yst-gap-2">
 						<CheckIcon className="yst-w-4 yst-h-4 yst-text-green-400" />
@@ -105,7 +105,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				<span>{ upsellButtonText }</span>
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-light yst-leading-5 yst-italic yst-mt-2">
+			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-normal yst-leading-5 yst-italic yst-mt-2">
 				{ __( "30-day money back guarantee", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
