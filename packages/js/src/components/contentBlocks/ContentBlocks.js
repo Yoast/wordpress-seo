@@ -45,6 +45,7 @@ export const PREMIUM_CONTENT_BLOCKS = [
  *
  * @returns {JSX.Element} The Yoast Custom Blocks component.
  */
+// eslint-disable-next-line complexity
 export const ContentBlocks = () => {
 	// Use useContext to access the LocationContext.
 	const location = useContext( LocationContext );
