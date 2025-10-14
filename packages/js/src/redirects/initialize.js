@@ -5,7 +5,7 @@ import registerStore from "./store";
 import { select } from "@wordpress/data";
 import { STORE_NAME } from "./constants";
 import { AppProvider } from "./appProvider";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { PREFERENCES_NAME } from "./store/preferences";
 import { get } from "lodash";
 
@@ -19,6 +19,10 @@ domReady( () => {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			[ PREFERENCES_NAME ]: get( window, "wpseoScriptData.preferences", {} ),
+			[ PLUGIN_URL_NAME ]: get( window, "wpseoScriptData.pluginUrl", "" ),
+			[ WISTIA_EMBED_PERMISSION_NAME ]: {
+				value: get( window, "wpseoScriptData.wistiaEmbedPermission", false ) === "1",
+			},
 		},
 	} );
 

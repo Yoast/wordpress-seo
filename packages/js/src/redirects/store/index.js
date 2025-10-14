@@ -1,4 +1,5 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
 import {
 	DOCUMENT_TITLE_NAME,
@@ -8,6 +9,14 @@ import {
 	linkParamsReducer,
 	linkParamsActions,
 	LINK_PARAMS_NAME,
+	WISTIA_EMBED_PERMISSION_NAME,
+	wistiaEmbedPermissionReducer,
+	wistiaEmbedPermissionActions,
+	wistiaEmbedPermissionSelectors,
+	pluginUrlSelectors,
+	pluginUrlActions,
+	PLUGIN_URL_NAME,
+	getInitialPluginUrlState, pluginUrlReducer, wistiaEmbedPermissionControls,
 } from "../../shared-admin/store";
 import preferences, { preferencesActions, preferencesSelectors, PREFERENCES_NAME } from "./preferences";
 
@@ -23,20 +32,33 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...preferencesActions,
 			...linkParamsActions,
+			...pluginUrlActions,
+			...wistiaEmbedPermissionActions,
 		},
 		selectors: {
 			...documentTitleSelectors,
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...wistiaEmbedPermissionSelectors,
+			...pluginUrlSelectors,
 		},
-		initialState: {
-			...initialState,
-		},
+		initialState: merge(
+			{},
+			{
+				[ PLUGIN_URL_NAME ]: getInitialPluginUrlState(),
+			},
+			initialState
+		),
 		reducer: combineReducers( {
 			[ PREFERENCES_NAME ]: preferences,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
+			[ PLUGIN_URL_NAME ]: pluginUrlReducer,
+			[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
 		} ),
+		controls: {
+			...wistiaEmbedPermissionControls,
+		},
 	} );
 };
 

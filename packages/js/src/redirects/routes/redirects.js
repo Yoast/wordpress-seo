@@ -1,9 +1,10 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, Select, SelectField, Table, TextField } from "@yoast/ui-library";
+import { Button, Checkbox, Modal, Select, SelectField, Table, TextField } from "@yoast/ui-library";
 import {
 	RouteLayout,
 } from "../components";
+import { ModalContent } from "../components/modal-content";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
@@ -60,6 +61,12 @@ export const Redirects = () => {
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
+			<Modal  isOpen={ true } onClose={ noop } initialFocus={ noop }>
+				<Modal.Panel className="yst-max-w-3xl yst-p-0 yst-rounded-3xl yst-introduction-modal-panel" hasCloseButton={ false }>
+					<ModalContent />
+				</Modal.Panel>
+			</Modal>
+
 			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">
 				<FieldsetLayout
 					title={ __( "Plain redirects", "wordpress-seo" ) }
