@@ -65,12 +65,25 @@ class Default_SEO_Data_Watcher implements Integration_Interface {
 		}
 
 		// If the title or description is null, it means it's not default SEO data so let's reset the options.
-		if ( $saved_indexable->title !== null ) {
+		if ( $saved_indexable->title ) {
 			$this->options_helper->set( 'default_seo_title', [] );
+		} else {
+			$recent_default_seo_title = $this->options_helper->get( 'default_seo_title', [] );
+			if ( ! in_array( $saved_indexable->object_id, $recent_default_seo_title, true ) ) {
+			 	$recent_default_seo_title[] = $saved_indexable->object_id;
+				$this->options_helper->set( 'default_seo_title', $recent_default_seo_title );
+			}
+           
 		}
 
-		if ( $saved_indexable->description !== null ) {
+		if ( $saved_indexable->description ) {
 			$this->options_helper->set( 'default_seo_meta_desc', [] );
+		} else {
+			$recent_default_seo_meta_desc = $this->options_helper->get( 'default_seo_meta_desc', [] );
+			if ( ! in_array( $saved_indexable->object_id, $recent_default_seo_meta_desc, true ) ) {
+				$recent_default_seo_meta_desc[] = $saved_indexable->object_id;
+				$this->options_helper->set( 'default_seo_meta_desc', $recent_default_seo_meta_desc );
+			}
 		}
 	}
 }

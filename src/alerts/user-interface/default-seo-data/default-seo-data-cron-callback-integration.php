@@ -85,11 +85,11 @@ class Default_SEO_Data_Cron_Callback_Integration implements Integration_Interfac
 		$recent_default_seo_title     = [];
 		$recent_default_seo_meta_desc = [];
 		foreach ( $recent_posts as $post ) {
-			if ( $post->title === null ) {
+			if ( ! $post->title ) {
 				$recent_default_seo_title[] = $post->object_id;
 			}
 
-			if ( $post->description === null ) {
+			if ( ! $post->description ) {
 				$recent_default_seo_meta_desc[] = $post->object_id;
 			}
 		}
