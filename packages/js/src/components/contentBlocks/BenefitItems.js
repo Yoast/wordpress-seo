@@ -15,7 +15,20 @@ export const BenefitItems = ( { id } ) => {
 		{ title: __( "Siblings", "wordpress-seo" ), icon: UserGroupIcon },
 		{ title: __( "Sub-pages", "wordpress-seo" ), icon: CollectionIcon },
 	] : [];
-	const benefits = PREMIUM_CONTENT_BLOCKS.concat( pageOnlyBenefits );
+
+	// Match the order from ContentBlocks component: premium blocks, page-only blocks, then Table of contents
+	let benefits;
+	if ( isPage ) {
+		const tableOfContentsBlock = PREMIUM_CONTENT_BLOCKS.find( block => block.name === "yoast-seo/table-of-contents" );
+		const otherPremiumBlocks = PREMIUM_CONTENT_BLOCKS.filter( block => block.name !== "yoast-seo/table-of-contents" );
+		benefits = otherPremiumBlocks.concat(
+			pageOnlyBenefits,
+			tableOfContentsBlock ? [ tableOfContentsBlock ] : []
+		);
+	} else {
+		benefits = PREMIUM_CONTENT_BLOCKS;
+	}
+
 	return (
 		<ul className="yst-my-2">
 			{ benefits.map( ( benefit, index ) => {

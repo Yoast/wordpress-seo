@@ -41,11 +41,63 @@ export const PREMIUM_CONTENT_BLOCKS = [
 ];
 
 /**
+ * Gets the appropriate premium blocks based on AI feature availability.
+ *
+ * @param {boolean} isAIFeatureEnabled - Whether AI feature is enabled.
+ * @returns {Array} Array of premium blocks.
+ */
+const getPremiumBlocks = ( isAIFeatureEnabled ) => {
+	if ( isAIFeatureEnabled ) {
+		return PREMIUM_CONTENT_BLOCKS;
+	}
+	return PREMIUM_CONTENT_BLOCKS.filter(
+		block => block.name !== "yoast-seo/ai-summarize"
+	);
+};
+
+/**
+ * Gets page-only blocks for pages.
+ *
+ * @param {boolean} isPage - Whether the current post type is a page.
+ * @returns {Array} Array of page-only blocks.
+ */
+const getPageOnlyBlocks = ( isPage ) => {
+	if ( ! isPage ) {
+		return [];
+	}
+	return [
+		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: true },
+		{ title: __( "Subpages", "wordpress-seo" ), name: "yoast-seo/subpages", isPremiumBlock: true },
+	];
+};
+
+/**
+ * Arranges blocks in the correct order.
+ *
+ * @param {Array} premiumBlocks - Array of premium blocks.
+ * @param {Array} pageOnlyBlocks - Array of page-only blocks.
+ * @param {boolean} isPage - Whether the current post type is a page.
+ * @returns {Array} All content blocks in the correct order.
+ */
+const arrangeContentBlocks = ( premiumBlocks, pageOnlyBlocks, isPage ) => {
+	const tableOfContentsBlock = premiumBlocks.find( block => block.name === "yoast-seo/table-of-contents" );
+	const otherPremiumBlocks = premiumBlocks.filter( block => block.name !== "yoast-seo/table-of-contents" );
+
+	if ( isPage ) {
+		return otherPremiumBlocks.concat(
+			pageOnlyBlocks,
+			tableOfContentsBlock ? [ tableOfContentsBlock ] : [],
+			CONTENT_BLOCKS
+		);
+	}
+	return premiumBlocks.concat( CONTENT_BLOCKS );
+};
+
+/**
  * Renders the Yoast Content Blocks component.
  *
  * @returns {JSX.Element} The Yoast Custom Blocks component.
  */
-// eslint-disable-next-line complexity
 export const ContentBlocks = () => {
 	// Use useContext to access the LocationContext.
 	const location = useContext( LocationContext );
@@ -59,27 +111,14 @@ export const ContentBlocks = () => {
 	 * The window.wpseoAiGenerator global is set in both Free and Premium.
 	 */
 	const isAIFeatureEnabled = !! window.wpseoAiGenerator;
-	const premiumBlocks = isAIFeatureEnabled
-		? PREMIUM_CONTENT_BLOCKS
-		: PREMIUM_CONTENT_BLOCKS.filter(
-			block => block.name !== "yoast-seo/ai-summarize"
-		);
+	const premiumBlocks = getPremiumBlocks( isAIFeatureEnabled );
 
 	// Conditionally include Siblings and Sub-pages for pages only.
 	const isPage = Boolean( window?.wpseoScriptData?.isPage );
-	const pageOnlyBlocks = isPage ? [
-		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: true },
-		{ title: __( "Subpages", "wordpress-seo" ), name: "yoast-seo/subpages", isPremiumBlock: true },
-	] : [];
-
-	// Separate Table of contents from other premium blocks to alter the order in the Yoast blocks menu tab
-	const tableOfContentsBlock = premiumBlocks.find( block => block.name === "yoast-seo/table-of-contents" );
-	const otherPremiumBlocks = premiumBlocks.filter( block => block.name !== "yoast-seo/table-of-contents" );
+	const pageOnlyBlocks = getPageOnlyBlocks( isPage );
 
 	// Render premium blocks, then page-only blocks, then table of contents (on pages), then content blocks
-	const allContentBlocks = isPage
-		? otherPremiumBlocks.concat( pageOnlyBlocks, tableOfContentsBlock ? [ tableOfContentsBlock ] : [], CONTENT_BLOCKS )
-		: premiumBlocks.concat( CONTENT_BLOCKS );
+	const allContentBlocks = arrangeContentBlocks( premiumBlocks, pageOnlyBlocks, isPage );
 
 	/*
 	 * The MetaboxCollapsible is using Collapsible from the old @yoast/components package,
