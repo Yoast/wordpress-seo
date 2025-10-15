@@ -580,6 +580,9 @@ class WPSEO_Options {
 
 		foreach ( array_keys( $option_groups ) as $option_name ) {
 			$full_option = static::get_option( $option_name );
+			if ( ! is_iterable( $full_option ) ) {
+				continue;
+			}
 			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
 			}
