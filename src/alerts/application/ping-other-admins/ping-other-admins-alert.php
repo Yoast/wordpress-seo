@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
@@ -46,23 +47,33 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
 	 * Ping_Other_Admins_Alert constructor.
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
 	 * @param Product_Helper            $product_helper      The product helper.
 	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param User_Helper               $user_helper         The user helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
 		Short_Link_Helper $short_link_helper,
 		Product_Helper $product_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		User_Helper $user_helper
 	) {
 		$this->notification_center = $notification_center;
 		$this->short_link_helper   = $short_link_helper;
 		$this->product_helper      = $product_helper;
 		$this->options_helper      = $options_helper;
+		$this->user_helper         = $user_helper;
 	}
 
 	/**
@@ -98,10 +109,10 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 			return;
 		}
 
-		// if ( ! $this->has_notification_been_resolved() ) {
-		// 	$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
-		// 	return;
-		// }
+		if ( $this->has_notification_been_resolved() ) {
+			$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+			return;
+		}
 
 		$notification = $this->get_ping_other_admins_notification();
 
@@ -125,6 +136,15 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns whether the alert has been resolved before.
+	 *
+	 * @return bool Whether the alert has been resolved before.
+	 */
+	private function has_notification_been_resolved(): bool {
+		return $this->user_helper->get_meta( \get_current_user_id(), self::NOTIFICATION_ID . '_resolved', true ) === '1';
 	}
 
 	/**
