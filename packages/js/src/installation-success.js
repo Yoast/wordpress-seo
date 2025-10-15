@@ -96,6 +96,12 @@ export function InstallationSuccessPage() {
 							rel="noopener"
 						>
 							{ __( "Explore Premium features", "wordpress-seo" ) }
+							<span className="yst-sr-only">
+								{
+									/* translators: Hidden accessibility text. */
+									__( "(Opens in a new browser tab)", "wordpress-seo" )
+								}
+							</span>
 							<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-text-slate-400" />
 						</Button>
 						<p className="yst-font-normal yst-italic yst-text-center yst-text-slate-500 yst-text-xs yst-mt-2">
