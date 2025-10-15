@@ -16,6 +16,10 @@ export function shouldShowAiGenerateCheck( store ) {
 	console.log( "isRecentSeoTitlesDefault:", isRecentSeoTitlesDefault );
 	console.log( "isRecentSeoDescriptionsDefault:", isRecentSeoDescriptionsDefault );
 
+	if ( ! isRecentSeoTitlesDefault && ! isRecentSeoDescriptionsDefault ) {
+		return false;
+	}
+
 	if ( snippetEditorData.title.trim() === titleDefaultTemplate.trim() ) {
 		return true;
 	}
