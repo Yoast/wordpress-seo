@@ -4,7 +4,7 @@ import { merge, inRange } from "lodash";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
+import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
 
 /**
