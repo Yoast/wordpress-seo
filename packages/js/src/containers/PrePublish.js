@@ -1,6 +1,5 @@
-import { withSelect, withDispatch } from "@wordpress/data";
-import { compose } from "@wordpress/compose";
-
+import { useSelect, useDispatch } from "@wordpress/data";
+import { useMemo, useCallback } from "@wordpress/element";
 import PrePublish from "../components/PrePublish";
 import {
 	maybeAddReadabilityCheck,
@@ -11,55 +10,38 @@ import {
 import { shouldShowAiGenerateCheck } from "../helpers/addAiGenerateToChecklist";
 
 /**
- * Maps the select function to props for the checklist.
+ * PrePublish container using hooks for optimized performance.
  *
- * @param {function} select The WordPress select function.
- *
- * @returns {{checklist: [], showAiGenerateCheck: boolean}} The props for the checklist.
+ * @returns {JSX.Element} PrePublish component with checklist and actions.
  */
-export function mapSelectToProps( select ) {
-	const yoastStore = select( "yoast-seo/editor" );
+const PrePublishContainer = () => {
+	const yoastStore = useSelect( ( select ) => select( "yoast-seo/editor" ), [] );
 
-	const checklist = [];
+	const checklist = useMemo( () => {
+		const items = [];
+		maybeAddFocusKeyphraseCheck( items, yoastStore );
+		maybeAddSEOCheck( items, yoastStore );
+		maybeAddReadabilityCheck( items, yoastStore );
+		maybeAddInclusiveLanguageCheck( items, yoastStore );
+		items.push( ...Object.values( yoastStore.getChecklistItems() ) );
+		return items;
+	}, [ yoastStore ] );
 
-	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
-	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddReadabilityCheck( checklist, yoastStore );
-	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
+	const showAiGenerateCheck = useMemo( () => shouldShowAiGenerateCheck( yoastStore ), [ yoastStore ] );
 
-	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
-
-	return { 
-		checklist,
-		showAiGenerateCheck: shouldShowAiGenerateCheck( yoastStore ),
-	};
-}
-
-/**
- * Maps the dispatch function to props for the checklist.
- *
- * @param {function} dispatch The dispatch function.
- *
- * @returns {{onClick: onClick}} The properties to use.
- */
-export function mapDispatchToProps( dispatch ) {
-	const { closePublishSidebar, openGeneralSidebar } = dispatch(
-		"core/edit-post"
-	);
-	/**
-	 * Closes the publish sidebar and opens the Yoast sidebar.
-	 *
-	 * @returns {void}
-	 */
-	const onClick = () => {
+	const { closePublishSidebar, openGeneralSidebar } = useDispatch( "core/edit-post" );
+	const onClick = useCallback( () => {
 		closePublishSidebar();
 		openGeneralSidebar( "yoast-seo/seo-sidebar" );
-	};
+	}, [ closePublishSidebar, openGeneralSidebar ] );
 
-	return { onClick };
-}
+	return (
+		<PrePublish
+			checklist={ checklist }
+			showAiGenerateCheck={ showAiGenerateCheck }
+			onClick={ onClick }
+		/>
+	);
+};
 
-export default compose( [
-	withSelect( mapSelectToProps ),
-	withDispatch( mapDispatchToProps ),
-] )( PrePublish );
+export default PrePublishContainer;
