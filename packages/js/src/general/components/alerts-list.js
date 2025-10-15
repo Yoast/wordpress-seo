@@ -44,7 +44,7 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) =
 				dangerouslySetInnerHTML={ { __html: message } }
 			/>
 
-			<Button variant="secondary" size="small" className="yst-self-center yst-h-8 wpseo-silence-alert" onClick={ toggleAlert }>
+			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
 				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
 			</Button>
 		</li>
@@ -70,7 +70,7 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 	}
 
 	return (
-		<ul className={ className } id={"wpseo-alerts-list"} >
+		<ul className={ className }>
 			{ items.map( ( item ) => (
 				<AlertItem
 					key={ item.id }
