@@ -92,7 +92,6 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'add_notifications' ] );
-		\add_action( 'wp_ajax_resolve', [ $this, 'dismiss_premium_deactivated_notice' ] );
 	}
 
 	/**
