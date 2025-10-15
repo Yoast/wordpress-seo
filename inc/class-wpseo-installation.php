@@ -33,20 +33,6 @@ class WPSEO_Installation {
 	}
 
 	/**
-	 * Returns the ID of the user that activates the plugin.
-	 *
-	 * @return int
-	 */
-	private function get_current_user_id() {
-		$user = \wp_get_current_user();
-		if ( $user === null || $user->ID < 1 ) {
-			return 0;
-		}
-
-		return $user->ID;
-	}
-
-	/**
 	 * Sets the options on first install for showing the installation notice and disabling of the settings pages.
 	 *
 	 * @return void
@@ -56,7 +42,7 @@ class WPSEO_Installation {
 
 		$options['show_onboarding_notice'] = true;
 		$options['first_activated_on']     = time();
-		$options['first_activated_by']     = $this->get_current_user_id();
+		$options['first_activated_by']     = get_current_user_id();
 
 		update_option( 'wpseo', $options );
 	}
