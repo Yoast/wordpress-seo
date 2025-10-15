@@ -8,6 +8,7 @@ import { filterShortcodesFromHTML } from "../helpers";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import { mergeListItems } from "../helpers/sanitize/mergeListItems";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 
 /**
  * @typedef {import("../../values/Mark").default} Mark
@@ -46,17 +47,17 @@ const TOPIC_RELEVANCE_THRESHOLD = 3;
  * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Sentence[]}  sentences An array of all sentences in the text.
  * @param {string} 		locale    The locale of the paper to analyse.
- * @param {boolean}   isShortTopic Whether the topic is considered short (true) or long (false).
+ * @param {boolean}		isShortTopic			Whether the topic is considered short (true) or long (false).
+ * @param {boolean}		isExactMatchRequested	Whether the exact matching is requested.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  * @param {function}    customSplitIntoTokensHelper A custom helper to split sentences into tokens.
  * @returns {MaximizedSentenceScore[]} The scores per sentence along with the found matches.
  */
-const computeScoresPerSentence = function( topic, sentences, locale, isShortTopic = true, matchWordCustomHelper,
+const computeScoresPerSentence = function( topic, sentences, locale, isShortTopic, isExactMatchRequested = false, matchWordCustomHelper,
 	customSplitIntoTokensHelper ) {
 	return sentences.map( sentence => {
-		// UseExactMatching is always false here because we always want to match different forms of the words in the topic.
 		const matchedKeyphrase = topic.map( wordForms => matchWordFormsWithSentence( sentence,
-			wordForms, locale, matchWordCustomHelper, false, customSplitIntoTokensHelper ) );
+			wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper ) );
 		const foundWords = matchedKeyphrase.reduce( ( count, { count: matchCount } ) => {
 			return matchCount > 0 ? count + 1 : count;
 		}, 0 );
@@ -159,17 +160,19 @@ const getDistraction = function( sentenceScores ) {
  * @param {Array}       originalTopic           The array of the original form of the topic with function words filtered out.
  * @param {function}    wordsCharacterCount     The helper to calculate the character length of all the words in the array.
  * @param {function}    customSplitIntoTokensHelper A custom helper to split sentences into tokens.
+ * @param {boolean}     isExactMatchRequested		Whether the exact matching is requested.
  * @returns {{maximizedSentenceScores: number[], sentencesToHighlight: Mark[]}} The maximized scores per sentence and the sentences that contain topic words for future highlights.
  */
 const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
-	topicLengthCriteria = 4, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper ) {
+	topicLengthCriteria = 4, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested ) {
 	// Determine whether the language has function words.
 	const hasFunctionWords = functionWords.length > 0;
 
 	const sentenceScores = topicFormsInOneArray.map( ( topic, index ) => {
 		if ( ! hasFunctionWords ) {
 			// For languages without function words apply the full match always.
-			return computeScoresPerSentence( topic, sentences, locale, true, matchWordCustomHelper, customSplitIntoTokensHelper );
+			return computeScoresPerSentence( topic, sentences, locale, true, isExactMatchRequested,
+				matchWordCustomHelper, customSplitIntoTokensHelper );
 		}
 		// For languages with function words we decide whether to apply full or partial match depending on the topic length.
 		/*
@@ -179,7 +182,8 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 		 */
 		const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ index ] ) : topic.length;
 		const isShortTopic = topicLength < topicLengthCriteria;
-		return computeScoresPerSentence( topic, sentences, locale, isShortTopic, matchWordCustomHelper, customSplitIntoTokensHelper );
+		return computeScoresPerSentence( topic, sentences, locale, isShortTopic, isExactMatchRequested,
+			matchWordCustomHelper, customSplitIntoTokensHelper );
 	} );
 
 	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics.
@@ -247,6 +251,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		parseSynonyms( paper.getSynonyms() ).forEach( synonym => originalTopic.push( getContentWordsHelper( synonym ) ) );
 	}
 	const locale = paper.getLocale();
+	// Exact matching is requested when the keyphrase is enclosed in double quotes.
+	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
 	topicForms.synonymsForms.forEach( function( synonym ) {
 		topicFormsInOneArray.push( synonym );
@@ -257,7 +263,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		maximizedSentenceScores,
 		sentencesToHighlight,
 	} = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
-		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper );
+		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested );
 
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 

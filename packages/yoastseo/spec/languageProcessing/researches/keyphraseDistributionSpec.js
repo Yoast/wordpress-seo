@@ -350,6 +350,23 @@ const sentencesIT = [
 
 const testCasesSentenceScore = [
 	{
+		description: "English, empty topic",
+		topic: [],
+		sentences: sentencesEN,
+		locale: "en_US",
+		expected: [
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+			{ score: 3, matches: [] },
+		],
+		isShortTopic: true,
+	},
+	{
 		description: "English, short topic, morphology data",
 		topic: [
 			[ "key", "keys" ],
@@ -1442,7 +1459,98 @@ describe( "Test for the research", function() {
 	} );
 } );
 
-// TODO: add tests for keyphrases with double quotes when exact match functionality is implemented.
+describe( "a test for exact match of keyphrase in English", () => {
+	const exactMatchSentences = [
+		"Giant pandas conservation efforts have significantly improved their survival prospects over the past few decades.",
+		"These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+		"Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
+		"The Chinese government, along with global wildlife organizations, continues to prioritize these initiatives to ensure long-term species stability.",
+		"As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+		"Ongoing monitoring and community engagement remain crucial to maintaining this conservation success.",
+	];
+	it( "should only match the exact keyphrase in the text when the focus keyphrase is in double quotes", function() {
+		const text = exactMatchSentences.join( " " );
+		const paper = new Paper( text, { keyword: "\"giant pandas conservation efforts\"" } );
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 66.66666666666666,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
+					original: "Giant pandas conservation efforts have significantly improved their survival prospects over the past few decades.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 33, endOffsetBlock: 33, isFirstSection: false, startOffset: 0, startOffsetBlock: 0,
+					},
+				} ),
+				new Mark( {
+					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 153, endOffsetBlock: 153, isFirstSection: false, startOffset: 120, startOffsetBlock: 120,
+					},
+				} ) ],
+		} );
+	} );
+	it( "should match all forms of the keyphrase in the text when the focus keyphrase is not in double quotes", function() {
+		const text = exactMatchSentences.join( " " );
+		const paper = new Paper( text, { keyword: "giant pandas conservation efforts" } );
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 16.666666666666664,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
+					original: "Giant pandas conservation efforts have significantly improved their survival prospects over the past few decades.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 33, endOffsetBlock: 33, isFirstSection: false, startOffset: 0, startOffsetBlock: 0,
+					},
+				} ),
+				new Mark( {
+					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 153, endOffsetBlock: 153, isFirstSection: false, startOffset: 120, startOffsetBlock: 120,
+					},
+				} ),
+				new Mark( {
+					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, helping to boost both wild and captive populations.",
+					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 389, endOffsetBlock: 389, isFirstSection: false, startOffset: 369, startOffsetBlock: 369,
+					},
+				} ),
+				new Mark( {
+					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, helping to boost both wild and captive populations.",
+					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 405, endOffsetBlock: 405, isFirstSection: false, startOffset: 393, startOffsetBlock: 393,
+					},
+				} ),
+				new Mark( {
+					marked: " As a result of sustained <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					original: " As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 651, endOffsetBlock: 651, isFirstSection: false, startOffset: 631, startOffsetBlock: 631,
+					},
+				} ),
+				new Mark( {
+					marked: " As a result of sustained <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					original: " As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 667, endOffsetBlock: 667, isFirstSection: false, startOffset: 655, startOffsetBlock: 655,
+					},
+				} ),
+			],
+		} );
+	} );
+} );
+
 
 const testData = [
 	{
