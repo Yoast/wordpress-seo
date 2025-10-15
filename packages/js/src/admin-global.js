@@ -450,8 +450,9 @@ import jQuery from "jquery";
 
 			const data = {
 				action: "wpseo_resolve_alert",
-				_ajax_nonce: jQuery(this).data("nonce"),
-				alert_id: jQuery(this).data("alert-id"),
+				// eslint-disable-next-line camelcase
+				_ajax_nonce: jQuery( this ).data( "nonce" ),
+				alertId: jQuery( this ).data( "alert-id" ),
 			};
 
 			jQuery.post(
@@ -510,6 +511,6 @@ import jQuery from "jquery";
 		makeUpgradesOpenInNewTab();
 		makeBrandInsightsLinkOpenInNewTab();
 		makeBrandInsightsPremiumLinkOpenInNewTab();
-		resolveAlerts()
+		resolveAlerts();
 	} );
 }( jQuery ) );

@@ -55,7 +55,7 @@ class Resolve_Alert_Route implements Integration_Interface {
 			return;
 		}
 
-		if ( ! isset( $_POST['alert_id'] ) ) {
+		if ( ! isset( $_POST['alertId'] ) ) {
 			\wp_send_json_error(
 				[
 					'message' => 'Alert ID is missing.',
@@ -64,7 +64,7 @@ class Resolve_Alert_Route implements Integration_Interface {
 			return;
 		}
 
-		$alert_id = \sanitize_text_field( \wp_unslash( $_POST['alert_id'] ) );
+		$alert_id = \sanitize_text_field( \wp_unslash( $_POST['alertId'] ) );
 		$user_id  = \get_current_user_id();
 
 		$this->user_helper->update_meta( $user_id, $alert_id . '_resolved', true );
