@@ -114,6 +114,11 @@ exports[`InstallationSuccessPage should match the snapshot 1`] = `
             target="_blank"
           >
             Explore Premium features
+            <span
+              class="yst-sr-only"
+            >
+              (Opens in a new browser tab)
+            </span>
             <svg
               aria-hidden="true"
               class="yst-w-4 yst-h-4 yst-icon-rtl yst-text-slate-400"
