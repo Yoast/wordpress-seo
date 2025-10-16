@@ -239,7 +239,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		text = mergeListItems( text );
 		sentences = getSentences( text, customSentenceTokenizer );
 	} else {
-		sentences = getSentencesFromTree( paper.getTree() );
+		sentences = getSentencesFromTree( paper.getTree(), true );
 	}
 
 	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
