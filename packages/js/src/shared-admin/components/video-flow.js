@@ -15,7 +15,7 @@ import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
  * @param {boolean} hasPadding If there is a padding around the video/thumbnail to take into account.
  * @returns {JSX.Element} The element.
  */
-export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPadding= true } ) => {
+export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPadding = true } ) => {
 	const [ videoFlow, setVideoFlow ] = useState( wistiaEmbedPermission.value ? VIDEO_FLOW.isPlaying : VIDEO_FLOW.showPlay );
 
 	const playVideo = useCallback( () => setVideoFlow( VIDEO_FLOW.isPlaying ), [ setVideoFlow ] );
@@ -45,8 +45,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPaddi
 					<script src={ "https://fast.wistia.com/assets/external/E-v1.js" } async={ true } />
 				</Helmet>
 			) }
-			<div
-				className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", ! hasPadding && "yst-pt-[56.25%]" ) }>
+			<div className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", ! hasPadding && "yst-pt-[56.25%]" ) }>
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
 						type="button"
