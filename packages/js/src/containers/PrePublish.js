@@ -8,7 +8,7 @@ import {
 	maybeAddSEOCheck,
 	maybeAddInclusiveLanguageCheck,
 } from "../helpers/addCheckToChecklist";
-import { shouldShowAiGenerateCheck } from "../helpers/addAiGenerateToChecklist";
+import { getCurrentSeoDataDefault } from "../helpers/getCurrentSeoDataDefault";
 
 /**
  * Maps the select function to props for the checklist.
@@ -31,7 +31,7 @@ export function mapSelectToProps( select ) {
 
 	return { 
 		checklist,
-		showAiGenerateCheck: shouldShowAiGenerateCheck( yoastStore ),
+		isSeoDataDefault: getCurrentSeoDataDefault( yoastStore ),
 	};
 }
 
