@@ -2,6 +2,7 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Represents the assessment that checks whether a product has identifier(s).
@@ -36,7 +37,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlCallToAction: "https://yoa.st/4lz",
 			assessVariants: false,
 			shouldShowEditButton: false,
-			editFieldName: "Product identifiers",
+			editFieldAriaLabel: "Edit your product identifiers",
 			callbacks: {},
 		};
 
@@ -65,7 +66,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( this._config.editFieldName );
+			// Provide `this._config.editFieldAriaLabel` when initialize this assessment with the value "Edit your product identifiers". We recommend to provide the string as a translation string.
+			assessmentResult.setEditFieldAriaLabel( this._config.editFieldAriaLabel );
 		}
 
 		return assessmentResult;

@@ -3,6 +3,7 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Represents the assessment checks whether the product has a SKU.
@@ -37,7 +38,7 @@ export default class ProductSKUAssessment extends Assessment {
 			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: false,
 			shouldShowEditButton: false,
-			editFieldName: "SKU",
+			editFieldAriaLabel: "Edit your SKU",
 			callbacks: {},
 		};
 
@@ -66,8 +67,8 @@ export default class ProductSKUAssessment extends Assessment {
 
 		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
-			// Provide `this._config.editFieldName` when initialize this assessment with the value "SKU". We recommend to provide the string as a translation string.
-			assessmentResult.setEditFieldName( this._config.editFieldName );
+			// Provide `this._config.editFieldAriaLabel` when initialize this assessment with the value "Edit your SKU". We recommend to provide the string as a translation string.
+			assessmentResult.setEditFieldAriaLabel( this._config.editFieldAriaLabel );
 		}
 
 		return assessmentResult;
