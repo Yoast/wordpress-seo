@@ -23,9 +23,6 @@ export default function DefaultSeoDataChecklist( {
 	const isSeoDescriptionsDefault = useMemo( () => {
 		return isSeoDataDefault?.isAllSeoDescriptionsDefault || false;
 	}, [ isSeoDataDefault ] );
-	
-	console.log( 'isSeoTitlesDefault',  isSeoTitlesDefault );
-	console.log( 'isSeoDescriptionsDefault',  isSeoDescriptionsDefault );
 
 	const showDefaultSeoDataChecklist = useMemo( () => {
 		return isSeoTitlesDefault || isSeoDescriptionsDefault;
@@ -67,8 +64,25 @@ export default function DefaultSeoDataChecklist( {
 		}
 	), [ seoData ] );
 
-	const titleButtons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'title' } );
-	const descButtons = applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'description' } );
+	const titleButtons = useMemo( () => {
+		if ( ! isSeoTitlesDefault ) {
+			return [];
+		}
+
+		if ( isSeoDescriptionsDefault ) {
+			return [];
+		}
+
+		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'title' } );
+	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
+
+	const descButtons = useMemo( () => {
+		if ( ! isSeoDescriptionsDefault ) {
+			return [];
+		}
+
+		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'description' } );
+	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
 
     return showDefaultSeoDataChecklist && <Fragment>
         <h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
