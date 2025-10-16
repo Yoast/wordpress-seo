@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Alerts\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -23,12 +24,24 @@ class Resolve_Alert_Route implements Integration_Interface {
 	private $user_helper;
 
 	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param User_Helper $user_helper The user helper.
+	 * @param User_Helper       $user_helper       The user helper.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
-	public function __construct( User_Helper $user_helper ) {
-		$this->user_helper = $user_helper;
+	public function __construct(
+		User_Helper $user_helper,
+		Capability_Helper $capability_helper
+	) {
+		$this->user_helper       = $user_helper;
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
@@ -46,7 +59,7 @@ class Resolve_Alert_Route implements Integration_Interface {
 	 * @return void.
 	 */
 	public function resolve_alert() {
-		if ( ! \check_ajax_referer( 'wpseo-resolve-alert-nonce', 'nonce', false ) ) {
+		if ( ! \check_ajax_referer( 'wpseo-resolve-alert-nonce', 'nonce', false ) || ! $this->capability_helper->current_user_can( 'wpseo_manage_options' ) ) {
 			\wp_send_json_error(
 				[
 					'message' => 'Security check failed.',
