@@ -1,6 +1,6 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Checkbox, Modal, Select, SelectField, Table, TextField } from "@yoast/ui-library";
+import { Button, Checkbox, Select, SelectField, Table, TextField } from "@yoast/ui-library";
 import {
 	RouteLayout,
 } from "../components";
@@ -32,12 +32,12 @@ export const Redirects = () => {
 			 */
 			__( "Manage and monitor your redirects with ease. Create and edit plain redirects to ensure visitors and search engines reach the right pages. %1$sLearn more about redirects%2$s.", "wordpress-seo" ),
 			"<a>",
-			"</a>",
+			"</a>"
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a href={ redirectsManagedLink } target="_blank" rel="noopener noreferrer" />,
-		},
+		}
 	), [] );
 
 	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
@@ -48,11 +48,11 @@ export const Redirects = () => {
 			 */
 			__( "The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.", "wordpress-seo" ),
 			"<span>",
-			"</span>",
+			"</span>"
 		),
 		{
 			span: <span className="yst-text-slate-600 yst-underline" />,
-		},
+		}
 	), [] );
 
 
@@ -61,12 +61,14 @@ export const Redirects = () => {
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
-			<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-self-center yst-z-1000">
-				<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
-					<ModalContent />
+
+			<div className={ "yst-flex yst-justify-center" }>
+				<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-z-[1000]">
+					<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
+						<ModalContent />
+					</div>
 				</div>
 			</div>
-
 			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">
 				<FieldsetLayout
 					title={ __( "Plain redirects", "wordpress-seo" ) }
@@ -74,6 +76,7 @@ export const Redirects = () => {
 					variant={ "xl" }
 				>
 					<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+
 						<div>
 							<SelectField
 								name="type"
