@@ -60,6 +60,8 @@ class Sentence {
 			parentNode = parentNode.getParentNode( tree );
 		}
 
+		this.parentNode = parentNode;
+
 		/**
 		 * The start offset of the parent node.
 		 * The parent node's start offset is the start offset of the parent node if it doesn't have a `startTag` property.

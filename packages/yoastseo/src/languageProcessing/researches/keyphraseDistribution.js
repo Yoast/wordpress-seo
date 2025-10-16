@@ -203,7 +203,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 			// Currently, this check is only applicable for Japanese.
 			return markWordsInASentence( sentence, matches, matchWordCustomHelper );
 		}
-		return getMarkingsInSentence( sentence, matches );
+		return getMarkingsInSentence( sentence, matches, true );
 	} );
 
 	return {
