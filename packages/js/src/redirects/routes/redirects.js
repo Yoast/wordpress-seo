@@ -32,12 +32,12 @@ export const Redirects = () => {
 			 */
 			__( "Manage and monitor your redirects with ease. Create and edit plain redirects to ensure visitors and search engines reach the right pages. %1$sLearn more about redirects%2$s.", "wordpress-seo" ),
 			"<a>",
-			"</a>"
+			"</a>",
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a href={ redirectsManagedLink } target="_blank" rel="noopener noreferrer" />,
-		}
+		},
 	), [] );
 
 	const redirectTypeDescription = useMemo( () => safeCreateInterpolateElement(
@@ -48,11 +48,11 @@ export const Redirects = () => {
 			 */
 			__( "The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.", "wordpress-seo" ),
 			"<span>",
-			"</span>"
+			"</span>",
 		),
 		{
 			span: <span className="yst-text-slate-600 yst-underline" />,
-		}
+		},
 	), [] );
 
 
@@ -61,11 +61,11 @@ export const Redirects = () => {
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
-			<Modal  isOpen={ true } onClose={ noop } initialFocus={ noop }>
-				<Modal.Panel className="yst-max-w-3xl yst-p-0 yst-rounded-3xl yst-introduction-modal-panel" hasCloseButton={ false }>
+			<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-self-center yst-z-1000">
+				<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
 					<ModalContent />
-				</Modal.Panel>
-			</Modal>
+				</div>
+			</div>
 
 			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">
 				<FieldsetLayout
@@ -164,10 +164,13 @@ export const Redirects = () => {
 
 						<Table.Body>
 							<Table.Row>
-								<Table.Cell><></></Table.Cell>
-								<Table.Cell><></></Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
 								<Table.Cell className="yst-text-center">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
-								<Table.Cell><></></Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
 							</Table.Row>
 						</Table.Body>
 					</Table>

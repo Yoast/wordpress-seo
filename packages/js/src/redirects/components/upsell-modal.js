@@ -1,7 +1,6 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { VideoFlow } from "../../shared-admin/components";
 
 /**
@@ -89,20 +88,4 @@ export const UpsellModal = ( {
 			</div>
 		</>
 	);
-};
-UpsellModal.propTypes = {
-	upsellLink: PropTypes.string.isRequired,
-	thumbnail: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		width: PropTypes.string,
-		height: PropTypes.string,
-	} ).isRequired,
-	wistiaEmbedPermission: PropTypes.shape( {
-		value: PropTypes.bool.isRequired,
-		status: PropTypes.string.isRequired,
-		set: PropTypes.func.isRequired,
-	} ).isRequired,
-	upsellLabel: PropTypes.string,
-	newToText: PropTypes.string,
-	ctbId: PropTypes.string,
 };

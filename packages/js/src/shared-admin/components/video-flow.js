@@ -46,7 +46,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPaddi
 				</Helmet>
 			) }
 			<div
-				className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white\"",  hasPadding && "yst-pt-[56.25%]" ) }>
+				className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", ! hasPadding && "yst-pt-[56.25%]" ) }>
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
 						type="button"
