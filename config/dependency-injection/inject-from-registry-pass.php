@@ -45,7 +45,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 			$this->process_method_call( $method_call, $value );
 		}
 
-		if ( \is_subclass_of( $class_name, Loadable_Interface::class ) ) {
+		if ( \is_subclass_of( $class_name, Loadable_Interface::class ) && ! $value->isDeprecated() ) {
 			foreach ( $class_name::get_conditionals() as $type ) {
 				$this->add_definition( $type );
 			}
