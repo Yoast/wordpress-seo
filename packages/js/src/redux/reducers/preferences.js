@@ -42,7 +42,6 @@ function getDefaultState() {
 		isWooCommerceActive: get( window, "wpseoScriptData.metabox.isWooCommerceActive", false ),
 		isRtl: get( window, "wpseoScriptData.metabox.isRtl", false ),
 		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
-		userLocale: get( window, "wpseoScriptData.metabox.userLocale", "en-US" ),
 		isRecentSeoTitlesDefault: isRecentSeoTitlesDefault(),
 		isRecentSeoDescriptionsDefault: isRecentSeoDescriptionsDefault(),
 	};
