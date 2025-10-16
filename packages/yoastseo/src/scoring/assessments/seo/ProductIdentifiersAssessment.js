@@ -66,6 +66,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( "productIdentifier" );
 			// Provide `this._config.editFieldAriaLabel` when initialize this assessment with the value "Edit your product identifiers". We recommend to provide the string as a translation string.
 			assessmentResult.setEditFieldAriaLabel( this._config.editFieldAriaLabel );
 		}
