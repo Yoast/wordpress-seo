@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * The class that handles the automatic post collection. Based on either indexables or WP_Query.
+ *
+ * @makePublic
  */
 class Automatic_Post_Collection implements Post_Collection_Interface {
 
