@@ -153,6 +153,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'last_updated_on'                                      => false,
 		'default_seo_title'                                    => [],
 		'default_seo_meta_desc'                                => [],
+		'first_activated_by'                                   => 0,
 	];
 
 	/**
@@ -410,6 +411,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
+
+				case 'first_activated_by':
+					// A slight change from the other integer fields, as we want to allow '0' here, but don't want to have much impact elsewhere.
+					$clean[ $key ] = false;
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) !== false ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}

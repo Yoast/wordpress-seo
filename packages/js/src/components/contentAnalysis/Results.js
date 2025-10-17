@@ -216,11 +216,15 @@ class Results extends Component {
 	/**
 	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
+	 * @param {Object}   event             The event object.
 	 * @param {string}   editFieldName     The name of the edit field which determines which edit field should be focused on.
 	 *
 	 * @returns {void}
 	 */
-	handleEditButtonClick( editFieldName ) {
+	handleEditButtonClick( editFieldName, event ) {
+		// Remove focus from the clicked button.
+		event?.currentTarget?.blur();
+
 		// Whether the user is in the metabox or sidebar.
 		const inputFieldLocation = this.props.location;
 
