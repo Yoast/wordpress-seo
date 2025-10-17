@@ -107,7 +107,7 @@ export default function AnalysisList( {
 				buttonIdMarks={ markButtonId }
 				buttonIdEdit={ editButtonId }
 				onButtonClickMarks={ () => onMarksButtonClick( result.id, result.marker ) }
-				onButtonClickEdit={ () => onEditButtonClick( editFieldName ) }
+				onButtonClickEdit={ ( event ) => onEditButtonClick( editFieldName, event ) }
 				marksButtonClassName={ marksButtonClassName }
 				editButtonClassName={ editButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
