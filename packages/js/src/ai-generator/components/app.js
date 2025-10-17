@@ -198,14 +198,6 @@ export const App = ( { onUseAi } ) => {
 	 * @returns {void}
 	 */
 	const handleUseAi = useCallback( async() => {
-
-		if ( location === "pre-publish" ) {
-			closePublishSidebar();
-			openGeneralSidebar( "yoast-seo/seo-sidebar" );
-
-			openEditorModal( "yoast-search-appearance-modal" );
-		}
-
 		onUseAi();
 
 		// The analysis feature is not active, so we cannot use AI.
