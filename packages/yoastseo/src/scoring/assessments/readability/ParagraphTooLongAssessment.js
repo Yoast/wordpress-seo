@@ -172,21 +172,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	}
 
 	/**
-	 * Sort the paragraphs based on word count.
-	 *
-	 * @param {Array} paragraphs The array with paragraphs.
-	 *
-	 * @returns {Array} The array sorted on word counts.
-	 */
-	sortParagraphs( paragraphs ) {
-		return paragraphs.sort(
-			function( a, b ) {
-				return b.countLength - a.countLength;
-			}
-		);
-	}
-
-	/**
 	 * Creates a marker for the paragraphs.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
