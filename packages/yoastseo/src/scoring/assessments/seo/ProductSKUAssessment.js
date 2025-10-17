@@ -3,7 +3,6 @@ import { mapValues, merge } from "lodash";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { createAnchorOpeningTag } from "../../../helpers";
-import { __ } from "@wordpress/i18n";
 
 /**
  * Represents the assessment checks whether the product has a SKU.
