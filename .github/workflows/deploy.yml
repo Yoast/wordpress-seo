@@ -67,7 +67,7 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: './.nvmrc'
           cache: 'yarn'
