@@ -229,6 +229,75 @@ describe( "ContentBlocks", () => {
 				}
 			} );
 		} );
+
+		it( "includes Siblings and Subpages blocks only for pages", () => {
+			// Mock window.wpseoScriptData to indicate it's a page
+			window.wpseoScriptData = { isPage: true };
+			window.wpseoAiGenerator = { hasConsent: "1" };
+
+			render( <ContentBlocks /> );
+
+			const blocks = screen.getAllByTestId( "content-block" );
+			const blockTitles = blocks.map( block =>
+				block.querySelector( '[data-testid="block-title"]' ).textContent
+			);
+
+			// Siblings and Subpages should be included for pages
+			expect( blockTitles ).toContain( "Siblings" );
+			expect( blockTitles ).toContain( "Subpages" );
+
+			// Clean up
+			delete window.wpseoScriptData;
+		} );
+
+		it( "excludes Siblings and Subpages blocks for non-page post types", () => {
+			// Mock window.wpseoScriptData to indicate it's not a page
+			window.wpseoScriptData = { isPage: false };
+			window.wpseoAiGenerator = { hasConsent: "1" };
+
+			render( <ContentBlocks /> );
+
+			const blocks = screen.getAllByTestId( "content-block" );
+			const blockTitles = blocks.map( block =>
+				block.querySelector( '[data-testid="block-title"]' ).textContent
+			);
+
+			// Siblings and Subpages should NOT be included for non-pages
+			expect( blockTitles ).not.toContain( "Siblings" );
+			expect( blockTitles ).not.toContain( "Subpages" );
+
+			// Clean up
+			delete window.wpseoScriptData;
+		} );
+
+		it( "places Siblings and Subpages blocks in correct order for pages", () => {
+			// Mock window.wpseoScriptData to indicate it's a page
+			window.wpseoScriptData = { isPage: true };
+			window.wpseoAiGenerator = { hasConsent: "1" };
+
+			render( <ContentBlocks /> );
+
+			const blocks = screen.getAllByTestId( "content-block" );
+			const blockTitles = blocks.map( block =>
+				block.querySelector( '[data-testid="block-title"]' ).textContent
+			);
+
+			// Verify the correct order: premium blocks, then Siblings, Subpages, Table of contents, then free blocks
+			expect( blockTitles ).toEqual( [
+				"AI Summarize",
+				"Estimated reading time",
+				"Related links",
+				"Siblings",
+				"Subpages",
+				"Table of contents",
+				"Breadcrumbs",
+				"FAQ",
+				"How-to",
+			] );
+
+			// Clean up
+			delete window.wpseoScriptData;
+		} );
 	} );
 
 	describe( "Badge rendering", () => {

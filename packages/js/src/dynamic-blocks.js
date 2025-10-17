@@ -36,9 +36,7 @@ const registerDynamicBlocks = () => {
 		 *
 		 * @returns {null} Nothing.
 		 */
-		save: () => {
-			return null;
-		},
+		save: () => null,
 	} );
 };
 
