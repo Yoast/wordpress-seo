@@ -150,7 +150,7 @@ export const App = ( { onUseAi } ) => {
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
-	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
+	const { openEditorModal, closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
@@ -198,6 +198,14 @@ export const App = ( { onUseAi } ) => {
 	 * @returns {void}
 	 */
 	const handleUseAi = useCallback( async() => {
+
+		if ( location === "pre-publish" ) {
+			closePublishSidebar();
+			openGeneralSidebar( "yoast-seo/seo-sidebar" );
+
+			openEditorModal( "yoast-search-appearance-modal" );
+		}
+
 		onUseAi();
 
 		// The analysis feature is not active, so we cannot use AI.
@@ -289,6 +297,7 @@ export const App = ( { onUseAi } ) => {
 		if ( ! subscriptions && isFreeSparksActive && ! sparksLimitReached && hasConsent ) {
 			setDisplay( DISPLAY.generate );
 		}
+
 	}, [ onUseAi,
 		isPremium,
 		isFreeSparksActive,
@@ -301,6 +310,10 @@ export const App = ( { onUseAi } ) => {
 		isWooSeoActive,
 		isWooProductEntity,
 		loading,
+		location,
+		closePublishSidebar,
+		openGeneralSidebar,
+		openEditorModal,
 	] );
 
 	/**
