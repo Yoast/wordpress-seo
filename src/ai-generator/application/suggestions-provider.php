@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Generator\Application;
 
 use RuntimeException;
@@ -24,6 +25,10 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * The class that handles the suggestions from the AI API.
+ *
+@deprecated 26.3
+ *
+ * @codeCoverageIgnore
  */
 class Suggestions_Provider {
 
@@ -58,6 +63,9 @@ class Suggestions_Provider {
 	/**
 	 * Class constructor.
 	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
+	 *
 	 * @param Consent_Handler $consent_handler The consent handler instance.
 	 * @param Request_Handler $request_handler The request handler instance.
 	 * @param Token_Manager   $token_manager   The token manager instance.
@@ -69,6 +77,7 @@ class Suggestions_Provider {
 		Token_Manager $token_manager,
 		User_Helper $user_helper
 	) {
+
 		$this->consent_handler = $consent_handler;
 		$this->request_handler = $request_handler;
 		$this->token_manager   = $token_manager;
@@ -79,6 +88,9 @@ class Suggestions_Provider {
 
 	/**
 	 * Method used to generate suggestions through AI.
+	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user                  The WP user.
 	 * @param string  $suggestion_type       The type of the requested suggestion.
@@ -111,6 +123,8 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::get_suggestions' );
+
 		$token = $this->token_manager->get_or_request_access_token( $user );
 
 		$request_body    = [
@@ -157,11 +171,16 @@ class Suggestions_Provider {
 	/**
 	 * Generates the list of 5 suggestions to return.
 	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
+	 *
 	 * @param Response $response The response from the API.
 	 *
 	 * @return Suggestions_Bucket The array of suggestions.
 	 */
 	public function build_suggestions_array( Response $response ): Suggestions_Bucket {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Generate\Application\Suggestions_Provider::build_suggestions_array' );
+
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );
 		if ( $json === null || ! isset( $json->choices ) ) {

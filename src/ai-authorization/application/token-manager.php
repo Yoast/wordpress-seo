@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
@@ -27,6 +28,8 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  * Class Token_Manager
  * Handles the management of JWT tokens used in the authorization process.
  *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  * @makePublic
  */
 class Token_Manager implements Token_Manager_Interface {
@@ -90,6 +93,9 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Token_Manager constructor.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository.
 	 * @param Code_Verifier_Handler                        $code_verifier            The code verifier service.
 	 * @param Consent_Handler                              $consent_handler          The consent handler.
@@ -109,6 +115,7 @@ class Token_Manager implements Token_Manager_Interface {
 		Code_Verifier_User_Meta_Repository $code_verifier_repository,
 		WordPress_URLs $urls
 	) {
+
 		$this->access_token_repository  = $access_token_repository;
 		$this->code_verifier            = $code_verifier;
 		$this->consent_handler          = $consent_handler;
@@ -124,6 +131,9 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Invalidates the access token.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $user_id The user ID.
 	 *
 	 * @return void
@@ -138,6 +148,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access token.
 	 */
 	public function token_invalidate( string $user_id ): void {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_invalidate' );
+
 		try {
 			$access_jwt = $this->access_token_repository->get_token( $user_id );
 		} catch ( RuntimeException $e ) {
@@ -174,6 +186,9 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_User $user The WP user.
 	 *
 	 * @return void
@@ -189,6 +204,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 */
 	public function token_request( WP_User $user ): void {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_request' );
+
 		// Ensure the user has given consent.
 		if ( $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_consent', true ) !== '1' ) {
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
@@ -223,6 +240,9 @@ class Token_Manager implements Token_Manager_Interface {
 	 * Refreshes a stored JWT access token for a user with the Yoast AI Service and stores it in the database under
 	 * usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_User $user The WP user.
 	 *
 	 * @return void
@@ -239,6 +259,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the refresh token.
 	 */
 	public function token_refresh( WP_User $user ): void {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::token_refresh' );
+
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
 
 		// Generate a code verifier and store it in the database.
@@ -261,11 +283,16 @@ class Token_Manager implements Token_Manager_Interface {
 	/**
 	 * Checks whether the token has expired.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $jwt The JWT.
 	 *
 	 * @return bool Whether the token has expired.
 	 */
 	public function has_token_expired( string $jwt ): bool {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::has_token_expired' );
+
 		$parts = \explode( '.', $jwt );
 		if ( \count( $parts ) !== 3 ) {
 			// Headers, payload and signature parts are not detected.
@@ -279,16 +306,14 @@ class Token_Manager implements Token_Manager_Interface {
 			return true;
 		}
 
-		// Ensure exp is a valid numeric value.
-		if ( ! \is_numeric( $json->exp ) ) {
-			return true;
-		}
-
 		return $json->exp < \time();
 	}
 
 	/**
 	 * Retrieves the access token.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
 	 *
@@ -306,6 +331,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Token_Manager::get_or_request_access_token' );
+
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
 		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
 			$this->token_request( $user );
