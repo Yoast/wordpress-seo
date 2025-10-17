@@ -107,10 +107,7 @@ export default function AnalysisList( {
 				buttonIdMarks={ markButtonId }
 				buttonIdEdit={ editButtonId }
 				onButtonClickMarks={ () => onMarksButtonClick( result.id, result.marker ) }
-				onButtonClickEdit={ ( event ) => {
-					event?.currentTarget?.blur();
-					onEditButtonClick( editFieldName );
-				} }
+				onButtonClickEdit={ ( event ) => onEditButtonClick( editFieldName, event ) }
 				marksButtonClassName={ marksButtonClassName }
 				editButtonClassName={ editButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
