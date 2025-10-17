@@ -1,4 +1,5 @@
 import Mark from "../../../values/Mark";
+import getSentencesFromTree from "../../helpers/sentence/getSentencesFromTree";
 
 const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
@@ -79,10 +80,11 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
  *
  * @param {Sentence}	sentence			The sentence to check.
  * @param {Token[]}		matchesInSentence	An array containing the keyphrase matches in the sentence.
+ * @param {boolean}		areListItemsMerged	Whether list items in the parent block are merged. Default is false.
  *
  * @returns {Mark[]} The array of Mark objects of the keyphrase matches in the sentence.
  */
-function getMarkingsInSentence( sentence, matchesInSentence ) {
+function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged = false ) {
 	if ( matchesInSentence.length === 0 ) {
 		return [];
 	}
@@ -98,6 +100,26 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 	 * all Mark objects for a sentence have the same markedSentence.
 	 */
 	const markings = matchesInSentence.map( token => {
+		const attributeId = sentence.parentAttributeId;
+		const isFirstSection = sentence.isParentFirstSectionOfBlock;
+		let parentStartOffset = sentence.parentStartOffset;
+		let parentClientId = sentence.parentClientId;
+		if ( areListItemsMerged && ! attributeId ) {
+			const sentenceParentNode = sentence.parentNode;
+			// Get all sentences from the same parent node.
+			const allSentencesInParent = getSentencesFromTree( sentenceParentNode );
+			// When list items are merged, the parentStartOffset is the start offset of the list item itself and not of the ul or ol node.
+			// We need to adjust the parentStartOffset to be the start offset of the li node in which the token of matchesInSentence is located.
+			const sentenceOfToken = allSentencesInParent.find( ( sentenceItem ) => {
+				return ( token.sourceCodeRange.startOffset >= sentenceItem.getFirstToken()?.sourceCodeRange.startOffset &&
+					token.sourceCodeRange.endOffset <= sentenceItem.getLastToken()?.sourceCodeRange.endOffset );
+			} );
+			if ( sentenceOfToken ) {
+				parentStartOffset = sentenceOfToken.parentStartOffset;
+				parentClientId = sentenceOfToken.parentClientId;
+			}
+		}
+
 		const startOffset = token.sourceCodeRange.startOffset;
 		const endOffset =  token.sourceCodeRange.endOffset;
 		return new Mark( {
@@ -105,14 +127,14 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 				startOffset: startOffset,
 				endOffset: endOffset,
 				// Relative to start of block positions.
-				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
-				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+				startOffsetBlock: startOffset - ( parentStartOffset || 0 ),
+				endOffsetBlock: endOffset - ( parentStartOffset || 0 ),
 				// The client id of the block the match was found in.
-				clientId: sentence.parentClientId || "",
+				clientId: parentClientId || "",
 				// The attribute id of the Yoast sub-block the match was found in.
-				attributeId: sentence.parentAttributeId || "",
+				attributeId: attributeId || "",
 				// Whether the match was found in the first section of the Yoast sub-block.
-				isFirstSection: sentence.isParentFirstSectionOfBlock || false,
+				isFirstSection: isFirstSection || false,
 			},
 			marked: markedSentence,
 			original: sentence.text,
