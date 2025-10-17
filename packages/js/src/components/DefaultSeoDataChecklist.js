@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { Fragment, useMemo } from "@wordpress/element";
+import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { Slot } from "@wordpress/components";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
+import { Button } from "@yoast/components";
 
 /**
  * Renders the Default SEO Data checklist.
@@ -84,6 +86,16 @@ export default function DefaultSeoDataChecklist( {
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'description' } );
 	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
 
+	const { closePublishSidebar, openGeneralSidebar } = useDispatch( "core/edit-post" );
+	const { openEditorModal } = useDispatch("yoast-seo/editor");
+
+	const onClick = useCallback( () => {
+		closePublishSidebar();
+		openGeneralSidebar( "yoast-seo/seo-sidebar" );
+
+		openEditorModal( "yoast-search-appearance-modal" );
+	}, [ closePublishSidebar, openGeneralSidebar ] );
+
     return showDefaultSeoDataChecklist && <Fragment>
         <h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
         <p>{ message }</p>
@@ -99,6 +111,7 @@ export default function DefaultSeoDataChecklist( {
 				{ button }
 			</Fragment>
 		) ) }
+		<Button onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button>
     </Fragment>;
 }
 

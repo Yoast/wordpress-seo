@@ -158,6 +158,9 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
+	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
+		"core/edit-post"
+	);
 
 	const closeModal = useCallback( () => {
 		setDisplay( DISPLAY.inactive );
@@ -171,6 +174,12 @@ export const App = ( { onUseAi } ) => {
 	const checkFocusKeyphrase = useCallback( () => ! isConsideredEmpty( focusKeyphrase ), [ focusKeyphrase ] );
 	const showFocusKeyphrase = useCallback( () => {
 		closeEditorModal();
+
+		if ( location === "pre-publish" ) {
+			closePublishSidebar();
+			openGeneralSidebar( "yoast-seo/seo-sidebar" );
+		}
+
 		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
 	}, [ closeEditorModal, location ] );
