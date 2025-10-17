@@ -228,7 +228,10 @@ export const ModalContent = ( { height } ) => {
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
-
+	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
+		"core/edit-post"
+	);
+	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();
 	const handleApplySuggestion = useCallback( () => {
 		const data = editType === EDIT_TYPE.title
@@ -238,6 +241,11 @@ export const ModalContent = ( { height } ) => {
 		setTitleOrDescription( data );
 		addAppliedSuggestion( { editType, previewType, suggestion: suggestions.selected } );
 		onClose();
+		if ( location === "pre-publish" ) {
+			closePublishSidebar();
+			openGeneralSidebar( "yoast-seo/seo-sidebar" );
+			openEditorModal( "yoast-search-appearance-modal" );
+		}
 	}, [ setTitleOrDescription, editType, previewType, suggestions.selected, titleTemplate, onClose, addAppliedSuggestion ] );
 
 	useEffectOneAtATime( () => {

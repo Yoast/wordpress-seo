@@ -150,7 +150,7 @@ export const App = ( { onUseAi } ) => {
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
-	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
+	const { openEditorModal, closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
@@ -158,6 +158,9 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
+	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
+		"core/edit-post"
+	);
 
 	const closeModal = useCallback( () => {
 		setDisplay( DISPLAY.inactive );
@@ -171,6 +174,12 @@ export const App = ( { onUseAi } ) => {
 	const checkFocusKeyphrase = useCallback( () => ! isConsideredEmpty( focusKeyphrase ), [ focusKeyphrase ] );
 	const showFocusKeyphrase = useCallback( () => {
 		closeEditorModal();
+
+		if ( location === "pre-publish" ) {
+			closePublishSidebar();
+			openGeneralSidebar( "yoast-seo/seo-sidebar" );
+		}
+
 		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
 	}, [ closeEditorModal, location ] );
@@ -280,6 +289,7 @@ export const App = ( { onUseAi } ) => {
 		if ( ! subscriptions && isFreeSparksActive && ! sparksLimitReached && hasConsent ) {
 			setDisplay( DISPLAY.generate );
 		}
+
 	}, [ onUseAi,
 		isPremium,
 		isFreeSparksActive,
@@ -292,6 +302,10 @@ export const App = ( { onUseAi } ) => {
 		isWooSeoActive,
 		isWooProductEntity,
 		loading,
+		location,
+		closePublishSidebar,
+		openGeneralSidebar,
+		openEditorModal,
 	] );
 
 	/**

@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { LocationProvider } from "@yoast/externals/contexts";
 
 import AnalysisChecklist from "./AnalysisChecklist";
+import DefaultSeoDataChecklist from "./DefaultSeoDataChecklist";
 
 /**
  * Renders the analysis checklist.
@@ -10,26 +12,31 @@ import AnalysisChecklist from "./AnalysisChecklist";
  * @returns {wp.Element} The PrePublish panel.
  */
 export default function PrePublish( {
-	checklist,
-	onClick,
+    checklist,
+    onClick,
+    isSeoDataDefault,
 } ) {
-	let intro;
+    let intro;
 
-	const perfectScore = checklist.every( item => item.score === "good" );
+    const perfectScore = checklist.every( item => item.score === "good" );
 
-	if ( perfectScore ) {
-		intro = __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" );
-	} else {
-		intro = __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" );
-	}
+    if ( perfectScore ) {
+        intro = __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" );
+    } else {
+        intro = __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" );
+    }
 
-	return <Fragment>
-		<p>{ intro }</p>
-		<AnalysisChecklist checklist={ checklist } onClick={ onClick } />
-	</Fragment>;
+    return <Fragment>
+		<LocationProvider value="pre-publish">
+            <p>{ intro }</p>
+            <AnalysisChecklist checklist={ checklist } onClick={ onClick } />
+            <DefaultSeoDataChecklist isSeoDataDefault={ isSeoDataDefault } />
+		</LocationProvider>
+    </Fragment>;
 }
 
 PrePublish.propTypes = {
-	checklist: PropTypes.array.isRequired,
-	onClick: PropTypes.func.isRequired,
+    checklist: PropTypes.array.isRequired,
+    onClick: PropTypes.func.isRequired,
+    showAiGenerateCheck: PropTypes.bool.isRequired,
 };

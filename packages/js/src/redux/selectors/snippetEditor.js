@@ -84,11 +84,13 @@ export const getSnippetEditorSlug = state => get( state, "snippetEditor.data.slu
  *
  * @returns {Object} The snippet editor data.
  */
-export const getSnippetEditorData = state => get( state, "snippetEditor.data", {
-	title: getSnippetEditorTitle( state ),
-	description: getSnippetEditorDescription( state ),
-	slug: getSnippetEditorSlug( state ),
-} );
+export const getSnippetEditorData = state => {
+	return {
+		title: getSnippetEditorTitle( state ),
+		description: getSnippetEditorDescription( state ),
+		slug: getSnippetEditorSlug( state ),
+	};
+};
 
 /**
  * Gets the snippet editor words to highlight.

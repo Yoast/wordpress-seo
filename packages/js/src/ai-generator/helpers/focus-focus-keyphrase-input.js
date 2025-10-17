@@ -8,7 +8,9 @@
  * @returns {void}
  */
 export const focusFocusKeyphraseInput = ( location ) => {
-	const id = `focus-keyword-input-${ location === "modal" ? "sidebar" : location }`;
+	const sidebarLocations = [ "modal", "pre-publish" ];
+	const id = `focus-keyword-input-${ sidebarLocations.includes( location ) ? "sidebar" : location }`;
+
 	if ( location === "metabox" ) {
 		// Ensure the SEO tab is active first.
 		const tabElement = document.getElementById( "wpseo-meta-tab-content" );
