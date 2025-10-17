@@ -63,9 +63,9 @@ export default class IntroductionKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( calculatedResult.score < 9 && this._canAssess ) {
-			assessmentResult.setHasAIFixes( true );
-		}
+		// Always show the AI Optimize button for this assessment, even when there's no keyphrase or text
+		// The button will handle its own disabled state and tooltip
+		assessmentResult.setHasAIFixes( true );
 		return assessmentResult;
 	}
 

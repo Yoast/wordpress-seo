@@ -8,6 +8,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { IconAIFixesButton, SparklesIcon } from "@yoast/components";
 import { Modal, useToggleState } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
+import get from "lodash/get";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
@@ -43,11 +44,12 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyword } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
+		keyword: select( "yoast-seo/editor" ).getFocusKeyphrase(),
 	} ), [] );
 	const editorMode = getEditorMode();
 
@@ -70,21 +72,54 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// (4) all blocks are in visual mode.
 	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
-		if ( activeAIButtonId !== null && ! isButtonPressed ) {
+		// When Premium add-on is not active (upsell), always show the generic tooltip
+		if ( shouldShowUpsell ) {
+			// Keep enablement tied to visual mode state, but always show "Optimize with AI" as tooltip
+			if ( editorType === "blockEditor" ) {
+				const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
+				return {
+					isEnabled: allVisual,
+					ariaLabel: defaultLabel,
+				};
+			}
+			// Classic editor
 			return {
-				isEnabled: false,
-				ariaLabel: null,
+				isEnabled: editorMode === "visual",
+				ariaLabel: defaultLabel,
 			};
 		}
+		const keyphraseAssessments = [ "introductionKeyword", "keyphraseDensity", "keyphraseDistribution" ];
+		if ( keyphraseAssessments.includes( id ) ) {
+			const hasValidKeyphrase = !! keyword && keyword.trim().length > 0;
+			const collectData = get( window, "YoastSEO.analysis.collectData", false );
+			// Ensures the button uses the same analysis-ready content source, while staying safe if the analysis API hasn’t initialized.
+			const editorData = collectData ? collectData() : {};
+			const text = editorData?._text || "";
+			const hasContent = text.trim().length > 0;
 
-		const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
-		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
-			return {
-				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiOptimizeId ],
-			};
+			// Check global disabled reasons first (for unsupported content)
+			const disabledAIButtons = select( "yoast-seo/editor" ).getDisabledAIFixesButtons();
+			if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
+				// Show global disabled reason only if there is some content (unsupported content case)
+				if ( hasContent ) {
+					return {
+						isEnabled: false,
+						ariaLabel: disabledAIButtons[ aiOptimizeId ],
+					};
+				}
+			}
+
+			// If missing keyphrase or missing content, ask user to add both
+			if ( ! hasValidKeyphrase || ! hasContent ) {
+				return {
+					isEnabled: false,
+					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
+				};
+			}
 		}
 
+		// Editor mode check
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
@@ -92,6 +127,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			};
 		}
 
+		// Block editor visual mode check
 		if ( editorType === "blockEditor" ) {
 			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
 			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
@@ -100,12 +136,12 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				ariaLabel: allVisual ? defaultLabel : htmlLabel,
 			};
 		}
-
+		// Classic editor visual mode check
 		return {
 			isEnabled: true,
 			ariaLabel: defaultLabel,
 		};
-	}, [ isButtonPressed, activeAIButtonId, editorMode ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyword ] );
 
 	/**
 	 * Handles the button press state.
