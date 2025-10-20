@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\To_Aggregate_Indexable_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -12,11 +13,11 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Aggregate_Site_Schema_Command_Handler {
 
 	/**
-	 * Represents the indexable repository.
+	 * The To_Aggregate_Indexable_Collector instance.
 	 *
-	 * @var Indexable_Repository
+	 * @var To_Aggregate_Indexable_Collector
 	 */
-	private $indexable_repository;
+	private $to_aggregate_indexable_collector;
 
 	/**
 	 * Represents the meta tags memoizer.
@@ -28,12 +29,12 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * Aggregate_Site_Schema_Command_Handler constructor.
 	 *
-	 * @param Indexable_Repository       $indexable_repository       The indexable repository.
-	 * @param Meta_Tags_Context_Memoizer $meta_tags_context_memoizer The meta tags context memoizer.
+	 * @param To_Aggregate_Indexable_Collector $to_aggregate_indexable_collector The collector of indexables that need to be aggregated.
+	 * @param Meta_Tags_Context_Memoizer       $meta_tags_context_memoizer       The meta tags context memoizer.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Meta_Tags_Context_Memoizer $meta_tags_context_memoizer ) {
-		$this->indexable_repository       = $indexable_repository;
-		$this->meta_tags_context_memoizer = $meta_tags_context_memoizer;
+	public function __construct( To_Aggregate_Indexable_Collector $to_aggregate_indexable_collector, Meta_Tags_Context_Memoizer $meta_tags_context_memoizer ) {
+		$this->to_aggregate_indexable_collector = $to_aggregate_indexable_collector;
+		$this->meta_tags_context_memoizer       = $meta_tags_context_memoizer;
 	}
 
 	/**
@@ -45,7 +46,7 @@ class Aggregate_Site_Schema_Command_Handler {
 	 */
 	public function handle( Aggregate_Site_Schema_Command $command ): array {
 
-		$indexables = $this->indexable_repository->find_all_public_paginated(
+		$indexables = $this->to_aggregate_indexable_collector->get(
 			$command->get_page_controls()->get_page(),
 			$command->get_page_controls()->get_page_size()
 		);
