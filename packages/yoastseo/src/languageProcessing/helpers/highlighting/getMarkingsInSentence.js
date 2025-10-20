@@ -103,8 +103,14 @@ function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged 
 		const isFirstSection = sentence.isParentFirstSectionOfBlock;
 		let parentStartOffset = sentence.parentStartOffset;
 		let parentClientId = sentence.parentClientId;
+		/*
+		The check below is only for Keyphrase distribution assessment where list items are possibly merged.
+		When list items are merged, the parent node of the sentence is an array of nodes.
+		In that case, we need to find the correct parent node that contains the token to get the correct
+		start offset and client id.
+		 */
 		if ( areListItemsMerged && ! attributeId ) {
-			const sentenceParentNodes = sentence.parentNode;
+			const sentenceParentNodes = sentence.sentenceParentNode;
 			const isArray = Array.isArray( sentenceParentNodes );
 			// Look for the parent node that contains the token.
 			const parentNodeOfToken = isArray && sentenceParentNodes.find( ( node ) => {
@@ -114,7 +120,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged 
 			} );
 
 			if ( parentNodeOfToken ) {
-				parentStartOffset = parentNodeOfToken.sourceCodeLocation.startOffset;
+				parentStartOffset = parentNodeOfToken.sourceCodeLocation.startTag.endOffset;
 				parentClientId = parentNodeOfToken.clientId;
 			}
 		}
@@ -125,14 +131,14 @@ function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged 
 			position: {
 				startOffset: startOffset,
 				endOffset: endOffset,
-				// Relative to start of block positions.
+				// Relative to the start of block positions.
 				startOffsetBlock: startOffset - ( parentStartOffset || 0 ),
 				endOffsetBlock: endOffset - ( parentStartOffset || 0 ),
 				// The client id of the block the match was found in.
 				clientId: parentClientId || "",
-				// The attribute id of the Yoast sub-block the match was found in.
+				// The attribute id of the Yoast subblock the match was found in.
 				attributeId: attributeId || "",
-				// Whether the match was found in the first section of the Yoast sub-block.
+				// Whether the match was found in the first section of the Yoast subblock.
 				isFirstSection: isFirstSection || false,
 			},
 			marked: markedSentence,

@@ -257,7 +257,7 @@ const mergeListItemSentences = ( sentences ) => {
 	let i = 0;
 	while ( i < copySentences.length ) {
 		let sentence = copySentences[ i ];
-		const isListItem = checkIfNodeIsListItem( sentence.parentNode );
+		const isListItem = checkIfNodeIsListItem( sentence.sentenceParentNode );
 
 		if ( isListItem ) {
 			/*
@@ -265,11 +265,13 @@ const mergeListItemSentences = ( sentences ) => {
 			 - text
 			 - tokens
 			 - parentNodes (as an array of parent nodes)
+			 - sourceCodeRange (only endOffset needs to be updated)
 			 The other attributes are not necessary to merge since we won't need them when we process the merged sentence to create the markings.
 			 */
 			let mergedText = sentence.text;
 			let mergedTokens = [ ...sentence.tokens ];
-			const mergedParentNodes = [ sentence.parentNode ];
+			const mergedParentNodes = [ sentence.sentenceParentNode ];
+			let endOffset = sentence.sourceCodeRange.endOffset;
 
 			let j = i + 1;
 			/*
@@ -277,12 +279,13 @@ const mergeListItemSentences = ( sentences ) => {
 			 */
 			while (
 				j < copySentences.length &&
-				checkIfNodeIsListItem( copySentences[ j ]?.parentNode ) &&
+				checkIfNodeIsListItem( copySentences[ j ]?.sentenceParentNode ) &&
 				! isAValidSentence( sentence, copySentences[ j ] )
 			) {
 				mergedText += " " + copySentences[ j ].text;
 				mergedTokens = [ ...mergedTokens, ...copySentences[ j ].tokens ];
-				mergedParentNodes.push( copySentences[ j ].parentNode );
+				mergedParentNodes.push( copySentences[ j ].sentenceParentNode );
+				endOffset = copySentences[ j ].sourceCodeRange.endOffset;
 				sentence = copySentences[ j ];
 				j++;
 			}
@@ -290,7 +293,8 @@ const mergeListItemSentences = ( sentences ) => {
 			const mergedSentence = cloneDeep( copySentences[ i ] );
 			mergedSentence.text = mergedText;
 			mergedSentence.tokens = mergedTokens;
-			mergedSentence.parentNode = mergedParentNodes;
+			mergedSentence.sentenceParentNode = mergedParentNodes;
+			mergedSentence.sourceCodeRange.endOffset = endOffset;
 			mergedSentences.push( mergedSentence );
 			i = j;
 		} else {
