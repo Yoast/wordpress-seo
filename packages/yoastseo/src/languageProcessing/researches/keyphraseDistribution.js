@@ -329,7 +329,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		text = mergeListItems( text );
 		sentences = getSentences( text, customSentenceTokenizer );
 	} else {
-		sentences = getSentencesFromTree( paper.getTree() );
+		sentences = getSentencesFromTree( paper.getTree(), true );
 		sentences = mergeListItemSentences( sentences );
 	}
 
