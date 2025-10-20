@@ -688,4 +688,39 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	background: #fdf4f8;
 }
 
+/* Content blocks: AddBlockButton component styles */
+.yoast-add-block-button {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.yoast-add-block-button--clicked {
+  background-color: var(--yoast-color-primary);
+}
+
+.yoast-add-block-button:hover:not(.yoast-add-block-button--clicked),
+.yoast-add-block-button:focus:not(.yoast-add-block-button--clicked) {
+  background-color: #F8FAFC;
+}
+
+.yoast-add-block-button__icon {
+  height: 16px;
+  width: 16px;
+}
+
+.yoast-add-block-button__icon--clicked {
+  stroke: #ffffff;
+}
+
 /*# sourceMappingURL=metabox.css.map */

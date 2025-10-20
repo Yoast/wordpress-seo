@@ -107,6 +107,9 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * @param {Object}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
+ * @param {string}      props.id                    The id for the Heading button.
+ * @param {function}    props.renderNewBadgeLabel   Function to render a "New" badge label.
+ * @param {boolean}     props.hasNewBadgeLabel      Whether to show a "New" badge label.
  *
  * @returns {ReactElement} A collapsible panel.
  */
@@ -127,6 +130,8 @@ export function CollapsibleStateless( props ) {
 		subTitle,
 		title,
 		titleScreenReaderText,
+		renderNewBadgeLabel,
+		hasNewBadgeLabel,
 	} = props;
 
 	let wrappedChildren = children;
@@ -152,6 +157,8 @@ export function CollapsibleStateless( props ) {
 					title={ title }
 					titleScreenReaderText={ titleScreenReaderText }
 					subTitle={ subTitle }
+					renderNewBadgeLabel={ renderNewBadgeLabel }
+					hasNewBadgeLabel={ hasNewBadgeLabel }
 				/>
 			</Heading>
 			{ wrappedChildren }
@@ -194,6 +201,8 @@ CollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	id: PropTypes.string,
+	renderNewBadgeLabel: PropTypes.func,
+	hasNewBadgeLabel: PropTypes.bool,
 };
 
 CollapsibleStateless.defaultProps = {
@@ -209,6 +218,8 @@ CollapsibleStateless.defaultProps = {
 	prefixIconCollapsed: null,
 	suffixIcon: null,
 	suffixIconCollapsed: null,
+	renderNewBadgeLabel: () => {},
+	hasNewBadgeLabel: false,
 };
 
 /**
@@ -352,6 +363,8 @@ Collapsible.propTypes = {
 		color: PropTypes.string,
 	} ),
 	onToggle: PropTypes.func,
+	renderNewBadgeLabel: PropTypes.func,
+	hasNewBadgeLabel: PropTypes.bool,
 };
 
 Collapsible.defaultProps = {
@@ -381,6 +394,8 @@ Collapsible.defaultProps = {
 		color: colors.$color_headings,
 	},
 	onToggle: null,
+	renderNewBadgeLabel: () => {},
+	hasNewBadgeLabel: false,
 };
 
 export default Collapsible;

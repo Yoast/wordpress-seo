@@ -102,7 +102,8 @@ final class Person_Test extends TestCase {
 			'description'  => 'Description',
 		];
 		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
-		$image_schema          = [
+
+		$image_schema = [
 			'@type'      => 'ImageObject',
 			'@id'        => $person_schema_logo_id,
 			'inLanguage' => 'en-US',
@@ -112,10 +113,12 @@ final class Person_Test extends TestCase {
 			'caption'    => 'Person image',
 		];
 
+		$pronouns = 'they/them';
 		$expected = [
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',
 			'name'        => 'John',
+			'pronouns'    => $pronouns,
 			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'description' => 'Description',
 			'sameAs'      => [
@@ -140,6 +143,8 @@ final class Person_Test extends TestCase {
 			->once()
 			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name, false )
 			->andReturn( $image_schema );
+
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, 'they/them' );
 
 		$this->expects_for_social_profiles( $this->social_profiles );
 
@@ -225,15 +230,17 @@ final class Person_Test extends TestCase {
 		];
 
 		$expected = [
-			'@type' => [ 'Person', 'Organization' ],
-			'@id'   => 'person_id',
-			'name'  => 'John',
-			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
+			'@type'    => [ 'Person', 'Organization' ],
+			'@id'      => 'person_id',
+			'name'     => 'John',
+			'logo'     => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 		];
 
 		$this->expects_for_determine_user_id();
 		$this->expects_for_get_userdata( $user_data );
 		$this->expects_for_social_profiles( [] );
+
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
@@ -267,12 +274,14 @@ final class Person_Test extends TestCase {
 		$this->expects_for_social_profiles( [] );
 
 		$expected = [
-			'@type' => [ 'Person', 'Organization' ],
-			'@id'   => 'person_id',
-			'name'  => $user_data->display_name,
-			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
-			'image' => $image_schema,
+			'@type'    => [ 'Person', 'Organization' ],
+			'@id'      => 'person_id',
+			'name'     => $user_data->display_name,
+			'logo'     => [ '@id' => 'https://example.com/#/schema/person/image/' ],
+			'image'    => $image_schema,
 		];
+
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
@@ -312,6 +321,8 @@ final class Person_Test extends TestCase {
 		$this->expects_for_set_image_from_avatar( $user_data, 'empty_avatar_url' );
 		$this->expects_for_social_profiles( [] );
 
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
+
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
 
@@ -348,6 +359,8 @@ final class Person_Test extends TestCase {
 		$this->expects_for_determine_user_id();
 		$this->expects_for_get_userdata( $user_data );
 		$this->expects_for_social_profiles( 'this is not an array' );
+
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
@@ -397,6 +410,8 @@ final class Person_Test extends TestCase {
 				'wikipedia' => 'wiki',
 			]
 		);
+
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
@@ -535,6 +550,8 @@ final class Person_Test extends TestCase {
 
 		$this->expects_for_social_profiles( $duplicated_social_profiles );
 
+		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );
+
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
 
@@ -617,9 +634,6 @@ final class Person_Test extends TestCase {
 			->andReturn( $social_profiles );
 
 		if ( empty( $social_profiles ) || ! \is_array( $social_profiles ) ) {
-			Functions\expect( 'get_the_author_meta' )
-				->never();
-
 			return;
 		}
 
@@ -646,7 +660,7 @@ final class Person_Test extends TestCase {
 	 * @param object $user_data An object representing WP_User. Expected to have `display_name` and `user_email`.
 	 * @param string $scenario  The scenario to test.
 	 *
-	 * @return array The image schema.
+	 * @return array<string, string|int> The image schema.
 	 */
 	protected function expects_for_set_image_from_avatar( $user_data, $scenario = 'default' ) {
 		$image_schema = [
@@ -689,5 +703,25 @@ final class Person_Test extends TestCase {
 			->andReturn( $image_schema );
 
 		return $image_schema;
+	}
+
+	/**
+	 * Sets the expectations for getting user's pronouns.
+	 *
+	 * @param int    $user_id  The user ID.
+	 * @param string $pronouns The pronouns.
+	 *
+	 * @return void
+	 */
+	protected function expects_for_pronouns( $user_id, $pronouns ) {
+		Functions\expect( 'get_the_author_meta' )
+			->once()
+			->with( 'wpseo_pronouns', $user_id )
+			->andReturn( $pronouns );
+
+		$this->instance->helpers->schema->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( $pronouns )
+			->andReturn( $pronouns );
 	}
 }

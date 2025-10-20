@@ -7,6 +7,7 @@ use Exception;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
+use Yoast\WP\SEO\Integrations\Admin\HelpScout_Beacon;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
@@ -44,6 +45,7 @@ final class Main_Test extends TestCase {
 		Indexable_Category_Permalink_Watcher::class,
 		Indexable_Permalink_Watcher::class,
 		Elementor::class,
+		HelpScout_Beacon::class,
 	];
 
 	/**

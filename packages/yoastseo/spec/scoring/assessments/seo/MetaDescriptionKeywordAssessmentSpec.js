@@ -21,7 +21,8 @@ describe( "a test for the meta description keyword assessment", function() {
 			"The meta description has been specified, but it does not contain the keyphrase. " +
 			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
-		expect( assessment.getEditFieldName() ).toBe( "meta description" );
+		expect( assessment.getEditFieldName() ).toBe( "description" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your meta description" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
@@ -63,7 +64,9 @@ describe( "a test for the meta description keyword assessment", function() {
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
 	it( "returns a bad result when there is no keyphrase", function() {
@@ -73,7 +76,9 @@ describe( "a test for the meta description keyword assessment", function() {
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your keyphrase" );
 	} );
 
 	it( "returns a bad result when there is no meta description", function() {
@@ -83,7 +88,9 @@ describe( "a test for the meta description keyword assessment", function() {
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: <a href='https://yoa.st/33l' target='_blank'>Please add both a keyphrase and a meta description containing the keyphrase</a>." );
-		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "description" );
+		expect( assessment.getEditFieldAriaLabel() ).toBe( "Edit your meta description" );
 	} );
 } );
 

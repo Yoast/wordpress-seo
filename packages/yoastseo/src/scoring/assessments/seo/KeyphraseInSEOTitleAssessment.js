@@ -84,9 +84,15 @@ export default class KeyphraseInSEOTitleAssessment extends Assessment {
 		const calculatedResult = this.calculateResult( this._keyphrase, language );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9 && this._canAssess ) {
+		if ( assessmentResult.getScore() < 9 ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "SEO title", "wordpress-seo" ) );
+			if ( paper.hasKeyword() ) {
+				assessmentResult.setEditFieldName( "title" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your SEO title", "wordpress-seo" ) );
+			} else {
+				assessmentResult.setEditFieldName( "keyphrase" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
+			}
 		}
 
 		return assessmentResult;

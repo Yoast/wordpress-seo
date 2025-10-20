@@ -37,7 +37,7 @@ export default class ProductSKUAssessment extends Assessment {
 			urlCallToAction: "https://yoa.st/4lx",
 			assessVariants: false,
 			shouldShowEditButton: false,
-			editFieldName: "SKU",
+			editFieldAriaLabel: "Edit your SKU",
 			callbacks: {},
 		};
 
@@ -66,8 +66,9 @@ export default class ProductSKUAssessment extends Assessment {
 
 		if ( assessmentResult.getScore() < 9 && this._config.shouldShowEditButton ) {
 			assessmentResult.setHasJumps( true );
-			// Provide `this._config.editFieldName` when initialize this assessment with the value "SKU". We recommend to provide the string as a translation string.
-			assessmentResult.setEditFieldName( this._config.editFieldName );
+			assessmentResult.setEditFieldName( "productSKU" );
+			// Provide `this._config.editFieldAriaLabel` when initialize this assessment with the value "Edit your SKU". We recommend to provide the string as a translation string.
+			assessmentResult.setEditFieldAriaLabel( this._config.editFieldAriaLabel );
 		}
 
 		return assessmentResult;

@@ -23,6 +23,7 @@ class AssessmentResult {
 	 * @param {boolean} [values._hasBetaBadge] Whether this result has a beta badge.
 	 * @param {boolean} [values._hasJumps] Whether this result causes a jump to a different field.
 	 * @param {string} [values.editFieldName] The edit field name for this assessment result.
+	 * @param {string} [values.editFieldAriaLabel] The edit field aria label for this assessment result.
 	 * @param {boolean} [values._hasAIFixes] Whether this result has AI fixes.
 	 * @constructor
 	 * @returns {void}
@@ -34,12 +35,14 @@ class AssessmentResult {
 		this._hasMarks = false;
 		this._hasJumps = false;
 		this._hasEditFieldName = false;
+		this._hasEditFieldAriaLabel = false;
 		this._marker = emptyMarker;
 		this._hasBetaBadge = false;
 		this.score = 0;
 		this.text = "";
 		this.marks = [];
 		this.editFieldName = "";
+		this.editFieldAriaLabel = "";
 
 		if ( isUndefined( values ) ) {
 			values = {};
@@ -67,6 +70,10 @@ class AssessmentResult {
 
 		if ( ! isUndefined( values.editFieldName ) ) {
 			this.setEditFieldName( values.editFieldName );
+		}
+
+		if ( ! isUndefined( values.editFieldAriaLabel ) ) {
+			this.setEditFieldAriaLabel( values.editFieldAriaLabel );
 		}
 
 		if ( ! isUndefined( values._hasAIFixes ) ) {
@@ -275,7 +282,7 @@ class AssessmentResult {
 	}
 
 	/**
-	 * Sets the edit field name to be used to create the aria label for an edit button.
+	 * Sets the edit field name used to determine where an edit button should jump to when clicked.
 	 * @param {string} editFieldName The string to be used for the string property
 	 * @returns {void}
 	 */
@@ -283,6 +290,34 @@ class AssessmentResult {
 		if ( editFieldName !== "" ) {
 			this.editFieldName = editFieldName;
 			this._hasEditFieldName = true;
+		}
+	}
+
+	/**
+	 * Check if an edit field aria label is available.
+	 * @returns {boolean} Whether or not an edit field aria label is available.
+	 */
+	hasEditFieldAriaLabel() {
+		return this._hasEditFieldAriaLabel;
+	}
+
+	/**
+	 * Gets the edit field aria label.
+	 * @returns {string} The edit field aria label associated with the AssessmentResult.
+	 */
+	getEditFieldAriaLabel() {
+		return this.editFieldAriaLabel;
+	}
+
+	/**
+	 * Sets the edit field aria label for the edit button.
+	 * @param {string} editFieldAriaLabel The string to be used for the string property
+	 * @returns {void}
+	 */
+	setEditFieldAriaLabel( editFieldAriaLabel ) {
+		if ( editFieldAriaLabel !== "" ) {
+			this.editFieldAriaLabel = editFieldAriaLabel;
+			this._hasEditFieldAriaLabel = true;
 		}
 	}
 
@@ -321,6 +356,7 @@ class AssessmentResult {
 			_hasJumps: this._hasJumps,
 			_hasAIFixes: this._hasAIFixes,
 			editFieldName: this.editFieldName,
+			editFieldAriaLabel: this.editFieldAriaLabel,
 		};
 	}
 
@@ -338,7 +374,9 @@ class AssessmentResult {
 			marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 			_hasBetaBadge: serialized._hasBetaBadge,
 			_hasJumps: serialized._hasJumps,
-			_hasAIFixes: serialized._hasAIFixes, editFieldName: serialized.editFieldName,
+			_hasAIFixes: serialized._hasAIFixes,
+			editFieldName: serialized.editFieldName,
+			editFieldAriaLabel: serialized.editFieldAriaLabel,
 		} );
 		result.setIdentifier( serialized.identifier );
 

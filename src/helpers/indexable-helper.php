@@ -314,6 +314,14 @@ class Indexable_Helper {
 			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}
 
+		/**
+		 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
+		 * right after the indexable is created or updated.
+		 *
+		 * @param Indexable $indexable The saved indexable.
+		 */
+		\do_action( 'wpseo_saved_indexable', $indexable );
+
 		return $indexable;
 	}
 }

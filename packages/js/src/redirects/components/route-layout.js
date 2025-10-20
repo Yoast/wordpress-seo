@@ -28,7 +28,9 @@ export const RouteLayout = ( {
 		"Yoast SEO"
 	);
 
-	const upsellLink = useSelectRedirects( "selectLink", [], "https://yoa.st/redirect-manager-upsell" );
+	const isComingFromToolsPage = useSelect( STORE_NAME ).selectPreference( "isComingFromToolsPage", false );
+	const link = isComingFromToolsPage ? "https://yoa.st/redirect-manager-upsell-tools" : "https://yoa.st/redirect-manager-upsell";
+	const upsellLink = useSelectRedirects( "selectLink", [], link );
 
 	return (
 		<LiveAnnouncer>

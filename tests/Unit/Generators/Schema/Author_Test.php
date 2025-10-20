@@ -292,6 +292,8 @@ final class Author_Test extends TestCase {
 			]
 		);
 
+		$this->set_pronouns_expectations( $user_id );
+
 		// Helper mocks.
 		$this->id
 			->expects( 'get_user_schema_id' )
@@ -300,6 +302,7 @@ final class Author_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
+			->once()
 			->andReturnArg( 0 );
 
 		$this->article
@@ -333,8 +336,8 @@ final class Author_Test extends TestCase {
 	/**
 	 * Define expectations for socials.
 	 *
-	 * @param int   $user_id    The user id.
-	 * @param array $site_array The array of socials, mapping social site name to URL.
+	 * @param int                   $user_id    The user id.
+	 * @param array<string, string> $site_array The array of socials, mapping social site name to URL.
 	 *
 	 * @return void
 	 *
@@ -346,8 +349,8 @@ final class Author_Test extends TestCase {
 
 		foreach ( $site_array as $site => $value ) {
 			Functions\expect( 'get_the_author_meta' )
-				->with( $site, $user_id )
 				->once()
+				->with( $site, $user_id )
 				->andReturn( $value );
 		}
 	}
@@ -385,6 +388,8 @@ final class Author_Test extends TestCase {
 			->andReturn( [] );
 
 		$this->set_helpers_expectations( $user_data );
+
+		$this->set_pronouns_expectations( $this->instance->context->site_user_id );
 
 		$data = $this->instance->generate();
 
@@ -424,6 +429,8 @@ final class Author_Test extends TestCase {
 
 		$this->set_helpers_expectations( $user_data );
 
+		$this->set_pronouns_expectations( $this->instance->context->site_user_id );
+
 		$data = $this->instance->generate();
 
 		$this->assertSame( [ 'Person', 'Organization' ], $data['@type'] );
@@ -460,6 +467,25 @@ final class Author_Test extends TestCase {
 				false
 			)
 			->andReturn( 'our_image_schema' );
+	}
+
+	/**
+	 * Sets expectations for the user's pronouns.
+	 *
+	 * @param int $user_id The user id.
+	 *
+	 * @return void
+	 */
+	public function set_pronouns_expectations( $user_id ) {
+		Functions\expect( 'get_the_author_meta' )
+			->once()
+			->with( 'wpseo_pronouns', $user_id )
+			->andReturn( '' );
+
+		$this->instance->helpers->schema->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( '' )
+			->andReturn( '' );
 	}
 
 	/**

@@ -198,23 +198,13 @@ class Results extends Component {
 	/**
      * Focuses on a Google preview input field (meta description, title or slug).
 	 *
-	 * @param {string}	id     				Result id which determines which input field should be focused on.
+	 * @param {string}	inputFieldName     	The input field name which determines which input field should be focused on.
 	 * @param {string}	inputFieldLocation	The location of the input field that should be focused on (metabox or modal).
 	 *
 	 * @returns {void}
 	 */
-	focusOnGooglePreviewField( id, inputFieldLocation ) {
-		let inputField;
-
-		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-			inputField = "description";
-		} else if ( id === "titleWidth" || id === "keyphraseInSEOTitle" ) {
-			inputField = "title";
-		} else {
-			inputField = "slug";
-		}
-
-		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
+	focusOnGooglePreviewField( inputFieldName, inputFieldLocation ) {
+		const element = document.getElementById( "yoast-google-preview-" + inputFieldName + "-" + inputFieldLocation );
 		element.focus();
 		element.scrollIntoView( {
 			behavior: "auto",
@@ -226,15 +216,19 @@ class Results extends Component {
 	/**
 	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
-	 * @param {string}   id     Result id which determines which edit field should be focused on.
+	 * @param {Object}   event             The event object.
+	 * @param {string}   editFieldName     The name of the edit field which determines which edit field should be focused on.
 	 *
 	 * @returns {void}
 	 */
-	handleEditButtonClick( id ) {
+	handleEditButtonClick( editFieldName, event ) {
+		// Remove focus from the clicked button.
+		event?.currentTarget?.blur();
+
 		// Whether the user is in the metabox or sidebar.
 		const inputFieldLocation = this.props.location;
 
-		if ( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+		if ( editFieldName === "keyphrase" ) {
 			this.focusOnKeyphraseField( inputFieldLocation );
 			return;
 		}
@@ -244,11 +238,11 @@ class Results extends Component {
 		 * (metadescription, slug, or title). If the user is in the sidebar, these are accessed through a modal. So if the
 		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
 		 */
-		if ( [ "metaDescriptionKeyword", "metaDescriptionLength", "titleWidth", "keyphraseInSEOTitle", "slugKeyword" ].includes( id ) ) {
-			this.handleGooglePreviewFocus( inputFieldLocation, id );
+		if ( [ "description", "title", "slug" ].includes( editFieldName ) ) {
+			this.handleGooglePreviewFocus( inputFieldLocation, editFieldName );
 		}
 
-		doAction( "yoast.focus.input", id );
+		doAction( "yoast.focus.input", editFieldName );
 	}
 
 	/**
