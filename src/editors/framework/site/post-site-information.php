@@ -63,7 +63,7 @@ class Post_Site_Information extends Base_Site_Information {
 		Default_SEO_Data_Collector $default_seo_data_collector
 	) {
 		parent::__construct( $short_link_helper, $wistia_embed_permission_repository, $meta, $product_helper, $options_helper, $promotion_manager );
-		$this->alert_dismissal_action = $alert_dismissal_action;
+		$this->alert_dismissal_action     = $alert_dismissal_action;
 		$this->default_seo_data_collector = $default_seo_data_collector;
 	}
 
