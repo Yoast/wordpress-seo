@@ -94,8 +94,8 @@ class Post_Site_Information extends Base_Site_Information {
 				'post_edit_url' => $this->edit_url(),
 				'base_url'      => $this->base_url_for_js(),
 			],
-			'recentDefaultSeoTitles'       => \count( $this->default_seo_data_collector->get_posts_with_default_seo_title() ) > 4,
-			'recentDefaultSeoDescriptions' => \count( $this->default_seo_data_collector->get_posts_with_default_seo_description() ) > 4,
+			'isRecentTitlesDefault'        => \count( $this->default_seo_data_collector->get_posts_with_default_seo_title() ) > 4,
+			'isRecentDescriptionsDefault'  => \count( $this->default_seo_data_collector->get_posts_with_default_seo_description() ) > 4,
 		];
 
 		return \array_merge_recursive( $data, parent::get_legacy_site_information() );
@@ -110,13 +110,13 @@ class Post_Site_Information extends Base_Site_Information {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		$data = [
-			'dismissedAlerts'            => $dismissed_alerts,
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'search_url'                 => $this->search_url(),
-			'post_edit_url'              => $this->edit_url(),
-			'base_url'                   => $this->base_url_for_js(),
-			'recentDefaultSeoTitles'       => \count( $this->default_seo_data_collector->get_posts_with_default_seo_title() ) > 4,
-			'recentDefaultSeoDescriptions' => \count( $this->default_seo_data_collector->get_posts_with_default_seo_description() ) > 4,
+			'dismissedAlerts'             => $dismissed_alerts,
+			'webinarIntroBlockEditorUrl'  => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'search_url'                  => $this->search_url(),
+			'post_edit_url'               => $this->edit_url(),
+			'base_url'                    => $this->base_url_for_js(),
+			'isRecentTitlesDefault'       => \count( $this->default_seo_data_collector->get_posts_with_default_seo_title() ) > 4,
+			'isRecentDescriptionsDefault' => \count( $this->default_seo_data_collector->get_posts_with_default_seo_description() ) > 4,
 		];
 
 		return \array_merge( $data, parent::get_site_information() );

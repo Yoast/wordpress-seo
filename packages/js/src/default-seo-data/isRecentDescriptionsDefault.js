@@ -3,6 +3,6 @@
  *
  * @returns {boolean} Whether or not the recent meta descriptions are default ones.
  */
-export default function isRecentSeoDescriptionsDefault() {
-	return !! window.wpseoScriptData.recentDefaultSeoDescriptions;
+export default function isRecentDescriptionsDefault() {
+	return !! window.wpseoScriptData.isRecentDescriptionsDefault;
 }

@@ -3,6 +3,6 @@
  *
  * @returns {boolean} Whether or not the recent SEO titles are default ones.
  */
-export default function isRecentSeoTitlesDefault() {
-	return !! window.wpseoScriptData.recentDefaultSeoTitles;
+export default function isRecentTitlesDefault() {
+	return !! window.wpseoScriptData.isRecentTitlesDefault;
 }

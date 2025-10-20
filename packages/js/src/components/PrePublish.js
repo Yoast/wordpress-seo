@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { LocationProvider } from "@yoast/externals/contexts";
 
 import AnalysisChecklist from "./AnalysisChecklist";
-import DefaultSeoDataChecklist from "./DefaultSeoDataChecklist";
+import DefaultSeoDataAlert from "./DefaultSeoDataAlert";
 
 /**
  * Renders the analysis checklist.
@@ -30,7 +30,7 @@ export default function PrePublish( {
 		<LocationProvider value="pre-publish">
             <p>{ intro }</p>
             <AnalysisChecklist checklist={ checklist } onClick={ onClick } />
-            <DefaultSeoDataChecklist isSeoDataDefault={ isSeoDataDefault } />
+            <DefaultSeoDataAlert isSeoDataDefault={ isSeoDataDefault } />
 		</LocationProvider>
     </Fragment>;
 }
@@ -38,5 +38,5 @@ export default function PrePublish( {
 PrePublish.propTypes = {
     checklist: PropTypes.array.isRequired,
     onClick: PropTypes.func.isRequired,
-    showAiGenerateCheck: PropTypes.bool.isRequired,
+    isSeoDataDefault: PropTypes.object.isRequired,
 };

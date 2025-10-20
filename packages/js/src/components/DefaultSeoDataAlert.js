@@ -8,44 +8,44 @@ import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { Button } from "@yoast/components";
 
 /**
- * Renders the Default SEO Data checklist.
+ * Renders the Default SEO Data Alert.
  *
- * @param {Object} isSeoDataDefault A list of current SEO data with their default status.
+ * @param {Object} isSeoDataDefault Whether SEO titles and meta descriptions are default.
  *
- * @returns {wp.Element} The Default SEO Data checklist.
+ * @returns {wp.Element} The Default SEO Data Alert.
  */
-export default function DefaultSeoDataChecklist( {
+export default function DefaultSeoDataAlert( {
     isSeoDataDefault,
 } ) {
 
-	const isSeoTitlesDefault = useMemo( () => {
-		return isSeoDataDefault?.isAllSeoTitlesDefault || false;
+	const isTitlesDefault = useMemo( () => {
+		return isSeoDataDefault?.isAllTitlesDefault || false;
 	}, [ isSeoDataDefault ] );
 
-	const isSeoDescriptionsDefault = useMemo( () => {
-		return isSeoDataDefault?.isAllSeoDescriptionsDefault || false;
+	const isDescriptionsDefault = useMemo( () => {
+		return isSeoDataDefault?.isAllDescriptionsDefault || false;
 	}, [ isSeoDataDefault ] );
 
-	const showDefaultSeoDataChecklist = useMemo( () => {
-		return isSeoTitlesDefault || isSeoDescriptionsDefault;
-	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
+	const showAlert = useMemo( () => {
+		return isTitlesDefault || isDescriptionsDefault;
+	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 
-	const seoData = useMemo( () => {
-		if ( isSeoTitlesDefault && isSeoDescriptionsDefault ) {
+	const seoDataNames = useMemo( () => {
+		if ( isTitlesDefault && isDescriptionsDefault ) {
 			return __( "SEO titles and meta descriptions", "wordpress-seo" );
-		} else if ( isSeoTitlesDefault ) {
+		} else if ( isTitlesDefault ) {
 			return __( "SEO titles", "wordpress-seo" );
-		} else if ( isSeoDescriptionsDefault ) {
+		} else if ( isDescriptionsDefault ) {
 			return __( "meta descriptions", "wordpress-seo" );
 		}
-	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
+	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const message = useMemo( () => sprintf(
 		/* translators: %1$s expand to "SEO title" or "meta description" or both. */
 		__( "Stand out in the search results and attract more visitors by adding custom %1$s.", "wordpress-seo" ),
-		seoData
-	), [ seoData ] );
+		seoDataNames
+	), [ seoDataNames ] );
 
 	const proTip = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
@@ -58,33 +58,33 @@ export default function DefaultSeoDataChecklist( {
 			"</strong>",
 			"<em>",
 			"</em>",
-			seoData
+			seoDataNames
 		),
 		{
 			strong: <strong />,
 			em: <em />,
 		}
-	), [ seoData ] );
+	), [ seoDataNames ] );
 
 	const titleButtons = useMemo( () => {
-		if ( ! isSeoTitlesDefault ) {
+		if ( ! isTitlesDefault ) {
 			return [];
 		}
 
-		if ( isSeoDescriptionsDefault ) {
+		if ( isDescriptionsDefault ) {
 			return [];
 		}
 
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'title' } );
-	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
+	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const descButtons = useMemo( () => {
-		if ( ! isSeoDescriptionsDefault ) {
+		if ( ! isDescriptionsDefault ) {
 			return [];
 		}
 
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'description' } );
-	}, [ isSeoTitlesDefault, isSeoDescriptionsDefault ] );
+	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const { closePublishSidebar, openGeneralSidebar } = useDispatch( "core/edit-post" );
 	const { openEditorModal } = useDispatch("yoast-seo/editor");
@@ -96,7 +96,7 @@ export default function DefaultSeoDataChecklist( {
 		openEditorModal( "yoast-search-appearance-modal" );
 	}, [ closePublishSidebar, openGeneralSidebar ] );
 
-    return showDefaultSeoDataChecklist && <Fragment>
+    return showAlert && <Fragment>
         <h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
         <p>{ message }</p>
         <p>{ proTip }</p>
@@ -115,6 +115,6 @@ export default function DefaultSeoDataChecklist( {
     </Fragment>;
 }
 
-DefaultSeoDataChecklist.propTypes = {
+DefaultSeoDataAlert.propTypes = {
     isSeoDataDefault: PropTypes.object.isRequired,
 };
