@@ -29,7 +29,7 @@ export function mapSelectToProps( select ) {
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
-	return { 
+	return {
 		checklist,
 		isSeoDataDefault: getIsSeoDataDefault( yoastStore ),
 	};

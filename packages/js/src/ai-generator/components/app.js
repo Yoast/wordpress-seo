@@ -289,7 +289,6 @@ export const App = ( { onUseAi } ) => {
 		if ( ! subscriptions && isFreeSparksActive && ! sparksLimitReached && hasConsent ) {
 			setDisplay( DISPLAY.generate );
 		}
-
 	}, [ onUseAi,
 		isPremium,
 		isFreeSparksActive,

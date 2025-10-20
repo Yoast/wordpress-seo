@@ -15,9 +15,8 @@ import { Button } from "@yoast/components";
  * @returns {wp.Element} The Default SEO Data Alert.
  */
 export default function DefaultSeoDataAlert( {
-    isSeoDataDefault,
+	isSeoDataDefault,
 } ) {
-
 	const isTitlesDefault = useMemo( () => {
 		return isSeoDataDefault?.isAllTitlesDefault || false;
 	}, [ isSeoDataDefault ] );
@@ -49,7 +48,7 @@ export default function DefaultSeoDataAlert( {
 
 	const proTip = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s expand to an opening and closing a strong tag. %3$s and %4$s expand to an opening and closing an emphasis tag. %5$s expands to "SEO title" or "meta description" or both */
+			/* translators: %1$s, %2$s expand to strong tags. %3$s, %4$s expand to emphasis tags. %5$s expands to "SEO title" or "meta description" */
 			__(
 				"%1$sPro tip%2$s: Use %3$sAI Generate%4$s for quick optimized %5$s.",
 				"wordpress-seo"
@@ -75,7 +74,7 @@ export default function DefaultSeoDataAlert( {
 			return [];
 		}
 
-		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'title' } );
+		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: "yoast-google-preview-pre-publish", type: "title" } );
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const descButtons = useMemo( () => {
@@ -83,11 +82,11 @@ export default function DefaultSeoDataAlert( {
 			return [];
 		}
 
-		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: 'yoast-google-preview-pre-publish', type: 'description' } );
+		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: "yoast-google-preview-pre-publish", type: "description" } );
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const { closePublishSidebar, openGeneralSidebar } = useDispatch( "core/edit-post" );
-	const { openEditorModal } = useDispatch("yoast-seo/editor");
+	const { openEditorModal } = useDispatch( "yoast-seo/editor" );
 
 	const onClick = useCallback( () => {
 		closePublishSidebar();
@@ -96,11 +95,11 @@ export default function DefaultSeoDataAlert( {
 		openEditorModal( "yoast-search-appearance-modal" );
 	}, [ closePublishSidebar, openGeneralSidebar ] );
 
-    return showAlert && <Fragment>
-        <h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
-        <p>{ message }</p>
-        <p>{ proTip }</p>
-		<Slot name={ `yoast.replacementVariableEditor.additionalButtons.yoast-google-preview-pre-publish` } />
+	return showAlert && <Fragment>
+		<h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
+		<p>{ message }</p>
+		<p>{ proTip }</p>
+		<Slot name={ "yoast.replacementVariableEditor.additionalButtons.yoast-google-preview-pre-publish" } />
 		{ titleButtons.map( ( button, index ) => (
 			<Fragment key={ `additional-button-pre-publish-sidebar-title-${ index }` }>
 				{ button }
@@ -112,9 +111,9 @@ export default function DefaultSeoDataAlert( {
 			</Fragment>
 		) ) }
 		<Button onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button>
-    </Fragment>;
+	</Fragment>;
 }
 
 DefaultSeoDataAlert.propTypes = {
-    isSeoDataDefault: PropTypes.object.isRequired,
+	isSeoDataDefault: PropTypes.object.isRequired,
 };
