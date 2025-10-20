@@ -231,17 +231,18 @@ const checkIfNodeIsListItem = ( parentNode ) => {
 const isAValidSentence = ( currentSentence, nextSentence ) => {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const sentenceDelimiters = sentenceTokenizer.getSentenceDelimiters();
+	// Create a regex that matches any of the sentence delimiters. The full stop is also included.
 	const sentenceDelimiterRegex = new RegExp( "^[." + sentenceDelimiters + "]$" );
 
 	const currentSentenceLastToken = currentSentence.getLastToken();
 	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
-	// it should start with an uppercase character.
+	// it should start with a valid sentence beginning.
 	if ( nextSentence ) {
 		const nextSentenceFirstToken = nextSentence.getFirstToken();
 		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
 			( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
 	}
-	return sentenceDelimiterRegex.test( currentSentenceLastToken );
+	return sentenceDelimiterRegex.test( currentSentenceLastToken.text );
 };
 
 /**
