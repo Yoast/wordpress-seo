@@ -25,8 +25,8 @@ class WordPress_URLs implements URLs_Interface {
 	 *
 	 * @return string The callbacks URL.
 	 */
-	public function get_callback_url():string {
-		return \preg_replace( '/http(s)?:\/\/(.*)/', 'http$1://tradition:famous@$2', \get_rest_url( null, 'yoast/v1/ai_generator/callback' ));
+	public function get_callback_url(): string {
+		return \get_rest_url( null, 'yoast/v1/ai_generator/callback' );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WordPress_URLs implements URLs_Interface {
 	 *
 	 * @return string The callbacks URL.
 	 */
-	public function get_refresh_callback_url():string {
-		return \preg_replace( '/http(s)?:\/\/(.*)/', 'http$1://tradition:famous@$2', \get_rest_url( null, 'yoast/v1/ai_generator/refresh_callback' ));
+	public function get_refresh_callback_url(): string {
+		return \get_rest_url( null, 'yoast/v1/ai_generator/refresh_callback' );
 	}
 }

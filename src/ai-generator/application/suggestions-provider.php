@@ -111,8 +111,6 @@ class Suggestions_Provider {
 		string $editor,
 		bool $retry_on_unauthorized = true
 	): array {
-		return [ "Cool Chicago city trips", "Chicago city trips for the whole family", "Chicago city trips for baseball lovers", "Chicago city trips for couples", "Chicago city trips for you!" ];
-
 		$token = $this->token_manager->get_or_request_access_token( $user );
 
 		$request_body    = [
