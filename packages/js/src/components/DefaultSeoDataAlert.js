@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
+import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { useDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { Slot } from "@wordpress/components";
-import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { Button } from "@yoast/components";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 /**
  * Renders the Default SEO Data Alert.
@@ -96,7 +97,10 @@ export default function DefaultSeoDataAlert( {
 	}, [ closePublishSidebar, openGeneralSidebar ] );
 
 	return showAlert && <Fragment>
-		<h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
+		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-[-25px]">
+			<ExclamationCircleIcon className="yst-w-4 yst-h-4 yst-text-amber-500" />
+			<h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
+		</div>
 		<p>{ message }</p>
 		<p>{ proTip }</p>
 		<Slot name={ "yoast.replacementVariableEditor.additionalButtons.yoast-google-preview-pre-publish" } />
@@ -110,7 +114,7 @@ export default function DefaultSeoDataAlert( {
 				{ button }
 			</Fragment>
 		) ) }
-		<Button onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button>
+		<Button className="yst-mt-2" onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button>
 	</Fragment>;
 }
 
