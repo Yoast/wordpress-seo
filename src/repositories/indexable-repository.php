@@ -217,6 +217,27 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Retrieves a paginated set of indexable instances of public indexables.
+	 *
+	 * @param int           $page                   The page number (1-based).
+	 * @param int           $page_size              The number of items per page.
+	 * @param array<string> $post_type_exclude_list Post types to ignore (can be empty).
+	 *
+	 * @return Indexable[] The array with the paginated indexable instances which are public.
+	 */
+	public function find_all_public_paginated( $page, $page_size, $post_type_exclude_list = [] ): array {
+		$offset = ( ( $page - 1 ) * $page_size );
+
+		$query = $this->query()->where_raw( '( is_public IS NULL OR is_public = 1 )' );
+		if ( $post_type_exclude_list ) {
+			$query->where_not_in( 'object_sub_type', $post_type_exclude_list );
+		}
+		$indexables = $query->order_by_asc( 'id' )->limit( $page_size )->offset( $offset )->find_many();
+
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
+	}
+
+	/**
 	 * Retrieves the homepage indexable.
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
