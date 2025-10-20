@@ -1,5 +1,4 @@
 import Mark from "../../../values/Mark";
-import getSentencesFromTree from "../../helpers/sentence/getSentencesFromTree";
 
 const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
@@ -105,18 +104,18 @@ function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged 
 		let parentStartOffset = sentence.parentStartOffset;
 		let parentClientId = sentence.parentClientId;
 		if ( areListItemsMerged && ! attributeId ) {
-			const sentenceParentNode = sentence.parentNode;
-			// Get all sentences from the same parent node.
-			const allSentencesInParent = getSentencesFromTree( sentenceParentNode );
-			// When list items are merged, the parentStartOffset is the start offset of the list item itself and not of the ul or ol node.
-			// We need to adjust the parentStartOffset to be the start offset of the li node in which the token of matchesInSentence is located.
-			const sentenceOfToken = allSentencesInParent.find( ( sentenceItem ) => {
-				return ( token.sourceCodeRange.startOffset >= sentenceItem.getFirstToken()?.sourceCodeRange.startOffset &&
-					token.sourceCodeRange.endOffset <= sentenceItem.getLastToken()?.sourceCodeRange.endOffset );
+			const sentenceParentNodes = sentence.parentNode;
+			const isArray = Array.isArray( sentenceParentNodes );
+			// Look for the parent node that contains the token.
+			const parentNodeOfToken = isArray && sentenceParentNodes.find( ( node ) => {
+				const sourceCodeLocation = node.sourceCodeLocation;
+				return token.sourceCodeRange.startOffset >= sourceCodeLocation.startOffset &&
+					token.sourceCodeRange.endOffset <= sourceCodeLocation.endOffset;
 			} );
-			if ( sentenceOfToken ) {
-				parentStartOffset = sentenceOfToken.parentStartOffset;
-				parentClientId = sentenceOfToken.parentClientId;
+
+			if ( parentNodeOfToken ) {
+				parentStartOffset = parentNodeOfToken.sourceCodeLocation.startOffset;
+				parentClientId = parentNodeOfToken.clientId;
 			}
 		}
 

@@ -1,4 +1,4 @@
-import { flattenDeep, max } from "lodash";
+import { cloneDeep, flattenDeep, max } from "lodash";
 import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
@@ -9,6 +9,7 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import { mergeListItems } from "../helpers/sanitize/mergeListItems";
 import removeHtmlBlocks from "../helpers/html/htmlParser";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
+import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
 
 /**
  * @typedef {import("../../values/Mark").default} Mark
@@ -213,6 +214,95 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 };
 
 /**
+ * Checks if the given node is a list item that is not a HowTo step.
+ * @param {Node} parentNode The node to check.
+ * @returns {boolean} Whether the node is a list item that is not a HowTo step.
+ */
+const checkIfNodeIsListItem = ( parentNode ) => {
+	return parentNode?.name === "li" && ! parentNode?.attributes?.class?.has( "schema-how-to-step" );
+};
+
+/**
+ * Checks whether the current sentence is a valid sentence considering the next sentence.
+ * @param {Sentence} currentSentence The current sentence.
+ * @param {Sentence} nextSentence The next sentence.
+ * @returns {boolean} Whether the current sentence is a valid sentence.
+ */
+const isAValidSentence = ( currentSentence, nextSentence ) => {
+	const sentenceTokenizer = new SentenceTokenizer();
+	const sentenceDelimiters = sentenceTokenizer.getSentenceDelimiters();
+	const sentenceDelimiterRegex = new RegExp( "^[." + sentenceDelimiters + "]$" );
+
+	const currentSentenceLastToken = currentSentence.getLastToken();
+	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
+	// it should start with an uppercase character.
+	if ( nextSentence ) {
+		const nextSentenceFirstToken = nextSentence.getFirstToken();
+		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
+			( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
+	}
+	return sentenceDelimiterRegex.test( currentSentenceLastToken );
+};
+
+/**
+ * Merges sentences that are part of the same list item and are not valid sentences on their own.
+ *
+ * @param {Sentence[]} sentences The sentences to merge.
+ * @returns {Sentence[]} The merged sentences.
+ */
+const mergeListItemSentences = ( sentences ) => {
+	const copySentences = [ ...sentences ];
+	const mergedSentences = [];
+
+	let i = 0;
+	while ( i < copySentences.length ) {
+		let sentence = copySentences[ i ];
+		const isListItem = checkIfNodeIsListItem( sentence.parentNode );
+
+		if ( isListItem ) {
+			/*
+			 These are the attributes that need to be merged:
+			 - text
+			 - tokens
+			 - parentNodes (as an array of parent nodes)
+			 The other attributes are not necessary to merge since we won't need them when we process the merged sentence to create the markings.
+			 */
+			let mergedText = sentence.text;
+			let mergedTokens = [ ...sentence.tokens ];
+			const mergedParentNodes = [ sentence.parentNode ];
+
+			let j = i + 1;
+			/*
+			 Continue merging while the next sentence is also a list item and the current sentence is not a valid sentence.
+			 */
+			while (
+				j < copySentences.length &&
+				checkIfNodeIsListItem( copySentences[ j ]?.parentNode ) &&
+				! isAValidSentence( sentence, copySentences[ j ] )
+			) {
+				mergedText += " " + copySentences[ j ].text;
+				mergedTokens = [ ...mergedTokens, ...copySentences[ j ].tokens ];
+				mergedParentNodes.push( copySentences[ j ].parentNode );
+				sentence = copySentences[ j ];
+				j++;
+			}
+
+			const mergedSentence = cloneDeep( copySentences[ i ] );
+			mergedSentence.text = mergedText;
+			mergedSentence.tokens = mergedTokens;
+			mergedSentence.parentNode = mergedParentNodes;
+			mergedSentences.push( mergedSentence );
+			i = j;
+		} else {
+			mergedSentences.push( sentence );
+			i++;
+		}
+	}
+
+	return mergedSentences;
+};
+
+/**
  * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
  *
  * @param {Paper}       paper		The paper to check the keyphrase distribution for.
@@ -239,7 +329,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		text = mergeListItems( text );
 		sentences = getSentences( text, customSentenceTokenizer );
 	} else {
-		sentences = getSentencesFromTree( paper.getTree(), true );
+		sentences = getSentencesFromTree( paper.getTree() );
+		sentences = mergeListItemSentences( sentences );
 	}
 
 	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.

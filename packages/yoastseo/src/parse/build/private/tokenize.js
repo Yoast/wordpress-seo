@@ -60,8 +60,7 @@ function getSentences( node, languageProcessor ) {
  * @returns {Node} The processed tree.
  */
 function tokenize( tree, languageProcessor ) {
-	if ( ( tree instanceof Paragraph && tree.name !== "p-overarching" ) || tree instanceof Heading ||
-		( /(ul|ol)/.test( tree.name ) && ! tree.attributes?.class?.has( "schema-how-to-steps" ) ) ) {
+	if ( ( tree instanceof Paragraph && tree.name !== "p-overarching" ) || tree instanceof Heading ) {
 		tree.sentences = getSentences( tree, languageProcessor );
 	}
 

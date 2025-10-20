@@ -1150,7 +1150,7 @@ describe( "Test for the research", function() {
 		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
 	} );
 
-	xit( "calculates keyphrase distribution score for content with HTML list structure with single word list items", function() {
+	it( "calculates keyphrase distribution score for content with HTML list structure with single word list items", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
 
@@ -1171,6 +1171,28 @@ describe( "Test for the research", function() {
 		// Before the HTML parser adjustment, this text structure returns 33.33333333333333 as the distribution score, since the individual words in the list are merged into one sentence.
 		// After the adjustment, the score is 77.77777777777779, since the individual words in the list are treated as separate sentences.
 		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
+	} );
+
+	it( "calculates keyphrase distribution score for content with HTML list structure with short phrases as the list items", function() {
+		const listItems = [
+			"<li>List item one keyphrase</li>",
+			"<li>List item two.</li>",
+			"<li>List item three.</li>",
+		];
+		const paper = new Paper( "<ul>" + listItems.join( "" ) + "</ul><p>this is a paragraph.</p>",
+			{
+				locale: "en_US",
+				keyword: "keyphrase",
+			}
+		);
+		const researcher = new Researcher( paper );
+		buildTree( paper, researcher );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const result = keyphraseDistributionResearcher( paper, researcher );
+
+		// Test that the score is reasonable (expected 66.66...)
+		expect( result.keyphraseDistributionScore ).toEqual( 66.66666666666666 );
 	} );
 
 	it( "calculates keyphrase distribution score for content with HTML list structure with full sentences as the list items", function() {
@@ -1356,6 +1378,7 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
+		console.log( { text1: paperWithList.getText() } );
 
 		const paperWithWords = new Paper(
 			realWordULExample1NoLists,
@@ -1364,7 +1387,7 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-
+		// console.log( { text2: paperWithWords.getText() } );
 		const researcherListCondition = new Researcher( paperWithList );
 		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
