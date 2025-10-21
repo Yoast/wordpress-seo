@@ -1975,20 +1975,19 @@ describe( "Test for the research for Japanese language", function() {
 		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 50 );
 	} );
 
-	it( "returns the result for keyword with 5 characters, but not all characters are found", function() {
+	it( "returns the result for keyword longer than 7 characters but shorter than 4 words: at least 50% of the keyphrase should be found", function() {
 		// Not all the characters in the keyphrase is present in either sentence.
 		const paper = new Paper(
-			"彼は新しい車を買いました。その車はとても速いです。",
+			"彼は新しい車を買いました。レッサーパンダの保護。",
 			{
 				locale: "ja",
-				keyword: "新車購入",
-				synonyms: "シノニム",
+				keyword: "世界におけるレッサーパンダの保護",
 			}
 		);
 
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 100 );
+		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 50 );
 	} );
 } );
 
