@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\To_Aggregate_Indexable_Collector;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class that handles the Aggregate_Site_Schema_Command.
@@ -22,7 +21,7 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * Represents the meta tags memoizer.
 	 *
-	 * @var Indexable_Repository
+	 * @var Meta_Tags_Context_Memoizer
 	 */
 	protected $meta_tags_context_memoizer;
 

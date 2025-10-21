@@ -27,7 +27,7 @@ class To_Aggregate_Indexable_Collector {
 	}
 
 	/**
-	 * Handles the Aggregate_Site_Schema_Command.
+	 * Gets the indexables to be aggregated.
 	 *
 	 * @param int $page      The page number (1-based).
 	 * @param int $page_size The number of items per page.
