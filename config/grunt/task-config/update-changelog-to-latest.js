@@ -13,7 +13,7 @@ module.exports = {
 			readmeFile: "./readme.txt",
 			releaseInChangelog: /[=] \d+\.\d+(\.\d+)? =/g,
 			matchChangelogHeader: /[=]= Changelog ==\n\n/ig,
-			newHeadertemplate: "== Changelog ==\n\n" + "= " + "VERSIONNUMBER" + " =\n\nRelease date: " + "DATESTRING"  + "\n\n",
+			newHeadertemplate: "== Changelog ==\n\n" + "= " + "VERSIONNUMBER" + " =\n\nRelease date: " + "DATESTRING"  + "\n",
 			matchCorrectHeader: "= " + "VERSIONNUMBER" + " =(.|\\n)*?\\n(?=(\\n#### \\w\+?\\n|= \\d+[\.\\d]+|= Earlier versions =))",
 			matchCorrectLines: "= " + "VERSIONNUMBER" + " =(.|\\n)*?(?=(= \\d+[\.\\d]+ =|= Earlier versions =))",
 			matchCleanedChangelog: "= " + "VERSIONNUMBER" + "(.|\\n)*= Earlier versions =",
