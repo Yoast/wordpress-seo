@@ -97,7 +97,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 				'per_page' => [
 					'default'           => $this->config->get_per_page(),
 					'validate_callback' => function ( $param ) {
-						return \is_numeric( $param ) && $param > 0 && $param <= $this->config->get_per_page_max();
+						return \is_numeric( $param ) && $param > 0 && $param <= $this->config->get_max_per_page();
 					},
 					'sanitize_callback' => 'absint',
 				],
