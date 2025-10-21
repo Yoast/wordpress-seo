@@ -1935,7 +1935,7 @@ describe( "Test for the research for Japanese language", function() {
 		} );
 	} );
 
-	it( "returns the result for long topic", function() {
+	it( "returns the result for long topic (longer than 7 characters)", function() {
 		const paper = new Paper(
 			"彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。しかし、それは在庫切れでした。",
 			{
@@ -1957,6 +1957,38 @@ describe( "Test for the research for Japanese language", function() {
 				} ),
 			],
 		} );
+	} );
+
+	it( "returns the result for keyword with 5 characters, all characters should be present to be considered a match", function() {
+		// All the characters in the keyphrase is present in the first sentence, but not in the second sentence.
+		const paper = new Paper(
+			"彼は新しい車を買いました。その車はとても速いです。",
+			{
+				locale: "ja",
+				keyword: "新しい車",
+				synonyms: "シノニム",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 50 );
+	} );
+
+	it( "returns the result for keyword with 5 characters, but not all characters are found", function() {
+		// Not all the characters in the keyphrase is present in either sentence.
+		const paper = new Paper(
+			"彼は新しい車を買いました。その車はとても速いです。",
+			{
+				locale: "ja",
+				keyword: "新車購入",
+				synonyms: "シノニム",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 100 );
 	} );
 } );
 
