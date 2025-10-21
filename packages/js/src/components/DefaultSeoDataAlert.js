@@ -97,7 +97,7 @@ export default function DefaultSeoDataAlert( {
 	}, [ closePublishSidebar, openGeneralSidebar ] );
 
 	return showAlert && <Fragment>
-		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-[-25px]">
+		<div className="yst-flex yst-items-center yst-gap-1 yst-mb-[-25px]">
 			<ExclamationCircleIcon className="yst-w-4 yst-h-4 yst-text-amber-500" />
 			<h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
 		</div>

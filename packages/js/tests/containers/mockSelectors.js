@@ -23,9 +23,9 @@ export function mockSelectors() {
 	const getChecklistItems = jest.fn().mockReturnValue( {} );
 
 	const getSnippetEditorData = jest.fn().mockReturnValue( {
-		title: '',
-		description: '',
-		slug: '',
+		title: "",
+		description: "",
+		slug: "",
 	} );
 
 	const yoastSEOSelectors = {
