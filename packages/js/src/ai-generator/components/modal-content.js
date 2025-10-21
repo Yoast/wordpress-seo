@@ -230,7 +230,7 @@ export const ModalContent = ( { height } ) => {
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
 	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
 		"core/edit-post"
-	);
+	) || {};
 	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();
 	const handleApplySuggestion = useCallback( () => {
@@ -246,7 +246,19 @@ export const ModalContent = ( { height } ) => {
 			openGeneralSidebar( "yoast-seo/seo-sidebar" );
 			openEditorModal( "yoast-search-appearance-modal" );
 		}
-	}, [ setTitleOrDescription, editType, previewType, suggestions.selected, titleTemplate, onClose, addAppliedSuggestion ] );
+	}, [
+		setTitleOrDescription,
+		editType,
+		previewType,
+		suggestions.selected,
+		titleTemplate,
+		onClose,
+		addAppliedSuggestion,
+		closePublishSidebar,
+		openGeneralSidebar,
+		openEditorModal,
+		location,
+	] );
 
 	useEffectOneAtATime( () => {
 		if ( initialFetch === "" ) {

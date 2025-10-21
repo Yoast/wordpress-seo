@@ -150,7 +150,7 @@ export const App = ( { onUseAi } ) => {
 		};
 	}, [] );
 	const { fetchUsageCount } = useDispatch( STORE_NAME_AI );
-	const { openEditorModal, closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
+	const { closeEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
 	/* translators: Hidden accessibility text. */
 	const closeButtonScreenReaderText = __( "Close modal", "wordpress-seo" );
@@ -160,7 +160,7 @@ export const App = ( { onUseAi } ) => {
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
 	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
 		"core/edit-post"
-	);
+	) || {};
 
 	const closeModal = useCallback( () => {
 		setDisplay( DISPLAY.inactive );
@@ -182,7 +182,7 @@ export const App = ( { onUseAi } ) => {
 
 		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
-	}, [ closeEditorModal, location ] );
+	}, [ closeEditorModal, location, closePublishSidebar, openGeneralSidebar ] );
 
 	const checkSubscriptions = useCallback( () => {
 		if (  isWooProductEntity ) {
@@ -302,9 +302,6 @@ export const App = ( { onUseAi } ) => {
 		isWooProductEntity,
 		loading,
 		location,
-		closePublishSidebar,
-		openGeneralSidebar,
-		openEditorModal,
 	] );
 
 	/**
