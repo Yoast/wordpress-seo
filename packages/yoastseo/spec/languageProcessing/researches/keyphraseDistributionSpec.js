@@ -1400,7 +1400,7 @@ describe( "Test for the research", function() {
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 
-	xit( "returns the same result for a real world example with nested lists as it does for a string version of that" +
+	it( "returns the same result for a real world example with nested lists as it does for a string version of that" +
 		"text where all lists have been manually removed", function() {
 		const realWordULExample2NoLists = " On the <strong>General</strong> tab: Make sure your store address is " +
 			"correct and that you’ve limited selling to your country and location  Enable or disable tax calculation if" +
@@ -1446,10 +1446,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		// expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-		// 	keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual( 60 );
-		expect( keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore ).toEqual( 25 );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 
 	it( "returns the result for long topic", function() {
