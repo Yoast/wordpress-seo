@@ -35,7 +35,7 @@ class Config {
 	 *
 	 * @return int
 	 */
-	public function get_per_page_max(): int {
+	public function get_max_per_page(): int {
 		return self::MAX_PER_PAGE;
 	}
 }
