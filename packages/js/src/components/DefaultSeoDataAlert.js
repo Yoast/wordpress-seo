@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
-import { useDispatch } from "@wordpress/data";
+import { select, useDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
@@ -18,6 +18,7 @@ import { safeCreateInterpolateElement } from "../helpers/i18n";
 export default function DefaultSeoDataAlert( {
 	isSeoDataDefault,
 } ) {
+	const postType = select( "yoast-seo/editor" ).getPostType();
 	const isTitlesDefault = useMemo( () => {
 		return isSeoDataDefault?.isAllTitlesDefault || false;
 	}, [ isSeoDataDefault ] );
@@ -27,8 +28,12 @@ export default function DefaultSeoDataAlert( {
 	}, [ isSeoDataDefault ] );
 
 	const showAlert = useMemo( () => {
+		if ( postType !== "post" ) {
+			return false;
+		}
+
 		return isTitlesDefault || isDescriptionsDefault;
-	}, [ isTitlesDefault, isDescriptionsDefault ] );
+	}, [ postType, isTitlesDefault, isDescriptionsDefault ] );
 
 
 	const seoDataNames = useMemo( () => {

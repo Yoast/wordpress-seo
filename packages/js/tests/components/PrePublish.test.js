@@ -1,10 +1,11 @@
 import PrePublish from "../../src/components/PrePublish";
 import { render, screen } from "../test-utils";
-import { useDispatch } from "@wordpress/data";
+import { select, useDispatch } from "@wordpress/data";
 
 // Mock WordPress dependencies
 jest.mock( "@wordpress/data", () => ( {
 	useDispatch: jest.fn(),
+	select: jest.fn(),
 } ) );
 
 describe( "The PrePublish component", () => {
@@ -17,6 +18,9 @@ describe( "The PrePublish component", () => {
 		useDispatch.mockReturnValue(
 			{ closePublishSidebar: mockClosePublishSidebar, openGeneralSidebar: mockOpenGeneralSidebar, openEditorModal: mockOpenEditorModal }
 		);
+		select.mockReturnValue( {
+			getPostType: jest.fn( () => "post" ),
+		} );
 	} );
 
 	afterEach( () => {
