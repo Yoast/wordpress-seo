@@ -33,7 +33,7 @@ const getEditorMode = () => {
 /**
  * The AI Optimize button component.
  *
- * @param {string} id The ID of the assessment to apply the changes to.
+ * @param {string} id The assessment ID which AI Optimize should be applied to.
  * @param {boolean} [isPremium=false] Whether the Premium add-on is active.
  *
  * @returns {JSX.Element} The AI Optimize button.
