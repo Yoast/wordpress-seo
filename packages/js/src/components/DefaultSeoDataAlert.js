@@ -102,7 +102,9 @@ export default function DefaultSeoDataAlert( {
 			<h4>{ __( "Default SEO data detected", "wordpress-seo" ) }</h4>
 		</div>
 		<p>{ message }</p>
-		<p>{ proTip }</p>
+		{ titleButtons.length + descButtons.length > 0 && <p>
+			{ proTip }
+		</p> }
 		<Slot name={ "yoast.replacementVariableEditor.additionalButtons.yoast-google-preview-pre-publish" } />
 		{ titleButtons.map( ( button, index ) => (
 			<Fragment key={ `additional-button-pre-publish-sidebar-title-${ index }` }>
