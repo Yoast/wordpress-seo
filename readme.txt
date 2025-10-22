@@ -302,6 +302,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
+
 = 26.2 =
 
 Release date: 2025-10-21
