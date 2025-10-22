@@ -301,7 +301,6 @@ export const App = ( { onUseAi } ) => {
 		isWooSeoActive,
 		isWooProductEntity,
 		loading,
-		location,
 	] );
 
 	/**

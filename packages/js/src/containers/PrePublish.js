@@ -15,7 +15,7 @@ import { getIsSeoDataDefault } from "../helpers/getIsSeoDataDefault";
  *
  * @param {function} select The WordPress select function.
  *
- * @returns {{checklist: [], showAiGenerateCheck: boolean}} The props for the checklist.
+ * @returns {{checklist: [], isSeoDataDefault: object}} The props for the checklist.
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
