@@ -23,18 +23,33 @@ describe( "BenefitItems", () => {
 		} );
 	} );
 
-	it( "renders benefits in the correct order for pages", () => {
+	it( "renders benefits in alphabetical order for pages", () => {
 		global.window.wpseoScriptData.isPage = true;
 		render( <BenefitItems id="test" /> );
 
 		const listItems = screen.getAllByRole( "listitem" );
-		// For pages: AI Summarize, Estimated reading time, Related links, Siblings, Sub-pages, Table of contents
+		// For pages: premium blocks + page-only blocks, all sorted alphabetically
 		expect( listItems ).toHaveLength( PREMIUM_CONTENT_BLOCKS.length + 2 );
 
-		// Check that Siblings and Sub-pages appear before Table of contents
+		// Verify all items are present
+		expect( screen.getByText( "AI Summarize" ) ).toBeInTheDocument();
+		expect( screen.getByText( "Estimated reading time" ) ).toBeInTheDocument();
+		expect( screen.getByText( "Related links" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Siblings" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Sub-pages" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Table of contents" ) ).toBeInTheDocument();
+
+		// Verify alphabetical order
+		const titles = Array.from( listItems ).map( item => item.textContent );
+		const expectedOrder = [
+			"AI Summarize",
+			"Estimated reading time",
+			"Related links",
+			"Siblings",
+			"Sub-pages",
+			"Table of contents",
+		];
+		expect( titles ).toEqual( expectedOrder );
 	} );
 
 	it( "does not render Siblings and Sub-pages for non-pages", () => {

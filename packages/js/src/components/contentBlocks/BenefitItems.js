@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { UserGroupIcon, CollectionIcon } from "@heroicons/react/outline";
 
-import { PREMIUM_CONTENT_BLOCKS } from "./ContentBlocks";
+import { PREMIUM_CONTENT_BLOCKS, getPremiumBlocksForPages } from "./ContentBlocks";
 
 /**
  * BenefitItems component to render the list of benefits.
@@ -11,23 +11,25 @@ import { PREMIUM_CONTENT_BLOCKS } from "./ContentBlocks";
  */
 export const BenefitItems = ( { id } ) => {
 	const isPage = Boolean( window?.wpseoScriptData?.isPage );
-	const pageOnlyBenefits = isPage ? [
-		{ title: __( "Siblings", "wordpress-seo" ), icon: UserGroupIcon },
-		{ title: __( "Sub-pages", "wordpress-seo" ), icon: CollectionIcon },
-	] : [];
 
-	// Match the order from ContentBlocks component: premium blocks, page-only blocks, then Table of contents
-	let benefits;
-	if ( isPage ) {
-		const tableOfContentsBlock = PREMIUM_CONTENT_BLOCKS.find( block => block.name === "yoast-seo/table-of-contents" );
-		const otherPremiumBlocks = PREMIUM_CONTENT_BLOCKS.filter( block => block.name !== "yoast-seo/table-of-contents" );
-		benefits = otherPremiumBlocks.concat(
-			pageOnlyBenefits,
-			tableOfContentsBlock ? [ tableOfContentsBlock ] : []
-		);
-	} else {
-		benefits = PREMIUM_CONTENT_BLOCKS;
-	}
+	// Get premium blocks, merged and sorted alphabetically for pages
+	const premiumBlocksForPages = getPremiumBlocksForPages( PREMIUM_CONTENT_BLOCKS, [
+		{ title: __( "Siblings", "wordpress-seo" ), name: "yoast-seo/siblings", isPremiumBlock: true },
+		{ title: __( "Sub-pages", "wordpress-seo" ), name: "yoast-seo/subpages", isPremiumBlock: true },
+	], isPage );
+
+	// Map blocks to include icons for rendering
+	const benefits = premiumBlocksForPages.map( block => {
+		// Assign icon for page-only blocks
+		if ( block.name === "yoast-seo/siblings" ) {
+			return { ...block, icon: UserGroupIcon };
+		}
+		if ( block.name === "yoast-seo/subpages" ) {
+			return { ...block, icon: CollectionIcon };
+		}
+		// For premium blocks, use their existing icon
+		return block;
+	} );
 
 	return (
 		<ul className="yst-my-2">

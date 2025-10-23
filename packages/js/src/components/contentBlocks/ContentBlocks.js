@@ -72,6 +72,27 @@ const getPageOnlyBlocks = ( isPage ) => {
 };
 
 /**
+ * Helper to get premium blocks merged with page-only blocks for pages, sorted alphabetically.
+ * For non-pages, returns premium blocks in their default order.
+ *
+ * @param {Array} premiumBlocks - Array of premium blocks.
+ * @param {Array} pageOnlyBlocks - Array of page-only blocks.
+ * @param {boolean} isPage - Whether the current post type is a page.
+ * @returns {Array} Premium blocks, optionally merged with page-only blocks and sorted alphabetically.
+ */
+export const getPremiumBlocksForPages = ( premiumBlocks, pageOnlyBlocks, isPage ) => {
+	if ( ! isPage ) {
+		return premiumBlocks;
+	}
+
+	// Merge premium blocks with page-only blocks
+	const mergedBlocks = [ ...premiumBlocks, ...pageOnlyBlocks ];
+
+	// Sort alphabetically by title
+	return mergedBlocks.sort( ( a, b ) => a.title.localeCompare( b.title ) );
+};
+
+/**
  * Arranges blocks in the correct order.
  *
  * @param {Array} premiumBlocks - Array of premium blocks.
