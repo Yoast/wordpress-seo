@@ -38,7 +38,6 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		$this->assertTrue( $response_data->success );
 		$this->assertSame( 200, $response_data->status );
 
-		// Verify the user meta was actually set
 		$meta_value = \get_user_meta( $user->ID, 'wpseo_seen_llm_txt_opt_in_notification', true );
 
 		$this->assertSame( $meta_value, '1' );
