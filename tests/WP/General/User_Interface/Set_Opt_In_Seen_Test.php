@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Tests\WP\General\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\General\User_Interface\Opt_In_Route;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -14,6 +17,29 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
  * @covers \Yoast\WP\SEO\General\User_Interface\Opt_In_Route::set_opt_in_seen
  */
 final class Set_Opt_In_Seen_Test extends TestCase {
+
+	/**
+	 * Set up the test.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		// Manually register the route for testing.
+		\add_action(
+			'rest_api_init',
+			static function () {
+				$user_helper       = new User_Helper();
+				$capability_helper = new Capability_Helper();
+				$opt_in_route      = new Opt_In_Route( $user_helper, $capability_helper );
+				$opt_in_route->register_routes();
+			}
+		);
+
+		// Trigger the rest_api_init action to register routes.
+		\do_action( 'rest_api_init' );
+	}
 
 	/**
 	 * Tests setting opt-in notification as seen with valid key and privileged user.
