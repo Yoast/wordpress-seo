@@ -59,6 +59,7 @@ class Yoast_Notification {
 	 * -     capabilities: Capabilities that a user must have for this Notification to show.
 	 * - capability_check: How to check capability pass: all or any.
 	 * -  wpseo_page_only: Only display on wpseo page or on every page.
+	 * -      input_field: An optional input field to include in the notification.
 	 *
 	 * @var array
 	 */
@@ -80,6 +81,7 @@ class Yoast_Notification {
 		'capabilities'     => [],
 		'capability_check' => self::MATCH_ALL,
 		'yoast_branding'   => false,
+		'input_field'      => null,
 	];
 
 	/**
@@ -175,6 +177,19 @@ class Yoast_Notification {
 	 */
 	public function get_priority() {
 		return $this->options['priority'];
+	}
+
+	/**
+	 * Get the input field of the notification.
+	 *
+	 * @return array<string, string>
+	 */
+	public function get_input_field() {
+		if ( ! is_a( $this->options['input_field'], 'Yoast\WP\SEO\Alerts\Domain\Input_Field' ) ) {
+			return null;
+		}
+
+		return $this->options['input_field']->to_array();
 	}
 
 	/**

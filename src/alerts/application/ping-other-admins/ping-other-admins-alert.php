@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Alerts\Application\Ping_Other_Admins;
 
+use Yoast\WP\SEO\Alerts\Domain\Input_Field;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -91,8 +92,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.InvalidEndChar -- we're gonna postpone this notification until we're actually ready for it.
-		// \add_action( 'admin_init', [ $this, 'add_notifications' ] );
+		\add_action( 'admin_init', [ $this, 'add_notifications' ] );
 	}
 
 	/**
@@ -150,7 +150,20 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return Yoast_Notification The ping-other-admins notification.
 	 */
 	private function get_ping_other_admins_notification(): Yoast_Notification {
-		$message = $this->get_message();
+		$message     = $this->get_message();
+		$input_field = new Input_Field(
+			'',
+			'',
+			\__( 'E.g. example@email.com', 'wordpress-seo' ),
+			\__( 'Send', 'wordpress-seo' ),
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="100%" height="100%"> <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" /> </svg>',
+			\sprintf(
+				/* translators: 1: opening anchor tag, 2: closing anchor tag. */
+				\__( 'Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information.', 'wordpress-seo' ),
+				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/gdpr-config-workout' ) ) . '" target="_blank" rel="noopener noreferrer">',
+				'</a>'
+			)
+		);
 
 		return new Yoast_Notification(
 			$message,
@@ -159,6 +172,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => [ 'wpseo_manage_options' ],
 				'priority'     => 20,
+				'input_field'  => $input_field,
 			]
 		);
 	}
@@ -169,21 +183,13 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return string The HTML string representation of the notification.
 	 */
 	private function get_message() {
-		$shortlink = $this->short_link_helper->get( 'https://yoa.st/new-admin-newsletter-sign-up/' );
-
 		$message = \sprintf(
-			/* translators: %1$s and %3$s expands to "Yoast SEO" , %2$s expands to an opening link tag, %4$s expands to a closing link tag. */
-			\esc_html__( 'Looks like you’re new here. %1$s makes it easy to optimize your website for search engines. Want to keep your site healthy and easier to find? %2$sSign up for the %3$s newsletter for short, practical weekly tips%4$s.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
-			'Yoast SEO',
-			'</a>'
+			/* translators: %1$s expands to "Yoast SEO". */
+			\esc_html__( 'Looks like you’re new here. %1$s makes it easy to optimize your website for search engines. Want to keep your site healthy and easier to find? Sign up below to receive practical emails to get you started!', 'wordpress-seo' ),
+			'Yoast SEO'
 		);
 
-		$notification_text  = '<p>' . $message . '</p>';
-		$notification_text .= '<a class="button wpseo-resolve-alert" href="#" data-alert-id="' . \esc_attr( self::NOTIFICATION_ID ) . '" data-nonce="' . \esc_attr( \wp_create_nonce( 'wpseo-resolve-alert-nonce' ) ) . '">';
-		$notification_text .= \esc_html__( 'Dismiss', 'wordpress-seo' );
-		$notification_text .= '</a>';
+		$notification_text = '<p>' . $message . '</p>';
 
 		return $notification_text;
 	}

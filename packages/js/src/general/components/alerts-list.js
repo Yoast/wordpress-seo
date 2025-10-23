@@ -2,11 +2,12 @@
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useDispatch } from "@wordpress/data";
 import { useCallback, useContext } from "@wordpress/element";
-import { Button } from "@yoast/ui-library";
+import { Button, TextField } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
+import { noop } from "lodash";
 
 /**
  * The alert item object.
@@ -15,10 +16,11 @@ import { AlertsContext } from "../contexts/alerts-context";
  * @param {string} [nonce=""] The alert nonce.
  * @param {boolean} [dismissed=false] Whether the alert is dismissed or not.
  * @param {string} [message=""] The alert message.
+ * @param {Object|null} [inputField=null] The alert input field.
  *
  * @returns {JSX.Element} The alert item component.
  */
-const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) => {
+const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", inputField = null } ) => {
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
@@ -41,8 +43,39 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) =
 				className={ classNames(
 					"yst-text-sm yst-text-slate-600 yst-grow",
 					dismissed && "yst-opacity-50" ) }
-				dangerouslySetInnerHTML={ { __html: message } }
-			/>
+			>
+				<div
+					dangerouslySetInnerHTML={ { __html: message } }
+				/>
+				{ inputField &&
+					<div className="yst-flex yst-items-end yst-gap-2 yst-mt-2">
+						<TextField
+							type="text"
+							name={ id + "-input-field" }
+							id={ id + "-input-field" }
+							label={ inputField.label }
+							onChange={ noop }
+							placeholder={ inputField.placeholder }
+							className="yst-flex-1"
+						/>
+						<Button
+							variant="primary"
+							size="large"
+						>
+							{ inputField.button_text }
+							<div
+								className="yst-ml-2 yst-w-4"
+								dangerouslySetInnerHTML={ { __html: inputField.button_icon } }
+							/>
+						</Button>
+					</div>
+				}
+				{ inputField?.footer_text && <p
+					className="yst-text-slate-600 yst-text-xxs yst-leading-4 yst-mt-1"
+					dangerouslySetInnerHTML={ { __html: inputField.footer_text } }
+				/>
+				}
+			</div>
 
 			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
 				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
@@ -78,6 +111,7 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 					nonce={ item.nonce }
 					dismissed={ item.dismissed }
 					message={ item.message }
+					inputField={ item.input_field }
 				/>
 			) ) }
 		</ul>
@@ -91,5 +125,6 @@ AlertsList.propTypes = {
 		id: PropTypes.string,
 		nonce: PropTypes.string,
 		dismissed: PropTypes.bool,
+		inputField: PropTypes.object,
 	} ) ),
 };
