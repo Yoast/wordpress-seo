@@ -91,7 +91,12 @@ export default function DefaultSeoDataAlert( {
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: "yoast-google-preview-pre-publish", type: "description" } );
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
-	const { closePublishSidebar, openGeneralSidebar } = useDispatch( "core/edit-post" );
+	const { openGeneralSidebar } = useDispatch(
+		"core/edit-post"
+	) || {};
+	const { closePublishSidebar } = useDispatch(
+		"core/editor"
+	) || {};
 	const { openEditorModal } = useDispatch( "yoast-seo/editor" );
 
 	const onClick = useCallback( () => {

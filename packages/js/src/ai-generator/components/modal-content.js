@@ -228,8 +228,11 @@ export const ModalContent = ( { height } ) => {
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
-	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
+	const { openGeneralSidebar } = useDispatch(
 		"core/edit-post"
+	) || {};
+	const { closePublishSidebar } = useDispatch(
+		"core/editor"
 	) || {};
 	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();

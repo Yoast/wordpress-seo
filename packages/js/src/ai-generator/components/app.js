@@ -158,8 +158,11 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
-	const { closePublishSidebar, openGeneralSidebar } = useDispatch(
+	const { openGeneralSidebar } = useDispatch(
 		"core/edit-post"
+	) || {};
+	const { closePublishSidebar } = useDispatch(
+		"core/editor"
 	) || {};
 
 	const closeModal = useCallback( () => {
