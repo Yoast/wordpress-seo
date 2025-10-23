@@ -20,6 +20,7 @@ function* setOptInNotificationSeen( key ) {
 		};
 		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }`, payload: key };
 	} catch ( error ) {
+		console.error( "Error setting opt-in notification as seen:", error );
 		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, payload: key };
 	}
 }
