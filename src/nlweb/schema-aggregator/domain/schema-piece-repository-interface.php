@@ -16,5 +16,5 @@ interface Schema_Piece_Repository_Interface {
 	 *
 	 * @return array<Schema_Piece> The schema pieces.
 	 */
-	public function get_by_indexable_ids( array $indexable_ids ): array;
+	public function get( $page, $page_size ): array;
 }
