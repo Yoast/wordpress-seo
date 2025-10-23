@@ -4,15 +4,14 @@ namespace Yoast\WP\SEO\General\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Registers a route to get dismiss opt in notification.
- *
  */
 class Opt_In_Route implements Route_Interface {
 
@@ -49,11 +48,11 @@ class Opt_In_Route implements Route_Interface {
 	/**
 	 * Constructs Opt_In_Route.
 	 *
-	 * @param User_Helper $user_helper The user helper.
+	 * @param User_Helper       $user_helper       The user helper.
 	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct( User_Helper $user_helper, Capability_Helper $capability_helper ) {
-		$this->user_helper     = $user_helper;
+		$this->user_helper       = $user_helper;
 		$this->capability_helper = $capability_helper;
 	}
 
@@ -91,9 +90,9 @@ class Opt_In_Route implements Route_Interface {
 		$key             = $request->get_param( 'key' );
 		$current_user_id = $this->user_helper->get_current_user_id();
 
-		$result = $this->user_helper->update_meta( $current_user_id, $key, true );
+		$result  = $this->user_helper->update_meta( $current_user_id, $key, true );
 		$success = $result !== false;
-		$status  = $success ? 200 : 400;
+		$status  = ( $success ) ? 200 : 400;
 
 		return new WP_REST_Response(
 			(object) [
@@ -125,6 +124,6 @@ class Opt_In_Route implements Route_Interface {
 			'wpseo_seen_llm_txt_opt_in_notification',
 		];
 
-		return in_array( $key, $allowed_keys, true );
+		return \in_array( $key, $allowed_keys, true );
 	}
 }
