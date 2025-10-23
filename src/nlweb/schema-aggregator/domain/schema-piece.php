@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain;
 
 use WPSEO_Utils;
@@ -53,25 +54,12 @@ class Schema_Piece {
 	}
 
 	/**
-	 * Converts the schema piece to a schema.org  array.
-	 *
-	 * @return array<string, string|int|bool> The schema.org array representation.
-	 */
-	public function to_schema_array(): array {
-		return [
-			'@type' => $this->type,
-			...$this->data,
-		];
-	}
-
-	/**
 	 * Encodes the schema piece in JSON-LD format.
 	 *
 	 * @return string The JSON-LD representation.
 	 */
 	public function to_json_ld(): string {
-		$schema_array = $this->to_schema_array();
-		return WPSEO_Utils::format_json_encode( $schema_array );
+		return WPSEO_Utils::format_json_encode( $this->data );
 	}
 
 	/**
@@ -84,7 +72,7 @@ class Schema_Piece {
 		$graph = [];
 		foreach ( $schema_pieces as $piece ) {
 			if ( $piece instanceof self ) {
-				$graph[] = $piece->to_schema_array();
+				$graph[] = $piece->data;
 			}
 		}
 

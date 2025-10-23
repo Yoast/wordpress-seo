@@ -4,10 +4,9 @@ namespace Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
-use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure\Adapters\Meta_Tags_Context_Memoizer_Adapter;
+use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -46,10 +45,10 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer                 $memoizer         The meta tags context memoizer.
-	 * @param Indexable_Helper                           $indexable_helper The indexable helper.
-	 * @param Indexable_Repository                       $indexable_repository The indexable repository.
-	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter  The adapter factory.
+	 * @param Meta_Tags_Context_Memoizer         $memoizer             The meta tags context memoizer.
+	 * @param Indexable_Helper                   $indexable_helper     The indexable helper.
+	 * @param Indexable_Repository               $indexable_repository The indexable repository.
+	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter              The adapter factory.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
@@ -60,7 +59,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$this->memoizer             = $memoizer;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
-		$this->adapter      = $adapter;
+		$this->adapter              = $adapter;
 	}
 
 	/**
@@ -71,7 +70,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 *
 	 * @return array<Schema_Piece> The aggregated schema.
 	 */
-	public function get( $page, $page_size ): array {
+	public function get( int $page, int $page_size ): array {
 		$public_indexables = $this->indexable_repository->find_all_public_paginated(
 			$page,
 			$page_size,
@@ -81,7 +80,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		foreach ( $public_indexables as $indexable ) {
 			$page_type       = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context         = $this->memoizer->get( $indexable, $page_type );
-			$context_array   =  $this->adapter->meta_tags_context_to_array( $context );
+			$context_array   = $this->adapter->meta_tags_context_to_array( $context );
 			$schema_pieces[] = new Schema_Piece( $context_array, $page_type );
 		}
 

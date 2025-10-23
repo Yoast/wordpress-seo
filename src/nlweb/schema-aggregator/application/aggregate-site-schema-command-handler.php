@@ -3,9 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application;
 
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure\Schema_Piece_Repository;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\To_Aggregate_Indexable_Collector;
 
 /**
  * Class that handles the Aggregate_Site_Schema_Command.
@@ -22,10 +20,10 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * Aggregate_Site_Schema_Command_Handler constructor.
 	 *
-	 * @param Schema_Piece_Repository    $schema_piece_repository    The collector of indexables that need to be aggregated.
+	 * @param Schema_Piece_Repository $schema_piece_repository The collector of indexables that need to be aggregated.
 	 */
 	public function __construct( Schema_Piece_Repository $schema_piece_repository ) {
-		$this->schema_piece_repository    = $schema_piece_repository;
+		$this->schema_piece_repository = $schema_piece_repository;
 	}
 
 	/**
@@ -45,7 +43,7 @@ class Aggregate_Site_Schema_Command_Handler {
 		// This part should be replaced by the rest of the system.
 		$schema = [];
 		foreach ( $schema_pieces as $schema_piece ) {
-			$schema[] = $schema_piece->to_schema_array();
+			$schema[] = $schema_piece->get_data();
 		}
 		return $schema;
 	}
