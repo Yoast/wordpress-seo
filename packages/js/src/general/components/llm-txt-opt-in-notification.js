@@ -24,9 +24,6 @@ const DismissButton = () => {
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
 export const LlmTxtOptInNotification = () => {
-	// All hooks must be called first, before any conditional returns
-	const llmTxtNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [] );
-	const llmTxtEnabled = useSelectGeneralPage( "selectPreference", [], "llmTxtEnabled" );
 	const { setOptInNotificationSeen } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
 	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
@@ -41,11 +38,6 @@ export const LlmTxtOptInNotification = () => {
 		sessionStorage?.setItem( "yoast-highlight-setting", "llm-txt" );
 		window.location.href = llmTxtSettingsUrl;
 	}, [ llmTxtSettingsUrl ] );
-
-	// Early return after all hooks are called
-	if ( llmTxtEnabled || llmTxtNotificationSeen || sessionStorage === null ) {
-		return null;
-	}
 
 	return <Toast
 		id="wpseo_seen_llm_txt_opt_in_notification"
