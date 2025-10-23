@@ -8,36 +8,53 @@ import { STORE_NAME } from "../constants";
 import { useDispatch } from "@wordpress/data";
 
 /**
- * Dismiss button for the LLM txt opt-in notification.
- * Used for the useToastContext hook.
+ * The buttons for the LLM txt opt-in notification.
+ * Used for the toast context.
  *
- * @returns {JSX.Element} The dismiss button.
+ * @returns {JSX.Element} The buttons.
  */
-const DismissButton = () => {
+const NotificationButtons = () => {
 	const { handleDismiss } = useToastContext();
-	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>{ __( "Dismiss", "wordpress-seo" ) }</Button>;
+	const svgAriaProps = useSvgAria();
+	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
+
+	const handleShow = useCallback( async() => {
+		handleDismiss();
+		sessionStorage?.setItem( "yoast-highlight-setting", "llm-txt" );
+		window.location.href = llmTxtSettingsUrl;
+	}, [ llmTxtSettingsUrl ] );
+
+	return <div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
+		<Button size="small" variant="tertiary" onClick={ handleDismiss }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
+		<Button size="small" className="yst-gap-1" onClick={ handleShow }>
+			{ __( "Show me", "wordpress-seo" ) }
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" { ...svgAriaProps } />
+		</Button>
+	</div>;
 };
 
 /**
- * Shows only once.
+ * The LLM txt opt-in notification component.
  *
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
 export const LlmTxtOptInNotification = () => {
 	const { setOptInNotificationSeen } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
-	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
+
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
+
 
 	useEffect( () => {
 		// For the transition to take place.
 		toggleIsVisible();
+
+		return () => {
+			// Mark the notification as seen when unmounting when switching to the FTC tab.
+			setOptInNotificationSeen( "wpseo_seen_llm_txt_opt_in_notification" );
+		};
 	}, [] );
 
-	const handleShow = useCallback( () => {
-		sessionStorage?.setItem( "yoast-highlight-setting", "llm-txt" );
-		window.location.href = llmTxtSettingsUrl;
-	}, [ llmTxtSettingsUrl ] );
 
 	return <Toast
 		id="wpseo_seen_llm_txt_opt_in_notification"
@@ -62,13 +79,7 @@ export const LlmTxtOptInNotification = () => {
 					<Toast.Close dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
 				</div>
 			</div>
-			<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-				<DismissButton />
-				<Button size="small" className="yst-gap-1" onClick={ handleShow }>
-					{ __( "Show me", "wordpress-seo" ) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" { ...svgAriaProps } />
-				</Button>
-			</div>
+			<NotificationButtons />
 		</>
 	</Toast>;
 };
