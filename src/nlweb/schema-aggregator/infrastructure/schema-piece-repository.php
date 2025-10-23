@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
-use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure\Adapters\Meta_Tags_Context_Memoizer_Adapter_Factory;
+use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure\Adapters\Meta_Tags_Context_Memoizer_Adapter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -39,9 +39,9 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	/**
 	 * The meta tags context adapter factory.
 	 *
-	 * @var Meta_Tags_Context_Memoizer_Adapter_Factory
+	 * @var Meta_Tags_Context_Memoizer_Adapter
 	 */
-	private $adapter_factory;
+	private $adapter;
 
 	/**
 	 * Constructor.
@@ -49,18 +49,18 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 * @param Meta_Tags_Context_Memoizer                 $memoizer         The meta tags context memoizer.
 	 * @param Indexable_Helper                           $indexable_helper The indexable helper.
 	 * @param Indexable_Repository                       $indexable_repository The indexable repository.
-	 * @param Meta_Tags_Context_Memoizer_Adapter_Factory $adapter_factory  The adapter factory.
+	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter  The adapter factory.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
 		Indexable_Helper $indexable_helper,
 		Indexable_Repository $indexable_repository,
-		Meta_Tags_Context_Memoizer_Adapter_Factory $adapter_factory
+		Meta_Tags_Context_Memoizer_Adapter $adapter
 	) {
 		$this->memoizer             = $memoizer;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
-		$this->adapter_factory      = $adapter_factory;
+		$this->adapter      = $adapter;
 	}
 
 	/**
@@ -81,8 +81,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		foreach ( $public_indexables as $indexable ) {
 			$page_type       = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context         = $this->memoizer->get( $indexable, $page_type );
-			$adapter         = $this->adapter_factory->create( $page_type );
-			$context_array   = $adapter->meta_tags_context_to_array( $context );
+			$context_array   =  $this->adapter->meta_tags_context_to_array( $context );
 			$schema_pieces[] = new Schema_Piece( $context_array, $page_type );
 		}
 
