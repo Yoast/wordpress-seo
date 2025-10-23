@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -150,7 +151,7 @@ const App = () => {
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
 				position="bottom-left"
 			>
-				<LlmTxtOptInNotification />
+				{ pathname !== ROUTES.firstTimeConfiguration && <LlmTxtOptInNotification /> }
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
