@@ -32,7 +32,8 @@ const slice = createSlice( {
 			state.seen[ payload ] = true;
 		} );
 		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
-			state.seen[ payload ] = false;
+			// Even on error, we mark the notification as seen to avoid showing it again.
+			state.seen[ payload ] = true;
 		} );
 	},
 } );
