@@ -241,8 +241,6 @@ class General_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
-				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
-				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
 				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
 			],
 			'adminUrl'          => \admin_url( 'admin.php' ),
@@ -250,24 +248,19 @@ class General_Page_Integration implements Integration_Interface {
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
 			'alerts'            => $this->notification_helper->get_alerts(),
 			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
-			'dismissedAlerts'   => $this->alert_dismissal_action->all_dismissed(),
-			'dashboard'         => $this->dashboard_configuration->get_configuration(),
+			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
+			'dashboard'             => $this->dashboard_configuration->get_configuration(),
+			'optInNotificationSeen' => $this->is_llms_txt_opt_in_notification_seen(),
 		];
 	}
 
 	/**
 	 * Gets if the llms.txt opt-in notification has been seen.
-	 * This is used to show the notification only once.
 	 *
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
-	private function is_llms_txt_notification_seen(): bool {
-		$key             = 'wpseo_seen_llm_txt_opt_in_notification';
+	private function is_llms_txt_opt_in_notification_seen(): bool {
 		$current_user_id = $this->user_helper->get_current_user_id();
-		$seen            = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
-		if ( $seen === false ) {
-			$this->user_helper->update_meta( $current_user_id, $key, true );
-		}
-		return $seen;
+		return (bool) $this->user_helper->get_meta( $current_user_id, 'wpseo_seen_llm_txt_opt_in_notification', true );
 	}
 }
