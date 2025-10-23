@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\General\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * Registers a route to get dismiss opt in notification.
  */
 class Opt_In_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 		/**
 		 *  The namespace for this route.
@@ -44,6 +42,17 @@ class Opt_In_Route implements Route_Interface {
 	 * @var Capability_Helper
 	 */
 	private $capability_helper;
+
+	/**
+	 * Returns the conditionals based on which this integration should be active.
+	 *
+	 * @return array<Yoast_Admin_And_Dashboard_Conditional> The array of conditionals.
+	 */
+	public static function get_conditionals() {
+		return [
+			Yoast_Admin_And_Dashboard_Conditional::class,
+		];
+	}
 
 	/**
 	 * Constructs Opt_In_Route.
