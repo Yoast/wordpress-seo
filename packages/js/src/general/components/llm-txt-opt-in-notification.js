@@ -1,9 +1,22 @@
-import { Toast, Button, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Toast, Button, useSvgAria, useToggleState, useToastContext } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useSelectGeneralPage } from "../hooks";
 import { useCallback, useEffect } from "@wordpress/element";
+import { STORE_NAME } from "../constants";
+import { useDispatch } from "@wordpress/data";
+
+/**
+ * Dismiss button for the LLM txt opt-in notification.
+ * Used for the useToastContext hook.
+ *
+ * @returns {JSX.Element} The dismiss button.
+ */
+const DismissButton = () => {
+	const { handleDismiss } = useToastContext();
+	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>{ __( "Dismiss", "wordpress-seo" ) }</Button>;
+};
 
 /**
  * Shows only once.
@@ -11,17 +24,14 @@ import { useCallback, useEffect } from "@wordpress/element";
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
 export const LlmTxtOptInNotification = () => {
-	const llmTxtNotificationSeen = useSelectGeneralPage( "selectPreference", [], "llmTxtNotificationSeen" );
+	// All hooks must be called first, before any conditional returns
+	const llmTxtNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [] );
 	const llmTxtEnabled = useSelectGeneralPage( "selectPreference", [], "llmTxtEnabled" );
-
-	if ( llmTxtEnabled || llmTxtNotificationSeen || sessionStorage === null ) {
-		return null;
-	}
-
+	const { setOptInNotificationSeen } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
 	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
-
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
+
 	useEffect( () => {
 		// For the transition to take place.
 		toggleIsVisible();
@@ -32,12 +42,18 @@ export const LlmTxtOptInNotification = () => {
 		window.location.href = llmTxtSettingsUrl;
 	}, [ llmTxtSettingsUrl ] );
 
+	// Early return after all hooks are called
+	if ( llmTxtEnabled || llmTxtNotificationSeen || sessionStorage === null ) {
+		return null;
+	}
+
 	return <Toast
-		id="llmt-txt-toast"
+		id="wpseo_seen_llm_txt_opt_in_notification"
 		isVisible={ isVisible }
 		className="yst-w-96"
 		position="bottom-left"
 		setIsVisible={ setIsVisible }
+		onDismiss={ setOptInNotificationSeen }
 	>
 		<>
 			<div className="yst-flex yst-gap-3">
@@ -55,7 +71,7 @@ export const LlmTxtOptInNotification = () => {
 				</div>
 			</div>
 			<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-				<Button size="small" variant="tertiary" onClick={ toggleIsVisible }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
+				<DismissButton />
 				<Button size="small" className="yst-gap-1" onClick={ handleShow }>
 					{ __( "Show me", "wordpress-seo" ) }
 					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" { ...svgAriaProps } />
