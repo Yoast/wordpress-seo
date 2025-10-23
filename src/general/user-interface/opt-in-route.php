@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\General\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
@@ -46,11 +46,11 @@ class Opt_In_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
-	 * @return array<Yoast_Admin_And_Dashboard_Conditional> The array of conditionals.
+	 * @return array<User_Can_Manage_Wpseo_Options_Conditional> The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [
-			Yoast_Admin_And_Dashboard_Conditional::class,
+			User_Can_Manage_Wpseo_Options_Conditional::class,
 		];
 	}
 
