@@ -4,10 +4,10 @@ import { useLocation } from "react-router-dom";
 import { ROUTES } from "../routes";
 
 export const LlmTxtOptInContainer = () => {
-	const llmTxtNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [] );
+	const llmTxtNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [], "wpseo_seen_llm_txt_opt_in_notification" );
 	const llmTxtEnabled = useSelectGeneralPage( "selectPreference", [], "llmTxtEnabled" );
 	const { pathname } = useLocation();
-	// Early return after all hooks are called
+
 	if ( pathname === ROUTES.firstTimeConfiguration || llmTxtEnabled || llmTxtNotificationSeen || sessionStorage === null ) {
 		return null;
 	}

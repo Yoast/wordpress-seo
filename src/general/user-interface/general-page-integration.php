@@ -232,7 +232,7 @@ class General_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data() {
 		return [
-			'preferences'       => [
+			'preferences'           => [
 				'isPremium'              => $this->product_helper->is_premium(),
 				'isRtl'                  => \is_rtl(),
 				'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
@@ -243,14 +243,16 @@ class General_Page_Integration implements Integration_Interface {
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
 				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
 			],
-			'adminUrl'          => \admin_url( 'admin.php' ),
-			'linkParams'        => $this->shortlink_helper->get_query_params(),
-			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
-			'alerts'            => $this->notification_helper->get_alerts(),
-			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
+			'adminUrl'              => \admin_url( 'admin.php' ),
+			'linkParams'            => $this->shortlink_helper->get_query_params(),
+			'userEditUrl'           => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
+			'alerts'                => $this->notification_helper->get_alerts(),
+			'currentPromotions'     => $this->promotion_manager->get_current_promotions(),
 			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'             => $this->dashboard_configuration->get_configuration(),
-			'optInNotificationSeen' => $this->is_llms_txt_opt_in_notification_seen(),
+			'optInNotificationSeen' => [
+				'wpseo_seen_llm_txt_opt_in_notification' => $this->is_llms_txt_opt_in_notification_seen(),
+			],
 		];
 	}
 

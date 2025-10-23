@@ -18,21 +18,21 @@ function* setOptInNotificationSeen( key ) {
 			type: OPT_IN_NOTIFICATION_SEEN,
 			payload: key,
 		};
-		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }` };
+		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }`, payload: key };
 	} catch ( error ) {
-		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }` };
+		return { type: `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, payload: key };
 	}
 }
 
 const slice = createSlice( {
 	name: OPT_IN_NOTIFICATION_NAME,
-	initialState: { seen: false },
+	initialState: { seen: {} },
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }`, ( state ) => {
-			state.seen = true;
+		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
+			state.seen[ payload ] = true;
 		} );
-		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, ( state ) => {
-			state.seen = false;
+		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
+			state.seen[ payload ] = false;
 		} );
 	},
 } );
@@ -44,7 +44,7 @@ export const getInitialOptInNotificationState = slice.getInitialState;
 
 
 export const optInNotificationSelectors = {
-	selectIsOptInNotificationSeen: ( state ) => get( state, `${ OPT_IN_NOTIFICATION_NAME }.seen`, false ),
+	selectIsOptInNotificationSeen: ( state, key ) => get( state, [ OPT_IN_NOTIFICATION_NAME, "seen", key ], false ),
 };
 
 export const optInNotificationActions = {
