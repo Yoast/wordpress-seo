@@ -63,7 +63,7 @@ export const UpsellModal = ( {
 							) }
 					</div>
 				</div>
-				<div className="yst-w-full yst-flex yst-mt-6 yst-mb-6">
+				<div className="yst-w-full yst-flex yst-mt-6 yst-mb-4">
 					<Button
 						as="a"
 						className="yst-grow"
