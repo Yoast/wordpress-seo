@@ -57,7 +57,7 @@ class Redirections_Tools_Page implements Integration_Interface {
 	public function register_admin_menu() {
 		$page_title = \sprintf(
 			/* translators: %s: expands to Yoast */
-			\esc_html__( '%s redirects', 'wordpress-seo' ),
+			\esc_html__( '%s Redirects', 'wordpress-seo' ),
 			'Yoast'
 		);
 

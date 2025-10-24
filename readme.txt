@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 26.1
+Stable tag: 26.2
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,41 +303,32 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.3 =
+
+Release date: 2025-11-04
+
+#### Other
+
+* Introduces the `wpseo_llmstxt_link_description` filter for link descriptions in the `llms.txt` file. Props to @Godzilaa.
+* Removes the external link icon from the `Customize llms.txt file` button in the `Site features` section of the plugin's Settings page.
+
 = 26.2 =
 
 Release date: 2025-10-21
+
+Yoast SEO 26.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
 * Adds a `Pronouns` field to the user profile and includes these pronouns in the Schema.org output. Props to [jdevalk](https://github.com/jdevalk).
 * Adds edit buttons next to the _keyphrase in meta description_, _keyphrase in slug_, and _keyphrase in SEO title_ assessments when there is no keyphrase and/or no meta description, slug, or SEO title.
+* Improves the _transition words_ assessment for Arabic by expanding the list of recognized transition words. Props to [Reem76-ar](https://github.com/Reem76-ar).
 * Introduces Content blocks collapsible inside Yoast Metabox and Sidebar to improve Yoast custom blocks discoverability.
 
 #### Other
 
 * Adapts the behavior of the `Contact our support team` button in the `Support` page to our new Premium and WooCommerce SEO subscription plans.
 * Disables opcache invalidation on plugin upgrade for a subset of the userbase.
-
-= 26.1 =
-
-Release date: 2025-10-07
-
-Yoast SEO 26.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Improves the UX of the `llms.txt` settings page, by informing the user that they have to save their changes in order for the file to be generated.
-* Introduces the option to add an Ahrefs verification code via the Yoast Settings page.
-
-#### Bugfixes
-
-* Fixes a bug where the `llms.txt` opt-in would hide behind the WordPress sidebar when on RTL language.
-
-#### Other
-
-* Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
-* Lets users know about the new `Yoast SEO AI+` plan and related features.
-* Updates the `Site features` page to include icons instead of images.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
