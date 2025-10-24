@@ -44,7 +44,7 @@ export const UpsellModal = ( {
 					</span>
 				</div>
 			</div>
-			<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
+			<div className="yst-px-4 yst-flex yst-flex-col yst-items-center  yst-max-w-lg yst-mx-auto">
 				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{
