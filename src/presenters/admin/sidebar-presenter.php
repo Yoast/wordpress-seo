@@ -67,7 +67,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							echo ( $is_woocommerce_active ) ? \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast WooCommerce SEO' ) : \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 						?>
 					</h2>
-					<span> 
+					<span>
 					<?php
 						echo ( $is_woocommerce_active ) ? \esc_html__( 'SEO that scales with your product catalog.', 'wordpress-seo' ) : \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' );
 						echo '<ul>';
@@ -147,11 +147,21 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					?>
 				</p>
 				<p>
-					<a href="<?php echo \esc_url( $academy_shortlink ); ?>" target="_blank">
+					<a href="<?php echo \esc_url( $academy_shortlink ); ?>" style="font-weight: 500" target="_blank">
 						<?php
 						/* translators: %1$s expands to Yoast SEO academy */
 						\printf( \esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
 						?>
+						<span class="screen-reader-text">
+							<?php
+							/* translators: Hidden accessibility text. */
+							\printf( \esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) );
+							?>
+						</span>
+						<img
+							src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="9" viewBox="0 0 10 9" fill="none"><path d="M3.99951 1.49988H1.99951C1.44723 1.49988 0.999512 1.94759 0.999512 2.49988V7.49988C0.999512 8.05216 1.44723 8.49988 1.99951 8.49988H6.99951C7.5518 8.49988 7.99951 8.05216 7.99951 7.49988V5.49988M5.99951 0.499878H8.99951M8.99951 0.499878V3.49988M8.99951 0.499878L3.99951 5.49988" stroke="%230085ba" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+							alt="" aria-hidden="true" width="10" height="9"
+						/>
 					</a>
 				</p>
 			</div>

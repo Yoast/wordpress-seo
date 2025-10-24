@@ -2,6 +2,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Spinner } from "@yoast/ui-library";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
@@ -11,9 +12,10 @@ import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
  * @param {string} videoId The video to show.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
+ * @param {boolean} hasPadding If there is a padding around the video/thumbnail to take into account.
  * @returns {JSX.Element} The element.
  */
-export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
+export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPadding = true } ) => {
 	const [ videoFlow, setVideoFlow ] = useState( wistiaEmbedPermission.value ? VIDEO_FLOW.isPlaying : VIDEO_FLOW.showPlay );
 
 	const playVideo = useCallback( () => setVideoFlow( VIDEO_FLOW.isPlaying ), [ setVideoFlow ] );
@@ -43,7 +45,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
 					<script src={ "https://fast.wistia.com/assets/external/E-v1.js" } async={ true } />
 				</Helmet>
 			) }
-			<div className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white">
+			<div className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", ! hasPadding && "yst-pt-[56.25%]" ) }>
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
 						type="button"
@@ -51,7 +53,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission } ) => {
 						onClick={ handleRequestPlay }
 					>
 						<img
-							className="yst-w-full yst-h-auto"
+							className="yst-w-full yst-h-auto yst-object-contain"
 							alt=""
 							loading="lazy"
 							decoding="async"
@@ -112,4 +114,5 @@ VideoFlow.propTypes = {
 		status: PropTypes.string.isRequired,
 		set: PropTypes.func.isRequired,
 	} ).isRequired,
+	hasPadding: PropTypes.bool,
 };

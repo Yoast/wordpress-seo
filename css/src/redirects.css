@@ -1,3 +1,6 @@
+@import url(../src/icons.css);
+@import url(../../packages/components/src/base/colors.css);
+
 body.seo_page_wpseo_redirects {
 	@apply yst-bg-slate-100;
 
@@ -119,6 +122,20 @@ body.seo_page_wpseo_redirects {
 	}
 	.yst-modal__panel{
 		@apply yst-max-w-lg;
+	}
+
+	.yst-logo-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 17px;
+		height: 17px;
+	}
+	.yst-modal-uppercase {
+		letter-spacing: 0.8px;
+		@apply yst-uppercase yst-text-slate-500;
 	}
 
 	/* RTL */
