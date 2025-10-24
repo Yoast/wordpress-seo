@@ -1,31 +1,36 @@
 /* eslint-disable complexity */
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useDispatch } from "@wordpress/data";
-import { useCallback, useContext } from "@wordpress/element";
+import { useCallback, useContext, useMemo } from "@wordpress/element";
 import { Button } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
+import {
+	PingOtherAdminsAlertItem,
+	DefaultAlertItem,
+} from "./alert-items";
 
 /**
- * The alert item object.
- *
- * @param {string} [id=""] The alert id.
- * @param {string} [nonce=""] The alert nonce.
- * @param {boolean} [dismissed=false] Whether the alert is dismissed or not.
- * @param {string} [message=""] The alert message.
- *
- * @returns {JSX.Element} The alert item component.
+ * Renders the appropriate alert item component based on the alert ID.
  */
-const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) => {
+const AlertItem = ( { id, nonce, dismissed, message } ) => {
+	const commonProps = { id, nonce, dismissed, message };
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
-
 	const toggleAlert = useCallback( async() => {
 		toggleAlertStatus( id, nonce, dismissed );
 	}, [ id, nonce, dismissed, toggleAlertStatus ] );
+	const AlertContent = useMemo( () => {
+		switch ( id ) {
+			case "wpseo-ping-other-admins":
+				return <PingOtherAdminsAlertItem { ...commonProps } />;
+			default:
+				return <DefaultAlertItem { ...commonProps } />;
+		}
+	}, [ id ] );
 
 	return (
 		<li
@@ -37,13 +42,7 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) =
 					<circle cx="5.5" cy="5.5" r="5.5" />
 				</svg>
 			</div>
-			<div
-				className={ classNames(
-					"yst-text-sm yst-text-slate-600 yst-grow",
-					dismissed && "yst-opacity-50" ) }
-				dangerouslySetInnerHTML={ { __html: message } }
-			/>
-
+			{ AlertContent }
 			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
 				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
 			</Button>
@@ -52,10 +51,10 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "" } ) =
 };
 
 AlertItem.propTypes = {
-	id: PropTypes.string,
-	nonce: PropTypes.string,
-	dismissed: PropTypes.bool,
-	message: PropTypes.string,
+	id: PropTypes.string.isRequired,
+	nonce: PropTypes.string.isRequired,
+	dismissed: PropTypes.bool.isRequired,
+	message: PropTypes.string.isRequired,
 };
 
 /**
