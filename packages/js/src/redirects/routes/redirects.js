@@ -63,7 +63,7 @@ export const Redirects = () => {
 		>
 
 			<div className={ "yst-flex yst-justify-center" }>
-				<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-z-[1000]">
+				<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-z-[1000] yst-rounded-2xl">
 					<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
 						<ModalContent />
 					</div>
