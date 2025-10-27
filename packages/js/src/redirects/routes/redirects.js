@@ -4,6 +4,7 @@ import { Button, Checkbox, Select, SelectField, Table, TextField } from "@yoast/
 import {
 	RouteLayout,
 } from "../components";
+import { ModalContent } from "../components/modal-content";
 import { useSelectRedirects } from "../hooks";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { FieldsetLayout } from "../../shared-admin/components";
@@ -60,6 +61,14 @@ export const Redirects = () => {
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
+
+			<div className={ "yst-flex yst-justify-center" }>
+				<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-z-[1000]">
+					<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
+						<ModalContent />
+					</div>
+				</div>
+			</div>
 			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">
 				<FieldsetLayout
 					title={ __( "Plain redirects", "wordpress-seo" ) }
@@ -67,6 +76,7 @@ export const Redirects = () => {
 					variant={ "xl" }
 				>
 					<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+
 						<div>
 							<SelectField
 								name="type"
@@ -157,10 +167,13 @@ export const Redirects = () => {
 
 						<Table.Body>
 							<Table.Row>
-								<Table.Cell><></></Table.Cell>
-								<Table.Cell><></></Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
 								<Table.Cell className="yst-text-center">{ __( "No items found", "wordpress-seo" ) }</Table.Cell>
-								<Table.Cell><></></Table.Cell>
+								<Table.Cell><></>
+								</Table.Cell>
 							</Table.Row>
 						</Table.Body>
 					</Table>
