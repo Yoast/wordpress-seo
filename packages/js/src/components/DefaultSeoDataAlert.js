@@ -39,41 +39,51 @@ export default function DefaultSeoDataAlert( {
 		return isTitlesDefault || isDescriptionsDefault;
 	}, [ postType, isTitlesDefault, isDescriptionsDefault ] );
 
-
-	const seoDataNames = useMemo( () => {
+	const customSeoDataNames = useMemo( () => {
 		if ( isTitlesDefault && isDescriptionsDefault ) {
-			return __( "SEO titles and meta descriptions", "wordpress-seo" );
+			return __( "custom SEO titles and meta descriptions", "wordpress-seo" );
 		} else if ( isTitlesDefault ) {
-			return __( "SEO titles", "wordpress-seo" );
+			return __( "custom SEO titles", "wordpress-seo" );
 		} else if ( isDescriptionsDefault ) {
-			return __( "meta descriptions", "wordpress-seo" );
+			return __( "custom meta descriptions", "wordpress-seo" );
+		}
+	}, [ isTitlesDefault, isDescriptionsDefault ] );
+
+	const optimizedSeoDataNames = useMemo( () => {
+		if ( isTitlesDefault && isDescriptionsDefault ) {
+			return __( "quick optimized SEO titles and meta descriptions", "wordpress-seo" );
+		} else if ( isTitlesDefault ) {
+			return __( "quick optimized SEO titles", "wordpress-seo" );
+		} else if ( isDescriptionsDefault ) {
+			return __( "quick optimized meta descriptions", "wordpress-seo" );
 		}
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const message = useMemo( () => sprintf(
-		/* translators: %1$s expand to "SEO title" or "meta description" or both. */
-		__( "Stand out in the search results and attract more visitors by adding custom %1$s.", "wordpress-seo" ),
-		seoDataNames
-	), [ seoDataNames ] );
+		/* translators: %1$s expands to "custom SEO titles" or "custom meta descriptions" or both. */
+		__( "Stand out in the search results and attract more visitors by adding %1$s.", "wordpress-seo" ),
+		customSeoDataNames
+	), [ customSeoDataNames ] );
 
 	const proTip = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s, %2$s expand to strong tags. %3$s, %4$s expand to emphasis tags. %5$s expands to "SEO title" or "meta description" */
+			/* translators: %1$s, %2$s expands to strong tags. %3$s, %4$s expands to emphasis tags.
+				%5$s expands to "quick optimized SEO titles" or "quick optimized meta descriptions" or both */
 			__(
-				"%1$sPro tip%2$s: Use %3$sAI Generate%4$s for quick optimized %5$s.",
+				"%1$sPro tip%2$s: Use %3$sAI Generate%4$s for %5$s.",
 				"wordpress-seo"
 			),
 			"<strong>",
 			"</strong>",
 			"<em>",
 			"</em>",
-			seoDataNames
+			optimizedSeoDataNames
 		),
 		{
 			strong: <strong />,
 			em: <em />,
 		}
-	), [ seoDataNames ] );
+	), [ optimizedSeoDataNames ] );
 
 	const titleButtons = useMemo( () => {
 		if ( ! isTitlesDefault ) {
