@@ -1,5 +1,3 @@
-import { get } from "lodash";
-
 /**
  * Determines if the current SEO data are using default templates.
  *
@@ -11,8 +9,8 @@ export function getIsSeoDataDefault( store ) {
 	const { isRecentTitlesDefault, isRecentDescriptionsDefault } = store.getPreferences();
 
 	const snippetEditorData = store.getSnippetEditorData();
-	const titleDefaultTemplate = get( window, "wpseoScriptData.metabox.title_template", "" );
-	const descriptionDefaultTemplate = get( window, "wpseoScriptData.metabox.metadesc_template", "" );
+	const titleDefaultTemplate = store.getSeoTitleTemplate();
+	const descriptionDefaultTemplate = store.getSeoDescriptionTemplate();
 
 	const isCurrentTitleDefault = snippetEditorData.title.trim() === titleDefaultTemplate.trim();
 	const isCurrentDescriptionDefault = snippetEditorData.description.trim() === descriptionDefaultTemplate.trim();
