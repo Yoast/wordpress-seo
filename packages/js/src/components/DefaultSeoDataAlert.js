@@ -95,12 +95,8 @@ export default function DefaultSeoDataAlert( {
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: "yoast-google-preview-pre-publish", type: "description" } );
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
-	const { openGeneralSidebar } = useDispatch(
-		STORE_NAME_CORE_EDIT_POST
-	) || {};
-	const { closePublishSidebar } = useDispatch(
-		STORE_NAME_CORE_EDITOR
-	) || {};
+	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
+	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
 	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
 	const onClick = useCallback( () => {

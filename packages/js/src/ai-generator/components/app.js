@@ -163,12 +163,8 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
-	const { openGeneralSidebar } = useDispatch(
-		STORE_NAME_CORE_EDIT_POST
-	) || {};
-	const { closePublishSidebar } = useDispatch(
-		STORE_NAME_CORE_EDITOR
-	) || {};
+	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
+	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
 
 	const closeModal = useCallback( () => {
 		setDisplay( DISPLAY.inactive );

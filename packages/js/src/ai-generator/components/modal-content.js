@@ -230,12 +230,8 @@ export const ModalContent = ( { height } ) => {
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
-	const { openGeneralSidebar } = useDispatch(
-		STORE_NAME_CORE_EDIT_POST
-	) || {};
-	const { closePublishSidebar } = useDispatch(
-		STORE_NAME_CORE_EDITOR
-	) || {};
+	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
+	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
 	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();
 	const handleApplySuggestion = useCallback( () => {
