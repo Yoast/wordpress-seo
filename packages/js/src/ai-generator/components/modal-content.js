@@ -14,6 +14,8 @@ import {
 	FETCH_RESPONSE_STATUS,
 	STORE_NAME_AI,
 	STORE_NAME_EDITOR,
+	STORE_NAME_CORE_EDIT_POST,
+	STORE_NAME_CORE_EDITOR,
 	SUGGESTIONS_PER_PAGE,
 	TITLE_VARIABLE,
 	TITLE_VARIABLE_REPLACE,
@@ -229,10 +231,10 @@ export const ModalContent = ( { height } ) => {
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
 	const { openGeneralSidebar } = useDispatch(
-		"core/edit-post"
+		STORE_NAME_CORE_EDIT_POST
 	) || {};
 	const { closePublishSidebar } = useDispatch(
-		"core/editor"
+		STORE_NAME_CORE_EDITOR
 	) || {};
 	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();

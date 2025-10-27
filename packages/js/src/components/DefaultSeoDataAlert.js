@@ -8,6 +8,10 @@ import { Slot } from "@wordpress/components";
 import { Button } from "@yoast/components";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 
+const STORE_NAME_EDITOR = "yoast-seo/editor";
+const STORE_NAME_CORE_EDITOR = "core/editor";
+const STORE_NAME_CORE_EDIT_POST = "core/edit-post";
+
 /**
  * Renders the Default SEO Data Alert.
  *
@@ -18,7 +22,7 @@ import { safeCreateInterpolateElement } from "../helpers/i18n";
 export default function DefaultSeoDataAlert( {
 	isSeoDataDefault,
 } ) {
-	const postType = select( "yoast-seo/editor" ).getPostType();
+	const postType = select( STORE_NAME_EDITOR ).getPostType();
 	const isTitlesDefault = useMemo( () => {
 		return isSeoDataDefault?.isAllTitlesDefault || false;
 	}, [ isSeoDataDefault ] );
@@ -92,12 +96,12 @@ export default function DefaultSeoDataAlert( {
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
 	const { openGeneralSidebar } = useDispatch(
-		"core/edit-post"
+		STORE_NAME_CORE_EDIT_POST
 	) || {};
 	const { closePublishSidebar } = useDispatch(
-		"core/editor"
+		STORE_NAME_CORE_EDITOR
 	) || {};
-	const { openEditorModal } = useDispatch( "yoast-seo/editor" );
+	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 
 	const onClick = useCallback( () => {
 		closePublishSidebar();

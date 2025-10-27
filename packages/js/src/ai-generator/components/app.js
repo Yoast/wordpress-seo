@@ -8,7 +8,12 @@ import { UsageCounter, GradientButton } from "@yoast/ai-frontend";
 import { Badge, Link, Modal, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
-import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
+import {
+	STORE_NAME_AI,
+	STORE_NAME_EDITOR,
+	STORE_NAME_CORE_EDITOR,
+	STORE_NAME_CORE_EDIT_POST,
+} from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
 import { FETCH_USAGE_COUNT_ERROR_ACTION_NAME } from "../store/usage-count";
@@ -159,10 +164,10 @@ export const App = ( { onUseAi } ) => {
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
 	const { openGeneralSidebar } = useDispatch(
-		"core/edit-post"
+		STORE_NAME_CORE_EDIT_POST
 	) || {};
 	const { closePublishSidebar } = useDispatch(
-		"core/editor"
+		STORE_NAME_CORE_EDITOR
 	) || {};
 
 	const closeModal = useCallback( () => {
