@@ -48,13 +48,13 @@ const TOPIC_RELEVANCE_THRESHOLD = 3;
  * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Sentence[]}  sentences An array of all sentences in the text.
  * @param {string} 		locale    The locale of the paper to analyse.
- * @param {boolean}		fullMatchRequired		Whether all words from the topic need to be found for it to be considered a match.
+ * @param {boolean}		isFullMatchRequired		Whether all words from the topic need to be found for it to be considered a match.
  * @param {boolean}		isExactMatchRequested	Whether the exact matching is requested.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  * @param {function}    customSplitIntoTokensHelper A custom helper to split sentences into tokens.
  * @returns {MaximizedSentenceScore[]} The scores per sentence along with the found matches.
  */
-const computeScoresPerSentence = function( topic, sentences, locale, fullMatchRequired, isExactMatchRequested = false, matchWordCustomHelper,
+const computeScoresPerSentence = function( topic, sentences, locale, isFullMatchRequired, isExactMatchRequested = false, matchWordCustomHelper,
 	customSplitIntoTokensHelper ) {
 	return sentences.map( sentence => {
 		const matchedKeyphrase = topic.map( wordForms => matchWordFormsWithSentence( sentence,
@@ -66,7 +66,7 @@ const computeScoresPerSentence = function( topic, sentences, locale, fullMatchRe
 		const matches = flattenDeep( matchedKeyphrase.map( match => match.matches ) );
 		const matchedPercentage = topic.length > 0 ? Math.round( ( foundWords / topic.length ) * 100 ) : 0;
 
-		if ( ( fullMatchRequired && matchedPercentage === 100 ) || ( ! fullMatchRequired && matchedPercentage >= 50 ) ) {
+		if ( ( isFullMatchRequired && matchedPercentage === 100 ) || ( ! isFullMatchRequired && matchedPercentage >= 50 ) ) {
 			return { score: 9, matches };
 		}
 		return { score: TOPIC_RELEVANCE_THRESHOLD, matches: [] };
@@ -180,8 +180,8 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 		 * We then use the result and compare it with the topicLengthCriteria.
 		 */
 		const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ index ] ) : topic.length;
-		const fullMatchRequired = topicLength < topicLengthCriteria;
-		return computeScoresPerSentence( topic, sentences, locale, fullMatchRequired, isExactMatchRequested,
+		const isFullMatchRequired = topicLength < topicLengthCriteria;
+		return computeScoresPerSentence( topic, sentences, locale, isFullMatchRequired, isExactMatchRequested,
 			matchWordCustomHelper, customSplitIntoTokensHelper );
 	} );
 
