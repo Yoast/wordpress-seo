@@ -36,7 +36,7 @@ import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
  * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
  */
 
-// The threshold above which a sentence is considered to contain the topic.
+// The score above which a sentence is considered to contain the topic.
 const TOPIC_RELEVANCE_THRESHOLD = 3;
 
 /**
@@ -69,7 +69,7 @@ const computeScoresPerSentence = function( topic, sentences, locale, fullMatchRe
 		if ( ( fullMatchRequired && matchedPercentage === 100 ) || ( ! fullMatchRequired && matchedPercentage >= 50 ) ) {
 			return { score: 9, matches };
 		}
-		return { score: 3, matches: [] };
+		return { score: TOPIC_RELEVANCE_THRESHOLD, matches: [] };
 	} );
 };
 
