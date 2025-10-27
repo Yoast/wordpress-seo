@@ -54,33 +54,25 @@ class Schema_Piece {
 	}
 
 	/**
-	 * Encodes the schema piece in JSON-LD format.
+	 * Gets the ID of the schema piece.
 	 *
-	 * @return string The JSON-LD representation.
+	 * @return string|null The ID of the schema piece, or null if not set.
 	 */
-	public function to_json_ld(): string {
-		return WPSEO_Utils::format_json_encode( $this->data );
+	public function get_id(): ?string {
+		return $this->data['@id'] ?? null;
 	}
 
 	/**
 	 * Converts multiple schema pieces to a JSON-LD-encoded graph.
 	 *
 	 * @param Schema_Piece[] $schema_pieces Array of schema pieces.
-	 * @return string The JSON-LD graph representation.
+	 *
+	 * @return array<string, string|int|bool> The JSON-LD graph representation.
 	 */
-	public static function to_json_ld_graph( array $schema_pieces ): string {
-		$graph = [];
-		foreach ( $schema_pieces as $piece ) {
-			if ( $piece instanceof self ) {
-				$graph[] = $piece->data;
-			}
-		}
-
-		$schema_graph = [
+	public  function to_json_ld_graph(): array {
+		return [
 			'@context' => 'https://schema.org',
-			'@graph'   => $graph,
+			'@graph'   => $this->data,
 		];
-
-		return WPSEO_Utils::format_json_encode( $schema_graph );
 	}
 }
