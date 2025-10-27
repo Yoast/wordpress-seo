@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application\Cache;
 
+use Exception;
 use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\Config;
 
 /**
@@ -52,6 +53,9 @@ class Manager {
 	 */
 	public function get( int $page, int $per_page ): ?array {
 		try {
+			if ( ! $this->config->cache_enabled() ) {
+				return null;
+			}
 			if ( $page < 1 || $per_page < 1 ) {
 				return null;
 			}
@@ -71,7 +75,7 @@ class Manager {
 
 			return $data;
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return null;
 		}
 	}
@@ -96,7 +100,7 @@ class Manager {
 
 			return \set_transient( $key, $data, $expiration );
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return false;
 		}
 	}
@@ -128,7 +132,7 @@ class Manager {
 
 			$pattern         = '_transient_' . self::CACHE_PREFIX . '_page_' . $page . '_per_%';
 			$timeout_pattern = '_transient_timeout_' . self::CACHE_PREFIX . '_page_' . $page . '_per_%';
-
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$deleted = $wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
@@ -158,7 +162,7 @@ class Manager {
 			// Pattern matches: yoast_nlweb_schema_page_{n}_per_{m}_v{version}.
 			$pattern         = '_transient_' . self::CACHE_PREFIX . '_page_%';
 			$timeout_pattern = '_transient_timeout_' . self::CACHE_PREFIX . '_page_%';
-
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$deleted = $wpdb->query(
 				$wpdb->prepare(
 					"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
@@ -173,7 +177,7 @@ class Manager {
 
 			return true;
 
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 
 			return false;
 		}

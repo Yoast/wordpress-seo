@@ -14,7 +14,7 @@ class Config {
 	 *
 	 * @var int
 	 */
-	private const DEFAULT_PER_PAGE = 100;
+	private const DEFAULT_PER_PAGE = 10;
 
 	/**
 	 * Maximum items per page
@@ -27,7 +27,7 @@ class Config {
 	 *
 	 * @var int
 	 */
-	private const DEFAULT_CACHE_TTL = \HOUR_IN_SECONDS;
+	private const DEFAULT_CACHE_TTL = ( 60 * 60 );
 
 	/**
 	 * Get default items per page
@@ -57,7 +57,7 @@ class Config {
 	public function get_expiration( array $data ): int {
 		$cache_ttl = self::DEFAULT_CACHE_TTL;
 		try {
-			$serialized = \serialize( $data ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.serialize_unserialize -- Needed for size calculation.
+			$serialized = \serialize( $data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Needed for size calculation.
 
 			if ( $serialized === false ) {
 				return self::DEFAULT_CACHE_TTL;
@@ -85,6 +85,22 @@ class Config {
 
 		} catch ( Exception $e ) {
 			return self::DEFAULT_CACHE_TTL;
+		}
+	}
+
+	/**
+	 * Check if caching is enabled.
+	 *
+	 * @return bool True if caching is enabled, false otherwise.
+	 */
+	public function cache_enabled(): bool {
+		$enabled = \apply_filters( 'yoast_nlweb_cache_enabled', true );
+
+		if ( \is_bool( $enabled ) ) {
+			return $enabled;
+		}
+		else {
+			return true;
 		}
 	}
 }
