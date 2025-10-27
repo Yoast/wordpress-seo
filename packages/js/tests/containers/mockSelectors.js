@@ -2,7 +2,8 @@
  * Sets up a specific store's redux selectors.
  *
  * @returns {jest.Mock<{getPreferences: jest.Mock<unknown>, getResultsForFocusKeyword: jest.Mock<unknown>, getReadabilityResults: jest.Mock<unknown>,
- * getFocusKeyphrase: jest.Mock<unknown>, getSnippetEditorData: jest.Mock<unknown>}|{getBlocks: jest.Mock<unknown>}>} The mock selectors.
+ * getFocusKeyphrase: jest.Mock<unknown>, getSnippetEditorData: jest.Mock<unknown>}|{getBlocks: jest.Mock<unknown>}>, 
+ * getSeoTitleTemplate: jest.Mock<unknown>, getSeoDescriptionTemplate: jest.Mock<unknown>} The mock selectors.
  */
 export function mockSelectors() {
 	const getResultsForFocusKeyword = jest.fn().mockReturnValue( {
@@ -27,6 +28,10 @@ export function mockSelectors() {
 		description: "",
 		slug: "",
 	} );
+	
+	const getSeoTitleTemplate = jest.fn().mockReturnValue( "title template" );
+
+	const getSeoDescriptionTemplate = jest.fn().mockReturnValue( "description template" );
 
 	const yoastSEOSelectors = {
 		getFocusKeyphrase,
@@ -35,6 +40,8 @@ export function mockSelectors() {
 		getPreferences,
 		getChecklistItems,
 		getSnippetEditorData,
+		getSeoTitleTemplate,
+		getSeoDescriptionTemplate,
 	};
 
 	const getBlocks = jest.fn().mockReturnValue( [
