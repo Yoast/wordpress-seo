@@ -14,8 +14,6 @@ import {
 	FETCH_RESPONSE_STATUS,
 	STORE_NAME_AI,
 	STORE_NAME_EDITOR,
-	STORE_NAME_CORE_EDIT_POST,
-	STORE_NAME_CORE_EDITOR,
 	SUGGESTIONS_PER_PAGE,
 	TITLE_VARIABLE,
 	TITLE_VARIABLE_REPLACE,
@@ -35,6 +33,7 @@ import {
 	useTitleTemplate,
 	useTypeContext,
 } from "../hooks";
+import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-sidebar-when-publishing";
 
 /**
  * Aims to capture the text between badges.
@@ -230,10 +229,8 @@ export const ModalContent = ( { height } ) => {
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
-	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
-	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
-	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
 	const setTitleOrDescription = useSetTitleOrDescription();
+	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( true );
 	const handleApplySuggestion = useCallback( () => {
 		const data = editType === EDIT_TYPE.title
 			// For terms, remove the "Archives" part from the titleTemplate if present.
@@ -243,9 +240,7 @@ export const ModalContent = ( { height } ) => {
 		addAppliedSuggestion( { editType, previewType, suggestion: suggestions.selected } );
 		onClose();
 		if ( location === "pre-publish" ) {
-			closePublishSidebar();
-			openGeneralSidebar( "yoast-seo/seo-sidebar" );
-			openEditorModal( "yoast-search-appearance-modal" );
+			openYoastSidebarWhenPublishing();
 		}
 	}, [
 		setTitleOrDescription,
@@ -255,9 +250,7 @@ export const ModalContent = ( { height } ) => {
 		titleTemplate,
 		onClose,
 		addAppliedSuggestion,
-		closePublishSidebar,
-		openGeneralSidebar,
-		openEditorModal,
+		openYoastSidebarWhenPublishing,
 		location,
 	] );
 

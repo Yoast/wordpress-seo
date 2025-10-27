@@ -11,8 +11,6 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import {
 	STORE_NAME_AI,
 	STORE_NAME_EDITOR,
-	STORE_NAME_CORE_EDITOR,
-	STORE_NAME_CORE_EDIT_POST,
 } from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
@@ -21,6 +19,7 @@ import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
 import { UpsellModalContent } from "./upsell-modal-content";
+import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-sidebar-when-publishing";
 
 /**
  * Component abstracting the main modal.
@@ -163,8 +162,6 @@ export const App = ( { onUseAi } ) => {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
-	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
-	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
 
 	const closeModal = useCallback( () => {
 		setDisplay( DISPLAY.inactive );
@@ -176,17 +173,17 @@ export const App = ( { onUseAi } ) => {
 	};
 
 	const checkFocusKeyphrase = useCallback( () => ! isConsideredEmpty( focusKeyphrase ), [ focusKeyphrase ] );
+	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( false );
 	const showFocusKeyphrase = useCallback( () => {
 		closeEditorModal();
 
 		if ( location === "pre-publish" ) {
-			closePublishSidebar();
-			openGeneralSidebar( "yoast-seo/seo-sidebar" );
+			openYoastSidebarWhenPublishing();
 		}
 
 		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
-	}, [ closeEditorModal, location, closePublishSidebar, openGeneralSidebar ] );
+	}, [ closeEditorModal, location, openYoastSidebarWhenPublishing ] );
 
 	const checkSubscriptions = useCallback( () => {
 		if (  isWooProductEntity ) {

@@ -1,16 +1,15 @@
 import PropTypes from "prop-types";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
-import { select, useDispatch } from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { Slot } from "@wordpress/components";
 import { Button } from "@yoast/components";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
+import { useOpenYoastSidebarWhenPublishing } from "../hooks/use-open-yoast-sidebar-when-publishing";
 
 const STORE_NAME_EDITOR = "yoast-seo/editor";
-const STORE_NAME_CORE_EDITOR = "core/editor";
-const STORE_NAME_CORE_EDIT_POST = "core/edit-post";
 
 /**
  * Renders the Default SEO Data Alert.
@@ -105,16 +104,10 @@ export default function DefaultSeoDataAlert( {
 		return applyFilters( "yoast.replacementVariableEditor.additionalButtons", [], { fieldId: "yoast-google-preview-pre-publish", type: "description" } );
 	}, [ isTitlesDefault, isDescriptionsDefault ] );
 
-	const openGeneralSidebar = useDispatch( STORE_NAME_CORE_EDIT_POST )?.openGeneralSidebar;
-	const closePublishSidebar = useDispatch( STORE_NAME_CORE_EDITOR )?.closePublishSidebar;
-	const { openEditorModal } = useDispatch( STORE_NAME_EDITOR );
-
+	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( true );
 	const onClick = useCallback( () => {
-		closePublishSidebar();
-		openGeneralSidebar( "yoast-seo/seo-sidebar" );
-
-		openEditorModal( "yoast-search-appearance-modal" );
-	}, [ closePublishSidebar, openGeneralSidebar ] );
+		openYoastSidebarWhenPublishing();
+	}, [ openYoastSidebarWhenPublishing ] );
 
 	return showAlert && <Fragment>
 		<div className="yst-flex yst-items-center yst-gap-1 yst-mb-[-25px]">

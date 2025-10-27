@@ -13,18 +13,6 @@ export const STORE_NAME_AI = "yoast-seo/ai-generator";
 export const STORE_NAME_EDITOR = "yoast-seo/editor";
 
 /**
- * The Redux store name of the core editor.
- * @type {string}
- */
-export const STORE_NAME_CORE_EDITOR = "core/editor";
-
-/**
- * The Redux store name of the core edit post.
- * @type {string}
- */
-export const STORE_NAME_CORE_EDIT_POST = "core/edit-post";
-
-/**
  * The preview type. Used to determine the platform for the preview.
  * @type {{google: string, social: string, twitter: string}}
  */
