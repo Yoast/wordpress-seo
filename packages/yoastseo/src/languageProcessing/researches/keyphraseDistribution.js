@@ -48,13 +48,13 @@ const TOPIC_RELEVANCE_THRESHOLD = 3;
  * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Sentence[]}  sentences An array of all sentences in the text.
  * @param {string} 		locale    The locale of the paper to analyse.
- * @param {boolean}		isShortTopic			Whether the topic is considered short (true) or long (false).
+ * @param {boolean}		fullMatchRequired		Whether all words from the topic need to be found for it to be considered a match.
  * @param {boolean}		isExactMatchRequested	Whether the exact matching is requested.
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  * @param {function}    customSplitIntoTokensHelper A custom helper to split sentences into tokens.
  * @returns {MaximizedSentenceScore[]} The scores per sentence along with the found matches.
  */
-const computeScoresPerSentence = function( topic, sentences, locale, isShortTopic, isExactMatchRequested = false, matchWordCustomHelper,
+const computeScoresPerSentence = function( topic, sentences, locale, fullMatchRequired, isExactMatchRequested = false, matchWordCustomHelper,
 	customSplitIntoTokensHelper ) {
 	return sentences.map( sentence => {
 		const matchedKeyphrase = topic.map( wordForms => matchWordFormsWithSentence( sentence,
@@ -141,6 +141,7 @@ const getDistraction = function( sentenceScores ) {
 	const distractionsLength = topicIndicesWithBoundaries
 		.slice( 1 )
 		.map( ( topicIndex, index ) => topicIndex - topicIndicesWithBoundaries[ index ] - 1 );
+
 	return max( distractionsLength );
 };
 
@@ -179,8 +180,8 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 		 * We then use the result and compare it with the topicLengthCriteria.
 		 */
 		const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ index ] ) : topic.length;
-		const isShortTopic = topicLength < topicLengthCriteria;
-		return computeScoresPerSentence( topic, sentences, locale, isShortTopic, isExactMatchRequested,
+		const fullMatchRequired = topicLength < topicLengthCriteria;
+		return computeScoresPerSentence( topic, sentences, locale, fullMatchRequired, isExactMatchRequested,
 			matchWordCustomHelper, customSplitIntoTokensHelper );
 	} );
 
