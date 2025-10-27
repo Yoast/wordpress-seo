@@ -40,10 +40,10 @@ import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
 const TOPIC_RELEVANCE_THRESHOLD = 3;
 
 /**
- * Checks whether all content words from the topic are found within one sentence.
- * Assigns a score to every sentence following the following schema:
- * 9 if all content words from the topic are in the sentence,
- * 3 if not all content words from the topic were found in the sentence.
+ * Checks whether the topic is found within one sentence.
+ * Assign a score to every sentence following the following criteria:
+ * - If a full match is required, 9 if all content words from the topic are in the sentence. Otherwise, 3.
+ * - If a full match is not required, 9 if at least half of the content words from the topic are in the sentence. Otherwise, 3.
  *
  * @param {Array}		topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Sentence[]}  sentences An array of all sentences in the text.
@@ -66,11 +66,7 @@ const computeScoresPerSentence = function( topic, sentences, locale, isShortTopi
 		const matches = flattenDeep( matchedKeyphrase.map( match => match.matches ) );
 		const matchedPercentage = topic.length > 0 ? Math.round( ( foundWords / topic.length ) * 100 ) : 0;
 
-		/*
-		 For short topics (less than 4 words) we require a full match to give the highest score.
-		 For longer topics (4 words or more) we require at least half of the content words to be present in the sentence.
-		 */
-		if ( ( isShortTopic && matchedPercentage === 100 ) || ( ! isShortTopic && matchedPercentage >= 50 ) ) {
+		if ( ( fullMatchRequired && matchedPercentage === 100 ) || ( ! fullMatchRequired && matchedPercentage >= 50 ) ) {
 			return { score: 9, matches };
 		}
 		return { score: 3, matches: [] };
@@ -149,7 +145,8 @@ const getDistraction = function( sentenceScores ) {
 };
 
 /**
- * Computes the per-sentence scores depending on the length of the topic phrase and maximizes them over all topic phrases.
+ * Assigns a score to each sentence based on whether the topic is found in the sentence or not (9 if found, 3 if not found).
+ * Whether the topic is considered to be found depends on the topic’s length, and whether there is function word support available for that language.
  *
  * @param {Sentence[]}  sentences              The sentences to get scores for.
  * @param {Array}       topicFormsInOneArray   The topic phrases forms to search for in the sentences.
@@ -175,7 +172,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 			return computeScoresPerSentence( topic, sentences, locale, true, isExactMatchRequested,
 				matchWordCustomHelper, customSplitIntoTokensHelper );
 		}
-		// For languages with function words we decide whether to apply full or partial match depending on the topic length.
+		// For languages with function words, we apply the full match only for short topics (default criteria: 3 words or less).
 		/*
 		 * If the helper to calculate the character length of all the words in the array is available,
 		 * we use this helper to calculate the characters length of the original topic form.
@@ -328,6 +325,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	let sentences = [];
 	if ( matchWordCustomHelper ) {
 		// This is currently only applicable for Japanese.
+		// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
 		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
@@ -338,7 +336,6 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		sentences = mergeListItemSentences( sentences );
 	}
 
-	// When the custom helper is available, we're using the sentences retrieved from the text for the analysis.
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];
