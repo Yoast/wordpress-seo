@@ -81,7 +81,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 			$page_type       = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context         = $this->memoizer->get( $indexable, $page_type );
 			$context_array   = $this->adapter->meta_tags_context_to_array( $context );
-			$schema_pieces[] = new Schema_Piece( $context_array, $page_type );
+			$schema_pieces[] = new Schema_Piece( $context_array['@graph'][0], $page_type );
 		}
 
 		return $schema_pieces;
