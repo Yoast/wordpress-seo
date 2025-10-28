@@ -37,7 +37,7 @@ export const BenefitItems = ( { id } ) => {
 				const { icon: Icon, title } = benefit;
 				return <li key={ `${id}-upsell-benefit-${ index }` } className="yst-flex yst-gap-2 yst-mb-2 yst-items-center">
 					<Icon className="yst-w-4 yst-h-4 yst-shrink-0 yst-inline yst-stroke-slate-400" />
-					<p className="yst-text-slate-600 yst-font-medium">{ title }</p>
+					<p className="yst-text-slate-800 yst-font-medium">{ title }</p>
 				</li>;
 			} ) }
 		</ul>

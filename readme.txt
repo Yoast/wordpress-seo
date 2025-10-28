@@ -307,6 +307,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-11-04
 
+#### Bugfixes
+
+*  Fixes a bug where the llms.txt file template contained grammatical error \"can by found\" instead of \"can be found\". Props to [aditya241104](https://github.com/aditya241104).
+
 #### Other
 
 * Introduces the `wpseo_llmstxt_link_description` filter for link descriptions in the `llms.txt` file. Props to @Godzilaa.
