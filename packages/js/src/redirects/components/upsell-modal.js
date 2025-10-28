@@ -35,7 +35,7 @@ export const UpsellModal = ( {
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
 						hasPadding={ true }
-						className="yst-rounded-b-none yst-drop-shadow-none"
+						className="yst-rounded-b-none yst-drop-shadow-none yst-rounded-t-2xl"
 					/>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
