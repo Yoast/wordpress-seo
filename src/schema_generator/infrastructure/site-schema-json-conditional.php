@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure;
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;

@@ -1,9 +1,9 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application;
+namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Domain\Page_Controls;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Page_Controls;
 
 /**
  * Class that represents the command to aggregate site schema.

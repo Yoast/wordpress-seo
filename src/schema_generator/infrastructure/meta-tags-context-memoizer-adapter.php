@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure;
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 

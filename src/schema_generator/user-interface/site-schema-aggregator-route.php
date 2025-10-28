@@ -1,16 +1,16 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\User_Interface;
+namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\Config;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\Site_Schema_Json_Conditional;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Site_Schema_Json_Conditional;
 use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
@@ -24,7 +24,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_PREFIX = 'yoast-nlweb';
+	public const ROUTE_PREFIX = 'schema-aggregator';
 
 	/**
 	 * Represents route to view the schema.

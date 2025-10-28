@@ -1,15 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\User_Interface;
+namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_CLI;
 use WP_CLI\ExitException;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
-use Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure\Config;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 
 /**
  * Handles the CLI command to represent a site's schema as JSON.

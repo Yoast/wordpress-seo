@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Infrastructure;
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 /**
  * Configuration for the Schema Aggregator.
@@ -27,7 +27,7 @@ class Config {
 	 * @return int
 	 */
 	public function get_per_page(): int {
-		return (int) \apply_filters( 'wpseo_nlweb_aggregator_per_page', self::DEFAULT_PER_PAGE );
+		return (int) \apply_filters( 'wpseo_schema_aggregator_aggregator_per_page', self::DEFAULT_PER_PAGE );
 	}
 
 	/**

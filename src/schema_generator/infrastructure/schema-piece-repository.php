@@ -1,12 +1,12 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\NLWeb\Schema_Aggregator\Infrastructure;
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\NLWeb\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**

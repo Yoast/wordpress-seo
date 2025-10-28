@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\Domain;
+namespace Yoast\WP\SEO\Schema_Aggregator\Domain;
 
 /**
  * Class to contain page controls.
