@@ -12,7 +12,7 @@ import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
  * @param {string} videoId The video to show.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
- * @param {boolean} hasPadding If there is a padding around the video/thumbnail to take into account.
+ * @param {boolean} [hasPadding=true] If there is a padding around the video/thumbnail to take into account.
  * @param {string} [className=""] Additional class names.
  * @returns {JSX.Element} The element.
  */

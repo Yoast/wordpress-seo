@@ -34,7 +34,6 @@ export const UpsellModal = ( {
 						videoId="th5fg52ry8"
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
-						hasPadding={ true }
 						className="yst-rounded-b-none yst-drop-shadow-none yst-rounded-t-2xl"
 					/>
 				</div>
