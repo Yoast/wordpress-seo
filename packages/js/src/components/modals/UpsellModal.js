@@ -81,7 +81,7 @@ export const UpsellModal = ( {
 						<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
 					</div> }
 					<div className="yst-py-6 yst-px-12">
-						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-medium">{ title }</Title>
+						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-medium yst-text-slate-800">{ title }</Title>
 						<p className="yst-mb-2">{ description }</p>
 						{ ( Array.isArray( benefits ) && benefits.length > 0 ) &&
 						<ul className="yst-my-2">

@@ -26,21 +26,21 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 				__( "%1$sKeyphrase distribution:%2$s See if your keywords are spread evenly so search engines understand your topic", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 		safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s are opening and closing span tags. */
 				__( "%1$sTitle check:%2$s Instantly spot missing titles and fix them for better click-through rates", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 		safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s are opening and closing span tags. */
 				__( "%1$sSynonyms:%2$s Include synonyms of your keyphrase for a more natural flow and smarter suggestions", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 	];
 
 	return (
