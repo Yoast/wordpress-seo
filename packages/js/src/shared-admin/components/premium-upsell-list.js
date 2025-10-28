@@ -103,7 +103,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 				</div>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-gap-y-2 yst-list-none yst-list-outside yst-text-slate-600 yst-mt-4">
 					{ getBenefits().map( ( benefit, index ) => (
-						<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-start"><CheckCircleIcon className="yst-mr-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px]" />{ benefit }</li>
+						<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-start"><CheckCircleIcon className="yst-mr-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px] yst-flex-shrink-0" />{ benefit }</li>
 					) ) }
 				</ul>
 				<Button
