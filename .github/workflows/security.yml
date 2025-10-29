@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Don't run the cronjob in this workflow on forks.
-    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository_owner == 'Yoast')
+    if: github.event_name != 'schedule' || github.event.repository.fork == false
 
     steps:
       - name: Checkout code
