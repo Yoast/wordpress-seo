@@ -12,11 +12,10 @@ import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
  * @param {string} videoId The video to show.
  * @param {Object} thumbnail The thumbnail: img props.
  * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
- * @param {boolean} [hasPadding=true] If there is a padding around the video/thumbnail to take into account.
  * @param {string} [className=""] Additional class names.
  * @returns {JSX.Element} The element.
  */
-export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPadding = true, className = "" } ) => {
+export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, className = "" } ) => {
 	const [ videoFlow, setVideoFlow ] = useState( wistiaEmbedPermission.value ? VIDEO_FLOW.isPlaying : VIDEO_FLOW.showPlay );
 
 	const playVideo = useCallback( () => setVideoFlow( VIDEO_FLOW.isPlaying ), [ setVideoFlow ] );
@@ -46,7 +45,7 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, hasPaddi
 					<script src={ "https://fast.wistia.com/assets/external/E-v1.js" } async={ true } />
 				</Helmet>
 			) }
-			<div className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", ! hasPadding && "yst-pt-[56.25%]", className ) }>
+			<div className={ classNames( "yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white", className ) }>
 				{ videoFlow === VIDEO_FLOW.showPlay && (
 					<button
 						type="button"
