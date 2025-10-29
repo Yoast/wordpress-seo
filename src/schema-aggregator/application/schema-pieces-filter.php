@@ -82,7 +82,6 @@ class Schema_Pieces_Filter {
 		}
 
 		// Neither an array or a string: Invalid @type format.
-		\error_log( 'Yoast Schema Aggregator Filter: @type is neither string nor array' );
 		return false;
 	}
 }

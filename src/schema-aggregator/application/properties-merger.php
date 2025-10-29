@@ -130,7 +130,6 @@ class Properties_Merger {
 		}
 
 		// Invalid type format.
-		\error_log( 'Yoast Schema Aggregator: Invalid @type format: ' . \gettype( $type ) );
 		return [];
 	}
 
@@ -162,13 +161,13 @@ class Properties_Merger {
 	/**
 	 * Check if array is associative (object-like) vs indexed (list-like)
 	 *
-	 * @param array<string|int, string|int|bool|array<string|int|bool>> $array Array to check.
+	 * @param array<string|int, string|int|bool|array<string|int|bool>> $argument Array to check.
 	 * @return bool True if associative.
 	 */
-	private function is_associative_array( array $array ): bool {
-		if ( empty( $array ) ) {
+	private function is_associative_array( array $argument ): bool {
+		if ( empty( $argument ) ) {
 			return false;
 		}
-		return \array_keys( $array ) !== \range( 0, ( \count( $array ) - 1 ) );
+		return \array_keys( $argument ) !== \range( 0, ( \count( $argument ) - 1 ) );
 	}
 }
