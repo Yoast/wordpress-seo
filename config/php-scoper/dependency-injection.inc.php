@@ -28,6 +28,13 @@ return array(
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/ParameterBag' )->name( [
 			'FrozenParameterBag.php', 'ParameterBagInterface.php', 'EnvPlaceholderParameterBag.php', 'ParameterBag.php'
 		] ),
+		Finder::create()->files()->in( 'vendor/symfony/service-contracts' )->name(
+			[
+				'ServiceLocatorTrait.php',
+				'ServiceProviderInterface.php',
+				'ResetInterface.php',
+			]
+		),
 	],
 
 	/*
