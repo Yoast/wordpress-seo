@@ -60,7 +60,7 @@ describe( "ContentBlocksUpsell", () => {
 		expect( screen.getByText( "Modal Open" ) ).toBeInTheDocument();
 		expect( screen.getByText( "https://buy-sidebar?context=test-context" ) ).toBeInTheDocument();
 		expect( screen.getByTestId( "benefit-items" ) ).toHaveTextContent( "yoast-content-blocks-upsell" );
-		expect( screen.getByText( "Enhance your content" ) ).toBeInTheDocument();
+		expect( screen.getByText( "Add rich content blocks with Premium" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Make your post more engaging at a click" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Add rich elements that improve readability, structure, and SEO. Easily insert smart blocks to enrich your content directly in the Block Editor. Includes:" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Get a tailored experience for the Block Editor" ) ).toBeInTheDocument();

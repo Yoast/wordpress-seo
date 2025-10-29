@@ -164,6 +164,36 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab, when Premium is enabled.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsPremiumLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights_premium']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -409,6 +439,32 @@ import jQuery from "jquery";
 		sidebarScreenReader.remove();
 	}
 
+	/**
+	 * Resolves potential mismatches in the notification counts between the sidebar and the adminbar.
+	 *
+	 * @returns {void}
+	 */
+	function resolveAlerts() {
+		jQuery( "body" ).on( "click", ".wpseo-resolve-alert.button", function( event ) {
+			event.preventDefault();
+
+			const data = {
+				action: "wpseo_resolve_alert",
+				// eslint-disable-next-line camelcase
+				_ajax_nonce: jQuery( this ).data( "nonce" ),
+				alertId: jQuery( this ).data( "alert-id" ),
+			};
+
+			jQuery.post(
+				ajaxurl, data, function( response ) {
+					if ( response.success ) {
+						window.location.reload();
+					}
+				}
+			);
+		} );
+	}
+
 	/*
 	 * When the viewport size changes, check again the scrollable tables width.
 	 * About the events: technically `wp-window-resized` is triggered on the
@@ -453,5 +509,8 @@ import jQuery from "jquery";
 		createScrollableTables();
 		resolveNotificationMismatch();
 		makeUpgradesOpenInNewTab();
+		makeBrandInsightsLinkOpenInNewTab();
+		makeBrandInsightsPremiumLinkOpenInNewTab();
+		resolveAlerts();
 	} );
 }( jQuery ) );

@@ -151,6 +151,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ai_free_sparks_started_on'                            => null,
 		'enable_llms_txt'                                      => false,
 		'last_updated_on'                                      => false,
+		'default_seo_title'                                    => [],
+		'default_seo_meta_desc'                                => [],
+		'first_activated_by'                                   => 0,
 	];
 
 	/**
@@ -413,6 +416,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'first_activated_by':
+					// A slight change from the other integer fields, as we want to allow '0' here, but don't want to have much impact elsewhere.
+					$clean[ $key ] = false;
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) !== false ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
+
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
@@ -432,6 +445,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'last_known_public_taxonomies':
 				case 'new_post_types':
 				case 'new_taxonomies':
+				case 'default_seo_title':
+				case 'default_seo_meta_desc':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {

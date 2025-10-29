@@ -889,6 +889,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
+			'isPage'                     => get_post_type( $post_id ) === 'page',
 			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
