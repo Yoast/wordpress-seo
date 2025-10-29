@@ -67,6 +67,18 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		);
 	}, [] );
 
+	const advancedMenuItems = [
+		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
+		{ to: "/crawl-optimization", label: __( "Crawl optimization", "wordpress-seo" ) },
+		{ to: "/breadcrumbs", label: __( "Breadcrumbs", "wordpress-seo" ) },
+		{ to: "/author-archives", label: __( "Author archives", "wordpress-seo" ) },
+		{ to: "/date-archives", label: __( "Date archives", "wordpress-seo" ) },
+		{ to: "/format-archives", label: __( "Format archives", "wordpress-seo" ) },
+		{ to: "/special-pages", label: __( "Special pages", "wordpress-seo" ) },
+		{ to: "/media-pages", label: __( "Media pages", "wordpress-seo" ) },
+		{ to: "/rss", label: __( "RSS", "wordpress-seo" ) },
+	];
+
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
 			<Link
@@ -137,25 +149,18 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ pathname === "/llms-txt" }
+				defaultOpen={ advancedMenuItems.map( ( item ) => item.to ).includes( pathname ) }
 			>
-				<MenuItemLink
-					to="/llms-txt"
-					label={ __( "llms.txt", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<MenuItemLink
-					to="/crawl-optimization"
-					label={ __( "Crawl optimization", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<MenuItemLink to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				{
+					advancedMenuItems.map( ( { to, label } ) => (
+						<MenuItemLink
+							key={ `link-advanced-${ to }` }
+							to={ to }
+							label={ label }
+							idSuffix={ idSuffix }
+						/>
+					) )
+				}
 			</SidebarNavigation.MenuItem>
 		</div>
 	</>;
