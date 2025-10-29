@@ -26,21 +26,21 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 				__( "%1$sKeyphrase distribution:%2$s See if your keywords are spread evenly so search engines understand your topic", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 		safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s are opening and closing span tags. */
 				__( "%1$sTitle check:%2$s Instantly spot missing titles and fix them for better click-through rates", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 		safeCreateInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s are opening and closing span tags. */
 				__( "%1$sSynonyms:%2$s Include synonyms of your keyphrase for a more natural flow and smarter suggestions", "wordpress-seo" ),
 				"<span>",
 				"</span>"
-			), { span: <span className="yst-font-semibold" /> } ),
+			), { span: <span className="yst-font-medium yst-text-slate-800" /> } ),
 	];
 
 	return (
@@ -48,16 +48,13 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 			isOpen={ isOpen }
 			onClose={ closeModal }
 			id={ id }
-			title={ __( "Get deeper keyphrase insights and stronger headlines", "wordpress-seo" ) }
+			modalTitle={ __( "Get deeper SEO insights with Premium", "wordpress-seo" ) }
+			title={ __( "Find new ways to grow your rankings.", "wordpress-seo" ) }
+			description={ __( "Premium gives you advanced content checks that reveal new ranking opportunities and help you reach more readers.", "wordpress-seo" ) }
 			upsellLink={ link }
 			benefits={ benefits }
 			note={ __( "Upgrade to optimize with precision", "wordpress-seo" ) }
 			ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-			modalTitle={ sprintf(
-				/* translators: %1$s is for Premium SEO analysis. */
-				__( "Unlock %1$s", "wordpress-seo" ),
-				"Premium SEO analysis"
-			) }
 		/>
 	);
 };
