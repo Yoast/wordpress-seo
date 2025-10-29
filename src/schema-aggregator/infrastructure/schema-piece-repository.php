@@ -88,7 +88,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$schema_pieces     = [];
 
 		foreach ( $public_indexables as $indexable ) {
-			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(),  true ) ) {
+			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
 				continue;
 			}
 
