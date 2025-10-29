@@ -8,7 +8,10 @@ import { UsageCounter, GradientButton } from "@yoast/ai-frontend";
 import { Badge, Link, Modal, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
-import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../constants";
+import {
+	STORE_NAME_AI,
+	STORE_NAME_EDITOR,
+} from "../constants";
 import { focusFocusKeyphraseInput, isConsideredEmpty } from "../helpers";
 import { useLocation, useMeasuredRef, useModalTitle, useTypeContext } from "../hooks";
 import { FETCH_USAGE_COUNT_ERROR_ACTION_NAME } from "../store/usage-count";
@@ -16,6 +19,7 @@ import { FeatureError } from "./feature-error";
 import { Introduction } from "./introduction";
 import { ModalContent } from "./modal-content";
 import { UpsellModalContent } from "./upsell-modal-content";
+import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-sidebar-when-publishing";
 
 /**
  * Component abstracting the main modal.
@@ -169,11 +173,17 @@ export const App = ( { onUseAi } ) => {
 	};
 
 	const checkFocusKeyphrase = useCallback( () => ! isConsideredEmpty( focusKeyphrase ), [ focusKeyphrase ] );
+	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( false );
 	const showFocusKeyphrase = useCallback( () => {
 		closeEditorModal();
+
+		if ( location === "pre-publish" ) {
+			openYoastSidebarWhenPublishing();
+		}
+
 		// Give JS time to close the modals (with focus traps) before trying to focus the input field.
 		setTimeout( () => focusFocusKeyphraseInput( location ), 0 );
-	}, [ closeEditorModal, location ] );
+	}, [ closeEditorModal, location, openYoastSidebarWhenPublishing ] );
 
 	const checkSubscriptions = useCallback( () => {
 		if (  isWooProductEntity ) {

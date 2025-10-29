@@ -240,7 +240,6 @@ const SiteFeatures = () => {
 									className="yst-self-start"
 								>
 									{ __( "Customize llms.txt file", "wordpress-seo" ) }
-									<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 								</Button>
 								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
 							</FeatureCard>

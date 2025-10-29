@@ -181,8 +181,8 @@ class Support_Integration implements Integration_Interface {
 	public function get_script_data() {
 		return [
 			'preferences'       => [
-				'hasPremiumSubscription' => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
-				'hasWooSeoSubscription'  => $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
+				'hasPremiumSubscription' => $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ),
+				'hasWooSeoSubscription'  => $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
 				'isRtl'                  => \is_rtl(),
 				'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings'         => [

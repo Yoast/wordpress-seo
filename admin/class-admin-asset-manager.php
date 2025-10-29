@@ -606,7 +606,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'introductions',
 				'src'  => 'introductions-' . $flat_version,
-				'deps' => [ self::PREFIX . 'tailwind', self::PREFIX . 'ai-frontend' ],
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'wp-dashboard',
