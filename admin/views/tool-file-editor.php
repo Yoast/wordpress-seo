@@ -200,7 +200,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			echo '<p><em>';
 			printf(
 				/* translators: %s expands to ".htaccess". */
-				esc_html__( 'If your %s were writable, you could edit it from here.', 'wordpress-seo' ),
+				esc_html__( 'Editing the %s file is not supported via the Yoast SEO file editor.', 'wordpress-seo' ),
 				'.htaccess'
 			);
 			echo '</em></p>';
@@ -232,7 +232,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		echo '<p>';
 		printf(
 			/* translators: %s expands to ".htaccess". */
-			esc_html__( 'If you had a %s file and it was editable, you could edit it from here.', 'wordpress-seo' ),
+			esc_html__( 'Editing the %s file is not supported via the Yoast SEO file editor.', 'wordpress-seo' ),
 			'.htaccess'
 		);
 		echo '</p>';

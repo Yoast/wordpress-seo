@@ -41,7 +41,7 @@ class WPSEO_Utils {
 
 		/**
 		 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
-		 * .htaccess and robots.txt is allowed.
+		 * robots.txt is allowed.
 		 *
 		 * @param bool $allowed Whether file editing is allowed.
 		 */
