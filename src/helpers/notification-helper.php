@@ -66,6 +66,7 @@ class Notification_Helper {
 					'nonce'     => $notification->get_nonce(),
 					'type'      => $notification->get_type(),
 					'dismissed' => $this->is_notification_dismissed( $notification ),
+					'resolveNonce' => $notification->get_resolve_nonce(),
 				];
 			},
 			$all_notifications

@@ -3,15 +3,102 @@ import PropTypes from "prop-types";
 import { Button, TextField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { noop } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
+import { isEmail } from "@wordpress/url";
 import { STORE_NAME } from "../../constants";
 import { select } from "@wordpress/data";
+import { useState, useCallback } from "@wordpress/element";
 
 /**
- * Default alert item component.
+ * Ping other admins alert item component.
  */
-export const PingOtherAdminsAlertItem = ( { id, nonce, dismissed, message } ) => {
+export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce } ) => {
+	const [ isLoading, setIsLoading ] = useState( false );
+	const [ error, setError ] = useState( "" );
+	const [ success, setSuccess ] = useState( false );
+	const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
+
+	const clearError = useCallback( () => {
+		setError( "" );
+	}, [] );
+
+	const handleSendClick = useCallback( async () => {
+		// Get email value from input field using selector
+		const emailInput = document.getElementById( id + "-input-field" );
+		const email = emailInput ? emailInput.value.trim() : "";
+
+		if ( ! isEmail( email ) ) {
+			setError( __( "Please enter a valid email address.", "wordpress-seo" ) );
+			return;
+		}
+
+		setIsLoading( true );
+		setError( "" );
+
+		try {
+			// First request to Yoast mailing list API
+			const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify( {
+					customerDetails: {
+						firstName: "",
+						email: email,
+					},
+					list: "Yoast newsletter",
+					source: "free",
+				} ),
+			} );
+
+			const mailingListData = await mailingListResponse.json();
+
+			// Check if subscription was successful
+			if ( mailingListData.status === "subscribed" ) {
+				// Second request to resolve the alert
+				const formData = new FormData();
+				formData.append( "action", "wpseo_resolve_alert" );
+				formData.append( "alertId", id );
+				formData.append( "_ajax_nonce", resolveNonce );
+
+				const resolveAlertResponse = await fetch( ajaxUrl, {
+					method: "POST",
+					body: formData,
+				} );
+
+				const resolveAlertData = await resolveAlertResponse.json();
+
+				if ( resolveAlertData.success ) {
+					setSuccess( true );
+					// Optionally reload the page or update the UI
+					setTimeout( () => {
+						window.location.reload();
+					}, 1500 );
+				} else {
+					setError( resolveAlertData.data?.message || __( "Failed to resolve alert.", "wordpress-seo" ) );
+				}
+			} else {
+				setError( __( "Failed to subscribe to mailing list.", "wordpress-seo" ) );
+			}
+		} catch ( err ) {
+			setError( __( "An error occurred. Please try again.", "wordpress-seo" ) );
+			console.error( "Error in handleSendClick:", err );
+		} finally {
+			setIsLoading( false );
+		}
+	}, [ id, resolveNonce ] );
+
+	if ( success ) {
+		return (
+			<div className={ classNames( "yst-text-sm yst-text-slate-600 yst-grow", dismissed && "yst-opacity-50" ) }>
+				<div className="yst-text-green-600">
+					{ __( "Successfully subscribed and alert resolved!", "wordpress-seo" ) }
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div
 			className={ classNames(
@@ -23,24 +110,34 @@ export const PingOtherAdminsAlertItem = ( { id, nonce, dismissed, message } ) =>
 			/>
 			<div className="yst-flex yst-items-end yst-gap-2 yst-mt-2">
 				<TextField
-					type="text"
+					type="email"
 					name={ id + "-input-field" }
 					id={ id + "-input-field" }
 					label=""
-					onChange={ noop }
 					placeholder={ __( 'E.g. example@email.com', 'wordpress-seo' ) }
 					className="yst-flex-1"
+					disabled={ isLoading }
+					onInput={ clearError }
 				/>
 				<Button
 					variant="primary"
 					size="large"
+					onClick={ handleSendClick }
+					disabled={ isLoading }
 				>
-					{ __( 'Send', 'wordpress-seo' ) }
+					{ isLoading ? __( 'Sending...', 'wordpress-seo' ) : __( 'Send', 'wordpress-seo' ) }
 					<div className="yst-ml-2 yst-w-4">
 						<ArrowNarrowRightIcon className="yst-w-4 yst-text-white" />
 					</div>
 				</Button>
 			</div>
+			
+			{ error && (
+				<p className="yst-text-red-600 yst-text-xs yst-mt-1">
+					{ error }
+				</p>
+			) }
+			
 			<p
 				className="yst-text-slate-600 yst-text-xxs yst-leading-4 yst-mt-1"
 			>

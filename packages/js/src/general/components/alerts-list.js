@@ -15,8 +15,9 @@ import {
 /**
  * Renders the appropriate alert item component based on the alert ID.
  */
-const AlertItem = ( { id, nonce, dismissed, message } ) => {
+const AlertItem = ( { id, nonce, dismissed, message, resolveNonce } ) => {
 	const commonProps = { id, nonce, dismissed, message };
+	const propsWithResolveNonce = { ...commonProps, resolveNonce };
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
@@ -26,7 +27,7 @@ const AlertItem = ( { id, nonce, dismissed, message } ) => {
 	const AlertContent = useMemo( () => {
 		switch ( id ) {
 			case "wpseo-ping-other-admins":
-				return <PingOtherAdminsAlertItem { ...commonProps } />;
+				return <PingOtherAdminsAlertItem { ...propsWithResolveNonce } />;
 			default:
 				return <DefaultAlertItem { ...commonProps } />;
 		}
@@ -55,6 +56,7 @@ AlertItem.propTypes = {
 	nonce: PropTypes.string.isRequired,
 	dismissed: PropTypes.bool.isRequired,
 	message: PropTypes.string.isRequired,
+	resolveNonce: PropTypes.string.isRequired,
 };
 
 /**
@@ -77,6 +79,7 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 					nonce={ item.nonce }
 					dismissed={ item.dismissed }
 					message={ item.message }
+					resolveNonce={ item.resolveNonce || '' }
 				/>
 			) ) }
 		</ul>

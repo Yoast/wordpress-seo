@@ -16,8 +16,6 @@ export const DefaultAlertItem = ( { dismissed, message } ) => {
 };
 
 DefaultAlertItem.propTypes = {
-	id: PropTypes.string.isRequired,
-	nonce: PropTypes.string.isRequired,
 	dismissed: PropTypes.bool.isRequired,
 	message: PropTypes.string.isRequired,
 };

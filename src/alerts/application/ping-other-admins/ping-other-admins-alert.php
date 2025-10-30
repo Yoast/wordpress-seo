@@ -154,10 +154,11 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 		return new Yoast_Notification(
 			$message,
 			[
-				'id'           => self::NOTIFICATION_ID,
-				'type'         => Yoast_Notification::WARNING,
-				'capabilities' => [ 'wpseo_manage_options' ],
-				'priority'     => 20,
+				'id'            => self::NOTIFICATION_ID,
+				'type'          => Yoast_Notification::WARNING,
+				'capabilities'  => [ 'wpseo_manage_options' ],
+				'priority'      => 20,
+				'resolve_nonce' => \wp_create_nonce( 'wpseo-resolve-alert-nonce' ),
 			]
 		);
 	}
