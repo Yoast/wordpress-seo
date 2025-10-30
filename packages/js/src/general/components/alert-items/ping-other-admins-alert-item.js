@@ -2,7 +2,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { select } from "@wordpress/data";
+import { select, useDispatch } from "@wordpress/data";
 import { useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
@@ -73,7 +73,7 @@ async function resolveAlert( id, resolveNonce ) {
 export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce } ) => {
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( "" );
-	const [ success, setSuccess ] = useState( false );
+	const { removeAlert } = useDispatch( STORE_NAME );
 
 	const clearError = useCallback( () => {
 		setError( "" );
@@ -108,11 +108,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 				return;
 			}
 
-			setSuccess( true );
-			// Optionally reload the page or update the UI
-			setTimeout( () => {
-				window.location.reload();
-			}, 1500 );
+			removeAlert( id );
 		} catch ( err ) {
 			setError( __( "An error occurred. Please try again.", "wordpress-seo" ) );
 			console.error( "Error in handleSendClick:", err );
@@ -120,16 +116,6 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 			setIsLoading( false );
 		}
 	}, [ id, resolveNonce ] );
-
-	if ( success ) {
-		return (
-			<div className={ classNames( "yst-text-sm yst-text-slate-600 yst-grow", dismissed && "yst-opacity-50" ) }>
-				<div className="yst-text-green-600">
-					{ __( "Successfully subscribed and alert resolved!", "wordpress-seo" ) }
-				</div>
-			</div>
-		);
-	}
 
 	return (
 		<div
