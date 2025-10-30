@@ -23,7 +23,7 @@ import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 async function mailingListSubscribe( email, isPremium, isWooSeoActive ) {
 	let source;
 	if ( isWooSeoActive ) {
-		source = "woo";
+		source = "woo-seo";
 	} else if ( isPremium ) {
 		source = "premium";
 	} else {
