@@ -8,16 +8,28 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
 import { Button, TextField } from "@yoast/ui-library";
 import { STORE_NAME } from "../../constants";
+import { useSelectGeneralPage } from "../../hooks";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 
 /**
  * A function to send a request to the mailing list API.
  *
  * @param {string} email The email to signup to the newsletter.
+ * @param {boolean} isPremium Whether Premium is active.
+ * @param {boolean} isWooSeoActive Whether Woo SEO is active.
  *
  * @returns {Object} The request's response.
  */
-async function mailingListSubscribe( email ) {
+async function mailingListSubscribe( email, isPremium, isWooSeoActive ) {
+	let source;
+	if ( isWooSeoActive ) {
+		source = "woo";
+	} else if ( isPremium ) {
+		source = "premium";
+	} else {
+		source = "free";
+	}
+
 	const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		headers: {
@@ -29,7 +41,7 @@ async function mailingListSubscribe( email ) {
 				email: email,
 			},
 			list: "Yoast newsletter",
-			source: "free",
+			source: [ source, "recapture" ],
 		} ),
 	} );
 
@@ -74,6 +86,8 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( "" );
 	const { removeAlert } = useDispatch( STORE_NAME );
+	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
+	const isWooSeoActive = useSelectGeneralPage( "selectPreference", [], "isWooSeoActive" );
 
 	const clearError = useCallback( () => {
 		setError( "" );
@@ -93,7 +107,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 
 		try {
 			// First request to Yoast mailing list API
-			const subscribeResponse = await mailingListSubscribe( email );
+			const subscribeResponse = await mailingListSubscribe( email, isPremium, isWooSeoActive );
 
 			// Check if subscription was successful
 			if ( subscribeResponse.status !== "subscribed" ) {
