@@ -3,7 +3,7 @@ import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -44,6 +44,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const [ history, setHistory ] = useState( [] );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
@@ -78,6 +79,32 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		{ to: "/media-pages", label: __( "Media pages", "wordpress-seo" ) },
 		{ to: "/rss", label: __( "RSS", "wordpress-seo" ) },
 	];
+
+	const advancedMenuPaths = [ `menu-advanced${ idSuffix }`, ...advancedMenuItems.map( item => item.to ) ];
+	const hasAdvancedItemInHistory = advancedMenuPaths.some( path => history.includes( path ) );
+	useEffect( () => {
+		// If advanced menu is open but no sub items clicked, we want to save it to memory to keep it open.
+		const handleAdvancedMenuClick = () => {
+			if ( ! history.includes( `menu-advanced${ idSuffix }` ) ) {
+				setHistory( [ ...history, `menu-advanced${ idSuffix }` ] );
+			}
+		};
+
+		const advancedMenuElement = document.getElementById( `menu-advanced${ idSuffix }` );
+		if ( advancedMenuElement ) {
+			advancedMenuElement.addEventListener( "click", handleAdvancedMenuClick );
+		}
+
+		if ( ! history.includes( pathname ) ) {
+			setHistory( [ ...history, pathname ] );
+		}
+
+		return () => {
+			if ( advancedMenuElement ) {
+				advancedMenuElement.removeEventListener( "click", handleAdvancedMenuClick );
+			}
+		};
+	}, [ pathname, history, idSuffix ] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -149,7 +176,8 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ advancedMenuItems.map( ( item ) => item.to ).includes( pathname ) }
+				// Make sure advanced menu stays open if any of its items were visited.
+				defaultOpen={ advancedMenuPaths.includes( pathname ) || hasAdvancedItemInHistory }
 			>
 				{
 					advancedMenuItems.map( ( { to, label } ) => (
