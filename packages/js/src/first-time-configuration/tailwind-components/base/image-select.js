@@ -64,7 +64,7 @@ export default function ImageSelect( {
 
 	return (
 		<div className={ classNames( "yst-max-w-sm", className ) } { ...getErrorAriaProps( id, error ) }>
-			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-slate-700">{ label }</label>
+			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-slate-800">{ label }</label>
 			<button
 				id={ id }
 				className={ imageClassName }

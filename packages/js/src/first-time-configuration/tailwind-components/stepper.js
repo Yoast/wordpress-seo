@@ -227,7 +227,7 @@ function Content( { children } ) {
 			>
 				<div
 					className={ classNames(
-						"yst-transition-opacity yst-relative yst-ms-12 yst-mt-4 yst-pb-1",
+						"yst-transition-opacity yst-relative yst-ms-12 yst-mt-4 yst-pb-1 yst-max-w-xl",
 						fadeDuration,
 						isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100"
 					) }

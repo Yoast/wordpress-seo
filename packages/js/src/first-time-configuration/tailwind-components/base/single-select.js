@@ -41,7 +41,7 @@ export default function Select( {
 				<>
 					{ label && (
 						<Listbox.Label
-							className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-slate-700"
+							className="yst-block yst-max-w-sm yst-mb-2 yst-text-sm yst-font-medium yst-text-slate-800"
 						>
 							{ label }
 						</Listbox.Label>
@@ -51,7 +51,7 @@ export default function Select( {
 							<Listbox.Button
 								data-id={ `button-${ id } ` }
 								className={ classNames(
-									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-ps-3 yst-pe-10 yst-text-start yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
+									"yst-relative yst-h-[40px] yst-w-full yst-leading-6 yst-py-2 yst-ps-3 yst-pe-10 yst-text-start yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									{
 										"yst-border-red-300": error.isVisible,
 										"yst-opacity-50": disabled,

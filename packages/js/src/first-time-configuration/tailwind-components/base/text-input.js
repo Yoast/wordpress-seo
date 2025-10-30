@@ -68,7 +68,7 @@ export default function TextInput( {
 
 	return (
 		<div className={ className }>
-			{ label && <label className="yst-block yst-mb-2 yst-font-medium yst-text-slate-700" htmlFor={ id }>
+			{ label && <label className="yst-block yst-mb-2 yst-font-medium yst-text-slate-800" htmlFor={ id }>
 				{ label }
 			</label> }
 			<div className="yst-relative">
@@ -77,7 +77,7 @@ export default function TextInput( {
 					type={ inputType }
 					value={ value }
 					className={ classNames(
-						"yst-block yst-w-full yst-h-[45px] yst-input focus:yst-ring-1",
+						"yst-block yst-w-full yst-h-[40px] yst-input focus:yst-ring-1",
 						{
 							"yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500": hasError,
 							"yst-border-emerald-600 yst-text-slate-700 focus:yst-ring-emerald-600 focus:yst-border-emerald-600": hasSuccess,

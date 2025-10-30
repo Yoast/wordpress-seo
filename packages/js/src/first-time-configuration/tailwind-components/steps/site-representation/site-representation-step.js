@@ -1,15 +1,15 @@
-import { Fragment, useCallback, useState } from "@wordpress/element";
+import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import ReactAnimateHeight from "react-animate-height";
 
-import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
 import SingleSelect from "../../base/single-select";
 import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 
 /* eslint-disable complexity */
 
@@ -33,15 +33,26 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		dispatch( { type: "CHANGE_WEBSITE_NAME", payload: event.target.value } );
 	}, [ dispatch ] );
 
-	const richResultsMessage = addLinkToString(
+	const richResultsMessage = safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag. */
-			__( "Completing this step helps Google to understand your site even better. Bonus: You'll improve your chance of getting %1$srich results%2$s!", "wordpress-seo" ),
+			/* translators: %1$s expands to opening 'span' HTML tag, %2$s expands to closing 'span' HTML tag,
+			%3$s expands to opening 'a' HTML tag, %4$s expands to closing 'a' HTML tag. */
+			__( "Completing this step helps Google to understand your site even better. %1$sBonus%2$s: You'll improve your chance of getting %3$srich results%4$s!", "wordpress-seo" ),
+			"<span>",
+			"</span>",
 			"<a>",
 			"</a>"
 		),
-		"https://yoa.st/config-workout-rich-results",
-		"yoast-configuration-rich-text-link"
+		{
+			span: <span className="yst-text-slate-800 yst-font-medium" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a
+				id="yoast-configuration-rich-text-link"
+				href="https://yoa.st/config-workout-rich-results"
+				target="_blank"
+				rel="noopener noreferrer"
+			/>,
+		}
 	);
 
 	/**
@@ -79,6 +90,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					? richResultsMessage
 					: <Fragment>
 						{ __( "Tell us! Is your site about an organization or a person?", "wordpress-seo" ) }
+						<br />
 						{ richResultsMessage }
 					</Fragment>
 			}
