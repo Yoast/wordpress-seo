@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Repository for Schema_Piece objects.
@@ -43,23 +43,33 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	private $adapter;
 
 	/**
+	 * Configuration provider.
+	 *
+	 * @var Config
+	 */
+	private $config;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer         $memoizer             The meta tags context memoizer.
 	 * @param Indexable_Helper                   $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository               $indexable_repository The indexable repository.
 	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter              The adapter factory.
+	 * @param Config                             $config               The configuration provider.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
 		Indexable_Helper $indexable_helper,
 		Indexable_Repository $indexable_repository,
-		Meta_Tags_Context_Memoizer_Adapter $adapter
+		Meta_Tags_Context_Memoizer_Adapter $adapter,
+		Config $config
 	) {
 		$this->memoizer             = $memoizer;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
 		$this->adapter              = $adapter;
+		$this->config               = $config;
 	}
 
 	/**
@@ -78,10 +88,18 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$schema_pieces     = [];
 
 		foreach ( $public_indexables as $indexable ) {
-			$page_type       = $this->indexable_helper->get_page_type_for_indexable( $indexable );
-			$context         = $this->memoizer->get( $indexable, $page_type );
-			$context_array   = $this->adapter->meta_tags_context_to_array( $context );
-			$schema_pieces[] = new Schema_Piece( $context_array, $page_type );
+			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
+				continue;
+			}
+
+			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
+			$context       = $this->memoizer->get( $indexable, $page_type );
+			$context_array = $this->adapter->meta_tags_context_to_array( $context );
+
+			$pieces_data = $context_array['@graph'];
+			foreach ( $pieces_data as $piece_data ) {
+				$schema_pieces[] = new Schema_Piece( $piece_data, $piece_data['@type'] );
+			}
 		}
 
 		return $schema_pieces;

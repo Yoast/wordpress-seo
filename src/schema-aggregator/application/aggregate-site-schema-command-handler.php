@@ -18,12 +18,21 @@ class Aggregate_Site_Schema_Command_Handler {
 	private $schema_piece_repository;
 
 	/**
+	 * The Schema_Pieces_Aggregator instance.
+	 *
+	 * @var Schema_Pieces_Aggregator
+	 */
+	private $schema_piece_aggregator;
+
+	/**
 	 * Aggregate_Site_Schema_Command_Handler constructor.
 	 *
-	 * @param Schema_Piece_Repository $schema_piece_repository The collector of indexables that need to be aggregated.
+	 * @param Schema_Piece_Repository  $schema_piece_repository The collector of indexables that need to be aggregated.
+	 * @param Schema_Pieces_Aggregator $schema_piece_aggregator The schema pieces aggregator.
 	 */
-	public function __construct( Schema_Piece_Repository $schema_piece_repository ) {
+	public function __construct( Schema_Piece_Repository $schema_piece_repository, Schema_Pieces_Aggregator $schema_piece_aggregator ) {
 		$this->schema_piece_repository = $schema_piece_repository;
+		$this->schema_piece_aggregator = $schema_piece_aggregator;
 	}
 
 	/**
@@ -40,10 +49,10 @@ class Aggregate_Site_Schema_Command_Handler {
 			$command->get_page_controls()->get_page_size()
 		);
 
-		// This part should be replaced by the rest of the system.
-		$schema = [];
-		foreach ( $schema_pieces as $schema_piece ) {
-			$schema[] = $schema_piece->get_data();
+		$aggregated_schema_pieces = $this->schema_piece_aggregator->aggregate( $schema_pieces );
+		$schema                   = [];
+		foreach ( $aggregated_schema_pieces as $schema_piece ) {
+			$schema[] = $schema_piece->to_json_ld_graph();
 		}
 		return $schema;
 	}
