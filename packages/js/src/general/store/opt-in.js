@@ -28,14 +28,11 @@ function* setOptInNotificationSeen( key ) {
 const slice = createSlice( {
 	name: OPT_IN_NOTIFICATION_NAME,
 	initialState: { seen: {} },
-	extraReducers: ( builder ) => {
-		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
-			state.seen[ payload ] = true;
-		} );
-		builder.addCase( `${ OPT_IN_NOTIFICATION_SEEN }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
-			// Even on error, we mark the notification as seen to avoid showing it again.
-			state.seen[ payload ] = true;
-		} );
+	reducers: {
+		hideOptInNotification( state, action ) {
+			const key = action.payload;
+			state.seen[ key ] = true;
+		},
 	},
 } );
 
