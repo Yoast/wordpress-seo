@@ -30,6 +30,8 @@ async function mailingListSubscribe( email, isPremium, isWooSeoActive ) {
 		source = "free";
 	}
 
+	// eslint-disable-next-line no-warning-comments
+	// @TODO Change to production URL before merging
 	const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		headers: {
