@@ -1,8 +1,8 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { get } from "lodash";
-import { ReactComponent as ConfigurationFinishImage } from "../../../../../images/indexables_2_left_bubble_optm.svg";
 import { Button, Link } from "@yoast/ui-library";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 
 /**
  * Goes to the Dashboard tab by clicking the tab button.
@@ -26,7 +26,7 @@ export default function FinishStep() {
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
-			<div className="yst-me-6">
+			<div>
 				<p className="yst-text-sm yst-mb-4">
 					{
 						sprintf(
@@ -52,20 +52,29 @@ export default function FinishStep() {
 						__( "Learn how to increase your rankings with %1$s", "wordpress-seo" ),
 						"Yoast SEO"
 					) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
 				</Button>
 				<p className="yst-mt-4">
 					<Link
 						id="link-webinar-register"
-						href="#"
+						as="button"
 						onClick={ goToSEODashboard }
 						data-hiive-event-name="clicked_seo_dashboard"
+						variant="primary"
+						className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
+						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 					</Link>
 				</p>
 			</div>
-			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28 yst-mb-24" />
 		</div>
 	);
 }

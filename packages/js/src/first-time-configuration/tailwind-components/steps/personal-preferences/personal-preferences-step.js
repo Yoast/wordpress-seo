@@ -24,7 +24,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 			<NewsletterSignup gdprLink={ window.wpseoFirstTimeConfigurationData.shortlinks.gdpr } />
 			<br />
 		</Fragment> }
-		<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
+		<h4 className="yst-text-slate-800 yst-text-sm yst-leading-6 yst-font-medium">
 			{
 				__( "Are you open to help us improve our services?",
 					"wordpress-seo" )
