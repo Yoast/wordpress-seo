@@ -1,13 +1,64 @@
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { Button, TextField } from "@yoast/ui-library";
-import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { __, sprintf } from "@wordpress/i18n";
-import { isEmail } from "@wordpress/url";
-import { STORE_NAME } from "../../constants";
 import { select } from "@wordpress/data";
 import { useState, useCallback } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { isEmail } from "@wordpress/url";
+import { Button, TextField } from "@yoast/ui-library";
+import { STORE_NAME } from "../../constants";
+import { safeCreateInterpolateElement } from "../../../helpers/i18n";
+
+/**
+ * A function to send a request to the mailing list API.
+ *
+ * @param {string} email The email to signup to the newsletter.
+ *
+ * @returns {Object} The request's response.
+ */
+async function mailingListSubscribe( email ) {
+	const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify( {
+			customerDetails: {
+				firstName: "",
+				email: email,
+			},
+			list: "Yoast newsletter",
+			source: "free",
+		} ),
+	} );
+
+	return mailingListResponse.json();
+}
+
+/**
+ * A function to request permanently resolving the alert.
+ *
+ * @param {string} id The alert ID.
+ * @param {string} resolveNonce The nonce to resolve the alert.
+ *
+ * @returns {Object} The request's response.
+ */
+async function resolveAlert( id, resolveNonce ) {
+	const formData = new FormData();
+	formData.append( "action", "wpseo_resolve_alert" );
+	formData.append( "alertId", id );
+	formData.append( "_ajax_nonce", resolveNonce );
+
+	const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
+
+	const resolveResponse = await fetch( ajaxUrl, {
+		method: "POST",
+		body: formData,
+	} );
+
+	return resolveResponse.json();
+}
 
 /**
  * Ping other admins alert item component.
@@ -23,14 +74,12 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( "" );
 	const [ success, setSuccess ] = useState( false );
-	const ajaxUrl = select( STORE_NAME ).selectPreference( "ajaxUrl" );
 
 	const clearError = useCallback( () => {
 		setError( "" );
 	}, [] );
 
 	const handleSendClick = useCallback( async() => {
-		// Get email value from input field using selector
 		const emailInput = document.getElementById( id + "-input-field" );
 		const email = emailInput ? emailInput.value.trim() : "";
 
@@ -44,50 +93,26 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 
 		try {
 			// First request to Yoast mailing list API
-			const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify( {
-					customerDetails: {
-						firstName: "",
-						email: email,
-					},
-					list: "Yoast newsletter",
-					source: "free",
-				} ),
-			} );
-
-			const mailingListData = await mailingListResponse.json();
+			const subscribeResponse = await mailingListSubscribe( email );
 
 			// Check if subscription was successful
-			if ( mailingListData.status === "subscribed" ) {
-				// Second request to resolve the alert
-				const formData = new FormData();
-				formData.append( "action", "wpseo_resolve_alert" );
-				formData.append( "alertId", id );
-				formData.append( "_ajax_nonce", resolveNonce );
-
-				const resolveAlertResponse = await fetch( ajaxUrl, {
-					method: "POST",
-					body: formData,
-				} );
-
-				const resolveAlertData = await resolveAlertResponse.json();
-
-				if ( resolveAlertData.success ) {
-					setSuccess( true );
-					// Optionally reload the page or update the UI
-					setTimeout( () => {
-						window.location.reload();
-					}, 1500 );
-				} else {
-					setError( resolveAlertData.data?.message || __( "Failed to resolve alert.", "wordpress-seo" ) );
-				}
-			} else {
+			if ( subscribeResponse.status !== "subscribed" ) {
 				setError( __( "Failed to subscribe to mailing list.", "wordpress-seo" ) );
+				return;
 			}
+
+			// Second request to resolve the alert
+			const resolveResponse = await resolveAlert( id, resolveNonce );
+			if ( ! resolveResponse.success ) {
+				setError( resolveResponse.data?.message || __( "Failed to resolve alert.", "wordpress-seo" ) );
+				return;
+			}
+
+			setSuccess( true );
+			// Optionally reload the page or update the UI
+			setTimeout( () => {
+				window.location.reload();
+			}, 1500 );
 		} catch ( err ) {
 			setError( __( "An error occurred. Please try again.", "wordpress-seo" ) );
 			console.error( "Error in handleSendClick:", err );

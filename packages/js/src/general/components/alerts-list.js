@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useDispatch } from "@wordpress/data";
 import { useCallback, useContext, useMemo } from "@wordpress/element";
