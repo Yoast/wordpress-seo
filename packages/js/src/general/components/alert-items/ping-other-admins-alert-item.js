@@ -11,6 +11,13 @@ import { useState, useCallback } from "@wordpress/element";
 
 /**
  * Ping other admins alert item component.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.id Alert ID.
+ * @param {boolean} props.dismissed Whether the alert is dismissed.
+ * @param {string} props.message Alert message.
+ * @param {string} props.resolveNonce Nonce to resolve the alert.
+ * @returns {JSX.Element} The PingOtherAdminsAlertItem component.
  */
 export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce } ) => {
 	const [ isLoading, setIsLoading ] = useState( false );
@@ -22,7 +29,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 		setError( "" );
 	}, [] );
 
-	const handleSendClick = useCallback( async () => {
+	const handleSendClick = useCallback( async() => {
 		// Get email value from input field using selector
 		const emailInput = document.getElementById( id + "-input-field" );
 		const email = emailInput ? emailInput.value.trim() : "";
@@ -114,7 +121,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					name={ id + "-input-field" }
 					id={ id + "-input-field" }
 					label=""
-					placeholder={ __( 'E.g. example@email.com', 'wordpress-seo' ) }
+					placeholder={ __( "E.g. example@email.com", "wordpress-seo" ) }
 					className="yst-flex-1"
 					disabled={ isLoading }
 					onInput={ clearError }
@@ -123,21 +130,21 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					variant="primary"
 					size="large"
 					onClick={ handleSendClick }
-					disabled={ isLoading }
+					isLoading={ isLoading }
 				>
-					{ isLoading ? __( 'Sending...', 'wordpress-seo' ) : __( 'Send', 'wordpress-seo' ) }
+					{ __( "Send", "wordpress-seo" ) }
 					<div className="yst-ml-2 yst-w-4">
 						<ArrowNarrowRightIcon className="yst-w-4 yst-text-white" />
 					</div>
 				</Button>
 			</div>
-			
+
 			{ error && (
 				<p className="yst-text-red-600 yst-text-xs yst-mt-1">
 					{ error }
 				</p>
 			) }
-			
+
 			<p
 				className="yst-text-slate-600 yst-text-xxs yst-leading-4 yst-mt-1"
 			>
@@ -164,7 +171,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 
 PingOtherAdminsAlertItem.propTypes = {
 	id: PropTypes.string.isRequired,
-	nonce: PropTypes.string.isRequired,
 	dismissed: PropTypes.bool.isRequired,
 	message: PropTypes.string.isRequired,
+	resolveNonce: PropTypes.string.isRequired,
 };

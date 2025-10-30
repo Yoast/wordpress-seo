@@ -175,7 +175,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 			'Yoast SEO'
 		);
 
-		$notification_text  = '<p>' . $message . '</p>';
+		$notification_text = '<p>' . $message . '</p>';
 
 		return $notification_text;
 	}

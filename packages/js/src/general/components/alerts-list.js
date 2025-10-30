@@ -14,6 +14,14 @@ import {
 
 /**
  * Renders the appropriate alert item component based on the alert ID.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.id Alert ID.
+ * @param {string} props.nonce Alert nonce.
+ * @param {boolean} props.dismissed Whether the alert is dismissed.
+ * @param {string} props.message Alert message.
+ * @param {string} props.resolveNonce Nonce to resolve the alert.
+ * @returns {JSX.Element} The AlertItem component.
  */
 const AlertItem = ( { id, nonce, dismissed, message, resolveNonce } ) => {
 	const commonProps = { id, nonce, dismissed, message };
@@ -79,7 +87,7 @@ export const AlertsList = ( { className = "", items = [] } ) => {
 					nonce={ item.nonce }
 					dismissed={ item.dismissed }
 					message={ item.message }
-					resolveNonce={ item.resolveNonce || '' }
+					resolveNonce={ item.resolveNonce || "" }
 				/>
 			) ) }
 		</ul>
@@ -93,5 +101,6 @@ AlertsList.propTypes = {
 		id: PropTypes.string,
 		nonce: PropTypes.string,
 		dismissed: PropTypes.bool,
+		resolveNonce: PropTypes.string,
 	} ) ),
 };
