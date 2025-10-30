@@ -39,19 +39,22 @@ const NotificationButtons = () => {
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
 export const LlmTxtOptInNotification = () => {
-	const { setOptInNotificationSeen } = useDispatch( STORE_NAME );
+	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
 
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
 
 
 	useEffect( () => {
+		// Mark the notification as seen when mounting.
+		setOptInNotificationSeen( "wpseo_seen_llm_txt_opt_in_notification" );
+
 		// For the transition to take place.
 		toggleIsVisible();
 
 		return () => {
-			// Mark the notification as seen when unmounting when switching to the FTC tab.
-			setOptInNotificationSeen( "wpseo_seen_llm_txt_opt_in_notification" );
+			// Hide the notification when unmounting when switching to the FTC tab.
+			hideOptInNotification( "wpseo_seen_llm_txt_opt_in_notification" );
 		};
 	}, [] );
 
@@ -62,7 +65,7 @@ export const LlmTxtOptInNotification = () => {
 		className="yst-w-96"
 		position="bottom-left"
 		setIsVisible={ setIsVisible }
-		onDismiss={ setOptInNotificationSeen }
+		onDismiss={ hideOptInNotification }
 	>
 		<>
 			<div className="yst-flex yst-gap-3">
