@@ -134,7 +134,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					label=""
 					placeholder={ __( "E.g. example@email.com", "wordpress-seo" ) }
 					className="yst-flex-1"
-					disabled={ isLoading }
+					disabled={ isLoading || dismissed }
 					onInput={ clearError }
 				/>
 				<Button
@@ -142,6 +142,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					size="large"
 					onClick={ handleSendClick }
 					isLoading={ isLoading }
+					disabled={ isLoading || dismissed }
 				>
 					{ __( "Send", "wordpress-seo" ) }
 					<div className="yst-ml-2 yst-w-4">
