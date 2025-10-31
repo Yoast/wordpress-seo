@@ -4,7 +4,7 @@ import { merge, inRange } from "lodash";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
+import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
 
 /**
@@ -425,20 +425,18 @@ export default class KeyphraseLengthAssessment extends Assessment {
 				resultText: feedbackTexts.wayMoreThanMinimum( this._config.countTextIn, firstSentence ),
 			};
 		}
-		// Calculates okay score for product pages.
+		// Calculates okay score for product pages when the keyphrase is too short.
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
 			return {
 				score: this._config.scores.okay,
 				resultText: feedbackTexts.lessThanMinimum( this._config.countTextIn, firstSentence ),
 			};
 		}
-		if ( inRangeEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum,
-			this._boundaries.acceptableMaximum ) ) {
-			return {
-				score: this._config.scores.okay,
-				resultText: feedbackTexts.moreThanMinimum( this._config.countTextIn, firstSentence ),
-			};
-		}
+		// Calculates okay score for product pages when the keyphrase is too long.
+		return {
+			score: this._config.scores.okay,
+			resultText: feedbackTexts.moreThanMinimum( this._config.countTextIn, firstSentence ),
+		};
 	}
 
 	/**
