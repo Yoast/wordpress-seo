@@ -1,16 +1,13 @@
 /* eslint-disable complexity */
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useDispatch } from "@wordpress/data";
-import { useCallback, useContext, useMemo } from "@wordpress/element";
+import { useCallback, useContext } from "@wordpress/element";
 import { Button } from "@yoast/ui-library";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 import { AlertsContext } from "../contexts/alerts-context";
-import {
-	PingOtherAdminsAlertItem,
-	DefaultAlertItem,
-} from "./alert-items";
+import { AlertContent } from "./alert-items/alert-content";
 
 /**
  * Renders the appropriate alert item component based on the alert ID.
@@ -24,22 +21,12 @@ import {
  * @returns {JSX.Element} The alert item component.
  */
 const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", resolveNonce = "" } ) => {
-	const commonProps = { id, nonce, dismissed, message };
-	const propsWithResolveNonce = { ...commonProps, resolveNonce };
 	const { bulletClass = "" } = useContext( AlertsContext );
 	const { toggleAlertStatus } = useDispatch( STORE_NAME );
 	const Eye = dismissed ? EyeIcon : EyeOffIcon;
 	const toggleAlert = useCallback( async() => {
 		toggleAlertStatus( id, nonce, dismissed );
 	}, [ id, nonce, dismissed, toggleAlertStatus ] );
-	const AlertContent = useMemo( () => {
-		switch ( id ) {
-			case "wpseo-ping-other-admins":
-				return <PingOtherAdminsAlertItem { ...propsWithResolveNonce } />;
-			default:
-				return <DefaultAlertItem { ...commonProps } />;
-		}
-	}, [ id ] );
 
 	return (
 		<li
@@ -51,7 +38,12 @@ const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", reso
 					<circle cx="5.5" cy="5.5" r="5.5" />
 				</svg>
 			</div>
-			{ AlertContent }
+			<AlertContent
+				id={ id }
+				dismissed={ dismissed }
+				message={ message }
+				resolveNonce={ resolveNonce }
+			/>
 			<Button variant="secondary" size="small" className="yst-self-center yst-h-8" onClick={ toggleAlert }>
 				<Eye className="yst-w-4 yst-h-4 yst-text-neutral-700" />
 			</Button>
