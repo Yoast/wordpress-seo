@@ -577,7 +577,7 @@ export default function FirstTimeConfigurationSteps() {
 					isFinished={ isStepperFinished }
 				/>
 				<Step.Content>
-					<FinishStep />
+					<FinishStep state={ state } />
 				</Step.Content>
 			</Step>
 		</Stepper>
