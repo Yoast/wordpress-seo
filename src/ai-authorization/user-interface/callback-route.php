@@ -1,10 +1,13 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 
 /**
  * Registers the callback route used in the authorization process.
  *
+@deprecated 26.3
+ * @codeCoverageIgnore
  * @makePublic
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -20,9 +23,13 @@ class Callback_Route extends Abstract_Callback_Route {
 	/**
 	 * Registers routes with WordPress.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_routes() {
+
 		\register_rest_route(
 			parent::ROUTE_NAMESPACE,
 			self::ROUTE_PREFIX,
