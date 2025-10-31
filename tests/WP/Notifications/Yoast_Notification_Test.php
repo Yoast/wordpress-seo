@@ -73,6 +73,7 @@ final class Yoast_Notification_Test extends TestCase {
 				'capabilities'     => [ 'wpseo_manage_options' ],
 				'capability_check' => 'all',
 				'yoast_branding'   => false,
+				'resolve_nonce'    => '',
 			],
 			$test['options']
 		);

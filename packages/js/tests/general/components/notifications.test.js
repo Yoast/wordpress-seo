@@ -7,6 +7,7 @@ const items = [
 		message: "You've added a new type of content. We recommend that you review the corresponding Search appearance settings.",
 		type: "warning",
 		dismissed: false,
+		resolveNonce: "nonce-123",
 	},
 	{
 		id: "test-id-2",
@@ -19,6 +20,7 @@ const items = [
 		message: "Huge SEO Issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.",
 		type: "warning",
 		dismissed: false,
+		resolveNonce: "nonce-123",
 	},
 	{
 		id: "test-id-4",
@@ -29,7 +31,14 @@ const items = [
 ];
 
 jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn( () =>  items ),
+	useSelect: jest.fn( ( callback ) => {
+		const mockSelect = {
+			selectActiveNotifications: jest.fn( () => items ),
+			selectDismissedNotifications: jest.fn( () => items ),
+			selectResolveSuccessMessage: jest.fn( () => null ),
+		};
+		return callback( () => mockSelect );
+	} ),
 	useDispatch: jest.fn( () => ( { toggleAlertStatus: jest.fn() } ) ),
 } ) );
 
