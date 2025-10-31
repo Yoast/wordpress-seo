@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
 import { useCallback, useMemo, useEffect } from "@wordpress/element";
@@ -12,7 +12,7 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
-import { ErrorFallback, Notifications, Search } from "./components";
+import { ErrorFallback, Notifications, Search, AdvancedMenu } from "./components";
 import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -35,54 +35,6 @@ import {
 } from "./routes";
 
 /**
- * The advanced menu component.
- *
- * @param {string} idSuffix Extra id suffix. Can prevent double IDs on the page.
- * @returns {JSX.Element} The advanced menu element.
- */
-const AdvancedMenu = ( { idSuffix } ) => {
-	const { pathname } = useLocation();
-	const { addToHistory } = useNavigationContext();
-
-	const advancedMenuItems = [
-		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
-		{ to: "/crawl-optimization", label: __( "Crawl optimization", "wordpress-seo" ) },
-		{ to: "/breadcrumbs", label: __( "Breadcrumbs", "wordpress-seo" ) },
-		{ to: "/author-archives", label: __( "Author archives", "wordpress-seo" ) },
-		{ to: "/date-archives", label: __( "Date archives", "wordpress-seo" ) },
-		{ to: "/format-archives", label: __( "Format archives", "wordpress-seo" ) },
-		{ to: "/special-pages", label: __( "Special pages", "wordpress-seo" ) },
-		{ to: "/media-pages", label: __( "Media pages", "wordpress-seo" ) },
-		{ to: "/rss", label: __( "RSS", "wordpress-seo" ) },
-	];
-
-	useEffect( () => {
-		if ( advancedMenuItems.map( item => item.to ).includes( pathname ) ) {
-			addToHistory( `menu-advanced${ idSuffix }` );
-		}
-	}, [ pathname ] );
-
-	return <SidebarNavigation.MenuItem
-		id={ `menu-advanced${ idSuffix }` }
-		icon={ AdjustmentsIcon }
-		label={ __( "Advanced", "wordpress-seo" ) }
-		defaultOpen={ false }
-	>
-		{
-			advancedMenuItems.map( ( { to, label } ) => (
-				<MenuItemLink
-					key={ `link-advanced-${ to }` }
-					to={ to }
-					label={ label }
-					idSuffix={ idSuffix }
-				/>
-			) )
-		}
-	</SidebarNavigation.MenuItem>;
-};
-
-
-/**
  * @param {Object[]} postTypes The post types to present.
  * @param {Object[]} taxonomies The taxonomies to present.
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -92,6 +44,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const { history, setHistory } = useNavigationContext();
+
+	useEffect( () => {
+		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
+	}, [] );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
@@ -132,6 +89,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-general${ idSuffix }` ) }
 			>
 				<MenuItemLink to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<MenuItemLink to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -146,6 +104,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -166,6 +125,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					{ map( taxonomies, taxonomy => (

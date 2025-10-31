@@ -25,15 +25,15 @@ export const Collapsible = ( {
 	id,
 	...props
 } ) => {
-	const [ isOpen, toggleOpen, , setOpen ] = useToggleState( defaultOpen );
 	const { history, addToHistory, removeFromHistory } = useNavigationContext();
+	const [ isOpen, toggleOpen, , setOpen ] = useToggleState( defaultOpen );
+
 	const handleClick = useCallback( () => {
 		toggleOpen();
 		isOpen ? removeFromHistory( id ) : addToHistory( id );
 	}, [ toggleOpen, id, isOpen, addToHistory, removeFromHistory ] );
 
 	useEffect( () => {
-		history.includes( id );
 		if ( history.includes( id ) ) {
 			setOpen();
 		}

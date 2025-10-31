@@ -16,6 +16,7 @@ export const NavigationContext = createContext( {
 	isMobileMenuOpen: false,
 	setMobileMenuOpen: noop,
 	history: [],
+	setHistory: noop,
 	removeFromHistory: noop,
 	addToHistory: noop,
 } );
@@ -42,7 +43,17 @@ const SidebarNavigation = ( { activePath = "", children } ) => {
 	}, [ history ] );
 
 	return (
-		<NavigationContext.Provider value={ { activePath, isMobileMenuOpen, setMobileMenuOpen, history, removeFromHistory, addToHistory } }>
+		<NavigationContext.Provider
+			value={ {
+				activePath,
+				isMobileMenuOpen,
+				setMobileMenuOpen,
+				history,
+				setHistory,
+				removeFromHistory,
+				addToHistory,
+			} }
+		>
 			{ children }
 		</NavigationContext.Provider>
 	);
