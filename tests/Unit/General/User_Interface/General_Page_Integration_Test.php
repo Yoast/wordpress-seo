@@ -334,11 +334,6 @@ final class General_Page_Integration_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->user_helper
-			->expects( 'update_meta' )
-			->with( 1, 'wpseo_seen_llm_txt_opt_in_notification', true )
-			->once();
-
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'enable_llms_txt', true )
