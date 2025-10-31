@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useDispatch } from "@wordpress/data";
 import { useCallback, useContext, useMemo } from "@wordpress/element";
@@ -14,15 +15,15 @@ import {
 /**
  * Renders the appropriate alert item component based on the alert ID.
  *
- * @param {Object} props Component props.
- * @param {string} props.id Alert ID.
- * @param {string} props.nonce Alert nonce.
- * @param {boolean} props.dismissed Whether the alert is dismissed.
- * @param {string} props.message Alert message.
- * @param {string} props.resolveNonce Nonce to resolve the alert.
- * @returns {JSX.Element} The AlertItem component.
+ * @param {string} [id=""] The alert id.
+ * @param {string} [nonce=""] The alert nonce.
+ * @param {boolean} [dismissed=false] Whether the alert is dismissed or not.
+ * @param {string} [message=""] The alert message.
+ * @param {string} [resolveNonce=""] The nonce to resolve the alert.
+ *
+ * @returns {JSX.Element} The alert item component.
  */
-const AlertItem = ( { id, nonce, dismissed, message, resolveNonce } ) => {
+const AlertItem = ( { id = "", nonce = "", dismissed = false, message = "", resolveNonce = "" } ) => {
 	const commonProps = { id, nonce, dismissed, message };
 	const propsWithResolveNonce = { ...commonProps, resolveNonce };
 	const { bulletClass = "" } = useContext( AlertsContext );
@@ -59,11 +60,11 @@ const AlertItem = ( { id, nonce, dismissed, message, resolveNonce } ) => {
 };
 
 AlertItem.propTypes = {
-	id: PropTypes.string.isRequired,
-	nonce: PropTypes.string.isRequired,
-	dismissed: PropTypes.bool.isRequired,
-	message: PropTypes.string.isRequired,
-	resolveNonce: PropTypes.string.isRequired,
+	id: PropTypes.string,
+	nonce: PropTypes.string,
+	dismissed: PropTypes.bool,
+	message: PropTypes.string,
+	resolveNonce: PropTypes.string,
 };
 
 /**
