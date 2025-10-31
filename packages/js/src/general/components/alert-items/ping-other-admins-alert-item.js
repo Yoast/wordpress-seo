@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { select, useDispatch } from "@wordpress/data";
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
 import { Button, TextField } from "@yoast/ui-library";
@@ -90,13 +90,14 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const { removeAlert, setResolveSuccessMessage } = useDispatch( STORE_NAME );
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const isWooSeoActive = useSelectGeneralPage( "selectPreference", [], "isWooSeoActive" );
+	const inputRef = useRef();
 
 	const clearError = useCallback( () => {
 		setError( "" );
 	}, [] );
 
 	const handleSendClick = useCallback( async() => {
-		const emailInput = document.getElementById( id + "-input-field" );
+		const emailInput = inputRef.current;
 		const email = emailInput ? emailInput.value.trim() : "";
 
 		if ( ! isEmail( email ) ) {
@@ -153,6 +154,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					className="yst-flex-1"
 					disabled={ isLoading || dismissed }
 					onInput={ clearError }
+					ref={ inputRef }
 				/>
 				<Button
 					variant="primary"
