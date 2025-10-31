@@ -6,7 +6,6 @@ use Exception;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Enhancement\Schema_Enhancement_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Person_Config;
 
 /**
@@ -17,7 +16,7 @@ class Person_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema_
 	/**
 	 * The config.
 	 *
-	 * @var Article_Config
+	 * @var Person_Config
 	 */
 	private $config;
 
@@ -69,48 +68,9 @@ class Person_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema_
 				}
 			}
 
-			if ( $this->config->is_enhancement_enabled( 'person_bio' ) ) {
-				$max_length  = $this->config->get_config_value( 'person_bio_max_length', 0 );
-				$current_bio = ( $schema_data['description'] ?? '' );
-
-				// Only replace if configured for unlimited or longer than current.
-				if ( $max_length === 0 || \strlen( $current_bio ) < $max_length ) {
-					$full_bio = $this->get_person_bio( $indexable->author_id, $max_length );
-					if ( $full_bio !== null && $full_bio !== '' && $full_bio !== $current_bio ) {
-						$schema_data['description'] = $full_bio;
-					}
-				}
-			}
-
 			return $schema_data;
 		} catch ( Exception $e ) {
 			return $schema_data;
-		}
-	}
-
-	/**
-	 * Get person bio
-	 *
-	 * Retrieves user bio with optional length limit.
-	 *
-	 * @param int $user_id    User ID.
-	 * @param int $max_length Maximum length (0 = unlimited).
-	 *
-	 * @return string|null Bio or null if unavailable.
-	 */
-	private function get_person_bio( int $user_id, int $max_length = 0 ): ?string {
-		try {
-			$bio = \get_user_meta( $user_id, 'description', true );
-
-			if ( empty( $bio ) ) {
-				return null;
-			}
-
-			$bio = \trim( $bio );
-
-			return $this->trim_content_to_max_length( $max_length, $bio );
-		} catch ( Exception $e ) {
-			return null;
 		}
 	}
 

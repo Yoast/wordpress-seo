@@ -123,7 +123,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 				}
 			}
 
-			if ( $this->config->get_config_value( 'categories_as_keywords', true ) ) {
+			if ( $this->config->get_config_value( 'categories_as_keywords', false ) ) {
 				$categories = \get_the_category( $post_id );
 				if ( \is_array( $categories ) && ! empty( $categories ) ) {
 					foreach ( $categories as $category ) {

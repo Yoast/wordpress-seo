@@ -30,7 +30,6 @@ class Person_Config implements Enhancement_Config_Interface {
 	 */
 	public function is_enhancement_enabled( string $enhancement ): bool {
 		$defaults = [
-			'person_bio'         => true,
 			'person_job_title'   => true,
 		];
 
