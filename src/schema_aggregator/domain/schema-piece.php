@@ -66,6 +66,7 @@ class Schema_Piece {
 	 * Converts multiple schema pieces to a JSON-LD-encoded graph.
 	 *
 	 * @param Schema_Piece[] $schema_pieces Array of schema pieces.
+	 *
 	 * @return string The JSON-LD graph representation.
 	 */
 	public static function to_json_ld_graph( array $schema_pieces ): string {
