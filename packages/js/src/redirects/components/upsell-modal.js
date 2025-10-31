@@ -34,7 +34,7 @@ export const UpsellModal = ( {
 						videoId="th5fg52ry8"
 						thumbnail={ thumbnail }
 						wistiaEmbedPermission={ wistiaEmbedPermission }
-						hasPadding={ false }
+						className="yst-rounded-b-none yst-drop-shadow-none yst-rounded-t-2xl yst-pt-[56.25%]"
 					/>
 				</div>
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
@@ -44,8 +44,8 @@ export const UpsellModal = ( {
 					</span>
 				</div>
 			</div>
-			<div className="yst-px-10 yst-pb-4 yst-flex yst-flex-col yst-items-center">
-				<div className="yst-mt-4 yst-mx-1.5 yst-text-center">
+			<div className="yst-flex yst-flex-col yst-items-center yst-max-w-lg yst-mx-auto sm:yst-px-0 yst-px-6">
+				<div className="yst-mt-4 yst-text-center">
 					<h3 className="yst-text-slate-900 yst-text-lg yst-font-medium">
 						{
 							__( "Fix broken links before they hurt your SEO", "wordpress-seo" )
@@ -63,7 +63,7 @@ export const UpsellModal = ( {
 							) }
 					</div>
 				</div>
-				<div className="yst-w-full yst-flex yst-mt-6 yst-mb-6">
+				<div className="yst-w-full yst-flex yst-mt-6">
 					<Button
 						as="a"
 						className="yst-grow"
