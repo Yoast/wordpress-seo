@@ -233,7 +233,6 @@ class Indexable_Repository {
 			$query->where_not_in( 'object_sub_type', $post_type_exclude_list );
 		}
 		$indexables = $query->order_by_asc( 'id' )->limit( $page_size )->offset( $offset )->find_many();
-
 		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 

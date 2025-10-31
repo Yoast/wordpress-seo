@@ -136,9 +136,9 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 				(object) []
 			);
 		}
-		$output = \str_replace( "\n", \PHP_EOL . "\t", $result );
+
 		return new WP_REST_Response(
-			$output,
+			$result,
 			( $result ) ? 200 : 400
 		);
 	}

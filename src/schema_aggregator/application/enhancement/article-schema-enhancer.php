@@ -23,8 +23,9 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	/**
 	 * Sets the Article_Config instance.
 	 *
-	 * @param Article_Config $config The Article_Config instance.
 	 * @required
+	 *
+	 * @param Article_Config $config The Article_Config instance.
 	 *
 	 * @return void
 	 */
@@ -43,12 +44,17 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	public function enhance( Schema_Piece $schema_piece, Indexable $indexable ): Schema_Piece {
 
 		$data = $schema_piece->get_data();
-		foreach ( $data as $key => $schema_data ) {
+		foreach ( $data['@graph'] as $key => $schema_data ) {
+
 			if ( isset( $schema_data['@type'] ) && ( $schema_data['@type'] === 'Article' || $schema_data['@type'] === 'NewsArticle' || $schema_data['@type'] === 'BlogPosting' ) ) {
 				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
 			}
-		}
 
+			if (
+				isset( $schema_data['@type'] ) && \is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
+				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
+			}
+		}
 		return new Schema_Piece( $data, $schema_piece->get_type() );
 	}
 
