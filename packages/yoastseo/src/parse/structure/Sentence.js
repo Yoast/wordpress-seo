@@ -50,14 +50,19 @@ class Sentence {
 	/**
 	 * Sets the parent attributes for this sentence.
 	 * @param {Node} parentNode The parent node.
+	 * @param {boolean} [setParentNode=false] Whether to set the parent node reference.
 	 * @param {Node} tree The full tree.
 	 */
-	setParentAttributes( parentNode, tree ) {
+	setParentAttributes( parentNode, tree, setParentNode = false ) {
 		const node = parentNode;
 
 		// For implicit paragraphs, base the details on the parent of this node.
 		if ( parentNode.isImplicit ) {
 			parentNode = parentNode.getParentNode( tree );
+		}
+
+		if ( setParentNode ) {
+			this.sentenceParentNode = parentNode;
 		}
 
 		/**

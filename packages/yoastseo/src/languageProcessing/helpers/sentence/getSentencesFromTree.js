@@ -8,15 +8,16 @@
  * These two node types are the nodes that should contain sentences for the analysis.
  *
  * @param {Node} tree The tree to get the sentences from.
+ * @param {boolean} [setParentNode=false] Whether to set the parent node reference on the sentences.
  *
  * @returns {Sentence[]} The array of sentences retrieved from paragraph and heading nodes plus sourceCodeLocation of the parent node.
  */
-export default function( tree ) {
+export default function( tree, setParentNode = false ) {
 	// Get all nodes that have a sentence property which is not an empty array.
 	const nodesWithSentences = tree.findAll( treeNode => !! treeNode.sentences );
 
 	return nodesWithSentences.flatMap( node => node.sentences.map( sentence => {
-		sentence.setParentAttributes( node, tree );
+		sentence.setParentAttributes( node, tree, setParentNode );
 		return sentence;
 	} ) );
 }
