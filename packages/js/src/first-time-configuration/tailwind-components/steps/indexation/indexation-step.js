@@ -3,10 +3,14 @@ import PropTypes from "prop-types";
 import { FadeInAlert } from "../../base/alert";
 import { ConfigurationIndexation } from "./configuration-indexation";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
+import UpsellNotice from "../../base/upsell-notice";
+import { Link } from "@yoast/ui-library";
+import { ExternalLinkIcon, SearchIcon } from "@heroicons/react/solid";
 
 /**
  * The indexation step.
  *
+ * @param {Object}   state                  The state
  * @param {string}   indexingState          The indexing state.
  * @param {function}  setIndexingState       A callback to set the indexing state.
  * @param {boolean}  [showRunIndexationAlert=false] Whether the alert to run indexation needs to be shown.
@@ -15,13 +19,14 @@ import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
  * @returns {JSX.Element} The indexation step.
  */
 export default function IndexationStep( {
+	state,
 	indexingState,
 	setIndexingState,
 	showRunIndexationAlert = false,
 	isStepperFinished = false,
 } ) {
 	return <div className="yst-@container">
-		<div className="yst-mb-8">
+		<div className="yst-mb-4">
 			<p className="yst-text-sm yst-whitespace-pre-line">
 				{
 					__(
@@ -67,6 +72,42 @@ export default function IndexationStep( {
 					"wordpress-seo" )
 			}
 		</FadeInAlert>
+		{ ! state.isPremium && <UpsellNotice className="yst-mt-4 yst-gap-2">
+			<div className="yst-flex yst-flex-col yst-gap-1">
+				<div className="yst-flex yst-gap-2 yst-items-center">
+					<SearchIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
+					<p className="yst-font-medium">
+						{ __( "Want deeper insights?", "wordpress-seo" ) }
+					</p>
+				</div>
+				<p>
+					{
+						sprintf(
+							/* translators: %s expands to Yoast SEO Premium. */
+							__( "%s gives you in-depth analysis and guidance for every post, helping you write content that ranks even better.", "wordpress-seo" ),
+							"Yoast SEO Premium"
+						)
+					}
+				</p>
+			</div>
+			<p className="yst-mt-4">
+				<Link
+					id="ftc-indexing-learn-more"
+					href={ window.wpseoFirstTimeConfigurationData.shortlinks.indexationLearnMore }
+					variant="primary"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+				>
+					{ __( "Learn more about Premium", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+				</Link>
+			</p>
+		</UpsellNotice> }
 	</div>;
 }
 

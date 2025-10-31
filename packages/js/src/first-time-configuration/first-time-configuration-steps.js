@@ -477,6 +477,7 @@ export default function FirstTimeConfigurationSteps() {
 				</Step.Header>
 				<Step.Content>
 					<IndexationStep
+						state={ state }
 						setIndexingState={ setIndexingState } indexingState={ indexingState }
 						showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished }
 					/>

@@ -222,6 +222,10 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				'gdpr'                     => $this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				'configIndexables'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
 				'configIndexablesBenefits' => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
+				'indexationLearnMore'      => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-indexation-premium-learn-more' ),
+				'reprWoocommerceLearnMore' => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-representation-wooseo-learn-more' ),
+				'reprLocalLearnMore'       => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-representation-local-learn-more' ),
+				'finishLearnMore'          => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-finish-premium-learn-more' ),
 			],
 		];
 
