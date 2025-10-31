@@ -13,7 +13,7 @@ import { MenuItemLink } from "../../shared-admin/components";
  */
 export const AdvancedMenu = ( { idSuffix } ) => {
 	const { pathname } = useLocation();
-	const { addToHistory } = useNavigationContext();
+	const { history, addToHistory } = useNavigationContext();
 
 	const advancedMenuItems = [
 		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
@@ -37,7 +37,7 @@ export const AdvancedMenu = ( { idSuffix } ) => {
 		id={ `menu-advanced${ idSuffix }` }
 		icon={ AdjustmentsIcon }
 		label={ __( "Advanced", "wordpress-seo" ) }
-		defaultOpen={ false }
+		defaultOpen={ history.includes( `menu-advanced${ idSuffix }` ) }
 	>
 		{
 			advancedMenuItems.map( ( { to, label } ) => (
