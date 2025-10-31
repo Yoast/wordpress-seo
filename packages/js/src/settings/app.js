@@ -3,9 +3,9 @@ import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useEffect, useState } from "@wordpress/element";
+import { useCallback, useMemo, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -35,6 +35,54 @@ import {
 } from "./routes";
 
 /**
+ * The advanced menu component.
+ *
+ * @param {string} idSuffix Extra id suffix. Can prevent double IDs on the page.
+ * @returns {JSX.Element} The advanced menu element.
+ */
+const AdvancedMenu = ( { idSuffix } ) => {
+	const { pathname } = useLocation();
+	const { addToHistory } = useNavigationContext();
+
+	const advancedMenuItems = [
+		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
+		{ to: "/crawl-optimization", label: __( "Crawl optimization", "wordpress-seo" ) },
+		{ to: "/breadcrumbs", label: __( "Breadcrumbs", "wordpress-seo" ) },
+		{ to: "/author-archives", label: __( "Author archives", "wordpress-seo" ) },
+		{ to: "/date-archives", label: __( "Date archives", "wordpress-seo" ) },
+		{ to: "/format-archives", label: __( "Format archives", "wordpress-seo" ) },
+		{ to: "/special-pages", label: __( "Special pages", "wordpress-seo" ) },
+		{ to: "/media-pages", label: __( "Media pages", "wordpress-seo" ) },
+		{ to: "/rss", label: __( "RSS", "wordpress-seo" ) },
+	];
+
+	useEffect( () => {
+		if ( advancedMenuItems.map( item => item.to ).includes( pathname ) ) {
+			addToHistory( `menu-advanced${ idSuffix }` );
+		}
+	}, [ pathname ] );
+
+	return <SidebarNavigation.MenuItem
+		id={ `menu-advanced${ idSuffix }` }
+		icon={ AdjustmentsIcon }
+		label={ __( "Advanced", "wordpress-seo" ) }
+		defaultOpen={ false }
+	>
+		{
+			advancedMenuItems.map( ( { to, label } ) => (
+				<MenuItemLink
+					key={ `link-advanced-${ to }` }
+					to={ to }
+					label={ label }
+					idSuffix={ idSuffix }
+				/>
+			) )
+		}
+	</SidebarNavigation.MenuItem>;
+};
+
+
+/**
  * @param {Object[]} postTypes The post types to present.
  * @param {Object[]} taxonomies The taxonomies to present.
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -44,7 +92,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const [ history, setHistory ] = useState( [] );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
@@ -67,44 +114,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			</div>
 		);
 	}, [] );
-
-	const advancedMenuItems = [
-		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
-		{ to: "/crawl-optimization", label: __( "Crawl optimization", "wordpress-seo" ) },
-		{ to: "/breadcrumbs", label: __( "Breadcrumbs", "wordpress-seo" ) },
-		{ to: "/author-archives", label: __( "Author archives", "wordpress-seo" ) },
-		{ to: "/date-archives", label: __( "Date archives", "wordpress-seo" ) },
-		{ to: "/format-archives", label: __( "Format archives", "wordpress-seo" ) },
-		{ to: "/special-pages", label: __( "Special pages", "wordpress-seo" ) },
-		{ to: "/media-pages", label: __( "Media pages", "wordpress-seo" ) },
-		{ to: "/rss", label: __( "RSS", "wordpress-seo" ) },
-	];
-
-	const advancedMenuPaths = [ `menu-advanced${ idSuffix }`, ...advancedMenuItems.map( item => item.to ) ];
-	const hasAdvancedItemInHistory = advancedMenuPaths.some( path => history.includes( path ) );
-	useEffect( () => {
-		// If advanced menu is open but no sub items clicked, we want to save it to memory to keep it open.
-		const handleAdvancedMenuClick = () => {
-			if ( ! history.includes( `menu-advanced${ idSuffix }` ) ) {
-				setHistory( [ ...history, `menu-advanced${ idSuffix }` ] );
-			}
-		};
-
-		const advancedMenuElement = document.getElementById( `menu-advanced${ idSuffix }` );
-		if ( advancedMenuElement ) {
-			advancedMenuElement.addEventListener( "click", handleAdvancedMenuClick );
-		}
-
-		if ( ! history.includes( pathname ) ) {
-			setHistory( [ ...history, pathname ] );
-		}
-
-		return () => {
-			if ( advancedMenuElement ) {
-				advancedMenuElement.removeEventListener( "click", handleAdvancedMenuClick );
-			}
-		};
-	}, [ pathname, history, idSuffix ] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -172,24 +181,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					) ) }
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix }` }
-				icon={ AdjustmentsIcon }
-				label={ __( "Advanced", "wordpress-seo" ) }
-				// Make sure advanced menu stays open if any of its items were visited.
-				defaultOpen={ advancedMenuPaths.includes( pathname ) || hasAdvancedItemInHistory }
-			>
-				{
-					advancedMenuItems.map( ( { to, label } ) => (
-						<MenuItemLink
-							key={ `link-advanced-${ to }` }
-							to={ to }
-							label={ label }
-							idSuffix={ idSuffix }
-						/>
-					) )
-				}
-			</SidebarNavigation.MenuItem>
+			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;
 };
