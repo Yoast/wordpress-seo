@@ -87,7 +87,7 @@ async function resolveAlert( id, resolveNonce ) {
 export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce } ) => {
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ error, setError ] = useState( "" );
-	const { removeAlert } = useDispatch( STORE_NAME );
+	const { removeAlert, setResolveSuccessMessage } = useDispatch( STORE_NAME );
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const isWooSeoActive = useSelectGeneralPage( "selectPreference", [], "isWooSeoActive" );
 
@@ -124,6 +124,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 				return;
 			}
 
+			setResolveSuccessMessage( __( "Successfully subscribed!", "wordpress-seo" ) );
 			removeAlert( id );
 		} catch ( err ) {
 			setError( __( "An error occurred. Please try again.", "wordpress-seo" ) );
@@ -131,7 +132,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 		} finally {
 			setIsLoading( false );
 		}
-	}, [ id, resolveNonce ] );
+	}, [ id, resolveNonce, setIsLoading, setError, removeAlert, setResolveSuccessMessage ] );
 
 	return (
 		<div
