@@ -236,7 +236,7 @@ export const UsingBuildingBlocks = {
 		children: (
 			<SidebarNavigation.Sidebar className="yst-w-1/3">
 				<SidebarNavigation.List>
-					<SidebarNavigation.Collapsible label="Collapsible 1" icon={ NewspaperIcon }>
+					<SidebarNavigation.Collapsible label="Collapsible 1" icon={ NewspaperIcon } id="collapsible-1-custom">
 						<SidebarNavigation.List isIndented={ true }>
 							<SidebarNavigation.Item>
 								<SidebarNavigation.Link href="#1">Link 1</SidebarNavigation.Link>
@@ -249,7 +249,7 @@ export const UsingBuildingBlocks = {
 							</SidebarNavigation.Item>
 						</SidebarNavigation.List>
 					</SidebarNavigation.Collapsible>
-					<SidebarNavigation.Collapsible label="Collapsible 2">
+					<SidebarNavigation.Collapsible label="Collapsible 2" id="collapsible-2-custom">
 						<SidebarNavigation.List isIndented={ true }>
 							<SidebarNavigation.Item>
 								<SidebarNavigation.Link href="#4">Link 4</SidebarNavigation.Link>
@@ -288,12 +288,12 @@ export const NotUsingBuildingBlocks = {
 		children: (
 			<SidebarNavigation.Sidebar className="yst-w-1/3">
 				<ul className="yst-sidebar-navigation__list">
-					<SidebarNavigation.MenuItem label="Collapsible 1" icon={ NewspaperIcon }>
+					<SidebarNavigation.MenuItem label="Collapsible 1" icon={ NewspaperIcon } id="collapsible-1">
 						<SidebarNavigation.SubmenuItem href="#n1" label={ "Link 1" } />
 						<SidebarNavigation.SubmenuItem href="#n2" label={ "Link 2" } />
 						<SidebarNavigation.SubmenuItem href="#n3" label={ "Link 3" } />
 					</SidebarNavigation.MenuItem>
-					<SidebarNavigation.MenuItem label="Collapsible 2">
+					<SidebarNavigation.MenuItem label="Collapsible 2" id="collapsible-2">
 						<SidebarNavigation.SubmenuItem href="#n4" label={ "Link 4" } />
 						<SidebarNavigation.SubmenuItem href="#n5" label={ "Link 5" } />
 						<SidebarNavigation.SubmenuItem href="#n6" label={ "Link 6" } />
