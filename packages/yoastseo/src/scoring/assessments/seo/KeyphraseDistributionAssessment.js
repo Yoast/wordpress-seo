@@ -81,9 +81,9 @@ class KeyphraseDistributionAssessment extends Assessment {
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 		assessmentResult.setHasMarks( calculatedResult.hasMarks );
-		if ( calculatedResult.score < 9 && this._canAssess ) {
-			assessmentResult.setHasAIFixes( true );
-		}
+		// Always show the AI Optimize button for keyphrase distribution assessment
+		// The button will handle its own disabled state and tooltip when there's no keyphrase or text
+		assessmentResult.setHasAIFixes( true );
 		return assessmentResult;
 	}
 
