@@ -5,7 +5,7 @@ import {
 } from "../alert-items";
 
 /**
- * The AlertContent component.
+ * The appropriate alert content component based on the alert ID.
  *
  * @param {string} id Alert ID.
  * @param {boolean} dismissed Whether the alert is dismissed.

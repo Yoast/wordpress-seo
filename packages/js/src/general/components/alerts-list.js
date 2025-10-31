@@ -10,7 +10,7 @@ import { AlertsContext } from "../contexts/alerts-context";
 import { AlertContent } from "./alert-items/alert-content";
 
 /**
- * Renders the appropriate alert item component based on the alert ID.
+ * The alert item object.
  *
  * @param {string} [id=""] The alert id.
  * @param {string} [nonce=""] The alert nonce.
