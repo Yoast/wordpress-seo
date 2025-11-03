@@ -74,7 +74,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	/**
 	 * The WooCommerce helper.
 	 *
-	 * @var Woocommerce_Helper
+	 * @var WooCommerce_Helper
 	 */
 	private $woocommerce_helper;
 
@@ -95,7 +95,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 * @param Meta_Tags_Context         $meta_tags_context      The meta tags context helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper     The WooCommerce helper.
+	 * @param WooCommerce_Helper        $woocommerce_helper     The WooCommerce helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
