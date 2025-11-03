@@ -98,7 +98,7 @@ class Properties_Merger {
 	 * @return string|array<string> Merged and normalized @type value.
 	 */
 	private function merge_types( $type1, $type2 ) {
-		// Normalize both to arrays.
+		
 		$types1 = $this->normalize_type_to_array( $type1 );
 		$types2 = $this->normalize_type_to_array( $type2 );
 
