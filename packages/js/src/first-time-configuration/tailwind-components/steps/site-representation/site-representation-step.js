@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
+import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -10,6 +10,10 @@ import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
+import { LocationMarkerIcon, ShoppingCartIcon } from "@heroicons/react/outline";
+import { Link } from "@yoast/ui-library";
+import UpsellNotice from "../../base/upsell-notice";
 
 /* eslint-disable complexity */
 
@@ -160,6 +164,78 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		>
 			{ __( "You're almost there! Complete all settings in this step so search engines know what your site is about.", "wordpress-seo" ) }
 		</FadeInAlert>
+		{ ! state.isPremium && state.isWooCommerceActive && ! state.isWooCommerceSeoActive && <UpsellNotice className="yst-mt-4 yst-gap-2">
+			<div className="yst-flex yst-flex-col yst-gap-1">
+				<div className="yst-flex yst-gap-2 yst-items-center">
+					<ShoppingCartIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
+					<p className="yst-font-medium">
+						{ __( "Running an online store?", "wordpress-seo" ) }
+					</p>
+				</div>
+				<p>
+					{
+						sprintf(
+							/* translators: %s expands to Yoast WooCommerce SEO. */
+							__( "%s helps your products stand out in Google Shopping and Rich Results.", "wordpress-seo" ),
+							"Yoast WooCommerce SEO"
+						)
+					}
+				</p>
+			</div>
+			<p className="yst-mt-4">
+				<Link
+					id="ftc-indexing-learn-more"
+					href={ window.wpseoFirstTimeConfigurationData.shortlinks.representationWoocommerceLearnMore }
+					variant="primary"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+				>
+					{ __( "Learn more about WooCommerce SEO", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+				</Link>
+			</p>
+		</UpsellNotice> }
+		{ state.companyOrPerson === "company" && ! state.isPremium && ! state.isWooCommerceActive && <UpsellNotice className="yst-mt-4 yst-gap-2">
+			<div className="yst-flex yst-flex-col yst-gap-1">
+				<div className="yst-flex yst-gap-2 yst-items-center">
+					<LocationMarkerIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
+					<p className="yst-font-medium">
+						{ __( "Have a physical location?", "wordpress-seo" ) }
+					</p>
+				</div>
+				<p>
+					{
+						sprintf(
+							/* translators: %s expands to Yoast Local SEO. */
+							__( "%s helps you show up in Google Maps and local results. Complete your visibility where it matters most!", "wordpress-seo" ),
+							"Yoast Local SEO"
+						)
+					}
+				</p>
+			</div>
+			<p className="yst-mt-4">
+				<Link
+					id="ftc-indexing-learn-more"
+					href={ window.wpseoFirstTimeConfigurationData.shortlinks.representationLocalLearnMore }
+					variant="primary"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+				>
+					{ __( "Learn more about Local SEO", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							/* translators: Hidden accessibility text. */
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+				</Link>
+			</p>
+		</UpsellNotice> }
 	</Fragment>;
 }
 
