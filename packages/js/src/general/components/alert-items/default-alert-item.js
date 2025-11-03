@@ -4,9 +4,8 @@ import PropTypes from "prop-types";
 /**
  * Default alert item component.
  *
- * @param {Object} props Component props.
- * @param {boolean} props.dismissed Whether the alert is dismissed.
- * @param {string} props.message Alert message.
+ * @param {boolean} dismissed Whether the alert is dismissed.
+ * @param {string} message Alert message.
  * @returns {JSX.Element} The DefaultAlertItem component.
  */
 export const DefaultAlertItem = ( { dismissed, message } ) => {
