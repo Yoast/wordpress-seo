@@ -44,7 +44,7 @@ class Properties_Merger {
 		$merged = $entity1;
 
 		foreach ( $entity2 as $key => $value ) {
-			// Skip @id - these should always be the same.
+			
 			if ( $key === '@id' ) {
 				continue;
 			}
