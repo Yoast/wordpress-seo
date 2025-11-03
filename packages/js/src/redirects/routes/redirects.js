@@ -61,12 +61,9 @@ export const Redirects = () => {
 			title={ __( "Redirects", "wordpress-seo" ) }
 			description={ redirectsDescription }
 		>
-
-			<div className={ "yst-flex yst-justify-center" }>
-				<div className="yst-modal__panel yst-absolute yst-max-w-3xl yst-bg-white yst-z-[1000]">
-					<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
-						<ModalContent />
-					</div>
+			<div className="yst-absolute yst-max-w-3xl yst-w-full yst-bg-white yst-z-[1000] yst-rounded-2xl yst-shadow-2xl yst-pb-10 yst-left-1/2 yst-top-1/2 yst-transform yst--translate-x-1/2 yst--translate-y-1/2">
+				<div className="yst-p-0 yst-rounded-3xl yst-introduction-modal-panel ">
+					<ModalContent />
 				</div>
 			</div>
 			<div className="yst-max-w-5xl yst-p-8 yst-opacity-50">

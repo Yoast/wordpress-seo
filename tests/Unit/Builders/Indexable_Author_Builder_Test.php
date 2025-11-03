@@ -496,16 +496,6 @@ final class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( true );
 
-		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
-			->with( 1 )
-			->andReturn( true );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'noindex-author-noposts-wpseo', false )
-			->andReturn( true );
-
 		$this->expectException( Author_Not_Built_Exception::class );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
