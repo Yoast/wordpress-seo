@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 import classNames from "classnames";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { select, useDispatch } from "@wordpress/data";
@@ -154,6 +155,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					disabled={ isLoading || dismissed }
 					onInput={ clearError }
 					ref={ inputRef }
+					onChange={ noop }
 				/>
 				<Button
 					variant="primary"
