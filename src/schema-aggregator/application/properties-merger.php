@@ -102,9 +102,7 @@ class Properties_Merger {
 		$types1 = $this->normalize_type_to_array( $type1 );
 		$types2 = $this->normalize_type_to_array( $type2 );
 
-
 		$merged = \array_unique( \array_merge( $types1, $types2 ), \SORT_REGULAR );
-
 
 		return $this->normalize_type_from_array( $merged );
 	}
@@ -128,7 +126,6 @@ class Properties_Merger {
 
 			return \array_values( \array_filter( $type, 'is_string' ) );
 		}
-
 
 		return [];
 	}

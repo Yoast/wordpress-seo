@@ -43,7 +43,7 @@ class Properties_Filter {
 	 * @return Schema_Piece Cleaned schema piece.
 	 */
 	public function filter( Schema_Piece $piece ): Schema_Piece {
-		
+
 		$properties_to_remove = $this->config->get_properties_avoid_list();
 		$data                 = $piece->get_data();
 

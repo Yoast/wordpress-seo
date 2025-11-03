@@ -78,7 +78,7 @@ class Config {
 		$default_post_types = self::DEFAULT_POST_TYPES;
 
 		// Only include 'product' if Yoast WooCommerce SEO extension is active.
-		
+
 		if ( $this->is_yoast_woocommerce_active() ) {
 			$default_post_types[] = 'product';
 		}
@@ -101,7 +101,6 @@ class Config {
 	public function get_allowed_schema_types(): array {
 		$schema_types = \apply_filters( 'wpseo_schema_aggregator_schema_types', self::DEFAULT_SCHEMA_TYPES );
 
-		
 		if ( ! \is_array( $schema_types ) ) {
 			return self::DEFAULT_SCHEMA_TYPES;
 		}
@@ -117,7 +116,6 @@ class Config {
 	public function get_properties_avoid_list(): array {
 		$properties_avoid_list = \apply_filters( 'wpseo_schema_aggregator_properties_avoid_list', self::PROPERTIES_AVOID_LIST );
 
-		
 		if ( ! \is_array( $properties_avoid_list ) ) {
 			return self::PROPERTIES_AVOID_LIST;
 		}
