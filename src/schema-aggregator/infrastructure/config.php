@@ -117,7 +117,7 @@ class Config {
 	public function get_properties_avoid_list(): array {
 		$properties_avoid_list = \apply_filters( 'wpseo_schema_aggregator_properties_avoid_list', self::PROPERTIES_AVOID_LIST );
 
-		// Ensure it's an array.
+		
 		if ( ! \is_array( $properties_avoid_list ) ) {
 			return self::PROPERTIES_AVOID_LIST;
 		}
