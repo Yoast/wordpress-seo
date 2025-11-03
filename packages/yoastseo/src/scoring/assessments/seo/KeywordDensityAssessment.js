@@ -135,10 +135,11 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-
-		// Always show the AI Optimize button for keyphrase density assessment
-		// The button will handle its own disabled state and tooltip when there's no keyphrase or text
-		assessmentResult.setHasAIFixes( true );
+		// Only shows the AI button when the keyphrase hasn't been used enough times.
+		// The button will handle its own disabled state and tooltip when there's no keyphrase or text.
+		if ( calculatedScore.score === this._config.scores.underMinimum || calculatedScore.score === this._config.scores.noKeyphraseOrText ) {
+			assessmentResult.setHasAIFixes( true );
+		}
 		return assessmentResult;
 	}
 

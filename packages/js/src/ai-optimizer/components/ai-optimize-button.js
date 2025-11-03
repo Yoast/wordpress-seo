@@ -65,11 +65,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
-	// Enable the button when:
-	// (1) other AI buttons are not pressed.
-	// (2) the AI button is not disabled.
-	// (3) the editor is in visual mode.
-	// (4) all blocks are in visual mode.
+	// Determines if the button is enabled and what tooltip to show.
 	// eslint-disable-next-line complexity
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
@@ -136,7 +132,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
-		// Classic editor visual mode check
+		// Fallback for when all conditions above pass and the button is enabled.
 		return {
 			isEnabled: true,
 			ariaLabel: defaultLabel,

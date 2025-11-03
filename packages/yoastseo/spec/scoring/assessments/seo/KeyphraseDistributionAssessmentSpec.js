@@ -14,6 +14,7 @@ describe( "Tests for the keyphrase distribution assessment when no keyphrase and
 		const researcher = new DefaultResearcher( paper );
 		const assessment = keyphraseDistributionAssessment.getResult( paper, researcher );
 		expect( assessment.getScore() ).toEqual( 1 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
 			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
 	} );
@@ -50,7 +51,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		expect( assessment.hasAIFixes() ).toBeTruthy();
 	} );
 
-	it( "returns a the correct feedback when there are no keyphrase occurences in the text", function() {
+	it( "returns the correct feedback when there are no keyphrase occurrences in the text", function() {
 		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
@@ -92,12 +93,13 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.hasAIFixes() ).toBeTruthy();
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
 			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
 			" them more evenly</a>." );
 	} );
 
-	it( "returns a good score score when the %  of sentences between topic occurrences is lower than the recommended good score", function() {
+	it( "returns a good score score when the % of sentences between topic occurrences is lower than the recommended good score", function() {
 		const mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
@@ -108,6 +110,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.hasAIFixes() ).toBeFalsy();
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
 	} );
 } );
