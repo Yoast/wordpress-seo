@@ -81,7 +81,7 @@ class Schema_Pieces_Filter {
 			return false;
 		}
 
-		// Neither an array or a string: Invalid @type format.
+	
 		return false;
 	}
 }
