@@ -101,7 +101,7 @@ class Config {
 	public function get_allowed_schema_types(): array {
 		$schema_types = \apply_filters( 'wpseo_schema_aggregator_schema_types', self::DEFAULT_SCHEMA_TYPES );
 
-		// Ensure it's an array.
+		
 		if ( ! \is_array( $schema_types ) ) {
 			return self::DEFAULT_SCHEMA_TYPES;
 		}
