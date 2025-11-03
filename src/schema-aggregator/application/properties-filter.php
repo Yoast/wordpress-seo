@@ -36,7 +36,7 @@ class Properties_Filter {
 	 * which have been filtered out from the allowed types.
 	 *
 	 * Also removes 'potentialAction' properties (ReadAction, CommentAction, SearchAction)
-	 * which are added by Yoast but not needed for NLWeb integration.
+	 * which are added by Yoast but not needed for schema aggregation integration.
 	 *
 	 * @param Schema_Piece $piece The schema piece.
 	 *
