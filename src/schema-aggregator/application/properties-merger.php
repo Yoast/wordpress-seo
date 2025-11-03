@@ -27,7 +27,7 @@ class Properties_Merger {
 	/**
 	 * Merge properties from two schema entities with the same @id
 	 *
-	 * Strategy (FR-012):
+	 * Strategy:
 	 * - @type: Special handling - merge types into unified array
 	 * - @id: Skip (always the same)
 	 * - Arrays: Combine unique values
