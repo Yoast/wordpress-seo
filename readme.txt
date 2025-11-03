@@ -311,7 +311,7 @@ Yoast SEO 26.3 brings more enhancements and bugfixes. [Find more information abo
 
 #### Bugfixes
 
-*  Fixes a bug where the llms.txt file template contained grammatical error "can by found" instead of "can be found". Props to [aditya241104](https://github.com/aditya241104).
+*  Fixes a bug where the llms.txt file template contained a spelling error "can by found" instead of "can be found". Props to [aditya241104](https://github.com/aditya241104).
 
 #### Other
 
