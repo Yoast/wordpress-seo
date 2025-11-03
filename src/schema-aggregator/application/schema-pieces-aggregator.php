@@ -80,7 +80,7 @@ class Schema_Pieces_Aggregator {
 			}
 
 			if ( isset( $aggregated_schema[ $id ] ) ) {
-				// Merge properties if the piece already exists.
+
 				$aggregated_schema[ $id ] = $this->properties_merger->merge( $aggregated_schema[ $id ], $piece );
 			}
 			else {

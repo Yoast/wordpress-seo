@@ -59,12 +59,12 @@ class Schema_Pieces_Filter {
 	 */
 	public function has_allowed_type( Schema_Piece $piece ): bool {
 		$type = $piece->get_type();
-		// Handle string @type.
+
 		if ( \is_string( $type ) ) {
 			return $this->is_allowed_type( $type );
 		}
 
-		// Handle array @type (JSON-LD allows multiple types).
+
 		if ( \is_array( $type ) ) {
 			foreach ( $type as $single_type ) {
 				// Validate each type is a string.
@@ -72,16 +72,16 @@ class Schema_Pieces_Filter {
 					continue;
 				}
 
-				// Check if this type is allowed.
+
 				if ( $this->is_allowed_type( $single_type ) ) {
-					return true; // At least one type is allowed.
+					return true;
 				}
 			}
 
 			return false;
 		}
 
-	
+
 		return false;
 	}
 }

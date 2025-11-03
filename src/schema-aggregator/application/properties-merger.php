@@ -44,7 +44,7 @@ class Properties_Merger {
 		$merged = $entity1;
 
 		foreach ( $entity2 as $key => $value ) {
-			
+
 			if ( $key === '@id' ) {
 				continue;
 			}
@@ -59,7 +59,7 @@ class Properties_Merger {
 			}
 
 			if ( ! isset( $merged[ $key ] ) || $merged[ $key ] === '' ) {
-				
+
 				$merged[ $key ] = $value;
 			}
 			elseif ( \is_array( $merged[ $key ] ) && \is_array( $value ) ) {
@@ -98,14 +98,14 @@ class Properties_Merger {
 	 * @return string|array<string> Merged and normalized @type value.
 	 */
 	private function merge_types( $type1, $type2 ) {
-		
+
 		$types1 = $this->normalize_type_to_array( $type1 );
 		$types2 = $this->normalize_type_to_array( $type2 );
 
-		// Combine and deduplicate.
+
 		$merged = \array_unique( \array_merge( $types1, $types2 ), \SORT_REGULAR );
 
-		// Normalize result: string if 1 type, array if multiple.
+
 		return $this->normalize_type_from_array( $merged );
 	}
 
@@ -125,16 +125,16 @@ class Properties_Merger {
 		}
 
 		if ( \is_array( $type ) ) {
-			// Filter out non-strings for safety.
+
 			return \array_values( \array_filter( $type, 'is_string' ) );
 		}
 
-		// Invalid type format.
+
 		return [];
 	}
 
 	/**
-	 * Normalize array of types back to string or array
+	 * Normalize array of types back to string or array.
 	 *
 	 * Returns string if single type, array if multiple types.
 	 * This keeps the output compact while supporting multi-type entities.
@@ -152,10 +152,10 @@ class Properties_Merger {
 		}
 
 		if ( \count( $types ) === 1 ) {
-			return $types[0]; // Return as string for single type.
+			return $types[0];
 		}
 
-		return $types; // Return as array for multiple types.
+		return $types;
 	}
 
 	/**
