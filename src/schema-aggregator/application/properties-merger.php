@@ -59,7 +59,7 @@ class Properties_Merger {
 			}
 
 			if ( ! isset( $merged[ $key ] ) || $merged[ $key ] === '' ) {
-				// Property doesn't exist in entity1 or is empty - use entity2's value.
+				
 				$merged[ $key ] = $value;
 			}
 			elseif ( \is_array( $merged[ $key ] ) && \is_array( $value ) ) {
