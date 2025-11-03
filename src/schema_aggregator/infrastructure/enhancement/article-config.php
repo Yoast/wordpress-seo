@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Enhancement\Enhancement_Config_Interfa
  */
 class Article_Config implements Enhancement_Config_Interface {
 
+	public const DEFAULT_MAX_ARTICLE_BODY_LENGTH = 500;
+
 	/**
 	 * Get configuration value
 	 *

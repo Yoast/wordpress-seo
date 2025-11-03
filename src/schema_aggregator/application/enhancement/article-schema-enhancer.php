@@ -45,16 +45,28 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 
 		$data = $schema_piece->get_data();
 		foreach ( $data['@graph'] as $key => $schema_data ) {
-
-			if ( isset( $schema_data['@type'] ) && ( $schema_data['@type'] === 'Article' || $schema_data['@type'] === 'NewsArticle' || $schema_data['@type'] === 'BlogPosting' ) ) {
+			if ( ! isset( $schema_data['@type'] ) ) {
+				continue;
+			}
+			if (
+				\in_array(
+					$schema_data['@type'],
+					[
+						'Article',
+						'NewsArticle',
+						'BlogPosting',
+					],
+					true
+				) ) {
 				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
 			}
 
 			if (
-				isset( $schema_data['@type'] ) && \is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
+				\is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
 				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
 			}
 		}
+
 		return new Schema_Piece( $data, $schema_piece->get_type() );
 	}
 
@@ -72,23 +84,23 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 
 			if ( $this->config->is_enhancement_enabled( 'use_excerpt' ) ) {
 				$excerpt     = $this->get_excerpt( $indexable->object_id );
-				$has_excerpt = ( $excerpt !== null && $excerpt !== '' );
+				$has_excerpt = ! empty( $excerpt );
 
-				if ( $has_excerpt && ! isset( $entity['description'] ) ) {
+				if ( $has_excerpt && ! isset( $schema_data['description'] ) ) {
 					$schema_data['description'] = $excerpt;
 				}
 			}
 
-			if ( $this->config->is_enhancement_enabled( 'article_body' ) && ! isset( $entity['articleBody'] ) ) {
+			if ( $this->config->is_enhancement_enabled( 'article_body' ) && ! isset( $schema_data['articleBody'] ) ) {
 				if ( $this->config->should_include_article_body( $has_excerpt ) ) {
 					$article_body = $this->get_article_body( $indexable->object_id );
-					if ( $article_body !== null && $article_body !== '' ) {
+					if ( ! empty( $article_body ) ) {
 						$schema_data['articleBody'] = $article_body;
 					}
 				}
 			}
 
-			if ( $this->config->is_enhancement_enabled( 'keywords' ) && ! isset( $entity['keywords'] ) ) {
+			if ( $this->config->is_enhancement_enabled( 'keywords' ) && ! isset( $schema_data['keywords'] ) ) {
 				$keywords = $this->get_article_keywords( $indexable->object_id );
 				if ( ! empty( $keywords ) ) {
 					$schema_data['keywords'] = \implode( ', ', $keywords );
@@ -213,8 +225,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 				$content = \wp_strip_all_tags( $content );
 			}
 
-			// Apply max length if configured (default: 500 chars).
-			$max_length = $this->config->get_config_value( 'article_body_max_length', 500 );
+			$max_length = $this->config->get_config_value( 'article_body_max_length', Article_Config::DEFAULT_MAX_ARTICLE_BODY_LENGTH );
 
 			return $this->trim_content_to_max_length( $max_length, $content );
 		} catch ( Exception $e ) {
