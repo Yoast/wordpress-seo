@@ -1,7 +1,7 @@
 import { CheckCircleIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { get } from "lodash";
-import { Button, Link } from "@yoast/ui-library";
+import { Button } from "@yoast/ui-library";
 import { ArrowNarrowRightIcon, LightningBoltIcon, LockOpenIcon } from "@heroicons/react/outline";
 import UpsellNotice from "../../base/upsell-notice";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
@@ -36,7 +36,7 @@ export default function FinishStep( { state } ) {
 	];
 
 	return (
-		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
+		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst-mt-4">
 			<div>
 				<p className="yst-text-sm yst-mb-4">
 					{
@@ -72,18 +72,18 @@ export default function FinishStep( { state } ) {
 					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
 				</Button>
 				<p className="yst-mt-6">
-					<Link
+					<Button
 						id="link-webinar-register"
 						as="button"
 						onClick={ goToSEODashboard }
 						data-hiive-event-name="clicked_seo_dashboard"
-						variant="primary"
+						variant="tertiary"
 						className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
 						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-					</Link>
+					</Button>
 				</p>
 				{ ! state.isPremium && <UpsellNotice className="yst-mt-8 yst-gap-2">
 					<div className="yst-flex yst-flex-col yst-gap-1">
