@@ -46,6 +46,64 @@
 			visited:hover:yst-text-white;
 		}
 
+		.yst-button--ai-primary {
+			@apply yst-text-white yst-ps-2 yst-gap-1.5;
+			background: linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)!important;
+			border-image: none;
+
+			&:focus {
+				@apply yst-text-white;
+			}
+
+			&:hover {
+				background: linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)!important;
+			}
+			> svg > path {
+				stroke:#fff;
+			}
+			&:focus {
+				outline-color: #a61e69 !important;
+			}
+		}
+
+		.yst-button--ai-secondary {
+			@apply yst-bg-transparent yst-relative yst-text-slate-800 yst-ps-2 yst-gap-1.5;
+
+			border-image: linear-gradient(to bottom right, #cd82ab, #a5b4fc) 1;
+
+			&:focus {
+				@apply yst-text-slate-800;
+			}
+
+			&:hover {
+				&:after {
+					background: linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%);
+				}
+			}
+
+			&:before {
+				@apply yst-absolute yst-inset-0;
+				content: '';
+				background: linear-gradient(to bottom right, #cd82ab, #a5b4fc)!important;
+				border-radius: inherit; /* Match the border radius of the container */
+				padding: 1px; /* Width of the gradient border */
+				-webkit-mask:
+				linear-gradient(white, white) content-box,
+				linear-gradient(white, white) border-box;
+				mask:
+				linear-gradient(white, white) content-box,
+				linear-gradient(white, white) border-box;
+				-webkit-mask-composite: destination-out;
+				mask-composite: exclude;
+
+			}
+			&:after {
+				@apply yst-absolute yst-inset-px yst-rounded-md yst-bg-white;
+				content: '';
+				z-index: -1;
+			}
+		}
+
 		.yst-button--secondary {
 			@apply
 			yst-text-slate-800

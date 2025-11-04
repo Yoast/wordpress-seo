@@ -3,6 +3,8 @@ import { keys } from "lodash";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import Spinner from "../spinner";
+import { SparklesIcon } from "./spark-icon";
+import { useSvgAria } from "../../hooks";
 
 export const classNameMap = {
 	variant: {
@@ -11,6 +13,8 @@ export const classNameMap = {
 		tertiary: "yst-button--tertiary",
 		error: "yst-button--error",
 		upsell: "yst-button--upsell",
+		"ai-primary": "yst-button--ai-primary",
+		"ai-secondary": "yst-button--ai-secondary",
 	},
 	size: {
 		"default": "",
@@ -41,8 +45,10 @@ const Button = forwardRef( ( {
 	disabled,
 	className,
 	...props
-}, ref ) => (
-	<Component
+}, ref ) => {
+	const svgAriaProps = useSvgAria();
+
+	return <Component
 		// eslint-disable-next-line no-undefined
 		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
@@ -57,10 +63,11 @@ const Button = forwardRef( ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading"  { ...svgAriaProps } /> }
+		{ variant.startsWith( "ai-" ) && <SparklesIcon className="yst-button--sparkles-icon yst-shrink-0" { ...svgAriaProps } /> }
 		{ children }
-	</Component>
-) );
+	</Component>;
+} );
 
 Button.displayName = "Button";
 Button.propTypes = {
