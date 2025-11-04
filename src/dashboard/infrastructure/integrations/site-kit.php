@@ -29,7 +29,7 @@ class Site_Kit {
 	 *
 	 * @var Site_Kit_Conditional
 	 */
-	protected $site_kit_conditional;
+	private $site_kit_conditional;
 
 	/**
 	 * The Site Kit consent repository.
