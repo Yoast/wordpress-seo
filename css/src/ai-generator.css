@@ -21,9 +21,6 @@
 		&:hover {
 			background: linear-gradient(96.67deg, #F3E5ED 1.02%, #E0E7FF 100%);
 		}
-		svg {
-			@apply yst-me-1.5 yst-ms-0;
-		}
 	}
 
 	.yst-logo-icon {
