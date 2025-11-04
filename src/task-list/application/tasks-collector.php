@@ -1,0 +1,52 @@
+<?php
+
+namespace Yoast\WP\SEO\Task_List\Application;
+
+use Yoast\WP\SEO\Task_List\Domain\Task_Interface;
+
+/**
+ * Manages the collection of tasks.
+ */
+class Tasks_Collector {
+
+	/**
+	 * Holds all the tasks.
+	 *
+	 * @var Task_Interface[]
+	 */
+	private $tasks;
+
+	/**
+	 * Constructs the collector.
+	 *
+	 * @param Task_Interface ...$tasks All the tasks.
+	 */
+	public function __construct( Task_Interface ...$tasks ) {
+		$tasks_with_id = [];
+		foreach ( $tasks as $task ) {
+			$tasks_with_id[ $task->get_id() ] = $task;
+		}
+
+		$this->tasks = $tasks_with_id;
+	}
+
+	/**
+	 * Gets the tasks.
+	 *
+	 * @param string $task_id The task ID.
+	 *
+	 * @return Task_Interface The given task.
+	 */
+	public function get_task( string $task_id ): ?Task_Interface {
+		return ( $this->tasks[ $task_id ] ?? null );
+	}
+
+	/**
+	 * Gets the tasks.
+	 *
+	 * @return array<string, array<string, Task_Interface>> The tasks.
+	 */
+	public function get_tasks() {
+		return $this->tasks;
+	}
+}
