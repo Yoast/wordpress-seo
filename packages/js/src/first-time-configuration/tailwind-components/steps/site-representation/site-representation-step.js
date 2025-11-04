@@ -186,7 +186,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				<Button
 					id="ftc-indexing-learn-more"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprWoocommerceLearnMore }
-					variant="primary"
+					variant="tertiary"
 					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
 				>
 					{
@@ -228,7 +228,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				<Button
 					id="ftc-indexing-learn-more"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprLocalLearnMore }
-					variant="primary"
+					variant="tertiary"
 					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
 				>
 					{
