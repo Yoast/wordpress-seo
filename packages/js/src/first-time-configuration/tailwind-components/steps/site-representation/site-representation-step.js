@@ -185,11 +185,17 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			<p className="yst-mt-4">
 				<Link
 					id="ftc-indexing-learn-more"
-					href={ window.wpseoFirstTimeConfigurationData.shortlinks.representationWoocommerceLearnMore }
+					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprWoocommerceLearnMore }
 					variant="primary"
 					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 				>
-					{ __( "Learn more about WooCommerce SEO", "wordpress-seo" ) }
+					{
+						sprintf(
+							/* translators: %s expands to WooCommerce SEO. */
+							__( "Learn more about %s", "wordpress-seo" ),
+							"WooCommerce SEO"
+						)
+					}
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
@@ -221,11 +227,17 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			<p className="yst-mt-4">
 				<Link
 					id="ftc-indexing-learn-more"
-					href={ window.wpseoFirstTimeConfigurationData.shortlinks.representationLocalLearnMore }
+					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprLocalLearnMore }
 					variant="primary"
 					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 				>
-					{ __( "Learn more about Local SEO", "wordpress-seo" ) }
+					{
+						sprintf(
+							/* translators: %s expands to Local SEO. */
+							__( "Learn more about %s", "wordpress-seo" ),
+							"Local SEO"
+						)
+					}
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
