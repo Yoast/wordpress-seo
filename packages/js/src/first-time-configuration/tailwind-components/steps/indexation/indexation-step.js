@@ -4,7 +4,7 @@ import { FadeInAlert } from "../../base/alert";
 import { ConfigurationIndexation } from "./configuration-indexation";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import UpsellNotice from "../../base/upsell-notice";
-import { Link } from "@yoast/ui-library";
+import { Button } from "@yoast/ui-library";
 import { ExternalLinkIcon, SearchIcon } from "@heroicons/react/solid";
 
 /**
@@ -72,11 +72,11 @@ export default function IndexationStep( {
 					"wordpress-seo" )
 			}
 		</FadeInAlert>
-		{ ! state.isPremium && <UpsellNotice className="yst-mt-4 yst-gap-2">
+		{ ! state.isPremium && <UpsellNotice className="yst-mt-6 yst-gap-2">
 			<div className="yst-flex yst-flex-col yst-gap-1">
 				<div className="yst-flex yst-gap-2 yst-items-center">
 					<SearchIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-					<p className="yst-font-medium">
+					<p className="yst-font-medium yst-text-slate-800">
 						{ __( "Want deeper insights?", "wordpress-seo" ) }
 					</p>
 				</div>
@@ -91,11 +91,11 @@ export default function IndexationStep( {
 				</p>
 			</div>
 			<p className="yst-mt-4">
-				<Link
+				<Button
 					id="ftc-indexing-learn-more"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.indexationLearnMore }
-					variant="primary"
-					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+					variant="tertiary"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
 				>
 					{ __( "Learn more about Premium", "wordpress-seo" ) }
 					<span className="yst-sr-only">
@@ -105,7 +105,7 @@ export default function IndexationStep( {
 						}
 					</span>
 					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Link>
+				</Button>
 			</p>
 		</UpsellNotice> }
 	</div>;

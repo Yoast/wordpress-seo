@@ -12,7 +12,7 @@ import { PersonSection } from "./person-section";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { LocationMarkerIcon, ShoppingCartIcon } from "@heroicons/react/outline";
-import { Link } from "@yoast/ui-library";
+import { Button } from "@yoast/ui-library";
 import UpsellNotice from "../../base/upsell-notice";
 
 /* eslint-disable complexity */
@@ -164,11 +164,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		>
 			{ __( "You're almost there! Complete all settings in this step so search engines know what your site is about.", "wordpress-seo" ) }
 		</FadeInAlert>
-		{ ! state.isPremium && state.isWooCommerceActive && ! state.isWooCommerceSeoActive && <UpsellNotice className="yst-mt-4 yst-gap-2">
+		{ ! state.isPremium && state.isWooCommerceActive && ! state.isWooCommerceSeoActive && <UpsellNotice className="yst-mt-6 yst-gap-2">
 			<div className="yst-flex yst-flex-col yst-gap-1">
 				<div className="yst-flex yst-gap-2 yst-items-center">
 					<ShoppingCartIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-					<p className="yst-font-medium">
+					<p className="yst-font-medium yst-text-slate-800">
 						{ __( "Running an online store?", "wordpress-seo" ) }
 					</p>
 				</div>
@@ -183,11 +183,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				</p>
 			</div>
 			<p className="yst-mt-4">
-				<Link
+				<Button
 					id="ftc-indexing-learn-more"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprWoocommerceLearnMore }
 					variant="primary"
-					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
 				>
 					{
 						sprintf(
@@ -203,14 +203,14 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						}
 					</span>
 					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Link>
+				</Button>
 			</p>
 		</UpsellNotice> }
-		{ state.companyOrPerson === "company" && ! state.isPremium && ! state.isWooCommerceActive && <UpsellNotice className="yst-mt-4 yst-gap-2">
+		{ state.companyOrPerson === "company" && ! state.isPremium && ! state.isWooCommerceActive && <UpsellNotice className="yst-mt-6 yst-gap-2">
 			<div className="yst-flex yst-flex-col yst-gap-1">
 				<div className="yst-flex yst-gap-2 yst-items-center">
 					<LocationMarkerIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-					<p className="yst-font-medium">
+					<p className="yst-font-medium yst-text-slate-800">
 						{ __( "Have a physical location?", "wordpress-seo" ) }
 					</p>
 				</div>
@@ -225,11 +225,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				</p>
 			</div>
 			<p className="yst-mt-4">
-				<Link
+				<Button
 					id="ftc-indexing-learn-more"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprLocalLearnMore }
 					variant="primary"
-					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
 				>
 					{
 						sprintf(
@@ -245,7 +245,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						}
 					</span>
 					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-				</Link>
+				</Button>
 			</p>
 		</UpsellNotice> }
 	</Fragment>;

@@ -29,10 +29,10 @@ export default function FinishStep( { state } ) {
 	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
 
 	const premiumFTCBenefits = [
-		__( "Optimize for multiple keyphrases and reach more people.", "wordpress-seo" ),
-		__( "Get smart internal linking suggestions to strengthen your site.", "wordpress-seo" ),
-		__( "Automatically redirect broken URLs to keep rankings safe.", "wordpress-seo" ),
-		__( "Use AI-powered title & description suggestions to save time.", "wordpress-seo" ),
+		__( "Optimize for multiple keyphrases per page to reach a wider audience.", "wordpress-seo" ),
+		__( "Get smart internal linking suggestions that strengthen your site structure.", "wordpress-seo" ),
+		__( "Automatically redirect broken URLs so you don’t lose traffic or SEO value.", "wordpress-seo" ),
+		__( "Save time with AI-powered title and meta description suggestions.", "wordpress-seo" ),
 	];
 
 	return (
@@ -71,7 +71,7 @@ export default function FinishStep( { state } ) {
 					</span>
 					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ms-2" />
 				</Button>
-				<p className="yst-mt-4">
+				<p className="yst-mt-6">
 					<Link
 						id="link-webinar-register"
 						as="button"
@@ -85,12 +85,12 @@ export default function FinishStep( { state } ) {
 						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 					</Link>
 				</p>
-				{ ! state.isPremium && <UpsellNotice className="yst-mt-4 yst-gap-2">
+				{ ! state.isPremium && <UpsellNotice className="yst-mt-8 yst-gap-2">
 					<div className="yst-flex yst-flex-col yst-gap-1">
 						<div className="yst-flex yst-gap-2 yst-items-center">
 							<LightningBoltIcon className="yst-text-primary-300 yst-w-4 yst-h-4 yst-inline-block" />
-							<p className="yst-font-medium">
-								{ __( "Your site’s ready to shine! Want to go further?", "wordpress-seo" ) }
+							<p className="yst-font-medium yst-text-slate-800">
+								{ __( "Your site’s ready to shine! Want to take it to the next level?", "wordpress-seo" ) }
 							</p>
 						</div>
 						<p className="yst-mt-4">
@@ -126,7 +126,7 @@ export default function FinishStep( { state } ) {
 							rel="noopener"
 						>
 							<LockOpenIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-							{ __( "Unlock Premium features", "wordpress-seo" ) }
+							{ __( "Unlock all Premium features", "wordpress-seo" ) }
 							<span className="yst-sr-only">
 								{
 									/* translators: Hidden accessibility text. */

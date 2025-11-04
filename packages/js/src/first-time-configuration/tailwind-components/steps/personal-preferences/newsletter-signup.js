@@ -88,7 +88,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 					)
 				}
 			</h4>
-			<p className="yst-my-2">
+			<p className="yst-mb-2">
 				{
 					sprintf(
 						/* translators: %1$s expands to "Yoast SEO", %2$s expands to "Yoast SEO". */
