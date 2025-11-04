@@ -2,11 +2,11 @@
 import { Button, Modal, Title } from "@yoast/ui-library";
 import { ReactComponent as YoastLogo } from "../../../images/Yoast_icon_kader.svg";
 import { useSelect } from "@wordpress/data";
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, ShoppingCartIcon } from "@heroicons/react/solid";
+import { useMemo, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { LockOpenIcon, CheckIcon } from "@heroicons/react/outline";
-import { ShoppingCartIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
-import { useMemo } from "@wordpress/element";
 
 /**
  * The Redux store name of the editor.
@@ -52,21 +52,23 @@ export const UpsellModal = ( {
 	}, [] );
 
 	const isWooAd = useMemo( () => isWooCommerceActive && isProductEntity, [ isWooCommerceActive, isProductEntity ] );
+	const buttonRef = useRef( null );
 	return <Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
 		id={ id }
+		initialFocus={ buttonRef }
 	>
-		<Modal.Panel className="yst-max-w-[26.25rem] yst-p-0" hasCloseButton={ false }>
+		<Modal.Panel className="yst-max-w-md yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
-				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-4 yst-items-center">
+				<Modal.Container.Header className="yst-p-6 yst-border-b-slate-200 yst-border-b yst-flex yst-justify-start yst-gap-3 yst-items-center">
 					{ isWooAd ? <ShoppingCartIcon className="yst-text-woo-light yst-w-6 yst-h-6 yst-scale-x-[-1]" />
 						: <YoastLogo className="yst-fill-primary-500 yst-w-5 yst-h-5" /> }
 					<Modal.Title
 						as="h3" className={
 							classNames(
 								isWooAd ? "yst-text-woo-light" : "yst-text-primary-500",
-								"yst-text-xl"
+								"yst-text-base yst-font-normal"
 							) }
 					>
 						{ modalTitle }
@@ -79,13 +81,13 @@ export const UpsellModal = ( {
 						<div className="yst-mx-auto">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</div>
 					</div> }
 					<div className="yst-py-6 yst-px-12">
-						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-medium">{ title }</Title>
+						<Title as="h3" className="yst-mb-1 yst-leading-5 yst-text-sm yst-font-medium yst-text-slate-800">{ title }</Title>
 						<p className="yst-mb-2">{ description }</p>
 						{ ( Array.isArray( benefits ) && benefits.length > 0 ) &&
 						<ul className="yst-my-2">
 							{ benefits.map( ( benefit, index ) => {
 								return <li key={ `${id}-upsell-benefit-${ index }` } className="yst-flex yst-gap-1 yst-mb-2">
-									<CheckIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0 yst-inline yst-text-green-600" />
+									<CheckCircleIcon className="yst-mr-1 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px] yst-flex-shrink-0" />
 									<p className="yst-text-slate-600">{ benefit }</p>
 								</li>;
 							} ) }
@@ -95,11 +97,12 @@ export const UpsellModal = ( {
 							<Button
 								as="a"
 								variant="upsell"
-								className="yst-my-2 yst-gap-1.5"
+								className="yst-my-2 yst-gap-1.5 yst-w-full"
 								href={ upsellLink }
 								target="_blank"
 								data-action="load-nfd-ctb"
 								data-ctb-id={ ctbId }
+								ref={ buttonRef }
 							>
 								<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 								{ sprintf(
@@ -109,7 +112,7 @@ export const UpsellModal = ( {
 								) }
 								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
 							</Button>
-							<div>{ note }</div>
+							<div className="yst-italic yst-text-slate-500 yst-mt-1">{ note }</div>
 						</div>
 					</div>
 				</Modal.Container.Content>
