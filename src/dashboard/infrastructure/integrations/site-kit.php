@@ -91,6 +91,7 @@ class Site_Kit {
 	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
+		// @TODO: Consider replacing with the Site_Kit_Conditional conditional so that we have a single source of truth.
 		return \is_plugin_active( self::SITE_KIT_FILE );
 	}
 
