@@ -91,7 +91,7 @@ class Site_Kit {
 	 * @return bool If the integration is activated.
 	 */
 	public function is_enabled(): bool {
-		return \is_plugin_active( self::SITE_KIT_FILE );
+		return \defined( 'GOOGLESITEKIT_VERSION' );
 	}
 
 	/**
