@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.8
-Stable tag: 26.2
+Stable tag: 26.3
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -307,9 +307,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-11-04
 
+Yoast SEO 26.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Bugfixes
 
-*  Fixes a bug where the llms.txt file template contained grammatical error \"can by found\" instead of \"can be found\". Props to [aditya241104](https://github.com/aditya241104).
+*  Fixes a bug where the llms.txt file template contained a spelling error "can by found" instead of "can be found". Props to [aditya241104](https://github.com/aditya241104).
 
 #### Other
 

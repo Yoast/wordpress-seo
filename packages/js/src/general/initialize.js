@@ -20,6 +20,7 @@ import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
 import registerStore from "./store";
 import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
+import { OPT_IN_NOTIFICATION_NAME } from "./store/opt-in";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -43,6 +44,7 @@ domReady( () => {
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
+			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", false ) },
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
