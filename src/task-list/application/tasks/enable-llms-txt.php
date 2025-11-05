@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Task_List\Domain\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Abstract_Completeable_Task;
 
 /**
  * Represents the task for the enabling the llms.txt file.
  */
-class Enable_Llms_Txt extends Abstract_Task {
+class Enable_Llms_Txt extends Abstract_Completeable_Task {
 
 	/**
 	 * Holds the id.
@@ -72,5 +72,14 @@ class Enable_Llms_Txt extends Abstract_Task {
 	 */
 	public function get_link(): ?string {
 		return null;
+	}
+
+	/**
+	 * Completes a task.
+	 *
+	 * @return void
+	 */
+	public function complete_task(): void {
+		$this->options_helper->set( 'enable_llms_txt', true );
 	}
 }

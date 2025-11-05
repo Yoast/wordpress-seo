@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\User_Interface;
+namespace Yoast\WP\SEO\Task_List\User_Interface\Completion;
 
 use Exception;
 use WP_REST_Request;
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Task_List\Domain\Task_Not_Found_Exception;
 /**
  * Tasks route.
  */
-final class Detect_Task_Route implements Route_Interface {
+final class Complete_Task_Route implements Route_Interface {
 
 	/**
 	 * The namespace of the route.
@@ -28,7 +28,7 @@ final class Detect_Task_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_NAME = '/detect_task';
+	public const ROUTE_NAME = '/complete_task';
 
 	/**
 	 * The data provider for comparison organic session traffic.
@@ -78,8 +78,8 @@ final class Detect_Task_Route implements Route_Interface {
 			self::ROUTE_NAME,
 			[
 				[
-					'methods'             => 'GET',
-					'callback'            => [ $this, 'detect_task' ],
+					'methods'             => 'POST',
+					'callback'            => [ $this, 'complete_task' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'options' => [
@@ -108,14 +108,16 @@ final class Detect_Task_Route implements Route_Interface {
 	 *
 	 * @throws Task_Not_Found_Exception When the given task name is not implemented yet.
 	 */
-	public function detect_task( WP_REST_Request $request ): WP_REST_Response {
+	public function complete_task( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$task_name = $request->get_param( 'options' )['task'];
-			$task      = $this->tasks_collector->get_task( $task_name );
+			$task      = $this->tasks_collector->get_completeable_task( $task_name );
 
 			if ( ! $task ) {
 				throw new Task_Not_Found_Exception();
 			}
+
+			$task->complete_task();
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
@@ -126,7 +128,7 @@ final class Detect_Task_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$task->get_is_open(),
+			true,
 			200
 		);
 	}
