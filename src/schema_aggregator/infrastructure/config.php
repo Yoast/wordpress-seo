@@ -22,12 +22,28 @@ class Config {
 	private const MAX_PER_PAGE = 100;
 
 	/**
+	 * Maximum items per page
+	 *
+	 * @var int
+	 */
+	private const DEFAULT_SCHEMA_MAP_THRESHOLD = 10;
+
+	/**
 	 * Get default items per page
 	 *
 	 * @return int
 	 */
 	public function get_per_page(): int {
 		return (int) \apply_filters( 'wpseo_schema_aggregator_aggregator_per_page', self::DEFAULT_PER_PAGE );
+	}
+
+	/**
+	 * Get default items per page
+	 *
+	 * @return int
+	 */
+	public function get_schema_map_threshold(): int {
+		return (int) \apply_filters( 'wpseo_schema_aggregator_schema_map_threshold', self::DEFAULT_SCHEMA_MAP_THRESHOLD );
 	}
 
 	/**
