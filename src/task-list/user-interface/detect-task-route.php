@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Task_List\Domain\Task_Not_Found_Exception;
 /**
  * Tasks route.
  */
-final class Tasks_Route implements Route_Interface {
+final class Detect_Task_Route implements Route_Interface {
 
 	/**
 	 * The namespace of the route.
@@ -28,7 +28,7 @@ final class Tasks_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_NAME = '/tasks';
+	public const ROUTE_NAME = '/detect_task';
 
 	/**
 	 * The data provider for comparison organic session traffic.
@@ -79,7 +79,7 @@ final class Tasks_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'GET',
-					'callback'            => [ $this, 'get_task_data' ],
+					'callback'            => [ $this, 'detect_task' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'options' => [
@@ -100,7 +100,7 @@ final class Tasks_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the time based SEO metrics.
+	 * Detects whether a task is open.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -108,7 +108,7 @@ final class Tasks_Route implements Route_Interface {
 	 *
 	 * @throws Task_Not_Found_Exception When the given task name is not implemented yet.
 	 */
-	public function get_task_data( WP_REST_Request $request ): WP_REST_Response {
+	public function detect_task( WP_REST_Request $request ): WP_REST_Response {
 		try {
 			$task_name = $request->get_param( 'options' )['task'];
 			$task      = $this->tasks_collector->get_task( $task_name );
