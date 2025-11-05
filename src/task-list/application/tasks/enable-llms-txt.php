@@ -18,6 +18,20 @@ class Enable_Llms_Txt extends Abstract_Task {
 	protected $id = 'enable-llms-txt';
 
 	/**
+	 * Holds the priority.
+	 *
+	 * @var string
+	 */
+	protected $priority = 'normal';
+
+	/**
+	 * Holds the duration.
+	 *
+	 * @var int
+	 */
+	protected $duration = 1;
+
+	/**
 	 * Holds the options helper.
 	 *
 	 * @var Options_Helper
@@ -38,7 +52,16 @@ class Enable_Llms_Txt extends Abstract_Task {
 	 *
 	 * @return bool Whether this task is open.
 	 */
-	public function get_is_open() {
+	public function get_is_open(): bool {
 		return ! $this->options_helper->get( 'enable_llms_txt', false );
+	}
+
+	/**
+	 * Returns the task's link.
+	 *
+	 * @return string|null
+	 */
+	public function get_link(): ?string {
+		return null;
 	}
 }

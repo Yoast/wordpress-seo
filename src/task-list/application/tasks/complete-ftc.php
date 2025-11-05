@@ -18,6 +18,20 @@ class Complete_FTC extends Abstract_Task {
 	protected $id = 'complete-ftc';
 
 	/**
+	 * Holds the priority.
+	 *
+	 * @var string
+	 */
+	protected $priority = 'high';
+
+	/**
+	 * Holds the duration.
+	 *
+	 * @var int
+	 */
+	protected $duration = 15;
+
+	/**
 	 * Holds the first time configuration notice helper.
 	 *
 	 * @var First_Time_Configuration_Notice_Helper
@@ -38,7 +52,16 @@ class Complete_FTC extends Abstract_Task {
 	 *
 	 * @return bool Whether this task is open.
 	 */
-	public function get_is_open() {
+	public function get_is_open(): bool {
 		return ! $this->ftc_notice_helper->is_first_time_configuration_finished( true );
+	}
+
+	/**
+	 * Returns the task's link.
+	 *
+	 * @return string|null
+	 */
+	public function get_link(): ?string {
+		return \self_admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' );
 	}
 }

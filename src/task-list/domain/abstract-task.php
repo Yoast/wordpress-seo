@@ -15,23 +15,57 @@ abstract class Abstract_Task implements Task_Interface {
 	protected $id;
 
 	/**
+	 * The priority of the task.
+	 *
+	 * @var string
+	 */
+	protected $priority;
+
+	/**
+	 * The duration of the task.
+	 *
+	 * @var int
+	 */
+	protected $duration;
+
+	/**
 	 * Returns the task ID.
 	 *
 	 * @return string
 	 */
-	public function get_id() {
+	public function get_id(): string {
 		return $this->id;
 	}
 
 	/**
-	 * Returns an array representation of the task data.
+	 * Returns the task's priority.
+	 *
+	 * @return string
+	 */
+	public function get_priority(): string {
+		return $this->priority;
+	}
+
+	/**
+	 * Returns the task's duration.
+	 *
+	 * @return int
+	 */
+	public function get_duration(): int {
+		return $this->duration;
+	}
+
+	/**
+	 * Returns an array representation of the task config data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
-	public function to_array() {
+	public function config_to_array(): array {
 		return [
-			'id'       => $this->get_id(),
-			'is_open'  => $this->get_is_open(),
+			'id'       => $this->id,
+			'duration' => $this->duration,
+			'priority' => $this->priority,
+			'link'     => $this->get_link(),
 		];
 	}
 }

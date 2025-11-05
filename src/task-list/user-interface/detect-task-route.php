@@ -126,7 +126,7 @@ final class Detect_Task_Route implements Route_Interface {
 		}
 
 		return new WP_REST_Response(
-			$task->to_array(),
+			$task->get_is_open(),
 			200
 		);
 	}

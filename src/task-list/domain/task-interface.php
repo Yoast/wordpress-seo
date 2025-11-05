@@ -12,19 +12,40 @@ interface Task_Interface {
 	 *
 	 * @return string
 	 */
-	public function get_id();
+	public function get_id(): string;
 
 	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool
 	 */
-	public function get_is_open();
+	public function get_is_open(): bool;
 
 	/**
-	 * Returns an array representation of the task data.
+	 * Returns an array representation of the task config data.
 	 *
 	 * @return array<string, string|bool>
 	 */
-	public function to_array();
+	public function config_to_array(): array;
+
+	/**
+	 * Returns the task's priority.
+	 *
+	 * @return string
+	 */
+	public function get_priority(): string;
+
+	/**
+	 * Returns the task's duration.
+	 *
+	 * @return int
+	 */
+	public function get_duration(): int;
+
+	/**
+	 * Returns the task's link.
+	 *
+	 * @return string|null
+	 */
+	public function get_link(): ?string;
 }

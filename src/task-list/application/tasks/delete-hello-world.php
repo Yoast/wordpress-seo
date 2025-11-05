@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use WP_Post;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Domain\Abstract_Task;
 
 /**
@@ -19,27 +18,25 @@ class Delete_Hello_World extends Abstract_Task {
 	protected $id = 'delete-hello-world';
 
 	/**
-	 * Holds the options helper.
+	 * Holds the priority.
 	 *
-	 * @var Options_Helper
+	 * @var string
 	 */
-	private $options_helper;
+	protected $priority = 'normal';
 
 	/**
-	 * Constructs the task.
+	 * Holds the duration.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @var int
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
-	}
+	protected $duration = 1;
 
 	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool Whether this task is open.
 	 */
-	public function get_is_open() {
+	public function get_is_open(): bool {
 		// @TODO: Test the detection code both in sites that have the post deleted but also in sites that have the post unmodified.
 		$post = \get_post( 1 );
 		if ( $post instanceof WP_Post === false || $post->post_status !== 'publish' ) {
@@ -47,5 +44,14 @@ class Delete_Hello_World extends Abstract_Task {
 		}
 
 		return $post->post_date === $post->post_modified;
+	}
+
+	/**
+	 * Returns the task's link.
+	 *
+	 * @return string|null
+	 */
+	public function get_link(): ?string {
+		return null;
 	}
 }
