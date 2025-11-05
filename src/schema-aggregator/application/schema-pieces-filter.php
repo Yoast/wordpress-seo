@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 
 /**
