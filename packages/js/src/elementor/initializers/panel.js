@@ -73,72 +73,63 @@ const addYoastTabToElementsNavigation = () => {
  */
 const setupNavigationWatcher = () => {
 	let debounceTimeout = null;
-	let currentObserver = null;
-	let lastNavigationElement = null;
 
-	// Watch for changes to the navigation and re-add if needed
-	const createObserver = () => {
-		return new MutationObserver( () => {
-			// Debounce to avoid excessive re-adding
-			if ( debounceTimeout ) {
-				clearTimeout( debounceTimeout );
-			}
-			debounceTimeout = setTimeout( () => {
-				addYoastTabToElementsNavigation();
-			}, 50 );
-		} );
-	};
-
-	// Also use polling as a fallback to ensure tab persists
-	const pollForTab = () => {
-		const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
-		if ( elementsNavigation ) {
-			// Check if the navigation element has changed (been recreated)
-			if ( elementsNavigation !== lastNavigationElement ) {
-				// Disconnect old observer if it exists
-				if ( currentObserver ) {
-					currentObserver.disconnect();
-				}
-
-				// Create and attach new observer to the new element
-				currentObserver = createObserver();
-				currentObserver.observe( elementsNavigation, {
-					childList: true,
-					subtree: false,
-				} );
-				lastNavigationElement = elementsNavigation;
-			}
-
-			const existingTab = elementsNavigation.querySelector( `[data-tab="${ TAB.id }"]` );
-			if ( ! existingTab ) {
-				addYoastTabToElementsNavigation();
-			}
+	/**
+	 * Handles navigation changes with minimal debounce for instant response.
+	 */
+	const handleNavigationChange = () => {
+		if ( debounceTimeout ) {
+			clearTimeout( debounceTimeout );
 		}
-	};
-
-	// Poll every 50ms to ensure tab stays visible
-	setInterval( pollForTab, 50 );
-
-	// Start observing once the navigation is available
-	const checkNavigation = () => {
-		const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
-		if ( elementsNavigation ) {
-			// Add the tab immediately once navigation is found
+		// Very short debounce (5ms) to prevent rapid-fire while feeling instant
+		debounceTimeout = setTimeout( () => {
 			addYoastTabToElementsNavigation();
-
-			// Then start observing for future changes
-			currentObserver = createObserver();
-			currentObserver.observe( elementsNavigation, {
-				childList: true,
-				subtree: false,
-			} );
-			lastNavigationElement = elementsNavigation;
-		} else {
-			setTimeout( checkNavigation, 100 );
-		}
+		}, 5 );
 	};
 
-	checkNavigation();
+	/**
+	 * Observes the panel content wrapper to catch navigation recreation.
+	 */
+	const observePanelContent = () => {
+		const panelContent = document.getElementById( "elementor-panel-content-wrapper" );
+		if ( ! panelContent ) {
+			setTimeout( observePanelContent, 100 );
+			return;
+		}
+
+		// Observer watches the entire panel for navigation changes
+		// eslint-disable-next-line complexity
+		const observer = new MutationObserver( ( mutations ) => {
+			for ( const mutation of mutations ) {
+				// Check if navigation element was added (recreated)
+				if ( mutation.addedNodes.length > 0 ) {
+					for ( const node of mutation.addedNodes ) {
+						if ( node.id === "elementor-panel-elements-navigation" ||
+							 ( node.querySelector && node.querySelector( "#elementor-panel-elements-navigation" ) ) ) {
+							handleNavigationChange();
+							return;
+						}
+					}
+				}
+				// Check if navigation's children were modified
+				if ( mutation.target.id === "elementor-panel-elements-navigation" ) {
+					handleNavigationChange();
+					return;
+				}
+			}
+		} );
+
+		// Watch entire panel subtree for any changes
+		observer.observe( panelContent, {
+			childList: true,
+			subtree: true,
+		} );
+
+		// Add tab immediately on initialization
+		addYoastTabToElementsNavigation();
+	};
+
+	observePanelContent();
 };
 
 /**
