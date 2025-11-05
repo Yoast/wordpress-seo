@@ -137,7 +137,9 @@ class KeyphraseDensityAssessment extends Assessment {
 		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 		// Only shows the AI button when the keyphrase hasn't been used enough times.
 		// The button will handle its own disabled state and tooltip when there's no keyphrase or text.
-		if ( calculatedScore.score === this._config.scores.underMinimum || calculatedScore.score === this._config.scores.noKeyphraseOrText ) {
+		const shouldShowAIButton = ( calculatedScore.score === this._config.scores.underMinimum ) ||
+			( calculatedScore.score === this._config.scores.noKeyphraseOrText && ! this._canAssess );
+		if ( shouldShowAIButton ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
