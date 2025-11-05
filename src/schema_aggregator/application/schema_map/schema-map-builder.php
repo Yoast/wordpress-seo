@@ -13,7 +13,7 @@ class Schema_Map_Builder {
 	 * @param array<string,int> $indexable_counts The indexable counts per post type.
 	 * @param int               $threshold        The threshold for items per page.
 	 *
-	 * @return array<int,array<string,mixed>> The schema map.
+	 * @return array<int,array<string>> The schema map.
 	 */
 	public function get_schema_map( array $indexable_counts, int $threshold ): array {
 		$schema_map = [];
@@ -32,7 +32,7 @@ class Schema_Map_Builder {
 				}
 
 				// Get lastmod for this specific page range.
-				// $lastmod = $this->get_lastmod_for_post_type($post_type, $page, $threshold);
+				// $lastmod = $this->get_lastmod_for_post_type($post_type, $page, $threshold);.
 
 				$page_count = ( $page === $total_pages ) ? ( $count - ( ( $page - 1 ) * $threshold ) ) : $threshold;
 

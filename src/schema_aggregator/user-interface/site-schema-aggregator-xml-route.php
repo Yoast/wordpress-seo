@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_Error;
-use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -118,11 +117,9 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	/**
 	 * Returns a XML representation of the possible post types that can be used for schema.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function render_schema_xml( WP_REST_Request $request ) {
+	public function render_schema_xml() {
 
 		$post_types = $this->post_type_helper->get_indexable_post_types();
 

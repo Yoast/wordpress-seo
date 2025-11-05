@@ -41,15 +41,14 @@ class Schema_Map_Xml_Renderer {
 			throw new RuntimeException( 'Invalid schemamap data structure: missing or invalid "schemamap" key' );
 		}
 
-		$dom               = new DOMDocument( '1.0', 'UTF-8' );
-		$dom->formatOutput = true;
+		$dom = new DOMDocument( '1.0', 'UTF-8' );
 
 		$url_set = $dom->createElement( 'urlset' );
 		$url_set->setAttribute( 'xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9' );
 		$dom->appendChild( $url_set );
 
-		$change_freq = $this->config->getChangefreq();
-		$priority    = $this->config->getPriority();
+		$change_freq = $this->config->get_changefreq();
+		$priority    = $this->config->get_priority();
 
 		foreach ( $schema_map as $entry ) {
 			if ( ! isset( $entry['url'] ) || ! isset( $entry['lastmod'] ) ) {

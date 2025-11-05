@@ -4,6 +4,11 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
+/**
+ * Class Schema_Map_Indexable_Repository
+ *
+ * Maps indexable repository queries for schema map needs.
+ */
 class Schema_Map_Indexable_Repository {
 
 	/**

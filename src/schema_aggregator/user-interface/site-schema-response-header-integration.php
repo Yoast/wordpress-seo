@@ -4,14 +4,22 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_REST_Server;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
-class Site_Schema_Reponse_Header_Integration implements Integration_Interface {
+/**
+ * Integration to set proper response headers for Site Schema endpoints.
+ */
+class Site_Schema_Response_Header_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
+	/**
+	 * Registers the hooks for the integration.
+	 *
+	 * @return void
+	 */
 	public function register_hooks() {
 		\add_filter( 'rest_pre_serve_request', [ $this, 'serve_custom_response' ], 10, 4 );
 	}
@@ -29,11 +37,10 @@ class Site_Schema_Reponse_Header_Integration implements Integration_Interface {
 	 * @param bool             $served  Whether the request has already been served.
 	 * @param WP_REST_Response $result  Result to send to the client.
 	 * @param WP_REST_Request  $request Request object.
-	 * @param WP_REST_Server   $server  Server instance.
 	 *
 	 * @return bool True if we served the request, false otherwise.
 	 */
-	public function serve_custom_response( $served, $result, $request, $server ): bool {
+	public function serve_custom_response( $served, $result, $request ): bool {
 		if ( \strpos( $request->get_route(), '/yoast/v1/schema-aggregator' ) !== 0 ) {
 			return $served;
 		}
@@ -52,19 +59,15 @@ class Site_Schema_Reponse_Header_Integration implements Integration_Interface {
 		$content_type = ( $headers['Content-Type'] ?? 'application/json; charset=UTF-8' );
 
 		if ( \strpos( $content_type, 'application/xml' ) !== false ) {
-			// For XML responses, data is already an XML string
 			\header( 'Content-Type: application/xml; charset=UTF-8' );
-			echo $data;
+			echo $data; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data should already be escaped here since this just adds headers to the request.
 		}
 		else {
 			// For JSON responses, encode with unescaped slashes for cleaner URLs.
-			$json = \json_encode(
-				$data,
-				( \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE )
-			);
+			$json = WPSEO_Utils::format_json_encode( $data );
 
 			\header( 'Content-Type: application/json; charset=UTF-8' );
-			echo $json;
+			echo $json; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $json should already be escaped here since this just adds headers to the request.
 		}
 
 		return true;

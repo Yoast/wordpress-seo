@@ -2,6 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
+/**
+ * Class that represents the command to aggregate site schema map.
+ */
 class Aggregate_Site_Schema_Map_Command {
 
 	/**
@@ -18,6 +21,12 @@ class Aggregate_Site_Schema_Map_Command {
 	 */
 	private $schema_map_threshold;
 
+	/**
+	 * The constructor.
+	 *
+	 * @param array<string> $post_types           The post types to include in the schema map.
+	 * @param int           $schema_map_threshold The schema map threshold.
+	 */
 	public function __construct( array $post_types, int $schema_map_threshold ) {
 		$this->post_types           = $post_types;
 		$this->schema_map_threshold = $schema_map_threshold;
