@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Task_List\Domain\Abstract_Task;
 /**
  * Represents the task for the completing the FTC.
  */
-class Complete_FTC_Task extends Abstract_Task {
+class Complete_FTC extends Abstract_Task {
 
 	/**
 	 * Holds the id.
@@ -39,7 +39,6 @@ class Complete_FTC_Task extends Abstract_Task {
 	 * @return bool Whether this task is open.
 	 */
 	public function get_is_open() {
-		// @TODO: For some reason, the below function checks if the finish steps are 3 instead of 4. Investigate and maybe fix.
 		return ! $this->ftc_notice_helper->is_first_time_configuration_finished( true );
 	}
 }
