@@ -48,6 +48,15 @@ class Complete_FTC extends Abstract_Task {
 	}
 
 	/**
+	 * Returns the task's title.
+	 *
+	 * @return string|null
+	 */
+	public function get_title(): string {
+		return \__( 'Complete the First-Time Configuration', 'wordpress-seo' );
+	}
+
+	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool Whether this task is open.

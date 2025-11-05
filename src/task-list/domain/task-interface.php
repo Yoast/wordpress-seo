@@ -15,6 +15,13 @@ interface Task_Interface {
 	public function get_id(): string;
 
 	/**
+	 * Returns the task's title.
+	 *
+	 * @return string|null
+	 */
+	public function get_title(): string;
+
+	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool

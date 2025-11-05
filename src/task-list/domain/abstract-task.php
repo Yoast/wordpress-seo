@@ -63,6 +63,7 @@ abstract class Abstract_Task implements Task_Interface {
 	public function config_to_array(): array {
 		return [
 			'id'       => $this->id,
+			'title'    => $this->get_title(),
 			'duration' => $this->duration,
 			'priority' => $this->priority,
 			'link'     => $this->get_link(),

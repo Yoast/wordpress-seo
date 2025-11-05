@@ -48,6 +48,15 @@ class Enable_Llms_Txt extends Abstract_Task {
 	}
 
 	/**
+	 * Returns the task's title.
+	 *
+	 * @return string|null
+	 */
+	public function get_title(): string {
+		return \__( 'Create an llms.txt file', 'wordpress-seo' );
+	}
+
+	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool Whether this task is open.

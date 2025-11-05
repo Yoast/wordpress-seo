@@ -32,6 +32,15 @@ class Delete_Hello_World extends Abstract_Task {
 	protected $duration = 1;
 
 	/**
+	 * Returns the task's title.
+	 *
+	 * @return string|null
+	 */
+	public function get_title(): string {
+		return \__( 'Remove the Hello World post', 'wordpress-seo' );
+	}
+
+	/**
 	 * Returns whether this task is open.
 	 *
 	 * @return bool Whether this task is open.
