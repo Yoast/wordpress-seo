@@ -13,14 +13,14 @@ class Schema_Piece {
 	 *
 	 * @var string|array<string>
 	 */
-	protected $type;
+	private $type;
 
 	/**
 	 * The data of the schema piece.
 	 *
 	 * @var array<string, string|int|bool>
 	 */
-	protected $data;
+	private $data;
 
 	/**
 	 * Class constructor.
