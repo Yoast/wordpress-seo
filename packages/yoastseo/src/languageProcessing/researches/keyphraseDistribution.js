@@ -146,6 +146,31 @@ const getDistraction = function( sentenceScores ) {
 };
 
 /**
+ * Calculates the keyphrase distribution score.
+ * For texts that are 15 sentences or longer, we calculate a score based on the maximum distraction.
+ * For shorter texts, we assign an arbitrary low (=good) score if the keyphrase is found in at least one sentence.
+ * If it's not found in any sentence, we return the score 100, which is the score assigned to texts without the keyphrase
+ * (also for longer texts).
+ *
+ * @param {number} 		numberOfSentences
+ * @param {number[]}	maximizedSentenceScores
+ * @returns {number}	The keyphrase distribution score.
+ */
+const getKeyphraseDistributionScore = ( numberOfSentences, maximizedSentenceScores ) => {
+	console.log( "numberOfSentences", numberOfSentences );
+	if ( numberOfSentences >= 15 ) {
+		const maxLengthDistraction = getDistraction( maximizedSentenceScores );
+		return maxLengthDistraction / numberOfSentences * 100;
+	}
+	// For short texts, return a low (=good) score if the keyphrase is found in at least one sentence.
+	if ( maximizedSentenceScores.includes( 9 ) ) {
+		return 10;
+	}
+	// If the keyphrase is not found in any sentence, return the score 100.
+	return 100;
+};
+
+/**
  * Assigns a score to each sentence based on whether the topic is found in the sentence or not (9 if found, 3 if not found).
  * Whether the topic is considered to be found depends on the topic’s length, and whether there is function word support available for that language.
  *
@@ -235,6 +260,8 @@ const isAValidSentence = ( currentSentence, nextSentence ) => {
 	const currentSentenceLastToken = currentSentence.getLastToken();
 	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
 	// it should start with a valid sentence beginning.
+	console.log( currentSentence, "currentSentence" );
+	console.log( nextSentence, "nextSentence" );
 	if ( nextSentence ) {
 		const nextSentenceFirstToken = nextSentence.getFirstToken();
 		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
@@ -256,7 +283,9 @@ const mergeListItemSentences = ( sentences ) => {
 	let i = 0;
 	while ( i < copySentences.length ) {
 		let sentence = copySentences[ i ];
+		console.log( sentence, "sentence" );
 		const isListItem = checkIfNodeIsListItem( sentence.sentenceParentNode );
+		console.log( isListItem, "isListItem" );
 
 		if ( isListItem ) {
 			/*
@@ -281,6 +310,8 @@ const mergeListItemSentences = ( sentences ) => {
 				checkIfNodeIsListItem( copySentences[ j ]?.sentenceParentNode ) &&
 				! isAValidSentence( sentence, copySentences[ j ] )
 			) {
+				console.log( sentence, "sentence" );
+				console.log( copySentences[ j ], "copySentences[ j ]" );
 				mergedText += " " + copySentences[ j ].text;
 				mergedTokens = [ ...mergedTokens, ...copySentences[ j ].tokens ];
 				mergedParentNodes.push( copySentences[ j ].sentenceParentNode );
@@ -359,11 +390,12 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	} = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
 		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested );
 
-	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
+	const numberOfSentences = sentences.length;
+	const keyphraseDistributionScore = getKeyphraseDistributionScore( numberOfSentences, maximizedSentenceScores );
 
 	return {
 		sentencesToHighlight: flattenDeep( sentencesToHighlight ),
-		keyphraseDistributionScore: maxLengthDistraction / sentences.length * 100,
+		keyphraseDistributionScore: keyphraseDistributionScore,
 	};
 };
 
