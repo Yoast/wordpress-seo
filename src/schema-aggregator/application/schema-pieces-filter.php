@@ -66,12 +66,7 @@ class Schema_Pieces_Filter {
 
 		if ( \is_array( $type ) ) {
 			foreach ( $type as $single_type ) {
-				// Validate each type is a string.
-				if ( ! \is_string( $single_type ) ) {
-					continue;
-				}
-
-				if ( $this->is_allowed_type( $single_type ) ) {
+				if ( $this->is_allowed_type( (string) $single_type ) ) {
 					return true;
 				}
 			}
