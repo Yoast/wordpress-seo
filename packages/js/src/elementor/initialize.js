@@ -9,6 +9,7 @@ import initElementorWatcher from "./initializers/editor-watcher";
 import initHighlightFocusKeyphraseForms from "./initializers/highlightFocusKeyphraseForms";
 import initializeIntroduction from "./initializers/introduction";
 import initializeIntroductionEditorV2 from "./initializers/introduction-editor-v2";
+import { initializePanel } from "./initializers/panel";
 import initializeUsedKeywords from "./initializers/used-keywords-assessment";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./replaceVars/elementor-replacevar-plugin";
 
@@ -70,6 +71,9 @@ function initialize() {
 
 	// Initialize the editor integration.
 	initializeElementEditorIntegration();
+
+	// Initialize the Elements panel integration.
+	initializePanel();
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
