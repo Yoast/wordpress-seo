@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use WP_Post;
-use Yoast\WP\SEO\Task_List\Domain\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Abstract_Completeable_Task;
 
 /**
  * Represents the task for deleting the Hello World post.
  */
-class Delete_Hello_World extends Abstract_Task {
+class Delete_Hello_World extends Abstract_Completeable_Task {
 
 	/**
 	 * Holds the id.
@@ -62,5 +62,18 @@ class Delete_Hello_World extends Abstract_Task {
 	 */
 	public function get_link(): ?string {
 		return null;
+	}
+
+	/**
+	 * Completes a task.
+	 *
+	 * @return void
+	 */
+	public function complete_task(): void {
+		// @TODO: Add some error handling here.
+		$post = \get_post( 1 );
+		if ( $post instanceof WP_Post ) {
+			\wp_delete_post( $post->ID, true );
+		}
 	}
 }
