@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 
 /**
  * Properties filter
@@ -16,16 +16,16 @@ class Properties_Filter {
 	/**
 	 * Configuration provider
 	 *
-	 * @var Config
+	 * @var Aggregator_Config
 	 */
 	private $config;
 
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config Configuration provider.
+	 * @param Aggregator_Config $config Configuration provider.
 	 */
-	public function __construct( Config $config ) {
+	public function __construct( Aggregator_Config $config ) {
 		$this->config = $config;
 	}
 

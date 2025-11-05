@@ -45,7 +45,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	/**
 	 * Configuration provider.
 	 *
-	 * @var Config
+	 * @var Aggregator_Config
 	 */
 	private $config;
 
@@ -56,14 +56,14 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 * @param Indexable_Helper                   $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository               $indexable_repository The indexable repository.
 	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter              The adapter factory.
-	 * @param Config                             $config               The configuration provider.
+	 * @param Aggregator_Config                  $config               The configuration provider.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
 		Indexable_Helper $indexable_helper,
 		Indexable_Repository $indexable_repository,
 		Meta_Tags_Context_Memoizer_Adapter $adapter,
-		Config $config
+		Aggregator_Config $config
 	) {
 		$this->memoizer             = $memoizer;
 		$this->indexable_helper     = $indexable_helper;

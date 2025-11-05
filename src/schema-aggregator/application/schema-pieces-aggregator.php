@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 
 /**
  * This class is responsible for taking an array of Schema_Pieces and return another array of Schema_Pieces where:
@@ -15,13 +14,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
  * @param array<Schema_Piece> $schema_pieces The schema pieces to aggregate.
  */
 class Schema_Pieces_Aggregator {
-
-	/**
-	 * The configuration instance.
-	 *
-	 * @var Config
-	 */
-	private $config;
 
 	/**
 	 * The properties filter instance.
@@ -47,13 +39,11 @@ class Schema_Pieces_Aggregator {
 	/**
 	 * Class constructor
 	 *
-	 * @param Config               $config               The configuration object.
 	 * @param Properties_Filter    $properties_filter    The properties filter object.
 	 * @param Schema_Pieces_Filter $schema_pieces_filter The schema pieces filter object.
 	 * @param Properties_Merger    $properties_merger    The properties merger object.
 	 */
-	public function __construct( Config $config, Properties_Filter $properties_filter, Schema_Pieces_Filter $schema_pieces_filter, Properties_Merger $properties_merger ) {
-		$this->config               = $config;
+	public function __construct( Properties_Filter $properties_filter, Schema_Pieces_Filter $schema_pieces_filter, Properties_Merger $properties_merger ) {
 		$this->properties_filter    = $properties_filter;
 		$this->schema_pieces_filter = $schema_pieces_filter;
 		$this->properties_merger    = $properties_merger;
