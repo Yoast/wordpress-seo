@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
+use Exception;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -51,5 +52,39 @@ class Schema_Map_Indexable_Repository {
 		}
 
 		return $post_type_counts;
+	}
+
+	/**
+	 * Get lastmod timestamp for a post type and page range
+	 *
+	 * Returns the latest post_modified_gmt timestamp for posts in the given range.
+	 * Used for schemamap index to enable selective updates.
+	 *
+	 * @param string $post_type Post type slug.
+	 * @param int    $page      Page number (1-indexed).
+	 * @param int    $per_page  Items per page.
+	 * @return string ISO 8601 timestamp (e.g., "2025-10-21T14:23:17Z").
+	 */
+	public function get_lastmod_for_post_type( string $post_type, int $page, int $per_page ): string {
+		$fallback = \gmdate( 'Y-m-d\TH:i:s\Z' );
+
+		try {
+			$offset  = ( ( $page - 1 ) * $per_page );
+			$lastmod = $this->indexable_repository->query()
+				->select_expr( 'MAX(object_last_modified)' )
+				->where( 'object_sub_type', $post_type )
+				->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+				->order_by_asc( 'id' )->limit( $per_page )->offset( $offset )
+				->find_one();
+
+			// Convert to ISO 8601 format or use current time if no posts.
+			if ( $lastmod && ! empty( $lastmod ) ) {
+				return \gmdate( 'Y-m-d\TH:i:s\Z', \strtotime( $lastmod ) );
+			}
+
+			return $fallback;
+		} catch ( Exception $e ) {
+			return $fallback;
+		}
 	}
 }
