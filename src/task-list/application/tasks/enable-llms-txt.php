@@ -62,7 +62,7 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		return ! $this->options_helper->get( 'enable_llms_txt', false );
+		return $this->options_helper->get( 'enable_llms_txt', false );
 	}
 
 	/**

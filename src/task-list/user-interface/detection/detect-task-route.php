@@ -119,7 +119,8 @@ final class Detect_Task_Route implements Route_Interface {
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
-					'error' => $exception->getMessage(),
+					'success' => false,
+					'error'   => $exception->getMessage(),
 				],
 				$exception->getCode()
 			);
@@ -127,7 +128,10 @@ final class Detect_Task_Route implements Route_Interface {
 
 		// @TODO: change to object response, including a success property and a isOpen property.
 		return new WP_REST_Response(
-			$task->get_is_open(),
+			[
+				'success'     => true,
+				'isCompleted' => $task->get_is_completed(),
+			],
 			200
 		);
 	}

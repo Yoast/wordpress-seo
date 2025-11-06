@@ -49,10 +49,10 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		// @TODO: Test the detection code both in sites that have the post deleted but also in sites that have the post unmodified.
 		$post = \get_post( 1 );
 		if ( $post instanceof WP_Post === false || $post->post_status !== 'publish' ) {
-			return false;
+			return true;
 		}
 
-		return $post->post_date === $post->post_modified;
+		return $post->post_date !== $post->post_modified;
 	}
 
 	/**
