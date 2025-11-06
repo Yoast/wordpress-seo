@@ -23,6 +23,7 @@ describe( "Tests for the keyphrase density assessment when no keyphrase and/or t
 		expect( result.getScore() ).toBe( -50 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
 			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
+		expect( result.hasAIFixes() ).toBeTruthy();
 	} );
 	it( "shows feedback for keyphrase density when there is no text", function() {
 		const paper = new Paper( "", { keyword: "keyphrase" } );
@@ -192,6 +193,7 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
 			"The keyphrase was found 32 times. This is great!" );
+		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 
 	it( "gives a GOOD result when keyphrase density is between 3 and 3.5%, also for other languages with morphology support", function() {
@@ -219,13 +221,13 @@ describe( "Tests for the keyphrase density assessment for languages with morphol
 			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
 	it( "sets `hasAIFixes` to be false when the keyphrase is overused", function() {
-		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 35 ), { keyword: "keyword", locale: "en_EN" } );
+		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 40 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -10 );
+		expect( result.getScore() ).toBe( -50 );
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
 	it( "sets `hasAIFixes` to be true when the keyphrase is underused", function() {
@@ -309,7 +311,7 @@ describe( "A test for marking the keyphrase", function() {
 	it( "returns markers for a keyphrase found in image caption", function() {
 		const keyphraseDensityAssessment = new KeyphraseDensityAssessment();
 		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
-			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'> " +
 			"A flamboyant cat with a toy<br/>" +
 			"</p>",
 		{ keyword: "cat toy" } );
