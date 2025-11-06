@@ -57,11 +57,11 @@ class Complete_FTC extends Abstract_Task {
 	}
 
 	/**
-	 * Returns whether this task is open.
+	 * Returns whether this task is completed.
 	 *
-	 * @return bool Whether this task is open.
+	 * @return bool Whether this task is completed.
 	 */
-	public function get_is_open(): bool {
+	public function get_is_completed(): bool {
 		return ! $this->ftc_notice_helper->is_first_time_configuration_finished( true );
 	}
 

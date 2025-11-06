@@ -22,11 +22,11 @@ interface Task_Interface {
 	public function get_title(): string;
 
 	/**
-	 * Returns whether this task is open.
+	 * Returns whether this task is completed.
 	 *
 	 * @return bool
 	 */
-	public function get_is_open(): bool;
+	public function get_is_completed(): bool;
 
 	/**
 	 * Returns an array representation of the task config data.

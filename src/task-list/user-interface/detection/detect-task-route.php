@@ -31,7 +31,7 @@ final class Detect_Task_Route implements Route_Interface {
 	public const ROUTE_NAME = '/detect_task';
 
 	/**
-	 * The data provider for comparison organic session traffic.
+	 * The task collector.
 	 *
 	 * @var Tasks_Collector
 	 */
@@ -100,7 +100,7 @@ final class Detect_Task_Route implements Route_Interface {
 	}
 
 	/**
-	 * Detects whether a task is open.
+	 * Detects whether a task is completed.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -125,6 +125,7 @@ final class Detect_Task_Route implements Route_Interface {
 			);
 		}
 
+		// @TODO: change to object response, including a success property and a isOpen property.
 		return new WP_REST_Response(
 			$task->get_is_open(),
 			200

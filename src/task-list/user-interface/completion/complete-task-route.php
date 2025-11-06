@@ -31,7 +31,7 @@ final class Complete_Task_Route implements Route_Interface {
 	public const ROUTE_NAME = '/complete_task';
 
 	/**
-	 * The data provider for comparison organic session traffic.
+	 * The task collector.
 	 *
 	 * @var Tasks_Collector
 	 */
@@ -100,7 +100,7 @@ final class Complete_Task_Route implements Route_Interface {
 	}
 
 	/**
-	 * Detects whether a task is open.
+	 * Completes a task.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -127,6 +127,7 @@ final class Complete_Task_Route implements Route_Interface {
 			);
 		}
 
+		// @TODO: change to object response, including a success property.
 		return new WP_REST_Response(
 			true,
 			200
