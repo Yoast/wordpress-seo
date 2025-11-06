@@ -261,12 +261,21 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Call to action URL**: [https://yoa.st/33u](https://yoast.com/keyphrase-distribution-what-it-is-and-how-to-balance-it/#utm_source=yoast-seo&utm_medium=software&utm_term=keyworddistribution-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                     | Feedback                                                                                                                                         |
-|-------------------|--------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | 1	     | Keyphrase was not set and/or no content yet		 | **Keyphrase distribution**: **Please add both a keyphrase and some text containing the keyphrase or its synonyms.**                    |
-| Red	              | 1	     | The resulting score is >0.6	                  | **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distribute them more evenly.** |
-| Orange	           | 6	     | The resulting score is between 0.4 and 0.6		  | **Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	     |
-| Green	            | 9	     | The resulting score is <0.4		                 | **Keyphrase distribution**: Good job!                                                                                                            |
+| Traffic light   	 | Score	 | Criterion                                                                           | Feedback                                                                                                                                         |
+|-------------------|--------|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	              | 1	     | Keyphrase was not set and/or keyphrase not found in the text		                      | **Keyphrase distribution**: **Please add both a keyphrase and some text containing the keyphrase or its synonyms.**                    |
+| Red	              | 1	     | Texts 15 sentences or longer: The score<sup>1</sup> is >0.6	                        | **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distribute them more evenly.** |
+| Orange	           | 6	     | Texts 15 sentences or longer: The score is between 0.4 and 0.6		                    | **Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	     |
+| Green	            | 9	     | Texts 15 sentences or longer: The score is <0.4		                                   | **Keyphrase distribution**: Good job!                                                                                                            |
+| Green	            | 9	     | Texts shorter than 15 sentences: The keyphrase is found in the text at least once		 | **Keyphrase distribution**: Good job!                                                                                                            |
+
+
+<sup>1</sup> The score is calculated using the following formula:
+
+(maximum number of consecutive sentences that don't contain the keyphrase)/(total number of sentences) * 100.
+
+Example: 6/15*100 = 0.4
+
 
 ## Other SEO assessments scoring criteria
 ### 1) Text length
