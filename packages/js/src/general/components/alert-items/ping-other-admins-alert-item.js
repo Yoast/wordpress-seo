@@ -17,18 +17,34 @@ import { safeCreateInterpolateElement } from "../../../helpers/i18n";
  *
  * @param {string} email The email to signup to the newsletter.
  * @param {boolean} isPremium Whether Premium is active.
- * @param {boolean} isWooSeoActive Whether Woo SEO is active.
+ * @param {Array} activeAddons A list of add-ons and whether they are active.
  *
  * @returns {Object} The request's response.
  */
-async function mailingListSubscribe( email, isPremium, isWooSeoActive ) {
-	let source;
-	if ( isWooSeoActive ) {
-		source = "woo-seo";
-	} else if ( isPremium ) {
-		source = "premium";
-	} else {
-		source = "free";
+async function mailingListSubscribe( email, isPremium, activeAddons ) {
+	let source = "recapture, wordpress-seo";
+	if ( isPremium ) {
+		source = source + ", wordpress-seo-premium";
+	}
+
+	if ( activeAddons?.isWooSeoActive ) {
+		source = source + ", wpseo-woocommerce";
+	}
+
+	if ( activeAddons?.isLocalSEOActive ) {
+		source = source + ", wpseo-local";
+	}
+
+	if ( activeAddons?.isVideoSEOActive ) {
+		source = source + ", wpseo-video";
+	}
+
+	if ( activeAddons?.isNewsSEOActive ) {
+		source = source + ", wpseo-news";
+	}
+
+	if ( activeAddons?.isDuplicatePostActive ) {
+		source = source + ", duplicate-post";
 	}
 
 	// eslint-disable-next-line no-warning-comments
@@ -44,7 +60,7 @@ async function mailingListSubscribe( email, isPremium, isWooSeoActive ) {
 				email: email,
 			},
 			list: "Yoast newsletter",
-			source: [ source, "recapture" ],
+			source: source,
 		} ),
 	} );
 
@@ -89,7 +105,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const [ error, setError ] = useState( "" );
 	const { removeAlert, setResolveSuccessMessage } = useDispatch( STORE_NAME );
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
-	const isWooSeoActive = useSelectGeneralPage( "selectPreference", [], "isWooSeoActive" );
+	const activeAddons = useSelectGeneralPage( "selectPreference", [], "activeAddons" );
 	const inputRef = useRef();
 
 	const clearError = useCallback( () => {
@@ -110,7 +126,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 
 		try {
 			// First request to Yoast mailing list API
-			const subscribeResponse = await mailingListSubscribe( email, isPremium, isWooSeoActive );
+			const subscribeResponse = await mailingListSubscribe( email, isPremium, activeAddons );
 
 			// Check if subscription was successful
 			if ( subscribeResponse.status !== "subscribed" ) {

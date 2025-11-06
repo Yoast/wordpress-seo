@@ -418,11 +418,28 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'get_plugin_file' )
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
 			->once()
-			->andReturn( 'woocommerce-seo/woocommerce-seo.php' );
+			->andReturn( 'wpseo-woocommerce.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::LOCAL_SLUG )
+			->once()
+			->andReturn( 'local-seo.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::VIDEO_SLUG )
+			->once()
+			->andReturn( 'video-seo.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::NEWS_SLUG )
+			->once()
+			->andReturn( 'wpseo-news.php' );
 
 		Monkey\Functions\expect( 'is_plugin_active' )
-			->with( 'woocommerce-seo/woocommerce-seo.php' )
-			->once()
+			->times( 4 )
 			->andReturn( false );
 
 		return $link_params;
