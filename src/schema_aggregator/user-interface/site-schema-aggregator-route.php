@@ -7,11 +7,11 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Site_Schema_Json_Conditional;
-use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Handles the route to represent a site's schema as JSON.
@@ -136,9 +136,9 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 				(object) []
 			);
 		}
-		$output = \str_replace( "\n", \PHP_EOL . "\t", $result );
+
 		return new WP_REST_Response(
-			$output,
+			$result,
 			( $result ) ? 200 : 400
 		);
 	}
