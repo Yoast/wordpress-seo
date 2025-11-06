@@ -8,7 +8,60 @@ const TAB = {
 	title: "Yoast SEO",
 };
 
-const PAGE_SETTINGS = "panel/page-settings";
+const REACT_PANEL_ELEMENT_ID = "yoast-elementor-react-panel";
+
+/**
+ * Shows the Yoast analysis menu in the Elementor elements panel.
+ *
+ * @returns {void}
+ */
+const showYoastPanelAnalysis = () => {
+	// Find or create the content container
+	let contentContainer = document.getElementById( REACT_PANEL_ELEMENT_ID );
+
+	if ( ! contentContainer ) {
+		// Find the elements navigation container
+		const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
+		if ( ! elementsNavigation ) {
+			return;
+		}
+
+		// Create the Yoast content container after the navigation
+		contentContainer = document.createElement( "div" );
+		contentContainer.id = REACT_PANEL_ELEMENT_ID;
+		contentContainer.className = "yoast yoast-elementor-panel__content";
+
+		// Insert it after the navigation
+		elementsNavigation.parentNode.insertBefore( contentContainer, elementsNavigation.nextSibling );
+	}
+
+	// Show the Yoast content
+	contentContainer.style.display = "block";
+
+	// Hide the default elements content
+	const elementsContent = document.getElementById( "elementor-panel-elements-search-area" );
+	if ( elementsContent ) {
+		elementsContent.style.display = "none";
+	}
+};
+
+/**
+ * Hides the Yoast panel content and shows the default Elements content.
+ *
+ * @returns {void}
+ */
+const hideYoastPanelContent = () => {
+	const contentContainer = document.getElementById( REACT_PANEL_ELEMENT_ID );
+	if ( contentContainer ) {
+		contentContainer.style.display = "none";
+	}
+
+	// Show the default elements content
+	const elementsContent = document.getElementById( "elementor-panel-elements-search-area" );
+	if ( elementsContent ) {
+		elementsContent.style.display = "block";
+	}
+};
 
 /**
  * Creates and returns a Yoast SEO tab button element.
@@ -16,33 +69,50 @@ const PAGE_SETTINGS = "panel/page-settings";
  * @returns {HTMLElement} The tab button element.
  */
 const createTabButton = () => {
-	const tabButton = document.createElement( "div" );
+	const tabButton = document.createElement( "button" );
 	tabButton.className = "elementor-component-tab elementor-panel-navigation-tab";
 	tabButton.setAttribute( "data-tab", TAB.id );
 	tabButton.textContent = TAB.title;
 
-	// Add click handler to route to the Yoast tab
+	// Add click handler to show embedded content
 	tabButton.addEventListener( "click", ( e ) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		try {
-			// Route to the Yoast SEO tab in Page/Post Settings
-			$e.route( `${ PAGE_SETTINGS }/${ TAB.id }` );
-		} catch ( error ) {
-			// Fallback: try the double route approach
-			try {
-				$e.route( `${ PAGE_SETTINGS }/settings` );
-				setTimeout( () => {
-					$e.route( `${ PAGE_SETTINGS }/${ TAB.id }` );
-				}, 50 );
-			} catch ( fallbackError ) {
-				console.error( "Yoast SEO: Could not route to tab:", fallbackError );
-			}
-		}
+		// Remove active class from all tabs
+		const allTabs = document.querySelectorAll( ".elementor-panel-navigation-tab" );
+		allTabs.forEach( tab => tab.classList.remove( "elementor-active" ) );
+
+		// Add active class to Yoast tab
+		tabButton.classList.add( "elementor-active" );
+
+		// Show the Yoast content
+		showYoastPanelAnalysis();
 	} );
 
 	return tabButton;
+};
+
+/**
+ * Sets up click handlers for other tabs to hide Yoast content.
+ *
+ * @returns {void}
+ */
+const setupOtherTabsListeners = () => {
+	const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
+	if ( ! elementsNavigation ) {
+		return;
+	}
+
+	// Find all other tabs (not Yoast)
+	const otherTabs = elementsNavigation.querySelectorAll( `.elementor-panel-navigation-tab:not([data-tab="${ TAB.id }"])` );
+
+	otherTabs.forEach( tab => {
+		// Remove existing listener if any
+		tab.removeEventListener( "click", hideYoastPanelContent );
+		// Add listener to hide Yoast content when another tab is clicked
+		tab.addEventListener( "click", hideYoastPanelContent );
+	} );
 };
 
 /**
@@ -64,10 +134,14 @@ const addYoastTabToElementsNavigation = () => {
 	// Create and append the tab button
 	const tabButton = createTabButton();
 	elementsNavigation.appendChild( tabButton );
+
+	// Set up listeners for other tabs
+	setupOtherTabsListeners();
 };
 
 /**
  * Sets up a watcher to re-add the tab if it's removed.
+ * (Elementor recreates the navigation on certain actions.)
  *
  * @returns {void}
  */
@@ -81,14 +155,14 @@ const setupNavigationWatcher = () => {
 		if ( debounceTimeout ) {
 			clearTimeout( debounceTimeout );
 		}
-		// Very short debounce (5ms) to prevent rapid-fire while feeling instant
+		// Very short debounce (5ms) to prevent redundant calls
 		debounceTimeout = setTimeout( () => {
 			addYoastTabToElementsNavigation();
 		}, 5 );
 	};
 
 	/**
-	 * Observes the panel content wrapper to catch navigation recreation.
+	 * Observes the panel content wrapper to catch navigation changes.
 	 */
 	const observePanelContent = () => {
 		const panelContent = document.getElementById( "elementor-panel-content-wrapper" );

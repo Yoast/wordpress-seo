@@ -83,7 +83,9 @@
 }
 
 .yoast-elementor-panel__content {
-	height: 100%;
+	overflow-y: auto;
+	height: calc(100vh - 200px);
+	background-color: var(--yoast-color-white);
 }
 
 .yoast-elementor-panel {
