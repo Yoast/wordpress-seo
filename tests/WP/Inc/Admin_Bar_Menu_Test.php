@@ -246,8 +246,8 @@ final class Admin_Bar_Menu_Test extends TestCase {
 
 		$admin_bar_menu->register_hooks();
 		$this->assertNotFalse( \has_action( 'admin_bar_menu', [ $admin_bar_menu, 'add_menu' ], 95 ) );
-		$this->assertNotFalse( \has_action( 'wp_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
-		$this->assertNotFalse( \has_action( 'admin_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
+		$this->assertIsInt( \has_action( 'wp_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
+		$this->assertIsInt( \has_action( 'admin_enqueue_scripts', [ $admin_bar_menu, 'enqueue_assets' ] ) );
 	}
 
 	/**
