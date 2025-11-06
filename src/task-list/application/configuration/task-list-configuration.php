@@ -13,6 +13,13 @@ use Yoast\WP\SEO\Task_List\Application\Tasks_Collector;
 class Task_List_Configuration {
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The tasks collector.
 	 *
 	 * @var Tasks_Collector
