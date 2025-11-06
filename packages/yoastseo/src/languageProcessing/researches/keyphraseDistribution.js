@@ -157,7 +157,6 @@ const getDistraction = function( sentenceScores ) {
  * @returns {number}	The keyphrase distribution score.
  */
 const getKeyphraseDistributionScore = ( numberOfSentences, maximizedSentenceScores ) => {
-	console.log( "numberOfSentences", numberOfSentences );
 	if ( numberOfSentences >= 15 ) {
 		const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 		return maxLengthDistraction / numberOfSentences * 100;
@@ -260,8 +259,6 @@ const isAValidSentence = ( currentSentence, nextSentence ) => {
 	const currentSentenceLastToken = currentSentence.getLastToken();
 	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
 	// it should start with a valid sentence beginning.
-	console.log( currentSentence, "currentSentence" );
-	console.log( nextSentence, "nextSentence" );
 	if ( nextSentence ) {
 		const nextSentenceFirstToken = nextSentence.getFirstToken();
 		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
@@ -283,9 +280,7 @@ const mergeListItemSentences = ( sentences ) => {
 	let i = 0;
 	while ( i < copySentences.length ) {
 		let sentence = copySentences[ i ];
-		console.log( sentence, "sentence" );
 		const isListItem = checkIfNodeIsListItem( sentence.sentenceParentNode );
-		console.log( isListItem, "isListItem" );
 
 		if ( isListItem ) {
 			/*
@@ -310,8 +305,6 @@ const mergeListItemSentences = ( sentences ) => {
 				checkIfNodeIsListItem( copySentences[ j ]?.sentenceParentNode ) &&
 				! isAValidSentence( sentence, copySentences[ j ] )
 			) {
-				console.log( sentence, "sentence" );
-				console.log( copySentences[ j ], "copySentences[ j ]" );
 				mergedText += " " + copySentences[ j ].text;
 				mergedTokens = [ ...mergedTokens, ...copySentences[ j ].tokens ];
 				mergedParentNodes.push( copySentences[ j ].sentenceParentNode );
