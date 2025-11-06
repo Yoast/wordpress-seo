@@ -11,6 +11,7 @@ import { Button, TextField } from "@yoast/ui-library";
 import { STORE_NAME } from "../../constants";
 import { useSelectGeneralPage } from "../../hooks";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
+import { buildNewsletterSource } from "../../../helpers/buildNewsletterSource";
 
 /**
  * A function to send a request to the mailing list API.
@@ -22,30 +23,7 @@ import { safeCreateInterpolateElement } from "../../../helpers/i18n";
  * @returns {Object} The request's response.
  */
 async function mailingListSubscribe( email, isPremium, activeAddons ) {
-	let source = "recapture, wordpress-seo";
-	if ( isPremium ) {
-		source = source + ", wordpress-seo-premium";
-	}
-
-	if ( activeAddons?.isWooSeoActive ) {
-		source = source + ", wpseo-woocommerce";
-	}
-
-	if ( activeAddons?.isLocalSEOActive ) {
-		source = source + ", wpseo-local";
-	}
-
-	if ( activeAddons?.isVideoSEOActive ) {
-		source = source + ", wpseo-video";
-	}
-
-	if ( activeAddons?.isNewsSEOActive ) {
-		source = source + ", wpseo-news";
-	}
-
-	if ( activeAddons?.isDuplicatePostActive ) {
-		source = source + ", duplicate-post";
-	}
+	const source = buildNewsletterSource( "recapture", isPremium, activeAddons );
 
 	// eslint-disable-next-line no-warning-comments
 	// @TODO Change to production URL before merging

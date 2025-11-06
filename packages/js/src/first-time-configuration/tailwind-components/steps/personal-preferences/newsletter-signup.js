@@ -3,18 +3,23 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
 import PropTypes from "prop-types";
 
+import { buildNewsletterSource } from "../../../../helpers/buildNewsletterSource";
 import { addLinkToString } from "../../../../helpers/stringHelpers";
 import TextInput from "../../base/text-input";
+import { useSelectGeneralPage } from "../../../../general/hooks";
 
 /**
  * A function to request a sign up to the newsletter.
  *
  * @param {string} email The email to signup to the newsletter.
+ * @param {boolean} isPremium Whether Premium is active.
+ * @param {Array} activeAddons A list of add-ons and whether they are active.
  *
  * @returns {Object} The request's response.
  */
-async function postSignUp( email ) {
-	const response = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
+async function postSignUp( email, isPremium, activeAddons ) {
+	const source = buildNewsletterSource( "ftc", isPremium, activeAddons );
+	const response = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		mode: "cors",
 		cache: "no-cache",
@@ -31,7 +36,7 @@ async function postSignUp( email ) {
 					email,
 				},
 				list: "Yoast newsletter",
-				source: "free",
+				source: source,
 			}
 		),
 	} );
@@ -52,6 +57,8 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 	const [ newsletterEmail, setNewsletterEmail ] = useState( "" );
 	const [ signUpState, setSignUpState ] = useState( "waiting" );
 	const [ emailFeedback, setEmailFeedback ] = useState( "" );
+	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
+	const activeAddons = useSelectGeneralPage( "selectPreference", [], "activeAddons" );
 
 	const onSignUpClick = useCallback(
 		async function() {
@@ -61,7 +68,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 				return;
 			}
 			setSignUpState( "loading" );
-			const response = await postSignUp( newsletterEmail );
+			const response = await postSignUp( newsletterEmail, isPremium, activeAddons );
 			if ( response.error ) {
 				setSignUpState( "error" );
 				setEmailFeedback( genericErrorFeedback );
