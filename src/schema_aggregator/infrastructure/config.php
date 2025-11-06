@@ -26,7 +26,7 @@ class Config {
 	 *
 	 * @var int
 	 */
-	private const DEFAULT_SCHEMA_MAP_THRESHOLD = 10;
+	private const DEFAULT_SCHEMA_MAP_THRESHOLD = 1000;
 
 	/**
 	 * Get default items per page
