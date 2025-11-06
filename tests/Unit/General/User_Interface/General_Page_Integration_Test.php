@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -114,6 +115,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $woocommerce_conditional;
 
 	/**
+	 * Holds the task list configuration.
+	 *
+	 * @var Mockery\MockInterface|Task_List_Configuration
+	 */
+	private $task_list_configuration;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -132,6 +140,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->user_helper             = Mockery::mock( User_Helper::class );
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
+		$this->task_list_configuration = Mockery::mock( Task_List_Configuration::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -144,7 +153,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->dashboard_configuration,
 			$this->user_helper,
 			$this->options_helper,
-			$this->woocommerce_conditional
+			$this->woocommerce_conditional,
+			$this->task_list_configuration
 		);
 	}
 
@@ -169,7 +179,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->dashboard_configuration,
 				$this->user_helper,
 				$this->options_helper,
-				$this->woocommerce_conditional
+				$this->woocommerce_conditional,
+				$this->task_list_configuration
 			)
 		);
 	}
@@ -344,6 +355,16 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'is_met' )
 			->once()
 			->andReturn( false );
+
+		$this->task_list_configuration
+			->expects( 'get_configuration' )
+			->once()
+			->andReturn(
+				[
+					'enabled'            => true,
+					'tasksConfiguration' => [],
+				]
+			);
 
 		$this->expect_get_script_data();
 

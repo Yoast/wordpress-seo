@@ -29,7 +29,7 @@ class Task_List_Configuration {
 		Options_Helper $options_helper,
 		Tasks_Collector $tasks_collector
 	) {
-		$this->options_helper = $options_helper;
+		$this->options_helper  = $options_helper;
 		$this->tasks_collector = $tasks_collector;
 	}
 
