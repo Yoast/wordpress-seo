@@ -1181,8 +1181,6 @@ describe( "Test for the research", function() {
 		expect( result.keyphraseDistributionScore ).toEqual( 50 );
 	} );
 
-	} );
-
 	it( "calculates keyphrase distribution score for content with HTML list structure with short phrases as the list items", function() {
 		const listItems = [
 			"<li>List item one</li>",
@@ -1392,8 +1390,6 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		console.log( { text1: paperWithList.getText() } );
-
 		const paperWithWords = new Paper(
 			realWordULExample1NoLists,
 			{
