@@ -257,14 +257,11 @@ const isAValidSentence = ( currentSentence, nextSentence ) => {
 	const sentenceDelimiterRegex = new RegExp( "^[." + sentenceDelimiters + "]$" );
 
 	const currentSentenceLastToken = currentSentence.getLastToken();
-	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
-	// it should start with a valid sentence beginning.
-	if ( nextSentence ) {
-		const nextSentenceFirstToken = nextSentence.getFirstToken();
-		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
-			( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
-	}
-	return sentenceDelimiterRegex.test( currentSentenceLastToken.text );
+	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if the next
+	// sentence starts with a valid sentence beginning.
+	const nextSentenceFirstToken = nextSentence.getFirstToken();
+	return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
+		( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
 };
 
 /**
