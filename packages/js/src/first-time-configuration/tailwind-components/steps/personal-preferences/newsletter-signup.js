@@ -19,7 +19,7 @@ import { useSelectGeneralPage } from "../../../../general/hooks";
  */
 async function postSignUp( email, isPremium, activeAddons ) {
 	const source = buildNewsletterSource( "ftc", isPremium, activeAddons );
-	const response = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
+	const response = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		mode: "cors",
 		cache: "no-cache",
