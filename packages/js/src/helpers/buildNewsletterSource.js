@@ -8,7 +8,7 @@
  * @returns {array} The source to send to the newsletter endpoint depending on which add-ons are active.
  */
 export const buildNewsletterSource = ( originalSource, isPremium, activeAddons ) => {
-	let source = [ originalSource, "wordpress-seo" ];
+	const source = [ originalSource, "wordpress-seo" ];
 
 	if ( isPremium ) {
 		source.push( "wordpress-seo-premium" );
