@@ -71,6 +71,13 @@ class WPSEO_Addon_Manager {
 	public const LOCAL_SLUG = 'yoast-seo-local';
 
 	/**
+	 * Holds the slug for Duplicate post.
+	 *
+	 * @var string
+	 */
+	public const DUPLICATE_POST_SLUG = 'yoast-duplicate-post';
+
+	/**
 	 * The expected addon data.
 	 *
 	 * @var array<string, string>
@@ -81,6 +88,7 @@ class WPSEO_Addon_Manager {
 		'video-seo.php'         => self::VIDEO_SLUG,
 		'wpseo-woocommerce.php' => self::WOOCOMMERCE_SLUG,
 		'local-seo.php'         => self::LOCAL_SLUG,
+		'duplicate-post.php'	=> self::DUPLICATE_POST_SLUG,
 	];
 
 	/**
@@ -111,6 +119,11 @@ class WPSEO_Addon_Manager {
 		],
 		self::LOCAL_SLUG       => [
 			'name'                  => 'Yoast Local SEO',
+			'short_link_activation' => 'https://yoa.st/4xp',
+			'short_link_renewal'    => 'https://yoa.st/4xu',
+		],
+		self::DUPLICATE_POST_SLUG       => [
+			'name'                  => 'Yoast Duplicate Post',
 			'short_link_activation' => 'https://yoa.st/4xp',
 			'short_link_renewal'    => 'https://yoa.st/4xu',
 		],
@@ -450,17 +463,19 @@ class WPSEO_Addon_Manager {
 	 */
 	public function is_installed( $slug ) {
 		$slug_to_class_map = [
-			static::PREMIUM_SLUG     => 'WPSEO_Premium',
-			static::NEWS_SLUG        => 'WPSEO_News',
-			static::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
-			static::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
-			static::LOCAL_SLUG       => 'WPSEO_Local_Core',
+			static::PREMIUM_SLUG     	=> 'WPSEO_Premium',
+			static::NEWS_SLUG        	=> 'WPSEO_News',
+			static::WOOCOMMERCE_SLUG 	=> 'Yoast_WooCommerce_SEO',
+			static::VIDEO_SLUG       	=> 'WPSEO_Video_Sitemap',
+			static::LOCAL_SLUG       	=> 'WPSEO_Local_Core',
+			static::DUPLICATE_POST_SLUG	=> 'Yoast\WP\Duplicate_Post\Duplicate_Post',
 		];
 
 		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
 			return false;
 		}
 
+		error_log(print_r(get_declared_classes(), true));
 		return class_exists( $slug_to_class_map[ $slug ] );
 	}
 
@@ -614,6 +629,8 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_icon( $slug ) {
 		switch ( $slug ) {
+			case self::DUPLICATE_POST_SLUG:
+				return 'https://yoa.st/duplicate-post-icon';
 			case self::LOCAL_SLUG:
 				return 'https://yoa.st/local-seo-icon';
 			case self::NEWS_SLUG:
@@ -636,6 +653,11 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_banners( $slug ) {
 		switch ( $slug ) {
+			case self::DUPLICATE_POST_SLUG:
+				return [
+					'high' => 'https://yoa.st/yoast-seo-banner-duplicate-post',
+					'low'  => 'https://yoa.st/yoast-seo-banner-low-duplicate-post',
+				];
 			case self::LOCAL_SLUG:
 				return [
 					'high' => 'https://yoa.st/yoast-seo-banner-local',

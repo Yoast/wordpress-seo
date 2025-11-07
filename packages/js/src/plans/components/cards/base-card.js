@@ -28,10 +28,17 @@ const CardBadge = ( { variant, className, children } ) => <div className="yst-ab
  * @param {boolean} hasHighlight Whether the card should have a highlight (shadow and border).
  * @param {boolean} isActiveHighlight Whether the card is an active plan, which will determine the badge color and highlight text.
  * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
+ * @param {boolean} isLicenseRequired Whether the license is required for the product.
  *
  * @returns {?JSX.Element} The element or null if not current.
  */
-const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPromotionActive } ) => {
+const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPromotionActive, isLicenseRequired } ) => {
+	if ( ! isLicenseRequired ) {
+		return hasHighlight && <CardBadge variant="success">
+			{ __( "Active", "wordpress-seo" ) }
+		</CardBadge>;
+	}
+
 	if ( ! hasHighlight ) {
 		return isBlackFridayPromotionActive && <CardBadge className="yst-bg-black yst-text-amber-300 yst-border-amber-300">{ __( "30% off - Black Friday", "wordpress-seo" ) }</CardBadge>;
 	}
@@ -49,6 +56,8 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPro
  *
  * @param {boolean} [hasHighlight=false] Whether the card should have a highlight (shadow and border).
  * @param {boolean} [isActiveHighlight=false] Whether the card is an active plan, which will determine the badge color and highlight text.
+ * @param {boolean} [isLicenseRequired=true] Whether the license required for the product.
+ * @param {React.ReactNode} button An optional section to specify the button content.
  * @param {boolean} isManageAvailable Whether the card action is to manage the product in MyYoast, otherwise it will be buy.
  * @param {React.ReactNode} header The header content of the card. An SVG is expected.
  * @param {string} title The title of the card, typically the product name.
@@ -67,7 +76,9 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPro
 export const BaseCard = ( {
 	hasHighlight = false,
 	isActiveHighlight = false,
+	isLicenseRequired = true,
 	isManageAvailable,
+	button,
 	header,
 	title,
 	description,
@@ -81,6 +92,7 @@ export const BaseCard = ( {
 	isBlackFridayPromotionActive,
 } ) => {
 	const svgAriaProps = useSvgAria();
+	console.log( "BaseCard" );
 
 	return (
 		<div className="yst-flex yst-relative yst-max-w-64">
@@ -114,15 +126,17 @@ export const BaseCard = ( {
 						</>
 					) }
 					<div className="yst-flex yst-flex-col yst-gap-y-1">
-						{ isManageAvailable
+						{ button }
+						{ ! button && ( isManageAvailable
 							? <ManageInMyYoast href={ manageLink } />
-							: <BuyProduct href={ buyLink } { ...buyConfig } />
+							: <BuyProduct href={ buyLink } { ...buyConfig } /> )
 						}
 						<LearnMore className="yst-pb-0" href={ learnMoreLink } />
 					</div>
 				</Card.Footer>
 			</Card>
 			<CardHighlightBadge
+				isLicenseRequired={ isLicenseRequired }
 				hasHighlight={ hasHighlight }
 				isActiveHighlight={ isActiveHighlight }
 				isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
