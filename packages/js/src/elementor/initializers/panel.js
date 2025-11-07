@@ -145,7 +145,10 @@ const addYoastTabToElementsNavigation = () => {
 	// Create and append the tab button.
 	const tabButton = createTabButton();
 	elementsNavigation.appendChild( tabButton );
-
+	// The Elements panel component needs the tab too. Internally, this registers the route.
+	if ( ! $e.components.get( ELEMENTS_PANEL ).hasTab( TAB.id ) ) {
+		$e.components.get( ELEMENTS_PANEL ).addTab( TAB.id, { title: TAB.title } );
+	}
 	// Set up listeners for other tabs.
 	setupOtherTabsListeners();
 };
