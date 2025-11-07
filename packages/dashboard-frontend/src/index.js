@@ -110,3 +110,5 @@ export { WidgetFactory } from "./services/widget-factory";
 
 export { fetchJson } from "./fetch/fetch-json";
 export { useFetch } from "./fetch/use-fetch";
+
+export * from "./store";
