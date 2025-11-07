@@ -126,7 +126,6 @@ final class Detect_Task_Route implements Route_Interface {
 			);
 		}
 
-		// @TODO: change to object response, including a success property and a isOpen property.
 		return new WP_REST_Response(
 			[
 				'success'     => true,

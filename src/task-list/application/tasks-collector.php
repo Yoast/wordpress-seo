@@ -32,7 +32,7 @@ class Tasks_Collector {
 	}
 
 	/**
-	 * Gets the tasks.
+	 * Gets a task.
 	 *
 	 * @param string $task_id The task ID.
 	 *
@@ -43,7 +43,7 @@ class Tasks_Collector {
 	}
 
 	/**
-	 * Gets the tasks.
+	 * Gets a completeable task.
 	 *
 	 * @param string $task_id The task ID.
 	 *

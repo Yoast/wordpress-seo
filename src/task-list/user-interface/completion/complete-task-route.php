@@ -128,7 +128,6 @@ final class Complete_Task_Route implements Route_Interface {
 			);
 		}
 
-		// @TODO: change to object response, including a success property.
 		return new WP_REST_Response(
 			[
 				'success' => true,

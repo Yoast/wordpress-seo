@@ -37,7 +37,6 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		// @TODO: Test the detection code both in sites that have the post deleted but also in sites that have the post unmodified.
 		$post = \get_post( 1 );
 		if ( $post instanceof WP_Post === false || $post->post_status !== 'publish' ) {
 			return true;
