@@ -321,6 +321,7 @@ final class Addon_Manager_Test extends TestCase {
 				'video-seo.php'         => 'yoast-seo-video',
 				'wpseo-woocommerce.php' => 'yoast-seo-woocommerce',
 				'local-seo.php'         => 'yoast-seo-local',
+				'duplicate-post.php'	=> 'yoast-duplicate-post',
 			],
 			$actual
 		);

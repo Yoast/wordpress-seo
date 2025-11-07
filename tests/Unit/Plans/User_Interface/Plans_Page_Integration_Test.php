@@ -279,6 +279,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 				],
 			],
 			'linkParams'        => [ 'foo' => 'bar' ],
+			'pluginsUrl'        => 'plugins-url',
 			'preferences'       => [ 'isRtl' => false ],
 			'currentPromotions' => $promotions,
 		];
@@ -289,10 +290,13 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->asset_manager->expects( 'enqueue_style' )->once();
 
 		$this->short_link_helper->expects( 'get_query_params' )->once()->andReturn( [ 'foo' => 'bar' ] );
+		Functions\expect( 'plugins_url' )->once()->withNoArgs()->andReturn( 'plugins-url' );
 		Functions\expect( 'is_rtl' )->once()->withNoArgs()->andReturn( false );
 		$this->asset_manager->expects( 'localize_script' )
 			->once()
 			->with( Plans_Page_Integration::ASSETS_NAME, 'wpseoScriptData', $expected_script_data );
+
+
 
 		$this->promotion_manager->expects( 'get_current_promotions' )->once()->andReturn( $promotions );
 

@@ -68,7 +68,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 		$this->woo           = new Woo( $this->addon_manager );
 		$this->duplicatePost = new DuplicatePost( $this->addon_manager );
 
-		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo );
+		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo, $this->duplicatePost );
 	}
 
 	/**
@@ -94,6 +94,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 			[
 				$this->premium,
 				$this->woo,
+				$this->duplicatePost,
 			],
 			$this->instance->get()
 		);
@@ -108,26 +109,32 @@ final class Add_Ons_Collector_Test extends TestCase {
 	 */
 	public function test_to_array() {
 		$this->addon_manager->expects( 'is_installed' )
-			->times(3 )
+			->twice()
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false, false );
+			->andReturn( true, false );
 		$this->addon_manager->expects( 'has_valid_subscription' )
-			->times(3 )
+			->twice()
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false, false );
-		$this->addon_manager->expects( 'is_installed' )
-			->times( 3 )
-			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false, false );
-		$this->addon_manager->expects( 'has_valid_subscription' )
-			->times( 3 )
-			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false, false );
+			->andReturn( true, false );
 
 		$this->addon_manager->expects( 'is_installed' )
-			->times( 3 )
+			->twice()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true, false );
+		$this->addon_manager->expects( 'has_valid_subscription' )
+			->twice()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( true, false );
+
+		$this->addon_manager->expects( 'is_installed' )
+			->twice()
 			->with( WPSEO_Addon_Manager::DUPLICATE_POST_SLUG )
-			->andReturn( true, false, false );
+			->andReturn( true, false );
+
+		$this->addon_manager->expects( 'has_valid_subscription' )
+			->twice()
+			->with( WPSEO_Addon_Manager::DUPLICATE_POST_SLUG )
+			->andReturn( false, false );
 
 		$expected = [
 			$this->premium->get_id() => [
@@ -161,10 +168,12 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 
-		$expected[ $this->premium->get_id() ]['isActive']   = false;
-		$expected[ $this->premium->get_id() ]['hasLicense'] = false;
-		$expected[ $this->woo->get_id() ]['isActive']       = false;
-		$expected[ $this->woo->get_id() ]['hasLicense']     = false;
+		$expected[ $this->premium->get_id() ]['isActive']         = false;
+		$expected[ $this->premium->get_id() ]['hasLicense']       = false;
+		$expected[ $this->woo->get_id() ]['isActive']             = false;
+		$expected[ $this->woo->get_id() ]['hasLicense']           = false;
+		$expected[ $this->duplicatePost->get_id() ]['isActive']   = false;
+		$expected[ $this->duplicatePost->get_id() ]['hasLicense'] = false;
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}
