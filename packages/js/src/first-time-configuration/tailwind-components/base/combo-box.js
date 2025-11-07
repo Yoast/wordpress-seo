@@ -93,9 +93,9 @@ export default function YoastComboBox( {
 			( { open } ) => {
 				return <Fragment>
 					{ label && <Combobox.Label
-						className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-slate-700"
+						className="yst-block yst-mb-2 yst-max-w-sm yst-text-sm yst-font-medium yst-text-slate-800"
 					>{ label }</Combobox.Label> }
-					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
+					<div className="yst-h-[40px] yst-max-w-sm yst-relative">
 						<Combobox.Button
 							data-id={ `button-${ id }` }
 							role="button"
@@ -104,7 +104,7 @@ export default function YoastComboBox( {
 						>
 							<Combobox.Input
 								data-id={ `input-${ id }` }
-								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-ps-0 yst-pe-10 yst-shadow-none sm:yst-text-sm"
+								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-1 yst-ps-0 yst-pe-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
 								placeholder={ placeholder }
