@@ -12,26 +12,26 @@ import { InstallPlugin } from "../actions/install-plugin";
 export const DuplicatePostCard = () => {
 	const {
 		isActive,
-		buyLink,
-		buyConfig,
 		manageLink,
 		learnMoreLink,
 		isBlackFridayPromotionActive,
+		pluginsLink,
 	} = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
+
 		return {
 			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.duplicatePost ),
-			buyLink: plansSelect.selectLink( "http://yoa.st/plans-premium-buy" ),
-			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
 			manageLink: plansSelect.selectLink( "http://yoa.st/plans-premium-manage" ),
-			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-premium-learn-more" ),
+			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-duplicate-post-learn-more" ),
 			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
+			pluginsLink: plansSelect.selectPluginsUrl(),
 		};
 	}, [] );
 
 	return (
 		<BaseCard
 			hasHighlight={ isActive }
+			isActiveHighlight={ isActive }
 			isManageAvailable={ false }
 			isLicenseRequired={ false }
 			header={ <DuplicatePostSvg /> }
@@ -42,9 +42,7 @@ export const DuplicatePostCard = () => {
 				__( "Perfect for creating templates or testing updates", "wordpress-seo" ),
 				__( "Trusted by over 4+ million WordPress sites", "wordpress-seo" ),
 			] }
-			button={ <InstallPlugin href={ manageLink } disabled={ ! isActive } /> }
-			buyLink={ buyLink }
-			buyConfig={ buyConfig }
+			button={ <InstallPlugin href={ pluginsLink } disabled={ isActive } /> }
 			manageLink={ manageLink }
 			learnMoreLink={ learnMoreLink }
 			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }

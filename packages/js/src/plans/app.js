@@ -21,18 +21,18 @@ export const App = () => (
 				</div>
 			</header>
 			<div className="yst-h-full yst-p-8">
-				<div className="yst-max-w-6xl yst-flex yst-gap-6 yst-flex-wrap yst-pb-3 yst-border-b yst-border-slate-200">
+				<div className="yst-max-w-6xl yst-flex yst-gap-6 yst-flex-wrap yst-pb-8 yst-border-b yst-border-slate-200">
 					<PremiumCard />
 					<WooCard />
 					<AiPlusCard />
 				</div>
-				<div>
+				<div className="yst-pt-6">
 					<Title>{ __( "Add-ons", "wordpress-seo" ) }</Title>
 					<p className="yst-text-tiny yst-mt-3">
 						{ __( "Boost your productivity with tools that simplify writing, editing, and publishing.", "wordpress-seo" ) }
 					</p>
 				</div>
-				<div className="yst-max-w-6xl yst-flex yst-gap-6 yst-flex-wrap yst-pt-3">
+				<div className="yst-max-w-6xl yst-flex yst-gap-6 yst-flex-wrap yst-pt-6">
 					<DuplicatePostCard />
 					<GoogleDocsAddonCard />
 				</div>

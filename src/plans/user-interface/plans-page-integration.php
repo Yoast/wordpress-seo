@@ -167,6 +167,7 @@ class Plans_Page_Integration implements Integration_Interface {
 		return [
 			'addOns'            => $this->add_ons_collector->to_array(),
 			'linkParams'        => $this->short_link_helper->get_query_params(),
+			'pluginsUrl'        => \plugins_url(),
 			'preferences'       => [
 				'isRtl' => \is_rtl(),
 			],

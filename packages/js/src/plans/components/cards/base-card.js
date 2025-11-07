@@ -68,6 +68,7 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPro
  * @param {string} buyLink The URL to buy the product.
  * @param {...Object} buyConfig Additional configuration for the buy button, for the CTB attributes.
  * @param {string} manageLink The URL to manage the product in MyYoast.
+ * @param {React.ReactNode} learnMoreContent The learn more content of the card.
  * @param {string} learnMoreLink The URL to learn more about the product.
  * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  *
@@ -88,11 +89,11 @@ export const BaseCard = ( {
 	buyLink,
 	buyConfig,
 	manageLink,
+	learnMoreContent,
 	learnMoreLink,
 	isBlackFridayPromotionActive,
 } ) => {
 	const svgAriaProps = useSvgAria();
-	console.log( "BaseCard" );
 
 	return (
 		<div className="yst-flex yst-relative yst-max-w-64">
@@ -131,7 +132,7 @@ export const BaseCard = ( {
 							? <ManageInMyYoast href={ manageLink } />
 							: <BuyProduct href={ buyLink } { ...buyConfig } /> )
 						}
-						<LearnMore className="yst-pb-0" href={ learnMoreLink } />
+						{ learnMoreContent || <LearnMore className="yst-pb-0" href={ learnMoreLink } /> }
 					</div>
 				</Card.Footer>
 			</Card>

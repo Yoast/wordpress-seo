@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Plans\Application;
 use Mockery;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
+use Yoast\WP\SEO\Plans\Domain\Add_Ons\DuplicatePost;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Premium;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Woo;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -47,6 +48,13 @@ final class Add_Ons_Collector_Test extends TestCase {
 	private $woo;
 
 	/**
+	 * Holds the Yoast Duplicate Post add-on.
+	 *
+	 * @var DuplicatePost
+	 */
+	private $duplicatePost;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -56,8 +64,9 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 
-		$this->premium = new Premium( $this->addon_manager );
-		$this->woo     = new Woo( $this->addon_manager );
+		$this->premium       = new Premium( $this->addon_manager );
+		$this->woo           = new Woo( $this->addon_manager );
+		$this->duplicatePost = new DuplicatePost( $this->addon_manager );
 
 		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo );
 	}
@@ -99,21 +108,26 @@ final class Add_Ons_Collector_Test extends TestCase {
 	 */
 	public function test_to_array() {
 		$this->addon_manager->expects( 'is_installed' )
-			->twice()
+			->times(3 )
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false );
+			->andReturn( true, false, false );
 		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
+			->times(3 )
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false );
+			->andReturn( true, false, false );
 		$this->addon_manager->expects( 'is_installed' )
-			->twice()
+			->times( 3 )
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false );
+			->andReturn( true, false, false );
 		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
+			->times( 3 )
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false );
+			->andReturn( true, false, false );
+
+		$this->addon_manager->expects( 'is_installed' )
+			->times( 3 )
+			->with( WPSEO_Addon_Manager::DUPLICATE_POST_SLUG )
+			->andReturn( true, false, false );
 
 		$expected = [
 			$this->premium->get_id() => [
@@ -132,6 +146,15 @@ final class Add_Ons_Collector_Test extends TestCase {
 				'ctb'        => [
 					'action' => $this->woo->get_ctb_action(),
 					'id'     => $this->woo->get_ctb_id(),
+				],
+			],
+			$this->duplicatePost->get_id()     => [
+				'id'         => $this->duplicatePost->get_id(),
+				'isActive'   => true,
+				'hasLicense' => false,
+				'ctb'        => [
+					'action' => $this->duplicatePost->get_ctb_action(),
+					'id'     => $this->duplicatePost->get_ctb_id(),
 				],
 			],
 		];

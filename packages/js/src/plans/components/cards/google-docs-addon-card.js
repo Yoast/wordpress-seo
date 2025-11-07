@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { ADD_ONS, STORE_NAME } from "../../constants";
 import { BaseCard } from "./base-card";
 import { GoogleDocsAddonSvg } from "../images/google-docs-addon-svg";
+import { InstallAddon } from "../actions/install-addon";
 
 /**
  * A card to present the Yoast SEO Google Docs Add-on plan.
@@ -10,34 +11,33 @@ import { GoogleDocsAddonSvg } from "../images/google-docs-addon-svg";
  */
 export const GoogleDocsAddonCard = () => {
 	const {
-		isActive,
+		isPremiumActive,
 		hasLicense,
-		isWooActive,
-		buyLink,
-		buyConfig,
+		installAddonLink,
+		buyPremiumLink,
+		buyPremiumConfig,
 		manageLink,
 		learnMoreLink,
 		isBlackFridayPromotionActive,
 	} = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
-			isActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
+			isPremiumActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
 			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.premium ),
-			isWooActive: plansSelect.selectAddOnIsActive( ADD_ONS.woo ),
-			buyLink: plansSelect.selectLink( "http://yoa.st/plans-premium-buy" ),
-			buyConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
-			manageLink: plansSelect.selectLink( "http://yoa.st/plans-premium-manage" ),
-			learnMoreLink: plansSelect.selectLink( "http://yoa.st/plans-premium-learn-more" ),
+			installAddonLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-install" ),
+			buyPremiumLink: plansSelect.selectLink( "https://yoa.st/plans-premium-buy" ),
+			buyPremiumConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
+			manageLink: plansSelect.selectLink( "https://yoa.st/plans-premium-manage" ),
+			learnMoreLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-learn-more" ),
 			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
 		};
 	}, [] );
 
 	return (
 		<BaseCard
-			// WooCommerce SEO take priority over Premium as it includes Premium.
-			hasHighlight={ isActive && ! isWooActive }
-			isActiveHighlight={ hasLicense }
-			isManageAvailable={ hasLicense }
+			hasHighlight={ false }
+			isActiveHighlight={ false }
+			isManageAvailable={ ! hasLicense }
 			header={ <GoogleDocsAddonSvg /> }
 			title="Yoast SEO Google Docs Add-on"
 			description={ __( "Write and optimize your content directly in Google Docs.", "wordpress-seo" ) }
@@ -46,10 +46,16 @@ export const GoogleDocsAddonCard = () => {
 				__( "Collaborate with your team and create consistent SEO-ready drafts faster", "wordpress-seo" ),
 				__( "One free seat available with all Yoast subscriptions", "wordpress-seo" ),
 			] }
-			buyLink={ buyLink }
-			buyConfig={ buyConfig }
+			button={ isPremiumActive && <InstallAddon href={ installAddonLink } /> }
+			buyLink={ buyPremiumLink }
+			buyConfig={ buyPremiumConfig }
 			manageLink={ manageLink }
 			learnMoreLink={ learnMoreLink }
+			learnMoreContent={ ! isPremiumActive && (
+				<div className="yst-font-medium yst-italic yst-text-center yst-pt-3">
+					{ __( "Included in Premium", "wordpress-seo" ) }
+				</div>
+			) }
 			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>
 	);

@@ -7,7 +7,7 @@ import { get } from "lodash";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
 import { App } from "./app";
 import { STORE_NAME } from "./constants";
-import { LINK_PARAMS_NAME, PREFERENCES_NAME, CURRENT_PROMOTIONS_NAME, registerStore } from "./store";
+import { LINK_PARAMS_NAME, PLUGINS_URL_NAME, PREFERENCES_NAME, CURRENT_PROMOTIONS_NAME, registerStore } from "./store";
 
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-plans" );
@@ -18,6 +18,7 @@ domReady( () => {
 	registerStore( {
 		initialState: {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			[ PLUGINS_URL_NAME ]: get( window, "wpseoScriptData.pluginsUrl", "" ),
 			[ PREFERENCES_NAME ]: get( window, "wpseoScriptData.preferences", {} ),
 			[ CURRENT_PROMOTIONS_NAME ]: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 		},

@@ -22,7 +22,6 @@ const adapter = createEntityAdapter( {
  * @returns {?AddOn} The prepared add-on object or null if the input is invalid.
  */
 const prepareAddOn = ( addOn ) => {
-	console.log( "prepareAddOn ", addOn );
 	// Ensure the add-on is an object and has a valid id.
 	if ( typeof addOn !== "object" || ! Object.keys( ADD_ONS ).includes( String( addOn.id ) ) ) {
 		return null;

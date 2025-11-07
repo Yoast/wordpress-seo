@@ -4,7 +4,7 @@ import { useSvgAria } from "@yoast/ui-library";
 import { OutboundButtonLink } from "./outbound-button-link";
 
 /**
- * A link that looks like a button and indicates that the user can buy a product.
+ * A link that looks like a button and indicates that the user can install and addon.
  * @param {string} href The URL to the product page.
  * @param {...Object} [props] Additional props to pass to the button.
  * @returns {JSX.Element} The element.
