@@ -8,6 +8,7 @@ const TAB = {
 	title: "Yoast SEO",
 };
 
+const ELEMENTS_PANEL = "panel/elements";
 export const REACT_PANEL_ELEMENT_ID = "yoast-elementor-react-panel";
 const ELEMENTOR_ELEMENTS_NAVIGATION_ID = "elementor-panel-elements-navigation";
 const ELEMENTOR_ELEMENTS_CONTENT_ID = "elementor-panel-elements-search-area";
@@ -58,6 +59,12 @@ const hideYoastPanelContent = () => {
 	const contentContainer = document.getElementById( REACT_PANEL_ELEMENT_ID );
 	if ( contentContainer ) {
 		contentContainer.style.display = "none";
+	}
+
+	// Remove the active class from the Yoast tab.
+	const yoastTab = document.querySelector( `[data-tab="${ TAB.id }"]` );
+	if ( yoastTab ) {
+		yoastTab.classList.remove( "elementor-active" );
 	}
 
 	// Show the default elements content.
@@ -112,7 +119,7 @@ const setupOtherTabsListeners = () => {
 	const otherTabs = elementsNavigation.querySelectorAll( `.${ELEMENTOR_PANEL_NAVIGATION_ID}:not([data-tab="${ TAB.id }"])` );
 
 	otherTabs.forEach( tab => {
-		// Remove existing listener if any.
+		// Remove any existing listener from the Yoast tab if present.
 		tab.removeEventListener( "click", hideYoastPanelContent );
 		// Add a listener to hide Yoast content when another tab is clicked.
 		tab.addEventListener( "click", hideYoastPanelContent );
