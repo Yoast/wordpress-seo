@@ -296,8 +296,6 @@ final class Plans_Page_Integration_Test extends TestCase {
 			->once()
 			->with( Plans_Page_Integration::ASSETS_NAME, 'wpseoScriptData', $expected_script_data );
 
-
-
 		$this->promotion_manager->expects( 'get_current_promotions' )->once()->andReturn( $promotions );
 
 		$this->instance->enqueue_assets();

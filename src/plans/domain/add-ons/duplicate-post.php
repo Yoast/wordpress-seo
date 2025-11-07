@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Plans\Infrastructure\Add_Ons\Managed_Add_On;
 /**
  * The Yoast SEO Duplicate Post add-on.
  */
-class DuplicatePost extends Managed_Add_On implements Add_On_Interface {
+class Duplicate_Post extends Managed_Add_On implements Add_On_Interface {
 
 	/**
 	 * The slug of the add-on.

@@ -88,7 +88,7 @@ class WPSEO_Addon_Manager {
 		'video-seo.php'         => self::VIDEO_SLUG,
 		'wpseo-woocommerce.php' => self::WOOCOMMERCE_SLUG,
 		'local-seo.php'         => self::LOCAL_SLUG,
-		'duplicate-post.php'	=> self::DUPLICATE_POST_SLUG,
+		'duplicate-post.php'    => self::DUPLICATE_POST_SLUG,
 	];
 
 	/**
@@ -97,32 +97,32 @@ class WPSEO_Addon_Manager {
 	 * @var array<string, array<string, string>>
 	 */
 	private $addon_details = [
-		self::PREMIUM_SLUG     => [
+		self::PREMIUM_SLUG        => [
 			'name'                  => 'Yoast SEO Premium',
 			'short_link_activation' => 'https://yoa.st/13j',
 			'short_link_renewal'    => 'https://yoa.st/4ey',
 		],
-		self::NEWS_SLUG        => [
+		self::NEWS_SLUG           => [
 			'name'                  => 'Yoast News SEO',
 			'short_link_activation' => 'https://yoa.st/4xq',
 			'short_link_renewal'    => 'https://yoa.st/4xv',
 		],
-		self::WOOCOMMERCE_SLUG => [
+		self::WOOCOMMERCE_SLUG    => [
 			'name'                  => 'Yoast WooCommerce SEO',
 			'short_link_activation' => 'https://yoa.st/4xs',
 			'short_link_renewal'    => 'https://yoa.st/4xx',
 		],
-		self::VIDEO_SLUG       => [
+		self::VIDEO_SLUG          => [
 			'name'                  => 'Yoast Video SEO',
 			'short_link_activation' => 'https://yoa.st/4xr',
 			'short_link_renewal'    => 'https://yoa.st/4xw',
 		],
-		self::LOCAL_SLUG       => [
+		self::LOCAL_SLUG          => [
 			'name'                  => 'Yoast Local SEO',
 			'short_link_activation' => 'https://yoa.st/4xp',
 			'short_link_renewal'    => 'https://yoa.st/4xu',
 		],
-		self::DUPLICATE_POST_SLUG       => [
+		self::DUPLICATE_POST_SLUG => [
 			'name'                  => 'Yoast Duplicate Post',
 			'short_link_activation' => 'https://yoa.st/4xp',
 			'short_link_renewal'    => 'https://yoa.st/4xu',
@@ -330,7 +330,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Checks if there are addon updates.
 	 *
-	 * @param stdClass|mixed $data The current data for update_plugins.
+	 * @param stdClass $data The current data for update_plugins.
 	 *
 	 * @return stdClass Extended data for update_plugins.
 	 */
@@ -463,19 +463,18 @@ class WPSEO_Addon_Manager {
 	 */
 	public function is_installed( $slug ) {
 		$slug_to_class_map = [
-			static::PREMIUM_SLUG     	=> 'WPSEO_Premium',
-			static::NEWS_SLUG        	=> 'WPSEO_News',
-			static::WOOCOMMERCE_SLUG 	=> 'Yoast_WooCommerce_SEO',
-			static::VIDEO_SLUG       	=> 'WPSEO_Video_Sitemap',
-			static::LOCAL_SLUG       	=> 'WPSEO_Local_Core',
-			static::DUPLICATE_POST_SLUG	=> 'Yoast\WP\Duplicate_Post\Duplicate_Post',
+			static::PREMIUM_SLUG        => 'WPSEO_Premium',
+			static::NEWS_SLUG           => 'WPSEO_News',
+			static::WOOCOMMERCE_SLUG    => 'Yoast_WooCommerce_SEO',
+			static::VIDEO_SLUG          => 'WPSEO_Video_Sitemap',
+			static::LOCAL_SLUG          => 'WPSEO_Local_Core',
+			static::DUPLICATE_POST_SLUG => 'Yoast\WP\Duplicate_Post\Duplicate_Post',
 		];
 
 		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
 			return false;
 		}
 
-		error_log(print_r(get_declared_classes(), true));
 		return class_exists( $slug_to_class_map[ $slug ] );
 	}
 
