@@ -313,6 +313,17 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Admin bar menu", "wordpress-seo" ),
 			keywords: [],
 		},
+		enable_task_list: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_task_list",
+			fieldLabel: __( "Task list", "wordpress-seo" ),
+			keywords: [
+				__( "Tasks", "wordpress-seo" ),
+				__( "To-do", "wordpress-seo" ),
+				__( "Checklist", "wordpress-seo" ),
+			],
+		},
 		enable_headless_rest_endpoints: {
 			route: "/site-features",
 			routeLabel: __( "Site features", "wordpress-seo" ),
