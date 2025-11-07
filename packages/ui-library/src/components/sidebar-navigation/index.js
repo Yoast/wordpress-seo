@@ -1,6 +1,6 @@
-import { noop } from "lodash";
+import { noop, uniq } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 import { Collapsible } from "./collapsible";
 import { Icon } from "./icon";
 import { Item } from "./item";
@@ -15,6 +15,10 @@ export const NavigationContext = createContext( {
 	activePath: "",
 	isMobileMenuOpen: false,
 	setMobileMenuOpen: noop,
+	history: [],
+	setHistory: noop,
+	removeFromHistory: noop,
+	addToHistory: noop,
 } );
 
 /**
@@ -29,9 +33,27 @@ export const useNavigationContext = () => useContext( NavigationContext );
  */
 const SidebarNavigation = ( { activePath = "", children } ) => {
 	const [ isMobileMenuOpen, setMobileMenuOpen ] = useState( false );
+	const [ history, setHistory ] = useState( [] );
+	const addToHistory = useCallback( ( id ) => {
+		setHistory( uniq( [ ...history, id ] ) );
+	}, [ history ] );
+
+	const removeFromHistory = useCallback( ( id ) => {
+		setHistory( history.filter( ( item ) => item !== id ) );
+	}, [ history ] );
 
 	return (
-		<NavigationContext.Provider value={ { activePath, isMobileMenuOpen, setMobileMenuOpen } }>
+		<NavigationContext.Provider
+			value={ {
+				activePath,
+				isMobileMenuOpen,
+				setMobileMenuOpen,
+				history,
+				setHistory,
+				removeFromHistory,
+				addToHistory,
+			} }
+		>
 			{ children }
 		</NavigationContext.Provider>
 	);
