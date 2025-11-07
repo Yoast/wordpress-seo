@@ -64,8 +64,8 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 
-		$this->premium       = new Premium( $this->addon_manager );
-		$this->woo           = new Woo( $this->addon_manager );
+		$this->premium        = new Premium( $this->addon_manager );
+		$this->woo            = new Woo( $this->addon_manager );
 		$this->duplicate_post = new Duplicate_Post( $this->addon_manager );
 
 		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo, $this->duplicate_post );
@@ -146,7 +146,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 					'id'     => $this->premium->get_ctb_id(),
 				],
 			],
-			$this->woo->get_id()     => [
+			$this->woo->get_id() => [
 				'id'         => $this->woo->get_id(),
 				'isActive'   => true,
 				'hasLicense' => true,
@@ -155,7 +155,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 					'id'     => $this->woo->get_ctb_id(),
 				],
 			],
-			$this->duplicate_post->get_id()     => [
+			$this->duplicate_post->get_id() => [
 				'id'         => $this->duplicate_post->get_id(),
 				'isActive'   => true,
 				'hasLicense' => false,
@@ -168,10 +168,10 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 
-		$expected[ $this->premium->get_id() ]['isActive']         = false;
-		$expected[ $this->premium->get_id() ]['hasLicense']       = false;
-		$expected[ $this->woo->get_id() ]['isActive']             = false;
-		$expected[ $this->woo->get_id() ]['hasLicense']           = false;
+		$expected[ $this->premium->get_id() ]['isActive']          = false;
+		$expected[ $this->premium->get_id() ]['hasLicense']        = false;
+		$expected[ $this->woo->get_id() ]['isActive']              = false;
+		$expected[ $this->woo->get_id() ]['hasLicense']            = false;
 		$expected[ $this->duplicate_post->get_id() ]['isActive']   = false;
 		$expected[ $this->duplicate_post->get_id() ]['hasLicense'] = false;
 
