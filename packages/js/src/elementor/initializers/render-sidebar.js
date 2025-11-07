@@ -3,9 +3,9 @@ import { renderReactRoot } from "../../helpers/reactRoot";
 import { RenderInPortalIfElementExists } from "../components/render-in-portal-if-element-exists";
 import ElementorSlot from "../components/slots/ElementorSlot";
 import ElementorFill from "../containers/ElementorFill";
+import { REACT_PANEL_ELEMENT_ID } from "./panel";
 
 const REACT_ELEMENT_ID = "yoast-elementor-react-tab";
-const REACT_PANEL_ELEMENT_ID = "yoast-elementor-react-panel";
 
 /**
  * Renders the Yoast tab React content.

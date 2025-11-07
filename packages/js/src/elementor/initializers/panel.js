@@ -8,38 +8,42 @@ const TAB = {
 	title: "Yoast SEO",
 };
 
-const REACT_PANEL_ELEMENT_ID = "yoast-elementor-react-panel";
+export const REACT_PANEL_ELEMENT_ID = "yoast-elementor-react-panel";
+const ELEMENTOR_ELEMENTS_NAVIGATION_ID = "elementor-panel-elements-navigation";
+const ELEMENTOR_ELEMENTS_CONTENT_ID = "elementor-panel-elements-search-area";
+const ELEMENTOR_PANEL_NAVIGATION_ID = "elementor-panel-navigation-tab";
+const YOAST_PANEL_CONTENT_CLASS = "yoast yoast-elementor-panel__content";
 
 /**
- * Shows the Yoast analysis menu in the Elementor elements panel.
+ * Shows the Yoast analysis menu in the Elementor Elements panel.
  *
  * @returns {void}
  */
 const showYoastPanelAnalysis = () => {
-	// Find or create the content container
+	// Find or create the content container.
 	let contentContainer = document.getElementById( REACT_PANEL_ELEMENT_ID );
 
 	if ( ! contentContainer ) {
-		// Find the elements navigation container
-		const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
+		// Find the Elements navigation container.
+		const elementsNavigation = document.getElementById( ELEMENTOR_ELEMENTS_NAVIGATION_ID );
 		if ( ! elementsNavigation ) {
 			return;
 		}
 
-		// Create the Yoast content container after the navigation
+		// Create the Yoast content container after the navigation.
 		contentContainer = document.createElement( "div" );
 		contentContainer.id = REACT_PANEL_ELEMENT_ID;
-		contentContainer.className = "yoast yoast-elementor-panel__content";
+		contentContainer.className = YOAST_PANEL_CONTENT_CLASS;
 
-		// Insert it after the navigation
+		// Insert it after the navigation.
 		elementsNavigation.parentNode.insertBefore( contentContainer, elementsNavigation.nextSibling );
 	}
 
-	// Show the Yoast content
+	// Show the Yoast content.
 	contentContainer.style.display = "block";
 
-	// Hide the default elements content
-	const elementsContent = document.getElementById( "elementor-panel-elements-search-area" );
+	// Hide the default elements content.
+	const elementsContent = document.getElementById( ELEMENTOR_ELEMENTS_CONTENT_ID );
 	if ( elementsContent ) {
 		elementsContent.style.display = "none";
 	}
@@ -56,8 +60,8 @@ const hideYoastPanelContent = () => {
 		contentContainer.style.display = "none";
 	}
 
-	// Show the default elements content
-	const elementsContent = document.getElementById( "elementor-panel-elements-search-area" );
+	// Show the default elements content.
+	const elementsContent = document.getElementById( ELEMENTOR_ELEMENTS_CONTENT_ID );
 	if ( elementsContent ) {
 		elementsContent.style.display = "block";
 	}
@@ -70,23 +74,23 @@ const hideYoastPanelContent = () => {
  */
 const createTabButton = () => {
 	const tabButton = document.createElement( "button" );
-	tabButton.className = "elementor-component-tab elementor-panel-navigation-tab";
+	tabButton.className = `elementor-component-tab ${ELEMENTOR_PANEL_NAVIGATION_ID}`;
 	tabButton.setAttribute( "data-tab", TAB.id );
 	tabButton.textContent = TAB.title;
 
-	// Add click handler to show embedded content
+	// Add a click handler to show embedded content.
 	tabButton.addEventListener( "click", ( e ) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		// Remove active class from all tabs
-		const allTabs = document.querySelectorAll( ".elementor-panel-navigation-tab" );
+		// Remove the active class from all tabs.
+		const allTabs = document.querySelectorAll( `.${ELEMENTOR_PANEL_NAVIGATION_ID}` );
 		allTabs.forEach( tab => tab.classList.remove( "elementor-active" ) );
 
-		// Add active class to Yoast tab
+		// Add active class to Yoast tab.
 		tabButton.classList.add( "elementor-active" );
 
-		// Show the Yoast content
+		// Show the Yoast content.
 		showYoastPanelAnalysis();
 	} );
 
@@ -99,18 +103,18 @@ const createTabButton = () => {
  * @returns {void}
  */
 const setupOtherTabsListeners = () => {
-	const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
+	const elementsNavigation = document.getElementById( ELEMENTOR_ELEMENTS_NAVIGATION_ID );
 	if ( ! elementsNavigation ) {
 		return;
 	}
 
-	// Find all other tabs (not Yoast)
-	const otherTabs = elementsNavigation.querySelectorAll( `.elementor-panel-navigation-tab:not([data-tab="${ TAB.id }"])` );
+	// Find all other tabs (not Yoast).
+	const otherTabs = elementsNavigation.querySelectorAll( `.${ELEMENTOR_PANEL_NAVIGATION_ID}:not([data-tab="${ TAB.id }"])` );
 
 	otherTabs.forEach( tab => {
-		// Remove existing listener if any
+		// Remove existing listener if any.
 		tab.removeEventListener( "click", hideYoastPanelContent );
-		// Add listener to hide Yoast content when another tab is clicked
+		// Add a listener to hide Yoast content when another tab is clicked.
 		tab.addEventListener( "click", hideYoastPanelContent );
 	} );
 };
@@ -121,21 +125,21 @@ const setupOtherTabsListeners = () => {
  * @returns {void}
  */
 const addYoastTabToElementsNavigation = () => {
-	const elementsNavigation = document.getElementById( "elementor-panel-elements-navigation" );
+	const elementsNavigation = document.getElementById( ELEMENTOR_ELEMENTS_NAVIGATION_ID );
 	if ( ! elementsNavigation ) {
 		return;
 	}
 
-	// Check if already added
+	// Check if the tab already exists and return early if so.
 	if ( elementsNavigation.querySelector( `[data-tab="${ TAB.id }"]` ) ) {
 		return;
 	}
 
-	// Create and append the tab button
+	// Create and append the tab button.
 	const tabButton = createTabButton();
 	elementsNavigation.appendChild( tabButton );
 
-	// Set up listeners for other tabs
+	// Set up listeners for other tabs.
 	setupOtherTabsListeners();
 };
 
@@ -155,7 +159,7 @@ const setupNavigationWatcher = () => {
 		if ( debounceTimeout ) {
 			clearTimeout( debounceTimeout );
 		}
-		// Very short debounce (5ms) to prevent redundant calls
+		// Very short debounce (5ms) to prevent redundant calls.
 		debounceTimeout = setTimeout( () => {
 			addYoastTabToElementsNavigation();
 		}, 5 );
@@ -171,35 +175,35 @@ const setupNavigationWatcher = () => {
 			return;
 		}
 
-		// Observer watches the entire panel for navigation changes
+		// The observer watches the entire panel for navigation changes.
 		// eslint-disable-next-line complexity
 		const observer = new MutationObserver( ( mutations ) => {
 			for ( const mutation of mutations ) {
-				// Check if navigation element was added (recreated)
+				// Check if a navigation element was added (recreated).
 				if ( mutation.addedNodes.length > 0 ) {
 					for ( const node of mutation.addedNodes ) {
-						if ( node.id === "elementor-panel-elements-navigation" ||
-							 ( node.querySelector && node.querySelector( "#elementor-panel-elements-navigation" ) ) ) {
+						if ( node.id === ELEMENTOR_ELEMENTS_NAVIGATION_ID ||
+							 ( node.querySelector && node.querySelector( `#${ELEMENTOR_ELEMENTS_NAVIGATION_ID}` ) ) ) {
 							handleNavigationChange();
 							return;
 						}
 					}
 				}
-				// Check if navigation's children were modified
-				if ( mutation.target.id === "elementor-panel-elements-navigation" ) {
+				// Check if navigation's children were modified.
+				if ( mutation.target.id === ELEMENTOR_ELEMENTS_NAVIGATION_ID ) {
 					handleNavigationChange();
 					return;
 				}
 			}
 		} );
 
-		// Watch entire panel subtree for any changes
+		// Watch the entire panel subtree for any changes.
 		observer.observe( panelContent, {
 			childList: true,
 			subtree: true,
 		} );
 
-		// Add tab immediately on initialization
+		// Add the Yoast tab immediately on initialization.
 		addYoastTabToElementsNavigation();
 	};
 
