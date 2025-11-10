@@ -1,18 +1,18 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
-import { ErrorFallback, Notifications, Search } from "./components";
+import { ErrorFallback, Notifications, Search, AdvancedMenu } from "./components";
 import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -44,6 +44,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const { history, setHistory } = useNavigationContext();
+
+	useEffect( () => {
+		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
+	}, [] );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
@@ -84,6 +89,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-general${ idSuffix }` ) }
 			>
 				<MenuItemLink to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<MenuItemLink to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -98,6 +104,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -118,6 +125,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					{ map( taxonomies, taxonomy => (
@@ -133,30 +141,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					) ) }
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix }` }
-				icon={ AdjustmentsIcon }
-				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ pathname === "/llms-txt" }
-			>
-				<MenuItemLink
-					to="/llms-txt"
-					label={ __( "llms.txt", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<MenuItemLink
-					to="/crawl-optimization"
-					label={ __( "Crawl optimization", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<MenuItemLink to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			</SidebarNavigation.MenuItem>
+			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;
 };

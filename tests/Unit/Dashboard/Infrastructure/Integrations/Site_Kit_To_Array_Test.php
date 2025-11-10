@@ -29,7 +29,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
-		$this->site_kit_conditional->expects( 'is_met' )->andReturn( true );
+		$this->site_kit_feature_conditional->expects( 'is_met' )->andReturn( true );
 	}
 
 	/**
@@ -64,8 +64,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 	) {
 		Functions\expect( 'file_exists' )
 			->andReturn( $is_site_kit_installed );
-		Functions\expect( 'is_plugin_active' )
-			->andReturn( $is_site_kit_activated );
+		$this->site_kit_conditional->expects( 'is_met' )->twice()->andReturn( $is_site_kit_activated );
 
 		$this->site_kit_consent_repository->expects( 'is_consent_granted' )->once()->andReturn( $is_consent_granted );
 		if ( ! $is_site_kit_activated ) {

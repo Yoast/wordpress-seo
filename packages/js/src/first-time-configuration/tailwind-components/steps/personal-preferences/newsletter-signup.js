@@ -87,7 +87,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 
 	return (
 		<Fragment>
-			<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
+			<h4 className="yst-text-slate-800 yst-text-sm yst-leading-6 yst-font-medium">
 				{
 					__(
 						"Get free weekly SEO tips!",
@@ -95,7 +95,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 					)
 				}
 			</h4>
-			<p className="yst-my-2">
+			<p className="yst-mb-2">
 				{
 					sprintf(
 						/* translators: %1$s expands to "Yoast SEO", %2$s expands to "Yoast SEO". */
@@ -109,7 +109,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 					)
 				}
 			</p>
-			<div className="yst-flex yst-items-start yst-gap-2 yst-mt-4">
+			<div className="yst-flex yst-items-start yst-gap-2 yst-mt-4 yst-mb-2">
 				<TextInput
 					label={ __( "Email address", "wordpress-seo" ) }
 					id="newsletter-email"
@@ -129,7 +129,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 					type="button"
 					id="newsletter-sign-up-button"
 					// Added a custom margin top because of the TextInput label. Aligning to flex-end won't work because of the error feedback.
-					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px] yst-shrink-0"
+					className="yst-button yst-button--primary yst-h-[40px] yst-items-center yst-mt-[27.5px] yst-shrink-0"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
 					data-hiive-event-name="clicked_signup | personal preferences"
@@ -137,7 +137,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 					{ __( "Yes, give me your free tips!", "wordpress-seo" ) }
 				</button>
 			</div>
-			<p className="yst-text-slate-600 yst-text-xxs yst-leading-4">
+			<p className="yst-text-slate-500 yst-text-xxs yst-leading-4">
 				{
 					addLinkToString(
 						sprintf(
