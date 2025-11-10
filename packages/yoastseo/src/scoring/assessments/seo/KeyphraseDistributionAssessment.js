@@ -16,21 +16,22 @@ class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} [config] The configuration to use.
-	 * @param {Object} [config.scores] The scores to use.
-	 * @param {Object} [config.parameters] The parameters to use.
-	 * @param {number} [config.parameters.goodDistributionScore]
-	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
-	 * @param {number} [config.parameters.acceptableDistributionScore]
-	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
-	 * @param {Object} [config.scores]                The scores to use.
-	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are evenly distributed.
-	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
-	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
-	 * @param {number} [config.scores.noKeyphraseOrText]  The score to return if there is no text and/or no keyphrase set.
-	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
-	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
-	 * @param {object} [config.callbacks] 				The callbacks to use for the assessment.
+	 * @param {Object} [config] 							The configuration to use.
+	 * @param {Object} [config.scores] 						The scores to use.
+	 * @param {Object} [config.parameters] 					The parameters to use.
+	 * @param {number} [config.parameters.maxGoodDistractionPercentage]
+	 *      The maximum distraction percentage allowed to receive a GOOD result.
+	 *      The percentage represents the largest portion of text without the keyphrase.
+	 * @param {number} [config.parameters.maxAcceptableDistractionPercentage]
+	 *      The maximum distraction percentage allowed to receive an OKAY result.
+	 * @param {Object} [config.scores]                		The scores to use.
+	 * @param {number} [config.scores.good]             	The score to return if keyword occurrences are evenly distributed.
+	 * @param {number} [config.scores.okay]             	The score to return if keyword occurrences are somewhat unevenly distributed.
+	 * @param {number} [config.scores.bad]              	The score to return if there is way too much text between keyword occurrences.
+	 * @param {number} [config.scores.noKeyphraseOrText]  	The score to return if there is no text and/or no keyphrase set.
+	 * @param {string} [config.urlTitle]                	The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         	The URL to the help article for this assessment.
+	 * @param {object} [config.callbacks] 					The callbacks to use for the assessment.
 	 * @param {function} [config.callbacks.getResultTexts]	The function that returns the result texts.
 	 *
 	 */
@@ -39,8 +40,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				goodDistributionScore: 30,
-				acceptableDistributionScore: 50,
+				maxGoodDistractionPercentage: 30,
+				maxAcceptableDistractionPercentage: 50,
 			},
 			scores: {
 				good: 9,
@@ -90,7 +91,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result based on the keyphraseDistribution research.
+	 * Calculates the result based on the keyphrase distraction percentage from the keyphraseDistribution research.
 	 *
 	 * @returns {{score: number, hasMarks: boolean, resultText: string}} The calculated result.
 	 */
@@ -102,10 +103,10 @@ class KeyphraseDistributionAssessment extends Assessment {
 			noKeyphraseOrText: noKeyphraseOrTextResultText,
 		} = this.getFeedbackStrings();
 
-		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+		const distractionPercentage = this._keyphraseDistribution.KeyphraseDistractionPercentage;
 		const hasMarks = this._keyphraseDistribution.sentencesToHighlight?.length > 0;
 
-		if ( ! this._canAssess || distributionScore === 100 ) {
+		if ( ! this._canAssess || distractionPercentage === 100 ) {
 			return {
 				score: this._config.scores.noKeyphraseOrText,
 				hasMarks: hasMarks,
@@ -113,7 +114,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			};
 		}
 
-		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
+		if ( distractionPercentage > this._config.parameters.maxAcceptableDistractionPercentage ) {
 			return {
 				score: this._config.scores.bad,
 				hasMarks: hasMarks,
@@ -121,8 +122,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 			};
 		}
 
-		if ( distributionScore > this._config.parameters.goodDistributionScore &&
-			distributionScore <= this._config.parameters.acceptableDistributionScore
+		if ( distractionPercentage > this._config.parameters.maxGoodDistractionPercentage &&
+			distractionPercentage <= this._config.parameters.maxAcceptableDistractionPercentage
 		) {
 			return {
 				score: this._config.scores.okay,

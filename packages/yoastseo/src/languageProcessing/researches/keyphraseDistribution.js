@@ -32,7 +32,7 @@ import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
 
 /**
  * @typedef KeyphraseDistributionResult
- * @property {number} keyphraseDistributionScore The keyphrase distribution score.
+ * @property {number} KeyphraseDistractionPercentage The percentage representing the largest portion of text without the keyphrase.
  * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
  */
 
@@ -146,17 +146,16 @@ const getDistraction = function( sentenceScores ) {
 };
 
 /**
- * Calculates the keyphrase distribution score.
- * For texts that are 15 sentences or longer, we calculate a score based on the maximum distraction.
- * For shorter texts, we assign an arbitrary low (=good) score if the keyphrase is found in at least one sentence.
- * If it's not found in any sentence, we return the score 100, which is the score assigned to texts without the keyphrase
- * (also for longer texts).
+ * Calculates the keyphrase distraction percentage. A higher percentage indicates more distraction, i.e. worse distribution.
+ * For texts that are 15 sentences or longer, we calculate a percentage based on the maximum distraction - the maximum consecutive sentences without the keyphrase.
+ * For shorter texts, we assign an arbitrary low (=good) percentage if the keyphrase is found in at least one sentence.
+ * If it's not found in any sentence, we return 100%, which is the percentage assigned to texts without the keyphrase (both shorter and longer texts).
  *
  * @param {number} 		numberOfSentences
  * @param {number[]}	maximizedSentenceScores
- * @returns {number}	The keyphrase distribution score.
+ * @returns {number}	The keyphrase distraction percentage.
  */
-const getKeyphraseDistributionScore = ( numberOfSentences, maximizedSentenceScores ) => {
+const getKeyphraseDistractionPercentage = ( numberOfSentences, maximizedSentenceScores ) => {
 	if ( numberOfSentences >= 15 ) {
 		const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 		return maxLengthDistraction / numberOfSentences * 100;
@@ -381,11 +380,11 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested );
 
 	const numberOfSentences = sentences.length;
-	const keyphraseDistributionScore = getKeyphraseDistributionScore( numberOfSentences, maximizedSentenceScores );
+	const KeyphraseDistractionPercentage = getKeyphraseDistractionPercentage( numberOfSentences, maximizedSentenceScores );
 
 	return {
 		sentencesToHighlight: flattenDeep( sentencesToHighlight ),
-		keyphraseDistributionScore: keyphraseDistributionScore,
+		KeyphraseDistractionPercentage: KeyphraseDistractionPercentage,
 	};
 };
 

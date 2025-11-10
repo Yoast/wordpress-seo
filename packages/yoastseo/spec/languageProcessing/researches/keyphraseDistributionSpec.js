@@ -499,7 +499,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -518,7 +518,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "And again a key <yoastmark class='yoast-text-mark'>something</yoastmark>.",
@@ -545,7 +545,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>" +
@@ -581,7 +581,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -682,7 +682,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -778,7 +778,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -867,7 +867,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -953,7 +953,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -1038,7 +1038,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, defaultResearcher );
 
 		expect( keyphraseDistributionResearcher( paper, defaultResearcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " E ancora una chiave e <yoastmark class='yoast-text-mark'>" +
@@ -1076,7 +1076,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1096,7 +1096,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1117,7 +1117,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1154,7 +1154,7 @@ describe( "Test for the research", function() {
 		const result = keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition );
 
 		// Test that the score is correct (9/18*100 = 50).
-		expect( result.keyphraseDistributionScore ).toEqual( 50 );
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
 	it( "calculates keyphrase distribution score for content with HTML list structure with single word list items", function() {
@@ -1178,7 +1178,7 @@ describe( "Test for the research", function() {
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
 		// Test that the score is correct (9/18*100 = 50).
-		expect( result.keyphraseDistributionScore ).toEqual( 50 );
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
 	it( "calculates keyphrase distribution score for content with HTML list structure with short phrases as the list items", function() {
@@ -1202,7 +1202,7 @@ describe( "Test for the research", function() {
 		const result = keyphraseDistributionResearcher( paper, researcher );
 
 		// Test that the score is correct (9/19*100 = 47.368421052631575).
-		expect( result.keyphraseDistributionScore ).toEqual( 47.368421052631575 );
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 47.368421052631575 );
 	} );
 
 	it( "calculates keyphrase distribution score for content with HTML list structure with full sentences as the list items", function() {
@@ -1234,7 +1234,7 @@ describe( "Test for the research", function() {
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
 		// Test that the score is correct (15/24*100 = 62.5 ).
-		expect( result.keyphraseDistributionScore ).toEqual( 62.5 );
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 62.5 );
 	} );
 
 	it( "returns the same result for a list of sentences as it does for a string of sentences", function() {
@@ -1274,8 +1274,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a list of paragraphs as it does for a string of paragraphs", function() {
@@ -1313,8 +1313,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a mixed list of paragraphs and sentences as it does for a string of paragraphs and sentences", function() {
@@ -1352,8 +1352,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a real world example list including various html tags as it does for version of that" +
@@ -1406,8 +1406,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a real world example with nested lists as it does for a string version of that" +
@@ -1456,8 +1456,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 } );
 
@@ -1484,7 +1484,7 @@ describe( "a test for exact match of keyphrase in English", () => {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			// 13/15*100 = 86.66666666666667.
-			keyphraseDistributionScore: 86.66666666666667,
+			KeyphraseDistractionPercentage: 86.66666666666667,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
@@ -1512,7 +1512,7 @@ describe( "a test for exact match of keyphrase in English", () => {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			// 3/15*100 = 20.
-			keyphraseDistributionScore: 20,
+			KeyphraseDistractionPercentage: 20,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
@@ -1596,7 +1596,7 @@ const testData = [
 		text: "An example text. What is ASP.NET.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
@@ -1612,7 +1612,7 @@ const testData = [
 		text: "An example text. What is ASP.net.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
@@ -1628,7 +1628,7 @@ const testData = [
 		text: "An example text. What is asp.NET?",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
@@ -1645,7 +1645,7 @@ const testData = [
 		text: "An example text. What is asp.net.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
@@ -1676,7 +1676,7 @@ const testDataExactMatch = [
 		text: "An example text. What is ASP.NET.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
@@ -1692,7 +1692,7 @@ const testDataExactMatch = [
 		text: "An example text. What is ASP.net.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
@@ -1708,7 +1708,7 @@ const testDataExactMatch = [
 		text: "An example text. What is asp.NET?",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
@@ -1724,7 +1724,7 @@ const testDataExactMatch = [
 		text: "An example text. What is asp.net.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
@@ -1781,7 +1781,7 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			// 11/15*100 = 73.33333333333333.
-			keyphraseDistributionScore: 73.33333333333333,
+			KeyphraseDistractionPercentage: 73.33333333333333,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
@@ -1808,7 +1808,7 @@ describe( "Test for the research for Japanese language", function() {
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 73.33333333333333,
+			KeyphraseDistractionPercentage: 73.33333333333333,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
@@ -1848,7 +1848,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
@@ -1885,7 +1885,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
@@ -1920,7 +1920,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1939,7 +1939,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1957,7 +1957,7 @@ describe( "Test for the research for Japanese language", function() {
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1975,7 +1975,7 @@ describe( "Test for the research for Japanese language", function() {
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 10,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "彼女はオンラインストアで<yoastmark class='yoast-text-mark'>黒</yoastmark>の<yoastmark class='yoast-text-mark'>長袖</yoastmark>" +
@@ -1999,7 +1999,7 @@ describe( "Test for the research for Japanese language", function() {
 
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 10 );
+		expect( keyphraseDistributionResearcher( paper, researcher ).KeyphraseDistractionPercentage ).toEqual( 10 );
 	} );
 
 	it( "returns the result for keyword longer than 7 characters but shorter than 4 words: at least 50% of the keyphrase should be found", function() {
@@ -2014,7 +2014,7 @@ describe( "Test for the research for Japanese language", function() {
 
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 10 );
+		expect( keyphraseDistributionResearcher( paper, researcher ).KeyphraseDistractionPercentage ).toEqual( 10 );
 	} );
 } );
 

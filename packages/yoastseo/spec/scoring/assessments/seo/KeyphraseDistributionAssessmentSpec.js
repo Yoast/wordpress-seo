@@ -43,7 +43,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( {
-				keyphraseDistributionScore: 100,
+				KeyphraseDistractionPercentage: 100,
 				sentencesToHighlight: [],
 			} )
 		);
@@ -57,7 +57,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( {
-				keyphraseDistributionScore: 100,
+				KeyphraseDistractionPercentage: 100,
 				sentencesToHighlight: [],
 			} )
 		);
@@ -72,7 +72,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( {
-				keyphraseDistributionScore: 60,
+				KeyphraseDistractionPercentage: 60,
 				sentencesToHighlight: [],
 			} )
 		);
@@ -88,7 +88,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( {
-				keyphraseDistributionScore: 40,
+				KeyphraseDistractionPercentage: 40,
 				sentencesToHighlight: [],
 			} )
 		);
@@ -105,7 +105,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher( {
-				keyphraseDistributionScore: 25,
+				KeyphraseDistractionPercentage: 25,
 				sentencesToHighlight: [],
 			} )
 		);
@@ -123,7 +123,7 @@ describe( "A test for marking keywords in the text", function() {
 			mockPaper,
 			Factory.buildMockResearcher(
 				{
-					keyphraseDistributionScore: 5,
+					KeyphraseDistractionPercentage: 5,
 					sentencesToHighlight: [
 						new Mark( {
 							original: " A sentence.",
@@ -195,7 +195,7 @@ describe( "A test for marking keywords in the text", function() {
 			mockPaper,
 			Factory.buildMockResearcher(
 				{
-					keyphraseDistributionScore: 5,
+					KeyphraseDistractionPercentage: 5,
 					sentencesToHighlight: [],
 				} )
 		);
