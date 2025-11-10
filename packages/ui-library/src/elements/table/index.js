@@ -23,7 +23,6 @@ const Cell = ( { children, className = "", ...props } ) => (
 
 Cell.propTypes = {
 	children: PropTypes.node.isRequired,
-	variant: PropTypes.oneOf( Object.keys( rowClassNameMap.variant ) ),
 	className: PropTypes.string,
 };
 
