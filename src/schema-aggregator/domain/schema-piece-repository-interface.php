@@ -11,10 +11,11 @@ interface Schema_Piece_Repository_Interface {
 	/**
 	 * Gets schema pieces by indexable IDs.
 	 *
-	 * @param int $page      The page number.
-	 * @param int $page_size The number of items per page.
+	 * @param int    $page      The page number.
+	 * @param int    $page_size The number of items per page.
+	 * @param string $post_type The post type to filter by.
 	 *
 	 * @return array<Schema_Piece> The schema pieces.
 	 */
-	public function get( int $page, int $page_size ): array;
+	public function get( int $page, int $page_size, string $post_type ): array;
 }
