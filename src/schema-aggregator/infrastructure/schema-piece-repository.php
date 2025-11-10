@@ -105,14 +105,14 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context       = $this->memoizer->get( $indexable, $page_type );
 			$context_array = $this->adapter->meta_tags_context_to_array( $context );
-			$pieces_data = $context_array['@graph'];
+			$pieces_data   = $context_array['@graph'];
 			foreach ( $pieces_data as $piece_data ) {
 				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
-				$enhancer      = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
+				$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
 				if ( $enhancer !== null ) {
 					$schema_piece = $enhancer->enhance( $schema_piece, $indexable );
 				}
-				$schema_pieces[] = $schema_piece
+				$schema_pieces[] = $schema_piece;
 			}
 		}
 
