@@ -100,6 +100,43 @@ export const TableRow = {
 	},
 };
 
+export const TableRowStriped = {
+	name: "Table row striped",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		children: (
+			<>
+				<Table.Head>
+					<Table.Row>
+						<Table.Header>Header 1</Table.Header>
+						<Table.Header>Header 2</Table.Header>
+						<Table.Header>Header 3</Table.Header>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row variant="striped">
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+					<Table.Row variant="striped">
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+					<Table.Row variant="striped">
+						<Table.Cell>Cell 1</Table.Cell>
+						<Table.Cell>Cell 2</Table.Cell>
+						<Table.Cell>Cell 3</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			</>
+		),
+	},
+};
+
 export const TableHeader = {
 	name: "Table header",
 	parameters: {
@@ -245,7 +282,17 @@ export default {
 	parameters: {
 		docs: {
 			description: { component },
-			page: () => <InteractiveDocsPage stories={ [ TableHead, TableRow, TableHeader, TableBody, TableCell, MinimalVariant ] } />,
+			page: () => <InteractiveDocsPage
+				stories={ [
+					TableHead,
+					TableRow,
+					TableRowStriped,
+					TableHeader,
+					TableBody,
+					TableCell,
+					MinimalVariant,
+				] }
+			/>,
 		},
 	},
 };
