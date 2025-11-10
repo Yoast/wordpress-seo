@@ -39,7 +39,8 @@ class Tasks_Collector {
 	 * @return Task_Interface The given task.
 	 */
 	public function get_task( string $task_id ): ?Task_Interface {
-		return ( $this->tasks[ $task_id ] ?? null );
+		$all_tasks = $this->get_tasks();
+		return ( $all_tasks[ $task_id ] ?? null );
 	}
 
 	/**
@@ -50,7 +51,8 @@ class Tasks_Collector {
 	 * @return Task_Interface The given task.
 	 */
 	public function get_completeable_task( string $task_id ): ?Completeable_Task_Interface {
-		$task = ( $this->tasks[ $task_id ] ?? null );
+		$all_tasks = $this->get_tasks();
+		$task      = ( $all_tasks[ $task_id ] ?? null );
 
 		if ( ! $task instanceof Completeable_Task_Interface ) {
 			return null;
@@ -64,7 +66,22 @@ class Tasks_Collector {
 	 *
 	 * @return array<string, array<string, Task_Interface>> The tasks.
 	 */
-	public function get_tasks() {
+	public function get_tasks(): array {
 		return $this->tasks;
+	}
+
+	/**
+	 * Gets the completed tasks.
+	 *
+	 * @return Task_Interface[] The completed tasks.
+	 */
+	public function get_completed_tasks(): array {
+		// @TODO: When the number of tasks become large in size, consider returning a paginated result.
+		return \array_filter(
+			$this->get_tasks(),
+			static function ( Task_Interface $task ): bool {
+				return $task->get_is_completed();
+			}
+		);
 	}
 }
