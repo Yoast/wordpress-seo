@@ -74,15 +74,13 @@ export default function FinishStep( { state } ) {
 				<p className="yst-mt-6">
 					<Button
 						id="link-webinar-register"
-						as="button"
+						as="a"
 						onClick={ goToSEODashboard }
 						data-hiive-event-name="clicked_seo_dashboard"
 						variant="tertiary"
-						className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
-
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
-						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+						<ArrowNarrowRightIcon className="yst-ms-1 yst-w-4 yst-h-4 yst-icon-rtl" />
 					</Button>
 				</p>
 				{ ! state.isPremium && <UpsellNotice className="yst-mt-8 yst-gap-2">
@@ -125,7 +123,7 @@ export default function FinishStep( { state } ) {
 							target="_blank"
 							rel="noopener"
 						>
-							<LockOpenIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+							<LockOpenIcon className="yst-w-4 yst-h-4" />
 							{ __( "Unlock all Premium features", "wordpress-seo" ) }
 							<span className="yst-sr-only">
 								{
