@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 /**
  * Configuration for the Schema Aggregator.
  */
@@ -43,12 +44,21 @@ class Aggregator_Config {
 	private $woocommerce_conditional;
 
 	/**
+	 * The Post Type Helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Aggregator_Config constructor.
 	 *
 	 * @param WooCommerce_Conditional $woocommerce_conditional The WooCommerce Conditional.
+	 * @param Post_Type_Helper        $post_type_helper        The Post Type Helper.
 	 */
-	public function __construct( WooCommerce_Conditional $woocommerce_conditional ) {
+	public function __construct( WooCommerce_Conditional $woocommerce_conditional, Post_Type_Helper $post_type_helper ) {
 		$this->woocommerce_conditional = $woocommerce_conditional;
+		$this->post_type_helper        = $post_type_helper;
 	}
 
 	/**
@@ -72,7 +82,7 @@ class Aggregator_Config {
 			return $default_post_types;
 		}
 
-		return \array_intersect( $post_types, \YoastSEO()->helpers->post_type->get_indexable_post_types() );
+		return \array_intersect( $post_types, $this->post_type_helper->get_indexable_post_types() );
 	}
 
 	/**

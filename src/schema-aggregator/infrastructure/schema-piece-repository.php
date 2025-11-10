@@ -126,7 +126,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 *
 	 * @return array<string>
 	 */
-	public function get_all_schema_types( $graph ): array {
+	private function get_all_schema_types( $graph ): array {
 		$schema_types = [];
 		foreach ( $graph as $schema_values ) {
 			foreach ( $schema_values as $key => $value ) {

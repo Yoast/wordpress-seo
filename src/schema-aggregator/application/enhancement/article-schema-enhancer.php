@@ -44,7 +44,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	public function enhance( Schema_Piece $schema_piece, Indexable $indexable ): Schema_Piece {
 
 		$data = $schema_piece->get_data();
-		foreach ( $data['@graph'] as $key => $schema_data ) {
+		foreach ( $data as $key => $schema_data ) {
 			if ( ! isset( $schema_data['@type'] ) ) {
 				continue;
 			}
