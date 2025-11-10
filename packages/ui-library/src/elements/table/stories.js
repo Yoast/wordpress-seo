@@ -43,8 +43,8 @@ export const TableHead = {
 	args: {
 		children: (
 			<>
-				<Table.Head className="yst-bg-amber-200">
-					<Table.Row>
+				<Table.Head>
+					<Table.Row className="[&>*]:yst-bg-amber-200">
 						<Table.Header>Header 1</Table.Header>
 						<Table.Header>Header 2</Table.Header>
 						<Table.Header>Header 3</Table.Header>
