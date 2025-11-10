@@ -25,9 +25,7 @@ import { buildNewsletterSource } from "../../../helpers/buildNewsletterSource";
 async function mailingListSubscribe( email, isPremium, activeAddons ) {
 	const source = buildNewsletterSource( "recapture", isPremium, activeAddons );
 
-	// eslint-disable-next-line no-warning-comments
-	// @TODO Change to production URL before merging
-	const mailingListResponse = await fetch( "https://staging-my.yoast.com/api/Mailing-list/subscribe", {
+	const mailingListResponse = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
