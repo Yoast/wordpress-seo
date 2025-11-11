@@ -60,8 +60,8 @@ class Aggregate_Site_Schema_Map_Command_Handler {
 
 		$threshold = $command->get_schema_map_threshold();
 
-		$schema_map = $this->schema_map_builder->get_schema_map( $indexable_counts, $threshold );
+		$schema_map = $this->schema_map_builder->build( $indexable_counts, $threshold );
 
-		return $this->schema_map_xml_renderer->to_xml( $schema_map );
+		return $this->schema_map_xml_renderer->render( $schema_map );
 	}
 }

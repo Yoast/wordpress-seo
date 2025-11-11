@@ -33,7 +33,7 @@ class Schema_Map_Builder {
 	 *
 	 * @return array<int,array<string>> The schema map.
 	 */
-	public function get_schema_map( array $indexable_counts, int $threshold ): array {
+	public function build( array $indexable_counts, int $threshold ): array {
 		$schema_map = [];
 		foreach ( $indexable_counts as $post_type => $count ) {
 			$total_pages = (int) \ceil( $count / $threshold );

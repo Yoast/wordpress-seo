@@ -36,7 +36,7 @@ class Schema_Map_Xml_Renderer {
 	 *
 	 * @throws RuntimeException If the input structure is invalid or XML generation fails.
 	 */
-	public function to_xml( array $schema_map ): string {
+	public function render( array $schema_map ): string {
 		if ( ! isset( $schema_map ) || ! \is_array( $schema_map ) ) {
 			throw new RuntimeException( 'Invalid schemamap data structure: missing or invalid "schemamap" key' );
 		}
