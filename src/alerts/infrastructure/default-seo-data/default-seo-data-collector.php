@@ -6,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class that collects default SEO data.
+ *
+ * @makePublic
  */
 class Default_SEO_Data_Collector {
 
