@@ -7,6 +7,16 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
  */
 class Schema_Map_Config {
 
+	private const ALLOWED_FREQUENCIES = [
+		'always',
+		'hourly',
+		'daily',
+		'weekly',
+		'monthly',
+		'yearly',
+		'never',
+	];
+
 	/**
 	 * Get changefreq value from configuration
 	 *
@@ -15,8 +25,7 @@ class Schema_Map_Config {
 	public function get_changefreq(): string {
 		$changefreq = \apply_filters( 'wpseo_schema_aggregator_schemamap_changefreq', 'daily' );
 
-		$allowed = [ 'always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never' ];
-		if ( ! \in_array( $changefreq, $allowed, true ) ) {
+		if ( ! \in_array( $changefreq, self::ALLOWED_FREQUENCIES, true ) ) {
 			return 'daily';
 		}
 
