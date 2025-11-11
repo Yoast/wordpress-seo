@@ -5,7 +5,7 @@
  * @param {string} originalSource The original source string.
  * @param {boolean} isPremium Whether Premium is active.
  * @param {Array} activeAddons A list of add-ons and whether they are active.
- * @returns {array} The source to send to the newsletter endpoint depending on which add-ons are active.
+ * @returns {string[]} The source to send to the newsletter endpoint depending on which add-ons are active.
  */
 export const buildNewsletterSource = ( originalSource, isPremium, activeAddons ) => {
 	const source = [ originalSource, "wordpress-seo" ];
