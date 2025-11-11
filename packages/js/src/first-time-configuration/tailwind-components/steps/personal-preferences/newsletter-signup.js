@@ -13,12 +13,12 @@ import { useSelectGeneralPage } from "../../../../general/hooks";
  *
  * @param {string} email The email to signup to the newsletter.
  * @param {boolean} isPremium Whether Premium is active.
- * @param {Array} activeAddons A list of add-ons and whether they are active.
+ * @param {Array} addonsStatus A list of add-ons and whether they are active.
  *
  * @returns {Object} The request's response.
  */
-async function postSignUp( email, isPremium, activeAddons ) {
-	const source = buildNewsletterSource( "ftc", isPremium, activeAddons );
+async function postSignUp( email, isPremium, addonsStatus ) {
+	const source = buildNewsletterSource( "ftc", isPremium, addonsStatus );
 	const response = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
 		mode: "cors",
@@ -58,7 +58,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 	const [ signUpState, setSignUpState ] = useState( "waiting" );
 	const [ emailFeedback, setEmailFeedback ] = useState( "" );
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
-	const activeAddons = useSelectGeneralPage( "selectPreference", [], "activeAddons" );
+	const addonsStatus = useSelectGeneralPage( "selectPreference", [], "addonsStatus" );
 
 	const onSignUpClick = useCallback(
 		async function() {
@@ -68,7 +68,7 @@ export function NewsletterSignup( { gdprLink = "" } ) {
 				return;
 			}
 			setSignUpState( "loading" );
-			const response = await postSignUp( newsletterEmail, isPremium, activeAddons );
+			const response = await postSignUp( newsletterEmail, isPremium, addonsStatus );
 			if ( response.error ) {
 				setSignUpState( "error" );
 				setEmailFeedback( genericErrorFeedback );

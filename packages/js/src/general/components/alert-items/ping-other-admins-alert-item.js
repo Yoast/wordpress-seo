@@ -18,12 +18,12 @@ import { buildNewsletterSource } from "../../../helpers/buildNewsletterSource";
  *
  * @param {string} email The email to signup to the newsletter.
  * @param {boolean} isPremium Whether Premium is active.
- * @param {Array} activeAddons A list of add-ons and whether they are active.
+ * @param {Array} addonsStatus A list of add-ons and whether they are active.
  *
  * @returns {Object} The request's response.
  */
-async function mailingListSubscribe( email, isPremium, activeAddons ) {
-	const source = buildNewsletterSource( "recapture", isPremium, activeAddons );
+async function mailingListSubscribe( email, isPremium, addonsStatus ) {
+	const source = buildNewsletterSource( "recapture", isPremium, addonsStatus );
 
 	const mailingListResponse = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
 		method: "POST",
@@ -81,7 +81,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const [ error, setError ] = useState( "" );
 	const { removeAlert, setResolveSuccessMessage } = useDispatch( STORE_NAME );
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
-	const activeAddons = useSelectGeneralPage( "selectPreference", [], "activeAddons" );
+	const addonsStatus = useSelectGeneralPage( "selectPreference", [], "addonsStatus" );
 	const inputRef = useRef();
 
 	const clearError = useCallback( () => {
@@ -102,7 +102,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 
 		try {
 			// First request to Yoast mailing list API
-			const subscribeResponse = await mailingListSubscribe( email, isPremium, activeAddons );
+			const subscribeResponse = await mailingListSubscribe( email, isPremium, addonsStatus );
 
 			// Check if subscription was successful
 			if ( subscribeResponse.status !== "subscribed" ) {

@@ -253,7 +253,7 @@ class General_Page_Integration implements Integration_Interface {
 				],
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
 				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
-				'activeAddons'           => [
+				'addonsStatus'           => [
 					'isWooSeoActive'         => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ),
 					'isLocalSEOActive'       => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::LOCAL_SLUG ) ),
 					'isNewsSEOActive'        => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::NEWS_SLUG ) ),
