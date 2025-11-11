@@ -79,6 +79,6 @@ class Schema_Aggregator_Watcher implements Integration_Interface {
 
 		return false;
 	}
-	
+
 	// phpcs:enable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
 }
