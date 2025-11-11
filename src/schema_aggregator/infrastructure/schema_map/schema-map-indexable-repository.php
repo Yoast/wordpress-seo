@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use Exception;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
 
 /**
  * Class Schema_Map_Indexable_Repository
@@ -33,10 +35,10 @@ class Schema_Map_Indexable_Repository {
 	 *
 	 * @param array<string> $post_types The post types to get the indexable count for.
 	 *
-	 * @return array<string|int> The indexable count per post type.
+	 * @return Indexable_Count_Collection The indexable count per post type.
 	 */
-	public function get_indexable_count_per_post_type( array $post_types ): array {
-		$post_type_counts    = [];
+	public function get_indexable_count_per_post_type( array $post_types ): Indexable_Count_Collection {
+		$post_type_counts    = new Indexable_Count_Collection();
 		$indexable_raw_value = $this->indexable_repository->query()
 			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
 			->where_in( 'object_sub_type', $post_types )
@@ -48,7 +50,7 @@ class Schema_Map_Indexable_Repository {
 		}
 
 		foreach ( $indexable_raw_value as $indexable ) {
-			$post_type_counts[ $indexable['object_sub_type'] ] = $indexable['count'];
+			$post_type_counts->add_indexable_count( new Indexable_Count( $indexable['object_sub_type'], (int) $indexable['count'] ) );
 		}
 
 		return $post_type_counts;

@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexable_Repository;
 
 /**
@@ -28,14 +29,17 @@ class Schema_Map_Builder {
 	/**
 	 * Builds the schema map based on indexable counts and threshold.
 	 *
-	 * @param array<string,int> $indexable_counts The indexable counts per post type.
-	 * @param int               $threshold        The threshold for items per page.
+	 * @param Indexable_Count_Collection $indexable_counts The indexable counts per post type.
+	 * @param int                        $threshold        The threshold for items per page.
 	 *
 	 * @return array<int,array<string>> The schema map.
 	 */
-	public function build( array $indexable_counts, int $threshold ): array {
+	public function build( Indexable_Count_Collection $indexable_counts, int $threshold ): array {
 		$schema_map = [];
-		foreach ( $indexable_counts as $post_type => $count ) {
+		foreach ( $indexable_counts->get_indexable_counts() as $indexable_count ) {
+			$post_type = $indexable_count->get_post_type();
+			$count     = $indexable_count->get_count();
+
 			$total_pages = (int) \ceil( $count / $threshold );
 
 			for ( $page = 1; $page <= $total_pages; $page++ ) {
