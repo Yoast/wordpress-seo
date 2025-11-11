@@ -1,10 +1,20 @@
 /* eslint-disable complexity */
+
+/**
+ * @typedef {object} AddonsStatus
+ * @property {boolean} isWooSeoActive Whether WooCommerse SEO is active.
+ * @property {boolean} isLocalSEOActive Whether Local SEO is active.
+ * @property {boolean} isVideoSEOActive Whether Video SEO is active.
+ * @property {boolean} isNewsSEOActive Whether News SEO is active.
+ * @property {boolean} isDuplicatePostActive Whether Duplicate Post is active.
+ */
+
 /**
  * Builds the source to send to the newsletter endpoint depending on which add-ons are active.
  *
  * @param {string} originalSource The original source string.
  * @param {boolean} isPremium Whether Premium is active.
- * @param {Array} addonsStatus A list of add-ons and whether they are active.
+ * @param {AddonsStatus} addonsStatus A list of add-ons and whether they are active.
  * @returns {string[]} The source to send to the newsletter endpoint depending on which add-ons are active.
  */
 export const buildNewsletterSource = ( originalSource, isPremium, addonsStatus ) => {
