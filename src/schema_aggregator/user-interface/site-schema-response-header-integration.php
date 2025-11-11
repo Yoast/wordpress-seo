@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -14,6 +13,22 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Site_Schema_Response_Header_Integration implements Integration_Interface {
 
 	use No_Conditionals;
+
+	/**
+	 * The schema map header adapter.
+	 *
+	 * @var mixed
+	 */
+	private $schema_map_header_adapter;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param mixed $schema_map_header_adapter The schema map header adapter.
+	 */
+	public function __construct( $schema_map_header_adapter ) {
+		$this->schema_map_header_adapter = $schema_map_header_adapter;
+	}
 
 	/**
 	 * Registers the hooks for the integration.
@@ -49,26 +64,7 @@ class Site_Schema_Response_Header_Integration implements Integration_Interface {
 			return $served;
 		}
 
-		$data = $result->get_data();
-
-		foreach ( $result->get_headers() as $key => $value ) {
-			\header( \sprintf( '%s: %s', $key, $value ) );
-		}
-
-		$headers      = $result->get_headers();
-		$content_type = ( $headers['Content-Type'] ?? 'application/json; charset=UTF-8' );
-
-		if ( \strpos( $content_type, 'application/xml' ) !== false ) {
-			\header( 'Content-Type: application/xml; charset=UTF-8' );
-			echo $data; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data should already be escaped here since this just adds headers to the request.
-		}
-		else {
-			// For JSON responses, encode with unescaped slashes for cleaner URLs.
-			$json = WPSEO_Utils::format_json_encode( $data );
-
-			\header( 'Content-Type: application/json; charset=UTF-8' );
-			echo $json; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $json should already be escaped here since this just adds headers to the request.
-		}
+		$this->schema_map_header_adapter->set_header_for_request( $result );
 
 		return true;
 	}
