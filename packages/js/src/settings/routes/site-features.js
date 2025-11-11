@@ -243,6 +243,16 @@ const SiteFeatures = () => {
 								</Button>
 								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
 							</FeatureCard>
+							<FeatureCard
+								name="wpseo.enable_schema_aggregator"
+								cardId="card-wpseo-enable_schema_aggregator"
+								inputId="input-wpseo-enable_schema_aggregator"
+								imageSrc="/images/icon-schema-aggregator.svg"
+								title={ __( "Schema aggregator", "wordpress-seo" ) }
+							>
+								<p>{ __( "Surprisingly, this feature aggregates the schema..", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-schema-aggregator" link="https://yoa.st/site-features-schema-aggregator-learn-more" ariaLabel={ __( "Schema aggregator", "wordpress-seo" ) } />
+							</FeatureCard>
 						</div>
 					</fieldset>
 					<hr className="yst-my-8" />
