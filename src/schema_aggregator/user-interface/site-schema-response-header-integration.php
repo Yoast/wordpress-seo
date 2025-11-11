@@ -6,6 +6,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Header_Adapter;
 
 /**
  * Integration to set proper response headers for Site Schema endpoints.
@@ -17,16 +18,16 @@ class Site_Schema_Response_Header_Integration implements Integration_Interface {
 	/**
 	 * The schema map header adapter.
 	 *
-	 * @var mixed
+	 * @var Schema_Map_Header_Adapter
 	 */
 	private $schema_map_header_adapter;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param mixed $schema_map_header_adapter The schema map header adapter.
+	 * @param Schema_Map_Header_Adapter $schema_map_header_adapter The schema map header adapter.
 	 */
-	public function __construct( $schema_map_header_adapter ) {
+	public function __construct( Schema_Map_Header_Adapter $schema_map_header_adapter ) {
 		$this->schema_map_header_adapter = $schema_map_header_adapter;
 	}
 
