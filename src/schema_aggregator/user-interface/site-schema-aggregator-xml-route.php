@@ -123,7 +123,7 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 
 		$post_types = $this->post_type_helper->get_indexable_post_types();
 
-		$command = new Aggregate_Site_Schema_Map_Command( $post_types, $this->config->get_schema_map_threshold() );
+		$command = new Aggregate_Site_Schema_Map_Command( $post_types, $this->config->get_per_page() );
 		$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
 
 		$response = new WP_REST_Response( $xml, 200 );
