@@ -166,6 +166,8 @@ class Elementor implements Integration_Interface {
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
+		\add_action( 'elementor/editor/footer', [ $this, 'start_capturing' ], 0 );
+		\add_action( 'elementor/editor/footer', [ $this, 'end_capturing' ], 999 );
 	}
 
 	/**
@@ -177,6 +179,28 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
+	}
+
+	/**
+	 * Start capturing buffer.
+	 */
+	public function start_capturing() {
+		ob_start();
+	}
+
+	/**
+	 * End capturing buffer and add button.
+	 */
+	public function end_capturing() {
+		$output  = \ob_get_clean();
+		$search  = '/(<(div|button) class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/(div|button)>)/m';
+		$replace = '${1}<${2} class="elementor-component-tab elementor-panel-navigation-tab" data-tab="yoast-seo-tab">Yoast SEO</${2}>';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This comes from the output buffer, escaping it would break the output.
+		echo \preg_replace(
+			$search,
+			$replace,
+			$output
+		);
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
