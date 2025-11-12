@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\General\User_Interface;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
@@ -21,7 +22,7 @@ use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class General_Page_Integration_Test_Test.
+ * Class General_Page_Integration_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\General\User_Interface\General_Page_Integration
  */
@@ -114,6 +115,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $woocommerce_conditional;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -132,6 +140,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->user_helper             = Mockery::mock( User_Helper::class );
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
+		$this->addon_manager           = Mockery::mock( WPSEO_Addon_Manager::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -144,7 +153,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->dashboard_configuration,
 			$this->user_helper,
 			$this->options_helper,
-			$this->woocommerce_conditional
+			$this->woocommerce_conditional,
+			$this->addon_manager
 		);
 	}
 
@@ -169,7 +179,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->dashboard_configuration,
 				$this->user_helper,
 				$this->options_helper,
-				$this->woocommerce_conditional
+				$this->woocommerce_conditional,
+				$this->addon_manager
 			)
 		);
 	}
@@ -402,6 +413,34 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'get_configuration' )
 			->once()
 			->andReturn( [] );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->once()
+			->andReturn( 'wpseo-woocommerce.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::LOCAL_SLUG )
+			->once()
+			->andReturn( 'local-seo.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::VIDEO_SLUG )
+			->once()
+			->andReturn( 'video-seo.php' );
+
+		$this->addon_manager
+			->expects( 'get_plugin_file' )
+			->with( WPSEO_Addon_Manager::NEWS_SLUG )
+			->once()
+			->andReturn( 'wpseo-news.php' );
+
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->times( 4 )
+			->andReturn( false );
 
 		return $link_params;
 	}
