@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Editors\Framework\Site;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Alerts\Infrastructure\Default_SEO_Data\Default_SEO_Data_Collector;
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -77,6 +78,13 @@ final class Post_Site_Information_Test extends TestCase {
 	private $options_helper;
 
 	/**
+	 * The default SEO data collector.
+	 *
+	 * @var Mockery\MockInterface|Default_SEO_Data_Collector
+	 */
+	private $default_seo_data_collector;
+
+	/**
 	 * The Post_Site_Information container.
 	 *
 	 * @var Post_Site_Information
@@ -90,15 +98,16 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
-		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
-		$this->wistia_embed_repo      = Mockery::mock( Wistia_Embed_Permission_Repository::class );
-		$this->meta_surface           = Mockery::mock( Meta_Surface::class );
-		$this->product_helper         = Mockery::mock( Product_Helper::class );
-		$this->alert_dismissal_action = Mockery::mock( Alert_Dismissal_Action::class );
-		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->promotion_manager          = Mockery::mock( Promotion_Manager::class );
+		$this->short_link_helper          = Mockery::mock( Short_Link_Helper::class );
+		$this->wistia_embed_repo          = Mockery::mock( Wistia_Embed_Permission_Repository::class );
+		$this->meta_surface               = Mockery::mock( Meta_Surface::class );
+		$this->product_helper             = Mockery::mock( Product_Helper::class );
+		$this->alert_dismissal_action     = Mockery::mock( Alert_Dismissal_Action::class );
+		$this->options_helper             = Mockery::mock( Options_Helper::class );
+		$this->default_seo_data_collector = Mockery::mock( Default_SEO_Data_Collector::class );
 
-		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager );
+		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager, $this->default_seo_data_collector );
 		$this->instance->set_permalink( 'perma' );
 		$this->set_mocks();
 	}
@@ -117,11 +126,11 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_legacy_site_information() {
 		$expected = [
-			'dismissedAlerts'            => [
+			'dismissedAlerts'             => [
 				'the alert',
 			],
-			'webinarIntroBlockEditorUrl' => 'https://expl.c',
-			'metabox'                    => [
+			'webinarIntroBlockEditorUrl'  => 'https://expl.c',
+			'metabox'                     => [
 				'search_url'    => 'https://example.org',
 				'post_edit_url' => 'https://example.org',
 				'base_url'      => 'https://example.org',
@@ -137,16 +146,18 @@ final class Post_Site_Information_Test extends TestCase {
 				],
 			],
 
-			'adminUrl'                   => 'https://example.org',
-			'linkParams'                 => [
+			'isRecentTitlesDefault'       => true,
+			'isRecentDescriptionsDefault' => false,
+			'adminUrl'                    => 'https://example.org',
+			'linkParams'                  => [
 				'param',
 				'param2',
 			],
-			'pluginUrl'                  => '/location',
-			'wistiaEmbedPermission'      => true,
-			'sitewideSocialImage'        => null,
-			'isPrivateBlog'              => false,
-			'currentPromotions'          => [
+			'pluginUrl'                   => '/location',
+			'wistiaEmbedPermission'       => true,
+			'sitewideSocialImage'         => null,
+			'isPrivateBlog'               => false,
+			'currentPromotions'           => [
 				'the promotion',
 				'another one',
 			],
@@ -161,6 +172,8 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
+		$this->default_seo_data_collector->expects( 'get_posts_with_default_seo_title' )->andReturn( [ 1, 2, 3, 4, 5 ] );
+		$this->default_seo_data_collector->expects( 'get_posts_with_default_seo_description' )->andReturn( [ 1, 2, 3, 4 ] );
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
 	}
@@ -187,7 +200,8 @@ final class Post_Site_Information_Test extends TestCase {
 			'search_url'                     => 'https://example.org',
 			'post_edit_url'                  => 'https://example.org',
 			'base_url'                       => 'https://example.org',
-
+			'isRecentTitlesDefault'          => true,
+			'isRecentDescriptionsDefault'    => false,
 			'adminUrl'                       => 'https://example.org',
 			'linkParams'                     => [
 				'param',
@@ -226,6 +240,8 @@ final class Post_Site_Information_Test extends TestCase {
 		$this->options_helper->expects( 'get' )->with( 'og_default_image' )->andReturn( null );
 		$this->options_helper->expects( 'get' )->with( 'opengraph', false )->andReturn( false );
 		$this->options_helper->expects( 'get' )->with( 'twitter', false )->andReturn( false );
+		$this->default_seo_data_collector->expects( 'get_posts_with_default_seo_title' )->andReturn( [ 1, 2, 3, 4, 5 ] );
+		$this->default_seo_data_collector->expects( 'get_posts_with_default_seo_description' )->andReturn( [ 1, 2, 3, 4 ] );
 
 		$this->assertSame( $expected, $this->instance->get_site_information() );
 	}

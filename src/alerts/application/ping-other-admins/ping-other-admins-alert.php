@@ -91,7 +91,8 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_init', [ $this, 'add_notifications' ] );
+		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.InvalidEndChar -- we're gonna postpone this notification until we're actually ready for it.
+		// \add_action( 'admin_init', [ $this, 'add_notifications' ] );
 	}
 
 	/**

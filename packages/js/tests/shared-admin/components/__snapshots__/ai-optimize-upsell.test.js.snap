@@ -9,7 +9,7 @@ exports[`AiOptimizeUpsell renders the component correctly 1`] = `
       class="yst-relative yst-w-full"
     >
       <div
-        class="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
+        class="yst-relative yst-w-full yst-h-0 yst-pt-[47.25%] yst-overflow-hidden yst-rounded-md yst-drop-shadow-md yst-bg-white"
       >
         <div
           class="yst-absolute yst-w-full yst-h-full yst-top-0 yst-right-0"
