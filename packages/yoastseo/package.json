@@ -11,7 +11,7 @@
   "main": "build/index.js",
   "types": "types",
   "license": "GPL-3.0",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo.git",
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^5.8.2",
-    "@yoast/feature-flag": "^0.6.0-alpha.1",
+    "@yoast/feature-flag": "^0.6.0-alpha.2",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
     "loglevel": "^1.9.2",
