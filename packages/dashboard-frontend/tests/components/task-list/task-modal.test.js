@@ -8,8 +8,8 @@ describe( "TaskModal", () => {
 		isOpen: true,
 		onClose: jest.fn(),
 		callToAction: {
-			content: "Start configuration",
-			props: { onClick: jest.fn() },
+			children: "Start configuration",
+			onClick: jest.fn(),
 		},
 		title: "Complete the First-time configuration",
 		duration: 15,
@@ -52,6 +52,6 @@ describe( "TaskModal", () => {
 	it( "calls callToAction onClick when CTA button is clicked", () => {
 		render( <TaskModal { ...defaultProps } /> );
 		fireEvent.click( screen.getByText( /Start configuration/i ) );
-		expect( defaultProps.callToAction.props.onClick ).toHaveBeenCalled();
+		expect( defaultProps.callToAction.onClick ).toHaveBeenCalled();
 	} );
 } );
