@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Collector;
-use Yoast\WP\SEO\Task_List\Domain\Task_Not_Found_Exception;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Task_Not_Found_Exception;
 
 /**
  * Tasks route.

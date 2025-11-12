@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
-use Yoast\WP\SEO\Task_List\Domain\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Call_To_Actions\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Task;
 
 /**
  * Represents the task for the completing the FTC.
@@ -63,5 +64,18 @@ class Complete_FTC extends Abstract_Task {
 	 */
 	public function get_link(): ?string {
 		return \self_admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' );
+	}
+
+	/**
+	 * Returns the task's call to action entry.
+	 *
+	 * @return string|null
+	 */
+	public function get_call_to_action(): Call_To_Action_Entry {
+		return new Call_To_Action_Entry(
+			\__( 'Go to the First-time configuration', 'wordpress-seo' ),
+			'link',
+			$this->get_link()
+		);
 	}
 }

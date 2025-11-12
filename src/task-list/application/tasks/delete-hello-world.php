@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use WP_Post;
-use Yoast\WP\SEO\Task_List\Domain\Abstract_Completeable_Task;
+use Yoast\WP\SEO\Task_List\Domain\Call_To_Actions\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
 
 /**
  * Represents the task for deleting the Hello World post.
@@ -65,5 +66,18 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		if ( $post instanceof WP_Post ) {
 			\wp_delete_post( $post->ID, true );
 		}
+	}
+
+	/**
+	 * Returns the task's call to action entry.
+	 *
+	 * @return string|null
+	 */
+	public function get_call_to_action(): Call_To_Action_Entry {
+		return new Call_To_Action_Entry(
+			\__( 'Delete the Hello World post', 'wordpress-seo' ),
+			'delete',
+			$this->get_link()
+		);
 	}
 }

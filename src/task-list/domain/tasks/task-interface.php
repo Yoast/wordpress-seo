@@ -1,6 +1,8 @@
 <?php
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Task_List\Domain\Tasks;
 
-namespace Yoast\WP\SEO\Task_List\Domain;
+use Yoast\WP\SEO\Task_List\Domain\Call_To_Actions\Call_To_Action_Entry;
 
 /**
  * Represents a task.
@@ -48,4 +50,11 @@ interface Task_Interface {
 	 * @return string|null
 	 */
 	public function get_link(): ?string;
+
+	/**
+	 * Returns the task's call to action.
+	 *
+	 * @return Call_To_Action_Entry
+	 */
+	public function get_call_to_action(): Call_To_Action_Entry;
 }

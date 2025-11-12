@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Task_List\Application;
 
-use Yoast\WP\SEO\Task_List\Domain\Completeable_Task_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 
 /**
  * Manages the collection of tasks.
