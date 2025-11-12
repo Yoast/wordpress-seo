@@ -256,13 +256,7 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function get_elementor_dependencies() {
 		$dependencies = [
-			'jquery',
-			'underscore',
-			'backbone',
-			'backbone-radio',
 			'backbone-marionette',
-			'elementor-editor',
-			'elementor-common',
 			'elementor-common-modules',
 			self::PREFIX . 'api-client',
 			self::PREFIX . 'externals-components',
@@ -272,15 +266,6 @@ class WPSEO_Admin_Asset_Manager {
 		// Conditionally add Elementor v2 dependency if available.
 		if ( wp_script_is( 'elementor-v2-editor-app-bar', 'registered' ) ) {
 			$dependencies[] = 'elementor-v2-editor-app-bar';
-		}
-		// Add elementor-editor-modules if available.
-		if ( wp_script_is( 'elementor-editor-modules', 'registered' ) ) {
-			$dependencies[] = 'elementor-editor-modules';
-		}
-
-		// Add elementor-editor-document if available.
-		if ( wp_script_is( 'elementor-editor-document', 'registered' ) ) {
-			$dependencies[] = 'elementor-editor-document';
 		}
 		return $dependencies;
 	}

@@ -2,7 +2,7 @@
  * External dependencies
  */
 import jQuery from "jquery";
-import Marionette from "backbone.marionette";
+import Marionette from "Marionette";
 
 import { showYoastPanelAnalysis } from "../initializers/panel";
 
