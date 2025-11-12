@@ -121,7 +121,7 @@ final class Complete_Task_Route implements Route_Interface {
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
-					'success' => true,
+					'success' => false,
 					'error'   => $exception->getMessage(),
 				],
 				$exception->getCode()
