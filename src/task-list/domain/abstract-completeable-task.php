@@ -12,8 +12,8 @@ abstract class Abstract_Completeable_Task extends Abstract_Task implements Compl
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
-	public function config_to_array(): array {
-		$config                    = parent::config_to_array();
+	public function to_array(): array {
+		$config                    = parent::to_array();
 		$config['is_completeable'] = true;
 
 		return $config;

@@ -69,19 +69,4 @@ class Tasks_Collector {
 	public function get_tasks(): array {
 		return $this->tasks;
 	}
-
-	/**
-	 * Gets the completed tasks.
-	 *
-	 * @return Task_Interface[] The completed tasks.
-	 */
-	public function get_completed_tasks(): array {
-		// @TODO: When the number of tasks become large in size, consider returning a paginated result.
-		return \array_filter(
-			$this->get_tasks(),
-			static function ( Task_Interface $task ): bool {
-				return $task->get_is_completed();
-			}
-		);
-	}
 }

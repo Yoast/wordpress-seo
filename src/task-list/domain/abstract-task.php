@@ -56,16 +56,17 @@ abstract class Abstract_Task implements Task_Interface {
 	}
 
 	/**
-	 * Returns an array representation of the task config data.
+	 * Returns an array representation of the task data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
-	public function config_to_array(): array {
+	public function to_array(): array {
 		return [
-			'id'       => $this->id,
-			'duration' => $this->duration,
-			'priority' => $this->priority,
-			'link'     => $this->get_link(),
+			'id'           => $this->id,
+			'duration'     => $this->duration,
+			'priority'     => $this->priority,
+			'link'         => $this->get_link(),
+			'is_completed' => $this->get_is_completed(),
 		];
 	}
 }

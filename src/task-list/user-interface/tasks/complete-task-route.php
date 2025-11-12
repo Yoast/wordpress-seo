@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\User_Interface\Completion;
+namespace Yoast\WP\SEO\Task_List\User_Interface\Tasks;
 
 use Exception;
 use WP_REST_Request;
