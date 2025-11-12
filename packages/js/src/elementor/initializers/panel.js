@@ -69,7 +69,7 @@ const addYoastTabToElementsNavigation = () => {
  */
 const ElementorAddRegion = ( regions ) => {
 	regions[ TAB.id ] = {
-		regions: regions.global.region,
+		region: regions.global.region,
 		view: YoastPanelView,
 		options: {},
 	};
