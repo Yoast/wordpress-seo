@@ -46,7 +46,8 @@ class Aggregate_Site_Schema_Command_Handler {
 
 		$schema_pieces = $this->schema_piece_repository->get(
 			$command->get_page_controls()->get_page(),
-			$command->get_page_controls()->get_page_size()
+			$command->get_page_controls()->get_page_size(),
+			$command->get_page_controls()->get_post_type()
 		);
 
 		$aggregated_schema_pieces = $this->schema_piece_aggregator->aggregate( $schema_pieces );

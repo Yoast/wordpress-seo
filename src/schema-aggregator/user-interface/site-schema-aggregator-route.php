@@ -70,7 +70,11 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 * @param Capability_Helper                     $capability_helper                     The capability helper.
 	 * @param Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler The command handler.
 	 */
-	public function __construct( Config $config, Capability_Helper $capability_helper, Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler ) {
+	public function __construct(
+		Config $config,
+		Capability_Helper $capability_helper,
+		Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler
+	) {
 		$this->config                                = $config;
 		$this->capability_helper                     = $capability_helper;
 		$this->aggregate_site_schema_command_handler = $aggregate_site_schema_command_handler;
@@ -82,29 +86,32 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$schema_aggregator_route = [
+		$base_route_config = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'aggregate_site_schema' ],
 			'permission_callback' => [ $this, 'get_permission_callback' ],
 			'args'                => [
-				'page'     => [
-					'default'           => 1,
+				'post_type' => [
+					'required'          => true,
 					'validate_callback' => static function ( $param ) {
-						return \is_numeric( $param ) && $param > 0;
+						return \is_string( $param ) && \preg_match( '/^[a-z0-9_-]+$/', $param );
 					},
-					'sanitize_callback' => 'absint',
-				],
-				'per_page' => [
-					'default'           => $this->config->get_per_page(),
-					'validate_callback' => function ( $param ) {
-						return \is_numeric( $param ) && $param > 0 && $param <= $this->config->get_max_per_page();
-					},
-					'sanitize_callback' => 'absint',
+					'sanitize_callback' => 'sanitize_key',
 				],
 			],
 		];
 
-		\register_rest_route( Main::API_V1_NAMESPACE, self::GET_SCHEMA_ROUTE, $schema_aggregator_route );
+		$schema_aggregator_route_page                 = $base_route_config;
+		$schema_aggregator_route_page['args']['page'] = [
+			'default'           => 1,
+			'validate_callback' => static function ( $param ) {
+				return \is_numeric( $param ) && $param > 0;
+			},
+			'sanitize_callback' => 'absint',
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::GET_SCHEMA_ROUTE . '/(?P<post_type>[a-z0-9_-]+)', $base_route_config );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::GET_SCHEMA_ROUTE . '/(?P<post_type>[a-z0-9_-]+)/(?P<page>\d+)', $schema_aggregator_route_page );
 	}
 
 	/**
@@ -124,11 +131,12 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function aggregate_site_schema( WP_REST_Request $request ) {
-		$page     = $request->get_param( 'page' );
-		$per_page = $request->get_param( 'per_page' );
+		$post_type = $request->get_param( 'post_type' );
+		$page      = ( $request->get_param( 'page' ) ?? 1 );
+		$per_page  = $this->config->get_per_page();
 
 		try {
-			$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page ) );
+			$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
 		} catch ( Exception $exception ) {
 			return new WP_Error(
 				'wpseo_aggregate_site_schema_error',

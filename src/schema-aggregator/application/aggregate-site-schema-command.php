@@ -20,11 +20,12 @@ class Aggregate_Site_Schema_Command {
 	/**
 	 * The constructor.
 	 *
-	 * @param int $page     The current page.
-	 * @param int $per_page The number of items per page.
+	 * @param int    $page      The current page.
+	 * @param int    $per_page  The number of items per page.
+	 * @param string $post_type The post type to aggregate schema for.
 	 */
-	public function __construct( int $page, int $per_page ) {
-		$this->page_controls = new Page_Controls( $page, $per_page );
+	public function __construct( int $page, int $per_page, string $post_type ) {
+		$this->page_controls = new Page_Controls( $page, $per_page, $post_type );
 	}
 
 	/**

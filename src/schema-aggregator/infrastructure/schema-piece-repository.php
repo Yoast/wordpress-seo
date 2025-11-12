@@ -86,15 +86,17 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	/**
 	 * Gets the indexables to be aggregated.
 	 *
-	 * @param int $page      The page number (1-based).
-	 * @param int $page_size The number of items per page.
+	 * @param int    $page      The page number (1-based).
+	 * @param int    $page_size The number of items per page.
+	 * @param string $post_type The post type to filter by.
 	 *
 	 * @return array<Schema_Piece> The aggregated schema.
 	 */
-	public function get( int $page, int $page_size ): array {
+	public function get( int $page, int $page_size, string $post_type ): array {
 		$public_indexables = $this->indexable_repository->find_all_public_paginated(
 			$page,
 			$page_size,
+			$post_type
 		);
 		$schema_pieces     = [];
 
