@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use WP_REST_Response;
+use WPSEO_Utils;
 
 /**
  * Adapter to set proper response headers for Schema Map responses.
