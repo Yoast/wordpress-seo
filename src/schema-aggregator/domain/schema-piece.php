@@ -11,26 +11,26 @@ use WPSEO_Utils;
 class Schema_Piece {
 
 	/**
-	 * The type of the schema piece.
+	 * The type(s) of the schema piece.
 	 *
-	 * @var string
+	 * @var string|array<string>
 	 */
-	protected $type;
+	private $type;
 
 	/**
 	 * The data of the schema piece.
 	 *
 	 * @var array<string, string|int|bool>
 	 */
-	protected $data;
+	private $data;
 
 	/**
 	 * Class constructor.
 	 *
 	 * @param array<string, string|int|bool> $data The data of the schema piece.
-	 * @param string                         $type The type of the schema piece.
+	 * @param string|array<string>           $type The type of the schema piece.
 	 */
-	public function __construct( array $data, string $type ) {
+	public function __construct( array $data, $type ) {
 		$this->data = $data;
 		$this->type = $type;
 	}
@@ -38,9 +38,9 @@ class Schema_Piece {
 	/**
 	 * Gets the type of the schema piece.
 	 *
-	 * @return string The type of the schema piece.
+	 * @return string|array<string> The type(s) of the schema piece.
 	 */
-	public function get_type(): string {
+	public function get_type() {
 		return $this->type;
 	}
 
@@ -54,33 +54,23 @@ class Schema_Piece {
 	}
 
 	/**
-	 * Encodes the schema piece in JSON-LD format.
+	 * Gets the ID of the schema piece.
 	 *
-	 * @return string The JSON-LD representation.
+	 * @return string|null The ID of the schema piece, or null if not set.
 	 */
-	public function to_json_ld(): string {
-		return WPSEO_Utils::format_json_encode( $this->data );
+	public function get_id(): ?string {
+		return ( $this->data['@id'] ?? null );
 	}
 
 	/**
 	 * Converts multiple schema pieces to a JSON-LD-encoded graph.
 	 *
-	 * @param Schema_Piece[] $schema_pieces Array of schema pieces.
-	 * @return string The JSON-LD graph representation.
+	 * @return array<string, string|int|bool> The JSON-LD graph representation.
 	 */
-	public static function to_json_ld_graph( array $schema_pieces ): string {
-		$graph = [];
-		foreach ( $schema_pieces as $piece ) {
-			if ( $piece instanceof self ) {
-				$graph[] = $piece->data;
-			}
-		}
-
-		$schema_graph = [
+	public function to_json_ld_graph(): array {
+		return [
 			'@context' => 'https://schema.org',
-			'@graph'   => $graph,
+			'@graph'   => $this->data,
 		];
-
-		return WPSEO_Utils::format_json_encode( $schema_graph );
 	}
 }
