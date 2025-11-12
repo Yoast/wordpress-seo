@@ -185,9 +185,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			<p className="yst-mt-4">
 				<Button
 					id="ftc-indexing-learn-more"
+					as="a"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprWoocommerceLearnMore }
 					variant="tertiary"
-					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
+					target="_blank"
+					className="yst-p-0"
 				>
 					{
 						sprintf(
@@ -202,7 +204,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
-					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+					<ExternalLinkIcon className="yst-ms-1 yst-w-4 yst-h-4 yst-icon-rtl" />
 				</Button>
 			</p>
 		</UpsellNotice> }
@@ -227,9 +229,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			<p className="yst-mt-4">
 				<Button
 					id="ftc-indexing-learn-more"
+					as="a"
 					href={ window.wpseoFirstTimeConfigurationData.shortlinks.reprLocalLearnMore }
 					variant="tertiary"
-					className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-p-0"
+					target="_blank"
+					className="yst-p-0"
 				>
 					{
 						sprintf(
@@ -244,7 +248,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
 						}
 					</span>
-					<ExternalLinkIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+					<ExternalLinkIcon className="yst-ms-1 yst-w-4 yst-h-4 yst-icon-rtl" />
 				</Button>
 			</p>
 		</UpsellNotice> }
