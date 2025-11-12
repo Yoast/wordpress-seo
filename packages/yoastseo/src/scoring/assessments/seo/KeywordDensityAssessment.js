@@ -390,25 +390,28 @@ class KeyphraseDensityAssessment extends Assessment {
 			};
 		}
 
+		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
+
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: sprintf(
 					/* translators:
-					%1$s and %4$s expand to links to Yoast.com,
-					%2$s expands to the anchor end tag,
-					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended minimum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
 					_n(
-						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. That's less than the recommended minimum of %4$d times for a text of this length. %5$sFocus on your keyphrase%2$s!",
-						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. That's less than the recommended minimum of %4$d times for a text of this length. %5$sFocus on your keyphrase%2$s!",
-						this._keyphraseCount.count,
+						"%1$s That's less than the recommended minimum of %2$d time for a text of this length. %3$sFocus on your keyphrase%4$s!",
+						"%1$s That's less than the recommended minimum of %2$d times for a text of this length. %3$sFocus on your keyphrase%4$s!",
+						this._minRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
-					this._config.urlTitle,
-					"</a>",
-					this._keyphraseCount.count,
+					feedbackStringsFirstSentence,
 					this._minRecommendedKeyphraseCount,
-					this._config.urlCallToAction
+					this._config.urlCallToAction,
+					"</a>"
 				),
 			};
 		}
@@ -433,8 +436,6 @@ class KeyphraseDensityAssessment extends Assessment {
 				),
 			};
 		}
-
-		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
 
 		if ( this.hasTooManyMatches() ) {
 			return {
