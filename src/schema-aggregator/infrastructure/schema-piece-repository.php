@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Repository for Schema_Piece objects.

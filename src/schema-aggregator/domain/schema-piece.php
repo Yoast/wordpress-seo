@@ -3,8 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Domain;
 
-use WPSEO_Utils;
-
 /**
  * Represents a piece of schema.org data.
  */

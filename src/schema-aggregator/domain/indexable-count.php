@@ -9,13 +9,17 @@ class Indexable_Count {
 
 	/**
 	 * The count of indexables.
+	 *
+	 * @var int
 	 */
-	private int $count;
+	private $count;
 
 	/**
 	 * The post type.
+	 *
+	 * @var string
 	 */
-	private string $post_type;
+	private $post_type;
 
 	/**
 	 * Constructor for Indexable_Count.
