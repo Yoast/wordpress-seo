@@ -1378,7 +1378,6 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		console.log( { text1: paperWithList.getText() } );
 
 		const paperWithWords = new Paper(
 			realWordULExample1NoLists,
@@ -1387,7 +1386,6 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		// console.log( { text2: paperWithWords.getText() } );
 		const researcherListCondition = new Researcher( paperWithList );
 		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );

@@ -118,19 +118,29 @@ class KeyphraseDensityAssessment extends Assessment {
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
 		this._canAssess = paper.hasKeyword() && paper.hasText();
 
+		let calculatedScore;
+
 		if ( this._canAssess ) {
 			this._keyphraseDensityResult = researcher.getResearch( "getKeyphraseDensity" );
+			this._textLength = this._keyphraseDensityResult.textLength;
+			if ( this._textLength < 100 ) {
+				// Calculate the score for short texts.
+				this._minRecommendedKeyphraseCount = 1;
+				this._maxRecommendedKeyphraseCount = this._textLength > 50 ? 2 : 1;
+				calculatedScore = this.calculateResultShortText();
+			} else {
+				// Calculate the score for long texts.
+				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
+				this.setBoundaries( keyphraseLength, this._textLength );
+				// Safe access with fallback
+				const density = this._keyphraseDensityResult?.density ?? 0;
+				this._keyphraseDensity = density * keyphraseLengthFactor( keyphraseLength );
+				calculatedScore = this.calculateResult();
+			}
 		} else {
-			this._keyphraseDensityResult = { density: 0, textLength: 0 };
+			// Calculate the score for papers with no keyphrase or text.
+			calculatedScore = this.calculateResult();
 		}
-
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
-		this._textLength = this._keyphraseDensityResult.textLength;
-		this.setBoundaries( keyphraseLength, this._textLength );
-		// Safe access with fallback
-		const density = this._keyphraseDensityResult?.density ?? 0;
-		this._keyphraseDensity = density * keyphraseLengthFactor( keyphraseLength );
-		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -193,6 +203,149 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
+	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words).
+	 *
+	 * @returns {boolean} Returns true if the number of keyphrase occurrences is between the minimum and maximum recommended count.
+	 */
+	hasGoodNumberOfMatchesShortText() {
+		return inRangeStartEndInclusive( this._keyphraseCount.count, this._minRecommendedKeyphraseCount, this._maxRecommendedKeyphraseCount );
+	}
+
+	/**
+	 * Checks whether the number of keyphrase matches in a short text (<= 100 words) is too high.
+	 *
+	 * @returns {boolean} Returns true if the number of keyphrase occurrences is one more than the maximum recommended count.
+	 */
+	hasTooManyMatchesShortText() {
+		return this._keyphraseCount.count === this._maxRecommendedKeyphraseCount + 1;
+	}
+
+	/**
+	 * Creates a translation string for the first sentence of the feedback strings used when the keyphrase is found
+	 * too many times.
+	 *
+	 * @returns {string} The first sentence of a feedback string.
+	 */
+	getFeedbackStringsFirstSentence() {
+		return sprintf(
+			/* translators:
+				%1$s expands to a link to Yoast.com,
+				%2$s expands to the anchor end tag,
+				%3$d expands to the number of times the keyphrase occurred in the text. */
+			_n(
+				"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time.",
+				"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times.",
+				this._keyphraseCount.count,
+				"wordpress-seo"
+			),
+			this._config.urlTitle,
+			"</a>",
+			this._keyphraseCount.count
+		);
+	}
+
+
+	/**
+	 * Returns the score for the keyphrase density.
+	 *
+	 *
+	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
+	 */
+	calculateResultShortText() {
+		if ( this.hasNoMatches() ) {
+			return {
+				score: this._config.scores.underMinimum,
+				resultText: sprintf(
+					/* translators:
+					%1$s and %4$s expand to links to Yoast.com,
+					%2$s expands to the anchor end tag,
+					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
+					_n(
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._minRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>",
+					this._minRecommendedKeyphraseCount,
+					this._config.urlCallToAction
+				),
+			};
+		}
+
+		if ( this.hasGoodNumberOfMatchesShortText() ) {
+			return {
+				score: this._config.scores.correctDensity,
+				resultText: sprintf(
+					/* translators:
+					%1$s expands to a link to Yoast.com,
+					%2$s expands to the anchor end tag,
+					%3$d expands to the number of times the keyphrase occurred in the text. */
+					_n(
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!",
+						this._keyphraseCount.count,
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>",
+					this._keyphraseCount.count
+				),
+			};
+		}
+
+		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
+
+		if ( this.hasTooManyMatchesShortText() ) {
+			return {
+				score: this._config.scores.overMaximum,
+				resultText: sprintf(
+					/* translators:
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
+					_n(
+						"%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+						"%1$s That's more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+						this._maxRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					feedbackStringsFirstSentence,
+					this._maxRecommendedKeyphraseCount,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Implicitly returns this if the keyphrase count is higher than for any of the above conditions.
+		return {
+			score: this._config.scores.wayOverMaximum,
+			resultText: sprintf(
+				/* translators:
+				%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+				%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+				%3$s expands to a link to Yoast.com.,
+				%4$s expands to the anchor end tag,
+				 */
+				_n(
+					"%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+					"%1$s That's way more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+					this._maxRecommendedKeyphraseCount,
+					"wordpress-seo"
+				),
+				feedbackStringsFirstSentence,
+				this._maxRecommendedKeyphraseCount,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
+	}
+
+	/**
 	 * Returns the score for the keyphrase density.
 	 *
 	 *
@@ -223,8 +376,10 @@ class KeyphraseDensityAssessment extends Assessment {
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
-					__(
+					_n(
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._minRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -279,26 +434,28 @@ class KeyphraseDensityAssessment extends Assessment {
 			};
 		}
 
+		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
+
 		if ( this.hasTooManyMatches() ) {
 			return {
 				score: this._config.scores.overMaximum,
 				resultText: sprintf(
 					/* translators:
-					%1$s and %4$s expand to links to Yoast.com,
-					%2$s expands to the anchor end tag,
-					%3$d expands to the recommended maximum number of times the keyphrase should occur in the text,
-					%5$d expands to the number of times the keyphrase occurred in the text. */
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
 					_n(
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keyphraseCount.count,
+						"%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+						"%1$s That's more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+						this._maxRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
-					this._config.urlTitle,
-					"</a>",
+					feedbackStringsFirstSentence,
 					this._maxRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
-					this._keyphraseCount.count
+					"</a>"
 				),
 			};
 		}
@@ -308,21 +465,21 @@ class KeyphraseDensityAssessment extends Assessment {
 			score: this._config.scores.wayOverMaximum,
 			resultText: sprintf(
 				/* translators:
-				%1$s and %4$s expand to links to Yoast.com,
-				%2$s expands to the anchor end tag,
-				%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
-				%5$d expands to the number of times the keyphrase occurred in the text. */
+				%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+				%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+				%3$s expands to a link to Yoast.com.,
+				%4$s expands to the anchor end tag,
+				 */
 				_n(
-					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keyphraseCount.count,
+					"%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+					"%1$s That's way more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+					this._maxRecommendedKeyphraseCount,
 					"wordpress-seo"
 				),
-				this._config.urlTitle,
-				"</a>",
+				feedbackStringsFirstSentence,
 				this._maxRecommendedKeyphraseCount,
 				this._config.urlCallToAction,
-				this._keyphraseCount.count
+				"</a>"
 			),
 		};
 	}
