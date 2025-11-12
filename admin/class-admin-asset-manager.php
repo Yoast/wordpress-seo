@@ -250,6 +250,42 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Gets the list of Elementor dependencies.
+	 *
+	 * @return array The array of elementor dependencies.
+	 */
+	protected function get_elementor_dependencies() {
+		$dependencies = [
+			'jquery',
+			'underscore',
+			'backbone',
+			'backbone-radio',
+			'backbone-marionette',
+			'elementor-editor',
+			'elementor-common',
+			'elementor-common-modules',
+			self::PREFIX . 'api-client',
+			self::PREFIX . 'externals-components',
+			self::PREFIX . 'externals-contexts',
+			self::PREFIX . 'externals-redux',
+		];
+		// Conditionally add Elementor v2 dependency if available.
+		if ( wp_script_is( 'elementor-v2-editor-app-bar', 'registered' ) ) {
+			$dependencies[] = 'elementor-v2-editor-app-bar';
+		}
+		// Add elementor-editor-modules if available.
+		if ( wp_script_is( 'elementor-editor-modules', 'registered' ) ) {
+			$dependencies[] = 'elementor-editor-modules';
+		}
+
+		// Add elementor-editor-document if available.
+		if ( wp_script_is( 'elementor-editor-document', 'registered' ) ) {
+			$dependencies[] = 'elementor-editor-document';
+		}
+		return $dependencies;
+	}
+
+	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
@@ -265,6 +301,7 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 			'redirect-old-features-tab',
 		];
+		$elementor_dependencies = $this->get_elementor_dependencies();
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
@@ -272,12 +309,7 @@ class WPSEO_Admin_Asset_Manager {
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
-			'elementor'                => [
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-			],
+			'elementor'                => $elementor_dependencies,
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -738,3 +770,4 @@ class WPSEO_Admin_Asset_Manager {
 		return $this->asset_location->get_url( $asset, $type );
 	}
 }
+

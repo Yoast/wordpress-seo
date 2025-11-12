@@ -62,13 +62,13 @@ function initialize() {
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
 
-	// Initialize the introduction.
-	if ( window.wpseoScriptData.isAlwaysIntroductionV2 === "1" || window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
-		initializeIntroductionEditorV2();
-	} else {
-		initializeIntroduction();
-	}
-
+	// // Initialize the introduction.
+	// if ( window.wpseoScriptData.isAlwaysIntroductionV2 === "1" || window.elementorFrontend.config.experimentalFeatures.editor_v2 ) {
+	// 	initializeIntroductionEditorV2();
+	// } else {
+	// 	initializeIntroduction();
+	// }
+	console.log( "TEST" );
 	// Initialize the editor integration.
 	initializeElementEditorIntegration();
 
@@ -84,6 +84,7 @@ function initialize() {
 jQuery( window ).on( "elementor:init", () => {
 	// Wait on Elementor app to have started.
 	window.elementor.on( "panel:init", () => {
+		console.log( "initialize" );
 		setTimeout( initialize );
 	} );
 } );
