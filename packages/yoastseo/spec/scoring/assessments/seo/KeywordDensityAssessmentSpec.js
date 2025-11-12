@@ -15,18 +15,8 @@ const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
 
 describe( "Tests for the keyphrase density assessment when no keyphrase and/or text is added", function() {
-	it( "shows feedback for keyphrase density when there is no keyphrase set (short text)", function() {
+	it( "shows feedback for keyphrase density when there is no keyphrase set", function() {
 		const paper = new Paper( "some text", { keyword: "" } );
-		const researcher = new DefaultResearcher( paper );
-		buildTree( paper, researcher );
-		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"<a href='https://yoa.st/33w' target='_blank'>Please add both a keyphrase and some text containing the keyphrase</a>." );
-		expect( result.hasAIFixes() ).toBeTruthy();
-	} );
-	it( "shows feedback for keyphrase density when there is no keyphrase set (long text)", function() {
-		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "" } );
 		const researcher = new DefaultResearcher( paper );
 		buildTree( paper, researcher );
 		const result = new KeyphraseDensityAssessment().getResult( paper, researcher );
