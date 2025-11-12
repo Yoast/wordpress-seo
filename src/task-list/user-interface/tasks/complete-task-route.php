@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\User_Interface\Completion;
+namespace Yoast\WP\SEO\Task_List\User_Interface\Tasks;
 
 use Exception;
 use WP_REST_Request;
@@ -121,7 +121,7 @@ final class Complete_Task_Route implements Route_Interface {
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
-					'success' => true,
+					'success' => false,
 					'error'   => $exception->getMessage(),
 				],
 				$exception->getCode()

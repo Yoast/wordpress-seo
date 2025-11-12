@@ -22,11 +22,11 @@ interface Task_Interface {
 	public function get_is_completed(): bool;
 
 	/**
-	 * Returns an array representation of the task config data.
+	 * Returns an array representation of the task data.
 	 *
 	 * @return array<string, string|bool>
 	 */
-	public function config_to_array(): array;
+	public function to_array(): array;
 
 	/**
 	 * Returns the task's priority.
