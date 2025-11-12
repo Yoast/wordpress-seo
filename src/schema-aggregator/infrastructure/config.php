@@ -27,7 +27,13 @@ class Config {
 	 * @return int
 	 */
 	public function get_per_page(): int {
-		return (int) \apply_filters( 'wpseo_schema_aggregator_per_page', self::DEFAULT_PER_PAGE );
+		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page', self::DEFAULT_PER_PAGE );
+
+		if ( $per_page > self::MAX_PER_PAGE ) {
+			$per_page = self::MAX_PER_PAGE;
+		}
+
+		return $per_page;
 	}
 
 	/**
