@@ -45,7 +45,7 @@
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
-    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",
     "autoprefixer": "^10.4.16",
     "babel-plugin-styled-components": "^2.0.6",

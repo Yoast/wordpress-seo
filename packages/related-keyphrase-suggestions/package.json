@@ -45,7 +45,7 @@
     "@storybook/test": "^8.6.12",
     "@storybook/theming": "^8.6.12",
     "@wordpress/jest-preset-default": "^8.0.1",
-    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.0",

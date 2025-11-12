@@ -79,7 +79,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@yoast/babel-preset": "^1.1.2",
-    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.0",
     "babel-plugin-styled-components": "^2.0.6",
