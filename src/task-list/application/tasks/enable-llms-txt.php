@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Task_List\Domain\Call_To_Actions\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
 
 /**
@@ -85,6 +86,21 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 			\__( 'Enable llms.txt', 'wordpress-seo' ),
 			'default',
 			$this->get_link()
+		);
+	}
+
+	/**
+	 * Returns the task's copy set.
+	 *
+	 * @return string|null
+	 */
+	public function get_copy_set(): Copy_Set {
+		return new Copy_Set(
+			\__( 'Create an llms.txt file', 'wordpress-seo' ),
+			/* translators: %1$s expands to Yoast */
+			\sprintf( \__( 'Enabling the llms.txt file will help AI tools to understand your site better.', 'wordpress-seo' ), 'Yoast' ),
+			/* translators: %1$s expands to Yoast SEO */
+			\sprintf( \__( 'Enable llms.txt generation in the plugin\'s settings. Yoast will automatically create an llms.txt file for you and keep it updated.', 'wordpress-seo' ), 'Yoast SEO' ),
 		);
 	}
 }

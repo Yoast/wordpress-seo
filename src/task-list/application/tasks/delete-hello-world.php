@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use WP_Post;
-use Yoast\WP\SEO\Task_List\Domain\Call_To_Actions\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
 
 /**
@@ -78,6 +79,21 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 			\__( 'Delete the Hello World post', 'wordpress-seo' ),
 			'delete',
 			$this->get_link()
+		);
+	}
+
+	/**
+	 * Returns the task's copy set.
+	 *
+	 * @return string|null
+	 */
+	public function get_copy_set(): Copy_Set {
+		return new Copy_Set(
+			\__( 'Remove the Hello World post', 'wordpress-seo' ),
+			/* translators: %1$s expands to Yoast */
+			\sprintf( \__( 'Removing the default "Hello World" post prevents irrelevant content from showing on your site.', 'wordpress-seo' ), 'Yoast' ),
+			/* translators: %1$s expands to Yoast SEO */
+			\sprintf( \__( 'Delete or unpublish the "Hello World" post.', 'wordpress-seo' ), 'Yoast SEO' ),
 		);
 	}
 }
