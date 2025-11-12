@@ -25,7 +25,7 @@ import { ClockIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } f
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen = false, onClose, callToAction, title, duration, priority, detailsList } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, detailsList } ) => {
 	const svgAriaProps = useSvgAria();
 	const priorities = {
 		low: {
@@ -85,8 +85,8 @@ export const TaskModal = ( { isOpen = false, onClose, callToAction, title, durat
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<Button variant="primary" { ...callToAction.props }>
-						{ callToAction.content }
+					<Button variant="primary" { ...callToAction }>
+						{ callToAction.children }
 					</Button>
 				</Modal.Container.Footer>
 			</Modal.Container>

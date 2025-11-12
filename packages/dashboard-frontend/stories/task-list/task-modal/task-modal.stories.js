@@ -24,8 +24,7 @@ export default {
 			control: false,
 		},
 		callToAction: {
-			description: "An object containing the button props and content for the call to action button.",
-			control: false,
+			description: "An object containing the CTA button props.",
 		},
 		title: {
 			description: "Title of the modal.",
@@ -43,8 +42,7 @@ export default {
 			options: [ "low", "medium", "high" ],
 		},
 		detailsList: {
-			description: "List of details to display in the modal.",
-			control: false,
+			description: "List of details to display in the modal. Each item in the list is an object with `Icon`, `title`, and `description` properties.",
 		},
 	},
 	args: {
@@ -58,10 +56,8 @@ export default {
 			{ Icon: QuestionMarkCircleIcon, title: "Specify your site type", description: "Letting us know the type of site you have will improve the relevance of our suggestions." },
 		],
 		callToAction: {
-			content: "Start configuration",
-			props: {
-				onClick: noop,
-			},
+			onClick: noop,
+			children: "Start configuration",
 		},
 		onClose: noop,
 	},
