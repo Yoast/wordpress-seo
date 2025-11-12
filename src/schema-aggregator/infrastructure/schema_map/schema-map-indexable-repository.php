@@ -81,7 +81,7 @@ class Schema_Map_Indexable_Repository {
 
 			// Convert to ISO 8601 format or use current time if no posts.
 			if ( $lastmod && ! empty( $lastmod ) ) {
-				return \gmdate( 'Y-m-d\TH:i:s\Z', \strtotime( $lastmod ) );
+				return \gmdate( 'Y-m-d\TH:i:s\Z', \strtotime( $lastmod->object_last_modified ) );
 			}
 
 			return $fallback;

@@ -12,7 +12,7 @@ class Config {
 	 *
 	 * @var int
 	 */
-	private const DEFAULT_PER_PAGE = 100;
+	private const DEFAULT_PER_PAGE = 5;
 
 	/**
 	 * Maximum items per page
