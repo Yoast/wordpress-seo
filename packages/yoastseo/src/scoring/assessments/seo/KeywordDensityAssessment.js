@@ -110,9 +110,6 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
-		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
-		const keyphraseLength = this._keyphraseCount.keyphraseLength;
-
 		const assessmentResult = new AssessmentResult();
 
 		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
@@ -121,8 +118,10 @@ class KeyphraseDensityAssessment extends Assessment {
 		let calculatedScore;
 
 		if ( this._canAssess ) {
+			this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 			this._keyphraseDensityResult = researcher.getResearch( "getKeyphraseDensity" );
 			this._textLength = this._keyphraseDensityResult.textLength;
+			assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 			if ( this._textLength < 100 ) {
 				// Calculate the score for short texts.
 				this._minRecommendedKeyphraseCount = 1;
@@ -131,6 +130,7 @@ class KeyphraseDensityAssessment extends Assessment {
 			} else {
 				// Calculate the score for long texts.
 				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
+				const keyphraseLength = this._keyphraseCount.keyphraseLength;
 				this.setBoundaries( keyphraseLength, this._textLength );
 				// Safe access with fallback
 				const density = this._keyphraseDensityResult?.density ?? 0;
@@ -144,7 +144,6 @@ class KeyphraseDensityAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 		// Only shows the AI button when the keyphrase hasn't been used enough times.
 		// The button will handle its own disabled state and tooltip when there's no keyphrase or text.
 		const shouldShowAIButton = ( calculatedScore.score === this._config.scores.underMinimum ) ||
