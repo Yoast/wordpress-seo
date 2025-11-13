@@ -46,7 +46,7 @@ class Copy_Set {
 	}
 
 	/**
-	 * Returns an array representation of the task data.
+	 * Returns an array representation of the copy set data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */

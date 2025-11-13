@@ -65,7 +65,7 @@ class Call_To_Action_Entry {
 	}
 
 	/**
-	 * Returns an array representation of the task data.
+	 * Returns an array representation of the call to action data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
