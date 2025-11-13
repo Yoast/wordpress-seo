@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CallToActionButton matches snapshot for type 'create' 1`] = `
+<button
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  id="cta-button-undefined"
+  type="button"
+>
+  <svg
+    aria-hidden="true"
+    class="yst-w-4 yst-text-white"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 4v16m8-8H4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Create
+</button>
+`;
+
+exports[`CallToActionButton matches snapshot for type 'default' 1`] = `
+<button
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  id="cta-button-undefined"
+  type="button"
+>
+  Default
+</button>
+`;
+
+exports[`CallToActionButton matches snapshot for type 'delete' 1`] = `
+<button
+  class="yst-button yst-button--error yst-flex yst-items-center yst-gap-1"
+  id="cta-button-undefined"
+  type="button"
+>
+  <svg
+    aria-hidden="true"
+    class="yst-w-4 yst-text-white"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Delete
+</button>
+`;
+
+exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
+<a
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  href="https://example.com"
+  id="cta-button-undefined"
+>
+  Go
+  <svg
+    aria-hidden="true"
+    class="yst-w-4 yst-text-white rtl:yst-rotate-180"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M17 8l4 4m0 0l-4 4m4-4H3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</a>
+`;
