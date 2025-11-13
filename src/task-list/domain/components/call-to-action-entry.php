@@ -9,11 +9,11 @@ use InvalidArgumentException;
 class Call_To_Action_Entry {
 
 	/**
-	 * Allowed variants for the call to action.
+	 * Allowed types for the call to action.
 	 *
 	 * @var string[]
 	 */
-	private const ALLOWED_VARIANTS = [
+	private const ALLOWED_TYPES = [
 		'default',
 		'link',
 		'add',
@@ -21,47 +21,47 @@ class Call_To_Action_Entry {
 	];
 
 	/**
-	 * The title of the call to action.
+	 * The label of the call to action.
 	 *
 	 * @var string
 	 */
-	private $title;
+	private $label;
 
 	/**
-	 * The variant of the call to action.
+	 * The type of the call to action.
 	 *
 	 * @var string
 	 */
-	private $variant;
+	private $type;
 
 	/**
-	 * The link of the call to action.
+	 * The href of the call to action.
 	 *
 	 * @var string
 	 */
-	private $link;
+	private $href;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $title   The title of the content type entry.
-	 * @param string $variant The variant of the content type entry.
-	 * @param string $link    The link of the content type entry.
+	 * @param string $label The label of the content type entry.
+	 * @param string $type  The type of the content type entry.
+	 * @param string $href  The href of the content type entry.
 	 *
-	 * @throws InvalidArgumentException If the variant is invalid.
+	 * @throws InvalidArgumentException If the type is invalid.
 	 */
 	public function __construct(
-		string $title,
-		string $variant,
-		?string $link = null
+		string $label,
+		string $type,
+		?string $href = null
 	) {
-		if ( ! \in_array( $variant, self::ALLOWED_VARIANTS, true ) ) {
-			throw new InvalidArgumentException( 'Invalid variant for call to action' );
+		if ( ! \in_array( $type, self::ALLOWED_TYPES, true ) ) {
+			throw new InvalidArgumentException( 'Invalid type for call to action' );
 		}
 
-		$this->title   = $title;
-		$this->variant = $variant;
-		$this->link    = $link;
+		$this->label = $label;
+		$this->type  = $type;
+		$this->href  = $href;
 	}
 
 	/**
@@ -71,9 +71,9 @@ class Call_To_Action_Entry {
 	 */
 	public function to_array(): array {
 		return [
-			'title'   => $this->title,
-			'variant' => $this->variant,
-			'link'    => $this->link,
+			'label' => $this->label,
+			'type'  => $this->type,
+			'href'  => $this->href,
 		];
 	}
 }
