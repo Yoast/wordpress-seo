@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Site_Schema_Json_Conditional;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
 /**
  * Handles the route to represent all indexable post types as XML.
@@ -67,7 +67,7 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals() {
-		return [ Site_Schema_Json_Conditional::class ];
+		return [ Schema_Aggregator_Conditional::class ];
 	}
 
 	/**
