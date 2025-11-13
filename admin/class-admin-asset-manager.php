@@ -286,7 +286,7 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 			'redirect-old-features-tab',
 		];
-		$elementor_dependencies = $this->get_elementor_dependencies();
+		$elementor_dependencies  = $this->get_elementor_dependencies();
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
@@ -755,4 +755,3 @@ class WPSEO_Admin_Asset_Manager {
 		return $this->asset_location->get_url( $asset, $type );
 	}
 }
-
