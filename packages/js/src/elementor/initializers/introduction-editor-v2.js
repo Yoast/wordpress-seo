@@ -25,13 +25,16 @@ export default function initializeIntroductionEditorV2() {
 			// We will set `position.of` later when target exists.
 			position: {
 				my: "center top",
-				at: "center bottom+20",
+				at: "center bottom+12",
 				autoRefresh: true,
 				using( coords, feedback ) {
 					// Arrow horizontal alignment:
+					// Center the arrow on the target button by accounting for half the target width
+					// and subtracting half the arrow width (8px border-width)
+					const arrowOffset = feedback.target.left - feedback.element.left + ( feedback.target.width / 2 ) - 8;
 					this.style.setProperty(
 						"--yoast-elementor-introduction-arrow",
-						feedback.target.left - feedback.element.left + 8 + "px"
+						arrowOffset + "px"
 					);
 
 					// Vertical push below header if overlapping.
