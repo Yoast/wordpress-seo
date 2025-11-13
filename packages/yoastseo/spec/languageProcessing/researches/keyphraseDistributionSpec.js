@@ -364,7 +364,7 @@ const testCasesSentenceScore = [
 			{ score: 3, matches: [] },
 			{ score: 3, matches: [] },
 		],
-		isShortTopic: true,
+		isFullMatchRequired: true,
 	},
 	{
 		description: "English, short topic, morphology data",
@@ -387,7 +387,7 @@ const testCasesSentenceScore = [
 			{ score: 3, matches: [] },
 			{ score: 3, matches: [] },
 		],
-		isShortTopic: true,
+		isFullMatchRequired: true,
 	},
 	{
 		description: "English, long topic, morphology data",
@@ -419,7 +419,7 @@ const testCasesSentenceScore = [
 			{ score: 3, matches: [] },
 			{ score: 3, matches: [] },
 		],
-		isShortTopic: false,
+		isFullMatchRequired: false,
 	},
 	{
 		description: "Italian, short topic, no morphology data",
@@ -442,7 +442,7 @@ const testCasesSentenceScore = [
 			{ score: 3, matches: [] },
 			{ score: 3, matches: [] },
 		],
-		isShortTopic: true,
+		isFullMatchRequired: true,
 	},
 	{
 		description: "Italian, long topic, no morphology data",
@@ -474,15 +474,15 @@ const testCasesSentenceScore = [
 			{ score: 3, matches: [] },
 			{ score: 3, matches: [] },
 		],
-		isShortTopic: false,
+		isFullMatchRequired: false,
 	},
 ];
 
 describe.each( testCasesSentenceScore )( "Test for computing sentence scores", ( {
-	description, topic, sentences, locale, expected, isShortTopic,
+	description, topic, sentences, locale, expected, isFullMatchRequired,
 } ) => {
 	it( description, () => {
-		expect( computeScoresPerSentence( topic, sentences, locale, isShortTopic ) ).toEqual( expected );
+		expect( computeScoresPerSentence( topic, sentences, locale, isFullMatchRequired   ) ).toEqual( expected );
 	} );
 } );
 
@@ -499,11 +499,11 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
-	it( "should only match and returns the marking for the synonym when only the synonym is found", () => {
+	it( "should only match and return the marking for the synonym when only the synonym is found", () => {
 		// Only "something" should be marked. This is because only one of the words in the keyphrase is present: "key".
 		// Before the assessment is using HTML Parser, both "key" and "something" were marked, which was incorrect.
 		const paper = new Paper(
@@ -518,7 +518,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 66.66666666666666,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "And again a key <yoastmark class='yoast-text-mark'>something</yoastmark>.",
@@ -545,7 +545,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 66.66666666666666,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "I have found a <yoastmark class='yoast-text-mark'>key</yoastmark> and a <yoastmark class='yoast-text-mark'>" +
@@ -566,7 +566,7 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
-	it( "returns a score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
+	it( "returns a distraction percentage over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
@@ -581,7 +581,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -662,7 +662,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns the same score when function words are added", function() {
+	it( "returns the same distraction percentage when function words are added", function() {
 		const paper = new Paper(
 			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
@@ -682,7 +682,7 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -763,7 +763,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
+	it( "returns a distraction percentage (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
 		"sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
@@ -778,7 +778,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -848,7 +848,7 @@ describe( "Test for the research", function() {
 	 * The following Italian tests are not language-specific as they are an example of languages in general
 	 * that have no morphology support.
 	 */
-	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
+	it( "returns the same distraction percentage when function words are added (for a language without morphological support, but with function words, " +
 		"e.g. Italian in Free)", function() {
 		primeLanguageSpecificData.cache.clear();
 
@@ -867,7 +867,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -932,8 +932,9 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
+
 	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
-		"returns the same score", function() {
+		"returns the same distraction percentage as above", function() {
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
 			{
@@ -953,7 +954,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, researcher );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -1020,7 +1021,7 @@ describe( "Test for the research", function() {
 	} );
 
 	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
-		"returns a different score", function() {
+		"returns a different distraction percentage", function() {
 		// The word that is matched here is "qualcosa".
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
@@ -1038,7 +1039,7 @@ describe( "Test for the research", function() {
 		buildTree( paper, defaultResearcher );
 
 		expect( keyphraseDistributionResearcher( paper, defaultResearcher ) ).toEqual( {
-			keyphraseDistributionScore: 37.5,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " E ancora una chiave e <yoastmark class='yoast-text-mark'>" +
@@ -1076,12 +1077,12 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
 
-	it( "returns the score 100 when the keyphrase is used inside an element we want to exclude from the analysis", function() {
+	it( "returns the distraction percentage 100 when the keyphrase is used inside an element we want to exclude from the analysis", function() {
 		const paper = new Paper(
 			"This is a text with a <code>keyphrase</code> that doesn't count",
 			{
@@ -1096,12 +1097,12 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
 
-	it( "returns the score 100 when the keyphrase is a shortcode", function() {
+	it( "returns the distraction percentage 100 when the keyphrase is a shortcode", function() {
 		const paper = new Paper(
 			"This is a text with a [keyphrase]that doesn't count",
 			{
@@ -1117,21 +1118,28 @@ describe( "Test for the research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
 
-	const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
-		"In sit amet semper sem, id faucibus massa.</p>\n";
+	const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit. " +
+		"In sit amet semper sem, id faucibus massa. Nam varius bibendum tellus eget scelerisque. Morbi sit amet odio dui." +
+		" Cras aliquam ipsum vitae porttitor porta. Fusce rhoncus massa lacinia ligula dignissim tempor. Ut tempor placerat" +
+		" erat vitae pretium. Nam at erat posuere, suscipit dui auctor, sagittis ipsum. Fusce tristique aliquet tortor, " +
+		"id dapibus ligula ullamcorper non. </p>\n";
 
-	const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
-		"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+	const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero. " +
+		"Praesent at ante sit amet elit sollicitudin lobortis. Mauris sit amet pulvinar nulla, ut iaculis ante. Vivamus" +
+		" nulla velit, dignissim quis orci vitae, volutpat luctus neque. Aliquam elementum libero nec faucibus lobortis." +
+		" Nullam magna nunc, vulputate et metus et, pulvinar tempor magna. Mauris lectus arcu, efficitur sit amet rutrum" +
+		" rhoncus, tincidunt non lacus. Cras eget lectus venenatis, varius massa eu, lobortis dui. </p>";
 
-	it( "calculates keyphrase distribution score correctly for content with plain text structure", function() {
+	it( "calculates keyphrase distraction percentage correctly for content with plain text structure", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 		const fruitString = fruits.join( " " );
 
+		// The text has 18 sentences and a maximum distraction of 9 sentences. The fruitsString is a separate sentence.
 		const paperWithWords = new Paper(
 			paragraphWithKeyphrase1 + fruitString + paragraphWithKeyphrase2,
 			{
@@ -1146,14 +1154,16 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition );
 
-		// Test that the score is reasonable (expected 33.33...)
-		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
+		// Test that the percentage is correct (9/18*100 = 50).
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with single word list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with single word list items", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
 
+		// The text has 18 sentences and a maximum distraction of 9 sentences. The items in the list are merged into one
+		// sentence since they don't end with a sentence delimiter.
 		const paperWithList = new Paper(
 			paragraphWithKeyphrase1 + fruitList + paragraphWithKeyphrase2,
 			{
@@ -1168,18 +1178,19 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
-		// Before the HTML parser adjustment, this text structure returns 33.33333333333333 as the distribution score, since the individual words in the list are merged into one sentence.
-		// After the adjustment, the score is 77.77777777777779, since the individual words in the list are treated as separate sentences.
-		expect( result.keyphraseDistributionScore ).toEqual( 33.33333333333333 );
+		// Test that the percentage is correct (9/18*100 = 50).
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with short phrases as the list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with short phrases as the list items", function() {
 		const listItems = [
-			"<li>List item one keyphrase</li>",
+			"<li>List item one</li>",
 			"<li>List item two.</li>",
-			"<li>List item three.</li>",
+			"<li>List item three keyphrase.</li>",
 		];
-		const paper = new Paper( "<ul>" + listItems.join( "" ) + "</ul><p>this is a paragraph.</p>",
+		// The text has 19 sentences and a maximum distraction of 9 sentences. The first and second list items are merged
+		// into one sentence since the first list item doesn't end with a sentence delimiter.
+		const paper = new Paper( paragraphWithKeyphrase1 + "<ul>" + listItems.join( "" ) + "</ul>" + paragraphWithKeyphrase2,
 			{
 				locale: "en_US",
 				keyword: "keyphrase",
@@ -1191,11 +1202,11 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paper, researcher );
 
-		// Test that the score is reasonable (expected 66.66...)
-		expect( result.keyphraseDistributionScore ).toEqual( 66.66666666666666 );
+		// Test that the percentage is correct (9/19*100 = 47.368421052631575).
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 47.368421052631575 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with full sentences as the list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with full sentences as the list items", function() {
 		const fruitStatements = [
 			"This is an apple.",
 			"This is a pear.",
@@ -1205,8 +1216,10 @@ describe( "Test for the research", function() {
 			"This is a pineapple.",
 			"This is a banana." ];
 
-		const fruitStatementList = "<ul>\n" + fruitStatements.map( fruitStatement => "<li>" + fruitStatement + "</li>\n" ).join( "" ) + "</ul>";
+		const fruitStatementList =  "<ul>\n" + fruitStatements.map( fruitStatement => "<li>" + fruitStatement + "</li>\n" ).join( "" ) + "</ul>";
 
+		// The text has 24 sentences and a maximum distraction of 15 sentences. The list items are all treated as separate
+		// sentences because they end with a sentence delimiter.
 		const paperWithList = new Paper(
 			paragraphWithKeyphrase1 + fruitStatementList + paragraphWithKeyphrase2,
 			{
@@ -1221,8 +1234,8 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
-		// Test that the score is reasonable (not 77.77...)
-		expect( result.keyphraseDistributionScore ).toEqual( 77.77777777777779 );
+		// Test that the percentage is correct (15/24*100 = 62.5 ).
+		expect( result.KeyphraseDistractionPercentage ).toEqual( 62.5 );
 	} );
 
 	it( "returns the same result for a list of sentences as it does for a string of sentences", function() {
@@ -1262,8 +1275,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a list of paragraphs as it does for a string of paragraphs", function() {
@@ -1301,8 +1314,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a mixed list of paragraphs and sentences as it does for a string of paragraphs and sentences", function() {
@@ -1340,8 +1353,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a real world example list including various html tags as it does for version of that" +
@@ -1378,8 +1391,6 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		console.log( { text1: paperWithList.getText() } );
-
 		const paperWithWords = new Paper(
 			realWordULExample1NoLists,
 			{
@@ -1387,7 +1398,7 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		// console.log( { text2: paperWithWords.getText() } );
+
 		const researcherListCondition = new Researcher( paperWithList );
 		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
@@ -1396,8 +1407,8 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 
 	it( "returns the same result for a real world example with nested lists as it does for a string version of that" +
@@ -1446,58 +1457,35 @@ describe( "Test for the research", function() {
 		buildTree( paperWithWords, researcherWordsCondition );
 		researcherWordsCondition.addResearchData( "morphology", morphologyData );
 
-		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
-			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
-	} );
-
-	it( "returns the result for long topic", function() {
-		const paper = new Paper(
-			"This is a text with a long topic keyphrase1 or synonyms1. It is about search engine optimization tips",
-			{
-				// Fictitious locale that doesn't have function word support.
-				locale: "en_EN",
-				keyword: "search engine optimization tips",
-				// The added function words are now analyzed as content words, so the score changes.
-				synonyms: "synonym",
-			}
-		);
-
-		const researcher = new Researcher( paper );
-		buildTree( paper, researcher );
-		researcher.addResearchData( "morphology", morphologyData );
-
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 50,
-			sentencesToHighlight: [
-				new Mark( {
-					marked: " It is about <yoastmark class='yoast-text-mark'>search engine optimization tips</yoastmark>",
-					original: " It is about search engine optimization tips",
-					position: {
-						attributeId: "", clientId: "", endOffset: 101, endOffsetBlock: 101, isFirstSection: false, startOffset: 70, startOffsetBlock: 70,
-					},
-				} ) ],
-		} );
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).KeyphraseDistractionPercentage ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).KeyphraseDistractionPercentage );
 	} );
 } );
 
 describe( "a test for exact match of keyphrase in English", () => {
 	const exactMatchSentences = [
 		"Giant pandas conservation efforts have significantly improved their survival prospects over the past few decades.",
-		"These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
-		"Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
-		"The Chinese government, along with global wildlife organizations, continues to prioritize these initiatives to ensure long-term species stability.",
+		"These giant pandas conservation efforts include the creation of more than 60 protected reserves in China. The reserves safeguard essential bamboo forest habitats.",
+		"Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas. They help to boost both wild and captive populations.",
+		"The Chinese government, along with global wildlife organizations, continues to prioritize these initiatives. This will help to ensure long-term species stability.",
 		"As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
-		"Ongoing monitoring and community engagement remain crucial to maintaining this conservation success.",
+		"Ongoing monitoring and community engagement remain crucial to maintaining this conservation success. In 2020, the giant panda population of the new national park was already above 1,800 individuals. " +
+		"That's roughly 80 percent of the entire panda population in China. Establishing the new protected area in the Sichuan Province also gives various other endangered or threatened species, like the Siberian tiger, the possibility to improve their living conditions by offering them a habitat. " +
+		"Other species who benefit from the protection of its habitat include the snow leopard, the golden snub-nosed monkey, the red panda and the complex-toothed flying squirrel. " +
+		"In July 2021, Chinese conservation authorities announced that giant pandas are no longer endangered in the wild following years of conservation efforts, with a population in the wild exceeding 1,800." +
+		" China has received international praise for its conservation of the species, which has also helped the country establish itself as a leader in endangered species conservation.",
 	];
 	it( "should only match the exact keyphrase in the text when the focus keyphrase is in double quotes", function() {
 		const text = exactMatchSentences.join( " " );
+		// The paper contains 15 sentences and a maximum distraction of 13 sentences.
 		const paper = new Paper( text, { keyword: "\"giant pandas conservation efforts\"" } );
 		const researcher = new Researcher( paper );
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 66.66666666666666,
+			// 13/15*100 = 86.66666666666667.
+			KeyphraseDistractionPercentage: 86.66666666666667,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
@@ -1507,8 +1495,8 @@ describe( "a test for exact match of keyphrase in English", () => {
 					},
 				} ),
 				new Mark( {
-					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
-					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China.",
+					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China.",
 					position: {
 						attributeId: "", clientId: "", endOffset: 153, endOffsetBlock: 153, isFirstSection: false, startOffset: 120, startOffsetBlock: 120,
 					},
@@ -1517,13 +1505,15 @@ describe( "a test for exact match of keyphrase in English", () => {
 	} );
 	it( "should match all forms of the keyphrase in the text when the focus keyphrase is not in double quotes", function() {
 		const text = exactMatchSentences.join( " " );
+		// The paper contains 15 sentences and a maximum distraction of 3 sentences.
 		const paper = new Paper( text, { keyword: "giant pandas conservation efforts" } );
 		const researcher = new Researcher( paper );
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 16.666666666666664,
+			// 3/15*100 = 20.
+			KeyphraseDistractionPercentage: 20,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Giant pandas conservation efforts</yoastmark> have significantly improved their survival prospects over the past few decades.",
@@ -1533,38 +1523,66 @@ describe( "a test for exact match of keyphrase in English", () => {
 					},
 				} ),
 				new Mark( {
-					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
-					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China that safeguard essential bamboo forest habitats.",
+					marked: " These <yoastmark class='yoast-text-mark'>giant pandas conservation efforts</yoastmark> include the creation of more than 60 protected reserves in China.",
+					original: " These giant pandas conservation efforts include the creation of more than 60 protected reserves in China.",
 					position: {
 						attributeId: "", clientId: "", endOffset: 153, endOffsetBlock: 153, isFirstSection: false, startOffset: 120, startOffsetBlock: 120,
 					},
 				} ),
 				new Mark( {
-					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, helping to boost both wild and captive populations.",
-					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
+					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>.",
+					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas.",
 					position: {
-						attributeId: "", clientId: "", endOffset: 389, endOffsetBlock: 389, isFirstSection: false, startOffset: 369, startOffsetBlock: 369,
+						attributeId: "", clientId: "", endOffset: 398, endOffsetBlock: 398, isFirstSection: false, startOffset: 378, startOffsetBlock: 378,
 					},
 				} ),
 				new Mark( {
-					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, helping to boost both wild and captive populations.",
-					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas, helping to boost both wild and captive populations.",
+					marked: " Breeding programs, habitat restoration, and international partnerships are all key components of the <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>.",
+					original: " Breeding programs, habitat restoration, and international partnerships are all key components of the conservation efforts of giant pandas.",
 					position: {
-						attributeId: "", clientId: "", endOffset: 405, endOffsetBlock: 405, isFirstSection: false, startOffset: 393, startOffsetBlock: 393,
-					},
-				} ),
-				new Mark( {
-					marked: " As a result of sustained <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
-					original: " As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
-					position: {
-						attributeId: "", clientId: "", endOffset: 651, endOffsetBlock: 651, isFirstSection: false, startOffset: 631, startOffsetBlock: 631,
+						attributeId: "", clientId: "", endOffset: 414, endOffsetBlock: 414, isFirstSection: false, startOffset: 402, startOffsetBlock: 402,
 					},
 				} ),
 				new Mark( {
 					marked: " As a result of sustained <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
 					original: " As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
 					position: {
-						attributeId: "", clientId: "", endOffset: 667, endOffsetBlock: 667, isFirstSection: false, startOffset: 655, startOffsetBlock: 655,
+						attributeId: "", clientId: "", endOffset: 678, endOffsetBlock: 678, isFirstSection: false, startOffset: 658, startOffsetBlock: 658,
+					},
+				} ),
+				new Mark( {
+					marked: " As a result of sustained <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark> of <yoastmark class='yoast-text-mark'>giant pandas</yoastmark>, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					original: " As a result of sustained conservation efforts of giant pandas, the IUCN reclassified the species from “Endangered” to “Vulnerable” in 2016.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 694, endOffsetBlock: 694, isFirstSection: false, startOffset: 682, startOffsetBlock: 682,
+					},
+				} ),
+				new Mark( {
+					marked: " In 2020, the <yoastmark class='yoast-text-mark'>giant panda</yoastmark> population of the new national park was already above 1,800 individuals.",
+					original: " In 2020, the giant panda population of the new national park was already above 1,800 individuals.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 898, endOffsetBlock: 898, isFirstSection: false, startOffset: 887, startOffsetBlock: 887,
+					},
+				} ),
+				new Mark( {
+					marked: " In July 2021, Chinese <yoastmark class='yoast-text-mark'>conservation</yoastmark> authorities announced that <yoastmark class='yoast-text-mark'>giant pandas</yoastmark> are no longer endangered in the wild following years of <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark>, with a population in the wild exceeding 1,800.",
+					original: " In July 2021, Chinese conservation authorities announced that giant pandas are no longer endangered in the wild following years of conservation efforts, with a population in the wild exceeding 1,800.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 1468, endOffsetBlock: 1468, isFirstSection: false, startOffset: 1456, startOffsetBlock: 1456,
+					},
+				} ),
+				new Mark( {
+					marked: " In July 2021, Chinese <yoastmark class='yoast-text-mark'>conservation</yoastmark> authorities announced that <yoastmark class='yoast-text-mark'>giant pandas</yoastmark> are no longer endangered in the wild following years of <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark>, with a population in the wild exceeding 1,800.",
+					original: " In July 2021, Chinese conservation authorities announced that giant pandas are no longer endangered in the wild following years of conservation efforts, with a population in the wild exceeding 1,800.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 1508, endOffsetBlock: 1508, isFirstSection: false, startOffset: 1496, startOffsetBlock: 1496,
+					},
+				} ),
+				new Mark( {
+					marked: " In July 2021, Chinese <yoastmark class='yoast-text-mark'>conservation</yoastmark> authorities announced that <yoastmark class='yoast-text-mark'>giant pandas</yoastmark> are no longer endangered in the wild following years of <yoastmark class='yoast-text-mark'>conservation efforts</yoastmark>, with a population in the wild exceeding 1,800.",
+					original: " In July 2021, Chinese conservation authorities announced that giant pandas are no longer endangered in the wild following years of conservation efforts, with a population in the wild exceeding 1,800.",
+					position: {
+						attributeId: "", clientId: "", endOffset: 1585, endOffsetBlock: 1585, isFirstSection: false, startOffset: 1565, startOffsetBlock: 1565,
 					},
 				} ),
 			],
@@ -1579,7 +1597,7 @@ const testData = [
 		text: "An example text. What is ASP.NET.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
@@ -1595,7 +1613,7 @@ const testData = [
 		text: "An example text. What is ASP.net.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
@@ -1611,7 +1629,7 @@ const testData = [
 		text: "An example text. What is asp.NET?",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
@@ -1628,7 +1646,7 @@ const testData = [
 		text: "An example text. What is asp.net.",
 		keyphrase: "ASP.NET",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
@@ -1659,7 +1677,7 @@ const testDataExactMatch = [
 		text: "An example text. What is ASP.NET.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
@@ -1675,7 +1693,7 @@ const testDataExactMatch = [
 		text: "An example text. What is ASP.net.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
@@ -1691,7 +1709,7 @@ const testDataExactMatch = [
 		text: "An example text. What is asp.NET?",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
@@ -1707,7 +1725,7 @@ const testDataExactMatch = [
 		text: "An example text. What is asp.net.",
 		keyphrase: "\"ASP.NET\"",
 		expected: {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: " What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
@@ -1731,16 +1749,25 @@ describe.each( testDataExactMatch )( "a test for keyphrase containing a period i
 	} );
 } );
 
-// Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength.
-
 describe( "Test for the research for Japanese language", function() {
 	const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
 		"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +
 		"彼らが好きなタイプの猫用フードは新鮮なものです。" +
-		"加工が少ない猫用食品の一種。";
+		"加工が少ない猫用食品の一種。会リレメミ育1世び梨思少愛レニ年訴野公キエ艦渡トわ顔来レミ情1心み保職ヌカワフ食掲じ責写ち昭北ほせ提権責岳犠ぶれラつ。" +
+		"移田検紀りてべ歩読ツマワ交地ナシ西気にご周県ッっラえ余全ぎぜ刊出セホウメ毎知んも目治フヤトレ社2目ー情申し説病花飛便まレづ。" +
+		"創ノヘヤセ番置ニ色康23最夜ごげぎお上点けぞーも扱員ノソユ津勢ょ再患レテミ属込オ語1阜賢取うつフね。" +
+		"団ざぐぴ積5系け驚記次ゆ横室ヌ宗越ぶ野号よつドみ県69続ちそレ文披メオトナ試提キ降何徳リでうぎ。" +
+		"抵らべ三書け保的びせ給初サリ新向クはお横麻はい文載ぐやご区治じふ山検えクべ人再ウ新免どほみ治編ヘ残東74具央紹舞72霊載3思近友批曜ゆ。" +
+		"一山ヱリケラ秒削和ヱホ通質ムロカ養問ヌワフレ属一に大井ネ間冷哲ロ東三はごえ朴年拡ス稼力ろえル渡急ルサ基光キミリ反孝レぶ。" +
+		"以ヨ弁南ば開存ゆ表続ユ崩気ドわな蔵問レ万24行芸レ旅持れき弾育ト度窃90北よくつ受幅採洋敢ぶづさ。" +
+		"帯うごじほ変事めむいラ育壁レでや玲場たぱわ界軽社こづが上問故7更テ化方をラクな津真ゅふー面毎処かーゅげ。" +
+		"禁アロカヲ能力思ぶず禁政ぴむあぞ真定カノハ外端ろド品世ょゆ記図能退ゃやスれ加近ツクヒタ優的シヘセ済邦ミ年重ユマル以庁えかざ。" +
+		"能ムヒテ文使ぜで体室ずスッ特飛大メフレ坂連減ラひせ記羊ヒテユヱ界機あずはぼ時場が転稲よ利置生なゆ多多ド確覧ぴレが界華ム季必イルゃ良政厳ぜずす井転リ訪也極番技しぎぴ。" +
+		"部ンへ大罪こ明技チルメ一挙ヌハ覚教うあせル年故点タル杖1課れでリ闘変だ充個記ヒフタ発58景離派28討ラ円庫提阪タ摘焦茂急けやちッ。";
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
 		"(when morphology data is available)", function() {
+		// The text has 15 sentences and a maximum distraction of 11 sentences.
 		const paper = new Paper(
 			japaneseSentences,
 			{
@@ -1754,8 +1781,41 @@ describe( "Test for the research for Japanese language", function() {
 		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 50,
+			// 11/15*100 = 73.33333333333333.
+			KeyphraseDistractionPercentage: 73.33333333333333,
 			sentencesToHighlight: [
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
+		} );
+	} );
+
+	it( "returns the same distraction percentage when function words are added", function() {
+		const paper = new Paper(
+			japaneseSentences,
+			{
+				locale: "ja",
+				keyword: "猫の餌",
+				synonyms: "猫用フード, 猫用食品",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		buildTree( paper, researcher );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			KeyphraseDistractionPercentage: 73.33333333333333,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
+						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
+					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
+				} ),
 				new Mark( {
 					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
 					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
@@ -1774,7 +1834,7 @@ describe( "Test for the research for Japanese language", function() {
 		"加工が少ない猫用食品の一種。";
 
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
 		"in single quotation marks", function() {
 		const paper = new Paper(
 			japaneseSentencesExactMatch,
@@ -1789,7 +1849,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
@@ -1811,7 +1871,7 @@ describe( "Test for the research for Japanese language", function() {
 		} );
 	} );
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
 		"in double quotation marks", function() {
 		const paper = new Paper(
 			japaneseSentencesExactMatch,
@@ -1826,7 +1886,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
@@ -1861,7 +1921,7 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1880,40 +1940,8 @@ describe( "Test for the research for Japanese language", function() {
 		buildTree( paper, researcher );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
-		} );
-	} );
-
-	it( "returns the same score when function words are added", function() {
-		const paper = new Paper(
-			japaneseSentences,
-			{
-				locale: "ja",
-				keyword: "猫の餌",
-				synonyms: "猫用フード, 猫用食品",
-			}
-		);
-
-		const researcher = new JapaneseResearcher( paper );
-		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
-			sentencesToHighlight: [
-				new Mark( {
-					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
-						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
-					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
-				} ),
-				new Mark( {
-					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
-					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
-				} ),
-				new Mark( {
-					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
-					original: "加工が少ない猫用食品の一種。",
-				} ),
-			],
 		} );
 	} );
 
@@ -1930,7 +1958,7 @@ describe( "Test for the research for Japanese language", function() {
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 100,
+			KeyphraseDistractionPercentage: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -1948,7 +1976,7 @@ describe( "Test for the research for Japanese language", function() {
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 50,
+			KeyphraseDistractionPercentage: 10,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "彼女はオンラインストアで<yoastmark class='yoast-text-mark'>黒</yoastmark>の<yoastmark class='yoast-text-mark'>長袖</yoastmark>" +
@@ -1960,7 +1988,7 @@ describe( "Test for the research for Japanese language", function() {
 	} );
 
 	it( "returns the result for keyword with 5 characters, all characters should be present to be considered a match", function() {
-		// All the characters in the keyphrase is present in the first sentence, but not in the second sentence.
+		// All the characters in the keyphrase are present in the first sentence, but not in the second sentence.
 		const paper = new Paper(
 			"彼は新しい車を買いました。その車はとても速いです。",
 			{
@@ -1972,11 +2000,11 @@ describe( "Test for the research for Japanese language", function() {
 
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 50 );
+		expect( keyphraseDistributionResearcher( paper, researcher ).KeyphraseDistractionPercentage ).toEqual( 10 );
 	} );
 
 	it( "returns the result for keyword longer than 7 characters but shorter than 4 words: at least 50% of the keyphrase should be found", function() {
-		// Not all the characters in the keyphrase is present in either sentence.
+		// Not all the characters in the keyphrase are present in either sentence.
 		const paper = new Paper(
 			"彼は新しい車を買いました。レッサーパンダの保護。",
 			{
@@ -1987,7 +2015,7 @@ describe( "Test for the research for Japanese language", function() {
 
 		const researcher = new JapaneseResearcher( paper );
 		buildTree( paper, researcher );
-		expect( keyphraseDistributionResearcher( paper, researcher ).keyphraseDistributionScore ).toEqual( 50 );
+		expect( keyphraseDistributionResearcher( paper, researcher ).KeyphraseDistractionPercentage ).toEqual( 10 );
 	} );
 } );
 
