@@ -1,8 +1,9 @@
 import { Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __, _x } from "@wordpress/i18n";
 import { YoastIcon, HowIcon } from "../../icons";
-import { ClockIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon, QuestionMarkCircleIcon } from "@heroicons/react/outline";
+import { ClockIcon, QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { CallToActionButton } from "./call-to-action-button";
+import { priorities } from "../priorities";
 
 /**
  * The type of callToAction prop.
@@ -34,20 +35,6 @@ import { CallToActionButton } from "./call-to-action-button";
  */
 export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
 	const svgAriaProps = useSvgAria();
-	const priorities = {
-		low: {
-			label: __( "Low", "wordpress-seo" ),
-			icon: <ChevronDoubleDownIcon className="yst-w-4 yst-text-slate-400" />,
-		},
-		medium: {
-			label: __( "Medium", "wordpress-seo" ),
-			icon: <MenuAlt4Icon className="yst-w-4 yst-text-amber-500" />,
-		},
-		high: {
-			label: __( "High", "wordpress-seo" ),
-			icon: <ChevronDoubleUpIcon className="yst-w-4 yst-text-red-600" />,
-		},
-	};
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
 		<Modal.Panel className="yst-p-0">
