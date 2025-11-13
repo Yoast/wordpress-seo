@@ -40,6 +40,9 @@ export default {
 			},
 			options: [ "low", "medium", "high" ],
 		},
+		isCompleted: {
+			description: "Whether the task is completed. If true, the call to action button will be disabled.",
+		},
 	},
 	args: {
 		isOpen: false,
@@ -55,6 +58,7 @@ export default {
 			onClick: noop,
 		},
 		taskId: "task-1",
+		isCompleted: false,
 	},
 };
 

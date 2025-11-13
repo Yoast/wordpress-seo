@@ -28,10 +28,11 @@ import { CallToActionButton } from "./call-to-action-button";
  * @param {string}   why           Details on why the task is important.
  * @param {string}   how           Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
+ * @param {boolean}  isCompleted   Whether the task is completed.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
 	const svgAriaProps = useSvgAria();
 	const priorities = {
 		low: {
@@ -103,7 +104,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<CallToActionButton { ...callToAction } taskId={ taskId } />
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>
