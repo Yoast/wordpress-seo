@@ -9,9 +9,9 @@ describe( "CallToActionButton", () => {
 		expect( screen.getByRole( "button", { name: /do it/i } ) ).toBeInTheDocument();
 	} );
 
-	it( "calls onClick when clicked (create/delete/default types)", () => {
+	it( "calls onClick when clicked (add/delete/default types)", () => {
 		const handleClick = jest.fn();
-		render( <CallToActionButton label="Create" type="create" onClick={ handleClick } /> );
+		render( <CallToActionButton label="Create" type="add" onClick={ handleClick } /> );
 		fireEvent.click( screen.getByRole( "button", { name: /create/i } ) );
 		expect( handleClick ).toHaveBeenCalledTimes( 1 );
 	} );
@@ -24,12 +24,12 @@ describe( "CallToActionButton", () => {
 	} );
 
 	it( "is disabled when disabled prop is true", () => {
-		render( <CallToActionButton label="Disabled" type="create" onClick={ onClickMock } disabled={ true } /> );
+		render( <CallToActionButton label="Disabled" type="add" onClick={ onClickMock } disabled={ true } /> );
 		expect( screen.getByRole( "button", { name: /disabled/i } ) ).toBeDisabled();
 	} );
 
 	it.each( [
-		[ "create", { label: "Create", type: "create", onClick: onClickMock } ],
+		[ "add", { label: "Create", type: "add", onClick: onClickMock } ],
 		[ "delete", { label: "Delete", type: "delete", onClick: onClickMock } ],
 		[ "link", { label: "Go", type: "link", href: "https://example.com" } ],
 		[ "default", { label: "Default", onClick: onClickMock } ],

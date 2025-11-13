@@ -23,7 +23,7 @@ export default {
 			control: false,
 		},
 		callToAction: {
-			description: "An object containing the CTA button type, label, href, disabled, isLoading and a callback function that takes the taskId as an argument.",
+			description: "An object containing the CTA button type (add/delete/link/default), label, href, disabled, isLoading and a callback function that takes the taskId as an argument.",
 		},
 		title: {
 			description: "Title of the modal.",
@@ -39,9 +39,6 @@ export default {
 				type: "select",
 			},
 			options: [ "low", "medium", "high" ],
-		},
-		detailsList: {
-			description: "List of details to display in the modal. Each item in the list is an object with `Icon`, `title`, and `description` properties.",
 		},
 	},
 	args: {

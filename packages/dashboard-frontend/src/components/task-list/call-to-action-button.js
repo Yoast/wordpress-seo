@@ -5,7 +5,7 @@ import { useCallback } from "@wordpress/element";
 /**
  * CallToActionButton component.
  *
- * @param {string} type The type of call to action: 'internal' or 'external'.
+ * @param {string} type The type of call to action: add,link,delete,default.
  * @param {string} label The label for the button.
  * @param {Function} onClick The onClick handler for the button.
  * @param {string} href The URL to navigate to (for external links).
@@ -36,7 +36,7 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 		buttonProps.onClick = handleOnClick;
 	}
 
-	if ( type === "create" ) {
+	if ( type === "add" ) {
 		return <Button { ...buttonProps }>
 			<PlusIcon className="yst-w-4 yst-text-white"  />
 			{ label }

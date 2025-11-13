@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CallToActionButton matches snapshot for type 'create' 1`] = `
+exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
 <button
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   id="cta-button-undefined"
