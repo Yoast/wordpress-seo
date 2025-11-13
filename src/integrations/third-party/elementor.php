@@ -183,14 +183,16 @@ class Elementor implements Integration_Interface {
 
 	/**
 	 * Start capturing buffer.
+	 *
 	 * @return void
 	 */
 	public function start_capturing() {
-		ob_start();
+		\ob_start();
 	}
 
 	/**
 	 * End capturing buffer and add the Yoast SEO button inside the Elements panel.
+	 *
 	 * @return void
 	 */
 	public function end_capturing() {
