@@ -1,6 +1,6 @@
 {
   "name": "@yoast/social-metadata-previews",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "main": "build/index.js",
   "files": [
     "build",
@@ -28,10 +28,10 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^5.8.2",
-    "@yoast/components": "^3.0.0-alpha.2",
-    "@yoast/replacement-variable-editor": "^2.0.0-alpha.0",
-    "@yoast/social-metadata-forms": "^2.0.0-alpha.0",
-    "@yoast/style-guide": "^0.14.0-alpha.0",
+    "@yoast/components": "^3.0.0-alpha.3",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.1",
+    "@yoast/social-metadata-forms": "^2.0.0-alpha.1",
+    "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
     "react": "^18.3.1",
@@ -44,7 +44,7 @@
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
-    "@yoast/browserslist-config": "^1.2.4",
+    "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",
     "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",

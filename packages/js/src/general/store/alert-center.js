@@ -47,6 +47,18 @@ const toggleAlert = ( state, id ) => {
 };
 
 /**
+ * Sets a resolve success message.
+ *
+ * @param {object} state The state.
+ * @param {string} resolveSuccessMessage The resolve success message.
+ *
+ * @returns {void}
+ */
+const setResolveSuccessMessage = ( state, { payload: resolveSuccessMessage } ) => {
+	state.resolveSuccessMessage = resolveSuccessMessage;
+};
+
+/**
  * Sets an error in case of unsuccessful toggling..
  *
  * @param {object} state The state.
@@ -65,10 +77,11 @@ const setAlertToggleError = ( state, id ) => {
 
 const slice = createSlice( {
 	name: ALERT_CENTER_NAME,
-	initialState: { alertToggleError: null, alerts: [] },
+	initialState: { alertToggleError: null, alerts: [], resolveSuccessMessage: null },
 	reducers: {
 		toggleAlert,
 		setAlertToggleError,
+		setResolveSuccessMessage,
 		/**
 		 * @param {Object} state The state of the slice.
 		 * @param {string} id The ID of the alert to remove.
@@ -107,6 +120,14 @@ const selectActiveAlerts = createSelector(
 );
 
 /**
+ * Selector to get the resolve success message.
+ *
+ * @param {object} state The state.
+ * @returns {string} The resolve success message.
+ */
+const selectResolveSuccessMessage = ( state ) => get( state, `${ ALERT_CENTER_NAME }.resolveSuccessMessage`, null );
+
+/**
  * Selector to get the alert toggle error.
  *
  * @param {object} state The state.
@@ -132,6 +153,7 @@ export const alertCenterSelectors = {
 		( alerts ) => alerts.filter( ( alert ) => alert.type === "warning" && alert.dismissed )
 	),
 	selectAlertToggleError,
+	selectResolveSuccessMessage,
 	selectAlert: createSelector(
 		[
 			selectAlerts,
