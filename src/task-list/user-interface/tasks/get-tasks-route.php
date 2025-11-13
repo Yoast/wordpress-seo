@@ -1,20 +1,18 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\User_Interface\Detection;
+namespace Yoast\WP\SEO\Task_List\User_Interface\Tasks;
 
 use Exception;
-use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Collector;
-use Yoast\WP\SEO\Task_List\Domain\Task_Not_Found_Exception;
 
 /**
- * Tasks route.
+ * Get tasks route.
  */
-final class Detect_Task_Route implements Route_Interface {
+final class Get_Tasks_Route implements Route_Interface {
 
 	/**
 	 * The namespace of the route.
@@ -28,7 +26,7 @@ final class Detect_Task_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	public const ROUTE_NAME = '/detect_task';
+	public const ROUTE_NAME = '/get_tasks';
 
 	/**
 	 * The task collector.
@@ -50,6 +48,7 @@ final class Detect_Task_Route implements Route_Interface {
 	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals(): array {
+		// @TODO: Add the conditional of whether the tasklist feature is enabled (as with the other endpoints too).
 		return [];
 	}
 
@@ -79,17 +78,22 @@ final class Detect_Task_Route implements Route_Interface {
 			[
 				[
 					'methods'             => 'GET',
-					'callback'            => [ $this, 'detect_task' ],
+					'callback'            => [ $this, 'get_tasks' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'options' => [
 							'type'       => 'object',
-							'required'   => true,
+							'required'   => false,
 							'properties' => [
-								'task' => [
+								'filter' => [
 									'type'              => 'string',
-									'required'          => true,
+									'required'          => false,
 									'sanitize_callback' => 'sanitize_text_field',
+								],
+								'limit' => [
+									'type'              => 'int',
+									'required'          => false,
+									'sanitize_callback' => 'absint',
 								],
 							],
 						],
@@ -100,21 +104,17 @@ final class Detect_Task_Route implements Route_Interface {
 	}
 
 	/**
-	 * Detects whether a task is completed.
-	 *
-	 * @param WP_REST_Request $request The request object.
+	 * Gets tasks with their information.
 	 *
 	 * @return WP_REST_Response The success or failure response.
-	 *
-	 * @throws Task_Not_Found_Exception When the given task name is not implemented yet.
 	 */
-	public function detect_task( WP_REST_Request $request ): WP_REST_Response {
+	public function get_tasks(): WP_REST_Response {
 		try {
-			$task_name = $request->get_param( 'options' )['task'];
-			$task      = $this->tasks_collector->get_task( $task_name );
+			$tasks      = $this->tasks_collector->get_tasks();
+			$tasks_info = [];
 
-			if ( ! $task ) {
-				throw new Task_Not_Found_Exception();
+			foreach ( $tasks as $task ) {
+				$tasks_info[ $task->get_id() ] = $task->to_array();
 			}
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
@@ -128,8 +128,8 @@ final class Detect_Task_Route implements Route_Interface {
 
 		return new WP_REST_Response(
 			[
-				'success'     => true,
-				'isCompleted' => $task->get_is_completed(),
+				'success' => true,
+				'tasks'   => $tasks_info,
 			],
 			200
 		);

@@ -61,11 +61,12 @@ class Notification_Helper {
 		return \array_map(
 			function ( $notification ) {
 				return [
-					'id'        => $notification->get_id(),
-					'message'   => $notification->get_message(),
-					'nonce'     => $notification->get_nonce(),
-					'type'      => $notification->get_type(),
-					'dismissed' => $this->is_notification_dismissed( $notification ),
+					'id'           => $notification->get_id(),
+					'message'      => $notification->get_message(),
+					'nonce'        => $notification->get_nonce(),
+					'type'         => $notification->get_type(),
+					'dismissed'    => $this->is_notification_dismissed( $notification ),
+					'resolveNonce' => $notification->get_resolve_nonce(),
 				];
 			},
 			$all_notifications
