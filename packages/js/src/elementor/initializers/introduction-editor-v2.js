@@ -58,8 +58,11 @@ export default function initializeIntroductionEditorV2() {
 		onDialogInitCallback( dialog ) {
 			// Auto-dismiss when a user actually opens the Yoast tab.
 			window.$e.routes.on( "run:after", ( component, route ) => {
-				if ( route === "panel/elements/yoast-seo-tab" && ! introduction.introductionViewed ) {
-					introduction.setViewed().finally( () => dialog.hide() );
+				if ( ! introduction.introductionViewed ) {
+					// Auto-dismiss when the user opens the Yoast SEO tab or when leaving the Elements panel.
+					if ( route === "panel/elements/yoast-seo-tab" || ! route.startsWith( "panel/elements" ) ) {
+						introduction.setViewed().finally( () => dialog.hide() );
+					}
 				}
 			} );
 
@@ -92,7 +95,7 @@ export default function initializeIntroductionEditorV2() {
 
 		if ( ! target ) {
 			// Try again shortly until the tab button is rendered.
-			setTimeout( showIntroduction, 120 );
+			setTimeout( showIntroduction, 100 );
 			return;
 		}
 
@@ -106,5 +109,5 @@ export default function initializeIntroductionEditorV2() {
 	}
 
 	// Defer the initial attempt to ensure panel DOM is present.
-	setTimeout( showIntroduction, 200 );
+	setTimeout( showIntroduction, 100 );
 }
