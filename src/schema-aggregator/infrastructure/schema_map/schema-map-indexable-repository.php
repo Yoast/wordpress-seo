@@ -57,6 +57,26 @@ class Schema_Map_Indexable_Repository {
 	}
 
 	/**
+	 * Gets the indexable count for a single post type.
+	 *
+	 * @param string $post_type The post type to get the indexable count for.
+	 *
+	 * @return Indexable_Count The indexable count for the post type.
+	 */
+	public function get_indexable_count_for_post_type( string $post_type ): Indexable_Count {
+		$indexable_raw_value = $this->indexable_repository->query()
+			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
+			->where( 'object_sub_type', $post_type )
+			->find_one();
+
+		if ( empty( $indexable_raw_value ) ) {
+			return new Indexable_Count( $post_type, 0 );
+		}
+
+		return new Indexable_Count( $indexable_raw_value->object_sub_type, (int) $indexable_raw_value->count );
+	}
+
+	/**
 	 * Get lastmod timestamp for a post type and page range
 	 *
 	 * Returns the latest post_modified_gmt timestamp for posts in the given range.
