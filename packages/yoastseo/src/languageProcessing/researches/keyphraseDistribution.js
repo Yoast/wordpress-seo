@@ -32,7 +32,7 @@ import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
 
 /**
  * @typedef KeyphraseDistributionResult
- * @property {number} keyphraseDistributionScore The keyphrase distribution score.
+ * @property {number} KeyphraseDistractionPercentage The percentage representing the largest portion of text without the keyphrase.
  * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
  */
 
@@ -146,6 +146,29 @@ const getDistraction = function( sentenceScores ) {
 };
 
 /**
+ * Calculates the keyphrase distraction percentage. A higher percentage indicates more distraction, i.e. worse distribution.
+ * For texts that are 15 sentences or longer, we calculate a percentage based on the maximum distraction - the maximum consecutive sentences without the keyphrase.
+ * For shorter texts, we assign an arbitrary low (=good) percentage if the keyphrase is found in at least one sentence.
+ * If it's not found in any sentence, we return 100%, which is the percentage assigned to texts without the keyphrase (both shorter and longer texts).
+ *
+ * @param {number} 		numberOfSentences
+ * @param {number[]}	maximizedSentenceScores
+ * @returns {number}	The keyphrase distraction percentage.
+ */
+const getKeyphraseDistractionPercentage = ( numberOfSentences, maximizedSentenceScores ) => {
+	if ( numberOfSentences >= 15 ) {
+		const maxLengthDistraction = getDistraction( maximizedSentenceScores );
+		return maxLengthDistraction / numberOfSentences * 100;
+	}
+	// For short texts, return a low (=good) score if the keyphrase is found in at least one sentence.
+	if ( maximizedSentenceScores.includes( 9 ) ) {
+		return 10;
+	}
+	// If the keyphrase is not found in any sentence, return the score 100.
+	return 100;
+};
+
+/**
  * Assigns a score to each sentence based on whether the topic is found in the sentence or not (9 if found, 3 if not found).
  * Whether the topic is considered to be found depends on the topic’s length, and whether there is function word support available for that language.
  *
@@ -233,14 +256,11 @@ const isAValidSentence = ( currentSentence, nextSentence ) => {
 	const sentenceDelimiterRegex = new RegExp( "^[." + sentenceDelimiters + "]$" );
 
 	const currentSentenceLastToken = currentSentence.getLastToken();
-	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if next sentence exists,
-	// it should start with a valid sentence beginning.
-	if ( nextSentence ) {
-		const nextSentenceFirstToken = nextSentence.getFirstToken();
-		return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
-			( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
-	}
-	return sentenceDelimiterRegex.test( currentSentenceLastToken.text );
+	// It is a valid sentence if the last token of the current sentence is ending with a sentence delimiter and if the next
+	// sentence starts with a valid sentence beginning.
+	const nextSentenceFirstToken = nextSentence.getFirstToken();
+	return sentenceDelimiterRegex.test( currentSentenceLastToken.text ) &&
+		( nextSentenceFirstToken && sentenceTokenizer.isValidSentenceBeginning( nextSentenceFirstToken.text[ 0 ] ) );
 };
 
 /**
@@ -359,11 +379,12 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	} = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
 		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested );
 
-	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
+	const numberOfSentences = sentences.length;
+	const KeyphraseDistractionPercentage = getKeyphraseDistractionPercentage( numberOfSentences, maximizedSentenceScores );
 
 	return {
 		sentencesToHighlight: flattenDeep( sentencesToHighlight ),
-		keyphraseDistributionScore: maxLengthDistraction / sentences.length * 100,
+		KeyphraseDistractionPercentage: KeyphraseDistractionPercentage,
 	};
 };
 

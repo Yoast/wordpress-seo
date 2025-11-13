@@ -91,8 +91,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found, Squiz.Commenting.InlineComment.InvalidEndChar -- we're gonna postpone this notification until we're actually ready for it.
-		// \add_action( 'admin_init', [ $this, 'add_notifications' ] );
+		\add_action( 'admin_init', [ $this, 'add_notifications' ] );
 	}
 
 	/**
@@ -155,10 +154,11 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 		return new Yoast_Notification(
 			$message,
 			[
-				'id'           => self::NOTIFICATION_ID,
-				'type'         => Yoast_Notification::WARNING,
-				'capabilities' => [ 'wpseo_manage_options' ],
-				'priority'     => 20,
+				'id'            => self::NOTIFICATION_ID,
+				'type'          => Yoast_Notification::WARNING,
+				'capabilities'  => [ 'wpseo_manage_options' ],
+				'priority'      => 20,
+				'resolve_nonce' => \wp_create_nonce( 'wpseo-resolve-alert-nonce' ),
 			]
 		);
 	}
@@ -169,21 +169,13 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 	 * @return string The HTML string representation of the notification.
 	 */
 	private function get_message() {
-		$shortlink = $this->short_link_helper->get( 'https://yoa.st/new-admin-newsletter-sign-up/' );
-
 		$message = \sprintf(
-			/* translators: %1$s and %3$s expands to "Yoast SEO" , %2$s expands to an opening link tag, %4$s expands to a closing link tag. */
-			\esc_html__( 'Looks like you’re new here. %1$s makes it easy to optimize your website for search engines. Want to keep your site healthy and easier to find? %2$sSign up for the %3$s newsletter for short, practical weekly tips%4$s.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
-			'Yoast SEO',
-			'</a>'
+			/* translators: %1$s expands to "Yoast SEO". */
+			\esc_html__( 'Looks like you’re new here. %1$s makes it easy to optimize your website for search engines. Want to keep your site healthy and easier to find? Sign up below to receive practical emails to get you started!', 'wordpress-seo' ),
+			'Yoast SEO'
 		);
 
-		$notification_text  = '<p>' . $message . '</p>';
-		$notification_text .= '<a class="button wpseo-resolve-alert" href="#" data-alert-id="' . \esc_attr( self::NOTIFICATION_ID ) . '" data-nonce="' . \esc_attr( \wp_create_nonce( 'wpseo-resolve-alert-nonce' ) ) . '">';
-		$notification_text .= \esc_html__( 'Dismiss', 'wordpress-seo' );
-		$notification_text .= '</a>';
+		$notification_text = '<p>' . $message . '</p>';
 
 		return $notification_text;
 	}
