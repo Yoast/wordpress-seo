@@ -3,7 +3,7 @@ import { __, _x } from "@wordpress/i18n";
 import { YoastIcon, HowIcon } from "../../icons";
 import { ClockIcon, QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { CallToActionButton } from "./call-to-action-button";
-import { priorities } from "../priorities";
+import { Priority } from "./priority";
 
 /**
  * The type of callToAction prop.
@@ -53,9 +53,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 									/* translators: This is a unit abbreviation for minutes. */
 									_x( "m", "Abbreviation for minutes", "wordpress-seo" )
 								}
-							</span> · <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1">
-								{ priorities[ priority ].icon }
-								{ priorities[ priority ].label }</span>
+							</span> · <Priority level={ priority } />
 						</div>
 					</div>
 				</Modal.Container.Header>
