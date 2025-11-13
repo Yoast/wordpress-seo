@@ -12,37 +12,37 @@ class Copy_Set {
 	 *
 	 * @var string
 	 */
-	private $title_copy;
+	private $title;
 
 	/**
 	 * The why copy.
 	 *
 	 * @var string
 	 */
-	private $why_copy;
+	private $why;
 
 	/**
-	 * The how to copy.
+	 * The how copy.
 	 *
 	 * @var string
 	 */
-	private $how_to_copy;
+	private $how;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $title_copy  The title copy.
-	 * @param string $why_copy    The why copy.
-	 * @param string $how_to_copy The how to copy.
+	 * @param string $title The title copy.
+	 * @param string $why   The why copy.
+	 * @param string $how   The how copy.
 	 */
 	public function __construct(
-		string $title_copy,
-		string $why_copy,
-		string $how_to_copy
+		string $title,
+		string $why,
+		string $how
 	) {
-		$this->title_copy  = $title_copy;
-		$this->why_copy    = $why_copy;
-		$this->how_to_copy = $how_to_copy;
+		$this->title = $title;
+		$this->why   = $why;
+		$this->how   = $how;
 	}
 
 	/**
@@ -52,9 +52,9 @@ class Copy_Set {
 	 */
 	public function to_array(): array {
 		return [
-			'title_copy'  => $this->title_copy,
-			'why_copy'    => $this->why_copy,
-			'how_to_copy' => $this->how_to_copy,
+			'title' => $this->title,
+			'why'   => $this->why,
+			'how'   => $this->how,
 		];
 	}
 }
