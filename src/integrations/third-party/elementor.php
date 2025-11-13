@@ -166,8 +166,8 @@ class Elementor implements Integration_Interface {
 		}
 
 		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'init' ] );
-		\add_action( 'elementor/editor/footer', [ $this, 'start_capturing' ], 0 );
-		\add_action( 'elementor/editor/footer', [ $this, 'end_capturing' ], 999 );
+		\add_action( 'elementor/editor/footer', [ $this, 'start_output_buffering' ], 0 );
+		\add_action( 'elementor/editor/footer', [ $this, 'inject_yoast_tab' ], 999 );
 	}
 
 	/**
@@ -186,16 +186,16 @@ class Elementor implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function start_capturing() {
+	public function start_output_buffering() {
 		\ob_start();
 	}
 
 	/**
-	 * End capturing buffer and add the Yoast SEO button inside the Elements panel.
+	 * Injects the Yoast SEO tab into the Elements panel of the Elementor editor.
 	 *
 	 * @return void
 	 */
-	public function end_capturing() {
+	public function inject_yoast_tab() {
 		$output  = \ob_get_clean();
 		$search  = '/(<(div|button) class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/(div|button)>)/m';
 		$replace = '${1}<${2} class="elementor-component-tab elementor-panel-navigation-tab" data-tab="yoast-seo-tab">Yoast SEO</${2}>';

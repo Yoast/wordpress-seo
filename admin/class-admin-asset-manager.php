@@ -252,7 +252,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Gets the list of Elementor dependencies.
 	 *
-	 * @return array The array of elementor dependencies.
+	 * @return array<string> The array of elementor dependencies.
 	 */
 	protected function get_elementor_dependencies() {
 		$dependencies = [
