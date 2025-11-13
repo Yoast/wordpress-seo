@@ -24,7 +24,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 *
 	 * @var string
 	 */
-	protected $priority = 'normal';
+	protected $priority = 'medium';
 
 	/**
 	 * Holds the duration.

@@ -24,7 +24,7 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	 *
 	 * @var string
 	 */
-	protected $priority = 'normal';
+	protected $priority = 'medium';
 
 	/**
 	 * Holds the duration.
