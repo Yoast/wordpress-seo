@@ -61,7 +61,9 @@ export default function initializeIntroductionEditorV2() {
 				if ( ! introduction.introductionViewed ) {
 					// Auto-dismiss when the user opens the Yoast SEO tab or when leaving the Elements panel.
 					if ( route === "panel/elements/yoast-seo-tab" || ! route.startsWith( "panel/elements" ) ) {
-						introduction.setViewed().finally( () => dialog.hide() );
+						// Hide immediately to prevent delay, then mark as viewed in background.
+						dialog.hide();
+						introduction.setViewed();
 					}
 				}
 			} );
@@ -70,7 +72,8 @@ export default function initializeIntroductionEditorV2() {
 			window.elementor.channels.dataEditMode.on( "switch", function( activeMode ) {
 				// If switched to preview mode, hide the introduction.
 				if ( activeMode === "preview" && ! introduction.introductionViewed ) {
-					introduction.setViewed().finally( () => dialog.hide() );
+					dialog.hide();
+					introduction.setViewed();
 				}
 			} );
 
@@ -79,7 +82,8 @@ export default function initializeIntroductionEditorV2() {
 				text: __( "Got it", "wordpress-seo" ),
 				classes: "elementor-button elementor-button-success",
 				callback: () => {
-					introduction.setViewed().finally( () => dialog.hide() );
+					dialog.hide();
+					introduction.setViewed();
 				},
 			} );
 		},
