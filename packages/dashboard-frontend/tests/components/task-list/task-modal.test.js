@@ -18,6 +18,7 @@ describe( "TaskModal", () => {
 		taskId: "task-1",
 		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
 		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
+		isCompleted: false,
 	};
 
 	it( "renders the modal when open", () => {
@@ -57,5 +58,11 @@ describe( "TaskModal", () => {
 		render( <TaskModal { ...defaultProps } /> );
 		fireEvent.click( screen.getByText( /Start configuration/i ) );
 		expect( defaultProps.callToAction.onClick ).toHaveBeenCalled();
+	} );
+
+	it( "disables the CTA button when isCompleted is true", () => {
+		render( <TaskModal { ...defaultProps } isCompleted={ true } /> );
+		const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
+		expect( ctaButton ).toBeDisabled();
 	} );
 } );
