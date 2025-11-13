@@ -248,9 +248,9 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-enable_schema_aggregator"
 								inputId="input-wpseo-enable_schema_aggregator"
 								imageSrc="/images/icon-schema-aggregator.svg"
-								title={ __( "Schema aggregator", "wordpress-seo" ) }
+								title={ __( "Schema aggregation endpoint", "wordpress-seo" ) }
 							>
-								<p>{ __( "Surprisingly, this feature aggregates the schema..", "wordpress-seo" ) }</p>
+								<p>{ __( "Provides a single JSON endpoint with all your site’s structured data, enabling NLWeb to power natural language AI queries on your content.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-schema-aggregator" link="https://yoa.st/site-features-schema-aggregator-learn-more" ariaLabel={ __( "Schema aggregator", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
