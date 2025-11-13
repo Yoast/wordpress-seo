@@ -1,3 +1,4 @@
+import jQuery from "jquery";
 // eslint-disable-next-line import/no-unresolved
 import Marionette from "Marionette";
 
@@ -8,12 +9,12 @@ export const YoastPanelView = Marionette.ItemView.extend( {
 	id: "yoast-elementor-react-panel",
 	className: "yoast yoast-elementor-panel__fills",
 	initialize() {
-		$( "#elementor-panel-elements-search-area" ).hide();
+		jQuery( "#elementor-panel-elements-search-area" ).hide();
 	},
 	onShow() {
 		showYoastPanelAnalysis();
 	},
 	onDestroy() {
-		$( "#elementor-panel-elements-search-area" ).show();
+		jQuery( "#elementor-panel-elements-search-area" ).show();
 	},
 } );
