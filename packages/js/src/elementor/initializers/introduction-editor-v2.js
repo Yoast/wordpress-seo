@@ -9,7 +9,7 @@ export default function initializeIntroductionEditorV2() {
 	const INTRO_KEY = "yoast-introduction-editor-v2";
 	const TARGET_SELECTOR = "button[data-tab='yoast-seo-tab']";
 
-	// Skip if already viewed (truthy check).
+	// Don't show the introduction if already viewed.
 	if ( window.elementor?.config?.user?.introduction?.[ INTRO_KEY ] ) {
 		return;
 	}
@@ -22,7 +22,7 @@ export default function initializeIntroductionEditorV2() {
 			className: "elementor-right-click-introduction yoast-elementor-introduction",
 			headerMessage: __( "Yoast SEO for Elementor", "wordpress-seo" ),
 			message: __( "Get started with Yoast SEO's content analysis for Elementor!", "wordpress-seo" ),
-			// We will set `position.of` later when target exists.
+			// We will set `position.of` later when the target exists.
 			position: {
 				my: "center top",
 				at: "center bottom+12",
@@ -56,9 +56,17 @@ export default function initializeIntroductionEditorV2() {
 			},
 		},
 		onDialogInitCallback( dialog ) {
-			// Auto-dismiss when a user actually opens the Yoast tab (optional).
+			// Auto-dismiss when a user actually opens the Yoast tab.
 			window.$e.routes.on( "run:after", ( component, route ) => {
 				if ( route === "panel/elements/yoast-seo-tab" && ! introduction.introductionViewed ) {
+					introduction.setViewed().finally( () => dialog.hide() );
+				}
+			} );
+
+			// Auto-dismiss when switching to preview mode, and the Elements panel is hidden.
+			window.elementor.channels.dataEditMode.on( "switch", function( activeMode ) {
+				// If switched to preview mode, hide the introduction.
+				if ( activeMode === "preview" && ! introduction.introductionViewed ) {
 					introduction.setViewed().finally( () => dialog.hide() );
 				}
 			} );
@@ -97,6 +105,6 @@ export default function initializeIntroductionEditorV2() {
 		introduction.show( target );
 	}
 
-	// Defer initial attempt to ensure panel DOM is present.
+	// Defer the initial attempt to ensure panel DOM is present.
 	setTimeout( showIntroduction, 200 );
 }
