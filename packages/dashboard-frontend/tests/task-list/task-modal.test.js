@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { TaskModal } from "../../../src/components/task-list/task-modal";
+import { TaskModal } from "../../src/task-list/components/task-modal";
 
 describe( "TaskModal", () => {
 	const defaultProps = {

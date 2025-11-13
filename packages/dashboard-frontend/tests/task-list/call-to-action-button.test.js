@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CallToActionButton } from "../../../src/components/task-list/call-to-action-button";
+import { CallToActionButton } from "../../src/task-list/components/call-to-action-button";
 
 describe( "CallToActionButton", () => {
 	const onClickMock = jest.fn();

@@ -1,4 +1,4 @@
-import { TaskModal } from "../../../src/components/task-list/task-modal";
+import { TaskModal } from "../../../src/task-list/components/task-modal";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
