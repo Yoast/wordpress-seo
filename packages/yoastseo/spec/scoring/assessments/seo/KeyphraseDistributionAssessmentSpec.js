@@ -67,7 +67,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 			"<a href='https://yoa.st/33u' target='_blank'>Please add both a keyphrase and some text containing the keyphrase or its synonyms</a>." );
 	} );
 
-	it( "returns a bad score when the % of sentences between topic occurrences is above the acceptable distribution score (50%)", function() {
+	it( "returns a bad score when the % of sentences between topic occurrences is above the max acceptable distraction percentage (50%)", function() {
 		const mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
@@ -83,7 +83,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 			" them more evenly</a>." );
 	} );
 
-	it( "returns an okay score when the % of sentences between topic occurrences is between recommended acceptable (50%) and good score (30%)", function() {
+	it( "returns an okay score when the % of sentences between topic occurrences is between the max acceptable (50%) and recommended distraction percentage (30%)", function() {
 		const mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
@@ -100,7 +100,7 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 			" them more evenly</a>." );
 	} );
 
-	it( "returns a good score score when the % of sentences between topic occurrences is lower than the recommended good score (30%)", function() {
+	it( "returns a good score when the % of sentences between topic occurrences is lower than the maximum recommended distraction percentage (30%)", function() {
 		const mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,

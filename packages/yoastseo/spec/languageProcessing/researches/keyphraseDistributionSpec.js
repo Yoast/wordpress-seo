@@ -566,7 +566,7 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
-	it( "returns a score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
+	it( "returns a distraction percentage over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
@@ -662,7 +662,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns the same score when function words are added", function() {
+	it( "returns the same distraction percentage when function words are added", function() {
 		const paper = new Paper(
 			sentencesEN.map( sentence => sentence.text ).join( " " ),
 			{
@@ -763,7 +763,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
+	it( "returns a distraction percentage (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
 		"sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
@@ -848,7 +848,7 @@ describe( "Test for the research", function() {
 	 * The following Italian tests are not language-specific as they are an example of languages in general
 	 * that have no morphology support.
 	 */
-	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
+	it( "returns the same distraction percentage when function words are added (for a language without morphological support, but with function words, " +
 		"e.g. Italian in Free)", function() {
 		primeLanguageSpecificData.cache.clear();
 
@@ -932,8 +932,9 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
+
 	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
-		"returns the same score", function() {
+		"returns the same distraction percentage as above", function() {
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
 			{
@@ -1020,7 +1021,7 @@ describe( "Test for the research", function() {
 	} );
 
 	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
-		"returns a different score", function() {
+		"returns a different distraction percentage", function() {
 		// The word that is matched here is "qualcosa".
 		const paper = new Paper(
 			sentencesIT.map( sentence => sentence.text ).join( " " ),
@@ -1081,7 +1082,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns the score 100 when the keyphrase is used inside an element we want to exclude from the analysis", function() {
+	it( "returns the distraction percentage 100 when the keyphrase is used inside an element we want to exclude from the analysis", function() {
 		const paper = new Paper(
 			"This is a text with a <code>keyphrase</code> that doesn't count",
 			{
@@ -1101,7 +1102,7 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns the score 100 when the keyphrase is a shortcode", function() {
+	it( "returns the distraction percentage 100 when the keyphrase is a shortcode", function() {
 		const paper = new Paper(
 			"This is a text with a [keyphrase]that doesn't count",
 			{
@@ -1134,7 +1135,7 @@ describe( "Test for the research", function() {
 		" Nullam magna nunc, vulputate et metus et, pulvinar tempor magna. Mauris lectus arcu, efficitur sit amet rutrum" +
 		" rhoncus, tincidunt non lacus. Cras eget lectus venenatis, varius massa eu, lobortis dui. </p>";
 
-	it( "calculates keyphrase distribution score correctly for content with plain text structure", function() {
+	it( "calculates keyphrase distraction percentage correctly for content with plain text structure", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 		const fruitString = fruits.join( " " );
 
@@ -1153,11 +1154,11 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition );
 
-		// Test that the score is correct (9/18*100 = 50).
+		// Test that the percentage is correct (9/18*100 = 50).
 		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with single word list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with single word list items", function() {
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
 
@@ -1177,11 +1178,11 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
-		// Test that the score is correct (9/18*100 = 50).
+		// Test that the percentage is correct (9/18*100 = 50).
 		expect( result.KeyphraseDistractionPercentage ).toEqual( 50 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with short phrases as the list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with short phrases as the list items", function() {
 		const listItems = [
 			"<li>List item one</li>",
 			"<li>List item two.</li>",
@@ -1201,11 +1202,11 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paper, researcher );
 
-		// Test that the score is correct (9/19*100 = 47.368421052631575).
+		// Test that the percentage is correct (9/19*100 = 47.368421052631575).
 		expect( result.KeyphraseDistractionPercentage ).toEqual( 47.368421052631575 );
 	} );
 
-	it( "calculates keyphrase distribution score for content with HTML list structure with full sentences as the list items", function() {
+	it( "calculates keyphrase distraction percentage for content with HTML list structure with full sentences as the list items", function() {
 		const fruitStatements = [
 			"This is an apple.",
 			"This is a pear.",
@@ -1233,7 +1234,7 @@ describe( "Test for the research", function() {
 
 		const result = keyphraseDistributionResearcher( paperWithList, researcherListCondition );
 
-		// Test that the score is correct (15/24*100 = 62.5 ).
+		// Test that the percentage is correct (15/24*100 = 62.5 ).
 		expect( result.KeyphraseDistractionPercentage ).toEqual( 62.5 );
 	} );
 
@@ -1397,7 +1398,7 @@ describe( "Test for the research", function() {
 				keyword: "block editor",
 			}
 		);
-		// console.log( { text2: paperWithWords.getText() } );
+
 		const researcherListCondition = new Researcher( paperWithList );
 		buildTree( paperWithList, researcherListCondition );
 		researcherListCondition.addResearchData( "morphology", morphologyData );
@@ -1764,7 +1765,7 @@ describe( "Test for the research for Japanese language", function() {
 		"能ムヒテ文使ぜで体室ずスッ特飛大メフレ坂連減ラひせ記羊ヒテユヱ界機あずはぼ時場が転稲よ利置生なゆ多多ド確覧ぴレが界華ム季必イルゃ良政厳ぜずす井転リ訪也極番技しぎぴ。" +
 		"部ンへ大罪こ明技チルメ一挙ヌハ覚教うあせル年故点タル杖1課れでリ闘変だ充個記ヒフタ発58景離派28討ラ円庫提阪タ摘焦茂急けやちッ。";
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
 		"(when morphology data is available)", function() {
 		// The text has 15 sentences and a maximum distraction of 11 sentences.
 		const paper = new Paper(
@@ -1795,7 +1796,7 @@ describe( "Test for the research for Japanese language", function() {
 		} );
 	} );
 
-	it( "returns the same score when function words are added", function() {
+	it( "returns the same distraction percentage when function words are added", function() {
 		const paper = new Paper(
 			japaneseSentences,
 			{
@@ -1833,7 +1834,7 @@ describe( "Test for the research for Japanese language", function() {
 		"加工が少ない猫用食品の一種。";
 
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
 		"in single quotation marks", function() {
 		const paper = new Paper(
 			japaneseSentencesExactMatch,
@@ -1870,7 +1871,7 @@ describe( "Test for the research for Japanese language", function() {
 		} );
 	} );
 
-	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+	it( "returns a distraction percentage over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
 		"in double quotation marks", function() {
 		const paper = new Paper(
 			japaneseSentencesExactMatch,
