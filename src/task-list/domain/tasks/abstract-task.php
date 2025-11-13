@@ -65,7 +65,6 @@ abstract class Abstract_Task implements Task_Interface {
 			'id'             => $this->get_id(),
 			'duration'       => $this->get_duration(),
 			'priority'       => $this->get_priority(),
-			'link'           => $this->get_link(),
 			'is_completed'   => $this->get_is_completed(),
 			'call_to_action' => $this->get_call_to_action()->to_array(),
 			'copy_set'       => $this->get_copy_set()->to_array(),
