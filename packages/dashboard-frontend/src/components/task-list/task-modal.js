@@ -1,15 +1,19 @@
 import { Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __, _x } from "@wordpress/i18n";
-import YoastIcon from "../../icons/YoastIcon.js";
-import { ClockIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } from "@heroicons/react/outline";
+import { YoastIcon, HowIcon } from "../../icons";
+import { ClockIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon, QuestionMarkCircleIcon } from "@heroicons/react/outline";
+import { CallToActionButton } from "./call-to-action-button";
 
 /**
- * TaskDetails type definition.
+ * The type of callToAction prop.
  *
- * @typedef {Object} TaskDetails
- * @property {React.Component} Icon       Icon component to display.
- * @property {string}          title      Title of the detail.
- * @property {string}          description Description of the detail.
+ * @typedef {Object} CallToAction
+ * @property {string} label The label for the call to action button.
+ * @property {string} type The variant of the call to action button, can be 'link', 'create', 'delete'.
+ * @property {string} [href] The URL to navigate to (for 'link' variant).
+ * @property {Function} [onClick] The onClick handler for the button.
+ * @property {boolean} [disabled] Whether the button is disabled.
+ * @property {boolean} [isLoading] Whether the button is in a loading state.
  */
 
 /**
@@ -17,15 +21,17 @@ import { ClockIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } f
  *
  * @param {boolean}  isOpen        Whether the modal is open.
  * @param {Function} onClose       Function to call when closing the modal.
- * @param {Object}   callToAction  Call to action button details.
+ * @param {CallToAction}   callToAction  Call to action button details.
  * @param {string}   title         Title of the modal.
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
- * @param {TaskDetails[]}    detailsList   List of details to display in the modal.
+ * @param {string}   why           Details on why the task is important.
+ * @param {string}   how           Details on how to complete the task.
+ * @param {string}   taskId        The ID of the task associated with the modal.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, detailsList } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId } ) => {
 	const svgAriaProps = useSvgAria();
 	const priorities = {
 		low: {
@@ -41,6 +47,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 			icon: <ChevronDoubleUpIcon className="yst-w-4 yst-text-red-600" />,
 		},
 	};
+
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
 		<Modal.Panel className="yst-p-0">
 			<Modal.Container>
@@ -66,28 +73,37 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-py-2 yst-px-12">
 					<ul>
-						{ detailsList.map( ( detail, index ) => (
-							<li key={ index } className="yst-flex yst-flex-col  yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst--border-slate-200">
-								<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-									{ detail.Icon && <detail.Icon
-										{ ...svgAriaProps }
-										className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
-									/> }
-									<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">{ detail.title }</Title>
-
-								</div>
-								<p className="yst-text-xs yst-text-slate-600">{ detail.description }</p>
-							</li>
-						) ) }
+						<li className="yst-flex yst-flex-col  yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst--border-slate-200">
+							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
+								<QuestionMarkCircleIcon
+									{ ...svgAriaProps }
+									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
+								/>
+								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
+									{ __( "Why this matters", "wordpress-seo" ) }
+								</Title>
+							</div>
+							<p className="yst-text-xs yst-text-slate-600">{ why }</p>
+						</li>
+						<li className="yst-flex yst-flex-col  yst-py-4 yst-items-start">
+							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
+								<HowIcon
+									{ ...svgAriaProps }
+									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
+								/>
+								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
+									{ __( "Why this matters", "wordpress-seo" ) }
+								</Title>
+							</div>
+							<p className="yst-text-xs yst-text-slate-600">{ how }</p>
+						</li>
 					</ul>
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<Button variant="primary" { ...callToAction }>
-						{ callToAction.children }
-					</Button>
+					<CallToActionButton { ...callToAction } taskId={ taskId } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

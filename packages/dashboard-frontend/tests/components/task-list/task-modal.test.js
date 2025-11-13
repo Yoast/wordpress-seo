@@ -1,23 +1,23 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { TaskModal } from "../../../src/components/task-list/task-modal";
-import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 
 describe( "TaskModal", () => {
 	const defaultProps = {
 		isOpen: true,
 		onClose: jest.fn(),
 		callToAction: {
-			children: "Start configuration",
+			label: "Start configuration",
 			onClick: jest.fn(),
+			type: "create",
+			href: null,
 		},
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		detailsList: [
-			{ Icon: QuestionMarkCircleIcon, title: "Why this matters", description: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." },
-			{ Icon: QuestionMarkCircleIcon, title: "Set your site goals", description: "Defining clear goals for your site will help us provide more targeted recommendations." },
-		],
+		taskId: "task-1",
+		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
+		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
 	};
 
 	it( "renders the modal when open", () => {
@@ -35,10 +35,14 @@ describe( "TaskModal", () => {
 		expect( screen.getByText( /High/i ) ).toBeInTheDocument();
 	} );
 
-	it( "renders all details in the list", () => {
+	it( "renders the why copy", () => {
 		render( <TaskModal { ...defaultProps } /> );
-		expect( screen.getByText( /Why this matters/i ) ).toBeInTheDocument();
-		expect( screen.getByText( /Set your site goals/i ) ).toBeInTheDocument();
+		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the how copy", () => {
+		render( <TaskModal { ...defaultProps } /> );
+		expect( screen.getByText( "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively." ) ).toBeInTheDocument();
 	} );
 
 	it( "calls onClose when Close button is clicked", () => {

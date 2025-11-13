@@ -1,6 +1,5 @@
 import { TaskModal } from "../../../src/components/task-list/task-modal";
 import { Button, useToggleState } from "@yoast/ui-library";
-import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
 
@@ -24,7 +23,7 @@ export default {
 			control: false,
 		},
 		callToAction: {
-			description: "An object containing the CTA button props.",
+			description: "An object containing the CTA button type, label, href, disabled, isLoading and a callback function that takes the taskId as an argument.",
 		},
 		title: {
 			description: "Title of the modal.",
@@ -50,16 +49,15 @@ export default {
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		detailsList: [
-			{ Icon: QuestionMarkCircleIcon, title: "Why this matters", description: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." },
-			{ Icon: QuestionMarkCircleIcon, title: "Set your site goals", description: "Defining clear goals for your site will help us provide more targeted recommendations." },
-			{ Icon: QuestionMarkCircleIcon, title: "Specify your site type", description: "Letting us know the type of site you have will improve the relevance of our suggestions." },
-		],
+		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
+		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
 		callToAction: {
+			label: "Start configuration",
+			href: null,
+			type: "link",
 			onClick: noop,
-			children: "Start configuration",
 		},
-		onClose: noop,
+		taskId: "task-1",
 	},
 };
 
