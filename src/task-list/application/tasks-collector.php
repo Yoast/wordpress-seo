@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Task_List\Application;
 
-use Yoast\WP\SEO\Task_List\Domain\Completeable_Task_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 
 /**
  * Manages the collection of tasks.
@@ -39,7 +39,8 @@ class Tasks_Collector {
 	 * @return Task_Interface The given task.
 	 */
 	public function get_task( string $task_id ): ?Task_Interface {
-		return ( $this->tasks[ $task_id ] ?? null );
+		$all_tasks = $this->get_tasks();
+		return ( $all_tasks[ $task_id ] ?? null );
 	}
 
 	/**
@@ -50,7 +51,8 @@ class Tasks_Collector {
 	 * @return Task_Interface The given task.
 	 */
 	public function get_completeable_task( string $task_id ): ?Completeable_Task_Interface {
-		$task = ( $this->tasks[ $task_id ] ?? null );
+		$all_tasks = $this->get_tasks();
+		$task      = ( $all_tasks[ $task_id ] ?? null );
 
 		if ( ! $task instanceof Completeable_Task_Interface ) {
 			return null;
@@ -64,7 +66,7 @@ class Tasks_Collector {
 	 *
 	 * @return array<string, array<string, Task_Interface>> The tasks.
 	 */
-	public function get_tasks() {
+	public function get_tasks(): array {
 		return $this->tasks;
 	}
 }
