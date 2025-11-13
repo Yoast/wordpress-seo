@@ -1,11 +1,10 @@
-import { __ } from "@wordpress/i18n";
 import { registerElementorDataHookAfter } from "../helpers/hooks";
 import { isFormId } from "../helpers/is-form-id";
 import { YoastPanelView } from "../components/YoastPanelView";
 
 const TAB = {
 	id: "yoast-seo-tab",
-	title: __( "Yoast SEO", "wordpress-seo-premium" ),
+	title: "Yoast SEO",
 };
 
 const ELEMENTS_PANEL = "panel/elements";
