@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use Exception;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
@@ -42,8 +43,10 @@ class Schema_Map_Indexable_Repository {
 		$indexable_raw_value = $this->indexable_repository->query()
 			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
 			->where_in( 'object_sub_type', $post_types )
+			->where_in( 'object_type', [ 'post', 'page' ] )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->group_by( [ 'object_type', 'object_sub_type' ] )
-			->find_array();
+			->get_sql();
 
 		if ( empty( $indexable_raw_value ) ) {
 			return $post_type_counts;
@@ -67,6 +70,8 @@ class Schema_Map_Indexable_Repository {
 		$indexable_raw_value = $this->indexable_repository->query()
 			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
 			->where( 'object_sub_type', $post_type )
+			->where_in( 'object_type', [ 'post', 'page' ] )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->find_one();
 
 		if ( empty( $indexable_raw_value ) ) {
@@ -88,17 +93,33 @@ class Schema_Map_Indexable_Repository {
 	 * @return string ISO 8601 timestamp (e.g., "2025-10-21T14:23:17Z").
 	 */
 	public function get_lastmod_for_post_type( string $post_type, int $page, int $per_page ): string {
+		global $wpdb;
 		$fallback = \gmdate( 'Y-m-d\TH:i:s\Z' );
 
 		try {
-			$offset  = ( ( $page - 1 ) * $per_page );
-			$lastmod = $this->indexable_repository->query()
-				->select_expr( 'MAX(object_last_modified)' )
-				->where( 'object_sub_type', $post_type )
-				->where_raw( '( is_public IS NULL OR is_public = 1 )' )
-				->order_by_asc( 'id' )->limit( $per_page )->offset( $offset )
-				->find_one();
+			$offset = ( ( $page - 1 ) * $per_page );
 
+			$indexable_table = Model::get_table_name( 'Indexable' );
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+			$lastmod = $wpdb->get_var(
+				$wpdb->prepare(
+					"
+			SELECT MAX(object_last_modified)
+			FROM (
+			   
+			    SELECT indexable_table.object_last_modified
+                         FROM  {$indexable_table} indexable_table
+                         WHERE object_sub_type = %s
+                           AND ( is_public IS NULL OR is_public = 1 )
+                         ORDER BY ID
+                         LIMIT %d OFFSET %d
+			)AS posts_range
+",
+					$post_type,
+					$per_page,
+					$offset
+				)
+			);
 			// Convert to ISO 8601 format or use current time if no posts.
 			if ( $lastmod && ! empty( $lastmod ) ) {
 				return \gmdate( 'Y-m-d\TH:i:s\Z', \strtotime( $lastmod->object_last_modified ) );
