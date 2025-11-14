@@ -1,7 +1,7 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Plans\Domain\Add_Ons;
+namespace Yoast\WP\SEO\Plans\Application;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Utils;
@@ -39,7 +39,7 @@ class Duplicate_Post_Manager {
 	 *
 	 * @return bool True when installed and activated.
 	 */
-	public function is_activated() {
+	protected function is_activated() {
 		return $this->addon_manager->is_plugin_active(static::PLUGIN_FILE );
 	}
 
@@ -50,9 +50,10 @@ class Duplicate_Post_Manager {
 	 *
 	 * @return bool True when installed.
 	 */
-	public function is_installed() {
+	protected function is_installed() {
 		$plugins = $this->addon_manager->get_plugins();
 
+		error_log(print_r( $plugins, true ));
 		return isset( $plugins[ static::PLUGIN_FILE ] );
 	}
 

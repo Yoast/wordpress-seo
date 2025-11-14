@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
-use Yoast\WP\SEO\Plans\Domain\Add_Ons\Duplicate_Post_Manager;
+use Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
