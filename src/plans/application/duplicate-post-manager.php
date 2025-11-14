@@ -10,17 +10,12 @@ use WPSEO_Admin_Utils;
  * The Yoast SEO Duplicate Post plugin Manager.
  */
 class Duplicate_Post_Manager {
-
 	/**
-	 * The slug of the add-on.
+	 * The Duplicate post main file.
 	 *
 	 * @var string
 	 */
-	protected const SLUG = 'yoast-duplicate-post';
-
-	protected const PLUGIN_FILE = 'duplicate-post/duplicate-post.php';
-
-	protected const CLASS_NAME = "Yoast\WP\Duplicate_Post\Duplicate_Post";
+	public const PLUGIN_FILE = 'duplicate-post/duplicate-post.php';
 
 
 	/**
@@ -49,11 +44,11 @@ class Duplicate_Post_Manager {
 	}
 
 	/**
-	 * Checks if the plugin is installed and activated in WordPress.
+	 * Checks if the plugin is installed in WordPress.
 	 *
 	 * @param string $slug The class' slug.
 	 *
-	 * @return bool True when installed and activated.
+	 * @return bool True when installed.
 	 */
 	public function is_installed() {
 		$plugins = $this->addon_manager->get_plugins();
@@ -64,14 +59,14 @@ class Duplicate_Post_Manager {
 	/**
 	 * Gets the duplicate post plans page params
  	 *
-	 * @return array<string> The list of params.
+	 * @return array<string|bool> The list of params.
 	 */
 	public function get_params() {
 		return [
 			'isInstalled'     => $this->is_installed(),
 			'isActivated'     => $this->is_activated(),
-			'installationUrl' => WPSEO_Admin_Utils::get_install_url(static::PLUGIN_FILE),
-			'activationUrl'   => WPSEO_Admin_Utils::get_activation_url(static::PLUGIN_FILE),
+			'installationUrl' => html_entity_decode( WPSEO_Admin_Utils::get_install_url(static::PLUGIN_FILE) ),
+			'activationUrl'   => html_entity_decode( WPSEO_Admin_Utils::get_activation_url(static::PLUGIN_FILE) ),
 		];
 	}
 }
