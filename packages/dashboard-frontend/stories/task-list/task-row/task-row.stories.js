@@ -42,16 +42,20 @@ export default {
 				type: "select",
 			},
 			options: [ "", "premium", "woo", "ai" ],
+			type: { name: "string" },
+		},
+		isLoading: {
+			description: "Whether the task is loading.",
 		},
 	},
 	args: {
-		title: "Complete the First-time configuration",
+		title: "Uncompleted Task",
 		duration: 15,
 		priority: "high",
-		badge: "premium",
 		taskId: "task-1",
 		isCompleted: false,
 		onClick: noop,
+		isLoading: false,
 	},
 };
 
@@ -62,12 +66,55 @@ export const Factory = {
 				<Table.Header>Task</Table.Header>
 				<Table.Header>Est. duration</Table.Header>
 				<Table.Header>Priority</Table.Header>
-				<Table.Header />
+				<Table.Header>{ "" }</Table.Header>
 			</Table.Row>
 		</Table.Head>
 		<Table.Body>
 			<TaskRow
 				{ ...args }
+			/>
+			<TaskRow
+				{ ...args }
+				isCompleted={ true }
+				title="Completed Task"
+				priority="low"
+			/>
+			<TaskRow
+				{ ...args }
+				title="Woo SEO Task"
+				badge="woo"
+				priority="medium"
+			/>
+			<TaskRow
+				{ ...args }
+				title="AI+ Task"
+				badge="ai"
+			/>
+			<TaskRow
+				{ ...args }
+				title="Premium Task"
+				badge="premium"
+			/>
+		</Table.Body>
+	</Table>
+	),
+
+};
+
+export const TaskRowLoading = {
+	render: () => ( <Table>
+		<Table.Head>
+			<Table.Row>
+				<Table.Header>Task</Table.Header>
+				<Table.Header>Est. duration</Table.Header>
+				<Table.Header>Priority</Table.Header>
+				<Table.Header>{ "" }</Table.Header>
+			</Table.Row>
+		</Table.Head>
+		<Table.Body>
+			<TaskRow
+				title="Loading Task with long title..."
+				isLoading={ true }
 			/>
 		</Table.Body>
 	</Table>
