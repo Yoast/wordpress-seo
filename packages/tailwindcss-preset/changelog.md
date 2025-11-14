@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.0
+### Enhancements:
+* Adds support for container queries via peer dependency `@tailwindcss/container-queries`. [#21730](https://github.com/Yoast/wordpress-seo/pull/21730)
+* Upgrades peer dependency `tailwindcss` from `^3.2.4` to `^3.3.7`. 3.3.0 is the version that is improving the RTL support through logical properties (start/end). [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
+
+### Non user facing:
+* Adds a max width variant _page_ with the value of 2048px. [#22114](https://github.com/Yoast/wordpress-seo/pull/22114)
+
 ## 2.3.0
 
 * Fixes the default color for placeholder text throughout the plugin. [#20420](https://github.com/Yoast/wordpress-seo/pull/20420)
