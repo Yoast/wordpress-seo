@@ -37,7 +37,7 @@ export const GoogleDocsAddonCard = () => {
 		<BaseCard
 			hasHighlight={ false }
 			isActiveHighlight={ false }
-			isManageAvailable={ ! hasLicense }
+			isManageAvailable={ hasLicense }
 			header={ <GoogleDocsAddonSvg /> }
 			title="Yoast SEO Google Docs Add-on"
 			description={ __( "Write and optimize your content directly in Google Docs.", "wordpress-seo" ) }
