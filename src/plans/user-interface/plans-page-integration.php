@@ -184,8 +184,8 @@ class Plans_Page_Integration implements Integration_Interface {
 			'currentPromotions'           => $this->promotion_manager->get_current_promotions(),
 			'duplicatePost'		          => $this->duplicate_post_manager->get_params(),
 			'userCan'                     => [
-				'installPlugin'  => current_user_can( 'install_plugins' ),
-				'activatePlugin' => current_user_can( 'activate_plugins' ),
+				'installPlugin'  => \current_user_can( 'install_plugins' ),
+				'activatePlugin' => \current_user_can( 'activate_plugins' ),
 			]
 		];
 	}
