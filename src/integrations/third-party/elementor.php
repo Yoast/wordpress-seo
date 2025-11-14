@@ -196,15 +196,27 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function inject_yoast_tab() {
-		$output  = \ob_get_clean();
+		$output = \ob_get_clean();
+
+		// If the buffer is empty or the call failed, bail out.
+		if ( empty( $output ) ) {
+			return;
+		}
+
 		$search  = '/(<(div|button) class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global">.*<\/(div|button)>)/m';
 		$replace = '${1}<${2} class="elementor-component-tab elementor-panel-navigation-tab" data-tab="yoast-seo-tab">Yoast SEO</${2}>';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This comes from the output buffer, escaping it would break the output.
-		echo \preg_replace(
-			$search,
-			$replace,
-			$output
-		);
+
+		$modified_output = \preg_replace( $search, $replace, $output );
+
+		// Check if preg_replace failed. If so, fallback to original output.
+		if ( $modified_output === null ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Already escaped output.
+			echo $output;
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Already escaped output.
+		echo $modified_output;
 	}
 
 	// Below is mostly copied from `class-metabox.php`. That constructor has side-effects we do not need.
