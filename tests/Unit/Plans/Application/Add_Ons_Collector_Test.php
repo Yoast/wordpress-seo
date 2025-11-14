@@ -139,10 +139,10 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 
-		$expected[ $this->premium->get_id() ]['isActive']          = false;
-		$expected[ $this->premium->get_id() ]['hasLicense']        = false;
-		$expected[ $this->woo->get_id() ]['isActive']              = false;
-		$expected[ $this->woo->get_id() ]['hasLicense']            = false;
+		$expected[ $this->premium->get_id() ]['isActive']   = false;
+		$expected[ $this->premium->get_id() ]['hasLicense'] = false;
+		$expected[ $this->woo->get_id() ]['isActive']       = false;
+		$expected[ $this->woo->get_id() ]['hasLicense']     = false;
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}
