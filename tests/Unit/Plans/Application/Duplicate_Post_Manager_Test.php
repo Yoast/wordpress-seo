@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Plans\Application;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Addon_Manager;
-use WPSEO_Admin_Utils;
 use Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -17,15 +16,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager
  */
-final class Duplicate_Post_Manager_Test extends TestCase
-{
+final class Duplicate_Post_Manager_Test extends TestCase {
 
-	/**
+   /**
 	 * Holds the instance.
 	 *
 	 * @var Duplicate_Post_Manager
 	 */
-	private $instance;
+    private $instance;
 
 	/**
 	 * Holds the WPSEO_Addon_Manager mock.

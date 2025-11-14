@@ -56,8 +56,8 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 
-		$this->premium        = new Premium( $this->addon_manager );
-		$this->woo            = new Woo( $this->addon_manager );
+		$this->premium = new Premium( $this->addon_manager );
+		$this->woo     = new Woo( $this->addon_manager );
 
 		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo );
 	}
