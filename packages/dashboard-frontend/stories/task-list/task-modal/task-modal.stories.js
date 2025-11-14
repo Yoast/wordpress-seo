@@ -21,6 +21,7 @@ export default {
 		onClose: {
 			description: "Function to call when closing the modal.",
 			control: false,
+			type: { name: "function" },
 		},
 		callToAction: {
 			description: "An object containing the CTA button type (add/delete/link/default), label, href, disabled, isLoading and a callback function that takes the taskId as an argument.",
