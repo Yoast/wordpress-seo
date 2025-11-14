@@ -319,8 +319,8 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->promotion_manager->expects( 'get_current_promotions' )->once()->andReturn( $promotions );
 		$this->duplicate_post_manager->expects( 'get_params' )->once()->andReturn( $duplicate_post_params );
 
-		Functions\expect( 'current_user_can' )->once()->with('install_plugins' )->andReturn( true );
-		Functions\expect( 'current_user_can' )->once()->with('activate_plugins' )->andReturn( false );
+		Functions\expect( 'current_user_can' )->once()->with( 'install_plugins' )->andReturn( true );
+		Functions\expect( 'current_user_can' )->once()->with( 'activate_plugins' )->andReturn( false );
 
 		$this->instance->enqueue_assets();
 	}
