@@ -67,6 +67,11 @@ class Tasks_Collector {
 	 * @return array<string, array<string, Task_Interface>> The tasks.
 	 */
 	public function get_tasks(): array {
-		return $this->tasks;
+		/**
+		 * Filter: 'wpseo_task_list_tasks' - Allows adding more tasks to the task list.
+		 *
+		 * @param array<string, array<string, Task_Interface>> $tasks The tasks for the task list.
+		 */
+		return \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
 	}
 }
