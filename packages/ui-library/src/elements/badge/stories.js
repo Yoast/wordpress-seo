@@ -20,6 +20,7 @@ export const Variants = {
 			<Badge variant="plain">Plain</Badge>
 			<Badge variant="success">Success</Badge>
 			<Badge variant="error">Error</Badge>
+			<Badge variant="ai">AI+</Badge>
 		</div>
 	),
 	parameters: { docs: { description: { story: variants } } },
