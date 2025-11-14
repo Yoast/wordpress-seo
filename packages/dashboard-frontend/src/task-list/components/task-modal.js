@@ -41,7 +41,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 		<Modal.Panel className="yst-p-0">
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-0.5" { ...svgAriaProps } />
+					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
 					<div>
 						<Modal.Title as="h3" className="yst-mb-2 yst-text-lg">
 							{ title }
@@ -54,7 +54,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-py-2 yst-px-12">
 					<ul>
-						<li className="yst-flex yst-flex-col  yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst--border-slate-200">
+						<li className="yst-flex yst-flex-col yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst-border-slate-200">
 							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
 								<QuestionMarkCircleIcon
 									{ ...svgAriaProps }
@@ -73,7 +73,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
 								/>
 								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-									{ __( "Why this matters", "wordpress-seo" ) }
+									{ __( "How to solve", "wordpress-seo" ) }
 								</Title>
 							</div>
 							<p className="yst-text-xs yst-text-slate-600">{ how }</p>

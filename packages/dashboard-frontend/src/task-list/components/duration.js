@@ -10,7 +10,7 @@ import { useSvgAria } from "@yoast/ui-library";
  */
 export const Duration = ( { minutes } ) => {
 	const svgAriaProps = useSvgAria();
-	return <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5">
+	return <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center">
 		<ClockIcon className="yst-w-4 yst-text-slate-400" { ...svgAriaProps } />
 		{ minutes }
 		{
