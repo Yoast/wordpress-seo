@@ -88,7 +88,7 @@ class Plans_Page_Integration implements Integration_Interface {
 	 * @param Short_Link_Helper         $short_link_helper      The Short_Link_Helper.
 	 * @param Admin_Conditional         $admin_conditional      The Admin_Conditional.
 	 * @param Promotion_Manager         $promotion_manager      The promotion manager.
-	 * @param Duplicate_Post_Manager	$duplicate_post_manager The Duplicate_Post_Manager.
+	 * @param Duplicate_Post_Manager    $duplicate_post_manager The Duplicate_Post_Manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -99,12 +99,12 @@ class Plans_Page_Integration implements Integration_Interface {
 		Promotion_Manager $promotion_manager,
 		Duplicate_Post_Manager $duplicate_post_manager
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->add_ons_collector   = $add_ons_collector;
-		$this->current_page_helper = $current_page_helper;
-		$this->short_link_helper   = $short_link_helper;
-		$this->admin_conditional   = $admin_conditional;
-		$this->promotion_manager   = $promotion_manager;
+		$this->asset_manager          = $asset_manager;
+		$this->add_ons_collector      = $add_ons_collector;
+		$this->current_page_helper    = $current_page_helper;
+		$this->short_link_helper      = $short_link_helper;
+		$this->admin_conditional      = $admin_conditional;
+		$this->promotion_manager      = $promotion_manager;
 		$this->duplicate_post_manager = $duplicate_post_manager;
 	}
 
@@ -182,11 +182,11 @@ class Plans_Page_Integration implements Integration_Interface {
 				'isRtl' => \is_rtl(),
 			],
 			'currentPromotions'           => $this->promotion_manager->get_current_promotions(),
-			'duplicatePost'		          => $this->duplicate_post_manager->get_params(),
+			'duplicatePost'               => $this->duplicate_post_manager->get_params(),
 			'userCan'                     => [
 				'installPlugin'  => \current_user_can( 'install_plugins' ),
 				'activatePlugin' => \current_user_can( 'activate_plugins' ),
-			]
+			],
 		];
 	}
 

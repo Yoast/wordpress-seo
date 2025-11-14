@@ -63,8 +63,8 @@ class Duplicate_Post_Manager {
 		return [
 			'isInstalled'     => $this->is_installed(),
 			'isActivated'     => $this->is_activated(),
-			'installationUrl' => html_entity_decode( WPSEO_Admin_Utils::get_install_url( static::PLUGIN_FILE ) ),
-			'activationUrl'   => html_entity_decode( WPSEO_Admin_Utils::get_activation_url( static::PLUGIN_FILE ) ),
+			'installationUrl' => \html_entity_decode( WPSEO_Admin_Utils::get_install_url( static::PLUGIN_FILE ) ),
+			'activationUrl'   => \html_entity_decode( WPSEO_Admin_Utils::get_activation_url( static::PLUGIN_FILE ) ),
 		];
 	}
 }

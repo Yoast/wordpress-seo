@@ -89,27 +89,27 @@ class WPSEO_Addon_Manager {
 	 * @var array<string, array<string, string>>
 	 */
 	private $addon_details = [
-		self::PREMIUM_SLUG        => [
+		self::PREMIUM_SLUG     => [
 			'name'                  => 'Yoast SEO Premium',
 			'short_link_activation' => 'https://yoa.st/13j',
 			'short_link_renewal'    => 'https://yoa.st/4ey',
 		],
-		self::NEWS_SLUG           => [
+		self::NEWS_SLUG        => [
 			'name'                  => 'Yoast News SEO',
 			'short_link_activation' => 'https://yoa.st/4xq',
 			'short_link_renewal'    => 'https://yoa.st/4xv',
 		],
-		self::WOOCOMMERCE_SLUG    => [
+		self::WOOCOMMERCE_SLUG => [
 			'name'                  => 'Yoast WooCommerce SEO',
 			'short_link_activation' => 'https://yoa.st/4xs',
 			'short_link_renewal'    => 'https://yoa.st/4xx',
 		],
-		self::VIDEO_SLUG          => [
+		self::VIDEO_SLUG       => [
 			'name'                  => 'Yoast Video SEO',
 			'short_link_activation' => 'https://yoa.st/4xr',
 			'short_link_renewal'    => 'https://yoa.st/4xw',
 		],
-		self::LOCAL_SLUG          => [
+		self::LOCAL_SLUG       => [
 			'name'                  => 'Yoast Local SEO',
 			'short_link_activation' => 'https://yoa.st/4xp',
 			'short_link_renewal'    => 'https://yoa.st/4xu',
