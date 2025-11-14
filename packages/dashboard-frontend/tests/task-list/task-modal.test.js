@@ -46,12 +46,15 @@ describe( "TaskModal", () => {
 		expect( screen.getByText( "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively." ) ).toBeInTheDocument();
 	} );
 
-	it( "calls onClose when Close button is clicked", () => {
+	it( "calls onClose when Close button is clicked, for both header and footer", () => {
 		const onClose = jest.fn();
 		render( <TaskModal { ...defaultProps } onClose={ onClose } isOpen={ true } /> );
-		const closeButton = screen.getAllByRole( "button" )[ 1 ];
-		fireEvent.click( closeButton );
-		expect( onClose ).toHaveBeenCalled();
+		const closeButton = screen.getAllByRole( "button", { name: /close/i } );
+		// Tests for each close button.
+		closeButton.forEach( button => {
+			fireEvent.click( button );
+			expect( onClose ).toHaveBeenCalled();
+		} );
 	} );
 
 	it( "calls callToAction onClick when CTA button is clicked", () => {
