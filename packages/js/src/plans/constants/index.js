@@ -6,5 +6,4 @@ export const STORE_NAME = "@yoast/plans";
 export const ADD_ONS = {
 	premium: "premium",
 	woo: "woo",
-	duplicatePost: "duplicatePost",
 };

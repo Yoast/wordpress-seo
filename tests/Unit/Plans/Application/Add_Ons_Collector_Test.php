@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Plans\Application;
 use Mockery;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
-use Yoast\WP\SEO\Plans\Domain\Add_Ons\Duplicate_Post;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Premium;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Woo;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -48,13 +47,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 	private $woo;
 
 	/**
-	 * Holds the Yoast Duplicate Post add-on.
-	 *
-	 * @var Duplicate_Post
-	 */
-	private $duplicate_post;
-
-	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -66,9 +58,8 @@ final class Add_Ons_Collector_Test extends TestCase {
 
 		$this->premium        = new Premium( $this->addon_manager );
 		$this->woo            = new Woo( $this->addon_manager );
-		$this->duplicate_post = new Duplicate_Post( $this->addon_manager );
 
-		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo, $this->duplicate_post );
+		$this->instance = new Add_Ons_Collector( $this->premium );
 	}
 
 	/**
@@ -94,7 +85,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 			[
 				$this->premium,
 				$this->woo,
-				$this->duplicate_post,
 			],
 			$this->instance->get()
 		);
@@ -126,16 +116,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
 			->andReturn( true, false );
 
-		$this->addon_manager->expects( 'is_installed' )
-			->twice()
-			->with( WPSEO_Addon_Manager::DUPLICATE_POST_SLUG )
-			->andReturn( true, false );
-
-		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
-			->with( WPSEO_Addon_Manager::DUPLICATE_POST_SLUG )
-			->andReturn( false, false );
-
 		$expected = [
 			$this->premium->get_id() => [
 				'id'         => $this->premium->get_id(),
@@ -155,15 +135,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 					'id'     => $this->woo->get_ctb_id(),
 				],
 			],
-			$this->duplicate_post->get_id() => [
-				'id'         => $this->duplicate_post->get_id(),
-				'isActive'   => true,
-				'hasLicense' => false,
-				'ctb'        => [
-					'action' => $this->duplicate_post->get_ctb_action(),
-					'id'     => $this->duplicate_post->get_ctb_id(),
-				],
-			],
 		];
 
 		$this->assertSame( $expected, $this->instance->to_array() );
@@ -172,8 +143,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 		$expected[ $this->premium->get_id() ]['hasLicense']        = false;
 		$expected[ $this->woo->get_id() ]['isActive']              = false;
 		$expected[ $this->woo->get_id() ]['hasLicense']            = false;
-		$expected[ $this->duplicate_post->get_id() ]['isActive']   = false;
-		$expected[ $this->duplicate_post->get_id() ]['hasLicense'] = false;
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}
