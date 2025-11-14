@@ -103,7 +103,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 			noKeyphraseOrText: noKeyphraseOrTextResultText,
 		} = this.getFeedbackStrings();
 
-		const distractionPercentage = this._keyphraseDistribution.KeyphraseDistractionPercentage;
+		const distractionPercentage = this._keyphraseDistribution.keyphraseDistractionPercentage;
 		const hasMarks = this._keyphraseDistribution.sentencesToHighlight?.length > 0;
 
 		if ( ! this._canAssess || distractionPercentage === 100 ) {

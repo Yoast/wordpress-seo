@@ -32,7 +32,7 @@ import SentenceTokenizer from "../helpers/sentence/SentenceTokenizer";
 
 /**
  * @typedef KeyphraseDistributionResult
- * @property {number} KeyphraseDistractionPercentage The percentage representing the largest portion of text without the keyphrase.
+ * @property {number} keyphraseDistractionPercentage The percentage representing the largest portion of text without the keyphrase.
  * @property {Mark[]} sentencesToHighlight	An array of markings for sentences that contain topic words.
  */
 
@@ -380,11 +380,11 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		topicLengthCriteria, originalTopic, wordsCharacterCount, customSplitIntoTokensHelper, isExactMatchRequested );
 
 	const numberOfSentences = sentences.length;
-	const KeyphraseDistractionPercentage = getKeyphraseDistractionPercentage( numberOfSentences, maximizedSentenceScores );
+	const keyphraseDistractionPercentage = getKeyphraseDistractionPercentage( numberOfSentences, maximizedSentenceScores );
 
 	return {
 		sentencesToHighlight: flattenDeep( sentencesToHighlight ),
-		KeyphraseDistractionPercentage: KeyphraseDistractionPercentage,
+		keyphraseDistractionPercentage: keyphraseDistractionPercentage,
 	};
 };
 
