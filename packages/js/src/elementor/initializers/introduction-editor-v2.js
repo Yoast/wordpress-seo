@@ -69,7 +69,7 @@ export default function initializeIntroductionEditorV2() {
 			} );
 
 			// Auto-dismiss when switching to preview mode, and the Elements panel is hidden.
-			window.elementor.channels.dataEditMode.on( "switch", function( activeMode ) {
+			window.elementor.channels.dataEditMode.on( "switch", ( activeMode ) => {
 				// If switched to preview mode, hide the introduction.
 				if ( activeMode === "preview" && ! introduction.introductionViewed ) {
 					dialog.hide();
