@@ -41,7 +41,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 		<Modal.Panel className="yst-p-0">
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-0.5" />
+					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-0.5" { ...svgAriaProps } />
 					<div>
 						<Modal.Title as="h3" className="yst-mb-2 yst-text-lg">
 							{ title }
