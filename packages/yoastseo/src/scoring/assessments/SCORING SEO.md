@@ -77,14 +77,24 @@ Thus, this calculation make the overall score work on a 0-100/0-10 scale rather 
 
 **Call to action URL**: [https://yoa.st/33w](https://yoast.com/what-is-keyphrase-density-and-why-is-it-important/#utm_source=yoast-seo&utm_medium=software&utm_term=keyworddensity-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Traffic light   	 | Score	 | Criterion                                               | Feedback                                                                                                                                                            |
-|-------------------|--------|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | -50	   | There is no keyphrase and/or content		                  | **Keyphrase density**: **Please add both a keyphrase and some text containing the keyphrase.**                                                                          |
-| Red	              | -50	   | kd > 4		                                                | **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**  |
-| Red	              | -10	   | 3 < kd ≤ 4 (3.5 < kd ≤ 4 for multiple word forms)		     | **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**      |
-| Red	              | 4	     | 0 kd		                                                  | **Keyphrase density**: The keyphrase was found 0 times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
-| Red	              | 4	     | 0 < kd ≤ 0.5		                                          | **Keyphrase density**: The keyphrase was found X times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
-| green	            | 9	     | 0.5 < kd ≤ 3 (0.5 < kd ≤ 3.5 for multiple word forms)		 | **Keyphrase density**: The keyphrase was found X times. This is great!                                                                                              |
+| Traffic light   	    | Score	 | Criterion                                              | Feedback                                                                                                                                                           |
+|----------------------|--------|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	                 | -50	   | No keyphrase and/or content		                          | **Keyphrase density**: **Please add both a keyphrase and some text containing the keyphrase.**                                                                     |
+| Red	                 | 4	     | Keyphrase not found in content		                       | **Keyphrase density**: The keyphrase was found 0 times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
+| **Texts 100+ words** |
+| Red	                 | -50	   | kd > 4		                                               | **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
+| Red	                 | -10	   | 3 < kd ≤ 4 (3.5 < kd ≤ 4 for multiple word forms)		    | **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**     |
+| Red	                 | 4	     | 0 < kd < 0.5		                                         | **Keyphrase density**: The keyphrase was found X times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
+| Green	               | 9	     | 0.5 ≤ kd ≤ 3 (0.5 ≤ kd ≤ 3.5 for multiple word forms)	 | **Keyphrase density**: The keyphrase was found X times. This is great!                                                                                             |
+| **Texts 51-99 words** |
+| Red	                 | -50	   | Keyphrase found 4+ times		                             | **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
+| Red	                 | -10	   | Keyphrase found 3 times	                               | **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**     |
+| Green	               | 9	     | Keyphrase found 1-2 times                              | **Keyphrase density**: The keyphrase was found X times. This is great!                                                                                             |
+| **Texts <51 words**  |
+| Red	                 | -50	   | Keyphrase found 3+ times		                             | **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
+| Red	                 | -10	   | Keyphrase found 2 times	                               | **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!**     |
+| Green	               | 9	     | Keyphrase found once		                                 | **Keyphrase density**: The keyphrase was found 1 time. This is great!                                                                                              |
+
 
 #### More on our minimal keyphrase usage requirements
 A simple model shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
