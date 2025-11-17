@@ -31,6 +31,13 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	private $post_type_helper;
 
 	/**
+	 * Holds all the tasks.
+	 *
+	 * @var Post_Type_Task_Interface[]
+	 */
+	private $post_type_tasks;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Post_Type_Task_Interface ...$post_type_tasks The post type tasks.

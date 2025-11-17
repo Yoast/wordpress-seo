@@ -54,6 +54,7 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 	 * @var Route_Helper
 	 */
 	private $route_helper;
+
 	/**
 	 * Constructs the task.
 	 *
