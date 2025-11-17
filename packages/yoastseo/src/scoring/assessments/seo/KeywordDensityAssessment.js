@@ -220,10 +220,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Creates a translation string for the first sentence of the feedback strings used when the keyphrase is found
-	 * too many times.
+	 * Creates a translation string for the first sentence of the feedback, which reports on the number of times
+	 * the keyphrase was found.
 	 *
-	 * @returns {string} The first sentence of a feedback string.
+	 * @returns {string} The first sentence of the feedback.
 	 */
 	getFeedbackStringsFirstSentence() {
 		return sprintf(
@@ -242,7 +242,6 @@ class KeyphraseDensityAssessment extends Assessment {
 			this._keyphraseCount.count
 		);
 	}
-
 
 	/**
 	 * Returns the score for the keyphrase density.

@@ -300,7 +300,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 			"The keyphrase was found 2 times. This is great!" );
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
-	it( "gives a BAD result for a text shorter between 51 and 99 words when the keyphrase is found three times", function() {
+	it( "gives a BAD result for a text between 51 and 99 words when the keyphrase is found three times", function() {
 		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 3 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -312,7 +312,7 @@ describe( "Tests for the keyphrase density assessment for short texts", function
 			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 		expect( result.hasAIFixes() ).toBeFalsy();
 	} );
-	it( "gives a BAD result for a text shorter between 51 and 99 words when the keyphrase is found four times", function() {
+	it( "gives a BAD result for a text between 51 and 99 words when the keyphrase is found four times", function() {
 		const paper = new Paper( nonkeyword.repeat( 50 ) + keyword.repeat( 4 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
