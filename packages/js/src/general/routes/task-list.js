@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
  * @returns {JSX.Element} The task list page content placeholder.
  */
 export const TaskList = () => {
-	return <Paper>
+	return <Paper className="yst-mb-6">
 		<>
 			<Paper.Header>
 				<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
