@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Task_List\Application;
 
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 
 /**
@@ -25,6 +26,9 @@ class Tasks_Collector {
 	public function __construct( Task_Interface ...$tasks ) {
 		$tasks_with_id = [];
 		foreach ( $tasks as $task ) {
+			if ( $task instanceof Post_Type_Task_Interface ) {
+				continue;
+			}
 			$tasks_with_id[ $task->get_id() ] = $task;
 		}
 
