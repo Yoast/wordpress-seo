@@ -69,6 +69,20 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Gets the post type tasks.
+	 *
+	 * @return array<string, array<string, Post_Type_Task_Interface>> The tasks.
+	 */
+	public function get_post_type_tasks(): array {
+		/**
+		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more tasks to the task list.
+		 *
+		 * @param array<string, array<string, Post_Type_Task_Interface>> $tasks The tasks for the task list.
+		 */
+		return \apply_filters( 'wpseo_task_list_post_type_tasks', $this->post_type_tasks );
+	}
+
+	/**
 	 * Adds the post type tasks in the task collector.
 	 *
 	 * @param array<string, array<string, Post_Type_Task_Interface>> $existing_tasks Currently set tasks.
@@ -80,7 +94,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 		$post_types = \array_intersect( $post_types, [ 'post', 'page', 'product' ] );
 
 		$tasks = [];
-		foreach ( $this->post_type_tasks as $task ) {
+		foreach ( $this->get_post_type_tasks() as $task ) {
 			foreach ( $post_types as $post_type ) {
 				$task_copy = $task->duplicate_for_post_type( $post_type );
 				$tasks[]   = $task_copy;
