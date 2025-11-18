@@ -70,6 +70,7 @@ export const getInitialTaskListState = slice.getInitialState;
 export const taskListSelectors = {
 	selectIsTaskListEnabled: ( state ) => get( state, [ TASK_LIST_NAME, "enabled" ], false ),
 	getTasks: ( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
+	getTaskStatus: ( state ) => get( state, [ TASK_LIST_NAME, "status" ], ASYNC_ACTION_STATUS.idle ),
 };
 
 export const taskListActions = {

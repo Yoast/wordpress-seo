@@ -1,8 +1,9 @@
 import { TaskRow, TaskModal } from "@yoast/dashboard-frontend";
 import { useToggleState } from "@yoast/ui-library";
 import { useCallback } from "@wordpress/element";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { get } from "lodash";
 
 /**
@@ -23,6 +24,7 @@ import { get } from "lodash";
 export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( false );
 	const { completeTask } = useDispatch( STORE_NAME );
+	const status = useSelect( ( select ) => select( STORE_NAME ).getTaskStatus(), [] );
 
 	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
 
@@ -53,6 +55,7 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 			isCompleted={ isCompleted }
 			taskId={ id }
 			callToAction={ callToActionProps }
+			isLoading={ status === ASYNC_ACTION_STATUS.loading }
 		/>
 	</>;
 };
