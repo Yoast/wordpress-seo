@@ -244,8 +244,8 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'enable_llms_txt',
 		'llms_txt_selection_mode',
 		'configuration_finished_steps',
-		'enable_schema_aggregator',
-		'schema_aggregator_enabled_on',
+		'enable_schema_aggregation_endpoint',
+		'schema_aggregation_endpoint_enabled_on',
 	];
 
 	/**

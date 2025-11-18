@@ -8,9 +8,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Watcher for the enable_schema_aggregator option.
+ * Watcher for the enable_schema_aggregation_endpoint option.
  *
- * Monitors the enable_schema_aggregator option and sets a timestamp when first enabled.
+ * Monitors the enable_schema_aggregation_endpoint option and sets a timestamp when first enabled.
  */
 class Schema_Aggregator_Watcher implements Integration_Interface {
 
@@ -46,7 +46,7 @@ class Schema_Aggregator_Watcher implements Integration_Interface {
 	// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification -- They can really be anything.
 
 	/**
-	 * Checks if the enable_schema_aggregator option has been enabled for the first time.
+	 * Checks if the enable_schema_aggregation_endpoint option has been enabled for the first time.
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
@@ -62,8 +62,8 @@ class Schema_Aggregator_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		$option_key    = 'enable_schema_aggregator';
-		$timestamp_key = 'schema_aggregator_enabled_on';
+		$option_key    = 'enable_schema_aggregation_endpoint';
+		$timestamp_key = 'schema_aggregation_endpoint_enabled_on';
 
 		$old_enabled = isset( $old_value[ $option_key ] ) && (bool) $old_value[ $option_key ];
 		$new_enabled = isset( $new_value[ $option_key ] ) && (bool) $new_value[ $option_key ];

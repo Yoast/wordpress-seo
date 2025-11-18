@@ -33,6 +33,6 @@ class Schema_Aggregator_Conditional implements Conditional {
 	 * @return bool `true` when the Schema aggregator feature is enabled.
 	 */
 	public function is_met(): bool {
-		return $this->options->get( 'enable_schema_aggregator' ) === true;
+		return $this->options->get( 'enable_schema_aggregation_endpoint' ) === true;
 	}
 }
