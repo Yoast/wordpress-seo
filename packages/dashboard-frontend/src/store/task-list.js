@@ -52,7 +52,7 @@ const slice = createSlice( {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
 			if ( state.tasks[ id ] ) {
-				state.tasks[ id ].is_completed = true;
+				state.tasks[ id ].isCompleted = true;
 			}
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error } } ) => {

@@ -38,7 +38,19 @@ export const TaskList = () => {
 			} )
 				.then( ( response ) => {
 					setFetchState( { error: null, isPending: false } );
-					setTasks( response.tasks );
+					const fixedTasks = Object.entries( response.tasks ).reduce( ( acc, [ key, task ] ) => {
+						acc[ key ] = {
+							title: task.copy_set.title,
+							how: task.copy_set.how,
+							why: task.copy_set.why,
+							duration: task.duration,
+							priority: task.priority,
+							isCompleted: task.is_completed,
+							id: task.id,
+						};
+						return acc;
+					}, {} );
+					setTasks( fixedTasks );
 				} )
 				.catch( ( e ) => {
 					setFetchState( { error: e, isPending: false } );
@@ -72,11 +84,11 @@ export const TaskList = () => {
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
 						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
 							<Table.Row key={ task.id }>
-								<Table.Cell>{ task.copy_set.title }</Table.Cell>
+								<Table.Cell>{ task.title }</Table.Cell>
 								<Table.Cell>{ task.duration }</Table.Cell>
 								<Table.Cell>{ task.priority }</Table.Cell>
 								<Table.Cell>
-									{ task.is_completed ? __( "Completed", "wordpress-seo" ) : __( "Pending", "wordpress-seo" ) }
+									{ task.isCompleted ? __( "Completed", "wordpress-seo" ) : __( "Pending", "wordpress-seo" ) }
 									<Button onClick={ handleCompleteTask } value={ task.id }>Complete</Button>
 								</Table.Cell>
 							</Table.Row>
