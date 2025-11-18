@@ -19,7 +19,9 @@ export const TaskList = () => {
 
 	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
 
-	const handleCompleteTask = useCallback( async( taskId ) => {
+	const handleCompleteTask = useCallback( async( e ) => {
+		// get the task id from the button value.
+		const taskId = e.target.value;
 		completeTask( taskId, "/wp-json/yoast/v1/complete_task", nonce );
 	}, [ nonce ] );
 
@@ -75,7 +77,7 @@ export const TaskList = () => {
 								<Table.Cell>{ task.priority }</Table.Cell>
 								<Table.Cell>
 									{ task.is_completed ? __( "Completed", "wordpress-seo" ) : __( "Pending", "wordpress-seo" ) }
-									<Button onClick={ () => handleCompleteTask( task.id ) }>Complete task</Button>
+									<Button onClick={ handleCompleteTask } value={ task.id }>Complete</Button>
 								</Table.Cell>
 							</Table.Row>
 						) ) }
