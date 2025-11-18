@@ -1,6 +1,6 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { fetchJson } from "@yoast/dashboard-frontend";
+import { fetchJson, TaskRow } from "@yoast/dashboard-frontend";
 import { get, values, isEmpty } from "lodash";
 import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -57,6 +57,12 @@ export const TaskList = () => {
 
 	const { error, isPending } = fetchState;
 
+	const placeholderTasks = [
+		{ id: "task-1", title: "Complete the First-time configuration", isLoading: true },
+		{ id: "task-2", title: "Remove the Hello World post", isLoading: true },
+		{ id: "task-3", title: "Create an llms.txt file", isLoading: true },
+	];
+
 	return <Paper className="yst-mb-6">
 		<>
 			<Paper.Header>
@@ -76,7 +82,7 @@ export const TaskList = () => {
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
-						{ isEmpty( tasks ) && isPending && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Loading…", "wordpress-seo" ) }</Table.Cell></Table.Row> }
+						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow key={ task.id } { ...task } /> ) }
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
 						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
