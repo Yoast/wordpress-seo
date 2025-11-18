@@ -31,7 +31,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	private $post_type_helper;
 
 	/**
-	 * Holds all the tasks.
+	 * Holds all the post type tasks.
 	 *
 	 * @var Post_Type_Task_Interface[]
 	 */
@@ -73,11 +73,11 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 *
 	 * @return array<string, array<string, Post_Type_Task_Interface>> The tasks.
 	 */
-	public function get_post_type_tasks(): array {
+	private function get_post_type_tasks(): array {
 		/**
-		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more tasks to the task list.
+		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more post type tasks to the task list.
 		 *
-		 * @param array<string, array<string, Post_Type_Task_Interface>> $tasks The tasks for the task list.
+		 * @param array<string, array<string, Post_Type_Task_Interface>> $tasks The post type tasks for the task list.
 		 */
 		return \apply_filters( 'wpseo_task_list_post_type_tasks', $this->post_type_tasks );
 	}
