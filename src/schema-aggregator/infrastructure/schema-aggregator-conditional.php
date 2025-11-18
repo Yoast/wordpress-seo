@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
@@ -6,9 +7,9 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Conditional that checks if the Site schema feature is turned on and the site wants to output our schema.
+ * Conditional for the Schema aggregator feature.
  */
-class Site_Schema_Json_Conditional implements Conditional {
+class Schema_Aggregator_Conditional implements Conditional {
 
 	/**
 	 * The options helper.
@@ -18,7 +19,7 @@ class Site_Schema_Json_Conditional implements Conditional {
 	private $options;
 
 	/**
-	 * Attachment_Redirections_Enabled_Conditional constructor.
+	 * The constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -27,11 +28,11 @@ class Site_Schema_Json_Conditional implements Conditional {
 	}
 
 	/**
-	 * Returns whether the 'Site schema route' setting has been enabled.
+	 * Returns `true` when the Schema aggregator feature is enabled.
 	 *
-	 * @return bool `true` when the 'Site schema route' setting has been enabled.
+	 * @return bool `true` when the Schema aggregator feature is enabled.
 	 */
-	public function is_met() {
-		return true;
+	public function is_met(): bool {
+		return $this->options->get( 'enable_schema_aggregation_endpoint' ) === true;
 	}
 }

@@ -462,7 +462,16 @@ const SiteFeatures = () => {
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
 							</FeatureCard>
-
+							<FeatureCard
+								name="wpseo.enable_schema_aggregation_endpoint"
+								cardId="card-wpseo-enable_schema_aggregation_endpoint"
+								inputId="input-wpseo-enable_schema_aggregation_endpoint"
+								imageSrc="/images/icon-schema-aggregation-endpoint.svg"
+								title={ __( "Schema aggregation endpoint", "wordpress-seo" ) }
+							>
+								<p>{ __( "Provides a single JSON endpoint with all your site’s structured data, enabling NLWeb to power natural language AI queries on your content.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-schema-aggregation-endpoint" link="https://yoa.st/site-features-schema-aggregation-endpoint-learn-more" ariaLabel={ __( "Schema aggregator", "wordpress-seo" ) } />
+							</FeatureCard>
 						</div>
 					</fieldset>
 				</div>
