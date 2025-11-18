@@ -49,7 +49,7 @@ module.exports = {
 				page: "2048px",
 			},
 			backgroundImage: {
-				"ai-primary": 'linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)',
+				"ai-primary": "linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)",
 			}
 		},
 	},
