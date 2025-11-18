@@ -33,6 +33,7 @@ import {
 	useTitleTemplate,
 	useTypeContext,
 } from "../hooks";
+import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-sidebar-when-publishing";
 
 /**
  * Aims to capture the text between badges.
@@ -228,8 +229,8 @@ export const ModalContent = ( { height } ) => {
 		} );
 	}, [ fetchSuggestions, suggestions.status, totalPages, setCurrentPage, setSelectedSuggestion, isUsageCountLimitReached ] );
 	const handleRetryInitialFetch = useCallback( () => setInitialFetch( "" ), [ setInitialFetch ] );
-
 	const setTitleOrDescription = useSetTitleOrDescription();
+	const openYoastSidebarWhenPublishing = useOpenYoastSidebarWhenPublishing( true );
 	const handleApplySuggestion = useCallback( () => {
 		const data = editType === EDIT_TYPE.title
 			// For terms, remove the "Archives" part from the titleTemplate if present.
@@ -238,7 +239,20 @@ export const ModalContent = ( { height } ) => {
 		setTitleOrDescription( data );
 		addAppliedSuggestion( { editType, previewType, suggestion: suggestions.selected } );
 		onClose();
-	}, [ setTitleOrDescription, editType, previewType, suggestions.selected, titleTemplate, onClose, addAppliedSuggestion ] );
+		if ( location === "pre-publish" ) {
+			openYoastSidebarWhenPublishing();
+		}
+	}, [
+		setTitleOrDescription,
+		editType,
+		previewType,
+		suggestions.selected,
+		titleTemplate,
+		onClose,
+		addAppliedSuggestion,
+		openYoastSidebarWhenPublishing,
+		location,
+	] );
 
 	useEffectOneAtATime( () => {
 		if ( initialFetch === "" ) {

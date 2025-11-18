@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Integrations;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Connection\Site_Kit_Is_Connected_Call;
@@ -50,9 +51,16 @@ abstract class Abstract_Site_Kit_Test extends TestCase {
 	protected $site_kit_is_connected_call;
 
 	/**
-	 * Holds the site kit conditional.
+	 * Holds the site kit feature conditional.
 	 *
 	 * @var Mockery\MockInterface|Google_Site_Kit_Feature_Conditional
+	 */
+	protected $site_kit_feature_conditional;
+
+	/**
+	 * Holds the site kit conditional.
+	 *
+	 * @var Mockery\MockInterface|Site_Kit_Conditional
 	 */
 	protected $site_kit_conditional;
 
@@ -66,11 +74,12 @@ abstract class Abstract_Site_Kit_Test extends TestCase {
 		if ( ! \defined( 'WP_PLUGIN_DIR' ) ) {
 			\define( 'WP_PLUGIN_DIR', '/' );
 		}
-		$this->site_kit_consent_repository = Mockery::mock( Site_Kit_Consent_Repository::class );
-		$this->configuration_repository    = Mockery::mock( Configuration_Repository::class );
-		$this->site_kit_is_connected_call  = Mockery::mock( Site_Kit_Is_Connected_Call::class );
-		$this->site_kit_conditional        = Mockery::mock( Google_Site_Kit_Feature_Conditional::class );
+		$this->site_kit_consent_repository  = Mockery::mock( Site_Kit_Consent_Repository::class );
+		$this->configuration_repository     = Mockery::mock( Configuration_Repository::class );
+		$this->site_kit_is_connected_call   = Mockery::mock( Site_Kit_Is_Connected_Call::class );
+		$this->site_kit_feature_conditional = Mockery::mock( Google_Site_Kit_Feature_Conditional::class );
+		$this->site_kit_conditional         = Mockery::mock( Site_Kit_Conditional::class );
 
-		$this->instance = new Site_Kit( $this->site_kit_consent_repository, $this->configuration_repository, $this->site_kit_is_connected_call, $this->site_kit_conditional );
+		$this->instance = new Site_Kit( $this->site_kit_consent_repository, $this->configuration_repository, $this->site_kit_is_connected_call, $this->site_kit_feature_conditional, $this->site_kit_conditional );
 	}
 }
