@@ -28,7 +28,7 @@ import { Duration } from "./duration";
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
  * @param {string}   why           Details on why the task is important.
- * @param {string}   how           Details on how to complete the task.
+ * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
  *
@@ -66,7 +66,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 							</div>
 							<p className="yst-text-xs yst-text-slate-600">{ why }</p>
 						</li>
-						<li className="yst-flex yst-flex-col  yst-py-4 yst-items-start">
+						{ how && <li className="yst-flex yst-flex-col yst-py-4 yst-items-start">
 							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
 								<HowIcon
 									{ ...svgAriaProps }
@@ -77,7 +77,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 								</Title>
 							</div>
 							<p className="yst-text-xs yst-text-slate-600">{ how }</p>
-						</li>
+						</li> }
 					</ul>
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
