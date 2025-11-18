@@ -218,7 +218,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var Route_Helper
 	 */
-	protected $route_helper;
+	private $route_helper;
 
 	/**
 	 * Constructs Settings_Integration.
