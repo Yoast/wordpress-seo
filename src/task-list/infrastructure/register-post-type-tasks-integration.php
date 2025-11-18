@@ -74,10 +74,14 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 * @return array<string, array<string, Post_Type_Task_Interface>> The tasks.
 	 */
 	private function get_post_type_tasks(): array {
+		// @TODO: Add validation to ensure we are getting an array of Post_Type_Task_Interface implementations after the hook.
+
 		/**
 		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more post type tasks to the task list.
 		 *
 		 * @param array<string, array<string, Post_Type_Task_Interface>> $tasks The post type tasks for the task list.
+		 *
+		 * @internal
 		 */
 		return \apply_filters( 'wpseo_task_list_post_type_tasks', $this->post_type_tasks );
 	}
