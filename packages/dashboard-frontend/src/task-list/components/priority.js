@@ -1,6 +1,6 @@
 import { ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
-import { useSvgAria } from "@yoast/ui-library";
+import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
 
 const priorityLabels = {
 	low: __( "Low", "wordpress-seo" ),
@@ -28,13 +28,22 @@ const getPriorityIcon = ( level ) => {
 /**
  * The Priority component to display task priority.
  *
- * @param {string} level The priority level: 'low', 'medium', 'high'.
+ * @param {string} [level=low] The priority level: 'low', 'medium', 'high'.
+ * @param {boolean} [isLoading=false] Whether the priority is loading.
  * @returns {JSX.Element} The Priority component.
  */
-export const Priority = ( { level } ) => {
+export const Priority = ( { level = "low", isLoading = false } ) => {
+	const svgAriaProps = useSvgAria();
 	return <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1">
-		{ getPriorityIcon( level ) }
-		{ priorityLabels[ level ] }</span>;
+		{ isLoading ? <>
+			<MenuAlt4Icon className="yst-w-4 yst-text-slate-400" { ...svgAriaProps } />
+			<SkeletonLoader className="yst-w-11 yst-h-[18px]" />
+		</>
+			: <>
+				{ getPriorityIcon( level ) }
+				{ priorityLabels[ level ] }
+			</> }
+	</span>;
 };
 
 
