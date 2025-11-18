@@ -34,7 +34,7 @@ export default {
 			options: [ "low", "medium", "high" ],
 		},
 		isCompleted: {
-			description: "Whether the task is completed. If true, the call to action button will be disabled.",
+			description: "Whether the task is completed.",
 		},
 		badge: {
 			description: "An optional badge to display next to the task title. Can be `premium`, `woo`, `ai`.",

@@ -9,6 +9,12 @@ import { __ } from "@wordpress/i18n";
 
 const badgeOptions = [ "premium", "woo", "ai" ];
 
+/**
+ * The LoadingTaskRow component to display a loading state for a task row.
+ *
+ * @param {string} title Title of the task or a placeholder title.
+ * @returns {JSX.Element} The LoadingTaskRow component.
+ */
 const LoadingTaskRow = ( { title } ) => {
 	const svgAriaProps = useSvgAria();
 	return <Table.Row>
@@ -39,7 +45,7 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {number} duration Estimated duration to complete the task.
  * @param {string} priority Priority of the task: 'low', 'medium', 'high'.
  * @param {string} badge An optional badge to display next to the task title: `premium`, `woo`, `ai`.
- * @param {boolean} [isCompleted] Whether the task is completed. If true, the call to action button will be disabled.
+ * @param {boolean} [isCompleted] Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {boolean} [isLoading=false] Whether the title is loading.
  *
