@@ -22,7 +22,7 @@ export const GoogleDocsAddonCard = () => {
 		return {
 			isPremiumActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
 			installAddonLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-install" ),
-			buyPremiumLink: plansSelect.selectLink( "https://yoa.st/plans-premium-buy" ),
+			buyPremiumLink: plansSelect.selectLink( "https://yoa.st/plans-premium-buy-google-docs-addon" ),
 			buyPremiumConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
 			learnMoreLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-learn-more" ),
 			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
