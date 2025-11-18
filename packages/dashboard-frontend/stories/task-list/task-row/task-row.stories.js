@@ -19,7 +19,7 @@ export default {
 			control: false,
 		},
 		title: {
-			description: "Title of the modal.",
+			description: "Title of the task.",
 			control: "text",
 		},
 		duration: {
