@@ -1,10 +1,46 @@
-import { Paper, Title } from "@yoast/ui-library";
+import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
+import { fetchJson } from "@yoast/dashboard-frontend";
+import { get, values, isEmpty } from "lodash";
+import { useEffect, useState } from "@wordpress/element";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { STORE_NAME } from "../constants";
 
 /**
  * @returns {JSX.Element} The task list page content placeholder.
  */
 export const TaskList = () => {
+	const { setTasks } = useDispatch( STORE_NAME );
+	const tasks = useSelect( ( select ) => select( STORE_NAME ).getTasks(), [] );
+	const [ fetchState, setFetchState ] = useState( {
+		error: null,
+		isPending: false,
+	} );
+
+	useEffect( () => {
+		// Fetch tasks only if we don't have them yet.
+		if ( isEmpty( tasks ) ) {
+			setFetchState( prev => ( { ...prev, isPending: true } ) );
+			fetchJson( "/wp-json/yoast/v1/get_tasks", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"X-WP-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+				},
+			} )
+				.then( ( response ) => {
+					setFetchState( { error: null, isPending: false } );
+					setTasks( response.tasks );
+				} )
+				.catch( ( e ) => {
+					setFetchState( { error: e, isPending: false } );
+				} );
+		}
+		// Only run on mount and when tasks changes.
+	}, [ tasks, setTasks ] );
+
+	const { error, isPending } = fetchState;
+
 	return <Paper className="yst-mb-6">
 		<>
 			<Paper.Header>
@@ -14,9 +50,30 @@ export const TaskList = () => {
 				</p>
 			</Paper.Header>
 			<Paper.Content>
-				<div>
-					{ __( "Task list content will be displayed here.", "wordpress-seo" ) }
-				</div>
+				<Table className="yst-mt-6">
+					<Table.Head>
+						<Table.Row>
+							<Table.Header>{ __( "Tasks", "wordpress-seo" ) }</Table.Header>
+							<Table.Header>{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
+							<Table.Header>{ __( "Priority", "wordpress-seo" ) }</Table.Header>
+							<Table.Header>{ "" }</Table.Header>
+						</Table.Row>
+					</Table.Head>
+					<Table.Body>
+						{ isEmpty( tasks ) && isPending && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Loading…", "wordpress-seo" ) }</Table.Cell></Table.Row> }
+						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
+						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
+							<Table.Row key={ task.id }>
+								<Table.Cell>{ task.copy_set.title }</Table.Cell>
+								<Table.Cell>{ task.duration }</Table.Cell>
+								<Table.Cell>{ task.priority }</Table.Cell>
+								<Table.Cell>
+									{ task.is_completed ? __( "Completed", "wordpress-seo" ) : __( "Pending", "wordpress-seo" ) }
+								</Table.Cell>
+							</Table.Row>
+						) ) }
+					</Table.Body>
+				</Table>
 			</Paper.Content>
 		</>
 	</Paper>;
