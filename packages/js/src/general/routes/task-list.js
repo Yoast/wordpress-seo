@@ -1,8 +1,8 @@
-import { Paper, Title, Table } from "@yoast/ui-library";
+import { Button, Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { fetchJson } from "@yoast/dashboard-frontend";
 import { get, values, isEmpty } from "lodash";
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useState, useCallback } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 
@@ -10,12 +10,18 @@ import { STORE_NAME } from "../constants";
  * @returns {JSX.Element} The task list page content placeholder.
  */
 export const TaskList = () => {
-	const { setTasks } = useDispatch( STORE_NAME );
+	const { setTasks, completeTask } = useDispatch( STORE_NAME );
 	const tasks = useSelect( ( select ) => select( STORE_NAME ).getTasks(), [] );
 	const [ fetchState, setFetchState ] = useState( {
 		error: null,
 		isPending: false,
 	} );
+
+	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
+
+	const handleCompleteTask = useCallback( async( taskId ) => {
+		completeTask( taskId, "/wp-json/yoast/v1/complete_task", nonce );
+	}, [ nonce ] );
 
 	useEffect( () => {
 		// Fetch tasks only if we don't have them yet.
@@ -25,7 +31,7 @@ export const TaskList = () => {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
-					"X-WP-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+					"X-WP-Nonce": nonce,
 				},
 			} )
 				.then( ( response ) => {
@@ -69,6 +75,7 @@ export const TaskList = () => {
 								<Table.Cell>{ task.priority }</Table.Cell>
 								<Table.Cell>
 									{ task.is_completed ? __( "Completed", "wordpress-seo" ) : __( "Pending", "wordpress-seo" ) }
+									<Button onClick={ () => handleCompleteTask( task.id ) }>Complete task</Button>
 								</Table.Cell>
 							</Table.Row>
 						) ) }
