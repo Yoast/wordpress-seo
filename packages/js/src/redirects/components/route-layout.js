@@ -1,11 +1,9 @@
 import { useSelect } from "@wordpress/data";
-import { __, sprintf } from "@wordpress/i18n";
-import { Button, Title } from "@yoast/ui-library";
+import { sprintf } from "@wordpress/i18n";
+import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { Helmet } from "react-helmet";
-import { useSelectRedirects } from "../hooks";
-import { LockClosedIcon } from "@heroicons/react/outline";
 import { STORE_NAME } from "../constants";
 
 /**
@@ -28,33 +26,16 @@ export const RouteLayout = ( {
 		"Yoast SEO"
 	);
 
-	const isComingFromToolsPage = useSelect( STORE_NAME ).selectPreference( "isComingFromToolsPage", false );
-	const link = isComingFromToolsPage ? "https://yoa.st/redirect-manager-upsell-tools" : "https://yoa.st/redirect-manager-upsell";
-	const upsellLink = useSelectRedirects( "selectLink", [], link );
-
 	return (
 		<LiveAnnouncer>
 			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
 			<Helmet>
 				<title>{ documentTitle }</title>
 			</Helmet>
-			<header className="yst-p-8 yst-border-b yst-border-slate-200">
+			<header className="yst-p-8 yst-border-b yst-border-slate-200 yst-opacity-50">
 				<div className="yst-max-w-screen-sm">
 					<Title>{ title }</Title>
 					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
-					<Button
-						as="a"
-						href={ upsellLink }
-						target="_blank"
-						variant="upsell"
-						size="large"
-						className="yst-flex yst-gap-1.5 yst-mt-6 yst-w-fit"
-						data-action="load-nfd-ctb"
-						data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-					>
-						<LockClosedIcon className="yst-w-4 yst-h-4" />
-						<span>{ __( "Unlock with Premium", "wordpress-seo" ) }</span>
-					</Button>
 				</div>
 			</header>
 			{ children }

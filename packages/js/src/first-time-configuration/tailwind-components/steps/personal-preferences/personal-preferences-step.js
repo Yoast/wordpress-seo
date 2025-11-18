@@ -7,6 +7,7 @@ import Alert from "../../base/alert";
 import { makeOutboundLink } from "@yoast/helpers";
 import { NewsletterSignup } from "./newsletter-signup";
 import RadioGroup from "../../base/radio-group";
+import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 
 const Link = makeOutboundLink();
 
@@ -22,21 +23,21 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 	return <Fragment>
 		{ ( ! state.isPremium ) && <Fragment>
 			<NewsletterSignup gdprLink={ window.wpseoFirstTimeConfigurationData.shortlinks.gdpr } />
-			<br />
+			<hr className="yst-bg-slate-200 yst-my-6" />
 		</Fragment> }
-		<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
+		<h4 className="yst-text-slate-800 yst-text-sm yst-leading-6 yst-font-medium">
 			{
 				__( "Are you open to help us improve our services?",
 					"wordpress-seo" )
 			}
 		</h4>
-		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
+		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" }>
 			{ __( "This feature has been disabled by the network admin.", "wordpress-seo" ) }
 		</Alert> }
-		{ ! state.isMainSite && <Alert type={ "warning" } className="yst-mt-2">
+		{ ! state.isMainSite && <Alert type={ "warning" }>
 			{ __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" ) }
 		</Alert> }
-		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>
+		<p className={ classNames( "yst-text-normal yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>
 			{
 				sprintf(
 					/* translators: 1: Yoast SEO. */
@@ -70,10 +71,23 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 			>
 				{ __( "What data will be collected and why?", "wordpress-seo" ) }
 			</Link>
-			<p className="yst-my-2">
-				<i>{
-					__( "Important: We won't sell this data, and we won't collect any personal information about you or your visitors.", "wordpress-seo" )
-				}</i>
+			<p className="yst-my-2 yst-italic">
+				{
+					safeCreateInterpolateElement(
+						sprintf(
+							/* translators: %1$s expands to opening 'span' HTML tag, %2$s expands to closing 'span' HTML tag. */
+							__(
+								"%1$sImportant:%2$s We won't sell this data, and we won't collect any personal information about you or your visitors.",
+								"wordpress-seo"
+							),
+							"<span>",
+							"</span>"
+						),
+						{
+							span: <span className="yst-text-slate-800 yst-font-medium" />,
+						}
+					)
+				}
 			</p>
 		</Fragment> }
 	</Fragment>;

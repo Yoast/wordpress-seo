@@ -36,7 +36,7 @@ export const ContentBlocksUpsell = ( { isOpen, closeModal, location } ) => {
 			onClose={ closeModal }
 			id="yoast-content-blocks-upsell"
 			upsellLink={ addQueryArgs( buyLink, { context: locationContext } ) }
-			modalTitle={ __( "Enhance your content", "wordpress-seo" ) }
+			modalTitle={ __( "Add rich content blocks with Premium", "wordpress-seo" ) }
 			title={ __( "Make your post more engaging at a click", "wordpress-seo" ) }
 			description={ __( "Add rich elements that improve readability, structure, and SEO. Easily insert smart blocks to enrich your content directly in the Block Editor. Includes:", "wordpress-seo" ) }
 			benefits={ renderBenefitItems }

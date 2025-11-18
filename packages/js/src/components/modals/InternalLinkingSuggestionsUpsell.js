@@ -33,7 +33,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 				onClose={ closeModal }
 				id={ `yoast-internal-linking-suggestions-upsell-${location}` }
 				upsellLink={ addQueryArgs( buyLink, { context: locationContext } ) }
-				modalTitle={ __( "Get internal linking suggestions", "wordpress-seo" ) }
+				modalTitle={ __( "Add smarter internal links with Premium", "wordpress-seo" ) }
 				title={ __( "Connect related content without the guesswork", "wordpress-seo" ) }
 				description={ safeCreateInterpolateElement(
 					sprintf(

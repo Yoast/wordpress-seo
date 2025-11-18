@@ -117,7 +117,7 @@ Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
 | Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ❌<sup>3</sup>                 |
+| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
 | Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
 | Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
 | Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
