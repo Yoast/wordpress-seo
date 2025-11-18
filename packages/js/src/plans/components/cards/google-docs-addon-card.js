@@ -12,22 +12,18 @@ import { InstallAddon } from "../actions/install-addon";
 export const GoogleDocsAddonCard = () => {
 	const {
 		isPremiumActive,
-		hasLicense,
 		installAddonLink,
 		buyPremiumLink,
 		buyPremiumConfig,
-		manageLink,
 		learnMoreLink,
 		isBlackFridayPromotionActive,
 	} = useSelect( ( select ) => {
 		const plansSelect = select( STORE_NAME );
 		return {
 			isPremiumActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
-			hasLicense: plansSelect.selectAddOnHasLicense( ADD_ONS.premium ),
 			installAddonLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-install" ),
 			buyPremiumLink: plansSelect.selectLink( "https://yoa.st/plans-premium-buy" ),
 			buyPremiumConfig: plansSelect.selectAddOnClickToBuyAsProps( ADD_ONS.premium ),
-			manageLink: plansSelect.selectLink( "https://yoa.st/plans-premium-manage" ),
 			learnMoreLink: plansSelect.selectLink( "https://yoa.st/plans-google-docs-add-on-learn-more" ),
 			isBlackFridayPromotionActive: plansSelect.isPromotionActive( "black-friday-promotion" ),
 		};
@@ -37,7 +33,7 @@ export const GoogleDocsAddonCard = () => {
 		<BaseCard
 			hasHighlight={ false }
 			isActiveHighlight={ false }
-			isManageAvailable={ hasLicense }
+			isManageAvailable={ false }
 			header={ <GoogleDocsAddonSvg /> }
 			title="Yoast SEO Google Docs Add-on"
 			description={ __( "Write and optimize your content directly in Google Docs.", "wordpress-seo" ) }
@@ -49,7 +45,6 @@ export const GoogleDocsAddonCard = () => {
 			button={ isPremiumActive && <InstallAddon href={ installAddonLink } /> }
 			buyLink={ buyPremiumLink }
 			buyConfig={ buyPremiumConfig }
-			manageLink={ manageLink }
 			learnMoreLink={ learnMoreLink }
 			learnMoreContent={ ! isPremiumActive && (
 				<div className="yst-font-medium yst-italic yst-text-center yst-pt-3">
