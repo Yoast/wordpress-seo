@@ -303,6 +303,35 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.5 =
+
+Changes compared to: 26.4
+
+Enhancements:
+
+* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings. [#22697](https://github.com/Yoast/wordpress-seo/pull/22697)
+* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added. [#22343](https://github.com/Yoast/wordpress-seo/pull/22343)
+
+Bugfixes:
+
+* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+
+Other:
+
+* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance. [#22697](https://github.com/Yoast/wordpress-seo/pull/22697)
+
+Non user facing:
+
+* Merges the branch `feature/off-the-bat-analysis` and the 5 PRs it contains into `trunk`. [#22724](https://github.com/Yoast/wordpress-seo/pull/22724)
+* Makes the AI Optimize buttons available for the _keyphrase in introduction_, _keyphrase density_, and _keyphrase distribution_ assessments even when there is no keyphrase or content. [#22610](https://github.com/Yoast/wordpress-seo/pull/22610)
+* Adjusts the _keyphrase distribution_ assessment's scoring criteria for texts that are shorter than 15 sentences. [#22694](https://github.com/Yoast/wordpress-seo/pull/22694)
+* Fixes an unreleased bug where _keyphrase distribution_ would inaccurately return a green traffic light when there was a keyphrase set and the content consisted solely of excluded blocks. [#22694](https://github.com/Yoast/wordpress-seo/pull/22694)
+* Releases new JavaScript package versions. [#22714](https://github.com/Yoast/wordpress-seo/pull/22714)
+* Adjusts the scoring criteria for the _keyphrase density_ assessment for texts shorter than 100 words. [#22715](https://github.com/Yoast/wordpress-seo/pull/22715)
+*  Releases a new version of the JavaScript package `@yoast/browserslist-config`. [#22713](https://github.com/Yoast/wordpress-seo/pull/22713)
+* Re-introduces the other-admins alert, this time with an input field so that they can be subscribed to our newsletter [#22672](https://github.com/Yoast/wordpress-seo/pull/22672)
+* Updates the `symfony/dependency-injection` package to version 5.4  [#21905](https://github.com/Yoast/wordpress-seo/pull/21905)
+
 = 26.4 =
 
 Release date: 2025-11-18
@@ -317,21 +346,6 @@ Release date: 2025-11-18
 * Adds a button for using AI to generate custom an SEO title or meta description in the pre-publish sidebar of the block editor, if all recent posts have been using default SEO data.
 * Adds the Yoast siblings and subpages premium blocks to the Yoast custom blocks menu tab in pages.
 * Improves performance when author archives are disabled and an author is created. Props to [ErikBrendel](https://github.com/ErikBrendel).
-
-= 26.3 =
-
-Release date: 2025-11-04
-
-Yoast SEO 26.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Bugfixes
-
-*  Fixes a bug where the llms.txt file template contained a spelling error "can by found" instead of "can be found". Props to [aditya241104](https://github.com/aditya241104).
-
-#### Other
-
-* Introduces the `wpseo_llmstxt_link_description` filter for link descriptions in the `llms.txt` file. Props to @Godzilaa.
-* Removes the external link icon from the `Customize llms.txt file` button in the `Site features` section of the plugin's Settings page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
