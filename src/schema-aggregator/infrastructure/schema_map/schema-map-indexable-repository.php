@@ -46,7 +46,7 @@ class Schema_Map_Indexable_Repository {
 			->where_in( 'object_type', [ 'post', 'page' ] )
 			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->group_by( [ 'object_type', 'object_sub_type' ] )
-			->get_sql();
+			->find_array();
 
 		if ( empty( $indexable_raw_value ) ) {
 			return $post_type_counts;
