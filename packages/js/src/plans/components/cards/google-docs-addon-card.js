@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { ADD_ONS, STORE_NAME } from "../../constants";
 import { BaseCard } from "./base-card";
 import { GoogleDocsAddonSvg } from "../images/google-docs-addon-svg";
-import { InstallAddon } from "../actions/install-addon";
+import { CardLink } from "../actions/card-link";
 
 /**
  * A card to present the Yoast SEO Google Docs Add-on plan.
@@ -34,6 +34,7 @@ export const GoogleDocsAddonCard = () => {
 			hasHighlight={ false }
 			isActiveHighlight={ false }
 			isManageAvailable={ false }
+			isLicenseRequired={ false }
 			header={ <GoogleDocsAddonSvg /> }
 			title="Yoast SEO Google Docs Add-on"
 			description={ __( "Write and optimize your content directly in Google Docs.", "wordpress-seo" ) }
@@ -42,11 +43,11 @@ export const GoogleDocsAddonCard = () => {
 				__( "Collaborate with your team and create consistent SEO-ready drafts faster", "wordpress-seo" ),
 				__( "One free seat available with all Yoast subscriptions", "wordpress-seo" ),
 			] }
-			button={ isPremiumActive && <InstallAddon href={ installAddonLink } /> }
+			button={ isPremiumActive && <CardLink href={ installAddonLink } label={ __( "Install add-on", "wordpress-seo" ) } /> }
 			buyLink={ buyPremiumLink }
 			buyConfig={ buyPremiumConfig }
 			learnMoreLink={ learnMoreLink }
-			learnMoreContent={ ! isPremiumActive && (
+			learnMoreOverride={ ! isPremiumActive && (
 				<div className="yst-font-medium yst-italic yst-text-center yst-pt-3">
 					{ __( "Included in Premium", "wordpress-seo" ) }
 				</div>

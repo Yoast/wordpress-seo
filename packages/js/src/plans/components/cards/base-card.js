@@ -1,11 +1,11 @@
 /* eslint-disable complexity */
 import { CheckCircleIcon } from "@heroicons/react/solid";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Card, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { BuyProduct } from "../actions/buy-product";
 import { LearnMore } from "../actions/learn-more";
-import { ManageInMyYoast } from "../actions/manage-in-my-yoast";
+import { CardLink } from "../actions/card-link";
 
 /**
  * Plans card badge component.
@@ -57,7 +57,7 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPro
  * @param {boolean} [hasHighlight=false] Whether the card should have a highlight (shadow and border).
  * @param {boolean} [isActiveHighlight=false] Whether the card is an active plan, which will determine the badge color and highlight text.
  * @param {boolean} [isLicenseRequired=true] Whether the license required for the product.
- * @param {React.ReactNode} button An optional section to specify the button content.
+ * @param {React.ReactNode} buttonOverride An optional section to specify the button content.
  * @param {boolean} isManageAvailable Whether the card action is to manage the product in MyYoast, otherwise it will be buy.
  * @param {React.ReactNode} header The header content of the card. An SVG is expected.
  * @param {string} title The title of the card, typically the product name.
@@ -68,7 +68,7 @@ const CardHighlightBadge = ( { hasHighlight, isActiveHighlight, isBlackFridayPro
  * @param {string} buyLink The URL to buy the product.
  * @param {...Object} buyConfig Additional configuration for the buy button, for the CTB attributes.
  * @param {string} manageLink The URL to manage the product in MyYoast.
- * @param {React.ReactNode} learnMoreContent The learn more content of the card.
+ * @param {React.ReactNode} learnMoreOverride The learn more content of the card.
  * @param {string} learnMoreLink The URL to learn more about the product.
  * @param {boolean} isBlackFridayPromotionActive Whether the Black Friday promotion is active.
  *
@@ -79,7 +79,7 @@ export const BaseCard = ( {
 	isActiveHighlight = false,
 	isLicenseRequired = true,
 	isManageAvailable,
-	button,
+	buttonOverride,
 	header,
 	title,
 	description,
@@ -89,7 +89,7 @@ export const BaseCard = ( {
 	buyLink,
 	buyConfig,
 	manageLink,
-	learnMoreContent,
+	learnMoreOverride,
 	learnMoreLink,
 	isBlackFridayPromotionActive,
 } ) => {
@@ -127,12 +127,20 @@ export const BaseCard = ( {
 						</>
 					) }
 					<div className="yst-flex yst-flex-col yst-gap-y-1">
-						{ button }
-						{ ! button && ( isManageAvailable
-							? <ManageInMyYoast href={ manageLink } />
-							: <BuyProduct href={ buyLink } { ...buyConfig } /> )
+						{ buttonOverride }
+						{ ! buttonOverride && ( isManageAvailable
+							? (
+								<CardLink
+									href={ manageLink }
+									label={ sprintf(
+										/* translators: %s expands to "MyYoast". */
+										__( "Manage in %s", "wordpress-seo" ),
+										"MyYoast"
+									) }
+								/>
+							) : <BuyProduct href={ buyLink } { ...buyConfig } /> )
 						}
-						{ learnMoreContent || <LearnMore className="yst-pb-0" href={ learnMoreLink } /> }
+						{ learnMoreOverride || <LearnMore className="yst-pb-0" href={ learnMoreLink } /> }
 					</div>
 				</Card.Footer>
 			</Card>

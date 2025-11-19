@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../../constants";
 import { BaseCard } from "./base-card";
 import { DuplicatePostSvg } from "../images/duplicate-post-svg";
-import { InstallPlugin } from "../actions/install-plugin";
+import { CardLink } from "../actions/card-link";
 import { useMemo } from "@wordpress/element";
 
 /**
@@ -76,7 +76,7 @@ export const DuplicatePostCard = () => {
 				__( "Perfect for creating templates or testing updates", "wordpress-seo" ),
 				__( "Trusted by over 4+ million WordPress sites", "wordpress-seo" ),
 			] }
-			button={ <InstallPlugin href={ buttonLink } disabled={ buttonDisabled } /> }
+			button={ <CardLink href={ buttonLink } label={ __( "Install plugin", "wordpress-seo" ) } disabled={ buttonDisabled } /> }
 			learnMoreLink={ learnMoreLink }
 			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>

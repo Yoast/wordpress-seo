@@ -18,29 +18,12 @@ class Duplicate_Post_Manager {
 	public const PLUGIN_FILE = 'duplicate-post/duplicate-post.php';
 
 	/**
-	 * Holds the WPSEO_Addon_Manager.
-	 *
-	 * @var WPSEO_Addon_Manager
-	 */
-	private $addon_manager;
-
-	/**
-	 * Constructs the instance.
-	 *
-	 * @param WPSEO_Addon_Manager $addon_manager The WPSEO_Addon_Manager.
-	 */
-	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
-
-		$this->addon_manager = $addon_manager;
-	}
-
-	/**
 	 * Checks if the plugin is installed and activated in WordPress.
 	 *
 	 * @return bool True when installed and activated.
 	 */
 	protected function is_activated() {
-		return $this->addon_manager->is_plugin_active( static::PLUGIN_FILE );
+		return \is_plugin_active( static::PLUGIN_FILE );
 	}
 
 	/**
@@ -49,9 +32,7 @@ class Duplicate_Post_Manager {
 	 * @return bool True when installed.
 	 */
 	protected function is_installed() {
-		$plugins = $this->addon_manager->get_plugins();
-
-		return isset( $plugins[ static::PLUGIN_FILE ] );
+		return \file_exists( \WP_PLUGIN_DIR . '/' . self::PLUGIN_FILE );
 	}
 
 	/**

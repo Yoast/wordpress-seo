@@ -450,11 +450,11 @@ class WPSEO_Addon_Manager {
 	 */
 	public function is_installed( $slug ) {
 		$slug_to_class_map = [
-			static::PREMIUM_SLUG        => 'WPSEO_Premium',
-			static::NEWS_SLUG           => 'WPSEO_News',
-			static::WOOCOMMERCE_SLUG    => 'Yoast_WooCommerce_SEO',
-			static::VIDEO_SLUG          => 'WPSEO_Video_Sitemap',
-			static::LOCAL_SLUG          => 'WPSEO_Local_Core',
+			static::PREMIUM_SLUG     => 'WPSEO_Premium',
+			static::NEWS_SLUG        => 'WPSEO_News',
+			static::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
+			static::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
+			static::LOCAL_SLUG       => 'WPSEO_Local_Core',
 		];
 
 		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
@@ -786,7 +786,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return array The plugins.
 	 */
-	public function get_plugins() {
+	protected function get_plugins() {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -803,7 +803,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return bool True when plugin is active.
 	 */
-	public function is_plugin_active( $plugin_file ) {
+	protected function is_plugin_active( $plugin_file ) {
 		return is_plugin_active( $plugin_file );
 	}
 
