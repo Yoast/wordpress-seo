@@ -1,7 +1,7 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { fetchJson, TaskRow } from "@yoast/dashboard-frontend";
-import { get, values, isEmpty } from "lodash";
+import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
+import { get, values, isEmpty, size } from "lodash";
 import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
@@ -20,6 +20,10 @@ export const TaskList = () => {
 	} );
 
 	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
+	const totalTasksCount = size( tasks );
+	const completedTasksCount = size(
+		values( tasks ).filter( task => task.isCompleted )
+	);
 
 	useEffect( () => {
 		// Fetch tasks only if we don't have them yet.
@@ -62,6 +66,8 @@ export const TaskList = () => {
 		{ id: "task-1", title: "Complete the First-time configuration", isLoading: true },
 		{ id: "task-2", title: "Remove the Hello World post", isLoading: true },
 		{ id: "task-3", title: "Create an llms.txt file", isLoading: true },
+		{ id: "task-4", title: "Set search appearance templates for your posts", isLoading: true },
+		{ id: "task-5", title: "Set search appearance templates for your pages", isLoading: true },
 	];
 
 	return <Paper className="yst-mb-6">
@@ -73,7 +79,12 @@ export const TaskList = () => {
 				</p>
 			</Paper.Header>
 			<Paper.Content>
-				<Table>
+				<TasksProgressBar
+					completedTasks={ completedTasksCount }
+					totalTasks={ totalTasksCount }
+					isLoading={ isPending }
+				/>
+				<Table className="yst-mt-4">
 					<Table.Head>
 						<Table.Row>
 							<Table.Header>{ __( "Tasks", "wordpress-seo" ) }</Table.Header>
