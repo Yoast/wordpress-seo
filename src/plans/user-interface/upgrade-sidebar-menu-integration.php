@@ -89,9 +89,9 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Add page with PHP_INT_MAX so its always the last item.
-		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
-		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
+		// Add page with PHP_INT_MAX - 1 to allow other items (like Brand Insights) to be positioned after.
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], ( \PHP_INT_MAX - 1 ) );
+		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], ( \PHP_INT_MAX - 1 ) );
 		\add_action( 'admin_init', [ $this, 'do_redirect' ], 1 );
 	}
 

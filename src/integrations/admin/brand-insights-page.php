@@ -68,7 +68,7 @@ class Brand_Insights_Page implements Integration_Interface {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
 		$gradient_border_wrapper = '<span style="position: relative; background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%); border-radius: 6px; padding: 1px; display: inline-flex;">';
-		$inner_content_wrapper   = '<span style="position: relative; background: var(--adminmenu-background, #3c434a); border-radius: 6px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px;">';
+		$inner_content_wrapper   = '<span style="position: relative; background: var(--adminmenu-background, #3c434a); border-radius: 6px; padding: 6px 8px 6px 10px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; white-space: nowrap;">';
 		$menu_title              = $gradient_border_wrapper . $inner_content_wrapper . 'AI Brand Insights ' . $this->external_link_icon . '</span></span>';
 
 		$submenu_pages[] = [
