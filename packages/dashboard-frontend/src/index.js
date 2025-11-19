@@ -113,4 +113,6 @@ export { useFetch } from "./fetch/use-fetch";
 
 export { TaskModal } from "./task-list/components/task-modal";
 export { TaskRow } from "./task-list/components/task-row";
+export { TasksProgressBar } from "./task-list/components/tasks-progressbar";
 export * from "./store";
+
