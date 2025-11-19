@@ -18,7 +18,7 @@ class Manager {
 	 *
 	 * @var string
 	 */
-	private const CACHE_PREFIX = 'yoast_nlweb_schema';
+	private const CACHE_PREFIX = 'yoast_schema_aggregator';
 
 	/**
 	 * Cache version for invalidation
@@ -159,7 +159,7 @@ class Manager {
 				return false;
 			}
 
-			// Pattern matches: yoast_nlweb_schema_page_{n}_per_{m}_v{version}.
+			// Pattern matches: yoast_schema__aggregator_page_{n}_per_{m}_v{version}.
 			$pattern         = '_transient_' . self::CACHE_PREFIX . '_page_%';
 			$timeout_pattern = '_transient_timeout_' . self::CACHE_PREFIX . '_page_%';
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery

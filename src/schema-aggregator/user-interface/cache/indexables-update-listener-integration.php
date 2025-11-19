@@ -7,8 +7,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Site_Schema_Json_Conditional;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
 /**
  * This class listens to changes in the indexables and resets the cache.
@@ -37,16 +38,25 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	private $manager;
 
 	/**
+	 * The XML cache manager.
+	 *
+	 * @var Xml_Manager
+	 */
+	private $xml_manager;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Config               $config               The config object.
 	 * @param Manager              $manager              The manager object.
+	 * @param Xml_Manager          $xml_manager          The XML cache manager.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Config $config, Manager $manager ) {
+	public function __construct( Indexable_Repository $indexable_repository, Config $config, Manager $manager, Xml_Manager $xml_manager ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->config               = $config;
 		$this->manager              = $manager;
+		$this->xml_manager          = $xml_manager;
 	}
 
 	/**
@@ -64,7 +74,7 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Site_Schema_Json_Conditional::class ];
+		return [ Schema_Aggregator_Conditional::class ];
 	}
 
 	/**
@@ -78,10 +88,12 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	public function reset_cache( $indexable, $indexable_before ) {
 		if ( $indexable_before->permalink === null ) {
 			$this->manager->invalidate_all();
+			$this->xml_manager->invalidate();
 			return false;
 		}
 		$page = $this->get_page_number( $indexable );
 		$this->manager->invalidate( $page );
+		$this->xml_manager->invalidate();
 
 		return true;
 	}
@@ -92,18 +104,13 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	 * This method accounts for deletions by counting the actual position in the result set,
 	 * not just using the ID directly.
 	 *
-	 * @param Indexable     $indexable              The indexable to find the page for.
-	 * @param array<string> $post_type_exclude_list The list of excluded post types.
+	 * @param Indexable $indexable The indexable to find the page for.
 	 *
 	 * @return int The page number (1-indexed) where this indexable appears.
 	 */
-	public function get_page_number( $indexable, $post_type_exclude_list = [] ) {
+	public function get_page_number( $indexable ) {
 		$query = $this->indexable_repository->query();
-
 		$query->where_raw( '( is_public IS NULL OR is_public = 1 )' );
-		if ( $post_type_exclude_list ) {
-			$query->where_not_in( 'object_sub_type', $post_type_exclude_list );
-		}
 
 		// Count how many records come before this indexable (have a smaller ID).
 		$count_before = $query

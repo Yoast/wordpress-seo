@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Nlweb\Schema_Aggregator\User_Interface;
+namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_Error;
 use WP_REST_Request;
@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
