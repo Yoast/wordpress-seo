@@ -43,7 +43,7 @@ export const GoogleDocsAddonCard = () => {
 				__( "Collaborate with your team and create consistent SEO-ready drafts faster", "wordpress-seo" ),
 				__( "One free seat available with all Yoast subscriptions", "wordpress-seo" ),
 			] }
-			button={ isPremiumActive && <CardLink href={ installAddonLink } label={ __( "Install add-on", "wordpress-seo" ) } /> }
+			buttonOverride={ isPremiumActive && <CardLink href={ installAddonLink } label={ __( "Install add-on", "wordpress-seo" ) } /> }
 			buyLink={ buyPremiumLink }
 			buyConfig={ buyPremiumConfig }
 			learnMoreLink={ learnMoreLink }

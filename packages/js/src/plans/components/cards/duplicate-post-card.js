@@ -76,7 +76,7 @@ export const DuplicatePostCard = () => {
 				__( "Perfect for creating templates or testing updates", "wordpress-seo" ),
 				__( "Trusted by over 4+ million WordPress sites", "wordpress-seo" ),
 			] }
-			button={ <CardLink href={ buttonLink } label={ __( "Install plugin", "wordpress-seo" ) } disabled={ buttonDisabled } /> }
+			buttonOverride={ <CardLink href={ buttonLink } label={ __( "Install plugin", "wordpress-seo" ) } disabled={ buttonDisabled } /> }
 			learnMoreLink={ learnMoreLink }
 			isBlackFridayPromotionActive={ isBlackFridayPromotionActive }
 		/>
