@@ -19,6 +19,13 @@ class Brand_Insights_Page implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * External link icon SVG.
+	 *
+	 * @var string
+	 */
+	private $external_link_icon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="yst-inline" style="width: 16px; height: 16px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Product_Helper $product_helper The product helper.
@@ -46,7 +53,8 @@ class Brand_Insights_Page implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 12 );
+		// Add page with PHP_INT_MAX so it's always the last item. This is the Brand Insights button in the sidebar.
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], \PHP_INT_MAX );
 	}
 
 	/**
@@ -59,10 +67,14 @@ class Brand_Insights_Page implements Integration_Interface {
 	public function add_submenu_page( $submenu_pages ) {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
+		$gradient_border_wrapper = '<span style="position: relative; background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%); border-radius: 6px; padding: 1px; display: inline-flex;">';
+		$inner_content_wrapper   = '<span style="position: relative; background: var(--adminmenu-background, #3c434a); border-radius: 6px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px;">';
+		$menu_title              = $gradient_border_wrapper . $inner_content_wrapper . 'AI Brand Insights ' . $this->external_link_icon . '</span></span>';
+
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			'Brand Insights <span class="yoast-badge yoast-ai-plus-badge"></span>',
+			$menu_title,
 			'edit_others_posts',
 			$page,
 			[ $this, 'show_brand_insights_page' ],
