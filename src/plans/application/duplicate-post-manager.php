@@ -2,8 +2,6 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Plans\Application;
-
-use WPSEO_Addon_Manager;
 use WPSEO_Admin_Utils;
 
 /**
