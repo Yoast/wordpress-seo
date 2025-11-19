@@ -44,9 +44,6 @@ export default {
 			options: [ "", "premium", "woo", "ai" ],
 			type: { name: "string" },
 		},
-		isLoading: {
-			description: "Whether the task is loading.",
-		},
 	},
 	args: {
 		title: "Uncompleted Task",
@@ -55,69 +52,74 @@ export default {
 		taskId: "task-1",
 		isCompleted: false,
 		onClick: noop,
-		isLoading: false,
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-bg-white">
+				<Table>
+					<Table.Head>
+						<Table.Row>
+							<Table.Header>Task</Table.Header>
+							<Table.Header>Est. duration</Table.Header>
+							<Table.Header>Priority</Table.Header>
+							<Table.Header>{ "" }</Table.Header>
+						</Table.Row>
+					</Table.Head>
+					<Table.Body>
+						<Story />
+					</Table.Body>
+				</Table>
+			</div>
+		),
+	],
 };
 
 export const Factory = {
-	render: ( args ) => ( <Table>
-		<Table.Head>
-			<Table.Row>
-				<Table.Header>Task</Table.Header>
-				<Table.Header>Est. duration</Table.Header>
-				<Table.Header>Priority</Table.Header>
-				<Table.Header>{ "" }</Table.Header>
-			</Table.Row>
-		</Table.Head>
-		<Table.Body>
+	render: ( args ) => (
+		<>
 			<TaskRow
 				{ ...args }
 			/>
 			<TaskRow
-				{ ...args }
-				isCompleted={ true }
+				taskId="task-2"
 				title="Completed Task"
+				duration={ 5 }
 				priority="low"
+				isCompleted={ true }
 			/>
 			<TaskRow
-				{ ...args }
-				title="Woo SEO Task"
-				badge="woo"
-				priority="medium"
-			/>
-			<TaskRow
-				{ ...args }
-				title="AI+ Task"
-				badge="ai"
-			/>
-			<TaskRow
-				{ ...args }
-				title="Premium Task"
+				taskId="task-3"
+				title="Completed Task with Premium Badge"
+				duration={ 5 }
+				priority="high"
+				isCompleted={ true }
 				badge="premium"
 			/>
-		</Table.Body>
-	</Table>
+			<TaskRow
+				taskId="task-4"
+				title="Uncompleted Task with Woo Badge"
+				duration={ 10 }
+				priority="medium"
+				isCompleted={ false }
+				badge="woo"
+			/>
+			<TaskRow
+				taskId="task-5"
+				title="Uncompleted Task with AI Badge"
+				duration={ 20 }
+				priority="high"
+				isCompleted={ false }
+				badge="ai"
+			/>
+		</>
 	),
 
 };
 
 export const TaskRowLoading = {
-	render: () => ( <Table>
-		<Table.Head>
-			<Table.Row>
-				<Table.Header>Task</Table.Header>
-				<Table.Header>Est. duration</Table.Header>
-				<Table.Header>Priority</Table.Header>
-				<Table.Header>{ "" }</Table.Header>
-			</Table.Row>
-		</Table.Head>
-		<Table.Body>
-			<TaskRow
-				title="Loading Task with long title..."
-				isLoading={ true }
-			/>
-		</Table.Body>
-	</Table>
+	render: () => (
+		<TaskRow.Loading
+			title="Loading Task with long title..."
+		/>
 	),
-
 };

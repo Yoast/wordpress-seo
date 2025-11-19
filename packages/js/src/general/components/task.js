@@ -17,7 +17,7 @@ import { get } from "lodash";
  * @param {string} priority The priority: 'low', 'medium', 'high'.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
- * @param {Object} callToAction The call to action props object.
+ * @param {Object} callToAction The call-to-action props object.
  *
  * @returns {JSX.Element} The Task component.
  */
