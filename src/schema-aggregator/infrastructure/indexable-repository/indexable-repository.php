@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository;
 
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository as Base_Indexable_Repository;
@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository as Base_Indexable_Repository;
 /**
  * Native implementation of the Indexable Repository Interface.
  */
-class Native_Indexable_Repository implements Indexable_Repository_Interface {
+class Indexable_Repository implements Indexable_Repository_Interface {
 
 	/**
 	 * The indexables repository.

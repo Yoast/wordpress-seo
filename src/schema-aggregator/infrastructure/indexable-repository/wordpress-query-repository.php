@@ -1,15 +1,16 @@
 <?php
-
-namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository;
 
 use WP_Query;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository as Pure_Indexable_Repository;
 
 /**
  * WordPress-based implementation of the Indexable Repository Interface.
  */
-class WordPress_Indexable_Repository implements Indexable_Repository_Interface {
+class WordPress_Query_Repository implements Indexable_Repository_Interface {
 
 	/**
 	 * The indexable builder instance.
@@ -19,12 +20,21 @@ class WordPress_Indexable_Repository implements Indexable_Repository_Interface {
 	private $indexable_builder;
 
 	/**
+	 * The indexables repository.
+	 *
+	 * @var Pure_Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Indexable_Builder $indexable_builder The indexable builder.
+	 * @param Indexable_Builder         $indexable_builder    The indexable builder.
+	 * @param Pure_Indexable_Repository $indexable_repository The indexable repository.
 	 */
-	public function __construct( Indexable_Builder $indexable_builder ) {
-		$this->indexable_builder = $indexable_builder;
+	public function __construct( Indexable_Builder $indexable_builder, Pure_Indexable_Repository $indexable_repository ) {
+		$this->indexable_builder    = $indexable_builder;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -55,8 +65,9 @@ class WordPress_Indexable_Repository implements Indexable_Repository_Interface {
 		$post_ids          = isset( $query->posts ) && \is_array( $query->posts ) ? $query->posts : [];
 		$public_indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexable = $this->indexable_builder->build_for_id_and_type( $post_id, $post_type );
-			if ( $indexable !== null && $indexable->is_public ) {
+			$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, $post_type, false );
+			$indexable = $this->indexable_builder->build_for_id_and_type( $post_id, $post_type, $indexable );
+			if ( $indexable !== null && ( $indexable->is_public === true || $indexable->is_public === null ) ) {
 				$public_indexables[] = $indexable;
 			}
 		}

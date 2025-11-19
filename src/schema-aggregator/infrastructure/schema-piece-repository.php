@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 
 /**
  * The Schema_Piece repository.

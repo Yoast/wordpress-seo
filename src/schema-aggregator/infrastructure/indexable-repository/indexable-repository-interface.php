@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository;
 
 use Yoast\WP\SEO\Models\Indexable;
 /**

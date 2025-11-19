@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository;
 
 /**
  * Factory for creating indexable repositories based on availability.
@@ -10,26 +10,26 @@ class Indexable_Repository_Factory {
 	/**
 	 * The native indexable repository.
 	 *
-	 * @var Native_Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	private $native_repository;
 
 	/**
 	 * The WordPress indexable repository.
 	 *
-	 * @var WordPress_Indexable_Repository
+	 * @var WordPress_Query_Repository
 	 */
 	private $wordpress_repository;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Native_Indexable_Repository    $native_repository    The native indexable repository.
-	 * @param WordPress_Indexable_Repository $wordpress_repository The WordPress indexable repository.
+	 * @param Indexable_Repository       $native_repository    The native indexable repository.
+	 * @param WordPress_Query_Repository $wordpress_repository The WordPress indexable repository.
 	 */
 	public function __construct(
-		Native_Indexable_Repository $native_repository,
-		WordPress_Indexable_Repository $wordpress_repository
+		Indexable_Repository $native_repository,
+		WordPress_Query_Repository $wordpress_repository
 	) {
 		$this->native_repository    = $native_repository;
 		$this->wordpress_repository = $wordpress_repository;
