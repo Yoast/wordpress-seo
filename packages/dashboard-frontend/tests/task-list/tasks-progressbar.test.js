@@ -39,4 +39,8 @@ describe( "TasksProgressBar", () => {
 		expect( screen.getByText( "0" ) ).toBeInTheDocument();
 		expect( screen.getByText( "/0" ) ).toBeInTheDocument();
 	} );
+	it( "does not render when completedTasks exceed totalTasks", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 6 } totalTasks={ 5 } isLoading={ false } /> );
+		expect( container.firstChild ).toBeNull();
+	} );
 } );
