@@ -318,6 +318,20 @@ Other:
 
 * Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
 
+
+#### Enhancements
+
+* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
+* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added.
+
+#### Bugfixes
+
+* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox.
+
+#### Other
+
+* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
+
 = 26.4 =
 
 Release date: 2025-11-18
