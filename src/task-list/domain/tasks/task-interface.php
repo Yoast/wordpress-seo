@@ -53,6 +53,13 @@ interface Task_Interface {
 	public function get_link(): ?string;
 
 	/**
+	 * Returns the task's badge.
+	 *
+	 * @return string|null
+	 */
+	public function get_badge(): ?string;
+
+	/**
 	 * Returns the task's call to action.
 	 *
 	 * @return Call_To_Action_Entry

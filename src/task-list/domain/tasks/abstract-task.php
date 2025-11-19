@@ -56,6 +56,15 @@ abstract class Abstract_Task implements Task_Interface {
 	}
 
 	/**
+	 * Returns the task's badge.
+	 *
+	 * @return string|null
+	 */
+	public function get_badge(): ?string {
+		return null;
+	}
+
+	/**
 	 * Returns an array representation of the task data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
@@ -65,6 +74,7 @@ abstract class Abstract_Task implements Task_Interface {
 			'id'           => $this->get_id(),
 			'duration'     => $this->get_duration(),
 			'priority'     => $this->get_priority(),
+			'badge'        => $this->get_badge(),
 			'isCompleted'  => $this->get_is_completed(),
 			'callToAction' => $this->get_call_to_action()->to_array(),
 		];
