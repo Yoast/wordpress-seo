@@ -61,13 +61,14 @@ abstract class Abstract_Task implements Task_Interface {
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
 	public function to_array(): array {
-		return [
-			'id'             => $this->get_id(),
-			'duration'       => $this->get_duration(),
-			'priority'       => $this->get_priority(),
-			'is_completed'   => $this->get_is_completed(),
-			'call_to_action' => $this->get_call_to_action()->to_array(),
-			'copy_set'       => $this->get_copy_set()->to_array(),
+		$data = [
+			'id'           => $this->get_id(),
+			'duration'     => $this->get_duration(),
+			'priority'     => $this->get_priority(),
+			'isCompleted'  => $this->get_is_completed(),
+			'callToAction' => $this->get_call_to_action()->to_array(),
 		];
+
+		return \array_merge( $data, $this->get_copy_set()->to_array() );
 	}
 }
