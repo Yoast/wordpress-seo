@@ -58,9 +58,9 @@ export const TaskList = () => {
 	const { error, isPending } = fetchState;
 
 	const placeholderTasks = [
-		{ id: "task-1", title: "Complete the First-time configuration", isLoading: true },
-		{ id: "task-2", title: "Remove the Hello World post", isLoading: true },
-		{ id: "task-3", title: "Create an llms.txt file", isLoading: true },
+		{ id: "task-1", title: "Complete the First-time configuration" },
+		{ id: "task-2", title: "Remove the Hello World post" },
+		{ id: "task-3", title: "Create an llms.txt file" },
 	];
 
 	return <Paper className="yst-mb-6">
@@ -82,7 +82,7 @@ export const TaskList = () => {
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
-						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow key={ task.id } { ...task } /> ) }
+						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
 						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
