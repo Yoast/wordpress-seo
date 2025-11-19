@@ -1,7 +1,7 @@
 <?php
 
-
 namespace Yoast\WP\SEO\Tests\Unit\Plans\Application;
+
 use Brain\Monkey\Functions;
 use Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -71,6 +71,6 @@ final class Duplicate_Post_Manager_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Duplicate_Post_Manager( );
+		$this->instance = new Duplicate_Post_Manager();
 	}
 }
