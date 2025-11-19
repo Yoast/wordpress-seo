@@ -33,6 +33,13 @@ import {
 	optInNotificationControls,
 	getInitialOptInNotificationState,
 } from "./opt-in";
+import {
+	TASK_LIST_NAME,
+	taskListActions,
+	taskListReducer,
+	taskListSelectors,
+	getInitialTaskListState,
+} from "@yoast/dashboard-frontend";
 
 const { currentPromotions, dismissedAlerts, isPremium } = reducers;
 const { isAlertDismissed, getIsPremium, isPromotionActive } = selectors;
@@ -57,6 +64,7 @@ const createStore = ( { initialState } ) => {
 			setIsPremium,
 			...adminNoticesActions,
 			...optInNotificationActions,
+			...taskListActions,
 		},
 		selectors: {
 			...adminUrlSelectors,
@@ -68,6 +76,7 @@ const createStore = ( { initialState } ) => {
 			isPromotionActive,
 			...adminNoticesSelectors,
 			...optInNotificationSelectors,
+			...taskListSelectors,
 		},
 		initialState: merge(
 			{},
@@ -79,6 +88,7 @@ const createStore = ( { initialState } ) => {
 				currentPromotions: { promotions: [] },
 				[ ADMIN_NOTICES_NAME ]: getInitialAdminNoticesState(),
 				[ OPT_IN_NOTIFICATION_NAME ]: getInitialOptInNotificationState(),
+				[ TASK_LIST_NAME ]: getInitialTaskListState(),
 			},
 			initialState
 		),
@@ -92,6 +102,7 @@ const createStore = ( { initialState } ) => {
 			isPremium,
 			[ ADMIN_NOTICES_NAME ]: adminNoticesReducer,
 			[ OPT_IN_NOTIFICATION_NAME ]: optInNotificationReducer,
+			[ TASK_LIST_NAME ]: taskListReducer,
 		} ),
 		controls: {
 			...alertCenterControls,
