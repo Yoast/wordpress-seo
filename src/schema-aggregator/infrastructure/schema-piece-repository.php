@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Fa
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 
 /**
- * Schema_Piece repository base class.
+ * The Schema_Piece repository.
  */
 class Schema_Piece_Repository {
 
