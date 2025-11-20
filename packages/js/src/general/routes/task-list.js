@@ -5,7 +5,7 @@ import { values, isEmpty, size } from "lodash";
 import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
-import { Task, UpsellRow } from "../components";
+import { Task, TaskListUpsellRow } from "../components";
 
 /**
  * @returns {JSX.Element} The task list page content placeholder.
@@ -91,7 +91,7 @@ export const TaskList = () => {
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
 						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
-						{ ! isPremium && <UpsellRow /> }
+						{ ! isPremium && <TaskListUpsellRow /> }
 					</Table.Body>
 				</Table>
 			</Paper.Content>

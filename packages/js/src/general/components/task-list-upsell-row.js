@@ -9,7 +9,7 @@ import { STORE_NAME } from "../constants";
  *
  * @returns {JSX.Element} The UpsellRow component.
  */
-export const UpsellRow = () => {
+export const TaskListUpsellRow = () => {
 	const taskListUpsellLink = select( STORE_NAME ).selectLink( "https://yoa.st/task-list-upsell-table-footer" );
 	return (
 		<Table.Row>

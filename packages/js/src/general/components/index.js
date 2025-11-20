@@ -8,5 +8,5 @@ export { RouteErrorFallback } from "./route-error-fallback";
 export { RouteLayout } from "./route-layout";
 export { LlmTxtOptInNotification } from "./llm-txt-opt-in-notification";
 export { LlmTxtOptInContainer } from "./llm-txt-opt-in-container";
-export { UpsellRow } from "./upsell-row";
+export { TaskListUpsellRow } from "./task-list-upsell-row";
 export { Task } from "./task";
