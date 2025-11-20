@@ -113,7 +113,7 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 	 */
 	public function get_call_to_action(): Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Customize search appearance', 'wordpress-seo' ),
+			\__( 'Set search templates', 'wordpress-seo' ),
 			'link',
 			$this->get_link()
 		);
