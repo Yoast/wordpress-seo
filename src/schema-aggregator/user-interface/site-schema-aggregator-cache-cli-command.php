@@ -7,6 +7,7 @@ use WP_CLI\ExitException;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 
 /**
@@ -31,14 +32,23 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 	private $cache_manager;
 
 	/**
+	 * The XML cache manager instance.
+	 *
+	 * @var Xml_Manager
+	 */
+	private $xml_manager;
+
+	/**
 	 * Site_Schema_Aggregator_Cache_Cli_Command constructor.
 	 *
-	 * @param Config  $config        The config object.
-	 * @param Manager $cache_manager The cache manager.
+	 * @param Config      $config        The config object.
+	 * @param Manager     $cache_manager The cache manager.
+	 * @param Xml_Manager $xml_manager   The XML cache manager.
 	 */
-	public function __construct( Config $config, Manager $cache_manager ) {
+	public function __construct( Config $config, Manager $cache_manager, Xml_Manager $xml_manager ) {
 		$this->config        = $config;
 		$this->cache_manager = $cache_manager;
+		$this->xml_manager   = $xml_manager;
 	}
 
 	/**
@@ -73,12 +83,14 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 	public function aggregate_site_schema_clear_cache( $args = null, $assoc_args = null ) {
 		if ( isset( $assoc_args['page'] ) && (int) $assoc_args['page'] >= 1 ) {
 			$this->cache_manager->invalidate( $assoc_args['page'] );
+			$this->xml_manager->invalidate();
 			WP_CLI::log(
 				\__( 'The site schema cache has been cleared successfully.', 'wordpress-seo' )
 			);
 			return;
 		}
 		$this->cache_manager->invalidate_all();
+		$this->xml_manager->invalidate();
 
 		WP_CLI::log(
 			\__( 'All site schema cache has been cleared successfully.', 'wordpress-seo' )

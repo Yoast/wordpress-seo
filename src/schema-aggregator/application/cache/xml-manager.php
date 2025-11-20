@@ -46,9 +46,9 @@ class Xml_Manager {
 	/**
 	 * Get cached data for a page.
 	 *
-	 * @return array<string>|null Cached data or null.
+	 * @return string|null Cached data or null.
 	 */
-	public function get(): ?array {
+	public function get(): ?string {
 		try {
 			if ( ! $this->config->cache_enabled() ) {
 				return null;
@@ -61,7 +61,7 @@ class Xml_Manager {
 			if ( $data === false ) {
 				return null;
 			}
-			if ( ! \is_array( $data ) ) {
+			if ( ! \is_string( $data ) ) {
 				\delete_transient( $key );
 
 				return null;
