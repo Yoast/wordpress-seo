@@ -115,6 +115,7 @@ class Schema_Map_Indexable_Repository {
 			    SELECT indexable_table.object_last_modified
                          FROM  {$indexable_table} indexable_table
                          WHERE object_sub_type = %s
+                           AND post_status = 'publish'
                            AND ( is_public IS NULL OR is_public = 1 )
                          ORDER BY ID
                          LIMIT %d OFFSET %d
