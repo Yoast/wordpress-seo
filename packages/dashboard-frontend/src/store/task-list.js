@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { get, keys } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 import { fetchJson } from "../fetch/fetch-json";
 
@@ -16,7 +16,7 @@ const COMPLETE_TASK = "completeTask";
  * @returns {Object} Success or error action object.
  */
 function* completeTask( id, endpoint, nonce ) {
-	yield{ type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }` };
+	yield{ type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, payload: { id } };
 	try {
 		const response = yield{
 			type: COMPLETE_TASK,
@@ -28,7 +28,7 @@ function* completeTask( id, endpoint, nonce ) {
 		}
 		return { type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
-		return { type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, payload: { error } };
+		return { type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, payload: { error, id } };
 	}
 }
 
@@ -37,27 +37,31 @@ const slice = createSlice( {
 	initialState: {
 		enabled: false,
 		tasks: {},
-		status: ASYNC_ACTION_STATUS.idle,
+		endpoints: {},
+		nonce: "",
 	},
 	reducers: {
 		setTasks( state, action ) {
+			keys( action.payload ).forEach( ( id ) => {
+				action.payload[ id ].status = ASYNC_ACTION_STATUS.idle;
+				action.payload[ id ].error = null;
+			} );
 			state.tasks = action.payload;
 		},
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
-			state.status = ASYNC_ACTION_STATUS.loading;
-			state.error = null;
+		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
+			state.tasks[ id ].status = ASYNC_ACTION_STATUS.loading;
+			state.tasks[ id ].error = null;
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
-			state.status = ASYNC_ACTION_STATUS.success;
-			if ( state.tasks[ id ] ) {
-				state.tasks[ id ].isCompleted = true;
-			}
+			state.tasks[ id ].status = ASYNC_ACTION_STATUS.success;
+			state.tasks[ id ].error = null;
+			state.tasks[ id ].isCompleted = true;
 		} );
-		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error } } ) => {
-			state.status = ASYNC_ACTION_STATUS.error;
-			state.error = error;
+		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error, id } } ) => {
+			state.tasks[ id ].status = ASYNC_ACTION_STATUS.error;
+			state.tasks[ id ].error = error;
 		} );
 	},
 } );
@@ -70,7 +74,9 @@ export const getInitialTaskListState = slice.getInitialState;
 export const taskListSelectors = {
 	selectIsTaskListEnabled: ( state ) => get( state, [ TASK_LIST_NAME, "enabled" ], false ),
 	getTasks: ( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
-	getTaskStatus: ( state ) => get( state, [ TASK_LIST_NAME, "status" ], ASYNC_ACTION_STATUS.idle ),
+	getTaskStatus: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "status" ], ASYNC_ACTION_STATUS.idle ),
+	getTasksEndpoints: ( state ) => get( state, [ TASK_LIST_NAME, "endpoints" ], {} ),
+	getNonce: ( state ) => get( state, [ TASK_LIST_NAME, "nonce" ], "" ),
 };
 
 export const taskListActions = {
