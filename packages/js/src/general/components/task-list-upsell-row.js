@@ -20,7 +20,7 @@ export const TaskListUpsellRow = () => {
 							<LockClosedIcon className="yst-w-5 yst-h-5 yst-text-amber-900" />
 						</div>
 						<div>
-							<Title size="small" as="h3" className="yst-text-slate-800 yst-leading-5">
+							<Title size="5" as="h3" className="yst-text-slate-800 yst-leading-5">
 								{ sprintf(
 									/* translators: %1$s expands to Yoast SEO Premium. */
 									__( "Unlock all %1$s tasks", "wordpress-seo" ),
