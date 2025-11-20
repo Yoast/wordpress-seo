@@ -2,6 +2,7 @@
   "redefinable-internals": [
     "file_exists",
     "filesize",
-    "class_exists"
+    "class_exists",
+    "html_entity_decode"
   ]
 }
