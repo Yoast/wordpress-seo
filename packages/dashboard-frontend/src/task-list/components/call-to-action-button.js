@@ -51,7 +51,10 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 	}
 
 	if ( type === "link" ) {
-		return <Button { ...buttonProps } as="a">
+		return <Button
+			{ ...buttonProps }
+			as={ disabled ? "button" : "a" }
+		>
 			{ label }
 			<ArrowNarrowRightIcon className="yst-w-4 yst-text-white rtl:yst-rotate-180" />
 		</Button>;
