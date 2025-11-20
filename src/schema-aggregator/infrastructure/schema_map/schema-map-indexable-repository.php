@@ -101,6 +101,9 @@ class Schema_Map_Indexable_Repository {
 
 			$indexable_table = Model::get_table_name( 'Indexable' );
 			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+
 			$lastmod = $wpdb->get_var(
 				$wpdb->prepare(
 					"
