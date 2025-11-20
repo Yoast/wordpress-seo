@@ -103,15 +103,23 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @return array<string, array<string, array<static|string>>> The pages.
 	 */
 	public function add_page( $pages ) {
+		// Check if the Yoast SEO WooCommerce addon is active.
+		$woo_seo_plugin_active = \is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
+
+		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
+		if ( $woo_seo_plugin_active ) {
+			return $pages;
+		}
+
+		// Don't show the Upgrade button if Premium is active without the WooCommerce plugin.
+		if ( $this->product_helper->is_premium() && ! $this->woocommerce_conditional->is_met() ) {
+			return $pages;
+		}
 
 		$button_content = \__( 'Upgrade', 'wordpress-seo' );
 
 		if ( $this->promotion_manager->is( 'black-friday-promotion' ) ) {
 			$button_content = ( $this->product_helper->is_premium() ) ? \__( 'Get 30% off', 'wordpress-seo' ) : \__( '30% off - BF Sale', 'wordpress-seo' );
-		}
-
-		if ( $this->product_helper->is_premium() ) {
-			$button_content .= '<div id="wpseo-new-badge-upgrade">' . \__( 'New', 'wordpress-seo' ) . '</div>';
 		}
 
 		$pages[] = [
@@ -139,8 +147,8 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			return;
 		}
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-premium' );
-		if ( $this->product_helper->is_premium() ) {
-			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-ai-insights' );
+		if ( $this->product_helper->is_premium() && $this->woocommerce_conditional->is_met() ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
 		}
 		elseif ( $this->woocommerce_conditional->is_met() ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
