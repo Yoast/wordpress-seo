@@ -589,21 +589,31 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		$link            = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
+		// Check if the Yoast SEO WooCommerce addon is active.
+		$woo_seo_plugin_active = \is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
+
+		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
+		if ( $woo_seo_plugin_active ) {
+			return;
+		}
+
 		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
 
-		if ( $this->product_helper->is_premium() ) {
-			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-ai-insights' );
+		// Don't show the Upgrade button if Premium is active without the WooCommerce plugin.
+		if ( $this->product_helper->is_premium() && ! $has_woocommerce ) {
+			return;
+		}
+
+		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
+
+		if ( $this->product_helper->is_premium() && $has_woocommerce ) {
+			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
 		}
 		elseif ( $has_woocommerce ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
 		}
 
 		$button_label = esc_html__( 'Upgrade', 'wordpress-seo' );
-		$badge        = '';
-		if ( $this->product_helper->is_premium() ) {
-			$badge = '<div id="wpseo-new-badge-upgrade">' . __( 'New', 'wordpress-seo' ) . '</div>';
-		}
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 			$button_label = esc_html__( '30% off - BF Sale', 'wordpress-seo' );
@@ -614,10 +624,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-get-premium',
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
-					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>%3$s',
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>',
 					esc_url( $link ),
-					$button_label,
-					$badge,
+					$button_label
 				),
 				'meta'   => [
 					'tabindex' => '0',
