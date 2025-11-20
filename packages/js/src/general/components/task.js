@@ -27,9 +27,9 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 	const { status, completeTaskEndpoint, nonce } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
-			status: state.getTaskStatus( id ),
-			completeTaskEndpoint: state.getTasksEndpoints().completeTask,
-			nonce: state.getNonce(),
+			status: state.selectTaskStatus( id ),
+			completeTaskEndpoint: state.selectTasksEndpoints().completeTask,
+			nonce: state.selectNonce(),
 		};
 	}, [] );
 

@@ -15,10 +15,10 @@ export const TaskList = () => {
 	const { getTasksEndpoint, isPremium, tasks, nonce } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
-			getTasksEndpoint: state.getTasksEndpoints().getTasks,
+			getTasksEndpoint: state.selectTasksEndpoints().getTasks,
 			isPremium: state.getIsPremium(),
-			tasks: state.getTasks(),
-			nonce: state.getNonce(),
+			tasks: state.selectTasks(),
+			nonce: state.selectNonce(),
 		};
 	}, [] );
 	const [ fetchState, setFetchState ] = useState( {
