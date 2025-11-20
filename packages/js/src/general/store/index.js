@@ -39,6 +39,7 @@ import {
 	taskListReducer,
 	taskListSelectors,
 	getInitialTaskListState,
+	taskListControls,
 } from "@yoast/dashboard-frontend";
 
 const { currentPromotions, dismissedAlerts, isPremium } = reducers;
@@ -108,6 +109,7 @@ const createStore = ( { initialState } ) => {
 			...alertCenterControls,
 			...dismissedAlertsControls,
 			...optInNotificationControls,
+			...taskListControls,
 		},
 	} );
 };

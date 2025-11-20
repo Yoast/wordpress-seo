@@ -44,19 +44,14 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {string} title Title of the task.
  * @param {number} duration Estimated duration to complete the task.
  * @param {string} priority Priority of the task: 'low', 'medium', 'high'.
- * @param {string} badge An optional badge to display next to the task title: `premium`, `woo`, `ai`.
- * @param {boolean} [isCompleted] Whether the task is completed.
+ * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
+ * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
- * @param {boolean} [isLoading=false] Whether the title is loading.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, isLoading } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick } ) => {
 	const svgAriaProps = useSvgAria();
-
-	if ( isLoading ) {
-		return <LoadingTaskRow title={ title } />;
-	}
 
 	return <Table.Row>
 		<Table.Cell className="yst-font-medium yst-text-slate-800">
@@ -83,3 +78,5 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 		</Table.Cell>
 	</Table.Row>;
 };
+
+TaskRow.Loading = LoadingTaskRow;
