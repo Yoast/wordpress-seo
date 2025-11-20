@@ -71,6 +71,7 @@ class Schema_Map_Indexable_Repository {
 		$indexable_raw_value = $this->indexable_repository->query()
 			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
 			->where( 'object_sub_type', $post_type )
+			->where( 'post_status', 'publish' )
 			->where_in( 'object_type', [ 'post', 'page' ] )
 			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->find_one();
