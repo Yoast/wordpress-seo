@@ -79,7 +79,7 @@ export const BaseCard = ( {
 	isActiveHighlight = false,
 	isLicenseRequired = true,
 	isManageAvailable,
-	buttonOverride,
+	buttonOverride = null,
 	header,
 	title,
 	description,
@@ -89,7 +89,7 @@ export const BaseCard = ( {
 	buyLink,
 	buyConfig,
 	manageLink,
-	learnMoreOverride,
+	learnMoreOverride = null,
 	learnMoreLink,
 	isBlackFridayPromotionActive,
 } ) => {
