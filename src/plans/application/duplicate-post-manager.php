@@ -22,7 +22,7 @@ class Duplicate_Post_Manager {
 	 * @return bool True when installed and activated.
 	 */
 	protected function is_activated() {
-		return \is_plugin_active( static::PLUGIN_FILE );
+		return \is_plugin_active( self::PLUGIN_FILE );
 	}
 
 	/**
