@@ -35,6 +35,7 @@ domReady( () => {
 	if ( ! root ) {
 		return;
 	}
+	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
 	registerStore( {
 		initialState: {
 			[ ADMIN_URL_NAME ]: get( window, "wpseoScriptData.adminUrl", "" ),
@@ -45,7 +46,12 @@ domReady( () => {
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
 			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", false ) },
-			[ TASK_LIST_NAME ]: { enabled: get( window, "wpseoScriptData.taskListConfiguration.enabled", false ) },
+			[ TASK_LIST_NAME ]: {
+				enabled: get( window, "wpseoScriptData.taskListConfiguration.enabled", false ),
+				endpoints: get( window, "wpseoScriptData.taskListConfiguration.endpoints", {} ),
+				tasks: {},
+				nonce,
+			},
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
@@ -73,7 +79,7 @@ domReady( () => {
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
-		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+		"X-Wp-Nonce": nonce,
 	};
 
 	/** @type {Links} */
