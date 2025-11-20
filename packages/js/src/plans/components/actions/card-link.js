@@ -5,7 +5,7 @@ import { OutboundButtonLink } from "./outbound-button-link";
 /**
  * A link that looks like a button to manage a product in MyYoast.
  * @param {string} href The URL to the MyYoast page.
- * @param {string} [label] The label for the link.
+ * @param {string} label The label for the link.
  * @param {...Object} [props] Additional props to pass to the button.
  * @returns {JSX.Element} The element.
  */

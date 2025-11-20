@@ -3,8 +3,7 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Card, Title, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
-import { BuyProduct } from "../actions/buy-product";
-import { LearnMore } from "../actions/learn-more";
+import { ButtonLinkWithArrow } from "../actions/button-link-with-arrow";
 import { CardLink } from "../actions/card-link";
 
 /**
@@ -128,8 +127,8 @@ export const BaseCard = ( {
 					) }
 					<div className="yst-flex yst-flex-col yst-gap-y-1">
 						{ buttonOverride }
-						{ ! buttonOverride && ( isManageAvailable
-							? (
+						{ ! buttonOverride && (
+							isManageAvailable ? (
 								<CardLink
 									href={ manageLink }
 									label={ sprintf(
@@ -138,9 +137,24 @@ export const BaseCard = ( {
 										"MyYoast"
 									) }
 								/>
-							) : <BuyProduct href={ buyLink } { ...buyConfig } /> )
-						}
-						{ learnMoreOverride || <LearnMore className="yst-pb-0" href={ learnMoreLink } /> }
+							) : (
+								<ButtonLinkWithArrow
+									variant="upsell"
+									href={ buyLink }
+									label={ __( "Buy product", "wordpress-seo" ) }
+									{ ...buyConfig }
+								/>
+							)
+						) }
+						{ learnMoreOverride || (
+							<ButtonLinkWithArrow
+								variant="tertiary"
+								className="yst-pb-0"
+								iconClassName="yst-ml-1.5"
+								href={ learnMoreLink }
+								lable={ __( "Learn more", "wordpress-seo" ) }
+							/>
+						) }
 					</div>
 				</Card.Footer>
 			</Card>
