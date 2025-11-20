@@ -47,10 +47,11 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
+ * @param {JSX.Element} [children] Optional children elements for the task modal.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Table.Row>
@@ -75,6 +76,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					<ChevronRightIcon className="yst-w-4 yst-text-slate-800" { ...svgAriaProps } />
 				</button>
 			</div>
+			{ children }
 		</Table.Cell>
 	</Table.Row>;
 };
