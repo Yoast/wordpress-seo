@@ -1,19 +1,17 @@
 <?php
 
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 
 /**
- * Repository for Schema_Piece objects.
+ * The Schema_Piece repository.
  */
-class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
+class Schema_Piece_Repository {
 
 	/**
 	 * The meta tags context memoizer.
@@ -21,13 +19,6 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $memoizer;
-
-	/**
-	 * The indexables repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $indexable_repository;
 
 	/**
 	 * The indexable helper.
@@ -58,29 +49,36 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	private $enhancement_factory;
 
 	/**
+	 * The indexable repository factory.
+	 *
+	 * @var Indexable_Repository_Factory
+	 */
+	private $indexable_repository_factory;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer         $memoizer             The meta tags context memoizer.
-	 * @param Indexable_Helper                   $indexable_helper     The indexable helper.
-	 * @param Indexable_Repository               $indexable_repository The indexable repository.
-	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter              The adapter factory.
-	 * @param Aggregator_Config                  $config               The configuration provider.
-	 * @param Schema_Enhancement_Factory         $enhancement_factory  The schema enhancement factory.
+	 * @param Meta_Tags_Context_Memoizer         $memoizer                     The meta tags context memoizer.
+	 * @param Indexable_Helper                   $indexable_helper             The indexable helper.
+	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter                      The adapter factory.
+	 * @param Aggregator_Config                  $config                       The configuration provider.
+	 * @param Schema_Enhancement_Factory         $enhancement_factory          The schema enhancement factory.
+	 * @param Indexable_Repository_Factory       $indexable_repository_factory The indexable repository factory.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
 		Indexable_Helper $indexable_helper,
-		Indexable_Repository $indexable_repository,
 		Meta_Tags_Context_Memoizer_Adapter $adapter,
 		Aggregator_Config $config,
-		Schema_Enhancement_Factory $enhancement_factory
+		Schema_Enhancement_Factory $enhancement_factory,
+		Indexable_Repository_Factory $indexable_repository_factory
 	) {
-		$this->memoizer             = $memoizer;
-		$this->indexable_helper     = $indexable_helper;
-		$this->indexable_repository = $indexable_repository;
-		$this->adapter              = $adapter;
-		$this->config               = $config;
-		$this->enhancement_factory  = $enhancement_factory;
+		$this->memoizer                     = $memoizer;
+		$this->indexable_helper             = $indexable_helper;
+		$this->adapter                      = $adapter;
+		$this->config                       = $config;
+		$this->enhancement_factory          = $enhancement_factory;
+		$this->indexable_repository_factory = $indexable_repository_factory;
 	}
 
 	/**
@@ -93,14 +91,10 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 * @return array<Schema_Piece> The aggregated schema.
 	 */
 	public function get( int $page, int $page_size, string $post_type ): array {
-		$public_indexables = $this->indexable_repository->find_all_public_paginated(
-			$page,
-			$page_size,
-			$post_type
-		);
-		$schema_pieces     = [];
-
-		foreach ( $public_indexables as $indexable ) {
+		$indexable_repository = $this->indexable_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
+		$indexables           = $indexable_repository->get( $page, $page_size, $post_type );
+		$schema_pieces        = [];
+		foreach ( $indexables as $indexable ) {
 			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
 				continue;
 			}
@@ -117,7 +111,6 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 				$schema_pieces[] = $schema_piece;
 			}
 		}
-
 		return $schema_pieces;
 	}
 
