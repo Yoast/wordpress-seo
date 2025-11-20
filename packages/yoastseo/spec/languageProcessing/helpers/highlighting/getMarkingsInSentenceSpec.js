@@ -170,3 +170,126 @@ describe.each( testCases )( "a test for getting the marks from a sentence", ( {
 		expect( getMarkingsInSentence( sentence, matchesInSentence ) ).toEqual( expectedResult );
 	} );
 } );
+
+describe( "a test for getting the marks from a sentence with merged list items", () => {
+	it( "correctly returns the marking of a keyphrase match in the merged list items", () => {
+		const sentence = { text: "This is the first sentence This is a second sentence with keyphrase.",
+			sourceCodeRange: { startOffset: 300, endOffset: 389 },
+			tokens: [
+				{ text: "This", sourceCodeRange: { startOffset: 300, endOffset: 314 } },
+				{ text: " ", sourceCodeRange: { startOffset: 314, endOffset: 315 } },
+				{ text: "is", sourceCodeRange: { startOffset: 315, endOffset: 317 } },
+				{ text: " ", sourceCodeRange: { startOffset: 317, endOffset: 318 } },
+				{ text: "the", sourceCodeRange: { startOffset: 318, endOffset: 321 } },
+				{ text: " ", sourceCodeRange: { startOffset: 321, endOffset: 322 } },
+				{ text: "first", sourceCodeRange: { startOffset: 322, endOffset: 327 } },
+				{ text: " ", sourceCodeRange: { startOffset: 327, endOffset: 328 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 328, endOffset: 336 } },
+				{ text: "This", sourceCodeRange: { startOffset: 345, endOffset: 350 } },
+				{ text: " ", sourceCodeRange: { startOffset: 350, endOffset: 351 } },
+				{ text: "is", sourceCodeRange: { startOffset: 351, endOffset: 353 } },
+				{ text: " ", sourceCodeRange: { startOffset: 353, endOffset: 354 } },
+				{ text: "a", sourceCodeRange: { startOffset: 354, endOffset: 355 } },
+				{ text: " ", sourceCodeRange: { startOffset: 355, endOffset: 356 } },
+				{ text: "second", sourceCodeRange: { startOffset: 356, endOffset: 362 } },
+				{ text: " ", sourceCodeRange: { startOffset: 362, endOffset: 363 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 363, endOffset: 371 } },
+				{ text: " ", sourceCodeRange: { startOffset: 371, endOffset: 372 } },
+				{ text: "with", sourceCodeRange: { startOffset: 372, endOffset: 376 } },
+				{ text: " ", sourceCodeRange: { startOffset: 376, endOffset: 377 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 377, endOffset: 386 } },
+				{ text: ".", sourceCodeRange: { startOffset: 386, endOffset: 387 } },
+			],
+			sentenceParentNode: [
+				{
+					sourceCodeLocation: {
+						startOffset: 296,
+						endOffset: 341,
+						startTag: { startOffset: 296, endOffset: 300 },
+						endTag: { startOffset: 337, endOffset: 341 },
+					},
+					clientId: "firstmergedlistitemid12345678901234567",
+				},
+				{
+					sourceCodeLocation: {
+						startOffset: 341,
+						endOffset: 392,
+						startTag: { startOffset: 337, endOffset: 341 },
+						endTag: { startOffset: 388, endOffset: 392 },
+					},
+					clientId: "secondmergedlistitemid1234567890123456",
+				},
+			],
+			parentAttributeId: "",
+			isParentFirstSectionOfBlock: false,
+			parentStartOffset: null,
+			parentClientId: null,
+		};
+		const matchesInSentence = [ { sourceCodeRange: { startOffset: 377, endOffset: 386 } } ];
+		const expectedResult = [ new Mark( {
+			marked: "This is the first sentenceThis is a second sentence with <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>.",
+			original: "This is the first sentence This is a second sentence with keyphrase.",
+			position: {
+				startOffset: 377,
+				endOffset: 386,
+				startOffsetBlock: 36,
+				endOffsetBlock: 45,
+				attributeId: "",
+				clientId: "secondmergedlistitemid1234567890123456",
+				isFirstSection: false,
+			},
+		} ) ];
+
+		expect( getMarkingsInSentence( sentence, matchesInSentence, true ) ).toEqual( expectedResult );
+	} );
+	it( "correctly returns the marking when the keyphrase match is not the merged list items", () => {
+		// The parent node is now just a single node representing a paragraph.
+		const sentence = { text: "This is the first sentence with keyphrase.",
+			sourceCodeRange: { startOffset: 300, endOffset: 352 },
+			tokens: [
+				{ text: "This", sourceCodeRange: { startOffset: 300, endOffset: 314 } },
+				{ text: " ", sourceCodeRange: { startOffset: 314, endOffset: 315 } },
+				{ text: "is", sourceCodeRange: { startOffset: 315, endOffset: 317 } },
+				{ text: " ", sourceCodeRange: { startOffset: 317, endOffset: 318 } },
+				{ text: "the", sourceCodeRange: { startOffset: 318, endOffset: 321 } },
+				{ text: " ", sourceCodeRange: { startOffset: 321, endOffset: 322 } },
+				{ text: "first", sourceCodeRange: { startOffset: 322, endOffset: 327 } },
+				{ text: " ", sourceCodeRange: { startOffset: 327, endOffset: 328 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 328, endOffset: 336 } },
+				{ text: " ", sourceCodeRange: { startOffset: 336, endOffset: 337 } },
+				{ text: "with", sourceCodeRange: { startOffset: 337, endOffset: 341 } },
+				{ text: " ", sourceCodeRange: { startOffset: 341, endOffset: 342 } },
+				{ text: "keyphrase", sourceCodeRange: { startOffset: 342, endOffset: 351 } },
+				{ text: ".", sourceCodeRange: { startOffset: 351, endOffset: 352 } },
+			],
+			sentenceParentNode: {
+				sourceCodeLocation: {
+					startOffset: 300,
+					endOffset: 352,
+					startTag: { startOffset: 296, endOffset: 300 },
+					endTag: { startOffset: 352, endOffset: 357 },
+				},
+			},
+			parentAttributeId: "",
+			isParentFirstSectionOfBlock: false,
+			parentStartOffset: 300,
+			parentClientId: null,
+		};
+		const matchesInSentence = [ { sourceCodeRange: { startOffset: 342, endOffset: 351 } } ];
+		const expectedResult = [ new Mark( {
+			marked: "This is the first sentence with <yoastmark class='yoast-text-mark'>keyphrase</yoastmark>.",
+			original: "This is the first sentence with keyphrase.",
+			position: {
+				startOffset: 342,
+				endOffset: 351,
+				startOffsetBlock: 42,
+				endOffsetBlock: 51,
+				attributeId: "",
+				clientId: "",
+				isFirstSection: false,
+			},
+		} ) ];
+
+		expect( getMarkingsInSentence( sentence, matchesInSentence, true ) ).toEqual( expectedResult );
+	} );
+} );
