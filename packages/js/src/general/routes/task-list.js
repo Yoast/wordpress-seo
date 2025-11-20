@@ -1,7 +1,7 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
-import { get, values, isEmpty, size } from "lodash";
+import { values, isEmpty, size } from "lodash";
 import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
@@ -12,14 +12,20 @@ import { Task, UpsellRow } from "../components";
  */
 export const TaskList = () => {
 	const { setTasks } = useDispatch( STORE_NAME );
-	const tasks = useSelect( ( select ) => select( STORE_NAME ).getTasks(), [] );
-	const isPremium = useSelect( ( select ) => select( STORE_NAME ).getIsPremium(), [] );
+	const { getTasksEndpoint, isPremium, tasks, nonce } = useSelect( ( select ) => {
+		const state = select( STORE_NAME );
+		return {
+			getTasksEndpoint: state.getTasksEndpoints().getTasks,
+			isPremium: state.getIsPremium(),
+			tasks: state.getTasks(),
+			nonce: state.getNonce(),
+		};
+	}, [] );
 	const [ fetchState, setFetchState ] = useState( {
 		error: null,
 		isPending: false,
 	} );
 
-	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
 	const totalTasksCount = size( tasks );
 	const completedTasksCount = size(
 		values( tasks ).filter( task => task.isCompleted )
@@ -29,7 +35,7 @@ export const TaskList = () => {
 		// Fetch tasks only if we don't have them yet.
 		if ( isEmpty( tasks ) ) {
 			setFetchState( prev => ( { ...prev, isPending: true } ) );
-			fetchJson( "/wp-json/yoast/v1/get_tasks", {
+			fetchJson( getTasksEndpoint, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -38,20 +44,7 @@ export const TaskList = () => {
 			} )
 				.then( ( response ) => {
 					setFetchState( { error: null, isPending: false } );
-					const fixedTasks = Object.entries( response.tasks ).reduce( ( acc, [ key, task ] ) => {
-						acc[ key ] = {
-							title: task.copy_set.title,
-							how: task.copy_set.how,
-							why: task.copy_set.why,
-							duration: task.duration,
-							priority: task.priority,
-							isCompleted: task.is_completed,
-							id: task.id,
-							callToAction: task.call_to_action,
-						};
-						return acc;
-					}, {} );
-					setTasks( fixedTasks );
+					setTasks( response.tasks );
 				} )
 				.catch( ( e ) => {
 					setFetchState( { error: e, isPending: false } );
