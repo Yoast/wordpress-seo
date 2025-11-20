@@ -152,7 +152,7 @@ export const BaseCard = ( {
 								className="yst-pb-0"
 								iconClassName="yst-ml-1.5"
 								href={ learnMoreLink }
-								lable={ __( "Learn more", "wordpress-seo" ) }
+								label={ __( "Learn more", "wordpress-seo" ) }
 							/>
 						) }
 					</div>
