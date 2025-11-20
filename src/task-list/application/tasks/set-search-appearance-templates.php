@@ -131,7 +131,7 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 			/* translators: %1$s expands to the post type label this task is about */
 			\sprintf( \__( 'Set search appearance templates for your %1$s', 'wordpress-seo' ), \strtolower( $post_type->label ) ),
 			/* translators: %1$s expands to the post type name this task is about */
-			\sprintf( \__( 'Generic titles and descriptions make your results unclear in search. Templates ensure every %1$s has a clear, click-worthy snippet automatically.', 'wordpress-seo' ), \strtolower( $post_type->name ) ),
+			\sprintf( \__( 'Generic titles and descriptions make your results unclear in search. Templates ensure every %1$s has a clear, click-worthy snippet automatically.', 'wordpress-seo' ), $post_type->name ),
 			\__( 'Go to Search appearance, choose your post type, and set default title and meta description patterns.', 'wordpress-seo' )
 		);
 	}
