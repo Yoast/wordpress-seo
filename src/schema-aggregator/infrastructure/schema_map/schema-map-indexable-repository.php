@@ -44,6 +44,7 @@ class Schema_Map_Indexable_Repository {
 			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
 			->where_in( 'object_sub_type', $post_types )
 			->where_in( 'object_type', [ 'post', 'page' ] )
+			->where( 'post_status', 'publish' )
 			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
 			->group_by( [ 'object_type', 'object_sub_type' ] )
 			->find_array();
