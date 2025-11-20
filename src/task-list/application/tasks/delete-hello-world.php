@@ -76,7 +76,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 */
 	public function get_call_to_action(): Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Delete the Hello World post', 'wordpress-seo' ),
+			\__( 'Delete for me', 'wordpress-seo' ),
 			'delete',
 			$this->get_link()
 		);
@@ -89,11 +89,9 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 */
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
-			\__( 'Remove the Hello World post', 'wordpress-seo' ),
-			/* translators: %1$s expands to Yoast */
-			\sprintf( \__( 'Removing the default "Hello World" post prevents irrelevant content from showing on your site.', 'wordpress-seo' ), 'Yoast' ),
-			/* translators: %1$s expands to Yoast SEO */
-			\sprintf( \__( 'Delete or unpublish the "Hello World" post.', 'wordpress-seo' ), 'Yoast SEO' ),
+			\__( 'Remove the “Hello World” post', 'wordpress-seo' ),
+			\__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ),
+			null
 		);
 	}
 }

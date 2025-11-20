@@ -38,7 +38,7 @@ class Copy_Set {
 	public function __construct(
 		string $title,
 		string $why,
-		string $how
+		?string $how = null
 	) {
 		$this->title = $title;
 		$this->why   = $why;

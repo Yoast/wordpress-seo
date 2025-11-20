@@ -97,10 +97,7 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Create an llms.txt file', 'wordpress-seo' ),
-			/* translators: %1$s expands to Yoast */
-			\sprintf( \__( 'Enabling the llms.txt file will help AI tools to understand your site better.', 'wordpress-seo' ), 'Yoast' ),
-			/* translators: %1$s expands to Yoast SEO */
-			\sprintf( \__( 'Enable llms.txt generation in the plugin\'s settings. Yoast will automatically create an llms.txt file for you and keep it updated.', 'wordpress-seo' ), 'Yoast SEO' ),
+			\__( 'Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.', 'wordpress-seo' )
 		);
 	}
 }

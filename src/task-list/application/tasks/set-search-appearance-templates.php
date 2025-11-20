@@ -113,7 +113,7 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 	 */
 	public function get_call_to_action(): Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Customize search appearance', 'wordpress-seo' ),
+			\__( 'Set search templates', 'wordpress-seo' ),
 			'link',
 			$this->get_link()
 		);
@@ -130,9 +130,9 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 		return new Copy_Set(
 			/* translators: %1$s expands to the post type label this task is about */
 			\sprintf( \__( 'Set search appearance templates for your %1$s', 'wordpress-seo' ), \strtolower( $post_type->label ) ),
-			\__( 'Custom search appearance templates help improve how your content looks in search results, driving more clicks.', 'wordpress-seo' ),
-			/* translators: %1$s expands to the post type label this task is about */
-			\sprintf( \__( 'Customize search appearance templates for your %1$s.', 'wordpress-seo' ), \strtolower( $post_type->label ) ),
+			/* translators: %1$s expands to the post type name this task is about */
+			\sprintf( \__( 'Generic titles and descriptions make your results unclear in search. Templates ensure every %1$s has a clear, click-worthy snippet automatically.', 'wordpress-seo' ), $post_type->name ),
+			\__( 'Go to Search appearance, choose your post type, and set default title and meta description patterns.', 'wordpress-seo' )
 		);
 	}
 }
