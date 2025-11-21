@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_Hello_World_Task_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
 
 /**
@@ -60,6 +61,8 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 * Completes a task.
 	 *
 	 * @return void
+	 *
+	 * @throws Complete_Hello_World_Task_Exception If the Hello World post could not be deleted.
 	 */
 	public function complete_task(): void {
 		// @TODO: Add some error handling here.
@@ -68,7 +71,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 			$result = \wp_delete_post( $post->ID, true );
 
 			if ( ! $result ) {
-				throw new \RuntimeException( __( 'Failed to delete the Hello World post.', 'wordpress-seo' ) );
+				throw new Complete_Hello_World_Task_Exception();
 			}
 		}
 	}
