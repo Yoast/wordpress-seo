@@ -53,7 +53,7 @@ class Brand_Insights_Page implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Add page with PHP_INT_MAX so it's always the last item. This is the Brand Insights button in the sidebar.
+		// Add page with PHP_INT_MAX so it's always the last item. This is the AI Brand Insights button in the sidebar menu.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], \PHP_INT_MAX );
 	}
 
@@ -67,8 +67,8 @@ class Brand_Insights_Page implements Integration_Interface {
 	public function add_submenu_page( $submenu_pages ) {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
-		$gradient_border_wrapper = '<span style="position: relative; background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%); border-radius: 6px; padding: 1px; display: inline-flex;">';
-		$inner_content_wrapper   = '<span style="position: relative; background: var(--adminmenu-background, #3c434a); border-radius: 6px; padding: 6px 8px 6px 10px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; white-space: nowrap;">';
+		$gradient_border_wrapper = '<span class="yoast-brand-insights-gradient-border">';
+		$inner_content_wrapper   = '<span class="yoast-brand-insights-content">';
 		$menu_title              = $gradient_border_wrapper . $inner_content_wrapper . 'AI Brand Insights ' . $this->external_link_icon . '</span></span>';
 
 		$submenu_pages[] = [

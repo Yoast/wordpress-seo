@@ -191,7 +191,7 @@
 	@apply yst-hidden;
 }
 
-/** Brand Insights button styling - matches Upgrade button container */
+/** AI Brand Insights button styling */
 #wpadminbar #wp-admin-bar-wpseo_brand_insights,
 #wpadminbar #wp-admin-bar-wpseo_brand_insights_premium {
 	@apply yst-flex;
@@ -203,10 +203,10 @@
 	yst-pt-2.5
 	yst-pb-2
 	yst-px-3
-	yst-w-full;
+	md:yst-w-full;
 }
 
-/* Gradient border wrapper for Brand Insights */
+/* Gradient border wrapper for the AI Brand Insights button */
 #wpadminbar .yoast-brand-insights-gradient-border {
 	@apply
 	yst-relative
@@ -216,20 +216,20 @@
 	background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
 }
 
-/* Inner content wrapper for Brand Insights */
+/* Inner content wrapper for the AI Brand Insights button */
 #wpadminbar .yoast-brand-insights-content {
 	@apply
 	yst-relative
 	yst-rounded-md
-	yst-pr-1.5
-	yst-pl-2
+	yst-px-[1.1rem]
 	yst-flex
 	yst-items-center
 	yst-justify-center
 	yst-gap-1.5
 	yst-text-xs
 	yst-whitespace-nowrap
-	yst-w-full;
+	yst-w-full
+	lg:yst-px-4;
 	background: var(--adminmenu-background, #2c3338);
 }
 
