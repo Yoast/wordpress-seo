@@ -65,8 +65,8 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	 * @throws Complete_Hello_World_Task_Exception If the Hello World post could not be deleted.
 	 */
 	public function complete_task(): void {
-		// @TODO: Add some error handling here.
 		$post = \get_post( 1 );
+
 		if ( $post instanceof WP_Post ) {
 			$result = \wp_delete_post( $post->ID, true );
 
