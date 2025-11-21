@@ -21,7 +21,7 @@
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium span {
 	color: rgb(252, 211, 77);
 	border: solid rgb(252, 211, 77) 1px;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	background: rgb(31, 41, 55);
 	padding: 1px 4px;
@@ -189,6 +189,48 @@
 
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-upgrade-sidebar {
 	@apply yst-hidden;
+}
+
+/** Brand Insights button styling - matches Upgrade button container */
+#wpadminbar #wp-admin-bar-wpseo_brand_insights,
+#wpadminbar #wp-admin-bar-wpseo_brand_insights_premium {
+	@apply yst-flex;
+}
+
+#wpadminbar #wp-admin-bar-wpseo_brand_insights .ab-item,
+#wpadminbar #wp-admin-bar-wpseo_brand_insights_premium .ab-item {
+	@apply
+	yst-pt-2.5
+	yst-pb-2
+	yst-px-3
+	yst-w-full;
+}
+
+/* Gradient border wrapper for Brand Insights */
+#wpadminbar .yoast-brand-insights-gradient-border {
+	@apply
+	yst-relative
+	yst-flex
+	yst-rounded-md
+	yst-p-px;
+	background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
+}
+
+/* Inner content wrapper for Brand Insights */
+#wpadminbar .yoast-brand-insights-content {
+	@apply
+	yst-relative
+	yst-rounded-md
+	yst-pr-1.5
+	yst-pl-2
+	yst-flex
+	yst-items-center
+	yst-justify-center
+	yst-gap-1.5
+	yst-text-xs
+	yst-whitespace-nowrap
+	yst-w-full;
+	background: var(--adminmenu-background, #2c3338);
 }
 
 #wpseo-new-badge-upgrade {

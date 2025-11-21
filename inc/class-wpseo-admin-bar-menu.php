@@ -290,6 +290,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$this->add_premium_link( $wp_admin_bar );
+		$this->add_brand_insights_link( $wp_admin_bar );
 	}
 
 	/**
@@ -636,6 +637,33 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Adds the Brand Insights link to the admin bar.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
+	 *
+	 * @return void
+	 */
+	protected function add_brand_insights_link( WP_Admin_Bar $wp_admin_bar ) {
+		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
+
+		$external_link_icon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-left: 4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>';
+		$menu_title         = '<span class="yoast-brand-insights-gradient-border"><span class="yoast-brand-insights-content">AI Brand Insights' . $external_link_icon . '</span></span>';
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => self::MENU_IDENTIFIER,
+				'id'     => $page,
+				'title'  => $menu_title,
+				'href'   => admin_url( 'admin.php?page=' . $page ),
+				'meta'   => [
+					'tabindex' => '0',
+					'target'   => '_blank',
+				],
+			]
+		);
+	}
+
+	/**
 	 * Adds the admin bar settings submenu.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
@@ -665,6 +693,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 			// Don't add the Google Search Console menu item.
 			if ( $submenu_page[4] === 'wpseo_search_console' ) {
+				continue;
+			}
+
+			// Don't add the Brand Insights menu items (they're now in the main menu).
+			if ( $submenu_page[4] === 'wpseo_brand_insights' || $submenu_page[4] === 'wpseo_brand_insights_premium' ) {
 				continue;
 			}
 
