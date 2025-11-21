@@ -30,7 +30,7 @@ export const TaskListUpsellRow = () => {
 							<p className="yst-leading-5">{ __( "Get automated technical SEO & optimize content in a breeze", "wordpress-seo" ) }</p>
 						</div>
 					</div>
-					<Button variant="upsell" as="a" href={ taskListUpsellLink } className="yst-flex yst-items-center yst-gap-1.5 yst-pe-2">
+					<Button variant="upsell" as="a" href={ taskListUpsellLink } target="_blank" className="yst-flex yst-items-center yst-gap-1.5 yst-pe-2">
 						{ __( "Unlock with Premium", "wordpress-seo" ) }
 						<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
 					</Button>
