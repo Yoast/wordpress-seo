@@ -5,13 +5,14 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
+import { CompleteStatus } from "./complete-status";
 
 /**
  * The type of callToAction prop.
  *
  * @typedef {Object} CallToAction
- * @property {string} label The label for the call to action button.
- * @property {string} type The variant of the call to action button, can be 'link', 'create', 'delete'.
+ * @property {string} label The label for the call-to-action button.
+ * @property {string} type The variant of the call-to-action button: it can be 'link', 'create', or 'delete'.
  * @property {string} [href] The URL to navigate to (for 'link' variant).
  * @property {Function} [onClick] The onClick handler for the button.
  * @property {boolean} [disabled] Whether the button is disabled.
@@ -47,6 +48,10 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 							{ title }
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1">
+							{ isCompleted && <>
+								<CompleteStatus />
+								·
+							</> }
 							<Duration minutes={ duration } />
 							· <Priority level={ priority } />
 						</div>
