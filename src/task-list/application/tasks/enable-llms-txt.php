@@ -71,9 +71,15 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	 * Completes a task.
 	 *
 	 * @return void
+	 *
+	 * @throws \RuntimeException If the option could not be set.
 	 */
 	public function complete_task(): void {
-		$this->options_helper->set( 'enable_llms_txt', true );
+		$result = $this->options_helper->set( 'enable_llms_txt', true );
+
+		if ( ! $result ) {
+			throw new \RuntimeException( __( 'Failed to enable llms.txt option.', 'wordpress-seo' ) );
+		}
 	}
 
 	/**
