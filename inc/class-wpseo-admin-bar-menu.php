@@ -590,8 +590,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		// Check if the Yoast SEO WooCommerce addon is active.
-		$woo_seo_plugin_active = \is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
+		$woo_seo_plugin_active = is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
 
 		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
 		if ( $woo_seo_plugin_active ) {
@@ -962,9 +966,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Add submenu items to a menu item.
 	 *
-	 * @param array        $submenu_items Submenu items array.
-	 * @param WP_Admin_Bar $wp_admin_bar  Admin bar object.
-	 * @param string       $parent_id     Parent menu item ID.
+	 * @param array<array{id: string, title: string, href: string}>  $submenu_items  Submenu items array.
+	 * @param WP_Admin_Bar                                           $wp_admin_bar  Admin bar object.
+	 * @param string                                                 $parent_id     Parent menu item ID.
 	 *
 	 * @return void
 	 */
