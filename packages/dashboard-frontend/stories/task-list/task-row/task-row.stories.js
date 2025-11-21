@@ -44,6 +44,9 @@ export default {
 			options: [ "", "premium", "woo", "ai" ],
 			type: { name: "string" },
 		},
+		children: {
+			description: "Optional children elements for the task modal.",
+		},
 	},
 	args: {
 		title: "Uncompleted Task",

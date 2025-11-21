@@ -5,3 +5,4 @@ The `TaskRow` component displays a single task as a row in a table, providing a 
 - Shows task title, estimated duration, priority, and an optional badge (e.g., `premium`, `woo`, `ai`).
 - Indicates completion status with an icon (checkmark for completed, ellipse for incomplete).
 - Supports loading state with a skeleton placeholder for the task title.
+- Allows for additional content for the last cell through children props, which can be used to add the task modal.

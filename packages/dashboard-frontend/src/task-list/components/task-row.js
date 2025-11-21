@@ -32,7 +32,7 @@ const LoadingTaskRow = ( { title } ) => {
 		</Table.Cell>
 		<Table.Cell className="yst-align-middle">
 			<div className="yst-flex yst-items-center yst-justify-around yst-gap-2">
-				<ChevronRightIcon className="yst-w-4 yst-text-slate-600" { ...svgAriaProps } />
+				<ChevronRightIcon className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180" { ...svgAriaProps } />
 			</div>
 		</Table.Cell>
 	</Table.Row>;
@@ -47,10 +47,11 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
+ * @param {JSX.Element} [children] Optional children elements for the task modal.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Table.Row>
@@ -72,9 +73,10 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 		<Table.Cell className="yst-align-middle">
 			<div className="yst-flex yst-items-center yst-justify-around yst-gap-2">
 				<button onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
-					<ChevronRightIcon className="yst-w-4 yst-text-slate-800" { ...svgAriaProps } />
+					<ChevronRightIcon className="yst-w-4 yst-text-slate-800 rtl:yst-rotate-180" { ...svgAriaProps } />
 				</button>
 			</div>
+			{ children }
 		</Table.Cell>
 	</Table.Row>;
 };

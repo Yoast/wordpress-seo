@@ -1,30 +1,41 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { fetchJson, TaskRow } from "@yoast/dashboard-frontend";
-import { get, values, isEmpty } from "lodash";
+import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
+import { values, isEmpty, size } from "lodash";
 import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
-import { Task } from "../components/task";
+import { Task, TaskListUpsellRow } from "../components";
 
 /**
  * @returns {JSX.Element} The task list page content placeholder.
  */
 export const TaskList = () => {
 	const { setTasks } = useDispatch( STORE_NAME );
-	const tasks = useSelect( ( select ) => select( STORE_NAME ).getTasks(), [] );
+	const { getTasksEndpoint, isPremium, tasks, nonce } = useSelect( ( select ) => {
+		const state = select( STORE_NAME );
+		return {
+			getTasksEndpoint: state.selectTasksEndpoints().getTasks,
+			isPremium: state.getIsPremium(),
+			tasks: state.selectTasks(),
+			nonce: state.selectNonce(),
+		};
+	}, [] );
 	const [ fetchState, setFetchState ] = useState( {
 		error: null,
 		isPending: false,
 	} );
 
-	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
+	const totalTasksCount = size( tasks );
+	const completedTasksCount = size(
+		values( tasks ).filter( task => task.isCompleted )
+	);
 
 	useEffect( () => {
 		// Fetch tasks only if we don't have them yet.
 		if ( isEmpty( tasks ) ) {
 			setFetchState( prev => ( { ...prev, isPending: true } ) );
-			fetchJson( "/wp-json/yoast/v1/get_tasks", {
+			fetchJson( getTasksEndpoint, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -33,20 +44,7 @@ export const TaskList = () => {
 			} )
 				.then( ( response ) => {
 					setFetchState( { error: null, isPending: false } );
-					const fixedTasks = Object.entries( response.tasks ).reduce( ( acc, [ key, task ] ) => {
-						acc[ key ] = {
-							title: task.copy_set.title,
-							how: task.copy_set.how,
-							why: task.copy_set.why,
-							duration: task.duration,
-							priority: task.priority,
-							isCompleted: task.is_completed,
-							id: task.id,
-							callToAction: task.call_to_action,
-						};
-						return acc;
-					}, {} );
-					setTasks( fixedTasks );
+					setTasks( response.tasks );
 				} )
 				.catch( ( e ) => {
 					setFetchState( { error: e, isPending: false } );
@@ -61,6 +59,8 @@ export const TaskList = () => {
 		{ id: "task-1", title: "Complete the First-time configuration" },
 		{ id: "task-2", title: "Remove the Hello World post" },
 		{ id: "task-3", title: "Create an llms.txt file" },
+		{ id: "task-4", title: "Set search appearance templates for your posts" },
+		{ id: "task-5", title: "Set search appearance templates for your pages" },
 	];
 
 	return <Paper className="yst-mb-6">
@@ -72,7 +72,12 @@ export const TaskList = () => {
 				</p>
 			</Paper.Header>
 			<Paper.Content>
-				<Table>
+				<TasksProgressBar
+					completedTasks={ completedTasksCount }
+					totalTasks={ totalTasksCount }
+					isLoading={ isPending }
+				/>
+				<Table className="yst-mt-4">
 					<Table.Head>
 						<Table.Row>
 							<Table.Header>{ __( "Tasks", "wordpress-seo" ) }</Table.Header>
@@ -86,6 +91,7 @@ export const TaskList = () => {
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
 						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
+						{ ! isPremium && <TaskListUpsellRow /> }
 					</Table.Body>
 				</Table>
 			</Paper.Content>
