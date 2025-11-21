@@ -17,7 +17,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {Object} callToAction The call-to-action props object.
- * @param {string} badge An optional badge to display next to the task title: `premium`, `woo`, `ai`.
+ * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  *
  * @returns {JSX.Element} The Task component.
  */
