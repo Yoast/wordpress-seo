@@ -154,7 +154,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'default_seo_title'                                    => [],
 		'default_seo_meta_desc'                                => [],
 		'first_activated_by'                                   => 0,
-		'enable_task_list'                                     => false,
+		'enable_task_list'                                     => true,
 	];
 
 	/**
