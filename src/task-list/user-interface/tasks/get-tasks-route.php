@@ -7,7 +7,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Task_List\Application\Tasks_Collector;
+use Yoast\WP\SEO\Task_List\Application\Tasks_Repository;
 
 /**
  * Get tasks route.
@@ -29,11 +29,11 @@ final class Get_Tasks_Route implements Route_Interface {
 	public const ROUTE_NAME = '/get_tasks';
 
 	/**
-	 * The task collector.
+	 * The task repository.
 	 *
-	 * @var Tasks_Collector
+	 * @var Tasks_Repository
 	 */
-	private $tasks_collector;
+	private $tasks_repository;
 
 	/**
 	 * Holds the capability helper instance.
@@ -55,14 +55,14 @@ final class Get_Tasks_Route implements Route_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Tasks_Collector   $tasks_collector   The collector for all tasks.
+	 * @param Tasks_Repository  $tasks_repository  The repository for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct(
-		Tasks_Collector $tasks_collector,
+		Tasks_Repository $tasks_repository,
 		Capability_Helper $capability_helper
 	) {
-		$this->tasks_collector   = $tasks_collector;
+		$this->tasks_repository  = $tasks_repository;
 		$this->capability_helper = $capability_helper;
 	}
 
@@ -110,12 +110,7 @@ final class Get_Tasks_Route implements Route_Interface {
 	 */
 	public function get_tasks(): WP_REST_Response {
 		try {
-			$tasks      = $this->tasks_collector->get_tasks();
-			$tasks_info = [];
-
-			foreach ( $tasks as $task ) {
-				$tasks_info[ $task->get_id() ] = $task->to_array();
-			}
+			$tasks_data = $this->tasks_repository->get_tasks_data();
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[
@@ -129,7 +124,7 @@ final class Get_Tasks_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'success' => true,
-				'tasks'   => $tasks_info,
+				'tasks'   => $tasks_data,
 			],
 			200
 		);
