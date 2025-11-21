@@ -7,6 +7,52 @@ export const TASK_LIST_NAME = "taskList";
 const COMPLETE_TASK = "completeTask";
 
 /**
+ * @typedef {Object} CallToAction
+ * @property {string} label
+ * @property {string} type
+ * @property {string} [href]
+ */
+
+/**
+ * @typedef {Object} Task
+ * @property {string} id
+ * @property {boolean} isCompleted
+ * @property {string} title
+ * @property {number} duration
+ * @property {string} priority
+ * @property {string} why
+ * @property {string} how
+ * @property {string} status
+ * @property {Object|null} error
+ * @property {CallToAction} callToAction
+ */
+
+/**
+ * @typedef {Object} Endpoints
+ * @property {string} completeTask
+ * @property {string} getTasks
+ */
+
+/**
+ * @typedef {Object} TaskListState
+ * @property {boolean} enabled
+ * @property {Object.<string, Task>} tasks
+ * @property {Endpoints} endpoints
+ * @property {string} nonce
+ */
+
+/** @type {TaskListState} */
+const initialState = {
+	enabled: false,
+	tasks: {},
+	endpoints: {
+		completeTask: "",
+		getTasks: "",
+	},
+	nonce: "",
+};
+
+/**
  * Completes a task by its ID.
  *
  * @param {string} id The task ID.
@@ -34,12 +80,7 @@ function* completeTask( id, endpoint, nonce ) {
 
 const slice = createSlice( {
 	name: TASK_LIST_NAME,
-	initialState: {
-		enabled: false,
-		tasks: {},
-		endpoints: {},
-		nonce: "",
-	},
+	initialState,
 	reducers: {
 		setTasks( state, action ) {
 			keys( action.payload ).forEach( ( id ) => {
