@@ -67,9 +67,13 @@ class Brand_Insights_Page implements Integration_Interface {
 	public function add_submenu_page( $submenu_pages ) {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
-		$gradient_border_wrapper = '<span class="yoast-brand-insights-gradient-border">';
-		$inner_content_wrapper   = '<span class="yoast-brand-insights-content">';
-		$menu_title              = $gradient_border_wrapper . $inner_content_wrapper . 'AI Brand Insights ' . $this->external_link_icon . '</span></span>';
+		$button_content = \__( 'AI Brand Insights', 'wordpress-seo' );
+
+		$menu_title = '<span class="yoast-brand-insights-gradient-border">'
+			. '<span class="yoast-brand-insights-content">'
+			. $button_content
+			. $this->external_link_icon
+			. '</span></span>';
 
 		$submenu_pages[] = [
 			'wpseo_dashboard',
