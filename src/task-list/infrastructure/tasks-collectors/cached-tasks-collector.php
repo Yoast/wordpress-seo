@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors;
 use WPSEO_Utils;
 
 /**
- * Manages the collection of tasks.
+ * Manages the cached collection of tasks.
  */
 class Cached_Tasks_Collector implements Tasks_Collector_Interface {
 
@@ -29,6 +29,8 @@ class Cached_Tasks_Collector implements Tasks_Collector_Interface {
 
 	/**
 	 * Gets the tasks data.
+	 *
+	 * @TODO: Maybe this can be improved at some point by caching only the is_completed info instead of all the task data.
 	 *
 	 * @return array<string, array<string, string|bool>> The tasks data.
 	 */

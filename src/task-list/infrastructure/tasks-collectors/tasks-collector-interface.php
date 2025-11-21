@@ -1,6 +1,5 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors;
 
 /**
