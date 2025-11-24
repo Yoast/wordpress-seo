@@ -68,9 +68,13 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					type="button"
 					className={ classNames(
 						"yst-font-medium group-hover:yst-underline",
-						isCompleted ? "yst-text-slate-400" : "yst-text-slate-800 hover:yst-text-slate-900"
+						isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900"
 					) }
-				>{ title }</button>
+				>{ title }
+					<span className="yst-sr-only">
+						{ isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
+					</span>
+				</button>
 				{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
 			</div>
 		</Table.Cell>
@@ -81,13 +85,13 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 			<Duration minutes={ duration } />
 		</Table.Cell>
 		<Table.Cell
-			className={ classNames( "group-hover:yst-bg-slate-50",
+			className={ classNames( "group-hover:yst-bg-slate-50 yst-pe-5",
 				isCompleted ? "yst-opacity-50" : "" ) }
 		>
-			<Priority level={ priority } />
-		</Table.Cell>
-		<Table.Cell className="yst-align-middle group-hover:yst-bg-slate-50 yst-w-14">
-			<ChevronRightIcon className="yst-w-4 group-hover:yst-text-slate-800 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-translate-x-2 yst-transition yst-duration-300 yst-ease-in-out" { ...svgAriaProps } />
+			<div className="yst-flex yst-justify-between">
+				<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
+				<ChevronRightIcon className="yst-w-4 group-hover:yst-text-slate-800 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-translate-x-2 yst-transition yst-duration-300 yst-ease-in-out" { ...svgAriaProps } />
+			</div>
 			{ children }
 		</Table.Cell>
 	</Table.Row>;

@@ -1,6 +1,7 @@
 import { ChevronDoubleUpIcon, ChevronDoubleDownIcon, MenuAlt4Icon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
+import classNames from "classnames";
 
 const priorityLabels = {
 	low: __( "Low", "wordpress-seo" ),
@@ -32,9 +33,9 @@ const getPriorityIcon = ( level ) => {
  * @param {boolean} [isLoading=false] Whether the priority is loading.
  * @returns {JSX.Element} The Priority component.
  */
-export const Priority = ( { level = "low", isLoading = false } ) => {
+export const Priority = ( { level = "low", isLoading = false, className } ) => {
 	const svgAriaProps = useSvgAria();
-	return <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1">
+	return <span className={ classNames( "yst-text-xs yst-text-slate-600 yst-flex yst-gap-1", className ) }>
 		{ isLoading ? <>
 			<MenuAlt4Icon className="yst-w-4 yst-text-slate-400" { ...svgAriaProps } />
 			<SkeletonLoader className="yst-w-11 yst-h-[18px]" />
