@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
-<button
+<a
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  href="https://example.com"
   id="cta-button-undefined"
-  type="button"
 >
   <svg
     aria-hidden="true"
@@ -22,7 +22,7 @@ exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
     />
   </svg>
   Create
-</button>
+</a>
 `;
 
 exports[`CallToActionButton matches snapshot for type 'default' 1`] = `
