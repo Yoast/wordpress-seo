@@ -74,7 +74,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 						type="button"
 						className={ classNames(
 							"yst-font-medium group-hover:yst-underline",
-							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900"
+							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900 focus:yst-outline-none focus-visible:yst-outline-none"
 						) }
 						onFocus={ handleButtonFocus }
 						onBlur={ handleButtonBlur }
