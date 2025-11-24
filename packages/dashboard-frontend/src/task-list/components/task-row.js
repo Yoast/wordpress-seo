@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon } from "@heroicons/react/outline";
-import { Table, useSvgAria, SkeletonLoader } from "@yoast/ui-library";
+import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TaskBadge } from "./task-badge";
@@ -54,47 +54,63 @@ const LoadingTaskRow = ( { title } ) => {
  */
 export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
 	const svgAriaProps = useSvgAria();
+	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
-	return <Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
-		<Table.Cell className="group-hover:yst-bg-slate-50">
-			<div
-				className="yst-flex yst-items-center yst-gap-2"
+	// Row hover or button focus triggers hover styles
+	const rowClass = classNames(
+		"yst-cursor-pointer yst-group",
+		{ "yst-bg-slate-50": isButtonFocused }
+	);
+
+	return (
+		<Table.Row className={ rowClass } onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
+			<Table.Cell className={ classNames( "group-hover:yst-bg-slate-50", { "yst-bg-slate-50": isButtonFocused } ) }>
+				<div className="yst-flex yst-items-center yst-gap-2">
+					{ isCompleted
+						? <CheckCircleIcon className="yst-w-4 yst-text-green-500" { ...svgAriaProps } />
+						: <Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } /> }
+					<button
+						aria-haspopup="dialog"
+						type="button"
+						className={ classNames(
+							"yst-font-medium group-hover:yst-underline",
+							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900"
+						) }
+						onFocus={ handleButtonFocus }
+						onBlur={ handleButtonBlur }
+					>
+						{ title }
+						<span className="yst-sr-only">
+							{ isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
+						</span>
+					</button>
+					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
+				</div>
+			</Table.Cell>
+			<Table.Cell
+				className={ classNames( "group-hover:yst-bg-slate-50",
+					{ "yst-bg-slate-50": isButtonFocused },
+					isCompleted ? "yst-opacity-50" : "" ) }
 			>
-				{ isCompleted
-					? <CheckCircleIcon className="yst-w-4 yst-text-green-500" { ...svgAriaProps } />
-					: <Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } /> }
-				<button
-					aria-haspopup="dialog"
-					type="button"
-					className={ classNames(
-						"yst-font-medium group-hover:yst-underline",
-						isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900"
-					) }
-				>{ title }
-					<span className="yst-sr-only">
-						{ isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
-					</span>
-				</button>
-				{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
-			</div>
-		</Table.Cell>
-		<Table.Cell
-			className={ classNames( "group-hover:yst-bg-slate-50",
-				isCompleted ? "yst-opacity-50" : "" ) }
-		>
-			<Duration minutes={ duration } />
-		</Table.Cell>
-		<Table.Cell
-			className={ classNames( "group-hover:yst-bg-slate-50 yst-pe-5",
-				isCompleted ? "yst-opacity-50" : "" ) }
-		>
-			<div className="yst-flex yst-justify-between">
-				<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
-				<ChevronRightIcon className="yst-w-4 group-hover:yst-text-slate-800 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-translate-x-2 yst-transition yst-duration-300 yst-ease-in-out" { ...svgAriaProps } />
-			</div>
-			{ children }
-		</Table.Cell>
-	</Table.Row>;
+				<Duration minutes={ duration } />
+			</Table.Cell>
+			<Table.Cell
+				className={ classNames( "group-hover:yst-bg-slate-50 yst-pe-5",
+					{ "yst-bg-slate-50": isButtonFocused },
+					isCompleted ? "yst-opacity-50" : "" ) }
+			>
+				<div className="yst-flex yst-justify-between">
+					<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
+					<ChevronRightIcon
+						className={ classNames( "yst-w-4 group-hover:yst-text-slate-800 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-translate-x-2 yst-transition yst-duration-300 yst-ease-in-out",
+							{ "yst-text-slate-800 yst-translate-x-2": isButtonFocused }
+						) } { ...svgAriaProps }
+					/>
+				</div>
+				{ children }
+			</Table.Cell>
+		</Table.Row>
+	);
 };
 
 TaskRow.Loading = LoadingTaskRow;
