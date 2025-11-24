@@ -76,7 +76,6 @@ class Set_Search_Appearance_Templates extends Abstract_Post_Type_Task {
 	 */
 	public function get_is_completed(): bool {
 		$post_type = \get_post_type_object( $this->get_post_type() );
-		// @TODO: Good place to add error handling when the post type does not exist. As with every time we try to get a post type object in this class.
 
 		// First check if the SEO title has been customized.
 		if ( $this->options_helper->get_title_default( 'title-' . $post_type->name ) !== $this->options_helper->get( 'title-' . $post_type->name ) ) {
