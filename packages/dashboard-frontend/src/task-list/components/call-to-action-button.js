@@ -30,14 +30,17 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 		}
 	}, [ onClick, taskId ] );
 
-	if ( type === "link" && href ) {
+	if ( [ "link", "add" ].includes( type ) && href ) {
 		buttonProps.href = href;
 	} else {
 		buttonProps.onClick = handleOnClick;
 	}
 
 	if ( type === "add" ) {
-		return <Button { ...buttonProps }>
+		return <Button
+			{ ...buttonProps }
+			as={ disabled ? "button" : "a" }
+		>
 			<PlusIcon className="yst-w-4 yst-text-white"  />
 			{ label }
 		</Button>;
