@@ -13,6 +13,6 @@ class Task_Not_Found_Exception extends Exception {
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Task not found', 'wordpress-seo' );
+		parent::__construct( 'Task not found', 404 );
 	}
 }
