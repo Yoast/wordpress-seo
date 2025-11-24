@@ -6,6 +6,7 @@ import { Duration } from "./duration";
 import { TaskBadge } from "./task-badge";
 import { Ellipse } from "../../icons";
 import { __ } from "@wordpress/i18n";
+import classNames from "classnames";
 
 const badgeOptions = [ "premium", "woo", "ai" ];
 
@@ -54,28 +55,39 @@ const LoadingTaskRow = ( { title } ) => {
 export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
 	const svgAriaProps = useSvgAria();
 
-	return <Table.Row>
-		<Table.Cell className="yst-font-medium yst-text-slate-800">
-			<div className="yst-flex yst-items-center yst-gap-2">
+	return <Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
+		<Table.Cell className="group-hover:yst-bg-slate-50">
+			<div
+				className="yst-flex yst-items-center yst-gap-2"
+			>
 				{ isCompleted
 					? <CheckCircleIcon className="yst-w-4 yst-text-green-500" { ...svgAriaProps } />
 					: <Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } /> }
-				{ title }
+				<button
+					aria-haspopup="dialog"
+					type="button"
+					className={ classNames(
+						"yst-font-medium group-hover:yst-underline",
+						isCompleted ? "yst-text-slate-400" : "yst-text-slate-800 hover:yst-text-slate-900"
+					) }
+				>{ title }</button>
 				{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
 			</div>
 		</Table.Cell>
-		<Table.Cell>
+		<Table.Cell
+			className={ classNames( "group-hover:yst-bg-slate-50",
+				isCompleted ? "yst-opacity-50" : "" ) }
+		>
 			<Duration minutes={ duration } />
 		</Table.Cell>
-		<Table.Cell>
+		<Table.Cell
+			className={ classNames( "group-hover:yst-bg-slate-50",
+				isCompleted ? "yst-opacity-50" : "" ) }
+		>
 			<Priority level={ priority } />
 		</Table.Cell>
-		<Table.Cell className="yst-align-middle">
-			<div className="yst-flex yst-items-center yst-justify-around yst-gap-2">
-				<button onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
-					<ChevronRightIcon className="yst-w-4 yst-text-slate-800 rtl:yst-rotate-180" { ...svgAriaProps } />
-				</button>
-			</div>
+		<Table.Cell className="yst-align-middle group-hover:yst-bg-slate-50 yst-w-14">
+			<ChevronRightIcon className="yst-w-4 group-hover:yst-text-slate-800 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-translate-x-2 yst-transition yst-duration-300 yst-ease-in-out" { ...svgAriaProps } />
 			{ children }
 		</Table.Cell>
 	</Table.Row>;
