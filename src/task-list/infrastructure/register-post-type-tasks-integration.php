@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Infrastructure;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 
 /**
@@ -72,10 +73,10 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 * Gets the post type tasks.
 	 *
 	 * @return array<string, array<string, Post_Type_Task_Interface>> The tasks.
+	 *
+	 * @throws Invalid_Post_Type_Tasks_Exception If any of the filtered tasks is invalid.
 	 */
 	private function get_post_type_tasks(): array {
-		// @TODO: Add validation to ensure we are getting an array of Post_Type_Task_Interface implementations after the hook.
-
 		/**
 		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more post type tasks to the task list.
 		 *
@@ -83,7 +84,16 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 		 *
 		 * @internal
 		 */
-		return \apply_filters( 'wpseo_task_list_post_type_tasks', $this->post_type_tasks );
+		$final_post_type_tasks = \apply_filters( 'wpseo_task_list_post_type_tasks', $this->post_type_tasks );
+
+		// Check that every item is an instance of Post_Type_Task_Interface.
+		foreach ( $final_post_type_tasks as $task ) {
+			if ( ! $task instanceof Post_Type_Task_Interface ) {
+				throw new Invalid_Post_Type_Tasks_Exception();
+			}
+		}
+
+		return $final_post_type_tasks;
 	}
 
 	/**
