@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Task_List\Domain\Exceptions;
 use Exception;
 
 /**
- * Exception for invalid post type tasks filtering.
+ * Exception for invalid post type tasks.
  */
-class Filtered_Post_Type_Tasks_Exception extends Exception {
+class Invalid_Post_Type_Tasks_Exception extends Exception {
 
 	/**
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Invalid post type task.', 400 );
+		parent::__construct( 'Added invalid post type task.', 400 );
 	}
 }

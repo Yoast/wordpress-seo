@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Infrastructure;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Exceptions\Filtered_Post_Type_Tasks_Exception;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 
 /**
@@ -74,7 +74,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 *
 	 * @return array<string, array<string, Post_Type_Task_Interface>> The tasks.
 	 *
-	 * @throws Filtered_Post_Type_Tasks_Exception If any of the filtered tasks is invalid.
+	 * @throws Invalid_Post_Type_Tasks_Exception If any of the filtered tasks is invalid.
 	 */
 	private function get_post_type_tasks(): array {
 		/**
@@ -89,7 +89,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 		// Check that every item is an instance of Post_Type_Task_Interface.
 		foreach ( $final_post_type_tasks as $task ) {
 			if ( ! $task instanceof Post_Type_Task_Interface ) {
-				throw new Filtered_Post_Type_Tasks_Exception();
+				throw new Invalid_Post_Type_Tasks_Exception();
 			}
 		}
 
