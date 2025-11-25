@@ -32,11 +32,10 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
- * @param {boolean}  isLoading     Whether the button is in loading state.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted, isLoading } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
