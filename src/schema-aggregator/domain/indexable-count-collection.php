@@ -15,6 +15,13 @@ class Indexable_Count_Collection {
 	private array $indexable_counts;
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->indexable_counts = [];
+	}
+
+	/**
 	 * Adds an Indexable_Count object to the collection.
 	 *
 	 * @param Indexable_Count $indexable_count The Indexable_Count object to add.

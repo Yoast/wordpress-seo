@@ -3,17 +3,16 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use Exception;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
 
 /**
- * Class Schema_Map_Indexable_Repository
+ * Class Schema_Map_WordPress_Repository
  *
  * Maps indexable repository queries for schema map needs.
  */
-class Schema_Map_Indexable_Repository implements Schema_Map_Repository_Interface {
+class Schema_Map_WordPress_Repository implements Schema_Map_Repository_Interface {
 
 	/**
 	 * The indexable repository.
@@ -39,22 +38,10 @@ class Schema_Map_Indexable_Repository implements Schema_Map_Repository_Interface
 	 * @return Indexable_Count_Collection The indexable count per post type.
 	 */
 	public function get_indexable_count_per_post_type( array $post_types ): Indexable_Count_Collection {
-		$post_type_counts    = new Indexable_Count_Collection();
-		$indexable_raw_value = $this->indexable_repository->query()
-			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
-			->where_in( 'object_sub_type', $post_types )
-			->where_in( 'object_type', [ 'post', 'page' ] )
-			->where( 'post_status', 'publish' )
-			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
-			->group_by( [ 'object_type', 'object_sub_type' ] )
-			->find_array();
-
-		if ( empty( $indexable_raw_value ) ) {
-			return $post_type_counts;
-		}
-
-		foreach ( $indexable_raw_value as $indexable ) {
-			$post_type_counts->add_indexable_count( new Indexable_Count( $indexable['object_sub_type'], (int) $indexable['count'] ) );
+		$post_type_counts = new Indexable_Count_Collection();
+		foreach ( $post_types as $post_type ) {
+			$count = (int) \wp_count_posts( $post_type )->publish;
+			$post_type_counts->add_indexable_count( new Indexable_Count( $post_type, $count ) );
 		}
 
 		return $post_type_counts;
@@ -68,19 +55,13 @@ class Schema_Map_Indexable_Repository implements Schema_Map_Repository_Interface
 	 * @return Indexable_Count The indexable count for the post type.
 	 */
 	public function get_indexable_count_for_post_type( string $post_type ): Indexable_Count {
-		$indexable_raw_value = $this->indexable_repository->query()
-			->select_expr( 'object_sub_type,count(object_sub_type) as count' )
-			->where( 'object_sub_type', $post_type )
-			->where( 'post_status', 'publish' )
-			->where_in( 'object_type', [ 'post', 'page' ] )
-			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
-			->find_one();
 
-		if ( empty( $indexable_raw_value ) ) {
+		$count = (int) \wp_count_posts( $post_type )->publish;
+		if ( empty( $count ) ) {
 			return new Indexable_Count( $post_type, 0 );
 		}
 
-		return new Indexable_Count( $indexable_raw_value->object_sub_type, (int) $indexable_raw_value->count );
+		return new Indexable_Count( $post_type, $count );
 	}
 
 	/**
@@ -100,37 +81,29 @@ class Schema_Map_Indexable_Repository implements Schema_Map_Repository_Interface
 
 		try {
 			$offset = ( ( $page - 1 ) * $per_page );
-
-			$indexable_table = Model::get_table_name( 'Indexable' );
-			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
-
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 			$lastmod = $wpdb->get_var(
 				$wpdb->prepare(
-					"
-			SELECT MAX(object_last_modified)
-			FROM (
-			   
-			    SELECT indexable_table.object_last_modified
-                         FROM  {$indexable_table} indexable_table
-                         WHERE object_sub_type = %s
+					"SELECT MAX(post_modified_gmt)
+                     FROM (
+                         SELECT post_modified_gmt
+                         FROM {$wpdb->posts}
+                         WHERE post_type = %s
                            AND post_status = 'publish'
-                           AND ( is_public IS NULL OR is_public = 1 )
                          ORDER BY ID
                          LIMIT %d OFFSET %d
-			)AS posts_range
-",
+                     ) AS posts_range",
 					$post_type,
 					$per_page,
 					$offset
 				)
 			);
+			// phpcs:enable
 			// Convert to ISO 8601 format or use current time if no posts.
 			if ( $lastmod && ! empty( $lastmod ) ) {
 				return \gmdate( 'Y-m-d\TH:i:s\Z', \strtotime( $lastmod ) );
 			}
-
 			return $fallback;
 		} catch ( Exception $e ) {
 			return $fallback;
