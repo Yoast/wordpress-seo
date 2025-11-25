@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
@@ -62,6 +63,13 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	private $post_type_helper;
 
 	/**
+	 * The XML cache manager instance.
+	 *
+	 * @var Xml_Manager
+	 */
+	private $xml_cache_manager;
+
+	/**
 	 * Returns the conditional for this route.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -74,20 +82,26 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 * Site_Schema_Aggregator_Route constructor.
 	 *
 	 * @param Config                                    $config                                    The config object.
-	 * @param Capability_Helper                         $capability_helper                         The capability helper.
+	 * @param Capability_Helper                         $capability_helper                         The capability
+	 *                                                                                             helper.
 	 * @param Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler The command handler.
-	 * @param Post_type_Helper                          $post_type_helper                          The post type helper.
+	 * @param Post_type_Helper                          $post_type_helper                          The post type
+	 *                                                                                             helper.
+	 * @param Xml_Manager                               $xml_cache_manager                         The XML cache
+	 *                                                                                             manager.
 	 */
 	public function __construct(
 		Config $config,
 		Capability_Helper $capability_helper,
 		Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler,
-		Post_type_Helper $post_type_helper
+		Post_type_Helper $post_type_helper,
+		Xml_Manager $xml_cache_manager
 	) {
 		$this->config                                    = $config;
 		$this->capability_helper                         = $capability_helper;
 		$this->aggregate_site_schema_map_command_handler = $aggregate_site_schema_map_command_handler;
 		$this->post_type_helper                          = $post_type_helper;
+		$this->xml_cache_manager                         = $xml_cache_manager;
 	}
 
 	/**
@@ -120,12 +134,19 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function render_schema_xml() {
+		$cached_xml = $this->xml_cache_manager->get();
+		if ( $cached_xml !== null ) {
+			$xml = $cached_xml;
+		}
+		else {
 
-		$post_types = $this->post_type_helper->get_indexable_post_types();
+			$post_types = $this->post_type_helper->get_indexable_post_types();
 
-		$command = new Aggregate_Site_Schema_Map_Command( $post_types, $this->config->get_per_page() );
-		$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
+			$command = new Aggregate_Site_Schema_Map_Command( $post_types, $this->config->get_per_page() );
+			$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
 
+			$this->xml_cache_manager->set( $xml );
+		}
 		$response = new WP_REST_Response( $xml, 200 );
 		$response->header( 'Content-Type', 'application/xml; charset=UTF-8' );
 		$response->header( 'Cache-Control', 'public, max-age=300' );

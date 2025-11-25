@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
@@ -55,6 +56,13 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	private $aggregate_site_schema_command_handler;
 
 	/**
+	 * The cache manager instance.
+	 *
+	 * @var Manager
+	 */
+	private $cache_manager;
+
+	/**
 	 * Returns the conditional for this route.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -69,15 +77,18 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 * @param Config                                $config                                The config object.
 	 * @param Capability_Helper                     $capability_helper                     The capability helper.
 	 * @param Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler The command handler.
+	 * @param Manager                               $cache_manager                         The cache manager.
 	 */
 	public function __construct(
 		Config $config,
 		Capability_Helper $capability_helper,
-		Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler
+		Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler,
+		Manager $cache_manager
 	) {
 		$this->config                                = $config;
 		$this->capability_helper                     = $capability_helper;
 		$this->aggregate_site_schema_command_handler = $aggregate_site_schema_command_handler;
+		$this->cache_manager                         = $cache_manager;
 	}
 
 	/**
@@ -135,19 +146,25 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$page      = ( $request->get_param( 'page' ) ?? 1 );
 		$per_page  = $this->config->get_per_page();
 
-		try {
-			$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
-		} catch ( Exception $exception ) {
-			return new WP_Error(
-				'wpseo_aggregate_site_schema_error',
-				$exception->getMessage(),
-				(object) []
-			);
-		}
+		$output = $this->cache_manager->get( $page, $per_page );
+		if ( $output === null ) {
+			try {
+				$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
+				$output = \str_replace( "\n", \PHP_EOL . "\t", $result );
+				$this->cache_manager->set( $page, $per_page, $result );
 
-		return new WP_REST_Response(
-			$result,
-			( $result ) ? 200 : 400
-		);
+			} catch ( Exception $exception ) {
+				return new WP_Error(
+					'wpseo_aggregate_site_schema_error',
+					$exception->getMessage(),
+					(object) []
+				);
+			}
+		}
+		$response = \rest_ensure_response( $output );
+
+		$response->header( 'Cache-Control', 'public, max-age=300' );
+
+		return $response;
 	}
 }

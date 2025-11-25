@@ -33,7 +33,7 @@ class Site_Schema_Aggregator_Cli_Command implements Command_Interface {
 	private $aggregate_site_schema_command_handler;
 
 	/**
-	 * Site_Schema_Aggregator_Route constructor.
+	 * Site_Schema_Aggregator_Cli_Command constructor.
 	 *
 	 * @param Config                                $config                                The config object.
 	 * @param Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler The command handler.
