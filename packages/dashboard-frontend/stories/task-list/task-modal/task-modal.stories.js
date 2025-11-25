@@ -57,10 +57,10 @@ export default {
 			href: null,
 			type: "link",
 			onClick: noop,
-			isLoading: false,
 		},
 		taskId: "task-1",
 		isCompleted: false,
+		isLoading: false,
 	},
 };
 

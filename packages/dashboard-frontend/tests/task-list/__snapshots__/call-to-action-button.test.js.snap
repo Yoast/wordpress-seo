@@ -87,32 +87,10 @@ exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'add' 1`] = `
 <button
-  class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center yst-gap-1"
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   id="cta-button-undefined"
   type="button"
 >
-  <svg
-    aria-hidden="true"
-    class="yst-animate-spin yst-w-4 yst-h-4 yst-button--loading"
-    fill="none"
-    role="img"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg/"
-  >
-    <circle
-      class="yst-opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      stroke-width="4"
-    />
-    <path
-      class="yst-opacity-75"
-      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      fill="currentColor"
-    />
-  </svg>
   <svg
     aria-hidden="true"
     class="yst-w-4 yst-text-white"
@@ -134,7 +112,7 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'default' 1`] = `
 <button
-  class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center yst-gap-1"
+  class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center"
   id="cta-button-undefined"
   type="button"
 >
@@ -198,32 +176,10 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'link' 1`] = `
 <a
-  class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center yst-gap-1"
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
 >
-  <svg
-    aria-hidden="true"
-    class="yst-animate-spin yst-w-4 yst-h-4 yst-button--loading"
-    fill="none"
-    role="img"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg/"
-  >
-    <circle
-      class="yst-opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      stroke-width="4"
-    />
-    <path
-      class="yst-opacity-75"
-      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      fill="currentColor"
-    />
-  </svg>
   Go
   <svg
     aria-hidden="true"

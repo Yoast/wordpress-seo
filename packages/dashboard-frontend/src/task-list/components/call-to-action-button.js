@@ -16,15 +16,16 @@ import { __ } from "@wordpress/i18n";
  * @returns {{variant: string, id: string, className: string, disabled, isLoading}} The button properties.
  */
 const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading ) => {
-	// Determine if a gap class should not be added based on type and loading state.
-	// For 'delete' and 'default' types, if loading, we don't add a gap as the spinner takes up space.
-	const shouldNotAddGap = /(delete|default)/.test( type ) && isLoading;
+	// Always set isLoading to false for "link" or "add" type buttons.
+	const effectiveIsLoading = ( type === "link" || type === "add" ) ? false : isLoading;
+
 	const buttonProps = {
 		variant: "primary",
 		id: `cta-button-${ taskId }`,
-		className: shouldNotAddGap ? "yst-flex yst-items-center" : "yst-flex yst-items-center yst-gap-1",
+		// When loading, don't add a gap as the spinner already adds a gap.
+		className: effectiveIsLoading ? "yst-flex yst-items-center" : "yst-flex yst-items-center yst-gap-1",
 		disabled,
-		isLoading,
+		isLoading: effectiveIsLoading,
 	};
 
 	if ( type === "link" && href ) {

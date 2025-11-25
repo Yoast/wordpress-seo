@@ -32,10 +32,11 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
+ * @param {boolean}	isLoading	Whether the modal content is loading.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted, isLoading } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
@@ -89,7 +90,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } />
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

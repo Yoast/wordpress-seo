@@ -125,4 +125,48 @@ describe( "TaskModal", () => {
 			expect( ctaButton ).not.toBeDisabled();
 		} );
 	} );
+
+	describe( "when isLoading is true", () => {
+		const loadingProps = {
+			...defaultProps,
+			isLoading: true,
+		};
+
+		it( "passes isLoading prop to the CallToActionButton", () => {
+			render( <TaskModal { ...loadingProps } /> );
+			const ctaButton = screen.getByText( /Generating…/i ).closest( "button" );
+			expect( ctaButton ).toBeInTheDocument();
+		} );
+
+		it( "shows loading text instead of original CTA label", () => {
+			render( <TaskModal { ...loadingProps } /> );
+			expect( screen.queryByText( /Start configuration/i ) ).not.toBeInTheDocument();
+			expect( screen.getByText( /Generating…/i ) ).toBeInTheDocument();
+		} );
+
+		it( "still renders modal content correctly while loading", () => {
+			render( <TaskModal { ...loadingProps } /> );
+			expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
+			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
+			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+			expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." ) ).toBeInTheDocument();
+		} );
+
+		describe( "with delete type CTA", () => {
+			const deleteLoadingProps = {
+				...loadingProps,
+				callToAction: {
+					...loadingProps.callToAction,
+					type: "delete",
+					label: "Delete task",
+				},
+			};
+
+			it( "shows 'Deleting…' text for delete type CTA when loading", () => {
+				render( <TaskModal { ...deleteLoadingProps } /> );
+				expect( screen.queryByText( /Delete task/i ) ).not.toBeInTheDocument();
+				expect( screen.getByText( /Deleting…/i ) ).toBeInTheDocument();
+			} );
+		} );
+	} );
 } );
