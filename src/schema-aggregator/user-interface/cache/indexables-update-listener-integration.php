@@ -111,6 +111,7 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	public function get_page_number( $indexable ) {
 		$query = $this->indexable_repository->query();
 		$query->where_raw( '( is_public IS NULL OR is_public = 1 )' );
+		$query->where( 'post_status', 'publish' );
 
 		// Count how many records come before this indexable (have a smaller ID).
 		$count_before = $query
