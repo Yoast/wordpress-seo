@@ -32,10 +32,11 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
+ * @param {boolean}  isLoading     Whether the button is in loading state.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted, isLoading } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
@@ -44,7 +45,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
 					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
 					<div>
-						<Modal.Title as="h3" className="yst-mb-2 yst-text-lg">
+						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
 							{ title }
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1">
