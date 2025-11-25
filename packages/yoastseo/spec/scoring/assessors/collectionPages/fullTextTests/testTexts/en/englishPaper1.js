@@ -79,8 +79,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: You don't have multiple H1 headings, well done!",
 	},
 	keyphraseDistribution: {
-		// Not applicable because the text has less than 15 sentences.
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

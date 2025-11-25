@@ -59,6 +59,8 @@ class Yoast_Notification {
 	 * -     capabilities: Capabilities that a user must have for this Notification to show.
 	 * - capability_check: How to check capability pass: all or any.
 	 * -  wpseo_page_only: Only display on wpseo page or on every page.
+	 * -   yoast_branding: Whether to show the Yoast SEO branding in the notification.
+	 * -    resolve_nonce: Security nonce to use in case of resolving the notification.
 	 *
 	 * @var array
 	 */
@@ -80,6 +82,7 @@ class Yoast_Notification {
 		'capabilities'     => [],
 		'capability_check' => self::MATCH_ALL,
 		'yoast_branding'   => false,
+		'resolve_nonce'    => '',
 	];
 
 	/**
@@ -175,6 +178,15 @@ class Yoast_Notification {
 	 */
 	public function get_priority() {
 		return $this->options['priority'];
+	}
+
+	/**
+	 * Get the nonce to resolve the alert.
+	 *
+	 * @return string
+	 */
+	public function get_resolve_nonce() {
+		return $this->options['resolve_nonce'];
 	}
 
 	/**

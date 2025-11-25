@@ -1,7 +1,7 @@
 import { __, _n } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 import { BellIcon } from "@heroicons/react/outline";
-import { Paper } from "@yoast/ui-library";
+import { Alert, Paper } from "@yoast/ui-library";
 import { AlertsList } from "./alerts-list";
 import { AlertsTitle } from "./alerts-title";
 import { Collapsible } from "./collapsible";
@@ -14,6 +14,7 @@ import { STORE_NAME } from "../constants/index";
 export const Notifications = () => {
 	const notificationsAlertsList = useSelect( ( select ) => select( STORE_NAME ).selectActiveNotifications(), [] );
 	const hiddenNotificationsAlertsList = useSelect( ( select ) => select( STORE_NAME ).selectDismissedNotifications(), [] );
+	const resolveSuccessMessage = useSelect( ( select ) => select( STORE_NAME ).selectResolveSuccessMessage(), [] );
 	const hiddenNotifications = hiddenNotificationsAlertsList.length;
 
 	const hiddenNotificationLabel = _n(
@@ -34,6 +35,11 @@ export const Notifications = () => {
 			<Paper.Content className="yst-max-w-[600px] yst-flex yst-flex-col yst-gap-y-6">
 				<AlertsContext.Provider value={ { ...notificationsTheme } }>
 					<AlertsTitle counts={ notificationsAlertsList.length } title={ __( "Notifications", "wordpress-seo" ) }>
+						{ resolveSuccessMessage &&
+							<Alert variant="success" className="yst-mt-6">
+								{ resolveSuccessMessage }
+							</Alert>
+						}
 						{ notificationsAlertsList.length === 0 && <p className="yst-mt-2 yst-text-sm">{ __( "No new notifications.", "wordpress-seo" ) }</p> }
 					</AlertsTitle>
 					<AlertsList items={ notificationsAlertsList } />

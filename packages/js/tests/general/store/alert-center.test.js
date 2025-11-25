@@ -58,7 +58,7 @@ describe( "actions", () => {
 
 describe( "initial state", () => {
 	it( "should have an empty alerts array and no error", () => {
-		expect( alertCenterReducer( undefined, { type: "" } ) ).toEqual( { alerts: [], alertToggleError: null } );
+		expect( alertCenterReducer( undefined, { type: "" } ) ).toEqual( { alerts: [], alertToggleError: null, resolveSuccessMessage: null } );
 	} );
 } );
 

@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
+use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexable_Repository;
 
@@ -44,13 +45,13 @@ class Schema_Map_Builder {
 
 			for ( $page = 1; $page <= $total_pages; $page++ ) {
 				if ( $page === 1 && $total_pages === 1 ) {
-					$url = \rest_url( 'schema-aggregator/get-schema/' . $post_type );
+					$url = $this->get_rest_route( $post_type );
 				}
 				elseif ( $page === 1 ) {
-					$url = \rest_url( 'schema-aggregator/get-schema/' . $post_type );
+					$url = $this->get_rest_route( $post_type );
 				}
 				else {
-					$url = \rest_url( 'schema-aggregator/get-schema/' . $post_type . '/' . $page );
+					$url = $this->get_rest_route( $post_type, $page );
 				}
 
 				$lastmod = $this->indexable_repository->get_lastmod_for_post_type( $post_type, $page, $threshold );
@@ -67,5 +68,22 @@ class Schema_Map_Builder {
 		}
 
 		return $schema_map;
+	}
+
+	/**
+	 * Gets the REST route for the given post type and page.
+	 *
+	 * @param string $post_type The post type.
+	 * @param int    $page      The page number (default is 1).
+	 *
+	 * @return string The REST route URL.
+	 */
+	public function get_rest_route( $post_type, $page = 1 ): string {
+		if ( $page === 1 ) {
+			return \rest_url( Main::API_V1_NAMESPACE . '/schema-aggregator/get-schema/' . $post_type );
+		}
+		else {
+			return \rest_url( Main::API_V1_NAMESPACE . '/schema-aggregator/get-schema/' . $post_type . '/' . $page );
+		}
 	}
 }

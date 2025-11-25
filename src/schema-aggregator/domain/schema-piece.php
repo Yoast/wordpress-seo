@@ -67,7 +67,6 @@ class Schema_Piece {
 	 */
 	public function to_json_ld_graph(): array {
 		return [
-			'@context' => 'https://schema.org',
 			'@graph'   => $this->data,
 		];
 	}

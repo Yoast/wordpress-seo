@@ -439,32 +439,6 @@ import jQuery from "jquery";
 		sidebarScreenReader.remove();
 	}
 
-	/**
-	 * Resolves potential mismatches in the notification counts between the sidebar and the adminbar.
-	 *
-	 * @returns {void}
-	 */
-	function resolveAlerts() {
-		jQuery( "body" ).on( "click", ".wpseo-resolve-alert.button", function( event ) {
-			event.preventDefault();
-
-			const data = {
-				action: "wpseo_resolve_alert",
-				// eslint-disable-next-line camelcase
-				_ajax_nonce: jQuery( this ).data( "nonce" ),
-				alertId: jQuery( this ).data( "alert-id" ),
-			};
-
-			jQuery.post(
-				ajaxurl, data, function( response ) {
-					if ( response.success ) {
-						window.location.reload();
-					}
-				}
-			);
-		} );
-	}
-
 	/*
 	 * When the viewport size changes, check again the scrollable tables width.
 	 * About the events: technically `wp-window-resized` is triggered on the
@@ -511,6 +485,5 @@ import jQuery from "jquery";
 		makeUpgradesOpenInNewTab();
 		makeBrandInsightsLinkOpenInNewTab();
 		makeBrandInsightsPremiumLinkOpenInNewTab();
-		resolveAlerts();
 	} );
 }( jQuery ) );

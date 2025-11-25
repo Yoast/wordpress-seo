@@ -231,6 +231,7 @@ class Indexable_Repository {
 
 		$query = $this->query()->where_raw( '( is_public IS NULL OR is_public = 1 )' );
 		$query->where( 'object_sub_type', $post_type );
+		$query->where( 'post_status', 'publish' );
 
 		$indexables = $query->order_by_asc( 'id' )->limit( $page_size )->offset( $offset )->find_many();
 

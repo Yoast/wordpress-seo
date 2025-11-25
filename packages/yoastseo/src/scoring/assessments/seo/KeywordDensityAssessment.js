@@ -7,41 +7,53 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import getAllWordsFromTree from "../../../languageProcessing/helpers/word/getAllWordsFromTree";
 
 /**
- * Represents the assessment that will look if the keyphrase density is within the recommended range.
+ * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../../values/Mark").default } Mark
+ */
+
+/**
+ * @typedef {Object} KeyphraseDensityConfig
+ * @property {Object} parameters The parameters to use.
+ * If word forms are not available:
+ * @property {Object} parameters.noWordForms The parameters to use when no morphological forms are available.
+ * @property {number} parameters.noWordForms.overMaximum The percentage of keyphrase instances in the text that
+ * is way over the maximum.
+ * @property {number} parameters.noWordForms.maximum The maximum percentage of keyphrase instances in the text.
+ * @property {number} parameters.noWordForms.minimum The minimum percentage of keyphrase instances in the text.
+ * If word forms are available:
+ * @property {Object} parameters.multipleWordForms The parameters to use when morphological forms are available.
+ * @property {number} parameters.multipleWordForms.overMaximum The percentage of keyphrase instances in the text that
+ * is way over the maximum.
+ * @property {number} parameters.multipleWordForms.maximum The maximum percentage of keyphrase instances in the text.
+ * @property {number} parameters.multipleWordForms.minimum The minimum percentage of keyphrase instances in the text.
+ * @property {Object} scores The scores to use.
+ * @property {number} scores.wayOverMaximum The score to return if there are way too many instances of keyphrase in the text.
+ * @property {number} scores.overMaximum The score to return if there are too many instances of keyphrase in the text.
+ * @property {number} scores.correctDensity The score to return if there is a good number of keyphrase instances in the text.
+ * @property {number} scores.underMinimum The score to return if there are not enough keyphrase instances in the text.
+ * @property {number} scores.noKeyphraseOrText The score to return if there is no text or no keyphrase set.
+ * @property {string} urlTitle The URL to the Yoast article about keyphrase density.
+ * @property {string} urlCallToAction The URL to the Yoast article about keyphrase density.
+ */
+
+/**
+ * Represents the assessment that will assess if the keyphrase density is within the recommended range.
  */
 class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
-	 *
-	 * @param {Object} [config] The configuration to use.
-	 *
-	 * If word forms are not available:
-	 * @param {number} [config.parameters.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
-	 * is way over the maximum.
-	 * @param {number} [config.parameters.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
-	 * @param {number} [config.parameters.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
-	 *
-	 * If word forms are available:
-	 * @param {number} [config.parameters.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text that
-	 * is way over the maximum.
-	 * @param {number} [config.parameters.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
-	 * @param {number} [config.parameters.multipleWordForms.minimum] The minimum percentage of keyphrase instances in the text.
-	 *
-	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyphrase in the text.
-	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyphrase in the text.
-	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyphrase instances in the text.
-	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyphrase instances in the text.
-	 *
-	 * @param {string} [config.url] The URL to the relevant KB article.
-	 *
-	 * @returns {void}
+	 * @param {Object} [config={}]   The configuration to use.
 	 */
 	constructor( config = {} ) {
 		super();
 
+		/**
+		 * The default configuration.
+		 * @type KeyphraseDensityConfig
+		 */
 		const defaultConfig = {
 			parameters: {
 				noWordForms: {
@@ -60,10 +72,10 @@ class KeyphraseDensityAssessment extends Assessment {
 				overMaximum: -10,
 				correctDensity: 9,
 				underMinimum: 4,
+				noKeyphraseOrText: -50,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
-			applicableIfTextLongerThan: 100,
 		};
 
 		this.identifier = "keyphraseDensity";
@@ -74,25 +86,23 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Determines correct boundaries depending on the availability of morphological forms.
 	 *
-	 * @param {Paper} paper The paper to analyze.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
-	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
-	 *
+	 * @param {number} textLength The length of the text in words.
 	 * @returns {void}
 	 */
-	setBoundaries( paper, keyphraseLength, customGetWords ) {
+	setBoundaries( keyphraseLength, textLength ) {
+		this._boundaries = this._config.parameters.noWordForms;
+
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
-		} else {
-			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( paper, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( keyphraseLength, this._boundaries.minimum, "min", textLength );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount(  keyphraseLength, this._boundaries.maximum, "max", textLength );
 	}
 
 	/**
 	 * Runs the keyphrase density module, based on this returns an assessment
-	 * result with score.
+	 * result with a score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
@@ -100,26 +110,45 @@ class KeyphraseDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
-		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
-		const keyphraseLength = this._keyphraseCount.keyphraseLength;
-
 		const assessmentResult = new AssessmentResult();
 
-		this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
+		// Whether the paper has the data needed to return meaningful feedback (keyphrase and text).
+		this._canAssess = paper.hasKeyword() && paper.hasText();
 
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
+		let calculatedScore;
 
-		this.setBoundaries( paper, keyphraseLength, customGetWords );
-
-		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
-		const calculatedScore = this.calculateResult();
+		if ( this._canAssess ) {
+			this._keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
+			this._keyphraseDensityResult = researcher.getResearch( "getKeyphraseDensity" );
+			this._textLength = this._keyphraseDensityResult.textLength;
+			assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
+			if ( this._textLength < 100 ) {
+				// Calculate the score for short texts.
+				this._minRecommendedKeyphraseCount = 1;
+				this._maxRecommendedKeyphraseCount = this._textLength > 50 ? 2 : 1;
+				calculatedScore = this.calculateResultShortText();
+			} else {
+				// Calculate the score for long texts.
+				this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
+				const keyphraseLength = this._keyphraseCount.keyphraseLength;
+				this.setBoundaries( keyphraseLength, this._textLength );
+				// Safe access with fallback
+				const density = this._keyphraseDensityResult?.density ?? 0;
+				this._keyphraseDensity = density * keyphraseLengthFactor( keyphraseLength );
+				calculatedScore = this.calculateResult();
+			}
+		} else {
+			// Calculate the score for papers with no keyphrase or text.
+			calculatedScore = this.calculateResult();
+		}
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
-		// Only shows the AI button when there is not enough keyphrase density.
-		if ( calculatedScore.score === this._config.scores.underMinimum ) {
+		// Only shows the AI button when the keyphrase hasn't been used enough times.
+		// The button will handle its own disabled state and tooltip when there's no keyphrase or text.
+		const shouldShowAIButton = ( calculatedScore.score === this._config.scores.underMinimum ) ||
+			( calculatedScore.score === this._config.scores.noKeyphraseOrText && ! this._canAssess );
+		if ( shouldShowAIButton ) {
 			assessmentResult.setHasAIFixes( true );
 		}
 		return assessmentResult;
@@ -137,29 +166,23 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there are too few keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyphrase density is between 0 and the recommended minimum
-	 * or if there is only 1 keyphrase match (regardless of the density).
+	 * @returns {boolean} Returns true if the rounded keyphrase density is below the recommended minimum,
+	 * or if the keyphrase count is 1.
 	 */
 	hasTooFewMatches() {
-		return inRangeStartInclusive(
-			this._keyphraseDensity,
-			0,
-			this._boundaries.minimum
-		) || this._keyphraseCount.count === 1;
+		return inRangeStartInclusive( this._keyphraseDensity, 0, this._boundaries.minimum ) || ( this._keyphraseCount.count === 1 );
 	}
 
 	/**
 	 * Checks whether there is a good number of keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyphrase density is between the recommended minimum
-	 * and the recommended maximum or if the keyphrase count is 2 and the recommended minimum is lower than 2.
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between the recommended minimum and maximum,
+	 * or if the keyphrase count is 2 and the recommended minimum is at most 2,
+	 * or if the text length is less than the short text limit and the keyphrase count is 1.
 	 */
 	hasGoodNumberOfMatches() {
-		return inRangeStartEndInclusive(
-			this._keyphraseDensity,
-			this._boundaries.minimum,
-			this._boundaries.maximum
-		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 );
+		return inRangeStartEndInclusive( this._keyphraseDensity, this._boundaries.minimum, this._boundaries.maximum ) ||
+			( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 );
 	}
 
 	/**
@@ -179,11 +202,54 @@ class KeyphraseDensityAssessment extends Assessment {
 	}
 
 	/**
+	 * Checks whether there is a good number of keyphrase matches in a short text (<= 100 words).
+	 *
+	 * @returns {boolean} Returns true if the number of keyphrase occurrences is between the minimum and maximum recommended count.
+	 */
+	hasGoodNumberOfMatchesShortText() {
+		return inRangeStartEndInclusive( this._keyphraseCount.count, this._minRecommendedKeyphraseCount, this._maxRecommendedKeyphraseCount );
+	}
+
+	/**
+	 * Checks whether the number of keyphrase matches in a short text (<= 100 words) is too high.
+	 *
+	 * @returns {boolean} Returns true if the number of keyphrase occurrences is one more than the maximum recommended count.
+	 */
+	hasTooManyMatchesShortText() {
+		return this._keyphraseCount.count === this._maxRecommendedKeyphraseCount + 1;
+	}
+
+	/**
+	 * Creates a translation string for the first sentence of the feedback, which reports on the number of times
+	 * the keyphrase was found.
+	 *
+	 * @returns {string} The first sentence of the feedback.
+	 */
+	getFeedbackStringsFirstSentence() {
+		return sprintf(
+			/* translators:
+				%1$s expands to a link to Yoast.com,
+				%2$s expands to the anchor end tag,
+				%3$d expands to the number of times the keyphrase occurred in the text. */
+			_n(
+				"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time.",
+				"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times.",
+				this._keyphraseCount.count,
+				"wordpress-seo"
+			),
+			this._config.urlTitle,
+			"</a>",
+			this._keyphraseCount.count
+		);
+	}
+
+	/**
 	 * Returns the score for the keyphrase density.
 	 *
-	 * @returns {Object} The object with calculated score and resultText.
+	 *
+	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
 	 */
-	calculateResult() {
+	calculateResultShortText() {
 		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
@@ -192,8 +258,10 @@ class KeyphraseDensityAssessment extends Assessment {
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
-					__(
+					_n(
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._minRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -204,26 +272,144 @@ class KeyphraseDensityAssessment extends Assessment {
 			};
 		}
 
-		if ( this.hasTooFewMatches() ) {
+		if ( this.hasGoodNumberOfMatchesShortText() ) {
+			return {
+				score: this._config.scores.correctDensity,
+				resultText: sprintf(
+					/* translators:
+					%1$s expands to a link to Yoast.com,
+					%2$s expands to the anchor end tag,
+					%3$d expands to the number of times the keyphrase occurred in the text. */
+					_n(
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!",
+						this._keyphraseCount.count,
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>",
+					this._keyphraseCount.count
+				),
+			};
+		}
+
+		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
+
+		if ( this.hasTooManyMatchesShortText() ) {
+			return {
+				score: this._config.scores.overMaximum,
+				resultText: sprintf(
+					/* translators:
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
+					_n(
+						"%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+						"%1$s That's more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+						this._maxRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					feedbackStringsFirstSentence,
+					this._maxRecommendedKeyphraseCount,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Implicitly returns this if the keyphrase count is higher than for any of the above conditions.
+		return {
+			score: this._config.scores.wayOverMaximum,
+			resultText: sprintf(
+				/* translators:
+				%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+				%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+				%3$s expands to a link to Yoast.com.,
+				%4$s expands to the anchor end tag,
+				 */
+				_n(
+					"%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+					"%1$s That's way more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+					this._maxRecommendedKeyphraseCount,
+					"wordpress-seo"
+				),
+				feedbackStringsFirstSentence,
+				this._maxRecommendedKeyphraseCount,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
+	}
+
+	/**
+	 * Returns the score for the keyphrase density.
+	 *
+	 *
+	 * @returns {{score: number, resultText: string}} result object with a score and translation text.
+	 */
+	calculateResult() {
+		if ( ! this._canAssess ) {
+			return {
+				score: this._config.scores.noKeyphraseOrText,
+				resultText: sprintf(
+					/* translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
+					__(
+						"%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
 				resultText: sprintf(
 					/* translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
-					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text,
-					%5$d expands to the number of times the keyphrase occurred in the text. */
+					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 					_n(
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						this._keyphraseCount.count,
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._minRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeyphraseCount,
+					this._config.urlCallToAction
+				),
+			};
+		}
+
+		const feedbackStringsFirstSentence = this.getFeedbackStringsFirstSentence();
+
+		if ( this.hasTooFewMatches() ) {
+			return {
+				score: this._config.scores.underMinimum,
+				resultText: sprintf(
+					/* translators:
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended minimum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
+					_n(
+						"%1$s That's less than the recommended minimum of %2$d time for a text of this length. %3$sFocus on your keyphrase%4$s!",
+						"%1$s That's less than the recommended minimum of %2$d times for a text of this length. %3$sFocus on your keyphrase%4$s!",
+						this._minRecommendedKeyphraseCount,
+						"wordpress-seo"
+					),
+					feedbackStringsFirstSentence,
+					this._minRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
-					this._keyphraseCount.count
+					"</a>"
 				),
 			};
 		}
@@ -254,21 +440,21 @@ class KeyphraseDensityAssessment extends Assessment {
 				score: this._config.scores.overMaximum,
 				resultText: sprintf(
 					/* translators:
-					%1$s and %4$s expand to links to Yoast.com,
-					%2$s expands to the anchor end tag,
-					%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
-					%5$d expands to the number of times the keyphrase occurred in the text. */
+					%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+					%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+					%3$s expands to a link to Yoast.com.,
+					%4$s expands to the anchor end tag,
+					 */
 					_n(
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keyphraseCount.count,
+						"%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+						"%1$s That's more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+						this._maxRecommendedKeyphraseCount,
 						"wordpress-seo"
 					),
-					this._config.urlTitle,
-					"</a>",
+					feedbackStringsFirstSentence,
 					this._maxRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
-					this._keyphraseCount.count
+					"</a>"
 				),
 			};
 		}
@@ -278,21 +464,21 @@ class KeyphraseDensityAssessment extends Assessment {
 			score: this._config.scores.wayOverMaximum,
 			resultText: sprintf(
 				/* translators:
-				%1$s and %4$s expand to links to Yoast.com,
-				%2$s expands to the anchor end tag,
-				%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
-				%5$d expands to the number of times the keyphrase occurred in the text. */
+				%1$s expands to the sentence "Keyphrase density: The keyphrase was found X time(s).",
+				%2$d expands to the recommended maximum number of times the keyphrase should occur in the text,
+				%3$s expands to a link to Yoast.com.,
+				%4$s expands to the anchor end tag,
+				 */
 				_n(
-					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keyphraseCount.count,
+					"%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!",
+					"%1$s That's way more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!",
+					this._maxRecommendedKeyphraseCount,
 					"wordpress-seo"
 				),
-				this._config.urlTitle,
-				"</a>",
+				feedbackStringsFirstSentence,
 				this._maxRecommendedKeyphraseCount,
 				this._config.urlCallToAction,
-				this._keyphraseCount.count
+				"</a>"
 			),
 		};
 	}
@@ -301,33 +487,10 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Marks the occurrences of keyphrase in the text for the keyphrase density assessment.
 	 *
-	 * @returns {Array<Mark>} Marks that should be applied.
+	 * @returns {Mark[]} Marks that should be applied.
 	 */
 	getMarks() {
 		return this._keyphraseCount.markings;
-	}
-
-
-	/**
-	 * Checks whether the paper has a text of the minimum required length and a keyphrase is set. Language-specific length requirements and methods
-	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
-	 * required length higher).
-	 *
-	 * @param {Paper} 		paper 		The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The paper to use for the assessment.
-	 *
-	 * @returns {boolean} True if applicable.
-	 */
-	isApplicable( paper, researcher ) {
-		const customCountLength = researcher.getHelper( "customCountLength" );
-		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).keyphraseDensity;
-		if ( customApplicabilityConfig ) {
-			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
-		}
-
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : getAllWordsFromTree( paper ).length;
-
-		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 
@@ -343,7 +506,6 @@ class KeywordDensityAssessment extends KeyphraseDensityAssessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config   The configuration to use.
-	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super( config );
