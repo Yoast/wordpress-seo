@@ -1,11 +1,45 @@
 import { Button } from "@yoast/ui-library";
 import { TrashIcon, PlusIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+
+/**
+ * Gets the button properties based on the type and other parameters.
+ *
+ * @param {string} type The type of button: add, link, delete, default.
+ * @param {Function} handleOnClick The onClick handler for the button.
+ * @param {string} href The URL to navigate to (for external links).
+ * @param {string} taskId The ID of the task associated with the button.
+ * @param {boolean} disabled Whether the button is disabled.
+ * @param {boolean} isLoading Whether the button is in a loading state.
+ *
+ * @returns {{variant: string, id: string, className: string, disabled, isLoading}} The button properties.
+ */
+const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading ) => {
+	// Determine if a gap class should not be added based on type and loading state.
+	// For 'delete' and 'default' types, if loading, we don't add a gap as the spinner takes up space.
+	const shouldNotAddGap = /(delete|default)/.test( type ) && isLoading;
+	const buttonProps = {
+		variant: "primary",
+		id: `cta-button-${ taskId }`,
+		className: shouldNotAddGap ? "yst-flex yst-items-center" : "yst-flex yst-items-center yst-gap-1",
+		disabled,
+		isLoading,
+	};
+
+	if ( type === "link" && href ) {
+		buttonProps.href = href;
+	} else {
+		buttonProps.onClick = handleOnClick;
+	}
+
+	return buttonProps;
+};
 
 /**
  * CallToActionButton component.
  *
- * @param {string} type The type of call to action: add,link,delete,default.
+ * @param {string} type The type of call to action: add, link, delete, default.
  * @param {string} label The label for the button.
  * @param {Function} onClick The onClick handler for the button.
  * @param {string} href The URL to navigate to (for external links).
@@ -15,26 +49,14 @@ import { useCallback } from "@wordpress/element";
  *
  * @returns {JSX.Element} The CallToActionButton component.
  */
-export const CallToActionButton = ( { type, label, href, onClick, taskId, disabled = false, isLoading }  ) => {
-	const buttonProps = {
-		variant: "primary",
-		id: `cta-button-${ taskId }`,
-		className: "yst-flex yst-items-center yst-gap-1",
-		disabled,
-		isLoading,
-	};
-
+export const CallToActionButton = ( { type, label, href, onClick, taskId, disabled = false, isLoading = false }  ) => {
 	const handleOnClick = useCallback( () => {
 		if ( onClick ) {
 			onClick( taskId );
 		}
 	}, [ onClick, taskId ] );
 
-	if ( type === "link" && href ) {
-		buttonProps.href = href;
-	} else {
-		buttonProps.onClick = handleOnClick;
-	}
+	const buttonProps = getButtonProps( type, handleOnClick, href, taskId, disabled, isLoading );
 
 	if ( type === "add" ) {
 		return <Button { ...buttonProps }>
@@ -45,8 +67,8 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 
 	if ( type === "delete" ) {
 		return <Button { ...buttonProps } variant="error">
-			<TrashIcon className="yst-w-4 yst-text-white" />
-			{ label }
+			{ isLoading ? null : <TrashIcon className="yst-w-4 yst-text-white" /> }
+			{ isLoading ? __( "Deleting…", "wordpress-seo" ) : label }
 		</Button>;
 	}
 
@@ -61,7 +83,7 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 	}
 
 	return <Button { ...buttonProps }>
-		{ label }
+		{ isLoading ? __( "Generating…", "wordpress-seo" ) : label }
 	</Button>;
 };
 
