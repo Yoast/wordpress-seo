@@ -31,7 +31,7 @@ class Create_New_Content extends Abstract_Task {
 	 *
 	 * @var int
 	 */
-	protected $duration = 30;
+	protected $duration = 90;
 
 	/**
 	 * Holds the post type helper.
