@@ -43,4 +43,10 @@ describe( "TasksProgressBar", () => {
 		const { container } = render( <TasksProgressBar completedTasks={ 6 } totalTasks={ 5 } isLoading={ false } /> );
 		expect( container.firstChild ).toBeNull();
 	} );
+	it( "includes screen reader text for progress", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 4 } totalTasks={ 8 } isLoading={ false } /> );
+		const srText = container.querySelector( ".yst-sr-only" );
+		expect( srText ).toBeInTheDocument();
+		expect( srText ).toHaveTextContent( "4 out of 8 tasks completed" );
+	} );
 } );
