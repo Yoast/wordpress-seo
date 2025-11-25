@@ -16,8 +16,8 @@ import { __ } from "@wordpress/i18n";
  * @returns {{variant: string, id: string, className: string, disabled, isLoading}} The button properties.
  */
 const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading ) => {
-	// Always set isLoading to false for "link" or "add" type buttons.
-	const effectiveIsLoading = ( type === "link" || type === "add" ) ? false : isLoading;
+	// Always set isLoading to false for "link" or "add" type buttons, or when disabled is true.
+	const effectiveIsLoading = ( type === "link" || type === "add" || disabled ) ? false : isLoading;
 
 	const buttonProps = {
 		variant: "primary",
@@ -68,8 +68,8 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 
 	if ( type === "delete" ) {
 		return <Button { ...buttonProps } variant="error">
-			{ isLoading ? null : <TrashIcon className="yst-w-4 yst-text-white" /> }
-			{ isLoading ? __( "Deleting…", "wordpress-seo" ) : label }
+			{ buttonProps.isLoading ? null : <TrashIcon className="yst-w-4 yst-text-white" /> }
+			{ buttonProps.isLoading ? __( "Deleting…", "wordpress-seo" ) : label }
 		</Button>;
 	}
 
@@ -84,7 +84,7 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 	}
 
 	return <Button { ...buttonProps }>
-		{ isLoading ? __( "Generating…", "wordpress-seo" ) : label }
+		{ buttonProps.isLoading ? __( "Generating…", "wordpress-seo" ) : label }
 	</Button>;
 };
 
