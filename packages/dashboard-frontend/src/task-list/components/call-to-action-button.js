@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Button } from "@yoast/ui-library";
 import { TrashIcon, PlusIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";
@@ -28,7 +29,7 @@ const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading 
 		isLoading: effectiveIsLoading,
 	};
 
-	if ( type === "link" && href ) {
+	if ( [ "link", "add" ].includes( type ) && href ) {
 		buttonProps.href = href;
 	} else {
 		buttonProps.onClick = handleOnClick;
@@ -60,7 +61,10 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 	const buttonProps = getButtonProps( type, handleOnClick, href, taskId, disabled, isLoading );
 
 	if ( type === "add" ) {
-		return <Button { ...buttonProps }>
+		return <Button
+			{ ...buttonProps }
+			as={ disabled ? "button" : "a" }
+		>
 			<PlusIcon className="yst-w-4 yst-text-white"  />
 			{ label }
 		</Button>;
