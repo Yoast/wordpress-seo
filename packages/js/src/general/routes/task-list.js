@@ -1,8 +1,8 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { fetchJson, TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
+import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
 import { values, isEmpty, size } from "lodash";
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useState, useCallback } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
@@ -31,27 +31,34 @@ export const TaskList = () => {
 		values( tasks ).filter( task => task.isCompleted )
 	);
 
-	useEffect( () => {
-		// Fetch tasks only if we don't have them yet.
-		if ( isEmpty( tasks ) ) {
+	const fetchTasks = useCallback( async() => {
+		try {
 			setFetchState( { isPending: true, error: null } );
-			fetchJson( getTasksEndpoint, {
+			const response = await fetch( getTasksEndpoint, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 					"X-WP-Nonce": nonce,
 				},
-			} )
-				.then( ( response ) => {
-					setFetchState( { error: null, isPending: false } );
-					setTasks( response.tasks );
-				} )
-				.catch( ( e ) => {
-					setFetchState( { error: e, isPending: false } );
-				} );
+			} );
+			const data = await response.json();
+			if ( data.success === false ) {
+				throw new Error( data.error );
+			}
+			setTasks( data.tasks );
+			setFetchState( { error: null, isPending: false } );
+		} catch ( e ) {
+			setFetchState( { error: e, isPending: false } );
 		}
-		// Only run on mount and when tasks changes.
-	}, [ tasks, setTasks ] );
+	}, [ getTasksEndpoint, nonce, setFetchState, setTasks ] );
+
+
+	useEffect( () => {
+		// Fetch tasks only if we don't have them yet.
+		if ( isEmpty( tasks ) ) {
+			fetchTasks();
+		}
+	}, [ tasks, setTasks, fetchTasks ] );
 
 	const { error, isPending } = fetchState;
 
