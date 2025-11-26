@@ -83,6 +83,7 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 		</Button>;
 	}
 
+	// The "Generating" string will probably not cover all default cases in the future, but for now it is sufficient.
 	return <Button { ...buttonProps }>
 		{ buttonProps.isLoading ? __( "Generating…", "wordpress-seo" ) : label }
 	</Button>;
