@@ -610,11 +610,6 @@ body.folded .wpseo-admin-submit-fixed {
 
 }
 
-.yoast-ai-plus-badge {
-	background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
-	color: #ffffff;
-}
-
 .yoast-premium-badge {
 	background-color: #fff3cd;
 	color: #674e00;
@@ -664,6 +659,7 @@ body.folded .wpseo-admin-submit-fixed {
 	yst-justify-center
 	yst-gap-1
 	yst-text-xs
+	yst-font-medium
 	yst-whitespace-nowrap
 	yst-w-full;
 	background: var(--adminmenu-background, #3c434a);

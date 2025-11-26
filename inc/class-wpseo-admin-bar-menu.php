@@ -590,15 +590,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_premium_link( WP_Admin_Bar $wp_admin_bar ) {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		// Check if the Yoast SEO WooCommerce addon is active.
-		$woo_seo_plugin_active = is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
-
 		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
-		if ( $woo_seo_plugin_active ) {
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return;
 		}
 
@@ -611,10 +605,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' );
 
-		if ( $this->product_helper->is_premium() && $has_woocommerce ) {
-			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
-		}
-		elseif ( $has_woocommerce ) {
+		if ( $has_woocommerce ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium-woocommerce' );
 		}
 

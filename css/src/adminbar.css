@@ -225,7 +225,8 @@
 	yst-flex
 	yst-items-center
 	yst-justify-center
-	yst-gap-1.5
+	yst-gap-1
+	yst-font-medium
 	yst-text-xs
 	yst-whitespace-nowrap
 	yst-w-full
