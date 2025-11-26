@@ -171,8 +171,8 @@ export const TaskList = () => {
 						{ ! isEmpty( sortedTasks ) && sortedTasks.map( ( task ) => {
 							const isAnimating = animatingTaskId === task.id;
 							const animationClasses = `
-								yst-transition-all yst-duration-500 yst-ease-in-out
-								${ isAnimating ? "yst-animate-pulse yst-bg-blue-50" : "" }
+								yst-transition-transform yst-transition-colors yst-duration-500 yst-ease-in-out
+								${ isAnimating ? "yst-bg-blue-50 yst-scale-[1.02] motion-reduce:yst-scale-100 motion-reduce:yst-bg-green-50" : "" }
 							`;
 							return (
 								<Task
