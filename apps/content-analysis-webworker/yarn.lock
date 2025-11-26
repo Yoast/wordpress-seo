@@ -410,20 +410,18 @@
     "@webassemblyjs/ast" "1.14.1"
     "@xtuc/long" "4.2.2"
 
-"@wordpress/hooks@^4.17.0":
-  version "4.17.0"
-  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-4.17.0.tgz#ef5a2d960c848515f206195a3ef4540849298b0e"
-  integrity sha512-LGOHGuwCXCevuzaFpM2sgyPZxf3H7tWaSKzlvDzx2kmwiWIrFug/yebywv4Cxsl82I5DfZkDpxXRpqTxXrC0Nw==
-  dependencies:
-    "@babel/runtime" "7.25.7"
+"@wordpress/hooks@^4.26.0":
+  version "4.36.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-4.36.0.tgz#f7e4682c4d911aa7edd1d9af0a171f8345d4d469"
+  integrity sha512-9kB2lanmVrubJEqWDSHtyUx7q4ZAWGArakY/GsUdlFsnf9m+VmQLQl92uCpHWYjKzHec1hwcBhBB3Tu9aBWDtQ==
 
-"@wordpress/i18n@^5.11.0":
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-5.17.0.tgz#083492600b3cd5b39cc5f4c8f3aabd6b7ea88d08"
-  integrity sha512-aAsYls8sTTSEimsvjxBl9mCYbZYD3BddHVpuHgbBxzC+2SZE+JYJ+IpcwEghC712qo0jEkG8Vdzhqae1PL6vCQ==
+"@wordpress/i18n@^5.8.2":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-5.26.0.tgz#90c5c73822648432822c916ae5acc1ea5a54fb0e"
+  integrity sha512-YHzaUWlCuN2ynl47qbsdMkTGtP52+E1giDOdWBgUaSexUYjbeFxKFUzRMB0Wuh1psL80+VzvJOH/mU440KAJnA==
   dependencies:
     "@babel/runtime" "7.25.7"
-    "@wordpress/hooks" "^4.17.0"
+    "@wordpress/hooks" "^4.26.0"
     gettext-parser "^1.3.1"
     memize "^2.1.0"
     sprintf-js "^1.1.1"
@@ -439,10 +437,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/feature-flag@^0.6.0-alpha.0":
-  version "0.6.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.6.0-alpha.0.tgz#4da6c63ca388fbf0949396e137fdbe64507f9cb5"
-  integrity sha512-11zClQ9HKjc1rGxrmyE2pb6/BbdAeSc+N3Tn/zVPA5Fn8Bax7fg5RYdIL9dAUfDRT5+eGX3GTZ+ZyfrlfY7VxA==
+"@yoast/feature-flag@^0.6.0-alpha.2":
+  version "0.6.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.6.0-alpha.2.tgz#3b00ac3a7b5019b9badabf8449fb72719f83cf1a"
+  integrity sha512-HFgcidTfZ7s91CvWhb8Mu9rVjWr6Ic7EoDGzpOVkpgmhi/hgfK7x8I6tNFoREpuR3HVmJyZ7grFy2M8EF/tbLA==
 
 accepts@~1.3.4, accepts@~1.3.8:
   version "1.3.8"
@@ -1561,9 +1559,9 @@ no-case@^3.0.4:
     tslib "^2.0.3"
 
 node-forge@^1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.1.tgz#be8da2af243b2417d5f646a770663a92b7e9ded3"
-  integrity sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.2.tgz#d0d2659a26eef778bf84d73e7f55c08144ee7750"
+  integrity sha512-6xKiQ+cph9KImrRh0VsjH2d8/GXA4FIMlgU4B757iI1ApvcyA9VlouP0yZJha01V+huImO+kKMU7ih+2+E14fw==
 
 node-releases@^2.0.19:
   version "2.0.19"
@@ -2307,5 +2305,13 @@ xtend@~4.0.1:
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
 "yoastseo@link:../../packages/yoastseo":
-  version "0.0.0"
-  uid ""
+  version "3.4.0"
+  dependencies:
+    "@wordpress/i18n" "^5.8.2"
+    "@yoast/feature-flag" "^0.6.0-alpha.2"
+    htmlparser2 "^3.9.2"
+    lodash "^4.17.21"
+    loglevel "^1.9.2"
+    parse5 "^7.2.1"
+    tiny-segmenter "^0.2.0"
+    tokenizer2 "^2.0.1"
