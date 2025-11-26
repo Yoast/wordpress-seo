@@ -50,17 +50,22 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {JSX.Element} [children] Optional children elements for the task modal.
+ * @param {string} [className] Additional CSS classes for the row.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children, className } ) => {
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
 	const cellBackground = useMemo( () => isButtonFocused ? "yst-bg-slate-50" : "group-hover:yst-bg-slate-50", [ isButtonFocused ] );
 
 	return (
-		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
+		<Table.Row
+			className={ classNames( "yst-cursor-pointer yst-group", className ) }
+			onClick={ onClick }
+			aria-label={ __( "Open task modal", "wordpress-seo" ) }
+		>
 			<Table.Cell className={ cellBackground }>
 				<div className="yst-flex yst-items-center yst-gap-2">
 					{ isCompleted
