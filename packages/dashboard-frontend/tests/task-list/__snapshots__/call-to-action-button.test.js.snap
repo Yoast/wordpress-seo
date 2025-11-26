@@ -86,10 +86,9 @@ exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
 `;
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'add' 1`] = `
-<button
+<a
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   id="cta-button-undefined"
-  type="button"
 >
   <svg
     aria-hidden="true"
@@ -107,7 +106,7 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
     />
   </svg>
   Create
-</button>
+</a>
 `;
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'default' 1`] = `

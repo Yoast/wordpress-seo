@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Button } from "@yoast/ui-library";
 import { TrashIcon, PlusIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";

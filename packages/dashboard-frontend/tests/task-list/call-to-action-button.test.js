@@ -61,9 +61,10 @@ describe( "CallToActionButton", () => {
 		} );
 
 		it( "shows loading state for add type with unchanged label", () => {
-			render( <CallToActionButton label="Add Item" type="add" onClick={ onClickMock } isLoading={ true } /> );
-			const button = screen.getByRole( "button", { name: /add item/i } );
-			expect( button ).toBeInTheDocument();
+			render( <CallToActionButton label="Add Item" type="add" href="https://example.com" isLoading={ true } /> );
+			const link = screen.getByRole( "link", { name: /add item/i } );
+			expect( link ).toBeInTheDocument();
+			expect( link ).toHaveAttribute( "href", "https://example.com" );
 		} );
 
 		it( "shows loading state for link type", () => {
