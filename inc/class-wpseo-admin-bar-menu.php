@@ -8,6 +8,7 @@
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Brand_Insights_Page;
 use Yoast\WP\SEO\Integrations\Support_Integration;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
@@ -643,11 +644,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$button_content = __( 'AI Brand Insights', 'wordpress-seo' );
 
-		$external_link_icon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-left: 4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>';
-		$menu_title         = '<span class="yoast-brand-insights-gradient-border">'
+		$menu_title = '<span class="yoast-brand-insights-gradient-border">'
 			. '<span class="yoast-brand-insights-content">'
 			. $button_content
-			. $external_link_icon
+			. Brand_Insights_Page::EXTERNAL_LINK_ICON
 			. '</span></span>';
 
 		$wp_admin_bar->add_menu(
