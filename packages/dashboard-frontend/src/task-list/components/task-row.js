@@ -7,6 +7,7 @@ import { TaskBadge } from "./task-badge";
 import { Ellipse } from "../../icons";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
+import { useMemo } from "react";
 
 const badgeOptions = [ "premium", "woo", "ai" ];
 
@@ -56,15 +57,11 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
-	// Row hover or button focus triggers hover styles
-	const rowClass = classNames(
-		"yst-cursor-pointer yst-group",
-		{ "yst-bg-slate-50": isButtonFocused }
-	);
+	const cellBackground = useMemo( () => isButtonFocused ? "yst-bg-slate-50" : "group-hover:yst-bg-slate-50", [ isButtonFocused ] );
 
 	return (
-		<Table.Row className={ rowClass } onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
-			<Table.Cell className={ classNames( "group-hover:yst-bg-slate-50", { "yst-bg-slate-50": isButtonFocused } ) }>
+		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
+			<Table.Cell className={ cellBackground }>
 				<div className="yst-flex yst-items-center yst-gap-2">
 					{ isCompleted
 						? <CheckCircleIcon className="yst-w-4 yst-text-green-500" { ...svgAriaProps } />
@@ -73,8 +70,8 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 						aria-haspopup="dialog"
 						type="button"
 						className={ classNames(
-							"yst-font-medium group-hover:yst-underline",
-							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900 focus:yst-outline-none focus-visible:yst-outline-none"
+							"yst-font-medium group-hover:yst-underline focus:yst-outline-none focus-visible:yst-outline-none",
+							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900"
 						) }
 						onFocus={ handleButtonFocus }
 						onBlur={ handleButtonBlur }
@@ -88,16 +85,14 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 				</div>
 			</Table.Cell>
 			<Table.Cell
-				className={ classNames( "group-hover:yst-bg-slate-50",
-					{ "yst-bg-slate-50": isButtonFocused },
+				className={ classNames( cellBackground,
 					isCompleted ? "yst-opacity-50" : "" ) }
 			>
 				<Duration minutes={ duration } />
 			</Table.Cell>
 			<Table.Cell
-				className={ classNames( "group-hover:yst-bg-slate-50 yst-pe-5",
-					{ "yst-bg-slate-50": isButtonFocused },
-					isCompleted ? "yst-opacity-50" : "" ) }
+				className={ classNames( "yst-pe-5",
+					cellBackground ) }
 			>
 				<div className="yst-flex yst-justify-between">
 					<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
