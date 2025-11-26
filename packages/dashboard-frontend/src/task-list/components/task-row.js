@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
@@ -82,7 +83,8 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 							{ isCompleted ? __( "(Completed)", "wordpress-seo" ) : __( "(Not completed)", "wordpress-seo" ) }
 						</span>
 					</button>
-					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
+					{ /* Let's comment out the next line, until we are ready to re-instate the badges*/ }
+					{ /* { badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> } */ }
 				</div>
 			</Table.Cell>
 			<Table.Cell
