@@ -5,13 +5,14 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
+import { CompleteStatus } from "./complete-status";
 
 /**
  * The type of callToAction prop.
  *
  * @typedef {Object} CallToAction
- * @property {string} label The label for the call to action button.
- * @property {string} type The variant of the call to action button, can be 'link', 'create', 'delete'.
+ * @property {string} label The label for the call-to-action button.
+ * @property {string} type The variant of the call-to-action button: it can be 'link', 'add', 'delete' or 'default'.
  * @property {string} [href] The URL to navigate to (for 'link' variant).
  * @property {Function} [onClick] The onClick handler for the button.
  * @property {boolean} [disabled] Whether the button is disabled.
@@ -31,10 +32,11 @@ import { Duration } from "./duration";
  * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
+ * @param {boolean}	isLoading	Whether the modal content is loading.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted } ) => {
+export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted, isLoading } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
@@ -43,10 +45,14 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
 					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
 					<div>
-						<Modal.Title as="h3" className="yst-mb-2 yst-text-lg">
+						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
 							{ title }
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1">
+							{ isCompleted && <>
+								<CompleteStatus />
+								·
+							</> }
 							<Duration minutes={ duration } />
 							· <Priority level={ priority } />
 						</div>
@@ -84,7 +90,7 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } />
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

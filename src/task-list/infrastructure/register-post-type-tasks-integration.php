@@ -16,13 +16,6 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 
 	/**
-	 * The task collector.
-	 *
-	 * @var Tasks_Collector $task_collector The Tasks Collector.
-	 */
-	private $task_collector;
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper $post_type_helper The post type helper.

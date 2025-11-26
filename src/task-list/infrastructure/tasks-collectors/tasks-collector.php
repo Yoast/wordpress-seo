@@ -1,6 +1,6 @@
 <?php
-
-namespace Yoast\WP\SEO\Task_List\Application;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors;
 
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 /**
  * Manages the collection of tasks.
  */
-class Tasks_Collector {
+class Tasks_Collector implements Tasks_Collector_Interface {
 
 	/**
 	 * Holds all the tasks.
@@ -77,5 +77,21 @@ class Tasks_Collector {
 		 * @param array<string, array<string, Task_Interface>> $tasks The tasks for the task list.
 		 */
 		return \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
+	}
+
+	/**
+	 * Gets the tasks data.
+	 *
+	 * @return array<string, array<string, string|bool>> The tasks data.
+	 */
+	public function get_tasks_data(): array {
+		$tasks      = $this->get_tasks();
+		$tasks_data = [];
+
+		foreach ( $tasks as $task ) {
+			$tasks_data[ $task->get_id() ] = $task->to_array();
+		}
+
+		return $tasks_data;
 	}
 }
