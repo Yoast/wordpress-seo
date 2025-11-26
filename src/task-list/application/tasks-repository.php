@@ -14,7 +14,7 @@ class Tasks_Repository {
 	 *
 	 * @var Cached_Tasks_Collector
 	 */
-	protected $tasks_collector;
+	private $tasks_collector;
 
 	/**
 	 * The constructor.
