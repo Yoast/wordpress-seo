@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get, keys } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
-import { fetchJson } from "../fetch/fetch-json";
 
 export const TASK_LIST_NAME = "taskList";
 const COMPLETE_TASK = "completeTask";
@@ -68,9 +67,8 @@ function* completeTask( id, endpoint, nonce ) {
 			type: COMPLETE_TASK,
 			payload: { id, nonce, endpoint },
 		};
-
 		if ( ! response.success ) {
-			throw new Error( `Request failed: ${ response.error }` );
+			throw new Error( response.error );
 		}
 		return { type: `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.success }`, payload: { id } };
 	} catch ( error ) {
@@ -82,18 +80,17 @@ const slice = createSlice( {
 	name: TASK_LIST_NAME,
 	initialState,
 	reducers: {
-		setTasks( state, action ) {
-			keys( action.payload ).forEach( ( id ) => {
-				action.payload[ id ].status = ASYNC_ACTION_STATUS.idle;
-				action.payload[ id ].error = null;
+		setTasks( state, { payload } ) {
+			keys( payload ).forEach( ( id ) => {
+				payload[ id ].status = ASYNC_ACTION_STATUS.idle;
+				payload[ id ].error = null;
 			} );
-			state.tasks = action.payload;
+			state.tasks = payload;
 		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.loading;
-			state.tasks[ id ].error = null;
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload: { id } } ) => {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.success;
@@ -102,7 +99,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error, id } } ) => {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.error;
-			state.tasks[ id ].error = error;
+			state.tasks[ id ].error = error.message;
 		} );
 	},
 } );
@@ -116,6 +113,7 @@ export const taskListSelectors = {
 	selectIsTaskListEnabled: ( state ) => get( state, [ TASK_LIST_NAME, "enabled" ], false ),
 	selectTasks: ( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
 	selectTaskStatus: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "status" ], ASYNC_ACTION_STATUS.idle ),
+	selectTaskError: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "error" ], null ),
 	selectTasksEndpoints: ( state ) => get( state, [ TASK_LIST_NAME, "endpoints" ], {} ),
 	selectNonce: ( state ) => get( state, [ TASK_LIST_NAME, "nonce" ], "" ),
 };
@@ -129,14 +127,18 @@ export const taskListControls = {
 	[ COMPLETE_TASK ]: async( { payload } ) => {
 		const params = new URLSearchParams( { "options[task]": payload.id } );
 		const url = `${payload.endpoint}?${params.toString()}`;
-		const response = await fetchJson( url, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"X-WP-Nonce": payload.nonce,
-			},
-		} );
-		return response;
+		try {
+			const response = await fetch( url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"X-WP-Nonce": payload.nonce,
+				},
+			} );
+			return await response.json();
+		} catch ( error ) {
+			return error;
+		}
 	},
 };
 

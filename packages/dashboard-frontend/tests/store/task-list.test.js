@@ -171,4 +171,33 @@ describe( "taskListSelectors", () => {
 			expect( taskListSelectors.selectTaskStatus( state, "task1" ) ).toBe( error );
 		} );
 	} );
+	describe( "selectTaskError", () => {
+		it( "should return null when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectTaskError( state, "task1" ) ).toBe( null );
+		} );
+
+		it( "should return null when tasks property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectTaskError( state, "task1" ) ).toBe( null );
+		} );
+
+		it( "should return null when task is missing in tasks object", () => {
+			const state = { taskList: { tasks: {} } };
+			expect( taskListSelectors.selectTaskError( state, "task1" ) ).toBe( null );
+		} );
+
+		it( "should return the error message of the task if present", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task1: { id: "task1", error: "Error occurred" },
+						task2: { id: "task2", error: "Another error" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectTaskError( state, "task1" ) ).toBe( "Error occurred" );
+			expect( taskListSelectors.selectTaskError( state, "task2" ) ).toBe( "Another error" );
+		} );
+	} );
 } );
