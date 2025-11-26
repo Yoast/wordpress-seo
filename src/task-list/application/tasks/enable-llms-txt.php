@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_LLMS_Task_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
 
 /**
@@ -71,9 +72,15 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	 * Completes a task.
 	 *
 	 * @return void
+	 *
+	 * @throws Complete_LLMS_Task_Exception If the option could not be set.
 	 */
 	public function complete_task(): void {
-		$this->options_helper->set( 'enable_llms_txt', true );
+		$result = $this->options_helper->set( 'enable_llms_txt', true );
+
+		if ( ! $result ) {
+			throw new Complete_LLMS_Task_Exception();
+		}
 	}
 
 	/**
