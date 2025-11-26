@@ -662,7 +662,7 @@ body.folded .wpseo-admin-submit-fixed {
 	yst-font-medium
 	yst-whitespace-nowrap
 	yst-w-full;
-	background: var(--adminmenu-background, #3c434a);
+	background: var(--yoast-adminbar-submenu-bg, #2c3338);
 }
 
 /* Disabled toggles in the Crawl settings tab */

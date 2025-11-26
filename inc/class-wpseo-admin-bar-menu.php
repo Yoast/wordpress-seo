@@ -596,6 +596,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		
 		$has_woocommerce = ( new Woocommerce_Conditional() )->is_met();
 
 		// Don't show the Upgrade button if Premium is active without the WooCommerce plugin.

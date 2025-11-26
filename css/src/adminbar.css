@@ -231,7 +231,7 @@
 	yst-whitespace-nowrap
 	yst-w-full
 	lg:yst-px-4;
-	background: var(--adminmenu-background, #2c3338);
+	background: var(--yoast-adminbar-submenu-bg, #2c3338);
 }
 
 #wpseo-new-badge-upgrade {
