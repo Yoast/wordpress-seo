@@ -60,6 +60,7 @@ export default {
 		},
 		taskId: "task-1",
 		isCompleted: false,
+		isLoading: false,
 	},
 };
 
