@@ -36,3 +36,19 @@ export const Factory = {
 	render: ( args ) => <TasksProgressBar { ...args } />,
 };
 
+export const LoadingState = {
+	render: ( args ) => <TasksProgressBar { ...args } />,
+	args: {
+		isLoading: true,
+	},
+};
+
+export const ErrorState = {
+	render: ( args ) => <TasksProgressBar { ...args } />,
+	args: {
+		completedTasks: null,
+		totalTasks: null,
+		isLoading: false,
+	},
+};
+

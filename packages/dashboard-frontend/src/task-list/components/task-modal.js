@@ -1,4 +1,4 @@
-import { Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
+import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { YoastIcon, HowIcon } from "../../icons";
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
@@ -32,11 +32,27 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   [how]         Details on how to complete the task.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
- * @param {boolean}	isLoading	Whether the modal content is loading.
+ * @param {boolean}	 isLoading	Whether the modal content is loading.
+ * @param {boolean}  [isError=false]   Whether there was an error loading the task.
+ * @param {string}   [errorMessage=""]  Error message to display in the modal.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
-export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, priority, why, how, taskId, isCompleted, isLoading } ) => {
+export const TaskModal = ( {
+	isOpen,
+	onClose,
+	callToAction,
+	title,
+	duration,
+	priority,
+	why,
+	how,
+	taskId,
+	isCompleted,
+	isLoading = false,
+	isError = false,
+	errorMessage,
+} ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
@@ -59,6 +75,18 @@ export const TaskModal = ( { isOpen, onClose, callToAction, title, duration, pri
 					</div>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-py-2 yst-px-12">
+					{ isError && <Alert
+						role="alert"
+						variant="error"
+						className="yst-mt-4 yst-mb-2"
+					>
+						<p className="yst-font-medium yst-mb-2">{ __( "Oops! Something went wrong.", "wordpress-seo" ) }</p>
+
+						<p>
+							{ errorMessage ? errorMessage : __( "Please try again.", "wordpress-seo" ) }
+							{ " " }
+							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
+					</Alert> }
 					<ul>
 						<li className="yst-flex yst-flex-col yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst-border-slate-200">
 							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">

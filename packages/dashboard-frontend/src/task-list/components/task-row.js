@@ -30,11 +30,12 @@ const LoadingTaskRow = ( { title } ) => {
 			<Duration isLoading={ true } />
 		</Table.Cell>
 		<Table.Cell>
-			<Priority isLoading={ true } />
-		</Table.Cell>
-		<Table.Cell className="yst-align-middle">
-			<div className="yst-flex yst-items-center yst-justify-around yst-gap-2">
-				<ChevronRightIcon className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180" { ...svgAriaProps } />
+			<div className="yst-flex yst-justify-between">
+				<Priority isLoading={ true } />
+				<ChevronRightIcon
+					className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
+					{ ...svgAriaProps }
+				/>
 			</div>
 		</Table.Cell>
 	</Table.Row>;
