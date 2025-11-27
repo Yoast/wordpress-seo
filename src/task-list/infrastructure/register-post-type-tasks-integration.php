@@ -70,6 +70,9 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 * @throws Invalid_Post_Type_Tasks_Exception If any of the filtered tasks is invalid.
 	 */
 	private function get_post_type_tasks(): array {
+		// Remove this line when we decide to re-instate the search appearance post type tasks.
+		$this->post_type_tasks = [];
+
 		/**
 		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more post type tasks to the task list.
 		 *
