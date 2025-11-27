@@ -27,6 +27,7 @@ class Aggregator_Config {
 		'Recipe',
 		'Article',
 		'Product',
+		'ProductGroup',
 		'Event',
 		'Person',
 		'Organization',
@@ -70,7 +71,6 @@ class Aggregator_Config {
 		$default_post_types = self::DEFAULT_POST_TYPES;
 
 		// Only include 'product' if Yoast WooCommerce SEO extension is active.
-
 		if ( $this->woocommerce_conditional->is_met() ) {
 			$default_post_types[] = 'product';
 		}

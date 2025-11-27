@@ -1,12 +1,14 @@
 <?php
-
-namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
 
 /**
  * The Schema_Piece repository.
@@ -56,6 +58,13 @@ class Schema_Piece_Repository {
 	private $indexable_repository_factory;
 
 	/**
+	 * The woo schema piece repository.
+	 *
+	 * @var Woo_Schema_Piece_Repository
+	 */
+	private $woo_schema_piece_repository;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer         $memoizer                     The meta tags context memoizer.
@@ -64,6 +73,7 @@ class Schema_Piece_Repository {
 	 * @param Aggregator_Config                  $config                       The configuration provider.
 	 * @param Schema_Enhancement_Factory         $enhancement_factory          The schema enhancement factory.
 	 * @param Indexable_Repository_Factory       $indexable_repository_factory The indexable repository factory.
+	 * @param Woo_Schema_Piece_Repository        $woo_schema_piece_repository  The woo schema piece repository.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
@@ -71,7 +81,8 @@ class Schema_Piece_Repository {
 		Meta_Tags_Context_Memoizer_Adapter $adapter,
 		Aggregator_Config $config,
 		Schema_Enhancement_Factory $enhancement_factory,
-		Indexable_Repository_Factory $indexable_repository_factory
+		Indexable_Repository_Factory $indexable_repository_factory,
+		Woo_Schema_Piece_Repository $woo_schema_piece_repository
 	) {
 		$this->memoizer                     = $memoizer;
 		$this->indexable_helper             = $indexable_helper;
@@ -79,6 +90,7 @@ class Schema_Piece_Repository {
 		$this->config                       = $config;
 		$this->enhancement_factory          = $enhancement_factory;
 		$this->indexable_repository_factory = $indexable_repository_factory;
+		$this->woo_schema_piece_repository  = $woo_schema_piece_repository;
 	}
 
 	/**
@@ -102,6 +114,14 @@ class Schema_Piece_Repository {
 			$context       = $this->memoizer->get( $indexable, $page_type );
 			$context_array = $this->adapter->meta_tags_context_to_array( $context );
 			$pieces_data   = $context_array['@graph'];
+
+			if ( $post_type === 'product' ) {
+				$product_schema = $this->woo_schema_piece_repository->collect_product_schema( $indexable->object_id );
+				if ( $product_schema !== null ) {
+					$pieces_data[] = $product_schema;
+				}
+			}
+
 			foreach ( $pieces_data as $piece_data ) {
 				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
 				$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
