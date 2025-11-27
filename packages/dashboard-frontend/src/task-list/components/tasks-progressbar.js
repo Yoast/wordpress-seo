@@ -79,10 +79,10 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 				className="yst-w-[184px] yst-h-1.5"
 				progressClassName="yst-bg-green-500"
 			/>
+			<span className="yst-sr-only">{ screenReaderText }</span>
 			<span className="yst-text-tiny yst-font-medium yst-leading-5">
 				<span className="yst-text-slate-600">{ completedTasks }</span><span className="yst-text-slate-500">/{ totalTasks }</span>
 			</span>
-			<span className="yst-sr-only">{ screenReaderText }</span>
 		</ProgressBarWrapper>
 	);
 };
