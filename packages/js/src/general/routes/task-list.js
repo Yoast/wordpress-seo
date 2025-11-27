@@ -58,7 +58,7 @@ export const TaskList = () => {
 		if ( isEmpty( tasks ) ) {
 			fetchTasks();
 		}
-	}, [ tasks, setTasks, fetchTasks ] );
+	}, [ tasks, fetchTasks ] );
 
 	const { error, isPending } = fetchState;
 
