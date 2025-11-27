@@ -81,7 +81,7 @@ export const TaskList = () => {
 					<Table.Head>
 						<Table.Row>
 							<Table.Header>{ __( "Task", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
+							<Table.Header className="yst-max-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
 							<Table.Header>{ __( "Priority", "wordpress-seo" ) }</Table.Header>
 						</Table.Row>
 					</Table.Head>
