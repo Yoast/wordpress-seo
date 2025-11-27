@@ -1,14 +1,16 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
-import { values, isEmpty, size } from "lodash";
+import { values, isEmpty, size, sortBy } from "lodash";
 import { useEffect, useState, useCallback } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
 
 /**
- * @returns {JSX.Element} The task list page content placeholder.
+ * The TaskList component to display the task list page content.
+ *
+ * @returns {JSX.Element} The TaskList component.
  */
 export const TaskList = () => {
 	const { setTasks } = useDispatch( STORE_NAME );
@@ -25,6 +27,12 @@ export const TaskList = () => {
 		error: null,
 		isPending: false,
 	} );
+	const [ sortedTasks, setSortedTasks ] = useState( [] );
+
+	useEffect( () => {
+		const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
+		setSortedTasks( newSortedTasks );
+	}, [ tasks ] );
 
 	const totalTasksCount = size( tasks );
 	const completedTasksCount = size(
@@ -95,7 +103,7 @@ export const TaskList = () => {
 					<Table.Body>
 						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
 						{ error && <GetTasksErrorRow message={ error } /> }
-						{ ! isEmpty( tasks ) && values( tasks ).map( ( task ) => (
+						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
 						{ ! isPremium && <TaskListUpsellRow /> }
 					</Table.Body>
