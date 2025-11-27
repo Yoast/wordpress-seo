@@ -65,13 +65,13 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 			<Table.Cell className={ cellBackground }>
 				<div className="yst-flex yst-items-center yst-gap-2">
 					{ isCompleted
-						? <CheckCircleIcon className="yst-w-4 yst-text-green-500" { ...svgAriaProps } />
-						: <Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } /> }
+						? <CheckCircleIcon className="yst-w-4 yst-text-green-500 yst-shrink-0" { ...svgAriaProps } />
+						: <Ellipse className="yst-w-4 yst-text-slate-200 yst-shrink-0" { ...svgAriaProps } /> }
 					<button
 						aria-haspopup="dialog"
 						type="button"
 						className={ classNames(
-							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none",
+							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none yst-text-start",
 							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900",
 							isButtonFocused ? "yst-underline" : "group-hover:yst-underline"
 						) }
@@ -99,7 +99,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 				<div className="yst-flex yst-justify-between">
 					<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
 					<ChevronRightIcon
-						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out",
+						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0",
 							isButtonFocused ? "yst-text-slate-800 yst-translate-x-2" : "group-hover:yst-text-slate-800 group-hover:yst-translate-x-2"
 						) } { ...svgAriaProps }
 					/>
