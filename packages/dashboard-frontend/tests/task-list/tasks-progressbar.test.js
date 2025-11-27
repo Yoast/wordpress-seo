@@ -34,14 +34,26 @@ describe( "TasksProgressBar", () => {
 		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
 	} );
 
-	it( "renders with totalTasks as 0", () => {
-		render( <TasksProgressBar completedTasks={ 0 } totalTasks={ 0 } isLoading={ false } /> );
-		expect( screen.getByText( "0" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/0" ) ).toBeInTheDocument();
+	it.each( [
+		[ "equal to 0", { completedTasks: 0, totalTasks: 0 } ],
+		[ "more completed than total", { completedTasks: 6, totalTasks: 5 } ],
+	] )( "renders error state for when task counts are %s", ( _, { completedTasks, totalTasks } ) => {
+		const { container } = render(
+			<TasksProgressBar completedTasks={ completedTasks } totalTasks={ totalTasks } isLoading={ false } />
+		);
+		const errorDivs = container.querySelectorAll( ".yst-bg-slate-200" );
+		expect( errorDivs.length ).toBe( 2 );
+		[ completedTasks, `/${ totalTasks }` ].forEach( text => {
+			expect( screen.queryByText( text ) ).not.toBeInTheDocument();
+		} );
 	} );
-	it( "does not render when completedTasks exceed totalTasks", () => {
-		const { container } = render( <TasksProgressBar completedTasks={ 6 } totalTasks={ 5 } isLoading={ false } /> );
-		expect( container.firstChild ).toBeNull();
+
+	it( "renders error state for when task counts are null", () => {
+		const { container } = render(
+			<TasksProgressBar completedTasks={ null } totalTasks={ null } isLoading={ false } />
+		);
+		const errorDivs = container.querySelectorAll( ".yst-bg-slate-200" );
+		expect( errorDivs.length ).toBe( 2 );
 	} );
 	it( "includes screen reader text for progress", () => {
 		const { container } = render( <TasksProgressBar completedTasks={ 4 } totalTasks={ 8 } isLoading={ false } /> );

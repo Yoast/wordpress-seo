@@ -44,6 +44,14 @@ export default {
 		isCompleted: {
 			description: "Whether the task is completed. If true, the call to action button will be disabled.",
 		},
+		errorMessage: {
+			description: "Error message to display in the modal.",
+			control: "text",
+		},
+		isError: {
+			description: "Whether there was an error loading the task.",
+			control: "boolean",
+		},
 	},
 	args: {
 		isOpen: false,
@@ -60,6 +68,9 @@ export default {
 		},
 		taskId: "task-1",
 		isCompleted: false,
+		isLoading: false,
+		errorMessage: "",
+		isError: false,
 	},
 };
 
@@ -78,5 +89,41 @@ export const Factory = {
 			/>
 		</>;
 	},
+};
 
+export const CompletedTask = {
+	render: ( args ) => {
+		const [ isOpen, toggle ] = useToggleState( false );
+
+		return <>
+			Click on the button to open the completed task modal
+			<br /><br />
+			<Button onClick={ toggle }>Task button</Button>
+			<TaskModal
+				{ ...args }
+				isOpen={ isOpen }
+				onClose={ toggle }
+				isCompleted={ true }
+			/>
+		</>;
+	},
+};
+
+export const ErrorState = {
+	render: ( args ) => {
+		const [ isOpen, toggle ] = useToggleState( false );
+
+		return <>
+			Click on the button to open the task modal in error state
+			<br /><br />
+			<Button onClick={ toggle }>Task button</Button>
+			<TaskModal
+				{ ...args }
+				isOpen={ isOpen }
+				onClose={ toggle }
+				isError={ true }
+				errorMessage="Failed to load task details."
+			/>
+		</>;
+	},
 };

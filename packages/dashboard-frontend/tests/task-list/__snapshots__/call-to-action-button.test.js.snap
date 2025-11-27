@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
-<button
+<a
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  href="https://example.com"
   id="cta-button-undefined"
-  type="button"
 >
   <svg
     aria-hidden="true"
@@ -22,7 +22,7 @@ exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
     />
   </svg>
   Create
-</button>
+</a>
 `;
 
 exports[`CallToActionButton matches snapshot for type 'default' 1`] = `
@@ -61,6 +61,119 @@ exports[`CallToActionButton matches snapshot for type 'delete' 1`] = `
 `;
 
 exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
+<a
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  href="https://example.com"
+  id="cta-button-undefined"
+>
+  Go
+  <svg
+    aria-hidden="true"
+    class="yst-w-4 yst-text-white rtl:yst-rotate-180"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M17 8l4 4m0 0l-4 4m4-4H3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</a>
+`;
+
+exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'add' 1`] = `
+<a
+  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
+  id="cta-button-undefined"
+>
+  <svg
+    aria-hidden="true"
+    class="yst-w-4 yst-text-white"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 4v16m8-8H4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  Create
+</a>
+`;
+
+exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'default' 1`] = `
+<button
+  class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center"
+  id="cta-button-undefined"
+  type="button"
+>
+  <svg
+    aria-hidden="true"
+    class="yst-animate-spin yst-w-4 yst-h-4 yst-button--loading"
+    fill="none"
+    role="img"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg/"
+  >
+    <circle
+      class="yst-opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <path
+      class="yst-opacity-75"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      fill="currentColor"
+    />
+  </svg>
+  Generating…
+</button>
+`;
+
+exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'delete' 1`] = `
+<button
+  class="yst-button yst-button--error yst-cursor-wait yst-flex yst-items-center"
+  id="cta-button-undefined"
+  type="button"
+>
+  <svg
+    aria-hidden="true"
+    class="yst-animate-spin yst-w-4 yst-h-4 yst-button--loading"
+    fill="none"
+    role="img"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg/"
+  >
+    <circle
+      class="yst-opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="4"
+    />
+    <path
+      class="yst-opacity-75"
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      fill="currentColor"
+    />
+  </svg>
+  Deleting…
+</button>
+`;
+
+exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'link' 1`] = `
 <a
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
