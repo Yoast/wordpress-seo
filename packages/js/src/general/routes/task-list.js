@@ -42,7 +42,7 @@ export const TaskList = () => {
 				},
 			} );
 			const data = await response.json();
-			if ( data.success === false ) {
+			if ( data.success !== true ) {
 				throw new Error( data.error );
 			}
 			setTasks( data.tasks );
