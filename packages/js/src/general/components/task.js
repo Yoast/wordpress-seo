@@ -18,13 +18,10 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {Object} callToAction The call-to-action props object.
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
- * @param {string} [className] Additional CSS classes for the row.
- * @param {Function} [onModalOpen] Callback function when modal opens.
- * @param {Function} [onModalClose] Callback function when modal closes.
  *
  * @returns {JSX.Element} The Task component.
  */
-export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge, className, onModalOpen, onModalClose } ) => {
+export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( false );
 	const { completeTask } = useDispatch( STORE_NAME );
 	const { status, completeTaskEndpoint, nonce } = useSelect( ( select ) => {
@@ -40,20 +37,6 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 		completeTask( id, completeTaskEndpoint, nonce );
 	}, [ nonce ] );
 
-	const handleModalOpen = useCallback( () => {
-		toggleOpen();
-		if ( onModalOpen ) {
-			onModalOpen();
-		}
-	}, [ toggleOpen, onModalOpen ] );
-
-	const handleModalClose = useCallback( () => {
-		toggleOpen();
-		if ( onModalClose ) {
-			onModalClose();
-		}
-	}, [ toggleOpen, onModalClose ] );
-
 	const callToActionProps = {
 		onClick: handleCompleteTask,
 		...callToAction,
@@ -63,13 +46,12 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 		duration={ duration }
 		priority={ priority }
 		isCompleted={ isCompleted }
-		onClick={ handleModalOpen }
+		onClick={ toggleOpen }
 		badge={ badge }
-		className={ className }
 	>
 		<TaskModal
 			isOpen={ isOpen }
-			onClose={ handleModalClose }
+			onClose={ toggleOpen }
 			title={ title }
 			duration={ duration }
 			priority={ priority }

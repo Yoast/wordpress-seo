@@ -2,7 +2,7 @@ import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
 import { values, isEmpty, size, sortBy } from "lodash";
-import { useEffect, useState, useRef, useCallback } from "@wordpress/element";
+import { useEffect, useState  } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
@@ -26,85 +26,11 @@ export const TaskList = () => {
 		isPending: false,
 	} );
 	const [ sortedTasks, setSortedTasks ] = useState( [] );
-	const [ animatingTaskId, setAnimatingTaskId ] = useState( null );
-	const [ pendingCompletedTask, setPendingCompletedTask ] = useState( null );
-	const [ isAnyModalOpen, setIsAnyModalOpen ] = useState( false );
-	const prevTasksRef = useRef( tasks );
 
-	/*
-	 Initial setup of sortedTasks.
-	 These are the tasks that will be shown on the initial page load.
-	 */
 	useEffect( () => {
-		if ( isEmpty( sortedTasks ) && ! isEmpty( tasks ) ) {
-			const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
-			setSortedTasks( newSortedTasks );
-		}
-	}, [ tasks, sortedTasks ] );
-
-	// Main effect to handle task sorting and completion detection.
-	useEffect( () => {
-		const prevTasks = prevTasksRef.current;
-
-		// Check for a newly completed task.
-		const newlyCompletedTask = values( tasks ).find( task =>
-			task.isCompleted && prevTasks[ task.id ] && ! prevTasks[ task.id ].isCompleted
-		);
-
-		if ( newlyCompletedTask ) {
-			// Set the animation state and store the pending completed task.
-			setAnimatingTaskId( newlyCompletedTask.id );
-			setPendingCompletedTask( newlyCompletedTask );
-
-			// Update current sortedTasks with a new completion status but keep positions.
-			setSortedTasks( currentSortedTasks =>
-				currentSortedTasks.map( task =>
-					task.id === newlyCompletedTask.id ? { ...task, isCompleted: true } : task
-				)
-			);
-		} else if ( ! pendingCompletedTask ) {
-			// Only resort if there's no pending completed task.
-			const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
-			setSortedTasks( newSortedTasks );
-		} else if ( pendingCompletedTask ) {
-			// Update task data while preserving order when we have a pending completed task.
-			setSortedTasks( currentSortedTasks =>
-				currentSortedTasks.map( task => {
-					const updatedTask = tasks[ task.id ];
-					return updatedTask || task;
-				} )
-			);
-		}
-
-		prevTasksRef.current = tasks;
-	}, [ tasks, pendingCompletedTask ] );
-
-	// Handle moving a completed task to bottom when modal closes.
-	useEffect( () => {
-		if ( pendingCompletedTask && ! isAnyModalOpen ) {
-			// Move the task to the bottom after the modal closes.
-			setTimeout( () => {
-				const otherTasks = values( tasks ).filter( task => task.id !== pendingCompletedTask.id );
-				const newSortedTasks = sortBy( otherTasks, task => task.isCompleted ? 1 : 0 );
-				newSortedTasks.push( pendingCompletedTask );
-				setSortedTasks( newSortedTasks );
-
-				// Clear animation and pending state after a short delay.
-				setTimeout( () => {
-					setAnimatingTaskId( null );
-					setPendingCompletedTask( null );
-				}, 300 );
-			}, 500 );
-		}
-	}, [ pendingCompletedTask, isAnyModalOpen, tasks ] );
-
-	const handleModalOpen = useCallback( () => {
-		setIsAnyModalOpen( true );
-	}, [] );
-
-	const handleModalClose = useCallback( () => {
-		setIsAnyModalOpen( false );
-	}, [] );
+		const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
+		setSortedTasks( newSortedTasks );
+	}, [ tasks ] );
 
 	const totalTasksCount = size( tasks );
 	const completedTasksCount = size(
@@ -168,22 +94,8 @@ export const TaskList = () => {
 					<Table.Body>
 						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
 						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
-						{ ! isEmpty( sortedTasks ) && sortedTasks.map( ( task ) => {
-							const isAnimating = animatingTaskId === task.id;
-							const animationClasses = `
-								yst-transition-transform yst-transition-colors yst-duration-500 yst-ease-in-out
-								${ isAnimating ? "yst-bg-blue-50 yst-scale-[1.02] motion-reduce:yst-scale-100 motion-reduce:yst-bg-green-50" : "" }
-							`;
-							return (
-								<Task
-									key={ task.id }
-									{ ...task }
-									className={ animationClasses }
-									onModalOpen={ handleModalOpen }
-									onModalClose={ handleModalClose }
-								/>
-							);
-						} ) }
+						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
+							<Task key={ task.id } { ...task } /> ) ) }
 						{ ! isPremium && <TaskListUpsellRow /> }
 					</Table.Body>
 				</Table>
