@@ -38,8 +38,13 @@ describe( "TaskRow", () => {
 		expect( screen.getByText( "High" ) ).toBeInTheDocument();
 	} );
 
-	it( "never renders a badge", () => {
-		renderInTable();
+	it( "renders the badge if provided", () => {
+		renderInTable( { badge: "ai" } );
+		expect( screen.getByText( "AI+" ) ).toBeInTheDocument();
+	} );
+
+	it( "does not render a badge if not provided", () => {
+		renderInTable( { badge: "" } );
 		expect( screen.queryByText( /Premium|Woo SEO|AI\+/i ) ).not.toBeInTheDocument();
 	} );
 

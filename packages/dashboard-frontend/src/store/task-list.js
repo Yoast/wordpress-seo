@@ -86,6 +86,8 @@ const slice = createSlice( {
 			keys( action.payload ).forEach( ( id ) => {
 				action.payload[ id ].status = ASYNC_ACTION_STATUS.idle;
 				action.payload[ id ].error = null;
+				// eslint-disable-next-line no-inline-comments
+				action.payload[ id ].badge = null; // Remove this when we want to re-instate badges.
 			} );
 			state.tasks = action.payload;
 		},
