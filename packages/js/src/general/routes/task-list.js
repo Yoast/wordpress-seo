@@ -2,13 +2,15 @@ import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
 import { values, isEmpty, size, sortBy } from "lodash";
-import { useEffect, useState  } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
 
 /**
- * @returns {JSX.Element} The task list page content placeholder.
+ * The TaskList component to display the task list page content.
+ *
+ * @returns {JSX.Element} The TaskList component.
  */
 export const TaskList = () => {
 	const { setTasks } = useDispatch( STORE_NAME );
