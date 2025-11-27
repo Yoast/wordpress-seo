@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
