@@ -55,4 +55,10 @@ describe( "TasksProgressBar", () => {
 		const errorDivs = container.querySelectorAll( ".yst-bg-slate-200" );
 		expect( errorDivs.length ).toBe( 2 );
 	} );
+	it( "includes screen reader text for progress", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 4 } totalTasks={ 8 } isLoading={ false } /> );
+		const srText = container.querySelector( ".yst-sr-only" );
+		expect( srText ).toBeInTheDocument();
+		expect( srText ).toHaveTextContent( "4 out of 8 tasks completed" );
+	} );
 } );

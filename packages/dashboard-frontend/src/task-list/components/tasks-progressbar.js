@@ -1,5 +1,5 @@
 import { ProgressBar, SkeletonLoader, Title } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 
 /**
  * The LoadingProgressBar component to display a loading state for the progress bar.
@@ -62,6 +62,13 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 		</ProgressBarWrapper>;
 	}
 
+	const screenReaderText = sprintf(
+		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
+		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
+		completedTasks,
+		totalTasks
+	);
+
 	return (
 		<ProgressBarWrapper>
 			<ProgressBar
@@ -72,6 +79,7 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 				className="yst-w-[184px] yst-h-1.5"
 				progressClassName="yst-bg-green-500"
 			/>
+			<span className="yst-sr-only">{ screenReaderText }</span>
 			<span className="yst-text-tiny yst-font-medium yst-leading-5">
 				<span className="yst-text-slate-600">{ completedTasks }</span><span className="yst-text-slate-500">/{ totalTasks }</span>
 			</span>
