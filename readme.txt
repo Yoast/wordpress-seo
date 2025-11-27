@@ -321,6 +321,7 @@ Yoast SEO 26.5 brings more enhancements and bugfixes. [Find more information abo
 #### Other
 
 * Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
+* Sets the _WordPress tested up to_ version to 6.9.
 
 = 26.4 =
 
