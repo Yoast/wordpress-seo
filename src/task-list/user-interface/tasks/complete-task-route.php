@@ -8,8 +8,9 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
-use Yoast\WP\SEO\Task_List\Application\Tasks_Collector;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Task_Not_Found_Exception;
+use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Cached_Tasks_Collector;
+use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
 
 /**
  * Tasks route.
@@ -127,6 +128,8 @@ final class Complete_Task_Route implements Route_Interface {
 				$exception->getCode()
 			);
 		}
+
+		\delete_transient( Cached_Tasks_Collector::TASKS_TRANSIENT );
 
 		return new WP_REST_Response(
 			[
