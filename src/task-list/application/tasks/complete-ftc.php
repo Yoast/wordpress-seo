@@ -89,7 +89,9 @@ class Complete_FTC extends Abstract_Task {
 		return new Copy_Set(
 			\__( 'Complete the First-time configuration', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO */
-			\sprintf( \__( 'Skipping setup limits how much %1$s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ), 'Yoast SEO' )
+			\sprintf( \__( 'Skipping setup limits how much %1$s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ), 'Yoast SEO' ),
+			/* translators: %1$s expands to Yoast SEO */
+			\sprintf( \__( 'Go through the first-time configuration to apply the optimal %1$s settings. After you’re finished, refresh this page.', 'wordpress-seo' ), 'Yoast SEO' )
 		);
 	}
 }

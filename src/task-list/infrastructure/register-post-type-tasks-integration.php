@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Infrastructure;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Register_Post_Type_Tasks_Integration implements Integration_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The post type helper.
@@ -30,6 +28,17 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 * @var Post_Type_Task_Interface[]
 	 */
 	private $post_type_tasks;
+
+	/**
+	 * Returns the needed conditionals.
+	 *
+	 * @return array<string> The conditionals that must be met to load this.
+	 */
+	public static function get_conditionals(): array {
+		return [
+			Task_List_Enabled_Conditional::class,
+		];
+	}
 
 	/**
 	 * The constructor.
