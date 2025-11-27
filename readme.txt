@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-12-02
 
+Yoast SEO 26.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
