@@ -23,7 +23,6 @@ final class Build_Optional_Link_List_Test extends Abstract_Optional_Link_List_Bu
 	 */
 	public function test_build_optional_link_list_with_sitemap() {
 		$built_link = Mockery::mock( Link::class );
-		$links      = [ $built_link ];
 
 		$this->sitemap_link_collector
 			->expects( 'get_link' )
@@ -47,7 +46,6 @@ final class Build_Optional_Link_List_Test extends Abstract_Optional_Link_List_Bu
 	 */
 	public function test_build_optional_link_list_with_no_sitemap() {
 		$built_link = null;
-		$links      = [];
 
 		$this->sitemap_link_collector
 			->expects( 'get_link' )
