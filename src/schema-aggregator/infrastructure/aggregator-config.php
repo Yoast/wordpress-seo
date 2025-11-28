@@ -30,7 +30,6 @@ class Aggregator_Config {
 		'Event',
 		'Person',
 		'Organization',
-		'WebPage',
 		'WebSite',
 	];
 
