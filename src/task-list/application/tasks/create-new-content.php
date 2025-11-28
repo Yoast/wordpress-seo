@@ -66,7 +66,7 @@ class Create_New_Content extends Abstract_Task {
 				'numberposts'    => 1,
 				'date_query'     => [
 					[
-						'after' => '2 days ago',
+						'after' => '30 days ago',
 					],
 				],
 			]
