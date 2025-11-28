@@ -86,21 +86,6 @@ class Aggregator_Config {
 	}
 
 	/**
-	 * Get configured schema types (whitelist)
-	 *
-	 * @return array<string>
-	 */
-	public function get_allowed_schema_types(): array {
-		$schema_types = \apply_filters( 'wpseo_schema_aggregator_schema_types', self::DEFAULT_SCHEMA_TYPES );
-
-		if ( ! \is_array( $schema_types ) ) {
-			return self::DEFAULT_SCHEMA_TYPES;
-		}
-
-		return $schema_types;
-	}
-
-	/**
 	 * Get list of properties to remove from a schema piece.
 	 *
 	 * @return array<string>
