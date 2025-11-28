@@ -89,6 +89,17 @@ const slice = createSlice( {
 			} );
 			state.tasks = payload;
 		},
+		setTaskCompleted( state, { payload } ) {
+			if ( state.tasks[ payload ] ) {
+				state.tasks[ payload ].isCompleted = true;
+			}
+		},
+		resetTaskError( state, { payload } ) {
+			if ( state.tasks[ payload ] ) {
+				state.tasks[ payload ].error = null;
+				state.tasks[ payload ].status = ASYNC_ACTION_STATUS.idle;
+			}
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
