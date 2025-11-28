@@ -157,7 +157,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const { removeAlert, dismissNotice, restoreNotice } = useDispatch( STORE_NAME );
+	const { removeAlert, dismissNotice, restoreNotice, setTaskCompleted } = useDispatch( STORE_NAME );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -390,6 +390,7 @@ export default function FirstTimeConfigurationSteps() {
 	// The first time isStepperFinished is true, set stepperFinishedOnce to true.
 	useEffect( () => {
 		if ( isStepperFinished ) {
+			setTaskCompleted( "complete-ftc" );
 			setStepperFinishedOnce( true );
 		}
 	}, [ isStepperFinished ] );
