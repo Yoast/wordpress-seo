@@ -123,8 +123,7 @@ export const taskListSelectors = {
 	selectTaskError: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "error" ], null ),
 	selectTasksEndpoints: ( state ) => get( state, [ TASK_LIST_NAME, "endpoints" ], {} ),
 	selectNonce: ( state ) => get( state, [ TASK_LIST_NAME, "nonce" ], "" ),
-	// eslint-disable-next-line no-undefined
-	selectIsTaskCompleted: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "isCompleted" ], undefined ),
+	selectIsTaskCompleted: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "isCompleted" ], null ),
 };
 
 export const taskListActions = {
