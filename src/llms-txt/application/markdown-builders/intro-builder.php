@@ -4,30 +4,11 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Intro;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collector;
 
 /**
  * The builder of the intro section.
  */
 class Intro_Builder {
-
-	/**
-	 * The sitemap link collector.
-	 *
-	 * @var Sitemap_Link_Collector
-	 */
-	protected $sitemap_link_collector;
-
-	/**
-	 * The constructor.
-	 *
-	 * @param Sitemap_Link_Collector $sitemap_link_collector The sitemap link collector.
-	 */
-	public function __construct(
-		Sitemap_Link_Collector $sitemap_link_collector
-	) {
-		$this->sitemap_link_collector = $sitemap_link_collector;
-	}
 
 	/**
 	 * Gets the plugin version that generated the llms.txt file.
