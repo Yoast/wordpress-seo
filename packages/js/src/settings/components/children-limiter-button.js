@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSvgAria } from "@yoast/ui-library";
 
@@ -16,10 +16,10 @@ import { useSvgAria } from "@yoast/ui-library";
  * @returns {JSX.Element} The more/less button.
  */
 export const ChildrenLimiterButton = ( { show, toggle, ariaProps, id, history, removeFromHistory, addToHistory } ) => {
-	const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
+	const ChevronIcon = history.includes( id ) ? ChevronUpIcon : ChevronDownIcon;
 	const svgAriaProps = useSvgAria( false );
 
-	const handleOnClick = useCallback( 	() => {
+	const handleOnClick = useCallback( () => {
 		if ( history.includes( id ) ) {
 			removeFromHistory( id );
 			if ( show ) {
