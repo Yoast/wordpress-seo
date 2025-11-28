@@ -49,11 +49,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
 	}, [] );
 
-	const renderChildrenLimiterContentTypesButton = useCallback( ( { show, toggle, ariaProps } ) => {
+	const renderMoreContentTypesButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-content-types${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
 	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
 
-	const renderChildrenLimiterCategoriesButton = useCallback( ( { show, toggle, ariaProps } ) => {
+	const renderMoreCategoriesButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-categories${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
 	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
 
@@ -91,7 +91,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Content types", "wordpress-seo" ) }
 				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderChildrenLimiterContentTypesButton } initialShow={ history.includes( `more-content-types${ idSuffix }` ) }>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreContentTypesButton } initialShow={ history.includes( `more-content-types${ idSuffix }` ) }>
 					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { name, route, label, isNew } ) => (
 						<MenuItemLink
@@ -112,7 +112,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderChildrenLimiterCategoriesButton } initialShow={ history.includes( `more-categories${ idSuffix }` ) }>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreCategoriesButton } initialShow={ history.includes( `more-categories${ idSuffix }` ) }>
 					{ map( taxonomies, taxonomy => (
 						<MenuItemLink
 							key={ `link-taxonomy-${ taxonomy.name }` }
