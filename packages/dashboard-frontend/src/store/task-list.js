@@ -89,6 +89,11 @@ const slice = createSlice( {
 			} );
 			state.tasks = payload;
 		},
+		setTaskCompleted( state, { payload } ) {
+			if ( state.tasks[ payload ] ) {
+				state.tasks[ payload ].isCompleted = true;
+			}
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
