@@ -33,6 +33,11 @@ class Aggregator_Config {
 		'WebSite',
 	];
 
+	/**
+	 * The default properties to avoid in schema pieces.
+	 *
+	 * @var array<string>
+	 */
 	private const PROPERTIES_AVOID_LIST = [ 'breadcrumb', 'potentialAction' ];
 
 	/**
