@@ -89,6 +89,11 @@ const slice = createSlice( {
 			} );
 			state.tasks = payload;
 		},
+		setTaskCompleted( state, { payload } ) {
+			if ( state.tasks[ payload ] ) {
+				state.tasks[ payload ].isCompleted = true;
+			}
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
@@ -118,6 +123,7 @@ export const taskListSelectors = {
 	selectTaskError: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "error" ], null ),
 	selectTasksEndpoints: ( state ) => get( state, [ TASK_LIST_NAME, "endpoints" ], {} ),
 	selectNonce: ( state ) => get( state, [ TASK_LIST_NAME, "nonce" ], "" ),
+	selectIsTaskCompleted: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "isCompleted" ], null ),
 };
 
 export const taskListActions = {
