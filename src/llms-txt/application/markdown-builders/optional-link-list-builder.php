@@ -34,10 +34,10 @@ class Optional_Link_List_Builder {
 	 *
 	 * @return Link_List The optional link list.
 	 */
-	public function build_optional_link_list(): ?Link_List {
+	public function build_optional_link_list(): Link_List {
 		$sitemap_link = $this->sitemap_link_collector->get_link();
 		if ( $sitemap_link === null ) {
-			return null;
+			return new Link_List( 'Optional', [] );
 		}
 
 		return new Link_List( 'Optional', [ $sitemap_link ] );
