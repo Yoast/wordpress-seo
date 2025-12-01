@@ -1,6 +1,6 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { fetchJson, TaskRow, TasksProgressBar } from "@yoast/dashboard-frontend";
+import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
 import { values, isEmpty, size, sortBy } from "lodash";
 import { useEffect, useState, useRef, useCallback } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -8,7 +8,9 @@ import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
 
 /**
- * @returns {JSX.Element} The task list page content placeholder.
+ * The TaskList component to display the task list page content.
+ *
+ * @returns {JSX.Element} The TaskList component.
  */
 export const TaskList = () => {
 	const { setTasks } = useDispatch( STORE_NAME );
@@ -26,6 +28,11 @@ export const TaskList = () => {
 		isPending: false,
 	} );
 	const [ sortedTasks, setSortedTasks ] = useState( [] );
+
+	useEffect( () => {
+		const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
+		setSortedTasks( newSortedTasks );
+	}, [ tasks ] );
 	const [ animatingTaskId, setAnimatingTaskId ] = useState( null );
 	const [ pendingCompletedTask, setPendingCompletedTask ] = useState( null );
 	const [ isAnyModalOpen, setIsAnyModalOpen ] = useState( false );
@@ -111,27 +118,34 @@ export const TaskList = () => {
 		values( tasks ).filter( task => task.isCompleted )
 	);
 
-	useEffect( () => {
-		// Fetch tasks only if we don't have them yet.
-		if ( isEmpty( tasks ) ) {
-			setFetchState( prev => ( { ...prev, isPending: true } ) );
-			fetchJson( getTasksEndpoint, {
+	const fetchTasks = useCallback( async() => {
+		try {
+			setFetchState( { isPending: true, error: null } );
+			const response = await fetch( getTasksEndpoint, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 					"X-WP-Nonce": nonce,
 				},
-			} )
-				.then( ( response ) => {
-					setFetchState( { error: null, isPending: false } );
-					setTasks( response.tasks );
-				} )
-				.catch( ( e ) => {
-					setFetchState( { error: e, isPending: false } );
-				} );
+			} );
+			const data = await response.json();
+			if ( data.success !== true ) {
+				throw new Error( data.error );
+			}
+			setTasks( data.tasks );
+			setFetchState( { error: null, isPending: false } );
+		} catch ( e ) {
+			setFetchState( { error: e, isPending: false } );
 		}
-		// Only run on mount and when tasks changes.
-	}, [ tasks, setTasks ] );
+	}, [ getTasksEndpoint, nonce, setFetchState, setTasks ] );
+
+
+	useEffect( () => {
+		// Fetch tasks only if we don't have them yet.
+		if ( isEmpty( tasks ) ) {
+			fetchTasks();
+		}
+	}, [ tasks, fetchTasks ] );
 
 	const { error, isPending } = fetchState;
 
@@ -161,13 +175,13 @@ export const TaskList = () => {
 					<Table.Head>
 						<Table.Row>
 							<Table.Header>{ __( "Task", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
-							<Table.Header>{ __( "Priority", "wordpress-seo" ) }</Table.Header>
+							<Table.Header className="yst-max-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
+							<Table.Header className="yst-max-w-44">{ __( "Priority", "wordpress-seo" ) }</Table.Header>
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
 						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
-						{ error && <Table.Row><Table.Cell colSpan={ 4 }>{ __( "Error loading tasks", "wordpress-seo" ) }</Table.Cell></Table.Row> }
+						{ error && <GetTasksErrorRow message={ error } /> }
 						{ ! isEmpty( sortedTasks ) && sortedTasks.map( ( task ) => {
 							const isAnimating = animatingTaskId === task.id;
 							const animationClasses = `

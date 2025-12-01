@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors;
 
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
@@ -69,6 +70,8 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 	 * Gets the tasks.
 	 *
 	 * @return array<string, array<string, Task_Interface>> The tasks.
+	 *
+	 * @throws Invalid_Tasks_Exception If an invalid task is added.
 	 */
 	public function get_tasks(): array {
 		/**
@@ -76,7 +79,16 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		 *
 		 * @param array<string, array<string, Task_Interface>> $tasks The tasks for the task list.
 		 */
-		return \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
+		$tasks = \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
+
+		// Check that every item is an instance of Post_Type_Task_Interface.
+		foreach ( $tasks as $task ) {
+			if ( ! $task instanceof Task_Interface ) {
+				throw new Invalid_Tasks_Exception();
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**

@@ -14,9 +14,9 @@ export const TaskListUpsellRow = () => {
 	return (
 		<Table.Row>
 			<Table.Cell className="yst-bg-slate-50" colSpan={ 4 }>
-				<div className="yst-flex yst-justify-between">
+				<div className="yst-flex yst-justify-between lg:yst-flex-row yst-flex-col yst-gap-2">
 					<div className="yst-flex yst-justify-start yst-gap-4">
-						<div className="yst-w-10 yst-h-10 yst-rounded-full yst-bg-amber-300 yst-flex yst-items-center yst-justify-center">
+						<div className="yst-w-10 yst-h-10 yst-rounded-full yst-bg-amber-300 yst-flex yst-items-center yst-justify-center yst-shrink-0">
 							<LockClosedIcon className="yst-w-5 yst-h-5 yst-text-amber-900" />
 						</div>
 						<div>
@@ -30,7 +30,7 @@ export const TaskListUpsellRow = () => {
 							<p className="yst-leading-5">{ __( "Get automated technical SEO & optimize content in a breeze", "wordpress-seo" ) }</p>
 						</div>
 					</div>
-					<Button variant="upsell" as="a" href={ taskListUpsellLink } target="_blank" className="yst-flex yst-items-center yst-gap-1.5 yst-pe-2">
+					<Button variant="upsell" as="a" href={ taskListUpsellLink } target="_blank" className="yst-flex yst-items-center yst-gap-1.5 yst-pe-2 yst-mt-4 lg:yst-mt-0">
 						{ __( "Unlock with Premium", "wordpress-seo" ) }
 						<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
 					</Button>

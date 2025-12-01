@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Task_List\User_Interface\Tasks;
 
 use Exception;
 use WP_REST_Response;
+use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -48,8 +49,9 @@ final class Get_Tasks_Route implements Route_Interface {
 	 * @return array<string> The conditionals that must be met to load this.
 	 */
 	public static function get_conditionals(): array {
-		// @TODO: Add the conditional of whether the tasklist feature is enabled (as with the other endpoints too).
-		return [];
+		return [
+			Task_List_Enabled_Conditional::class,
+		];
 	}
 
 	/**

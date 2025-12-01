@@ -169,4 +169,29 @@ describe( "TaskModal", () => {
 			} );
 		} );
 	} );
+	describe( "when isError is true", () => {
+		const errorProps = {
+			...defaultProps,
+			isError: true,
+			errorMessage: "Custom error message.",
+		};
+
+		it( "renders the error alert", () => {
+			render( <TaskModal { ...errorProps } /> );
+			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
+			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
+			expect( screen.getByText( /Custom error message./i ) ).toBeInTheDocument();
+		} );
+
+		it( "displays default message when no errorMessage is provided", () => {
+			const noMessageProps = {
+				...defaultProps,
+				isError: true,
+			};
+			render( <TaskModal { ...noMessageProps } /> );
+			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
+			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
+			expect( screen.getByText( /Please try again./i ) ).toBeInTheDocument();
+		} );
+	} );
 } );
