@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Llms_Txt\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Llms_Txt\Application\File\Commands\Populate_File_Command_Handler;
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;
  */
 class Enable_Llms_Txt_Option_Watcher implements Integration_Interface {
 
-	use Admin_Conditional_Trait;
+	use No_Conditionals;
 
 	/**
 	 * The option names that should trigger a population of the llms.txt file.

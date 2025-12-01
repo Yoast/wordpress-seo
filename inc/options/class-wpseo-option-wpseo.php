@@ -154,6 +154,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'default_seo_title'                                    => [],
 		'default_seo_meta_desc'                                => [],
 		'first_activated_by'                                   => 0,
+		'enable_task_list'                                     => true,
 	];
 
 	/**
@@ -547,6 +548,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'site_kit_connected',
 				 *  'google_site_kit_feature_enabled',
 				 *  'enable_llms_txt',
+				 *  'enable_task_list',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -617,6 +619,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'algolia_integration_active'         => false,
 			'google_site_kit_feature_enabled'    => false,
 			'enable_llms_txt'                    => false,
+			'enable_task_list'                   => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

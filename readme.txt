@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 26.4
 Requires PHP: 7.4
 
@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-12-02
 
+Yoast SEO 26.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
@@ -319,6 +321,7 @@ Release date: 2025-12-02
 #### Other
 
 * Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
+* Sets the _WordPress tested up to_ version to 6.9.
 
 = 26.4 =
 
