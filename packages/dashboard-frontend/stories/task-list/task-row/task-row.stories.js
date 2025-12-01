@@ -31,6 +31,12 @@ export default {
 			</div>
 		),
 	],
+	argTypes: {
+		titleClassName: {
+			description: "Class name for the title skeleton element width. Only classes used in the package are available for testing due to CSS purging.",
+			control: "text",
+		},
+	},
 };
 
 export const Factory = {
@@ -126,7 +132,6 @@ export const TaskRowLoading = {
 	},
 	argTypes: {
 		titleClassName: {
-			description: "Class name for the title skeleton element.",
 			control: {
 				type: "select",
 			},
