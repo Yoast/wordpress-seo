@@ -146,10 +146,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			return;
 		}
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-premium' );
-		if ( $this->product_helper->is_premium() && $this->woocommerce_conditional->is_met() ) {
-			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
-		}
-		elseif ( $this->woocommerce_conditional->is_met() ) {
+		if ( $this->woocommerce_conditional->is_met() ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
 		}
 
