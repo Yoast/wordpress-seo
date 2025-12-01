@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Plans\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
@@ -103,11 +104,9 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @return array<string, array<string, array<static|string>>> The pages.
 	 */
 	public function add_page( $pages ) {
-		// Check if the Yoast SEO WooCommerce addon is active.
-		$woo_seo_plugin_active = \is_plugin_active( 'wpseo-woocommerce/wpseo-woocommerce.php' );
-
 		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
-		if ( $woo_seo_plugin_active ) {
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $pages;
 		}
 
