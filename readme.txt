@@ -307,7 +307,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2025-12-02
 
-Yoast SEO 26.5 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+**New:** Yoast SEO includes the necessary updates to support the Site Kit by Google integration for all Premium users, with Yoast SEO (free) support following soon. [Read the full release post here](https://yoa.st/54u).
 
 #### Enhancements
 
