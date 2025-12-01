@@ -16,7 +16,7 @@ class Optional_Link_List_Builder {
 	 *
 	 * @var Sitemap_Link_Collector
 	 */
-	protected $sitemap_link_collector;
+	private $sitemap_link_collector;
 
 	/**
 	 * The constructor.
