@@ -122,15 +122,15 @@ export const TaskRowLoading = {
 	component: TaskRow.Loading,
 	render: ( args ) => <TaskRow.Loading { ...args } />,
 	args: {
-		titleClassName: "yst-w-40",
+		titleClassName: "yst-w-96",
 	},
 	argTypes: {
 		titleClassName: {
 			description: "Class name for the title skeleton element.",
-			control: "text",
+			control: {
+				type: "select",
+			},
+			options: [ "yst-w-8", "yst-w-12", "yst-w-20", "yst-w-36", "yst-w-40", "yst-w-60", "yst-w-72", "yst-w-80", "yst-w-96" ],
 		},
-	},
-	parameters: {
-		__isArgsStory: false,
 	},
 };
