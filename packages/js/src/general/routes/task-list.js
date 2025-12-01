@@ -87,7 +87,7 @@ export const TaskList = () => {
 		<>
 			<Paper.Header>
 				<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
-				<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny yst-w-">
+				<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny">
 					{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
 				</p>
 			</Paper.Header>
