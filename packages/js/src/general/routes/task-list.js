@@ -7,6 +7,19 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
 
+const loadingTasksTitleWidth = [
+	"sm:yst-w-60",
+	"sm:yst-w-72",
+	"sm:yst-w-72",
+	"sm:yst-w-80",
+	"sm:yst-w-28",
+	"sm:yst-w-40",
+	"sm:yst-w-28",
+	"sm:yst-w-32",
+	"sm:yst-w-52",
+	"sm:yst-w-60",
+];
+
 /**
  * The TaskList component to display the task list page content.
  *
@@ -70,14 +83,6 @@ export const TaskList = () => {
 
 	const { error, isPending } = fetchState;
 
-	const placeholderTasks = [
-		{ id: "task-1", title: "Complete the First-time configuration" },
-		{ id: "task-2", title: "Remove the Hello World post" },
-		{ id: "task-3", title: "Create an llms.txt file" },
-		{ id: "task-4", title: "Set search appearance templates for your posts" },
-		{ id: "task-5", title: "Set search appearance templates for your pages" },
-	];
-
 	return <Paper className="yst-mb-6">
 		<>
 			<Paper.Header>
@@ -101,7 +106,7 @@ export const TaskList = () => {
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
-						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
+						{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
 						{ error && <GetTasksErrorRow message={ error } /> }
 						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }

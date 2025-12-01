@@ -67,4 +67,8 @@ describe( "TaskRow", () => {
 		fireEvent.click( button );
 		expect( onClick ).toHaveBeenCalled();
 	} );
+	it( "loading task row matches snapshot", () => {
+		const { asFragment } = render( <TaskRow.Loading titleClassName="yst-w-60" /> );
+		expect( asFragment() ).toMatchSnapshot();
+	} );
 } );
