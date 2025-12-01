@@ -1,5 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { uniq } from "lodash";
@@ -157,7 +157,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
 export default function FirstTimeConfigurationSteps() {
-	const { removeAlert, dismissNotice, restoreNotice } = useDispatch( STORE_NAME );
+	const { removeAlert, dismissNotice, restoreNotice, setTaskCompleted } = useDispatch( STORE_NAME );
+	const isFtcTaskCompleted = useSelect( select  => select( STORE_NAME ).selectIsTaskCompleted( "complete-ftc" ), [] );
 	const [ finishedSteps, setFinishedSteps ] = useState( window.wpseoFirstTimeConfigurationData.finishedSteps );
 
 	const isStepFinished = useCallback( ( stepId ) => {
@@ -391,6 +392,9 @@ export default function FirstTimeConfigurationSteps() {
 	useEffect( () => {
 		if ( isStepperFinished ) {
 			setStepperFinishedOnce( true );
+			if ( isFtcTaskCompleted === false ) {
+				setTaskCompleted( "complete-ftc" );
+			}
 		}
 	}, [ isStepperFinished ] );
 
