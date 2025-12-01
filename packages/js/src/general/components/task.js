@@ -23,7 +23,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  */
 export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( false );
-	const { completeTask } = useDispatch( STORE_NAME );
+	const { completeTask, resetTaskError } = useDispatch( STORE_NAME );
 	const { status, completeTaskEndpoint, nonce, errorMessage } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
@@ -42,12 +42,18 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 		onClick: handleCompleteTask,
 		...callToAction,
 	};
+
+	const handleOnOpen = useCallback( () => {
+		resetTaskError( id );
+		toggleOpen();
+	}, [ toggleOpen ] );
+
 	return <TaskRow
 		title={ title }
 		duration={ duration }
 		priority={ priority }
 		isCompleted={ isCompleted }
-		onClick={ toggleOpen }
+		onClick={ handleOnOpen }
 		badge={ badge }
 	>
 		<TaskModal
