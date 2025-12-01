@@ -47,8 +47,7 @@
 		}
 
 		.yst-button--ai-primary {
-			@apply yst-text-white yst-ps-2 yst-gap-1.5;
-			background: linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)!important;
+			@apply yst-text-white yst-ps-2 yst-gap-1.5 yst-bg-ai-500;
 			border-image: none;
 
 			&:focus {
@@ -56,7 +55,7 @@
 			}
 
 			&:hover {
-				background: linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)!important;
+				@apply yst-bg-ai-600;
 			}
 			> svg > path {
 				stroke:#fff;
@@ -77,14 +76,13 @@
 
 			&:hover {
 				&:after {
-					background: linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%);
+					@apply yst-bg-ai-100;
 				}
 			}
 
 			&:before {
-				@apply yst-absolute yst-inset-0;
+				@apply yst-absolute yst-inset-0 yst-bg-ai-300;
 				content: '';
-				background: linear-gradient(to bottom right, #cd82ab, #a5b4fc)!important;
 				border-radius: inherit; /* Match the border radius of the container */
 				padding: 1px; /* Width of the gradient border */
 				-webkit-mask:
