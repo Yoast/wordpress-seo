@@ -44,9 +44,7 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 	};
 
 	const handleOnOpen = useCallback( () => {
-		if ( status === ASYNC_ACTION_STATUS.error ) {
-			resetTaskError( id );
-		}
+		resetTaskError( id );
 		toggleOpen();
 	}, [ toggleOpen ] );
 

@@ -95,7 +95,7 @@ const slice = createSlice( {
 			}
 		},
 		resetTaskError( state, { payload } ) {
-			if ( state.tasks[ payload ] ) {
+			if ( state.tasks[ payload ] && state.tasks[ payload ].status === ASYNC_ACTION_STATUS.error ) {
 				state.tasks[ payload ].error = null;
 				state.tasks[ payload ].status = ASYNC_ACTION_STATUS.idle;
 			}
