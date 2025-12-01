@@ -43,7 +43,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is too short (under 120 characters). Up to 156 characters are available. <a href='https://yoa.st/34e' target='_blank'>Use the space</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: You are not using any higher-level subheadings containing the keyphrase or its synonyms. <a href='https://yoa.st/33n' target='_blank'>Fix that</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
