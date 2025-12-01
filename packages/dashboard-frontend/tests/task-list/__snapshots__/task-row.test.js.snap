@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskRow loading task row matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="yst-flex yst-items-center yst-gap-2"
+  >
+    <svg
+      aria-hidden="true"
+      class="yst-w-4 yst-text-slate-200 yst-shrink-0"
+      fill="none"
+      height="13"
+      role="img"
+      viewBox="0 0 13 13"
+      width="13"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="6.4"
+        cy="6.4"
+        fill="currentColor"
+        r="6.4"
+      />
+    </svg>
+    <span
+      class="yst-skeleton-loader yst-h-[18px] yst-w-60"
+    />
+  </div>
+  <span
+    class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
+  >
+    <svg
+      aria-hidden="true"
+      class="yst-w-4 yst-text-slate-400"
+      fill="none"
+      role="img"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span
+      class="yst-skeleton-loader yst-w-8 yst-h-[18px] yst-ms-0.5"
+    />
+  </span>
+  <div
+    class="yst-flex yst-justify-between"
+  >
+    <span
+      class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-w-4 yst-text-slate-400"
+        fill="none"
+        role="img"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 8h16M4 16h16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span
+        class="yst-skeleton-loader yst-w-11 yst-h-[18px]"
+      />
+    </span>
+    <svg
+      aria-hidden="true"
+      class="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
+      fill="none"
+      role="img"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9 5l7 7-7 7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;

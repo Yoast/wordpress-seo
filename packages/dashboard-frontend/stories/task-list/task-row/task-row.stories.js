@@ -13,49 +13,6 @@ export default {
 			},
 		},
 	},
-	argTypes: {
-		onClick: {
-			description: "Function to call when the row is clicked.",
-			control: false,
-		},
-		title: {
-			description: "Title of the task.",
-			control: "text",
-		},
-		duration: {
-			description: "Estimated duration to complete the task.",
-			control: "number",
-		},
-		priority: {
-			description: "Priority of the task: 'low', 'medium', 'high'.",
-			control: {
-				type: "select",
-			},
-			options: [ "low", "medium", "high" ],
-		},
-		isCompleted: {
-			description: "Whether the task is completed.",
-		},
-		badge: {
-			description: "An optional badge to display next to the task title. Can be `premium`, `woo`, `ai`.",
-			control: {
-				type: "select",
-			},
-			options: [ "", "premium", "woo", "ai" ],
-			type: { name: "string" },
-		},
-		children: {
-			description: "Optional children elements for the task modal.",
-		},
-	},
-	args: {
-		title: "Uncompleted Task",
-		duration: 15,
-		priority: "high",
-		taskId: "task-1",
-		isCompleted: false,
-		onClick: noop,
-	},
 	decorators: [
 		( Story ) => (
 			<div className="yst-bg-white">
@@ -115,13 +72,65 @@ export const Factory = {
 			/>
 		</>
 	),
+	argTypes: {
+		onClick: {
+			description: "Function to call when the row is clicked.",
+			control: false,
+		},
+		title: {
+			description: "Title of the task.",
+			control: "text",
+		},
+		duration: {
+			description: "Estimated duration to complete the task.",
+			control: "number",
+		},
+		priority: {
+			description: "Priority of the task: 'low', 'medium', 'high'.",
+			control: {
+				type: "select",
+			},
+			options: [ "low", "medium", "high" ],
+		},
+		isCompleted: {
+			description: "Whether the task is completed.",
+		},
+		badge: {
+			description: "An optional badge to display next to the task title. Can be `premium`, `woo`, `ai`.",
+			control: {
+				type: "select",
+			},
+			options: [ "", "premium", "woo", "ai" ],
+			type: { name: "string" },
+		},
+		children: {
+			description: "Optional children elements for the task modal.",
+		},
+	},
+	args: {
+		title: "Uncompleted Task",
+		duration: 15,
+		priority: "high",
+		taskId: "task-1",
+		isCompleted: false,
+		onClick: noop,
+	},
 
 };
 
 export const TaskRowLoading = {
-	render: () => (
-		<TaskRow.Loading
-			title="Loading Task with long title..."
-		/>
-	),
+	component: TaskRow.Loading,
+	render: ( args ) => <TaskRow.Loading { ...args } />,
+	args: {
+		titleClassName: "yst-w-40",
+	},
+	argTypes: {
+		titleClassName: {
+			description: "Class name for the title skeleton element.",
+			control: "text",
+		},
+	},
+	parameters: {
+		__isArgsStory: false,
+	},
 };
