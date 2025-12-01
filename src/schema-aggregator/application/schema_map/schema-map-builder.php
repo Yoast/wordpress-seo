@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Schema_Map_Repository_Interface;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Interface;
 
 /**
  * Builds the schema map.
@@ -12,19 +12,33 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Schema_Ma
 class Schema_Map_Builder {
 
 	/**
-	 * Builds the schema map based on indexable counts and threshold.
+	 * The schema map repository.
+	 *
+	 * @var Schema_Map_Repository_Interface
+	 */
+	private $schema_map_repository;
+
+	/**
+	 * Sets the schema map repository.
 	 *
 	 * @param Schema_Map_Repository_Interface $schema_map_repository The schema map repository.
-	 * @param Indexable_Count_Collection      $indexable_counts      The indexable counts per post type.
-	 * @param int                             $threshold             The threshold for items per page.
+	 *
+	 * @return self
+	 */
+	public function with_repository( Schema_Map_Repository_Interface $schema_map_repository ): self {
+		$this->schema_map_repository = $schema_map_repository;
+		return $this;
+	}
+
+	/**
+	 * Builds the schema map based on indexable counts and threshold.
+	 *
+	 * @param Indexable_Count_Collection $indexable_counts The indexable counts per post type.
+	 * @param int                        $threshold        The threshold for items per page.
 	 *
 	 * @return array<int,array<string>> The schema map.
 	 */
-	public function build(
-		Schema_Map_Repository_Interface $schema_map_repository,
-		Indexable_Count_Collection $indexable_counts,
-		int $threshold
-	): array {
+	public function build( Indexable_Count_Collection $indexable_counts, int $threshold ): array {
 
 		$schema_map = [];
 		foreach ( $indexable_counts->get_indexable_counts() as $indexable_count ) {
@@ -44,7 +58,7 @@ class Schema_Map_Builder {
 					$url = $this->get_rest_route( $post_type, $page );
 				}
 
-				$lastmod = $schema_map_repository->get_lastmod_for_post_type( $post_type, $page, $threshold );
+				$lastmod = $this->schema_map_repository->get_lastmod_for_post_type( $post_type, $page, $threshold );
 
 				$page_count = ( $page === $total_pages ) ? ( $count - ( ( $page - 1 ) * $threshold ) ) : $threshold;
 

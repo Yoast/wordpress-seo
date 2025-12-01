@@ -66,12 +66,14 @@ class Aggregate_Site_Schema_Map_Command_Handler {
 	 */
 	public function handle( Aggregate_Site_Schema_Map_Command $command ): string {
 
-		$schema_map_indexable_repository = $this->schema_map_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
-		$indexable_counts                = $schema_map_indexable_repository->get_indexable_count_per_post_type( $command->get_post_types() );
+		$schema_map_repository = $this->schema_map_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
+		$indexable_counts      = $schema_map_repository->get_indexable_count_per_post_type( $command->get_post_types() );
 
 		$threshold = $command->get_schema_map_threshold();
 
-		$schema_map = $this->schema_map_builder->build( $schema_map_indexable_repository, $indexable_counts, $threshold );
+		$schema_map = $this->schema_map_builder
+			->with_repository( $schema_map_repository )
+			->build( $indexable_counts, $threshold );
 
 		return $this->schema_map_xml_renderer->render( $schema_map );
 	}
