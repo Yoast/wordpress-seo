@@ -144,7 +144,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	public function aggregate_site_schema( WP_REST_Request $request ) {
 		$post_type = $request->get_param( 'post_type' );
 		$page      = ( $request->get_param( 'page' ) ?? 1 );
-		$per_page  = $this->config->get_per_page();
+		$per_page  = $this->config->get_per_page( $post_type );
 
 		$output = $this->cache_manager->get( $page, $per_page );
 		if ( $output === null ) {

@@ -14,14 +14,24 @@ class Config {
 	 *
 	 * @var int
 	 */
-	private const DEFAULT_PER_PAGE = 100;
+	private const DEFAULT_PER_PAGE = 1000;
+	/**
+	 * Default items per page for post types that come with lots of schema pieces.
+	 *
+	 * @var int
+	 */
+	private const DEFAULT_PER_PAGE_BIG_SCHEMA = 100;
+
+	private const BIG_SCHEMA_POST_TYPES = [
+		'product',
+	];
 
 	/**
 	 * Maximum items per page
 	 *
 	 * @var int
 	 */
-	private const MAX_PER_PAGE = 100;
+	private const MAX_PER_PAGE = 1000;
 	/**
 	 * Default cache TTL in seconds
 	 *
@@ -32,10 +42,15 @@ class Config {
 	/**
 	 * Get default items per page
 	 *
+	 * @param string $post_type The post type to determine the max page size for.
+	 *
 	 * @return int
 	 */
-	public function get_per_page(): int {
-		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page', self::DEFAULT_PER_PAGE );
+	public function get_per_page( string $post_type ): int {
+
+		$per_page = \in_array( $post_type, self::BIG_SCHEMA_POST_TYPES, true ) ? self::DEFAULT_PER_PAGE_BIG_SCHEMA : self::DEFAULT_PER_PAGE;
+
+		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page', $per_page );
 
 		if ( $per_page > self::MAX_PER_PAGE ) {
 			$per_page = self::MAX_PER_PAGE;
