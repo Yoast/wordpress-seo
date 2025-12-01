@@ -300,4 +300,15 @@ describe( "test to get sentences from the tree", () => {
 		clonedTree = filterTree( clonedTree, additionalFilters );
 		expect( getSentencesFromTree( clonedTree ).length ).toEqual( 0 );
 	} );
+	it( "should return the parent nodes of the sentences if the flag `setParentNode` is true", () => {
+		const paper = new Paper( "<div><p>A very intelligent cat loves their human. A dog is very cute.</p><h3>A subheading 3" +
+			"</h3><h4>A subheading 4</h4></div>" );
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		const sentences = getSentencesFromTree( paper.getTree(), true );
+		expect( sentences[ 0 ].sentenceParentNode.name ).toEqual( "p" );
+		expect( sentences[ 1 ].sentenceParentNode.name ).toEqual( "p" );
+		expect( sentences[ 2 ].sentenceParentNode.name ).toEqual( "h3" );
+		expect( sentences[ 3 ].sentenceParentNode.name ).toEqual( "h4" );
+	} );
 } );

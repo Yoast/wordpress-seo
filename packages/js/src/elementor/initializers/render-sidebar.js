@@ -3,6 +3,7 @@ import { renderReactRoot } from "../../helpers/reactRoot";
 import { RenderInPortalIfElementExists } from "../components/render-in-portal-if-element-exists";
 import ElementorSlot from "../components/slots/ElementorSlot";
 import ElementorFill from "../containers/ElementorFill";
+import { REACT_PANEL_ELEMENT_ID } from "./panel";
 
 const REACT_ELEMENT_ID = "yoast-elementor-react-tab";
 
@@ -40,6 +41,8 @@ export const renderYoastTabReactContent = () => {
 
 /**
  * Renders the Yoast React root.
+ * This root supports both the tab and panel portal locations.
+ *
  * @returns {void}
  */
 export const renderYoastReactRoot = () => {
@@ -50,7 +53,13 @@ export const renderYoastReactRoot = () => {
 
 	renderReactRoot( root.id, (
 		<Root context={ elementorSidebarContext }>
+			{ /* Portal for the Post Settings tab */ }
 			<RenderInPortalIfElementExists id={ REACT_ELEMENT_ID }>
+				<ElementorSlot />
+				<ElementorFill />
+			</RenderInPortalIfElementExists>
+			{ /* Portal for the Elements panel */ }
+			<RenderInPortalIfElementExists id={ REACT_PANEL_ELEMENT_ID }>
 				<ElementorSlot />
 				<ElementorFill />
 			</RenderInPortalIfElementExists>

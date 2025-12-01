@@ -1,6 +1,6 @@
 {
   "name": "@yoast/analysis-report",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "main": "build/index.js",
   "files": [
     "build",
@@ -24,9 +24,9 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@wordpress/i18n": "^5.8.2",
-    "@yoast/components": "^3.0.0-alpha.2",
-    "@yoast/helpers": "^0.17.0-alpha.1",
-    "@yoast/style-guide": "^0.14.0-alpha.0",
+    "@yoast/components": "^3.0.0-alpha.3",
+    "@yoast/helpers": "^0.17.0-alpha.2",
+    "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",
     "react": "^18.3.1",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "@yoast/babel-preset": "^1.1.2",
+    "@yoast/babel-preset": "^1.1.3",
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",

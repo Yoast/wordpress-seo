@@ -38,6 +38,11 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				 * @returns {string|null} The external.
 				 */
 				requestToExternal( request ) {
+					// Elementor Marionette global mapping.
+					if ( request === "Marionette" ) {
+						// Map directly to window.Marionette.
+						return "Marionette";
+					}
 					if ( yoastExternals[ request ] ) {
 						return [ "yoast", yoastExternals[ request ] ];
 					}
@@ -59,6 +64,10 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				 * @returns {string|null} The external.
 				 */
 				requestToHandle( request ) {
+					// Provide WordPress script handle for Elementor Marionette.
+					if ( request === "Marionette" ) {
+						return "elementor-common";
+					}
 					if ( yoastExternals[ request ] ) {
 						const handle = yoastExternals[ request ].replace( /([A-Z])/g, "-$1" ).toLowerCase();
 						return "yoast-seo-" + handle + "-package";

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\General\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
@@ -105,6 +106,13 @@ class General_Page_Integration implements Integration_Interface {
 	private $woocommerce_conditional;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructs Academy_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -118,6 +126,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
+	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -130,7 +139,8 @@ class General_Page_Integration implements Integration_Interface {
 		Dashboard_Configuration $dashboard_configuration,
 		User_Helper $user_helper,
 		Options_Helper $options_helper,
-		WooCommerce_Conditional $woocommerce_conditional
+		WooCommerce_Conditional $woocommerce_conditional,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -143,6 +153,7 @@ class General_Page_Integration implements Integration_Interface {
 		$this->user_helper             = $user_helper;
 		$this->options_helper          = $options_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
+		$this->addon_manager           = $addon_manager;
 	}
 
 	/**
@@ -242,6 +253,13 @@ class General_Page_Integration implements Integration_Interface {
 				],
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
 				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
+				'addonsStatus'           => [
+					'isWooSeoActive'         => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ),
+					'isLocalSEOActive'       => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::LOCAL_SLUG ) ),
+					'isNewsSEOActive'        => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::NEWS_SLUG ) ),
+					'isVideoSEOActive'       => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::VIDEO_SLUG ) ),
+					'isDuplicatePostActive'  => \defined( 'DUPLICATE_POST_FILE' ),
+				],
 			],
 			'adminUrl'              => \admin_url( 'admin.php' ),
 			'linkParams'            => $this->shortlink_helper->get_query_params(),

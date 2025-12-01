@@ -6,8 +6,12 @@ All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
+### Other:
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
+
 ### Non user facing
 * Now published as a transpiled package.
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
 
 ## 1.18.0
 ### Enhancements

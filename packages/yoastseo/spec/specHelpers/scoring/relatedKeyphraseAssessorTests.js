@@ -11,12 +11,12 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		let defaultAssessments = [ "introductionKeyword",
-			"keyphraseLength", "metaDescriptionKeyword", "textCompetingLinks", "imageKeyphrase" ];
+		let defaultAssessments = [ "introductionKeyword", "keyphraseLength", "keyphraseDensity", "metaDescriptionKeyword",
+			"textCompetingLinks", "imageKeyphrase" ];
 
 		// The introduction keyword, single title and text length assessments are not available on store blogs.
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
-			defaultAssessments = defaultAssessments.slice( 0, 3 );
+			defaultAssessments = defaultAssessments.slice( 0, 4 );
 		}
 		expect( assessments ).toEqual( defaultAssessments );
 	} );
@@ -28,13 +28,14 @@ export function checkAssessmentAvailability( assessor ) {
 		let defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
+			"keyphraseDensity",
 			"metaDescriptionKeyword",
 			"functionWordsInKeyphrase",
 			"textCompetingLinks",
 			"imageKeyphrase",
 		];
 		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
-			defaultAssessments = defaultAssessments.slice( 0, 4 );
+			defaultAssessments = defaultAssessments.slice( 0, 5 );
 		}
 		expect( assessments ).toEqual( defaultAssessments );
 	} );

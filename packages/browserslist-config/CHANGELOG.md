@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.2.5
+### Non user facing
+- Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`.
+
 ## 1.2.4
 ### Non user facing
 - Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.

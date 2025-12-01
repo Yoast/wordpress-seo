@@ -26,7 +26,7 @@ foreach ( $renamed_classes as $original_class => $replacement ) {
 		->setAutowired( true )
 		->setAutoconfigured( true )
 		->setPublic( true )
-		->setDeprecated( true, "%service_id% is deprecated since version $version! Use $renamed_class instead." );
+		->setDeprecated( $original_class, $version, "%service_id% is deprecated since version $version! Use $renamed_class instead." );
 }
 
 // If the DI container is built by Composer this WordPress function will not exist.

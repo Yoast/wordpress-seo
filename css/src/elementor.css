@@ -45,7 +45,8 @@
 }
 
 .elementor-tab-control-yoast-seo-tab span:before,
-.yoast-element-menu-icon:before {
+.yoast-element-menu-icon:before,
+.yoast-panel-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
 	mask-size: 100% 100%;
@@ -57,11 +58,13 @@
 	background-color: currentColor;
 }
 
-.yoast-element-menu-icon {
+.yoast-element-menu-icon,
+.yoast-panel-icon {
 	display: inline-flex;
 }
 
-.yoast-element-menu-icon:before {
+.yoast-element-menu-icon:before,
+.yoast-panel-icon:before {
 	height: 19px;
 	width: 19px;
 }
@@ -70,6 +73,25 @@
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-white);
 	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Styling for the Yoast SEO panel in Elements sidebar */
+#yoast-seo-elementor-panel {
+	padding: 20px;
+	overflow-y: auto;
+	height: 100%;
+}
+
+.yoast-elementor-panel__content {
+	overflow-y: auto;
+	height: calc(100vh - 200px);
+	background-color: var(--yoast-color-white);
+}
+
+.yoast-elementor-panel {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .yoast li, .yoast p, .yoast small {

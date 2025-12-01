@@ -79,10 +79,11 @@ const mergeConsecutiveAndOverlappingMarkings = ( markings ) => {
  *
  * @param {Sentence}	sentence			The sentence to check.
  * @param {Token[]}		matchesInSentence	An array containing the keyphrase matches in the sentence.
+ * @param {boolean}		areListItemsMerged	Whether list items in the parent block are merged. Default is false.
  *
  * @returns {Mark[]} The array of Mark objects of the keyphrase matches in the sentence.
  */
-function getMarkingsInSentence( sentence, matchesInSentence ) {
+function getMarkingsInSentence( sentence, matchesInSentence, areListItemsMerged = false ) {
 	if ( matchesInSentence.length === 0 ) {
 		return [];
 	}
@@ -98,21 +99,47 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 	 * all Mark objects for a sentence have the same markedSentence.
 	 */
 	const markings = matchesInSentence.map( token => {
+		const attributeId = sentence.parentAttributeId;
+		const isFirstSection = sentence.isParentFirstSectionOfBlock;
+		let parentStartOffset = sentence.parentStartOffset;
+		let parentClientId = sentence.parentClientId;
+		/*
+		The check below is only for Keyphrase distribution assessment where list items are possibly merged.
+		When list items are merged, the parent node of the sentence is an array of nodes.
+		In that case, we need to find the correct parent node that contains the token to get the correct
+		start offset and client id.
+		 */
+		if ( areListItemsMerged && ! attributeId ) {
+			const sentenceParentNodes = sentence.sentenceParentNode;
+			const isArray = Array.isArray( sentenceParentNodes );
+			// Look for the parent node that contains the token.
+			const parentNodeOfToken = isArray && sentenceParentNodes.find( ( node ) => {
+				const sourceCodeLocation = node.sourceCodeLocation;
+				return token.sourceCodeRange.startOffset >= sourceCodeLocation.startOffset &&
+					token.sourceCodeRange.endOffset <= sourceCodeLocation.endOffset;
+			} );
+
+			if ( parentNodeOfToken ) {
+				parentStartOffset = parentNodeOfToken.sourceCodeLocation.startTag.endOffset;
+				parentClientId = parentNodeOfToken.clientId;
+			}
+		}
+
 		const startOffset = token.sourceCodeRange.startOffset;
 		const endOffset =  token.sourceCodeRange.endOffset;
 		return new Mark( {
 			position: {
 				startOffset: startOffset,
 				endOffset: endOffset,
-				// Relative to start of block positions.
-				startOffsetBlock: startOffset - ( sentence.parentStartOffset || 0 ),
-				endOffsetBlock: endOffset - ( sentence.parentStartOffset || 0 ),
+				// Relative to the start of block positions.
+				startOffsetBlock: startOffset - ( parentStartOffset || 0 ),
+				endOffsetBlock: endOffset - ( parentStartOffset || 0 ),
 				// The client id of the block the match was found in.
-				clientId: sentence.parentClientId || "",
-				// The attribute id of the Yoast sub-block the match was found in.
-				attributeId: sentence.parentAttributeId || "",
-				// Whether the match was found in the first section of the Yoast sub-block.
-				isFirstSection: sentence.isParentFirstSectionOfBlock || false,
+				clientId: parentClientId || "",
+				// The attribute id of the Yoast subblock the match was found in.
+				attributeId: attributeId || "",
+				// Whether the match was found in the first section of the Yoast subblock.
+				isFirstSection: isFirstSection || false,
 			},
 			marked: markedSentence,
 			original: sentence.text,

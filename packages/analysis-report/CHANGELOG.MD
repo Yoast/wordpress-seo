@@ -13,6 +13,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Other
 * Improves the tooltip for when the highlighting functionality is disabled. [#21722](https://github.com/Yoast/wordpress-seo/pull/21722)
 * Removes right margins from the `ScoreIcon` and `AnalysisResultText` components and adds a `column-gap` property to the `AnalysisResultBase` component. [#21538](https://github.com/Yoast/wordpress-seo/pull/21538)
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
 
 ### Non user facing
 * Now published as a transpiled package.
@@ -24,6 +25,8 @@ We follow [Semantic Versioning](http://semver.org/).
 * Upgrades ESLint and plugins (`import`, `jsx-a11y` and `react`) to the latest versions. [#21315](https://github.com/Yoast/wordpress-seo/pull/21315)
 * Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
 * Uses a flat config for ESLint.
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`.
+* Refactors the `defaultProps` to be `defaultArguments` instead. [#22263](https://github.com/Yoast/wordpress-seo/pull/22263)
 
 ## 1.2.0 April 23rd, 2020
 ### Other

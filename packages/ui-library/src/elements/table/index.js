@@ -4,7 +4,7 @@ import React, { forwardRef } from "react";
 
 const rowClassNameMap = {
 	variant: {
-		striped: "even:yst-bg-slate-50 odd:yst-bg-white",
+		striped: "[&>*]:even:yst-bg-slate-50 [&>*]:odd:yst-bg-white",
 		plain: "",
 	},
 };
@@ -23,7 +23,6 @@ const Cell = ( { children, className = "", ...props } ) => (
 
 Cell.propTypes = {
 	children: PropTypes.node.isRequired,
-	variant: PropTypes.oneOf( Object.keys( rowClassNameMap.variant ) ),
 	className: PropTypes.string,
 };
 

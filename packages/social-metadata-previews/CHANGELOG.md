@@ -8,8 +8,14 @@ We follow [Semantic Versioning](http://semver.org/).
 * The Facebook and Twitter Preview now uses image instead of a background image.
 * Export the variables TWITTER_IMAGE_SIZES, FACEBOOK_IMAGE_SIZES and  determineFacebookImageMode.
 
+### Other:
+* Passes `imageFallbackUrl` prop to `SocialPreviewEditor` component. [#21962](https://github.com/Yoast/wordpress-seo/pull/21962)
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
+
 ### Non user facing
 * Now published as a transpiled package.
+* Refactors the `defaultProps` to be `defaultArguments` instead. [#22267](https://github.com/Yoast/wordpress-seo/pull/22267)
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
 
 
 ## 1.15.0 April 1st, 2021

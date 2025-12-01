@@ -3,8 +3,8 @@
   "tools": {
     "composer": {
       "name": "composer",
-      "version": "--2.2",
-      "comment": "Used with Jenkins GH-actions unknown ATM"
+      "version": "--stable",
+      "comment": "Used with Jenkins, GH actions uses its own setup"
     },
     "node": {
       "name": "nodeJS",

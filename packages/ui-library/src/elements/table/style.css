@@ -21,19 +21,17 @@
 				@apply yst-divide-y yst-divide-slate-300;
 
 				thead {
-					@apply yst-bg-slate-50;
-
 					.yst-table-header {
-						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg;
+						@apply first:yst-rounded-ss-lg last:yst-rounded-se-lg yst-bg-slate-50;;
 					}
 				}
 
 				tbody {
-					@apply yst-divide-y yst-divide-gray-200 yst-bg-white;
+					@apply yst-divide-y yst-divide-gray-200;
 				}
 
 				.yst-table-row:last-of-type .yst-table-cell {
-					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg;
+					@apply first:yst-rounded-es-lg last:yst-rounded-ee-lg yst-bg-white;
 				}
 			}
 		}
