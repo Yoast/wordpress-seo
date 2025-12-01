@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.3.0 (2025-11-12)
+
+### Enhancements:
+* Replaces a feedback string with appropriate feedback and score for when there is no keyphrase set in _keyphrase in image alt attributes_ assessment. [#22220](https://github.com/Yoast/wordpress-seo/pull/22220)
+* Makes the _keyphrase in image alt attributes_ and _image alt attributes_  available when no content has been added. [#22220](https://github.com/Yoast/wordpress-seo/pull/22220)
+* Changes the applicability criteria of the assessments _single title_ and _competing links_ so that they are available immediately in the analysis. [#22306](https://github.com/Yoast/wordpress-seo/pull/22306)
+
+### Other:
+* Changes one of the feedback texts for the _text length_ assessment to be consistent with the others. [#22307](https://github.com/Yoast/wordpress-seo/pull/22307)
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
+* Improves the translatability of the feedback strings for the _text length_ assessment. [#22307](https://github.com/Yoast/wordpress-seo/pull/22307)
+
+### Non user facing:
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
+* Outputs the introduction's parent node in `findKeywordInFirstParagraph.js` research. [#22118](https://github.com/Yoast/wordpress-seo/pull/22118)
+* Removes the unused `matchStringWithRegex` helper. [#22272](https://github.com/Yoast/wordpress-seo/pull/22272)
+
 ## 3.3.0 (2025-05-09)
 
 ### Enhancements:
@@ -28,6 +45,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and 
 * Fixes broken links in the assessors documentation. [#22225](https://github.com/Yoast/wordpress-seo/pull/22225)
 
 ## 3.1.0 (2025-04-11)
+
 ### Enhancements:
 * Adds _pregnant women_ to the potentially non-inclusive phrases targeted by the inclusive language analysis. [#22086](https://github.com/Yoast/wordpress-seo/pull/22086)
 * Converts the _consecutive sentences_ assessment highlighting approach from search and replace to position-based approach. [#21974](https://github.com/Yoast/wordpress-seo/pull/21974)
@@ -43,6 +61,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and 
 * Updates the assessment scoring documentation for the _paragraph length_ assessment. [#22161](https://github.com/Yoast/wordpress-seo/pull/22161)
 
 ## 3.0.0 (2025-03-07)
+
 ### Enhancements:
 * Adds _так_ to the words recognized by the _transition words_ assessment in Russian. [#21440](https://github.com/Yoast/wordpress-seo/pull/21440)
 * Adds a condition in the worker to update the readability analysis assessor when the Paper's keyphrase changes. [#21530](https://github.com/Yoast/wordpress-seo/pull/21530)
@@ -93,6 +112,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and 
 * Uses the HTML parser for the _text alignment_ assessment. [#21721](https://github.com/Yoast/wordpress-seo/pull/21721)
 
 ## 2.0.0-alpha.0 (2024-05-27) (changelog is likely incomplete)
+
 ### Enhancements
 * Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
 * Adapts _keyphrase density_ assessment to use the HTML parser. [#20139](https://github.com/Yoast/wordpress-seo/pull/20139)

@@ -12,6 +12,7 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
+use Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Premium;
 use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
@@ -76,6 +77,13 @@ final class Plans_Page_Integration_Test extends TestCase {
 	private $promotion_manager;
 
 	/**
+	 * The promotion manager.
+	 *
+	 * @var Mockery\MockInterface|Duplicate_Post_Manager
+	 */
+	private $duplicate_post_manager;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -97,11 +105,12 @@ final class Plans_Page_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->add_ons_collector   = new Add_Ons_Collector( $premium_add_on );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
-		$this->admin_conditional   = Mockery::mock( Admin_Conditional::class );
-		$this->promotion_manager   = Mockery::mock( Promotion_Manager::class );
+		$this->add_ons_collector      = new Add_Ons_Collector( $premium_add_on );
+		$this->current_page_helper    = Mockery::mock( Current_Page_Helper::class );
+		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
+		$this->admin_conditional      = Mockery::mock( Admin_Conditional::class );
+		$this->promotion_manager      = Mockery::mock( Promotion_Manager::class );
+		$this->duplicate_post_manager = Mockery::mock( Duplicate_Post_Manager::class );
 
 		$this->instance = new Plans_Page_Integration(
 			$this->asset_manager,
@@ -109,7 +118,8 @@ final class Plans_Page_Integration_Test extends TestCase {
 			$this->current_page_helper,
 			$this->short_link_helper,
 			$this->admin_conditional,
-			$this->promotion_manager
+			$this->promotion_manager,
+			$this->duplicate_post_manager
 		);
 	}
 
@@ -138,6 +148,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->assertInstanceOf( Short_Link_Helper::class, $this->getPropertyValue( $this->instance, 'short_link_helper' ) );
 		$this->assertInstanceOf( Admin_Conditional::class, $this->getPropertyValue( $this->instance, 'admin_conditional' ) );
 		$this->assertInstanceOf( Promotion_Manager::class, $this->getPropertyValue( $this->instance, 'promotion_manager' ) );
+		$this->assertInstanceOf( Duplicate_Post_Manager::class, $this->getPropertyValue( $this->instance, 'duplicate_post_manager' ) );
 	}
 
 	/**
@@ -265,8 +276,14 @@ final class Plans_Page_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_enqueue_assets() {
-		$promotions           = [ 'black-friday-promotion' ];
-		$expected_script_data = [
+		$promotions            = [ 'black-friday-promotion' ];
+		$duplicate_post_params = [
+			'isInstalled'     => true,
+			'isActivated'     => false,
+			'installationUrl' => 'https://example.com/wp-admin/update.php?action=install-plugin&plugin=duplicate-post&_wpnonce=8cfd3ae071',
+			'activationUrl'   => 'https://example.com/wp-admin/plugins.php?action=activate&plugin_status=all&paged=1&s&plugin=duplicate-post%2Fduplicate-post.php&_wpnonce=2ada494acc',
+		];
+		$expected_script_data  = [
 			'addOns'            => [
 				'premium' => [
 					'id'         => 'premium',
@@ -281,6 +298,11 @@ final class Plans_Page_Integration_Test extends TestCase {
 			'linkParams'        => [ 'foo' => 'bar' ],
 			'preferences'       => [ 'isRtl' => false ],
 			'currentPromotions' => $promotions,
+			'duplicatePost'     => $duplicate_post_params,
+			'userCan'           => [
+				'installPlugin'  => true,
+				'activatePlugin' => false,
+			],
 		];
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
@@ -295,6 +317,10 @@ final class Plans_Page_Integration_Test extends TestCase {
 			->with( Plans_Page_Integration::ASSETS_NAME, 'wpseoScriptData', $expected_script_data );
 
 		$this->promotion_manager->expects( 'get_current_promotions' )->once()->andReturn( $promotions );
+		$this->duplicate_post_manager->expects( 'get_params' )->once()->andReturn( $duplicate_post_params );
+
+		Functions\expect( 'current_user_can' )->once()->with( 'install_plugins' )->andReturn( true );
+		Functions\expect( 'current_user_can' )->once()->with( 'activate_plugins' )->andReturn( false );
 
 		$this->instance->enqueue_assets();
 	}
