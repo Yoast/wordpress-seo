@@ -8,12 +8,19 @@ We follow [Semantic Versioning](http://semver.org/).
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 * Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
 * Adds locale as one of the props in `SnippetEditor.js` to be used to determine which configuration to use in meta description length progress bar.
+* * Removes the breadcrumbs container from the Search snippet preview in Mobile mode. [#22027](https://github.com/Yoast/wordpress-seo/pull/22027)
 
 ### Bugfixes
 * Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.
+* Fixes a bug where the icon on search appearance would not be aligned when on a right-to-left locale. [#22322](https://github.com/Yoast/wordpress-seo/pull/22322)
+
+### Other:
+* Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
+* Replaces the unmaintained `interpolate-components` package with the `createInterpolateElement` from `@wordpress/element`. [#22486](https://github.com/Yoast/wordpress-seo/pull/22486)
 
 ### Non user facing
 * Now published as a transpiled package.
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
 
 ## 2.24.1 March 2nd, 2023
 ### Bugfixes
