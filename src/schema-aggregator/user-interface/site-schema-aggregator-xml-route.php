@@ -5,14 +5,13 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
 /**
