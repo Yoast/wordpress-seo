@@ -553,40 +553,65 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product {
-	background: #a61e69;
+	background: #ffffff;
 	padding: 24px;
 	margin-top: 34px;
 	border-radius: 8px;
-	color: #ffffff;
+	color: rgb(71, 85, 105);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(205, 130, 171);
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+.yoast-sidebar__product.woocommerce {
+    border-color: rgba(0, 117, 179, 0.50);
+}
+
 .yoast-sidebar__product h2 {
-	color: #ffffff;
-	font-size: 16px;
+	color: rgb(166, 30, 105);
+	font-size: 20px;
 	font-weight: bold;
 }
 
-.yoast-sidebar__product ul {
+.yoast-sidebar__product.woocommerce h2 {
+    color: rgb(0, 117, 179);
+}
+
+.yoast-sidebar__product p.info-header{
+    margin-top: 12px;
+    font-weight: 500;
+    color: rgb(30, 41, 59);
+}
+
+.yoast-sidebar__product p{
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+.yoast-sidebar__product ul.yoast-features-list {
 	list-style-image: none;
 	margin-inline-start: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.yoast-sidebar__product ul li {
+.yoast-sidebar__product ul.yoast-features-list li {
 	margin-bottom: 0;
 	position: relative;
-	padding-left: 24px;
+	padding-left: 26px;
 }
 
-.yoast-sidebar__product ul li::before {
+.yoast-sidebar__product ul.yoast-features-list li::before {
 	content: "";
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 16px;
-	height: 16px;
-	background: var(--yoast-svg-icon-check-ok) no-repeat;
-	background-size: 16px 16px;
+	width: 18px;
+	height: 18px;
+	background: var(--yoast-svg-icon-check-circle-green) no-repeat;
+	background-size: 19.5px 19.5px;
 }
 
 .yoast-get-premium-title {
@@ -614,7 +639,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast-sidebar__product p {
 	margin-bottom: 12px;
 	margin-top: 0;
-	font-size: 1rem;
 }
 
 .yoast-sidebar__product .yoast-price-micro-copy {
@@ -623,7 +647,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-style: italic;
 	text-align: center;
 	line-height: 20px;
-	margin-bottom: 16px;
+	margin-bottom: 8px;
 }
 
 .yoast-sidebar__product .yoast-button-upsell {
@@ -632,9 +656,24 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .yoast-upsell-hr {
-	border-color: #cd82ab;
+	border-color: rgba(226, 232, 240, 1);
 	border-top: 1px;
+    margin-top: 16px;
 	margin-bottom: 16px;
+}
+
+.yoast-sidebar__product ul.yoast-guarantees-list {
+    list-style: none;
+    font-weight: 500;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(30, 41, 59, 1);
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.yoast-sidebar__product ul.yoast-guarantees-list li {
+    margin: 0;
 }
 
 .yoast-sidebar__product .plugin-buy-button .yoast-button-upsell {
@@ -642,6 +681,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	filter: none;
 	width: 100%;
 	font-size: 13px;
+    font-weight: 500;
 	min-height: 36px;
 	padding-top: 4px;
 	padding-bottom: 4px;
