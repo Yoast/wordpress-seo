@@ -118,7 +118,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 				<span>{ upsellButtonText }</span>
 			</Button>
-			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-italic yst-mt-3 yst-mb-2">
+			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-text-slate-500 yst-italic yst-mt-3 yst-mb-2">
 				{ __( "Less friction. Faster publishing.", "wordpress-seo" ) }
 			</p>
 			<hr className="yst-border-t yst-border-slate-200 yst-my-4" />

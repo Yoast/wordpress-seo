@@ -648,6 +648,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	text-align: center;
 	line-height: 20px;
 	margin-bottom: 8px;
+    color: rgb(100, 116, 139);
 }
 
 .yoast-sidebar__product .yoast-button-upsell {
