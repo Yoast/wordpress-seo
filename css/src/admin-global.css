@@ -665,8 +665,22 @@ body.folded .wpseo-admin-submit-fixed {
 	background: var(--yoast-adminbar-submenu-bg, #2c3338);
 }
 
-/* Disabled toggles in the Crawl settings tab */
+/* External link icon for the AI Brand Insights button */
+.yst-external-link-icon {
+	@apply
+	yst-inline-block
+	yst-w-3.5
+	yst-h-3.5
+	yst-align-middle
+	yst-mb-0.5;
+	background-color: currentColor;
+	mask-image: var(--yoast-svg-icon-external-link);
+	-webkit-mask-image: var(--yoast-svg-icon-external-link);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+}
 
+/* Disabled toggles in the Crawl settings tab */
 .yoast #crawl-settings fieldset[id$="_disabled"],
 .yoast #crawl-settings p.disabled,
 .yoast label[for="search_character_limit_free"],

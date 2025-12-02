@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Brand_Insights_Page implements Integration_Interface {
 
 	/**
-	 * External link icon SVG.
+	 * External link icon.
 	 */
-	public const EXTERNAL_LINK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-bottom: 2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>';
+	public const EXTERNAL_LINK_ICON = '<span class="yst-external-link-icon"></span>';
 
 	/**
 	 * The product helper.

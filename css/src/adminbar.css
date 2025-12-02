@@ -1,4 +1,5 @@
 @import url(../src/score_icon.css);
+@import url(../src/icons.css);
 
 #wp-admin-bar-wpseo-menu .wpseo-score-icon {
   margin: 10px 0 0 4px !important;
@@ -232,6 +233,21 @@
 	yst-w-full
 	lg:yst-px-4;
 	background: var(--yoast-adminbar-submenu-bg, #2c3338);
+}
+
+/* External link icon for the AI Brand Insights button */
+#wpadminbar .yst-external-link-icon {
+	@apply
+	yst-inline-block
+	yst-w-3.5
+	yst-h-3.5
+	yst-align-middle
+	yst-mb-0.5;
+	background-color: currentColor;
+	mask-image: var(--yoast-svg-icon-external-link);
+	-webkit-mask-image: var(--yoast-svg-icon-external-link);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
 }
 
 #wpseo-new-badge-upgrade {
