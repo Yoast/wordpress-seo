@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Interface;
 
 /**
  * Builds the schema map.
@@ -29,10 +29,10 @@ class Schema_Map_Builder {
 	/**
 	 * Schema_Map_Builder constructor.
 	 *
-	 * @param Config                          $config               The configuration.
+	 * @param Config $config The configuration.
 	 */
 	public function __construct( Config $config ) {
-		$this->config               = $config;
+		$this->config = $config;
 	}
 
 	/**
