@@ -642,7 +642,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_brand_insights_link( WP_Admin_Bar $wp_admin_bar ) {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
-		$button_content = __( 'AI Brand Insights', 'wordpress-seo' );
+		$button_content = 'AI Brand Insights';
 
 		$menu_title = '<span class="yoast-brand-insights-gradient-border">'
 			. '<span class="yoast-brand-insights-content">'
