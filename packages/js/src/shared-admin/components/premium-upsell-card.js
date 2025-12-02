@@ -1,17 +1,14 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { LockOpenIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Button, Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
-import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
 import { ReactComponent as YoastSeoLogo } from "../../../images/yoast-premium-logo-new.svg";
 import { ReactComponent as WooSeoLogo } from "../../../images/woo-seo-logo-new.svg";
 // Note that the same logo in images has a width and height, which we do not want here.
-import { ReactComponent as G2Logo } from "./g2-logo-white.svg";
-import { CheckIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import classNames  from "classnames";
 
 /**
@@ -25,13 +22,23 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	const getBenefits = isWooCommerceActive
 		? getWooSeoBenefits
 		: getPremiumBenefits;
-	const info = useMemo( () => {
+	const infoSubHeader = useMemo( () => {
 		if ( isWooCommerceActive ) {
 			return	__( "SEO that scales with your product catalog.", "wordpress-seo" );
 		}
-		return __( "Now with Local, News & Video SEO + 1 Google Docs seat!", "wordpress-seo" );
+		return __( "Spend less time on SEO tasks!", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
-	let upsellButtonText = __( "Buy now", "wordpress-seo" );
+	const info = useMemo( () => {
+		if ( isWooCommerceActive ) {
+			return	__( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
+		}
+		return __( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
+	}, [ isWooCommerceActive ] );
+	let upsellButtonText = sprintf(
+		/* translators: %s expands to "Yoast SEO Premium". */
+		__( "Get %s", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	);
 	const upsellTitle = isWooCommerceActive
 		? safeCreateInterpolateElement(
 			sprintf(
@@ -64,8 +71,8 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	}
 	return (
 		<div
-			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-white  yst-shadow",
-				isWooCommerceActive ? "yst-bg-woo-dark" : "yst-bg-primary-500"
+			className={ classNames( "yst-p-6 yst-rounded-lg yst-text-slate-600 yst-bg-white yst-shadow yst-border",
+				isWooCommerceActive ? "yst-border-woo-light yst-border-opacity-50" : "yst-border-primary-300"
 			) }
 		>
 			<figure
@@ -81,15 +88,21 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 					<span className="banner_text">{ __( "BLACK FRIDAY | 30% OFF", "wordpress-seo" ) }</span>
 				</div>
 			</div> }
-			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
+			<Title
+				as="h2"
+				className={ classNames( "yst-mt-6 yst-text-xl yst-font-bold",
+					isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500" )
+				}
+			>
 				{ upsellTitle }
 			</Title>
-			<p className="yst-mt-2 yst-font-medium">{ info }</p>
-			<ul className="yst-list-outside yst-text-white yst-mt-2">
+			<p className="yst-mt-3 yst-font-medium yst-text-slate-800">{ infoSubHeader }</p>
+			<p className="yst-mt-1 yst-font-normal">{ info }</p>
+			<ul className="yst-list-outside yst-text-slate-600 yst-mt-4 yst-flex yst-flex-col yst-gap-2">
 				{ getBenefits( true ).map( ( benefit, index ) => (
-					<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-center yst-gap-2">
-						<CheckIcon className="yst-w-4 yst-h-4 yst-text-green-400" />
-						<span>{ benefit }</span>
+					<li key={ `upsell-benefit-${ index }` } className="yst-flex yst-items-start">
+						<CheckCircleIcon className="yst-mr-2 yst-text-green-500 yst-w-[19.5px] yst-h-[19.5px] yst-flex-shrink-0" />
+						{ benefit }
 					</li>
 				) ) }
 			</ul>
@@ -102,31 +115,17 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
+				<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 				<span>{ upsellButtonText }</span>
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
-			<p className="yst-text-center yst-text-xs yst-mx-2 yst-font-normal yst-leading-5 yst-italic yst-mt-2">
-				{ __( "30-day money back guarantee", "wordpress-seo" ) }
+			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-italic yst-mt-3 yst-mb-2">
+				{ __( "Less friction. Faster publishing.", "wordpress-seo" ) }
 			</p>
-			<hr className="yst-border-t yst-border-primary-300 yst-my-4" />
-			<a
-				className="yst-block yst-mt-4 yst-no-underline"
-				href="https://www.g2.com/products/yoast-yoast/reviews"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<span className="yst-flex yst-gap-2 yst-mt-2 yst-items-center">
-					<G2Logo className="yst-w-5 yst-h-5" />
-					<span className="yst-flex yst-gap-1">
-						<Star className="yst-w-5 yst-h-5" />
-						<Star className="yst-w-5 yst-h-5" />
-						<Star className="yst-w-5 yst-h-5" />
-						<Star className="yst-w-5 yst-h-5" />
-						<StarHalf className="yst-w-5 yst-h-5" />
-					</span>
-					<span className="yst-text-sm yst-font-semibold yst-text-white">4.6 / 5</span>
-				</span>
-			</a>
+			<hr className="yst-border-t yst-border-slate-200 yst-my-4" />
+			<ul className="yst-text-center yst-text-xs yst-font-medium yst-text-slate-800 yst-list-none">
+				<li>{ __( "30-day money back guarantee", "wordpress-seo" ) }</li>
+				<li>{ __( "24/7 support", "wordpress-seo" ) }</li>
+			</ul>
 		</div>
 	);
 };
