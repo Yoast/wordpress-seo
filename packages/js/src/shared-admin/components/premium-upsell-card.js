@@ -1,4 +1,5 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
@@ -8,7 +9,6 @@ import PropTypes from "prop-types";
 import { ReactComponent as YoastSeoLogo } from "../../../images/yoast-premium-logo-new.svg";
 import { ReactComponent as WooSeoLogo } from "../../../images/woo-seo-logo-new.svg";
 // Note that the same logo in images has a width and height, which we do not want here.
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import classNames  from "classnames";
 
 /**
