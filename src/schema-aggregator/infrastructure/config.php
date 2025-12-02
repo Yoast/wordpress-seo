@@ -47,10 +47,17 @@ class Config {
 	 * @return int
 	 */
 	public function get_per_page( string $post_type ): int {
+		/**
+		 * Filter: 'wpseo_schema_aggregator_big_schema_post_types' Determines the list of post types we want to have a smaller per page count.
+		 *
+		 * @param bool $default_schema_post_types Determines the default list of big schema post types.
+		 */
+		$big_schema_post_types = \apply_filters( 'wpseo_schema_aggregator_big_schema_post_types', self::BIG_SCHEMA_POST_TYPES );
+		if ( ! \is_array( $big_schema_post_types ) ) {
+			$big_schema_post_types = self::BIG_SCHEMA_POST_TYPES;
+		}
 
-		$per_page = \in_array( $post_type, self::BIG_SCHEMA_POST_TYPES, true ) ? self::DEFAULT_PER_PAGE_BIG_SCHEMA : self::DEFAULT_PER_PAGE;
-
-		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page', $per_page );
+		$per_page = \in_array( $post_type, $big_schema_post_types, true ) ? $this->get_big_per_post_type() : $this->get_default_per_post_type();
 
 		if ( $per_page > self::MAX_PER_PAGE ) {
 			$per_page = self::MAX_PER_PAGE;
@@ -123,5 +130,45 @@ class Config {
 		else {
 			return true;
 		}
+	}
+
+	/**
+	 * Gets the per post type for post types with lots of schema nodes.
+	 *
+	 * @return int
+	 */
+	public function get_big_per_post_type(): int {
+		/**
+		 * Filter: 'wpseo_schema_aggregator_per_page_big' Determines the page count for post types with lots of schema nodes.
+		 *
+		 * @param bool $default_count The default amount of posts per page.
+		 */
+		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page_big', self::DEFAULT_PER_PAGE_BIG_SCHEMA );
+
+		if ( $per_page > 0 ) {
+			return $per_page;
+		}
+
+		return self::DEFAULT_PER_PAGE_BIG_SCHEMA;
+	}
+
+	/**
+	 * Gets the per page for smaller post types.
+	 *
+	 * @return int
+	 */
+	public function get_default_per_post_type(): int {
+		/**
+		 * Filter: 'wpseo_schema_aggregator_per_page' Determines the page count for post types.
+		 *
+		 * @param bool $default_count The default amount of posts per page.
+		 */
+		$per_page = (int) \apply_filters( 'wpseo_schema_aggregator_per_page', self::DEFAULT_PER_PAGE );
+
+		if ( $per_page > 0 ) {
+			return $per_page;
+		}
+
+		return self::DEFAULT_PER_PAGE;
 	}
 }
