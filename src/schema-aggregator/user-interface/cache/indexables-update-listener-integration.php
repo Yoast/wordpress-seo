@@ -52,7 +52,12 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 	 * @param Manager              $manager              The manager object.
 	 * @param Xml_Manager          $xml_manager          The XML cache manager.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Config $config, Manager $manager, Xml_Manager $xml_manager ) {
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		Config $config,
+		Manager $manager,
+		Xml_Manager $xml_manager
+	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->config               = $config;
 		$this->manager              = $manager;
@@ -89,6 +94,7 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 		if ( $indexable_before->permalink === null ) {
 			$this->manager->invalidate_all();
 			$this->xml_manager->invalidate();
+
 			return false;
 		}
 		$page = $this->get_page_number( $indexable );
@@ -118,6 +124,6 @@ class Indexables_Update_Listener_Integration implements Integration_Interface {
 			->where_lt( 'id', $indexable->id )
 			->count();
 
-		return ( (int) \floor( $count_before / $this->config->get_per_page() ) + 1 );
+		return ( (int) \floor( $count_before / $this->config->get_per_page( $indexable->object_sub_type ) ) + 1 );
 	}
 }
