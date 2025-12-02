@@ -60,6 +60,13 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	private $promotion_manager;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WooCommerce_Conditional $woocommerce_conditional The WooCommerce conditional.
@@ -67,19 +74,22 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @param Product_Helper          $product_helper          The product helper.
 	 * @param Current_Page_Helper     $current_page_helper     The current page helper.
 	 * @param Promotion_Manager       $promotion_manager       The promotion manager.
+	 * @param WPSEO_Addon_Manager     $addon_manager           The addon manager.
 	 */
 	public function __construct(
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Shortlinker $shortlinker,
 		Product_Helper $product_helper,
 		Current_Page_Helper $current_page_helper,
-		Promotion_Manager $promotion_manager
+		Promotion_Manager $promotion_manager,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->shortlinker             = $shortlinker;
 		$this->product_helper          = $product_helper;
 		$this->current_page_helper     = $current_page_helper;
 		$this->promotion_manager       = $promotion_manager;
+		$this->addon_manager           = $addon_manager;
 	}
 
 	/**
@@ -105,8 +115,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 */
 	public function add_page( $pages ) {
 		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
-		$addon_manager = new WPSEO_Addon_Manager();
-		if ( $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+		if ( $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
 			return $pages;
 		}
 
