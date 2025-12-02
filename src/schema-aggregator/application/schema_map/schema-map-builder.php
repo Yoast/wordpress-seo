@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Interface;
 
 /**
@@ -17,6 +18,22 @@ class Schema_Map_Builder {
 	 * @var Schema_Map_Repository_Interface
 	 */
 	private $schema_map_repository;
+
+	/**
+	 * The configuration.
+	 *
+	 * @var Config
+	 */
+	private $config;
+
+	/**
+	 * Schema_Map_Builder constructor.
+	 *
+	 * @param Config $config The configuration.
+	 */
+	public function __construct( Config $config ) {
+		$this->config = $config;
+	}
 
 	/**
 	 * Sets the schema map repository.
@@ -34,16 +51,17 @@ class Schema_Map_Builder {
 	 * Builds the schema map based on indexable counts and threshold.
 	 *
 	 * @param Indexable_Count_Collection $indexable_counts The indexable counts per post type.
-	 * @param int                        $threshold        The threshold for items per page.
 	 *
 	 * @return array<int,array<string>> The schema map.
 	 */
-	public function build( Indexable_Count_Collection $indexable_counts, int $threshold ): array {
-
+	public function build( Indexable_Count_Collection $indexable_counts ): array {
 		$schema_map = [];
 		foreach ( $indexable_counts->get_indexable_counts() as $indexable_count ) {
+
 			$post_type = $indexable_count->get_post_type();
 			$count     = $indexable_count->get_count();
+
+			$threshold = $this->config->get_per_page( $post_type );
 
 			$total_pages = (int) \ceil( $count / $threshold );
 

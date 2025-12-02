@@ -142,7 +142,7 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 
 			$post_types = $this->post_type_helper->get_indexable_post_types();
 
-			$command = new Aggregate_Site_Schema_Map_Command( $post_types, $this->config->get_per_page() );
+			$command = new Aggregate_Site_Schema_Map_Command( $post_types );
 			$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
 
 			$this->xml_cache_manager->set( $xml );
