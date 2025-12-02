@@ -303,6 +303,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.6 =
+
+Release date: 2025-12-16
+
+#### Enhancements
+
+* Improves the llms.txt structure by moving the sitemap mention into an option section at the end of the llms.txt file.
+* Introduces a task list for reminding site admins about relevant SEO tasks.
+
+#### Bugfixes
+
+* Fixes a bug where the `Show more` list for categries and content types would collapse when clicking on menu items in the settings sidebar navigation.
+
+#### Other
+
+* Highlights the Google Docs & Yoast Duplicate post add-ons on the Plans page.
+
 = 26.5 =
 
 Release date: 2025-12-02
@@ -322,21 +339,6 @@ Release date: 2025-12-02
 
 * Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
 * Sets the _WordPress tested up to_ version to 6.9.
-
-= 26.4 =
-
-Release date: 2025-11-18
-
-#### Bugfixes
-
-* Fixes a bug for users who have the Site Kit integration enabled, where a fatal error would be thrown for edge cases, like when custom code intervened with the default WP login flow.
-* Fixes a bug in the Settings page where the advanced tab would close when selecting one of its options or other options after visiting the advanced tab.
-
-#### Other
-
-* Adds a button for using AI to generate custom an SEO title or meta description in the pre-publish sidebar of the block editor, if all recent posts have been using default SEO data.
-* Adds the Yoast siblings and subpages premium blocks to the Yoast custom blocks menu tab in pages.
-* Improves performance when author archives are disabled and an author is created. Props to [ErikBrendel](https://github.com/ErikBrendel).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
