@@ -2,9 +2,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Builder;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map\Schema_Map_Xml_Renderer;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexable_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Factory;
 
 /**
  * Class that handles the command to aggregate site schema map.
@@ -14,11 +15,11 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexabl
 class Aggregate_Site_Schema_Map_Command_Handler {
 
 	/**
-	 * The schema map indexable repository.
+	 * The schema map factory.
 	 *
-	 * @var Schema_Map_Indexable_Repository
+	 * @var Schema_Map_Repository_Factory
 	 */
-	private $schema_map_indexable_repository;
+	private $schema_map_repository_factory;
 
 	/**
 	 * The schema map builder.
@@ -35,16 +36,25 @@ class Aggregate_Site_Schema_Map_Command_Handler {
 	private $schema_map_xml_renderer;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Aggregate_Site_Schema_Map_Command_Handler constructor.
 	 *
-	 * @param Schema_Map_Indexable_Repository $schema_map_indexable_repository The schema map indexable repository.
-	 * @param Schema_Map_Builder              $schema_map_builder              The schema map builder.
-	 * @param Schema_Map_Xml_Renderer         $schema_map_xml_renderer         The schema map XML renderer.
+	 * @param Schema_Map_Repository_Factory $schema_map_repository_factory The schema map factory.
+	 * @param Schema_Map_Builder            $schema_map_builder            The schema map builder.
+	 * @param Schema_Map_Xml_Renderer       $schema_map_xml_renderer       The schema map XML renderer.
+	 * @param Indexable_Helper              $indexable_helper              The indexable helper.
 	 */
-	public function __construct( Schema_Map_Indexable_Repository $schema_map_indexable_repository, Schema_Map_Builder $schema_map_builder, Schema_Map_Xml_Renderer $schema_map_xml_renderer ) {
-		$this->schema_map_indexable_repository = $schema_map_indexable_repository;
-		$this->schema_map_builder              = $schema_map_builder;
-		$this->schema_map_xml_renderer         = $schema_map_xml_renderer;
+	public function __construct( Schema_Map_Repository_Factory $schema_map_repository_factory, Schema_Map_Builder $schema_map_builder, Schema_Map_Xml_Renderer $schema_map_xml_renderer, Indexable_Helper $indexable_helper ) {
+		$this->schema_map_repository_factory = $schema_map_repository_factory;
+		$this->schema_map_builder            = $schema_map_builder;
+		$this->schema_map_xml_renderer       = $schema_map_xml_renderer;
+		$this->indexable_helper              = $indexable_helper;
 	}
 
 	/**
@@ -56,11 +66,14 @@ class Aggregate_Site_Schema_Map_Command_Handler {
 	 */
 	public function handle( Aggregate_Site_Schema_Map_Command $command ): string {
 
-		$indexable_counts = $this->schema_map_indexable_repository->get_indexable_count_per_post_type( $command->get_post_types() );
+		$schema_map_repository = $this->schema_map_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
+		$indexable_counts      = $schema_map_repository->get_indexable_count_per_post_type( $command->get_post_types() );
 
 		$threshold = $command->get_schema_map_threshold();
 
-		$schema_map = $this->schema_map_builder->build( $indexable_counts, $threshold );
+		$schema_map = $this->schema_map_builder
+			->with_repository( $schema_map_repository )
+			->build( $indexable_counts, $threshold );
 
 		return $this->schema_map_xml_renderer->render( $schema_map );
 	}

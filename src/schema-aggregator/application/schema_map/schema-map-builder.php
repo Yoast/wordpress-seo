@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Map;
 
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Indexable_Count_Collection;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexable_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Repository_Interface;
 
 /**
  * Builds the schema map.
@@ -12,19 +12,22 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexabl
 class Schema_Map_Builder {
 
 	/**
-	 * The indexable repository.
+	 * The schema map repository.
 	 *
-	 * @var Schema_Map_Indexable_Repository
+	 * @var Schema_Map_Repository_Interface
 	 */
-	private $indexable_repository;
+	private $schema_map_repository;
 
 	/**
-	 * Schema_Map_Builder constructor.
+	 * Sets the schema map repository.
 	 *
-	 * @param Schema_Map_Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Schema_Map_Repository_Interface $schema_map_repository The schema map repository.
+	 *
+	 * @return self
 	 */
-	public function __construct( Schema_Map_Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function with_repository( Schema_Map_Repository_Interface $schema_map_repository ): self {
+		$this->schema_map_repository = $schema_map_repository;
+		return $this;
 	}
 
 	/**
@@ -36,6 +39,7 @@ class Schema_Map_Builder {
 	 * @return array<int,array<string>> The schema map.
 	 */
 	public function build( Indexable_Count_Collection $indexable_counts, int $threshold ): array {
+
 		$schema_map = [];
 		foreach ( $indexable_counts->get_indexable_counts() as $indexable_count ) {
 			$post_type = $indexable_count->get_post_type();
@@ -54,7 +58,7 @@ class Schema_Map_Builder {
 					$url = $this->get_rest_route( $post_type, $page );
 				}
 
-				$lastmod = $this->indexable_repository->get_lastmod_for_post_type( $post_type, $page, $threshold );
+				$lastmod = $this->schema_map_repository->get_lastmod_for_post_type( $post_type, $page, $threshold );
 
 				$page_count = ( $page === $total_pages ) ? ( $count - ( ( $page - 1 ) * $threshold ) ) : $threshold;
 
