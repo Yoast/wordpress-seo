@@ -64,7 +64,6 @@ class Aggregate_Site_Schema_Command_Handler {
 		);
 
 		$aggregated_schema_pieces = $this->schema_piece_aggregator->aggregate( $schema_pieces );
-		$schema                   = $this->schema_response_composer->compose( $aggregated_schema_pieces, $command->get_page_controls()->get_post_type(), $command->get_page_controls()->get_page(), $command->get_page_controls()->get_page_size() );
-		return $schema;
+		return $this->schema_response_composer->compose( $aggregated_schema_pieces );
 	}
 }
