@@ -1,9 +1,10 @@
 /* External dependencies */
-import { Fragment, Component } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import { Button, Root } from "@yoast/ui-library";
 
 /* Yoast dependencies */
 import { NewButton, ButtonStyledLink } from "@yoast/components";
@@ -166,17 +167,18 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
 		insightsLink.searchParams.append( "q", keyphrase );
 		insightsLink.searchParams.append( "db", countryCode );
+		const isRtl = document.dir === "rtl";
 
 		return (
-			<Fragment>
+			<Root context={ { isRtl } }>
 				{ isLoggedIn && <div className={ "yoast" }>
-					<NewButton
-						variant={ "secondary" }
+					<Button
+						variant="secondary"
 						id={ `yoast-get-related-keyphrases-${location}` }
 						onClick={ this.onModalOpen }
 					>
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
-					</NewButton>
+					</Button>
 				</div> }
 				<Modal
 					isOpen={ Boolean( keyphrase ) && whichModalOpen === location }
@@ -189,8 +191,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 
 				</Modal>
 				{ ! isLoggedIn && <div className={ "yoast" }>
-					<ButtonStyledLink
-						variant={ "secondary" }
+					<Button
+						as="a"
+						variant="secondary"
 						id={ `yoast-get-related-keyphrases-${location}` }
 						href={ "https://oauth.semrush.com/oauth2/authorize?" +
 							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
@@ -204,9 +207,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-					</ButtonStyledLink>
+					</Button>
 				</div> }
-			</Fragment>
+			</Root>
 		);
 	}
 }
