@@ -6,7 +6,9 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 
 /**
  * Redirects_Page_Integration class.
@@ -26,12 +28,35 @@ class Redirects_Page_Integration implements Integration_Interface {
 	private $current_page_helper;
 
 	/**
+	 * The user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user_helper;
+
+	/**
+	 * The Wistia embed permission repository.
+	 *
+	 * @var Wistia_Embed_Permission_Repository
+	 */
+	private $wistia_embed_permission_repository;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Current_Page_Helper                $current_page_helper                The current page helper.
+	 * @param User_Helper                        $user_helper                        The user helper.
+	 * @param Wistia_Embed_Permission_Repository $wistia_embed_permission_repository The Wistia embed permission
+	 *                                                                               repository.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper ) {
-		$this->current_page_helper = $current_page_helper;
+	public function __construct(
+		Current_Page_Helper $current_page_helper,
+		User_Helper $user_helper,
+		Wistia_Embed_Permission_Repository $wistia_embed_permission_repository
+	) {
+		$this->current_page_helper                = $current_page_helper;
+		$this->user_helper                        = $user_helper;
+		$this->wistia_embed_permission_repository = $wistia_embed_permission_repository;
 	}
 
 	/**
@@ -90,15 +115,18 @@ class Redirects_Page_Integration implements Integration_Interface {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'redirects' );
 		$asset_manager->enqueue_style( 'redirects' );
-
+		$user_id = $this->user_helper->get_current_user_id();
 		$asset_manager->localize_script(
 			'redirects',
 			'wpseoScriptData',
 			[
-				'preferences' => [
-					'isRtl'     => \is_rtl(),
+				'preferences'           => [
+					'isRtl'                 => \is_rtl(),
+					'isComingFromToolsPage' => $this->is_coming_from_tools_page(),
 				],
-				'linkParams'  => \YoastSEO()->helpers->short_link->get_query_params(),
+				'linkParams'            => \YoastSEO()->helpers->short_link->get_query_params(),
+				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
+				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
 			]
 		);
 	}
@@ -122,5 +150,15 @@ class Redirects_Page_Integration implements Integration_Interface {
 		\remove_all_actions( 'user_admin_notices' );
 		\remove_all_actions( 'network_admin_notices' );
 		\remove_all_actions( 'all_admin_notices' );
+	}
+
+	/**
+	 * Checks whether the user is coming from the tools page.
+	 *
+	 * @return bool
+	 */
+	public function is_coming_from_tools_page() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are simply checking against a set value.
+		return isset( $_GET['from_tools'] ) && $_GET['from_tools'] === '1';
 	}
 }

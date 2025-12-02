@@ -7,7 +7,7 @@ import { Root } from "@yoast/ui-library";
 import { get, isEmpty, find } from "lodash";
 import { LINK_PARAMS_NAME, PLUGIN_URL_NAME, WISTIA_EMBED_PERMISSION_NAME } from "../shared-admin/store";
 import { Introduction, IntroductionProvider } from "./components";
-import { AiBrandInsightsPreLaunch } from "./components/modals/ai-brand-insights-pre-launch";
+import { AiBrandInsightsPostLaunch } from "./components/modals/ai-brand-insights-post-launch";
 import { BlackFridayAnnouncement } from "./components/modals/black-friday-announcement";
 import { DelayedPremiumUpsell } from "./components/modals/delayed-premium-upsell";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
@@ -22,7 +22,7 @@ domReady( () => {
 	}
 
 	const initialComponents = {
-		"ai-brand-insights-pre-launch": AiBrandInsightsPreLaunch,
+		"ai-brand-insights-post-launch": AiBrandInsightsPostLaunch,
 		"black-friday-announcement": BlackFridayAnnouncement,
 		"delayed-premium-upsell": DelayedPremiumUpsell,
 	};

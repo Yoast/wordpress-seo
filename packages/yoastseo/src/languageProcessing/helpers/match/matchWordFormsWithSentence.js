@@ -2,17 +2,28 @@ import matchTextWithTransliteration from "./matchTextWithTransliteration";
 import splitIntoTokens from "../word/splitIntoTokens";
 
 /**
+ * @typedef {import ("../../../parse/structure/Sentence").default} Sentence
+ * @typedef {import ("../../../parse/structure/Token").default} Token
+ */
+
+/**
+ * @typedef MatchResult
+ * @property {number} count The number of matches found.
+ * @property {(Token|string)[]} matches The array of matched tokens or strings.
+ */
+
+/**
  * Tokenizes the word form of the keyphrase for exact matching. This function gets the word form and tokenizes it.
  * This function assumes that if a keyphrase needs to be matched exactly, there will be only one word form.
  * This is the result of how the focus keyphrase is processed in buildTopicStems.js in the buildStems function.
  *
- * @param {(string[])}  wordForms 					The word forms to tokenize.
+ * @param {string[]}  wordForms 					The word forms to tokenize.
  * @param {function}	customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
  * @returns {string[]} The tokenized word forms.
  */
 export const tokenizeKeyphraseFormsForExactMatching = ( wordForms, customSplitIntoTokensHelper ) => {
-	// Tokenize word form of the keyphrase.
+	// Tokenize a word form of the keyphrase.
 	const wordFormText = wordForms[ 0 ];
 
 	return customSplitIntoTokensHelper ? customSplitIntoTokensHelper( wordFormText ) : splitIntoTokens( wordFormText );
@@ -27,7 +38,7 @@ export const tokenizeKeyphraseFormsForExactMatching = ( wordForms, customSplitIn
  * @param {string}		locale						The locale used in the analysis.
  * @param {function}	customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
- * @returns {{count: number, matches: Token[]}} Object containing the number of the exact matches and the matched tokens.
+ * @returns {MatchResult} Object containing the number of the exact matches and the matched tokens.
  */
 const findExactMatchKeyphraseInSentence = ( sentence, wordForms, locale, customSplitIntoTokensHelper ) => {
 	const result = {
@@ -112,7 +123,7 @@ const matchWordFormInTokens = ( tokens, wordForm, locale ) => {
  * @param {string}			locale					The locale used in the analysis.
  * @param {function}		matchWordCustomHelper	Custom function to match a word form with sentence.
  *
- * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
+ * @returns {MatchResult} Object containing the number of the matches and the matched tokens.
  */
 const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomHelper ) => {
 	const result = {
@@ -136,7 +147,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
 };
 
 /**
- * Matches the word forms of a keyphrase with a sentence object from the html parser.
+ * Matches the word forms of a keyphrase with a sentence object from the HTML parser.
  *
  * @param {Sentence|string}	sentence					The sentence to match against the word forms of a keyphrase.
  * @param {string[]}		wordForms					The array of word forms of the keyphrase.
@@ -148,7 +159,7 @@ const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomH
  * 														Exact match is used when the keyphrase is enclosed in double quotes.
  * @param {function}		customSplitIntoTokensHelper	A custom helper to split sentences into tokens.
  *
- * @returns {{count: number, matches: (Token|string)[]}} Object containing the number of the matches and the matched tokens.
+ * @returns {MatchResult} Object containing the number of the matches and the matched tokens.
  */
 const matchWordFormsWithSentence = ( sentence, wordForms, locale, matchWordCustomHelper, useExactMatching = false, customSplitIntoTokensHelper ) => {
 	/*

@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, BellIcon, ChartPieIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, BellIcon, ChartPieIcon, ClipboardCheckIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -7,7 +7,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Notice, LlmTxtOptInNotification } from "./components";
+import { Notice, LlmTxtOptInContainer } from "./components";
 import { STORE_NAME } from "./constants";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 import { deleteMigratingNotices } from "../helpers/migrateNotices";
@@ -22,6 +22,7 @@ import { ROUTES } from "./routes";
 const Menu = ( { idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
+	const isTaskListFeatureEnabled = useSelectGeneralPage( "selectIsTaskListEnabled", [] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -44,6 +45,15 @@ const Menu = ( { idSuffix = "" } ) => {
 				idSuffix={ idSuffix }
 				className="yst-gap-3"
 			/>
+			{ isTaskListFeatureEnabled && <MenuItemLink
+				to={ ROUTES.taskList }
+				label={ <>
+					<ClipboardCheckIcon className="yst-sidebar-navigation__icon yst-w-6 yst-h-6" />
+					{ __( "Task list", "wordpress-seo" ) }
+				</> }
+				idSuffix={ idSuffix }
+				className="yst-gap-3"
+			/> }
 			<MenuItemLink
 				to={ ROUTES.alertCenter }
 				label={ <>
@@ -150,7 +160,7 @@ const App = () => {
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
 				position="bottom-left"
 			>
-				<LlmTxtOptInNotification />
+				<LlmTxtOptInContainer />
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }

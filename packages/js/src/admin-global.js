@@ -164,6 +164,36 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
+	 * Makes the Brand Insight link in the admin sidebar open in a new tab, when Premium is enabled.
+	 *
+	 * @returns {void}
+	 */
+	function makeBrandInsightsPremiumLinkOpenInNewTab() {
+		var elements = $( "a[href$='admin.php?page=wpseo_brand_insights_premium']" );
+		if ( elements.length ) {
+			elements.each( function() {
+				var element = $( this );
+				element.attr( "target", "_blank" );
+			} );
+		}
+	}
+
+	/**
 	 * Handles dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
@@ -453,5 +483,7 @@ import jQuery from "jquery";
 		createScrollableTables();
 		resolveNotificationMismatch();
 		makeUpgradesOpenInNewTab();
+		makeBrandInsightsLinkOpenInNewTab();
+		makeBrandInsightsPremiumLinkOpenInNewTab();
 	} );
 }( jQuery ) );

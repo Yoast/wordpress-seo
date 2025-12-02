@@ -2,7 +2,7 @@ import { SlotFillProvider } from "@wordpress/components";
 import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
-import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider } from "@yoast/dashboard-frontend";
+import { ComparisonMetricsDataFormatter, PlainMetricsDataFormatter, RemoteCachedDataProvider, RemoteDataProvider, TASK_LIST_NAME } from "@yoast/dashboard-frontend";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import { createHashRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
@@ -16,10 +16,11 @@ import { RouteErrorFallback } from "./components";
 import { ConnectedPremiumUpsellList } from "./components/connected-premium-upsell-list";
 import { SidebarLayout } from "./components/sidebar-layout";
 import { STORE_NAME } from "./constants";
-import { AlertCenter, FirstTimeConfiguration, ROUTES } from "./routes";
+import { AlertCenter, FirstTimeConfiguration, ROUTES, TaskList } from "./routes";
 import registerStore from "./store";
 import { ADMIN_NOTICES_NAME } from "./store/admin-notices";
 import { ALERT_CENTER_NAME } from "./store/alert-center";
+import { OPT_IN_NOTIFICATION_NAME } from "./store/opt-in";
 
 /**
  * @type {import("../index").ContentType} ContentType
@@ -34,6 +35,7 @@ domReady( () => {
 	if ( ! root ) {
 		return;
 	}
+	const nonce = get( window, "wpseoScriptData.dashboard.nonce", "" );
 	registerStore( {
 		initialState: {
 			[ ADMIN_URL_NAME ]: get( window, "wpseoScriptData.adminUrl", "" ),
@@ -43,6 +45,13 @@ domReady( () => {
 			dismissedAlerts: get( window, "wpseoScriptData.dismissedAlerts", {} ),
 			isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
 			[ ADMIN_NOTICES_NAME ]: { resolvedNotices: [] },
+			[ OPT_IN_NOTIFICATION_NAME ]: { seen: get( window, "wpseoScriptData.optInNotificationSeen", false ) },
+			[ TASK_LIST_NAME ]: {
+				enabled: get( window, "wpseoScriptData.taskListConfiguration.enabled", false ),
+				endpoints: get( window, "wpseoScriptData.taskListConfiguration.endpoints", {} ),
+				tasks: {},
+				nonce,
+			},
 		},
 	} );
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
@@ -70,7 +79,7 @@ domReady( () => {
 	};
 	/** @type {Object<string,string>} */
 	const headers = {
-		"X-Wp-Nonce": get( window, "wpseoScriptData.dashboard.nonce", "" ),
+		"X-Wp-Nonce": nonce,
 	};
 
 	/** @type {Links} */
@@ -149,6 +158,8 @@ domReady( () => {
 		dataProvider.setSiteKitConfigurationDismissed( true );
 	}
 
+	const isTaskListFeatureEnabled = select( STORE_NAME ).selectIsTaskListEnabled();
+
 	const router = createHashRouter(
 		createRoutesFromElements(
 			<Route path="/" element={ <App /> } errorElement={ <RouteErrorFallback className="yst-m-8" /> }>
@@ -169,6 +180,18 @@ domReady( () => {
 					}
 					errorElement={ <RouteErrorFallback /> }
 				/>
+
+				{ isTaskListFeatureEnabled && <Route
+					path={ ROUTES.taskList }
+					element={
+						<SidebarLayout>
+							<TaskList />
+							<ConnectedPremiumUpsellList />
+						</SidebarLayout>
+					}
+					errorElement={ <RouteErrorFallback /> }
+				/> }
+
 				<Route
 					path={ ROUTES.alertCenter }
 					element={ <SidebarLayout><AlertCenter /><ConnectedPremiumUpsellList /></SidebarLayout> }

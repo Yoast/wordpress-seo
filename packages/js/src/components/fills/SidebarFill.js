@@ -8,13 +8,12 @@ import { get } from "lodash";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import { useFirstEligibleNotification } from "../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../insights/components/insights-modal";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
 import SidebarItem from "../SidebarItem";
 import SearchAppearanceModal from "../modals/editorModals/SearchAppearanceModal";
-import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import SocialAppearanceModal from "../modals/editorModals/SocialAppearanceModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
@@ -40,7 +39,8 @@ export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
 
-	if ( isBlockEditor() ) {
+	const isBlockEditorActive = isBlockEditor();
+	if ( isBlockEditorActive ) {
 		useToggleMarkerStatus();
 	}
 
@@ -62,9 +62,7 @@ export default function SidebarFill( { settings } ) {
 					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisUpsell location="sidebar" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
@@ -102,14 +100,19 @@ export default function SidebarFill( { settings } ) {
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
+				{ isBlockEditorActive &&
+					<SidebarItem key="content-blocks" renderPriority={ 29 }>
+						<ContentBlocks />
+					</SidebarItem>
+				}
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 30 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 31 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
 				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>

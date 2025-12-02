@@ -64,20 +64,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $is_advanced_metadata_enabled;
 
 	/**
-	 * Whether the insights feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_insights_enabled;
-
-	/**
-	 * Whether the cornerstone content feature is enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_cornerstone_enabled;
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -99,8 +85,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->is_insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false );
-		$this->is_cornerstone_enabled      = WPSEO_Options::get( 'enable_cornerstone_content', false );
 	}
 
 	/**
@@ -905,6 +889,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
+			'isPage'                     => get_post_type( $post_id ) === 'page',
 			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
@@ -928,10 +913,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
-
-		if ( $this->readability_analysis->is_enabled() || $this->inclusive_language_analysis->is_enabled() || $this->seo_analysis->is_enabled() || $this->is_insights_enabled || $this->is_cornerstone_enabled ) {
-			$asset_manager->enqueue_user_language_script();
-		}
 	}
 
 	/**

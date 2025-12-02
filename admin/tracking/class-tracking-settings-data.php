@@ -21,6 +21,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'googleverify',
 		'msverify',
 		'yandexverify',
+		'ahrefsverify',
 		'myyoast-oauth',
 		'website_name',
 		'alternate_website_name',
@@ -81,6 +82,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'ryte_indexability',
 		'baiduverify',
 		'googleverify',
+		'ahrefsverify',
 		'msverify',
 		'yandexverify',
 		'site_type',
@@ -241,6 +243,8 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'ai_free_sparks_started_on',
 		'enable_llms_txt',
 		'llms_txt_selection_mode',
+		'configuration_finished_steps',
+		'enable_task_list',
 	];
 
 	/**

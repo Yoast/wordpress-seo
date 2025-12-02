@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
@@ -60,6 +61,13 @@ final class Support_Integration_Test extends TestCase {
 	private $promotion_manager;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Holds the container.
 	 *
 	 * @var Mockery\MockInterface|Container
@@ -93,6 +101,7 @@ final class Support_Integration_Test extends TestCase {
 		$this->product_helper          = Mockery::mock( Product_Helper::class );
 		$this->shortlink_helper        = Mockery::mock( Short_Link_Helper::class );
 		$this->promotion_manager       = Mockery::mock( Promotion_Manager::class );
+		$this->addon_manager           = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->container               = $this->create_container_with( [ Promotion_Manager::class => $this->promotion_manager ] );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 
@@ -102,6 +111,7 @@ final class Support_Integration_Test extends TestCase {
 			$this->product_helper,
 			$this->shortlink_helper,
 			$this->woocommerce_conditional,
+			$this->addon_manager,
 		);
 	}
 
@@ -121,6 +131,7 @@ final class Support_Integration_Test extends TestCase {
 				$this->product_helper,
 				$this->shortlink_helper,
 				$this->woocommerce_conditional,
+				$this->addon_manager
 			)
 		);
 	}
@@ -350,9 +361,21 @@ final class Support_Integration_Test extends TestCase {
 			'user_language'    => 'en_US',
 		];
 
-		$this->product_helper
-			->expects( 'is_premium' )
+		$this->addon_manager
+			->expects( 'has_active_addons' )
+			->times( 2 )
+			->andReturn( true );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
 			->once()
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->andReturn( true );
+
+		$this->addon_manager
+			->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
@@ -388,14 +411,15 @@ final class Support_Integration_Test extends TestCase {
 
 		$expected = [
 			'preferences'       => [
-				'isPremium'           => false,
-				'isRtl'               => false,
-				'pluginUrl'           => 'http://basic.wordpress.test/wp-content/worspress-seo',
-				'upsellSettings'      => [
+				'hasPremiumSubscription' => true,
+				'hasWooSeoSubscription'  => false,
+				'isRtl'                  => false,
+				'pluginUrl'              => 'http://basic.wordpress.test/wp-content/worspress-seo',
+				'upsellSettings'         => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
-				'isWooCommerceActive' => false,
+				'isWooCommerceActive'    => false,
 			],
 			'linkParams'        => $link_params,
 			'currentPromotions' => [ 'black-friday-promotion' ],

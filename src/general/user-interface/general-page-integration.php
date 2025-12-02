@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\General\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
@@ -16,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 
 /**
  * Class General_Page_Integration.
@@ -40,6 +42,13 @@ class General_Page_Integration implements Integration_Interface {
 	 * @var Dashboard_Configuration
 	 */
 	private $dashboard_configuration;
+
+	/**
+	 * The task list configuration.
+	 *
+	 * @var Task_List_Configuration
+	 */
+	private $task_list_configuration;
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -105,6 +114,13 @@ class General_Page_Integration implements Integration_Interface {
 	private $woocommerce_conditional;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructs Academy_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager           The WPSEO_Admin_Asset_Manager.
@@ -118,6 +134,8 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param User_Helper               $user_helper             The user helper.
 	 * @param Options_Helper            $options_helper          The options helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
+	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
+	 * @param Task_List_Configuration   $task_list_configuration The task list configuration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -130,7 +148,9 @@ class General_Page_Integration implements Integration_Interface {
 		Dashboard_Configuration $dashboard_configuration,
 		User_Helper $user_helper,
 		Options_Helper $options_helper,
-		WooCommerce_Conditional $woocommerce_conditional
+		WooCommerce_Conditional $woocommerce_conditional,
+		WPSEO_Addon_Manager $addon_manager,
+		Task_List_Configuration $task_list_configuration
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -143,6 +163,8 @@ class General_Page_Integration implements Integration_Interface {
 		$this->user_helper             = $user_helper;
 		$this->options_helper          = $options_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
+		$this->addon_manager           = $addon_manager;
+		$this->task_list_configuration = $task_list_configuration;
 	}
 
 	/**
@@ -232,7 +254,7 @@ class General_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data() {
 		return [
-			'preferences'       => [
+			'preferences'           => [
 				'isPremium'              => $this->product_helper->is_premium(),
 				'isRtl'                  => \is_rtl(),
 				'pluginUrl'              => \plugins_url( '', \WPSEO_FILE ),
@@ -241,33 +263,36 @@ class General_Page_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 				'llmTxtEnabled'          => $this->options_helper->get( 'enable_llms_txt', true ),
-				// @TODO: This can get its own architecture much like introductions have, so let's consider it when we want to introduce more similar toasts in the dashboard.
-				'llmTxtNotificationSeen' => $this->is_llms_txt_notification_seen(),
 				'isWooCommerceActive'    => $this->woocommerce_conditional->is_met(),
+				'addonsStatus'           => [
+					'isWooSeoActive'         => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ),
+					'isLocalSEOActive'       => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::LOCAL_SLUG ) ),
+					'isNewsSEOActive'        => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::NEWS_SLUG ) ),
+					'isVideoSEOActive'       => \is_plugin_active( $this->addon_manager->get_plugin_file( WPSEO_Addon_Manager::VIDEO_SLUG ) ),
+					'isDuplicatePostActive'  => \defined( 'DUPLICATE_POST_FILE' ),
+				],
 			],
-			'adminUrl'          => \admin_url( 'admin.php' ),
-			'linkParams'        => $this->shortlink_helper->get_query_params(),
-			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
-			'alerts'            => $this->notification_helper->get_alerts(),
-			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
-			'dismissedAlerts'   => $this->alert_dismissal_action->all_dismissed(),
-			'dashboard'         => $this->dashboard_configuration->get_configuration(),
+			'adminUrl'              => \admin_url( 'admin.php' ),
+			'linkParams'            => $this->shortlink_helper->get_query_params(),
+			'userEditUrl'           => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
+			'alerts'                => $this->notification_helper->get_alerts(),
+			'currentPromotions'     => $this->promotion_manager->get_current_promotions(),
+			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
+			'dashboard'             => $this->dashboard_configuration->get_configuration(),
+			'optInNotificationSeen' => [
+				'wpseo_seen_llm_txt_opt_in_notification' => $this->is_llms_txt_opt_in_notification_seen(),
+			],
+			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
 		];
 	}
 
 	/**
 	 * Gets if the llms.txt opt-in notification has been seen.
-	 * This is used to show the notification only once.
 	 *
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
-	private function is_llms_txt_notification_seen(): bool {
-		$key             = 'wpseo_seen_llm_txt_opt_in_notification';
+	private function is_llms_txt_opt_in_notification_seen(): bool {
 		$current_user_id = $this->user_helper->get_current_user_id();
-		$seen            = (bool) $this->user_helper->get_meta( $current_user_id, $key, true );
-		if ( $seen === false ) {
-			$this->user_helper->update_meta( $current_user_id, $key, true );
-		}
-		return $seen;
+		return (bool) $this->user_helper->get_meta( $current_user_id, 'wpseo_seen_llm_txt_opt_in_notification', true );
 	}
 }

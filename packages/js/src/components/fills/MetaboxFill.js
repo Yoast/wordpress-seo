@@ -10,7 +10,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -19,7 +19,6 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
-import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 import KeywordUpsell from "../modals/KeywordUpsell";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
@@ -43,7 +42,9 @@ export default function MetaboxFill( { settings } ) {
 		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
 	} ), [] );
 
-	if ( isBlockEditor() ) {
+	const isBlockEditorActive = isBlockEditor();
+
+	if ( isBlockEditorActive ) {
 		useToggleMarkerStatus();
 	}
 
@@ -87,9 +88,7 @@ export default function MetaboxFill( { settings } ) {
 					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisUpsell location="metabox" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
@@ -117,6 +116,11 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
 					<SchemaTabContainer />
 				</SidebarItem> }
+				{ isBlockEditorActive &&
+					<SidebarItem key="content-blocks" renderPriority={ 24 }>
+						<ContentBlocks />
+					</SidebarItem>
+				}
 				<SidebarItem
 					key="social"
 					renderPriority={ -1 }

@@ -568,12 +568,25 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product ul {
-	list-style-type: disc;
-	margin-inline-start: 24px;
+	list-style-image: none;
+	margin-inline-start: 0;
 }
 
 .yoast-sidebar__product ul li {
 	margin-bottom: 0;
+	position: relative;
+	padding-left: 24px;
+}
+
+.yoast-sidebar__product ul li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 16px;
+	height: 16px;
+	background: var(--yoast-svg-icon-check-ok) no-repeat;
+	background-size: 16px 16px;
 }
 
 .yoast-get-premium-title {
@@ -605,7 +618,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .yoast-price-micro-copy {
-	font-weight: 300;
+	font-weight: 400;
 	font-size: 12px;
 	font-style: italic;
 	text-align: center;
@@ -641,7 +654,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	padding-top: 0;
 	padding-bottom: 0;
 	@apply yst-bg-amber-300 yst-text-amber-900;
-
+}
+@media (min-width: 640px) {
+	#wpseo-premium_upsell-popup-button {
+		max-width: 384px;
+	}
 }
 
 .yoast-sidebar__product .review-container {
@@ -789,7 +806,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
 	background-color: #fff;
-	max-width: 768px;
+	max-width: 896px;
 	overflow: hidden;
 	margin-top: 2em;
 }
@@ -823,14 +840,23 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast_premium_upsell--subheader {
-	color: rgb(100, 116, 139);
+	color: rgb(30, 41, 59);
 	display: block;
 	margin-top: 8px;
-	margin-bottom: 2em;
 	font-size: 1em;
 	font-weight: 500;
 	line-height: 1.5;
-	text-transform: uppercase;
+}
+
+.yoast_premium_upsell--badge {
+	background-color: rgba(166, 30, 105, 0.15);
+	color: rgba(154, 22, 96, 1);
+	margin-right: 8px;
+}
+
+.yoast_premium_upsell--badge.woo-badge {
+	background-color: rgba(0, 117, 179, 0.15);
+	color: rgba(0, 100, 153, 1);
 }
 
 .yoast_premium_upsell--motivation {
@@ -840,6 +866,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	color: rgb(71, 85, 105);
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 	line-height: 1em;
+	margin-top: 16px;
+	margin-bottom: 0;
 }
 
 @media (min-width: 640px) {
