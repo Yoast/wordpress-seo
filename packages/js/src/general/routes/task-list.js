@@ -35,6 +35,8 @@ export const TaskList = () => {
 			( task ) => task.isCompleted,
 			( task ) => priorityOrder[ task.priority ],
 			( task ) => task.duration,
+			// add sort by title alphabetically to ensure consistent order
+			( task ) => task.title.toLowerCase(),
 		] );
 		setSortedTasks( newSortedTasks );
 	}, [ tasks ] );
