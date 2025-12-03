@@ -9,16 +9,6 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  */
 class Aggregator_Config {
 	/**
-	 * Default post types to include in schema aggregation
-	 *
-	 * Note: 'product' is only included if Yoast WooCommerce SEO extension is active
-	 * because without it, WooCommerce products don't generate Product schema in Yoast's graph
-	 *
-	 * @var array<string>
-	 */
-	private const DEFAULT_POST_TYPES = [ 'post', 'page' ];
-
-	/**
 	 * Default schema types to include (whitelist)
 	 *
 	 * @var array<string>
@@ -27,6 +17,7 @@ class Aggregator_Config {
 		'Recipe',
 		'Article',
 		'Product',
+		'ProductGroup',
 		'Event',
 		'Person',
 		'Organization',
@@ -67,22 +58,15 @@ class Aggregator_Config {
 	 * @return array<string>
 	 */
 	public function get_allowed_post_types(): array {
-		$default_post_types = self::DEFAULT_POST_TYPES;
-
-		// Only include 'product' if Yoast WooCommerce SEO extension is active.
-
-		if ( $this->woocommerce_conditional->is_met() ) {
-			$default_post_types[] = 'product';
-		}
+		$default_post_types = $this->post_type_helper->get_indexable_post_types();
 
 		$post_types = \apply_filters( 'wpseo_schema_aggregator_post_types', $default_post_types );
 
-		// Ensure it's an array.
 		if ( ! \is_array( $post_types ) ) {
 			return $default_post_types;
 		}
 
-		return \array_intersect( $post_types, $this->post_type_helper->get_indexable_post_types() );
+		return $post_types;
 	}
 
 	/**

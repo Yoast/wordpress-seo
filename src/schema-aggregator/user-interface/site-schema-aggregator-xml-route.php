@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Xml_Manager;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 
@@ -56,18 +56,18 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	private $aggregate_site_schema_map_command_handler;
 
 	/**
-	 * The post type helper instance.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	private $post_type_helper;
-
-	/**
 	 * The XML cache manager instance.
 	 *
 	 * @var Xml_Manager
 	 */
 	private $xml_cache_manager;
+
+	/**
+	 * The aggregator configuration instance.
+	 *
+	 * @var Aggregator_Config
+	 */
+	private $aggregator_config;
 
 	/**
 	 * Returns the conditional for this route.
@@ -85,23 +85,23 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 * @param Capability_Helper                         $capability_helper                         The capability
 	 *                                                                                             helper.
 	 * @param Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler The command handler.
-	 * @param Post_type_Helper                          $post_type_helper                          The post type
-	 *                                                                                             helper.
 	 * @param Xml_Manager                               $xml_cache_manager                         The XML cache
 	 *                                                                                             manager.
+	 * @param Aggregator_Config                         $aggregator_config                         The aggregator
+	 *                                                                                             configuration.
 	 */
 	public function __construct(
 		Config $config,
 		Capability_Helper $capability_helper,
 		Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler,
-		Post_type_Helper $post_type_helper,
-		Xml_Manager $xml_cache_manager
+		Xml_Manager $xml_cache_manager,
+		Aggregator_Config $aggregator_config
 	) {
 		$this->config                                    = $config;
 		$this->capability_helper                         = $capability_helper;
 		$this->aggregate_site_schema_map_command_handler = $aggregate_site_schema_map_command_handler;
-		$this->post_type_helper                          = $post_type_helper;
 		$this->xml_cache_manager                         = $xml_cache_manager;
+		$this->aggregator_config                         = $aggregator_config;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 		}
 		else {
 
-			$post_types = $this->post_type_helper->get_indexable_post_types();
+			$post_types = $this->aggregator_config->get_allowed_post_types();
 
 			$command = new Aggregate_Site_Schema_Map_Command( $post_types );
 			$xml     = $this->aggregate_site_schema_map_command_handler->handle( $command );
