@@ -16,8 +16,7 @@ import {
 const SchemaFramework = () => {
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
-	const isSchemaDisabled = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
-	console.log( 'isSchemaDisabled:', isSchemaDisabled );
+	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
 
 	const { values } = useFormikContext();
 
@@ -65,7 +64,7 @@ const SchemaFramework = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
-						{ ( isSchemaDisabled ) && <Alert id="disabled-schema-alert" variant="info" className="yst-max-w-xl">
+						{ ( isSchemaDisabledProgrammatically ) && <Alert id="disabled-schema-alert" variant="info" className="yst-max-w-xl">
 							<span className="yst-block yst-font-medium yst-mb-2">{ __( "Schema output disabled", "wordpress-seo" ) }</span>
 							{ disabledSchemaAlert }
 						</Alert> }

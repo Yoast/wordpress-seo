@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Schema\Infrastructure;
 
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Schema_Disabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -16,7 +17,10 @@ class Disable_Schema_Integration implements Integration_Interface {
 	 * @return string[]
 	 */
 	public static function get_conditionals() {
-		return [ Schema_Disabled_Conditional::class ];
+		return [
+			Front_End_Conditional::class,
+			Schema_Disabled_Conditional::class
+		];
 	}
 
 	/**
