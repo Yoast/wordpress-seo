@@ -324,6 +324,13 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Checklist", "wordpress-seo" ),
 			],
 		},
+		enable_schema: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_schema",
+			fieldLabel: __( "Schema Framework", "wordpress-seo" ),
+			keywords: [],
+		},
 		enable_headless_rest_endpoints: {
 			route: "/site-features",
 			routeLabel: __( "Site features", "wordpress-seo" ),
