@@ -229,4 +229,118 @@ describe( "taskListSelectors", () => {
 			expect( taskListSelectors.selectIsTaskCompleted( state, "task2" ) ).toBe( false );
 		} );
 	} );
+	describe( "selectTasksStatus", () => {
+		it( "should return 'idle' when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectTasksStatus( state ) ).toBe( "idle" );
+		} );
+
+		it( "should return 'idle' when status property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectTasksStatus( state ) ).toBe( "idle" );
+		} );
+
+		it( "should return the tasks status when present", () => {
+			const state = { taskList: { status: "loading" } };
+			expect( taskListSelectors.selectTasksStatus( state ) ).toBe( "loading" );
+		} );
+	} );
+	describe( "selectTasksError", () => {
+		it( "should return null when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectTasksError( state ) ).toBe( null );
+		} );
+
+		it( "should return null when error property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectTasksError( state ) ).toBe( null );
+		} );
+
+		it( "should return the tasks error when present", () => {
+			const state = { taskList: { error: "Failed to fetch tasks" } };
+			expect( taskListSelectors.selectTasksError( state ) ).toBe( "Failed to fetch tasks" );
+		} );
+	} );
+	describe( "selectTotalTasksCount", () => {
+		it( "should return 0 when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 0 );
+		} );
+
+		it( "should return 0 when tasks property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 0 );
+		} );
+
+		it( "should return the total number of tasks when present", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task1: { id: "task1" },
+						task2: { id: "task2" },
+						task3: { id: "task3" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 3 );
+		} );
+	} );
+	describe( "selectCompletedTasksCount", () => {
+		it( "should return 0 when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 0 );
+		} );
+
+		it( "should return 0 when tasks property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 0 );
+		} );
+
+		it( "should return the number of completed tasks", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task1: { id: "task1", isCompleted: true },
+						task2: { id: "task2", isCompleted: false },
+						task3: { id: "task3", isCompleted: true },
+					},
+				},
+			};
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 2 );
+		} );
+	} );
+	describe( "selectSortedTasks", () => {
+		it( "should return an empty array when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectSortedTasks( state ) ).toEqual( {} );
+		} );
+
+		it( "should return an empty array when tasks property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectSortedTasks( state ) ).toEqual( {} );
+		} );
+
+		it( "should return sorted tasks based on completion, priority, duration, and title", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task2: { id: "task2", isCompleted: true, priority: "medium", duration: 5, title: "A Task" },
+						task1: { id: "task1", isCompleted: false, priority: "high", duration: 10, title: "B Task" },
+						task4: { id: "task4", isCompleted: false, priority: "high", duration: 3, title: "D Task" },
+						task3: { id: "task3", isCompleted: true, priority: "low", duration: 8, title: "C Task" },
+						task5: { id: "task5", isCompleted: false, priority: "high", duration: 3, title: "E Task" },
+						task6: { id: "task6", isCompleted: true, priority: "low", duration: 5, title: "F Task" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectSortedTasks( state ) ).toEqual( {
+				task4: { id: "task4", isCompleted: false, priority: "high", duration: 3, title: "D Task" },
+				task5: { id: "task5", isCompleted: false, priority: "high", duration: 3, title: "E Task" },
+				task1: { id: "task1", isCompleted: false, priority: "high", duration: 10, title: "B Task" },
+				task2: { id: "task2", isCompleted: true, priority: "medium", duration: 5, title: "A Task" },
+				task6: { id: "task6", isCompleted: true, priority: "low", duration: 5, title: "F Task" },
+				task3: { id: "task3", isCompleted: true, priority: "low", duration: 8, title: "C Task" },
+			} );
+		} );
+	} );
 } );
