@@ -29,13 +29,20 @@ export const TaskList = () => {
 	} );
 	const [ sortedTasks, setSortedTasks ] = useState( [] );
 
+	/*
+     * Sort tasks whenever they change.
+     * Sorting order:
+     * 1. Incomplete tasks first.
+     * 2. Higher priority tasks first (high, medium, low).
+     * 3. If tasks have the same completion status and priority, sort by duration (shorter duration first).
+     * 4. If tasks have the same completion status, priority, and duration, sort alphabetically by title.
+     */
 	useEffect( () => {
 		const priorityOrder = { high: 1, medium: 2, low: 3 };
 		const newSortedTasks = sortBy( values( tasks ), [
 			( task ) => task.isCompleted,
 			( task ) => priorityOrder[ task.priority ],
 			( task ) => task.duration,
-			// add sort by title alphabetically to ensure consistent order
 			( task ) => task.title.toLowerCase(),
 		] );
 		setSortedTasks( newSortedTasks );
