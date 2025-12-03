@@ -3,11 +3,25 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
-## 3.3.0 (2025-11-12)
+## 3.5.0 (2025-12-03)
+
+### Enhancements:
+* Adjusts the distraction percentage criteria in the `keyphraseDistribution` research for texts that are shorter than 15 sentences. [#22694](https://github.com/Yoast/wordpress-seo/pull/22694)
+* Adjusts the scoring criteria in _keyphrase density_ assessment for texts shorter than 100 words. [#22715](https://github.com/Yoast/wordpress-seo/pull/22715)
+* Converts _keyphrase distribution_ assessment to use the HTML parser for more robust analysis and more accurate highlighting. [#22633](https://github.com/Yoast/wordpress-seo/pull/22633)
+* Makes the _keyphrase density, _keyphrase distribution, and _keyphrase in subheadings_ assessments available when no content has been added. [#22343](https://github.com/Yoast/wordpress-seo/pull/22343)
+* Renames `keyphraseDistributionScore` to `keyphraseDistractionPercentage` to make its function clearer. [#22694](https://github.com/Yoast/wordpress-seo/pull/22694)
+* Replaces the feedback string and score for when there is no keyphrase in the text for _keyphrase distribution_ assessment. [#22343](https://github.com/Yoast/wordpress-seo/pull/22343)
+
+### Other:
+
+* Updates `parse5` dependency to `^8.0.0`. [#22778](https://github.com/Yoast/wordpress-seo/pull/22778)
+
+## 3.4.0 (2025-11-12)
 
 ### Enhancements:
 * Replaces a feedback string with appropriate feedback and score for when there is no keyphrase set in _keyphrase in image alt attributes_ assessment. [#22220](https://github.com/Yoast/wordpress-seo/pull/22220)
-* Makes the _keyphrase in image alt attributes_ and _image alt attributes_  available when no content has been added. [#22220](https://github.com/Yoast/wordpress-seo/pull/22220)
+* Makes the _keyphrase in image alt attributes_ and _image alt attributes_ available when no content has been added. [#22220](https://github.com/Yoast/wordpress-seo/pull/22220)
 * Changes the applicability criteria of the assessments _single title_ and _competing links_ so that they are available immediately in the analysis. [#22306](https://github.com/Yoast/wordpress-seo/pull/22306)
 
 ### Other:
