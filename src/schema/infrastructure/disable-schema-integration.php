@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Schema\User_Interface;
+namespace Yoast\WP\SEO\Schema\Infrastructure;
 
 use Yoast\WP\SEO\Conditionals\Schema_Disabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
