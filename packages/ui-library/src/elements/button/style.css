@@ -58,7 +58,7 @@
 				@apply yst-bg-ai-600;
 			}
 			> svg > path {
-				stroke:#fff;
+				stroke: #fff;
 			}
 			&:focus {
 				outline-color: #a61e69 !important;
