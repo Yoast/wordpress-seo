@@ -3,7 +3,7 @@ import { keys } from "lodash";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import Spinner from "../spinner";
-import { SparklesIcon } from "./spark-icon";
+import { SparklesIcon } from "./sparkles-icon";
 import { useSvgAria } from "../../hooks";
 
 export const classNameMap = {
