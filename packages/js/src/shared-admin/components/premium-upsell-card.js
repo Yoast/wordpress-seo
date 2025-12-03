@@ -24,21 +24,36 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 		: getPremiumBenefits;
 	const infoSubHeader = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "SEO that scales with your product catalog.", "wordpress-seo" );
+			return	__( "Grow your store's visibility!", "wordpress-seo" );
 		}
 		return __( "Spend less time on SEO tasks!", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
 	const info = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
+			return	__( "Help more shoppers find your products and make it easier for them to buy.", "wordpress-seo" );
 		}
 		return __( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
-	let upsellButtonText = sprintf(
-		/* translators: %s expands to "Yoast SEO Premium". */
-		__( "Get %s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	);
+	let upsellButtonText = useMemo( () => {
+		if ( isWooCommerceActive ) {
+			return sprintf(
+				/* translators: %s expands to "WooCommerce SEO". */
+				__( "Get %s", "wordpress-seo" ),
+				"WooCommerce SEO"
+			);
+		}
+		return sprintf(
+			/* translators: %s expands to "Yoast SEO Premium". */
+			__( "Get %s", "wordpress-seo" ),
+			"Yoast SEO Premium"
+		);
+	}, [ isWooCommerceActive ] );
+	const microCopy = useMemo( () => {
+		if ( isWooCommerceActive ) {
+			return	__( "More visibility. Smarter Optimization.", "wordpress-seo" );
+		}
+		return __( "Less friction. Faster publishing.", "wordpress-seo" );
+	}, [ isWooCommerceActive ] );
 	const upsellTitle = isWooCommerceActive
 		? safeCreateInterpolateElement(
 			sprintf(
@@ -119,7 +134,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				<span>{ upsellButtonText }</span>
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-text-slate-500 yst-italic yst-mt-3 yst-mb-2">
-				{ __( "Less friction. Faster publishing.", "wordpress-seo" ) }
+				{ microCopy }
 			</p>
 			<hr className="yst-border-t yst-border-slate-200 yst-my-4" />
 			<ul className="yst-text-center yst-text-xs yst-font-medium yst-text-slate-800 yst-list-none">
