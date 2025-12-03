@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Builders\Markdow
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Description_Builder;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Intro_Builder;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Link_Lists_Builder;
+use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Optional_Link_List_Builder;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Title_Builder;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Llms_Txt_Renderer;
@@ -48,6 +49,10 @@ final class Constructor_Test extends Abstract_Markdown_Builder_Test {
 		$this->assertInstanceOf(
 			Markdown_Escaper::class,
 			$this->getPropertyValue( $this->instance, 'markdown_escaper' )
+		);
+		$this->assertInstanceOf(
+			Optional_Link_List_Builder::class,
+			$this->getPropertyValue( $this->instance, 'optional_link_list_builder' )
 		);
 	}
 }

@@ -3,9 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\Markdown_Builders\Intro_Builder;
 
-use Mockery;
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders\Intro_Builder;
-use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Sitemap_Link_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -23,13 +21,6 @@ abstract class Abstract_Intro_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * Holds the sitemap link collector.
-	 *
-	 * @var Mockery\MockInterface|Sitemap_Link_Collector
-	 */
-	protected $sitemap_link_collector;
-
-	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -37,10 +28,6 @@ abstract class Abstract_Intro_Builder_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->sitemap_link_collector = Mockery::mock( Sitemap_Link_Collector::class );
-
-		$this->instance = new Intro_Builder(
-			$this->sitemap_link_collector
-		);
+		$this->instance = new Intro_Builder();
 	}
 }
