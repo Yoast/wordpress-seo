@@ -319,6 +319,8 @@ Release date: 2025-12-16
 #### Other
 
 * Highlights the Google Docs & Yoast Duplicate post add-ons on the Plans page.
+* Improves the behavior of the upgrade button in the Yoast sidebar and admin menus.
+* Redesigns the AI Brand Insights button in the Yoast sidebar and admin menus.
 
 = 26.5 =
 
