@@ -68,7 +68,7 @@
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
     "loglevel": "^1.9.2",
-    "parse5": "^7.2.1",
+    "parse5": "^8.0.0",
     "tiny-segmenter": "^0.2.0",
     "tokenizer2": "^2.0.1"
   },
