@@ -30,7 +30,12 @@ export const TaskList = () => {
 	const [ sortedTasks, setSortedTasks ] = useState( [] );
 
 	useEffect( () => {
-		const newSortedTasks = sortBy( values( tasks ), task => task.isCompleted ? 1 : 0 );
+		const priorityOrder = { high: 1, medium: 2, low: 3 };
+		const newSortedTasks = sortBy( values( tasks ), [
+			( task ) => task.isCompleted,
+			( task ) => priorityOrder[ task.priority ],
+			( task ) => task.duration,
+		] );
 		setSortedTasks( newSortedTasks );
 	}, [ tasks ] );
 
