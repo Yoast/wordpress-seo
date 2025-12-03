@@ -52,7 +52,7 @@ module.exports = {
 				"ai-100": "linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%)",
 				"ai-300": "linear-gradient(to bottom right, #cd82ab, #a5b4fc)",
 				"ai-500": "linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)",
-				"ai-600": "linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)!important",
+				"ai-600": "linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)",
 			}
 		},
 	},
