@@ -250,7 +250,7 @@ const SiteFeatures = () => {
 								imageSrc="/images/icon-schema-aggregation-endpoint.svg"
 								title={ __( "Schema aggregation endpoint", "wordpress-seo" ) }
 							>
-								<p>{ __( "Provides a single JSON endpoint with all your site’s structured data, enabling NLWeb to power natural language AI queries on your content.", "wordpress-seo" ) }</p>
+								<p>{ __( "Provides everything required to connect with your site's public structured data. This enables conversational interfaces like NLWeb to power natural language queries on your content.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-schema-aggregation-endpoint" link="https://yoa.st/site-features-schema-aggregation-endpoint-learn-more" ariaLabel={ __( "Schema aggregation endpoint", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
