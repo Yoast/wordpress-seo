@@ -1,6 +1,6 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { ToggleField } from "@yoast/ui-library";
+import { Alert, Code, ToggleField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
 import { useSelectSettings } from "../hooks";
@@ -15,6 +15,9 @@ import {
  */
 const SchemaFramework = () => {
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
+	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
+	const isSchemaDisabled = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
+	console.log( 'isSchemaDisabled:', isSchemaDisabled );
 
 	const { values } = useFormikContext();
 
@@ -38,6 +41,22 @@ const SchemaFramework = () => {
 		}
 	), [ seeMoreLink ] );
 
+	const disabledSchemaAlert = useMemo( () => safeCreateInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to `wpseo_json_ld_output`, %2$s expands to `false, %3$s and %4$s are replaced by opening and closing <a> tags */
+			__( "It looks like the Yoast Schema Framework is disabled. The %1$s filter has been set to %2$s or an empty array, which turns off Schema output. %3$sLearn more about the filter%4$s.", "wordpress-seo" ),
+			"<code1 />",
+			"<code2 />",
+			"<a>",
+			"</a>"
+		), {
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a id="llms-filter-learn-more-link" href={ learnMoreFilterLink } />,
+			code1: <Code>wpseo_json_ld_output</Code>,
+			code2: <Code>false</Code>,
+		}
+	), [ learnMoreFilterLink ] );
+
 	return (
 		<RouteLayout
 			title={ __( "Schema Framework", "wordpress-seo" ) }
@@ -46,6 +65,10 @@ const SchemaFramework = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<fieldset className="yst-min-width-0 yst-space-y-8">
+						{ ( isSchemaDisabled ) && <Alert id="disabled-schema-alert" variant="info" className="yst-max-w-xl">
+							<span className="yst-block yst-font-medium yst-mb-2">{ __( "Schema output disabled", "wordpress-seo" ) }</span>
+							{ disabledSchemaAlert }
+						</Alert> }
 
 						<div className="yst-relative yst-max-w-sm">
 							<FormikValueChangeField

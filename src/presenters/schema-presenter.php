@@ -3,11 +3,27 @@
 namespace Yoast\WP\SEO\Presenters;
 
 use WPSEO_Utils;
+use Yoast\WP\SEO\Helpers\Schema_Helper;
 
 /**
  * Presenter class for the schema object.
  */
 class Schema_Presenter extends Abstract_Indexable_Presenter {
+
+	/**
+	 * Holds the Schema_Helper.
+	 *
+	 * @var Schema_Helper
+	 */
+	protected $schema_helper;
+	/**
+	 * Constructor.
+	 *
+	 * @param Schema_Helper $schema_helper The schema helper.
+	 */
+	public function __construct( Schema_Helper $schema_helper ) {
+		$this->schema_helper = $schema_helper;
+	}
 
 	/**
 	 * The tag key name.
@@ -22,17 +38,7 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The schema tag.
 	 */
 	public function present() {
-		$deprecated_data = [
-			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
-		];
-
-		/**
-		 * Filter: 'wpseo_json_ld_output' - Allows disabling Yoast's schema output entirely.
-		 *
-		 * @param mixed  $deprecated If false or an empty array is returned, disable our output.
-		 * @param string $empty
-		 */
-		$return = \apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
+		$return = $this->schema_helper->get_filtered_schema_output();
 		if ( $return === [] || $return === false ) {
 			return '';
 		}
