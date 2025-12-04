@@ -30,8 +30,11 @@ export const link = {
 	className: null,
 	attributes: {
 		url: "href",
+		type: "type",
+		id: "id",
 		target: "target",
 		rel: "rel",
+		"class": "class",
 	},
 	replaces: "core/link",
 	__unstablePasteRule( value, { html, plainText } ) {

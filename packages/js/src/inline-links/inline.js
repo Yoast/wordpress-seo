@@ -2,7 +2,7 @@
 import { Popover, withSpokenMessages } from "@wordpress/components";
 import { useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { applyFormat, create, insert, isCollapsed, useAnchor } from "@wordpress/rich-text";
+import { applyFormat, create, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
 import { prependHTTP } from "@wordpress/url";
 import { noop, uniqueId } from "lodash";
 import PropTypes from "prop-types";
@@ -70,6 +70,63 @@ function InlineLinkUI( {
 		},
 	} );
 
+	/**
+	 * Finds the boundaries of a link format in the RichText value by matching URL.
+	 *
+	 * @param {Object} richTextValue The RichText value object.
+	 * @param {string} url           The URL to match for finding the link boundaries.
+	 *
+	 * @returns {{start: number, end: number}} The start and end positions of the link.
+	 */
+	const findLinkBoundaries = ( richTextValue, url ) => {
+		let start = richTextValue.start;
+		let end = richTextValue.start;
+
+		// Helper to check if a position has a link with the specified URL
+		const hasLinkWithUrl = ( formats ) => {
+			if ( ! formats || ! Array.isArray( formats ) ) {
+				return false;
+			}
+			return formats.some( format =>
+				format?.type === "core/link" &&
+				format?.attributes?.url === url
+			);
+		};
+
+		// Make sure we're starting from a position that has the link format
+		// If the cursor is at the start or end of the link, adjust it
+		if ( ! hasLinkWithUrl( richTextValue.formats?.[ start ] ) &&
+			start > 0 &&
+			hasLinkWithUrl( richTextValue.formats?.[ start - 1 ] ) ) {
+			start = start - 1;
+			end = start;
+		}
+
+		// Go backwards to find the start of the link
+		while ( start > 0 && hasLinkWithUrl( richTextValue.formats?.[ start - 1 ] ) ) {
+			start--;
+		}
+
+		// Go forwards to find the end of the link
+		while ( end < ( richTextValue.text?.length || 0 ) && hasLinkWithUrl( richTextValue.formats?.[ end ] ) ) {
+			end++;
+		}
+
+		return { start, end };
+	};
+
+	// Get the current link text by finding the boundaries of the active link format
+	let currentText = "";
+	if ( isActive && activeAttributes.url ) {
+		const { start, end } = findLinkBoundaries( value, activeAttributes.url );
+		if ( start < end ) {
+			currentText = value.text.substring( start, end );
+		}
+	} else if ( value.start !== value.end ) {
+		// When adding a new link, use the selected text
+		currentText = getTextContent( slice( value ) );
+	}
+
 	const linkValue = {
 		url: activeAttributes.url,
 		type: activeAttributes.type,
@@ -77,6 +134,8 @@ function InlineLinkUI( {
 		opensInNewTab: activeAttributes.target === "_blank",
 		noFollow: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "nofollow" ),
 		sponsored: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "sponsored" ),
+		title: currentText,
+		className: activeAttributes.class,
 		...nextLinkValue,
 	};
 
@@ -88,10 +147,11 @@ function InlineLinkUI( {
 	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
 	const isToggleSetting = ( nextValue ) => {
-		return linkValue.url === nextValue.url &&
+		return linkValue.url === nextValue.url && (
 			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
 			linkValue.noFollow !== nextValue.noFollow ||
-			linkValue.sponsored !== nextValue.sponsored;
+			linkValue.sponsored !== nextValue.sponsored
+		);
 	};
 
 	/**
@@ -101,7 +161,7 @@ function InlineLinkUI( {
 	 * @returns {boolean} Whether the link rel should be nofollow.
 	 */
 	const isLinkNoFollow = ( nextValue ) => {
-		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.Sponsored !== true;
+		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.sponsored !== true;
 	};
 
 	/**
@@ -194,7 +254,7 @@ function InlineLinkUI( {
 		};
 
 		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
-		const didToggleSetting = isToggleSetting( linkValue, nextValue );
+		const didToggleSetting = isToggleSetting( nextValue );
 
 		/*
 		 * A link rel can only be one of three combinations:
@@ -225,6 +285,7 @@ function InlineLinkUI( {
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
+			className: nextValue.className,
 		} );
 
 		if ( shouldInsertLink() ) {
@@ -237,9 +298,39 @@ function InlineLinkUI( {
 			);
 			onChange( insert( value, toInsert ) );
 		} else {
-			const newValue = applyFormat( value, format );
-			newValue.start = newValue.end;
-			newValue.activeFormats = [];
+			let newValue;
+			const text = nextValue.title;
+
+			// Use the new URL if it changed, otherwise use the current URL
+			const urlToMatch = nextValue.url || linkValue.url;
+
+			// Find the current link boundaries
+			const { start: linkStart, end: linkEnd } = findLinkBoundaries( value, urlToMatch );
+			const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
+
+			if ( typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd ) {
+				// Text has changed - use WordPress remove/insert pattern for proper serialization
+				// First, remove the old link text
+				const valueWithRemoved = remove( value, linkStart, linkEnd );
+				// Set cursor position to where we want to insert
+				valueWithRemoved.start = linkStart;
+				valueWithRemoved.end = linkStart;
+				// Create the new formatted text
+				const toInsert = applyFormat(
+					create( { text } ),
+					format,
+					0,
+					text.length
+				);
+				// Insert the new text at the cursor position
+				newValue = insert( valueWithRemoved, toInsert );
+				newValue.activeFormats = [];
+			} else {
+				// Only URL/settings changed, keep the existing text
+				newValue = applyFormat( value, format );
+				newValue.start = newValue.end;
+				newValue.activeFormats = [];
+			}
 			onChange( newValue );
 		}
 
@@ -331,6 +422,7 @@ function InlineLinkUI( {
 				// eslint-disable-next-line react/jsx-no-bind
 				onChange={ onChangeLink }
 				forceIsEditingLink={ addingLink }
+				hasTextControl={ true }
 				settings={ settings }
 			/>
 		</Popover>
