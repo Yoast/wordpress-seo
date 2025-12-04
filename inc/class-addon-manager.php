@@ -317,7 +317,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Checks if there are addon updates.
 	 *
-	 * @param stdClass|mixed $data The current data for update_plugins.
+	 * @param stdClass $data The current data for update_plugins.
 	 *
 	 * @return stdClass Extended data for update_plugins.
 	 */
