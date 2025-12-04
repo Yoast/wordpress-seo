@@ -185,6 +185,10 @@
 			yst-leading-4
 			yst-px-2.5
 			yst-py-1.5;
+
+			.yst-button--sparkles-icon {
+				@apply yst-h-4;
+			}
 		}
 
 		/* States */
