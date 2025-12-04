@@ -7,10 +7,10 @@ const condensedBenefits = [
 	__( "Optimize pages for multiple keywords with guidance", "wordpress-seo" ),
 ];
 const condensedWooBenefits = [
-	__( "Add product details that help listings stand out", "wordpress-seo" ),
-	__( "Make sure search engines know the main version of your product page", "wordpress-seo" ),
+	__( "Add product details to help your listings stand out", "wordpress-seo" ),
+	__( "Make sure search engines show the right version of your product page", "wordpress-seo" ),
 	__( "Create optimized SEO titles & meta descriptions with AI", "wordpress-seo" ),
-	__( "Ensure your product descriptions is optimized with clear guidance", "wordpress-seo" ),
+	__( "Receive clear SEO and readability guidance to optimize your products", "wordpress-seo" ),
 ];
 const fullBenefits = [
 	__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),

@@ -30,7 +30,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	}, [ isWooCommerceActive ] );
 	const info = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "Help more shoppers find your products and make it easier for them to buy.", "wordpress-seo" );
+			return	__( "Help ready-to-buy shoppers and search engines find your product.", "wordpress-seo" );
 		}
 		return __( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );

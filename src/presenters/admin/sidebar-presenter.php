@@ -74,16 +74,16 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="info">
 						<?php
-						echo ( $is_woocommerce_active ) ? \esc_html__( 'Help more shoppers find your products and make it easier for them to buy.', 'wordpress-seo' ) : \esc_html__( 'Optimize your site faster, smarter, and with more confidence', 'wordpress-seo' );
+						echo ( $is_woocommerce_active ) ? \esc_html__( 'Help ready-to-buy shoppers and search engines find your product.', 'wordpress-seo' ) : \esc_html__( 'Optimize your site faster, smarter, and with more confidence', 'wordpress-seo' );
 						?>
 						</p>
 						<ul class="yoast-features-list">
 						<?php
 						if ( $is_woocommerce_active ) {
-							echo '<li>' . \esc_html__( 'Add product details that help listings stand out', 'wordpress-seo' ) . '</li>';
-							echo '<li>' . \esc_html__( 'Make sure search engines know the main version of your product page', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Add product details to help your listings stand out', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Make sure search engines show the right version of your product page', 'wordpress-seo' ) . '</li>';
 							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions with AI', 'wordpress-seo' ) . '</li>';
-							echo '<li>' . \esc_html__( 'Ensure your product descriptions is optimized with clear guidance', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Receive clear SEO and readability guidance to optimize your products', 'wordpress-seo' ) . '</li>';
 						}
 						else {
 							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions in seconds', 'wordpress-seo' ) . '</li>';
