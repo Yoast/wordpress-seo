@@ -1,28 +1,5 @@
 .yst-root {
 	/* The `--yoast` variables from @yoast/components are loaded via the monorepo stylesheet dependency. */
-
-	button.yst-replacevar__use-ai-button {
-		border-radius: 3px;
-		-webkit-transition: var(--yoast-transition-default);
-		transition: var(--yoast-transition-default);
-		background: linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%);
-		border-image-source: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
-		color: #303030;
-		box-shadow: 0px 1px 0px 0px rgba(204, 204, 204, 0.7);
-		@apply 
-		yst-h-8
-		yst-flex
-		yst-items-center
-		yst-cursor-pointer
-		yst-text-sm
-		yst-ps-2 yst-pe-2.5
-		disabled:yst-cursor-default;
-
-		&:hover {
-			background: linear-gradient(96.67deg, #F3E5ED 1.02%, #E0E7FF 100%);
-		}
-	}
-
 	.yst-logo-icon {
 		background-color: var(--yoast-color-primary);
 		mask-image: var(--yoast-svg-icon-yoast);

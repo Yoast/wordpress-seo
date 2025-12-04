@@ -73,19 +73,11 @@
 			yst-relative
 			yst-text-slate-800
 			yst-ps-2
-			yst-gap-1.5;
+			yst-gap-1.5
+			hover:yst-bg-ai-100
+			focus:yst-text-slate-800;
 
 			border-image: linear-gradient(to bottom right, #cd82ab, #a5b4fc) 1;
-
-			&:focus {
-				@apply yst-text-slate-800;
-			}
-
-			&:hover {
-				&:after {
-					@apply yst-bg-ai-100;
-				}
-			}
 
 			&:before {
 				@apply

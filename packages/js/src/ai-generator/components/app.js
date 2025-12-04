@@ -364,7 +364,6 @@ export const App = ( { onUseAi } ) => {
 				type="button"
 				variant="ai-secondary"
 				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
-				className="yst-replacevar__use-ai-button"
 				onClick={ handleUseAi }
 				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
 				isLoading={ loading && usageCountStatus === ASYNC_ACTION_STATUS.loading }
