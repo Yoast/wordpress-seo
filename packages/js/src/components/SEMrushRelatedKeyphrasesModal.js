@@ -6,9 +6,6 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { Button, Root } from "@yoast/ui-library";
 
-/* Yoast dependencies */
-import { NewButton, ButtonStyledLink } from "@yoast/components";
-
 /* Internal dependencies */
 import { Modal } from "@yoast/related-keyphrase-suggestions";
 
@@ -167,10 +164,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		const insightsLink = new URL( "https://www.semrush.com/analytics/keywordoverview/" );
 		insightsLink.searchParams.append( "q", keyphrase );
 		insightsLink.searchParams.append( "db", countryCode );
-		const isRtl = document.dir === "rtl";
 
 		return (
-			<Root context={ { isRtl } }>
+			<Root>
 				{ isLoggedIn && <div className={ "yoast" }>
 					<Button
 						variant="secondary"
