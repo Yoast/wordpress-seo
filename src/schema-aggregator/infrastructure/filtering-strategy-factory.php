@@ -18,15 +18,16 @@ class Filtering_Strategy_Factory {
 	 * @return Filtering_Strategy_Interface The filtering strategy instance.
 	 */
 	public function create(): Filtering_Strategy_Interface {
-		$filtering_class = \apply_filters( 'wpseo_schema_aggregator_filtering_strategy', Default_Filter::class );
-
 		$map_loader                      = new Base_Map_Loader();
 		$elements_context_map_repository = new Elements_Context_Map_Repository( $map_loader );
+		$default_filter                  = new Default_Filter( $elements_context_map_repository );
 
-		if ( \is_a( $filtering_class, Filtering_Strategy_Interface::class, true ) ) {
-			return new $filtering_class( $elements_context_map_repository );
+		$filtering_strategy = \apply_filters( 'wpseo_schema_aggregator_filtering_strategy', $default_filter );
+
+		if ( $filtering_strategy instanceof Filtering_Strategy_Interface ) {
+			return $filtering_strategy;
 		}
 
-		return new Default_Filter( $elements_context_map_repository );
+		return $default_filter;
 	}
 }
