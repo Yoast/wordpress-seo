@@ -243,16 +243,6 @@ const SiteFeatures = () => {
 								</Button>
 								<LearnMoreLink id="link-llms-txt" link="https://yoa.st/site-features-llmstxt-learn-more" ariaLabel={ __( "llms.txt", "wordpress-seo" ) } />
 							</FeatureCard>
-							<FeatureCard
-								name="wpseo.enable_schema"
-								cardId="card-wpseo-enable_schema_ai"
-								inputId="input-wpseo-enable_schema_ai"
-								imageSrc="/images/icon-schema-aggregation-endpoint.svg"
-								title={ __( "Schema aggregation endpoint", "wordpress-seo" ) }
-							>
-								<p>{ __( "Provides everything required to connect with your site's public structured data. This enables conversational interfaces like NLWeb to power natural language queries on your content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-schema-aggregation" link="https://yoa.st/54l" ariaLabel={ __( "Schema aggregation endpoint", "wordpress-seo" ) } />
-							</FeatureCard>
 						</div>
 					</fieldset>
 					<hr className="yst-my-8" />
