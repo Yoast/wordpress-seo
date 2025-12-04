@@ -62,6 +62,14 @@ module.exports = {
 		require( "@tailwindcss/forms" )( {
 			strategy: "class",
 		} ),
+		function ({ addBase, theme }) {
+      addBase({
+        ':root': {
+          '--yst-ai-color-purple-300': '#a5b4fc',
+          '--yst-ai-color-pink-300': '#cd82ab',
+        },
+      });
+    },
 	],
 	corePlugins: {
 		preflight: false,

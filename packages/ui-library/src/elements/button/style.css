@@ -77,7 +77,7 @@
 			hover:yst-bg-ai-100
 			focus:yst-text-slate-800;
 
-			border-image: linear-gradient(to bottom right, #cd82ab, #a5b4fc) 1;
+			border-image: linear-gradient(to bottom right, var(--yst-ai-color-pink-300), var(--yst-ai-color-purple-300)) 1;
 
 			&:before {
 				@apply
