@@ -46,12 +46,13 @@ class Manager {
 	/**
 	 * Get cached data for a page
 	 *
-	 * @param int $page     Page number.
-	 * @param int $per_page Items per page.
+	 * @param string $post_type The post type that the cache is for.
+	 * @param int    $page      Page number.
+	 * @param int    $per_page  Items per page.
 	 *
 	 * @return array<string>|null Cached data or null.
 	 */
-	public function get( int $page, int $per_page ): ?array {
+	public function get( string $post_type, int $page, int $per_page ): ?array {
 		try {
 			if ( ! $this->config->cache_enabled() ) {
 				return null;
@@ -60,7 +61,7 @@ class Manager {
 				return null;
 			}
 
-			$key = $this->get_cache_key( $page, $per_page );
+			$key = $this->get_cache_key( $post_type, $page, $per_page );
 
 			$data = \get_transient( $key );
 
@@ -83,19 +84,20 @@ class Manager {
 	/**
 	 * Set cache data for a page
 	 *
-	 * @param int           $page     Page number.
-	 * @param int           $per_page Items per page.
-	 * @param array<string> $data     Data to cache.
+	 * @param string        $post_type The post type that the cache is for.
+	 * @param int           $page      Page number.
+	 * @param int           $per_page  Items per page.
+	 * @param array<string> $data      Data to cache.
 	 *
 	 * @return bool Success.
 	 */
-	public function set( int $page, int $per_page, array $data ): bool {
+	public function set( string $post_type, int $page, int $per_page, array $data ): bool {
 		try {
 			if ( $page < 1 || $per_page < 1 || ! \is_array( $data ) ) {
 				return false;
 			}
 
-			$key        = $this->get_cache_key( $page, $per_page );
+			$key        = $this->get_cache_key( $post_type, $page, $per_page );
 			$expiration = $this->config->get_expiration( $data );
 
 			return \set_transient( $key, $data, $expiration );
@@ -111,15 +113,16 @@ class Manager {
 	 * Note: When invalidating a specific page without per_page, this clears
 	 * ALL per_page variations for that page using a wildcard pattern.
 	 *
-	 * @param int|null $page     Page number or null for all.
-	 * @param int|null $per_page Items per page or null to clear all per_page variations.
+	 * @param string   $post_type The post type that the cache is for.
+	 * @param int|null $page      Page number or null for all.
+	 * @param int|null $per_page  Items per page or null to clear all per_page variations.
 	 *
 	 * @return bool Success.
 	 */
-	public function invalidate( ?int $page = null, ?int $per_page = null ): bool {
+	public function invalidate( string $post_type, ?int $page = null, ?int $per_page = null ): bool {
 		if ( $page !== null && $per_page !== null ) {
 			// Clear specific page/per_page combination.
-			return \delete_transient( $this->get_cache_key( $page, $per_page ) );
+			return \delete_transient( $this->get_cache_key( $post_type, $page, $per_page ) );
 		}
 
 		if ( $page !== null && $per_page === null ) {
@@ -186,17 +189,19 @@ class Manager {
 	/**
 	 * Generate cache key for page.
 	 *
-	 * @param int $page     Page number.
-	 * @param int $per_page Items per page.
+	 * @param string $post_type The post type that the cache is for.
+	 * @param int    $page      Page number.
+	 * @param int    $per_page  Items per page.
 	 *
 	 * @return string Cache key.
 	 */
-	private function get_cache_key( int $page, int $per_page ): string {
+	private function get_cache_key( string $post_type, int $page, int $per_page ): string {
 		return \sprintf(
-			'%s_page_%d_per_%d_v%d',
+			'%s_page_%d_per_%d_type_%s_v%d',
 			self::CACHE_PREFIX,
 			$page,
 			$per_page,
+			$post_type,
 			self::CACHE_VERSION
 		);
 	}
