@@ -123,7 +123,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="yoast-price-micro-copy">
 							<?php
-							echo ( $is_woocommerce_active ) ? \esc_html__( 'More visibility. Smarter optimization.', 'wordpress-seo' ) : \esc_html__( 'Less friction. Faster publishing.', 'wordpress-seo' );
+							echo ( $is_woocommerce_active ) ? \esc_html__( 'Less friction. Smarter optimization.', 'wordpress-seo' ) : \esc_html__( 'Less friction. Faster publishing.', 'wordpress-seo' );
 							?>
 						</p>
 						<hr class="yoast-upsell-hr" aria-hidden="true">

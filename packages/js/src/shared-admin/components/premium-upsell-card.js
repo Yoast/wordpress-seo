@@ -50,7 +50,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	}, [ isWooCommerceActive ] );
 	const microCopy = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "More visibility. Smarter optimization.", "wordpress-seo" );
+			return	__( "Less friction. Smarter optimization.", "wordpress-seo" );
 		}
 		return __( "Less friction. Faster publishing.", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
