@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
-import { Button } from "@yoast/ui-library";
+import { Button, Root } from "@yoast/ui-library";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
@@ -112,27 +112,28 @@ class ReplacementVariableEditor extends React.Component {
 
 				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
+				<Root>
+					<ButtonsContainer className="yst-replacevar__buttons">
+						<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
 
-				<ButtonsContainer className="yst-replacevar__buttons">
-					<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
+						<Button
+							className="yst-replacevar__button-insert yst-h-7"
+							onClick={ this.triggerReplacementVariableSuggestions }
+							disabled={ isDisabled }
+							variant="secondary"
+							size="small"
+						>
+							{ __( "Insert variable", "wordpress-seo" ) }
+						</Button>
 
-					<Button
-						className="yst-replacevar__button-insert yst-h-7"
-						onClick={ this.triggerReplacementVariableSuggestions }
-						disabled={ isDisabled }
-						variant="secondary"
-						size="small"
-					>
-						{ __( "Insert variable", "wordpress-seo" ) }
-					</Button>
-
-					<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
-					{ buttons.map( ( button, index ) => (
-						<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
-							{ button }
-						</Fragment>
-					) ) }
-				</ButtonsContainer>
+						<Slot name={ `yoast.replacementVariableEditor.additionalButtons.${ fieldId }` } />
+						{ buttons.map( ( button, index ) => (
+							<Fragment key={ `additional-button-${ index }-${ fieldId }` }>
+								{ button }
+							</Fragment>
+						) ) }
+					</ButtonsContainer>
+				</Root>
 
 				<InputContainer
 					className="yst-replacevar__editor"
