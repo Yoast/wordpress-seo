@@ -17,13 +17,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
 class Schema_Pieces_Aggregator {
 
 	/**
-	 * The properties filter instance.
-	 *
-	 * @var Properties_Filter
-	 */
-	private $properties_filter;
-
-	/**
 	 * The properties merger object
 	 *
 	 * @var Properties_Merger
@@ -40,12 +33,10 @@ class Schema_Pieces_Aggregator {
 	/**
 	 * Class constructor
 	 *
-	 * @param Properties_Filter          $properties_filter          The properties filter object.
 	 * @param Properties_Merger          $properties_merger          The properties merger object.
 	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
 	 */
-	public function __construct( Properties_Filter $properties_filter, Properties_Merger $properties_merger, Filtering_Strategy_Factory $filtering_strategy_factory ) {
-		$this->properties_filter          = $properties_filter;
+	public function __construct( Properties_Merger $properties_merger, Filtering_Strategy_Factory $filtering_strategy_factory ) {
 		$this->properties_merger          = $properties_merger;
 		$this->filtering_strategy_factory = $filtering_strategy_factory;
 	}
@@ -78,8 +69,6 @@ class Schema_Pieces_Aggregator {
 				// Add new piece.
 				$aggregated_schema[ $id ] = $piece;
 			}
-
-			$aggregated_schema[ $id ] = $this->properties_filter->filter( $aggregated_schema[ $id ] );
 		}
 
 		// Return only the values to get rid of the keys (which are @id).

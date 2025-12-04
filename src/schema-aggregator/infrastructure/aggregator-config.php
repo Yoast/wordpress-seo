@@ -34,13 +34,6 @@ class Aggregator_Config {
 	];
 
 	/**
-	 * The default properties to avoid in schema pieces.
-	 *
-	 * @var array<string>
-	 */
-	private const PROPERTIES_AVOID_LIST = [ 'breadcrumb', 'potentialAction' ];
-
-	/**
 	 * The WooCommerce Conditional.
 	 *
 	 * @var WooCommerce_Conditional
@@ -87,20 +80,5 @@ class Aggregator_Config {
 		}
 
 		return \array_intersect( $post_types, $this->post_type_helper->get_indexable_post_types() );
-	}
-
-	/**
-	 * Get list of properties to remove from a schema piece.
-	 *
-	 * @return array<string>
-	 */
-	public function get_properties_avoid_list(): array {
-		$properties_avoid_list = \apply_filters( 'wpseo_schema_aggregator_properties_avoid_list', self::PROPERTIES_AVOID_LIST );
-
-		if ( ! \is_array( $properties_avoid_list ) ) {
-			return self::PROPERTIES_AVOID_LIST;
-		}
-
-		return $properties_avoid_list;
 	}
 }
