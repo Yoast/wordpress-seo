@@ -25,7 +25,10 @@ final class Schema_Piece_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor_with_string_type() {
-		$data     = [ 'name' => 'Test', 'value' => 123 ];
+		$data     = [
+			'name'  => 'Test',
+			'value' => 123,
+		];
 		$type     = 'Article';
 		$instance = new Schema_Piece( $data, $type );
 
@@ -169,7 +172,7 @@ final class Schema_Piece_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_id_with_id_present() {
-		$data = [
+		$data     = [
 			'@id'  => 'https://example.com/#article',
 			'name' => 'Test',
 		];
@@ -193,8 +196,8 @@ final class Schema_Piece_Test extends TestCase {
 	/**
 	 * Tests the get_id method with various @id values.
 	 *
-	 * @param array<string, string|int|bool> $data              The data containing @id.
-	 * @param string|null                    $expected_id       The expected ID value.
+	 * @param array<string, string|int|bool> $data        The data containing @id.
+	 * @param string|null                    $expected_id The expected ID value.
 	 *
 	 * @dataProvider id_data_provider
 	 *
@@ -243,7 +246,7 @@ final class Schema_Piece_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_to_json_ld_graph() {
-		$data = [
+		$data     = [
 			'@id'  => 'https://example.com/#article',
 			'name' => 'Test Article',
 		];
@@ -259,8 +262,8 @@ final class Schema_Piece_Test extends TestCase {
 	/**
 	 * Tests the to_json_ld_graph method with various data.
 	 *
-	 * @param array<string, string|int|bool>  $data          The data to test.
-	 * @param array<string, mixed>            $expected      The expected graph structure.
+	 * @param array<string, string|int|bool> $data     The data to test.
+	 * @param array<string, mixed>           $expected The expected graph structure.
 	 *
 	 * @dataProvider json_ld_graph_data_provider
 	 *
@@ -296,9 +299,9 @@ final class Schema_Piece_Test extends TestCase {
 		];
 		yield 'Complex data' => [
 			'data'     => [
-				'@id'         => 'https://example.com/#organization',
-				'name'        => 'Company',
-				'description' => 'A great company',
+				'@id'            => 'https://example.com/#organization',
+				'name'           => 'Company',
+				'description'    => 'A great company',
 				'employee_count' => 100,
 			],
 			'expected' => [

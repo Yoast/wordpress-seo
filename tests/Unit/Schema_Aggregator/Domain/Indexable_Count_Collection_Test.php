@@ -48,7 +48,7 @@ final class Indexable_Count_Collection_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_add_single_indexable_count() {
-		$instance       = new Indexable_Count_Collection();
+		$instance        = new Indexable_Count_Collection();
 		$indexable_count = new Indexable_Count( 'post', 10 );
 
 		$instance->add_indexable_count( $indexable_count );
@@ -87,7 +87,7 @@ final class Indexable_Count_Collection_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_indexable_counts_returns_array() {
-		$instance       = new Indexable_Count_Collection();
+		$instance        = new Indexable_Count_Collection();
 		$indexable_count = new Indexable_Count( 'post', 42 );
 
 		$instance->add_indexable_count( $indexable_count );
