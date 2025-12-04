@@ -165,7 +165,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
-		$this->options_helper->expects( 'get' )->times( 5 )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->times( 6 )->andReturnTrue();
 
 		$this->elementor_conditional->expects( 'is_met' )->andReturnFalse();
 		$this->jetpack_conditional->expects( 'is_met' )->andReturnFalse();
@@ -218,6 +218,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'plugin_url'                         => 'https://www.example.com',
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
+				'schema_framework_enabled'           => true,
 			]
 		);
 

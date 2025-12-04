@@ -234,6 +234,7 @@ class Integrations_Page implements Integration_Interface {
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
+				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ),
 			]
 		);
 	}
