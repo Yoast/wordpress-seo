@@ -6,6 +6,12 @@ const condensedBenefits = [
 	__( "Manage redirects with ease and without extra plugins", "wordpress-seo" ),
 	__( "Optimize pages for multiple keywords with guidance", "wordpress-seo" ),
 ];
+const condensedWooBenefits = [
+	__( "Add product details to help your listings stand out", "wordpress-seo" ),
+	__( "Make sure search engines show the right version of your product page", "wordpress-seo" ),
+	__( "Create optimized SEO titles & meta descriptions with AI", "wordpress-seo" ),
+	__( "Receive clear SEO and readability guidance to optimize your products", "wordpress-seo" ),
+];
 const fullBenefits = [
 	__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
 	__( "Make your articles visible, be seen in Google News", "wordpress-seo" ),
@@ -23,7 +29,7 @@ export const getPremiumBenefits = ( condensed = false  ) => {
 
 export const getWooSeoBenefits = ( condensed = false ) => {
 	if ( condensed ) {
-		return condensedBenefits;
+		return condensedWooBenefits;
 	}
 
 	const wooSeoBenefits = [ ...fullBenefits ];
