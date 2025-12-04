@@ -17,7 +17,7 @@ export const AdvancedMenu = ( { idSuffix } ) => {
 
 	const advancedMenuItems = [
 		{ to: "/llms-txt", label: __( "llms.txt", "wordpress-seo" ) },
-		{ to: "/schema-framework", label: __( "Schema Framework", "wordpress-seo" ) },
+		{ to: "/schema-framework", label: __( "Schema", "wordpress-seo" ) },
 		{ to: "/crawl-optimization", label: __( "Crawl optimization", "wordpress-seo" ) },
 		{ to: "/breadcrumbs", label: __( "Breadcrumbs", "wordpress-seo" ) },
 		{ to: "/author-archives", label: __( "Author archives", "wordpress-seo" ) },
