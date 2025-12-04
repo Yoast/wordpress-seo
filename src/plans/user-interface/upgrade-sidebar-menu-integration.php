@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Plans\User_Interface;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Traits\Admin_Conditional_Trait;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
@@ -59,6 +60,13 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	private $promotion_manager;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WooCommerce_Conditional $woocommerce_conditional The WooCommerce conditional.
@@ -66,19 +74,22 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @param Product_Helper          $product_helper          The product helper.
 	 * @param Current_Page_Helper     $current_page_helper     The current page helper.
 	 * @param Promotion_Manager       $promotion_manager       The promotion manager.
+	 * @param WPSEO_Addon_Manager     $addon_manager           The addon manager.
 	 */
 	public function __construct(
 		WooCommerce_Conditional $woocommerce_conditional,
 		WPSEO_Shortlinker $shortlinker,
 		Product_Helper $product_helper,
 		Current_Page_Helper $current_page_helper,
-		Promotion_Manager $promotion_manager
+		Promotion_Manager $promotion_manager,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->shortlinker             = $shortlinker;
 		$this->product_helper          = $product_helper;
 		$this->current_page_helper     = $current_page_helper;
 		$this->promotion_manager       = $promotion_manager;
+		$this->addon_manager           = $addon_manager;
 	}
 
 	/**
@@ -89,9 +100,9 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Add page with PHP_INT_MAX so its always the last item.
-		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
-		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], \PHP_INT_MAX );
+		// Add page with PHP_INT_MAX - 1 to allow other items (like Brand Insights) to be positioned after.
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ], ( \PHP_INT_MAX - 1 ) );
+		\add_filter( 'wpseo_network_submenu_pages', [ $this, 'add_page' ], ( \PHP_INT_MAX - 1 ) );
 		\add_action( 'admin_init', [ $this, 'do_redirect' ], 1 );
 	}
 
@@ -103,15 +114,20 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 	 * @return array<string, array<string, array<static|string>>> The pages.
 	 */
 	public function add_page( $pages ) {
+		// Don't show the Upgrade button if Yoast SEO WooCommerce addon is active.
+		if ( $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+			return $pages;
+		}
+
+		// Don't show the Upgrade button if Premium is active without the WooCommerce plugin.
+		if ( $this->product_helper->is_premium() && ! $this->woocommerce_conditional->is_met() ) {
+			return $pages;
+		}
 
 		$button_content = \__( 'Upgrade', 'wordpress-seo' );
 
 		if ( $this->promotion_manager->is( 'black-friday-promotion' ) ) {
 			$button_content = ( $this->product_helper->is_premium() ) ? \__( 'Get 30% off', 'wordpress-seo' ) : \__( '30% off - BF Sale', 'wordpress-seo' );
-		}
-
-		if ( $this->product_helper->is_premium() ) {
-			$button_content .= '<div id="wpseo-new-badge-upgrade">' . \__( 'New', 'wordpress-seo' ) . '</div>';
 		}
 
 		$pages[] = [
@@ -139,10 +155,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			return;
 		}
 		$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-premium' );
-		if ( $this->product_helper->is_premium() ) {
-			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-ai-insights' );
-		}
-		elseif ( $this->woocommerce_conditional->is_met() ) {
+		if ( $this->woocommerce_conditional->is_met() ) {
 			$link = $this->shortlinker->build_shortlink( 'https://yoa.st/wordpress-menu-upgrade-woocommerce' );
 		}
 

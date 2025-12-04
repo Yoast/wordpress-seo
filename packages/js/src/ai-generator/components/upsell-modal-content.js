@@ -8,7 +8,6 @@ import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { Badge, Button, useModalContext, Alert } from "@yoast/ui-library";
 import { OutboundLink, VideoFlow } from "../../shared-admin/components";
-import { GradientButton } from "@yoast/ai-frontend";
 import classNames from "classnames";
 
 /**
@@ -171,9 +170,9 @@ export const UpsellModalContent = ( { onActivateFreeSparks } ) => {
 						}
 					</span>
 				</Button>
-				{ ! isUsageCountLimitReached && <GradientButton onClick={ handleStartTrial } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11 hover:yst-bg-gradient-to-l hover:yst-from-indigo-100 hover:yst-to-primary-100">
+				{ ! isUsageCountLimitReached && <Button variant="ai-secondary" onClick={ handleStartTrial } className="yst-mt-2 yst-w-full yst-text-base yst-text-slate-800 yst-font-medium yst-h-11">
 					{ __( "Try for free", "wordpress-seo" ) }
-				</GradientButton> }
+				</Button> }
 			</div>
 			<Button
 				as="a"
