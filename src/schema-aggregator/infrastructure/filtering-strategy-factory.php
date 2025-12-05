@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Default_Filter;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Filtering_Strategy_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Base_Map_Loader;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Filtered_Map_Loader;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Filtered_Map_Loader;
 
 /**
  * Factory for creating filtering strategy instances.
