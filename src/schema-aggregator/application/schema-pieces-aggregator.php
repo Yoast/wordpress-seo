@@ -1,9 +1,9 @@
 <?php
-
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
 
 /**
  * This class is responsible for taking an array of Schema_Pieces and return another array of Schema_Pieces where:
@@ -16,20 +16,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 class Schema_Pieces_Aggregator {
 
 	/**
-	 * The properties filter instance.
-	 *
-	 * @var Properties_Filter
-	 */
-	private $properties_filter;
-
-	/**
-	 * The schema filter instance.
-	 *
-	 * @var Schema_Pieces_Filter
-	 */
-	private $schema_pieces_filter;
-
-	/**
 	 * The properties merger object
 	 *
 	 * @var Properties_Merger
@@ -37,16 +23,21 @@ class Schema_Pieces_Aggregator {
 	private $properties_merger;
 
 	/**
+	 * The filtering strategy factory.
+	 *
+	 * @var Filtering_Strategy_Factory
+	 */
+	private $filtering_strategy_factory;
+
+	/**
 	 * Class constructor
 	 *
-	 * @param Properties_Filter    $properties_filter    The properties filter object.
-	 * @param Schema_Pieces_Filter $schema_pieces_filter The schema pieces filter object.
-	 * @param Properties_Merger    $properties_merger    The properties merger object.
+	 * @param Properties_Merger          $properties_merger          The properties merger object.
+	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
 	 */
-	public function __construct( Properties_Filter $properties_filter, Schema_Pieces_Filter $schema_pieces_filter, Properties_Merger $properties_merger ) {
-		$this->properties_filter    = $properties_filter;
-		$this->schema_pieces_filter = $schema_pieces_filter;
-		$this->properties_merger    = $properties_merger;
+	public function __construct( Properties_Merger $properties_merger, Filtering_Strategy_Factory $filtering_strategy_factory ) {
+		$this->properties_merger          = $properties_merger;
+		$this->filtering_strategy_factory = $filtering_strategy_factory;
 	}
 
 	/**
@@ -59,10 +50,10 @@ class Schema_Pieces_Aggregator {
 	public function aggregate( array $schema_pieces ): array {
 		$aggregated_schema = [];
 
-		foreach ( $schema_pieces as $piece ) {
-			if ( ! $this->schema_pieces_filter->has_allowed_type( $piece ) ) {
-				continue;
-			}
+		$filtering_strategy     = $this->filtering_strategy_factory->create();
+		$filtered_schema_pieces = $filtering_strategy->filter( $schema_pieces );
+
+		foreach ( $filtered_schema_pieces as $piece ) {
 
 			$id = $piece->get_id();
 			if ( \is_null( $id ) ) {
@@ -77,8 +68,6 @@ class Schema_Pieces_Aggregator {
 				// Add new piece.
 				$aggregated_schema[ $id ] = $piece;
 			}
-
-			$aggregated_schema[ $id ] = $this->properties_filter->filter( $aggregated_schema[ $id ] );
 		}
 
 		// Return only the values to get rid of the keys (which are @id).
