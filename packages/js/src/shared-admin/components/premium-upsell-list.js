@@ -73,7 +73,10 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 									"Yoast SEO Premium"
 								) }
 						</Title>
-						<CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+						{ isWooCommerceActive
+							? <TrolleyIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+							: <CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+						}
 					</>
 				</div>
 				<div
