@@ -63,7 +63,7 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 						<Title as="h2" size="4" className={ `yst-text-xl yst-font-semibold ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
 							{ isWooCommerceActive
 								? sprintf(
-									/* translators: %s expands to "Yoast SEO" Premium */
+									/* translators: %s expands to "Yoast WooCommerce SEO */
 									__( "Upgrade to %s", "wordpress-seo" ),
 									"Yoast WooCommerce SEO"
 								)
