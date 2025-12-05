@@ -46,7 +46,12 @@ export function createAnalysisWorker() {
 		const split = text.indexOf( "," );
 		const domain = text.slice( 0, split - 1 );
 		try {
-			const translationData = JSON.parse( text.slice( split + 1, -4 ) );
+			// Since WP 6.9 the translation script has some extra code at the end, we need to find the proper end of the JSON.
+			const endRegex = /}}\s*\);/;
+			const match = endRegex.exec( text );
+			// Find the end index of the JSON data, after the curly braces.
+			const jsonEnd = match.index + 2;
+			const translationData = JSON.parse( text.slice( split + 1, jsonEnd ) );
 			translations.push( [ domain, translationData ] );
 		} catch ( e ) {
 			console.warn( `Failed to parse translation data for ${dependency} to send to the Yoast SEO worker` );
