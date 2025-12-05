@@ -59,28 +59,22 @@ export const PremiumUpsellList = ( { premiumLink, premiumUpsellConfig = {}, isPr
 			</div> }
 			<div className="yst-p-6 yst-flex yst-flex-col">
 				<div className="yst-flex yst-items-center">
-					{ isWooCommerceActive
-						? <>
-							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
-								{ sprintf(
+					<>
+						<Title as="h2" size="4" className={ `yst-text-xl yst-font-semibold ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
+							{ isWooCommerceActive
+								? sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),
 									"Yoast WooCommerce SEO"
-								) }
-							</Title>
-							<TrolleyIcon className="yst-ml-2 yst-w-4 yst-h-3" />
-						</>
-						: <>
-							<Title as="h2" size="4" className={ `yst-text-xl ${ isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500 " }` }>
-								{ sprintf(
+								)
+								: sprintf(
 									/* translators: %s expands to "Yoast SEO" Premium */
 									__( "Upgrade to %s", "wordpress-seo" ),
 									"Yoast SEO Premium"
 								) }
-							</Title>
-							<CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
-						</>
-					}
+						</Title>
+						<CrownIcon className="yst-ml-2 yst-w-4 yst-h-3" />
+					</>
 				</div>
 				<div
 					className="yst-font-medium yst-text-slate-800 yst-text-xs yst-leading-7 yst-mt-2"
