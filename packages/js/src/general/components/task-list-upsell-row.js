@@ -1,8 +1,7 @@
 import { Button, Table, Title } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { select } from "@wordpress/data";
-import { STORE_NAME } from "../constants";
+import { useSelectGeneralPage } from "../hooks";
 
 /**
  * Component rendering an upsell row for the task list.
@@ -10,7 +9,10 @@ import { STORE_NAME } from "../constants";
  * @returns {JSX.Element} The UpsellRow component.
  */
 export const TaskListUpsellRow = () => {
-	const taskListUpsellLink = select( STORE_NAME ).selectLink( "https://yoa.st/task-list-upsell-table-footer" );
+	const premiumUpsellLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/task-list-upsell-table-footer" );
+	const wooSeoUpsellLink = useSelectGeneralPage( "selectLink", [], "https://yoa.st/task-list-woo-upsell-table-footer" );
+	const isWooCommerceActive = useSelectGeneralPage( "selectPreference", [], "isWooCommerceActive" );
+	const taskListUpsellLink = isWooCommerceActive ? wooSeoUpsellLink : premiumUpsellLink;
 	return (
 		<Table.Row>
 			<Table.Cell className="yst-bg-slate-50" colSpan={ 4 }>
@@ -22,16 +24,16 @@ export const TaskListUpsellRow = () => {
 						<div>
 							<Title size="5" as="h3" className="yst-text-slate-800 yst-leading-5">
 								{ sprintf(
-									/* translators: %1$s expands to Yoast SEO Premium. */
+									/* translators: %1$s expands to Yoast SEO Premium or WooCommerce SEO. */
 									__( "Unlock all %1$s tasks", "wordpress-seo" ),
-									"Yoast SEO Premium"
+									isWooCommerceActive ? "WooCommerce SEO" : "Yoast SEO Premium"
 								) }
 							</Title>
 							<p className="yst-leading-5">{ __( "Get automated technical SEO & optimize content in a breeze", "wordpress-seo" ) }</p>
 						</div>
 					</div>
 					<Button variant="upsell" as="a" href={ taskListUpsellLink } target="_blank" className="yst-flex yst-items-center yst-gap-1.5 yst-pe-2 yst-mt-4 lg:yst-mt-0">
-						{ __( "Unlock with Premium", "wordpress-seo" ) }
+						{ isWooCommerceActive ? __( "Unlock with WooCommerce SEO", "wordpress-seo" ) : __( "Unlock with Premium", "wordpress-seo" ) }
 						<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
 					</Button>
 				</div>
