@@ -424,6 +424,16 @@ const SiteFeatures = () => {
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
+								name="wpseo.enable_schema"
+								cardId="card-wpseo-enable_schema"
+								inputId="input-wpseo-enable_schema"
+								imageSrc="/images/icon-schema.svg"
+								title={ __( "Schema Framework", "wordpress-seo" ) }
+							>
+								<p>{ __( "Outputs a single graph the web can understand. Makes every person, product, organization, and piece of content consistently readable to search engines and language models.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-schema-framework" link="https://yoa.st/site-features-schema-framework" ariaLabel={ __( "Schema Framework", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
 								name="wpseo.enable_headless_rest_endpoints"
 								cardId="card-wpseo-enable_headless_rest_endpoints"
 								inputId="input-wpseo-enable_headless_rest_endpoints"

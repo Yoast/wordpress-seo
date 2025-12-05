@@ -150,6 +150,7 @@ const SchemaAPIIntegrations = [
 				key={ index }
 				integration={ integration }
 				isActive={ getInitialState( integration ) }
+				isSchemaAPIIntegration={ true }
 			/>
 		);
 	} ),
@@ -164,6 +165,7 @@ SchemaAPIIntegrations.push(
 		isPrerequisiteActive={ Boolean( window.wpseoIntegrationsData[ "woocommerce_active" ] ) }
 		upsellLink={ window.wpseoIntegrationsData[ "woocommerce_seo_upsell_url" ] }
 		activationLink={ window.wpseoIntegrationsData[ "woocommerce_seo_activate_url" ] }
+		isSchemaAPIIntegration={ true }
 	/>
 );
 /* eslint-enable dot-notation */

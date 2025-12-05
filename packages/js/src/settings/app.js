@@ -25,6 +25,7 @@ import {
 	MediaPages,
 	PostType,
 	Rss,
+	SchemaFramework,
 	SiteBasics,
 	SiteConnections,
 	SiteFeatures,
@@ -203,6 +204,7 @@ const App = () => {
 											<Route path="homepage" element={ <Homepage /> } />
 											<Route path="format-archives" element={ <FormatArchives /> } />
 											<Route path="llms-txt" element={ <LlmTxt /> } />
+											<Route path="schema-framework" element={ <SchemaFramework /> } />
 											<Route path="media-pages" element={ <MediaPages /> } />
 											<Route path="rss" element={ <Rss /> } />
 											<Route path="site-basics" element={ <SiteBasics /> } />

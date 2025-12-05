@@ -9,6 +9,7 @@ export { default as Homepage } from "./homepage";
 export { default as LlmTxt } from "./llms-txt";
 export { default as MediaPages } from "./media-pages";
 export { default as Rss } from "./rss";
+export { default as SchemaFramework } from "./schema-framework";
 export { default as SiteBasics } from "./site-basics";
 export { default as SiteFeatures } from "./site-features";
 export { default as SiteRepresentation } from "./site-representation";
