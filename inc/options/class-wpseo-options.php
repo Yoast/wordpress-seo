@@ -60,6 +60,11 @@ class WPSEO_Options {
 	protected function __construct() {
 		$this->register_hooks();
 
+		if(!isset(static::$options['wpseo_premium'])){
+			require_once WPSEO_PATH . 'inc/options/class-wpseo-option-free.php';
+			self::$options['wpseo_premium'] = 'WPSEO_Option_Free';
+		}
+
 		foreach ( static::$options as $option_class ) {
 			static::register_option( call_user_func( [ $option_class, 'get_instance' ] ) );
 		}
@@ -580,6 +585,10 @@ class WPSEO_Options {
 
 		foreach ( array_keys( $option_groups ) as $option_name ) {
 			$full_option = static::get_option( $option_name );
+			if(empty($full_option)){
+				continue;
+			}
+			
 			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
 			}
