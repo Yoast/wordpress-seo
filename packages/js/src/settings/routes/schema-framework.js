@@ -1,13 +1,13 @@
-import { useMemo } from "@wordpress/element";
+import { useMemo, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Code, ToggleField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
 import { useSelectSettings } from "../hooks";
-import { FormikValueChangeField } from "../../shared-admin/components/form";
 import {
 	FormLayout,
 	RouteLayout,
+	SchemaDisableConfirmationModal,
 } from "../components";
 
 /**
@@ -18,9 +18,29 @@ const SchemaFramework = () => {
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
 
-	const { values } = useFormikContext();
+	const { values, setFieldValue } = useFormikContext();
+	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	const { enable_schema: enabledSchemaFramework } = values.wpseo;
+
+	const handleToggleChange = useCallback( ( newValue ) => {
+		if ( newValue ) {
+			// User is enabling (just apply the change)
+			setFieldValue( "wpseo.enable_schema", true );
+		} else {
+			// User is trying to disable (show confirmation modal)
+			setIsModalOpen( true );
+		}
+	}, [ setFieldValue ] );
+
+	const handleModalClose = useCallback( () => {
+		setIsModalOpen( false );
+	}, [] );
+
+	const handleModalConfirm = useCallback( () => {
+		setFieldValue( "wpseo.enable_schema", false );
+		setIsModalOpen( false );
+	}, [ setFieldValue ] );
 
 	const featureDescription = sprintf(
 		/* translators: %1$s is replaced by "Yoast SEO". */
@@ -42,7 +62,10 @@ const SchemaFramework = () => {
 
 	const disabledSchemaAlert = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to `wpseo_json_ld_output`, %2$s expands to `false, %3$s and %4$s are replaced by opening and closing <a> tags */
+			/*
+			 * translators: %1$s expands to `wpseo_json_ld_output`, %2$s expands to `false,
+			 * %3$s and %4$s are replaced by opening and closing <a> tags
+			 */
 			__( "It looks like the Yoast Schema Framework is disabled. The %1$s filter has been set to %2$s or an empty array, which turns off Schema output. %3$sLearn more about the filter%4$s.", "wordpress-seo" ),
 			"<code1 />",
 			"<code2 />",
@@ -70,18 +93,22 @@ const SchemaFramework = () => {
 						</Alert> }
 
 						<div className="yst-relative yst-max-w-sm">
-							<FormikValueChangeField
-								as={ ToggleField }
-								type="checkbox"
-								name="wpseo.enable_schema"
+							<ToggleField
 								id="input-wpseo.enable_schema"
 								label={ __( "Enable Schema Framework", "wordpress-seo" ) }
 								description={ toggleDescription }
+								checked={ enabledSchemaFramework }
+								onChange={ handleToggleChange }
 							/>
 						</div>
 					</fieldset>
 				</div>
 			</FormLayout>
+			<SchemaDisableConfirmationModal
+				isOpen={ isModalOpen }
+				onClose={ handleModalClose }
+				onConfirm={ handleModalConfirm }
+			/>
 		</RouteLayout>
 	);
 };
