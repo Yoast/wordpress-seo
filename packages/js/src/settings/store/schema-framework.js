@@ -10,6 +10,7 @@ export const SCHEMA_FRAMEWORK_NAME = "schemaFramework";
 export const createInitialSchemaFrameworkState = () =>(
 	{
 		isSchemaDisabled: false,
+		schemaApiIntegrations: {},
 	}
 );
 
@@ -23,6 +24,7 @@ export const schemaFrameworkActions = slice.actions;
 
 export const schemaFrameworkSelectors = {
 	selectSchemaIsSchemaDisabled: state => get( state, "schemaFramework.isSchemaDisabled", false ),
+	selectSchemaApiIntegrations: state => get( state, "schemaFramework.schemaApiIntegrations", {} ),
 };
 
 export default slice.reducer;

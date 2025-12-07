@@ -20,3 +20,4 @@ export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
 export { AdvancedMenu } from "./advanced-menu";
 export { ChildrenLimiterButton } from "./children-limiter-button";
 export { SchemaDisableConfirmationModal } from "./schema-disable-confirmation-modal";
+export { SchemaApiIntegrationsSection } from "./schema-api-integrations-section";

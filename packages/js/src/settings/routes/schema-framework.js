@@ -7,6 +7,7 @@ import { useSelectSettings } from "../hooks";
 import {
 	FormLayout,
 	RouteLayout,
+	SchemaApiIntegrationsSection,
 	SchemaDisableConfirmationModal,
 } from "../components";
 
@@ -16,6 +17,8 @@ import {
 const SchemaFramework = () => {
 	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
+	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
+	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
 
 	const { values, setFieldValue } = useFormikContext();
@@ -60,6 +63,22 @@ const SchemaFramework = () => {
 		}
 	), [ seeMoreLink ] );
 
+	const schemaForDevsDescription = useMemo( () => safeCreateInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags for Schema API link. %3$s and %4$s are replaced by opening and closing <a> tags for Schema documentation link. */
+			__( "Fine-tune how your site's data appears with our %1$sSchema API%2$s and WordPress filters. For full details and setup guidance, visit the %3$sSchema documentation%4$s.", "wordpress-seo" ),
+			"<a1>",
+			"</a1>",
+			"<a2>",
+			"</a2>"
+		), {
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a1: <a href={ schemaApiLink } target="_blank" rel="noopener noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a2: <a href={ schemaDocumentationLink } target="_blank" rel="noopener noreferrer" />,
+		}
+	), [ schemaApiLink, schemaDocumentationLink ] );
+
 	const disabledSchemaAlert = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/*
@@ -103,6 +122,15 @@ const SchemaFramework = () => {
 						</div>
 					</fieldset>
 				</div>
+				<hr className="yst-my-8 yst-w-3/4" />
+				<SchemaApiIntegrationsSection />
+				<hr className="yst-my-8 yst-w-3/4" />
+				<fieldset className="yst-min-w-0">
+					<div className="yst-max-w-screen-sm">
+						<span className="yst-block yst-font-medium yst-text-slate-800">{ __( "Schema for devs", "wordpress-seo" ) }</span>
+						<p className="yst-mt-1">{ schemaForDevsDescription }</p>
+					</div>
+				</fieldset>
 			</FormLayout>
 			<SchemaDisableConfirmationModal
 				isOpen={ isModalOpen }
