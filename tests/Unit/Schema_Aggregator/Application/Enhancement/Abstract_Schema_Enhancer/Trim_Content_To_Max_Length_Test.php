@@ -50,7 +50,6 @@ final class Trim_Content_To_Max_Length_Test extends Abstract_Abstract_Schema_Enh
 
 		$result = $this->instance->public_trim_content_to_max_length( 30, $content );
 
-		// The method trims to 30 chars, then looks for space within 90% threshold
 		$this->assertSame( 'This is a long piece of conten...', $result );
 	}
 
@@ -90,7 +89,6 @@ final class Trim_Content_To_Max_Length_Test extends Abstract_Abstract_Schema_Enh
 
 		$result = $this->instance->public_trim_content_to_max_length( 15, $content );
 
-		// Space is at position 1, which is < (15 * 0.9 = 13.5), so it won't be used
 		$this->assertSame( 'A longlonglongl...', $result );
 	}
 
