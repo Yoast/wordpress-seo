@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Aggregate_Site_S
 use Generator;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Page_Controls;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Tests the Aggregate_Site_Schema_Command constructor.
@@ -15,7 +16,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Page_Controls;
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command::__construct
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command::get_page_controls
  */
-final class Aggregate_Site_Schema_Command_Test extends Abstract_Aggregate_Site_Schema_Command_Test {
+final class Aggregate_Site_Schema_Command_Test extends TestCase {
 
 	/**
 	 * Tests constructor creates Page_Controls correctly.
