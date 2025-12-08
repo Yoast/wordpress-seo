@@ -48,14 +48,10 @@ class Schema_Configuration {
 	 * @return array<string, bool|array<string, array<string, bool|string>>>
 	 */
 	public function get_configuration(): array {
-		$schema_filtered_output = $this->get_filtered_schema_output();
-
-		$configuration = [
-			'isSchemaDisabled'      => ( $schema_filtered_output === [] || $schema_filtered_output === false ),
-			'schemaApiIntegrations' => $this->get_schema_api_integrations(),
+		return [
+			'isSchemaDisabledProgrammatically' => $this->is_schema_disabled_programmatically(),
+			'schemaApiIntegrations'            => $this->get_schema_api_integrations(),
 		];
-
-		return $configuration;
 	}
 
 	/**
@@ -106,7 +102,7 @@ class Schema_Configuration {
 	 *
 	 * @return string|array<string> The filtered schema output.
 	 */
-	private function get_filtered_schema_output() {
+	public function is_schema_disabled_programmatically() {
 		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		];
@@ -114,6 +110,8 @@ class Schema_Configuration {
 		/**
 		 * Filter documented in Schema_Presenter::present().
 		 */
-		return \apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
+		$filtered_schema = \apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
+
+		return ( $filtered_schema === [] || $filtered_schema === false );
 	}
 }

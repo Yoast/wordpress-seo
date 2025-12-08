@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 
 /**
  * Integrations_Page class
@@ -72,6 +73,13 @@ class Integrations_Page implements Integration_Interface {
 	private $site_kit_consent_management_endpoint;
 
 	/**
+	 * The schema configuration.
+	 *
+	 * @var Schema_Configuration
+	 */
+	private $schema_configuration;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -90,6 +98,7 @@ class Integrations_Page implements Integration_Interface {
 	 *                                                                                   configuration data.
 	 * @param Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint The site kit consent
 	 *                                                                                   management endpoint.
+	 * @param Schema_Configuration                 $schema_configuration                 The schema configuration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -98,7 +107,8 @@ class Integrations_Page implements Integration_Interface {
 		Elementor_Activated_Conditional $elementor_conditional,
 		Jetpack_Conditional $jetpack_conditional,
 		Site_Kit $site_kit_integration_data,
-		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint
+		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint,
+		Schema_Configuration $schema_configuration
 	) {
 		$this->admin_asset_manager                  = $admin_asset_manager;
 		$this->options_helper                       = $options_helper;
@@ -107,6 +117,7 @@ class Integrations_Page implements Integration_Interface {
 		$this->jetpack_conditional                  = $jetpack_conditional;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
+		$this->schema_configuration                 = $schema_configuration;
 	}
 
 	/**
@@ -234,7 +245,7 @@ class Integrations_Page implements Integration_Interface {
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
-				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ),
+				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ) && ! $this->schema_configuration->is_schema_disabled_programmatically(),
 			]
 		);
 	}

@@ -19,7 +19,7 @@ const SchemaFramework = () => {
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
 	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
 	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
-	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabled", [] );
+	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 
 	const { values, setFieldValue } = useFormikContext();
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
