@@ -54,7 +54,7 @@ final class Get_Enhancer_Test extends Abstract_Schema_Enhancement_Factory_Test {
 	/**
 	 * Tests get_enhancer() with multiple types (returns first match).
 	 *
-	 * @param array<string> $schema_types The schema types to test.
+	 * @param array<string> $schema_types  The schema types to test.
 	 * @param string|null   $expected_type The expected enhancer type.
 	 *
 	 * @dataProvider get_enhancer_data_provider
@@ -66,9 +66,11 @@ final class Get_Enhancer_Test extends Abstract_Schema_Enhancement_Factory_Test {
 
 		if ( $expected_type === null ) {
 			$this->assertNull( $result );
-		} elseif ( $expected_type === 'Article' ) {
+		}
+		elseif ( $expected_type === 'Article' ) {
 			$this->assertInstanceOf( Article_Schema_Enhancer::class, $result );
-		} elseif ( $expected_type === 'Person' ) {
+		}
+		elseif ( $expected_type === 'Person' ) {
 			$this->assertInstanceOf( Person_Schema_Enhancer::class, $result );
 		}
 	}
