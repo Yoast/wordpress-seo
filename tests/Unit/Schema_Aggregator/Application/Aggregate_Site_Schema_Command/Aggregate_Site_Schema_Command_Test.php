@@ -13,8 +13,9 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Page_Controls;
  * @group schema-aggregator
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command::__construct
+ * @covers Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command::get_page_controls
  */
-final class Constructor_Test extends Abstract_Aggregate_Site_Schema_Command_Test {
+final class Aggregate_Site_Schema_Command_Test extends Abstract_Aggregate_Site_Schema_Command_Test {
 
 	/**
 	 * Tests constructor creates Page_Controls correctly.

@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 
+use Generator;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -76,7 +77,7 @@ final class Aggregate_Site_Schema_Map_Command_Test extends TestCase {
 	/**
 	 * Data provider for post types tests.
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public static function post_types_data_provider() {
 		yield 'Single post type' => [

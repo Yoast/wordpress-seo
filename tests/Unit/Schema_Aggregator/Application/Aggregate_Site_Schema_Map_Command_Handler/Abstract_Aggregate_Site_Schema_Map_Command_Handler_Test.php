@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Base class for Aggregate_Site_Schema_Map_Command_Handler tests.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Aggregate_Site_Schema_Map_Command_Handler_Test extends TestCase {
 

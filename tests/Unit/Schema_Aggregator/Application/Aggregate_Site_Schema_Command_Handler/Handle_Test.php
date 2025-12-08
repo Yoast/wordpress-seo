@@ -21,12 +21,12 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 	 *
 	 * @dataProvider handle_orchestration_provider
 	 *
-	 * @param int   $page              The page number.
-	 * @param int   $per_page          The items per page.
-	 * @param string $post_type        The post type.
-	 * @param array $schema_pieces     The schema pieces to return.
-	 * @param array $aggregated_pieces The aggregated pieces.
-	 * @param array $composed_response The composed response.
+	 * @param int                 $page              The page number.
+	 * @param int                 $per_page          The items per page.
+	 * @param string              $post_type         The post type.
+	 * @param array<Schema_Piece> $schema_pieces     The schema pieces to return.
+	 * @param array<string>       $aggregated_pieces The aggregated pieces.
+	 * @param array<string>       $composed_response The composed response.
 	 *
 	 * @return void
 	 */
