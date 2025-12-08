@@ -91,6 +91,7 @@ final class Marker_Open_Presenter_Test extends TestCase {
 	public function test_present_premium() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use for testing.
 		if ( ! \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Testing constant definition.
 			\define( 'WPSEO_PREMIUM_VERSION', '2.0' );
 		}
 

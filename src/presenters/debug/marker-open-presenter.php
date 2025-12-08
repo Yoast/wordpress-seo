@@ -26,13 +26,9 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		$product_name = \esc_html( $this->helpers->product->get_name() );
 		$is_premium   = $this->helpers->product->is_premium();
 
-		$version = $is_premium
-			? $this->construct_version_info()
-			: 'v' . \WPSEO_VERSION;
+		$version = ( $is_premium ) ? $this->construct_version_info() : 'v' . \WPSEO_VERSION;
 
-		$url = $is_premium
-			? 'https://yoast.com/product/yoast-seo-premium-wordpress/'
-			: 'https://yoast.com/product/yoast-seo-wordpress/';
+		$url = ( $is_premium ) ? 'https://yoast.com/product/yoast-seo-premium-wordpress/' : 'https://yoast.com/product/yoast-seo-wordpress/';
 
 		return \sprintf(
 			'<!-- This site is optimized with the %1$s %2$s - %3$s -->',
