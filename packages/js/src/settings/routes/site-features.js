@@ -31,7 +31,7 @@ const SiteFeatures = () => {
 		navigate( "/llms-txt" );
 	}, [] );
 
-	const aiToolsFeaturesWithCallback = aiToolsFeatures.map( feature => {
+	const aiToolsFeaturesUpdated = aiToolsFeatures.map( feature => {
 		if ( feature.name === "wpseo.enable_llms_txt" ) {
 			return {
 				...feature,
@@ -42,6 +42,7 @@ const SiteFeatures = () => {
 					target="_blank"
 					rel="noopener"
 					className="yst-self-start yst-mt-4"
+					size="small"
 				>
 					{ __( "Customize llms.txt file", "wordpress-seo" ) }
 				</Button>,
@@ -61,10 +62,11 @@ const SiteFeatures = () => {
 					variant="secondary"
 					target="_blank"
 					rel="noopener"
+					size="small"
 					className="yst-self-start yst-mt-4"
 				>
 					{ __( "View the XML sitemap", "wordpress-seo" ) }
-					<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
+					<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-4 yst-w-4 yst-text-slate-400 rtl:yst-rotate-[270deg]" />
 				</Button>,
 			};
 		}
@@ -91,7 +93,7 @@ const SiteFeatures = () => {
 		>
 			<FormLayout>
 				<div className="yst-max-w-2xl yst-mb-8">
-					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeaturesWithCallback } />
+					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeaturesUpdated } />
 					<FeaturesSection id="content-optimization" title={ __( "Content optimization", "wordpress-seo" ) } features={ contentOptimizationFeatures } />
 					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeatures } />
 					<FeaturesSection id="technical-seo" title={ __( "Technical SEO", "wordpress-seo" ) } features={ technicalSeoFeaturesUpdated }  />

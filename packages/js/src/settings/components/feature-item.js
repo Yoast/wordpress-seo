@@ -105,9 +105,10 @@ export const FeatureItem = ( {
 					href={ isPremiumHref }
 					target="_blank"
 					rel="noopener"
+					size="small"
 					{ ...premiumUpsellConfig }
 				>
-					<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
+					<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 					{ sprintf(
 						/* translators: %1$s expands to Premium. */
 						__( "Unlock with %1$s", "wordpress-seo" ),
