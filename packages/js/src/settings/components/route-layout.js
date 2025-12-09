@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { STORE_NAME } from "../constants";
+import { isString } from "lodash";
 
 /**
  * @param {Object} props The properties.
@@ -34,7 +35,7 @@ const RouteLayout = ( {
 			<header className="yst-p-8 yst-border-b yst-border-slate-200">
 				<div className="yst-max-w-screen-sm">
 					<Title>{ title }</Title>
-					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
+					{ description && isString( description ) ? <p className="yst-text-tiny yst-mt-3">{ description }</p> : description }
 				</div>
 			</header>
 			{ children }
