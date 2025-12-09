@@ -80,10 +80,10 @@ export const FeatureItem = ( {
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => isDisabled || ( shouldUpsell ? false : ! value ), [ isDisabled, shouldUpsell, value ] );
 
-	return <div id={ id } className="yst-flex yst-gap-4 yst-items-top">
-		<div><img
+	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
+		<img
 			className={ classNames(
-				"yst-transition yst-duration-200 yst-shrink-0",
+				"yst-transition yst-duration-200 yst-flex-shrink-0 yst-object-contain",
 				shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 			) }
 			src={ imageSrc }
@@ -93,28 +93,14 @@ export const FeatureItem = ( {
 			loading="lazy"
 			decoding="async"
 		/>
-		</div>
 		<div className="yst-grow">
 			<Title as="h3">{ title }</Title>
 			<p>{ description }</p>
 			{ learnMoreUrl && <LearnMoreLink id={ learnMoreLinkId } url={ learnMoreUrl } ariaLabel={ learnMoreLinkAriaLabel } /> }
-
-			{ children }
-		</div>
-		<div>
-			{ ! shouldUpsell && <FormikValueChangeField
-				as={ ToggleField }
-				type="checkbox"
-				name={ name }
-				id={ inputId }
-				aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
-				disabled={ isDisabled }
-				checked={ disabledSetting === "language" ? false : value }
-			/> }
 			{ shouldUpsell && (
 				<Button
 					as="a"
-					className="yst-gap-2 yst-w-full yst-px-2"
+					className="yst-gap-2 yst-mt-4"
 					variant="upsell"
 					href={ isPremiumHref }
 					target="_blank"
@@ -129,7 +115,18 @@ export const FeatureItem = ( {
 					) }
 				</Button>
 			) }
-
+			{ children }
+		</div>
+		<div>
+			{ ! shouldUpsell && <FormikValueChangeField
+				as={ ToggleField }
+				type="checkbox"
+				name={ name }
+				id={ inputId }
+				aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
+				disabled={ isDisabled }
+				checked={ disabledSetting === "language" ? false : value }
+			/> }
 		</div>
 	</div>;
 };
