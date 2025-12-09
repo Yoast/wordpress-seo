@@ -10,16 +10,16 @@ class Filtered_Map_Loader implements Map_Loader_Interface {
 	/**
 	 * The base map loader strategy.
 	 *
-	 * @var Base_Map_Loader
+	 * @var Map_Loader_Interface
 	 */
 	private $base_loader;
 
 	/**
-	 * Class constructor..
+	 * Class constructor.
 	 *
-	 * @param Base_Map_Loader $base_loader The base map loader strategy.
+	 * @param Map_Loader_Interface $base_loader The base map loader strategy.
 	 */
-	public function __construct( Base_Map_Loader $base_loader ) {
+	public function __construct( Map_Loader_Interface $base_loader ) {
 		$this->base_loader = $base_loader;
 	}
 
