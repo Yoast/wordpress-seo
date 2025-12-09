@@ -7,10 +7,18 @@ import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import { FormLayout, RouteLayout } from "../components";
+import { FormLayout, RouteLayout, FeaturesSection } from "../components";
 import { useDisabledMessage, useSelectSettings, useDispatchSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
+import {
+	aiToolsFeatures,
+	technicalSeoFeatures,
+	socialSharingFeatures,
+	siteStructureFeatures,
+	contentOptimizationFeatures,
+	toolsFeatures,
+} from "../site-features";
 
 /**
  * @param {string} name The field name.
@@ -216,6 +224,14 @@ const SiteFeatures = () => {
 			</> }
 		>
 			<FormLayout>
+				<div className="yst-max-w-2xl yst-mb-8">
+					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeatures } />
+					<FeaturesSection id="content-optimization" title={ __( "Content optimization", "wordpress-seo" ) } features={ contentOptimizationFeatures } />
+					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeatures } />
+					<FeaturesSection id="technical-seo" title={ __( "Technical SEO", "wordpress-seo" ) } features={ technicalSeoFeatures }  />
+					<FeaturesSection id="social-sharing" title={ __( "Social sharing", "wordpress-seo" ) } features={ socialSharingFeatures }  />
+					<FeaturesSection id="tools" title={ __( "Tools", "wordpress-seo" ) } features={ toolsFeatures }  />
+				</div>
 				<div className="yst-max-w-6xl">
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "AI tools", "wordpress-seo" ) }</legend>
