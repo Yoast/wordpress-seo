@@ -1,0 +1,48 @@
+import { __ } from "@wordpress/i18n";
+
+export const contentOptimizationFeatures = [
+	{
+		name: "wpseo.keyword_analysis_active",
+		id: "card-wpseo-keyword_analysis_active",
+		inputId: "input-wpseo-keyword_analysis_active",
+		imageSrc: "/images/icon-seo-analysis.svg",
+		title: __( "SEO analysis", "wordpress-seo" ),
+		description: __( "The SEO analysis offers suggestions to improve the findability of your text and makes sure that your content meets best practices.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/2ak",
+		learnMoreLinkId: "link-seo-analysis",
+		learnMoreLinkAriaLabel: __( "SEO analysis", "wordpress-seo" ),
+	},
+	{
+		name: "wpseo.content_analysis_active",
+		id: "card-wpseo-content_analysis_active",
+		inputId: "input-wpseo-content_analysis_active",
+		imageSrc: "/images/icon-readability-analysis.svg",
+		title: __( "Readability analysis", "wordpress-seo" ),
+		description: __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/2ao",
+		learnMoreLinkId: "link-readability-analysis",
+		learnMoreLinkAriaLabel: __( "Readability analysis", "wordpress-seo" ),
+	},
+	{
+		name: "wpseo.inclusive_language_analysis_active",
+		id: "card-wpseo-inclusive_language_analysis_active",
+		inputId: "input-wpseo-inclusive_language_analysis_active",
+		imageSrc: "/images/icon-inclusive-language-analysis.svg",
+		title: __( "Inclusive language analysis", "wordpress-seo" ),
+		description: __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/2ak",
+		learnMoreLinkId: "link-inclusive-language-analysis",
+		learnMoreLinkAriaLabel: __( "Inclusive language analysis", "wordpress-seo" ),
+	},
+	{
+		name: "wpseo.enable_metabox_insights",
+		id: "card-wpseo-enable_metabox_insights",
+		inputId: "input-wpseo-enable_metabox_insights",
+		imageSrc: "/images/icon-metabox-insights.svg",
+		title: __( "Metabox insights", "wordpress-seo" ),
+		description: __( "Get insights directly in the post editor to improve your content.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/metabox-insights",
+		learnMoreLinkId: "link-metabox-insights",
+		learnMoreLinkAriaLabel: __( "Metabox insights", "wordpress-seo" ),
+	},
+];
