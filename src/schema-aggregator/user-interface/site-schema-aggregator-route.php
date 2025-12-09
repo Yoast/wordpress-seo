@@ -146,11 +146,11 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$page      = ( $request->get_param( 'page' ) ?? 1 );
 		$per_page  = $this->config->get_per_page( $post_type );
 
-		$output = $this->cache_manager->get( $page, $per_page );
+		$output = $this->cache_manager->get( $post_type, $page, $per_page );
 		if ( $output === null ) {
 			try {
 				$output = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
-				$this->cache_manager->set( $page, $per_page, $output );
+				$this->cache_manager->set( $post_type, $page, $per_page, $output );
 
 			} catch ( Exception $exception ) {
 				return new WP_Error(

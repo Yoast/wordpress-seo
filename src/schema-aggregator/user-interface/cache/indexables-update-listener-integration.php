@@ -45,7 +45,7 @@ class Indexables_Update_Listener_Integration extends Abstract_Cache_Listener_Int
 			return false;
 		}
 		$page = $this->get_page_number( $indexable );
-		$this->manager->invalidate( $page );
+		$this->manager->invalidate( $indexable->object_sub_type, $page );
 		$this->xml_manager->invalidate();
 
 		return true;
