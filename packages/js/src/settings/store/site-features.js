@@ -13,6 +13,8 @@ export const createInitialSiteFeaturesState = () => ( {
 		"content-optimization": { isOpen: true },
 		"site-structure": { isOpen: true },
 		"technical-seo": { isOpen: true },
+		"social-sharing": { isOpen: true },
+		tools: { isOpen: true },
 	},
 } );
 

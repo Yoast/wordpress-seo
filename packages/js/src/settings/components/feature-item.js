@@ -67,8 +67,7 @@ export const FeatureItem = ( {
 	learnMoreUrl,
 	learnMoreLinkId,
 	learnMoreLinkAriaLabel,
-	buttonLabel,
-	buttonOnclick,
+	children,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
@@ -84,7 +83,7 @@ export const FeatureItem = ( {
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-top">
 		<div><img
 			className={ classNames(
-				"yst-transition yst-duration-200",
+				"yst-transition yst-duration-200 yst-shrink-0",
 				shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 			) }
 			src={ imageSrc }
@@ -100,16 +99,7 @@ export const FeatureItem = ( {
 			<p>{ description }</p>
 			{ learnMoreUrl && <LearnMoreLink id={ learnMoreLinkId } url={ learnMoreUrl } ariaLabel={ learnMoreLinkAriaLabel } /> }
 
-			{ buttonLabel && buttonOnclick && <Button
-				onClick={ buttonOnclick }
-				id="link-llms"
-				variant="secondary"
-				target="_blank"
-				rel="noopener"
-				className="yst-self-start yst-mt-4"
-			>
-				{ buttonLabel }
-			</Button> }
+			{ children }
 		</div>
 		<div>
 			{ ! shouldUpsell && <FormikValueChangeField
