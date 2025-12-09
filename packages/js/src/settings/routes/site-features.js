@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import { useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
@@ -8,7 +8,7 @@ import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
 import { FormLayout, RouteLayout } from "../components";
-import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { useDisabledMessage, useSelectSettings, useDispatchSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
 
@@ -178,6 +178,8 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const isAllFeaturesOpen = useSelectSettings( "selectIsAllFeaturesOpen", [] );
+	const { toggleAllFeatures } = useDispatchSettings();
 	const { values, initialValues } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
 	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
@@ -185,6 +187,8 @@ const SiteFeatures = () => {
 	const handleLlmsTxtNavigate = useCallback( () => {
 		navigate( "/llms-txt" );
 	}, [] );
+
+	const ChevronIcon = isAllFeaturesOpen ? ChevronUpIcon : ChevronDownIcon;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -198,7 +202,18 @@ const SiteFeatures = () => {
 	return (
 		<RouteLayout
 			title={ __( "Site features", "wordpress-seo" ) }
-			description={ __( "Tell us which features you want to use.", "wordpress-seo" ) }
+			description={ <>
+				<p className="yst-text-tiny yst-mt-3">{ __( "Tell us which features you want to use.", "wordpress-seo" ) }</p>
+				<Button
+					variant="secondary"
+					size="small"
+					className="yst-mt-3"
+					onClick={ toggleAllFeatures }
+				>
+					<ChevronIcon className="yst-h-4 yst-w-4 yst-text-slate-400 yst-me-2" />
+					{ isAllFeaturesOpen ? __( "Collapse all", "wordpress-seo" ) : __( "Expand all", "wordpress-seo" ) }
+				</Button>
+			</> }
 		>
 			<FormLayout>
 				<div className="yst-max-w-6xl">
