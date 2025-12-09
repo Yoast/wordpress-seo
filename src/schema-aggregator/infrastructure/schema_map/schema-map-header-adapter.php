@@ -32,7 +32,7 @@ class Schema_Map_Header_Adapter {
 		}
 		else {
 			\header( 'X-Accel-Buffering: no' );
-			\header( 'Content-Type: application/jsonl' );
+			\header( 'Content-Type: application/json; charset=UTF-8' );
 			foreach ( $data as $schema_piece ) {
 				// @phpcs:disable Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- The pretty print option breaks the JSONL format.
 				echo \wp_json_encode( $schema_piece, ( \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE ) ) . \PHP_EOL; // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data should already be escaped here since this just adds headers to the request.
