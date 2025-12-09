@@ -19,14 +19,16 @@ class Schema_Aggregator_Response_Composer {
 	 * @return array<string> The composed schema response.
 	 */
 	public function compose( array $schema_pieces ): array {
-		return [
-			'@context' => 'https://schema.org',
-			'@graph'   => \array_map(
-				static function ( $piece ) {
-					return $piece->get_data();
-				},
-				\array_values( $schema_pieces )
-			),
-		];
+		$composed_pieces = [];
+		foreach ( $schema_pieces as $piece ) {
+			$composed_pieces[] = \array_merge(
+				[
+					'@context' => 'https://schema.org',
+				],
+				$piece->get_data()
+			);
+		}
+
+		return $composed_pieces;
 	}
 }

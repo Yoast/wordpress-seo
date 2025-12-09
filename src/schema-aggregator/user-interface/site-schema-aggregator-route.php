@@ -149,9 +149,8 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$output = $this->cache_manager->get( $page, $per_page );
 		if ( $output === null ) {
 			try {
-				$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
-				$output = \str_replace( "\n", \PHP_EOL . "\t", $result );
-				$this->cache_manager->set( $page, $per_page, $result );
+				$output = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
+				$this->cache_manager->set( $page, $per_page, $output );
 
 			} catch ( Exception $exception ) {
 				return new WP_Error(

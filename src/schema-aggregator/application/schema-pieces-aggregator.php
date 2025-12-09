@@ -30,23 +30,17 @@ class Schema_Pieces_Aggregator {
 	private $schema_pieces_filter;
 
 	/**
-	 * The properties merger object
-	 *
-	 * @var Properties_Merger
-	 */
-	private $properties_merger;
-
-	/**
 	 * Class constructor
 	 *
 	 * @param Properties_Filter    $properties_filter    The properties filter object.
 	 * @param Schema_Pieces_Filter $schema_pieces_filter The schema pieces filter object.
-	 * @param Properties_Merger    $properties_merger    The properties merger object.
 	 */
-	public function __construct( Properties_Filter $properties_filter, Schema_Pieces_Filter $schema_pieces_filter, Properties_Merger $properties_merger ) {
+	public function __construct(
+		Properties_Filter $properties_filter,
+		Schema_Pieces_Filter $schema_pieces_filter
+	) {
 		$this->properties_filter    = $properties_filter;
 		$this->schema_pieces_filter = $schema_pieces_filter;
-		$this->properties_merger    = $properties_merger;
 	}
 
 	/**
@@ -68,15 +62,7 @@ class Schema_Pieces_Aggregator {
 			if ( \is_null( $id ) ) {
 				continue;
 			}
-
-			if ( isset( $aggregated_schema[ $id ] ) ) {
-
-				$aggregated_schema[ $id ] = $this->properties_merger->merge( $aggregated_schema[ $id ], $piece );
-			}
-			else {
-				// Add new piece.
-				$aggregated_schema[ $id ] = $piece;
-			}
+			$aggregated_schema[ $id ] = $piece;
 
 			$aggregated_schema[ $id ] = $this->properties_filter->filter( $aggregated_schema[ $id ] );
 		}
