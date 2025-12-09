@@ -59,15 +59,8 @@ class Schema_Pieces_Aggregator {
 			if ( \is_null( $id ) ) {
 				continue;
 			}
+			$aggregated_schema[ $id ] = $piece;
 
-			if ( isset( $aggregated_schema[ $id ] ) ) {
-
-				$aggregated_schema[ $id ] = $this->properties_merger->merge( $aggregated_schema[ $id ], $piece );
-			}
-			else {
-				// Add new piece.
-				$aggregated_schema[ $id ] = $piece;
-			}
 		}
 
 		// Return only the values to get rid of the keys (which are @id).

@@ -156,6 +156,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'first_activated_by'                                   => 0,
 		'enable_schema_aggregation_endpoint'                   => false,
 		'schema_aggregation_endpoint_enabled_on'               => null,
+		'enable_task_list'                                     => true,
 	];
 
 	/**
@@ -550,7 +551,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'site_kit_connected',
 				 *  'google_site_kit_feature_enabled',
 				 *  'enable_llms_txt',
-				 * 'enable_schema_aggregation_endpoint'
+				 *  'enable_schema_aggregation_endpoint'
+				 *  'enable_task_list',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -621,6 +623,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'algolia_integration_active'         => false,
 			'google_site_kit_feature_enabled'    => false,
 			'enable_llms_txt'                    => false,
+			'enable_task_list'                   => false,
 			'enable_schema_aggregation_endpoint' => false,
 		];
 
