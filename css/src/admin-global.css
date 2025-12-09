@@ -610,11 +610,6 @@ body.folded .wpseo-admin-submit-fixed {
 
 }
 
-.yoast-ai-plus-badge {
-	background-image: linear-gradient(97deg, #A61E69 0%, #6366F1 100%) !important;
-	color: #ffffff;
-}
-
 .yoast-premium-badge {
 	background-color: #fff3cd;
 	color: #674e00;
@@ -641,8 +636,51 @@ body.folded .wpseo-admin-submit-fixed {
 	vertical-align: bottom;
 }
 
-/* Disabled toggles in the Crawl settings tab */
+/* AI Brand Insights menu button styling */
+.wp-submenu .yoast-brand-insights-gradient-border {
+	@apply
+	yst-relative
+	yst-inline-flex
+	yst-rounded-md
+	yst-p-px
+	yst-w-full;
+	background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
+}
 
+.wp-submenu .yoast-brand-insights-content {
+	@apply
+	yst-relative
+	yst-rounded-md
+	yst-py-1.5
+	yst-pr-2
+	yst-pl-2.5
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-gap-1
+	yst-text-xs
+	yst-font-medium
+	yst-whitespace-nowrap
+	yst-w-full;
+	background: var(--yoast-adminbar-submenu-bg, #2c3338);
+}
+
+/* External link icon for the AI Brand Insights button */
+.yst-external-link-icon {
+	@apply
+	yst-inline-block
+	yst-w-3.5
+	yst-h-3.5
+	yst-align-middle
+	yst-mb-0.5;
+	background-color: currentColor;
+	mask-image: var(--yoast-svg-icon-external-link);
+	-webkit-mask-image: var(--yoast-svg-icon-external-link);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+}
+
+/* Disabled toggles in the Crawl settings tab */
 .yoast #crawl-settings fieldset[id$="_disabled"],
 .yoast #crawl-settings p.disabled,
 .yoast label[for="search_character_limit_free"],

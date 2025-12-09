@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 
 /**
  * Class General_Page_Integration.
@@ -41,6 +42,13 @@ class General_Page_Integration implements Integration_Interface {
 	 * @var Dashboard_Configuration
 	 */
 	private $dashboard_configuration;
+
+	/**
+	 * The task list configuration.
+	 *
+	 * @var Task_List_Configuration
+	 */
+	private $task_list_configuration;
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -127,6 +135,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @param Options_Helper            $options_helper          The options helper.
 	 * @param WooCommerce_Conditional   $woocommerce_conditional The WooCommerce conditional.
 	 * @param WPSEO_Addon_Manager       $addon_manager           The WPSEO_Addon_Manager.
+	 * @param Task_List_Configuration   $task_list_configuration The task list configuration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -140,7 +149,8 @@ class General_Page_Integration implements Integration_Interface {
 		User_Helper $user_helper,
 		Options_Helper $options_helper,
 		WooCommerce_Conditional $woocommerce_conditional,
-		WPSEO_Addon_Manager $addon_manager
+		WPSEO_Addon_Manager $addon_manager,
+		Task_List_Configuration $task_list_configuration
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->current_page_helper     = $current_page_helper;
@@ -154,6 +164,7 @@ class General_Page_Integration implements Integration_Interface {
 		$this->options_helper          = $options_helper;
 		$this->woocommerce_conditional = $woocommerce_conditional;
 		$this->addon_manager           = $addon_manager;
+		$this->task_list_configuration = $task_list_configuration;
 	}
 
 	/**
@@ -271,6 +282,7 @@ class General_Page_Integration implements Integration_Interface {
 			'optInNotificationSeen' => [
 				'wpseo_seen_llm_txt_opt_in_notification' => $this->is_llms_txt_opt_in_notification_seen(),
 			],
+			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
 		];
 	}
 

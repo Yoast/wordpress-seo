@@ -28,9 +28,9 @@
 		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
-		"guzzlehttp/guzzle": "7.8.1",
+		"guzzlehttp/guzzle": "7.10.0",
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.7.0",
+		"league/oauth2-client": "2.8.1",
 		"psr/container": "1.1.1",
 		"psr/log": "^1.0",
 		"symfony/config": "^5.4.46",
@@ -107,7 +107,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2381",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2379",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=251",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],

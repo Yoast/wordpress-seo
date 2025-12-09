@@ -397,6 +397,18 @@ const SiteFeatures = () => {
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
+								name="wpseo.enable_task_list"
+								cardId="card-wpseo-enable_task_list"
+								inputId="input-wpseo-enable_task_list"
+								imageSrc="/images/icon-task-list.svg"
+								title={ __( "Task list", "wordpress-seo" ) }
+							>
+								<p>
+									{ __( "The task list guides you through important SEO tasks and helps you to manage your site’s SEO.", "wordpress-seo" ) }
+								</p>
+								<LearnMoreLink id="link-task-list" link="https://yoa.st/site-features-task-list" ariaLabel={ __( "Task list", "wordpress-seo" ) } />
+							</FeatureCard>
+							<FeatureCard
 								name="wpseo.enable_admin_bar_menu"
 								cardId="card-wpseo-enable_admin_bar_menu"
 								inputId="input-wpseo-enable_admin_bar_menu"
