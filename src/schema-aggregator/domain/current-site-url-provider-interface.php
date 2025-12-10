@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Domain;
 
 /**
- * Interface for providing site information.
+ * Interface for providing current site URL.
  */
 interface Current_Site_URL_Provider_Interface {
 
