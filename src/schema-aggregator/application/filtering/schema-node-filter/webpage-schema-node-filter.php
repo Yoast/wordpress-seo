@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter;
 
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 
 /**
  * WebPage schema node filter implementation.
@@ -20,12 +21,12 @@ class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	/**
 	 * Filters a WebPage schema piece if it contains an Article.
 	 *
-	 * @param array<Schema_Piece> $schema       The full schema.
+	 * @param Schema_Piece_Collection $schema       The full schema.
 	 * @param Schema_Piece        $schema_piece The schema piece to be filtered.
 	 *
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */
-	public function filter( array $schema, Schema_Piece $schema_piece ): bool {
+	public function filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
 		$data         = $schema_piece->get_data();
 		$articles_ids = $this->get_articles_ids( $schema );
 		foreach ( $articles_ids as $article_id ) {
@@ -39,14 +40,14 @@ class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	/**
 	 * Retrieves the IDs of all Article schema pieces in the schema.
 	 *
-	 * @param array<Schema_Piece> $schema The full schema.
+	 * @param Schema_Piece_Collection $schema The full schema.
 	 *
 	 * @return array<string> The IDs of the Article schema pieces.
 	 */
-	private function get_articles_ids( array $schema ): array {
+	private function get_articles_ids( Schema_Piece_Collection $schema ): array {
 		if ( ! \is_array( $this->articles_ids ) ) {
 			$this->articles_ids = [];
-			foreach ( $schema as $schema_piece ) {
+			foreach ( $schema->to_array() as $schema_piece ) {
 				if ( $schema_piece->get_type() === 'Article' ) {
 					$schema_piece_data    = $schema_piece->get_data();
 					$this->articles_ids[] = $schema_piece_data['@id'];

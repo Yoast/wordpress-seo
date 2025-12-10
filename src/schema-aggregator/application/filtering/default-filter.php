@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering;
 
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository_Interface;
 
 /**
@@ -41,14 +41,14 @@ class Default_Filter implements Filtering_Strategy_Interface {
 	/**
 	 * Applies filtering to the given schema.
 	 *
-	 * @param array<Schema_Piece> $schema The schema to be filtered.
+	 * @param Schema_Piece_Collection $schema The schema to be filtered.
 	 *
-	 * @return array<Schema_Piece> The filtered schema.
+	 * @return Schema_Piece_Collection The filtered schema.
 	 */
-	public function filter( array $schema ): array {
+	public function filter( Schema_Piece_Collection $schema ): Schema_Piece_Collection {
 		$filtered_schema      = [];
 		$elements_context_map = $this->elements_context_map_repository->get_map();
-		foreach ( $schema as $schema_piece ) {
+		foreach ( $schema->to_array() as $schema_piece ) {
 			$should_keep = true;
 			foreach ( $this->filter_categories as $category ) {
 				if ( \in_array( $schema_piece->get_type(), $elements_context_map[ $category ], true ) ) {
@@ -70,6 +70,6 @@ class Default_Filter implements Filtering_Strategy_Interface {
 				$filtered_schema[] = $schema_piece;
 			}
 		}
-		return $filtered_schema;
+		return new Schema_Piece_Collection( $filtered_schema );
 	}
 }

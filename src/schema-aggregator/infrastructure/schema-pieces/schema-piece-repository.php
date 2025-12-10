@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
@@ -100,9 +101,9 @@ class Schema_Piece_Repository {
 	 * @param int    $page_size The number of items per page.
 	 * @param string $post_type The post type to filter by.
 	 *
-	 * @return array<Schema_Piece> The aggregated schema.
+	 * @return Schema_Piece_Collection The aggregated schema.
 	 */
-	public function get( int $page, int $page_size, string $post_type ): array {
+	public function get( int $page, int $page_size, string $post_type ): Schema_Piece_Collection {
 		$indexable_repository = $this->indexable_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
 		$indexables           = $indexable_repository->get( $page, $page_size, $post_type );
 		$schema_pieces        = [];
@@ -131,7 +132,7 @@ class Schema_Piece_Repository {
 				$schema_pieces[] = $schema_piece;
 			}
 		}
-		return $schema_pieces;
+		return new Schema_Piece_Collection( $schema_pieces );
 	}
 
 	/**

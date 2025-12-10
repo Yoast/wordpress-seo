@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering;
 
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 
 /**
  * Interface for filtering strategies.
@@ -12,9 +12,9 @@ interface Filtering_Strategy_Interface {
 	/**
 	 * Applies filtering to the given schema.
 	 *
-	 * @param array<Schema_Piece> $schema The schema to be filtered.
+	 * @param Schema_Piece_Collection $schema The schema to be filtered.
 	 *
-	 * @return array<Schema_Piece> The filtered schema.
+	 * @return Schema_Piece_Collection The filtered schema.
 	 */
-	public function filter( array $schema ): array;
+	public function filter( Schema_Piece_Collection $schema ): Schema_Piece_Collection;
 }

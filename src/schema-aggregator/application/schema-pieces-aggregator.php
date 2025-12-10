@@ -2,7 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
 
 /**
@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
  * 1. Schema_Pieces are deduplicated by using the id property
  * 2. if a copy of the same Schema_Piece exists, properties are merged together
  * 3. properties in the avoid list are unset
- *
- * @param array<Schema_Piece> $schema_pieces The schema pieces to aggregate.
  */
 class Schema_Pieces_Aggregator {
 
@@ -43,17 +41,17 @@ class Schema_Pieces_Aggregator {
 	/**
 	 * Main orchestrator method: deduplicates, merges and filter properties.
 	 *
-	 * @param array<Schema_Piece> $schema_pieces The schema pieces to aggregate.
+	 * @param Schema_Piece_Collection $schema_pieces The schema pieces to aggregate.
 	 *
-	 * @return array<Schema_Piece> The aggregated schema pieces.
+	 * @return Schema_Piece_Collection The aggregated schema pieces.
 	 */
-	public function aggregate( array $schema_pieces ): array {
+	public function aggregate( Schema_Piece_Collection $schema_pieces ): Schema_Piece_Collection {
 		$aggregated_schema = [];
 
 		$filtering_strategy     = $this->filtering_strategy_factory->create();
 		$filtered_schema_pieces = $filtering_strategy->filter( $schema_pieces );
 
-		foreach ( $filtered_schema_pieces as $piece ) {
+		foreach ( $filtered_schema_pieces->to_array() as $piece ) {
 
 			$id = $piece->get_id();
 			if ( \is_null( $id ) ) {
@@ -63,7 +61,7 @@ class Schema_Pieces_Aggregator {
 
 		}
 
-		// Return only the values to get rid of the keys (which are @id).
-		return \array_values( $aggregated_schema );
+		// Return only the values to get rid of the keys (which are @id) and wrap in a collection.
+		return new Schema_Piece_Collection( \array_values( $aggregated_schema ) );
 	}
 }
