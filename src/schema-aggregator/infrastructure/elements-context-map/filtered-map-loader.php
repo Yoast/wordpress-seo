@@ -39,7 +39,7 @@ class Filtered_Map_Loader implements Map_Loader_Interface {
 
 			foreach ( $map as $context => $elements ) {
 				$filtered_elements = \apply_filters( "wpseo_schema_aggregator_elements_context_map_{$context}", $elements );
-				$this->validate_elements_array( $filtered_elements, "wpseo_schema_aggregator_elements_context_map_{$context}" );
+				$this->validate_elements_array( $filtered_elements );
 				$map[ $context ] = $filtered_elements;
 			}
 		} catch ( InvalidArgumentException $exception ) {
