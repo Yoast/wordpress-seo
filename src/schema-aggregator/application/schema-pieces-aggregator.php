@@ -6,19 +6,9 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
 
 /**
- * This class is responsible for taking an array of Schema_Pieces and return another array of Schema_Pieces where:
- * 1. Schema_Pieces are deduplicated by using the id property
- * 2. if a copy of the same Schema_Piece exists, properties are merged together
- * 3. properties in the avoid list are unset
+ * This class is responsible for taking a Schema_Piece_Collection and return another filtered Schema_Piece_Collection.
  */
 class Schema_Pieces_Aggregator {
-
-	/**
-	 * The properties merger object
-	 *
-	 * @var Properties_Merger
-	 */
-	private $properties_merger;
 
 	/**
 	 * The filtering strategy factory.
@@ -30,11 +20,9 @@ class Schema_Pieces_Aggregator {
 	/**
 	 * Class constructor
 	 *
-	 * @param Properties_Merger          $properties_merger          The properties merger object.
 	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
 	 */
-	public function __construct( Properties_Merger $properties_merger, Filtering_Strategy_Factory $filtering_strategy_factory ) {
-		$this->properties_merger          = $properties_merger;
+	public function __construct( Filtering_Strategy_Factory $filtering_strategy_factory ) {
 		$this->filtering_strategy_factory = $filtering_strategy_factory;
 	}
 
