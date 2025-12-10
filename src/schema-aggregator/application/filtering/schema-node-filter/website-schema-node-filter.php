@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter;
 
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Current_Site_URL_Provider_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 
@@ -15,6 +16,22 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 
 	/**
+	 * The site info provider.
+	 *
+	 * @var Current_Site_URL_Provider_Interface
+	 */
+	private $current_site_url_provider;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Current_Site_URL_Provider_Interface $current_site_url_provider The site info provider.
+	 */
+	public function __construct( Current_Site_URL_Provider_Interface $current_site_url_provider ) {
+		$this->current_site_url_provider = $current_site_url_provider;
+	}
+
+	/**
 	 * Filters a WebSite schema piece if it matches the site's URL.
 	 *
 	 * @param Schema_Piece_Collection $schema       The full schema.
@@ -23,9 +40,7 @@ class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */
 	public function filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
-		// Shall we support multisite here?
-		$blog_id  = \get_current_blog_id();
-		$blog_url = \trailingslashit( \get_home_url( $blog_id ) );
+		$blog_url = $this->current_site_url_provider->get_current_site_url();
 		$data     = $schema_piece->get_data();
 		if ( $data['url'] === $blog_url ) {
 			return false;
