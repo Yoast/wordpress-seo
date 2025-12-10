@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
@@ -14,7 +15,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Ada
 /**
  * The Schema_Piece repository.
  */
-class Schema_Piece_Repository {
+class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 
 	/**
 	 * The meta tags context memoizer.
@@ -142,7 +143,7 @@ class Schema_Piece_Repository {
 	 *
 	 * @return array<string>
 	 */
-	private function get_all_schema_types( $graph ): array {
+	private function get_all_schema_types( array $graph ): array {
 		$schema_types = [];
 		foreach ( $graph as $schema_values ) {
 			foreach ( $schema_values as $key => $value ) {
