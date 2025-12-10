@@ -1,5 +1,4 @@
-import { LockOpenIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon, ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { getPremiumBenefits, getWooSeoBenefits } from "../../helpers/get-premium-benefits";
@@ -24,21 +23,23 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 		: getPremiumBenefits;
 	const infoSubHeader = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "SEO that scales with your product catalog.", "wordpress-seo" );
+			return	__( "Grow your store's visibility!", "wordpress-seo" );
 		}
 		return __( "Spend less time on SEO tasks!", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
 	const info = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
+			return	__( "Help ready-to-buy shoppers and search engines find your product.", "wordpress-seo" );
 		}
-		return __( "Optimize your site faster, smarter, and with more confidence", "wordpress-seo" );
+		return __( "Optimize your site faster, smarter, and with more confidence.", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
-	let upsellButtonText = sprintf(
-		/* translators: %s expands to "Yoast SEO Premium". */
-		__( "Get %s", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	);
+	let upsellButtonText = __( "Buy now", "wordpress-seo" );
+	const microCopy = useMemo( () => {
+		if ( isWooCommerceActive ) {
+			return	__( "Less friction. Smarter optimization.", "wordpress-seo" );
+		}
+		return __( "Less friction. Faster publishing.", "wordpress-seo" );
+	}, [ isWooCommerceActive ] );
 	const upsellTitle = isWooCommerceActive
 		? safeCreateInterpolateElement(
 			sprintf(
@@ -90,7 +91,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 			</div> }
 			<Title
 				as="h2"
-				className={ classNames( "yst-mt-6 yst-text-xl yst-font-bold",
+				className={ classNames( "yst-mt-6 yst-text-xl yst-font-semibold",
 					isWooCommerceActive ? "yst-text-woo-light" : "yst-text-primary-500" )
 				}
 			>
@@ -115,11 +116,11 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...linkProps }
 			>
-				<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 				<span>{ upsellButtonText }</span>
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" />
 			</Button>
 			<p className="yst-text-center yst-text-xs yst-font-normal yst-leading-5 yst-text-slate-500 yst-italic yst-mt-3 yst-mb-2">
-				{ __( "Less friction. Faster publishing.", "wordpress-seo" ) }
+				{ microCopy }
 			</p>
 			<hr className="yst-border-t yst-border-slate-200 yst-my-4" />
 			<ul className="yst-text-center yst-text-xs yst-font-medium yst-text-slate-800 yst-list-none">
