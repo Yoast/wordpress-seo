@@ -1,5 +1,4 @@
-export const DuplicatePostSvg = () => (
-	<svg width="254" height="96" viewBox="0 0 254 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="254" height="96" viewBox="0 0 254 96" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<rect width="254" height="96" fill="#5D237A" />
 		<g clipPath="url(#clip0_23_505)">
 			<rect width="80" height="80" transform="translate(86 8)" fill="#5D237A" />
@@ -22,4 +21,3 @@ export const DuplicatePostSvg = () => (
 			</clipPath>
 		</defs>
 	</svg>
-);
