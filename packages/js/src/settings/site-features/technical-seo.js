@@ -5,7 +5,7 @@ export const technicalSeoFeatures = [
 		name: "wpseo.enable_xml_sitemap",
 		id: "card-wpseo-enable_xml_sitemap",
 		inputId: "input-wpseo-enable_xml_sitemap",
-		imageSrc: "/images/icon-xml-sitemap.svg",
+		imageSrc: "/images/icon-xml-sitemaps.svg",
 		title: __( "XML sitemaps", "wordpress-seo" ),
 		description: sprintf(
 			// translators: %1$s expands to "Yoast SEO".
@@ -35,5 +35,6 @@ export const technicalSeoFeatures = [
 		isPremiumFeature: true,
 		isPremiumLink: "https://yoa.st/get-indexnow",
 		title: __( "IndexNow", "wordpress-seo" ),
+		description: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ),
 	},
 ];
