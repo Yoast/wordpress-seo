@@ -94,29 +94,31 @@ export const FeatureItem = ( {
 			decoding="async"
 		/>
 		<div className="yst-grow">
-			<Title as="h3">{ title }</Title>
-			<p>{ description }</p>
-			{ learnMoreUrl && <LearnMoreLink id={ learnMoreLinkId } url={ learnMoreUrl } ariaLabel={ learnMoreLinkAriaLabel } /> }
-			{ shouldUpsell && (
-				<Button
-					as="a"
-					className="yst-gap-2 yst-mt-4"
-					variant="upsell"
-					href={ isPremiumHref }
-					target="_blank"
-					rel="noopener"
-					size="small"
-					{ ...premiumUpsellConfig }
-				>
-					<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
-					{ sprintf(
+			<div className="yst-max-w-lg">
+				<Title as="h3">{ title }</Title>
+				<p>{ description }</p>
+				{ learnMoreUrl && <LearnMoreLink id={ learnMoreLinkId } url={ learnMoreUrl } ariaLabel={ learnMoreLinkAriaLabel } /> }
+				{ shouldUpsell && (
+					<Button
+						as="a"
+						className="yst-gap-2 yst-mt-4"
+						variant="upsell"
+						href={ isPremiumHref }
+						target="_blank"
+						rel="noopener"
+						size="small"
+						{ ...premiumUpsellConfig }
+					>
+						<LockOpenIcon className="yst-w-4 yst-h-4 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
+						{ sprintf(
 						/* translators: %1$s expands to Premium. */
-						__( "Unlock with %1$s", "wordpress-seo" ),
-						"Premium"
-					) }
-				</Button>
-			) }
-			{ children }
+							__( "Unlock with %1$s", "wordpress-seo" ),
+							"Premium"
+						) }
+					</Button>
+				) }
+				{ children }
+			</div>
 		</div>
 		<div>
 			{ ! shouldUpsell && <FormikValueChangeField

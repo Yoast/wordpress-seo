@@ -30,7 +30,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 				</button>
 
 			</div>
-			{ isOpen && <ul>
+			{ isOpen && <ul className="yst-mb-2">
 				{ features.map( ( feature ) => (
 					<li key={ feature.id } className="yst-border-b-slate-200 yst-border-b last:yst-border-0 yst-py-4">
 						<FeatureItem { ...feature } />
