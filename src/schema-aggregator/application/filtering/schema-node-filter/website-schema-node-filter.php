@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filte
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Current_Site_URL_Provider_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\WordPress_Current_Site_URL_Provider;
 
 /**
  * WebSite schema node filter implementation.
@@ -24,11 +25,9 @@ class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 
 	/**
 	 * Class constructor.
-	 *
-	 * @param Current_Site_URL_Provider_Interface $current_site_url_provider The site info provider.
 	 */
-	public function __construct( Current_Site_URL_Provider_Interface $current_site_url_provider ) {
-		$this->current_site_url_provider = $current_site_url_provider;
+	public function __construct() {
+		$this->current_site_url_provider = new WordPress_Current_Site_URL_Provider();
 	}
 
 	/**
