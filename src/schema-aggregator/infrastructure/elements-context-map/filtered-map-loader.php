@@ -87,14 +87,13 @@ class Filtered_Map_Loader implements Map_Loader_Interface {
 	/**
 	 * Validates that the elements array has the correct format.
 	 *
-	 * @param mixed  $elements    The elements array to validate.
-	 * @param string $filter_name The name of the filter.
+	 * @param mixed $elements The elements array to validate.
 	 *
 	 * @throws InvalidArgumentException When the elements format is invalid.
 	 *
 	 * @return void
 	 */
-	private function validate_elements_array( $elements, string $filter_name ): void {
+	private function validate_elements_array( $elements ): void {
 		if ( ! \is_array( $elements ) ) {
 			throw new InvalidArgumentException( 'Filter "wpseo_schema_aggregator_elements_context_map_*" must return an array of string element names.' );
 		}
