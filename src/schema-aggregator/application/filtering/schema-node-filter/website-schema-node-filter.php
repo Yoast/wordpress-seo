@@ -15,7 +15,7 @@ class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 * Filters a WebSite schema piece if it matches the site's URL.
 	 *
 	 * @param Schema_Piece_Collection $schema       The full schema.
-	 * @param Schema_Piece        $schema_piece The schema piece to be filtered.
+	 * @param Schema_Piece            $schema_piece The schema piece to be filtered.
 	 *
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */

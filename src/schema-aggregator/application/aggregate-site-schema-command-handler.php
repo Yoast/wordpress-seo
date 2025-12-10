@@ -34,7 +34,7 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * Aggregate_Site_Schema_Command_Handler constructor.
 	 *
-	 * @param Schema_Piece_Repository_Interface             $schema_piece_repository  The collector of indexables that need to be aggregated.
+	 * @param Schema_Piece_Repository_Interface   $schema_piece_repository  The collector of indexables that need to be aggregated.
 	 * @param Schema_Pieces_Aggregator            $schema_piece_aggregator  The schema pieces aggregator.
 	 * @param Schema_Aggregator_Response_Composer $schema_response_composer The schema response composer.
 	 */

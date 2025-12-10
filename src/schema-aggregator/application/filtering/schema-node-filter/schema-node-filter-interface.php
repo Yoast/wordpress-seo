@@ -15,7 +15,7 @@ interface Schema_Node_Filter_Interface {
 	 * Filters a schema piece.
 	 *
 	 * @param Schema_Piece_Collection $schema       The full schema.
-	 * @param Schema_Piece        $schema_piece The schema piece to be filtered.
+	 * @param Schema_Piece            $schema_piece The schema piece to be filtered.
 	 *
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */
