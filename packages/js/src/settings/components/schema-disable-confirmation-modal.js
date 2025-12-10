@@ -17,13 +17,13 @@ export const SchemaDisableConfirmationModal = ( { isOpen, onClose = noop, onConf
 
 	return <Modal isOpen={ isOpen } onClose={ onClose }>
 		<Modal.Panel className="yst-max-w-lg">
-			<div className="yst-flex yst-items-start yst-columns-2 yst-gap-4">
+			<div className="yst-flex yst-flex-col yst-items-center sm:yst-flex-row sm:yst-items-start sm:yst-columns-2 yst-gap-4">
 				<div
-					className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100"
+					className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0"
 				>
 					<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 				</div>
-				<div>
+				<div className="yst-text-center sm:yst-text-left">
 					<Modal.Title className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900 yst-mb-3">
 						{ __( "Disabling Yoast Schema Framework", "wordpress-seo" ) }
 					</Modal.Title>
