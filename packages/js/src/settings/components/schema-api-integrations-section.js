@@ -239,12 +239,12 @@ const SchemaApiIntegrationsSection = () => {
 
 	return (
 		<fieldset className="yst-min-w-0">
-			<div className="yst-flex yst-flex-row yst-items-start yst-gap-6 yst-max-w-screen-sm">
-				<div className="yst-grow yst-max-w-xs">
+			<div className="yst-flex yst-flex-col sm:yst-flex-row yst-items-start yst-gap-6 yst-w-3/4">
+				<div className="sm:yst-shrink-0 yst-max-w-xs">
 					<span className="yst-block yst-font-medium yst-text-slate-800">{ __( "Schema API integrations", "wordpress-seo" ) }</span>
 					<p className="yst-mt-1">{ description }</p>
 				</div>
-				<div className="yst-divide-y yst-divide-slate-200 yst-shrink-0">
+				<div className="yst-divide-y yst-divide-slate-200 yst-grow">
 					{ integrations.map( ( integration ) => {
 						const data = schemaApiIntegrations[ integration.slug ] || {};
 						return (
