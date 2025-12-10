@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { ImageSelect } from "@yoast/components";
+import ImageSelect from "./components/ImageSelect";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
