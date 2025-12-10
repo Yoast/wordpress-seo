@@ -45,15 +45,4 @@ class Schema_Piece_Collection {
 	public function to_array(): array {
 		return $this->pieces;
 	}
-
-	/**
-	 * Gets a schema piece by index.
-	 *
-	 * @param int $index The index.
-	 *
-	 * @return Schema_Piece|null The schema piece or null if not found.
-	 */
-	public function get( int $index ): ?Schema_Piece {
-		return $this->pieces[ $index ] ?? null;
-	}
 }
