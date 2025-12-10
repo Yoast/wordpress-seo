@@ -3,6 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { FeatureItem } from "./feature-item";
 import { useCallback } from "@wordpress/element";
 import { useSelectSettings, useDispatchSettings } from "../hooks";
+import { __ } from "@wordpress/i18n";
 
 /**
  *
@@ -27,6 +28,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 				<Title size="4" as="h2" className="">{ `${title} (${ featureCount })` }</Title>
 				<button onClick={ handleToggle } type="button">
 					<ChevronIcon className="yst-h-5 yst-w-5 yst-text-slate-400 yst-shrink-0" { ...svgAriaProps } />
+					<span className="yst-sr-only">{ `${isOpen ? __( "Collapse", "wordpress-seo" ) : __( "Expand", "wordpress-seo" )} ${title}` }</span>
 				</button>
 
 			</div>
