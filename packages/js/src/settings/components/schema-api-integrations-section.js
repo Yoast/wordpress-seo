@@ -3,6 +3,7 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useSelectSettings } from "../hooks";
@@ -151,9 +152,11 @@ WooCommerceStatus.propTypes = {
 /**
  * Schema API integrations section component.
  *
+ * @param {Object} props The props.
+ * @param {boolean} [props.isDisabled] Whether the section is disabled.
  * @returns {JSX.Element} The section element.
  */
-const SchemaApiIntegrationsSection = () => {
+const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 	const schemaApiIntegrations = useSelectSettings( "selectSchemaApiIntegrations", [] );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const integrationsPageLink = useSelectSettings( "selectLink", [], "https://yoa.st/integrations-about-schema-api" );
@@ -244,7 +247,7 @@ const SchemaApiIntegrationsSection = () => {
 					<span className="yst-block yst-font-medium yst-text-slate-800">{ __( "Schema API integrations", "wordpress-seo" ) }</span>
 					<p className="yst-mt-1">{ description }</p>
 				</div>
-				<div className="yst-divide-y yst-divide-slate-200 yst-grow">
+				<div className={ classNames( "yst-divide-y yst-divide-slate-200 yst-grow", isDisabled && "yst-opacity-50 yst-pointer-events-none" ) }>
 					{ integrations.map( ( integration ) => {
 						const data = schemaApiIntegrations[ integration.slug ] || {};
 						return (
@@ -263,6 +266,10 @@ const SchemaApiIntegrationsSection = () => {
 			</div>
 		</fieldset>
 	);
+};
+
+SchemaApiIntegrationsSection.propTypes = {
+	isDisabled: PropTypes.bool,
 };
 
 export { SchemaApiIntegrationsSection };

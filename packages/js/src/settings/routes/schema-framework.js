@@ -123,7 +123,7 @@ const SchemaFramework = () => {
 					</fieldset>
 				</div>
 				<hr className="yst-my-8 yst-w-3/4" />
-				<SchemaApiIntegrationsSection />
+				<SchemaApiIntegrationsSection isDisabled={ isSchemaDisabledProgrammatically } />
 				<hr className="yst-my-8 yst-w-3/4" />
 				<fieldset className="yst-min-w-0">
 					<div className="yst-max-w-screen-sm">
