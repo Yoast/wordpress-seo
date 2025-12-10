@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 /**
  * WebPage property schema node filter class.
  *
+ *  The class name uses WebPage instead of Webpage because we need it to reflect the schema piece name.
+ *  By doing so we can search for a piece-specific property filter in Default_Filter.
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class WebPage_Schema_Node_Property_Filter extends Base_Schema_Node_Property_Filter implements Schema_Node_Property_Filter_Interface {

@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 
 /**
  * WebSite schema node filter implementation.
+ *
+ *  The class name uses WebSite instead of Website because we need it to reflect the schema piece name.
+ *  By doing so we can search for a piece-specific node filter in Default_Filter.
  */
 class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 
