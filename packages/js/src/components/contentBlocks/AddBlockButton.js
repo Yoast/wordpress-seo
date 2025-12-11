@@ -76,7 +76,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 					 If the block at the insertion point is an empty paragraph, we want to replace it with the new block.
 					 This prevents having an empty paragraph above the newly inserted block.
 					 This is usually the case when the user hits the enter key to create a new block.
-					 The newly created block is an empty paragraph by default
+					 The newly created block is an empty paragraph by default.
 					 */
 					replaceBlock( blockAtIndex.clientId, block );
 				} else {

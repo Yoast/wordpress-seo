@@ -86,10 +86,10 @@ describe( "collectAnalysisData", () => {
 	 *
 	 * @param {Object[]} blocks The blocks that the data module should return.
 	 *
-	 * @returns {{getBlocks: (function(): *)}} The mocked data module.
+	 * @returns {{getEditorBlocks: (function(): *)}} The mocked data module.
 	 */
-	function mockBlockEditorDataModule( blocks ) {
-		return { getBlocks: () => blocks };
+	function mockEditorDataModule( blocks ) {
+		return { getEditorBlocks: () => blocks };
 	}
 
 	it( "should not filter the content from blocks", () => {
@@ -97,9 +97,9 @@ describe( "collectAnalysisData", () => {
 		const store = mockStore( storeData );
 		const customData = mockCustomAnalysisData();
 		const pluggable = mockPluggable();
-		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
+		const editorDataModule = mockEditorDataModule( gutenbergBlocks );
 
-		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+		const results = collectAnalysisData( edit, store, customData, pluggable, editorDataModule );
 
 		expect( results ).toHaveProperty( "_attributes.wpBlocks" );
 		expect( results._attributes.wpBlocks ).toEqual( gutenbergBlocks );
@@ -118,7 +118,7 @@ describe( "collectAnalysisData", () => {
 
 		const firstColumnBlocks = getFirstColumnBlocks( gutenbergBlocks );
 		firstColumnBlocks.push( invalidBlock );
-		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
+		const blockEditorDataModule = mockEditorDataModule( gutenbergBlocks );
 
 		// The original blocks array should contain the invalid block.
 		expect( getFirstColumnBlocks( gutenbergBlocks ) ).toContainEqual( invalidBlock );

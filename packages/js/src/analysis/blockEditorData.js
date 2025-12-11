@@ -223,7 +223,7 @@ export default class BlockEditorData {
 		// Gutenberg applies the `autop` function under the hood to all Classic (core/freeform) blocks.
 		// The most likely situation for these to appear in posts is through converting a post from Classic to Block editor.
 		// We account for that below, but not for the (unlikely) case when a Classic block is added to a post consisting of other blocks.
-		const blocks = select( "core/block-editor" ).getBlocks();
+		const blocks = select( "core/editor" ).getEditorBlocks();
 		if ( blocks.length === 1 && blocks[ 0 ].name === "core/freeform" ) {
 			content = getBlockContent( blocks[ 0 ] );
 		}
