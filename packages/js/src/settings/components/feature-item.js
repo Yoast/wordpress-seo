@@ -78,7 +78,7 @@ export const FeatureItem = ( {
 	const svgAriaProps = useSvgAria();
 	const value = useMemo( () => get( values, name, false ), [ values, name ] );
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
-	const shouldDimHeaderImage = useMemo( () => isDisabled || ( shouldUpsell ? false : ! value ), [ isDisabled, shouldUpsell, value ] );
+	const shouldDimHeaderImage = useMemo( () => shouldUpsell || isDisabled || ! value, [ isDisabled, shouldUpsell, value ] );
 
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
 		<img
