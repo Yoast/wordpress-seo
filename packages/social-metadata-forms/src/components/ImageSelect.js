@@ -1,6 +1,4 @@
-
 /* eslint-disable complexity */
-
 import { __ } from "@wordpress/i18n";
 import React, { useCallback } from "react";
 import classNames from "classnames";
@@ -49,27 +47,13 @@ function ImageSelect( {
 	const imageSelected = usingFallback === false && imageUrl !== "";
 	const previewImageUrl = imageUrl || defaultImageUrl || "";
 	const showWarnings = warnings.length > 0 && ( imageSelected || usingFallback );
-	const style = {};
 
 	const removeImage = useCallback( ( event ) => {
 		event.target.previousElementSibling?.focus();
 		onRemoveImageClick();
 	}, [ onRemoveImageClick ] );
 
-	/**
-	 * @returns {JSXElement} returns a text for screen readers.
-	 */
-	const ScreenReaderText = () => {
-		return (
-			<span className="screen-reader-text">
-				{
-					imageSelected
-						? __( "Replace image", "wordpress-seo" )
-						: __( "Select image", "wordpress-seo" )
-				}
-			</span>
-		);
-	};
+	const buttonLabel = imageSelected ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" );
 
 	return (
 		<Root>
@@ -86,18 +70,24 @@ function ImageSelect( {
 					{ hasPreview &&
 					<button
 						className={ classNames( "yst-border-slate-300 yst-flex yst-justify-center yst-items-center yst-overflow-hidden yst-rounded-md yst-border",
-							"yst-max-h-20 yst-max-w-32",
 							"focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-							previewImageUrl ? "" : "yst-border-2 yst-border-dashed yst-w-32 yst-h-20"
+							previewImageUrl ? "" : "yst-border-2 yst-border-dashed"
 						) }
+						id={ imageUrlInputId }
 						onClick={ onClick }
 						type="button"
 						disabled={ isDisabled }
-						style={ style }
+						style={ {
+							width: "130px",
+							minHeight: "72px",
+							maxHeight: "130px",
+						} }
 					>
 						{ previewImageUrl ? <img src={ previewImageUrl } alt={ imageAltText } className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full" /> : <PhotographIcon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-slate-400 yst-stroke-1" aria-hidden="true" />
 						}
-						<ScreenReaderText />
+						<span className="screen-reader-text">
+							{ buttonLabel }
+						</span>
 					</button>
 					}
 					{
@@ -109,14 +99,14 @@ function ImageSelect( {
 							}
 						</div>
 					}
-					<div className="yst-mt-4 yst-flex yst-gap-2 yst-justify-start">
+					<div className="yst-mt-3 yst-flex yst-gap-2 yst-justify-start">
 						<Button
 							variant="secondary"
 							id={ imageSelected ? replaceImageButtonId : selectImageButtonId }
 							onClick={ onClick }
 							disabled={ isDisabled }
 						>
-							{ imageSelected ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" ) }
+							{ buttonLabel }
 						</Button>
 						{ imageSelected && (
 							<Link
@@ -136,6 +126,5 @@ function ImageSelect( {
 	);
 }
 
-/* eslint-enable complexity */
 
 export default ImageSelect;
