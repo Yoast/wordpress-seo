@@ -16,10 +16,10 @@ import {
  * @returns {JSX.Element} The schema framework feature route.
  */
 const SchemaFramework = () => {
-	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
+	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoast.com/features/structured-data/" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
 	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
-	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
+	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://developer.yoast.com/features/schema/api/" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 
 	const { values, setFieldValue } = useFormikContext();
@@ -104,7 +104,7 @@ const SchemaFramework = () => {
 			"</a>"
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id="llms-filter-learn-more-link" href={ learnMoreFilterLink } />,
+			a: <a id="llms-filter-learn-more-link" target="_blank" href={ learnMoreFilterLink } rel="noreferrer" />,
 			code1: <Code>wpseo_json_ld_output</Code>,
 			code2: <Code>false</Code>,
 		}
