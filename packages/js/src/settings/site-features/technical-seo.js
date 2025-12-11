@@ -22,7 +22,7 @@ export const technicalSeoFeatures = [
 		inputId: "input-wpseo-enable_headless_rest_endpoints",
 		imageSrc: "/images/icon-rest-api-endpoint.svg",
 		title: __( "REST API endpoint", "wordpress-seo" ),
-		description: __( "Enable the Yoast SEO REST API endpoints to allow headless setups to retrieve SEO data for posts and terms.", "wordpress-seo" ),
+		description: __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/rest-api-endpoints",
 		learnMoreLinkId: "link-rest-api-endpoint",
 		learnMoreLinkAriaLabel: __( "REST API endpoint", "wordpress-seo" ),
