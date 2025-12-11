@@ -16,10 +16,10 @@ export const SiteFeatureDescription = ( { isAllFeaturesOpen, toggleAllFeatures }
 		<Button
 			variant="secondary"
 			size="small"
-			className="yst-mt-3"
+			className="yst-mt-3 yst-ps-2"
 			onClick={ toggleAllFeatures }
 		>
-			<ChevronIcon className="yst-h-4 yst-w-4 yst-text-slate-400 yst-me-2" />
+			<ChevronIcon className="yst-h-4 yst-w-4 yst-text-slate-400 yst-me-1.5" />
 			{ isAllFeaturesOpen ? __( "Collapse all", "wordpress-seo" ) : __( "Expand all", "wordpress-seo" ) }
 		</Button>
 	</>;

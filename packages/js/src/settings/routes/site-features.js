@@ -55,7 +55,7 @@ const SiteFeatures = () => {
 			description={ <SiteFeatureDescription isAllFeaturesOpen={ isAllFeaturesOpen } toggleAllFeatures={ toggleAllFeatures } /> }
 		>
 			<FormLayout>
-				<div className="yst-max-w-2xl yst-mb-8">
+				<div className="yst-max-w-2xl">
 					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeaturesUpdated } />
 					<FeaturesSection id="content-optimization" title={ __( "Content optimization", "wordpress-seo" ) } features={ contentOptimizationFeatures } />
 					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeatures } />

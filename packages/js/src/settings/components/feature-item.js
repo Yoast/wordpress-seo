@@ -95,8 +95,8 @@ export const FeatureItem = ( {
 		/>
 		<div className="yst-grow">
 			<div className="yst-max-w-lg">
-				<Title as="h3">{ title }</Title>
-				<p>{ description }</p>
+				<Title as="h3" className="yst-mb-1">{ title }</Title>
+				<p className="yst-mb-1">{ description }</p>
 				{ learnMoreUrl && <LearnMoreLink id={ learnMoreLinkId } url={ learnMoreUrl } ariaLabel={ learnMoreLinkAriaLabel } /> }
 				{ shouldUpsell && (
 					<Button
