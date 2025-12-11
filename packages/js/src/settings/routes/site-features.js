@@ -18,6 +18,7 @@ import {
  */
 const SiteFeatures = () => {
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const isAllFeaturesOpen = useSelectSettings( "selectIsAllFeaturesOpen", [] );
 	const { toggleAllFeatures } = useDispatchSettings();
 	const { values, initialValues } = useFormikContext();
@@ -48,6 +49,15 @@ const SiteFeatures = () => {
 		return feature;
 	} );
 
+	const siteStructureFeaturesUpdated = siteStructureFeatures.map( feature => {
+		if ( feature.name === "wpseo.enable_link_suggestions" && isPremium ) {
+			return {
+				...feature,
+				learnMoreUrl: "https://yoa.st/17g",
+			};
+		}
+		return feature;
+	} );
 
 	return (
 		<RouteLayout
@@ -58,7 +68,7 @@ const SiteFeatures = () => {
 				<div className="yst-max-w-2xl">
 					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeaturesUpdated } />
 					<FeaturesSection id="content-optimization" title={ __( "Content optimization", "wordpress-seo" ) } features={ contentOptimizationFeatures } />
-					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeatures } />
+					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeaturesUpdated } />
 					<FeaturesSection id="technical-seo" title={ __( "Technical SEO", "wordpress-seo" ) } features={ technicalSeoFeaturesUpdated }  />
 					<FeaturesSection id="social-sharing" title={ __( "Social sharing", "wordpress-seo" ) } features={ socialSharingFeatures }  />
 					<FeaturesSection id="tools" title={ __( "Tools", "wordpress-seo" ) } features={ toolsFeatures }  />
