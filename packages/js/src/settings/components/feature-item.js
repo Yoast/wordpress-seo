@@ -126,7 +126,8 @@ export const FeatureItem = ( {
 				type="checkbox"
 				name={ name }
 				id={ inputId }
-				aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
+				screenReaderLabel={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
+				label={ "" }
 				disabled={ isDisabled }
 				checked={ disabledSetting === "language" ? false : value }
 			/> }
