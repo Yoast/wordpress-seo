@@ -21,6 +21,7 @@ import { PhotographIcon } from "@heroicons/react/outline";
  * @param {boolean} [isDisabled=false] Whether the buttons are disabled.
  * @param {Function} [onMouseEnter=noop] Callback called when the mouse enters the component.
  * @param {Function} [onMouseLeave=noop] Callback called when the mouse leaves the component.
+ * @param {string} imageUrlInputId The ID for the image URL input.
  * @param {string} label The label that is displayed above the selection button.
  *
  * @returns {React.Component} The ImageSelect.
@@ -36,7 +37,7 @@ function ImageSelect( {
 	usingFallback = false,
 	imageAltText = "",
 	hasPreview,
-	imageUrlInputId = "",
+	imageUrlInputId,
 	selectImageButtonId = "",
 	replaceImageButtonId = "",
 	removeImageButtonId = "",
@@ -63,9 +64,7 @@ function ImageSelect( {
 			>
 
 				<div>
-					<div className="yst-mb-2 yst-text-slate-900">
-						<b>{ label }</b>
-					</div>
+					<div className="yst-mb-2 yst-text-slate-900 yst-font-semibold" id={ `${imageUrlInputId}-label` }>{ label }</div>
 					{ hasPreview &&
 					<button
 						className={ classNames( "yst-border-slate-300 yst-flex yst-justify-center yst-items-center yst-overflow-hidden yst-rounded-md yst-border",
@@ -73,6 +72,7 @@ function ImageSelect( {
 							previewImageUrl ? "" : "yst-border-2 yst-border-dashed"
 						) }
 						id={ imageUrlInputId }
+						aria-labelledby={ `${imageUrlInputId}-label ${imageUrlInputId}` }
 						onClick={ onClick }
 						type="button"
 						disabled={ isDisabled }
