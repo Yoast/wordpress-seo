@@ -17,6 +17,7 @@ const isSchemaFrameworkEnabled = Boolean( window.wpseoIntegrationsData[ "schema_
  *
  * @returns {JSX.Element} A card representing an integration.
  */
+// eslint-disable-next-line complexity
 export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIntegration = false } ) => {
 	const isSchemaFrameworkDisabled = isSchemaAPIIntegration && ! isSchemaFrameworkEnabled;
 
