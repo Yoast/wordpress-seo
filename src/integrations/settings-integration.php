@@ -206,6 +206,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @var Schema_Configuration
 	 */
 	protected $schema_configuration;
+
 	/**
 	 * The manual post collection.
 	 *
