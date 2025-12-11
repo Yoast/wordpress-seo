@@ -56,7 +56,6 @@
   },
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@yoast/ui-library": "^4.3.0",
     "draft-js": "^0.11.7"
   }
 }
