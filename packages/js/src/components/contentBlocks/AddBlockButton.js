@@ -124,7 +124,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 				setIsClicked( false );
 			}, 300 );
 		}
-	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks ] );
+	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, openUpsellModal ] );
 
 	const handleFocusAndMouseEnter = useCallback( () => {
 		setShowTooltip( true );
