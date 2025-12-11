@@ -7,6 +7,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Task_Not_Found_Exception;
@@ -47,6 +48,13 @@ final class Complete_Task_Route implements Route_Interface {
 	private $capability_helper;
 
 	/**
+	 * Holds the options helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Returns the needed conditionals.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -62,13 +70,16 @@ final class Complete_Task_Route implements Route_Interface {
 	 *
 	 * @param Tasks_Collector   $tasks_collector   The collector for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Options_Helper    $options_helper    The options helper.
 	 */
 	public function __construct(
 		Tasks_Collector $tasks_collector,
-		Capability_Helper $capability_helper
+		Capability_Helper $capability_helper,
+		Options_Helper $options_helper
 	) {
 		$this->tasks_collector   = $tasks_collector;
 		$this->capability_helper = $capability_helper;
+		$this->options_helper    = $options_helper;
 	}
 
 	/**
@@ -114,6 +125,8 @@ final class Complete_Task_Route implements Route_Interface {
 	 */
 	public function complete_task( WP_REST_Request $request ): WP_REST_Response {
 		try {
+			$this->options_helper->set( 'task_first_actioned_on', \WPSEO_VERSION );
+
 			$task_name = $request->get_param( 'options' )['task'];
 			$task      = $this->tasks_collector->get_completeable_task( $task_name );
 
