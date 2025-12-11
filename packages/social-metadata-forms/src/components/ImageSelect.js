@@ -9,7 +9,6 @@ import { PhotographIcon } from "@heroicons/react/outline";
 /**
  * Renders ImageSelect component.
  *
- * @param {Object} props The props.
  * @param {boolean} [usingFallback=false] Whether the default/fallback image is being used.
  * @param {string} [imageUrl=""] The URL of the selected image.
  * @param {string} [defaultImageUrl=""] The URL of the default/fallback image.
@@ -64,7 +63,7 @@ function ImageSelect( {
 			>
 
 				<div>
-					<div className="yst-mb-2">
+					<div className="yst-mb-2 yst-text-slate-900">
 						<b>{ label }</b>
 					</div>
 					{ hasPreview &&
@@ -93,13 +92,13 @@ function ImageSelect( {
 					{
 						showWarnings && <div role="alert" className="yst-mt-4">
 							{
-								warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+								warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } variant="warning">
 									{ warning }
 								</Alert> )
 							}
 						</div>
 					}
-					<div className="yst-mt-3 yst-flex yst-gap-2 yst-justify-start">
+					<div className="yst-mt-3 yst-flex yst-gap-4 yst-justify-start">
 						<Button
 							variant="secondary"
 							id={ imageSelected ? replaceImageButtonId : selectImageButtonId }
