@@ -19,7 +19,7 @@ class Disable_Schema_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Front_End_Conditional::class,
-			Schema_Disabled_Conditional::class
+			Schema_Disabled_Conditional::class,
 		];
 	}
 

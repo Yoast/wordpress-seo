@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -75,6 +76,13 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	private $site_kit_consent_management_endpoint;
 
 	/**
+	 * The schema configuration.
+	 *
+	 * @var Mockery\MockInterface|Schema_Configuration
+	 */
+	private $schema_configuration;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Integrations_Page
@@ -98,6 +106,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->jetpack_conditional                  = Mockery::mock( Jetpack_Conditional::class );
 		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
 		$this->site_kit_consent_management_endpoint = Mockery::mock( Site_Kit_Consent_Management_Endpoint::class );
+		$this->schema_configuration                 = Mockery::mock( Schema_Configuration::class );
 
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
@@ -106,7 +115,8 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->elementor_conditional,
 			$this->jetpack_conditional,
 			$this->site_kit_configuration,
-			$this->site_kit_consent_management_endpoint
+			$this->site_kit_consent_management_endpoint,
+			$this->schema_configuration
 		);
 	}
 
@@ -186,6 +196,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->site_kit_configuration->expects( 'to_array' )->andReturn( $site_kit_config );
 		$this->site_kit_consent_management_endpoint->expects( 'get_url' )
 			->andReturn( 'https://www.example.com/manage-consent' );
+		$this->schema_configuration->expects( 'is_schema_disabled_programmatically' )->andReturnFalse();
 
 		$this->admin_asset_manager->expects( 'localize_script' )->with(
 			'integrations-page',
