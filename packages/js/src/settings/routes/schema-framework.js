@@ -9,41 +9,50 @@ import {
 	RouteLayout,
 	SchemaApiIntegrationsSection,
 	SchemaDisableConfirmationModal,
+	SchemaProgrammaticallyDisabledModal,
 } from "../components";
 
 /**
  * @returns {JSX.Element} The schema framework feature route.
  */
 const SchemaFramework = () => {
-	const seeMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
+	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data-learn-more" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
 	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
 	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 
 	const { values, setFieldValue } = useFormikContext();
-	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const [ isDisableModalOpen, setIsDisableModalOpen ] = useState( false );
+	const [ isProgrammaticallyDisabledModalOpen, setIsProgrammaticallyDisabledModalOpen ] = useState( false );
 
 	const { enable_schema: enabledSchemaFramework } = values.wpseo;
 
 	const handleToggleChange = useCallback( ( newValue ) => {
-		if ( newValue ) {
+		if ( isSchemaDisabledProgrammatically && newValue ) {
+			// User is trying to enable but it's disabled programmatically (show info modal)
+			setIsProgrammaticallyDisabledModalOpen( true );
+		} else if ( newValue ) {
 			// User is enabling (just apply the change)
 			setFieldValue( "wpseo.enable_schema", true );
 		} else {
 			// User is trying to disable (show confirmation modal)
-			setIsModalOpen( true );
+			setIsDisableModalOpen( true );
 		}
-	}, [ setFieldValue ] );
+	}, [ isSchemaDisabledProgrammatically, setFieldValue ] );
 
-	const handleModalClose = useCallback( () => {
-		setIsModalOpen( false );
+	const handleDisableModalClose = useCallback( () => {
+		setIsDisableModalOpen( false );
 	}, [] );
 
-	const handleModalConfirm = useCallback( () => {
+	const handleDisableModalConfirm = useCallback( () => {
 		setFieldValue( "wpseo.enable_schema", false );
-		setIsModalOpen( false );
+		setIsDisableModalOpen( false );
 	}, [ setFieldValue ] );
+
+	const handleProgrammaticallyDisabledModalClose = useCallback( () => {
+		setIsProgrammaticallyDisabledModalOpen( false );
+	}, [] );
 
 	const featureDescription = sprintf(
 		/* translators: %1$s is replaced by "Yoast SEO". */
@@ -58,24 +67,27 @@ const SchemaFramework = () => {
 			"<a>",
 			"</a>"
 		), {
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id="structured-data-link" href={ seeMoreLink } target="_blank" rel="noopener noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a id="structured-data-link" href={ structuredDataLearnMoreLink } target="_blank" rel="noopener" />,
 		}
-	), [ seeMoreLink ] );
+	), [ structuredDataLearnMoreLink ] );
 
 	const schemaForDevsDescription = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags for Schema API link. %3$s and %4$s are replaced by opening and closing <a> tags for Schema documentation link. */
+			/*
+			 * translators: %1$s and %2$s are replaced by opening and closing <a> tags for Schema API link.
+			 * %3$s and %4$s are replaced by opening and closing <a> tags for Schema documentation link.
+			 */
 			__( "Fine-tune how your site's data appears with our %1$sSchema API%2$s and WordPress filters. For full details and setup guidance, visit the %3$sSchema documentation%4$s.", "wordpress-seo" ),
 			"<a1>",
 			"</a1>",
 			"<a2>",
 			"</a2>"
 		), {
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a1: <a href={ schemaApiLink } target="_blank" rel="noopener noreferrer" />,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a2: <a href={ schemaDocumentationLink } target="_blank" rel="noopener noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a1: <a href={ schemaApiLink } target="_blank" rel="noopener" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a2: <a href={ schemaDocumentationLink } target="_blank" rel="noopener" />,
 		}
 	), [ schemaApiLink, schemaDocumentationLink ] );
 
@@ -116,14 +128,16 @@ const SchemaFramework = () => {
 								id="input-wpseo.enable_schema"
 								label={ __( "Enable Schema Framework", "wordpress-seo" ) }
 								description={ toggleDescription }
-								checked={ enabledSchemaFramework }
+								checked={ isSchemaDisabledProgrammatically ? false : enabledSchemaFramework }
 								onChange={ handleToggleChange }
 							/>
 						</div>
 					</fieldset>
 				</div>
 				<hr className="yst-my-8 yst-w-3/4" />
-				<SchemaApiIntegrationsSection isDisabled={ isSchemaDisabledProgrammatically } />
+				<SchemaApiIntegrationsSection
+					isDisabled={ isSchemaDisabledProgrammatically || ! enabledSchemaFramework }
+				/>
 				<hr className="yst-my-8 yst-w-3/4" />
 				<fieldset className="yst-min-w-0">
 					<div className="yst-max-w-screen-sm">
@@ -133,9 +147,13 @@ const SchemaFramework = () => {
 				</fieldset>
 			</FormLayout>
 			<SchemaDisableConfirmationModal
-				isOpen={ isModalOpen }
-				onClose={ handleModalClose }
-				onConfirm={ handleModalConfirm }
+				isOpen={ isDisableModalOpen }
+				onClose={ handleDisableModalClose }
+				onConfirm={ handleDisableModalConfirm }
+			/>
+			<SchemaProgrammaticallyDisabledModal
+				isOpen={ isProgrammaticallyDisabledModalOpen }
+				onClose={ handleProgrammaticallyDisabledModalClose }
 			/>
 		</RouteLayout>
 	);

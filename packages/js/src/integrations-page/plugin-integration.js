@@ -24,6 +24,7 @@ export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIn
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
+			isSchemaFrameworkDisabled={ isSchemaFrameworkDisabled }
 		>
 			{ isSchemaFrameworkDisabled && <Fragment>
 				<span className="yst-text-red-600 yst-font-medium">{ __( "Schema Framework disabled", "wordpress-seo" ) }</span>

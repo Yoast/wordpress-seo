@@ -1,9 +1,7 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useSelectSettings } from "../hooks";
@@ -14,19 +12,21 @@ import { useSelectSettings } from "../hooks";
  * @param {Object} props The props.
  * @param {boolean} props.isActive Whether the integration is active.
  * @param {boolean} [props.isPremiumRequired] Whether premium is required.
- * @param {boolean} [props.isPremium] Whether the user has premium.
+ * @param {boolean} [props.hasPremium] Whether the user has premium.
  * @param {string} [props.upsellLink] The upsell link.
  * @param {string} [props.upsellLabel] The upsell button label.
  * @returns {JSX.Element} The status element.
  */
+
+// eslint-disable-next-line complexity
 const IntegrationStatus = ( {
 	isActive,
 	isPremiumRequired = false,
-	isPremium = false,
+	hasPremium = false,
 	upsellLink = "",
 	upsellLabel = "",
 } ) => {
-	if ( isPremiumRequired && ! isPremium ) {
+	if ( isPremiumRequired && ! hasPremium ) {
 		return (
 			<Button
 				as="a"
@@ -34,7 +34,8 @@ const IntegrationStatus = ( {
 				size="small"
 				href={ upsellLink }
 				target="_blank"
-				rel="noopener noreferrer"
+				// rel for security reasons and backwards compatibility with older browsers
+				rel="noopener"
 				className="yst-gap-1"
 			>
 				<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
@@ -63,7 +64,7 @@ const IntegrationStatus = ( {
 IntegrationStatus.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	isPremiumRequired: PropTypes.bool,
-	isPremium: PropTypes.bool,
+	hasPremium: PropTypes.bool,
 	upsellLink: PropTypes.string,
 	upsellLabel: PropTypes.string,
 };
@@ -128,7 +129,7 @@ const WooCommerceStatus = ( {
 			size="small"
 			href={ upsellLink }
 			target="_blank"
-			rel="noopener noreferrer"
+			rel="noopener"
 			className="yst-gap-1"
 		>
 			<LockOpenIcon className="yst-w-4 yst-h-4 yst-text-amber-900" />
@@ -153,17 +154,16 @@ WooCommerceStatus.propTypes = {
  * Schema API integrations section component.
  *
  * @param {Object} props The props.
- * @param {boolean} [props.isDisabled] Whether the section is disabled.
+ * @param {boolean} [props.isDisabled] Whether the section list is disabled.
  * @returns {JSX.Element} The section element.
  */
 const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 	const schemaApiIntegrations = useSelectSettings( "selectSchemaApiIntegrations", [] );
-	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const integrationsPageLink = useSelectSettings( "selectLink", [], "https://yoa.st/integrations-about-schema-api" );
+	const hasPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const woocommerceSeoUpsellLink = useSelectSettings( "selectLink", [], "https://yoa.st/integrations-get-woocommerce" );
 	const eddUpsellLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-edd-integration" );
 
-	const description = useMemo( () => safeCreateInterpolateElement(
+	const description = safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
 			__( "With Yoast SEO's Schema API, developers can easily connect custom content types to our rich Schema graph. %1$sSee our integrations page for details%2$s.", "wordpress-seo" ),
@@ -171,9 +171,9 @@ const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 			"</a>"
 		), {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ integrationsPageLink } target="_blank" rel="noopener noreferrer" />,
+			a: <a href="admin.php?page=wpseo_integrations" />,
 		}
-	), [ integrationsPageLink ] );
+	);
 
 	const integrations = [
 		{
@@ -205,7 +205,15 @@ const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 	 * @param {Object} data The integration data.
 	 * @returns {JSX.Element} The status element.
 	 */
+	// eslint-disable-next-line complexity
 	const renderIntegrationStatus = ( integration, data ) => {
+		// When schema is disabled programmatically, show the disabled status for all integrations.
+		if ( isDisabled ) {
+			return (
+				<span className="yst-text-red-600 yst-font-medium">{ __( "Schema Framework disabled", "wordpress-seo" ) }</span>
+			);
+		}
+
 		// Handles the WooCommerce plugin prerequisites.
 		if ( integration.slug === "woocommerce" ) {
 			return (
@@ -225,14 +233,14 @@ const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 				<IntegrationStatus
 					isActive={ data.isActive || false }
 					isPremiumRequired={ true }
-					isPremium={ isPremium || data.isPremium || false }
+					hasPremium={ hasPremium || data.isPremium || false }
 					upsellLink={ eddUpsellLink }
 					upsellLabel={ __( "Unlock with Premium", "wordpress-seo" ) }
 				/>
 			);
 		}
 
-		// Default: simple plugin detection (active or not detected).
+		// Default: plugin detection (active or not detected).
 		return (
 			<IntegrationStatus
 				isActive={ data.isActive || false }
@@ -247,7 +255,7 @@ const SchemaApiIntegrationsSection = ( { isDisabled = false } ) => {
 					<span className="yst-block yst-font-medium yst-text-slate-800">{ __( "Schema API integrations", "wordpress-seo" ) }</span>
 					<p className="yst-mt-1">{ description }</p>
 				</div>
-				<div className={ classNames( "yst-divide-y yst-divide-slate-200 yst-grow", isDisabled && "yst-opacity-50 yst-pointer-events-none" ) }>
+				<div className={ `yst-divide-y yst-divide-slate-200 yst-grow${ isDisabled ? " yst-opacity-50 yst-pointer-events-none" : "" }` }>
 					{ integrations.map( ( integration ) => {
 						const data = schemaApiIntegrations[ integration.slug ] || {};
 						return (
