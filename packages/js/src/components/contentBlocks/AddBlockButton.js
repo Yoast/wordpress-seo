@@ -8,29 +8,6 @@ import PropTypes from "prop-types";
 
 import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
 
-
-/**
- * Recursively finds a block by its name in a list of blocks, including inner blocks.
- *
- * @param {Array} blocks Array of blocks to search within.
- * @param {string} blockName The name of the block to find.
- * @returns {Object|null} The found block or null if not found.
- */
-const findBlockByName = ( blocks, blockName ) => {
-	for ( const block of blocks ) {
-		if ( block.name === blockName ) {
-			return block;
-		}
-		if ( block.innerBlocks?.length > 0 ) {
-			const found = findBlockByName( block.innerBlocks, blockName );
-			if ( found ) {
-				return found;
-			}
-		}
-	}
-	return null;
-};
-
 /**
  * AddBlockButton component to render the 'add block' button.
  *
@@ -42,7 +19,7 @@ const findBlockByName = ( blocks, blockName ) => {
  */
 export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const { insertBlock, replaceBlock } = useDispatch( "core/block-editor" );
-	const { blockInsertionPoint, blocks, editorBlocks, isTemplateLocked } = useSelect( select => ( {
+	const { blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, postContentBlock } = useSelect( select => ( {
 		blockInsertionPoint: select( "core/block-editor" ).getBlockInsertionPoint(),
 		/*
 		 This is the list of blocks that are currently rendered which we can interact with.
@@ -50,10 +27,11 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 		 */
 		blocks: select( "core/block-editor" ).getBlocks(),
 		/*
-		 This is the list of the content blocks in the editor, including those part of the content in template-locked mode.
+		 This is the list of the content blocks in the editor, including those parts of the content in template-locked mode.
 		 */
 		editorBlocks: select( "core/editor" ).getEditorBlocks(),
 		isTemplateLocked: select( "core/editor" ).getRenderingMode() === "template-locked",
+		postContentBlock: select( "core/block-editor" ).getBlocksByName( "core/post-content" ),
 	} ), [] );
 	const [ isClicked, setIsClicked ] = useState( false );
 	const [ showTooltip, setShowTooltip ] = useState( false );
@@ -103,9 +81,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 					replaceBlock( blockAtIndex.clientId, block );
 				} else {
 					if ( isTemplateLocked ) {
-						const postContentBlock = findBlockByName( blocks, "core/post-content" );
-
-						if ( postContentBlock ) {
+						if ( postContentBlock?.length ) {
 							/*
 							 Insert as the last child of post-content.
 							 This is the same behaviour as Gutenberg's "Add block" button when in template-locked mode.
@@ -114,7 +90,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 								block,
 								// eslint-disable-next-line no-undefined
 								undefined,
-								postContentBlock.clientId
+								postContentBlock[ 0 ]
 							);
 						}
 					} else {
@@ -124,7 +100,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 				setIsClicked( false );
 			}, 300 );
 		}
-	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, openUpsellModal ] );
+	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, postContentBlock ] );
 
 	const handleFocusAndMouseEnter = useCallback( () => {
 		setShowTooltip( true );

@@ -398,6 +398,7 @@ describe( "AddBlockButton", () => {
 				blocks: [ postContentBlock ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
+				postContentBlock: [ "post-content-block-id" ],
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -442,6 +443,7 @@ describe( "AddBlockButton", () => {
 				blocks: [ containerBlock ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
+				postContentBlock: [ "nested-post-content-id" ],
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -473,6 +475,7 @@ describe( "AddBlockButton", () => {
 				blocks: [ blockWithoutPostContent ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
+				postContentBlock: [],
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -496,6 +499,7 @@ describe( "AddBlockButton", () => {
 				blocks: [ postContentBlock ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: false,
+				postContentBlock: [ postContentBlock ],
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -571,6 +575,7 @@ describe( "AddBlockButton", () => {
 				blocks: [ deeplyNestedStructure ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
+				postContentBlock: [ "deep-post-content-id" ],
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
