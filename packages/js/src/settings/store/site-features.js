@@ -35,6 +35,11 @@ const slice = createSlice( {
 			if ( allOpen ) {
 				state.isAllFeaturesOpen = true;
 			}
+
+			// If some features are closed, set isAllFeaturesOpen to false.
+			if ( ! allOpen && state.isAllFeaturesOpen ) {
+				state.isAllFeaturesOpen = false;
+			}
 		},
 		toggleAllFeatures: ( state ) => {
 			forEach( state.featuresSections, ( section ) => {

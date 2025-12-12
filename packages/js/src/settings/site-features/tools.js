@@ -1,11 +1,13 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { ReactComponent as TaskListIcon } from "../../../../../images/icon-task-list.svg";
+import { ReactComponent as AdminBarIcon } from "../../../../../images/icon-admin-bar.svg";
 
 export const toolsFeatures = [
 	{
 		name: "wpseo.enable_task_list",
 		id: "card-wpseo-enable_task_list",
 		inputId: "input-wpseo-enable_task_list",
-		imageSrc: "/images/icon-task-list.svg",
+		Icon: TaskListIcon,
 		title: __( "Task list", "wordpress-seo" ),
 		description: __( "The task list guides you through important SEO tasks and helps you to manage your site’s SEO.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/site-features-task-list",
@@ -16,7 +18,7 @@ export const toolsFeatures = [
 		name: "wpseo.enable_admin_bar_menu",
 		id: "card-wpseo-enable_admin_bar_menu",
 		inputId: "input-wpseo-enable_admin_bar_menu",
-		imageSrc: "/images/icon-admin-bar.svg",
+		Icon: AdminBarIcon,
 		title: __( "Admin bar menu", "wordpress-seo" ),
 		description: sprintf(
 			// translators: %1$s expands to Yoast.

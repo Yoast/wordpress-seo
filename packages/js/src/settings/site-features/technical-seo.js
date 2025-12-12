@@ -1,11 +1,14 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { ReactComponent as XMLSitemapsIcon } from "../../../../../images/icon-xml-sitemaps.svg";
+import { ReactComponent as RestApiEndpointIcon } from "../../../../../images/icon-rest-api-endpoint.svg";
+import { ReactComponent as IndexNowIcon } from "../../../../../images/icon-index-now.svg";
 
 export const technicalSeoFeatures = [
 	{
 		name: "wpseo.enable_xml_sitemap",
 		id: "card-wpseo-enable_xml_sitemap",
 		inputId: "input-wpseo-enable_xml_sitemap",
-		imageSrc: "/images/icon-xml-sitemaps.svg",
+		Icon: XMLSitemapsIcon,
 		title: __( "XML sitemaps", "wordpress-seo" ),
 		description: sprintf(
 			// translators: %1$s expands to "Yoast SEO".
@@ -20,10 +23,10 @@ export const technicalSeoFeatures = [
 		name: "wpseo.enable_headless_rest_endpoints",
 		id: "card-wpseo-enable_headless_rest_endpoints",
 		inputId: "input-wpseo-enable_headless_rest_endpoints",
-		imageSrc: "/images/icon-rest-api-endpoint.svg",
+		Icon: RestApiEndpointIcon,
 		title: __( "REST API endpoint", "wordpress-seo" ),
 		description: __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ),
-		learnMoreUrl: "https://yoa.st/rest-api-endpoints",
+		learnMoreUrl: "https://yoa.st/site-features-rest-api-endpoint",
 		learnMoreLinkId: "link-rest-api-endpoint",
 		learnMoreLinkAriaLabel: __( "REST API endpoint", "wordpress-seo" ),
 	},
@@ -31,10 +34,13 @@ export const technicalSeoFeatures = [
 		name: "wpseo.enable_index_now",
 		id: "card-wpseo-enable_index_now",
 		inputId: "input-wpseo-enable_index_now",
-		imageSrc: "/images/icon-index-now.svg",
+		Icon: IndexNowIcon,
 		isPremiumFeature: true,
 		isPremiumLink: "https://yoa.st/get-indexnow",
 		title: __( "IndexNow", "wordpress-seo" ),
 		description: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/index-now-feature",
+		learnMoreLinkId: "link-index-now",
+		learnMoreLinkAriaLabel: __( "IndexNow", "wordpress-seo" ),
 	},
 ];

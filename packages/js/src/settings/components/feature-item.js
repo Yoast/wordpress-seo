@@ -58,8 +58,6 @@ export const FeatureItem = ( {
 	name,
 	id,
 	inputId,
-	imageSrc: rawImageSrc,
-	imageAlt = "",
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	title,
@@ -68,9 +66,9 @@ export const FeatureItem = ( {
 	learnMoreLinkId,
 	learnMoreLinkAriaLabel,
 	children,
+	Icon,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
 	const { isDisabled, disabledSetting } = useDisabledMessage( { name } );
 	const { values } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
@@ -81,18 +79,11 @@ export const FeatureItem = ( {
 	const shouldDimHeaderImage = useMemo( () => shouldUpsell || isDisabled || ! value, [ isDisabled, shouldUpsell, value ] );
 
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
-		<img
+		{ Icon && <Icon
 			className={ classNames(
-				"yst-transition yst-duration-200 yst-flex-shrink-0 yst-object-contain",
-				shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
-			) }
-			src={ imageSrc }
-			alt={ imageAlt }
-			width={ 42 }
-			height={ 42 }
-			loading="lazy"
-			decoding="async"
-		/>
+				"yst-transition yst-duration-200 yst-flex-shrink-0",
+				shouldDimHeaderImage ? "yst-disabled-feature-icon yst-bg-slate-400 yst-rounded-md" : "" ) } { ...svgAriaProps }
+		/> }
 		<div className="yst-grow">
 			<div className="yst-max-w-lg">
 				<Title as="h3" className="yst-mb-1">{ title }</Title>
