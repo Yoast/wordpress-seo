@@ -45,19 +45,19 @@ export const mapGutenbergBlocks = ( blocks ) => {
  * @param {Object}             store                  The redux store.
  * @param {CustomAnalysisData} customAnalysisData     The custom analysis data.
  * @param {Pluggable}          pluggable              The Pluggable.
- * @param {Object}            [blockEditorDataModule] The WordPress block editor data module. E.g. `window.wp.data.select("core/block-editor")`
+ * @param {Object}            [editorDataModule]	The WordPress editor data module. E.g. `window.wp.data.select("core/editor")`
  *
  * @returns {Paper} The paper data used for the analyses.
  */
-export default function collectAnalysisData( editorData, store, customAnalysisData, pluggable, blockEditorDataModule ) {
+export default function collectAnalysisData( editorData, store, customAnalysisData, pluggable, editorDataModule ) {
 	const storeData = cloneDeep( store.getState() );
 	merge( storeData, customAnalysisData.getData() );
 	const editData = editorData.getData();
 
 	// Retrieve the block editor blocks from WordPress and filter on useful information.
 	let blocks = null;
-	if ( blockEditorDataModule ) {
-		blocks = blockEditorDataModule.getBlocks() || [];
+	if ( editorDataModule ) {
+		blocks = editorDataModule.getEditorBlocks() || [];
 		/*
 		* We need to clone the blocks to prevent the original blocks from being modified.
 		* This is necessary because otherwise, invalid blocks will be removed from the editor.

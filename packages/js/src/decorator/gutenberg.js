@@ -128,7 +128,7 @@ function scheduleAnnotationQueueApplication() {
  * @returns {boolean} Whether or not annotations are available in Gutenberg.
  */
 export function isAnnotationAvailable() {
-	return select( "core/block-editor" ) && isFunction( select( "core/block-editor" ).getBlocks ) &&
+	return select( "core/editor" ) && isFunction( select( "core/editor" ).getEditorBlocks ) &&
 		select( "core/annotations" ) && isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
 }
 
@@ -249,7 +249,7 @@ export function applyAsAnnotations( marks ) {
 		return;
 	}
 
-	let blocks = select( "core/block-editor" ).getBlocks();
+	let blocks = select( "core/editor" ).getEditorBlocks();
 
 	if ( fieldsToMark.length > 0 ) {
 		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
