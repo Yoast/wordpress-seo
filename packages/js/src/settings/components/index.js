@@ -19,3 +19,7 @@ export { LlmTxtPopover } from "./llm-txt-popover";
 export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
 export { AdvancedMenu } from "./advanced-menu";
 export { ChildrenLimiterButton } from "./children-limiter-button";
+export { FeaturesSection } from "./features-section";
+export { LlmsTxtButton } from "./llms-txt-button";
+export { XmlSitemapButton } from "./xml-sitemap-button";
+export { SiteFeatureDescription } from "./site-feature-description";
