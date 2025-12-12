@@ -6,6 +6,7 @@ use Exception;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Repository;
@@ -44,6 +45,13 @@ final class Get_Tasks_Route implements Route_Interface {
 	private $capability_helper;
 
 	/**
+	 * Holds the options helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Returns the needed conditionals.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -59,13 +67,16 @@ final class Get_Tasks_Route implements Route_Interface {
 	 *
 	 * @param Tasks_Repository  $tasks_repository  The repository for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Options_Helper    $options_helper    The options helper.
 	 */
 	public function __construct(
 		Tasks_Repository $tasks_repository,
-		Capability_Helper $capability_helper
+		Capability_Helper $capability_helper,
+		Options_Helper $options_helper
 	) {
 		$this->tasks_repository  = $tasks_repository;
 		$this->capability_helper = $capability_helper;
+		$this->options_helper    = $options_helper;
 	}
 
 	/**
@@ -112,6 +123,8 @@ final class Get_Tasks_Route implements Route_Interface {
 	 */
 	public function get_tasks(): WP_REST_Response {
 		try {
+			$this->options_helper->set( 'task_list_first_opened_on', \WPSEO_VERSION );
+
 			$tasks_data = $this->tasks_repository->get_tasks_data();
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(

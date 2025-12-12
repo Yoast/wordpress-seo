@@ -42,6 +42,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\String_Helper                          $string
  * @property Helpers\Social_Profiles_Helper                 $social_profiles
  * @property Helpers\Taxonomy_Helper                        $taxonomy
+ * @property Helpers\Tracking_Helper                        $tracking
  * @property Helpers\Url_Helper                             $url
  * @property Helpers\User_Helper                            $user
  * @property Helpers\Woocommerce_Helper                     $woocommerce

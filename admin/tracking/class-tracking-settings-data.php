@@ -260,6 +260,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
 
+		// Always include the tracking only option keys.
+		$this->include_list = array_merge( $this->include_list, array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ) );
+
 		$options = WPSEO_Options::get_all();
 		// Returns the settings of which the keys intersect with the values of the include list.
 		$options = array_intersect_key( $options, array_flip( $this->include_list ) );
