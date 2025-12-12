@@ -6,7 +6,6 @@ use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -57,7 +56,7 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 	 */
 	public static function get_conditionals() {
 		// This cannot have the Admin Conditional since it also needs to run in Rest requests.
-		return [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ];
+		return [ Site_Kit_Conditional::class ];
 	}
 
 	/**
