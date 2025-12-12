@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { ADD_ONS, STORE_NAME } from "../../constants";
-import { PremiumSvg } from "../images/premium-svg";
+import { ReactComponent as PremiumSvg } from "../../../../images/premium-plans.svg";
 import { BaseCard } from "./base-card";
 
 /**

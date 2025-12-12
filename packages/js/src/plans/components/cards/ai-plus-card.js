@@ -4,8 +4,8 @@ import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { STORE_NAME } from "../../constants";
-import { AiPlusSvg } from "../images/ai-plus-svg";
 import { ButtonLinkWithArrow } from "../actions/button-link-with-arrow";
+import { ReactComponent as AiPlusSvg } from "../../../../images/ai-plus-plans.svg";
 
 /**
  * A base card component for the Yoast AI+ plan.

@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { ADD_ONS, STORE_NAME } from "../../constants";
 import { BaseCard } from "./base-card";
-import { GoogleDocsAddonSvg } from "../images/google-docs-addon-svg";
+import { ReactComponent as GoogleDocsAddonSvg } from "../../../../images/docs-plans.svg";
 import { CardLink } from "../actions/card-link";
 
 /**
