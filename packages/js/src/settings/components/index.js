@@ -19,3 +19,6 @@ export { LlmTxtPopover } from "./llm-txt-popover";
 export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
 export { AdvancedMenu } from "./advanced-menu";
 export { ChildrenLimiterButton } from "./children-limiter-button";
+export { SchemaDisableConfirmationModal } from "./schema-disable-confirmation-modal";
+export { SchemaProgrammaticallyDisabledModal } from "./schema-programmatically-disabled-modal";
+export { SchemaApiIntegrationsSection } from "./schema-api-integrations-section";

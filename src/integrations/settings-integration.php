@@ -32,6 +32,7 @@ use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
 use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 
 /**
  * Class Settings_Integration.
@@ -200,6 +201,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $llms_txt_configuration;
 
 	/**
+	 * Holds the Schema_Configuration instance.
+	 *
+	 * @var Schema_Configuration
+	 */
+	protected $schema_configuration;
+
+	/**
 	 * The manual post collection.
 	 *
 	 * @var Manual_Post_Collection
@@ -240,6 +248,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Manual_Post_Collection                        $manual_post_collection  The manual post collection.
 	 * @param File_Runner                                   $runner                  The file runner.
 	 * @param Route_Helper                                  $route_helper            The Route_Helper.
+	 * @param Schema_Configuration                          $schema_configuration    The Schema_Configuration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -258,7 +267,8 @@ class Settings_Integration implements Integration_Interface {
 		Llms_Txt_Configuration $llms_txt_configuration,
 		Manual_Post_Collection $manual_post_collection,
 		File_Runner $runner,
-		Route_Helper $route_helper
+		Route_Helper $route_helper,
+		Schema_Configuration $schema_configuration
 	) {
 		$this->asset_manager           = $asset_manager;
 		$this->replace_vars            = $replace_vars;
@@ -277,6 +287,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->manual_post_collection  = $manual_post_collection;
 		$this->runner                  = $runner;
 		$this->route_helper            = $route_helper;
+		$this->schema_configuration    = $schema_configuration;
 	}
 
 	/**
@@ -500,6 +511,7 @@ class Settings_Integration implements Integration_Interface {
 			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'llmsTxt'                        => $this->llms_txt_configuration->get_configuration(),
 			'initialLlmTxtPages'             => $this->get_site_llms_txt_pages( $settings ),
+			'schemaFrameworkConfiguration'   => $this->schema_configuration->get_configuration(),
 		];
 	}
 

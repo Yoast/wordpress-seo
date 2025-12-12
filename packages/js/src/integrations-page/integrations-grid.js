@@ -1,7 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { Title } from "@yoast/ui-library";
+import { Alert, Title } from "@yoast/ui-library";
+import { get } from "lodash";
 import { PropTypes } from "prop-types";
 import { addLinkToString } from "../helpers/stringHelpers";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { OtherIntegrations } from "./other-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { RecommendedIntegrations } from "./recommended-integrations";
@@ -12,17 +14,19 @@ import { schemaAPIIntegrations } from "./schema-api-integrations";
  *
  * @param {string} [title] The section title.
  * @param {JSX.Element} [description] The section description.
+ * @param {JSX.Element} [alert] Optional alert to show when the schema is disabled.
  * @param {Array<JSX.Element>} [elements] Array of elements to be rendered.
  *
  * @returns {JSX.Element} The section.
  */
-const Section = ( { title = "", description = "", elements = [] } ) => {
+const Section = ( { title = "", description = "", alert = null, elements = [] } ) => {
 	return (
 		<section>
 			<div className="yst-mb-8">
 				<h2 className="yst-mb-2 yst-text-lg yst-font-medium">{ title }</h2>
 				<p className="yst-text-tiny">{ description }</p>
 			</div>
+			{ alert && <div className="yst-mb-8 yst-max-w-xl">{ alert }</div> }
 			<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
 				{ elements }
 			</div>
@@ -33,6 +37,7 @@ const Section = ( { title = "", description = "", elements = [] } ) => {
 Section.propTypes = {
 	title: PropTypes.string,
 	description: PropTypes.node,
+	alert: PropTypes.node,
 	elements: PropTypes.array,
 };
 
@@ -42,6 +47,21 @@ Section.propTypes = {
  * @returns {JSX.Element} The integration grid.
  */
 export default function IntegrationsGrid() {
+	const isSchemaFrameworkDisabled = ! get( window, "wpseoIntegrationsData.schema_framework_enabled", true );
+
+	const schemaDisabledAlert = safeCreateInterpolateElement(
+		sprintf(
+			/* translators: 1: anchor tag linking to the schema framework settings page; 2: closing anchor tag. */
+			__( "To make use of the Schema API integrations enable the %1$sSchema Framework%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a id="schema-framework-settings-link" href="admin.php?page=wpseo_page_settings#/schema-framework" />,
+		}
+	);
+
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
 			<header className="yst-border-b yst-border-slate-200">
@@ -88,6 +108,12 @@ export default function IntegrationsGrid() {
 							"schema-api-link"
 						)
 					}
+					alert={ isSchemaFrameworkDisabled && (
+						<Alert id="schema-disabled-alert" variant="info">
+							<span className="yst-block yst-font-medium yst-mb-2">{ __( "All Schema API integrations are disabled", "wordpress-seo" ) }</span>
+							{ schemaDisabledAlert }
+						</Alert>
+					) }
 					elements={ schemaAPIIntegrations }
 				/>
 

@@ -1,14 +1,14 @@
 /* eslint-disable complexity */
 import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { useMemo, useCallback } from "@wordpress/element";
+import { useMemo, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import { FormLayout, RouteLayout } from "../components";
-import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { FormLayout, RouteLayout, SchemaDisableConfirmationModal, SchemaProgrammaticallyDisabledModal } from "../components";
+import { useDisabledMessage, useSchemaToggleHandler, useSelectSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
 
@@ -25,6 +25,8 @@ import { FormikValueChangeField } from "../../shared-admin/components/form";
  * @param {boolean} [isNewFeature] Whether this card is for a new feature.
  * @param {boolean} [hasPremiumBadge] Whether this card has a premium badge.
  * @param {string} title The card title.
+ * @param {boolean} [confirmBeforeDisable] Whether to show a confirmation modal before disabling.
+ * @param {boolean} [isDisabledProgrammatically] Whether the feature is disabled programmatically.
  * @returns {JSX.Element} The card.
  */
 const FeatureCard = ( {
@@ -40,11 +42,13 @@ const FeatureCard = ( {
 	isNewFeature = false,
 	hasPremiumBadge = false,
 	title,
+	confirmBeforeDisable = false,
+	isDisabledProgrammatically = false,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
 	const { isDisabled, message, disabledSetting } = useDisabledMessage( { name } );
-	const { values } = useFormikContext();
+	const { values, setFieldValue } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const svgAriaProps = useSvgAria();
@@ -55,6 +59,31 @@ const FeatureCard = ( {
 		() => isDisabled || ( isPremium && isPremiumFeature && hasPremiumBadge ) || isBetaFeature || ( isNewFeature && ! isPremium ),
 		[ isDisabled, isPremium, isPremiumFeature, isBetaFeature, isNewFeature ]
 	);
+
+	const [ isConfirmModalOpen, setIsConfirmModalOpen ] = useState( false );
+	const [ isProgrammaticallyDisabledModalOpen, setIsProgrammaticallyDisabledModalOpen ] = useState( false );
+
+	const handleToggleChange = useSchemaToggleHandler( {
+		isDisabledProgrammatically,
+		confirmBeforeDisable,
+		fieldName: name,
+		setFieldValue,
+		onShowProgrammaticallyDisabledModal: useCallback( () => setIsProgrammaticallyDisabledModalOpen( true ), [] ),
+		onShowDisableConfirmModal: useCallback( () => setIsConfirmModalOpen( true ), [] ),
+	} );
+
+	const handleModalClose = useCallback( () => {
+		setIsConfirmModalOpen( false );
+	}, [] );
+
+	const handleModalConfirm = useCallback( () => {
+		setFieldValue( name, false );
+		setIsConfirmModalOpen( false );
+	}, [ setFieldValue, name ] );
+
+	const handleProgrammaticallyDisabledModalClose = useCallback( () => {
+		setIsProgrammaticallyDisabledModalOpen( false );
+	}, [] );
 
 	return (
 		<Card id={ cardId }>
@@ -85,7 +114,7 @@ const FeatureCard = ( {
 				{ children }
 			</Card.Content>
 			<Card.Footer>
-				{ ! shouldUpsell && <FormikValueChangeField
+				{ ! shouldUpsell && ! confirmBeforeDisable && <FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
 					name={ name }
@@ -93,7 +122,15 @@ const FeatureCard = ( {
 					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
-					checked={ disabledSetting === "language" ? false : value }
+					checked={ disabledSetting === "language" || isDisabledProgrammatically ? false : value }
+				/> }
+				{ ! shouldUpsell && confirmBeforeDisable && <ToggleField
+					id={ inputId }
+					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
+					label={ __( "Enable feature", "wordpress-seo" ) }
+					disabled={ isDisabled }
+					checked={ disabledSetting === "language" || isDisabledProgrammatically ? false : value }
+					onChange={ handleToggleChange }
 				/> }
 				{ shouldUpsell && (
 					<Button
@@ -114,6 +151,15 @@ const FeatureCard = ( {
 					</Button>
 				) }
 			</Card.Footer>
+			{ confirmBeforeDisable && <SchemaDisableConfirmationModal
+				isOpen={ isConfirmModalOpen }
+				onClose={ handleModalClose }
+				onConfirm={ handleModalConfirm }
+			/> }
+			{ isDisabledProgrammatically && <SchemaProgrammaticallyDisabledModal
+				isOpen={ isProgrammaticallyDisabledModalOpen }
+				onClose={ handleProgrammaticallyDisabledModalClose }
+			/> }
 		</Card>
 	);
 };
@@ -131,6 +177,8 @@ FeatureCard.propTypes = {
 	isPremiumLink: PropTypes.string,
 	hasPremiumBadge: PropTypes.bool,
 	title: PropTypes.string.isRequired,
+	confirmBeforeDisable: PropTypes.bool,
+	isDisabledProgrammatically: PropTypes.bool,
 };
 
 /**
@@ -178,6 +226,7 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 	const { values, initialValues } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
 	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
@@ -423,6 +472,18 @@ const SiteFeatures = () => {
 							<Title as="h2" size="2">{ __( "APIs", "wordpress-seo" ) }</Title>
 						</div>
 						<div className={ gridClassNames }>
+							<FeatureCard
+								name="wpseo.enable_schema"
+								cardId="card-wpseo-enable_schema"
+								inputId="input-wpseo-enable_schema"
+								imageSrc="/images/icon-schema.svg"
+								title={ __( "Schema Framework", "wordpress-seo" ) }
+								confirmBeforeDisable={ true }
+								isDisabledProgrammatically={ isSchemaDisabledProgrammatically }
+							>
+								<p>{ __( "Outputs a single graph the web can understand. Makes every person, product, organization, and piece of content consistently readable to search engines and language models.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-schema-framework" link="https://yoa.st/site-features-schema-framework" ariaLabel={ __( "Schema Framework", "wordpress-seo" ) } />
+							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_headless_rest_endpoints"
 								cardId="card-wpseo-enable_headless_rest_endpoints"
