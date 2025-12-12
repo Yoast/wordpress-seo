@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { ReactComponent as AIGeneratorIcon } from "../../../images/icon-sparkles.svg";
+import { ReactComponent as AIGeneratorIcon } from "../../../../../images/icon-sparkles.svg";
 import { ReactComponent as LlmtxtIcon } from "../../../../../images/icon-llms-txt.svg";
 
 export const aiToolsFeatures = [
