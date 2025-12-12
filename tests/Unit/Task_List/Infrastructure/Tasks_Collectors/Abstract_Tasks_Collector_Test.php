@@ -1,0 +1,81 @@
+<?php
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Tasks_Collectors;
+
+use Mockery;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
+use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+/**
+ * Base class for the tasks collector tests.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ */
+abstract class Abstract_Tasks_Collector_Test extends TestCase {
+
+	/**
+	 * Mock regular task.
+	 *
+	 * @var Mockery\MockInterface|Task_Interface
+	 */
+	protected $task_mock;
+
+	/**
+	 * Mock completeable task.
+	 *
+	 * @var Mockery\MockInterface|Completeable_Task_Interface
+	 */
+	protected $completeable_task_mock;
+
+	/**
+	 * Mock post type task.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Task_Interface
+	 */
+	protected $post_type_task_mock;
+
+	/**
+	 * Holds the instance.
+	 *
+	 * @var Tasks_Collector
+	 */
+	protected $instance;
+
+	/**
+	 * Sets up the test fixtures.
+	 *
+	 * @return void
+	 */
+	protected function set_up() {
+		parent::set_up();
+
+		$this->task_mock              = Mockery::mock( Task_Interface::class );
+		$this->completeable_task_mock = Mockery::mock( Completeable_Task_Interface::class );
+		$this->post_type_task_mock    = Mockery::mock( Post_Type_Task_Interface::class );
+
+		$this->instance = new Tasks_Collector();
+	}
+
+	/**
+	 * Creates a mock task with specific ID and data.
+	 *
+	 * @param string             $id             The task ID.
+	 * @param array<string,bool> $to_array       The array representation.
+	 * @param string             $task_interface The interface to mock.
+	 *
+	 * @return Mockery\MockInterface
+	 */
+	protected function create_mock_task( $id, $to_array = [], $task_interface = Task_Interface::class ) {
+		$mock = Mockery::mock( $task_interface );
+		$mock->shouldReceive( 'get_id' )->zeroOrMoreTimes()->andReturn( $id );
+
+		if ( ! empty( $to_array ) ) {
+			$mock->expects( 'to_array' )->andReturn( $to_array );
+		}
+
+		return $mock;
+	}
+}
