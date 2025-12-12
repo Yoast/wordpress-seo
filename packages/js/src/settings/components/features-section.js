@@ -32,7 +32,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 				) }
 				onClick={ handleToggle }
 			>
-				<Title size="4" as="h2">{ `${title} (${ featureCount })` }</Title>
+				<Title size="4" as="h2">{ `${title} (${featureCount})` }</Title>
 				<span>
 					<ChevronIcon className="yst-h-6 yst-w-6 yst-text-slate-400 yst-shrink-0 yst-me-3" { ...svgAriaProps } />
 					<span className="yst-sr-only">{ `${isOpen ? __( "Collapse", "wordpress-seo" ) : __( "Expand", "wordpress-seo" )} ${title}` }</span>
