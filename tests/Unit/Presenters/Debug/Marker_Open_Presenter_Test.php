@@ -38,7 +38,7 @@ final class Marker_Open_Presenter_Test extends TestCase {
 		];
 
 		$this->assertEquals(
-			'<!-- This site is optimized with the Yoast SEO plugin v' . \WPSEO_VERSION . ' - https://yoast.com/wordpress/plugins/seo/ -->',
+			'<!-- This site is optimized with the Yoast SEO plugin v' . \WPSEO_VERSION . ' - https://yoast.com/product/yoast-seo-wordpress/ -->',
 			$instance->present()
 		);
 	}
@@ -78,5 +78,40 @@ final class Marker_Open_Presenter_Test extends TestCase {
 		$instance = new Marker_Open_Presenter();
 
 		$this->assertSame( '', $instance->get() );
+	}
+
+	/**
+	 * Tests the presentation of the open debug marker for premium version.
+	 *
+	 * @covers ::present
+	 * @covers ::construct_version_info
+	 *
+	 * @return void
+	 */
+	public function test_present_premium() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Intended use for testing.
+		if ( ! \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Testing constant definition.
+			\define( 'WPSEO_PREMIUM_VERSION', '2.0' );
+		}
+
+		$this->stubEscapeFunctions();
+
+		Monkey\Filters\expectApplied( 'wpseo_hide_version' )->andReturn( false );
+
+		$product_mock = Mockery::mock( Product_Helper::class );
+		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO Premium' );
+		$product_mock->expects( 'is_premium' )->andReturn( true );
+
+		$instance          = new Marker_Open_Presenter();
+		$instance->helpers = (object) [
+			'product' => $product_mock,
+		];
+
+		$expected_version = 'v' . \WPSEO_PREMIUM_VERSION . ' (Yoast SEO v' . \WPSEO_VERSION . ')';
+		$this->assertEquals(
+			'<!-- This site is optimized with the Yoast SEO Premium ' . $expected_version . ' - https://yoast.com/product/yoast-seo-premium-wordpress/ -->',
+			$instance->present()
+		);
 	}
 }
