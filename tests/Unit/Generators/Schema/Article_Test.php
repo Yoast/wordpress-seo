@@ -186,9 +186,9 @@ final class Article_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_needed_no_site_represents() {
-		$this->context_mock->indexable->object_type = 'post';
+		$this->context_mock->indexable->object_type     = 'post';
 		$this->context_mock->indexable->object_sub_type = 'article';
-		$this->context_mock->site_represents        = false;
+		$this->context_mock->site_represents            = false;
 
 		$this->article->expects( 'is_author_supported' )->with( 'article' )->andReturn( true );
 
