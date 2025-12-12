@@ -25,12 +25,12 @@ const slice = createSlice( {
 		toggleFeatureSection: ( state, action ) => {
 			state.featuresSections[ action.payload ].isOpen = ! state.featuresSections[ action.payload ].isOpen;
 
-			// if all features are closed, set isAllOpen to false
+			// If all features are closed, set isAllFeaturesOpen to false.
 			const allClosed = every( state.featuresSections, section => section.isOpen === false );
 			if ( allClosed ) {
 				state.isAllFeaturesOpen = false;
 			}
-			// if all features are open, set isAllFeaturesOpen to true
+			// If all features are open, set isAllFeaturesOpen to true.
 			const allOpen = every( state.featuresSections, section => section.isOpen === true );
 			if ( allOpen ) {
 				state.isAllFeaturesOpen = true;
