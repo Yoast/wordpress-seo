@@ -25,11 +25,12 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 	 */
 	public function test_render() {
 		// Mocks for sections.
-		$built_intro       = Mockery::mock( Intro::class );
-		$built_title       = Mockery::mock( Title::class );
-		$built_description = Mockery::mock( Description::class );
-		$built_link_list1  = Mockery::mock( Link_List::class );
-		$built_link_list2  = Mockery::mock( Link_List::class );
+		$built_intro              = Mockery::mock( Intro::class );
+		$built_title              = Mockery::mock( Title::class );
+		$built_description        = Mockery::mock( Description::class );
+		$built_link_list1         = Mockery::mock( Link_List::class );
+		$built_link_list2         = Mockery::mock( Link_List::class );
+		$optional_built_link_list = Mockery::mock( Link_List::class );
 
 		$this->intro_builder->expects( 'build_intro' )
 			->once()
@@ -47,11 +48,16 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 			->once()
 			->andReturn( [ $built_link_list1, $built_link_list2 ] );
 
+		$this->optional_link_list_builder->expects( 'build_optional_link_list' )
+			->once()
+			->andReturn( $optional_built_link_list );
+
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_intro );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_title );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_description );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_link_list1 );
 		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $built_link_list2 );
+		$this->llms_txt_renderer->shouldReceive( 'add_section' )->once()->with( $optional_built_link_list );
 
 		$this->llms_txt_renderer->shouldReceive( 'get_sections' )->once()->andReturn(
 			[
@@ -60,6 +66,7 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 				$built_description,
 				$built_link_list1,
 				$built_link_list2,
+				$optional_built_link_list,
 			]
 		);
 
@@ -68,6 +75,7 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 		$built_description->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
 		$built_link_list1->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
 		$built_link_list2->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
+		$optional_built_link_list->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );
 
 		$this->llms_txt_renderer->shouldReceive( 'render' )->once()->andReturn( 'final markdown output' );
 

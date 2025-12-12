@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Route_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -91,6 +92,13 @@ final class Settings_Integration_Test extends TestCase {
 	private $file_runner;
 
 	/**
+	 * Holds the Route_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Route_Helper
+	 */
+	private $route_helper;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
@@ -112,6 +120,7 @@ final class Settings_Integration_Test extends TestCase {
 		$llms_txt_configuration  = Mockery::mock( Llms_Txt_Configuration::class );
 		$manual_post_collection  = Mockery::mock( Manual_Post_Collection::class );
 		$file_runner             = Mockery::mock( File_Runner::class );
+		$this->route_helper      = Mockery::mock( Route_Helper::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -129,7 +138,8 @@ final class Settings_Integration_Test extends TestCase {
 			$content_type_visibility,
 			$llms_txt_configuration,
 			$manual_post_collection,
-			$file_runner
+			$file_runner,
+			$this->route_helper
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -148,7 +158,8 @@ final class Settings_Integration_Test extends TestCase {
 			$content_type_visibility,
 			$llms_txt_configuration,
 			$manual_post_collection,
-			$file_runner
+			$file_runner,
+			$this->route_helper
 		);
 	}
 
@@ -265,9 +276,9 @@ final class Settings_Integration_Test extends TestCase {
 			'Content type visibility notifications is set.'
 		);
 		$this->assertInstanceOf(
-			Llms_Txt_Configuration::class,
-			$this->getPropertyValue( $this->instance, 'llms_txt_configuration' ),
-			'Llms_Txt_Configuration is set.'
+			Route_Helper::class,
+			$this->getPropertyValue( $this->instance, 'route_helper' ),
+			'Route_Helper is set.'
 		);
 	}
 
@@ -363,6 +374,11 @@ final class Settings_Integration_Test extends TestCase {
 			->with( 'book' )
 			->andReturn( false );
 
+		$post_type = $post_types['book'];
+		$this->route_helper
+			->expects( 'get_route' )
+			->with( $post_type->name, $post_type->rewrite, $post_type->rest_base )
+			->andReturn( $post_type->rewrite['slug'] );
 		$result = $this->instance_double->transform_post_types( $post_types );
 
 		$this->assertSame( $expected, $result );
@@ -450,6 +466,12 @@ final class Settings_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'new_taxonomies', [] )
 			->andReturn( $new_taxonomies );
+
+		$taxonomy = $taxonomies['book_category'];
+		$this->route_helper
+			->expects( 'get_route' )
+			->with( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base )
+			->andReturn( $taxonomy->rewrite['slug'] );
 
 		$result = $this->instance_double->transform_taxonomies( $taxonomies, $post_type_names );
 

@@ -1,13 +1,16 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
 const condensedBenefits = [
-	__( "AI tools included", "wordpress-seo" ),
-	sprintf(
-		/* translators: %1$s expands to "Yoast SEO academy". */
-		__( "%1$s access", "wordpress-seo" ),
-		"Yoast SEO academy"
-	),
-	__( "24/7 support", "wordpress-seo" ),
+	__( "Create optimized SEO titles & meta descriptions in seconds", "wordpress-seo" ),
+	__( "Apply AI suggestions to improve content in 1 click", "wordpress-seo" ),
+	__( "Manage redirects with ease and without extra plugins", "wordpress-seo" ),
+	__( "Optimize pages for multiple keywords with guidance", "wordpress-seo" ),
+];
+const condensedWooBenefits = [
+	__( "Add product details to help your listings stand out", "wordpress-seo" ),
+	__( "Make sure search engines show the right version of your product page", "wordpress-seo" ),
+	__( "Create optimized SEO titles & meta descriptions with AI", "wordpress-seo" ),
+	__( "Receive clear SEO and readability guidance to optimize your products", "wordpress-seo" ),
 ];
 const fullBenefits = [
 	__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
@@ -26,7 +29,7 @@ export const getPremiumBenefits = ( condensed = false  ) => {
 
 export const getWooSeoBenefits = ( condensed = false ) => {
 	if ( condensed ) {
-		return condensedBenefits;
+		return condensedWooBenefits;
 	}
 
 	const wooSeoBenefits = [ ...fullBenefits ];

@@ -9,6 +9,7 @@ const classNameMap = {
 		plain: "yst-badge--plain",
 		success: "yst-badge--success",
 		error: "yst-badge--error",
+		ai: "yst-badge--ai",
 	},
 	size: {
 		"default": "",

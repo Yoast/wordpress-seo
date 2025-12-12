@@ -3,6 +3,7 @@
 /* jshint -W097 */
 /* jshint unused:false */
 import jQuery from "jquery";
+import { getAdminSubmenuBackground } from "./helpers/adminColorSchemeHelpers";
 
 ( function( $ ) {
 	/**
@@ -286,6 +287,16 @@ import jQuery from "jquery";
 	}
 
 	/**
+	 * Sets the --yoast-adminbar-submenu-bg CSS variable to match the WordPress admin color scheme.
+	 *
+	 * @returns {void}
+	 */
+	function setAdminBarSubmenuBackground() {
+		const backgroundColor = getAdminSubmenuBackground( document.body.className );
+		document.documentElement.style.setProperty( "--yoast-adminbar-submenu-bg", backgroundColor );
+	}
+
+	/**
 	 * Sets the color of the svg for the premium indicator based on the color of the color scheme.
 	 *
 	 * @returns {void}
@@ -479,6 +490,7 @@ import jQuery from "jquery";
 	$( document ).ready( function() {
 		showAlertPopup();
 		hookDismissRestoreButtons();
+		setAdminBarSubmenuBackground();
 		setPremiumIndicatorColor();
 		createScrollableTables();
 		resolveNotificationMismatch();

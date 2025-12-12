@@ -12,6 +12,11 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Brand_Insights_Page implements Integration_Interface {
 
 	/**
+	 * External link icon.
+	 */
+	public const EXTERNAL_LINK_ICON = '<span class="yst-external-link-icon"></span>';
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -46,7 +51,8 @@ class Brand_Insights_Page implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 12 );
+		// Add page with PHP_INT_MAX so it's always the last item. This is the AI Brand Insights button in the sidebar menu.
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], \PHP_INT_MAX );
 	}
 
 	/**
@@ -59,10 +65,18 @@ class Brand_Insights_Page implements Integration_Interface {
 	public function add_submenu_page( $submenu_pages ) {
 		$page = $this->product_helper->is_premium() ? 'wpseo_brand_insights_premium' : 'wpseo_brand_insights';
 
+		$button_content = 'AI Brand Insights';
+
+		$menu_title = '<span class="yoast-brand-insights-gradient-border">'
+			. '<span class="yoast-brand-insights-content">'
+			. $button_content
+			. self::EXTERNAL_LINK_ICON
+			. '</span></span>';
+
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			'Brand Insights <span class="yoast-badge yoast-ai-plus-badge"></span>',
+			$menu_title,
 			'edit_others_posts',
 			$page,
 			[ $this, 'show_brand_insights_page' ],

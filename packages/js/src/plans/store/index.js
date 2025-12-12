@@ -10,6 +10,20 @@ import {
 import { STORE_NAME } from "../constants";
 import { ADD_ONS_NAME, addOnsActions, addOnsReducer, addOnsSelectors, getInitialAddOnsState } from "./add-ons";
 import { getInitialPreferencesState, PREFERENCES_NAME, preferencesActions, preferencesReducer, preferencesSelectors } from "./preferences";
+import {
+	DUPLICATE_POST_NAME,
+	duplicatePostActions,
+	duplicatePostReducer,
+	duplicatePostSelectors,
+	getInitialDuplicatePostState,
+} from "./duplicate-post";
+import {
+	USER_CAN_NAME,
+	userCanActions,
+	userCanReducer,
+	userCanSelectors,
+	getInitialUserCanState,
+} from "./user-can";
 import { reducers, selectors } from "@yoast/externals/redux";
 
 const { currentPromotions } = reducers;
@@ -27,29 +41,37 @@ const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
 			...addOnsActions,
+			...duplicatePostActions,
 			...linkParamsActions,
 			...preferencesActions,
+			...userCanActions,
 		},
 		selectors: {
 			...addOnsSelectors,
+			...duplicatePostSelectors,
 			...linkParamsSelectors,
 			...preferencesSelectors,
+			...userCanSelectors,
 			isPromotionActive,
 		},
 		initialState: merge(
 			{},
 			{
 				[ ADD_ONS_NAME ]: getInitialAddOnsState(),
+				[ CURRENT_PROMOTIONS_NAME ]: { promotions: [] },
+				[ DUPLICATE_POST_NAME ]: getInitialDuplicatePostState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				[ PREFERENCES_NAME ]: getInitialPreferencesState(),
-				[ CURRENT_PROMOTIONS_NAME ]: { promotions: [] },
+				[ USER_CAN_NAME ]: getInitialUserCanState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			[ ADD_ONS_NAME ]: addOnsReducer,
+			[ DUPLICATE_POST_NAME ]: duplicatePostReducer,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			[ PREFERENCES_NAME ]: preferencesReducer,
+			[ USER_CAN_NAME ]: userCanReducer,
 			currentPromotions,
 		} ),
 	} );
@@ -67,7 +89,9 @@ export const registerStore = ( { initialState = {} } = {} ) => {
 // Re-export the names of the registered store slices.
 export {
 	ADD_ONS_NAME,
+	CURRENT_PROMOTIONS_NAME,
+	DUPLICATE_POST_NAME,
 	LINK_PARAMS_NAME,
 	PREFERENCES_NAME,
-	CURRENT_PROMOTIONS_NAME,
+	USER_CAN_NAME,
 };

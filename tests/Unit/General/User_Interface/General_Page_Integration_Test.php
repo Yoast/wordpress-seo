@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
+use Yoast\WP\SEO\Task_List\Application\Configuration\Task_List_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -115,6 +116,13 @@ final class General_Page_Integration_Test extends TestCase {
 	private $woocommerce_conditional;
 
 	/**
+	 * Holds the task list configuration.
+	 *
+	 * @var Mockery\MockInterface|Task_List_Configuration
+	 */
+	private $task_list_configuration;
+
+	/**
 	 * Holds the WPSEO_Addon_Manager.
 	 *
 	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
@@ -141,6 +149,7 @@ final class General_Page_Integration_Test extends TestCase {
 		$this->options_helper          = Mockery::mock( Options_Helper::class );
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 		$this->addon_manager           = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->task_list_configuration = Mockery::mock( Task_List_Configuration::class );
 
 		$this->instance = new General_Page_Integration(
 			$this->asset_manager,
@@ -154,7 +163,8 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->user_helper,
 			$this->options_helper,
 			$this->woocommerce_conditional,
-			$this->addon_manager
+			$this->addon_manager,
+			$this->task_list_configuration
 		);
 	}
 
@@ -180,7 +190,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->user_helper,
 				$this->options_helper,
 				$this->woocommerce_conditional,
-				$this->addon_manager
+				$this->addon_manager,
+				$this->task_list_configuration
 			)
 		);
 	}
@@ -355,6 +366,16 @@ final class General_Page_Integration_Test extends TestCase {
 			->expects( 'is_met' )
 			->once()
 			->andReturn( false );
+
+		$this->task_list_configuration
+			->expects( 'get_configuration' )
+			->once()
+			->andReturn(
+				[
+					'enabled'            => true,
+					'tasksConfiguration' => [],
+				]
+			);
 
 		$this->expect_get_script_data();
 

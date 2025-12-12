@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Plans\Application\Add_Ons_Collector;
+use Yoast\WP\SEO\Plans\Application\Duplicate_Post_Manager;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -72,14 +73,22 @@ class Plans_Page_Integration implements Integration_Interface {
 	private $promotion_manager;
 
 	/**
+	 * The Duplicate Post plugin manager.
+	 *
+	 * @var Duplicate_Post_Manager
+	 */
+	private $duplicate_post_manager;
+
+	/**
 	 * Constructs the instance.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param Add_Ons_Collector         $add_ons_collector   The Add_Ons_Collector.
-	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Short_Link_Helper         $short_link_helper   The Short_Link_Helper.
-	 * @param Admin_Conditional         $admin_conditional   The Admin_Conditional.
-	 * @param Promotion_Manager         $promotion_manager   The promotion manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager          The WPSEO_Admin_Asset_Manager.
+	 * @param Add_Ons_Collector         $add_ons_collector      The Add_Ons_Collector.
+	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
+	 * @param Short_Link_Helper         $short_link_helper      The Short_Link_Helper.
+	 * @param Admin_Conditional         $admin_conditional      The Admin_Conditional.
+	 * @param Promotion_Manager         $promotion_manager      The promotion manager.
+	 * @param Duplicate_Post_Manager    $duplicate_post_manager The Duplicate_Post_Manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -87,14 +96,16 @@ class Plans_Page_Integration implements Integration_Interface {
 		Current_Page_Helper $current_page_helper,
 		Short_Link_Helper $short_link_helper,
 		Admin_Conditional $admin_conditional,
-		Promotion_Manager $promotion_manager
+		Promotion_Manager $promotion_manager,
+		Duplicate_Post_Manager $duplicate_post_manager
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->add_ons_collector   = $add_ons_collector;
-		$this->current_page_helper = $current_page_helper;
-		$this->short_link_helper   = $short_link_helper;
-		$this->admin_conditional   = $admin_conditional;
-		$this->promotion_manager   = $promotion_manager;
+		$this->asset_manager          = $asset_manager;
+		$this->add_ons_collector      = $add_ons_collector;
+		$this->current_page_helper    = $current_page_helper;
+		$this->short_link_helper      = $short_link_helper;
+		$this->admin_conditional      = $admin_conditional;
+		$this->promotion_manager      = $promotion_manager;
+		$this->duplicate_post_manager = $duplicate_post_manager;
 	}
 
 	/**
@@ -165,12 +176,17 @@ class Plans_Page_Integration implements Integration_Interface {
 	 */
 	private function get_script_data(): array {
 		return [
-			'addOns'            => $this->add_ons_collector->to_array(),
-			'linkParams'        => $this->short_link_helper->get_query_params(),
-			'preferences'       => [
+			'addOns'                      => $this->add_ons_collector->to_array(),
+			'linkParams'                  => $this->short_link_helper->get_query_params(),
+			'preferences'                 => [
 				'isRtl' => \is_rtl(),
 			],
-			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
+			'currentPromotions'           => $this->promotion_manager->get_current_promotions(),
+			'duplicatePost'               => $this->duplicate_post_manager->get_params(),
+			'userCan'                     => [
+				'installPlugin'  => \current_user_can( 'install_plugins' ),
+				'activatePlugin' => \current_user_can( 'activate_plugins' ),
+			],
 		];
 	}
 

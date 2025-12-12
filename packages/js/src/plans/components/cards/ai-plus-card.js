@@ -1,11 +1,11 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { Card, Title, useSvgAria } from "@yoast/ui-library";
-import { LearnMoreButton } from "../actions/learn-more-button";
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { STORE_NAME } from "../../constants";
 import { AiPlusSvg } from "../images/ai-plus-svg";
+import { ButtonLinkWithArrow } from "../actions/button-link-with-arrow";
 
 /**
  * A base card component for the Yoast AI+ plan.
@@ -56,7 +56,7 @@ const BaseAiPlusCard = ( {
 							<hr className="yst-mt-4 yst-mb-6 yst-border-t yst-border-slate-200" />
 						</>
 					) }
-					<LearnMoreButton href={ learnMoreLink } />
+					<ButtonLinkWithArrow variant="primary" label={ __( "Learn more", "wordpress-seo" ) } href={ learnMoreLink }   />
 				</Card.Footer>
 			</Card>
 		</div>

@@ -22,4 +22,10 @@ export default {
 			page: InteractiveDocsPage,
 		},
 	},
+	argTypes: {
+		progressClassName: {
+			description: "Class names for the progress indicator.",
+			control: "text",
+		},
+	},
 };

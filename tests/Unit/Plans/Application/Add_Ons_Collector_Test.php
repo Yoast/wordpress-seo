@@ -106,6 +106,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 			->twice()
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
 			->andReturn( true, false );
+
 		$this->addon_manager->expects( 'is_installed' )
 			->twice()
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
@@ -125,7 +126,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 					'id'     => $this->premium->get_ctb_id(),
 				],
 			],
-			$this->woo->get_id()     => [
+			$this->woo->get_id() => [
 				'id'         => $this->woo->get_id(),
 				'isActive'   => true,
 				'hasLicense' => true,

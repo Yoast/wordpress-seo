@@ -18,3 +18,4 @@ export { LlmsTxtAlert } from "./llms-txt-alert";
 export { LlmTxtPopover } from "./llm-txt-popover";
 export { LlmsTxtUnsavedChangesModal } from "./llms-txt-unsaved-changes-modal";
 export { AdvancedMenu } from "./advanced-menu";
+export { ChildrenLimiterButton } from "./children-limiter-button";

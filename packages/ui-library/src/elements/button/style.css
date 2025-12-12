@@ -69,7 +69,10 @@
 
 			hover:yst-text-primary-800
 			focus:yst-text-primary-800
-			focus:yst-outline-primary-700
+			/* Prevent focus outline on mouse click, show only for keyboard navigation */
+			focus:yst-outline-none
+			focus-visible:yst-outline
+			focus-visible:yst-outline-primary-700
 			visited:yst-text-primary-800
 			visited:hover:yst-text-primary-800;
 		}

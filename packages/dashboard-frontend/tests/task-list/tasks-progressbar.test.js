@@ -1,0 +1,64 @@
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { TasksProgressBar } from "../../src/task-list/components/tasks-progressbar";
+
+describe( "TasksProgressBar", () => {
+	it( "renders the title", () => {
+		render( <TasksProgressBar completedTasks={ 2 } totalTasks={ 5 } isLoading={ false } /> );
+		expect( screen.getByText( "Tasks" ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the progress bar and task count when not loading", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 3 } totalTasks={ 10 } isLoading={ false } /> );
+		const progressbar = container.querySelector( ".yst-progress-bar" );
+		expect( progressbar ).toBeInTheDocument();
+		expect( screen.getByText( "3" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/10" ) ).toBeInTheDocument();
+	} );
+
+	it( "renders skeleton loaders when loading", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 0 } totalTasks={ 0 } isLoading={ true } /> );
+		const skeletons = container.getElementsByClassName( "yst-skeleton-loader" );
+		expect( skeletons.length ).toBe( 2 );
+	} );
+
+	it( "shows 0 completed tasks correctly", () => {
+		render( <TasksProgressBar completedTasks={ 0 } totalTasks={ 5 } isLoading={ false } /> );
+		expect( screen.getByText( "0" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+	} );
+
+	it( "shows all tasks completed correctly", () => {
+		render( <TasksProgressBar completedTasks={ 5 } totalTasks={ 5 } isLoading={ false } /> );
+		expect( screen.getByText( "5" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+	} );
+
+	it.each( [
+		[ "equal to 0", { completedTasks: 0, totalTasks: 0 } ],
+		[ "more completed than total", { completedTasks: 6, totalTasks: 5 } ],
+	] )( "renders error state for when task counts are %s", ( _, { completedTasks, totalTasks } ) => {
+		const { container } = render(
+			<TasksProgressBar completedTasks={ completedTasks } totalTasks={ totalTasks } isLoading={ false } />
+		);
+		const errorDivs = container.querySelectorAll( ".yst-bg-slate-200" );
+		expect( errorDivs.length ).toBe( 2 );
+		[ completedTasks, `/${ totalTasks }` ].forEach( text => {
+			expect( screen.queryByText( text ) ).not.toBeInTheDocument();
+		} );
+	} );
+
+	it( "renders error state for when task counts are null", () => {
+		const { container } = render(
+			<TasksProgressBar completedTasks={ null } totalTasks={ null } isLoading={ false } />
+		);
+		const errorDivs = container.querySelectorAll( ".yst-bg-slate-200" );
+		expect( errorDivs.length ).toBe( 2 );
+	} );
+	it( "includes screen reader text for progress", () => {
+		const { container } = render( <TasksProgressBar completedTasks={ 4 } totalTasks={ 8 } isLoading={ false } /> );
+		const srText = container.querySelector( ".yst-sr-only" );
+		expect( srText ).toBeInTheDocument();
+		expect( srText ).toHaveTextContent( "4 out of 8 tasks completed" );
+	} );
+} );
