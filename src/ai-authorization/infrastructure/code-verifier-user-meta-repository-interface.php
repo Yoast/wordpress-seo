@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 use RuntimeException;
@@ -10,11 +11,17 @@ use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
  * Interface for the Code Verifier User Meta Repository.
  *
  * This interface defines methods for managing code verifiers associated with users.
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
 interface Code_Verifier_User_Meta_Repository_Interface {
 
 	/**
 	 * Get the verification code for a user.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -26,6 +33,9 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 	/**
 	 * Store the verification code for a user.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $user_id    The user ID.
 	 * @param string $code       The code verifier.
 	 * @param int    $created_at The time the code was created.
@@ -36,6 +46,9 @@ interface Code_Verifier_User_Meta_Repository_Interface {
 
 	/**
 	 * Delete the verification code for a user.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID.
 	 *

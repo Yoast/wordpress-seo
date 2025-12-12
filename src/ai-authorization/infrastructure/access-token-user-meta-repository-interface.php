@@ -1,9 +1,13 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 /**
  * Interface Access_Token_User_Meta_Repository_Interface
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
