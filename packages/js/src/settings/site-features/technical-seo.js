@@ -12,7 +12,7 @@ export const technicalSeoFeatures = [
 			__( "Enable the %1$s XML sitemaps. A sitemap is a file that lists a website's essential pages to make sure search engines can find and crawl them.", "wordpress-seo" ),
 			"Yoast SEO"
 		),
-		learnMoreUrl: "https://yoa.st/2al",
+		learnMoreUrl: "https://yoa.st/2a-",
 		learnMoreLinkId: "link-xml-sitemaps",
 		learnMoreLinkAriaLabel: __( "XML sitemaps", "wordpress-seo" ),
 	},
