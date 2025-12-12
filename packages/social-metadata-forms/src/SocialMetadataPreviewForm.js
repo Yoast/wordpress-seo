@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import ImageSelect from "./components/ImageSelect";
+import SocialImageSelect from "./components/SocialImageSelect";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
@@ -22,14 +22,8 @@ const getCaretColor = ( active ) => {
 
 const CaretContainer = styled.div`
 	position: relative;
-
-	${ props => ! props.isPremium && `
-		.yoast-image-select__preview {
-			width: 130px;
-			min-height: 72px;
-			max-height: 130px;
-		}
-	` };
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
 `;
 
 CaretContainer.propTypes = {
@@ -109,7 +103,7 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	return ComponentWithCaret;
 };
 
-const ImageSelectWithCaret = withCaretStyle( ImageSelect );
+const ImageSelectWithCaret = withCaretStyle( SocialImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -251,10 +245,7 @@ class SocialMetadataPreviewForm extends Component {
 					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
-					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
-					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
-					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
-					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
+					id={ join( [ lowerCaseSocialMediumName, "image-select", idSuffix ] ) }
 					isPremium={ isPremium }
 				/>
 				<ReplacementVariableEditor

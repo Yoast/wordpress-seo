@@ -1,10 +1,8 @@
 /* eslint-disable complexity */
 import { __ } from "@wordpress/i18n";
 import React, { useCallback } from "react";
-import classNames from "classnames";
 import { noop } from "lodash";
-import { Alert, Button, Link, Root } from "@yoast/ui-library";
-import { PhotographIcon } from "@heroicons/react/outline";
+import { Alert, Root, ImageSelect } from "@yoast/ui-library";
 
 /**
  * Renders ImageSelect component.
@@ -26,7 +24,7 @@ import { PhotographIcon } from "@heroicons/react/outline";
  *
  * @returns {React.Component} The ImageSelect.
  */
-function ImageSelect( {
+function SocialImageSelect( {
 	label,
 	onClick = noop,
 	onRemoveImageClick = noop,
@@ -37,12 +35,9 @@ function ImageSelect( {
 	usingFallback = false,
 	imageAltText = "",
 	hasPreview,
-	imageUrlInputId,
-	selectImageButtonId = "",
-	replaceImageButtonId = "",
-	removeImageButtonId = "",
 	isDisabled = false,
 	defaultImageUrl = "",
+	id,
 } ) {
 	const imageSelected = usingFallback === false && imageUrl !== "";
 	const previewImageUrl = imageUrl || defaultImageUrl || "";
@@ -53,41 +48,25 @@ function ImageSelect( {
 		onRemoveImageClick();
 	}, [ onRemoveImageClick ] );
 
-	const buttonLabel = imageSelected ? __( "Replace image", "wordpress-seo" ) : __( "Select image", "wordpress-seo" );
-
 	return (
-		<Root>
-			<div
-				className="yoast-image-select"
-				onMouseEnter={ onMouseEnter }
-				onMouseLeave={ onMouseLeave }
-			>
-
-				<div>
-					<div className="yst-mb-2 yst-text-slate-900 yst-font-semibold" id={ `${imageUrlInputId}-label` }>{ label }</div>
+		<div
+			onMouseEnter={ onMouseEnter }
+			onMouseLeave={ onMouseLeave }
+		>
+			<Root>
+				<ImageSelect
+					label={ label }
+					imageUrl={ previewImageUrl }
+					selectButtonLabel={ __( "Select image", "wordpress-seo" ) }
+					replaceButtonLabel={ __( "Replace image", "wordpress-seo" ) }
+					onSelectImage={ onClick }
+					isDisabled={ isDisabled }
+					id={ id }
+				>
 					{ hasPreview &&
-					<button
-						className={ classNames( "yst-border-slate-300 yst-flex yst-justify-center yst-items-center yst-overflow-hidden yst-rounded-md yst-border",
-							"focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-							previewImageUrl ? "" : "yst-border-2 yst-border-dashed"
-						) }
-						id={ imageUrlInputId }
-						aria-labelledby={ `${imageUrlInputId}-label ${imageUrlInputId}` }
-						onClick={ onClick }
-						type="button"
-						disabled={ isDisabled }
-						style={ {
-							width: "130px",
-							minHeight: "72px",
-							maxHeight: "130px",
-						} }
-					>
-						{ previewImageUrl ? <img src={ previewImageUrl } alt={ imageAltText } className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full" /> : <PhotographIcon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-slate-400 yst-stroke-1" aria-hidden="true" />
-						}
-						<span className="screen-reader-text">
-							{ buttonLabel }
-						</span>
-					</button>
+					<ImageSelect.Preview
+						imageAltText={ imageAltText }
+					/>
 					}
 					{
 						showWarnings && <div role="alert" className="yst-mt-4">
@@ -98,32 +77,15 @@ function ImageSelect( {
 							}
 						</div>
 					}
-					<div className="yst-mt-3 yst-flex yst-gap-4 yst-justify-start">
-						<Button
-							variant="secondary"
-							id={ imageSelected ? replaceImageButtonId : selectImageButtonId }
-							onClick={ onClick }
-							disabled={ isDisabled }
-						>
-							{ buttonLabel }
-						</Button>
-						{ imageSelected && (
-							<Link
-								as="button"
-								id={ removeImageButtonId }
-								onClick={ removeImage }
-								disabled={ isDisabled }
-								className="yst-text-red-600"
-							>
-								{ __( "Remove image", "wordpress-seo" ) }
-							</Link>
-						) }
-					</div>
-				</div>
-			</div>
-		</Root>
+					<ImageSelect.Buttons
+						removeLabel={ __( "Remove image", "wordpress-seo" ) }
+						onRemoveImage={ removeImage }
+					/>
+				</ImageSelect>
+			</Root>
+		</div>
 	);
 }
 
 
-export default ImageSelect;
+export default SocialImageSelect;
