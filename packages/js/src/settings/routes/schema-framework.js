@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Code, ToggleField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
-import { useSelectSettings } from "../hooks";
+import { useSchemaToggleHandler, useSelectSettings } from "../hooks";
 import {
 	FormLayout,
 	RouteLayout,
@@ -16,10 +16,10 @@ import {
  * @returns {JSX.Element} The schema framework feature route.
  */
 const SchemaFramework = () => {
-	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoast.com/features/structured-data/" );
+	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
 	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
-	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://developer.yoast.com/features/schema/api/" );
+	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 
 	const { values, setFieldValue } = useFormikContext();
@@ -28,18 +28,14 @@ const SchemaFramework = () => {
 
 	const { enable_schema: enabledSchemaFramework } = values.wpseo;
 
-	const handleToggleChange = useCallback( ( newValue ) => {
-		if ( isSchemaDisabledProgrammatically && newValue ) {
-			// User is trying to enable but it's disabled programmatically (show info modal)
-			setIsProgrammaticallyDisabledModalOpen( true );
-		} else if ( newValue ) {
-			// User is enabling (just apply the change)
-			setFieldValue( "wpseo.enable_schema", true );
-		} else {
-			// User is trying to disable (show confirmation modal)
-			setIsDisableModalOpen( true );
-		}
-	}, [ isSchemaDisabledProgrammatically, setFieldValue ] );
+	const handleToggleChange = useSchemaToggleHandler( {
+		isDisabledProgrammatically: isSchemaDisabledProgrammatically,
+		confirmBeforeDisable: true,
+		fieldName: "wpseo.enable_schema",
+		setFieldValue,
+		onShowProgrammaticallyDisabledModal: useCallback( () => setIsProgrammaticallyDisabledModalOpen( true ), [] ),
+		onShowDisableConfirmModal: useCallback( () => setIsDisableModalOpen( true ), [] ),
+	} );
 
 	const handleDisableModalClose = useCallback( () => {
 		setIsDisableModalOpen( false );

@@ -8,7 +8,7 @@ import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
 import { FormLayout, RouteLayout, SchemaDisableConfirmationModal, SchemaProgrammaticallyDisabledModal } from "../components";
-import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { useDisabledMessage, useSchemaToggleHandler, useSelectSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
 
@@ -63,18 +63,14 @@ const FeatureCard = ( {
 	const [ isConfirmModalOpen, setIsConfirmModalOpen ] = useState( false );
 	const [ isProgrammaticallyDisabledModalOpen, setIsProgrammaticallyDisabledModalOpen ] = useState( false );
 
-	const handleToggleChange = useCallback( ( newValue ) => {
-		if ( isDisabledProgrammatically && newValue ) {
-			// User is trying to enable but it's disabled programmatically (show info modal)
-			setIsProgrammaticallyDisabledModalOpen( true );
-		} else if ( confirmBeforeDisable && ! newValue ) {
-			// User is trying to disable (show confirmation modal)
-			setIsConfirmModalOpen( true );
-		} else {
-			// Just apply the change
-			setFieldValue( name, newValue );
-		}
-	}, [ isDisabledProgrammatically, confirmBeforeDisable, setFieldValue, name ] );
+	const handleToggleChange = useSchemaToggleHandler( {
+		isDisabledProgrammatically,
+		confirmBeforeDisable,
+		fieldName: name,
+		setFieldValue,
+		onShowProgrammaticallyDisabledModal: useCallback( () => setIsProgrammaticallyDisabledModalOpen( true ), [] ),
+		onShowDisableConfirmModal: useCallback( () => setIsConfirmModalOpen( true ), [] ),
+	} );
 
 	const handleModalClose = useCallback( () => {
 		setIsConfirmModalOpen( false );
