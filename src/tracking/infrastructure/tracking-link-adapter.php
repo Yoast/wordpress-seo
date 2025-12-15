@@ -1,21 +1,21 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Task_List\Infrastructure;
+namespace Yoast\WP\SEO\Tracking\Infrastructure;
 
 /**
- * The adapter of links.
+ * The adapter of tracking links.
  */
-class Link_Adapter {
+class Tracking_Link_Adapter {
 
 	/**
-	 * Gets the enhanced URL.
+	 * Creates the tracking link for tasks.
 	 *
 	 * @param string|null $url The URL to enhance.
 	 *
 	 * @return string The enhanced URL.
 	 */
-	public function enhance_link( ?string $url ): ?string {
+	public function create_tracking_link_for_tasks( ?string $url ): ?string {
 		if ( $url === null ) {
 			return null;
 		}
@@ -23,7 +23,7 @@ class Link_Adapter {
 		return \add_query_arg(
 			[
 				'wpseo_tracked_option' => 'task_first_actioned_on',
-				'_wpnonce'             => \wp_create_nonce( 'wpseo_tracking_nonce' ),
+				'wpseo_tracking_nonce' => \wp_create_nonce( 'wpseo_tracking_nonce' ),
 			],
 			$url
 		);

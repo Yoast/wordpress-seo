@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Handles registering post type tasks.
+ * Handles tracking on page load.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -77,7 +77,7 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 			return;
 		}
 
-		if ( ! isset( $_GET['_wpnonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_GET['_wpnonce'] ) ), 'wpseo_tracking_nonce' ) ) {
+		if ( ! isset( $_GET['wpseo_tracking_nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_GET['wpseo_tracking_nonce'] ) ), 'wpseo_tracking_nonce' ) ) {
 			return;
 		}
 
