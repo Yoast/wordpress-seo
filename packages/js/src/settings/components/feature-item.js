@@ -82,7 +82,7 @@ export const FeatureItem = ( {
 		{ Icon && <Icon
 			className={ classNames(
 				"yst-transition yst-duration-200 yst-flex-shrink-0 yst-rounded-md yst-border-none",
-				shouldDimHeaderImage ? "yst-disabled-feature-icon yst-bg-slate-400" : "" ) } { ...svgAriaProps }
+				shouldDimHeaderImage ? "yst-disabled-feature-icon yst-bg-slate-400 yst-opacity-50" : "" ) } { ...svgAriaProps }
 		/> }
 		<div className="yst-grow">
 			<div className="yst-max-w-lg">
