@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Flow_Interceptor;
 
 /**
@@ -23,6 +22,6 @@ final class Setup_Flow_Interceptor_Get_Conditionals_Test extends Abstract_Setup_
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Google_Site_Kit_Feature_Conditional::class, Admin_Conditional::class ], Setup_Flow_Interceptor::get_conditionals() );
+		$this->assertEquals( [ Admin_Conditional::class ], Setup_Flow_Interceptor::get_conditionals() );
 	}
 }
