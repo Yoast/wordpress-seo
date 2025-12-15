@@ -3,8 +3,9 @@
 namespace Yoast\WP\SEO\Tracking\Infrastructure;
 
 use WPSEO_Option_Tracking_Only;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Conditionals\Tracking_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -22,14 +23,24 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * Holds the capability helper instance.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Capability_Helper $capability_helper
 	) {
-		$this->options_helper = $options_helper;
+		$this->options_helper    = $options_helper;
+		$this->capability_helper = $capability_helper;
 	}
 
 	/**
@@ -39,7 +50,7 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals(): array {
 		return [
-			Tracking_Enabled_Conditional::class,
+			Admin_Conditional::class,
 		];
 	}
 
@@ -58,18 +69,25 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function store_version_for_tracking() {
-		// @TODO: Verify that we can't use nonces.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are only going to do a string comparison.
-		if ( isset( $_GET['wpseo_tracked_version'] ) && \is_string( $_GET['wpseo_tracked_version'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are only going to do a string comparison.
-			$option_to_store = sanitize_text_field( wp_unslash( $_GET['wpseo_tracked_version'] ) );
-
-			// Verify that the option to store is one of our tracking options.
-			if ( ! in_array( $option_to_store, \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ), true ) ) {
-				return;
-			}
-
-			$this->options_helper->set( $option_to_store, \WPSEO_VERSION );
+		if ( ! isset( $_GET['wpseo_tracked_option'] ) || ! \is_string( $_GET['wpseo_tracked_option'] ) ) {
+			return;
 		}
+
+		if ( $this->capability_helper->current_user_can( 'wpseo_manage_options' ) !== true ) {
+			return;
+		}
+
+		if ( ! isset( $_GET['_wpnonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_GET['_wpnonce'] ) ), 'wpseo_tracking_nonce' ) ) {
+			return;
+		}
+
+		$option_to_store = \sanitize_text_field( \wp_unslash( $_GET['wpseo_tracked_option'] ) );
+
+		// Verify that the option to store is one of our tracking options.
+		if ( ! \in_array( $option_to_store, \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ), true ) ) {
+			return;
+		}
+
+		$this->options_helper->set( $option_to_store, \WPSEO_VERSION );
 	}
 }
