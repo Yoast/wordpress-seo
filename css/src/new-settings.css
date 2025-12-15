@@ -248,12 +248,20 @@ body.seo_page_wpseo_page_settings {
 	}
 
 
-	.yst-disabled-feature-icon {
-		linearGradient {
-			@apply yst-hidden;
+	.yst-feature-icon {
+		linearGradient stop{
+			transition: stop-color 200ms ease-in-out;
 		}
 		image {
-			@apply yst-hidden;
+			@apply yst-opacity-100 yst-transition-opacity yst-duration-200;
+		}
+	}
+	.yst-feature-icon--disabled {
+		linearGradient stop {
+			stop-color: transparent !important;
+		}
+		image {
+			@apply yst-opacity-0;
 		}
 	}
 
