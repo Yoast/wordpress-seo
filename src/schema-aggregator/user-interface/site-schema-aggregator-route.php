@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
+use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -146,12 +147,11 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$page      = ( $request->get_param( 'page' ) ?? 1 );
 		$per_page  = $this->config->get_per_page( $post_type );
 
-		$output = $this->cache_manager->get( $page, $per_page );
+		$output = $this->cache_manager->get( $post_type, $page, $per_page );
 		if ( $output === null ) {
 			try {
-				$result = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
-				$output = \str_replace( "\n", \PHP_EOL . "\t", $result );
-				$this->cache_manager->set( $page, $per_page, $result );
+				$output = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
+				$this->cache_manager->set( $post_type, $page, $per_page, $output );
 
 			} catch ( Exception $exception ) {
 				return new WP_Error(
