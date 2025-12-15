@@ -49,7 +49,13 @@ final class Schema_Piece_Collection_Test extends TestCase {
 	 */
 	public function test_add_single_schema_piece() {
 		$instance     = new Schema_Piece_Collection();
-		$schema_piece = new Schema_Piece( [ '@type' => 'Article', 'name' => 'Test Article' ], 'Article' );
+		$schema_piece = new Schema_Piece(
+			[
+				'@type' => 'Article',
+				'name'  => 'Test Article',
+			],
+			'Article'
+		);
 
 		$instance->add( $schema_piece );
 
@@ -66,9 +72,27 @@ final class Schema_Piece_Collection_Test extends TestCase {
 	public function test_add_multiple_schema_pieces() {
 		$instance = new Schema_Piece_Collection();
 
-		$piece1 = new Schema_Piece( [ '@type' => 'Article', 'name' => 'Article 1' ], 'Article' );
-		$piece2 = new Schema_Piece( [ '@type' => 'Person', 'name' => 'John Doe' ], 'Person' );
-		$piece3 = new Schema_Piece( [ '@type' => 'Organization', 'name' => 'Yoast' ], 'Organization' );
+		$piece1 = new Schema_Piece(
+			[
+				'@type' => 'Article',
+				'name'  => 'Article 1',
+			],
+			'Article'
+		);
+		$piece2 = new Schema_Piece(
+			[
+				'@type' => 'Person',
+				'name'  => 'John Doe',
+			],
+			'Person'
+		);
+		$piece3 = new Schema_Piece(
+			[
+				'@type' => 'Organization',
+				'name'  => 'Yoast',
+			],
+			'Organization'
+		);
 
 		$instance->add( $piece1 );
 		$instance->add( $piece2 );
@@ -88,7 +112,13 @@ final class Schema_Piece_Collection_Test extends TestCase {
 	 */
 	public function test_to_array_returns_array() {
 		$instance     = new Schema_Piece_Collection();
-		$schema_piece = new Schema_Piece( [ '@type' => 'WebPage', 'name' => 'Test Page' ], 'WebPage' );
+		$schema_piece = new Schema_Piece(
+			[
+				'@type' => 'WebPage',
+				'name'  => 'Test Page',
+			],
+			'WebPage'
+		);
 
 		$instance->add( $schema_piece );
 
@@ -105,10 +135,34 @@ final class Schema_Piece_Collection_Test extends TestCase {
 	public function test_collection_maintains_order() {
 		$instance = new Schema_Piece_Collection();
 
-		$piece1 = new Schema_Piece( [ '@type' => 'Article', 'headline' => 'Article 1' ], 'Article' );
-		$piece2 = new Schema_Piece( [ '@type' => 'Person', 'name' => 'Person 1' ], 'Person' );
-		$piece3 = new Schema_Piece( [ '@type' => 'Organization', 'name' => 'Org 1' ], 'Organization' );
-		$piece4 = new Schema_Piece( [ '@type' => 'WebPage', 'name' => 'Page 1' ], 'WebPage' );
+		$piece1 = new Schema_Piece(
+			[
+				'@type'    => 'Article',
+				'headline' => 'Article 1',
+			],
+			'Article'
+		);
+		$piece2 = new Schema_Piece(
+			[
+				'@type' => 'Person',
+				'name'  => 'Person 1',
+			],
+			'Person'
+		);
+		$piece3 = new Schema_Piece(
+			[
+				'@type' => 'Organization',
+				'name'  => 'Org 1',
+			],
+			'Organization'
+		);
+		$piece4 = new Schema_Piece(
+			[
+				'@type' => 'WebPage',
+				'name'  => 'Page 1',
+			],
+			'WebPage'
+		);
 
 		$instance->add( $piece1 );
 		$instance->add( $piece2 );
@@ -129,8 +183,20 @@ final class Schema_Piece_Collection_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor_with_pieces() {
-		$piece1 = new Schema_Piece( [ '@type' => 'Article', 'headline' => 'Test Article' ], 'Article' );
-		$piece2 = new Schema_Piece( [ '@type' => 'Person', 'name' => 'Test Person' ], 'Person' );
+		$piece1 = new Schema_Piece(
+			[
+				'@type'    => 'Article',
+				'headline' => 'Test Article',
+			],
+			'Article'
+		);
+		$piece2 = new Schema_Piece(
+			[
+				'@type' => 'Person',
+				'name'  => 'Test Person',
+			],
+			'Person'
+		);
 
 		$instance = new Schema_Piece_Collection( [ $piece1, $piece2 ] );
 
