@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application\Filtering;
 
+use Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Property_Filter\Base_Schema_Node_Property_Filter;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository_Interface;
 
@@ -66,6 +67,9 @@ class Default_Filter implements Filtering_Strategy_Interface {
 				$properties_filter_class_name = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Property_Filter\\' . $schema_piece->get_type() . '_Schema_Node_Property_Filter';
 				if ( \class_exists( $properties_filter_class_name ) && \is_a( $properties_filter_class_name, 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Property_Filter\Schema_Node_Property_Filter_Interface', true ) ) {
 					$schema_piece = ( new $properties_filter_class_name() )->filter_properties( $schema_piece );
+				}
+				else {
+					$schema_piece = ( new Base_Schema_Node_Property_Filter() )->filter_properties( $schema_piece );
 				}
 				$filtered_schema[] = $schema_piece;
 			}
