@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { STORE_NAME } from "../../constants";
 import { BaseCard } from "./base-card";
-import { DuplicatePostSvg } from "../images/duplicate-post-svg";
+import { ReactComponent as DuplicatePostSvg } from "../../../../images/duplicate-post-plans.svg";
 import { CardLink } from "../actions/card-link";
 import { useMemo } from "@wordpress/element";
 
