@@ -305,7 +305,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 26.6 =
 
-Release date: 2025-12-16
+Release date: 2025-12-15
+
+Yoast SEO 26.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
