@@ -41,6 +41,10 @@ class Site_Schema_Robots_Txt_Integration implements Integration_Interface {
 		if ( (string) \get_option( 'blog_public' ) === '0' ) {
 			return;
 		}
+
+		if ( \apply_filters( 'wpseo_disable_robots_schemamap', false ) ) {
+			return;
+		}
 		$robots_txt_helper->add_schemamap( \esc_url( \rest_url( Main::API_V1_NAMESPACE . '/' . Site_Schema_Aggregator_Xml_Route::ROUTE_PREFIX . '/get-xml' ) ) );
 	}
 }

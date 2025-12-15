@@ -293,8 +293,8 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 *
 	 * @covers ::add_allow
 	 *
-	 * @param array $schemamaps The schemamaps to be passed to the function.
-	 * @param array $expected   The expected result.
+	 * @param array<array<string>> $schemamaps The schemamaps to be passed to the function.
+	 * @param array<array<string>> $expected   The expected result.
 	 *
 	 * @return void
 	 */
@@ -309,7 +309,7 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_add_schemamap.
 	 *
-	 * @return array Data to use for test_add_schemamap.
+	 * @return array<array<string>> Data to use for test_add_schemamap.
 	 */
 	public static function add_schemamap_dataprovider() {
 		$single_schemamap     = [
