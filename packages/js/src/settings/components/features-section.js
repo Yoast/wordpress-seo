@@ -27,7 +27,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 		<fieldset className="yst-group">
 			<button
 				type="button"
-				className={ classNames( "yst-flex yst-justify-between yst-items-center yst-py-3.5 yst-border-b-slate-200 yst-border-b yst-w-full",
+				className={ classNames( "yst-flex yst-justify-between yst-items-center yst-py-3.5 yst-border-b-slate-200 yst-border-b yst-w-full group-last:yst-pb-0 group-first:yst-pt-0",
 					isOpen ? "" : "group-last:yst-border-none"
 				) }
 				onClick={ handleToggle }

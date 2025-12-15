@@ -247,8 +247,14 @@ body.seo_page_wpseo_page_settings {
 		z-index:99;
 	}
 
-	.yst-disabled-feature-icon linearGradient {
-		@apply yst-hidden;
+
+	.yst-disabled-feature-icon {
+		linearGradient {
+			@apply yst-hidden;
+		}
+		image {
+			@apply yst-hidden;
+		}
 	}
 
 	/* RTL */

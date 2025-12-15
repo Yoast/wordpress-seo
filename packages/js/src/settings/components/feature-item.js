@@ -81,8 +81,8 @@ export const FeatureItem = ( {
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
 		{ Icon && <Icon
 			className={ classNames(
-				"yst-transition yst-duration-200 yst-flex-shrink-0",
-				shouldDimHeaderImage ? "yst-disabled-feature-icon yst-bg-slate-400 yst-rounded-md" : "" ) } { ...svgAriaProps }
+				"yst-transition yst-duration-200 yst-flex-shrink-0 yst-rounded-md yst-border-none",
+				shouldDimHeaderImage ? "yst-disabled-feature-icon yst-bg-slate-400" : "" ) } { ...svgAriaProps }
 		/> }
 		<div className="yst-grow">
 			<div className="yst-max-w-lg">
