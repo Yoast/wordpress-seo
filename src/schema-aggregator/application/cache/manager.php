@@ -93,7 +93,7 @@ class Manager {
 	 */
 	public function set( string $post_type, int $page, int $per_page, array $data ): bool {
 		try {
-			if ( $page < 1 || $per_page < 1 || ! \is_array( $data ) ) {
+			if ( $page < 1 || $per_page < 1 || empty( $data ) ) {
 				return false;
 			}
 
