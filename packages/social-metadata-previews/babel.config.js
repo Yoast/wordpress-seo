@@ -3,7 +3,9 @@ module.exports = {
 		[
 			"@babel/preset-env",
 			{
-				targets: { node: "current" },
+				targets: {
+					browsers: [ "extends @yoast/browserslist-config" ],
+				},
 			},
 		],
 		"@babel/preset-react",
