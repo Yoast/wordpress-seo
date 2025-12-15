@@ -30,7 +30,20 @@ const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading 
 	};
 
 	if ( [ "link", "add" ].includes( type ) && href ) {
-		buttonProps.href = href;
+		// Check if href is pointing to the same page (current URL without hash).
+		const currentUrl = window.location.href.split( "#" )[ 0 ];
+		const targetUrl = href.split( "#" )[ 0 ];
+
+		if ( currentUrl === targetUrl ) {
+			// Same page, use onClick to reload with new URL.
+			// This is to ensure that pointing to a different hash on the same page triggers a new page load which is needed for tracking.
+			buttonProps.onClick = () => {
+				window.location.href = href;
+			};
+		} else {
+			// Different page, use href for navigation.
+			buttonProps.href = href;
+		}
 	} else {
 		buttonProps.onClick = handleOnClick;
 	}
