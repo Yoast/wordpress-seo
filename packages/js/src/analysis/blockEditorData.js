@@ -401,12 +401,21 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Listens to the Gutenberg data.
+	 * Listens to the Gutenberg data and rendering mode changes.
 	 *
 	 * @returns {void}
 	 */
 	subscribeToGutenberg() {
-		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this._previousRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+		this.subscriber = debounce( () => {
+			const currentRenderingMode = select( "core/editor" ).getRenderingMode && select( "core/editor" ).getRenderingMode();
+			if ( currentRenderingMode !== this._previousRenderingMode ) {
+				this._previousRenderingMode = currentRenderingMode;
+				this._refresh();
+				return;
+			}
+			this.refreshYoastSEO();
+		}, 500 );
 		subscribe( this.subscriber );
 	}
 
