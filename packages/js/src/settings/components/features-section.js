@@ -38,7 +38,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 					<span className="yst-sr-only">{ `${isOpen ? __( "Collapse", "wordpress-seo" ) : __( "Expand", "wordpress-seo" )} ${title}` }</span>
 				</span>
 			</button>
-			{ isOpen && <ul className="yst-mb-2">
+			{ isOpen && <ul className="yst-mb-2 group-last:yst-mb-0">
 				{ features.map( ( feature ) => (
 					<li key={ feature.id } className="yst-border-b-slate-200 yst-border-b last:yst-border-0 yst-py-4">
 						<FeatureItem { ...feature } />
