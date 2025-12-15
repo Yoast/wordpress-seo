@@ -9,6 +9,7 @@ use SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode;
 use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
 use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
@@ -32,14 +33,37 @@ class Schema_Configuration {
 	private $product_helper;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * Schema_Configuration constructor.
 	 *
-	 * @param Woocommerce_Helper $woocommerce_helper The WooCommerce helper.
-	 * @param Product_Helper     $product_helper     The product helper.
+	 * @param Woocommerce_Helper  $woocommerce_helper The WooCommerce helper.
+	 * @param Product_Helper      $product_helper     The product helper.
+	 * @param WPSEO_Addon_Manager $addon_manager      The addon manager.
+	 * @param Options_Helper      $options_helper     The options helper.
 	 */
-	public function __construct( Woocommerce_Helper $woocommerce_helper, Product_Helper $product_helper ) {
+	public function __construct(
+		Woocommerce_Helper $woocommerce_helper,
+		Product_Helper $product_helper,
+		WPSEO_Addon_Manager $addon_manager,
+		Options_Helper $options_helper
+	) {
 		$this->woocommerce_helper = $woocommerce_helper;
 		$this->product_helper     = $product_helper;
+		$this->addon_manager      = $addon_manager;
+		$this->options_helper     = $options_helper;
 	}
 
 	/**
@@ -59,13 +83,11 @@ class Schema_Configuration {
 	 *
 	 * @return array<string, array<string, bool|string>> The schema API integrations status.
 	 */
-	private function get_schema_api_integrations(): array {
-		$addon_manager = new WPSEO_Addon_Manager();
-
+	public function get_schema_api_integrations(): array {
 		$woocommerce_seo_file      = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$woocommerce_active        = $this->woocommerce_helper->is_active();
 		$woocommerce_seo_active    = \is_plugin_active( $woocommerce_seo_file );
-		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
+		$woocommerce_seo_installed = $this->addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -98,11 +120,18 @@ class Schema_Configuration {
 	}
 
 	/**
-	 * Gets the filtered schema output.
+	 * Checks if the schema is disabled programmatically via the wpseo_json_ld_output filter.
 	 *
-	 * @return string|array<string> The filtered schema output.
+	 * Only returns true if schema is enabled via the option (toggle) but disabled by external code.
+	 *
+	 * @return bool Whether schema is disabled by external code.
 	 */
-	public function is_schema_disabled_programmatically() {
+	public function is_schema_disabled_programmatically(): bool {
+		// If schema is disabled via the option, this returns false since it's the user's choice.
+		if ( ! $this->options_helper->get( 'enable_schema', true ) ) {
+			return false;
+		}
+
 		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		];

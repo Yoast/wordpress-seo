@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Integrations_Page;
 use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -25,13 +24,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group  integrations
  */
 final class Integrations_Page_Integration_Test extends TestCase {
-
-	/**
-	 * The woocommerce helper.
-	 *
-	 * @var Mockery\MockInterface|Woocommerce_Helper
-	 */
-	private $woocommerce_helper;
 
 	/**
 	 * The options' helper.
@@ -101,7 +93,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		}
 		$this->options_helper                       = Mockery::mock( Options_Helper::class );
 		$this->admin_asset_manager                  = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->woocommerce_helper                   = Mockery::mock( Woocommerce_Helper::class );
 		$this->elementor_conditional                = Mockery::mock( Elementor_Activated_Conditional::class );
 		$this->jetpack_conditional                  = Mockery::mock( Jetpack_Conditional::class );
 		$this->site_kit_configuration               = Mockery::mock( Site_Kit::class );
@@ -111,7 +102,6 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->instance = new Integrations_Page(
 			$this->admin_asset_manager,
 			$this->options_helper,
-			$this->woocommerce_helper,
 			$this->elementor_conditional,
 			$this->jetpack_conditional,
 			$this->site_kit_configuration,
@@ -165,13 +155,36 @@ final class Integrations_Page_Integration_Test extends TestCase {
 		$this->admin_asset_manager->expects()->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->expects()->enqueue_style( 'monorepo' );
 		$this->admin_asset_manager->expects()->enqueue_script( 'integrations-page' );
-		$this->woocommerce_helper->expects()->is_active()->andReturnFalse();
+
+		$schema_api_integrations = [
+			'woocommerce'     => [
+				'isInstalled'          => false,
+				'isActive'             => true,
+				'isPrerequisiteActive' => false,
+				'activationLink'       => 'nonce',
+			],
+			'tec'             => [
+				'isActive' => false,
+			],
+			'ssp'             => [
+				'isActive' => false,
+			],
+			'wp-recipe-maker' => [
+				'isActive' => false,
+			],
+			'edd'             => [
+				'isActive'  => false,
+				'isPremium' => false,
+			],
+		];
+		$this->schema_configuration->expects( 'get_schema_api_integrations' )->andReturn( $schema_api_integrations );
+
 		Monkey\Functions\expect( 'get_site_url' )
 			->andReturn( 'https://www.example.com' );
 
-		Monkey\Functions\expect( 'is_plugin_active' )->times( 5 )->andReturnTrue();
-		Monkey\Functions\expect( 'wp_nonce_url' )->times( 3 )->andReturn( 'nonce' );
-		Monkey\Functions\expect( 'self_admin_url' )->times( 3 )->andReturn( 'https://www.example.com' );
+		Monkey\Functions\expect( 'is_plugin_active' )->times( 4 )->andReturnTrue();
+		Monkey\Functions\expect( 'wp_nonce_url' )->times( 2 )->andReturn( 'nonce' );
+		Monkey\Functions\expect( 'self_admin_url' )->times( 2 )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'plugins_url' )->andReturn( 'https://www.example.com' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( 'https://www.example.com' );
 
