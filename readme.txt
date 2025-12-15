@@ -303,6 +303,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.7 =
+
+Release date: 2025-12-30
+
+#### Enhancements
+
+* Changes the Schema output to render `Article` entities even when the `publisher` property is left empty.
+* Rolls out the Site Kit integration for all Yoast users.
+
+#### Bugfixes
+
+* Fixes a bug where the Yoast AI consent modal would incorrectly pop up when interacting with unrelated buttons or fields on Profile setting page.
+
+#### Other
+
+* Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
+
 = 26.6 =
 
 Release date: 2025-12-15
@@ -326,26 +343,6 @@ Yoast SEO 26.6 brings more enhancements and bugfixes. [Find more information abo
 * Improves the behavior of the upgrade button in the Yoast sidebar and admin menus.
 * Improves the focus behavior for some buttons and links in the Yoast SEO admin pages.
 * Redesigns the AI Brand Insights button in the Yoast sidebar and admin menus.
-
-= 26.5 =
-
-Release date: 2025-12-02
-
-**New:** Yoast SEO includes the necessary updates to support the Site Kit by Google integration for all Premium users, with Yoast SEO (free) support following soon. [Read the full release post here](https://yoa.st/54u).
-
-#### Enhancements
-
-* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
-* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added.
-
-#### Bugfixes
-
-* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox.
-
-#### Other
-
-* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
-* Sets the _WordPress tested up to_ version to 6.9.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
