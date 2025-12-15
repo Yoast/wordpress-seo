@@ -35,8 +35,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					?>
 				</div>
 
-				<div class="yoast-sidebar__product"
-					style="background-color: <?php echo ( $is_woocommerce_active ) ? 'rgb(14, 30, 101)' : 'rgb(166, 30, 105)'; ?>;">
+				<div class="yoast-sidebar__product<?php echo ( $is_woocommerce_active ) ? ' woocommerce' : ''; ?>">
 					<figure class="product-image">
 						<figure class="product-image">
 							<img
@@ -67,91 +66,93 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							echo ( $is_woocommerce_active ) ? \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast WooCommerce SEO' ) : \sprintf( \esc_html__( '%1$s%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 						?>
 					</h2>
-					<span>
-					<?php
-						echo ( $is_woocommerce_active ) ? \esc_html__( 'SEO that scales with your product catalog.', 'wordpress-seo' ) : \esc_html__( 'Now with Local, News & Video SEO + 1 Google Docs seat!', 'wordpress-seo' );
-						echo '<ul>';
-						echo '<li>' . \esc_html__( 'AI tools included', 'wordpress-seo' ) . '</li>';
-						echo '<li>';
-						/* translators: %1$s expands to "Yoast SEO academy". */
-						\printf( \esc_html__( '%1$s access', 'wordpress-seo' ), 'Yoast SEO academy' );
-						echo '</li>';
-						echo '<li>' . \esc_html__( '24/7 support', 'wordpress-seo' ) . '</li>';
-						echo '</ul>';
-					?>
-					<p class="plugin-buy-button">
-						<a class="yoast-button-upsell" data-action="load-nfd-ctb"
+					<div>
+						<p class="info-header">
+						<?php
+							echo ( $is_woocommerce_active ) ? \esc_html__( "Grow your store's visibility!", 'wordpress-seo' ) : \esc_html__( 'Spend less time on SEO tasks!', 'wordpress-seo' );
+						?>
+						</p>
+						<p class="info">
+						<?php
+						echo ( $is_woocommerce_active ) ? \esc_html__( 'Help ready-to-buy shoppers and search engines find your product.', 'wordpress-seo' ) : \esc_html__( 'Optimize your site faster, smarter, and with more confidence.', 'wordpress-seo' );
+						?>
+						</p>
+						<ul class="yoast-features-list">
+						<?php
+						if ( $is_woocommerce_active ) {
+							echo '<li>' . \esc_html__( 'Add product details to help your listings stand out', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Make sure search engines show the right version of your product page', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions with AI', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Receive clear SEO and readability guidance to optimize your products', 'wordpress-seo' ) . '</li>';
+						}
+						else {
+							echo '<li>' . \esc_html__( 'Create optimized SEO titles & meta descriptions in seconds', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Apply AI suggestions to improve content in 1 click', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Manage redirects with ease and without extra plugins', 'wordpress-seo' ) . '</li>';
+							echo '<li>' . \esc_html__( 'Optimize pages for multiple keywords with guidance', 'wordpress-seo' ) . '</li>';
+						}
+						?>
+						</ul>
+						<p class="plugin-buy-button">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb"
 							data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank"
 							href="<?php echo \esc_url( $shortlink ); ?>">
-							<?php
-							if (
-								\YoastSEO()->classes->get( Promotion_Manager::class )
-									->is( 'black-friday-promotion' ) ) {
-								echo \esc_html__( 'Buy now for 30% off', 'wordpress-seo' );
-							}
-							else {
-								echo \esc_html__( 'Buy now', 'wordpress-seo' );
-							}
-							?>
-							<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
-						</a>
-					</p>
-					<p class="yoast-price-micro-copy">
 						<?php
-							echo \esc_html__( '30-day money back guarantee.', 'wordpress-seo' );
+						if (
+							\YoastSEO()->classes->get( Promotion_Manager::class )
+								->is( 'black-friday-promotion' ) ) {
+							echo \esc_html__( 'Buy now for 30% off', 'wordpress-seo' );
+						}
+						else {
+							echo \esc_html__( 'Buy now', 'wordpress-seo' );
+						}
 						?>
-					</p>
-					<hr class="yoast-upsell-hr" aria-hidden="true">
-					<div class="review-container">
-						<a href="https://www.g2.com/products/yoast-yoast/reviews" target="_blank" rel="noopener">
-								<span class="rating">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22"
-										width="22"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/g2_logo_white_optm.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20"
-										width="20"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20"
-										width="20"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20"
-										width="20"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20"
-										width="20"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="20"
-										width="20"
-										src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-half.svg' ); ?>">
-									<span class="rating-text">4.6 / 5</span>
-
-								</span>
-						</a>
+							<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
+							</a>
+						</p>
+						<p class="yoast-price-micro-copy">
+							<?php
+							echo ( $is_woocommerce_active ) ? \esc_html__( 'Less friction. Smarter optimization.', 'wordpress-seo' ) : \esc_html__( 'Less friction. Faster publishing.', 'wordpress-seo' );
+							?>
+						</p>
+						<hr class="yoast-upsell-hr" aria-hidden="true">
+						<ul class="yoast-guarantees-list">
+							<li>
+								<?php
+								echo \esc_html__( '30-day money back guarantee', 'wordpress-seo' );
+								?>
+							</li>
+							<li>
+								<?php
+								echo \esc_html__( '24/7 support', 'wordpress-seo' );
+								?>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="yoast-sidebar__section">
 				<h2>
-					<?php
-					\esc_html_e( 'Learn SEO', 'wordpress-seo' );
-					?>
+				<?php
+				\esc_html_e( 'Learn SEO', 'wordpress-seo' );
+				?>
 				</h2>
 				<p>
-					<?php
-					$academy_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/3t6' );
+				<?php
+				$academy_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/3t6' );
 
-					/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
-					\printf( \esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . \esc_url( $academy_shortlink ) . '" target="_blank"><strong>Yoast SEO academy</strong></a>' );
-					echo '<br/>';
-					\esc_html_e( 'We have both free and premium online courses to learn everything you need to know about SEO.', 'wordpress-seo' );
-					?>
+				/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
+				\printf( \esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . \esc_url( $academy_shortlink ) . '" target="_blank"><strong>Yoast SEO academy</strong></a>' );
+				echo '<br/>';
+				\esc_html_e( 'We have both free and premium online courses to learn everything you need to know about SEO.', 'wordpress-seo' );
+				?>
 				</p>
 				<p>
 					<a href="<?php echo \esc_url( $academy_shortlink ); ?>" style="font-weight: 500" target="_blank">
-						<?php
-						/* translators: %1$s expands to Yoast SEO academy */
-						\printf( \esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
-						?>
+								<?php
+								/* translators: %1$s expands to Yoast SEO academy */
+								\printf( \esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
+								?>
 						<span class="screen-reader-text">
 							<?php
 							/* translators: Hidden accessibility text. */

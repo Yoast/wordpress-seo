@@ -141,12 +141,15 @@ class First_Time_Configuration_Notice_Helper {
 	/**
 	 * Whether all steps of the first-time configuration have been finished.
 	 *
+	 * @param bool $for_task_list Whether this is called for the task list.
+	 *
 	 * @return bool Whether the first-time configuration has been finished.
 	 */
-	private function is_first_time_configuration_finished() {
-		$configuration_finished_steps = $this->options_helper->get( 'configuration_finished_steps', [] );
+	public function is_first_time_configuration_finished( $for_task_list = false ) {
+		$configuration_finished_steps     = $this->options_helper->get( 'configuration_finished_steps', [] );
+		$number_of_steps_of_completed_ftc = ( $for_task_list ) ? 4 : 3;
 
-		return \count( $configuration_finished_steps ) === 3;
+		return \count( $configuration_finished_steps ) === $number_of_steps_of_completed_ftc;
 	}
 
 	/**
