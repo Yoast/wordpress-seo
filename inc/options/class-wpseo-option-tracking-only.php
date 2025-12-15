@@ -63,13 +63,17 @@ class WPSEO_Option_Tracking_Only extends WPSEO_Option {
 				case 'task_list_first_opened_on':
 				case 'task_first_actioned_on':
 					// These should be set only once and never changed again (unless completely reset to default).
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] === '' ) {
-						$clean[ $key ] = '';
-					}
-					elseif ( isset( $dirty[ $key ] ) && $old[ $key ] === $this->get_defaults()[ $key ] ) {
+
+					if ( isset( $dirty[ $key ] ) && $old[ $key ] === $this->get_defaults()[ $key ] ) {
+						// Allow setting it for the first time.
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
+					elseif ( isset( $dirty[ $key ] ) && $dirty[ $key ] === $this->get_defaults()[ $key ] ) {
+						// Allow resetting to default.
+						$clean[ $key ] = $dirty[ $key ];
+					}
 					else {
+						// Otherwise keep old value.
 						$clean[ $key ] = $old[ $key ];
 					}
 
