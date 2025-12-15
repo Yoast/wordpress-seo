@@ -311,8 +311,8 @@ Yoast SEO 26.6 brings more enhancements and bugfixes. [Find more information abo
 
 #### Enhancements
 
-* Improves the llms.txt structure by moving the sitemap mention into an option section at the end of the llms.txt file.
 * Introduces a task list for reminding site admins about relevant SEO tasks.
+* Improves the llms.txt structure by moving the sitemap mention into an option section at the end of the llms.txt file.
 
 #### Bugfixes
 
