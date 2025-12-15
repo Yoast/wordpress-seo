@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
+use WP_Comment;
 use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
@@ -45,6 +46,20 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 			return true;
 		}
 
+		// Check if this is the actual Hello World post by checking the first comment.
+		$comments = \get_comments(
+			[
+				'post_id' => 1,
+				'number'  => 1,
+				'order'   => 'ASC',
+			]
+		);
+
+		if ( empty( $comments ) || \is_a( $comments[0], WP_Comment::class ) === false || $comments[0]->comment_author_email !== 'wapuu@wordpress.example' ) {
+			// Not the Hello World post, so consider task completed.
+			return true;
+		}
+
 		return $post->post_date !== $post->post_modified;
 	}
 
@@ -68,7 +83,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		$post = \get_post( 1 );
 
 		if ( $post instanceof WP_Post ) {
-			$result = \wp_delete_post( $post->ID, true );
+			$result = \wp_delete_post( $post->ID );
 
 			if ( ! $result ) {
 				throw new Complete_Hello_World_Task_Exception();
