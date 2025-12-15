@@ -44,6 +44,8 @@
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-react-jsx": "^7.17.3",
     "@babel/preset-env": "^7.16.11",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@yoast/browserslist-config": "^1.2.5",
     "@yoast/eslint-config": "^8.1.0",
     "babel-plugin-styled-components": "^2.0.6",
