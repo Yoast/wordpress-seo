@@ -42,7 +42,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
 		getDisabledAIFixesButtons: () => ( { keyphraseDistributionAIFixes: "Your text is too long." } ),
-		getBlocks: () => blocks,
+		getEditorBlocks: () => blocks,
 		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "text" : "visual",
 		getEditorMode: () => editorMode,
 		getEditorType: () => editorType,

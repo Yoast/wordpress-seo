@@ -72,7 +72,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( shouldShowUpsell ) {
 			// Gutenberg editor
 			if ( editorType === "blockEditor" ) {
-				const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+				const blocks = getAllBlocks( select( "core/editor" ).getEditorBlocks() );
 				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 				return {
 					isEnabled: allVisual,
@@ -95,7 +95,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 		// Block editor visual mode check
 		if ( editorType === "blockEditor" ) {
-			const blocks = getAllBlocks( select( "core/block-editor" ).getBlocks() );
+			const blocks = getAllBlocks( select( "core/editor" ).getEditorBlocks() );
 			const allVisual = blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 			if ( ! allVisual ) {
 				return {
