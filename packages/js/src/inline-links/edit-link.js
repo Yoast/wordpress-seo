@@ -109,6 +109,11 @@ export const link = {
 				speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
 			}
 
+			/**
+			 * Renders the link edit component.
+			 *
+			 * @returns {JSX.Element} The rendered component.
+			 */
 			render() {
 				const {
 					isActive,
