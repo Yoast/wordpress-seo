@@ -325,7 +325,7 @@ Release date: 2025-12-30
 
 Release date: 2025-12-15
 
-Yoast SEO 26.6 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Yoast SEO now includes an SEO task list. [Read the full release post here](https://yoa.st/release-15-12-25).
 
 #### Enhancements
 
