@@ -318,6 +318,7 @@ Release date: 2025-12-30
 
 #### Other
 
+* Hides the llms.txt task in multisites, since the feature is disabled in such setups.
 * Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
 
 = 26.6 =
