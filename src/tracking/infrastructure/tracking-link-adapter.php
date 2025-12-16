@@ -22,7 +22,7 @@ class Tracking_Link_Adapter {
 
 		return \add_query_arg(
 			[
-				'wpseo_tracked_option' => 'task_first_actioned_on',
+				'wpseo_tracked_action' => 'task_first_actioned_on',
 				'wpseo_tracking_nonce' => \wp_create_nonce( 'wpseo_tracking_nonce' ),
 			],
 			$url

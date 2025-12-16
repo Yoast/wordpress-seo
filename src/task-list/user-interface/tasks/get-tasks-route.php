@@ -6,10 +6,10 @@ use Exception;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Repository;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Get tasks route.
@@ -45,11 +45,11 @@ final class Get_Tasks_Route implements Route_Interface {
 	private $capability_helper;
 
 	/**
-	 * Holds the options helper instance.
+	 * Holds the action tracker instance.
 	 *
-	 * @var Options_Helper
+	 * @var Action_Tracker
 	 */
-	private $options_helper;
+	private $action_tracker;
 
 	/**
 	 * Returns the needed conditionals.
@@ -67,16 +67,16 @@ final class Get_Tasks_Route implements Route_Interface {
 	 *
 	 * @param Tasks_Repository  $tasks_repository  The repository for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
-	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Action_Tracker    $action_tracker    The action tracker.
 	 */
 	public function __construct(
 		Tasks_Repository $tasks_repository,
 		Capability_Helper $capability_helper,
-		Options_Helper $options_helper
+		Action_Tracker $action_tracker
 	) {
 		$this->tasks_repository  = $tasks_repository;
 		$this->capability_helper = $capability_helper;
-		$this->options_helper    = $options_helper;
+		$this->action_tracker    = $action_tracker;
 	}
 
 	/**
@@ -123,7 +123,7 @@ final class Get_Tasks_Route implements Route_Interface {
 	 */
 	public function get_tasks(): WP_REST_Response {
 		try {
-			$this->options_helper->set( 'task_list_first_opened_on', \WPSEO_VERSION );
+			$this->action_tracker->track_version_for_performed_action( 'task_list_first_opened_on' );
 
 			$tasks_data = $this->tasks_repository->get_tasks_data();
 		} catch ( Exception $exception ) {

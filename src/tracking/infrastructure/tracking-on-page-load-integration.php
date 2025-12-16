@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tracking\Infrastructure;
 use WPSEO_Option_Tracking_Only;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Handles tracking on page load.
@@ -16,11 +16,11 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Tracking_On_Page_Load_Integration implements Integration_Interface {
 
 	/**
-	 * Holds the options helper instance.
+	 * Holds the action tracker instance.
 	 *
-	 * @var Options_Helper
+	 * @var Action_Tracker
 	 */
-	private $options_helper;
+	private $action_tracker;
 
 	/**
 	 * Holds the capability helper instance.
@@ -32,14 +32,14 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Action_Tracker    $action_tracker    The action tracker.
 	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
+		Action_Tracker $action_tracker,
 		Capability_Helper $capability_helper
 	) {
-		$this->options_helper    = $options_helper;
+		$this->action_tracker    = $action_tracker;
 		$this->capability_helper = $capability_helper;
 	}
 
@@ -60,16 +60,16 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		\add_action( 'admin_init', [ $this, 'store_version_for_tracking' ] );
+		\add_action( 'admin_init', [ $this, 'store_version_on_page_load' ] );
 	}
 
 	/**
-	 * Stores the tracking option taken from the URL.
+	 * Stores the current version for the tracking option taken from the URL.
 	 *
 	 * @return void
 	 */
-	public function store_version_for_tracking() {
-		if ( ! isset( $_GET['wpseo_tracked_option'] ) || ! \is_string( $_GET['wpseo_tracked_option'] ) ) {
+	public function store_version_on_page_load() {
+		if ( ! isset( $_GET['wpseo_tracked_action'] ) || ! \is_string( $_GET['wpseo_tracked_action'] ) ) {
 			return;
 		}
 
@@ -81,13 +81,13 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 			return;
 		}
 
-		$option_to_store = \sanitize_text_field( \wp_unslash( $_GET['wpseo_tracked_option'] ) );
+		$action_to_track = \sanitize_text_field( \wp_unslash( $_GET['wpseo_tracked_action'] ) );
 
 		// Verify that the option to store is one of our tracking options.
-		if ( ! \in_array( $option_to_store, \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ), true ) ) {
+		if ( ! \in_array( $action_to_track, \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ), true ) ) {
 			return;
 		}
 
-		$this->options_helper->set( $option_to_store, \WPSEO_VERSION );
+		$this->action_tracker->track_version_for_performed_action( $action_to_track );
 	}
 }

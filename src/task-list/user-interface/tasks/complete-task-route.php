@@ -7,12 +7,12 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Task_Not_Found_Exception;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Cached_Tasks_Collector;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Tasks route.
@@ -48,11 +48,11 @@ final class Complete_Task_Route implements Route_Interface {
 	private $capability_helper;
 
 	/**
-	 * Holds the options helper instance.
+	 * Holds the action tracker instance.
 	 *
-	 * @var Options_Helper
+	 * @var Action_Tracker
 	 */
-	private $options_helper;
+	private $action_tracker;
 
 	/**
 	 * Returns the needed conditionals.
@@ -70,16 +70,16 @@ final class Complete_Task_Route implements Route_Interface {
 	 *
 	 * @param Tasks_Collector   $tasks_collector   The collector for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
-	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Action_Tracker    $action_tracker    The action tracker.
 	 */
 	public function __construct(
 		Tasks_Collector $tasks_collector,
 		Capability_Helper $capability_helper,
-		Options_Helper $options_helper
+		Action_Tracker $action_tracker
 	) {
 		$this->tasks_collector   = $tasks_collector;
 		$this->capability_helper = $capability_helper;
-		$this->options_helper    = $options_helper;
+		$this->action_tracker    = $action_tracker;
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class Complete_Task_Route implements Route_Interface {
 	 */
 	public function complete_task( WP_REST_Request $request ): WP_REST_Response {
 		try {
-			$this->options_helper->set( 'task_first_actioned_on', \WPSEO_VERSION );
+			$this->action_tracker->track_version_for_performed_action( 'task_first_actioned_on' );
 
 			$task_name = $request->get_param( 'options' )['task'];
 			$task      = $this->tasks_collector->get_completeable_task( $task_name );
