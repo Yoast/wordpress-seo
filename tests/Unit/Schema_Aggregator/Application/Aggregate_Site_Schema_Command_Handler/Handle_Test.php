@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Aggregate_Site_S
 use Generator;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 
 /**
  * Tests the Aggregate_Site_Schema_Command_Handler handle method.
@@ -21,12 +22,12 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 	 *
 	 * @dataProvider handle_orchestration_provider
 	 *
-	 * @param int                 $page              The page number.
-	 * @param int                 $per_page          The items per page.
-	 * @param string              $post_type         The post type.
-	 * @param array<Schema_Piece> $schema_pieces     The schema pieces to return.
-	 * @param array<string>       $aggregated_pieces The aggregated pieces.
-	 * @param array<string>       $composed_response The composed response.
+	 * @param int                     $page              The page number.
+	 * @param int                     $per_page          The items per page.
+	 * @param string                  $post_type         The post type.
+	 * @param Schema_Piece_Collection $schema_pieces     The schema pieces to return.
+	 * @param Schema_Piece_Collection $aggregated_pieces The aggregated pieces.
+	 * @param array<string>           $composed_response The composed response.
 	 *
 	 * @return void
 	 */
@@ -34,8 +35,8 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 		int $page,
 		int $per_page,
 		string $post_type,
-		array $schema_pieces,
-		array $aggregated_pieces,
+		Schema_Piece_Collection $schema_pieces,
+		Schema_Piece_Collection $aggregated_pieces,
 		array $composed_response
 	) {
 		$command = new Aggregate_Site_Schema_Command( $page, $per_page, $post_type );
@@ -73,11 +74,11 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 
 		$this->schema_piece_repository
 			->expects( 'get' )
-			->andReturn( [] );
+			->andReturn( new Schema_Piece_Collection() );
 
 		$this->schema_piece_aggregator
 			->expects( 'aggregate' )
-			->andReturn( [] );
+			->andReturn( new Schema_Piece_Collection() );
 
 		$this->schema_response_composer
 			->expects( 'compose' )
@@ -101,8 +102,8 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 			'page'              => 1,
 			'per_page'          => 50,
 			'post_type'         => 'post',
-			'schema_pieces'     => [ $schema_piece_1, $schema_piece_2 ],
-			'aggregated_pieces' => [ 'aggregated' => 'data' ],
+			'schema_pieces'     => new Schema_Piece_Collection( [ $schema_piece_1, $schema_piece_2 ] ),
+			'aggregated_pieces' => new Schema_Piece_Collection( [ $schema_piece_1 ] ),
 			'composed_response' => [ 'response' => 'data' ],
 		];
 
@@ -110,8 +111,8 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 			'page'              => 2,
 			'per_page'          => 100,
 			'post_type'         => 'page',
-			'schema_pieces'     => [],
-			'aggregated_pieces' => [],
+			'schema_pieces'     => new Schema_Piece_Collection(),
+			'aggregated_pieces' => new Schema_Piece_Collection(),
 			'composed_response' => [],
 		];
 
@@ -119,8 +120,8 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 			'page'              => 1,
 			'per_page'          => 25,
 			'post_type'         => 'product',
-			'schema_pieces'     => [],
-			'aggregated_pieces' => [ 'product' => 'schema' ],
+			'schema_pieces'     => new Schema_Piece_Collection(),
+			'aggregated_pieces' => new Schema_Piece_Collection( [ $schema_piece_1 ] ),
 			'composed_response' => [ 'final' => 'response' ],
 		];
 	}
