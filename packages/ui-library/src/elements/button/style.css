@@ -46,6 +46,65 @@
 			visited:hover:yst-text-white;
 		}
 
+		.yst-button--ai-primary {
+			@apply
+			yst-text-white
+			yst-ps-2
+			yst-gap-1.5
+			yst-bg-ai-500;
+
+			border-image: none;
+
+			&:focus {
+				@apply yst-text-white;
+			}
+
+			&:hover {
+				@apply yst-bg-ai-600;
+			}
+			> svg > path {
+				@apply yst-stroke-white;
+			}
+		}
+
+		.yst-button--ai-secondary {
+			@apply
+			yst-bg-transparent
+			yst-relative
+			yst-text-slate-800
+			yst-ps-2
+			yst-gap-1.5
+			hover:yst-bg-ai-100
+			focus:yst-text-slate-800;
+
+			border-image: linear-gradient(to bottom right, var(--yst-ai-color-pink-300), var(--yst-ai-color-purple-300)) 1;
+
+			&:before {
+				@apply
+				yst-absolute
+				yst-inset-0
+				yst-bg-ai-300;
+
+				content: '';
+				border-radius: inherit; /* Match the border radius of the container */
+				padding: 1px; /* Width of the gradient border */
+				-webkit-mask:
+				linear-gradient(white, white) content-box,
+				linear-gradient(white, white) border-box;
+				mask:
+				linear-gradient(white, white) content-box,
+				linear-gradient(white, white) border-box;
+				-webkit-mask-composite: destination-out;
+				mask-composite: exclude;
+
+			}
+			&:after {
+				@apply yst-absolute yst-inset-px yst-rounded-md yst-bg-white;
+				content: '';
+				z-index: -1;
+			}
+		}
+
 		.yst-button--secondary {
 			@apply
 			yst-text-slate-800
@@ -69,7 +128,10 @@
 
 			hover:yst-text-primary-800
 			focus:yst-text-primary-800
-			focus:yst-outline-primary-700
+			/* Prevent focus outline on mouse click, show only for keyboard navigation */
+			focus:yst-outline-none
+			focus-visible:yst-outline
+			focus-visible:yst-outline-primary-700
 			visited:yst-text-primary-800
 			visited:hover:yst-text-primary-800;
 		}
