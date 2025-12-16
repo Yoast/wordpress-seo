@@ -86,10 +86,10 @@ function InlineLinkUI( {
 		let start = cursorStart;
 		let end = cursorStart;
 
-		const hasLinkAtPosition = ( pos ) =>
-			formats[ pos ]?.some( f => f?.type === "core/link" && f?.attributes?.url === url );
+		const hasLinkAtPosition = ( position ) =>
+			formats[ position ]?.some( f => f?.type === "core/link" && f?.attributes?.url === url );
 
-		// Adjust if cursor is at the edge of the link
+		// Adjust if cursor is positioned immediately after a link (the edge of the link)
 		if ( ! hasLinkAtPosition( start ) && start > 0 && hasLinkAtPosition( start - 1 ) ) {
 			start--;
 			end = start;
@@ -232,45 +232,85 @@ function InlineLinkUI( {
 	};
 
 	/**
+	 * Inserts a new link at the current cursor position.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {Object} linkData The link data containing title and URL.
+	 * @param {string} newUrl The URL.
+	 * @returns {void}
+	 */
+	const insertNewLink = ( format, linkData, newUrl ) => {
+		const newText = getNewText( linkData, newUrl );
+		const toInsert = applyFormat(
+			// Applies the link format to the entire text range
+			create( { text: newText } ), format, 0, newText.length );
+		onChange( insert( value, toInsert ) );
+	};
+
+	/**
+	 * Updates an existing link with new format and optionally new text.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {string} text The new text for the link.
+	 * @returns {void}
+	 */
+	const updateExistingLink = ( format, text ) => {
+		const { start: linkStart, end: linkEnd } = findLinkBoundaries( value );
+		const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
+		const hasTextChanged = typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd;
+
+		let newValue;
+		if ( hasTextChanged ) {
+			// If text has changed, use WordPress remove/insert pattern for proper serialization
+			const valueWithRemoved = remove( value, linkStart, linkEnd );
+			valueWithRemoved.start = linkStart;
+			valueWithRemoved.end = linkStart;
+			const toInsert = applyFormat( create( { text } ), format, 0, text.length );
+			newValue = insert( valueWithRemoved, toInsert );
+		} else {
+			// If only URL changed, keep the existing text
+			newValue = applyFormat( value, format );
+			newValue.start = newValue.end;
+		}
+		newValue.activeFormats = [];
+		onChange( newValue );
+	};
+
+	/**
+	 * Normalizes the link rel attributes based on toggle rules.
+	 *
+	 * @param {Object} linkData The link data to normalize.
+	 * @returns {Object} The normalized link data.
+	 */
+	const normalizeRelAttributes = ( linkData ) => {
+		if ( isLinkNoFollow( linkData ) ) {
+			linkData.noFollow = true;
+		}
+		if ( isSponsored( linkData ) ) {
+			linkData.sponsored = false;
+		}
+		return linkData;
+	};
+
+	/**
 	 * Handles the change of the link.
+	 *
 	 * @param {Object} nextValue The next link URL.
 	 * @returns {void}
 	 */
 	const onChangeLink = ( nextValue ) => {
-		/*
-		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
-		 * the link is ready to be applied.
-		 */
-		nextValue = {
-			...nextLinkValue,
-			...nextValue,
-		};
+		// Merge with values from state
+		nextValue = { ...nextLinkValue, ...nextValue };
 
-		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
 		const didToggleSetting = isToggleSetting( nextValue );
-
-		/*
-		 * A link rel can only be one of three combinations:
-		 * - only nofollow
-		 * - both nofollow and sponsored
-		 * - neither nofollow or sponsored
-		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
-		 */
-		if ( isLinkNoFollow( nextValue ) ) {
-			nextValue.noFollow = true;
-		}
-		if ( isSponsored( nextValue ) ) {
-			nextValue.sponsored = false;
-		}
+		nextValue = normalizeRelAttributes( nextValue );
 
 		if ( didToggleSettingForNewLink( nextValue ) ) {
-			/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
 			setNextLinkValue( nextValue );
 			return;
 		}
 
 		const newUrl = prependHTTP( nextValue.url );
-
 		const format = createLinkFormat( {
 			url: newUrl,
 			type: nextValue.type,
@@ -282,53 +322,14 @@ function InlineLinkUI( {
 		} );
 
 		if ( shouldInsertLink() ) {
-			const newText = getNewText( nextValue, newUrl );
-			const toInsert = applyFormat(
-				create( { text: newText } ),
-				format,
-				0,
-				newText.length
-			);
-			onChange( insert( value, toInsert ) );
+			insertNewLink( format, nextValue, newUrl );
 		} else {
-			let newValue;
-			const text = nextValue.title;
-
-			// Find the current link boundaries
-			const { start: linkStart, end: linkEnd } = findLinkBoundaries( value );
-			const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
-
-			if ( typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd ) {
-				// Text has changed - use WordPress remove/insert pattern for proper serialization
-				// First, remove the old link text
-				const valueWithRemoved = remove( value, linkStart, linkEnd );
-				// Set cursor position to where we want to insert
-				valueWithRemoved.start = linkStart;
-				valueWithRemoved.end = linkStart;
-				// Create the new formatted text
-				const toInsert = applyFormat(
-					create( { text } ),
-					format,
-					0,
-					text.length
-				);
-				// Insert the new text at the cursor position
-				newValue = insert( valueWithRemoved, toInsert );
-				newValue.activeFormats = [];
-			} else {
-				// Only URL/settings changed, keep the existing text
-				newValue = applyFormat( value, format );
-				newValue.start = newValue.end;
-				newValue.activeFormats = [];
-			}
-			onChange( newValue );
+			updateExistingLink( format, nextValue.title );
 		}
 
-		/* Focus should only be shifted back to the formatted segment when the URL is submitted. */
 		if ( ! didToggleSetting ) {
 			stopAddingLink();
 		}
-
 		actionCompleteMessage( newUrl );
 	};
 
