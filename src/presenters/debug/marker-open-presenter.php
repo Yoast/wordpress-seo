@@ -23,16 +23,18 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! \apply_filters( 'wpseo_debug_markers', true ) ) {
 			return '';
 		}
-		$version_info = 'v' . \WPSEO_VERSION;
+		$product_name = \esc_html( $this->helpers->product->get_name() );
+		$is_premium   = $this->helpers->product->is_premium();
 
-		if ( $this->helpers->product->is_premium() ) {
-			$version_info = $this->construct_version_info();
-		}
+		$version = ( $is_premium ) ? $this->construct_version_info() : 'v' . \WPSEO_VERSION;
+
+		$url = ( $is_premium ) ? 'https://yoast.com/product/yoast-seo-premium-wordpress/' : 'https://yoast.com/product/yoast-seo-wordpress/';
 
 		return \sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
-			\esc_html( $this->helpers->product->get_name() ),
-			$version_info
+			'<!-- This site is optimized with the %1$s %2$s - %3$s -->',
+			$product_name,
+			$version,
+			$url
 		);
 	}
 
