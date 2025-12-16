@@ -2,7 +2,7 @@
 import { Popover, withSpokenMessages } from "@wordpress/components";
 import { useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { applyFormat, create, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
+import { applyFormat, create, getActiveFormat, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
 import { prependHTTP } from "@wordpress/url";
 import { noop, uniqueId } from "lodash";
 import PropTypes from "prop-types";
@@ -70,45 +70,38 @@ function InlineLinkUI( {
 		},
 	} );
 
+	// Get the active link format using WordPress utility
+	const activeLinkFormat = getActiveFormat( value, "core/link" );
+
 	/**
-	 * Finds the boundaries of a link format in the RichText value by matching URL.
+	 * Finds the boundaries of the active link format in the RichText value.
 	 *
 	 * @param {Object} richTextValue The RichText value object.
-	 * @param {string} url           The URL to match for finding the link boundaries.
 	 *
 	 * @returns {{start: number, end: number}} The start and end positions of the link.
 	 */
-	const findLinkBoundaries = ( richTextValue, url ) => {
-		let start = richTextValue.start;
-		let end = richTextValue.start;
+	const findLinkBoundaries = ( richTextValue ) => {
+		const { formats, start: cursorStart, text } = richTextValue;
+		const url = activeLinkFormat?.attributes?.url;
+		let start = cursorStart;
+		let end = cursorStart;
 
-		// Helper to check if a position has a link with the specified URL
-		const hasLinkWithUrl = ( formats ) => {
-			if ( ! formats || ! Array.isArray( formats ) ) {
-				return false;
-			}
-			return formats.some( format =>
-				format?.type === "core/link" &&
-				format?.attributes?.url === url
-			);
-		};
+		const hasLinkAtPosition = ( pos ) =>
+			formats[ pos ]?.some( f => f?.type === "core/link" && f?.attributes?.url === url );
 
-		// Make sure we're starting from a position that has the link format
-		// If the cursor is at the start or end of the link, adjust it
-		if ( ! hasLinkWithUrl( richTextValue.formats?.[ start ] ) &&
-			start > 0 &&
-			hasLinkWithUrl( richTextValue.formats?.[ start - 1 ] ) ) {
-			start = start - 1;
+		// Adjust if cursor is at the edge of the link
+		if ( ! hasLinkAtPosition( start ) && start > 0 && hasLinkAtPosition( start - 1 ) ) {
+			start--;
 			end = start;
 		}
 
-		// Go backwards to find the start of the link
-		while ( start > 0 && hasLinkWithUrl( richTextValue.formats?.[ start - 1 ] ) ) {
+		// Find start boundary
+		while ( start > 0 && hasLinkAtPosition( start - 1 ) ) {
 			start--;
 		}
 
-		// Go forwards to find the end of the link
-		while ( end < ( richTextValue.text?.length || 0 ) && hasLinkWithUrl( richTextValue.formats?.[ end ] ) ) {
+		// Find end boundary
+		while ( end < ( text?.length || 0 ) && hasLinkAtPosition( end ) ) {
 			end++;
 		}
 
@@ -117,8 +110,8 @@ function InlineLinkUI( {
 
 	// Get the current link text by finding the boundaries of the active link format
 	let currentText = "";
-	if ( isActive && activeAttributes.url ) {
-		const { start, end } = findLinkBoundaries( value, activeAttributes.url );
+	if ( isActive && activeLinkFormat ) {
+		const { start, end } = findLinkBoundaries( value );
 		if ( start < end ) {
 			currentText = value.text.substring( start, end );
 		}
@@ -301,11 +294,8 @@ function InlineLinkUI( {
 			let newValue;
 			const text = nextValue.title;
 
-			// Use the new URL if it changed, otherwise use the current URL
-			const urlToMatch = nextValue.url || linkValue.url;
-
 			// Find the current link boundaries
-			const { start: linkStart, end: linkEnd } = findLinkBoundaries( value, urlToMatch );
+			const { start: linkStart, end: linkEnd } = findLinkBoundaries( value );
 			const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
 
 			if ( typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd ) {
