@@ -88,4 +88,11 @@ interface Task_Interface {
 	 * @return Call_To_Action_Entry|null
 	 */
 	public function get_enhanced_call_to_action(): ?Call_To_Action_Entry;
+
+	/**
+	 * Returns whether the task is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid(): bool;
 }
