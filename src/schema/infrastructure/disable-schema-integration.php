@@ -25,6 +25,10 @@ class Disable_Schema_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		\add_filter( 'wpseo_json_ld_output', '__return_false' );
+		if ( ! \is_admin() ) {
+			// No need to run this on admin pages, which would actually break some functionality in the schema settings page.
+			// Specifically, in the schema settings page, we want to be able to understand whether schema has been disabled programmatically too.
+			\add_filter( 'wpseo_json_ld_output', '__return_false' );
+		}
 	}
 }

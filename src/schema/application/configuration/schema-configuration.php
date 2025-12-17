@@ -127,11 +127,6 @@ class Schema_Configuration {
 	 * @return bool Whether schema is disabled by external code.
 	 */
 	public function is_schema_disabled_programmatically(): bool {
-		// If schema is disabled via the option, this returns false since it's the user's choice.
-		if ( ! $this->options_helper->get( 'enable_schema', true ) ) {
-			return false;
-		}
-
 		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		];
