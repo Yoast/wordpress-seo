@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Tracking\Infrastructure\Tracking_On_Page_Load;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 use Yoast\WP\SEO\Tracking\Infrastructure\Tracking_On_Page_Load_Integration;
@@ -39,6 +40,13 @@ abstract class Abstract_Tracking_On_Page_Load_Integration_Test extends TestCase 
 	protected $capability_helper;
 
 	/**
+	 * Holds the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -48,10 +56,12 @@ abstract class Abstract_Tracking_On_Page_Load_Integration_Test extends TestCase 
 
 		$this->action_tracker    = Mockery::mock( Action_Tracker::class );
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Tracking_On_Page_Load_Integration(
 			$this->action_tracker,
-			$this->capability_helper
+			$this->capability_helper,
+			$this->options_helper
 		);
 	}
 }

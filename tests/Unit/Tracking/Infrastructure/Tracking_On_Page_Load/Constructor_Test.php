@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Tracking\Infrastructure\Tracking_On_Page_Load;
 
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
@@ -27,6 +28,10 @@ final class Constructor_Test extends Abstract_Tracking_On_Page_Load_Integration_
 		$this->assertInstanceOf(
 			Capability_Helper::class,
 			$this->getPropertyValue( $this->instance, 'capability_helper' )
+		);
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 	}
 }

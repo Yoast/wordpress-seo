@@ -2,9 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tracking\Infrastructure;
 
-use WPSEO_Option_Tracking_Only;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
@@ -30,17 +30,27 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 	private $capability_helper;
 
 	/**
+	 * Holds the options helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Action_Tracker    $action_tracker    The action tracker.
 	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Options_Helper    $options_helper    The options helper.
 	 */
 	public function __construct(
 		Action_Tracker $action_tracker,
-		Capability_Helper $capability_helper
+		Capability_Helper $capability_helper,
+		Options_Helper $options_helper
 	) {
 		$this->action_tracker    = $action_tracker;
 		$this->capability_helper = $capability_helper;
+		$this->options_helper    = $options_helper;
 	}
 
 	/**
@@ -84,7 +94,7 @@ class Tracking_On_Page_Load_Integration implements Integration_Interface {
 		$action_to_track = \sanitize_text_field( \wp_unslash( $_GET['wpseo_tracked_action'] ) );
 
 		// Verify that the option to store is one of our tracking options.
-		if ( ! \in_array( $action_to_track, \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() ), true ) ) {
+		if ( ! \in_array( $action_to_track, $this->options_helper->get_tracking_only_options(), true ) ) {
 			return;
 		}
 
