@@ -35,7 +35,7 @@ abstract class Abstract_Task implements Task_Interface {
 	 *
 	 * @var Call_To_Action_Entry
 	 */
-	protected $enhanced_call_to_action;
+	private $enhanced_call_to_action;
 
 	/**
 	 * Returns the task ID.
