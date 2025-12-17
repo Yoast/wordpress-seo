@@ -31,6 +31,6 @@ class Schema_Disabled_Conditional implements Conditional {
 	 * @return bool `true` when the schema is disabled.
 	 */
 	public function is_met() {
-		return ! $this->options->get( 'enable_schema', true );
+		return $this->options->get( 'enable_schema', true ) === false;
 	}
 }
