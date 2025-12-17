@@ -165,8 +165,8 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	 */
 	private function handle_schema_maps( $robots_txt_content ) {
 		$registered_schemamaps = $this->robots_txt_helper->get_schemamap_rules();
-		foreach ( $registered_schemamaps as $schamamap ) {
-			$robots_txt_content .= self::SCHEMAMAP_FIELD . ': ' . $schamamap . \PHP_EOL;
+		foreach ( $registered_schemamaps as $schemamap ) {
+			$robots_txt_content .= self::SCHEMAMAP_FIELD . ': ' . $schemamap . \PHP_EOL;
 		}
 
 		return $robots_txt_content;
