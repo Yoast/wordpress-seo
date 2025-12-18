@@ -1,7 +1,7 @@
 import { useCallback } from "@wordpress/element";
 
 /**
- * Custom hook for handling schema toggle changes with programmatic disable and confirmation modals.
+ * Custom hook for handling toggle changes with programmatic disable and confirmation modals.
  *
  * @param {Object} options The options.
  * @param {boolean} options.isDisabledProgrammatically Whether the toggle is disabled programmatically.
@@ -12,7 +12,7 @@ import { useCallback } from "@wordpress/element";
  * @param {Function} options.onShowDisableConfirmModal Callback to show the disable confirmation modal.
  * @returns {Function} The toggle change handler.
  */
-const useSchemaToggleHandler = ( {
+const useToggleHandlerWithModals = ( {
 	isDisabledProgrammatically,
 	confirmBeforeDisable,
 	fieldName,
@@ -41,4 +41,4 @@ const useSchemaToggleHandler = ( {
 	] );
 };
 
-export default useSchemaToggleHandler;
+export default useToggleHandlerWithModals;

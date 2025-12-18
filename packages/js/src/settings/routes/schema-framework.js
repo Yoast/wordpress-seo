@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Code, ToggleField } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
-import { useSchemaToggleHandler, useSelectSettings } from "../hooks";
+import { useToggleHandlerWithModals, useSelectSettings } from "../hooks";
 import {
 	FormLayout,
 	RouteLayout,
@@ -28,7 +28,7 @@ const SchemaFramework = () => {
 
 	const { enable_schema: enabledSchemaFramework } = values.wpseo;
 
-	const handleToggleChange = useSchemaToggleHandler( {
+	const handleToggleChange = useToggleHandlerWithModals( {
 		isDisabledProgrammatically: isSchemaDisabledProgrammatically,
 		confirmBeforeDisable: true,
 		fieldName: "wpseo.enable_schema",

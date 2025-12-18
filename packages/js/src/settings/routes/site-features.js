@@ -8,7 +8,7 @@ import { useFormikContext } from "formik";
 import { get } from "lodash";
 import PropTypes from "prop-types";
 import { FormLayout, RouteLayout, SchemaDisableConfirmationModal, SchemaProgrammaticallyDisabledModal } from "../components";
-import { useDisabledMessage, useSchemaToggleHandler, useSelectSettings } from "../hooks";
+import { useDisabledMessage, useToggleHandlerWithModals, useSelectSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
 
@@ -66,7 +66,7 @@ const FeatureCard = ( {
 	const showConfirmationModal = Boolean( disableConfirmationModal );
 	const showProgrammaticallyDisabledModal = Boolean( programmaticallyDisabledModal );
 
-	const handleToggleChange = useSchemaToggleHandler( {
+	const handleToggleChange = useToggleHandlerWithModals( {
 		isDisabledProgrammatically: showProgrammaticallyDisabledModal,
 		confirmBeforeDisable: showConfirmationModal,
 		fieldName: name,
