@@ -61,7 +61,7 @@ export const TaskModal = ( {
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
 					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
 					<div>
-						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
+						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
 							{ title }
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1">
