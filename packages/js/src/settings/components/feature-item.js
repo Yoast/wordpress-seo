@@ -3,11 +3,28 @@ import { useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { useDisabledMessage, useSelectSettings } from "../hooks";
-import { get } from "lodash";
+import { get, has } from "lodash";
 import { Button, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import { LockOpenIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
+import contentOptimizationGradient from "../../../../../images/gradient-content-optimization.png";
+import siteStructureGradient from "../../../../../images/gradient-site-structure.png";
+import technicalSeoGradient from "../../../../../images/gradient-technical-seo.png";
+import socialSharingGradient from "../../../../../images/gradient-social-sharing.png";
+import toolsGradient from "../../../../../images/gradient-tools.png";
+import aiToolsGradient from "../../../../../images/gradient-ai-tools.svg";
+
+
+const sectionGradients = {
+	"ai-tools": aiToolsGradient,
+	"content-optimization": contentOptimizationGradient,
+	"site-structure": siteStructureGradient,
+	"technical-seo": technicalSeoGradient,
+	"social-sharing": socialSharingGradient,
+	tools: toolsGradient,
+};
+
 
 /**
  * @param {string} id The ID.
@@ -67,6 +84,7 @@ export const FeatureItem = ( {
 	learnMoreLinkAriaLabel,
 	children,
 	Icon,
+	featureSectionId,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const { isDisabled, disabledSetting } = useDisabledMessage( { name } );
@@ -77,13 +95,21 @@ export const FeatureItem = ( {
 	const value = useMemo( () => get( values, name, false ), [ values, name ] );
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => shouldUpsell || isDisabled || ! value, [ isDisabled, shouldUpsell, value ] );
-
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
-		{ Icon && <Icon
-			className={ classNames(
-				"yst-feature-icon yst-flex-shrink-0 yst-rounded-md yst-border-none yst-disabled-feature yst-bg-slate-400",
-				shouldDimHeaderImage ? "yst-feature-icon--disabled yst-opacity-50" : "" ) } { ...svgAriaProps }
-		/> }
+		{ Icon && has( sectionGradients, featureSectionId ) &&
+			<div className="yst-relative">
+				<img
+					src={ sectionGradients[ featureSectionId ] } className={ classNames(
+						shouldDimHeaderImage ? "yst-opacity-0" : "",
+						"yst-w-[42px] yst-h-[42px] yst-transition-opacity yst-duration-200 yst-rounded-md" ) } alt=""
+				/>
+				<Icon
+					className={ classNames(
+						"yst-absolute yst-top-0 yst-flex-shrink-0 yst-rounded-md yst-border-none yst-transition-colors yst-duration-200",
+						shouldDimHeaderImage ? "yst-opacity-50 yst-bg-slate-400" : "yst-bg-transparent" ) }
+					{ ...svgAriaProps }
+				/></div>
+		}
 		<div className="yst-grow">
 			<div className="yst-max-w-lg">
 				<Title as="h3" className="yst-mb-1">{ title }</Title>
