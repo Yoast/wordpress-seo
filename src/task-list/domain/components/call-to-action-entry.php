@@ -65,6 +65,33 @@ class Call_To_Action_Entry {
 	}
 
 	/**
+	 * Returns the task's label.
+	 *
+	 * @return string|null
+	 */
+	public function get_label(): ?string {
+		return $this->label;
+	}
+
+	/**
+	 * Returns the task's type.
+	 *
+	 * @return string|null
+	 */
+	public function get_type(): ?string {
+		return $this->type;
+	}
+
+	/**
+	 * Returns the task's href.
+	 *
+	 * @return string|null
+	 */
+	public function get_href(): ?string {
+		return $this->href;
+	}
+
+	/**
 	 * Returns an array representation of the call to action data.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
