@@ -12,6 +12,7 @@ import {
 	contentOptimizationFeatures,
 	toolsFeatures,
 } from "../site-features";
+import { values as getValues } from "lodash";
 
 /**
  * @returns {JSX.Element} The site preferences route.
@@ -29,35 +30,21 @@ const SiteFeatures = () => {
 		navigate( "/llms-txt" );
 	}, [] );
 
-	const aiToolsFeaturesUpdated = aiToolsFeatures.map( feature => {
-		if ( feature.name === "wpseo.enable_llms_txt" ) {
-			return {
-				...feature,
-				children: <LlmsTxtButton onClick={ handleLlmsTxtNavigate } />,
-			};
-		}
-		return feature;
-	} );
+	aiToolsFeatures.llmsTxt.children = <LlmsTxtButton onClick={ handleLlmsTxtNavigate } />;
+	technicalSeoFeatures.xmlSitemaps.children = initialEnableXmlSitemap && enableXmlSitemap && <XmlSitemapButton href={ sitemapUrl } />;
 
-	const technicalSeoFeaturesUpdated = technicalSeoFeatures.map( feature => {
-		if ( feature.name === "wpseo.enable_xml_sitemap" ) {
-			return {
-				...feature,
-				children: initialEnableXmlSitemap && enableXmlSitemap && <XmlSitemapButton href={ sitemapUrl } />,
-			};
-		}
-		return feature;
-	} );
+	if ( isPremium ) {
+		siteStructureFeatures.internalLinkingSuggestions.learnMoreUrl = "https://yoa.st/17g";
+	}
 
-	const siteStructureFeaturesUpdated = siteStructureFeatures.map( feature => {
-		if ( feature.name === "wpseo.enable_link_suggestions" && isPremium ) {
-			return {
-				...feature,
-				learnMoreUrl: "https://yoa.st/17g",
-			};
-		}
-		return feature;
-	} );
+	const featureSections = [
+		{ id: "ai-tools", title: __( "AI tools", "wordpress-seo" ), features: aiToolsFeatures },
+		{ id: "content-optimization", title: __( "Content optimization", "wordpress-seo" ), features: contentOptimizationFeatures },
+		{ id: "site-structure", title: __( "Site structure", "wordpress-seo" ), features: siteStructureFeatures },
+		{ id: "technical-seo", title: __( "Technical SEO", "wordpress-seo" ), features: technicalSeoFeatures },
+		{ id: "social-sharing", title: __( "Social sharing", "wordpress-seo" ), features: socialSharingFeatures },
+		{ id: "tools", title: __( "Tools", "wordpress-seo" ), features: toolsFeatures },
+	];
 
 	return (
 		<RouteLayout
@@ -66,12 +53,14 @@ const SiteFeatures = () => {
 		>
 			<FormLayout>
 				<div className="yst-max-w-2xl">
-					<FeaturesSection id="ai-tools" title={ __( "AI tools", "wordpress-seo" ) } features={ aiToolsFeaturesUpdated } />
-					<FeaturesSection id="content-optimization" title={ __( "Content optimization", "wordpress-seo" ) } features={ contentOptimizationFeatures } />
-					<FeaturesSection id="site-structure" title={ __( "Site structure", "wordpress-seo" ) } features={ siteStructureFeaturesUpdated } />
-					<FeaturesSection id="technical-seo" title={ __( "Technical SEO", "wordpress-seo" ) } features={ technicalSeoFeaturesUpdated }  />
-					<FeaturesSection id="social-sharing" title={ __( "Social sharing", "wordpress-seo" ) } features={ socialSharingFeatures }  />
-					<FeaturesSection id="tools" title={ __( "Tools", "wordpress-seo" ) } features={ toolsFeatures }  />
+					{ featureSections.map( ( section ) => (
+						<FeaturesSection
+							key={ section.id }
+							id={ section.id }
+							title={ section.title }
+							features={ getValues( section.features ) }
+						/>
+					) ) }
 				</div>
 			</FormLayout>
 		</RouteLayout>
