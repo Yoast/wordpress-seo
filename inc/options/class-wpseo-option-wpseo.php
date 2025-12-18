@@ -147,7 +147,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_tracking_last_interaction_stage'             => '',
 		'site_kit_tracking_setup_widget_temporarily_dismissed' => 'no',
 		'site_kit_tracking_setup_widget_permanently_dismissed' => 'no',
-		'google_site_kit_feature_enabled'                      => false,
+		'google_site_kit_feature_enabled'                      => false, // No longer used.
 		'ai_free_sparks_started_on'                            => null,
 		'enable_llms_txt'                                      => false,
 		'last_updated_on'                                      => false,
