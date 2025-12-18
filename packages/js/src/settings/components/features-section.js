@@ -41,7 +41,7 @@ export const FeaturesSection = ( { id, title, features = [] } ) => {
 			{ isOpen && <ul className="yst-mb-2 group-last:yst-mb-0">
 				{ features.map( ( feature ) => (
 					<li key={ feature.id } className="yst-border-b-slate-200 yst-border-b last:yst-border-0 yst-py-4 group-last:last:yst-pb-0">
-						<FeatureItem { ...feature } />
+						<FeatureItem { ...feature } featureSectionId={ id } />
 					</li>
 				) ) }
 			</ul> }
