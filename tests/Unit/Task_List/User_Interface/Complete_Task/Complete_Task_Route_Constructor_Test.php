@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\User_Interface\Complete_Task;
 
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Test class for the constructor.
@@ -29,6 +30,10 @@ final class Complete_Task_Route_Constructor_Test extends Abstract_Complete_Task_
 		$this->assertInstanceOf(
 			Capability_Helper::class,
 			$this->getPropertyValue( $this->instance, 'capability_helper' )
+		);
+		$this->assertInstanceOf(
+			Action_Tracker::class,
+			$this->getPropertyValue( $this->instance, 'action_tracker' )
 		);
 	}
 }

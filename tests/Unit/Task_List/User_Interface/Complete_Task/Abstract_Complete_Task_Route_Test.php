@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
 use Yoast\WP\SEO\Task_List\User_Interface\Tasks\Complete_Task_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Base class for the complete task route tests.
@@ -32,6 +33,13 @@ abstract class Abstract_Complete_Task_Route_Test extends TestCase {
 	protected $capability_helper;
 
 	/**
+	 * The action tracker.
+	 *
+	 * @var Mockery\MockInterface|Action_Tracker
+	 */
+	protected $action_tracker;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * @var Complete_Task_Route
@@ -48,10 +56,12 @@ abstract class Abstract_Complete_Task_Route_Test extends TestCase {
 
 		$this->tasks_collector   = Mockery::mock( Tasks_Collector::class );
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
+		$this->action_tracker    = Mockery::mock( Action_Tracker::class );
 
 		$this->instance = new Complete_Task_Route(
 			$this->tasks_collector,
-			$this->capability_helper
+			$this->capability_helper,
+			$this->action_tracker
 		);
 	}
 

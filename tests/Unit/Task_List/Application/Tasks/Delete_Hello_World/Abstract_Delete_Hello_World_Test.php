@@ -30,5 +30,6 @@ abstract class Abstract_Delete_Hello_World_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->instance = new Delete_Hello_World();
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 	}
 }

@@ -41,5 +41,6 @@ abstract class Abstract_Enable_Llms_Txt_Test extends TestCase {
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Enable_Llms_Txt( $this->options_helper );
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 	}
 }

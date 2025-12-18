@@ -28,6 +28,10 @@ final class Complete_Task_Route_Complete_Task_Test extends Abstract_Complete_Tas
 		$task    = $this->create_mock_completeable_task( 'complete-ftc' );
 		$request = $this->create_mock_request( [ 'task' => 'complete-ftc' ] );
 
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_first_actioned_on' );
+
 		$this->tasks_collector->expects( 'get_completeable_task' )
 			->once()
 			->with( 'complete-ftc' )
@@ -55,6 +59,10 @@ final class Complete_Task_Route_Complete_Task_Test extends Abstract_Complete_Tas
 	public function test_complete_task_not_found() {
 		$request = $this->create_mock_request( [ 'task' => 'non-existent-task' ] );
 
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_first_actioned_on' );
+
 		$this->tasks_collector->expects( 'get_completeable_task' )
 			->once()
 			->with( 'non-existent-task' )
@@ -79,6 +87,10 @@ final class Complete_Task_Route_Complete_Task_Test extends Abstract_Complete_Tas
 		$task      = $this->create_mock_completeable_task( 'failing-task' );
 		$request   = $this->create_mock_request( [ 'task' => 'failing-task' ] );
 		$exception = new Exception( 'Task completion failed', 500 );
+
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_first_actioned_on' );
 
 		$this->tasks_collector->expects( 'get_completeable_task' )
 			->once()
@@ -106,6 +118,10 @@ final class Complete_Task_Route_Complete_Task_Test extends Abstract_Complete_Tas
 	 */
 	public function test_complete_task_not_found_exception() {
 		$request = $this->create_mock_request( [ 'task' => 'non-existent-task' ] );
+
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_first_actioned_on' );
 
 		$this->tasks_collector->expects( 'get_completeable_task' )
 			->once()

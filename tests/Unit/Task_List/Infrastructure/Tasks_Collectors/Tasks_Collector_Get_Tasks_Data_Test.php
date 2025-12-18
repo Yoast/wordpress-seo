@@ -20,19 +20,28 @@ final class Tasks_Collector_Get_Tasks_Data_Test extends Abstract_Tasks_Collector
 	 *
 	 * @dataProvider data_get_tasks_data
 	 *
-	 * @param array<string, array<string,bool>> $task_configs        Array of task configurations [id => to_array_result].
-	 * @param array<string, array<string,bool>> $expected_tasks_data Expected tasks data result.
+	 * @param array<string, array<string,bool>> $task_configs               Array of task configurations [id => to_array_result].
+	 * @param int                               $create_tracking_link_times Number of times create_tracking_link_for_tasks is expected to be called.
+	 * @param array<string, array<string,bool>> $expected_tasks_data        Expected tasks data result.
 	 *
 	 * @return void
 	 */
-	public function test_get_tasks_data( $task_configs, $expected_tasks_data ) {
+	public function test_get_tasks_data( $task_configs, $create_tracking_link_times, $expected_tasks_data ) {
 		$tasks = [];
 		foreach ( $task_configs as $id => $to_array_result ) {
-			$tasks[] = $this->create_mock_task( $id, $to_array_result );
+			$mock_task = $this->create_mock_task( $id, $to_array_result );
+			$mock_task->shouldReceive( 'set_enhanced_call_to_action' )->once();
+			$tasks[] = $mock_task;
 		}
 
 		$instance = new Tasks_Collector( ...$tasks );
-		$result   = $instance->get_tasks_data();
+		$instance->set_tracking_link_adapter( $this->tracking_link_adapter );
+		$this->tracking_link_adapter
+			->expects( 'create_tracking_link_for_tasks' )
+			->times( $create_tracking_link_times )
+			->andReturnArg( 0 );
+
+		$result = $instance->get_tasks_data();
 
 		$this->assertSame( $expected_tasks_data, $result );
 	}
@@ -57,7 +66,7 @@ final class Tasks_Collector_Get_Tasks_Data_Test extends Abstract_Tasks_Collector
 	public static function data_get_tasks_data() {
 		return [
 			'Single task' => [
-				'task_configs' => [
+				'task_configs'               => [
 					'complete-ftc' => [
 						'id'          => 'complete-ftc',
 						'title'       => 'Complete First Time Configuration',
@@ -66,7 +75,8 @@ final class Tasks_Collector_Get_Tasks_Data_Test extends Abstract_Tasks_Collector
 						'duration'    => 15,
 					],
 				],
-				'expected_tasks_data' => [
+				'create_tracking_link_times' => 1,
+				'expected_tasks_data'        => [
 					'complete-ftc' => [
 						'id'          => 'complete-ftc',
 						'title'       => 'Complete First Time Configuration',
@@ -77,7 +87,7 @@ final class Tasks_Collector_Get_Tasks_Data_Test extends Abstract_Tasks_Collector
 				],
 			],
 			'Multiple tasks' => [
-				'task_configs' => [
+				'task_configs'               => [
 					'complete-ftc' => [
 						'id'          => 'complete-ftc',
 						'title'       => 'Complete FTC',
@@ -100,7 +110,8 @@ final class Tasks_Collector_Get_Tasks_Data_Test extends Abstract_Tasks_Collector
 						'duration'    => 5,
 					],
 				],
-				'expected_tasks_data' => [
+				'create_tracking_link_times' => 3,
+				'expected_tasks_data'        => [
 					'complete-ftc' => [
 						'id'          => 'complete-ftc',
 						'title'       => 'Complete FTC',

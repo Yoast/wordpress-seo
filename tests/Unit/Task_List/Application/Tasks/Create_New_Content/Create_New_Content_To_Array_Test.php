@@ -72,6 +72,7 @@ final class Create_New_Content_To_Array_Test extends Abstract_Create_New_Content
 			'how'          => 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.',
 		];
 
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 		$this->assertSame( $expected_result, $this->instance->to_array() );
 	}
 
@@ -122,6 +123,7 @@ final class Create_New_Content_To_Array_Test extends Abstract_Create_New_Content
 			'how'          => 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.',
 		];
 
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 		$this->assertSame( $expected_result, $this->instance->to_array() );
 	}
 }

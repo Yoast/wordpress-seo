@@ -3,11 +3,13 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Tasks_Collectors;
 
 use Mockery;
+use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Tracking\Infrastructure\Tracking_Link_Adapter;
 
 /**
  * Base class for the tasks collector tests.
@@ -38,6 +40,13 @@ abstract class Abstract_Tasks_Collector_Test extends TestCase {
 	protected $post_type_task_mock;
 
 	/**
+	 * Mock tracking link adapter.
+	 *
+	 * @var Mockery\MockInterface|Tracking_Link_Adapter
+	 */
+	protected $tracking_link_adapter;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * @var Tasks_Collector
@@ -55,8 +64,10 @@ abstract class Abstract_Tasks_Collector_Test extends TestCase {
 		$this->task_mock              = Mockery::mock( Task_Interface::class );
 		$this->completeable_task_mock = Mockery::mock( Completeable_Task_Interface::class );
 		$this->post_type_task_mock    = Mockery::mock( Post_Type_Task_Interface::class );
+		$this->tracking_link_adapter  = Mockery::mock( Tracking_Link_Adapter::class );
 
 		$this->instance = new Tasks_Collector();
+		$this->instance->set_tracking_link_adapter( $this->tracking_link_adapter );
 	}
 
 	/**
@@ -69,13 +80,32 @@ abstract class Abstract_Tasks_Collector_Test extends TestCase {
 	 * @return Mockery\MockInterface
 	 */
 	protected function create_mock_task( $id, $to_array = [], $task_interface = Task_Interface::class ) {
-		$mock = Mockery::mock( $task_interface );
+		$mock     = Mockery::mock( $task_interface );
+		$cta_mock = $this->create_mock_cta();
 		$mock->shouldReceive( 'get_id' )->zeroOrMoreTimes()->andReturn( $id );
+		$mock->shouldReceive( 'is_valid' )->zeroOrMoreTimes()->andReturn( true );
+		$mock->shouldReceive( 'get_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
+		$mock->shouldReceive( 'set_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
 
 		if ( ! empty( $to_array ) ) {
 			$mock->expects( 'to_array' )->andReturn( $to_array );
 		}
 
 		return $mock;
+	}
+
+	/**
+	 * Creates a mock call to action entry.
+	 *
+	 * @return Mockery\MockInterface
+	 */
+	protected function create_mock_cta() {
+		$cta_mock = Mockery::mock( Call_To_Action_Entry::class );
+
+		$cta_mock->shouldReceive( 'get_label' )->zeroOrMoreTimes()->andReturn( 'label' );
+		$cta_mock->shouldReceive( 'get_type' )->zeroOrMoreTimes()->andReturn( 'link' );
+		$cta_mock->shouldReceive( 'get_href' )->zeroOrMoreTimes()->andReturn( 'href' );
+
+		return $cta_mock;
 	}
 }

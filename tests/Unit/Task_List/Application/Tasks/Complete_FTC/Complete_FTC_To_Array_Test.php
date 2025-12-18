@@ -58,6 +58,7 @@ final class Complete_FTC_To_Array_Test extends Abstract_Complete_FTC_Test {
 			'how'          => null,
 		];
 
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 		$this->assertSame( $expected_result, $this->instance->to_array() );
 	}
 
@@ -94,6 +95,7 @@ final class Complete_FTC_To_Array_Test extends Abstract_Complete_FTC_Test {
 			'how'          => null,
 		];
 
+		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
 		$this->assertSame( $expected_result, $this->instance->to_array() );
 	}
 }

@@ -40,6 +40,10 @@ final class Get_Tasks_Route_Get_Tasks_Test extends Abstract_Get_Tasks_Route_Test
 			],
 		];
 
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_list_first_opened_on' );
+
 		$this->tasks_repository->expects( 'get_tasks_data' )
 			->once()
 			->andReturn( $expected_tasks );
@@ -58,6 +62,10 @@ final class Get_Tasks_Route_Get_Tasks_Test extends Abstract_Get_Tasks_Route_Test
 	 */
 	public function test_get_tasks_repository_throws_exception() {
 		$exception = new Exception( 'Repository error', 500 );
+
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_list_first_opened_on' );
 
 		$this->tasks_repository->expects( 'get_tasks_data' )
 			->once()
@@ -79,6 +87,10 @@ final class Get_Tasks_Route_Get_Tasks_Test extends Abstract_Get_Tasks_Route_Test
 		$this->tasks_repository->expects( 'get_tasks_data' )
 			->once()
 			->andReturn( [] );
+
+		$this->action_tracker->expects( 'track_version_for_performed_action' )
+			->once()
+			->with( 'task_list_first_opened_on' );
 
 		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
