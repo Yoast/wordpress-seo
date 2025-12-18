@@ -571,7 +571,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast-sidebar__product h2 {
 	color: rgb(166, 30, 105);
 	font-size: 20px;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .yoast-sidebar__product.woocommerce h2 {
@@ -618,6 +618,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	line-height: 27px;
 	margin-top: 0;
 	margin-bottom: 12px;
+    font-weight: 600;
 }
 
 .yoast-get-premium-title span {
@@ -872,7 +873,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast_premium_upsell--header {
 	@apply yst-text-primary-500;
 	font-size: 1.5em;
-	font-weight: 500;
+	font-weight: 600;
 	line-height: 25px;
 	margin: 0;
 }

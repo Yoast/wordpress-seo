@@ -49,7 +49,10 @@ module.exports = {
 				page: "2048px",
 			},
 			backgroundImage: {
-				"ai-primary": "linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)",
+				"ai-100": "linear-gradient(97.38deg, #FAF3F7 0%, #EEF2FF 100%)",
+				"ai-300": "linear-gradient(to bottom right, #cd82ab, #a5b4fc)",
+				"ai-500": "linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)",
+				"ai-600": "linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)",
 			}
 		},
 	},
@@ -59,6 +62,14 @@ module.exports = {
 		require( "@tailwindcss/forms" )( {
 			strategy: "class",
 		} ),
+		function ({ addBase, theme }) {
+      addBase({
+        ':root': {
+          '--yst-ai-color-purple-300': '#a5b4fc',
+          '--yst-ai-color-pink-300': '#cd82ab',
+        },
+      });
+    },
 	],
 	corePlugins: {
 		preflight: false,

@@ -103,7 +103,7 @@ class Config {
 				$cache_ttl = ( 30 * \MINUTE_IN_SECONDS );
 			}
 
-			$cache_ttl = \apply_filters( 'yoast_schema_aggregator_cache_ttl', $cache_ttl );
+			$cache_ttl = \apply_filters( 'wpseo_schema_aggregator_cache_ttl', $cache_ttl );
 
 			if ( ! \is_int( $cache_ttl ) || $cache_ttl <= 0 ) {
 				return self::DEFAULT_CACHE_TTL;
@@ -122,7 +122,7 @@ class Config {
 	 * @return bool True if caching is enabled, false otherwise.
 	 */
 	public function cache_enabled(): bool {
-		$enabled = \apply_filters( 'yoast_schema_aggregator_cache_enabled', true );
+		$enabled = \apply_filters( 'wpseo_schema_aggregator_cache_enabled', true );
 
 		if ( \is_bool( $enabled ) ) {
 			return $enabled;

@@ -3,7 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces\Schema_Piece_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
 
 /**
  * Class that handles the Aggregate_Site_Schema_Command.
@@ -13,7 +13,7 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * The Schema_Piece_Repository instance.
 	 *
-	 * @var Schema_Piece_Repository
+	 * @var Schema_Piece_Repository_Interface
 	 */
 	private $schema_piece_repository;
 
@@ -34,12 +34,12 @@ class Aggregate_Site_Schema_Command_Handler {
 	/**
 	 * Aggregate_Site_Schema_Command_Handler constructor.
 	 *
-	 * @param Schema_Piece_Repository             $schema_piece_repository  The collector of indexables that need to be aggregated.
+	 * @param Schema_Piece_Repository_Interface   $schema_piece_repository  The collector of indexables that need to be aggregated.
 	 * @param Schema_Pieces_Aggregator            $schema_piece_aggregator  The schema pieces aggregator.
 	 * @param Schema_Aggregator_Response_Composer $schema_response_composer The schema response composer.
 	 */
 	public function __construct(
-		Schema_Piece_Repository $schema_piece_repository,
+		Schema_Piece_Repository_Interface $schema_piece_repository,
 		Schema_Pieces_Aggregator $schema_piece_aggregator,
 		Schema_Aggregator_Response_Composer $schema_response_composer
 	) {

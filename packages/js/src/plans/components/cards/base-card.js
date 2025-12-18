@@ -149,7 +149,7 @@ export const BaseCard = ( {
 						{ learnMoreOverride || (
 							<ButtonLinkWithArrow
 								variant="tertiary"
-								className="yst-pb-0"
+								className="yst-py-0 yst-mt-2"
 								iconClassName="yst-ml-1.5"
 								href={ learnMoreLink }
 								label={ __( "Learn more", "wordpress-seo" ) }

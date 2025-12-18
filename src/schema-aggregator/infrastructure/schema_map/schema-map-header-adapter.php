@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map;
 
 use WP_REST_Response;
-use WPSEO_Utils;
 
 /**
  * Adapter to set proper response headers for Schema Map responses.
@@ -32,11 +31,15 @@ class Schema_Map_Header_Adapter {
 			echo $data; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data should already be escaped here since this just adds headers to the request.
 		}
 		else {
-			// For JSON responses, encode with unescaped slashes for cleaner URLs.
-			$json = WPSEO_Utils::format_json_encode( $data );
-
+			\header( 'X-Accel-Buffering: no' );
 			\header( 'Content-Type: application/json; charset=UTF-8' );
-			echo $json; //@phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $json should already be escaped here since this just adds headers to the request.
+			foreach ( $data as $schema_piece ) {
+				// @phpcs:disable Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- The pretty print option breaks the JSONL format.
+				echo \wp_json_encode( $schema_piece, ( \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE ) ) . \PHP_EOL; // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data should already be escaped here since this just adds headers to the request.
+				\ob_flush();
+				\flush();
+				// @phpcs:enable
+			}
 		}
 	}
 }

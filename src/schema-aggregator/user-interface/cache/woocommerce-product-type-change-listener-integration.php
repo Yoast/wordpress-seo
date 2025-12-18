@@ -62,7 +62,7 @@ class WooCommerce_Product_Type_Change_Listener_Integration extends Abstract_Cach
 		}
 
 		$page = $this->get_page_number( $indexable );
-		$this->manager->invalidate( $page );
+		$this->manager->invalidate( 'product', $page );
 		$this->xml_manager->invalidate();
 
 		return true;

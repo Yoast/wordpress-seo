@@ -24,11 +24,19 @@ class Robots_Txt_Helper {
 	protected $robots_txt_sitemaps;
 
 	/**
+	 * Holds an array with absolute URLs of schema maps.
+	 *
+	 * @var array
+	 */
+	private $robots_txt_schemamaps;
+
+	/**
 	 * Constructor for Robots_Txt_Helper.
 	 */
 	public function __construct() {
 		$this->robots_txt_user_agents = new User_Agent_List();
 		$this->robots_txt_sitemaps    = [];
+		$this->robots_txt_schemamaps  = [];
 	}
 
 	/**
@@ -71,6 +79,19 @@ class Robots_Txt_Helper {
 	}
 
 	/**
+	 * Add schema to robots.txt if it does not exist yet.
+	 *
+	 * @param string $absolute_path The absolute path to the sitemap to add.
+	 *
+	 * @return void
+	 */
+	public function add_schemamap( $absolute_path ) {
+		if ( ! \in_array( $absolute_path, $this->robots_txt_schemamaps, true ) ) {
+			$this->robots_txt_schemamaps[] = $absolute_path;
+		}
+	}
+
+	/**
 	 * Get all registered disallow directives per user agent.
 	 *
 	 * @return array The registered disallow directives per user agent.
@@ -91,10 +112,19 @@ class Robots_Txt_Helper {
 	/**
 	 * Get all registered sitemap rules.
 	 *
-	 * @return array The registered sitemap rules.
+	 * @return array<string> The registered sitemap rules.
 	 */
 	public function get_sitemap_rules() {
 		return $this->robots_txt_sitemaps;
+	}
+
+	/**
+	 * Get all registered schemamap rules.
+	 *
+	 * @return array<string> The registered schemamap rules.
+	 */
+	public function get_schemamap_rules() {
+		return $this->robots_txt_schemamaps;
 	}
 
 	/**

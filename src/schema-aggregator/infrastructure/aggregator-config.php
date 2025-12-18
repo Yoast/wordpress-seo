@@ -21,11 +21,8 @@ class Aggregator_Config {
 		'Event',
 		'Person',
 		'Organization',
-		'WebPage',
 		'WebSite',
 	];
-
-	private const PROPERTIES_AVOID_LIST = [ 'breadcrumb', 'potentialAction' ];
 
 	/**
 	 * The WooCommerce Conditional.
@@ -67,35 +64,5 @@ class Aggregator_Config {
 		}
 
 		return $post_types;
-	}
-
-	/**
-	 * Get configured schema types (whitelist)
-	 *
-	 * @return array<string>
-	 */
-	public function get_allowed_schema_types(): array {
-		$schema_types = \apply_filters( 'wpseo_schema_aggregator_schema_types', self::DEFAULT_SCHEMA_TYPES );
-
-		if ( ! \is_array( $schema_types ) ) {
-			return self::DEFAULT_SCHEMA_TYPES;
-		}
-
-		return $schema_types;
-	}
-
-	/**
-	 * Get list of properties to remove from a schema piece.
-	 *
-	 * @return array<string>
-	 */
-	public function get_properties_avoid_list(): array {
-		$properties_avoid_list = \apply_filters( 'wpseo_schema_aggregator_properties_avoid_list', self::PROPERTIES_AVOID_LIST );
-
-		if ( ! \is_array( $properties_avoid_list ) ) {
-			return self::PROPERTIES_AVOID_LIST;
-		}
-
-		return $properties_avoid_list;
 	}
 }

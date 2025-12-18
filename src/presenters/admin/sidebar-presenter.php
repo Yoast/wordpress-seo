@@ -74,7 +74,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</p>
 						<p class="info">
 						<?php
-						echo ( $is_woocommerce_active ) ? \esc_html__( 'Help ready-to-buy shoppers and search engines find your product.', 'wordpress-seo' ) : \esc_html__( 'Optimize your site faster, smarter, and with more confidence', 'wordpress-seo' );
+						echo ( $is_woocommerce_active ) ? \esc_html__( 'Help ready-to-buy shoppers and search engines find your product.', 'wordpress-seo' ) : \esc_html__( 'Optimize your site faster, smarter, and with more confidence.', 'wordpress-seo' );
 						?>
 						</p>
 						<ul class="yoast-features-list">
@@ -103,19 +103,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 								->is( 'black-friday-promotion' ) ) {
 							echo \esc_html__( 'Buy now for 30% off', 'wordpress-seo' );
 						}
-						elseif ( $is_woocommerce_active ) {
-								\printf(
-								/* translators: %s expands to "Yoast SEO Premium". */
-									\esc_html__( 'Get %s', 'wordpress-seo' ),
-									'WooCommerce SEO'
-								);
-						}
 						else {
-							\printf(
-							/* translators: %s expands to "Yoast SEO Premium". */
-								\esc_html__( 'Get %s', 'wordpress-seo' ),
-								'Yoast SEO Premium'
-							);
+							echo \esc_html__( 'Buy now', 'wordpress-seo' );
 						}
 						?>
 							<span aria-hidden="true" class="yoast-button-upsell__caret"></span>
