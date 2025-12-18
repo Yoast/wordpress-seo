@@ -2,8 +2,8 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as AIGeneratorIcon } from "../../../../../images/icon-sparkles.svg";
 import { ReactComponent as LlmtxtIcon } from "../../../../../images/icon-llms-txt.svg";
 
-export const aiToolsFeatures = [
-	{
+export const aiToolsFeatures = {
+	aiGenerator: {
 		name: "wpseo.enable_ai_generator",
 		id: "card-wpseo-enable_ai_generator",
 		inputId: "input-wpseo-enable_ai_generator",
@@ -15,7 +15,7 @@ export const aiToolsFeatures = [
 		learnMoreLinkId: "link-ai-generator",
 		learnMoreLinkAriaLabel: __( "AI title & description generator", "wordpress-seo" ),
 	},
-	{
+	llmsTxt: {
 		name: "wpseo.enable_llms_txt",
 		id: "card-wpseo-enable_llms_txt",
 		inputId: "input-wpseo-enable_llms_txt",
@@ -27,4 +27,4 @@ export const aiToolsFeatures = [
 		learnMoreLinkId: "link-llms-txt",
 		learnMoreLinkAriaLabel: __( "llms.txt", "wordpress-seo" ),
 	},
-];
+};

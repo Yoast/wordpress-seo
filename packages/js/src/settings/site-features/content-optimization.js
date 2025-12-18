@@ -4,8 +4,8 @@ import { ReactComponent as ReadabilityAnalysisIcon } from "../../../../../images
 import { ReactComponent as InclusiveLanguageAnalysisIcon } from "../../../../../images/icon-inclusive-language-analysis.svg";
 import { ReactComponent as InsightsIcon } from "../../../../../images/icon-insights.svg";
 
-export const contentOptimizationFeatures = [
-	{
+export const contentOptimizationFeatures = {
+	keywordAnalysis: {
 		name: "wpseo.keyword_analysis_active",
 		id: "card-wpseo-keyword_analysis_active",
 		inputId: "input-wpseo-keyword_analysis_active",
@@ -16,7 +16,7 @@ export const contentOptimizationFeatures = [
 		learnMoreLinkId: "link-seo-analysis",
 		learnMoreLinkAriaLabel: __( "SEO analysis", "wordpress-seo" ),
 	},
-	{
+	contentAnalysis: {
 		name: "wpseo.content_analysis_active",
 		id: "card-wpseo-content_analysis_active",
 		inputId: "input-wpseo-content_analysis_active",
@@ -27,7 +27,7 @@ export const contentOptimizationFeatures = [
 		learnMoreLinkId: "link-readability-analysis",
 		learnMoreLinkAriaLabel: __( "Readability analysis", "wordpress-seo" ),
 	},
-	{
+	inclusiveLanguageAnalysis: {
 		name: "wpseo.inclusive_language_analysis_active",
 		id: "card-wpseo-inclusive_language_analysis_active",
 		inputId: "input-wpseo-inclusive_language_analysis_active",
@@ -38,7 +38,7 @@ export const contentOptimizationFeatures = [
 		learnMoreLinkId: "link-inclusive-language-analysis",
 		learnMoreLinkAriaLabel: __( "Inclusive language analysis", "wordpress-seo" ),
 	},
-	{
+	insights: {
 		name: "wpseo.enable_metabox_insights",
 		id: "card-wpseo-enable_metabox_insights",
 		inputId: "input-wpseo-enable_metabox_insights",
@@ -49,4 +49,4 @@ export const contentOptimizationFeatures = [
 		learnMoreLinkId: "link-insights",
 		learnMoreLinkAriaLabel: __( "Insights", "wordpress-seo" ),
 	},
-];
+};

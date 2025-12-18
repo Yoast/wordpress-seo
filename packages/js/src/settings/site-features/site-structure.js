@@ -3,8 +3,8 @@ import { ReactComponent as CornerstoneContentIcon } from "../../../../../images/
 import { ReactComponent as TextLinkCounterIcon } from "../../../../../images/icon-text-link-counter.svg";
 import { ReactComponent as InternalLinkingSuggestionsIcon } from "../../../../../images/icon-internal-linking-suggestions.svg";
 
-export const siteStructureFeatures = [
-	{
+export const siteStructureFeatures = {
+	cornerstoneContent: {
 		name: "wpseo.enable_cornerstone_content",
 		id: "card-wpseo-enable_cornerstone_content",
 		inputId: "input-wpseo-enable_cornerstone_content",
@@ -15,7 +15,7 @@ export const siteStructureFeatures = [
 		learnMoreLinkId: "link-cornerstone-content",
 		learnMoreLinkAriaLabel: __( "Cornerstone content", "wordpress-seo" ),
 	},
-	{
+	textLinkCounter: {
 		name: "wpseo.enable_text_link_counter",
 		id: "card-wpseo-enable_text_link_counter",
 		inputId: "input-wpseo-enable_text_link_counter",
@@ -26,7 +26,7 @@ export const siteStructureFeatures = [
 		learnMoreLinkId: "link-text-link-counter",
 		learnMoreLinkAriaLabel: __( "Text link counter", "wordpress-seo" ),
 	},
-	{
+	internalLinkingSuggestions: {
 		name: "wpseo.enable_link_suggestions",
 		id: "card-wpseo-enable_link_suggestions",
 		inputId: "input-wpseo-enable_link_suggestions",
@@ -39,4 +39,4 @@ export const siteStructureFeatures = [
 		isPremiumFeature: true,
 		isPremiumLink: "https://yoa.st/get-link-suggestions",
 	},
-];
+};

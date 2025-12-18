@@ -3,8 +3,8 @@ import { ReactComponent as OpenGraphIcon } from "../../../../../images/icon-open
 import { ReactComponent as XCardDataIcon } from "../../../../../images/icon-x-card-data.svg";
 import { ReactComponent as SlackSharingIcon } from "../../../../../images/icon-slack-sharing.svg";
 
-export const socialSharingFeatures = [
-	{
+export const socialSharingFeatures = {
+	openGraph: {
 		name: "wpseo_social.opengraph",
 		id: "card-wpseo_social-opengraph",
 		inputId: "input-wpseo_social-opengraph",
@@ -15,7 +15,7 @@ export const socialSharingFeatures = [
 		learnMoreLinkId: "link-open-graph-data",
 		learnMoreLinkAriaLabel: __( "Open Graph data", "wordpress-seo" ),
 	},
-	{
+	xCardData: {
 		name: "wpseo_social.twitter",
 		id: "card-wpseo_social-twitter",
 		inputId: "input-wpseo_social-twitter",
@@ -26,7 +26,7 @@ export const socialSharingFeatures = [
 		learnMoreLinkId: "link-twitter-card-data",
 		learnMoreLinkAriaLabel: __( "X card data", "wordpress-seo" ),
 	},
-	{
+	slackSharing: {
 		name: "wpseo.enable_enhanced_slack_sharing",
 		id: "card-wpseo-enable_enhanced_slack_sharing",
 		inputId: "input-wpseo-enable_enhanced_slack_sharing",
@@ -37,4 +37,4 @@ export const socialSharingFeatures = [
 		learnMoreLinkId: "link-slack-sharing",
 		learnMoreLinkAriaLabel: __( "Slack sharing", "wordpress-seo" ),
 	},
-];
+};

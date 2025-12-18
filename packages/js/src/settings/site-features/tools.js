@@ -2,8 +2,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { ReactComponent as TaskListIcon } from "../../../../../images/icon-task-list.svg";
 import { ReactComponent as AdminBarIcon } from "../../../../../images/icon-admin-bar.svg";
 
-export const toolsFeatures = [
-	{
+export const toolsFeatures = {
+	taskList: {
 		name: "wpseo.enable_task_list",
 		id: "card-wpseo-enable_task_list",
 		inputId: "input-wpseo-enable_task_list",
@@ -14,7 +14,7 @@ export const toolsFeatures = [
 		learnMoreLinkId: "link-task-list",
 		learnMoreLinkAriaLabel: __( "Task list", "wordpress-seo" ),
 	},
-	{
+	adminBarMenu: {
 		name: "wpseo.enable_admin_bar_menu",
 		id: "card-wpseo-enable_admin_bar_menu",
 		inputId: "input-wpseo-enable_admin_bar_menu",
@@ -29,4 +29,4 @@ export const toolsFeatures = [
 		learnMoreLinkId: "link-admin-bar",
 		learnMoreLinkAriaLabel: __( "Admin bar menu", "wordpress-seo" ),
 	},
-];
+};

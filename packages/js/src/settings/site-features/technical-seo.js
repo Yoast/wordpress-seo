@@ -2,9 +2,21 @@ import { __, sprintf } from "@wordpress/i18n";
 import { ReactComponent as XMLSitemapsIcon } from "../../../../../images/icon-xml-sitemaps.svg";
 import { ReactComponent as RestApiEndpointIcon } from "../../../../../images/icon-rest-api-endpoint.svg";
 import { ReactComponent as IndexNowIcon } from "../../../../../images/icon-index-now.svg";
+import { ReactComponent as SchemaFrameworkIcon } from "../../../../../images/icon-schema-framework.svg";
 
-export const technicalSeoFeatures = [
-	{
+export const technicalSeoFeatures = {
+	schemaFramework: {
+		name: "wpseo.enable_schema",
+		id: "card-wpseo-enable_schema",
+		inputId: "input-wpseo-enable_schema",
+		Icon: SchemaFrameworkIcon,
+		title: __( "Schema Framework", "wordpress-seo" ),
+		description: __( "Outputs a single graph the web can understand. Makes every person, product, organization, and piece of content consistently readable to search engines and language models.", "wordpress-seo" ),
+		learnMoreLinkId: "link-schema-framework",
+		learnMoreUrl: "https://yoa.st/site-features-schema-framework",
+		learnMoreLinkAriaLabel: __( "Schema Framework", "wordpress-seo" ),
+	},
+	xmlSitemaps: {
 		name: "wpseo.enable_xml_sitemap",
 		id: "card-wpseo-enable_xml_sitemap",
 		inputId: "input-wpseo-enable_xml_sitemap",
@@ -19,7 +31,7 @@ export const technicalSeoFeatures = [
 		learnMoreLinkId: "link-xml-sitemaps",
 		learnMoreLinkAriaLabel: __( "XML sitemaps", "wordpress-seo" ),
 	},
-	{
+	restApiEndpoint: {
 		name: "wpseo.enable_headless_rest_endpoints",
 		id: "card-wpseo-enable_headless_rest_endpoints",
 		inputId: "input-wpseo-enable_headless_rest_endpoints",
@@ -30,7 +42,7 @@ export const technicalSeoFeatures = [
 		learnMoreLinkId: "link-rest-api-endpoint",
 		learnMoreLinkAriaLabel: __( "REST API endpoint", "wordpress-seo" ),
 	},
-	{
+	indexNow: {
 		name: "wpseo.enable_index_now",
 		id: "card-wpseo-enable_index_now",
 		inputId: "input-wpseo-enable_index_now",
@@ -43,4 +55,4 @@ export const technicalSeoFeatures = [
 		learnMoreLinkId: "link-index-now",
 		learnMoreLinkAriaLabel: __( "IndexNow", "wordpress-seo" ),
 	},
-];
+};
