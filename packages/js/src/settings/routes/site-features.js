@@ -25,8 +25,8 @@ import { FormikValueChangeField } from "../../shared-admin/components/form";
  * @param {boolean} [isNewFeature] Whether this card is for a new feature.
  * @param {boolean} [hasPremiumBadge] Whether this card has a premium badge.
  * @param {string} title The card title.
- * @param {boolean} [confirmBeforeDisable] Whether to show a confirmation modal before disabling.
- * @param {boolean} [isDisabledProgrammatically] Whether the feature is disabled programmatically.
+ * @param {Function} [disableConfirmationModal] Render function for the confirmation modal when disabling the feature.
+ * @param {Function} [programmaticallyDisabledModal] Render function for the modal when the feature is disabled programmatically.
  * @returns {JSX.Element} The card.
  */
 const FeatureCard = ( {
@@ -42,8 +42,8 @@ const FeatureCard = ( {
 	isNewFeature = false,
 	hasPremiumBadge = false,
 	title,
-	confirmBeforeDisable = false,
-	isDisabledProgrammatically = false,
+	disableConfirmationModal = null,
+	programmaticallyDisabledModal = null,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
@@ -63,9 +63,12 @@ const FeatureCard = ( {
 	const [ isConfirmModalOpen, setIsConfirmModalOpen ] = useState( false );
 	const [ isProgrammaticallyDisabledModalOpen, setIsProgrammaticallyDisabledModalOpen ] = useState( false );
 
+	const showConfirmationModal = Boolean( disableConfirmationModal );
+	const showProgrammaticallyDisabledModal = Boolean( programmaticallyDisabledModal );
+
 	const handleToggleChange = useSchemaToggleHandler( {
-		isDisabledProgrammatically,
-		confirmBeforeDisable,
+		isDisabledProgrammatically: showProgrammaticallyDisabledModal,
+		confirmBeforeDisable: showConfirmationModal,
 		fieldName: name,
 		setFieldValue,
 		onShowProgrammaticallyDisabledModal: useCallback( () => setIsProgrammaticallyDisabledModalOpen( true ), [] ),
@@ -114,7 +117,7 @@ const FeatureCard = ( {
 				{ children }
 			</Card.Content>
 			<Card.Footer>
-				{ ! shouldUpsell && ! confirmBeforeDisable && <FormikValueChangeField
+				{ ! shouldUpsell && ! showConfirmationModal && <FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
 					name={ name }
@@ -122,14 +125,14 @@ const FeatureCard = ( {
 					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
-					checked={ disabledSetting === "language" || isDisabledProgrammatically ? false : value }
+					checked={ disabledSetting === "language" || showProgrammaticallyDisabledModal ? false : value }
 				/> }
-				{ ! shouldUpsell && confirmBeforeDisable && <ToggleField
+				{ ! shouldUpsell && showConfirmationModal && <ToggleField
 					id={ inputId }
 					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
-					checked={ disabledSetting === "language" || isDisabledProgrammatically ? false : value }
+					checked={ disabledSetting === "language" || showProgrammaticallyDisabledModal ? false : value }
 					onChange={ handleToggleChange }
 				/> }
 				{ shouldUpsell && (
@@ -151,15 +154,15 @@ const FeatureCard = ( {
 					</Button>
 				) }
 			</Card.Footer>
-			{ confirmBeforeDisable && <SchemaDisableConfirmationModal
-				isOpen={ isConfirmModalOpen }
-				onClose={ handleModalClose }
-				onConfirm={ handleModalConfirm }
-			/> }
-			{ isDisabledProgrammatically && <SchemaProgrammaticallyDisabledModal
-				isOpen={ isProgrammaticallyDisabledModalOpen }
-				onClose={ handleProgrammaticallyDisabledModalClose }
-			/> }
+			{ showConfirmationModal && disableConfirmationModal( {
+				isOpen: isConfirmModalOpen,
+				onClose: handleModalClose,
+				onConfirm: handleModalConfirm,
+			} ) }
+			{ showProgrammaticallyDisabledModal && programmaticallyDisabledModal( {
+				isOpen: isProgrammaticallyDisabledModalOpen,
+				onClose: handleProgrammaticallyDisabledModalClose,
+			} ) }
 		</Card>
 	);
 };
@@ -177,8 +180,8 @@ FeatureCard.propTypes = {
 	isPremiumLink: PropTypes.string,
 	hasPremiumBadge: PropTypes.bool,
 	title: PropTypes.string.isRequired,
-	confirmBeforeDisable: PropTypes.bool,
-	isDisabledProgrammatically: PropTypes.bool,
+	disableConfirmationModal: PropTypes.func,
+	programmaticallyDisabledModal: PropTypes.func,
 };
 
 /**
@@ -478,8 +481,8 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-enable_schema"
 								imageSrc="/images/icon-schema.svg"
 								title={ __( "Schema Framework", "wordpress-seo" ) }
-								confirmBeforeDisable={ true }
-								isDisabledProgrammatically={ isSchemaDisabledProgrammatically }
+								disableConfirmationModal={ SchemaDisableConfirmationModal }
+								programmaticallyDisabledModal={ isSchemaDisabledProgrammatically ? SchemaProgrammaticallyDisabledModal : null }
 							>
 								<p>{ __( "Outputs a single graph the web can understand. Makes every person, product, organization, and piece of content consistently readable to search engines and language models.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-schema-framework" link="https://yoa.st/site-features-schema-framework" ariaLabel={ __( "Schema Framework", "wordpress-seo" ) } />
