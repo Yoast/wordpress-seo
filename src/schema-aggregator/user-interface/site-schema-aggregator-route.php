@@ -106,7 +106,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 				'post_type' => [
 					'required'          => true,
 					'validate_callback' => static function ( $param ) {
-						return \is_string( $param ) && \preg_match( '/^[a-z0-9_-]+$/', $param );
+						return \is_string( $param ) && \preg_match( '/^[a-z0-9_-]+$/', $param ) && \post_type_exists( $param );
 					},
 					'sanitize_callback' => 'sanitize_key',
 				],
@@ -117,7 +117,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$schema_aggregator_route_page['args']['page'] = [
 			'default'           => 1,
 			'validate_callback' => static function ( $param ) {
-				return \is_numeric( $param ) && $param > 0;
+				return \is_numeric( $param ) && $param > 0 && $param < \PHP_INT_MAX;
 			},
 			'sanitize_callback' => 'absint',
 		];
