@@ -56,6 +56,12 @@ import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
+import siteFeatures, {
+	siteFeaturesActions,
+	siteFeaturesSelectors,
+	SITE_FEATURES_NAME,
+	createInitialSiteFeaturesState,
+} from "./site-features";
 
 const { isPromotionActive } = selectors;
 const { currentPromotions } = reducers;
@@ -87,6 +93,7 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesActions,
 			...usersActions,
 			setCurrentPromotions,
+			...siteFeaturesActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -108,6 +115,7 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesSelectors,
 			...usersSelectors,
 			isPromotionActive,
+			...siteFeaturesSelectors,
 		},
 		initialState: merge(
 			{},
@@ -129,6 +137,7 @@ const createStore = ( { initialState } ) => {
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
 				currentPromotions: { promotions: [] },
+				[ SITE_FEATURES_NAME ]: createInitialSiteFeaturesState(),
 			},
 			initialState
 		),
@@ -151,6 +160,7 @@ const createStore = ( { initialState } ) => {
 			taxonomies,
 			users,
 			currentPromotions,
+			siteFeatures,
 		} ),
 		controls: {
 			...mediaControls,
