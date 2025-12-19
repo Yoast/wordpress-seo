@@ -1,0 +1,71 @@
+name: Check Images
+
+on:
+  # Run on relevant pushes to select branches and on all relevant pull requests.
+  push:
+    branches:
+      - main
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+    paths:
+      - 'images/**'
+      - 'svn-assets/**'
+  pull_request:
+    paths:
+      - 'images/**'
+      - 'svn-assets/**'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-images-minified:
+    runs-on: ubuntu-latest
+
+    name: "Check Images Are Minified"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './.nvmrc'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+
+      - name: Run grunt build:images
+        run: grunt build:images
+
+      - name: Check for image changes
+        run: |
+          if [[ -n $(git status --porcelain images/ svn-assets/) ]]; then
+            echo "ERROR: Images need to be minified!"
+            echo "The following files were modified by 'grunt build:images':"
+            git status --porcelain images/ svn-assets/
+            echo ""
+            echo "Please run 'grunt build:images' locally and commit the minified images."
+            exit 1
+          else
+            echo "✓ All images are properly minified."
+          fi
+
