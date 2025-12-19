@@ -37,6 +37,12 @@ import llmsTxt, {
 	LLMS_TXT_NAME,
 	llmsTxtSelectors,
 } from "./llms-txt";
+import schemaFramework, {
+	createInitialSchemaFrameworkState,
+	schemaFrameworkActions,
+	SCHEMA_FRAMEWORK_NAME,
+	schemaFrameworkSelectors,
+} from "./schema-framework";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -69,6 +75,7 @@ const createStore = ( { initialState } ) => {
 			...indexablePagesActions,
 			...linkParamsActions,
 			...llmsTxtActions,
+			...schemaFrameworkActions,
 			...mediaActions,
 			...notificationsActions,
 			...pageActions,
@@ -89,6 +96,7 @@ const createStore = ( { initialState } ) => {
 			...indexablePagesSelectors,
 			...linkParamsSelectors,
 			...llmsTxtSelectors,
+			...schemaFrameworkSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
 			...pageSelectors,
@@ -116,6 +124,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				[ SCHEMA_FRAMEWORK_NAME ]: createInitialSchemaFrameworkState(),
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
@@ -137,6 +146,7 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			replacementVariables,
 			schema,
+			schemaFramework,
 			search,
 			taxonomies,
 			users,
