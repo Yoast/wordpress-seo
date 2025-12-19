@@ -43,8 +43,8 @@ jobs:
           node-version-file: './.nvmrc'
           cache: 'yarn'
 
-      - name: Yarn install
-        run: yarn install
+      - name: Install minimal dependencies for image minification
+        run: yarn add --dev @yoast/grunt-plugin-tasks dotenv --ignore-workspace-root-check
 
       - name: Show debug info
         run: |
