@@ -13,11 +13,12 @@ import { Card } from "./tailwind-components/card";
  *
  * @param {Object} integration The integration.
  * @param {boolean} [isActive=true] The integration state.
+ * @param {boolean} [isSchemaFrameworkDisabled=false] Whether the schema framework is disabled.
  * @param {React.ReactNode} [children=null] The child components.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
-export const SimpleIntegration = ( { integration, isActive = true, children = null } ) => {
+export const SimpleIntegration = ( { integration, isActive = true, isSchemaFrameworkDisabled = false, children = null } ) => {
 	const IntegrationLogo = integration.logo;
 
 	const learnMoreLink = useSelect( select => select( "yoast-seo/settings" ).selectLink( integration.learnMoreLink ), [] );
@@ -31,8 +32,9 @@ export const SimpleIntegration = ( { integration, isActive = true, children = nu
 					target="_blank"
 				>
 					{ integration.logo && <IntegrationLogo
-						alt={ `${ integration.name } logo` }
-						className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }
+						alt={ `${integration.name} logo` }
+						// If the schema is disabled we want to gray out the logo eventhough the plugin is active
+						className={ `${ isActive && ! isSchemaFrameworkDisabled ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }
 					/> }
 					<span className="yst-sr-only">
 						{
@@ -78,7 +80,7 @@ export const SimpleIntegration = ( { integration, isActive = true, children = nu
 				</div>
 			</Card.Content>
 			<Card.Footer>
-				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
+				{ ! isSchemaFrameworkDisabled && ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
 					id={ `${ integration.slug }-upsell-button` }
 					type="button"
 					as="a"
@@ -101,7 +103,7 @@ export const SimpleIntegration = ( { integration, isActive = true, children = nu
 					</span>
 				</Button>
 				}
-				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
+				{ ( isSchemaFrameworkDisabled || getIsFreeIntegrationOrPremiumAvailable( integration ) ) && <p className="yst-flex yst-items-start yst-justify-between">
 					{ children }
 				</p> }
 			</Card.Footer>
@@ -123,6 +125,7 @@ SimpleIntegration.propTypes = {
 		upsellLink: PropTypes.string,
 	} ).isRequired,
 	isActive: PropTypes.bool,
+	isSchemaFrameworkDisabled: PropTypes.bool,
 	children: PropTypes.oneOfType( [
 		PropTypes.node,
 		PropTypes.arrayOf( PropTypes.node ),

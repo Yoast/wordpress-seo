@@ -43,11 +43,6 @@ final class Browser_Cache_Configuration_Get_Configuration_Test extends Abstract_
 		$hash,
 		$expected
 	) {
-		$this->google_site_kit_feature_conditional
-			->expects( 'is_met' )
-			->once()
-			->andReturn( $met_conditional );
-
 		$user1             = new WP_User();
 		$user1->user_login = $user_login;
 
