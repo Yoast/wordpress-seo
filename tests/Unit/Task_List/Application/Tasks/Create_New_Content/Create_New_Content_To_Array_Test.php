@@ -17,6 +17,7 @@ use Brain\Monkey;
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Create_New_Content::get_is_completed
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Create_New_Content::get_call_to_action
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Create_New_Content::get_copy_set
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Create_New_Content::get_link
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Create_New_Content::to_array
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry::to_array
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set::to_array
