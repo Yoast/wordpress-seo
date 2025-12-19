@@ -142,7 +142,7 @@ export const FeatureItem = ( {
 
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
 		{ Icon && has( sectionGradients, featureSectionId ) &&
-			<div className="yst-relative">
+			<div className="yst-relative yst-shrink-0">
 				<img
 					src={ sectionGradients[ featureSectionId ] } className={ classNames(
 						shouldDimHeaderImage ? "yst-opacity-0" : "",
