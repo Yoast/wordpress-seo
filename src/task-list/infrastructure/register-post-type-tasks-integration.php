@@ -54,6 +54,8 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 *
 	 * @required
 	 *
+	 * @codeCoverageIgnore - Is handled by DI-container.
+	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 *
 	 * @return void

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure;
 
 use Brain\Monkey\Functions;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Infrastructure\Register_Post_Type_Tasks_Integration;
 
 /**
@@ -11,6 +12,7 @@ use Yoast\WP\SEO\Task_List\Infrastructure\Register_Post_Type_Tasks_Integration;
  * @group Register_Post_Type_Tasks_Integration
  *
  * @covers Yoast\WP\SEO\Task_List\Infrastructure\Register_Post_Type_Tasks_Integration::register_post_type_tasks
+ * @covers Yoast\WP\SEO\Task_List\Infrastructure\Register_Post_Type_Tasks_Integration::get_post_type_tasks
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -159,5 +161,27 @@ final class Register_Post_Type_Tasks_Integration_Register_Post_Type_Tasks_Test e
 
 		$this->assertCount( 5, $result );
 		$this->assertArrayHasKey( 'existing-task', $result );
+	}
+
+	/**
+	 * Tests get_post_type_tasks when invalid tasks are provided.
+	 *
+	 * @return void
+	 */
+	public function test_register_post_type_invalid_tasks_multiple_tasks_and_post_types() {
+		$invalid_task = [ 'invalid-task' => 'task-data' ];
+
+		Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_task_list_post_type_tasks', [] )
+			->andReturn( [ $invalid_task ] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( [ 'irrelevant' ] );
+
+		$this->expectException( Invalid_Post_Type_Tasks_Exception::class );
+
+		$this->instance->register_post_type_tasks( [] );
 	}
 }
