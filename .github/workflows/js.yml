@@ -1,4 +1,4 @@
-name: TestJS
+name: JS
 
 on:
   # Run on relevant pushes to select branches and on all relevant pull requests.
@@ -19,7 +19,7 @@ on:
       - 'lerna.json'
       - 'package.json'
       - 'yarn.lock'
-      - '.github/workflows/jstest.yml'
+      - '.github/workflows/js.yml'
       - '.yarn/**'
       - 'apps/**'
       - 'config/grunt/**'
@@ -35,7 +35,7 @@ on:
       - 'lerna.json'
       - 'package.json'
       - 'yarn.lock'
-      - '.github/workflows/jstest.yml'
+      - '.github/workflows/js.yml'
       - '.yarn/**'
       - 'apps/**'
       - 'config/grunt/**'
@@ -51,9 +51,86 @@ concurrency:
 
 jobs:
   #########################################################################################
+  # Setup job: Install dependencies once and share with all jobs (lint + test)
+  #########################################################################################
+  setup:
+    runs-on: ubuntu-latest
+    name: "Setup - Install Dependencies & Build"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './.nvmrc'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+
+      - name: Build all packages
+        run: yarn run build --ignore "@yoast/wordpress-seo"
+
+      - name: Upload node_modules and build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependencies-and-build
+          path: |
+            node_modules
+            packages/*/node_modules
+            packages/*/build
+            packages/*/dist
+            apps/*/node_modules
+            apps/*/build
+            apps/*/dist
+          retention-days: 1
+
+  #########################################################################################
+  # Lint job: Runs in parallel with tests after setup completes
+  #########################################################################################
+  lint:
+    needs: [setup]
+    runs-on: ubuntu-latest
+    name: "LintJS"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './.nvmrc'
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: dependencies-and-build
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+
+      - name: Run Javascript lint
+        run: yarn lint
+
+  #########################################################################################
   # For packages in this job, the full test suite is always run.
   #########################################################################################
-  yarn-test-full:
+  test-full:
+    needs: [setup]
     runs-on: ubuntu-latest
 
     strategy:
@@ -79,19 +156,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # The ubuntu images come with Node, npm and yarn pre-installed.
-      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
-
-      # This action also handles the caching of the Yarn dependencies.
-      # https://github.com/actions/setup-node
-      - name: Set up node and enable caching of dependencies
+      - name: Set up node
         uses: actions/setup-node@v4
         with:
           node-version-file: './.nvmrc'
-          cache: 'yarn'
 
-      - name: Yarn install
-        run: yarn install
+      - name: Download dependencies and build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dependencies-and-build
 
       - name: Show debug info
         run: |
@@ -100,9 +173,6 @@ jobs:
           yarn --version
           grunt --version
           yarn run jest --version
-
-      - name: Build all packages
-        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         run: yarn run jest --version
@@ -131,7 +201,8 @@ jobs:
   # For merges and pushes to select branches, the full test suite is still run.
   # Packages should (only) be moved to this job if the full test run is exceedingly slow.
   #########################################################################################
-  yarn-test-onlyChanged:
+  test-onlyChanged:
+    needs: [setup]
     runs-on: ubuntu-latest
 
     strategy:
@@ -172,21 +243,17 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
 
-      # The ubuntu images come with Node, npm and yarn pre-installed.
-      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
-
-      # This action also handles the caching of the Yarn dependencies.
-      # https://github.com/actions/setup-node
-      - name: Set up node and enable caching of dependencies
+      - name: Set up node
         if: ${{ steps.checks-run.outputs.should == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version-file: './.nvmrc'
-          cache: 'yarn'
 
-      - name: Yarn install
+      - name: Download dependencies and build artifacts
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        run: yarn install
+        uses: actions/download-artifact@v4
+        with:
+          name: dependencies-and-build
 
       - name: Show debug info
         if: ${{ steps.checks-run.outputs.should == 'true' }}
@@ -196,10 +263,6 @@ jobs:
           yarn --version
           grunt --version
           yarn run jest --version
-
-      - name: Build all packages
-        if: ${{ steps.checks-run.outputs.should == 'true' }}
-        run: yarn run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         if: ${{ steps.checks-run.outputs.should == 'true' }}
@@ -224,3 +287,4 @@ jobs:
         with:
           flag-name: package-${{ matrix.package }}
           parallel: true
+
