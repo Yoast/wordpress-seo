@@ -16,6 +16,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Enable_Llms_Txt;
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Enable_Llms_Txt::get_call_to_action
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Enable_Llms_Txt::get_copy_set
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Enable_Llms_Txt::to_array
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Enable_Llms_Txt::get_link
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry::to_array
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set::to_array
  *
