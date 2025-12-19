@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Delete_Hello_World
 
 use Brain\Monkey;
 use Mockery;
+use WP_Comment;
+use WP_Post;
 
 /**
  * Test class for getting the id.
@@ -41,6 +43,110 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 			->once()
 			->with( 1 )
 			->andReturn( $post );
+
+		$get_comments_args             = [
+			'post_id' => 1,
+			'number'  => 1,
+			'order'   => 'ASC',
+		];
+		$comment                       = Mockery::mock( WP_Comment::class );
+		$comment->comment_author_email = 'wapuu@wordpress.example';
+		Monkey\Functions\expect( 'get_comments' )
+			->once()
+			->with( $get_comments_args )
+			->andReturn( [ $comment ] );
+
+		$expected_result = [
+			'id'           => 'delete-hello-world',
+			'duration'     => 1,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => false,
+			'callToAction' => [
+				'label' => 'Delete for me',
+				'type'  => 'delete',
+				'href'  => null,
+			],
+			'title'        => 'Remove the “Hello World” post',
+			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
+			'how'          => null,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array method when completed because there's a post with ID 1 but no comments.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_completed_because_has_no_comments() {
+		$post                = Mockery::mock( WP_Post::class );
+		$post->post_status   = 'publish';
+		$post->post_date     = '2024-03-08 07:26:12';
+		$post->post_modified = '2024-03-08 07:26:12';
+
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn( $post );
+
+		$get_comments_args = [
+			'post_id' => 1,
+			'number'  => 1,
+			'order'   => 'ASC',
+		];
+		Monkey\Functions\expect( 'get_comments' )
+			->once()
+			->with( $get_comments_args )
+			->andReturn( [] );
+
+		$expected_result = [
+			'id'           => 'delete-hello-world',
+			'duration'     => 1,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => true,
+			'callToAction' => [
+				'label' => 'Delete for me',
+				'type'  => 'delete',
+				'href'  => null,
+			],
+			'title'        => 'Remove the “Hello World” post',
+			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
+			'how'          => null,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array method when completed because there's a post with ID 1 but no comments with the right author.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_completed_because_has_no_comments_with_right_author() {
+		$post                = Mockery::mock( WP_Post::class );
+		$post->post_status   = 'publish';
+		$post->post_date     = '2024-03-08 07:26:12';
+		$post->post_modified = '2024-03-08 07:26:12';
+
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn( $post );
+
+		$get_comments_args             = [
+			'post_id' => 1,
+			'number'  => 1,
+			'order'   => 'ASC',
+		];
+		$comment                       = Mockery::mock( WP_Comment::class );
+		$comment->comment_author_email = 'not_wapuu@wordpress.example';
+		Monkey\Functions\expect( 'get_comments' )
+			->once()
+			->with( $get_comments_args )
+			->andReturn( [ $comment ] );
 
 		$expected_result = [
 			'id'           => 'delete-hello-world',
@@ -106,6 +212,18 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 			->once()
 			->with( 1 )
 			->andReturn( $post );
+
+		$get_comments_args             = [
+			'post_id' => 1,
+			'number'  => 1,
+			'order'   => 'ASC',
+		];
+		$comment                       = Mockery::mock( WP_Comment::class );
+		$comment->comment_author_email = 'wapuu@wordpress.example';
+		Monkey\Functions\expect( 'get_comments' )
+			->once()
+			->with( $get_comments_args )
+			->andReturn( [ $comment ] );
 
 		$expected_result = [
 			'id'           => 'delete-hello-world',
