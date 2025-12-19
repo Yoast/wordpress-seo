@@ -21,6 +21,7 @@ use WP_Post;
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Delete_Hello_World::get_call_to_action
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Delete_Hello_World::get_copy_set
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Delete_Hello_World::to_array
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Delete_Hello_World::get_link
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry::to_array
  * @covers Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set::to_array
  *
