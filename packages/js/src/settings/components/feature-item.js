@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { useMemo } from "@wordpress/element";
+import { useMemo, useCallback, useState } from "@wordpress/element";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
-import { useDisabledMessage, useSelectSettings } from "../hooks";
+import { useDisabledMessage, useSelectSettings, useToggleHandlerWithModals } from "../hooks";
 import { get, has } from "lodash";
 import { Button, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import { LockOpenIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
@@ -61,12 +61,21 @@ const LearnMoreLink = ( { id, url, ariaLabel, ...props } ) => {
 
 /**
  *
- *
- * @param {boolean} isDisabled Whether the feature is disabled.
- * @param {string} imageSrc The source URL of the feature image.
- * @param {string} imageAlt The alt text for the feature image.
- * @param {boolean} isPremium Whether the user has a premium subscription.
+ * @param {string} name The feature setting name.
+ * @param {string} id The feature item ID.
+ * @param {string} inputId The feature toggle input ID.
  * @param {boolean} isPremiumFeature Whether the feature is a premium feature.
+ * @param {string} isPremiumLink The link URL for the premium upsell.
+ * @param {string} title The feature title.
+ * @param {string} description The feature description.
+ * @param {string} learnMoreUrl The URL for the learn more link.
+ * @param {string} learnMoreLinkId The ID for the learn more link.
+ * @param {string} learnMoreLinkAriaLabel The aria label for the learn more link.
+ * @param {JSX.Element} children Additional children to render below the description.
+ * @param {JSX.ElementClass} Icon The feature icon component.
+ * @param {string} featureSectionId The feature section ID.
+ * @param {Function} [disableConfirmationModal] Render function for the confirmation modal when disabling the feature.
+ * @param {Function} [programmaticallyDisabledModal] Render function for the modal when the feature is disabled programmatically.
  *
  * @returns {JSX.Element} The feature row component.
  */
@@ -85,16 +94,52 @@ export const FeatureItem = ( {
 	children,
 	Icon,
 	featureSectionId,
+	disableConfirmationModal = null,
+	programmaticallyDisabledModal = null,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const { isDisabled, disabledSetting } = useDisabledMessage( { name } );
-	const { values } = useFormikContext();
+	const { values, setFieldValue } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const svgAriaProps = useSvgAria();
 	const value = useMemo( () => get( values, name, false ), [ values, name ] );
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
 	const shouldDimHeaderImage = useMemo( () => shouldUpsell || isDisabled || ! value, [ isDisabled, shouldUpsell, value ] );
+	const [ isConfirmModalOpen, setIsConfirmModalOpen ] = useState( false );
+	const [ isProgrammaticallyDisabledModalOpen, setIsProgrammaticallyDisabledModalOpen ] = useState( false );
+	const showConfirmationModal = Boolean( disableConfirmationModal );
+	const showProgrammaticallyDisabledModal = Boolean( programmaticallyDisabledModal );
+
+	const handleToggleChange = useToggleHandlerWithModals( {
+		isDisabledProgrammatically: showProgrammaticallyDisabledModal,
+		confirmBeforeDisable: showConfirmationModal,
+		fieldName: name,
+		setFieldValue,
+		onShowProgrammaticallyDisabledModal: useCallback( () => setIsProgrammaticallyDisabledModalOpen( true ), [] ),
+		onShowDisableConfirmModal: useCallback( () => setIsConfirmModalOpen( true ), [] ),
+	} );
+
+	const handleModalClose = useCallback( () => {
+		setIsConfirmModalOpen( false );
+	}, [] );
+
+	const handleModalConfirm = useCallback( () => {
+		setFieldValue( name, false );
+		setIsConfirmModalOpen( false );
+	}, [ setFieldValue, name ] );
+
+	const handleProgrammaticallyDisabledModalClose = useCallback( () => {
+		setIsProgrammaticallyDisabledModalOpen( false );
+	}, [] );
+
+	const toggleProps = {
+		id: inputId,
+		"aria-label": `${ __( "Enable feature", "wordpress-seo" ) } ${ title }`,
+		disabled: isDisabled,
+		label: "",
+	};
+
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
 		{ Icon && has( sectionGradients, featureSectionId ) &&
 			<div className="yst-relative">
@@ -138,16 +183,27 @@ export const FeatureItem = ( {
 			</div>
 		</div>
 		<div>
-			{ ! shouldUpsell && <FormikValueChangeField
+			{ ! shouldUpsell && ! showConfirmationModal && <FormikValueChangeField
+				{ ...toggleProps }
 				as={ ToggleField }
 				type="checkbox"
 				name={ name }
-				id={ inputId }
-				screenReaderLabel={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
-				label={ "" }
-				disabled={ isDisabled }
-				checked={ disabledSetting === "language" ? false : value }
+				checked={ disabledSetting === "language" || showProgrammaticallyDisabledModal ? false : value }
 			/> }
+			{ ! shouldUpsell && showConfirmationModal && <ToggleField
+				{ ...toggleProps }
+				checked={ disabledSetting === "language" || showProgrammaticallyDisabledModal ? false : value }
+				onChange={ handleToggleChange }
+			/> }
+			{ showConfirmationModal && disableConfirmationModal( {
+				isOpen: isConfirmModalOpen,
+				onClose: handleModalClose,
+				onConfirm: handleModalConfirm,
+			} ) }
+			{ showProgrammaticallyDisabledModal && programmaticallyDisabledModal( {
+				isOpen: isProgrammaticallyDisabledModalOpen,
+				onClose: handleProgrammaticallyDisabledModalClose,
+			} ) }
 		</div>
 	</div>;
 };

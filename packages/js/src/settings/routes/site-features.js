@@ -1,7 +1,14 @@
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useFormikContext } from "formik";
-import { FormLayout, RouteLayout, FeaturesSection, LlmsTxtButton, XmlSitemapButton, SiteFeatureDescription } from "../components";
+import { FormLayout,
+	RouteLayout,
+	FeaturesSection,
+	LlmsTxtButton,
+	XmlSitemapButton,
+	SiteFeatureDescription,
+	SchemaDisableConfirmationModal,
+	SchemaProgrammaticallyDisabledModal } from "../components";
 import { useSelectSettings, useDispatchSettings } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,6 +28,7 @@ const SiteFeatures = () => {
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const isAllFeaturesOpen = useSelectSettings( "selectIsAllFeaturesOpen", [] );
+	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 	const { toggleAllFeatures } = useDispatchSettings();
 	const { values, initialValues } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
@@ -35,6 +43,11 @@ const SiteFeatures = () => {
 
 	if ( isPremium ) {
 		siteStructureFeatures.internalLinkingSuggestions.learnMoreUrl = "https://yoa.st/17g";
+	}
+
+	technicalSeoFeatures.schemaFramework.disableConfirmationModal = SchemaDisableConfirmationModal;
+	if ( isSchemaDisabledProgrammatically ) {
+		technicalSeoFeatures.schemaFramework.programmaticallyDisabledModal = SchemaProgrammaticallyDisabledModal;
 	}
 
 	const featureSections = [
