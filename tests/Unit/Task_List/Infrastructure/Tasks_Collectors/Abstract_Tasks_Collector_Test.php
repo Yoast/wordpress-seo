@@ -76,14 +76,15 @@ abstract class Abstract_Tasks_Collector_Test extends TestCase {
 	 * @param string             $id             The task ID.
 	 * @param array<string,bool> $to_array       The array representation.
 	 * @param string             $task_interface The interface to mock.
+	 * @param bool               $is_valid       Whether the task is valid.
 	 *
 	 * @return Mockery\MockInterface
 	 */
-	protected function create_mock_task( $id, $to_array = [], $task_interface = Task_Interface::class ) {
+	protected function create_mock_task( $id, $to_array = [], $task_interface = Task_Interface::class, $is_valid = true ) {
 		$mock     = Mockery::mock( $task_interface );
 		$cta_mock = $this->create_mock_cta();
 		$mock->shouldReceive( 'get_id' )->zeroOrMoreTimes()->andReturn( $id );
-		$mock->shouldReceive( 'is_valid' )->zeroOrMoreTimes()->andReturn( true );
+		$mock->shouldReceive( 'is_valid' )->zeroOrMoreTimes()->andReturn( $is_valid );
 		$mock->shouldReceive( 'get_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
 		$mock->shouldReceive( 'set_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
 

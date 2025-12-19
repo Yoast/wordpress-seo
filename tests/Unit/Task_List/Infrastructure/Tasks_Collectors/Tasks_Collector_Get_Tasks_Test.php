@@ -138,4 +138,33 @@ final class Tasks_Collector_Get_Tasks_Test extends Abstract_Tasks_Collector_Test
 		$this->expectException( Invalid_Tasks_Exception::class );
 		$instance->get_tasks();
 	}
+
+	/**
+	 * Tests that non valid tasks are removed from the collection.
+	 *
+	 * @return void
+	 */
+	public function test_get_tasks_not_valid_task() {
+		$task1 = $this->create_mock_task( 'task-1', [], Task_Interface::class, false );
+		$task2 = $this->create_mock_task( 'task-2' );
+
+		$expected_tasks_to_filter = [
+			'task-1' => $task1,
+			'task-2' => $task2,
+		];
+
+		Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_task_list_tasks', $expected_tasks_to_filter )
+			->andReturn( $expected_tasks_to_filter );
+
+		$instance = new Tasks_Collector( $task1, $task2 );
+		$result   = $instance->get_tasks();
+
+		$expected_tasks = [
+			'task-2' => $task2,
+		];
+
+		$this->assertSame( $expected_tasks, $result );
+	}
 }
