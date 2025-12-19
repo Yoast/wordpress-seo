@@ -36,7 +36,7 @@ export const PremiumUpsellCard = ( { link, linkProps, isPromotionActive, isWooCo
 	let upsellButtonText = __( "Buy now", "wordpress-seo" );
 	const microCopy = useMemo( () => {
 		if ( isWooCommerceActive ) {
-			return	__( "Less friction. Smarter optimization.", "wordpress-seo" );
+			return	__( "Less friction. Smarter optimization", "wordpress-seo" );
 		}
 		return __( "Less friction. Faster publishing.", "wordpress-seo" );
 	}, [ isWooCommerceActive ] );
