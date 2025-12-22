@@ -1,0 +1,33 @@
+@layer components {
+	.yst-root { 
+		.yst-image-select-preview {
+			@apply
+			yst-flex
+			yst-justify-center
+			yst-items-center
+			yst-overflow-hidden
+			yst-rounded-md 
+			yst-border
+			yst-border-slate-300
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-offset-2
+			focus:yst-ring-primary-500;
+		}
+
+		.yst-image-select-preview-icon {
+			@apply 
+			yst-mx-auto
+			yst-h-12 yst-w-12
+			yst-text-slate-400
+			yst-stroke-1;
+		}
+
+		.yst-image-select-preview-image {
+			@apply
+			yst-object-cover
+			yst-object-center
+			yst-min-h-full
+			yst-min-w-full;
+		}
+	} }

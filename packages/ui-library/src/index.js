@@ -44,6 +44,7 @@ export { default as ToggleField } from "./components/toggle-field";
 export { TooltipContainer, TooltipTrigger, TooltipWithContext, useTooltipContext } from "./components/tooltip-container";
 export { DropdownMenu } from "./components/dropdown-menu";
 export { Stepper } from "./components/stepper";
+export { ImageSelect } from "./components/image-select";
 
 export * from "./hooks";
 export * from "./constants";
