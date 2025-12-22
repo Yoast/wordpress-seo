@@ -305,7 +305,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 26.7 =
 
-Release date: 2025-12-30
+Release date: 2026-01-07
+
+*New:* Yoast SEO (free) now includes full access to the Site Kit by Google integration in your Dashboard. [Read the full release post here](https://yoa.st/551).
 
 #### Enhancements
 
