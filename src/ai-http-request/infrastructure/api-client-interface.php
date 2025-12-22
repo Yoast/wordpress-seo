@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_HTTP_Request\Infrastructure;
 
 use Exception;
@@ -7,12 +8,17 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 
 /**
  * Interface for the API client.
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
-
 interface API_Client_Interface {
 
 	/**
 	 * Performs a request to the API.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string        $action_path The action path for the request.
 	 * @param array<string> $body        The body of the request.
@@ -27,6 +33,9 @@ interface API_Client_Interface {
 
 	/**
 	 * Gets the timeout of the requests in seconds.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The timeout of the suggestion requests in seconds.
 	 */

@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
@@ -14,10 +15,19 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 
+/**
+ * Request handler interface.
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
+ */
 interface Request_Handler_Interface {
 
 	/**
 	 * Executes the request to the API.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param Request $request The request to execute.
 	 *

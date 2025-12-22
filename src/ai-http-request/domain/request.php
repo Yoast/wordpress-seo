@@ -1,10 +1,14 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_HTTP_Request\Domain;
 
 /**
  * Class Request
  * Represents a request to the AI Generator API.
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
 class Request {
 
@@ -39,6 +43,9 @@ class Request {
 	/**
 	 * Constructor for the Request class.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param string        $action_path The action path for the request.
 	 * @param array<string> $body        The body of the request.
 	 * @param array<string> $headers     The headers for the request.
@@ -54,36 +61,52 @@ class Request {
 	/**
 	 * Get the action path for the request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The action path for the request.
 	 */
 	public function get_action_path(): string {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_action_path' );
 		return $this->action_path;
 	}
 
 	/**
 	 * Get the body of the request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string> The body of the request.
 	 */
 	public function get_body(): array {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_body' );
 		return $this->body;
 	}
 
 	/**
 	 * Get the headers for the request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string> The headers for the request.
 	 */
 	public function get_headers(): array {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::get_headers' );
 		return $this->headers;
 	}
 
 	/**
 	 * Whether the request is a POST request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True if the request is a POST request, false otherwise.
 	 */
 	public function is_post(): bool {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\HTTP_Request\Domain\Request::is_post' );
 		return $this->is_post;
 	}
 }
