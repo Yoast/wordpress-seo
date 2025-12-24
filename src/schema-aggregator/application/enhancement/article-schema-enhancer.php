@@ -43,10 +43,9 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	 */
 	public function enhance( Schema_Piece $schema_piece, Indexable $indexable ): Schema_Piece {
 
-		$data = $schema_piece->get_data();
-		foreach ( $data as $key => $schema_data ) {
+		$schema_data = $schema_piece->get_data();
 			if ( ! isset( $schema_data['@type'] ) ) {
-				continue;
+				return $schema_piece;
 			}
 			if (
 				\in_array(
@@ -58,16 +57,16 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 					],
 					true
 				) ) {
-				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
+				$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
 			}
 
 			if (
 				\is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
-				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
+				$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
 			}
-		}
 
-		return new Schema_Piece( $data, $schema_piece->get_type() );
+
+		return new Schema_Piece( $schema_data, $schema_piece->get_type() );
 	}
 
 	/**
