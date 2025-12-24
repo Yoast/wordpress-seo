@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer;
 
 use Brain\Monkey\Functions;
@@ -44,7 +45,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance = new Article_Schema_Enhancer();
-		$this->config = Mockery::mock( Article_Config::class );
+		$this->config   = Mockery::mock( Article_Config::class );
 		$this->instance->set_article_config( $this->config );
 	}
 
@@ -57,7 +58,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_enhance_schema_piece_handles_exception() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_data = [
@@ -89,7 +90,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_article_keywords_handles_exception() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_data = [
@@ -135,7 +136,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_excerpt_handles_exception() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_data = [
@@ -181,7 +182,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_article_body_handles_exception() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_data = [
@@ -234,7 +235,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_enhance_with_all_enhancements_enabled() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_data = [
@@ -245,7 +246,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 
 		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
 
-		// Setup excerpt
 		Functions\expect( 'get_post_field' )
 			->with( 'post_excerpt', 123 )
 			->andReturn( 'This is an excerpt' );
@@ -254,7 +254,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			->with( 'This is an excerpt' )
 			->andReturn( 'This is an excerpt' );
 
-		// Setup article body
 		Functions\expect( 'get_post_field' )
 			->with( 'post_content', 123 )
 			->andReturn( 'This is the full article content' );
@@ -267,7 +266,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			->with( 'This is the full article content' )
 			->andReturn( 'This is the full article content' );
 
-		// Setup keywords
 		$tag1       = (object) [ 'name' => 'tag1' ];
 		$tags_array = [ $tag1 ];
 
@@ -275,7 +273,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			->with( 123 )
 			->andReturn( $tags_array );
 
-		// Config expectations
 		$this->config
 			->expects( 'is_enhancement_enabled' )
 			->with( 'use_excerpt' )
@@ -337,138 +334,147 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	public function data_provider_for_enhance_schema_piece() {
 		return [
 			'excerpt_enhancement_disabled' => [
-				'config' => [
-					'use_excerpt' => false,
+				'config'          => [
+					'use_excerpt'  => false,
 					'article_body' => false,
-					'keywords' => false,
+					'keywords'     => false,
 				],
-				'schema_data' => [ '@type' => 'Article' ],
+				'schema_data'     => [ '@type' => 'Article' ],
 				'expected_fields' => [],
-				'excerpt_data' => null,
-				'body_data' => null,
-				'keywords_data' => null,
+				'excerpt_data'    => null,
+				'body_data'       => null,
+				'keywords_data'   => null,
 			],
 			'excerpt_enhancement_enabled_with_valid_excerpt' => [
-				'config' => [
-					'use_excerpt' => true,
+				'config'          => [
+					'use_excerpt'  => true,
 					'article_body' => false,
-					'keywords' => false,
+					'keywords'     => false,
 				],
-				'schema_data' => [ '@type' => 'Article' ],
+				'schema_data'     => [ '@type' => 'Article' ],
 				'expected_fields' => [ 'description' => 'Valid excerpt text' ],
-				'excerpt_data' => [
-					'post_excerpt' => 'Valid excerpt text',
+				'excerpt_data'    => [
+					'post_excerpt'       => 'Valid excerpt text',
 					'excerpt_max_length' => 0,
 				],
-				'body_data' => null,
-				'keywords_data' => null,
+				'body_data'       => null,
+				'keywords_data'   => null,
 			],
 			'excerpt_enhancement_with_existing_description' => [
-				'config' => [
-					'use_excerpt' => true,
+				'config'          => [
+					'use_excerpt'  => true,
 					'article_body' => false,
-					'keywords' => false,
+					'keywords'     => false,
 				],
-				'schema_data' => [ '@type' => 'Article', 'description' => 'Existing description' ],
+				'schema_data'     => [
+					'@type'       => 'Article',
+					'description' => 'Existing description',
+				],
 				'expected_fields' => [ 'description' => 'Existing description' ],
-				'excerpt_data' => [
-					'post_excerpt' => 'Valid excerpt text',
+				'excerpt_data'    => [
+					'post_excerpt'       => 'Valid excerpt text',
 					'excerpt_max_length' => 0,
 				],
-				'body_data' => null,
-				'keywords_data' => null,
+				'body_data'       => null,
+				'keywords_data'   => null,
 			],
 			'article_body_enhancement_enabled' => [
-				'config' => [
-					'use_excerpt' => false,
+				'config'          => [
+					'use_excerpt'  => false,
 					'article_body' => true,
-					'keywords' => false,
+					'keywords'     => false,
 				],
-				'schema_data' => [ '@type' => 'Article' ],
+				'schema_data'     => [ '@type' => 'Article' ],
 				'expected_fields' => [ 'articleBody' => 'Article content' ],
-				'excerpt_data' => null,
-				'body_data' => [
-					'post_content' => 'Article content',
-					'should_include' => true,
+				'excerpt_data'    => null,
+				'body_data'       => [
+					'post_content'     => 'Article content',
+					'should_include'   => true,
 					'strip_shortcodes' => true,
-					'strip_html' => true,
-					'max_length' => 500,
+					'strip_html'       => true,
+					'max_length'       => 500,
 				],
-				'keywords_data' => null,
+				'keywords_data'   => null,
 			],
 			'article_body_with_existing_body' => [
-				'config' => [
-					'use_excerpt' => false,
+				'config'          => [
+					'use_excerpt'  => false,
 					'article_body' => true,
-					'keywords' => false,
+					'keywords'     => false,
 				],
-				'schema_data' => [ '@type' => 'Article', 'articleBody' => 'Existing body' ],
+				'schema_data'     => [
+					'@type'       => 'Article',
+					'articleBody' => 'Existing body',
+				],
 				'expected_fields' => [ 'articleBody' => 'Existing body' ],
-				'excerpt_data' => null,
-				'body_data' => [
-					'post_content' => 'Article content',
-					'should_include' => true,
+				'excerpt_data'    => null,
+				'body_data'       => [
+					'post_content'     => 'Article content',
+					'should_include'   => true,
 					'strip_shortcodes' => true,
-					'strip_html' => true,
-					'max_length' => 500,
+					'strip_html'       => true,
+					'max_length'       => 500,
 				],
-				'keywords_data' => null,
+				'keywords_data'   => null,
 			],
 			'keywords_enhancement_enabled' => [
-				'config' => [
-					'use_excerpt' => false,
+				'config'          => [
+					'use_excerpt'  => false,
 					'article_body' => false,
-					'keywords' => true,
+					'keywords'     => true,
 				],
-				'schema_data' => [ '@type' => 'Article' ],
+				'schema_data'     => [ '@type' => 'Article' ],
 				'expected_fields' => [ 'keywords' => 'tag1, tag2' ],
-				'excerpt_data' => null,
-				'body_data' => null,
-				'keywords_data' => [
-					'tags' => [ (object) [ 'name' => 'tag1' ], (object) [ 'name' => 'tag2' ] ],
+				'excerpt_data'    => null,
+				'body_data'       => null,
+				'keywords_data'   => [
+					'tags'                   => [ (object) [ 'name' => 'tag1' ], (object) [ 'name' => 'tag2' ] ],
 					'categories_as_keywords' => false,
 				],
 			],
 			'keywords_with_existing_keywords' => [
-				'config' => [
-					'use_excerpt' => false,
+				'config'          => [
+					'use_excerpt'  => false,
 					'article_body' => false,
-					'keywords' => true,
+					'keywords'     => true,
 				],
-				'schema_data' => [ '@type' => 'Article', 'keywords' => 'existing, keywords' ],
+				'schema_data'     => [
+					'@type'    => 'Article',
+					'keywords' => 'existing, keywords',
+				],
 				'expected_fields' => [ 'keywords' => 'existing, keywords' ],
-				'excerpt_data' => null,
-				'body_data' => null,
-				'keywords_data' => [
-					'tags' => [ (object) [ 'name' => 'tag1' ], (object) [ 'name' => 'tag2' ] ],
+				'excerpt_data'    => null,
+				'body_data'       => null,
+				'keywords_data'   => [
+					'tags'                   => [ (object) [ 'name' => 'tag1' ], (object) [ 'name' => 'tag2' ] ],
 					'categories_as_keywords' => false,
 				],
 			],
 			'all_enhancements_enabled' => [
-				'config' => [
-					'use_excerpt' => true,
+				'config'          => [
+					'use_excerpt'  => true,
 					'article_body' => true,
-					'keywords' => true,
+					'keywords'     => true,
 				],
-				'schema_data' => [ '@type' => 'Article' ],
+				'schema_data'     => [ '@type' => 'Article' ],
 				'expected_fields' => [
 					'description' => 'Test excerpt',
 					'articleBody' => 'Test content',
-					'keywords' => 'test-tag',
+					'keywords'    => 'test-tag',
 				],
-				'excerpt_data' => [
-					'post_excerpt' => 'Test excerpt',
+				'excerpt_data'    => [
+					'post_excerpt'       => 'Test excerpt',
 					'excerpt_max_length' => 0,
 				],
-				'body_data' => [
-					'post_content' => 'Test content',
-					'should_include' => true,
+				'body_data'       => [
+					'post_content'     => 'Test content',
+					'should_include'   => true,
 					'strip_shortcodes' => true,
-					'strip_html' => true,
-					'max_length' => 500,
+					'strip_html'       => true,
+					'max_length'       => 500,
 				],
-				'keywords_data' => [
-					'tags' => [ (object) [ 'name' => 'test-tag' ] ],
+				'keywords_data'   => [
+					'tags'                   => [ (object) [ 'name' => 'test-tag' ] ],
 					'categories_as_keywords' => false,
 				],
 			],
@@ -486,22 +492,21 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @covers ::get_article_body
 	 * @covers ::get_article_keywords
 	 *
-	 * @param array<string, bool> $config Configuration for enhancements.
-	 * @param array<string, mixed> $schema_data Input schema data.
-	 * @param array<string, string> $expected_fields Expected output fields.
-	 * @param array<string, mixed>|null $excerpt_data Excerpt mock data.
-	 * @param array<string, mixed>|null $body_data Body mock data.
-	 * @param array<string, mixed>|null $keywords_data Keywords mock data.
+	 * @param array<string, bool>       $config          Configuration for enhancements.
+	 * @param array<string, mixed>      $schema_data     Input schema data.
+	 * @param array<string, string>     $expected_fields Expected output fields.
+	 * @param array<string, mixed>|null $excerpt_data    Excerpt mock data.
+	 * @param array<string, mixed>|null $body_data       Body mock data.
+	 * @param array<string, mixed>|null $keywords_data   Keywords mock data.
 	 *
 	 * @return void
 	 */
 	public function test_enhance_schema_piece_with_different_configurations( $config, $schema_data, $expected_fields, $excerpt_data, $body_data, $keywords_data ) {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
 		$schema_piece = new Schema_Piece( [ $schema_data ], 'Article' );
 
-		// Setup config mocks
 		foreach ( $config as $enhancement => $enabled ) {
 			$this->config
 				->expects( 'is_enhancement_enabled' )
@@ -509,7 +514,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				->andReturn( $enabled );
 		}
 
-		// Setup excerpt mocks
 		if ( $excerpt_data !== null && $config['use_excerpt'] ) {
 			Functions\expect( 'get_post_field' )
 				->with( 'post_excerpt', 123 )
@@ -525,7 +529,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				->andReturn( $excerpt_data['excerpt_max_length'] );
 		}
 
-		// Setup body mocks
 		if ( $body_data !== null && $config['article_body'] ) {
 			$has_excerpt = $excerpt_data !== null && $config['use_excerpt'] && ! isset( $schema_data['description'] );
 
@@ -568,7 +571,6 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			}
 		}
 
-		// Setup keywords mocks
 		if ( $keywords_data !== null && $config['keywords'] && ! isset( $schema_data['keywords'] ) ) {
 			Functions\expect( 'get_the_tags' )
 				->with( 123 )
@@ -580,17 +582,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				->andReturn( $keywords_data['categories_as_keywords'] );
 		}
 
-		$result = $this->instance->enhance( $schema_piece, $indexable );
+		$result        = $this->instance->enhance( $schema_piece, $indexable );
 		$enhanced_data = $result->get_data();
 
 		foreach ( $expected_fields as $field => $expected_value ) {
-			$this->assertSame( $expected_value, $enhanced_data[0][$field] );
+			$this->assertSame( $expected_value, $enhanced_data[0][ $field ] );
 		}
 
-		// Ensure fields that shouldn't be added are not present
 		$all_possible_fields = [ 'description', 'articleBody', 'keywords' ];
 		foreach ( $all_possible_fields as $field ) {
-			if ( ! isset( $expected_fields[$field] ) && ! isset( $schema_data[$field] ) ) {
+			if ( ! isset( $expected_fields[ $field ] ) && ! isset( $schema_data[ $field ] ) ) {
 				$this->assertArrayNotHasKey( $field, $enhanced_data[0] );
 			}
 		}
@@ -604,65 +605,65 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	public function data_provider_for_edge_cases() {
 		return [
 			'empty_excerpt' => [
-				'post_excerpt' => '',
+				'post_excerpt'          => '',
 				'excerpt_prefer_manual' => false,
-				'post_content' => 'Some content',
-				'expected_result' => 'Some content',
+				'post_content'          => 'Some content',
+				'expected_result'       => 'Some content',
 			],
 			'whitespace_only_excerpt' => [
-				'post_excerpt' => '   ',
+				'post_excerpt'          => '   ',
 				'excerpt_prefer_manual' => false,
-				'post_content' => 'Some content',
-				'expected_result' => 'Some content',
+				'post_content'          => 'Some content',
+				'expected_result'       => 'Some content',
 			],
 			'empty_excerpt_prefer_manual' => [
-				'post_excerpt' => '',
+				'post_excerpt'          => '',
 				'excerpt_prefer_manual' => true,
-				'post_content' => 'Some content',
-				'expected_result' => null,
+				'post_content'          => 'Some content',
+				'expected_result'       => null,
 			],
 			'wp_error_excerpt' => [
-				'post_excerpt' => new WP_Error( 'error', 'Error message' ),
+				'post_excerpt'          => new WP_Error( 'error', 'Error message' ),
 				'excerpt_prefer_manual' => false,
-				'post_content' => 'Some content',
-				'expected_result' => 'Some content',
+				'post_content'          => 'Some content',
+				'expected_result'       => 'Some content',
 			],
 			'wp_error_content' => [
-				'post_excerpt' => '',
+				'post_excerpt'          => '',
 				'excerpt_prefer_manual' => false,
-				'post_content' => new WP_Error( 'error', 'Error message' ),
-				'expected_result' => null,
+				'post_content'          => new WP_Error( 'error', 'Error message' ),
+				'expected_result'       => null,
 			],
 			'empty_content' => [
-				'post_excerpt' => '',
+				'post_excerpt'          => '',
 				'excerpt_prefer_manual' => false,
-				'post_content' => '',
-				'expected_result' => null,
+				'post_content'          => '',
+				'expected_result'       => null,
 			],
 			'tags_null' => [
-				'tags' => null,
+				'tags'                   => null,
 				'categories_as_keywords' => false,
-				'expected_keywords' => [],
+				'expected_keywords'      => [],
 			],
 			'tags_false' => [
-				'tags' => false,
+				'tags'                   => false,
 				'categories_as_keywords' => false,
-				'expected_keywords' => [],
+				'expected_keywords'      => [],
 			],
 			'tags_without_name_property' => [
-				'tags' => [ (object) [ 'slug' => 'tag1' ] ],
+				'tags'                   => [ (object) [ 'slug' => 'tag1' ] ],
 				'categories_as_keywords' => false,
-				'expected_keywords' => [],
+				'expected_keywords'      => [],
 			],
 			'categories_with_uncategorized' => [
-				'tags' => [],
+				'tags'                   => [],
 				'categories_as_keywords' => true,
-				'categories' => [
+				'categories'             => [
 					(object) [ 'name' => 'Category1' ],
 					(object) [ 'name' => 'Uncategorized' ],
 					(object) [ 'name' => 'Category2' ],
 				],
-				'expected_keywords' => [ 'Category1', 'Category2' ],
+				'expected_keywords'      => [ 'Category1', 'Category2' ],
 			],
 		];
 	}
@@ -676,10 +677,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @covers ::enhance_schema_piece
 	 * @covers ::get_excerpt
 	 *
-	 * @param mixed $post_excerpt Post excerpt value.
-	 * @param bool $excerpt_prefer_manual Whether to prefer manual excerpts.
-	 * @param mixed $post_content Post content value.
-	 * @param string|null $expected_result Expected result.
+	 * @param mixed       $post_excerpt          Post excerpt value.
+	 * @param bool        $excerpt_prefer_manual Whether to prefer manual excerpts.
+	 * @param mixed       $post_content          Post content value.
+	 * @param string|null $expected_result       Expected result.
 	 *
 	 * @return void
 	 */
@@ -688,10 +689,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			$this->markTestSkipped( 'This test case is for keywords, not excerpt' );
 		}
 
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
-		$schema_data = [ [ '@type' => 'Article' ] ];
+		$schema_data  = [ [ '@type' => 'Article' ] ];
 		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
 
 		$this->config
@@ -743,12 +744,13 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			->with( 'keywords' )
 			->andReturn( false );
 
-		$result = $this->instance->enhance( $schema_piece, $indexable );
+		$result        = $this->instance->enhance( $schema_piece, $indexable );
 		$enhanced_data = $result->get_data();
 
 		if ( $expected_result !== null ) {
 			$this->assertSame( $expected_result, $enhanced_data[0]['description'] );
-		} else {
+		}
+		else {
 			$this->assertArrayNotHasKey( 'description', $enhanced_data[0] );
 		}
 	}
@@ -762,10 +764,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @covers ::enhance_schema_piece
 	 * @covers ::get_article_keywords
 	 *
-	 * @param mixed $tags Tags data.
-	 * @param bool $categories_as_keywords Whether to include categories.
-	 * @param array<object>|null $categories Categories data.
-	 * @param array<string> $expected_keywords Expected keywords.
+	 * @param mixed              $tags                   Tags data.
+	 * @param bool               $categories_as_keywords Whether to include categories.
+	 * @param array<object>|null $categories             Categories data.
+	 * @param array<string>      $expected_keywords      Expected keywords.
 	 *
 	 * @return void
 	 */
@@ -774,10 +776,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			$this->markTestSkipped( 'This test case is for excerpt, not keywords' );
 		}
 
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
 
-		$schema_data = [ [ '@type' => 'Article' ] ];
+		$schema_data  = [ [ '@type' => 'Article' ] ];
 		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
 
 		$this->config
@@ -810,12 +812,13 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				->andReturn( $categories );
 		}
 
-		$result = $this->instance->enhance( $schema_piece, $indexable );
+		$result        = $this->instance->enhance( $schema_piece, $indexable );
 		$enhanced_data = $result->get_data();
 
 		if ( ! empty( $expected_keywords ) ) {
 			$this->assertSame( \implode( ', ', $expected_keywords ), $enhanced_data[0]['keywords'] );
-		} else {
+		}
+		else {
 			$this->assertArrayNotHasKey( 'keywords', $enhanced_data[0] );
 		}
 	}
@@ -829,10 +832,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_enhance_schema_piece_with_invalid_object_id() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = null;
 
-		$schema_data = [ [ '@type' => 'Article' ] ];
+		$schema_data  = [ [ '@type' => 'Article' ] ];
 		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
 
 		$this->config
@@ -854,7 +857,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			->with( 'keywords' )
 			->andReturn( false );
 
-		$result = $this->instance->enhance( $schema_piece, $indexable );
+		$result        = $this->instance->enhance( $schema_piece, $indexable );
 		$enhanced_data = $result->get_data();
 
 		$this->assertArrayNotHasKey( 'description', $enhanced_data[0] );
