@@ -1,16 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer;
 
-use Brain\Monkey\Functions;
-use Exception;
 use Mockery;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer;
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use function Brain\Monkey\Functions;
 
 /**
  * Tests the Article_Schema_Enhancer class.
@@ -36,7 +31,7 @@ final class Set_Article_Config_Test extends Abstract_Article_Schema_Enhancer_Tes
 	protected function set_up() {
 		parent::set_up();
 
-		$this->config   = Mockery::mock( Article_Config::class );
+		$this->config = Mockery::mock( Article_Config::class );
 		$this->instance->set_article_config( $this->config );
 	}
 
