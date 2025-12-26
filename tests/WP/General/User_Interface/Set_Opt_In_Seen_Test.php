@@ -52,7 +52,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( $user->ID );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'wpseo_seen_llm_txt_opt_in_notification' );
+		$request->set_param( 'key', 'task_list' );
 
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -64,7 +64,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		$this->assertTrue( $response_data->success );
 		$this->assertSame( 200, $response_data->status );
 
-		$meta_value = \get_user_meta( $user->ID, 'wpseo_seen_llm_txt_opt_in_notification', true );
+		$meta_value = \get_user_meta( $user->ID, '_yoast_wpseo_task_list_opt_in_notification_seen', true );
 
 		$this->assertSame( $meta_value, '1' );
 	}
@@ -102,7 +102,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( $user->ID );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'wpseo_seen_llm_txt_opt_in_notification' );
+		$request->set_param( 'key', 'task_list' );
 
 		$response = \rest_get_server()->dispatch( $request );
 
@@ -123,7 +123,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 		\wp_set_current_user( 0 );
 
 		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
-		$request->set_param( 'key', 'wpseo_seen_llm_txt_opt_in_notification' );
+		$request->set_param( 'key', 'task_list' );
 
 		$response = \rest_get_server()->dispatch( $request );
 

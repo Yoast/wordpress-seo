@@ -18,7 +18,7 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_valid_key() {
-		$this->assertTrue( $this->instance->validate_key( 'wpseo_seen_llm_txt_opt_in_notification' ) );
+		$this->assertTrue( $this->instance->validate_key( 'task_list' ) );
 	}
 
 	/**
@@ -63,7 +63,7 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_extra_characters() {
-		$this->assertFalse( $this->instance->validate_key( 'wpseo_seen_llm_txt_opt_in_notification_extra' ) );
+		$this->assertFalse( $this->instance->validate_key( 'task_list_extra' ) );
 	}
 
 	/**
@@ -72,7 +72,7 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_is_case_sensitive() {
-		$this->assertFalse( $this->instance->validate_key( 'WPSEO_SEEN_LLM_TXT_OPT_IN_NOTIFICATION' ) );
+		$this->assertFalse( $this->instance->validate_key( 'TASK_LIST' ) );
 	}
 
 	/**
@@ -81,6 +81,6 @@ final class Validate_Key_Test extends Abstract_Opt_In_Route_Test {
 	 * @return void
 	 */
 	public function test_validate_key_with_whitespace() {
-		$this->assertFalse( $this->instance->validate_key( ' wpseo_seen_llm_txt_opt_in_notification ' ) );
+		$this->assertFalse( $this->instance->validate_key( ' task_list ' ) );
 	}
 }

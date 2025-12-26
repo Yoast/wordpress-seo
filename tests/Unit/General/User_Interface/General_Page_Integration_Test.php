@@ -352,7 +352,7 @@ final class General_Page_Integration_Test extends TestCase {
 
 		$this->user_helper
 			->expects( 'get_meta' )
-			->with( 1, 'wpseo_seen_llm_txt_opt_in_notification', true )
+			->with( 1, '_yoast_wpseo_task_list_opt_in_notification_seen', true )
 			->once()
 			->andReturn( false );
 
