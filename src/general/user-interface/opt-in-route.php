@@ -99,7 +99,7 @@ class Opt_In_Route implements Route_Interface {
 		$key             = $request->get_param( 'key' );
 		$current_user_id = $this->user_helper->get_current_user_id();
 
-		$result  = $this->user_helper->update_meta( $current_user_id, '_yoast_wpseo_' . $key .'_opt_in_notification_seen' , true );
+		$result  = $this->user_helper->update_meta( $current_user_id, '_yoast_wpseo_' . $key . '_opt_in_notification_seen', true );
 		$success = $result !== false;
 		$status  = ( $success ) ? 200 : 400;
 
