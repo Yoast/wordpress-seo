@@ -7,7 +7,7 @@ export const TaskListOptInContainer = () => {
 	const taskListOptInNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [], "task_list" );
 	const { pathname } = useLocation();
 
-	if ( pathname === ROUTES.firstTimeConfiguration || taskListOptInNotificationSeen ) {
+	if ( pathname === ROUTES.firstTimeConfiguration || pathname === ROUTES.taskList || taskListOptInNotificationSeen ) {
 		return null;
 	}
 	return (
