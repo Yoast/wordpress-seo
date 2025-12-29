@@ -55,11 +55,10 @@ export const TaskListOptInNotification = () => {
 			// Hide the notification when unmounting when switching to the FTC tab.
 			hideOptInNotification( "task_list" );
 		};
-	}, [] );
-
+	}, [ hideOptInNotification, setOptInNotificationSeen, toggleIsVisible ] );
 
 	return <Toast
-		id="yoast_wpseo_task_list_opt_in_notification_seen"
+		id="yoast_wpseo_task_list_opt_in_notification"
 		isVisible={ isVisible }
 		className="yst-w-96"
 		position="bottom-left"
