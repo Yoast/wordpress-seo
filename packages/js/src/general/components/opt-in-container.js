@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { ROUTES } from "../routes";
 import { useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
+import { useEffect } from "@wordpress/element";
 
 /**
  * The container for the opt-in notification.
@@ -16,15 +17,17 @@ export const OptInContainer = () => {
 	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 	const { pathname } = useLocation();
 
-	if ( pathname === ROUTES.taskList ) {
-		setOptInNotificationSeen( "task_list" );
-		hideOptInNotification( "task_list" );
+	useEffect( () => {
+		if ( pathname === ROUTES.taskList ) {
+			setOptInNotificationSeen( "task_list" );
+			hideOptInNotification( "task_list" );
+		}
+	}, [ setOptInNotificationSeen, hideOptInNotification, pathname ] );
+
+	if ( pathname === ROUTES.firstTimeConfiguration || taskListOptInNotificationSeen || pathname === ROUTES.taskList ) {
 		return null;
 	}
 
-	if ( pathname === ROUTES.firstTimeConfiguration || taskListOptInNotificationSeen ) {
-		return null;
-	}
 	return (
 		<div>
 			<TaskListOptInNotification />
