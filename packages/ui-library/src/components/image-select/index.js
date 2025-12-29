@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
-import { ImageSelectContext, useImageSelectContext } from "./hooks";
+import { useImageSelectContext } from "./hooks";
+import { ImageSelectContext } from "./context";
 import classNames from "classnames";
 import { PhotographIcon } from "@heroicons/react/outline";
 import { Button, Link, useSvgAria } from "../../index";
@@ -82,7 +83,7 @@ export const Preview = ( { imageAltText, className } ) => {
 /**
  * Buttons component for the ImageSelect.
  *
- * @param {string} RemoveLabel The label for the remove button.
+ * @param {string} removeLabel The label for the remove button.
  * @param {Function} onRemoveImage The function to call when the remove button is clicked.
  *
  * @returns {JSX.Element} The Buttons component.

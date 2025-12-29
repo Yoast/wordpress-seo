@@ -1,13 +1,5 @@
-import { noop } from "lodash";
-import { createContext, useContext } from "react";
-
-export const ImageSelectContext = createContext( {
-	buttonLabel: "Select image",
-	imageUrl: "",
-	onSelectImage: noop,
-	isDisabled: false,
-	id: "yst-image-select",
-} );
+import { ImageSelectContext } from "./context";
+import { useContext } from "react";
 
 /**
  * @returns {Object} The ImageSelect context.
