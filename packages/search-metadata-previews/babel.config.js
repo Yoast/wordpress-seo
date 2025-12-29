@@ -8,10 +8,15 @@ module.exports = {
 				},
 			},
 		],
-		"@babel/preset-react",
 	],
 	plugins: [
-		"babel-plugin-styled-components",
 		"@babel/plugin-transform-react-jsx",
 	],
+	env: {
+		test: {
+			plugins: [
+				"babel-plugin-styled-components",
+			],
+		},
+	},
 };
