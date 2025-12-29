@@ -6,12 +6,12 @@ import { useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 
 /**
- * The container for the Task List opt-in notification.
- * Used to decide whether to show the notification or not.
+ * The container for the opt-in notification.
+ * Used to decide whether to show the opt-in notification or not.
  *
  * @returns {JSX.Element|null} The container component.
  */
-export const TaskListOptInContainer = () => {
+export const OptInContainer = () => {
 	const taskListOptInNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [], "task_list" );
 	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 	const { pathname } = useLocation();
