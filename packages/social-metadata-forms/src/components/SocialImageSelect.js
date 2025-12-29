@@ -7,36 +7,35 @@ import { Alert, Root, ImageSelect } from "@yoast/ui-library";
 /**
  * Renders ImageSelect component.
  *
+ * @param {string}   [imageAltText=""] The alt text for the selected image.
+ * @param {boolean}  [hasPreview] Whether to show the image preview.
  * @param {boolean} [usingFallback=false] Whether the default/fallback image is being used.
  * @param {string} [imageUrl=""] The URL of the selected image.
  * @param {string} [defaultImageUrl=""] The URL of the default/fallback image.
  * @param {string[]} [warnings=[]] Warnings to display.
  * @param {Function} [onClick=noop] Callback called when the "Select image" or "Replace image" button is clicked.
  * @param {Function} [onRemoveImageClick=noop] Callback called when the "Remove image" button is clicked.
- * @param {string} [selectImageButtonId=""] The ID for the select image button.
- * @param {string} [replaceImageButtonId=""] The ID for the replace image button.
- * @param {string} [removeImageButtonId=""] The ID for the remove image button.
  * @param {boolean} [isDisabled=false] Whether the buttons are disabled.
  * @param {Function} [onMouseEnter=noop] Callback called when the mouse enters the component.
  * @param {Function} [onMouseLeave=noop] Callback called when the mouse leaves the component.
- * @param {string} imageUrlInputId The ID for the image URL input.
  * @param {string} label The label that is displayed above the selection button.
+ * @param {string} id The ID for the component.
  *
  * @returns {React.Component} The ImageSelect.
  */
 function SocialImageSelect( {
-	label,
-	onClick = noop,
-	onRemoveImageClick = noop,
-	warnings = [],
-	onMouseEnter = noop,
-	onMouseLeave = noop,
-	imageUrl = "",
-	usingFallback = false,
 	imageAltText = "",
 	hasPreview,
-	isDisabled = false,
+	usingFallback = false,
+	imageUrl = "",
 	defaultImageUrl = "",
+	warnings = [],
+	onClick = noop,
+	onRemoveImageClick = noop,
+	isDisabled = false,
+	onMouseEnter = noop,
+	onMouseLeave = noop,
+	label,
 	id,
 } ) {
 	const imageSelected = usingFallback === false && imageUrl !== "";
