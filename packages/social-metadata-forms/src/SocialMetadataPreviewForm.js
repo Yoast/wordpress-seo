@@ -26,14 +26,6 @@ const CaretContainer = styled.div`
 	margin-bottom: 1.7em;
 `;
 
-CaretContainer.propTypes = {
-	isPremium: PropTypes.bool,
-};
-
-CaretContainer.defaultProps = {
-	isPremium: false,
-};
-
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 
@@ -79,14 +71,13 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	 *
 	 * @param {boolean} isActive Whether the component is active.
 	 * @param {boolean} isHovered Whether the component is hovered.
-	 * @param {boolean} [isPremium=false] Whether the component is premium.
 	 * @param {Object} [withoutCaretProps] The props for the component.
 	 *
 	 * @returns {JSX.Element} The component with a Caret.
 	 */
-	function ComponentWithCaret( { isActive, isHovered, isPremium = false, ...withoutCaretProps } ) {
+	function ComponentWithCaret( { isActive, isHovered, ...withoutCaretProps } ) {
 		return (
-			<CaretContainer isPremium={ isPremium }>
+			<CaretContainer>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
@@ -97,7 +88,6 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	ComponentWithCaret.propTypes = {
 		isActive: PropTypes.bool.isRequired,
 		isHovered: PropTypes.bool.isRequired,
-		isPremium: PropTypes.bool,
 	};
 
 	return ComponentWithCaret;
@@ -246,7 +236,6 @@ class SocialMetadataPreviewForm extends Component {
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
 					id={ join( [ lowerCaseSocialMediumName, "image-select", idSuffix ] ) }
-					isPremium={ isPremium }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
