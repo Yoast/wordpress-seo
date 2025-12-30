@@ -147,7 +147,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'site_kit_tracking_last_interaction_stage'             => '',
 		'site_kit_tracking_setup_widget_temporarily_dismissed' => 'no',
 		'site_kit_tracking_setup_widget_permanently_dismissed' => 'no',
-		'google_site_kit_feature_enabled'                      => false,
+		'google_site_kit_feature_enabled'                      => false, // No longer used.
 		'ai_free_sparks_started_on'                            => null,
 		'enable_llms_txt'                                      => false,
 		'last_updated_on'                                      => false,
@@ -155,6 +155,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'default_seo_meta_desc'                                => [],
 		'first_activated_by'                                   => 0,
 		'enable_task_list'                                     => true,
+		'enable_schema'                                        => true,
 	];
 
 	/**
@@ -549,6 +550,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'google_site_kit_feature_enabled',
 				 *  'enable_llms_txt',
 				 *  'enable_task_list',
+				 *  'enable_schema',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -620,6 +622,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'google_site_kit_feature_enabled'    => false,
 			'enable_llms_txt'                    => false,
 			'enable_task_list'                   => false,
+			'enable_schema'                      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
