@@ -6,6 +6,7 @@ use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
@@ -77,6 +78,13 @@ final class Plans_Page_Integration_Test extends TestCase {
 	private $promotion_manager;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * The promotion manager.
 	 *
 	 * @var Mockery\MockInterface|Duplicate_Post_Manager
@@ -93,6 +101,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 
 		$premium_add_on = Mockery::mock(
 			Premium::class,
@@ -105,7 +114,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->add_ons_collector      = new Add_Ons_Collector( $premium_add_on );
+		$this->add_ons_collector      = new Add_Ons_Collector( $this->addon_manager, $premium_add_on );
 		$this->current_page_helper    = Mockery::mock( Current_Page_Helper::class );
 		$this->short_link_helper      = Mockery::mock( Short_Link_Helper::class );
 		$this->admin_conditional      = Mockery::mock( Admin_Conditional::class );
@@ -304,6 +313,9 @@ final class Plans_Page_Integration_Test extends TestCase {
 				'activatePlugin' => false,
 			],
 		];
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( true );
 
 		Actions\expectRemoved( 'admin_print_scripts' )->once()->with( 'print_emoji_detection_script' );
 
