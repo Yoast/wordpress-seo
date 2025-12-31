@@ -111,11 +111,6 @@ final class Add_Ons_Collector_Test extends TestCase {
 			->twice()
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
 			->andReturn( true, false );
-
-		$this->addon_manager->expects( 'has_active_addons' )
-			->times( 4 )
-			->andReturn( true );
-
 		$this->addon_manager->expects( 'has_valid_subscription' )
 			->twice()
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
