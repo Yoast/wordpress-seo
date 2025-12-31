@@ -103,11 +103,49 @@ final class Premium_Test extends TestCase {
 	 */
 	public function test_has_license(): void {
 		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
+			->once()
 			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false );
+			->andReturn( true );
+
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( true );
 
 		$this->assertTrue( $this->instance->has_license() );
+	}
+
+	/**
+	 * Tests the has_license method.
+	 *
+	 * @covers ::has_license
+	 *
+	 * @return void
+	 */
+	public function test_has_license_without_license(): void {
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( true );
+
+		$this->addon_manager->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->has_license() );
+	}
+
+	/**
+	 * Tests the has_license method when there are no active addons.
+	 *
+	 * @covers ::has_license
+	 *
+	 * @return void
+	 */
+	public function test_has_license_without_active_addons(): void {
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( false );
+
 		$this->assertFalse( $this->instance->has_license() );
 	}
 }
