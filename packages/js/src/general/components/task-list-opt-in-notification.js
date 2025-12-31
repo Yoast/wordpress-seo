@@ -19,8 +19,10 @@ const NotificationButtons = () => {
 	const svgAriaProps = useSvgAria();
 	const taskListpath = ROUTES.taskList;
 	const navigate = useNavigate();
+	const { hideOptInNotification } = useDispatch( STORE_NAME );
 
 	const handleShow = useCallback( async() => {
+		hideOptInNotification( "task_list" );
 		handleDismiss();
 		navigate( taskListpath );
 	}, [ taskListpath, navigate ] );
@@ -44,6 +46,10 @@ export const TaskListOptInNotification = () => {
 	const svgAriaProps = useSvgAria();
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
 
+	const onDismiss = useCallback( () => {
+		hideOptInNotification( "task_list" );
+	}, [ hideOptInNotification ] );
+
 	useEffect( () => {
 		// Mark the notification as seen when mounting.
 		setOptInNotificationSeen( "task_list" );
@@ -63,7 +69,7 @@ export const TaskListOptInNotification = () => {
 		className="yst-w-96"
 		position="bottom-left"
 		setIsVisible={ setIsVisible }
-		onDismiss={ hideOptInNotification }
+		onDismiss={ onDismiss }
 	>
 		<>
 			<div className="yst-flex yst-gap-3">

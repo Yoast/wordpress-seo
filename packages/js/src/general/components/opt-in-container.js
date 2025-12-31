@@ -18,11 +18,11 @@ export const OptInContainer = () => {
 	const { pathname } = useLocation();
 
 	useEffect( () => {
-		if ( pathname === ROUTES.taskList ) {
+		if ( pathname === ROUTES.taskList && ! taskListOptInNotificationSeen ) {
 			setOptInNotificationSeen( "task_list" );
 			hideOptInNotification( "task_list" );
 		}
-	}, [ setOptInNotificationSeen, hideOptInNotification, pathname ] );
+	}, [ pathname, taskListOptInNotificationSeen, setOptInNotificationSeen, hideOptInNotification ] );
 
 	if ( pathname === ROUTES.firstTimeConfiguration || taskListOptInNotificationSeen || pathname === ROUTES.taskList ) {
 		return null;
