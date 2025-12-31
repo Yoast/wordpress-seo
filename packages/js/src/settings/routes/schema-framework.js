@@ -90,10 +90,10 @@ const SchemaFramework = () => {
 	const disabledSchemaAlert = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/*
-			 * translators: %1$s expands to `wpseo_json_ld_output`, %2$s expands to `false,
+			 * translators: %1$s expands to `wpseo_json_ld_output`, %2$s expands to `false`,
 			 * %3$s and %4$s are replaced by opening and closing <a> tags
 			 */
-			__( "It looks like the Yoast Schema Framework is disabled. The %1$s filter has been set to %2$s or an empty array, which turns off Schema output. %3$sLearn more about the filter%4$s.", "wordpress-seo" ),
+			__( "It looks like the Yoast Schema Framework is disabled. The %1$s filter has been set to %2$s or an empty array either by a third-party plugin or via custom development on the website, which turns off Schema output. %3$sLearn more about the filter%4$s.", "wordpress-seo" ),
 			"<code1 />",
 			"<code2 />",
 			"<a>",
