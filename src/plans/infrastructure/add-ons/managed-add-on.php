@@ -57,6 +57,6 @@ abstract class Managed_Add_On implements Add_On_Interface {
 	 * @return bool
 	 */
 	public function has_license(): bool {
-		return $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( static::SLUG );
+		return $this->addon_manager->has_valid_subscription( static::SLUG );
 	}
 }
