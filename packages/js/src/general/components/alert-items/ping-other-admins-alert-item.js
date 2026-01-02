@@ -7,7 +7,7 @@ import { select, useDispatch } from "@wordpress/data";
 import { useState, useCallback, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
-import { Button, TextField } from "@yoast/ui-library";
+import { Button, TextField, useRootContext } from "@yoast/ui-library";
 import { STORE_NAME } from "../../constants";
 import { useSelectGeneralPage } from "../../hooks";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
@@ -83,6 +83,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 	const isPremium = useSelectGeneralPage( "selectPreference", [], "isPremium" );
 	const addonsStatus = useSelectGeneralPage( "selectPreference", [], "addonsStatus" );
 	const inputRef = useRef();
+	const { isRtl } = useRootContext();
 
 	const clearError = useCallback( () => {
 		setError( "" );
@@ -148,6 +149,7 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					onInput={ clearError }
 					ref={ inputRef }
 					onChange={ noop }
+					style={ { direction: isRtl ? "rtl" : "ltr" } }
 				/>
 				<Button
 					variant="primary"
@@ -157,8 +159,8 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 					disabled={ isLoading || dismissed }
 				>
 					{ __( "Send", "wordpress-seo" ) }
-					<div className="yst-ml-2 yst-w-4">
-						<ArrowNarrowRightIcon className="yst-w-4 yst-text-white" />
+					<div className="yst-ms-2 yst-w-4">
+						<ArrowNarrowRightIcon className="yst-w-4 yst-text-white rtl:yst-rotate-180" />
 					</div>
 				</Button>
 			</div>
