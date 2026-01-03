@@ -26,9 +26,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       # This action checks the `composer.lock` file against known security vulnerabilities in the dependencies.
       # https://github.com/marketplace/actions/the-php-security-checker
       - name: Run Security Check
-        uses: symfonycorp/security-checker-action@v5
+        uses: symfonycorp/security-checker-action@258311ef7ac571f1310780ef3d79fc5abef642b5 # v5

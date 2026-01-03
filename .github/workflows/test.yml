@@ -61,11 +61,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
       - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: 7.4
           coverage: none
@@ -73,7 +73,7 @@ jobs:
           fail-fast: true
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@3cf229dc2919194e9e36783941438d17239e8520 # 3.1.1
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -87,7 +87,7 @@ jobs:
         run: rm -rf vendor/*
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, assert.exception=1, error_reporting=-1, display_errors=On, display_startup_errors=On
@@ -106,7 +106,7 @@ jobs:
       #   for the PHP version on which the tests will be run.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@3cf229dc2919194e9e36783941438d17239e8520 # 3.1.1
         with:
           # Force a `composer update` run.
           dependency-versions: "highest"
@@ -125,7 +125,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls
         if: ${{ success() && matrix.coverage == true }}
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
@@ -196,11 +196,11 @@ jobs:
         run: sudo apt-get install -y subversion
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
       - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: 7.4
           coverage: none
@@ -208,7 +208,7 @@ jobs:
           fail-fast: true
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@3cf229dc2919194e9e36783941438d17239e8520 # 3.1.1
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -222,7 +222,7 @@ jobs:
         run: rm -rf vendor/*
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: ${{ matrix.php_version }}
           ini-values: zend.assertions=1, assert.exception=1, error_reporting=-1, display_errors=On, display_startup_errors=On
@@ -237,7 +237,7 @@ jobs:
         run: composer config --unset platform.php
 
       - name: "Install Composer dependencies"
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@3cf229dc2919194e9e36783941438d17239e8520 # 3.1.1
         with:
           # Force a `composer update` run.
           dependency-versions: "highest"
@@ -272,7 +272,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls - single site
         if: ${{ success() && matrix.coverage == true }}
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
@@ -283,7 +283,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls - multisite
         if: ${{ success() && matrix.multisite == true && matrix.coverage == true }}
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
