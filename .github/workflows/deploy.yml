@@ -63,6 +63,8 @@ jobs:
         with:
           php-version: 7.4
           coverage: none
+        env:
+          fail-fast: true
 
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node

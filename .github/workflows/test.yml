@@ -69,6 +69,8 @@ jobs:
         with:
           php-version: 7.4
           coverage: none
+        env:
+          fail-fast: true
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
         uses: ramsey/composer-install@v3
@@ -91,6 +93,7 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
         env:
+          fail-fast: true
           update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
@@ -201,6 +204,8 @@ jobs:
         with:
           php-version: 7.4
           coverage: none
+        env:
+          fail-fast: true
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
         uses: ramsey/composer-install@v3
@@ -223,6 +228,7 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: ${{ matrix.coverage == true && 'xdebug' || 'none' }}
         env:
+          fail-fast: true
           update: true
 
       # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.

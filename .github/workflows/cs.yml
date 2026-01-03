@@ -64,6 +64,8 @@ jobs:
           php-version: 'latest'
           coverage: none
           tools: cs2pr
+        env:
+          fail-fast: true
 
       # Validate the composer.json file.
       # @link https://getcomposer.org/doc/03-cli.md#validate
