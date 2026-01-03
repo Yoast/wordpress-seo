@@ -9,6 +9,9 @@ on:
 
 jobs:
   analyze:
+    # Don't run the cron job on forks.
+    if: ${{ github.event_name != 'schedule' || github.event.repository.fork == false }}
+
     name: Analyze
     runs-on: ubuntu-latest
 
