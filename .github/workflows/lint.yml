@@ -44,6 +44,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       # For the purpose of linting the code, we need the `vendor-prefixed` directory to
       # be created as the prefixed code should be linted to ensure there are no parse errors

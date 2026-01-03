@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Update Browserslist database and create PR
         uses: c2corg/browserslist-update-action@a76abb476199caea5399f9e28ff3f16e491ec566 # @v2.5.0 locked to a specific commit to avoid security issues due to a compromised repo.
