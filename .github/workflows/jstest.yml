@@ -175,7 +175,7 @@ jobs:
           path: packages/yoastseo/premium-configuration
           fetch-depth: 0
           token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
-          persist-credentials: false
+          persist-credentials: true
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
