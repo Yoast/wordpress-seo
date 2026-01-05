@@ -248,8 +248,15 @@ export function applyAsAnnotations( marks ) {
 	if ( marks.length === 0 ) {
 		return;
 	}
+	const blockEditorDataModule = select( "core/block-editor" );
+	const editorDataModule = select( "core/editor" );
 
-	let blocks = select( "core/block-editor" ).getBlocks();
+	const isTemplateLocked = editorDataModule.getRenderingMode() === "template-locked";
+	const postContentBlock = blockEditorDataModule.getBlocksByName( "core/post-content" );
+	// In template-locked mode, we need to get the blocks from the post-content block.
+	let blocks = ( isTemplateLocked && postContentBlock?.length )
+		? blockEditorDataModule.getBlocks( postContentBlock[ 0 ] )
+		: blockEditorDataModule.getBlocks();
 
 	if ( fieldsToMark.length > 0 ) {
 		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );

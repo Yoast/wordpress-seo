@@ -12,7 +12,7 @@ const store = {
 
 // Mocks the getEditedPostAttribute/getBlocks functions.
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
-const mockGetBlocks = jest.fn().mockImplementation( value => value );
+const mockGetEditorBlocks = jest.fn().mockImplementation( value => value );
 
 jest.mock( "@wordpress/data", () => {
 	return {
@@ -23,7 +23,7 @@ jest.mock( "@wordpress/data", () => {
 				getActiveMarker: () => null,
 				getPermalinkParts: jest.fn().mockReturnValue( { prefix: "https://www.yoast.com/", postName: "", suffix: "/" } ),
 				isEditedPostNew: jest.fn().mockReturnValue( false ),
-				getBlocks: mockGetBlocks,
+				getEditorBlocks: mockGetEditorBlocks,
 			};
 		},
 		subscribe: () => {},
@@ -115,7 +115,7 @@ describe( "collectGutenbergData", () => {
 		mockGetFeaturedImage.mockReturnValue( "featured-image" );
 		data.getFeaturedImage = mockGetFeaturedImage;
 
-		mockGetBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] );
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] );
 
 		const actual = data.collectGutenbergData();
 		expect( actual ).toEqual( expected );
@@ -134,7 +134,7 @@ describe( "collectGutenbergData", () => {
 			baseUrl: "https://www.yoast.com/",
 		};
 
-		mockGetBlocks.mockReturnValueOnce( [ { name: "core/freeform" } ] );
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/freeform" } ] );
 
 		const actual = data.collectGutenbergData();
 		expect( actual ).toEqual( expected );
@@ -143,7 +143,7 @@ describe( "collectGutenbergData", () => {
 
 describe( "refreshYoastSEO", () => {
 	beforeEach( () =>
-		mockGetBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] )
+		mockGetEditorBlocks.mockReturnValueOnce( [ { name: "core/paragraph" } ] )
 	);
 
 	/*
