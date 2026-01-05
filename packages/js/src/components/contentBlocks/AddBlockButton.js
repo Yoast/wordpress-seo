@@ -100,7 +100,7 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 				setIsClicked( false );
 			}, 300 );
 		}
-	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, postContentBlock ] );
+	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, editorBlocks, isTemplateLocked, postContentBlock ] );
 
 	const handleFocusAndMouseEnter = useCallback( () => {
 		setShowTooltip( true );
