@@ -42,32 +42,29 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	 * @return Schema_Piece The enhanced schema piece.
 	 */
 	public function enhance( Schema_Piece $schema_piece, Indexable $indexable ): Schema_Piece {
-
-		$data = $schema_piece->get_data();
-		foreach ( $data as $key => $schema_data ) {
-			if ( ! isset( $schema_data['@type'] ) ) {
-				continue;
-			}
-			if (
-				\in_array(
-					$schema_data['@type'],
-					[
-						'Article',
-						'NewsArticle',
-						'BlogPosting',
-					],
-					true
-				) ) {
-				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
-			}
-
-			if (
-				\is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
-				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
-			}
+		$schema_data = $schema_piece->get_data();
+		if ( ! isset( $schema_data['@type'] ) ) {
+			return $schema_piece;
+		}
+		if (
+			\in_array(
+				$schema_data['@type'],
+				[
+					'Article',
+					'NewsArticle',
+					'BlogPosting',
+				],
+				true
+			) ) {
+			$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
 		}
 
-		return new Schema_Piece( $data, $schema_piece->get_type() );
+		if (
+				\is_array( $schema_data['@type'] ) && \in_array( 'Article', $schema_data['@type'], true ) ) {
+			$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
+		}
+
+		return new Schema_Piece( $schema_data, $schema_piece->get_type() );
 	}
 
 	/**
@@ -78,7 +75,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	 *
 	 * @return array<string> The enhanced schema data.
 	 */
-	private function enhance_schema_piece( $schema_data, $indexable ) {
+	private function enhance_schema_piece( array $schema_data, Indexable $indexable ): array {
 		try {
 			$has_excerpt = false;
 

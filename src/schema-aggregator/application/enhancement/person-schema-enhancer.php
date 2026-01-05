@@ -40,14 +40,12 @@ class Person_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema_
 	 * @return Schema_Piece The enhanced schema piece.
 	 */
 	public function enhance( Schema_Piece $schema_piece, Indexable $indexable ): Schema_Piece {
-		$data = $schema_piece->get_data();
-		foreach ( $data as $key => $schema_data ) {
-			if ( isset( $schema_data['@type'] ) && $schema_data['@type'] === 'Person' ) {
-				$data[ $key ] = $this->enhance_schema_piece( $schema_data, $indexable );
-			}
+		$schema_data = $schema_piece->get_data();
+		if ( isset( $schema_data['@type'] ) && $schema_data['@type'] === 'Person' ) {
+			$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
 		}
 
-		return new Schema_Piece( $data, $schema_piece->get_type() );
+		return new Schema_Piece( $schema_data, $schema_piece->get_type() );
 	}
 
 	/**
@@ -58,7 +56,7 @@ class Person_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema_
 	 *
 	 * @return array<string> The enhanced schema data.
 	 */
-	private function enhance_schema_piece( $schema_data, $indexable ) {
+	private function enhance_schema_piece( array $schema_data, Indexable $indexable ): array {
 		try {
 			// Add jobTitle if enabled and not already present.
 			if ( $this->config->is_enhancement_enabled( 'person_job_title' ) && ! isset( $entity['jobTitle'] ) ) {
