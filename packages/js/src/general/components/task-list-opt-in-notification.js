@@ -2,10 +2,11 @@ import { Toast, Button, useSvgAria, useToggleState, useToastContext } from "@yoa
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { useSelectGeneralPage } from "../hooks";
 import { useCallback, useEffect } from "@wordpress/element";
 import { STORE_NAME } from "../constants";
 import { useDispatch } from "@wordpress/data";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../routes";
 
 /**
  * The buttons for the LLM txt opt-in notification.
@@ -16,13 +17,15 @@ import { useDispatch } from "@wordpress/data";
 const NotificationButtons = () => {
 	const { handleDismiss } = useToastContext();
 	const svgAriaProps = useSvgAria();
-	const llmTxtSettingsUrl = useSelectGeneralPage( "selectAdminLink", [],  "?page=wpseo_page_settings#/llms-txt" );
+	const taskListpath = ROUTES.taskList;
+	const navigate = useNavigate();
+	const { hideOptInNotification } = useDispatch( STORE_NAME );
 
 	const handleShow = useCallback( async() => {
+		hideOptInNotification( "task_list" );
 		handleDismiss();
-		sessionStorage?.setItem( "yoast-highlight-setting", "llm-txt" );
-		window.location.href = llmTxtSettingsUrl;
-	}, [ llmTxtSettingsUrl ] );
+		navigate( taskListpath );
+	}, [ taskListpath, navigate ] );
 
 	return <div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
 		<Button size="small" variant="tertiary" onClick={ handleDismiss }>{ __( "Dismiss", "wordpress-seo" ) }</Button>
@@ -38,34 +41,35 @@ const NotificationButtons = () => {
  *
  * @returns {JSX.Element} The LLM txt opt-in notification component.
  */
-export const LlmTxtOptInNotification = () => {
+export const TaskListOptInNotification = () => {
 	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
-
 	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
 
+	const onDismiss = useCallback( () => {
+		hideOptInNotification( "task_list" );
+	}, [ hideOptInNotification ] );
 
 	useEffect( () => {
 		// Mark the notification as seen when mounting.
-		setOptInNotificationSeen( "wpseo_seen_llm_txt_opt_in_notification" );
+		setOptInNotificationSeen( "task_list" );
 
 		// For the transition to take place.
 		toggleIsVisible();
 
 		return () => {
 			// Hide the notification when unmounting when switching to the FTC tab.
-			hideOptInNotification( "wpseo_seen_llm_txt_opt_in_notification" );
+			hideOptInNotification( "task_list" );
 		};
 	}, [] );
 
-
 	return <Toast
-		id="wpseo_seen_llm_txt_opt_in_notification"
+		id="yoast_wpseo_task_list_opt_in_notification"
 		isVisible={ isVisible }
 		className="yst-w-96"
 		position="bottom-left"
 		setIsVisible={ setIsVisible }
-		onDismiss={ hideOptInNotification }
+		onDismiss={ onDismiss }
 	>
 		<>
 			<div className="yst-flex yst-gap-3">
@@ -73,9 +77,9 @@ export const LlmTxtOptInNotification = () => {
 					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
 				<div className="yst-flex-1">
-					<Toast.Title title={  __( "New: Prepare your site for AI-driven discovery!", "wordpress-seo" ) } className="yst-mb-1" />
+					<Toast.Title title={  __( "New: Your SEO Task list", "wordpress-seo" ) } className="yst-mb-1" />
 					<p>
-						{  __( "Automatically generate an llms.txt file that highlights key content for AI systems.", "wordpress-seo" ) }
+						{  __( "Stay on top of SEO with a clear task list tailored to your site.", "wordpress-seo" ) }
 					</p>
 				</div>
 				<div>
