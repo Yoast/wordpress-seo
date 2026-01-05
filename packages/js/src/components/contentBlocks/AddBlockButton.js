@@ -19,13 +19,8 @@ import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
  */
 export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const { insertBlock, replaceBlock } = useDispatch( "core/block-editor" );
-	const { blockInsertionPoint, blocks, editorBlocks, isTemplateLocked, postContentBlock } = useSelect( select => ( {
+	const { blockInsertionPoint, editorBlocks, isTemplateLocked, postContentBlock } = useSelect( select => ( {
 		blockInsertionPoint: select( "core/block-editor" ).getBlockInsertionPoint(),
-		/*
-		 This is the list of blocks that are currently rendered which we can interact with.
-		 This list doesn't include blocks that are part of the content in template-locked mode.
-		 */
-		blocks: select( "core/block-editor" ).getBlocks(),
 		/*
 		 This is the list of the content blocks in the editor, including those parts of the content in template-locked mode.
 		 */
