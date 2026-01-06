@@ -1,0 +1,22 @@
+module.exports = {
+	presets: [
+		[
+			"@babel/preset-env",
+			{
+				targets: {
+					browsers: [ "extends @yoast/browserslist-config" ],
+				},
+			},
+		],
+	],
+	plugins: [
+		"@babel/plugin-transform-react-jsx",
+	],
+	env: {
+		test: {
+			plugins: [
+				"babel-plugin-styled-components",
+			],
+		},
+	},
+};
