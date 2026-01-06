@@ -49,7 +49,7 @@
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/jest-preset": "^1.0.1",
     "@yoast/postcss-preset": "^1.2.1",
-    "@yoast/tailwindcss-preset": "^2.4.0",
+    "@yoast/tailwindcss-preset": "^2.5.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "eslint": "^9.16.0",
@@ -70,7 +70,7 @@
     "prop-types": "^15.8.1"
   },
   "peerDependencies": {
-    "@yoast/ui-library": "^4.3.0",
+    "@yoast/ui-library": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
