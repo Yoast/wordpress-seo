@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Conditional for the Google Site Kit feature.
+ *
+ * @deprecated 26.7
+ * @codeCoverageIgnore
  */
 class Google_Site_Kit_Feature_Conditional implements Conditional {
 
@@ -20,8 +23,12 @@ class Google_Site_Kit_Feature_Conditional implements Conditional {
 	 * The constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
+	 *
+	 * @deprecated 26.7
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( Options_Helper $options ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.7' );
 		$this->options = $options;
 	}
 
@@ -29,8 +36,12 @@ class Google_Site_Kit_Feature_Conditional implements Conditional {
 	 * Returns `true` when the Site Kit feature is enabled.
 	 *
 	 * @return bool `true` when the Site Kit feature is enabled.
+	 *
+	 * @deprecated 26.7
+	 * @codeCoverageIgnore
 	 */
 	public function is_met() {
-		return $this->options->get( 'google_site_kit_feature_enabled' ) === true || \apply_filters( 'googlesitekit_is_feature_enabled', false, 'yoastIntegration' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.7' );
+		return true;
 	}
 }

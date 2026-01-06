@@ -2,27 +2,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Browser_Cache;
 
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 /**
  * Responsible for the browser cache configuration.
  */
 class Browser_Cache_Configuration {
-
-	/**
-	 * The Site Kit conditional.
-	 *
-	 * @var Google_Site_Kit_Feature_Conditional
-	 */
-	private $google_site_kit_feature_conditional;
-
-	/**
-	 * The constructor.
-	 *
-	 * @param Google_Site_Kit_Feature_Conditional $google_site_kit_feature_conditional The Site Kit conditional.
-	 */
-	public function __construct( Google_Site_Kit_Feature_Conditional $google_site_kit_feature_conditional ) {
-		$this->google_site_kit_feature_conditional = $google_site_kit_feature_conditional;
-	}
 
 	/**
 	 * Gets the Time To Live for each widget's cache.
@@ -69,10 +52,6 @@ class Browser_Cache_Configuration {
 	 * @return array<string, string|array<string, array<string, int>>>
 	 */
 	public function get_configuration(): array {
-		if ( ! $this->google_site_kit_feature_conditional->is_met() ) {
-			return [];
-		}
-
 		return [
 			'storagePrefix'   => $this->get_storage_prefix(),
 			'yoastVersion'    => \WPSEO_VERSION,

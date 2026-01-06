@@ -29,7 +29,15 @@ domReady( () => {
 		const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 		const focusElementRef = useRef( null );
 		const handleClick = useCallback( e => {
-			e.preventDefault();
+			// Only react to trusted events.
+			if ( ! e.isTrusted ) {
+				return;
+			}
+
+			// Only react when the button itself is the target/currentTarget.
+			if ( e.currentTarget !== e.target ) {
+				return false;
+			}
 			openModal();
 		}, [ openModal ] );
 
@@ -57,6 +65,7 @@ domReady( () => {
 				<button
 					className="button"
 					id="ai-generator-consent-button"
+					type="button"
 					onClick={ handleClick }
 				>
 					{ hasConsent

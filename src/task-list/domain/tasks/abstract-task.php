@@ -81,4 +81,13 @@ abstract class Abstract_Task implements Task_Interface {
 
 		return \array_merge( $data, $this->get_copy_set()->to_array() );
 	}
+
+	/**
+	 * Returns whether the task is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid(): bool {
+		return true;
+	}
 }

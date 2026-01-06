@@ -107,4 +107,13 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 			\__( 'Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.', 'wordpress-seo' )
 		);
 	}
+
+	/**
+	 * Returns whether the task is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid(): bool {
+		return ! \is_multisite();
+	}
 }

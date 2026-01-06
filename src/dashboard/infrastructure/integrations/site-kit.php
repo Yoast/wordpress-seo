@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
 use Google\Site_Kit\Core\REST_API\REST_Routes;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
@@ -16,13 +15,6 @@ use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 class Site_Kit {
 
 	private const SITE_KIT_FILE = 'google-site-kit/google-site-kit.php';
-
-	/**
-	 * The Site Kit feature conditional.
-	 *
-	 * @var Google_Site_Kit_Feature_Conditional
-	 */
-	protected $site_kit_feature_conditional;
 
 	/**
 	 * The Site Kit conditional.
@@ -74,25 +66,22 @@ class Site_Kit {
 	/**
 	 * The constructor.
 	 *
-	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository  The Site Kit consent repository.
-	 * @param Configuration_Repository              $configuration_repository     The Site Kit permanently dismissed
-	 *                                                                            configuration repository.
-	 * @param Site_Kit_Is_Connected_Call            $site_kit_is_connected_call   The api call to check if the site is
-	 *                                                                            connected.
-	 * @param Google_Site_Kit_Feature_Conditional   $site_kit_feature_conditional The Site Kit feature conditional.
-	 * @param Site_Kit_Conditional                  $site_kit_conditional         The Site Kit conditional.
+	 * @param Site_Kit_Consent_Repository_Interface $site_kit_consent_repository The Site Kit consent repository.
+	 * @param Configuration_Repository              $configuration_repository    The Site Kit permanently dismissed
+	 *                                                                           configuration repository.
+	 * @param Site_Kit_Is_Connected_Call            $site_kit_is_connected_call  The api call to check if the site is
+	 *                                                                           connected.
+	 * @param Site_Kit_Conditional                  $site_kit_conditional        The Site Kit conditional.
 	 */
 	public function __construct(
 		Site_Kit_Consent_Repository_Interface $site_kit_consent_repository,
 		Configuration_Repository $configuration_repository,
 		Site_Kit_Is_Connected_Call $site_kit_is_connected_call,
-		Google_Site_Kit_Feature_Conditional $site_kit_feature_conditional,
 		Site_Kit_Conditional $site_kit_conditional
 	) {
 		$this->site_kit_consent_repository                             = $site_kit_consent_repository;
 		$this->permanently_dismissed_site_kit_configuration_repository = $configuration_repository;
 		$this->site_kit_is_connected_call                              = $site_kit_is_connected_call;
-		$this->site_kit_feature_conditional                            = $site_kit_feature_conditional;
 		$this->site_kit_conditional                                    = $site_kit_conditional;
 	}
 
@@ -173,9 +162,6 @@ class Site_Kit {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		if ( ! $this->site_kit_feature_conditional->is_met() ) {
-			return [];
-		}
 		if ( $this->is_enabled() ) {
 			$this->parse_site_kit_data();
 		}

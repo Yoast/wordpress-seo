@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Configuration;
 
 use Google\Site_Kit\Core\Permissions\Permissions;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Site_Kit_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -28,7 +27,7 @@ class Site_Kit_Capabilities_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		// This cannot have the Admin Conditional since it also needs to run in Rest requests.
-		return [ Google_Site_Kit_Feature_Conditional::class, Site_Kit_Conditional::class ];
+		return [ Site_Kit_Conditional::class ];
 	}
 
 	/**

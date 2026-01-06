@@ -82,9 +82,13 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		$tasks = \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
 
 		// Check that every item is an instance of Post_Type_Task_Interface.
-		foreach ( $tasks as $task ) {
+		foreach ( $tasks as $task_id => $task ) {
 			if ( ! $task instanceof Task_Interface ) {
 				throw new Invalid_Tasks_Exception();
+			}
+
+			if ( $task->is_valid() === false ) {
+				unset( $tasks[ $task_id ] );
 			}
 		}
 

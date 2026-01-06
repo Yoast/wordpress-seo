@@ -29,6 +29,8 @@ export const Variants = {
 			<Button variant="tertiary">Tertiary</Button>
 			<Button variant="error">Error</Button>
 			<Button variant="upsell">Upsell</Button>
+			<Button variant="ai-primary">AI Primary</Button>
+			<Button variant="ai-secondary">AI Secondary</Button>
 		</div>
 	),
 	parameters: { docs: { description: { story: variants } } },

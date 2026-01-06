@@ -72,4 +72,11 @@ interface Task_Interface {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set;
+
+	/**
+	 * Returns whether the task is valid.
+	 *
+	 * @return bool
+	 */
+	public function is_valid(): bool;
 }

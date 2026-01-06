@@ -4,8 +4,8 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { UsageCounter, GradientButton } from "@yoast/ai-frontend";
-import { Badge, Link, Modal, useSvgAria } from "@yoast/ui-library";
+import { UsageCounter } from "@yoast/ai-frontend";
+import { Badge, Button, Link, Modal, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import {
@@ -360,16 +360,16 @@ export const App = ( { onUseAi } ) => {
 
 	return (
 		<>
-			<GradientButton
+			<Button
 				type="button"
+				variant="ai-secondary"
 				id={ `yst-replacevar__use-ai-button__${ editType }__${ location }` }
-				className="yst-replacevar__use-ai-button"
 				onClick={ handleUseAi }
 				disabled={ usageCountStatus === ASYNC_ACTION_STATUS.loading || ! promptContentInitialized }
 				isLoading={ loading && usageCountStatus === ASYNC_ACTION_STATUS.loading }
 			>
 				{ getButtonLabel }
-			</GradientButton>
+			</Button>
 
 			<IntroductionModal
 				{ ...commonModalProps }
