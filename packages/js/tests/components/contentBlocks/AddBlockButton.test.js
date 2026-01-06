@@ -59,7 +59,6 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
 				editorBlocks: [ emptyParagraphBlock ],
 				isTemplateLocked: false,
 			} );
@@ -97,7 +96,6 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
 				editorBlocks: [ emptyParagraphBlock ],
 				isTemplateLocked: false,
 			} );
@@ -143,7 +141,6 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ nonEmptyParagraphBlock ],
 				editorBlocks: [ nonEmptyParagraphBlock ],
 				isTemplateLocked: false,
 			} );
@@ -187,7 +184,6 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
 				editorBlocks: [ emptyParagraphBlock ],
 				isTemplateLocked: false,
 			} );
@@ -225,7 +221,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
 				editorBlocks: [ emptyParagraphBlock ],
 				isTemplateLocked: false,
 			} );
@@ -253,7 +248,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ contentBlock ],
 				editorBlocks: [ contentBlock ],
 				isTemplateLocked: false,
 			} );
@@ -281,7 +275,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ headingBlock ],
 				editorBlocks: [ headingBlock ],
 				isTemplateLocked: false,
 			} );
@@ -302,7 +295,6 @@ describe( "AddBlockButton", () => {
 		it( "inserts new block when no block exists at insertion point", async() => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 2 },
-				blocks: [ { name: "core/paragraph" } ],
 				editorBlocks: [],
 				isTemplateLocked: false,
 			} );
@@ -329,7 +321,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ paragraphWithUndefinedContent ],
 				editorBlocks: [ paragraphWithUndefinedContent ],
 				isTemplateLocked: false,
 			} );
@@ -356,7 +347,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ paragraphWithNullText ],
 				editorBlocks: [ paragraphWithNullText ],
 				isTemplateLocked: false,
 			} );
@@ -395,7 +385,6 @@ describe( "AddBlockButton", () => {
 		it( "inserts block as last child of post-content when in template-locked mode", async() => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ postContentBlock ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
 				postContentBlock: [ "post-content-block-id" ],
@@ -419,60 +408,9 @@ describe( "AddBlockButton", () => {
 			} );
 		} );
 
-		it( "inserts block as last child when post-content block has nested structure", async() => {
-			const nestedPostContentBlock = {
-				clientId: "nested-post-content-id",
-				name: "core/post-content",
-				innerBlocks: [
-					{
-						clientId: "inner-block-1",
-						name: "core/paragraph",
-						innerBlocks: [],
-					},
-				],
-			};
-
-			const containerBlock = {
-				clientId: "container-block-id",
-				name: "core/group",
-				innerBlocks: [ nestedPostContentBlock ],
-			};
-
-			useSelect.mockReturnValue( {
-				blockInsertionPoint: { index: 1 },
-				blocks: [ containerBlock ],
-				editorBlocks: [ nonPostContentBlock ],
-				isTemplateLocked: true,
-				postContentBlock: [ "nested-post-content-id" ],
-			} );
-
-			render( <AddBlockButton { ...defaultProps } /> );
-
-			const button = screen.getByRole( "button" );
-			fireEvent.click( button );
-
-			jest.advanceTimersByTime( 300 );
-
-			await waitFor( () => {
-				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
-				expect( mockInsertBlock ).toHaveBeenCalledWith(
-					{ name: "test/block" },
-					undefined,
-					"nested-post-content-id"
-				);
-			} );
-		} );
-
 		it( "falls back to regular insertion when post-content block is not found in template-locked mode", async() => {
-			const blockWithoutPostContent = {
-				clientId: "regular-block-id",
-				name: "core/paragraph",
-				innerBlocks: [],
-			};
-
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ blockWithoutPostContent ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: true,
 				postContentBlock: [],
@@ -496,7 +434,6 @@ describe( "AddBlockButton", () => {
 		it( "uses regular insertion when not in template-locked mode", async() => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ postContentBlock ],
 				editorBlocks: [ nonPostContentBlock ],
 				isTemplateLocked: false,
 				postContentBlock: [ postContentBlock ],
@@ -525,7 +462,6 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ postContentBlock ],
 				editorBlocks: [ emptyParagraphBlock ],
 				isTemplateLocked: true,
 			} );
@@ -544,56 +480,6 @@ describe( "AddBlockButton", () => {
 				expect( mockInsertBlock ).not.toHaveBeenCalled();
 			} );
 		} );
-
-		it( "handles post-content block with multiple levels of nesting", async() => {
-			const deeplyNestedStructure = {
-				clientId: "root-block",
-				name: "core/group",
-				innerBlocks: [
-					{
-						clientId: "level-1-block",
-						name: "core/columns",
-						innerBlocks: [
-							{
-								clientId: "level-2-block",
-								name: "core/column",
-								innerBlocks: [
-									{
-										clientId: "deep-post-content-id",
-										name: "core/post-content",
-										innerBlocks: [],
-									},
-								],
-							},
-						],
-					},
-				],
-			};
-
-			useSelect.mockReturnValue( {
-				blockInsertionPoint: { index: 1 },
-				blocks: [ deeplyNestedStructure ],
-				editorBlocks: [ nonPostContentBlock ],
-				isTemplateLocked: true,
-				postContentBlock: [ "deep-post-content-id" ],
-			} );
-
-			render( <AddBlockButton { ...defaultProps } /> );
-
-			const button = screen.getByRole( "button" );
-			fireEvent.click( button );
-
-			jest.advanceTimersByTime( 300 );
-
-			await waitFor( () => {
-				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
-				expect( mockInsertBlock ).toHaveBeenCalledWith(
-					{ name: "test/block" },
-					undefined,
-					"deep-post-content-id"
-				);
-			} );
-		} );
 	} );
 
 	describe( "Upsell modal rendering", () => {
@@ -606,7 +492,6 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [],
 				editorBlocks: [],
 				isTemplateLocked: false,
 			} );

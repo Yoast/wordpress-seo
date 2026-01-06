@@ -42,6 +42,7 @@
 @import "../src/components/tooltip-container/style.css";
 @import "../src/components/dropdown-menu/style.css";
 @import "../src/components/stepper/style.css";
+@import "../src/components/image-select/style.css";
 
 @tailwind base;
 @tailwind components;

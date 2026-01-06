@@ -23,7 +23,7 @@ abstract class TestCase extends YoastTestCase {
 	 *
 	 * @var array<string>
 	 */
-	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms', 'wpseo_llmstxt' ];
+	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms', 'wpseo_llmstxt', 'wpseo_tracking_only' ];
 
 	/**
 	 * Sets up the test fixtures.

@@ -245,6 +245,8 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'llms_txt_selection_mode',
 		'configuration_finished_steps',
 		'enable_task_list',
+		'enable_schema',
+		// No need to add anything from WPSEO_Option_Tracking_Only as they are added automatically below.
 	];
 
 	/**
@@ -259,6 +261,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
+
+		// Always include the tracking only option keys.
+		$this->include_list = array_merge( $this->include_list, YoastSEO()->helpers->options->get_tracking_only_options() );
 
 		$options = WPSEO_Options::get_all();
 		// Returns the settings of which the keys intersect with the values of the include list.
