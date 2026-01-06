@@ -59,7 +59,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 		$this->premium = new Premium( $this->addon_manager );
 		$this->woo     = new Woo( $this->addon_manager );
 
-		$this->instance = new Add_Ons_Collector( $this->premium, $this->woo );
+		$this->instance = new Add_Ons_Collector( $this->addon_manager, $this->premium, $this->woo );
 	}
 
 	/**
@@ -91,46 +91,78 @@ final class Add_Ons_Collector_Test extends TestCase {
 	}
 
 	/**
+	 * Data provider for hasLicense and isActive.
+	 *
+	 * @return array<string, array<string, bool>> The has_license and is_active combinations.
+	 */
+	public function has_license_and_is_active_provider() {
+		return [
+			'has license and is active' => [
+				'has_license' => true,
+				'is_active'   => true,
+			],
+			'has license and is not active' => [
+				'has_license' => true,
+				'is_active'   => false,
+			],
+			'no license and is active' => [
+				'has_license' => false,
+				'is_active'   => true,
+			],
+			'no license and is not active' => [
+				'has_license' => false,
+				'is_active'   => false,
+			],
+		];
+	}
+
+	/**
 	 * Tests to_array.
+	 *
+	 * @dataProvider has_license_and_is_active_provider
 	 *
 	 * @covers ::to_array
 	 *
+	 * @param bool $has_license Whether the add-on has a license.
+	 * @param bool $is_active   Whether the add.
 	 * @return void
 	 */
-	public function test_to_array() {
-		$this->addon_manager->expects( 'is_installed' )
-			->twice()
-			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false );
-		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
-			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
-			->andReturn( true, false );
+	public function test_to_array( $has_license, $is_active ) {
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( true );
 
 		$this->addon_manager->expects( 'is_installed' )
-			->twice()
-			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false );
+			->once()
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->andReturn( $is_active );
 		$this->addon_manager->expects( 'has_valid_subscription' )
-			->twice()
+			->once()
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->andReturn( $has_license );
+		$this->addon_manager->expects( 'is_installed' )
+			->once()
 			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
-			->andReturn( true, false );
-
+			->andReturn( $is_active );
+		$this->addon_manager->expects( 'has_valid_subscription' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( $has_license );
 		$expected = [
 			$this->premium->get_id() => [
-				'id'         => $this->premium->get_id(),
-				'isActive'   => true,
-				'hasLicense' => true,
-				'ctb'        => [
+				'id'          => $this->premium->get_id(),
+				'isActive'    => $is_active,
+				'hasLicense'  => $has_license,
+				'ctb'         => [
 					'action' => $this->premium->get_ctb_action(),
 					'id'     => $this->premium->get_ctb_id(),
 				],
 			],
 			$this->woo->get_id() => [
-				'id'         => $this->woo->get_id(),
-				'isActive'   => true,
-				'hasLicense' => true,
-				'ctb'        => [
+				'id'          => $this->woo->get_id(),
+				'isActive'    => $is_active,
+				'hasLicense'  => $has_license,
+				'ctb'         => [
 					'action' => $this->woo->get_ctb_action(),
 					'id'     => $this->woo->get_ctb_id(),
 				],
@@ -138,11 +170,50 @@ final class Add_Ons_Collector_Test extends TestCase {
 		];
 
 		$this->assertSame( $expected, $this->instance->to_array() );
+	}
 
-		$expected[ $this->premium->get_id() ]['isActive']   = false;
-		$expected[ $this->premium->get_id() ]['hasLicense'] = false;
-		$expected[ $this->woo->get_id() ]['isActive']       = false;
-		$expected[ $this->woo->get_id() ]['hasLicense']     = false;
+	/**
+	 * Tests to_array.
+	 *
+	 * @covers ::to_array
+	 *
+	 * @return void
+	 */
+	public function test_to_array_without_active_addons() {
+		$this->addon_manager->expects( 'has_active_addons' )
+			->once()
+			->andReturn( false );
+
+		$this->addon_manager->expects( 'is_installed' )
+			->once()
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->andReturn( false );
+
+		$this->addon_manager->expects( 'is_installed' )
+			->once()
+			->with( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG )
+			->andReturn( false );
+
+		$expected = [
+			$this->premium->get_id() => [
+				'id'         => $this->premium->get_id(),
+				'isActive'   => false,
+				'hasLicense' => false,
+				'ctb'        => [
+					'action' => $this->premium->get_ctb_action(),
+					'id'     => $this->premium->get_ctb_id(),
+				],
+			],
+			$this->woo->get_id() => [
+				'id'         => $this->woo->get_id(),
+				'isActive'   => false,
+				'hasLicense' => false,
+				'ctb'        => [
+					'action' => $this->woo->get_ctb_action(),
+					'id'     => $this->woo->get_ctb_id(),
+				],
+			],
+		];
 
 		$this->assertSame( $expected, $this->instance->to_array() );
 	}
