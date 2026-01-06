@@ -1,5 +1,5 @@
 /* eslint-disable complexity, max-statements */
-import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
+import { CheckIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -314,15 +314,12 @@ export const ModalContent = ( { height } ) => {
 								</Label>
 
 								<Button
-									variant="secondary"
+									variant="ai-secondary"
 									size="small"
 									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
 									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
 									disabled={ disableGenerateMore }
 								>
-									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
-										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
-									) }
 									{ __( "Generate 5 more", "wordpress-seo" ) }
 								</Button>
 							</div>
