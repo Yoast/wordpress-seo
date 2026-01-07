@@ -4,10 +4,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer;
 
-require_once __DIR__ . '/../../../../../../src/schema-aggregator/application/enhancement/abstract-schema-enhancer.php';
-require_once __DIR__ . '/../../../../../../src/schema-aggregator/application/enhancement/article-schema-enhancer.php';
-
+use Mockery;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -23,6 +22,13 @@ abstract class Abstract_Article_Schema_Enhancer_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The Article_Config mock.
+	 *
+	 * @var Article_Config|Mockery\MockInterface
+	 */
+	protected $config;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -31,5 +37,7 @@ abstract class Abstract_Article_Schema_Enhancer_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance = new Article_Schema_Enhancer();
+		$this->config   = Mockery::mock( Article_Config::class );
+		$this->instance->set_article_config( $this->config );
 	}
 }
