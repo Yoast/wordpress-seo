@@ -303,6 +303,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.8 =
+
+Release date: 2026-01-20
+
+#### Enhancements
+
+* Adds a schema settings page to allow users more control over the Yoast Schema Framework API.
+* Implements the new design to the site's features section.
+* Replaces Yoast product logos with new designs across the plugin’s interface.
+
+#### Bugfixes
+
+* Fixes a bug where inserting Yoast blocks via Content blocks collapsible was not possible when editing in `template-locked` mode inside Block Editor.
+* Fixes a bug where the alert for signing up to the newsletter didn't support rtl direction for buttons and inputs in RTL languages.
+* Fixes a bug where the assessments highlighting feature did not work when editing in template-locked mode in the Block Editor.
+* Fixes a bug where WordPress link classes were not being recognized when Yoast SEO was active. Props to [benoitchantre](https://github.com/benoitchantre).
+
+#### Other
+
+* Adds optin notification for the task list feaature on the general page.
+* Documentation improvement
+* Improves the translatability of some tasks' title in the task list.
+* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
+
 = 26.7 =
 
 Release date: 2026-01-07
@@ -322,30 +346,6 @@ Release date: 2026-01-07
 
 * Hides the llms.txt task in multisites, since the feature is disabled in such setups.
 * Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
-
-= 26.6 =
-
-Release date: 2025-12-15
-
-Yoast SEO now includes an SEO task list. [Read the full release post here](https://yoa.st/release-15-12-25).
-
-#### Enhancements
-
-* Introduces a task list for reminding site admins about relevant SEO tasks.
-* Improves the llms.txt structure by moving the sitemap mention into an option section at the end of the llms.txt file.
-
-#### Bugfixes
-
-* Fixes a bug where the `Show more` list for categories and content types would collapse when clicking on menu items in the settings sidebar navigation.
-* Fixes a bug where translations for the content analysis were not displayed on WordPress 6.9.
-* Fixes a security bug that would allow users with limited capabilities to read metadata of posts that they should not have access to.
-
-#### Other
-
-* Highlights the Google Docs & Yoast Duplicate post add-ons on the Plans page.
-* Improves the behavior of the upgrade button in the Yoast sidebar and admin menus.
-* Improves the focus behavior for some buttons and links in the Yoast SEO admin pages.
-* Redesigns the AI Brand Insights button in the Yoast sidebar and admin menus.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
