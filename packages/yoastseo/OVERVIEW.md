@@ -54,10 +54,12 @@ sequenceDiagram
 ### Basic Usage with Web Worker
 
 ```javascript
-import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
+import { AnalysisWorkerWrapper, Paper } from "yoastseo";
+
+const url = "https://my-site-url.com/path-to-webworker-script.js"
 
 // Create and initialize the worker
-const worker = new AnalysisWorkerWrapper(createWorker("path-to-worker.js"));
+const worker = new AnalysisWorkerWrapper( new Worker( url ) );
 
 await worker.initialize({
     locale: "en_US",
@@ -85,7 +87,7 @@ import { AbstractResearcher, Paper, ContentAssessor } from "yoastseo";
 // Create a paper with content
 const paper = new Paper("Text to analyze", {
     keyword: "analysis",
-    title: "My Analysis" 
+    title: "My Analysis"
 });
 
 // Create researcher and run research
@@ -102,7 +104,7 @@ const results = assessor.getValidResults();
 
 1. **Multilingual Support**: Supports analysis in multiple languages with language-specific rules and assessments
 
-2. **Extensible Architecture**: 
+2. **Extensible Architecture**:
    - Custom assessments can be added
    - Research can be extended
    - Markers can be customized
@@ -138,4 +140,4 @@ The library can be integrated in several ways:
 For more detailed documentation on specific topics, see:
 - [Assessments Documentation](./src/scoring/assessments/README.md)
 - [Morphology Documentation](./MORPHOLOGY.md)
-- [Design Decisions](./DESIGN%20DECISIONS.md) 
+- [Design Decisions](./DESIGN%20DECISIONS.md)
