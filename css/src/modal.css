@@ -417,10 +417,11 @@
 	margin-top: auto;
 }
 
+.yoast-post-settings-modal .components-modal__content > div.components-modal__children-container,
 .yoast-post-settings-modal .components-modal__content > div:not([class]):not([class=""]) {
 	overflow: hidden;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 /**
