@@ -5,11 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Enhancement\Arti
 
 use Brain\Monkey\Functions;
 use Exception;
-use Generator;
 use Mockery;
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Schema_Aggregator\Article_Schema_Enhancer_Double;
 
 /**
  * Tests the Article_Schema_Enhancer class enhance method.
@@ -21,11 +20,11 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_Test {
 
 	/**
-	 * The Article_Config mock.
+	 * The Article_Schema_Enhancer_Double
 	 *
-	 * @var Article_Config|Mockery\MockInterface
+	 * @var Article_Schema_Enhancer_Double
 	 */
-	private $config;
+	private $article_schema_enhancer_double;
 
 	/**
 	 * Sets up the test fixtures.
@@ -34,425 +33,503 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		$this->config = Mockery::mock( Article_Config::class );
-		$this->instance->set_article_config( $this->config );
+		$this->article_schema_enhancer_double = new Article_Schema_Enhancer_Double();
+		$this->article_schema_enhancer_double->set_article_config( $this->config );
 	}
 
 	/**
-	 * Data provider for enhance_schema_piece edge cases and error conditions.
+	 * Tests that enhance_schema_piece correctly handles exceptions.
 	 *
-	 * @return Generator
-	 */
-	public static function enhance_schema_piece_data_provider(): Generator {
-		yield 'all_enhancements_disabled' => [
-			'config'          => [
-				'use_excerpt'  => false,
-				'article_body' => false,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [],
-		];
-
-		yield 'excerpt_enhancement_enabled_with_valid_excerpt' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => false,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'description' => 'Valid excerpt text',
-			],
-		];
-
-		yield 'excerpt_with_existing_description_should_not_override' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => false,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type'       => 'Article',
-				'description' => 'Existing description',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'description' => 'Existing description',
-			],
-		];
-
-		yield 'article_body_enhancement_enabled' => [
-			'config'          => [
-				'use_excerpt'  => false,
-				'article_body' => true,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'articleBody' => 'Article content without HTML',
-			],
-		];
-
-		yield 'article_body_with_existing_body_should_not_override' => [
-			'config'          => [
-				'use_excerpt'  => false,
-				'article_body' => true,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type'       => 'Article',
-				'articleBody' => 'Existing body',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'articleBody' => 'Existing body',
-			],
-		];
-
-		yield 'keywords_enhancement_enabled_with_tags' => [
-			'config'          => [
-				'use_excerpt'  => false,
-				'article_body' => false,
-				'keywords'     => true,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'keywords' => 'tag1, tag2',
-			],
-		];
-
-		yield 'keywords_with_existing_keywords_should_not_override' => [
-			'config'          => [
-				'use_excerpt'  => false,
-				'article_body' => false,
-				'keywords'     => true,
-			],
-			'schema_data'     => [
-				'@type'    => 'Article',
-				'keywords' => 'existing, keywords',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'keywords' => 'existing, keywords',
-			],
-		];
-
-		yield 'all_enhancements_enabled_with_no_existing_fields' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => true,
-				'keywords'     => true,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [
-				'description' => 'Test excerpt',
-				'articleBody' => 'Test content',
-				'keywords'    => 'test-tag',
-			],
-		];
-
-		yield 'invalid_post_id_null' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => true,
-				'keywords'     => true,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => null,
-			'expected_fields' => [],
-		];
-
-		yield 'invalid_post_id_zero' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => true,
-				'keywords'     => true,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 0,
-			'expected_fields' => [],
-		];
-
-		yield 'empty_excerpt_with_manual_preference' => [
-			'config'          => [
-				'use_excerpt'  => true,
-				'article_body' => false,
-				'keywords'     => false,
-			],
-			'schema_data'     => [
-				'@type' => 'Article',
-			],
-			'post_id'         => 123,
-			'expected_fields' => [],
-		];
-	}
-
-	/**
-	 * Tests enhance_schema_piece method with various configurations using data provider.
-	 *
-	 * @dataProvider enhance_schema_piece_data_provider
-	 *
-	 * @covers ::enhance
 	 * @covers ::enhance_schema_piece
-	 * @covers ::get_excerpt
-	 * @covers ::get_article_body
-	 * @covers ::get_article_keywords
-	 *
-	 * @param array<string, bool>   $config          Configuration for enhancements.
-	 * @param array<string, mixed>  $schema_data     Input schema data.
-	 * @param int|null              $post_id         Post ID for testing.
-	 * @param array<string, string> $expected_fields Expected output fields.
 	 *
 	 * @return void
 	 */
-	public function test_enhance_schema_piece_with_different_configurations( $config, $schema_data, $post_id, $expected_fields ) {
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = $post_id;
-
-		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
-
-		foreach ( $config as $enhancement => $enabled ) {
-			$this->config->shouldReceive( 'is_enhancement_enabled' )
-				->with( $enhancement )
-				->andReturn( $enabled );
-		}
-
-		$this->setup_wordpress_mocks_for_test_case( $config, $expected_fields, $post_id );
-
-		$result        = $this->instance->enhance( $schema_piece, $indexable );
-		$enhanced_data = $result->get_data();
-
-		foreach ( $expected_fields as $field => $expected_value ) {
-			$this->assertSame( $expected_value, $enhanced_data[ $field ], "Field {$field} should match expected value" );
-		}
-
-		$all_possible_fields = [ 'description', 'articleBody', 'keywords' ];
-		foreach ( $all_possible_fields as $field ) {
-			if ( ! isset( $expected_fields[ $field ] ) && ! isset( $schema_data[ $field ] ) ) {
-				$this->assertArrayNotHasKey( $field, $enhanced_data, "Field {$field} should not be present" );
-			}
-		}
-	}
-
-	/**
-	 * Data provider for testing error conditions.
-	 *
-	 * @return Generator
-	 */
-	public static function error_conditions_data_provider(): Generator {
-		yield 'excerpt_wp_error' => [
-			'enhancement'           => 'use_excerpt',
-			'post_id'               => 123,
-			'mock_function'         => 'get_post_field',
-			'mock_params'           => [ 'post_excerpt', 123 ],
-			'mock_exception'        => new Exception( 'Database error' ),
-			'expected_field_absent' => 'description',
-		];
-
-		yield 'article_body_wp_error' => [
-			'enhancement'           => 'article_body',
-			'post_id'               => 456,
-			'mock_function'         => 'get_post_field',
-			'mock_params'           => [ 'post_content', 456 ],
-			'mock_exception'        => new Exception( 'Content fetch error' ),
-			'expected_field_absent' => 'articleBody',
-		];
-
-		yield 'keywords_wp_error' => [
-			'enhancement'           => 'keywords',
-			'post_id'               => 789,
-			'mock_function'         => 'get_the_tags',
-			'mock_params'           => [ 789 ],
-			'mock_exception'        => new Exception( 'Tags fetch error' ),
-			'expected_field_absent' => 'keywords',
-		];
-	}
-
-	/**
-	 * Tests error handling in enhance_schema_piece method.
-	 *
-	 * @dataProvider error_conditions_data_provider
-	 *
-	 * @covers ::enhance
-	 * @covers ::enhance_schema_piece
-	 * @covers ::get_excerpt
-	 * @covers ::get_article_body
-	 * @covers ::get_article_keywords
-	 *
-	 * @param string       $enhancement           Enhancement to test.
-	 * @param int          $post_id               Post ID for testing.
-	 * @param string       $mock_function         Function to mock.
-	 * @param array<mixed> $mock_params           Parameters for the mock function.
-	 * @param Exception    $mock_exception        Exception to throw.
-	 * @param string       $expected_field_absent Field that should not be present.
-	 *
-	 * @return void
-	 */
-	public function test_enhance_schema_piece_error_handling( $enhancement, $post_id, $mock_function, $mock_params, $mock_exception, $expected_field_absent ) {
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = $post_id;
-
+	public function test_enhance_schema_piece_handles_exception() {
 		$schema_data = [
-			'@type' => 'Article',
+			'@context'           => 'https://schema.org',
+			'@type'              => 'Article',
+			'@id'                => 'http://example.com/vision-oriented-systematic-toolset/#article',
+			'author'             => [
+				'name' => 'Myron Welch',
+				'@id'  => 'http://example.com/#/schema/person/16d528091339c598c98aa254707c9b6b',
+			],
+			'headline'           => 'Vision-oriented systematic toolset',
+			'datePublished'      => '2025-08-31T14:47:54+00:00',
+			'wordCount'          => 184,
+			'commentCount'       => 0,
+			'publisher'          => [
+				'@id' => 'http://example.com/#organization',
+			],
+			'image'              => [
+				'@id' => 'http://example.com/vision-oriented-systematic-toolset/#primaryimage',
+			],
+			'thumbnailUrl'       => 'http://example.com/wp-content/uploads/2026/01/WordPress1.jpg',
+			'keywords'           => [
+				'Focused executive artificial intelligence',
+				'Open-source bifurcated matrix',
+			],
+			'articleSection'     => [
+				'Assimilated disintermediate moratorium',
+				'Organized needs-based circuit',
+			],
+			'inLanguage'         => 'en-US',
+			'description'        => 'Test description',
 		];
 
-		$schema_piece = new Schema_Piece( $schema_data, 'Article' );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
 
-		$enhancements = [ 'use_excerpt', 'article_body', 'keywords' ];
-		foreach ( $enhancements as $enh ) {
-			$this->config->shouldReceive( 'is_enhancement_enabled' )
-				->with( $enh )
-				->andReturn( $enh === $enhancement );
-		}
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( true );
 
-		Functions\expect( $mock_function )
-			->with( ...$mock_params )
-			->andThrow( $mock_exception );
+		Functions\expect( 'get_post_field' )
+			->with( 'post_excerpt', $indexable->object_id )
+			->andThrow( new Exception( 'Dummy exception' ) );
 
-		if ( $enhancement === 'article_body' ) {
-			$this->config->shouldReceive( 'should_include_article_body' )
-				->with( false )
-				->andReturn( true );
-		}
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
 
-		$result        = $this->instance->enhance( $schema_piece, $indexable );
-		$enhanced_data = $result->get_data();
-
-		$this->assertArrayNotHasKey( $expected_field_absent, $enhanced_data );
-		$this->assertSame( 'Article', $enhanced_data['@type'] );
+		$this->assertEquals( $schema_data, $data );
 	}
 
 	/**
-	 * Sets up WordPress function mocks for specific test cases.
+	 * Tests the enhance_schema_piece method in case use_excerpt is true.
 	 *
-	 * @param array<string, bool>   $config          Configuration settings.
-	 * @param array<string, string> $expected_fields Expected output fields.
-	 * @param int|null              $post_id         Post ID.
+	 * @covers ::enhance_schema_piece
+	 *
+	 * @dataProvider enhance_schema_piece_use_excerpt_data_provider
+	 *
+	 * @param array<string, mixed> $schema_data     The schema piece data.
+	 * @param string               $expected_result The expected behavior.
+	 * @param string               $post_excerpt    The post excerpt.
 	 *
 	 * @return void
 	 */
-	private function setup_wordpress_mocks_for_test_case( $config, $expected_fields, $post_id ) {
-		if ( $config['use_excerpt'] && isset( $expected_fields['description'] ) ) {
-			Functions\expect( 'get_post_field' )
-				->with( 'post_excerpt', $post_id )
-				->andReturn( $expected_fields['description'] );
+	public function test_enhance_schema_piece_use_excerpt( array $schema_data, string $expected_result, string $post_excerpt ) {
 
-			Functions\expect( 'wp_strip_all_tags' )
-				->with( $expected_fields['description'] )
-				->andReturn( $expected_fields['description'] );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
 
-			$this->config->shouldReceive( 'get_config_value' )
-				->with( 'excerpt_max_length', 0 )
-				->andReturn( 0 );
-		}
-		elseif ( $config['use_excerpt'] && ! isset( $expected_fields['description'] ) ) {
-			if ( $post_id === null || $post_id === 0 ) {
-				Functions\expect( 'get_post_field' )
-					->with( 'post_excerpt', $post_id )
-					->andReturn( null );
-			}
-			else {
-				Functions\expect( 'get_post_field' )
-					->with( 'post_excerpt', $post_id )
-					->andReturn( '' );
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( true );
 
-				$this->config->shouldReceive( 'get_config_value' )
-					->with( 'excerpt_prefer_manual', false )
-					->andReturn( true );
-			}
-		}
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'article_body' )
+			->andReturn( false );
 
-		if ( $config['article_body'] && isset( $expected_fields['articleBody'] ) ) {
-			$has_excerpt = isset( $expected_fields['description'] );
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'keywords' )
+			->andReturn( false );
 
-			$this->config->shouldReceive( 'should_include_article_body' )
-				->with( $has_excerpt )
-				->andReturn( true );
+		Functions\expect( 'get_post_field' )
+			->with( 'post_excerpt', $indexable->object_id )
+			->andReturn( $post_excerpt );
 
-			Functions\expect( 'get_post_field' )
-				->with( 'post_content', $post_id )
-				->andReturn( 'Article content with <p>HTML</p>' );
+		Functions\expect( 'wp_strip_all_tags' )
+			->with( 'The post excerpt' )
+			->andReturn( $post_excerpt );
 
-			$this->config->shouldReceive( 'get_config_value' )
-				->with( 'strip_shortcodes_from_body', true )
-				->andReturn( true );
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'excerpt_max_length', 0 )
+			->andReturn( 0 );
 
-			Functions\expect( 'strip_shortcodes' )
-				->with( 'Article content with <p>HTML</p>' )
-				->andReturn( 'Article content with <p>HTML</p>' );
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
+			$this->assertSame( $expected_result, $data );
+	}
 
-			$this->config->shouldReceive( 'get_config_value' )
-				->with( 'strip_html_from_body', true )
-				->andReturn( true );
+	/**
+	 * Data provider for test_enhance_schema_piece_use_excerpt
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function enhance_schema_piece_use_excerpt_data_provider(): array {
+		return [
+			'with_existing_description' => [
+				'schema_data'     => [
+					'@context'           => 'https://schema.org',
+					'@type'              => 'Article',
+					'@id'                => 'https://example.com/article/#article',
+					'headline'           => 'Test Article',
+					'datePublished'      => '2025-08-31T14:47:54+00:00',
+					'description'        => 'Existing description',
+				],
+				'expected_result' => [
+					'@context'           => 'https://schema.org',
+					'@type'              => 'Article',
+					'@id'                => 'https://example.com/article/#article',
+					'headline'           => 'Test Article',
+					'datePublished'      => '2025-08-31T14:47:54+00:00',
+					'description'        => 'Existing description',
+				],
+				'post_excerpt'    => 'The post excerpt',
+			],
+			'without_existing_description' => [
+				'schema_data'     => [
+					'@context'           => 'https://schema.org',
+					'@type'              => 'Article',
+					'@id'                => 'https://example.com/article/#article',
+					'headline'           => 'Test Article',
+					'datePublished'      => '2025-08-31T14:47:54+00:00',
+				],
+				'expected_result' => [
+					'@context'           => 'https://schema.org',
+					'@type'              => 'Article',
+					'@id'                => 'https://example.com/article/#article',
+					'headline'           => 'Test Article',
+					'datePublished'      => '2025-08-31T14:47:54+00:00',
+					'description'        => 'The post excerpt',
+				],
+				'post_excerpt'    => 'The post excerpt',
+			],
+		];
+	}
 
-			Functions\expect( 'wp_strip_all_tags' )
-				->with( 'Article content with <p>HTML</p>' )
-				->andReturn( $expected_fields['articleBody'] );
+	/**
+	 * Tests the enhance_schema_piece method when article_body should be included.
+	 *
+	 * @covers ::enhance_schema_piece
+	 *
+	 * @return void
+	 */
+	public function test_enhance_schema_piece_article_body_should_include() {
+		$schema_data = [
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'@id'           => 'https://example.com/article/#article',
+			'headline'      => 'Test Article',
+			'datePublished' => '2025-08-31T14:47:54+00:00',
+		];
 
-			$this->config->shouldReceive( 'get_config_value' )
-				->with( 'article_body_max_length', Article_Config::DEFAULT_MAX_ARTICLE_BODY_LENGTH )
-				->andReturn( 500 );
-		}
-		elseif ( $config['article_body'] && ! isset( $expected_fields['articleBody'] ) ) {
-			$has_excerpt = isset( $expected_fields['description'] );
+		$expected_result = [
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'@id'           => 'https://example.com/article/#article',
+			'headline'      => 'Test Article',
+			'datePublished' => '2025-08-31T14:47:54+00:00',
+			'articleBody'   => 'This is the full article body content.',
+		];
 
-			$this->config->shouldReceive( 'should_include_article_body' )
-				->with( $has_excerpt )
-				->andReturn( true );
+		$post_content = 'This is the full article body content.';
 
-			if ( $post_id === null || $post_id === 0 ) {
-				Functions\expect( 'get_post_field' )
-					->with( 'post_content', $post_id )
-					->andReturn( null );
-			}
-		}
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
 
-		if ( $config['keywords'] && isset( $expected_fields['keywords'] ) ) {
-			$keywords    = \explode( ', ', $expected_fields['keywords'] );
-			$tag_objects = [];
-			foreach ( $keywords as $keyword ) {
-				$tag_objects[] = (object) [ 'name' => $keyword ];
-			}
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( false );
 
-			Functions\expect( 'get_the_tags' )
-				->with( $post_id )
-				->andReturn( $tag_objects );
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'article_body' )
+			->andReturn( true );
 
-			$this->config->shouldReceive( 'get_config_value' )
-				->with( 'categories_as_keywords', false )
+		$this->config
+			->expects( 'should_include_article_body' )
+			->with( false )
+			->andReturn( true );
+
+		Functions\expect( 'get_post_field' )
+			->with( 'post_content', $indexable->object_id )
+			->andReturn( $post_content );
+
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'strip_shortcodes_from_body', true )
+			->andReturn( true );
+
+		Functions\expect( 'strip_shortcodes' )
+			->with( $post_content )
+			->andReturn( $post_content );
+
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'strip_html_from_body', true )
+			->andReturn( true );
+
+		Functions\expect( 'wp_strip_all_tags' )
+			->with( $post_content )
+			->andReturn( $post_content );
+
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'article_body_max_length', Article_Config::DEFAULT_MAX_ARTICLE_BODY_LENGTH )
+			->andReturn( 0 );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'keywords' )
+			->andReturn( false );
+
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
+		$this->assertSame( $expected_result, $data );
+	}
+
+	/**
+	 * Tests the enhance_schema_piece method when article_body should not be included.
+	 *
+	 * @covers ::enhance_schema_piece
+	 *
+	 * @dataProvider enhance_schema_piece_article_body_skip_data_provider
+	 *
+	 * @param array<string, mixed> $schema_data               The schema piece data.
+	 * @param array<string, mixed> $expected_result           The expected result.
+	 * @param bool                 $has_existing_article_body Whether the schema already has articleBody.
+	 *
+	 * @return void
+	 */
+	public function test_enhance_schema_piece_article_body_skip( $schema_data, $expected_result, $has_existing_article_body ) {
+
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( false );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'article_body' )
+			->andReturn( true );
+
+		if ( ! $has_existing_article_body ) {
+			$this->config
+				->expects( 'should_include_article_body' )
+				->with( false )
 				->andReturn( false );
 		}
-		elseif ( $config['keywords'] && ! isset( $expected_fields['keywords'] ) ) {
-			if ( $post_id === null || $post_id === 0 ) {
-				Functions\expect( 'get_the_tags' )
-					->with( $post_id )
-					->andReturn( null );
 
-				$this->config->shouldReceive( 'get_config_value' )
-					->with( 'categories_as_keywords', false )
-					->andReturn( false );
-			}
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'keywords' )
+			->andReturn( false );
+
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
+		$this->assertSame( $expected_result, $data );
+	}
+
+	/**
+	 * Data provider for test_enhance_schema_piece_article_body_skip
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function enhance_schema_piece_article_body_skip_data_provider(): array {
+		return [
+			'with_existing_article_body' => [
+				'schema_data'               => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+					'articleBody'   => 'Existing article body',
+				],
+				'expected_result'           => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+					'articleBody'   => 'Existing article body',
+				],
+				'has_existing_article_body' => true,
+			],
+			'without_existing_article_body_and_should_not_include' => [
+				'schema_data'               => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+				],
+				'expected_result'           => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+				],
+				'has_existing_article_body' => false,
+			],
+		];
+	}
+
+	/**
+	 * Tests the enhance_schema_piece method when keywords are already set.
+	 *
+	 * @covers ::enhance_schema_piece
+	 *
+	 * @return void
+	 */
+	public function test_enhance_schema_piece_keywords_already_set() {
+		$schema_data = [
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'@id'           => 'https://example.com/article/#article',
+			'headline'      => 'Test Article',
+			'datePublished' => '2025-08-31T14:47:54+00:00',
+			'keywords'      => 'Existing keywords',
+		];
+
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( false );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'article_body' )
+			->andReturn( false );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'keywords' )
+			->andReturn( true );
+
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
+		$this->assertSame( $schema_data, $data );
+	}
+
+	/**
+	 * Tests the enhance_schema_piece method for keywords enhancement.
+	 *
+	 * @covers ::enhance_schema_piece
+	 *
+	 * @dataProvider enhance_schema_piece_keywords_data_provider
+	 *
+	 * @param array<int, object>   $tags                   The tags assigned to the post.
+	 * @param bool                 $categories_as_keywords Whether to include categories as keywords.
+	 * @param array<int, object>   $categories             The categories assigned to the post.
+	 * @param array<string, mixed> $expected_data          The expected enhanced schema data.
+	 *
+	 * @return void
+	 */
+	public function test_enhance_schema_piece_keywords( $tags, $categories_as_keywords, $categories, $expected_data ) {
+		$schema_data = [
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'@id'           => 'https://example.com/article/#article',
+			'headline'      => 'Test Article',
+			'datePublished' => '2025-08-31T14:47:54+00:00',
+		];
+
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 123;
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'use_excerpt' )
+			->andReturn( false );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'article_body' )
+			->andReturn( false );
+
+		$this->config
+			->expects( 'is_enhancement_enabled' )
+			->with( 'keywords' )
+			->andReturn( true );
+
+		Functions\expect( 'get_the_tags' )
+			->with( $indexable->object_id )
+			->andReturn( $tags );
+
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'categories_as_keywords', false )
+			->andReturn( $categories_as_keywords );
+
+		if ( $categories_as_keywords ) {
+			Functions\expect( 'get_the_category' )
+				->with( $indexable->object_id )
+				->andReturn( $categories );
 		}
+
+		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
+		$this->assertSame( $expected_data, $data );
+	}
+
+	/**
+	 * Data provider for test_enhance_schema_piece_keywords
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function enhance_schema_piece_keywords_data_provider(): array {
+		return [
+			'with_tags_and_categories_as_keywords'         => [
+				'tags'                   => [
+					(object) [ 'name' => 'Tag1' ],
+					(object) [ 'name' => 'Tag2' ],
+				],
+				'categories_as_keywords' => true,
+				'categories'             => [
+					(object) [ 'name' => 'Category1' ],
+					(object) [ 'name' => 'Category2' ],
+				],
+				'expected_data'          => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+					'keywords'      => 'Tag1, Tag2, Category1, Category2',
+				],
+			],
+			'with_tags_and_without_categories_as_keywords' => [
+				'tags'                   => [
+					(object) [ 'name' => 'Tag1' ],
+					(object) [ 'name' => 'Tag2' ],
+				],
+				'categories_as_keywords' => false,
+				'categories'             => [],
+				'expected_data'          => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+					'keywords'      => 'Tag1, Tag2',
+				],
+			],
+			'without_tags_and_with_categories_as_keywords' => [
+				'tags'                   => [],
+				'categories_as_keywords' => true,
+				'categories'             => [
+					(object) [ 'name' => 'Category1' ],
+					(object) [ 'name' => 'Category2' ],
+				],
+				'expected_data'          => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+					'keywords'      => 'Category1, Category2',
+				],
+			],
+			'without_tags_and_categories_as_keywords'      => [
+				'tags'                   => [],
+				'categories_as_keywords' => false,
+				'categories'             => [],
+				'expected_data'          => [
+					'@context'      => 'https://schema.org',
+					'@type'         => 'Article',
+					'@id'           => 'https://example.com/article/#article',
+					'headline'      => 'Test Article',
+					'datePublished' => '2025-08-31T14:47:54+00:00',
+				],
+			],
+		];
 	}
 }
