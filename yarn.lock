@@ -18625,9 +18625,9 @@ grunt-git@^1.0.14:
   dependencies:
     flopmang "^1.0.0"
 
-"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#main":
+"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#main":
   version "0.3.0"
-  resolved "git+https://github.com/Yoast/grunt-glotpress.git#11498b14862b6707a23b133ec298eaa0f500d0f1"
+  resolved "https://github.com/Yoast/grunt-glotpress.git#11498b14862b6707a23b133ec298eaa0f500d0f1"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
