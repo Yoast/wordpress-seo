@@ -8,11 +8,11 @@ import { Button, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library"
 import { LockOpenIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
-import contentOptimizationGradient from "../../../../../images/gradient-content-optimization.png";
-import siteStructureGradient from "../../../../../images/gradient-site-structure.png";
-import technicalSeoGradient from "../../../../../images/gradient-technical-seo.png";
-import socialSharingGradient from "../../../../../images/gradient-social-sharing.png";
-import toolsGradient from "../../../../../images/gradient-tools.png";
+import contentOptimizationGradient from "../../../../../images/gradient-content-optimization.svg";
+import siteStructureGradient from "../../../../../images/gradient-site-structure.svg";
+import technicalSeoGradient from "../../../../../images/gradient-technical-seo.svg";
+import socialSharingGradient from "../../../../../images/gradient-social-sharing.svg";
+import toolsGradient from "../../../../../images/gradient-tools.svg";
 import aiToolsGradient from "../../../../../images/gradient-ai-tools.svg";
 
 
