@@ -21,7 +21,7 @@ final class Set_Article_Config_Test extends Abstract_Article_Schema_Enhancer_Tes
 	 *
 	 * @var Article_Config|Mockery\MockInterface
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * Sets up the test fixtures.
