@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as AIGeneratorIcon } from "../../../../../images/icon-sparkles.svg";
 import { ReactComponent as LlmtxtIcon } from "../../../../../images/icon-llms-txt.svg";
+import { ReactComponent as SchemaAggregationIcon } from "../../../../../images/icon-schema-aggregation-endpoint.svg";
 
 export const aiToolsFeatures = {
 	aiGenerator: {
@@ -26,5 +27,17 @@ export const aiToolsFeatures = {
 		learnMoreUrl: "https://yoa.st/site-features-llmstxt-learn-more",
 		learnMoreLinkId: "link-llms-txt",
 		learnMoreLinkAriaLabel: __( "llms.txt", "wordpress-seo" ),
+	},
+	schemaAggregation: {
+		name: "wpseo.enable_schema_aggregation_endpoint",
+		id: "card-wpseo-enable_schema_aggregation_endpoint",
+		inputId: "input-wpseo-enable_schema_aggregation_endpoint",
+		Icon: SchemaAggregationIcon,
+		isPremiumFeature: false,
+		title: __( "Schema aggregation endpoint", "wordpress-seo" ),
+		description: __( "Provides everything required to connect with your site's public structured data. This enables conversational interfaces like NLWeb to power natural language queries on your content.", "wordpress-seo" ),
+		learnMoreUrl: "https://yoa.st/site-features-schema-aggregation-endpoint-learn-more",
+		learnMoreLinkId: "link-schema-aggregation-endpoint",
+		learnMoreLinkAriaLabel: __( "Schema aggregation endpoint", "wordpress-seo" ),
 	},
 };
