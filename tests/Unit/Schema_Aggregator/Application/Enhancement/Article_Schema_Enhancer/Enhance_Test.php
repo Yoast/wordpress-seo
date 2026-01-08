@@ -17,15 +17,6 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 final class Enhance_Test extends Abstract_Article_Schema_Enhancer_Test {
 
 	/**
-	 * Sets up the test fixtures.
-	 *
-	 * @return void
-	 */
-	protected function set_up() {
-		parent::set_up();
-	}
-
-	/**
 	 * Test.
 	 *
 	 * @covers ::enhance
