@@ -98,18 +98,16 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author',
-			],
+			'@type' => 'Person',
+			'name'  => 'Test Author',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'jobTitle', $enhanced_data[0] );
-		$this->assertSame( 'Senior Developer', $enhanced_data[0]['jobTitle'] );
+		$this->assertArrayHasKey( 'jobTitle', $enhanced_data );
+		$this->assertSame( 'Senior Developer', $enhanced_data['jobTitle'] );
 	}
 
 	/**
@@ -139,18 +137,16 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type'    => 'Person',
-				'name'     => 'Test Author',
-				'jobTitle' => 'Existing Job Title',
-			],
+			'@type'    => 'Person',
+			'name'     => 'Test Author',
+			'jobTitle' => 'Existing Job Title',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertSame( 'Existing Job Title', $enhanced_data[0]['jobTitle'] );
+		$this->assertSame( 'Existing Job Title', $enhanced_data['jobTitle'] );
 	}
 
 	/**
@@ -181,17 +177,15 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author',
-			],
+			'@type' => 'Person',
+			'name'  => 'Test Author',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data[0] );
+		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data );
 	}
 
 	/**
@@ -219,17 +213,15 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author',
-			],
+			'@type' => 'Person',
+			'name'  => 'Test Author',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data[0] );
+		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data );
 	}
 
 	/**
@@ -259,18 +251,16 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author',
-			],
+			'@type' => 'Person',
+			'name'  => 'Test Author',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'jobTitle', $enhanced_data[0] );
-		$this->assertSame( 'Senior Developer', $enhanced_data[0]['jobTitle'] );
+		$this->assertArrayHasKey( 'jobTitle', $enhanced_data );
+		$this->assertSame( 'Senior Developer', $enhanced_data['jobTitle'] );
 	}
 
 	/**
@@ -300,17 +290,15 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Organization',
-				'name'  => 'Test Org',
-			],
+			'@type' => 'Organization',
+			'name'  => 'Test Org',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'publisher' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data[0] );
+		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data );
 	}
 
 	/**
@@ -343,70 +331,18 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author',
-			],
+			'@type' => 'Person',
+			'name'  => 'Test Author',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'author' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data[0] );
+		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data );
 
 		// Clean up filter.
 		\remove_filter( 'wpseo_person_enhance_person_job_title', '__return_false' );
-	}
-
-	/**
-	 * Tests enhance() processes multiple schema pieces.
-	 *
-	 * @return void
-	 */
-	public function test_enhance_processes_multiple_schema_pieces() {
-		$user_id = $this->factory()->user->create(
-			[
-				'user_login' => 'testauthor',
-				'role'       => 'author',
-			]
-		);
-
-		\update_user_meta( $user_id, 'job_title', 'Senior Developer' );
-
-		$post = $this->factory()->post->create_and_get(
-			[
-				'post_title'  => 'Test Post',
-				'post_type'   => 'post',
-				'post_status' => 'publish',
-				'post_author' => $user_id,
-			]
-		);
-
-		$indexable = \current( $this->get_indexables_for( $post ) );
-
-		$schema_data  = [
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author 1',
-			],
-			[
-				'@type' => 'Organization',
-				'name'  => 'Test Org',
-			],
-			[
-				'@type' => 'Person',
-				'name'  => 'Test Author 2',
-			],
-		];
-		$schema_piece = new Schema_Piece( $schema_data, 'author' );
-
-		$result = $this->instance->enhance( $schema_piece, $indexable );
-
-		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'jobTitle', $enhanced_data[0] );
-		$this->assertArrayNotHasKey( 'jobTitle', $enhanced_data[1] );
-		$this->assertArrayHasKey( 'jobTitle', $enhanced_data[2] );
 	}
 
 	/**
