@@ -323,8 +323,7 @@ Release date: 2026-01-20
 
 #### Other
 
-* Adds optin notification for the task list feaature on the general page.
-* Documentation improvement
+* Adds an opt-in notification for the task list feature on the general page.
 * Improves the translatability of some tasks' title in the task list.
 * Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
 
