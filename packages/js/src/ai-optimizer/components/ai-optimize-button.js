@@ -80,7 +80,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					isEnabled: allVisual,
 					isFocused: allVisual && focusAIButton === aiOptimizeId,
 					ariaLabel: allVisual ? defaultLabel : htmlLabel,
-					ariaHasPopup: allVisual ? "dialog" : false,
+					ariaHasPopup: allVisual ? "dialog" : "",
 				};
 			}
 			// Classic editor
@@ -89,7 +89,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				isEnabled: isVisualMode,
 				isFocused: isVisualMode && focusAIButton === aiOptimizeId,
 				ariaLabel: isVisualMode ? defaultLabel : htmlLabel,
-				ariaHasPopup: isVisualMode ? "dialog" : false,
+				ariaHasPopup: isVisualMode ? "dialog" : "",
 			};
 		}
 		// Editor mode
@@ -98,7 +98,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				isEnabled: false,
 				isFocused: false,
 				ariaLabel: htmlLabel,
-				ariaHasPopup: false,
+				ariaHasPopup: "",
 			};
 		}
 
@@ -111,7 +111,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					isEnabled: false,
 					isFocused: false,
 					ariaLabel: htmlLabel,
-					ariaHasPopup: false,
+					ariaHasPopup: "",
 				};
 			}
 		}
@@ -132,7 +132,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					isEnabled: false,
 					isFocused: false,
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
-					ariaHasPopup: false,
+					ariaHasPopup: "",
 				};
 			}
 		}
@@ -144,7 +144,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				isEnabled: false,
 				isFocused: false,
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
-				ariaHasPopup: false,
+				ariaHasPopup: "",
 			};
 		}
 		// Fallback for when all conditions above pass and the button is enabled.
