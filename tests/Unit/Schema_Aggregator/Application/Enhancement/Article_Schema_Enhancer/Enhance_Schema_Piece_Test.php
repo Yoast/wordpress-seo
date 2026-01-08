@@ -101,12 +101,12 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 	 * @dataProvider enhance_schema_piece_use_excerpt_data_provider
 	 *
 	 * @param array<string, mixed> $schema_data     The schema piece data.
-	 * @param string               $expected_result The expected behavior.
+	 * @param array<string, mixed> $expected_result The expected behavior.
 	 * @param string               $post_excerpt    The post excerpt.
 	 *
 	 * @return void
 	 */
-	public function test_enhance_schema_piece_use_excerpt( array $schema_data, string $expected_result, string $post_excerpt ) {
+	public function test_enhance_schema_piece_use_excerpt( array $schema_data, array $expected_result, string $post_excerpt ) {
 
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 123;
