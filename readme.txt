@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.9
-Stable tag: 26.5
+Stable tag: 26.7
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,47 +303,49 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 26.6 =
+= 26.8 =
 
-Release date: 2025-12-16
-
-#### Enhancements
-
-* Improves the llms.txt structure by moving the sitemap mention into an option section at the end of the llms.txt file.
-* Introduces a task list for reminding site admins about relevant SEO tasks.
-
-#### Bugfixes
-
-* Fixes a bug where the `Show more` list for categories and content types would collapse when clicking on menu items in the settings sidebar navigation.
-* Fixes a bug where translations for the content analysis were not displayed on WordPress 6.9.
-* Fixes a security bug that would allow users with limited capabilities to read metadata of posts that they should not have access to.
-
-#### Other
-
-* Highlights the Google Docs & Yoast Duplicate post add-ons on the Plans page.
-* Improves the behavior of the upgrade button in the Yoast sidebar and admin menus.
-* Improves the focus behavior for some buttons and links in the Yoast SEO admin pages.
-* Redesigns the AI Brand Insights button in the Yoast sidebar and admin menus.
-
-= 26.5 =
-
-Release date: 2025-12-02
-
-**New:** Yoast SEO includes the necessary updates to support the Site Kit by Google integration for all Premium users, with Yoast SEO (free) support following soon. [Read the full release post here](https://yoa.st/54u).
+Release date: 2026-01-20
 
 #### Enhancements
 
-* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
-* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added.
+* Adds a schema settings page to allow users more control over the Yoast Schema Framework API.
+* Implements the new design to the site's features section.
+* Replaces Yoast product logos with new designs across the plugin’s interface.
 
 #### Bugfixes
 
-* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox.
+* Fixes a bug where inserting Yoast blocks via Content blocks collapsible was not possible when editing in `template-locked` mode inside Block Editor.
+* Fixes a bug where the alert for signing up to the newsletter didn't support rtl direction for buttons and inputs in RTL languages.
+* Fixes a bug where the assessments highlighting feature did not work when editing in template-locked mode in the Block Editor.
+* Fixes a bug where the Search and Social appearance modals looked off on WordPress 7.0 or with Gutenberg 22.3.0.
+* Fixes a bug where WordPress link classes were not being recognized when Yoast SEO was active. Props to [benoitchantre](https://github.com/benoitchantre).
 
 #### Other
 
-* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
-* Sets the _WordPress tested up to_ version to 6.9.
+* Adds an opt-in notification for the task list feature on the general page.
+* Improves the translatability of some tasks' title in the task list.
+* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
+
+= 26.7 =
+
+Release date: 2026-01-07
+
+*New:* Yoast SEO (free) now includes full access to the Site Kit by Google integration in your Dashboard. [Read the full release post here](https://yoa.st/551).
+
+#### Enhancements
+
+* Changes the Schema output to render `Article` entities even when the `publisher` property is left empty.
+* Rolls out the Site Kit integration for all Yoast users.
+
+#### Bugfixes
+
+* Fixes a bug where the Yoast AI consent modal would incorrectly pop up when interacting with unrelated buttons or fields on Profile setting page.
+
+#### Other
+
+* Hides the llms.txt task in multisites, since the feature is disabled in such setups.
+* Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

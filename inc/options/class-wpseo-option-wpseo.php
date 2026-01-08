@@ -157,6 +157,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_schema_aggregation_endpoint'                   => false,
 		'schema_aggregation_endpoint_enabled_on'               => null,
 		'enable_task_list'                                     => true,
+		'enable_schema'                                        => true,
 	];
 
 	/**
@@ -553,6 +554,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_llms_txt',
 				 *  'enable_schema_aggregation_endpoint'
 				 *  'enable_task_list',
+				 *  'enable_schema',
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -625,6 +627,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_llms_txt'                    => false,
 			'enable_task_list'                   => false,
 			'enable_schema_aggregation_endpoint' => false,
+			'enable_schema'                      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

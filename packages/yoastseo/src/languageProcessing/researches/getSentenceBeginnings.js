@@ -97,8 +97,9 @@ export default ( paper, researcher ) => {
 	let tree = cloneDeep( paper.getTree() );
 	tree = filterTree( tree, additionalFilters );
 
-	// Get all sentences from the tree, and find their sentence beginnings.
-	const sentences = getSentencesFromTree( tree );
+	// Get all sentences from the tree that contain tokens.
+	const sentences = getSentencesFromTree( tree ).filter( sentence => sentence.tokens.length > 0 );
+	// Get the sentence beginnings.
 	const sentenceBeginnings = sentences.map( sentence => getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions ) );
 
 	// Turn the sentence beginnings into an array that combines sentences beginning with the same word(s).
