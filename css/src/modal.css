@@ -417,10 +417,17 @@
 	margin-top: auto;
 }
 
+/**
+ * As of WordPress 7.0, the div children of .components-modal__content have a class name.
+ * However, to maintain backward compatibility with older WordPress versions, we also need to target the
+ * divs without a class name.
+ * We can remove the :not selectors when we drop support for WordPress versions older than 7.0.
+ */
+.yoast-post-settings-modal .components-modal__content > div.components-modal__children-container,
 .yoast-post-settings-modal .components-modal__content > div:not([class]):not([class=""]) {
 	overflow: hidden;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 /**
