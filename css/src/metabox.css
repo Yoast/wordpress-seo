@@ -482,8 +482,8 @@
 
 .emoji-select-button{
 	width: 28px!important;
-	min-height:28px!important;
-	padding:6px!important;
+	min-height: 28px!important;
+	padding: 6px!important;
 
 	/* yst-button -- minus the padding */
 	border-radius: 0.375rem!important;
