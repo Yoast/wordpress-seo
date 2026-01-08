@@ -13,3 +13,10 @@ export const getActiveAIFixesButton = state => get( state, "AIButton.activeAIBut
  * @returns {object} The disabled buttons along with their reasons.
  */
 export const getDisabledAIFixesButtons = state => get( state, "AIButton.disabledAIButtons", {} );
+
+/**
+ * Returns the AI Fixes button that should receive focus.
+ * @param {object} state The state.
+ * @returns {string} Focus AI Fixes button id.
+ */
+export const getFocusAIFixesButton = state => get( state, "AIButton.focusAIButton", "" );
