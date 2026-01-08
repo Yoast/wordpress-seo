@@ -134,7 +134,7 @@ body.seo_page_wpseo_page_settings {
 		.yst-replacevar__buttons {
 			@apply yst-inline-flex yst-gap-1.5 yst-mb-2;
 
-			.emoji-select-button{
+			.emoji-select-button {
 				width: 28px!important;
 				min-height: 28px!important;
 				height: 28px!important;
