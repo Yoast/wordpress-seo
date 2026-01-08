@@ -491,8 +491,8 @@
 	--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)!important;
 	/* yst-button--secondary */
-    --tw-ring-opacity: 1;
-    --tw-ring-color: rgb(203 213 225 / var(--tw-ring-opacity, 1));
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgb(203 213 225 / var(--tw-ring-opacity, 1));
 }
 
 @media screen and (max-width: 782px) {
