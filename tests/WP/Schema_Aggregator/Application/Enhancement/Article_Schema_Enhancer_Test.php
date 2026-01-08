@@ -91,18 +91,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'Article',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertSame( 'This is a test excerpt for the article.', $enhanced_data[0]['description'] );
+		$this->assertArrayHasKey( 'description', $enhanced_data );
+		$this->assertSame( 'This is a test excerpt for the article.', $enhanced_data['description'] );
 	}
 
 	/**
@@ -144,19 +142,17 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'Article',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertArrayHasKey( 'articleBody', $enhanced_data[0] );
-		$this->assertSame( 'This is the full article content that should appear as articleBody.', $enhanced_data[0]['articleBody'] );
+		$this->assertArrayHasKey( 'description', $enhanced_data );
+		$this->assertArrayHasKey( 'articleBody', $enhanced_data );
+		$this->assertSame( 'This is the full article content that should appear as articleBody.', $enhanced_data['articleBody'] );
 
 		// Clean up filter.
 		\remove_filter( 'wpseo_article_enhance_body_when_excerpt_exists', '__return_true' );
@@ -184,18 +180,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'Article',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'keywords', $enhanced_data[0] );
-		$this->assertSame( 'SEO, WordPress', $enhanced_data[0]['keywords'] );
+		$this->assertArrayHasKey( 'keywords', $enhanced_data );
+		$this->assertSame( 'SEO, WordPress', $enhanced_data['keywords'] );
 	}
 
 	/**
@@ -222,18 +216,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'Article',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'keywords', $enhanced_data[0] );
-		$this->assertStringContainsString( 'Technology', $enhanced_data[0]['keywords'] );
+		$this->assertArrayHasKey( 'keywords', $enhanced_data );
+		$this->assertStringContainsString( 'Technology', $enhanced_data['keywords'] );
 
 		// Clean up filter.
 		\remove_filter( 'wpseo_article_enhance_config_categories_as_keywords', '__return_true' );
@@ -257,18 +249,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'NewsArticle',
-				'name'  => 'Test News Article',
-			],
+			'@type' => 'NewsArticle',
+			'name'  => 'Test News Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertSame( 'Breaking news excerpt.', $enhanced_data[0]['description'] );
+		$this->assertArrayHasKey( 'description', $enhanced_data );
+		$this->assertSame( 'Breaking news excerpt.', $enhanced_data['description'] );
 	}
 
 	/**
@@ -289,18 +279,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'BlogPosting',
-				'name'  => 'Test Blog Post',
-			],
+			'@type' => 'BlogPosting',
+			'name'  => 'Test Blog Post',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertSame( 'Blog post excerpt.', $enhanced_data[0]['description'] );
+		$this->assertArrayHasKey( 'description', $enhanced_data );
+		$this->assertSame( 'Blog post excerpt.', $enhanced_data['description'] );
 	}
 
 	/**
@@ -321,18 +309,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => [ 'Article', 'WebPage' ],
-				'name'  => 'Test Article',
-			],
+			'@type' => [ 'Article', 'WebPage' ],
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertSame( 'Article with multiple types.', $enhanced_data[0]['description'] );
+		$this->assertArrayHasKey( 'description', $enhanced_data );
+		$this->assertSame( 'Article with multiple types.', $enhanced_data['description'] );
 	}
 
 	/**
@@ -353,18 +339,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type'       => 'Article',
-				'name'        => 'Test Article',
-				'description' => 'Existing description',
-			],
+			'@type'       => 'Article',
+			'name'        => 'Test Article',
+			'description' => 'Existing description',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertSame( 'Existing description', $enhanced_data[0]['description'] );
+		$this->assertSame( 'Existing description', $enhanced_data['description'] );
 	}
 
 	/**
@@ -385,18 +369,16 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type'       => 'Article',
-				'name'        => 'Test Article',
-				'articleBody' => 'Existing article body',
-			],
+			'@type'       => 'Article',
+			'name'        => 'Test Article',
+			'articleBody' => 'Existing article body',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertSame( 'Existing article body', $enhanced_data[0]['articleBody'] );
+		$this->assertSame( 'Existing article body', $enhanced_data['articleBody'] );
 	}
 
 	/**
@@ -420,11 +402,9 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type'    => 'Article',
-				'name'     => 'Test Article',
-				'keywords' => 'Existing, Keywords',
-			],
+			'@type'    => 'Article',
+			'name'     => 'Test Article',
+			'keywords' => 'Existing, Keywords',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
@@ -451,10 +431,8 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'WebPage',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'WebPage',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
@@ -492,64 +470,21 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
 		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article',
-			],
+			'@type' => 'Article',
+			'name'  => 'Test Article',
 		];
 		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
 
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertArrayNotHasKey( 'description', $enhanced_data[0] );
-		$this->assertArrayNotHasKey( 'articleBody', $enhanced_data[0] );
-		$this->assertArrayNotHasKey( 'keywords', $enhanced_data[0] );
+		$this->assertArrayNotHasKey( 'description', $enhanced_data );
+		$this->assertArrayNotHasKey( 'articleBody', $enhanced_data );
+		$this->assertArrayNotHasKey( 'keywords', $enhanced_data );
 
 		// Clean up filters.
 		\remove_filter( 'wpseo_article_enhance_use_excerpt', '__return_false' );
 		\remove_filter( 'wpseo_article_enhance_article_body', '__return_false' );
 		\remove_filter( 'wpseo_article_enhance_keywords', '__return_false' );
-	}
-
-	/**
-	 * Tests enhance() with multiple schema pieces.
-	 *
-	 * @return void
-	 */
-	public function test_enhance_processes_multiple_schema_pieces() {
-		$post = $this->factory()->post->create_and_get(
-			[
-				'post_title'   => 'Test Article',
-				'post_type'    => 'post',
-				'post_status'  => 'publish',
-				'post_excerpt' => 'Test excerpt.',
-			]
-		);
-
-		$indexable = \current( $this->get_indexables_for( $post ) );
-
-		$schema_data  = [
-			[
-				'@type' => 'Article',
-				'name'  => 'Test Article 1',
-			],
-			[
-				'@type' => 'WebPage',
-				'name'  => 'Test Page',
-			],
-			[
-				'@type' => 'NewsArticle',
-				'name'  => 'Test Article 2',
-			],
-		];
-		$schema_piece = new Schema_Piece( $schema_data, 'mainEntity' );
-
-		$result = $this->instance->enhance( $schema_piece, $indexable );
-
-		$enhanced_data = $result->get_data();
-		$this->assertArrayHasKey( 'description', $enhanced_data[0] );
-		$this->assertArrayNotHasKey( 'description', $enhanced_data[1] );
-		$this->assertArrayHasKey( 'description', $enhanced_data[2] );
 	}
 }
