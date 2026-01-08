@@ -411,7 +411,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertSame( 'Existing, Keywords', $enhanced_data[0]['keywords'] );
+		$this->assertSame( 'Existing, Keywords', $enhanced_data['keywords'] );
 	}
 
 	/**
