@@ -137,6 +137,8 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 			className={ className }
 			variant="info"
 			dismissScreenReaderLabel={ __( "Close", "wordpress-seo" ) }
+			// eslint-disable-next-line jsx-a11y/no-autofocus
+			autoFocus={ true }
 			title={ hasUnlimitedSparks
 				? sprintf(
 					/* translators: %s is the number of the sparks. */

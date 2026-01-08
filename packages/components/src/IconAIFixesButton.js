@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
@@ -11,12 +11,14 @@ import AIFixesButton from "./AIFixesButton";
  * Returns the IconAIFixesButton component.
  *
  * @param {Object} props Component props.
+ * @param {React.Ref} ref The forwarded ref.
  *
  * @returns {JSX.Element} IconAIFixesButton component.
  */
-const IconAIFixesButton = function( props ) {
+const IconAIFixesButton = forwardRef( function( props, ref ) {
 	return (
 		<AIFixesButton
+			ref={ ref }
 			disabled={ props.disabled }
 			type="button"
 			onClick={ props.onClick }
@@ -29,6 +31,7 @@ const IconAIFixesButton = function( props ) {
 			unpressedBackground={ props.unpressedBackground }
 			id={ props.id }
 			aria-label={ props.ariaLabel }
+			aria-haspopup={ props.ariaHasPopup }
 			aria-pressed={ props.pressed }
 			pressedIconColor={ props.pressedIconColor }
 			className={ props.className }
@@ -36,13 +39,16 @@ const IconAIFixesButton = function( props ) {
 			{ props.children }
 		</AIFixesButton>
 	);
-};
+} );
+
+IconAIFixesButton.displayName = "IconAIFixesButton";
 
 IconAIFixesButton.propTypes = {
 	disabled: PropTypes.bool,
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string,
+	ariaHasPopup: PropTypes.string,
 	onClick: PropTypes.func,
 	onPointerEnter: PropTypes.func,
 	onPointerLeave: PropTypes.func,

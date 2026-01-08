@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -44,19 +44,21 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase, focusAIButton } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 		keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
+		focusAIButton: select( "yoast-seo/editor" ).getFocusAIFixesButton(),
 	} ), [] );
 	const editorMode = getEditorMode();
 
 	const shouldShowUpsell = ! isPremium || isWooSeoUpsellPost;
 
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus, setFocusAIFixesButton } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
+	const buttonRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
@@ -65,9 +67,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
-	// Determines if the button is enabled and what tooltip to show.
+	// Determines if the button is enabled, what tooltip to show, and accessibility attributes.
 	// eslint-disable-next-line complexity
-	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+	const { isEnabled, isFocused, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
 		if ( shouldShowUpsell ) {
 			// Gutenberg editor
@@ -76,20 +78,27 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 				return {
 					isEnabled: allVisual,
+					isFocused: allVisual && focusAIButton === aiOptimizeId,
 					ariaLabel: allVisual ? defaultLabel : htmlLabel,
+					ariaHasPopup: allVisual ? "dialog" : false,
 				};
 			}
 			// Classic editor
+			const isVisualMode = editorMode === "visual";
 			return {
-				isEnabled: editorMode === "visual",
-				ariaLabel: editorMode === "visual" ? defaultLabel : htmlLabel,
+				isEnabled: isVisualMode,
+				isFocused: isVisualMode && focusAIButton === aiOptimizeId,
+				ariaLabel: isVisualMode ? defaultLabel : htmlLabel,
+				ariaHasPopup: isVisualMode ? "dialog" : false,
 			};
 		}
 		// Editor mode
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
+				isFocused: false,
 				ariaLabel: htmlLabel,
+				ariaHasPopup: false,
 			};
 		}
 
@@ -100,7 +109,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! allVisual ) {
 				return {
 					isEnabled: false,
+					isFocused: false,
 					ariaLabel: htmlLabel,
+					ariaHasPopup: false,
 				};
 			}
 		}
@@ -119,7 +130,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! hasValidKeyphrase || ! hasContent ) {
 				return {
 					isEnabled: false,
+					isFocused: false,
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
+					ariaHasPopup: false,
 				};
 			}
 		}
@@ -129,15 +142,19 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
 			return {
 				isEnabled: false,
+				isFocused: false,
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
+				ariaHasPopup: false,
 			};
 		}
 		// Fallback for when all conditions above pass and the button is enabled.
 		return {
 			isEnabled: true,
+			isFocused: focusAIButton === aiOptimizeId,
 			ariaLabel: defaultLabel,
+			ariaHasPopup: "dialog",
 		};
-	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase, focusAIButton ] );
 
 	/**
 	 * Handles the button press state.
@@ -197,16 +214,30 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		setButtonClass( "" );
 	}, [] );
 
+	// Focus the button when isFocused becomes true (after toast or modal are dismissed).
+	useEffect( () => {
+		if ( isFocused ) {
+			// Small delay to ensure the toast/modal has closed.
+			setTimeout( () => {
+				buttonRef.current?.focus();
+			}, 100 );
+			// Clear the focus state.
+			setFocusAIFixesButton( null );
+		}
+	}, [ isFocused, setFocusAIFixesButton ] );
+
 	return (
 		<IconAIFixesButton
 			onClick={ handleClick }
 			ariaLabel={ ariaLabel }
+			ariaHasPopup={ ariaHasPopup }
 			onPointerEnter={ handleMouseEnter }
 			onPointerLeave={ handleMouseLeave }
 			id={ aiOptimizeId }
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
+			ref={ buttonRef }
 		>
 			{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />
