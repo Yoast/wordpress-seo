@@ -10,12 +10,15 @@
 $yoast_seo_type     = 'errors';
 $yoast_seo_dashicon = 'warning';
 
-$yoast_seo_active    = $notifications_data['errors']['active'];
-$yoast_seo_dismissed = $notifications_data['errors']['dismissed'];
+$yoast_seo_active    = $notifications_data['errors']['active'] ?? [];
+$yoast_seo_dismissed = $notifications_data['errors']['dismissed'] ?? [];
+
+
+
 
 $yoast_seo_active_total    = count( $yoast_seo_active );
 $yoast_seo_dismissed_total = count( $yoast_seo_dismissed );
-$yoast_seo_total           = $notifications_data['metrics']['errors'];
+$yoast_seo_total = $notifications_data['metrics']['errors'] ?? 0;
 
 $yoast_seo_i18n_title              = __( 'Problems', 'wordpress-seo' );
 $yoast_seo_i18n_issues             = __( 'We have detected the following issues that affect the SEO of your site.', 'wordpress-seo' );
