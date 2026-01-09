@@ -6,7 +6,7 @@ import {
 	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
-} from "@wordpress/edit-post";
+} from "@wordpress/editor";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerPlugin } from "@wordpress/plugins";

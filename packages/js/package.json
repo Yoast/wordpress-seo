@@ -21,6 +21,7 @@
     "@wordpress/compose": "^7.8.4",
     "@wordpress/data": "^10.8.4",
     "@wordpress/dom-ready": "^4.8.1",
+    "@wordpress/editor": "^14.33.10",
     "@wordpress/element": "^6.8.1",
     "@wordpress/hooks": "^4.8.2",
     "@wordpress/html-entities": "^4.8.1",
