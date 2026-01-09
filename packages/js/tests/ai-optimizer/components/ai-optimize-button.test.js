@@ -34,10 +34,11 @@ global.window.YoastSEO = {
  * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
  * @param {string} keyword The focus keyphrase.
  * @param {string} content The editor content.
+ * @param {string|null} focusAIButton The AI Optimize button that should receive focus.
  * @returns {function} The mock.
  */
 // eslint-disable-next-line complexity
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it." ) => {
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it.", focusAIButton = null ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
@@ -48,6 +49,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => keyword,
+		getFocusAIFixesButton: () => focusAIButton,
 	} ) ) );
 
 	// Mock collectData to reflect the provided content
@@ -61,18 +63,21 @@ describe( "AIOptimizeButton", () => {
 	let setActiveMarker;
 	let setMarkerPauseStatus;
 	let setMarkerStatus;
+	let setFocusAIFixesButton;
 
 	beforeEach( () => {
 		setActiveAIFixesButton = jest.fn();
 		setActiveMarker = jest.fn();
 		setMarkerPauseStatus = jest.fn();
 		setMarkerStatus = jest.fn();
+		setFocusAIFixesButton = jest.fn();
 
 		useDispatch.mockImplementation( () => ( {
 			setActiveAIFixesButton,
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
+			setFocusAIFixesButton,
 		} ) );
 	} );
 
