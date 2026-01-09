@@ -71,7 +71,7 @@
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
     "readline-sync": "^1.4.9",
-    "tmp": "^0.1.0",
+    "tmp": "^0.2.4",
     "webpack": "^5.88.2",
     "webpack-bundle-analyzer": "^4.9.1"
   },
