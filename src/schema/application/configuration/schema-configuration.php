@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
 /**
  * Responsible for the schema configuration.
+ *
+ * @makePublic
  */
 class Schema_Configuration {
 
