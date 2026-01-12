@@ -6,6 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
+import { convertToHTMLString } from "../utils/convertToHTMLString";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -287,13 +288,13 @@ export default class HowToStep extends Component {
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
-					value={ step.name }
+					value={ convertToHTMLString( step.name ) }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
-					value={ step.text }
+					value={ convertToHTMLString( step.text ) }
 				/>
 			</li>
 		);
@@ -327,7 +328,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
-					value={ name }
+					value={ convertToHTMLString( name ) }
 					onChange={ this.onChangeTitle }
 					onFocus={ this.onFocusTitle }
 					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
@@ -340,7 +341,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }
-					value={ text }
+					value={ convertToHTMLString( text ) }
 					onChange={ this.onChangeText }
 					onFocus={ this.onFocusText }
 					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
