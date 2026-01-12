@@ -67,6 +67,20 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	private $woo_schema_piece_repository;
 
 	/**
+	 * The EDD schema piece repository.
+	 *
+	 * @var Edd_Schema_Piece_Repository
+	 */
+	private $edd_schema_piece_repository;
+
+	/**
+	 * The WordPress global state adapter.
+	 *
+	 * @var WordPress_Global_State_Adapter
+	 */
+	private $global_state_adapter;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer         $memoizer                     The meta tags context memoizer.
@@ -76,6 +90,8 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	 * @param Schema_Enhancement_Factory         $enhancement_factory          The schema enhancement factory.
 	 * @param Indexable_Repository_Factory       $indexable_repository_factory The indexable repository factory.
 	 * @param Woo_Schema_Piece_Repository        $woo_schema_piece_repository  The woo schema piece repository.
+	 * @param Edd_Schema_Piece_Repository        $edd_schema_piece_repository  The EDD schema piece repository.
+	 * @param WordPress_Global_State_Adapter     $global_state_adapter         The global state adapter.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
@@ -84,7 +100,9 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		Aggregator_Config $config,
 		Schema_Enhancement_Factory $enhancement_factory,
 		Indexable_Repository_Factory $indexable_repository_factory,
-		Woo_Schema_Piece_Repository $woo_schema_piece_repository
+		Woo_Schema_Piece_Repository $woo_schema_piece_repository,
+		Edd_Schema_Piece_Repository $edd_schema_piece_repository,
+		WordPress_Global_State_Adapter $global_state_adapter
 	) {
 		$this->memoizer                     = $memoizer;
 		$this->indexable_helper             = $indexable_helper;
@@ -93,6 +111,8 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$this->enhancement_factory          = $enhancement_factory;
 		$this->indexable_repository_factory = $indexable_repository_factory;
 		$this->woo_schema_piece_repository  = $woo_schema_piece_repository;
+		$this->edd_schema_piece_repository  = $edd_schema_piece_repository;
+		$this->global_state_adapter         = $global_state_adapter;
 	}
 
 	/**
@@ -112,6 +132,8 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
 				continue;
 			}
+
+			$this->global_state_adapter->set_global_state( $indexable );
 			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context       = $this->memoizer->get( $indexable, $page_type );
 			$context_array = $this->adapter->meta_tags_context_to_array( $context );
@@ -123,6 +145,12 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 					$pieces_data[] = $product_schema;
 				}
 			}
+			if ( $post_type === 'download' ) {
+				$download_schema = $this->edd_schema_piece_repository->collect_download_schema( $indexable->object_id );
+				if ( $download_schema !== null ) {
+					$pieces_data[] = $download_schema[0];
+				}
+			}
 
 			foreach ( $pieces_data as $piece_data ) {
 				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
@@ -132,7 +160,10 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 				}
 				$schema_pieces[] = $schema_piece;
 			}
+
+			$this->global_state_adapter->reset_global_state();
 		}
+
 		return new Schema_Piece_Collection( $schema_pieces );
 	}
 
