@@ -716,7 +716,7 @@ export default class HowTo extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The how-to block editor.
+	 * @returns {JSX.Element} The how-to block editor.
 	 */
 	render() {
 		const { attributes, className } = this.props;
@@ -734,8 +734,6 @@ export default class HowTo extends Component {
 					value={ attributes.description }
 					onChange={ this.onChangeDescription }
 					onFocus={ this.focusDescription }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.focusDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 				/>
 				<ul className={ listClassNames }>
