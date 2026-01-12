@@ -8,6 +8,7 @@ import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
+import { convertToHTMLString } from "../../utils/convertToHTMLString";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -289,13 +290,13 @@ export default class Question extends Component {
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ question.question }
+					value={ convertToHTMLString( question.question ) }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ question.answer }
+					value={ convertToHTMLString( question.answer ) }
 				/>
 			</div>
 		);
@@ -339,7 +340,7 @@ export default class Question extends Component {
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
-					value={ question }
+					value={ convertToHTMLString( question ) }
 					onChange={ this.onChangeQuestion }
 					onFocus={ this.onFocusQuestion }
 					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
@@ -352,7 +353,7 @@ export default class Question extends Component {
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
-					value={ answer }
+					value={ convertToHTMLString( answer ) }
 					onChange={ this.onChangeAnswer }
 					onFocus={ this.onFocusAnswer }
 					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
