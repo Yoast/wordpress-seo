@@ -43,7 +43,7 @@ export default class Question extends Component {
 	 * @param {Object}   props      The received props.
 	 * @param {function} props.open Opens the media upload dialog.
 	 *
-	 * @returns {wp.Element} The media upload button.
+	 * @returns {JSX.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (
@@ -58,7 +58,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handle the focus event on the question editor.
+	 * Handles the focus event in the question editor.
 	 *
 	 * @returns {void}
 	 */
@@ -67,7 +67,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handle the focus event on the answer editor.
+	 * Handles the focus event on the answer editor.
 	 *
 	 * @returns {void}
 	 */
@@ -76,7 +76,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the question editor.
+	 * Handles the on change event in the question editor.
 	 *
 	 * @param {string} value The new question.
 	 *
@@ -102,7 +102,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the answer editor.
+	 * Handles the on change event in the answer editor.
 	 *
 	 * @param {string} value The new answer.
 	 *
@@ -146,7 +146,7 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Handle the move up button action.
+	 * Handles the move up button action.
 	 *
 	 * @returns {void}
 	 */
@@ -158,7 +158,7 @@ export default class Question extends Component {
 		this.props.onMoveUp( this.props.index );
 	}
 	/**
-	 * Handle the move down button action.
+	 * Handles the move down button action.
 	 *
 	 * @returns {void}
 	 */
@@ -171,9 +171,9 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * The insert and remove question buttons.
+	 * Gets the buttons for inserting and removing question and for uploading images.
 	 *
-	 * @returns {Component} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getButtons() {
 		const {
@@ -205,7 +205,7 @@ export default class Question extends Component {
 	/**
 	 * The mover buttons.
 	 *
-	 * @returns {Component} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getMover() {
 		return <div className="schema-faq-section-mover">
@@ -255,9 +255,9 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Returns the image src from step contents.
+	 * Returns the image src from question contents.
 	 *
-	 * @param {array} contents The step contents.
+	 * @param {array} contents The question contents.
 	 *
 	 * @returns {string|boolean} The image src or false if none is found.
 	 */
@@ -281,7 +281,7 @@ export default class Question extends Component {
 	 *
 	 * @param {object} question The question and its answer.
 	 *
-	 * @returns {Component} The component to be rendered.
+	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( question ) {
 		return (
@@ -303,23 +303,20 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Perform a shallow equal to prevent every step from being rerendered.
+	 * Performs a shallow equal to prevent every question from being rerendered.
 	 *
 	 * @param {object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		if ( ! isShallowEqualObjects( nextProps, this.props ) ) {
-			return true;
-		}
-		return false;
+		return ! isShallowEqualObjects( nextProps, this.props );
 	}
 
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The how-to step editor.
+	 * @returns {JSX.Element} The FAQ question editor.
 	 */
 	render() {
 		const {
@@ -343,8 +340,6 @@ export default class Question extends Component {
 					value={ convertToHTMLString( question ) }
 					onChange={ this.onChangeQuestion }
 					onFocus={ this.onFocusQuestion }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
@@ -356,8 +351,6 @@ export default class Question extends Component {
 					value={ convertToHTMLString( answer ) }
 					onChange={ this.onChangeAnswer }
 					onFocus={ this.onFocusAnswer }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 				/>
 				{ isSelected &&
