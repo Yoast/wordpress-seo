@@ -112,7 +112,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the Add Step Button click event.
 	 *
-	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 * Necessary because insertStep needs to be called without arguments, to ensure the step is added properly.
 	 *
 	 * @returns {void}
 	 */
@@ -183,10 +183,10 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number}       [index]      Optional. The index of the Step after which a new Step should be added.
-	 * @param {array|string} [name]       Optional. The title of the new Step. Default: empty.
-	 * @param {array|string} [text]       Optional. The description of the new Step. Default: empty.
-	 * @param {bool}         [focus=true] Optional. Whether to focus the new Step. Default: true.
+	 * @param {number|null} [index=null]	The index of the Step after which a new Step should be added.
+	 * @param {array|string} [name=[]]		The title of the new Step.
+	 * @param {array|string} [text=[]]		The description of the new Step.
+	 * @param {boolean}	[focus=true]		Whether to focus the new Step.
 	 *
 	 * @returns {void}
 	 */
@@ -267,7 +267,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to a specific step in the How-to block.
+	 * Sets the focus on a specific step in the How-to block.
 	 *
 	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
 	 *
@@ -282,7 +282,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to an element within teh specified step.
+	 * Sets the focus to an element within the specified step.
 	 *
 	 * @param {number} stepIndex      Index of the step to focus.
 	 * @param {string} elementToFocus Name of the element to focus.
@@ -294,7 +294,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Move the step at the specified index one step up.
+	 * Moves the step at the specified index one step up.
 	 *
 	 * @param {number} stepIndex Index of the step that should be moved.
 	 *
@@ -305,7 +305,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Move the step at the specified index one step down.
+	 * Moves the step at the specified index one step down.
 	 *
 	 * @param {number} stepIndex Index of the step that should be moved.
 	 *
@@ -351,10 +351,10 @@ export default class HowTo extends Component {
 	/**
 	 * Formats the time in the input fields by removing leading zeros.
 	 *
-	 * @param {number} duration    The duration as entered by the user.
-	 * @param {number} maxDuration Optional. The max duration a field can have.
+	 * @param {number|string} duration    The duration as entered by the user.
+	 * @param {number|null} [maxDuration=null] The max duration a field can have.
 	 *
-	 * @returns {number} The formatted duration.
+	 * @returns {number|string} The formatted duration.
 	 */
 	formatDuration( duration, maxDuration = null ) {
 		if ( duration === "" ) {
@@ -399,7 +399,7 @@ export default class HowTo extends Component {
 	 *
 	 * @param {object} props the attributes of the How-to block.
 	 *
-	 * @returns {Component} The component representing a How-to block.
+	 * @returns {JSX.Element} The component representing a How-to block.
 	 */
 	static Content( props ) {
 		const {
@@ -448,7 +448,7 @@ export default class HowTo extends Component {
 	/**
 	 * Retrieves a button to add a step at the end of the How-to list.
 	 *
-	 * @returns {Component} The button to add a step.
+	 * @returns {JSX.Element} The button to add a step.
 	 */
 	getAddStepButton() {
 		return (
@@ -465,7 +465,7 @@ export default class HowTo extends Component {
 	/**
 	 * Adds CSS classes to this how-to block's list.
 	 *
-	 * @param {string} value The additional css classes.
+	 * @param {string} value The additional CSS classes.
 	 *
 	 * @returns {void}
 	 */
@@ -498,7 +498,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Set focus to the description field.
+	 * Sets focus to the description field.
 	 *
 	 * @returns {void}
 	 */
@@ -593,7 +593,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns a component to manage this how-to block's duration.
 	 *
-	 * @returns {Component} The duration editor component.
+	 * @returns {JSX.Element} The duration editor component.
 	 */
 	getDuration() {
 		const { attributes } = this.props;
@@ -686,7 +686,7 @@ export default class HowTo extends Component {
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
 	 * @param {string}  durationText      The text to describe the duration.
 	 *
-	 * @returns {Component} The controls to add to the sidebar.
+	 * @returns {JSX.Element} The controls to add to the sidebar.
 	 */
 	getSidebar( unorderedList, additionalClasses, durationText ) {
 		if ( durationText === this.getDefaultDurationText() ) {
