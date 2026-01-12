@@ -6,7 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
-import { convertToHTMLString } from "../utils/convertToHTMLString";
+import { convertToHTMLString } from "../../utils/convertToHTMLString";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
