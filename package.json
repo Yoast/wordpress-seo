@@ -45,13 +45,13 @@
     "@wordpress/scripts": "^28.6.0",
     "@yoast/babel-preset": "^1.1.3",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/dashboard-frontend": "^0.1.1",
+    "@yoast/dashboard-frontend": "^0.2.0",
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/grunt-plugin-tasks": "^2.5",
     "@yoast/postcss-preset": "^1.2.1",
-    "@yoast/related-keyphrase-suggestions": "^0.2.0",
-    "@yoast/tailwindcss-preset": "^2.4.0",
-    "@yoast/ui-library": "^4.3.0",
+    "@yoast/related-keyphrase-suggestions": "^0.3.0",
+    "@yoast/tailwindcss-preset": "^2.5.0",
+    "@yoast/ui-library": "^4.4.0",
     "colors": "1.4.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^2.6.12",
@@ -76,7 +76,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "26.8-RC1"
+    "pluginVersion": "26.8-RC3"
   },
   "version": "0.0.0"
 }
