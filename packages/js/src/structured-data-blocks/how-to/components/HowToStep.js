@@ -331,8 +331,6 @@ export default class HowToStep extends Component {
 					value={ convertToHTMLString( name ) }
 					onChange={ this.onChangeTitle }
 					onFocus={ this.onFocusTitle }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
@@ -344,8 +342,6 @@ export default class HowToStep extends Component {
 					value={ convertToHTMLString( text ) }
 					onChange={ this.onChangeText }
 					onFocus={ this.onFocusText }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 				/>
 				{ isSelected &&
