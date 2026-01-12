@@ -17,17 +17,6 @@ import { Component, renderToString, createRef } from "@wordpress/element";
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
- * Modified Text Control to provide a better layout experience.
- *
- * @returns {wp.Element} The TextControl with additional spacing below.
- */
-const SpacedTextControl = styled( TextControl )`
-	&&& {
-		margin-bottom: 32px;
-	}
-`;
-
-/**
  * A How-to block component.
  */
 export default class HowTo extends Component {
@@ -695,24 +684,30 @@ export default class HowTo extends Component {
 
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<SpacedTextControl
+				<TextControl
 					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
+					__next40pxDefaultSize={ true }
+					__nextHasNoMarginBottom={ true }
 				/>
-				<SpacedTextControl
+				<TextControl
 					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
 					value={ durationText }
 					onChange={ this.setDurationText }
 					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
 					placeholder={ this.getDefaultDurationText() }
+					__next40pxDefaultSize={ true }
+					__nextHasNoMarginBottom={ true }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
 					checked={ unorderedList || false }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
+					__next40pxDefaultSize={ true }
+					__nextHasNoMarginBottom={ true }
 				/>
 			</PanelBody>
 		</InspectorControls>;
