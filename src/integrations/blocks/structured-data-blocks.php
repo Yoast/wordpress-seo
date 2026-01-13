@@ -380,7 +380,21 @@ class Structured_Data_Blocks implements Integration_Interface {
 		// First grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
-			if ( ! isset( $element[ $key ] ) ) {
+			// Check if key "image" exists in any of the elements, grab the image IDs.
+			if ( isset( $element['image'] ) && \is_array( $element['image'] ) ) {
+				$part = $element['image'];
+				if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
+					continue;
+				}
+
+				if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
+					continue;
+				}
+
+				$images[ $part['props']['src'] ] = (int) $part['key'];
+			}
+
+			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) ) {
 				continue;
 			}
 			if ( isset( $element[ $key ] ) && \is_array( $element[ $key ] ) ) {

@@ -6,6 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
+import { getImage } from "../utils/getImage";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -228,14 +229,10 @@ export default class HowToStep extends Component {
 			},
 		} = this.props;
 
-		let newText = text.slice();
-		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const imageHtml = `<img class="wp-image-${ media.id }" alt="${ media.alt || "" }" src="${ media.url }" style="max-width: 100%;" />`;
 
-		if ( newText.push ) {
-			newText.push( image );
-		} else {
-			newText = [ newText, image ];
-		}
+		// Append to existing text (which is now a string)
+		const newText = ( text || "" ) + imageHtml;
 
 		this.props.onChange( name, newText, name, text, index );
 	}
@@ -243,22 +240,29 @@ export default class HowToStep extends Component {
 	/**
 	 * Returns the image src from step contents.
 	 *
-	 * @param {array} contents The step contents.
+	 * @param {string|array} contents The step contents.
 	 *
 	 * @returns {string|boolean} The image src or false if none is found.
 	 */
 	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
+		// Handle legacy array format for backward compatibility
+		if ( Array.isArray( contents ) ) {
+			const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
+			if ( image ) {
+				return image.props.src;
+			}
 			return false;
 		}
 
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-
-		if ( ! image ) {
-			return false;
+		// Handle new string format - parse for img tag
+		if ( typeof contents === "string" && contents.includes( "<img" ) ) {
+			const img = getImage( contents );
+			if ( img && img.src ) {
+				return img.src;
+			}
 		}
 
-		return image.props.src;
+		return false;
 	}
 
 	/**

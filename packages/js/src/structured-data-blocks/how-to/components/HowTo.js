@@ -13,6 +13,8 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 import { RichText, InspectorControls } from "@wordpress/block-editor";
 import { Button, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
 import { Component, renderToString, createRef } from "@wordpress/element";
+import parse from "html-react-parser";
+
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -112,12 +114,12 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the Add Step Button click event.
 	 *
-	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 * Necessary because insertStep needs to be called without arguments, to ensure the step is added properly.
 	 *
 	 * @returns {void}
 	 */
 	onAddStepButtonClick() {
-		this.insertStep( null, [], [], false );
+		this.insertStep( null, "", "", [], false );
 	}
 
 	/**
@@ -134,10 +136,10 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array}  newName      The new step-name.
-	 * @param {array}  newText      The new step-text.
-	 * @param {array}  previousName The previous step-name.
-	 * @param {array}  previousText The previous step-text.
+	 * @param {string}  newName      The new step-name.
+	 * @param {string}  newText      The new step-text.
+	 * @param {string}  previousName The previous step-name.
+	 * @param {string}  previousText The previous step-text.
 	 * @param {number} index        The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
@@ -171,6 +173,12 @@ export default class HowTo extends Component {
 			jsonText: renderToString( newText ),
 		};
 
+		let image = newText.match( /<img [^>]*src=["']([^"']+)["'][^>]*>/ );
+		if ( image && image[ 0 ] ) {
+			image = parse( image[ 0 ] );
+			steps[ index ].image = [ image ];
+		}
+
 		const imageSrc = HowToStep.getImageSrc( newText );
 
 		if ( imageSrc ) {
@@ -183,14 +191,15 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number}       [index]      Optional. The index of the Step after which a new Step should be added.
-	 * @param {array|string} [name]       Optional. The title of the new Step. Default: empty.
-	 * @param {array|string} [text]       Optional. The description of the new Step. Default: empty.
-	 * @param {bool}         [focus=true] Optional. Whether to focus the new Step. Default: true.
+	 * @param {number}  [index]      The index of the Step after which a new Step should be added.
+	 * @param {string}  [name]       The title of the new Step.
+	 * @param {string}  [text]       The description of the new Step.
+	 * @param {array}  [image]      The image of the new Step.
+	 * @param {boolean}    [focus=true] Whether to focus the new Step.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index = null, name = [], text = [], focus = true ) {
+	insertStep( index = null, name = "", text = "", image = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( index === null ) {
@@ -201,6 +210,7 @@ export default class HowTo extends Component {
 			id: HowTo.generateId( "how-to-step" ),
 			name,
 			text,
+			image,
 			jsonName: "",
 			jsonText: "",
 		} );

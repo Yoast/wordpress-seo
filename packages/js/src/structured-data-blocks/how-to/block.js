@@ -22,7 +22,7 @@ registerBlockType( block, {
 
 		// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 		if ( ! attributes.steps || attributes.steps.length === 0 ) {
-			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
+			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: "", text: "", image: [] } ];
 		}
 
 		return <div { ...blockProps }>
