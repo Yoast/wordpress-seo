@@ -53,6 +53,11 @@ module.exports = {
 				"ai-300": "linear-gradient(to bottom right, #cd82ab, #a5b4fc)",
 				"ai-500": "linear-gradient(97.38deg, #A61E69 0%, #6366F1 100%)",
 				"ai-600": "linear-gradient(97.38deg, #8F0F57 0%, #4338CA 100%)",
+				"gradient-content-optimization": "linear-gradient(to bottom right, #ef9d48 7%, #4338ca 74%)",
+				"gradient-technical-seo": "linear-gradient(133deg, #760b65 22%, #ef9d48 94%)",
+				"gradient-social-sharing": "linear-gradient(133deg, #760b65 22%, #f590e4 94%)",
+				"gradient-site-structure": "linear-gradient(133deg, #54bbbb 7%, #2f3f85 74%)",
+				"gradient-tools": "linear-gradient(133deg, #0e1e65 19%, #399b9b 94%)",
 			}
 		},
 	},
