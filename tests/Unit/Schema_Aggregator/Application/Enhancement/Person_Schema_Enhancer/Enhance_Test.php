@@ -21,11 +21,7 @@ final class Enhance_Test extends Abstract_Person_Schema_Enhancer_Test {
 	 *
 	 * @dataProvider enhance_data_provider
 	 *
-	 * @phpcs :disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
-	 *
 	 * @param array<string, array<string, mixed>> $schema_data The schema piece data.
-	 *
-	 * @phpcs :enable
 	 *
 	 * @return void
 	 */
