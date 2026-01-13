@@ -2,8 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Tracking\User_Interface\Action_Tracking;
 
-use Yoast\WP\SEO\Conditionals\Premium_Active_Conditional;
-
 /**
  * Test class for get_conditionals.
  *
@@ -21,9 +19,7 @@ final class Action_Tracking_Route_Get_Conditionals_Test extends Abstract_Action_
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$expected_result = [
-			Premium_Active_Conditional::class,
-		];
+		$expected_result = [];
 
 		$this->assertEquals( $expected_result, $this->instance::get_conditionals() );
 	}

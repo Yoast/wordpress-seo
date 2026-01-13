@@ -6,7 +6,7 @@ use Exception;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\Premium_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tracking\Domain\Exceptions\Invalid_Tracked_Action_Exception;
  * Registers a route to track user actions.
  */
 class Action_Tracking_Route implements Route_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 *  The namespace for this route.
@@ -53,15 +55,6 @@ class Action_Tracking_Route implements Route_Interface {
 	 * @var Options_Helper
 	 */
 	private $options_helper;
-
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array<string> The conditionals.
-	 */
-	public static function get_conditionals() {
-		return [ Premium_Active_Conditional::class ];
-	}
 
 	/**
 	 * Constructs the class.
