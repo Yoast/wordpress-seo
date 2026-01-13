@@ -22,7 +22,7 @@ class WPSEO_Option_Task_List extends WPSEO_Option {
 	 *
 	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
-	 * @var array<string, int|string|array<int>>
+	 * @var array<string, array<string, string>>
 	 */
 	protected $defaults = [
 		'manually_completed_tasks' => [],

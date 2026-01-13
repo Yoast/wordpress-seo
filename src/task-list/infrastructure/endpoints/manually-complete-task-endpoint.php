@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Task_List\User_Interface\Tasks\Set_Task_Completion_Route;
+use Yoast\WP\SEO\Task_List\User_Interface\Tasks\Manually_Complete_Task_Route;
 
 /**
- * Represents the set task completion endpoint.
+ * Represents the manually complete task endpoint.
  */
-class Set_Task_Completion_Endpoint implements Endpoint_Interface {
+class Manually_Complete_Task_Endpoint implements Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -25,7 +25,7 @@ class Set_Task_Completion_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Set_Task_Completion_Route::ROUTE_NAMESPACE;
+		return Manually_Complete_Task_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -34,7 +34,7 @@ class Set_Task_Completion_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Set_Task_Completion_Route::ROUTE_NAME;
+		return Manually_Complete_Task_Route::ROUTE_NAME;
 	}
 
 	/**
