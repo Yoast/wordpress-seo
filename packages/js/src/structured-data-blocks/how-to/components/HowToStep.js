@@ -6,7 +6,6 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
-import { convertToHTMLString } from "../../utils/convertToHTMLString";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -288,13 +287,13 @@ export default class HowToStep extends Component {
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
-					value={ convertToHTMLString( step.name ) }
+					value={ step.name }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
-					value={ convertToHTMLString( step.text ) }
+					value={ step.text }
 				/>
 			</li>
 		);
@@ -328,7 +327,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
-					value={ convertToHTMLString( name ) }
+					value={ name }
 					onChange={ this.onChangeTitle }
 					onFocus={ this.onFocusTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
@@ -339,7 +338,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }
-					value={ convertToHTMLString( text ) }
+					value={ text }
 					onChange={ this.onChangeText }
 					onFocus={ this.onFocusText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }

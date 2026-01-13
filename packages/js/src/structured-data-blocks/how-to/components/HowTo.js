@@ -1,6 +1,5 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
 import { get, toString } from "lodash";

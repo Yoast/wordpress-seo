@@ -8,7 +8,6 @@ import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
-import { convertToHTMLString } from "../../utils/convertToHTMLString";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -290,13 +289,13 @@ export default class Question extends Component {
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ convertToHTMLString( question.question ) }
+					value={ question.question }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ convertToHTMLString( question.answer ) }
+					value={ question.answer }
 				/>
 			</div>
 		);
@@ -337,7 +336,7 @@ export default class Question extends Component {
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
-					value={ convertToHTMLString( question ) }
+					value={ question }
 					onChange={ this.onChangeQuestion }
 					onFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
@@ -348,7 +347,7 @@ export default class Question extends Component {
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
-					value={ convertToHTMLString( answer ) }
+					value={ answer }
 					onChange={ this.onChangeAnswer }
 					onFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
