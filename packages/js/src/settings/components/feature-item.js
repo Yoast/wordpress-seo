@@ -3,7 +3,7 @@ import { useMemo, useCallback, useState } from "@wordpress/element";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { useDisabledMessage, useSelectSettings, useToggleHandlerWithModals } from "../hooks";
-import { get } from "lodash";
+import { get, has } from "lodash";
 import { Button, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import { LockOpenIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
@@ -133,7 +133,7 @@ export const FeatureItem = ( {
 	};
 
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
-		{ Icon && featureSectionId &&
+		{ Icon && featureSectionId && has( gradientClasses, featureSectionId ) &&
 			<div className="yst-relative yst-shrink-0 yst-w-[42px] yst-h-[42px]">
 				<div
 					className={ classNames(
