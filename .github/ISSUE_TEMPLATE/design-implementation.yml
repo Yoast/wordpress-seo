@@ -1,0 +1,60 @@
+name: Design implementation
+description: Transfer a design to the development team.
+title: "[Design]: "
+labels: []
+assignees: []
+body:
+  - type: input
+    id: product-owner
+    attributes:
+      label: Product owner
+      placeholder: Enter the product owner's name
+
+  - type: input
+    id: ux-designer
+    attributes:
+      label: UX designer
+      placeholder: Enter the UX designer's name
+
+  - type: textarea
+    id: what-to-build
+    attributes:
+      label: What are we going to build?
+      description: |
+        If there are multiple iterative stages of implementation, describe each iteration separately.
+        Describe the project scope as detailed as possible.
+      placeholder: Describe the project scope and what needs to be built...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-solution
+    attributes:
+      label: What problem does it solve?
+      description: |
+        What is the aim of this change? Why are we doing this?
+        You can copy the problem definition from the corresponding design issue.
+      placeholder: Explain the problem this design implementation solves...
+    validations:
+      required: true
+
+  - type: input
+    id: functional-prototype
+    attributes:
+      label: Functional prototype
+      description: Paste link to functional prototype (in Sketch Cloud)
+      placeholder: https://sketch.cloud/...
+
+  - type: input
+    id: design-files
+    attributes:
+      label: Design files
+      description: Paste link to design files (in Sketch Cloud)
+      placeholder: https://sketch.cloud/...
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info or requirements
+      description: Any additional information, requirements, or notes for the development team
+      placeholder: Add any additional context, requirements, or notes...
