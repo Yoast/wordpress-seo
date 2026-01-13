@@ -11,23 +11,17 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  * Tests the Article_Schema_Enhancer class enhance_schema_piece method.
  *
  * @group schema-aggregator
- *
- * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer
  */
 final class Enhance_Test extends Abstract_Article_Schema_Enhancer_Test {
 
 	/**
 	 * Test.
 	 *
-	 * @covers ::enhance
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer::enhance
 	 *
 	 * @dataProvider enhance_data_provider
 	 *
-	 * @phpcs        :disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
-	 *
 	 * @param array<string, array<string, mixed>> $schema_data The schema piece data.
-	 *
-	 * @phpcs        :enable
 	 *
 	 * @return void
 	 */

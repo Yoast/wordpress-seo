@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Person_Config;
  * Tests the Person_Schema_Enhancer class.
  *
  * @group schema-aggregator
- *
- * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer
  */
 final class Set_Person_Config_Test extends Abstract_Person_Schema_Enhancer_Test {
 
@@ -38,7 +36,7 @@ final class Set_Person_Config_Test extends Abstract_Person_Schema_Enhancer_Test 
 	/**
 	 * Tests set_person_config() method.
 	 *
-	 * @covers ::set_person_config
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer::set_person_config
 	 *
 	 * @return void
 	 */

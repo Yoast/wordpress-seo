@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config;
  * Tests the Article_Schema_Enhancer class.
  *
  * @group schema-aggregator
- *
- * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer
  */
 final class Set_Article_Config_Test extends Abstract_Article_Schema_Enhancer_Test {
 
@@ -38,7 +36,7 @@ final class Set_Article_Config_Test extends Abstract_Article_Schema_Enhancer_Tes
 	/**
 	 * Tests set_article_config() method.
 	 *
-	 * @covers ::set_article_config
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Article_Schema_Enhancer::set_article_config
 	 *
 	 * @return void
 	 */

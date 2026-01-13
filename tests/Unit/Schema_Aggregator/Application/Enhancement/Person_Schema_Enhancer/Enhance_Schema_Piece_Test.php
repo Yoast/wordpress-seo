@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Schema_Aggregator\Person_Schema_Enhancer_Dou
  * Tests the Person_Schema_Enhancer class enhance method.
  *
  * @group schema-aggregator
- *
- * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer
  */
 final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Test {
 
@@ -39,7 +37,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Te
 	/**
 	 * Tests that enhance_schema_piece correctly handles exceptions.
 	 *
-	 * @covers ::enhance_schema_piece
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer::enhance_schema_piece
 	 *
 	 * @return void
 	 */
@@ -72,7 +70,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Te
 	/**
 	 * Tests the enhance_schema_piece method when jobTitle enhancement is disabled.
 	 *
-	 * @covers ::enhance_schema_piece
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer::enhance_schema_piece
 	 *
 	 * @return void
 	 */
@@ -101,7 +99,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Te
 	/**
 	 * Tests the enhance_schema_piece method when jobTitle already exists.
 	 *
-	 * @covers ::enhance_schema_piece
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer::enhance_schema_piece
 	 *
 	 * @return void
 	 */
@@ -131,7 +129,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Person_Schema_Enhancer_Te
 	/**
 	 * Tests the enhance_schema_piece method for jobTitle enhancement scenarios.
 	 *
-	 * @covers ::enhance_schema_piece
+	 * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Person_Schema_Enhancer::enhance_schema_piece
 	 *
 	 * @dataProvider enhance_schema_piece_job_title_data_provider
 	 *
