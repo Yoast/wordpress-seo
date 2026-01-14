@@ -124,7 +124,7 @@ class HowTo extends Abstract_Schema_Piece {
 		// Decode HTML entities.
 		$json_text = \html_entity_decode( $json_text );
 		// Remove the image from the text if it exists. Search and replace the img tag.
-		$json_text = \preg_replace( '/(<img)[^>]+>/i', '', $json_text );
+		$json_text = \preg_replace( '/<img[^>]+>/i', '', $json_text );
 		// Trim whitespace.
 		$json_text = \trim( $json_text );
 

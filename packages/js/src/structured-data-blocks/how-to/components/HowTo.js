@@ -173,7 +173,7 @@ export default class HowTo extends Component {
 			jsonText: newText,
 		};
 
-		let image = newText.match( /<img [^>]*src=["']([^"']+)["'][^>]*>/ );
+		let image = newText.match( /<img[^>]+src=["']([^"']+)["'][^>]*>/i );
 		if ( image && image[ 0 ] ) {
 			image = parse( image[ 0 ] );
 			steps[ index ].image = [ image ];
