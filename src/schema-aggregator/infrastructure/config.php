@@ -87,10 +87,6 @@ class Config {
 		try {
 			$serialized = \serialize( $data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Needed for size calculation.
 
-			if ( $serialized === false ) {
-				return self::DEFAULT_CACHE_TTL;
-			}
-
 			$size = \strlen( $serialized );
 
 			// Large payloads: cache longer.
