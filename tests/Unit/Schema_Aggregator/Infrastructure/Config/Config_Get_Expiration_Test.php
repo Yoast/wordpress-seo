@@ -124,6 +124,21 @@ final class Config_Get_Expiration_Test extends Abstract_Config_Test {
 	}
 
 	/**
+	 * Tests that an exception during serialization results in the default expiration being returned.
+	 *
+	 * @return void
+	 */
+	public function test_get_expiration_handles_exception() {
+		$unserializable_data = static function () {
+			return 'test';
+		};
+
+		$result = $this->instance->get_expiration( [ $unserializable_data ] );
+
+		$this->assertEquals( 3600, $result );
+	}
+
+	/**
 	 * Helper method to generate an array of approximately the specified serialized size.
 	 *
 	 * @param int $target_bytes The target size in bytes.
