@@ -147,7 +147,7 @@ class HowTo extends Abstract_Schema_Piece {
 	private function add_step_image( &$schema_step, $step ) {
 		if ( isset( $step['image'] ) && \is_array( $step['image'] ) ) {
 			foreach ( $step['image'] as $image ) {
-				if ( \is_array( $image ) && isset( $image['type'] ) && $image['type'] === 'img' ) {
+				if ( isset( $image['type'] ) && $image['type'] === 'img' ) {
 					$schema_step['image'] = $this->get_image_schema( \esc_url( $image['props']['src'] ) );
 				}
 			}

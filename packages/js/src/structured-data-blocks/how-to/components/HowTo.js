@@ -12,7 +12,7 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 
 import { RichText, InspectorControls } from "@wordpress/block-editor";
 import { Button, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
-import { Component, renderToString, createRef } from "@wordpress/element";
+import { Component, createRef } from "@wordpress/element";
 import parse from "html-react-parser";
 
 
@@ -169,8 +169,8 @@ export default class HowTo extends Component {
 			id: steps[ index ].id,
 			name: newName,
 			text: newText,
-			jsonName: renderToString( newName ),
-			jsonText: renderToString( newText ),
+			jsonName: newName,
+			jsonText: newText,
 		};
 
 		let image = newText.match( /<img [^>]*src=["']([^"']+)["'][^>]*>/ );
@@ -526,7 +526,7 @@ export default class HowTo extends Component {
 	onChangeDescription( value ) {
 		this.props.setAttributes( {
 			description: value,
-			jsonDescription: renderToString( value ),
+			jsonDescription: value,
 		} );
 	}
 

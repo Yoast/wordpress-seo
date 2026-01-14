@@ -377,21 +377,24 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_images_from_attributes_to_used_cache( $post_id, $elements, $key ) {
-		// First grab all image IDs from the attributes.
+		// First, grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
-			// Check if key "image" exists in any of the elements, grab the image IDs.
-			if ( isset( $element['image'] ) && \is_array( $element['image'] ) ) {
-				$part = $element['image'];
-				if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
+			// Check if the key "image" exists in any of the elements, grab the image IDs.
+			if ( isset( $element['image'] ) && \is_array( $element['image'] ) && count( $element['image'] ) > 0 ) {
+				// Get the first image only as we only support one image per step/question.
+				$image_data = $element['image'][ 0 ];
+				if ( ! isset( $image_data['type'] ) || $image_data['type'] !== 'img' ) {
 					continue;
 				}
 
-				if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
+				if ( ! isset( $image_data['key'] ) || ! isset( $image_data['props']['src'] ) ) {
 					continue;
 				}
 
-				$images[ $part['props']['src'] ] = (int) $part['key'];
+				$images[ $image_data['props']['src'] ] = (int) $image_data['key'];
+				// Move to the next element after finding an image.
+				continue;
 			}
 
 			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) ) {
