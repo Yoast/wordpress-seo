@@ -175,8 +175,9 @@ export default class HowTo extends Component {
 
 		let image = newText.match( /<img[^>]+src=["']([^"']+)["'][^>]*>/i );
 		if ( image && image[ 0 ] ) {
+			// How-to blocks only support one image per step.
 			image = parse( image[ 0 ] );
-			steps[ index ].image = [ image ];
+			steps[ index ].images = [ image ];
 		}
 
 		const imageSrc = HowToStep.getImageSrc( newText );
@@ -194,12 +195,12 @@ export default class HowTo extends Component {
 	 * @param {number}  [index]      The index of the Step after which a new Step should be added.
 	 * @param {string}  [name]       The title of the new Step.
 	 * @param {string}  [text]       The description of the new Step.
-	 * @param {array}  [image]      The image of the new Step.
+	 * @param {array}  [images]      The images of the new Step.
 	 * @param {boolean}    [focus=true] Whether to focus the new Step.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index = null, name = "", text = "", image = [], focus = true ) {
+	insertStep( index = null, name = "", text = "", images = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( index === null ) {
@@ -210,7 +211,7 @@ export default class HowTo extends Component {
 			id: HowTo.generateId( "how-to-step" ),
 			name,
 			text,
-			image,
+			images,
 			jsonName: "",
 			jsonText: "",
 		} );

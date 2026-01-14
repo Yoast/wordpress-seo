@@ -247,11 +247,8 @@ export default class HowToStep extends Component {
 	static getImageSrc( contents ) {
 		// Handle legacy array format for backward compatibility.
 		if ( Array.isArray( contents ) ) {
-			const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-			if ( image ) {
-				return image.props.src;
-			}
-			return false;
+			const image = contents.find( ( node ) => node && node.type === "img" );
+			return image ? image.props.src : false;
 		}
 
 		// Handle new string format - parse for img tag.

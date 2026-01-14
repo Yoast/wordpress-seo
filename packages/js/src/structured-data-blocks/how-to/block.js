@@ -22,7 +22,7 @@ registerBlockType( block, {
 
 		// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 		if ( ! attributes.steps || attributes.steps.length === 0 ) {
-			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: "", text: "", image: [] } ];
+			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: "", text: "", images: [] } ];
 		}
 
 		return <div { ...blockProps }>
@@ -46,13 +46,24 @@ registerBlockType( block, {
 	},
 
 	deprecated: [
+		// Legacy versions to support loading and migrating old block data when the step name/text were stored as arrays.
+		{
+			attributes: block.attributes,
+			save: legacy.v26_9.legacySave,
+			migrate: legacy.v26_9.migrateToStringFormat,
+			isEligible: legacy.v26_9.needsMigration,
+		},
 		{
 			attributes: block.attributes,
 			save: legacy.v11_4,
+			migrate: legacy.v26_9.migrateToStringFormat,
+			isEligible: legacy.v26_9.needsMigration,
 		},
 		{
 			attributes: block.attributes,
 			save: legacy.v8_2,
+			migrate: legacy.v26_9.migrateToStringFormat,
+			isEligible: legacy.v26_9.needsMigration,
 		},
 	],
 } );

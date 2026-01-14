@@ -380,24 +380,23 @@ class Structured_Data_Blocks implements Integration_Interface {
 		// First, grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
-			// Check if the key "image" exists in any of the elements, grab the image IDs.
-			if ( isset( $element['image'] ) && \is_array( $element['image'] ) && count( $element['image'] ) > 0 ) {
-				// Get the first image only as we only support one image per step/question.
-				$image_data = $element['image'][ 0 ];
-				if ( ! isset( $image_data['type'] ) || $image_data['type'] !== 'img' ) {
-					continue;
-				}
+			// Check if the key "images" exists in any of the elements, grab the image IDs.
+			if ( isset( $element['images'] ) && \is_array( $element['images'] ) && count( $element['images'] ) > 0 ) {
+				$image_data = $element['images'];
+				foreach ( $image_data as $image ) {
+					if ( ! isset( $image['type'] ) || $image['type'] !== 'img' ) {
+						continue;
+					}
 
-				if ( ! isset( $image_data['key'] ) || ! isset( $image_data['props']['src'] ) ) {
-					continue;
-				}
+					if ( ! isset( $image['key'] ) || ! isset( $image['props']['src'] ) ) {
+						continue;
+					}
 
-				$images[ $image_data['props']['src'] ] = (int) $image_data['key'];
-				// Move to the next element after finding an image.
-				continue;
+					$images[ $image['props']['src'] ] = (int) $image['key'];
+				}
 			}
-
-			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) ) {
+			// Don't process the key again if we've already processed the "images" key.
+			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) || isset( $element['images'] ) ) {
 				continue;
 			}
 			if ( isset( $element[ $key ] ) && \is_array( $element[ $key ] ) ) {
