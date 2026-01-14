@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
+use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
@@ -22,12 +23,32 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console
 final class Search_Console_Adapter_Get_Comparison_Data_Failed_Request_Test extends Abstract_Search_Console_Adapter_Test {
 
 	/**
+	 * Set up the test.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		// Expect the block re-registration notice when firing init again.
+		$this->setExpectedIncorrectUsage( 'WP_Block_Type_Registry::register' );
+
+		// Create an admin user with manage_options capability (required by Site Kit).
+		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
+		\wp_set_current_user( $user->ID );
+
+		Plugin::load( \GOOGLESITEKIT_PLUGIN_MAIN_FILE );
+
+		\do_action( 'init' );
+		\do_action( 'rest_api_init' );
+	}
+
+	/**
 	 * Tests get_comparison_data() for unauthenticated requests.
 	 *
 	 * @return void
 	 */
 	public function test_get_comparison_data_no_permissions() {
-		$this->markTestSkipped( 'This test needs working Site Kit rest routes' );
 		$search_console_api_call = new Site_Kit_Search_Console_Api_Call();
 
 		$instance           = new Site_Kit_Search_Console_Adapter( $search_console_api_call );
