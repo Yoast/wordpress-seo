@@ -6,7 +6,7 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * AddInclusiveLanguageScore class.
+ * AddSeoLinksIndex class.
  */
 class AddSeoLinksIndex extends Migration {
 
@@ -52,16 +52,16 @@ class AddSeoLinksIndex extends Migration {
 
 		$this->remove_index(
 			$table_name,
-			'target_indexable_id',
+			'url',
 			[
-				'name' => 'url_index',
+				'name' => 'target_indexable_id_index',
 			]
 		);
 		$this->remove_index(
 			$table_name,
-			'url',
+			'target_indexable_id',
 			[
-				'name' => 'target_indexable_id_index',
+				'name' => 'url_index',
 			]
 		);
 	}
