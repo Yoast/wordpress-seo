@@ -60,6 +60,11 @@
 		border-radius: 8px;
 		box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 	}
+
+	.yoast-snippet-preview-section {
+		@apply yst-p-2;
+	}
+
 	.yst-ai-generator-preview-section {
 		@apply yst--mx-6 yst-relative;
 	}
@@ -74,8 +79,6 @@
 		filter: blur(32px);
 		z-index: -1;
 	}
-
-
 
 	.yoast-snippet-preview-container__wrapper {
 		@apply yst-bg-transparent;

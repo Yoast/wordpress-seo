@@ -16,7 +16,7 @@ export const SocialPreview = ( { title, description } ) => {
 	const alt = useSelect( select => select( STORE_NAME_EDITOR ).getFacebookAltText(), [] );
 
 	return (
-		<div className="yst-ai-generator-preview-section yst-mx-auto">
+		<div className="yst-ai-generator-preview-section yst-p-2">
 			<FacebookPreview
 				title={ title }
 				description={ description }
