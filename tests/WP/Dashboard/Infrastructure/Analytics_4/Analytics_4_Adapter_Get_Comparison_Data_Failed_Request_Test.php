@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
 use Google\Site_Kit\Plugin;
+use ReflectionProperty;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
@@ -30,24 +31,28 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Failed_Request_Test extends 
 	public function set_up() {
 		parent::set_up();
 
-		// Expect the block re-registration notice when firing init again.
-		$this->setExpectedIncorrectUsage( 'WP_Block_Type_Registry::register' );
+		// Site Kit is loaded as a prereq plugin in the parent test setup. Depending on the WP test bootstrap,
+		// hooks can be reset between tests while Site Kit's singleton remains set, causing routes not to
+		// be registered in CI. Reset the singleton so Plugin::load() reliably wires hooks.
+		$site_kit_instance = new ReflectionProperty( Plugin::class, 'instance' );
+		$site_kit_instance->setAccessible( true );
+		$site_kit_instance->setValue( null, null );
 
 		// Create an admin user with manage_options capability (required by Site Kit).
 		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
 		\wp_set_current_user( $user->ID );
 
-		Plugin::load( \GOOGLESITEKIT_PLUGIN_MAIN_FILE );
-
-		\do_action( 'init' );
-		\do_action( 'rest_api_init' );
-
-		// Ensure Analytics 4 module is active.
+		// Ensure Analytics 4 module is active before Site Kit bootstraps modules on init.
 		$active = (array) \get_option( 'googlesitekit_active_modules', [] );
 		if ( ! \in_array( 'analytics-4', $active, true ) ) {
 			$active[] = 'analytics-4';
 		}
 		\update_option( 'googlesitekit_active_modules', $active );
+
+		Plugin::load( \GOOGLESITEKIT_PLUGIN_MAIN_FILE );
+
+		\do_action( 'init' );
+		\do_action( 'rest_api_init' );
 	}
 
 	/**

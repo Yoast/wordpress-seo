@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Search_Console;
 
 use Google\Site_Kit\Plugin;
+use ReflectionProperty;
 use Yoast\WP\SEO\Dashboard\Domain\Search_Console\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
@@ -30,8 +31,12 @@ final class Search_Console_Adapter_Get_Comparison_Data_Failed_Request_Test exten
 	public function set_up() {
 		parent::set_up();
 
-		// Expect the block re-registration notice when firing init again.
-		$this->setExpectedIncorrectUsage( 'WP_Block_Type_Registry::register' );
+		// Site Kit is loaded as a prereq plugin in the parent test setup. Depending on the WP test bootstrap,
+		// hooks can be reset between tests while Site Kit's singleton remains set, causing routes not to
+		// be registered in CI. Reset the singleton so Plugin::load() reliably wires hooks.
+		$site_kit_instance = new ReflectionProperty( Plugin::class, 'instance' );
+		$site_kit_instance->setAccessible( true );
+		$site_kit_instance->setValue( null, null );
 
 		// Create an admin user with manage_options capability (required by Site Kit).
 		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
