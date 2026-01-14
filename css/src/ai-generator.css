@@ -60,10 +60,19 @@
 		border-radius: 8px;
 		box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 	}
-
 	.yst-ai-generator-preview-section {
-		@apply yst-bg-no-repeat yst-bg-center yst-bg-auto yst--mx-6;
-		background-image: url('data:image/svg+xml, <svg width="768" height="174" viewBox="0 0 768 174" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_862_1019)"><rect width="768" height="174" fill="white"/><g opacity="0.15" filter="url(%23filter0_f_862_1019)"><ellipse cx="384" cy="87" rx="304" ry="43" fill="url(%23paint0_linear_862_1019)"/></g></g><defs><filter id="filter0_f_862_1019" x="16" y="-20" width="736" height="214" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="32" result="effect1_foregroundBlur_862_1019"/></filter><linearGradient id="paint0_linear_862_1019" x1="80" y1="44" x2="453.361" y2="386.089" gradientUnits="userSpaceOnUse"><stop stop-color="%23A61E69"/><stop offset="1" stop-color="%236366F1"/></linearGradient><clipPath id="clip0_862_1019"><rect width="768" height="174" fill="white"/></clipPath></defs></svg>');
+		@apply yst--mx-6 yst-relative;
+	}
+
+	.yst-ai-generator-preview-section:before {
+		content: '';
+		@apply yst-absolute yst-bg-ai-500 yst-rounded-full yst-opacity-15;
+		height: 72%;
+		width: 74%;
+		top: 14%;
+		left: 13%;
+		filter: blur(32px);
+		z-index: -1;
 	}
 
 
