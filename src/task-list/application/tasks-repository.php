@@ -59,15 +59,8 @@ class Tasks_Repository {
 	 */
 	private function apply_manual_completion_overrides( array $tasks_data ): array {
 		$manually_completed_tasks_ids = $this->options_helper->get( 'manually_completed_tasks', [] );
-		if ( ! \is_array( $manually_completed_tasks_ids ) || $manually_completed_tasks_ids === [] ) {
-			return $tasks_data;
-		}
 
 		foreach ( $manually_completed_tasks_ids as $manually_completed_task_id ) {
-			if ( $manually_completed_task_id === '' ) {
-				continue;
-			}
-
 			$tasks_data[ $manually_completed_task_id ]['isCompleted'] = true;
 		}
 
