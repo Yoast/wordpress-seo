@@ -6,9 +6,9 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
-import { getImage } from "../utils/getImage";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
+const parser = new DOMParser();
 
 /**
  * A How-to step within a How-to block.
@@ -245,7 +245,7 @@ export default class HowToStep extends Component {
 	 * @returns {string|boolean} The image src or false if none is found.
 	 */
 	static getImageSrc( contents ) {
-		// Handle legacy array format for backward compatibility
+		// Handle legacy array format for backward compatibility.
 		if ( Array.isArray( contents ) ) {
 			const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
 			if ( image ) {
@@ -254,9 +254,11 @@ export default class HowToStep extends Component {
 			return false;
 		}
 
-		// Handle new string format - parse for img tag
+		// Handle new string format - parse for img tag.
 		if ( typeof contents === "string" && contents.includes( "<img" ) ) {
-			const img = getImage( contents );
+			// Use a DOM parser to extract the src attribute.
+			const doc = parser.parseFromString( contents, "text/html" );
+			const img = doc.querySelector( "img" );
 			if ( img && img.src ) {
 				return img.src;
 			}
