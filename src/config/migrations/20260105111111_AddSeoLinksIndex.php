@@ -54,14 +54,14 @@ class AddSeoLinksIndex extends Migration {
 			$table_name,
 			'url',
 			[
-				'name' => 'target_indexable_id_index',
+				'name' => 'url_index',
 			]
 		);
 		$this->remove_index(
 			$table_name,
 			'target_indexable_id',
 			[
-				'name' => 'url_index',
+				'name' => 'target_indexable_id_index',
 			]
 		);
 	}
