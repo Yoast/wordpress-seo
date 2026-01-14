@@ -131,13 +131,22 @@ final class Config_Get_Expiration_Test extends Abstract_Config_Test {
 	 * @return array<string> An array with approximately the specified serialized size.
 	 */
 	private static function generate_array_of_size( $target_bytes ) {
-		$data = [];
-		$key  = 0;
+		if ( $target_bytes === 0 ) {
+			return [];
+		}
+
+		// Calculate approximate size per entry by creating a sample.
+		$sample_key   = 'key_0';
+		$sample_value = \str_repeat( 'x', 100 );
+		$sample_array = [ $sample_key => $sample_value ];
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- This is just a test.
-		$length = \strlen( \serialize( $data ) );
-		while ( $length < $target_bytes ) {
-			$data[ 'key_' . $key ] = \str_repeat( 'x', 100 );
-			++$key;
+		$bytes_per_entry = \strlen( \serialize( $sample_array ) );
+
+		$estimated_entries = (int) \ceil( $target_bytes / $bytes_per_entry );
+
+		$data = [];
+		for ( $i = 0; $i < $estimated_entries; $i++ ) {
+			$data[ 'key_' . $i ] = \str_repeat( 'x', 100 );
 		}
 
 		return $data;
