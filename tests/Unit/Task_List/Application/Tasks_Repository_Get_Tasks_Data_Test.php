@@ -8,36 +8,74 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application;
  * @group Tasks_Repository
  *
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks_Repository::get_tasks_data
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks_Repository::apply_manual_completion_overrides
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Tasks_Repository_Get_Tasks_Data_Test extends Abstract_Tasks_Repository_Test {
 
 	/**
-	 * Tests getting tasks data.
+	 * Tests getting tasks data with no manual completion.
 	 *
 	 * @return void
 	 */
-	public function test_get_tasks_data() {
-		$expected_tasks = [
+	public function test_get_tasks_data_no_manual_completion() {
+		$base_tasks = [
 			'task1' => [
 				'id'          => 'task1',
 				'title'       => 'Test Task 1',
-				'is_complete' => false,
+				'isCompleted' => false,
 			],
 			'task2' => [
 				'id'          => 'task2',
 				'title'       => 'Test Task 2',
-				'is_complete' => true,
+				'isCompleted' => true,
 			],
 		];
 
 		$this->tasks_collector->expects( 'get_tasks_data' )
 			->once()
-			->andReturn( $expected_tasks );
+			->andReturn( $base_tasks );
+
+		$this->options_helper->expects( 'get' )
+			->with( 'manually_completed_tasks', [] )
+			->andReturn( [] );
 
 		$result = $this->instance->get_tasks_data();
+		$this->assertSame( $base_tasks, $result );
+	}
 
+	/**
+	 * Tests getting tasks data with a manually completed task.
+	 *
+	 * @return void
+	 */
+	public function test_get_tasks_data_with_manual_completion() {
+		$base_tasks         = [
+			'task1' => [
+				'id'          => 'task1',
+				'title'       => 'Test Task 1',
+				'isCompleted' => false,
+			],
+			'task2' => [
+				'id'          => 'task2',
+				'title'       => 'Test Task 2',
+				'isCompleted' => true,
+			],
+		];
+		$manually_completed = [ 'task1' ];
+		$expected_tasks     = $base_tasks;
+
+		$expected_tasks['task1']['isCompleted'] = true;
+		$this->tasks_collector->expects( 'get_tasks_data' )
+			->once()
+			->andReturn( $base_tasks );
+
+		$this->options_helper->expects( 'get' )
+			->with( 'manually_completed_tasks', [] )
+			->andReturn( $manually_completed );
+
+		$result = $this->instance->get_tasks_data();
 		$this->assertSame( $expected_tasks, $result );
 	}
 }

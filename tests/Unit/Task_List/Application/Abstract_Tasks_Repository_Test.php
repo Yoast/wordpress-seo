@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application;
 
 use Mockery;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Repository;
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Cached_Tasks_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -22,6 +23,13 @@ abstract class Abstract_Tasks_Repository_Test extends TestCase {
 	protected $tasks_collector;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * @var Tasks_Repository
@@ -37,7 +45,8 @@ abstract class Abstract_Tasks_Repository_Test extends TestCase {
 		parent::set_up();
 
 		$this->tasks_collector = Mockery::mock( Cached_Tasks_Collector::class );
+		$this->options_helper  = Mockery::mock( Options_Helper::class );
 
-		$this->instance = new Tasks_Repository( $this->tasks_collector );
+		$this->instance = new Tasks_Repository( $this->tasks_collector, $this->options_helper );
 	}
 }
