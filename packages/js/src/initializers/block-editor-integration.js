@@ -6,7 +6,7 @@ import {
 	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
-} from "@wordpress/edit-post";
+} from "@wordpress/editor";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerPlugin } from "@wordpress/plugins";
@@ -78,31 +78,9 @@ function registerFormats() {
 function initiallyOpenDocumentSettings() {
 	const PANEL_NAME = "yoast-seo/document-panel";
 
-	/**
-	 * In WP 6.5 the toggleEditorPanelOpened function was added to the core/editor store.
-	 * Using this knowledge to detect which selector we should use to get the opened panels.
-	 *
-	 * We can remove this logic path when WP 6.4 is no longer supported!
-	 */
-	const isNewerGutenberg = Boolean( dispatch( "core/editor" )?.toggleEditorPanelOpened );
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" );
 
-	if ( ! isNewerGutenberg ) {
-		/**
-		 * Using WP < 6.5 logic.
-		 * @see https://github.com/WordPress/gutenberg/pull/57529
-		 *
-		 * Using `core/edit-post` instead of `core` (select) and `core/editor` (dispatch).
-		 */
-		if ( ! select( "core/preferences" )?.get( "core/edit-post", "openPanels" )?.includes( PANEL_NAME ) ) {
-			dispatch( "core/edit-post" )?.toggleEditorPanelOpened( PANEL_NAME );
-		}
-		return;
-	}
-
-	// Still using a fallback in here because there is window for error between Gutenberg 17.4.1 and 17.5.0.
-	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" ) || select( "core/preferences" )?.get( "core/edit-post", "openPanels" );
-
-	if ( ! openPanels.includes( PANEL_NAME ) ) {
+	if ( openPanels && ! openPanels.includes( PANEL_NAME ) ) {
 		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
