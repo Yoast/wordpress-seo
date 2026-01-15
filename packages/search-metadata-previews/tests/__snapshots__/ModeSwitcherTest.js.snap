@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModeSwitcher Disabled state renders correctly when disabled 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-justify-between yst-mb-4"
+    >
+      <label
+        class="yst-label"
+      >
+        Google preview
+      </label>
+      <div
+        class="yst-flex yst-gap-3 yst-items-center"
+        role="group"
+      >
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-800"
+        >
+          Mobile
+        </span>
+        <button
+          aria-checked="false"
+          class="yst-toggle yst-toggle--disabled yst-bg-primary-500"
+          data-headlessui-state=""
+          data-id="test-toggle-disabled"
+          disabled=""
+          id="headlessui-switch-:ri:"
+          role="switch"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="yst-sr-only"
+          >
+            Google preview: Switch to desktop preview. Currently showing mobile preview.
+          </span>
+          <span
+            class="yst-toggle__handle"
+          >
+            <span
+              aria-hidden="true"
+              hidden=""
+              style="display: none;"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                fill="currentColor"
+                id="test-desktop-icon"
+                role="img"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              aria-hidden="false"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                fill="none"
+                id="test-mobile-icon"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-500"
+        >
+          Desktop
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModeSwitcher Snapshot tests matches snapshot in desktop mode 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-justify-between yst-mb-4"
+    >
+      <label
+        class="yst-label"
+      >
+        Google preview
+      </label>
+      <div
+        class="yst-flex yst-gap-3 yst-items-center"
+        role="group"
+      >
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-500"
+        >
+          Mobile
+        </span>
+        <button
+          aria-checked="true"
+          class="yst-toggle yst-toggle--checked yst-bg-primary-500"
+          data-headlessui-state="checked"
+          data-id="test-toggle-desktop"
+          id="headlessui-switch-:r1:"
+          role="switch"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="yst-sr-only"
+          >
+            Google preview: Switch to mobile preview. Currently showing desktop preview.
+          </span>
+          <span
+            class="yst-toggle__handle"
+          >
+            <span
+              aria-hidden="false"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                fill="currentColor"
+                id="test-desktop-icon-desktop"
+                role="img"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              aria-hidden="true"
+              hidden=""
+              style="display: none;"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                fill="none"
+                id="test-mobile-icon-desktop"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-800"
+        >
+          Desktop
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModeSwitcher Snapshot tests matches snapshot in mobile mode 1`] = `
+<div>
+  <div
+    class="yst-root"
+  >
+    <div
+      class="yst-flex yst-justify-between yst-mb-4"
+    >
+      <label
+        class="yst-label"
+      >
+        Google preview
+      </label>
+      <div
+        class="yst-flex yst-gap-3 yst-items-center"
+        role="group"
+      >
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-800"
+        >
+          Mobile
+        </span>
+        <button
+          aria-checked="false"
+          class="yst-toggle yst-bg-primary-500"
+          data-headlessui-state=""
+          data-id="test-toggle-mobile"
+          id="headlessui-switch-:r0:"
+          role="switch"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="yst-sr-only"
+          >
+            Google preview: Switch to desktop preview. Currently showing mobile preview.
+          </span>
+          <span
+            class="yst-toggle__handle"
+          >
+            <span
+              aria-hidden="true"
+              hidden=""
+              style="display: none;"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                fill="currentColor"
+                id="test-desktop-icon-mobile"
+                role="img"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              aria-hidden="false"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                fill="none"
+                id="test-mobile-icon-mobile"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+        <span
+          aria-hidden="true"
+          class="yst-text-slate-500"
+        >
+          Desktop
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
