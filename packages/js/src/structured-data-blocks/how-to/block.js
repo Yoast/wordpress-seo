@@ -56,14 +56,10 @@ registerBlockType( block, {
 		{
 			attributes: block.attributes,
 			save: legacy.v11_4,
-			migrate: legacy.v26_9.migrateToStringFormat,
-			isEligible: legacy.v26_9.needsMigration,
 		},
 		{
 			attributes: block.attributes,
 			save: legacy.v8_2,
-			migrate: legacy.v26_9.migrateToStringFormat,
-			isEligible: legacy.v26_9.needsMigration,
 		},
 	],
 } );

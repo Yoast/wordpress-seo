@@ -166,7 +166,7 @@ export default class FAQ extends Component {
 	}
 
 	/**
-	 * Swap the question with the one above it.
+	 * Swaps the question with the one above it.
 	 *
 	 * @param {number} index Index of the question to move.
 	 *
@@ -230,7 +230,7 @@ export default class FAQ extends Component {
 	/**
 	 * Retrieves a button to add a question at the end of the FAQ list.
 	 *
-	 * @returns {Component} The button to add a question.
+	 * @returns {JSX.Element} The button to add a question.
 	 */
 	getAddQuestionButton() {
 		return (
@@ -284,7 +284,7 @@ export default class FAQ extends Component {
 
 	/**
 	 * Returns the component to be used to render
-	 * the FAQ block on Wordpress (e.g. not in the editor).
+	 * the FAQ block on WordPress (e.g. not in the editor).
 	 *
 	 * @param {object} attributes The attributes of the FAQ block.
 	 *
@@ -309,7 +309,7 @@ export default class FAQ extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The FAQ block editor.
+	 * @returns {JSX.Element} The FAQ block editor.
 	 */
 	render() {
 		const { className } = this.props;
