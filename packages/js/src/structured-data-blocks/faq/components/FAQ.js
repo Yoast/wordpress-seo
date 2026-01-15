@@ -8,7 +8,8 @@ import Question from "./Question";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
 import { Button } from "@wordpress/components";
-import { Component, renderToString } from "@wordpress/element";
+import { Component } from "@wordpress/element";
+import { getImageElements, getImageSrc } from "../../shared-utils";
 
 const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
 
@@ -58,17 +59,17 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	onAddQuestionButtonClick() {
-		this.insertQuestion( null, [], [], false );
+		this.insertQuestion( null, "", "", [], false );
 	}
 
 	/**
 	 * Replaces the FAQ Question with the given index.
 	 *
-	 * @param {array|string} newQuestion      The new contents of the question.
-	 * @param {array|string} newAnswer        The new contents of the answer to this question.
-	 * @param {array}        previousQuestion The old question.
-	 * @param {array}        previousAnswer   The old answer.
-	 * @param {number}       index            The index of the question that needs to be changed.
+	 * @param {string}	newQuestion      The new contents of the question.
+	 * @param {string}	newAnswer        The new contents of the answer to this question.
+	 * @param {string}	previousQuestion The old question.
+	 * @param {string}	previousAnswer   The old answer.
+	 * @param {number}	index            The index of the question that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
@@ -87,11 +88,13 @@ export default class FAQ extends Component {
 			id: questions[ index ].id,
 			question: newQuestion,
 			answer: newAnswer,
-			jsonQuestion: renderToString( newQuestion ),
-			jsonAnswer: renderToString( newAnswer ),
+			jsonQuestion: newQuestion,
+			jsonAnswer: newAnswer,
 		};
 
-		const imageSrc = Question.getImageSrc( newAnswer );
+		questions[ index ].images = getImageElements( newAnswer );
+
+		const imageSrc = getImageSrc( newAnswer );
 		if ( imageSrc ) {
 			questions[ index ].jsonImageSrc = imageSrc;
 		}
@@ -102,14 +105,15 @@ export default class FAQ extends Component {
 	/**
 	 * Inserts an empty Question into a FAQ block at the given index.
 	 *
-	 * @param {number}       [index]      Optional. The index of the Question after which a new Question should be added.
-	 * @param {array|string} [question]   Optional. The question of the new Question. Default: empty.
-	 * @param {array|string} [answer]     Optional. The answer of the new Question. Default: empty.
-	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Question. Default: true.
+	 * @param {number|null}	[index=null] The index of the Question after which a new Question should be added.
+	 * @param {string}	[question=""]	The question of the new Question.
+	 * @param {string}	[answer=""]		The answer of the new Question.
+	 * @param {array}	[images=""]		The images of the new Question.
+	 * @param {bool}	[focus=true]	Whether or not to focus the new Question.
 	 *
 	 * @returns {void}
 	 */
-	insertQuestion( index = null, question = [], answer = [], focus = true ) {
+	insertQuestion( index = null, question = "", answer = "", images = [], focus = true ) {
 		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		if ( index === null ) {
@@ -120,6 +124,7 @@ export default class FAQ extends Component {
 			id: FAQ.generateId( "faq-question" ),
 			question,
 			answer,
+			images,
 			jsonQuestion: "",
 			jsonAnswer: "",
 		} );

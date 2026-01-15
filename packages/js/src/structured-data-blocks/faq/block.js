@@ -22,7 +22,7 @@ registerBlockType( block, {
 
 		// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 		if ( ! attributes.questions || attributes.questions.length === 0 ) {
-			attributes.questions = [ { id: Faq.generateId( "faq-question" ), question: [], answer: [] } ];
+			attributes.questions = [ { id: Faq.generateId( "faq-question" ), question: "", answer: "", images: [] } ];
 		}
 
 		return <div { ...blockProps }>

@@ -8,6 +8,7 @@ import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
+import { convertToHTMLString } from "../../shared-utils";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -241,37 +242,12 @@ export default class Question extends Component {
 			index,
 		} = this.props;
 
-		let newAnswer = answer.slice();
-		const image   = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const imageHtml = `<img class="wp-image-${ media.id }" alt="${ media.alt || "" }" src="${ media.url }" style="max-width: 100%;" />`;
 
-		if ( newAnswer.push ) {
-			newAnswer.push( image );
-		} else {
-			newAnswer = [ newAnswer, image ];
-		}
+		// Append to existing text (which is now a string).
+		const newAnswer = ( answer || "" ) + imageHtml;
 
 		this.props.onChange( question, newAnswer, question, answer, index );
-	}
-
-	/**
-	 * Returns the image src from step contents.
-	 *
-	 * @param {array} contents The step contents.
-	 *
-	 * @returns {string|boolean} The image src or false if none is found.
-	 */
-	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
-			return false;
-		}
-
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-
-		if ( ! image ) {
-			return false;
-		}
-
-		return image.props.src;
 	}
 
 	/**
@@ -280,22 +256,25 @@ export default class Question extends Component {
 	 *
 	 * @param {object} question The question and its answer.
 	 *
-	 * @returns {Component} The component to be rendered.
+	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( question ) {
+		// Backwards compatibility for questions and answers stored as arrays.
+		const questionItem = Array.isArray( question.question ) ? convertToHTMLString( question.question ) : question.question;
+		const answerItem = Array.isArray( question.answer ) ? convertToHTMLString( question.answer ) : question.answer;
 		return (
 			<div className={ "schema-faq-section" } id={ question.id } key={ question.id }>
 				<RichTextWithAppendedSpace
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ question.question }
+					value={ questionItem }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ question.answer }
+					value={ answerItem }
 				/>
 			</div>
 		);
@@ -309,16 +288,13 @@ export default class Question extends Component {
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		if ( ! isShallowEqualObjects( nextProps, this.props ) ) {
-			return true;
-		}
-		return false;
+		return ! isShallowEqualObjects( nextProps, this.props );
 	}
 
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The how-to step editor.
+	 * @returns {JSX.Element} The FAQ question editor.
 	 */
 	render() {
 		const {
