@@ -63,6 +63,10 @@ IconAIFixesButton.propTypes = {
 
 IconAIFixesButton.defaultProps = {
 	disabled: false,
+	children: null,
+	className: "",
+	ariaLabel: "AI Optimize",
+	ariaHasPopup: "dialog",
 	unpressedBoxShadowColor: colors.$color_button_border,
 	pressedBoxShadowColor: colors.$color_purple,
 	pressedBackground: "linear- gradient(to bottom right, #A61E69, #3B82F6)",
