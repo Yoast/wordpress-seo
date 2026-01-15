@@ -6,10 +6,9 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
-import { convertToHTMLString } from "../../shared-utils/convertToHTMLString";
+import { convertToHTMLString, getImageSrc } from "../../shared-utils";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
-const parser = new DOMParser();
 
 /**
  * A How-to step within a How-to block.
@@ -167,7 +166,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( step.text ) &&
+			{ ! getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ [ "image" ] }
@@ -232,41 +231,14 @@ export default class HowToStep extends Component {
 
 		const imageHtml = `<img class="wp-image-${ media.id }" alt="${ media.alt || "" }" src="${ media.url }" style="max-width: 100%;" />`;
 
-		// Append to existing text (which is now a string)
+		// Append to existing text (which is now a string).
 		const newText = ( text || "" ) + imageHtml;
 
 		this.props.onChange( name, newText, name, text, index );
 	}
 
 	/**
-	 * Returns the image src from step contents.
-	 *
-	 * @param {string|array} contents The step contents.
-	 *
-	 * @returns {string|boolean} The image src or false if none is found.
-	 */
-	static getImageSrc( contents ) {
-		// Handle legacy array format for backward compatibility.
-		if ( Array.isArray( contents ) ) {
-			const image = contents.find( ( node ) => node && node.type === "img" );
-			return image ? image.props.src : false;
-		}
-
-		// Handle new string format - parse for img tag.
-		if ( typeof contents === "string" && contents.includes( "<img" ) ) {
-			// Use a DOM parser to extract the src attribute.
-			const doc = parser.parseFromString( contents, "text/html" );
-			const img = doc.querySelector( "img" );
-			if ( img && img.src ) {
-				return img.src;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Perform a shallow equal to prevent every step from being rerendered.
+	 * Performs a shallow equal to prevent every step from being rerendered.
 	 *
 	 * @param {object} nextProps The next props the component will receive.
 	 *

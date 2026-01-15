@@ -13,7 +13,7 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 import { RichText, InspectorControls } from "@wordpress/block-editor";
 import { Button, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
 import { Component, createRef } from "@wordpress/element";
-import parse from "html-react-parser";
+import { getImageElements, getImageSrc } from "../../shared-utils";
 
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
@@ -173,14 +173,9 @@ export default class HowTo extends Component {
 			jsonText: newText,
 		};
 
-		let image = newText.match( /<img[^>]+src=["']([^"']+)["'][^>]*>/i );
-		if ( image && image[ 0 ] ) {
-			// How-to blocks only support one image per step.
-			image = parse( image[ 0 ] );
-			steps[ index ].images = [ image ];
-		}
+		steps[ index ].images = getImageElements( newText );
 
-		const imageSrc = HowToStep.getImageSrc( newText );
+		const imageSrc = getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
