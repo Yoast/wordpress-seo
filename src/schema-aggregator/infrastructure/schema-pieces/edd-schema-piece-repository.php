@@ -40,9 +40,6 @@ class Edd_Schema_Piece_Repository {
 	/**
 	 * Collect Product schema for EDD downloads.
 	 *
-	 * ## How it Works
-	 *
-	 * Hooks into 'wpseo_schema_product' filter to capture enriched Product schema
 	 * Triggers EDD's schema generation
 	 * Returns the captured Product entity
 	 *
@@ -66,7 +63,7 @@ class Edd_Schema_Piece_Repository {
 			}
 
 			if ( ! isset( $schema_output[0]['@id'] ) ) {
-				$schema_output[0]['@id'] = $this->meta->for_current_page()->canonical . '#/schema/edd-product/' . \get_the_ID();
+				$schema_output[0]['@id'] = $this->meta->for_current_page()->canonical . '#/schema/edd-product/' . $post_id;
 			}
 
 			return $schema_output;
