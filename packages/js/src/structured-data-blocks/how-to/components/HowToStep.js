@@ -6,6 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
+import { convertToHTMLString } from "../../shared-utils/convertToHTMLString";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 const parser = new DOMParser();
@@ -284,19 +285,24 @@ export default class HowToStep extends Component {
 	 * @returns {wp.Element} The component to be rendered.
 	 */
 	static Content( step ) {
+		const { name, text } = step;
+		// Backward compatibility for legacy array format.
+		const stepName = Array.isArray( name ) ? convertToHTMLString( name ) : name;
+		const stepText = Array.isArray( text ) ? convertToHTMLString( text ) : text;
+
 		return (
 			<li className={ "schema-how-to-step" } id={ step.id } key={ step.id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
-					value={ step.name }
+					value={ stepName }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
-					value={ step.text }
+					value={ stepText }
 				/>
 			</li>
 		);
