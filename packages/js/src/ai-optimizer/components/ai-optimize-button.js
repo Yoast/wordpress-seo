@@ -69,7 +69,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	// Determines if the button is enabled, what tooltip to show, and accessibility attributes.
 	// eslint-disable-next-line complexity
-	const { isEnabled, isFocused, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
+	const { isEnabled, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
 		if ( shouldShowUpsell ) {
 			// Gutenberg editor
@@ -78,7 +78,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 				return {
 					isEnabled: allVisual,
-					isFocused: allVisual && focusAIButton === aiOptimizeId,
 					ariaLabel: allVisual ? defaultLabel : htmlLabel,
 					ariaHasPopup: allVisual ? "dialog" : "",
 				};
@@ -87,7 +86,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			const isVisualMode = editorMode === "visual";
 			return {
 				isEnabled: isVisualMode,
-				isFocused: isVisualMode && focusAIButton === aiOptimizeId,
 				ariaLabel: isVisualMode ? defaultLabel : htmlLabel,
 				ariaHasPopup: isVisualMode ? "dialog" : "",
 			};
@@ -96,7 +94,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
-				isFocused: false,
 				ariaLabel: htmlLabel,
 				ariaHasPopup: "",
 			};
@@ -109,7 +106,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! allVisual ) {
 				return {
 					isEnabled: false,
-					isFocused: false,
 					ariaLabel: htmlLabel,
 					ariaHasPopup: "",
 				};
@@ -130,7 +126,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! hasValidKeyphrase || ! hasContent ) {
 				return {
 					isEnabled: false,
-					isFocused: false,
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
 					ariaHasPopup: "",
 				};
@@ -142,7 +137,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
 			return {
 				isEnabled: false,
-				isFocused: false,
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 				ariaHasPopup: "",
 			};
@@ -150,11 +144,10 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		// Fallback for when all conditions above pass and the button is enabled.
 		return {
 			isEnabled: true,
-			isFocused: focusAIButton === aiOptimizeId,
 			ariaLabel: defaultLabel,
 			ariaHasPopup: "dialog",
 		};
-	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase, focusAIButton ] );
+	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase ] );
 
 	/**
 	 * Handles the button press state.
@@ -214,17 +207,14 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		setButtonClass( "" );
 	}, [] );
 
-	// Focus the button when isFocused becomes true (after toast or modal are dismissed).
+	// Focus the button when it's the target (e.g., after toast dismissal without applying changes).
 	useEffect( () => {
-		if ( isFocused ) {
-			// Small delay to ensure the toast/modal has closed.
-			setTimeout( () => {
-				buttonRef.current?.focus();
-			}, 100 );
-			// Clear the focus state.
+		if ( focusAIButton === aiOptimizeId && buttonRef.current ) {
+			buttonRef.current.focus();
+			// Clear the focus state after focusing.
 			setFocusAIFixesButton( null );
 		}
-	}, [ isFocused, setFocusAIFixesButton ] );
+	}, [ focusAIButton, aiOptimizeId, setFocusAIFixesButton ] );
 
 	return (
 		<IconAIFixesButton
