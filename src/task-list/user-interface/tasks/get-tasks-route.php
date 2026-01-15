@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks_Repository;
+use Yoast\WP\SEO\Tracking\Application\Action_Tracker;
 
 /**
  * Get tasks route.
@@ -44,6 +45,13 @@ final class Get_Tasks_Route implements Route_Interface {
 	private $capability_helper;
 
 	/**
+	 * Holds the action tracker instance.
+	 *
+	 * @var Action_Tracker
+	 */
+	private $action_tracker;
+
+	/**
 	 * Returns the needed conditionals.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -59,13 +67,16 @@ final class Get_Tasks_Route implements Route_Interface {
 	 *
 	 * @param Tasks_Repository  $tasks_repository  The repository for all tasks.
 	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Action_Tracker    $action_tracker    The action tracker.
 	 */
 	public function __construct(
 		Tasks_Repository $tasks_repository,
-		Capability_Helper $capability_helper
+		Capability_Helper $capability_helper,
+		Action_Tracker $action_tracker
 	) {
 		$this->tasks_repository  = $tasks_repository;
 		$this->capability_helper = $capability_helper;
+		$this->action_tracker    = $action_tracker;
 	}
 
 	/**
@@ -112,6 +123,8 @@ final class Get_Tasks_Route implements Route_Interface {
 	 */
 	public function get_tasks(): WP_REST_Response {
 		try {
+			$this->action_tracker->track_version_for_performed_action( 'task_list_first_opened_on' );
+
 			$tasks_data = $this->tasks_repository->get_tasks_data();
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(

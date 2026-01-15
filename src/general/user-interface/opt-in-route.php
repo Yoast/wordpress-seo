@@ -99,7 +99,7 @@ class Opt_In_Route implements Route_Interface {
 		$key             = $request->get_param( 'key' );
 		$current_user_id = $this->user_helper->get_current_user_id();
 
-		$result  = $this->user_helper->update_meta( $current_user_id, $key, true );
+		$result  = $this->user_helper->update_meta( $current_user_id, '_yoast_wpseo_' . $key . '_opt_in_notification_seen', true );
 		$success = $result !== false;
 		$status  = ( $success ) ? 200 : 400;
 
@@ -130,7 +130,7 @@ class Opt_In_Route implements Route_Interface {
 	 */
 	public function validate_key( $key ) {
 		$allowed_keys = [
-			'wpseo_seen_llm_txt_opt_in_notification',
+			'task_list',
 		];
 
 		return \in_array( $key, $allowed_keys, true );

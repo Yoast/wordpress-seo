@@ -29,5 +29,15 @@ In our user interfaces, we distinguish five different button variants:
 
   > Example actions: *Unlock with Premium*, *Get Yoast SEO Premium* or *Buy Yoast Local SEO*.
 
+6. **AI Primary action**<br>
+  Purple Pink gradient buttons with a white spark are used to highlight the most important action or call to action on a page or screen, specifically for AI-related features. They should be used for the main action you want your users to take. These buttons, aligned with our branding guidelines, use vibrant colors to stand out and capture the user's attention. To maintain their effectiveness, use them sparingly and only in the context of AI features to avoid overwhelming users.
+
+  > Example actions: *Join the wait list* or *Discover Brand Insights now*.
+
+7. **AI Secondary action**<br>
+  White buttons with gradient border and a gradient spark are used to offer secondary or supplementary AI-related actions. These buttons can complement the primary action or provide additional options to users. They have a clean and simple appearance, with a subtle visual distinction related to AI. In interfaces that offer a large number of actions, such as tables, prioritize these secondary buttons or text links to keep the UI clean, uncluttered and user-friendly.
+
+  > Example actions: *Generate SEO titles* or *Generate meta descriptions*.
+
 **Accessibility**<br>
 All button variants have a clear hover and focus state, to help users with motor impairments understand which element they are interacting with.

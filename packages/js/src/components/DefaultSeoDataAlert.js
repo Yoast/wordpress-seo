@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 import { Slot } from "@wordpress/components";
-import { Button } from "@yoast/components";
+import { Button, Root } from "@yoast/ui-library";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { useOpenYoastSidebarWhenPublishing } from "../hooks/use-open-yoast-sidebar-when-publishing";
 
@@ -129,7 +129,7 @@ export default function DefaultSeoDataAlert( {
 				{ button }
 			</Fragment>
 		) ) }
-		<Button className="yst-mt-2" onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button>
+		<Root><Button variant="secondary" size="small" className="yst-mt-2" onClick={ onClick }>{ __( "Write custom SEO data", "wordpress-seo" ) }</Button></Root>
 	</Fragment>;
 }
 

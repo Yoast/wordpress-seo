@@ -45,6 +45,7 @@ const DelayedPremiumUpsellContent = ( { buttonUpgradeLink, exploreFeaturesLink }
 						icon={ feature.icon }
 						title={ feature.title }
 						description={ feature.description }
+						iconClassName={ feature.iconClassName }
 					/> )
 				}
 			</div>

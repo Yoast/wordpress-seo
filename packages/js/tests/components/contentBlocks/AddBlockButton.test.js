@@ -59,7 +59,8 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
+				editorBlocks: [ emptyParagraphBlock ],
+				isTemplateLocked: false,
 			} );
 		} );
 		it( "renders the button with correct base classes", () => {
@@ -95,7 +96,8 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
+				editorBlocks: [ emptyParagraphBlock ],
+				isTemplateLocked: false,
 			} );
 		} );
 		it( "shows tooltip on mouse enter", () => {
@@ -139,7 +141,8 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ nonEmptyParagraphBlock ],
+				editorBlocks: [ nonEmptyParagraphBlock ],
+				isTemplateLocked: false,
 			} );
 		} );
 		it( "creates and inserts block when clicked without upsell badge", async() => {
@@ -148,7 +151,7 @@ describe( "AddBlockButton", () => {
 			const button = screen.getByRole( "button" );
 			fireEvent.click( button );
 
-			// Button should show clicked state immediately
+			// Button should show the clicked state immediately
 			expect( button ).toHaveClass( "yoast-add-block-button--clicked" );
 
 			// Fast-forward the timeout
@@ -181,7 +184,8 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
+				editorBlocks: [ emptyParagraphBlock ],
+				isTemplateLocked: false,
 			} );
 		} );
 		it( "does not insert block when upsell badge is shown", () => {
@@ -217,7 +221,8 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ emptyParagraphBlock ],
+				editorBlocks: [ emptyParagraphBlock ],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -243,7 +248,8 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ contentBlock ],
+				editorBlocks: [ contentBlock ],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -269,7 +275,8 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ headingBlock ],
+				editorBlocks: [ headingBlock ],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -288,7 +295,8 @@ describe( "AddBlockButton", () => {
 		it( "inserts new block when no block exists at insertion point", async() => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 2 },
-				blocks: [ { name: "core/paragraph" } ],
+				editorBlocks: [],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -313,7 +321,8 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ paragraphWithUndefinedContent ],
+				editorBlocks: [ paragraphWithUndefinedContent ],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -338,7 +347,8 @@ describe( "AddBlockButton", () => {
 
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [ paragraphWithNullText ],
+				editorBlocks: [ paragraphWithNullText ],
+				isTemplateLocked: false,
 			} );
 
 			render( <AddBlockButton { ...defaultProps } /> );
@@ -355,6 +365,123 @@ describe( "AddBlockButton", () => {
 		} );
 	} );
 
+	describe( "Template-locked mode functionality", () => {
+		const postContentBlock = {
+			clientId: "post-content-block-id",
+			name: "core/post-content",
+			innerBlocks: [],
+		};
+
+		const nonPostContentBlock = {
+			clientId: "other-block-id",
+			name: "core/paragraph",
+			attributes: { content: { text: "Some content" } },
+		};
+
+		beforeEach( () => {
+			createBlock.mockReturnValue( { name: "test/block" } );
+		} );
+
+		it( "inserts block as last child of post-content when in template-locked mode", async() => {
+			useSelect.mockReturnValue( {
+				blockInsertionPoint: { index: 1 },
+				editorBlocks: [ nonPostContentBlock ],
+				isTemplateLocked: true,
+				postContentBlock: [ "post-content-block-id" ],
+			} );
+
+			render( <AddBlockButton { ...defaultProps } /> );
+
+			const button = screen.getByRole( "button" );
+			fireEvent.click( button );
+
+			jest.advanceTimersByTime( 300 );
+
+			await waitFor( () => {
+				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
+				expect( mockInsertBlock ).toHaveBeenCalledWith(
+					{ name: "test/block" },
+					undefined,
+					"post-content-block-id"
+				);
+				expect( mockReplaceBlock ).not.toHaveBeenCalled();
+			} );
+		} );
+
+		it( "falls back to regular insertion when post-content block is not found in template-locked mode", async() => {
+			useSelect.mockReturnValue( {
+				blockInsertionPoint: { index: 1 },
+				editorBlocks: [ nonPostContentBlock ],
+				isTemplateLocked: true,
+				postContentBlock: [],
+			} );
+
+			render( <AddBlockButton { ...defaultProps } /> );
+
+			const button = screen.getByRole( "button" );
+			fireEvent.click( button );
+
+			jest.advanceTimersByTime( 300 );
+
+			await waitFor( () => {
+				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
+				// Should not call insertBlock if post-content is not found
+				expect( mockInsertBlock ).not.toHaveBeenCalled();
+				expect( mockReplaceBlock ).not.toHaveBeenCalled();
+			} );
+		} );
+
+		it( "uses regular insertion when not in template-locked mode", async() => {
+			useSelect.mockReturnValue( {
+				blockInsertionPoint: { index: 1 },
+				editorBlocks: [ nonPostContentBlock ],
+				isTemplateLocked: false,
+				postContentBlock: [ postContentBlock ],
+			} );
+
+			render( <AddBlockButton { ...defaultProps } /> );
+
+			const button = screen.getByRole( "button" );
+			fireEvent.click( button );
+
+			jest.advanceTimersByTime( 300 );
+
+			await waitFor( () => {
+				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
+				expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "test/block" }, 1 );
+				expect( mockReplaceBlock ).not.toHaveBeenCalled();
+			} );
+		} );
+
+		it( "replaces empty paragraph even in template-locked mode", async() => {
+			const emptyParagraphBlock = {
+				clientId: "empty-paragraph-id",
+				name: "core/paragraph",
+				attributes: { content: { text: "" } },
+			};
+
+			useSelect.mockReturnValue( {
+				blockInsertionPoint: { index: 1 },
+				editorBlocks: [ emptyParagraphBlock ],
+				isTemplateLocked: true,
+			} );
+
+			render( <AddBlockButton { ...defaultProps } /> );
+
+			const button = screen.getByRole( "button" );
+			fireEvent.click( button );
+
+			jest.advanceTimersByTime( 300 );
+
+			await waitFor( () => {
+				expect( createBlock ).toHaveBeenCalledWith( "test/block" );
+				// Should replace empty paragraph instead of inserting into post-content
+				expect( mockReplaceBlock ).toHaveBeenCalledWith( "empty-paragraph-id", { name: "test/block" } );
+				expect( mockInsertBlock ).not.toHaveBeenCalled();
+			} );
+		} );
+	} );
+
 	describe( "Upsell modal rendering", () => {
 		const mockedProps = {
 			showUpsellBadge: true,
@@ -365,7 +492,8 @@ describe( "AddBlockButton", () => {
 		beforeEach( () => {
 			useSelect.mockReturnValue( {
 				blockInsertionPoint: { index: 1 },
-				blocks: [],
+				editorBlocks: [],
+				isTemplateLocked: false,
 			} );
 		} );
 

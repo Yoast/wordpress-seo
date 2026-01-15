@@ -1,6 +1,6 @@
 {
   "name": "@yoast/replacement-variable-editor",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.3",
   "private": false,
   "main": "build/index.js",
   "files": [
@@ -62,6 +62,7 @@
   },
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "draft-js": "^0.11.7"
+    "draft-js": "^0.11.7",
+	"@yoast/ui-library": "^4.4.0"
   }
 }
