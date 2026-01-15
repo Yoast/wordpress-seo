@@ -14,6 +14,7 @@ import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
+import AIButtonFocusWrapper from "./AIButtonFocusWrapper";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -99,37 +100,44 @@ class SeoAnalysis extends Component {
 							{ () => {
 								const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
 
-								return (
-									<Fragment>
-										<Collapsible
-											title={ isPremium
-												? __( "Premium SEO analysis", "wordpress-seo" )
-												: __( "SEO analysis", "wordpress-seo" ) }
-											titleScreenReaderText={ score.screenReaderReadabilityText }
-											prefixIcon={ getIconForScore( score.className ) }
-											prefixIconCollapsed={ getIconForScore( score.className ) }
-											subTitle={ this.props.keyword }
-											id={ `yoast-seo-analysis-collapsible-${ location }` }
-										>
-											<SynonymSlot location={ location } />
-											{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }
+								const collapsibleId = `yoast-seo-analysis-collapsible-${ location }`;
 
-											<AnalysisHeader>
-												{ __( "Analysis results", "wordpress-seo" ) }
-											</AnalysisHeader>
-											<Results
-												results={ this.props.results }
-												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-												editButtonClassName="yoast-tooltip yoast-tooltip-w"
-												marksButtonStatus={ this.props.marksButtonStatus }
-												location={ location }
-												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
-												highlightingUpsellLink={ highlightingUpsellLink }
-												renderAIOptimizeButton={ this.renderAIOptimizeButton }
-											/>
-										</Collapsible>
-										{ this.renderTabIcon( location, score.className ) }
-									</Fragment>
+								return (
+									<AIButtonFocusWrapper
+										results={ this.props.results }
+										fallbackElementId={ collapsibleId }
+									>
+										<Fragment>
+											<Collapsible
+												title={ isPremium
+													? __( "Premium SEO analysis", "wordpress-seo" )
+													: __( "SEO analysis", "wordpress-seo" ) }
+												titleScreenReaderText={ score.screenReaderReadabilityText }
+												prefixIcon={ getIconForScore( score.className ) }
+												prefixIconCollapsed={ getIconForScore( score.className ) }
+												subTitle={ this.props.keyword }
+												id={ collapsibleId }
+											>
+												<SynonymSlot location={ location } />
+												{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }
+
+												<AnalysisHeader>
+													{ __( "Analysis results", "wordpress-seo" ) }
+												</AnalysisHeader>
+												<Results
+													results={ this.props.results }
+													marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+													editButtonClassName="yoast-tooltip yoast-tooltip-w"
+													marksButtonStatus={ this.props.marksButtonStatus }
+													location={ location }
+													shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+													highlightingUpsellLink={ highlightingUpsellLink }
+													renderAIOptimizeButton={ this.renderAIOptimizeButton }
+												/>
+											</Collapsible>
+											{ this.renderTabIcon( location, score.className ) }
+										</Fragment>
+									</AIButtonFocusWrapper>
 								);
 							} }
 						</RootContext.Consumer>
