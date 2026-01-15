@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Option_Llmstxt;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
+use WPSEO_Option_Tracking_Only;
 use WPSEO_Options;
 
 /**
@@ -108,6 +109,17 @@ class Options_Helper {
 	 */
 	protected function get_title_defaults() {
 		return WPSEO_Option_Titles::get_instance()->get_defaults();
+	}
+
+	/**
+	 * Retrieves the tracking only options.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @return string[] The tracking only options.
+	 */
+	public function get_tracking_only_options() {
+		return \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() );
 	}
 
 	/**

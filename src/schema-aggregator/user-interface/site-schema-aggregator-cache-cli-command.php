@@ -65,6 +65,8 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 	 *
 	 * ## OPTIONS
 	 *
+	 *  [--post_type=<post_type>]
+	 *  : The current page to process.
 	 * [--page=<page>]
 	 * : The current page to process.
 	 * ---
@@ -81,12 +83,13 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 	 * @return void
 	 */
 	public function aggregate_site_schema_clear_cache( $args = null, $assoc_args = null ) {
-		if ( isset( $assoc_args['page'] ) && (int) $assoc_args['page'] >= 1 ) {
-			$this->cache_manager->invalidate( $assoc_args['page'] );
+		if ( ( isset( $assoc_args['page'] ) && (int) $assoc_args['page'] >= 1 ) && isset( $assoc_args['post_type'] ) ) {
+			$this->cache_manager->invalidate( $assoc_args['post_type'], $assoc_args['page'] );
 			$this->xml_manager->invalidate();
 			WP_CLI::log(
 				\__( 'The site schema cache has been cleared successfully.', 'wordpress-seo' )
 			);
+
 			return;
 		}
 		$this->cache_manager->invalidate_all();

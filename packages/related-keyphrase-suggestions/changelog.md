@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.3.0
+### Other:
+* Bumps `@yoast/ui-library` to version `4.4.0` from `4.3.0` and `@yoast/tailwindcss-preset` to version `2.5.0` from `2.4.0`. [#22862](https://github.com/Yoast/wordpress-seo/pull/22862)
+
 ## 0.2.0
 ### Enhancements:
 * Fixes the translations for the countries in the country selector, fixes the auto complete in the selector and updated the docs. [#21810](https://github.com/Yoast/wordpress-seo/pull/21810)

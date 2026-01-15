@@ -86,10 +86,13 @@ describe( "collectAnalysisData", () => {
 	 *
 	 * @param {Object[]} blocks The blocks that the data module should return.
 	 *
-	 * @returns {{getBlocks: (function(): *)}} The mocked data module.
+	 * @returns {{getBlocks: (function(): *), getBlocksByName: (function(): *)}} The mocked data module.
 	 */
 	function mockBlockEditorDataModule( blocks ) {
-		return { getBlocks: () => blocks };
+		return {
+			getBlocks: () => blocks,
+			getBlocksByName: () => [],
+		};
 	}
 
 	it( "should not filter the content from blocks", () => {
@@ -153,6 +156,202 @@ describe( "collectAnalysisData", () => {
 		collectAnalysisData( edit, store, customData, pluggable );
 
 		expect( pluggable._applyModifications ).not.toBeCalled();
+	} );
+
+	describe( "template-locked mode handling", () => {
+		/**
+		 * Mocks the WordPress block editor data module with template-locked specific methods.
+		 *
+		 * @param {Object[]} blocks           The blocks that getBlocks() should return.
+		 * @param {Object[]} postContentBlocks The post-content blocks that getBlocksByName() should return.
+		 * @param {string}   postContentId     The ID of the post-content block.
+		 * @param {Object[]} innerBlocks       The blocks inside the post-content block.
+		 *
+		 * @returns {Object} The mocked block editor data module.
+		 */
+		function mockBlockEditorDataModuleForTemplates( blocks, postContentBlocks = [], postContentId = "post-content-1", innerBlocks = [] ) {
+			return {
+				getBlocks: jest.fn( ( blockId ) => {
+					if ( blockId && blockId.id === postContentId ) {
+						return innerBlocks;
+					}
+					return blocks;
+				} ),
+				getBlocksByName: jest.fn( ( blockName ) => {
+					if ( blockName === "core/post-content" ) {
+						return postContentBlocks;
+					}
+					return [];
+				} ),
+			};
+		}
+
+		/**
+		 * Mocks the WordPress editor data module.
+		 *
+		 * @param {string} renderingMode The rendering mode to return.
+		 *
+		 * @returns {Object} The mocked editor data module.
+		 */
+		function mockEditorDataModuleForTemplates( renderingMode = "template-locked" ) {
+			return {
+				getRenderingMode: jest.fn( () => renderingMode ),
+			};
+		}
+
+		it( "should use regular blocks when not in template-locked mode", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+				{ isValid: true, name: "core/heading", innerBlocks: [] },
+			];
+
+			const postContentBlock = { id: "post-content-1" };
+			const postContentBlocks = [ postContentBlock ];
+			const innerBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+			];
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates(
+				regularBlocks,
+				postContentBlocks,
+				"post-content-1",
+				innerBlocks
+			);
+			const editorDataModule = mockEditorDataModuleForTemplates( "standard" );
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule, editorDataModule );
+
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith();
+			expect( blockEditorDataModule.getBlocks ).not.toHaveBeenCalledWith( postContentBlock );
+			expect( results._attributes.wpBlocks ).toHaveLength( 2 );
+		} );
+
+		it( "should use post-content blocks when in template-locked mode and post-content blocks exist", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+				{ isValid: true, name: "core/heading", innerBlocks: [] },
+			];
+
+			const postContentBlock = { id: "post-content-1" };
+			const postContentBlocks = [ postContentBlock ];
+			const innerBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+			];
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates(
+				regularBlocks,
+				postContentBlocks,
+				"post-content-1",
+				innerBlocks
+			);
+			const editorDataModule = mockEditorDataModuleForTemplates( "template-locked" );
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule, editorDataModule );
+
+			expect( blockEditorDataModule.getBlocksByName ).toHaveBeenCalledWith( "core/post-content" );
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith( postContentBlock );
+			expect( results._attributes.wpBlocks ).toHaveLength( 1 );
+		} );
+
+		it( "should fall back to regular blocks when in template-locked mode but no post-content blocks exist", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+				{ isValid: true, name: "core/heading", innerBlocks: [] },
+			];
+
+			const postContentBlocks = [];
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates(
+				regularBlocks,
+				postContentBlocks
+			);
+			const editorDataModule = mockEditorDataModuleForTemplates( "template-locked" );
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule, editorDataModule );
+
+			expect( blockEditorDataModule.getBlocksByName ).toHaveBeenCalledWith( "core/post-content" );
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith();
+			expect( results._attributes.wpBlocks ).toHaveLength( 2 );
+		} );
+
+		it( "should fall back to regular blocks when in template-locked mode but post-content blocks array is empty", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+			];
+
+			const postContentBlocks = null;
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates(
+				regularBlocks,
+				postContentBlocks
+			);
+			const editorDataModule = mockEditorDataModuleForTemplates( "template-locked" );
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule, editorDataModule );
+
+			expect( blockEditorDataModule.getBlocksByName ).toHaveBeenCalledWith( "core/post-content" );
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith();
+			expect( results._attributes.wpBlocks ).toHaveLength( 1 );
+		} );
+
+		it( "should handle when editorDataModule is not provided", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+			];
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates( regularBlocks );
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith();
+			expect( results._attributes.wpBlocks ).toHaveLength( 1 );
+		} );
+
+		it( "should handle when getRenderingMode returns undefined", () => {
+			const edit = mockEdit( "<p>some content</p>" );
+			const store = mockStore( storeData );
+			const customData = mockCustomAnalysisData();
+			const pluggable = mockPluggable();
+
+			const regularBlocks = [
+				{ isValid: true, name: "core/paragraph", innerBlocks: [] },
+			];
+
+			const blockEditorDataModule = mockBlockEditorDataModuleForTemplates( regularBlocks );
+			const editorDataModule = {
+				getRenderingMode: jest.fn( () => undefined ),
+			};
+
+			const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule, editorDataModule );
+
+			expect( blockEditorDataModule.getBlocks ).toHaveBeenCalledWith();
+			expect( results._attributes.wpBlocks ).toHaveLength( 1 );
+		} );
 	} );
 } );
 

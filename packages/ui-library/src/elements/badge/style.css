@@ -51,7 +51,7 @@
 			yst-border-red-400;
 		}
 		.yst-badge--ai {
-			@apply yst-text-white yst-font-semibold yst-bg-ai-primary;
+			@apply yst-text-white yst-font-semibold yst-bg-ai-500;
 		}
 
 		/* Sizes */

@@ -280,7 +280,7 @@ class General_Page_Integration implements Integration_Interface {
 			'dismissedAlerts'       => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'             => $this->dashboard_configuration->get_configuration(),
 			'optInNotificationSeen' => [
-				'wpseo_seen_llm_txt_opt_in_notification' => $this->is_llms_txt_opt_in_notification_seen(),
+				'task_list' => $this->is_task_list_opt_in_notification_seen(),
 			],
 			'taskListConfiguration' => $this->task_list_configuration->get_configuration(),
 		];
@@ -291,8 +291,8 @@ class General_Page_Integration implements Integration_Interface {
 	 *
 	 * @return bool True if the notification has been seen, false otherwise.
 	 */
-	private function is_llms_txt_opt_in_notification_seen(): bool {
+	private function is_task_list_opt_in_notification_seen(): bool {
 		$current_user_id = $this->user_helper->get_current_user_id();
-		return (bool) $this->user_helper->get_meta( $current_user_id, 'wpseo_seen_llm_txt_opt_in_notification', true );
+		return (bool) $this->user_helper->get_meta( $current_user_id, '_yoast_wpseo_task_list_opt_in_notification_seen', true );
 	}
 }

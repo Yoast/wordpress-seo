@@ -2,7 +2,7 @@
 import { Popover, withSpokenMessages } from "@wordpress/components";
 import { useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { applyFormat, create, insert, isCollapsed, useAnchor } from "@wordpress/rich-text";
+import { applyFormat, create, getActiveFormat, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
 import { prependHTTP } from "@wordpress/url";
 import { noop, uniqueId } from "lodash";
 import PropTypes from "prop-types";
@@ -70,6 +70,56 @@ function InlineLinkUI( {
 		},
 	} );
 
+	// Get the active link format using WordPress utility
+	const activeLinkFormat = getActiveFormat( value, "core/link" );
+
+	/**
+	 * Finds the boundaries of the active link format in the RichText value.
+	 *
+	 * @param {Object} richTextValue The RichText value object.
+	 *
+	 * @returns {{start: number, end: number}} The start and end positions of the link.
+	 */
+	const findLinkBoundaries = ( richTextValue ) => {
+		const { formats, start: cursorStart, text } = richTextValue;
+		const url = activeLinkFormat?.attributes?.url;
+		let start = cursorStart;
+		let end = cursorStart;
+
+		const hasLinkAtPosition = ( position ) =>
+			formats[ position ]?.some( f => f?.type === "core/link" && f?.attributes?.url === url );
+
+		// Adjust if cursor is positioned immediately after a link (the edge of the link)
+		if ( ! hasLinkAtPosition( start ) && start > 0 && hasLinkAtPosition( start - 1 ) ) {
+			start--;
+			end = start;
+		}
+
+		// Find start boundary
+		while ( start > 0 && hasLinkAtPosition( start - 1 ) ) {
+			start--;
+		}
+
+		// Find end boundary
+		while ( end < ( text?.length || 0 ) && hasLinkAtPosition( end ) ) {
+			end++;
+		}
+
+		return { start, end };
+	};
+
+	// Get the current link text by finding the boundaries of the active link format
+	let currentText = "";
+	if ( isActive && activeLinkFormat ) {
+		const { start, end } = findLinkBoundaries( value );
+		if ( start < end ) {
+			currentText = value.text.substring( start, end );
+		}
+	} else if ( value.start !== value.end ) {
+		// When adding a new link, use the selected text
+		currentText = getTextContent( slice( value ) );
+	}
+
 	const linkValue = {
 		url: activeAttributes.url,
 		type: activeAttributes.type,
@@ -77,6 +127,8 @@ function InlineLinkUI( {
 		opensInNewTab: activeAttributes.target === "_blank",
 		noFollow: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "nofollow" ),
 		sponsored: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "sponsored" ),
+		title: currentText,
+		className: activeAttributes.class,
 		...nextLinkValue,
 	};
 
@@ -88,10 +140,11 @@ function InlineLinkUI( {
 	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
 	const isToggleSetting = ( nextValue ) => {
-		return linkValue.url === nextValue.url &&
+		return linkValue.url === nextValue.url && (
 			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
 			linkValue.noFollow !== nextValue.noFollow ||
-			linkValue.sponsored !== nextValue.sponsored;
+			linkValue.sponsored !== nextValue.sponsored
+		);
 	};
 
 	/**
@@ -101,7 +154,7 @@ function InlineLinkUI( {
 	 * @returns {boolean} Whether the link rel should be nofollow.
 	 */
 	const isLinkNoFollow = ( nextValue ) => {
-		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.Sponsored !== true;
+		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.sponsored !== true;
 	};
 
 	/**
@@ -179,45 +232,85 @@ function InlineLinkUI( {
 	};
 
 	/**
+	 * Inserts a new link at the current cursor position.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {Object} linkData The link data containing title and URL.
+	 * @param {string} newUrl The URL.
+	 * @returns {void}
+	 */
+	const insertNewLink = ( format, linkData, newUrl ) => {
+		const newText = getNewText( linkData, newUrl );
+		const toInsert = applyFormat(
+			// Applies the link format to the entire text range
+			create( { text: newText } ), format, 0, newText.length );
+		onChange( insert( value, toInsert ) );
+	};
+
+	/**
+	 * Updates an existing link with new format and optionally new text.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {string} text The new text for the link.
+	 * @returns {void}
+	 */
+	const updateExistingLink = ( format, text ) => {
+		const { start: linkStart, end: linkEnd } = findLinkBoundaries( value );
+		const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
+		const hasTextChanged = typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd;
+
+		let newValue;
+		if ( hasTextChanged ) {
+			// If text has changed, use WordPress remove/insert pattern for proper serialization
+			const valueWithRemoved = remove( value, linkStart, linkEnd );
+			valueWithRemoved.start = linkStart;
+			valueWithRemoved.end = linkStart;
+			const toInsert = applyFormat( create( { text } ), format, 0, text.length );
+			newValue = insert( valueWithRemoved, toInsert );
+		} else {
+			// If only URL changed, keep the existing text
+			newValue = applyFormat( value, format );
+			newValue.start = newValue.end;
+		}
+		newValue.activeFormats = [];
+		onChange( newValue );
+	};
+
+	/**
+	 * Normalizes the link rel attributes based on toggle rules.
+	 *
+	 * @param {Object} linkData The link data to normalize.
+	 * @returns {Object} The normalized link data.
+	 */
+	const normalizeRelAttributes = ( linkData ) => {
+		if ( isLinkNoFollow( linkData ) ) {
+			linkData.noFollow = true;
+		}
+		if ( isSponsored( linkData ) ) {
+			linkData.sponsored = false;
+		}
+		return linkData;
+	};
+
+	/**
 	 * Handles the change of the link.
+	 *
 	 * @param {Object} nextValue The next link URL.
 	 * @returns {void}
 	 */
 	const onChangeLink = ( nextValue ) => {
-		/*
-		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
-		 * the link is ready to be applied.
-		 */
-		nextValue = {
-			...nextLinkValue,
-			...nextValue,
-		};
+		// Merge with values from state
+		nextValue = { ...nextLinkValue, ...nextValue };
 
-		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
-		const didToggleSetting = isToggleSetting( linkValue, nextValue );
-
-		/*
-		 * A link rel can only be one of three combinations:
-		 * - only nofollow
-		 * - both nofollow and sponsored
-		 * - neither nofollow or sponsored
-		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
-		 */
-		if ( isLinkNoFollow( nextValue ) ) {
-			nextValue.noFollow = true;
-		}
-		if ( isSponsored( nextValue ) ) {
-			nextValue.sponsored = false;
-		}
+		const didToggleSetting = isToggleSetting( nextValue );
+		nextValue = normalizeRelAttributes( nextValue );
 
 		if ( didToggleSettingForNewLink( nextValue ) ) {
-			/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
 			setNextLinkValue( nextValue );
 			return;
 		}
 
 		const newUrl = prependHTTP( nextValue.url );
-
 		const format = createLinkFormat( {
 			url: newUrl,
 			type: nextValue.type,
@@ -225,29 +318,18 @@ function InlineLinkUI( {
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
+			className: nextValue.className,
 		} );
 
 		if ( shouldInsertLink() ) {
-			const newText = getNewText( nextValue, newUrl );
-			const toInsert = applyFormat(
-				create( { text: newText } ),
-				format,
-				0,
-				newText.length
-			);
-			onChange( insert( value, toInsert ) );
+			insertNewLink( format, nextValue, newUrl );
 		} else {
-			const newValue = applyFormat( value, format );
-			newValue.start = newValue.end;
-			newValue.activeFormats = [];
-			onChange( newValue );
+			updateExistingLink( format, nextValue.title );
 		}
 
-		/* Focus should only be shifted back to the formatted segment when the URL is submitted. */
 		if ( ! didToggleSetting ) {
 			stopAddingLink();
 		}
-
 		actionCompleteMessage( newUrl );
 	};
 
@@ -331,6 +413,7 @@ function InlineLinkUI( {
 				// eslint-disable-next-line react/jsx-no-bind
 				onChange={ onChangeLink }
 				forceIsEditingLink={ addingLink }
+				hasTextControl={ true }
 				settings={ settings }
 			/>
 		</Popover>
