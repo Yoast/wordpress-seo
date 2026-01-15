@@ -182,4 +182,22 @@ final class Get_Test extends Abstract_Manager_Test {
 			'cached_data'  => [ 'data100' ],
 		];
 	}
+
+	/**
+	 * Tests get() handles exceptions gracefully and returns null.
+	 *
+	 * @return void
+	 */
+	public function test_get_handles_exceptions_gracefully() {
+		$this->config->expects( 'cache_enabled' )->once()->andReturn( true );
+
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->andThrow( new \Exception( 'Simulated exception' ) );
+
+		$result = $this->instance->get( 1, 10 );
+
+		$this->assertNull( $result );
+	}
 }

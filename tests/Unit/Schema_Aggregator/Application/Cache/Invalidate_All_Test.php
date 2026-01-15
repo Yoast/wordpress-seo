@@ -80,4 +80,28 @@ final class Invalidate_All_Test extends Abstract_Manager_Test {
 
 		$this->assertFalse( $result );
 	}
+
+	/**
+	 * Tests invalidate_all() handles exceptions gracefully.
+	 *
+	 * @return void
+	 */
+	public function test_invalidate_all_handles_exception_gracefully() {
+		global $wpdb;
+		$wpdb          = Mockery::mock( 'wpdb' );
+		$wpdb->options = 'wp_options';
+
+		$wpdb->expects( 'prepare' )
+			->once()
+			->andReturn( 'PREPARED_QUERY' );
+
+		$wpdb->expects( 'query' )
+			->once()
+			->with( 'PREPARED_QUERY' )
+			->andThrow( new \Exception( 'Database error' ) );
+
+		$result = $this->instance->invalidate_all();
+
+		$this->assertFalse( $result );
+	}
 }

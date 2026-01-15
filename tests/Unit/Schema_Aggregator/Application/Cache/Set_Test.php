@@ -135,4 +135,22 @@ final class Set_Test extends Abstract_Manager_Test {
 			'expected_key' => 'yoast_schema_aggregator_page_2_per_50_v1',
 		];
 	}
+
+	/**
+	 * Tests set() handles exceptions gracefully.
+	 *
+	 * @return void
+	 */
+	public function test_set_handles_exception_gracefully() {
+		$data       = [];
+
+		$this->config->expects( 'get_expiration' )
+			->once()
+			->with( $data )
+			->andThrow( new \Exception( 'Test exception' ) );
+
+		$result = $this->instance->set( 1, 10, $data );
+
+		$this->assertFalse( $result );
+	}
 }
