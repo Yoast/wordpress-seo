@@ -2,6 +2,12 @@ import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 
 /**
+ * Timeout duration (in ms) to wait for the AI button to render after toast dismissal.
+ * This accounts for toast exit animation and React re-render cycle.
+ */
+const BUTTON_RENDER_TIMEOUT = 2000;
+
+/**
  * Custom hook to handle focus fallback when an AI Optimize button is removed from the DOM.
  *
  * When an AI suggestion is applied and the assessment passes, the AI Optimize button is no longer rendered.
@@ -60,7 +66,7 @@ const useAIButtonFocusFallback = ( { fallbackRef = null, fallbackElementId = "",
 				fallbackElement.focus();
 				setFocusAIFixesButton( null );
 			}
-		}, 2000 );
+		}, BUTTON_RENDER_TIMEOUT );
 
 		return () => clearTimeout( timeoutId );
 	}, [ focusAIButton, results, fallbackRef, fallbackElementId, setFocusAIFixesButton ] );

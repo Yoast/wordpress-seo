@@ -112,7 +112,7 @@ Title.propTypes = {
 const Toast = forwardRef( ( {
 	children = null,
 	id,
-	role = "alert",
+	role = "dialog",
 	className = "",
 	position = "bottom-left",
 	onDismiss = noop,
