@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Cache\Xml_Manager;
 
 use Brain\Monkey;
+use Exception;
 use Generator;
 
 /**
@@ -154,5 +155,23 @@ final class Get_Test extends Abstract_Xml_Manager_Test {
 		yield 'Large XML' => [
 			'xml_data' => \str_repeat( '<item>content</item>', 100 ),
 		];
+	}
+
+	/**
+	 * Tests get() handles exceptions gracefully and returns null.
+	 *
+	 * @return void
+	 */
+	public function test_get_handles_exception_gracefully() {
+		$this->config->expects( 'cache_enabled' )->once()->andReturn( true );
+
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( 'yoast_schema_aggregator_xml_sitemap_v1' )
+			->andThrow( new Exception( 'Simulated exception' ) );
+
+		$result = $this->instance->get();
+
+		$this->assertNull( $result );
 	}
 }

@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Cache\Xml_Manager;
 
 use Brain\Monkey;
+use Exception;
 use Generator;
 
 /**
@@ -117,5 +118,23 @@ final class Set_Test extends Abstract_Xml_Manager_Test {
 			'expiration' => 3600,
 			'expected'   => true,
 		];
+	}
+
+	/**
+	 * Tests set() handles exceptions gracefully.
+	 *
+	 * @return void
+	 */
+	public function test_set_handles_exception_gracefully() {
+		$data = '<xml>test</xml>';
+
+		$this->config->expects( 'get_expiration' )
+			->once()
+			->with( [ $data ] )
+			->andThrow( new Exception( 'Test exception' ) );
+
+		$result = $this->instance->set( $data );
+
+		$this->assertFalse( $result );
 	}
 }
