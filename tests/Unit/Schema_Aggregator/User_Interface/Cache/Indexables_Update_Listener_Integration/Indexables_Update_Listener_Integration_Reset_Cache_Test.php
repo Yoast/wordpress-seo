@@ -12,7 +12,8 @@ use Mockery;
  * @group Indexables_Update_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Indexables_Update_Listener_Integration::reset_cache
- *
+ * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Abstract_Cache_Listener_Integration::get_page_number
+
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Indexables_Update_Listener_Integration_Reset_Cache_Test extends Abstract_Indexables_Update_Listener_Integration_Test {
