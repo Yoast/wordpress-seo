@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Cache;
 
 use Brain\Monkey;
+use Exception;
 use Generator;
 
 /**
@@ -28,7 +29,7 @@ final class Set_Test extends Abstract_Manager_Test {
 	 * @return void
 	 */
 	public function test_set_returns_false_with_invalid_parameters( $page, $per_page, $data ) {
-		$result = $this->instance->set( $page, $per_page, $data );
+		$result = $this->instance->set( 'post', $page, $per_page, $data );
 
 		$this->assertFalse( $result );
 	}
@@ -77,10 +78,10 @@ final class Set_Test extends Abstract_Manager_Test {
 
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1', $data, $expiration )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1', $data, $expiration )
 			->andReturn( true );
 
-		$result = $this->instance->set( 1, 10, $data );
+		$result = $this->instance->set( 'post', 1, 10, $data );
 
 		$this->assertTrue( $result );
 	}
@@ -109,7 +110,7 @@ final class Set_Test extends Abstract_Manager_Test {
 			->with( $expected_key, $data, $expiration )
 			->andReturn( true );
 
-		$result = $this->instance->set( $page, $per_page, $data );
+		$result = $this->instance->set( 'post', $page, $per_page, $data );
 
 		$this->assertTrue( $result );
 	}
@@ -125,14 +126,14 @@ final class Set_Test extends Abstract_Manager_Test {
 			'per_page'     => 10,
 			'data'         => [ 'small' ],
 			'expiration'   => 1800,
-			'expected_key' => 'yoast_schema_aggregator_page_1_per_10_v1',
+			'expected_key' => 'yoast_schema_aggregator_page_1_per_10_type_post_v1',
 		];
 		yield 'Large data, long expiration' => [
 			'page'         => 2,
 			'per_page'     => 50,
 			'data'         => \array_fill( 0, 100, 'large_data' ),
 			'expiration'   => 21600,
-			'expected_key' => 'yoast_schema_aggregator_page_2_per_50_v1',
+			'expected_key' => 'yoast_schema_aggregator_page_2_per_50_type_post_v1',
 		];
 	}
 
@@ -142,14 +143,14 @@ final class Set_Test extends Abstract_Manager_Test {
 	 * @return void
 	 */
 	public function test_set_handles_exception_gracefully() {
-		$data       = [];
+		$data = [ 'test_data' ];
 
 		$this->config->expects( 'get_expiration' )
 			->once()
 			->with( $data )
-			->andThrow( new \Exception( 'Test exception' ) );
+			->andThrow( new Exception( 'Test exception' ) );
 
-		$result = $this->instance->set( 1, 10, $data );
+		$result = $this->instance->set( 'post', 1, 10, $data );
 
 		$this->assertFalse( $result );
 	}

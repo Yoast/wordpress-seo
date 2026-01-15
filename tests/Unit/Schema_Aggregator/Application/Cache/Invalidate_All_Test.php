@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Cache;
 
+use Exception;
 use Mockery;
 
 /**
@@ -98,7 +99,7 @@ final class Invalidate_All_Test extends Abstract_Manager_Test {
 		$wpdb->expects( 'query' )
 			->once()
 			->with( 'PREPARED_QUERY' )
-			->andThrow( new \Exception( 'Database error' ) );
+			->andThrow( new Exception( 'Database error' ) );
 
 		$result = $this->instance->invalidate_all();
 

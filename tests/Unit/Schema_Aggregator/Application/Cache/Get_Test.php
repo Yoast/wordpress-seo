@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Cache;
 
 use Brain\Monkey;
+use Exception;
 use Generator;
 
 /**
@@ -24,7 +25,7 @@ final class Get_Test extends Abstract_Manager_Test {
 	public function test_get_returns_null_when_cache_disabled() {
 		$this->config->expects( 'cache_enabled' )->once()->andReturn( false );
 
-		$result = $this->instance->get( 1, 10 );
+		$result = $this->instance->get( 'post', 1, 10 );
 
 		$this->assertNull( $result );
 	}
@@ -42,7 +43,7 @@ final class Get_Test extends Abstract_Manager_Test {
 	public function test_get_returns_null_with_invalid_parameters( $page, $per_page ) {
 		$this->config->expects( 'cache_enabled' )->once()->andReturn( true );
 
-		$result = $this->instance->get( $page, $per_page );
+		$result = $this->instance->get( 'post', $page, $per_page );
 
 		$this->assertNull( $result );
 	}
@@ -81,10 +82,10 @@ final class Get_Test extends Abstract_Manager_Test {
 
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
 			->andReturn( false );
 
-		$result = $this->instance->get( 1, 10 );
+		$result = $this->instance->get( 'post', 1, 10 );
 
 		$this->assertNull( $result );
 	}
@@ -99,15 +100,15 @@ final class Get_Test extends Abstract_Manager_Test {
 
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
 			->andReturn( 'invalid_data' );
 
 		Monkey\Functions\expect( 'delete_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
 			->andReturn( true );
 
-		$result = $this->instance->get( 1, 10 );
+		$result = $this->instance->get( 'post', 1, 10 );
 
 		$this->assertNull( $result );
 	}
@@ -124,10 +125,10 @@ final class Get_Test extends Abstract_Manager_Test {
 
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
 			->andReturn( $cached_data );
 
-		$result = $this->instance->get( 1, 10 );
+		$result = $this->instance->get( 'post', 1, 10 );
 
 		$this->assertSame( $cached_data, $result );
 	}
@@ -152,7 +153,7 @@ final class Get_Test extends Abstract_Manager_Test {
 			->with( $expected_key )
 			->andReturn( $cached_data );
 
-		$result = $this->instance->get( $page, $per_page );
+		$result = $this->instance->get( 'post', $page, $per_page );
 
 		$this->assertSame( $cached_data, $result );
 	}
@@ -166,19 +167,19 @@ final class Get_Test extends Abstract_Manager_Test {
 		yield 'First page, 10 items' => [
 			'page'         => 1,
 			'per_page'     => 10,
-			'expected_key' => 'yoast_schema_aggregator_page_1_per_10_v1',
+			'expected_key' => 'yoast_schema_aggregator_page_1_per_10_type_post_v1',
 			'cached_data'  => [ 'data1' ],
 		];
 		yield 'Second page, 20 items' => [
 			'page'         => 2,
 			'per_page'     => 20,
-			'expected_key' => 'yoast_schema_aggregator_page_2_per_20_v1',
+			'expected_key' => 'yoast_schema_aggregator_page_2_per_20_type_post_v1',
 			'cached_data'  => [ 'data2', 'data3' ],
 		];
 		yield 'Large page number' => [
 			'page'         => 100,
 			'per_page'     => 50,
-			'expected_key' => 'yoast_schema_aggregator_page_100_per_50_v1',
+			'expected_key' => 'yoast_schema_aggregator_page_100_per_50_type_post_v1',
 			'cached_data'  => [ 'data100' ],
 		];
 	}
@@ -193,10 +194,10 @@ final class Get_Test extends Abstract_Manager_Test {
 
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
-			->andThrow( new \Exception( 'Simulated exception' ) );
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
+			->andThrow( new Exception( 'Simulated exception' ) );
 
-		$result = $this->instance->get( 1, 10 );
+		$result = $this->instance->get( 'post', 1, 10 );
 
 		$this->assertNull( $result );
 	}

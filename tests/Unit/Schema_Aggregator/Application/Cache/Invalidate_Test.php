@@ -24,10 +24,10 @@ final class Invalidate_Test extends Abstract_Manager_Test {
 	public function test_invalidate_deletes_specific_entry() {
 		Monkey\Functions\expect( 'delete_transient' )
 			->once()
-			->with( 'yoast_schema_aggregator_page_1_per_10_v1' )
+			->with( 'yoast_schema_aggregator_page_1_per_10_type_post_v1' )
 			->andReturn( true );
 
-		$result = $this->instance->invalidate( 1, 10 );
+		$result = $this->instance->invalidate( 'post', 1, 10 );
 
 		$this->assertTrue( $result );
 	}
@@ -56,7 +56,7 @@ final class Invalidate_Test extends Abstract_Manager_Test {
 			->with( 'PREPARED_QUERY' )
 			->andReturn( 5 );
 
-		$result = $this->instance->invalidate( 1, null );
+		$result = $this->instance->invalidate( 'post', 1, null );
 
 		$this->assertTrue( $result );
 	}
@@ -70,7 +70,7 @@ final class Invalidate_Test extends Abstract_Manager_Test {
 		global $wpdb;
 		$wpdb = null;
 
-		$result = $this->instance->invalidate( 1, null );
+		$result = $this->instance->invalidate( 'post', 1, null );
 
 		$this->assertFalse( $result );
 	}
@@ -94,7 +94,7 @@ final class Invalidate_Test extends Abstract_Manager_Test {
 			->with( 'PREPARED_QUERY' )
 			->andReturn( 10 );
 
-		$result = $this->instance->invalidate( null, null );
+		$result = $this->instance->invalidate( 'post', null, null );
 
 		$this->assertTrue( $result );
 	}
