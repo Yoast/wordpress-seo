@@ -129,16 +129,18 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		$tasks_data = [];
 
 		foreach ( $tasks as $task ) {
-			// We need to enhance the links first.
-			$task->set_enhanced_call_to_action(
-				new Call_To_Action_Entry(
-					$task->get_call_to_action()->get_label(),
-					$task->get_call_to_action()->get_type(),
-					$this->tracking_link_adapter->create_tracking_link_for_tasks(
-						$task->get_call_to_action()->get_href()
+			// We need to enhance the links of the CTA first, if that exists.
+			if ( $task->get_call_to_action() !== null ) {
+				$task->set_enhanced_call_to_action(
+					new Call_To_Action_Entry(
+						$task->get_call_to_action()->get_label(),
+						$task->get_call_to_action()->get_type(),
+						$this->tracking_link_adapter->create_tracking_link_for_tasks(
+							$task->get_call_to_action()->get_href()
+						)
 					)
-				)
-			);
+				);
+			}
 
 			$tasks_data[ $task->get_id() ] = $task->to_array();
 		}
