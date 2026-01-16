@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
-.c29 {
+.c25 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,24 +9,24 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   flex: none;
 }
 
-.c22 {
+.c18 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c23:active {
+.c19:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c24::-moz-focus-inner {
+.c20::-moz-focus-inner {
   border-width: 0;
 }
 
-.c24:focus {
+.c20:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -34,13 +34,13 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c25:hover {
+.c21:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-.c26 {
+.c22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -71,13 +71,13 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   transition: var(--yoast-transition-default);
 }
 
-.c26 svg {
+.c22 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c6 {
+.c2 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -85,22 +85,22 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   box-sizing: border-box;
 }
 
-.c7 {
+.c3 {
   width: 600px;
 }
 
-.c5 {
+.c1 {
   background-color: #fff;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c17 {
+.c13 {
   cursor: pointer;
   position: relative;
 }
 
-.c18 {
+.c14 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -115,13 +115,13 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   text-overflow: ellipsis;
 }
 
-.c19 {
+.c15 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c11 {
   display: inline-block;
   max-width: 240px;
   overflow: hidden;
@@ -130,11 +130,11 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   margin-left: 4px;
 }
 
-.c20 {
+.c16 {
   white-space: nowrap;
 }
 
-.c8 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -145,7 +145,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   vertical-align: top;
 }
 
-.c9 {
+.c5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -169,7 +169,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   column-gap: 12px;
 }
 
-.c12 {
+.c8 {
   font-size: 14px;
   line-height: 1.3;
   color: #4d5156;
@@ -179,11 +179,11 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   flex-grow: 1;
 }
 
-.c14 {
+.c10 {
   color: #4d5156;
 }
 
-.c10 {
+.c6 {
   width: 28px;
   height: 28px;
   border-radius: 50px;
@@ -203,7 +203,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   min-width: 28px;
 }
 
-.c21 {
+.c17 {
   color: #4d5156;
   cursor: pointer;
   position: relative;
@@ -213,7 +213,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   line-height: 1.58;
 }
 
-.c13 {
+.c9 {
   line-height: 18px;
   font-size: 14px;
   color: black;
@@ -221,7 +221,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   overflow: hidden;
 }
 
-.c16 {
+.c12 {
   display: inline-block;
   height: 18px;
   line-height: 18px;
@@ -229,39 +229,11 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   vertical-align: bottom;
 }
 
-.c11 {
+.c7 {
   width: 18px;
   height: 18px;
   margin: 0 5px;
   vertical-align: middle;
-}
-
-.c1 {
-  border: 0;
-  padding: 0;
-  margin: 0 0 16px;
-}
-
-.c2 {
-  margin: 8px 0;
-  padding: 0;
-  color: #555;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.c4 {
-  margin-right: 16px;
-  color: inherit;
-  font-size: 14px;
-  line-height: 1.71428571;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.c3.c3 {
-  margin: 0 8px 0 0;
-  cursor: pointer;
 }
 
 .c0 {
@@ -272,25 +244,25 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
   font-weight: 300;
 }
 
-.c27 {
+.c23 {
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
-.c28 {
+.c24 {
   margin: 10px 0 0 4px;
   fill: #555;
   padding-left: 8px;
 }
 
-.c28 svg {
+.c24 svg {
   margin-right: 7px;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c26::after {
+  .c22::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -304,54 +276,110 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
     >
       Determine how your post should look in the search results.
     </legend>
-    <fieldset
-      class="c1"
+    <div
+      class="yst-root"
     >
-      <legend
-        class="c2"
+      <div
+        class="yst-flex yst-justify-between yst-mb-4"
       >
-        Preview as:
-      </legend>
-      <input
-        class="c3"
-        id="yoast-google-preview-mode-mobile"
-        name="screen"
-        type="radio"
-        value="mobile"
-      />
-      <label
-        class="c4"
-        for="yoast-google-preview-mode-mobile"
-      >
-        Mobile result
-      </label>
-      <input
-        checked=""
-        class="c3"
-        id="yoast-google-preview-mode-desktop"
-        name="screen"
-        type="radio"
-        value="desktop"
-      />
-      <label
-        class="c4"
-        for="yoast-google-preview-mode-desktop"
-      >
-        Desktop result
-      </label>
-    </fieldset>
+        <label
+          class="yst-label"
+        >
+          Google preview
+        </label>
+        <div
+          class="yst-flex yst-gap-3 yst-items-center"
+          role="group"
+        >
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-500"
+          >
+            Mobile
+          </span>
+          <button
+            aria-checked="true"
+            class="yst-toggle yst-toggle--checked yst-bg-primary-500"
+            data-headlessui-state="checked"
+            data-id="yoast-google-preview-mode-switcher-"
+            id="headlessui-switch-:r1:"
+            role="switch"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="yst-sr-only"
+            >
+              Google preview: Switch to mobile preview. Currently showing desktop preview.
+            </span>
+            <span
+              class="yst-toggle__handle"
+            >
+              <span
+                aria-hidden="false"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                  fill="currentColor"
+                  id="yoast-google-preview-mode-desktop"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                aria-hidden="true"
+                hidden=""
+                style="display: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                  fill="none"
+                  id="yoast-google-preview-mode-mobile"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </span>
+          </button>
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-800"
+          >
+            Desktop
+          </span>
+        </div>
+      </div>
+    </div>
     <section
       class="yoast-snippet-preview-section"
     >
       <div
-        class="c5 yoast-snippet-preview-container__wrapper"
+        class="c1 yoast-snippet-preview-container__wrapper"
       >
         <div
-          class="c6 c5 yoast-snippet-preview-container"
+          class="c2 c1 yoast-snippet-preview-container"
           id="yoast-snippet-preview-container"
         >
           <div
-            class="c7"
+            class="c3"
           >
             <div
               class="SnippetPreview__DesktopPartContainer-sc-1hxg8jo-20"
@@ -363,40 +391,40 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
                 Url preview:
               </span>
               <div
-                class="c8"
+                class="c4"
               >
                 <div
-                  class="c8 c9"
+                  class="c4 c5"
                 >
                   <div
-                    class="c10"
+                    class="c6"
                   >
                     <img
                       alt=""
-                      class="c11"
+                      class="c7"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                     />
                   </div>
                   <span
-                    class="c12"
+                    class="c8"
                   >
                     <div
-                      class="c13"
+                      class="c9"
                     >
                       Test site name
                     </div>
                     <span
-                      class="c14"
+                      class="c10"
                     >
                       example.org
                     </span>
                     <span
-                      class="c15"
+                      class="c11"
                     >
                        › test-slug
                     </span>
                     <span
-                      class="c16"
+                      class="c12"
                     >
                       <svg
                         fill="#4d5156"
@@ -419,13 +447,13 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
                 SEO title preview:
               </span>
               <div
-                class="c17"
+                class="c13"
               >
                 <div
-                  class="c18 c19"
+                  class="c14 c15"
                 >
                   <span
-                    class="c20"
+                    class="c16"
                   >
                     Test title
                   </span>
@@ -442,7 +470,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
                 Meta description preview:
               </span>
               <div
-                class="c21"
+                class="c17"
               >
                 Test description, %%replacement_variable%%
               </div>
@@ -453,12 +481,12 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
     </section>
     <button
       aria-expanded="false"
-      class="c22 c23 c24 c25 c26 c27 c28"
+      class="c18 c19 c20 c21 c22 c23 c24"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="c29 yoast-svg-icon yoast-svg-icon-edit"
+        class="c25 yoast-svg-icon yoast-svg-icon-edit"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -476,7 +504,7 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
 `;
 
 exports[`SnippetEditor Mobile mode 1`] = `
-.c26 {
+.c22 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -484,24 +512,24 @@ exports[`SnippetEditor Mobile mode 1`] = `
   flex: none;
 }
 
-.c19 {
+.c15 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c20:active {
+.c16:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c21::-moz-focus-inner {
+.c17::-moz-focus-inner {
   border-width: 0;
 }
 
-.c21:focus {
+.c17:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -509,13 +537,13 @@ exports[`SnippetEditor Mobile mode 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c22:hover {
+.c18:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-.c23 {
+.c19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -546,13 +574,13 @@ exports[`SnippetEditor Mobile mode 1`] = `
   transition: var(--yoast-transition-default);
 }
 
-.c23 svg {
+.c19 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5 {
+.c1 {
   border-bottom: 1px hidden #fff;
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
@@ -562,12 +590,12 @@ exports[`SnippetEditor Mobile mode 1`] = `
   font-size: 14px;
 }
 
-.c14 {
+.c10 {
   cursor: pointer;
   position: relative;
 }
 
-.c15 {
+.c11 {
   color: #1558d6;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -582,13 +610,13 @@ exports[`SnippetEditor Mobile mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c12 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c13 {
   display: inline-block;
   max-height: 52px;
   padding-top: 1px;
@@ -597,7 +625,7 @@ exports[`SnippetEditor Mobile mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c7 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -608,7 +636,7 @@ exports[`SnippetEditor Mobile mode 1`] = `
   vertical-align: top;
 }
 
-.c8 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -632,7 +660,7 @@ exports[`SnippetEditor Mobile mode 1`] = `
   column-gap: 12px;
 }
 
-.c11 {
+.c7 {
   font-size: 12px;
   line-height: 20px;
   color: #3c4043;
@@ -642,11 +670,11 @@ exports[`SnippetEditor Mobile mode 1`] = `
   flex-grow: 1;
 }
 
-.c13 {
+.c9 {
   color: #70757a;
 }
 
-.c9 {
+.c5 {
   width: 28px;
   height: 28px;
   border-radius: 50px;
@@ -666,7 +694,7 @@ exports[`SnippetEditor Mobile mode 1`] = `
   min-width: 28px;
 }
 
-.c18 {
+.c14 {
   color: #3c4043;
   font-size: 14px;
   cursor: pointer;
@@ -675,21 +703,21 @@ exports[`SnippetEditor Mobile mode 1`] = `
   max-width: 600px;
 }
 
-.c18:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
 }
 
-.c6 {
+.c2 {
   padding: 12px 16px;
 }
 
-.c6:first-child {
+.c2:first-child {
   margin-bottom: -16px;
 }
 
-.c12 {
+.c8 {
   line-height: 18px;
   font-size: 14px;
   color: black;
@@ -697,39 +725,11 @@ exports[`SnippetEditor Mobile mode 1`] = `
   overflow: hidden;
 }
 
-.c10 {
+.c6 {
   width: 18px;
   height: 18px;
   margin: 0 5px;
   vertical-align: middle;
-}
-
-.c1 {
-  border: 0;
-  padding: 0;
-  margin: 0 0 16px;
-}
-
-.c2 {
-  margin: 8px 0;
-  padding: 0;
-  color: #555;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.c4 {
-  margin-right: 16px;
-  color: inherit;
-  font-size: 14px;
-  line-height: 1.71428571;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.c3.c3 {
-  margin: 0 8px 0 0;
-  cursor: pointer;
 }
 
 .c0 {
@@ -740,25 +740,25 @@ exports[`SnippetEditor Mobile mode 1`] = `
   font-weight: 300;
 }
 
-.c24 {
+.c20 {
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
-.c25 {
+.c21 {
   margin: 10px 0 0 4px;
   fill: #555;
   padding-left: 8px;
 }
 
-.c25 svg {
+.c21 svg {
   margin-right: 7px;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c23::after {
+  .c19::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -772,51 +772,107 @@ exports[`SnippetEditor Mobile mode 1`] = `
     >
       Determine how your post should look in the search results.
     </legend>
-    <fieldset
-      class="c1"
+    <div
+      class="yst-root"
     >
-      <legend
-        class="c2"
+      <div
+        class="yst-flex yst-justify-between yst-mb-4"
       >
-        Preview as:
-      </legend>
-      <input
-        checked=""
-        class="c3"
-        id="yoast-google-preview-mode-mobile"
-        name="screen"
-        type="radio"
-        value="mobile"
-      />
-      <label
-        class="c4"
-        for="yoast-google-preview-mode-mobile"
-      >
-        Mobile result
-      </label>
-      <input
-        class="c3"
-        id="yoast-google-preview-mode-desktop"
-        name="screen"
-        type="radio"
-        value="desktop"
-      />
-      <label
-        class="c4"
-        for="yoast-google-preview-mode-desktop"
-      >
-        Desktop result
-      </label>
-    </fieldset>
+        <label
+          class="yst-label"
+        >
+          Google preview
+        </label>
+        <div
+          class="yst-flex yst-gap-3 yst-items-center"
+          role="group"
+        >
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-800"
+          >
+            Mobile
+          </span>
+          <button
+            aria-checked="false"
+            class="yst-toggle yst-bg-primary-500"
+            data-headlessui-state=""
+            data-id="yoast-google-preview-mode-switcher-"
+            id="headlessui-switch-:r0:"
+            role="switch"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="yst-sr-only"
+            >
+              Google preview: Switch to desktop preview. Currently showing mobile preview.
+            </span>
+            <span
+              class="yst-toggle__handle"
+            >
+              <span
+                aria-hidden="true"
+                hidden=""
+                style="display: none;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+                  fill="currentColor"
+                  id="yoast-google-preview-mode-desktop"
+                  role="img"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                aria-hidden="false"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+                  fill="none"
+                  id="yoast-google-preview-mode-mobile"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </span>
+          </button>
+          <span
+            aria-hidden="true"
+            class="yst-text-slate-500"
+          >
+            Desktop
+          </span>
+        </div>
+      </div>
+    </div>
     <section
       class="yoast-snippet-preview-section"
     >
       <div
-        class="c5 yoast-snippet-preview-container"
+        class="c1 yoast-snippet-preview-container"
         id="yoast-snippet-preview-container"
       >
         <div
-          class="c6"
+          class="c2"
         >
           <span
             class="screen-reader-text"
@@ -825,30 +881,30 @@ exports[`SnippetEditor Mobile mode 1`] = `
             Url preview:
           </span>
           <div
-            class="c7"
+            class="c3"
           >
             <div
-              class="c7 c8"
+              class="c3 c4"
             >
               <div
-                class="c9"
+                class="c5"
               >
                 <img
                   alt=""
-                  class="c10"
+                  class="c6"
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                 />
               </div>
               <span
-                class="c11"
+                class="c7"
               >
                 <div
-                  class="c12"
+                  class="c8"
                 >
                   Test site name
                 </div>
                 <span
-                  class="c13"
+                  class="c9"
                 >
                   example.org
                 </span>
@@ -872,13 +928,13 @@ exports[`SnippetEditor Mobile mode 1`] = `
             SEO title preview:
           </span>
           <div
-            class="c14"
+            class="c10"
           >
             <div
-              class="c15 c16"
+              class="c11 c12"
             >
               <span
-                class="c17"
+                class="c13"
               >
                 Test title
               </span>
@@ -886,7 +942,7 @@ exports[`SnippetEditor Mobile mode 1`] = `
           </div>
         </div>
         <div
-          class="c6"
+          class="c2"
         >
           <span
             class="screen-reader-text"
@@ -895,10 +951,10 @@ exports[`SnippetEditor Mobile mode 1`] = `
             Meta description preview:
           </span>
           <div
-            class="c18"
+            class="c14"
           >
             <div
-              class="c18"
+              class="c14"
             >
               Test description, %%replacement_variable%%
             </div>
@@ -908,12 +964,12 @@ exports[`SnippetEditor Mobile mode 1`] = `
     </section>
     <button
       aria-expanded="false"
-      class="c19 c20 c21 c22 c23 c24 c25"
+      class="c15 c16 c17 c18 c19 c20 c21"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="c26 yoast-svg-icon yoast-svg-icon-edit"
+        class="c22 yoast-svg-icon yoast-svg-icon-edit"
         fill="currentColor"
         focusable="false"
         role="img"
