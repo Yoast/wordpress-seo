@@ -14,7 +14,7 @@ registerBlockType( block, {
 	 *
 	 * The "edit" property must be a valid function.
 	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
 	 * @returns {Component} The editor component.
 	 */
 	edit: ( { attributes, setAttributes, className } ) => {
@@ -36,7 +36,7 @@ registerBlockType( block, {
 	 *
 	 * The "save" property must be specified and must be a valid function.
 	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
 	 * @returns {Component} The display component.
 	 */
 	save: ( { attributes } ) => {

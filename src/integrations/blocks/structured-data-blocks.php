@@ -381,7 +381,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 		$images = [];
 		foreach ( $elements as $element ) {
 			// Check if the key "images" exists in any of the elements, grab the image IDs.
-			if ( isset( $element['images'] ) && \is_array( $element['images'] ) && count( $element['images'] ) > 0 ) {
+			if ( isset( $element['images'] ) && \is_array( $element['images'] ) && \count( $element['images'] ) > 0 ) {
 				$image_data = $element['images'];
 				foreach ( $image_data as $image ) {
 					if ( ! isset( $image['type'] ) || $image['type'] !== 'img' ) {

@@ -1,8 +1,8 @@
 import { useBlockProps } from "@wordpress/block-editor";
+import { pickBy } from "lodash";
 
 import HowTo from "../components/HowTo";
 import { childrenToString, getImageArray } from "../../shared-utils/migrationHelpers269";
-import { pickBy } from "lodash";
 
 /*
  * Converts rich text children to an HTML string.
