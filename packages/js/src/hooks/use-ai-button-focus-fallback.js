@@ -5,7 +5,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
  * Timeout duration (in ms) to wait for the AI button to render after toast dismissal.
  * This accounts for toast exit animation and React re-render cycle.
  */
-const BUTTON_RENDER_TIMEOUT = 2000;
+const BUTTON_RENDER_TIMEOUT = 1700;
 
 /**
  * Custom hook to handle focus fallback when an AI Optimize button is removed from the DOM.
