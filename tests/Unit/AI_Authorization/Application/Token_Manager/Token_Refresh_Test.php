@@ -133,7 +133,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -187,7 +187,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -241,7 +241,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -295,7 +295,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -349,7 +349,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -403,7 +403,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -457,7 +457,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -511,7 +511,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
@@ -565,7 +565,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$this->code_verifier
 			->expects( 'generate' )
-			->with( 123, 'test@example.com' )
+			->with( 'test@example.com' )
 			->once()
 			->andReturn( $code_verifier );
 
