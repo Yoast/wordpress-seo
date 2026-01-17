@@ -37,6 +37,12 @@ import llmsTxt, {
 	LLMS_TXT_NAME,
 	llmsTxtSelectors,
 } from "./llms-txt";
+import schemaFramework, {
+	createInitialSchemaFrameworkState,
+	schemaFrameworkActions,
+	SCHEMA_FRAMEWORK_NAME,
+	schemaFrameworkSelectors,
+} from "./schema-framework";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -50,6 +56,12 @@ import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
+import siteFeatures, {
+	siteFeaturesActions,
+	siteFeaturesSelectors,
+	SITE_FEATURES_NAME,
+	createInitialSiteFeaturesState,
+} from "./site-features";
 
 const { isPromotionActive } = selectors;
 const { currentPromotions } = reducers;
@@ -69,6 +81,7 @@ const createStore = ( { initialState } ) => {
 			...indexablePagesActions,
 			...linkParamsActions,
 			...llmsTxtActions,
+			...schemaFrameworkActions,
 			...mediaActions,
 			...notificationsActions,
 			...pageActions,
@@ -80,6 +93,7 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesActions,
 			...usersActions,
 			setCurrentPromotions,
+			...siteFeaturesActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -89,6 +103,7 @@ const createStore = ( { initialState } ) => {
 			...indexablePagesSelectors,
 			...linkParamsSelectors,
 			...llmsTxtSelectors,
+			...schemaFrameworkSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
 			...pageSelectors,
@@ -100,6 +115,7 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesSelectors,
 			...usersSelectors,
 			isPromotionActive,
+			...siteFeaturesSelectors,
 		},
 		initialState: merge(
 			{},
@@ -116,10 +132,12 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				[ SCHEMA_FRAMEWORK_NAME ]: createInitialSchemaFrameworkState(),
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
 				currentPromotions: { promotions: [] },
+				[ SITE_FEATURES_NAME ]: createInitialSiteFeaturesState(),
 			},
 			initialState
 		),
@@ -137,10 +155,12 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			replacementVariables,
 			schema,
+			schemaFramework,
 			search,
 			taxonomies,
 			users,
 			currentPromotions,
+			siteFeatures,
 		} ),
 		controls: {
 			...mediaControls,

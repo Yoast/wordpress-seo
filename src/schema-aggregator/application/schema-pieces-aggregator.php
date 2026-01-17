@@ -1,62 +1,45 @@
 <?php
-
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
-use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Filtering_Strategy_Factory;
 
 /**
- * This class is responsible for taking an array of Schema_Pieces and return another array of Schema_Pieces where:
- * 1. Schema_Pieces are deduplicated by using the id property
- * 2. if a copy of the same Schema_Piece exists, properties are merged together
- * 3. properties in the avoid list are unset
- *
- * @param array<Schema_Piece> $schema_pieces The schema pieces to aggregate.
+ * This class is responsible for taking a Schema_Piece_Collection and return another filtered Schema_Piece_Collection.
  */
 class Schema_Pieces_Aggregator {
 
 	/**
-	 * The properties filter instance.
+	 * The filtering strategy factory.
 	 *
-	 * @var Properties_Filter
+	 * @var Filtering_Strategy_Factory
 	 */
-	private $properties_filter;
-
-	/**
-	 * The schema filter instance.
-	 *
-	 * @var Schema_Pieces_Filter
-	 */
-	private $schema_pieces_filter;
+	private $filtering_strategy_factory;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param Properties_Filter    $properties_filter    The properties filter object.
-	 * @param Schema_Pieces_Filter $schema_pieces_filter The schema pieces filter object.
+	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
 	 */
-	public function __construct(
-		Properties_Filter $properties_filter,
-		Schema_Pieces_Filter $schema_pieces_filter
-	) {
-		$this->properties_filter    = $properties_filter;
-		$this->schema_pieces_filter = $schema_pieces_filter;
+	public function __construct( Filtering_Strategy_Factory $filtering_strategy_factory ) {
+		$this->filtering_strategy_factory = $filtering_strategy_factory;
 	}
 
 	/**
 	 * Main orchestrator method: deduplicates, merges and filter properties.
 	 *
-	 * @param array<Schema_Piece> $schema_pieces The schema pieces to aggregate.
+	 * @param Schema_Piece_Collection $schema_pieces The schema pieces to aggregate.
 	 *
-	 * @return array<Schema_Piece> The aggregated schema pieces.
+	 * @return Schema_Piece_Collection The aggregated schema pieces.
 	 */
-	public function aggregate( array $schema_pieces ): array {
+	public function aggregate( Schema_Piece_Collection $schema_pieces ): Schema_Piece_Collection {
 		$aggregated_schema = [];
 
-		foreach ( $schema_pieces as $piece ) {
-			if ( ! $this->schema_pieces_filter->has_allowed_type( $piece ) ) {
-				continue;
-			}
+		$filtering_strategy     = $this->filtering_strategy_factory->create();
+		$filtered_schema_pieces = $filtering_strategy->filter( $schema_pieces );
+
+		foreach ( $filtered_schema_pieces->to_array() as $piece ) {
 
 			$id = $piece->get_id();
 			if ( \is_null( $id ) ) {
@@ -64,10 +47,9 @@ class Schema_Pieces_Aggregator {
 			}
 			$aggregated_schema[ $id ] = $piece;
 
-			$aggregated_schema[ $id ] = $this->properties_filter->filter( $aggregated_schema[ $id ] );
 		}
 
-		// Return only the values to get rid of the keys (which are @id).
-		return \array_values( $aggregated_schema );
+		// Return only the values to get rid of the keys (which are @id) and wrap in a collection.
+		return new Schema_Piece_Collection( \array_values( $aggregated_schema ) );
 	}
 }

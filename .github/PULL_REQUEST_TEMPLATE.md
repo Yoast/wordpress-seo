@@ -11,7 +11,7 @@ What do we want to achieve with this PR? Why did we write this code?
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
 If the changelog item is meant for the changelog of another add-on, start your changelog item with the name of that add-on's repo between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
-If the changelog items is meant for the changelog of a javascript package, specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
+If the changelog item is meant for the changelog of a JavaScript package, specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
 If the same changelog item is applicable to multiple changelogs/add-ons, add a separate changelog item for all of them.
 -->
 This PR can be summarized in the following changelog entry:
@@ -25,7 +25,7 @@ This PR can be summarized in the following changelog entry:
 ## Test instructions
 <!--
 Please follow these guidelines when creating test instructions:
-- Please provide step-by-step instructions how to reproduce the issue, if applicable.
+- Please provide step-by-step instructions on how to reproduce the issue, if applicable.
 - Write step-by-step test instructions aimed at non-tech-savvy users, even if the PR is not user-facing.
 -->
 ### Test instructions for the acceptance test before the PR gets merged
@@ -71,6 +71,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 ## Other environments
 
 * [ ] This PR also affects Shopify. I have added a changelog entry starting with `[shopify-seo]`, added test instructions for Shopify and attached the `Shopify` label to this PR.
+* [ ] This PR also affects Yoast SEO for Google Docs. I have added a changelog entry starting with `[yoast-doc-extension]`, added test instructions for Yoast SEO for Google Docs and attached the `Google Docs Add-on` label to this PR.
 
 ## Documentation
 
@@ -84,7 +85,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 * [ ] I have checked that the base branch is correctly set.
-* [ ] I have ran `grunt build:images` and commited the results, if my PR introduces new images or SVGs.
+* [ ] I have run `grunt build:images` and commited the results, if my PR introduces new images or SVGs.
 
 ## Innovation
 

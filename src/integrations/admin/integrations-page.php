@@ -2,11 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Easy_Digital_Downloads;
-use SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode;
-use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
-use WP_Recipe_Maker;
-use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
@@ -14,20 +9,13 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 
 /**
  * Integrations_Page class
  */
 class Integrations_Page implements Integration_Interface {
-
-	/**
-	 * The Woocommerce helper.
-	 *
-	 * @var Woocommerce_Helper
-	 */
-	private $woocommerce_helper;
 
 	/**
 	 * The admin asset manager.
@@ -72,6 +60,13 @@ class Integrations_Page implements Integration_Interface {
 	private $site_kit_consent_management_endpoint;
 
 	/**
+	 * The schema configuration.
+	 *
+	 * @var Schema_Configuration
+	 */
+	private $schema_configuration;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -83,30 +78,30 @@ class Integrations_Page implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager            $admin_asset_manager                  The admin asset manager.
 	 * @param Options_Helper                       $options_helper                       The options helper.
-	 * @param Woocommerce_Helper                   $woocommerce_helper                   The WooCommerce helper.
 	 * @param Elementor_Activated_Conditional      $elementor_conditional                The elementor conditional.
 	 * @param Jetpack_Conditional                  $jetpack_conditional                  The Jetpack conditional.
 	 * @param Site_Kit                             $site_kit_integration_data            The site kit integration
 	 *                                                                                   configuration data.
 	 * @param Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint The site kit consent
 	 *                                                                                   management endpoint.
+	 * @param Schema_Configuration                 $schema_configuration                 The schema configuration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper,
-		Woocommerce_Helper $woocommerce_helper,
 		Elementor_Activated_Conditional $elementor_conditional,
 		Jetpack_Conditional $jetpack_conditional,
 		Site_Kit $site_kit_integration_data,
-		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint
+		Site_Kit_Consent_Management_Endpoint $site_kit_consent_management_endpoint,
+		Schema_Configuration $schema_configuration
 	) {
 		$this->admin_asset_manager                  = $admin_asset_manager;
 		$this->options_helper                       = $options_helper;
-		$this->woocommerce_helper                   = $woocommerce_helper;
 		$this->elementor_conditional                = $elementor_conditional;
 		$this->jetpack_conditional                  = $jetpack_conditional;
 		$this->site_kit_integration_data            = $site_kit_integration_data;
 		$this->site_kit_consent_management_endpoint = $site_kit_consent_management_endpoint;
+		$this->schema_configuration                 = $schema_configuration;
 	}
 
 	/**
@@ -156,34 +151,30 @@ class Integrations_Page implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_script( 'integrations-page' );
 
-		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
-		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
-		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
-		$algolia_file         = 'wp-search-with-algolia/algolia.php';
-		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
+		$acf_seo_file        = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
+		$acf_seo_file_github = 'yoast-acf-analysis/yoast-acf-analysis.php';
+		$algolia_file        = 'wp-search-with-algolia/algolia.php';
+		$old_algolia_file    = 'search-by-algolia-instant-relevant-results/algolia.php';
 
-		$addon_manager             = new WPSEO_Addon_Manager();
-		$woocommerce_seo_installed = $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
+		$schema_api_integrations = $this->schema_configuration->get_schema_api_integrations();
 
-		$woocommerce_seo_active   = \is_plugin_active( $woocommerce_seo_file );
-		$woocommerce_active       = $this->woocommerce_helper->is_active();
+		$woocommerce_seo_installed    = $schema_api_integrations['woocommerce']['isInstalled'];
+		$woocommerce_seo_active       = $schema_api_integrations['woocommerce']['isActive'];
+		$woocommerce_active           = $schema_api_integrations['woocommerce']['isPrerequisiteActive'];
+		$woocommerce_seo_activate_url = $schema_api_integrations['woocommerce']['activationLink'];
+		$edd_active                   = $schema_api_integrations['edd']['isActive'];
+		$tec_active                   = $schema_api_integrations['tec']['isActive'];
+		$ssp_active                   = $schema_api_integrations['ssp']['isActive'];
+		$wp_recipe_maker_active       = $schema_api_integrations['wp-recipe-maker']['isActive'];
+
 		$acf_seo_installed        = \file_exists( \WP_PLUGIN_DIR . '/' . $acf_seo_file );
 		$acf_seo_github_installed = \file_exists( \WP_PLUGIN_DIR . '/' . $acf_seo_file_github );
 		$acf_seo_active           = \is_plugin_active( $acf_seo_file );
 		$acf_seo_github_active    = \is_plugin_active( $acf_seo_file_github );
 		$acf_active               = \class_exists( 'acf' );
 		$algolia_active           = \is_plugin_active( $algolia_file );
-		$edd_active               = \class_exists( Easy_Digital_Downloads::class );
 		$old_algolia_active       = \is_plugin_active( $old_algolia_file );
-		$tec_active               = \class_exists( Events_Schema::class );
-		$ssp_active               = \class_exists( PodcastEpisode::class );
-		$wp_recipe_maker_active   = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active          = $this->is_mastodon_active();
-
-		$woocommerce_seo_activate_url = \wp_nonce_url(
-			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
-			'activate-plugin_' . $woocommerce_seo_file
-		);
 
 		if ( $acf_seo_installed ) {
 			$acf_seo_activate_url = \wp_nonce_url(
@@ -234,6 +225,7 @@ class Integrations_Page implements Integration_Interface {
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
+				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ) === true && ! $this->schema_configuration->is_schema_disabled_programmatically(),
 			]
 		);
 	}

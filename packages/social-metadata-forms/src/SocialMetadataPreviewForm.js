@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { ImageSelect } from "@yoast/components";
+import SocialImageSelect from "./components/SocialImageSelect";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
@@ -22,23 +22,9 @@ const getCaretColor = ( active ) => {
 
 const CaretContainer = styled.div`
 	position: relative;
-
-	${ props => ! props.isPremium && `
-		.yoast-image-select__preview {
-			width: 130px;
-			min-height: 72px;
-			max-height: 130px;
-		}
-	` };
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
 `;
-
-CaretContainer.propTypes = {
-	isPremium: PropTypes.bool,
-};
-
-CaretContainer.defaultProps = {
-	isPremium: false,
-};
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -85,14 +71,13 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	 *
 	 * @param {boolean} isActive Whether the component is active.
 	 * @param {boolean} isHovered Whether the component is hovered.
-	 * @param {boolean} [isPremium=false] Whether the component is premium.
 	 * @param {Object} [withoutCaretProps] The props for the component.
 	 *
 	 * @returns {JSX.Element} The component with a Caret.
 	 */
-	function ComponentWithCaret( { isActive, isHovered, isPremium = false, ...withoutCaretProps } ) {
+	function ComponentWithCaret( { isActive, isHovered, ...withoutCaretProps } ) {
 		return (
-			<CaretContainer isPremium={ isPremium }>
+			<CaretContainer>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
@@ -103,13 +88,12 @@ export const withCaretStyle = ( WithoutCaretComponent ) => {
 	ComponentWithCaret.propTypes = {
 		isActive: PropTypes.bool.isRequired,
 		isHovered: PropTypes.bool.isRequired,
-		isPremium: PropTypes.bool,
 	};
 
 	return ComponentWithCaret;
 };
 
-const ImageSelectWithCaret = withCaretStyle( ImageSelect );
+const ImageSelectWithCaret = withCaretStyle( SocialImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -251,11 +235,7 @@ class SocialMetadataPreviewForm extends Component {
 					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
-					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
-					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
-					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
-					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
-					isPremium={ isPremium }
+					id={ join( [ lowerCaseSocialMediumName, "image-select", idSuffix ] ) }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
