@@ -501,9 +501,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
 	public function get_presenters( $page_type, $context = null ) {
-		if ( $context === null ) {
-			$context = $this->context_memoizer->for_current_page();
-		}
+		$context ??= $this->context_memoizer->for_current_page();
 
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 

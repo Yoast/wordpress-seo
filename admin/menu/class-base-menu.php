@@ -46,9 +46,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 * @return array Formatted submenu.
 	 */
 	protected function get_submenu_page( $page_title, $page_slug, $callback = null, $hook = null ) {
-		if ( $callback === null ) {
-			$callback = $this->get_admin_page_callback();
-		}
+		$callback ??= $this->get_admin_page_callback();
 
 		return [
 			$this->get_page_identifier(),
@@ -256,9 +254,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 
 		_deprecated_function( __METHOD__, 'Yoast SEO 25.5' );
 
-		if ( $title === null ) {
-			$title = __( 'Upgrades', 'wordpress-seo' );
-		}
+		$title ??= __( 'Upgrades', 'wordpress-seo' );
 
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) && ! YoastSEO()->helpers->product->is_premium() ) {
 			$title = __( 'Upgrades', 'wordpress-seo' ) . '<span class="yoast-menu-bf-sale-badge">' . __( '30% OFF', 'wordpress-seo' ) . '</span>';

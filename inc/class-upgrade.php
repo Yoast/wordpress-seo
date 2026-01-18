@@ -1402,9 +1402,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	protected function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
-		if ( $target_setting === null ) {
-			$target_setting = $source_setting;
-		}
+		$target_setting ??= $source_setting;
 
 		if ( isset( $source_data[ $source_setting ] ) ) {
 			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );

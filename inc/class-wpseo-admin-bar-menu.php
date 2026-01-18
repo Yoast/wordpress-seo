@@ -156,9 +156,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return bool True if SEO score is enabled, false otherwise.
 	 */
 	protected function get_is_seo_enabled() {
-		if ( $this->is_seo_enabled === null ) {
-			$this->is_seo_enabled = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
-		}
+		$this->is_seo_enabled ??= ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
 
 		return $this->is_seo_enabled;
 	}
@@ -169,9 +167,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return bool True if readability is enabled, false otherwise.
 	 */
 	protected function get_is_readability_enabled() {
-		if ( $this->is_readability_enabled === null ) {
-			$this->is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
-		}
+		$this->is_readability_enabled ??= ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 
 		return $this->is_readability_enabled;
 	}
@@ -182,9 +178,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	protected function get_current_indexable() {
-		if ( $this->current_indexable === null ) {
-			$this->current_indexable = $this->indexable_repository->for_current_page();
-		}
+		$this->current_indexable ??= $this->indexable_repository->for_current_page();
 
 		return $this->current_indexable;
 	}
