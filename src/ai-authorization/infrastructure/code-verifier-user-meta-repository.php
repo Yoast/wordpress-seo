@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Infrastructure;
 
 use RuntimeException;
@@ -8,6 +9,9 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 /**
  * Class Code_Verifier_Repository
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
 class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repository_Interface {
 
@@ -30,16 +34,23 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Code_Verifier_Repository constructor.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param Date_Helper $date_helper The date helper.
 	 * @param User_Helper $user_helper The user helper.
 	 */
 	public function __construct( Date_Helper $date_helper, User_Helper $user_helper ) {
+
 		$this->date_helper = $date_helper;
 		$this->user_helper = $user_helper;
 	}
 
 	/**
 	 * Store the verification code for a user.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param int    $user_id    The user ID.
 	 * @param string $code       The code verifier.
@@ -48,6 +59,8 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	 * @return void
 	 */
 	public function store_code_verifier( int $user_id, string $code, int $created_at ): void {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::store_code_verifier' );
+
 		$this->user_helper->update_meta(
 			$user_id,
 			'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(),
@@ -61,12 +74,17 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Get the verification code for a user.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @throws RuntimeException If the code verifier is not found or has expired.
 	 * @return Code_Verifier The verification code or null if not found.
 	 */
 	public function get_code_verifier( int $user_id ): ?Code_Verifier {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::get_code_verifier' );
+
 		$data = $this->user_helper->get_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id(), true );
 
 		if ( ! \is_array( $data ) || ! isset( $data['code'] ) || $data['code'] === '' ) {
@@ -84,11 +102,16 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 	/**
 	 * Delete the verification code for a user.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id The user ID.
 	 *
 	 * @return void
 	 */
 	public function delete_code_verifier( int $user_id ): void {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Infrastructure\Code_Verifier_User_Meta_Repository::delete_code_verifier' );
+
 		$this->user_helper->delete_meta( $user_id, 'yoast_wpseo_ai_generator_code_verifier_for_blog_' . \get_current_blog_id() );
 	}
 }

@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
@@ -9,6 +10,9 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
 /**
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
 class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
@@ -30,6 +34,9 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	/**
 	 * Code_Verifier_Service constructor.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param Date_Helper                        $date_helper              The date helper.
 	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
 	 */
@@ -46,6 +53,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @return Code_Verifier The generated code verifier.
 	 */
 	public function generate( string $user_email ): Code_Verifier {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::generate' );
 		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = $this->date_helper->current_time();
@@ -63,6 +71,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @throws RuntimeException If the code verifier is expired or invalid.
 	 */
 	public function validate( int $user_id ): string {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\Application\Code_Verifier_Handler::validate' );
 		$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
 
 		if ( $code_verifier === null || $code_verifier->is_expired( self::VALIDITY_IN_SECONDS ) ) {

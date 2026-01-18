@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
 use WP_REST_Response;
@@ -10,6 +11,10 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Registers a route to bust the subscription cache.
+ *
+@deprecated 26.3
+ *
+ * @codeCoverageIgnore
  *
  * @makePublic
  *
@@ -43,6 +48,9 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
@@ -60,6 +68,9 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 
 	/**
 	 * Registers routes with WordPress.
+	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -79,9 +90,13 @@ class Bust_Subscription_Cache_Route implements Route_Interface {
 	/**
 	 * Runs the callback that busts the subscription cache.
 	 *
+	 * @deprecated
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response The response of the callback action.
 	 */
 	public function bust_subscription_cache(): WP_REST_Response {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', '\\Yoast\\WP\\SEO\\AI\\Generator\\User_Interface\\Bust_Subscription_Cache_Route::bust_subscription_cache' );
 		$this->addon_manager->remove_site_information_transients();
 
 		return new WP_REST_Response( 'Subscription cache successfully busted.' );

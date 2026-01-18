@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\Application;
 
 use RuntimeException;
@@ -16,11 +17,17 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 
 /**
  * Interface Token_Manager_Interface
+ *
+ * @deprecated 26.3
+ * @codeCoverageIgnore
  */
 interface Token_Manager_Interface {
 
 	/**
 	 * Invalidates the access token.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $user_id The user ID.
 	 *
@@ -42,6 +49,9 @@ interface Token_Manager_Interface {
 	 *
 	 * Requests a new JWT access and refresh token for a user from the Yoast AI Service and stores it in the database
 	 * under usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
 	 *
@@ -65,6 +75,9 @@ interface Token_Manager_Interface {
 	 * Refreshes a stored JWT access token for a user with the Yoast AI Service and stores it in the database under
 	 * usermeta. The storing of the token happens in a HTTP callback that is triggered by this request.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_User $user The WP user.
 	 *
 	 * @return void
@@ -85,6 +98,9 @@ interface Token_Manager_Interface {
 	/**
 	 * Checks whether the token has expired.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $jwt The JWT.
 	 *
 	 * @return bool Whether the token has expired.
@@ -93,6 +109,9 @@ interface Token_Manager_Interface {
 
 	/**
 	 * Retrieves the access token.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user The WP user.
 	 *

@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 
 use RuntimeException;
@@ -15,6 +16,9 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * The base class for the callback routes.
+ *
+@deprecated 26.3
+ * @codeCoverageIgnore
  */
 abstract class Abstract_Callback_Route implements Route_Interface {
 
@@ -30,24 +34,27 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 *
 	 * @var Access_Token_User_Meta_Repository_Interface
 	 */
-	protected $access_token_repository;
+	private $access_token_repository;
 
 	/**
 	 * The refresh token repository instance.
 	 *
 	 * @var Refresh_Token_User_Meta_Repository_Interface
 	 */
-	protected $refresh_token_repository;
+	private $refresh_token_repository;
 
 	/**
 	 * The code verifier instance.
 	 *
 	 * @var Code_Verifier_User_Meta_Repository_Interface
 	 */
-	protected $code_verifier_repository;
+	private $code_verifier_repository;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The conditionals.
 	 */
@@ -58,11 +65,15 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Callback_Route constructor.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param Access_Token_User_Meta_Repository_Interface  $access_token_repository  The access token repository instance.
 	 * @param Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository The refresh token repository instance.
 	 * @param Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository The code verifier instance.
 	 */
 	public function __construct( Access_Token_User_Meta_Repository_Interface $access_token_repository, Refresh_Token_User_Meta_Repository_Interface $refresh_token_repository, Code_Verifier_User_Meta_Repository_Interface $code_verifier_repository ) {
+
 		$this->access_token_repository  = $access_token_repository;
 		$this->refresh_token_repository = $refresh_token_repository;
 		$this->code_verifier_repository = $code_verifier_repository;
@@ -73,6 +84,9 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	/**
 	 * Runs the callback to store connection credentials and the tokens locally.
 	 *
+	 * @deprecated 26.3
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The response of the callback action.
@@ -81,16 +95,18 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 	 * @throws RuntimeException If the verification code is not found.
 	 */
 	public function callback( WP_REST_Request $request ): WP_REST_Response {
-		$user_id = $request->get_param( 'user_id' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 26.3', 'Yoast\WP\SEO\AI\Authorization\User_Interface\Abstract_Callback_Route::callback' );
+
+		$user_id = $request['user_id'];
 		try {
 			$code_verifier = $this->code_verifier_repository->get_code_verifier( $user_id );
 
-			if ( $request->get_param( 'code_challenge' ) !== \hash( 'sha256', $code_verifier->get_code() ) ) {
+			if ( $request['code_challenge'] !== \hash( 'sha256', $code_verifier->get_code() ) ) {
 				throw new Unauthorized_Exception( 'Unauthorized' );
 			}
 
-			$this->access_token_repository->store_token( $user_id, $request->get_param( 'access_jwt' ) );
-			$this->refresh_token_repository->store_token( $user_id, $request->get_param( 'refresh_jwt' ) );
+			$this->access_token_repository->store_token( $user_id, $request['access_jwt'] );
+			$this->refresh_token_repository->store_token( $user_id, $request['refresh_jwt'] );
 			$this->code_verifier_repository->delete_code_verifier( $user_id );
 		} catch ( Unauthorized_Exception | RuntimeException $e ) {
 			return new WP_REST_Response( 'Unauthorized.', 401 );
