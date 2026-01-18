@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;

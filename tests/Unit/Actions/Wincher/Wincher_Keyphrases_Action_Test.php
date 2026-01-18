@@ -296,7 +296,6 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 							'keyword' => 'wincher',
 							'id'      => 12346,
 						],
-
 					],
 				]
 			);
@@ -424,7 +423,6 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 							'keyword' => 'wincher',
 							'id'      => 12346,
 						],
-
 					],
 				]
 			);

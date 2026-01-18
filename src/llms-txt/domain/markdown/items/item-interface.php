@@ -1,8 +1,10 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Items;
 
 use Yoast\WP\SEO\Llms_Txt\Application\Markdown_Escaper;
+
 /**
  * Represents a markdown item.
  */
