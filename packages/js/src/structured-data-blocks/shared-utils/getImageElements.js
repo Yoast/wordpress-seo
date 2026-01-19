@@ -4,7 +4,7 @@ import parse from "html-react-parser";
  * Gets all image elements from the given content.
  *
  * @param {string} content The content to search for image elements.
- * @returns {Array} An array of image elements found in the content.
+ * @returns {Object[]} An array of image elements found in the content.
  */
 export const getImageElements = ( content ) => {
 	if ( typeof content !== "string" || ! content.includes( "<img" ) ) {

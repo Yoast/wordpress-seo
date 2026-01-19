@@ -36,7 +36,7 @@ export const childrenToString = ( value ) => {
 
 /**
  * Builds an image object from a node.
- * @param {object} node The image node.
+ * @param {Object} node The image node.
  * @returns {{type: string, key: null, props: {src: string, alt: string, className: string, style: string}}} The image object.
  */
 const buildImageObject = ( node ) => {
@@ -54,7 +54,7 @@ const buildImageObject = ( node ) => {
  * Extracts image elements from an old array-based text field.
  *
  * @param {Array} textArray The old text array that may contain image elements.
- * @returns {Array} Array of image objects in the new format.
+ * @returns {Object[]} Array of image objects in the new format.
  */
 const extractImagesFromTextArray = ( textArray ) => {
 	if ( ! Array.isArray( textArray ) ) {
@@ -69,9 +69,9 @@ const extractImagesFromTextArray = ( textArray ) => {
 
 /**
  * Gets the image array for a step, extracting from text if necessary.
- * @param {object[]} imageArray The existing images array.
+ * @param {Object[]} imageArray The existing images array.
  * @param {Array|string} content The text content to extract images from if needed.
- * @returns {object[]} The image array.
+ * @returns {Object[]} The image array.
  */
 export const getImageArray = ( imageArray, content ) => {
 	if ( Array.isArray( content ) && imageArray.length === 0 ) {
