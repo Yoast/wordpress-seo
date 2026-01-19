@@ -705,7 +705,6 @@ export default class HowTo extends Component {
 					checked={ unorderedList || false }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
-					__next40pxDefaultSize={ true }
 					__nextHasNoMarginBottom={ true }
 				/>
 			</PanelBody>
