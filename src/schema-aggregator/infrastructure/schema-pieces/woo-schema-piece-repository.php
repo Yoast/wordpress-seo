@@ -2,13 +2,15 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces;
 
+use Exception;
 use WC_Structured_Data;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\External_Schema_Piece_Repository_Interface;
 
 /**
- * The Schema_Piece repository.
+ * The WooCommerce schema piece repository.
  */
-class Woo_Schema_Piece_Repository {
+class Woo_Schema_Piece_Repository implements External_Schema_Piece_Repository_Interface {
 
 	/**
 	 * The WooCommerce Conditional.
@@ -27,29 +29,37 @@ class Woo_Schema_Piece_Repository {
 	}
 
 	/**
-	 * Collect Product schema for WooCommerce products.
+	 * Checks if this repository supports the given post type.
 	 *
-	 * ## How it Works
+	 * @param string $post_type The post type to check.
 	 *
-	 * Hooks into 'wpseo_schema_product' filter to capture enriched Product schema
-	 * Triggers WooCommerce's schema generation via WC_Structured_Data
-	 * Returns the captured Product entity
+	 * @return bool True if this repository can provide schema for the post type.
+	 */
+	public function supports( string $post_type ): bool {
+		return $this->woocommerce_conditional->is_met() && $post_type === 'product';
+	}
+
+	/**
+	 * Collects product schema pieces for WooCommerce products.
+	 *
+	 * Hooks into 'wpseo_schema_product' filter to capture enriched Product schema.
+	 * Triggers WooCommerce's schema generation via WC_Structured_Data.
+	 * Returns the captured Product entity.
 	 *
 	 * @param int $post_id Product post ID.
 	 *
-	 * @return array<string,array<string>>|null Product schema entity or null if unavailable.
+	 * @return array<array<string,string|int|bool|array>> Product schema pieces (empty array if unavailable).
 	 */
-	public function collect_product_schema( int $post_id ): ?array {
-
+	public function collect( int $post_id ): array {
 		if ( ! $this->woocommerce_conditional->is_met() ) {
-			return null;
+			return [];
 		}
 
 		try {
 			$product = \wc_get_product( $post_id );
 
 			if ( ! $product || ! \is_a( $product, 'WC_Product' ) ) {
-				return null;
+				return [];
 			}
 
 			$captured_schema = null;
@@ -71,12 +81,12 @@ class Woo_Schema_Piece_Repository {
 			\remove_filter( 'wpseo_schema_product', $capture_filter, 999 );
 
 			if ( ! \is_array( $captured_schema ) ) {
-				return null;
+				return [];
 			}
 
-			return $captured_schema;
+			return [ $captured_schema ];
 		} catch ( Exception $e ) {
-			return null;
+			return [];
 		}
 	}
 }

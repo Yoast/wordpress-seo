@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
+use Yoast\WP\SEO\Schema_Aggregator\Domain\External_Schema_Piece_Repository_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
@@ -60,22 +61,30 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 	private $indexable_repository_factory;
 
 	/**
-	 * The woo schema piece repository.
+	 * The WordPress global state adapter.
 	 *
-	 * @var Woo_Schema_Piece_Repository
+	 * @var WordPress_Global_State_Adapter
 	 */
-	private $woo_schema_piece_repository;
+	private $global_state_adapter;
+
+	/**
+	 * External schema piece repositories.
+	 *
+	 * @var array<External_Schema_Piece_Repository_Interface>
+	 */
+	private $external_repositories;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer         $memoizer                     The meta tags context memoizer.
-	 * @param Indexable_Helper                   $indexable_helper             The indexable helper.
-	 * @param Meta_Tags_Context_Memoizer_Adapter $adapter                      The adapter factory.
-	 * @param Aggregator_Config                  $config                       The configuration provider.
-	 * @param Schema_Enhancement_Factory         $enhancement_factory          The schema enhancement factory.
-	 * @param Indexable_Repository_Factory       $indexable_repository_factory The indexable repository factory.
-	 * @param Woo_Schema_Piece_Repository        $woo_schema_piece_repository  The woo schema piece repository.
+	 * @param Meta_Tags_Context_Memoizer                 $memoizer                     The meta tags context memoizer.
+	 * @param Indexable_Helper                           $indexable_helper             The indexable helper.
+	 * @param Meta_Tags_Context_Memoizer_Adapter         $adapter                      The adapter factory.
+	 * @param Aggregator_Config                          $config                       The configuration provider.
+	 * @param Schema_Enhancement_Factory                 $enhancement_factory          The schema enhancement factory.
+	 * @param Indexable_Repository_Factory               $indexable_repository_factory The indexable repository factory.
+	 * @param WordPress_Global_State_Adapter             $global_state_adapter         The global state adapter.
+	 * @param External_Schema_Piece_Repository_Interface ...$external_repositories     The external schema piece repositories.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $memoizer,
@@ -84,7 +93,8 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		Aggregator_Config $config,
 		Schema_Enhancement_Factory $enhancement_factory,
 		Indexable_Repository_Factory $indexable_repository_factory,
-		Woo_Schema_Piece_Repository $woo_schema_piece_repository
+		WordPress_Global_State_Adapter $global_state_adapter,
+		External_Schema_Piece_Repository_Interface ...$external_repositories
 	) {
 		$this->memoizer                     = $memoizer;
 		$this->indexable_helper             = $indexable_helper;
@@ -92,7 +102,8 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$this->config                       = $config;
 		$this->enhancement_factory          = $enhancement_factory;
 		$this->indexable_repository_factory = $indexable_repository_factory;
-		$this->woo_schema_piece_repository  = $woo_schema_piece_repository;
+		$this->global_state_adapter         = $global_state_adapter;
+		$this->external_repositories        = $external_repositories;
 	}
 
 	/**
@@ -108,21 +119,20 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$indexable_repository = $this->indexable_repository_factory->get_repository( $this->indexable_helper->should_index_indexables() );
 		$indexables           = $indexable_repository->get( $page, $page_size, $post_type );
 		$schema_pieces        = [];
+
 		foreach ( $indexables as $indexable ) {
 			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
 				continue;
 			}
+
+			$this->global_state_adapter->set_global_state( $indexable );
 			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
 			$context       = $this->memoizer->get( $indexable, $page_type );
 			$context_array = $this->adapter->meta_tags_context_to_array( $context );
 			$pieces_data   = $context_array['@graph'];
 
-			if ( $post_type === 'product' ) {
-				$product_schema = $this->woo_schema_piece_repository->collect_product_schema( $indexable->object_id );
-				if ( $product_schema !== null ) {
-					$pieces_data[] = $product_schema;
-				}
-			}
+			// Collect external schema pieces from all supporting repositories.
+			$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
 
 			foreach ( $pieces_data as $piece_data ) {
 				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
@@ -132,8 +142,31 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 				}
 				$schema_pieces[] = $schema_piece;
 			}
+
+			$this->global_state_adapter->reset_global_state();
 		}
+
 		return new Schema_Piece_Collection( $schema_pieces );
+	}
+
+	/**
+	 * Collects external schema pieces from all supporting repositories.
+	 *
+	 * @param array<array<string,string|int|bool|array>> $pieces_data The existing schema pieces.
+	 * @param string                                     $post_type   The post type.
+	 * @param int                                        $post_id     The post ID.
+	 *
+	 * @return array<array<string,string|int|bool|array>> The schema pieces with external pieces added.
+	 */
+	private function collect_external_schema( array $pieces_data, string $post_type, int $post_id ): array {
+		foreach ( $this->external_repositories as $repository ) {
+			if ( $repository->supports( $post_type ) ) {
+				$external_pieces = $repository->collect( $post_id );
+				$pieces_data     = \array_merge( $pieces_data, $external_pieces );
+			}
+		}
+
+		return $pieces_data;
 	}
 
 	/**
@@ -155,7 +188,6 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 						continue;
 					}
 					$schema_types[ $value ] = $value;
-
 				}
 			}
 		}
