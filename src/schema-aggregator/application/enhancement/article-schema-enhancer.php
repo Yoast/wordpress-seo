@@ -75,7 +75,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	 *
 	 * @return array<string> The enhanced schema data.
 	 */
-	private function enhance_schema_piece( array $schema_data, Indexable $indexable ): array {
+	protected function enhance_schema_piece( array $schema_data, Indexable $indexable ): array {
 		try {
 			$has_excerpt = false;
 

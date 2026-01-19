@@ -1,6 +1,5 @@
 <?php
 
-
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Schema\Application\Configuration;
 
@@ -15,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
 /**
  * Responsible for the schema configuration.
+ *
+ * @makePublic
  */
 class Schema_Configuration {
 
