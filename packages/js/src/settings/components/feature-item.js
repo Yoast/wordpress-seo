@@ -8,23 +8,15 @@ import { Button, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library"
 import { LockOpenIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { FormikValueChangeField } from "../../shared-admin/components/form";
-import contentOptimizationGradient from "../../../../../images/gradient-content-optimization.png";
-import siteStructureGradient from "../../../../../images/gradient-site-structure.png";
-import technicalSeoGradient from "../../../../../images/gradient-technical-seo.png";
-import socialSharingGradient from "../../../../../images/gradient-social-sharing.png";
-import toolsGradient from "../../../../../images/gradient-tools.png";
-import aiToolsGradient from "../../../../../images/gradient-ai-tools.svg";
 
-
-const sectionGradients = {
-	"ai-tools": aiToolsGradient,
-	"content-optimization": contentOptimizationGradient,
-	"site-structure": siteStructureGradient,
-	"technical-seo": technicalSeoGradient,
-	"social-sharing": socialSharingGradient,
-	tools: toolsGradient,
+const gradientClasses = {
+	"ai-tools": "yst-bg-ai-500",
+	"content-optimization": "yst-bg-gradient-content-optimization",
+	"technical-seo": "yst-bg-gradient-technical-seo",
+	"social-sharing": "yst-bg-gradient-social-sharing",
+	"site-structure": "yst-bg-gradient-site-structure",
+	tools: "yst-bg-gradient-tools",
 };
-
 
 /**
  * @param {string} id The ID.
@@ -141,12 +133,13 @@ export const FeatureItem = ( {
 	};
 
 	return <div id={ id } className="yst-flex yst-gap-4 yst-items-start">
-		{ Icon && has( sectionGradients, featureSectionId ) &&
-			<div className="yst-relative yst-shrink-0">
-				<img
-					src={ sectionGradients[ featureSectionId ] } className={ classNames(
+		{ Icon && featureSectionId && has( gradientClasses, featureSectionId ) &&
+			<div className="yst-relative yst-shrink-0 yst-w-[42px] yst-h-[42px]">
+				<div
+					className={ classNames(
 						shouldDimHeaderImage ? "yst-opacity-0" : "",
-						"yst-w-[42px] yst-h-[42px] yst-transition-opacity yst-duration-200 yst-rounded-md" ) } alt=""
+						gradientClasses[ featureSectionId ],
+						"yst-w-[42px] yst-h-[42px] yst-transition-opacity yst-duration-200 yst-rounded-md" ) }
 				/>
 				<Icon
 					className={ classNames(

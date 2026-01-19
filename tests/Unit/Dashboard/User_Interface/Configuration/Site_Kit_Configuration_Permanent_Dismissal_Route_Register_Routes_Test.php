@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Configuration;
 
@@ -37,7 +38,6 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Register_Routes_Tes
 								'type'              => 'bool',
 								'sanitize_callback' => 'rest_sanitize_boolean',
 							],
-
 						],
 					],
 				]

@@ -164,7 +164,6 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_orphaned_content_seo_links_target_indexable_id' => function ( $limit ) {
 					return $this->cleanup_repository->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
 				},
-
 			],
 			$this->get_additional_misc_cleanups()
 		);
