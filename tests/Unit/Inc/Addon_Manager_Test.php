@@ -911,7 +911,6 @@ final class Addon_Manager_Test extends TestCase {
 							'Version' => '9.5',
 						],
 					],
-
 				],
 				'data'     => (object) [ 'response' => [] ],
 				'expected' => (object) [ 'response' => [] ],
