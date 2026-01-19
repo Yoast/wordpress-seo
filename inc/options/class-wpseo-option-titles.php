@@ -836,7 +836,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'metadesc-'        => 'metadesc-tax-',
 				'noindex-'         => 'noindex-tax-',
 				'tax-hideeditbox-' => 'hideeditbox-tax-',
-
 			];
 
 			$taxonomy_names  = get_taxonomies( [ 'public' => true ], 'names' );

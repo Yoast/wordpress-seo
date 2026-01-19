@@ -66,7 +66,6 @@ final class Missing_Indexables_Collector_Test extends TestCase {
 				],
 			],
 			[
-
 				[ $indexation_action, 'somerandomobject' ],
 				$indexation_action,
 				[
@@ -77,14 +76,11 @@ final class Missing_Indexables_Collector_Test extends TestCase {
 						],
 					],
 				],
-
 			],
 			[
-
 				null,
 				$indexation_action,
 				[ 'missing_indexables' => [] ],
-
 			],
 		];
 	}

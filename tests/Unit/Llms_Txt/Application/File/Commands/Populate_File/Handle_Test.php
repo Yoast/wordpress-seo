@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\File\Commands\Populate_File;
 
@@ -103,7 +104,6 @@ final class Handle_Test extends Abstract_Populate_File_Command_Handler_Test {
 			0,
 			1,
 			0,
-
 		];
 		yield 'file managed by Yoast and written' => [
 			true,
