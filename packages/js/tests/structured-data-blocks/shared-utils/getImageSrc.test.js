@@ -332,14 +332,14 @@ describe( "getImageSrc", () => {
 				expect( result ).toBe( "https://example.com/image.jpg" );
 			} );
 
-			it( "should return false when first image has no src", () => {
+			it( "should return the first valid image with src", () => {
 			// querySelector returns the first img element, which has no src
 				const html = `
 				<img alt="No source">
 				<img src="https://example.com/valid.jpg" alt="Valid">
 			`;
 				const result = getImageSrc( html );
-				expect( result ).toBe( false );
+				expect( result ).toBe( "https://example.com/valid.jpg" );
 			} );
 		} );
 	} );
