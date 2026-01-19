@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-import { Component } from "@wordpress/element";
+import { Component, renderToString } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 import { convertToHTMLString, getImageSrc } from "../../shared-utils";
@@ -229,10 +229,12 @@ export default class HowToStep extends Component {
 			},
 		} = this.props;
 
-		const imageHtml = `<img class="wp-image-${ media.id }" alt="${ media.alt || "" }" src="${ media.url }" style="max-width: 100%;" />`;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style="max-width:100%;" />;
 
-		// Append to existing text (which is now a string).
-		const newText = ( text || "" ) + imageHtml;
+		// Serializes the image element to string and append it to the existing text (which is now a string).
+		// renderToString is used to convert the image element to an HTML string instead of just creating an image string manually,
+		// to ensure safe and secure rendering. renderToString handles any necessary escaping and encoding that lowers the risk of XSS attacks.
+		const newText = ( text || "" ) + renderToString( image );
 
 		this.props.onChange( name, newText, name, text, index );
 	}
