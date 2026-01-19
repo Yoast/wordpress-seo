@@ -138,8 +138,8 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders the media upload button.
 	 *
-	 * @param {object} props      The receive props.
-	 * @param {func}   props.open Opens the media upload dialog.
+	 * @param {Object}		props      The receive props.
+	 * @param {Function}	props.open Opens the media upload dialog.
 	 *
 	 * @returns {wp.Element} The media upload button.
 	 */
@@ -240,7 +240,7 @@ export default class HowToStep extends Component {
 	/**
 	 * Performs a shallow equal to prevent every step from being rerendered.
 	 *
-	 * @param {object} nextProps The next props the component will receive.
+	 * @param {Object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
@@ -252,28 +252,28 @@ export default class HowToStep extends Component {
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} step The how-to step.
+	 * @param {Object} step The how-to step.
 	 *
 	 * @returns {wp.Element} The component to be rendered.
 	 */
 	static Content( step ) {
-		const { name, text } = step;
+		const { name, text, id } = step;
 		// Backward compatibility for legacy array format.
 		const stepName = Array.isArray( name ) ? convertToHTMLString( name ) : name;
 		const stepText = Array.isArray( text ) ? convertToHTMLString( text ) : text;
 
 		return (
-			<li className={ "schema-how-to-step" } id={ step.id } key={ step.id }>
+			<li className={ "schema-how-to-step" } id={ id } key={ id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
-					key={ step.id + "-name" }
+					key={ id + "-name" }
 					value={ stepName }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
-					key={ step.id + "-text" }
+					key={ id + "-text" }
 					value={ stepText }
 				/>
 			</li>

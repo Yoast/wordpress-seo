@@ -40,11 +40,11 @@ export default class FAQ extends Component {
 	}
 
 	/**
-	 * Generates a pseudo-unique" id.
+	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix An (optional) prefix to use.
+	 * @param {string} prefix A prefix to use.
 	 *
-	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -108,8 +108,8 @@ export default class FAQ extends Component {
 	 * @param {number|null}	[index=null] The index of the Question after which a new Question should be added.
 	 * @param {string}	[question=""]	The question of the new Question.
 	 * @param {string}	[answer=""]		The answer of the new Question.
-	 * @param {array}	[images=""]		The images of the new Question.
-	 * @param {bool}	[focus=true]	Whether or not to focus the new Question.
+	 * @param {Object[]}	[images=[]]		The images of the new Question.
+	 * @param {boolean}		[focus=true]	Whether or not to focus the new Question.
 	 *
 	 * @returns {void}
 	 */
@@ -286,9 +286,9 @@ export default class FAQ extends Component {
 	 * Returns the component to be used to render
 	 * the FAQ block on WordPress (e.g. not in the editor).
 	 *
-	 * @param {object} attributes The attributes of the FAQ block.
+	 * @param {Object} attributes The attributes of the FAQ block.
 	 *
-	 * @returns {Component} The component representing a FAQ block.
+	 * @returns {JSX.Element} The component representing a FAQ block.
 	 */
 	static Content( attributes ) {
 		const { questions, className } = attributes;

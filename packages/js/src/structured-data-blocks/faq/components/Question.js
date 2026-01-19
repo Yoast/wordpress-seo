@@ -254,7 +254,7 @@ export default class Question extends Component {
 	 * Returns the component of the given question and answer to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} question The question and its answer.
+	 * @param {Object} question The question and its answer.
 	 *
 	 * @returns {JSX.Element} The component to be rendered.
 	 */
@@ -283,7 +283,7 @@ export default class Question extends Component {
 	/**
 	 * Perform a shallow equal to prevent every step from being rerendered.
 	 *
-	 * @param {object} nextProps The next props the component will receive.
+	 * @param {Object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */

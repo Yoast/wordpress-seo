@@ -125,7 +125,7 @@ export default class HowTo extends Component {
 	/**
 	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} [prefix] The prefix to use.
+	 * @param {string} prefix The prefix to use.
 	 *
 	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
@@ -187,11 +187,11 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number}  [index]      The index of the Step after which a new Step should be added.
-	 * @param {string}  [name]       The title of the new Step.
-	 * @param {string}  [text]       The description of the new Step.
-	 * @param {array}  [images]      The images of the new Step.
-	 * @param {boolean}    [focus=true] Whether to focus the new Step.
+	 * @param {number}  [index]	The index of the Step after which a new Step should be added.
+	 * @param {string}  [name]	The title of the new Step.
+	 * @param {string}  [text]	The description of the new Step.
+	 * @param {Object[]}	[images]		The images of the new Step.
+	 * @param {boolean}		[focus=true]	Whether to focus the new Step.
 	 *
 	 * @returns {void}
 	 */
@@ -324,7 +324,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns an array of How-to step components to be rendered on screen.
 	 *
-	 * @returns {Component[]} The step components.
+	 * @returns {HowToStep[]} The step components.
 	 */
 	getSteps() {
 		if ( ! this.props.attributes.steps ) {
@@ -382,9 +382,9 @@ export default class HowTo extends Component {
 	/**
 	 * Renders the how-to steps.
 	 *
-	 * @param {array} steps The steps data.
+	 * @param {Object[]} steps The array of steps.
 	 *
-	 * @returns {array} The HowToStep elements.
+	 * @returns {HowToStep.Content[]} The HowToStep content elements.
 	 */
 	static getStepsContent( steps ) {
 		if ( ! steps ) {
@@ -403,7 +403,7 @@ export default class HowTo extends Component {
 	 * Returns the component to be used to render
 	 * the How-to block on WordPress (e.g. not in the editor).
 	 *
-	 * @param {object} props the attributes of the How-to block.
+	 * @param {Object} props the attributes of the How-to block.
 	 *
 	 * @returns {Component} The component representing a How-to block.
 	 */
@@ -563,7 +563,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the days input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
@@ -575,7 +575,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the hours input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
@@ -587,7 +587,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the minutes input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
