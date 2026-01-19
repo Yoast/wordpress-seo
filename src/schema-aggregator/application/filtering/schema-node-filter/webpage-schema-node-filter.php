@@ -45,6 +45,8 @@ class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 *
 	 * @param Schema_Piece_Collection $schema The full schema.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array<string> The IDs of the Article schema pieces.
 	 */
 	private function get_articles_ids( Schema_Piece_Collection $schema ): array {
