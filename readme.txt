@@ -326,8 +326,8 @@ Yoast SEO 26.8 brings more enhancements and bugfixes. [Find more information abo
 
 * Adds an opt-in notification for the task list feature on the general page.
 * Improves the translatability of some tasks' title in the task list.
-* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
 * Replaces Yoast product logos with new designs across the plugin’s interface.
+* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
 
 = 26.7 =
 
