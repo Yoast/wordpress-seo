@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Robots_Txt_Integra
 /**
  * Test class for the get_conditionals method.
  *
+ * @group schema-aggregator
  * @group Site_Schema_Robots_Txt_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Robots_Txt_Integration::get_conditionals

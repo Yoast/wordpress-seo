@@ -9,6 +9,7 @@ use Generator;
 /**
  * Test class for the get_default_per_post_type method.
  *
+ * @group schema-aggregator
  * @group Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config::get_default_per_post_type

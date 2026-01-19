@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Infrastructure\Config;
 /**
  * Test class for the get_max_per_page method.
  *
+ * @group schema-aggregator
  * @group Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config::get_max_per_page

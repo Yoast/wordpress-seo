@@ -9,6 +9,7 @@ use Generator;
 /**
  * Test class for the get_per_page method.
  *
+ * @group schema-aggregator
  * @group Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config::get_per_page

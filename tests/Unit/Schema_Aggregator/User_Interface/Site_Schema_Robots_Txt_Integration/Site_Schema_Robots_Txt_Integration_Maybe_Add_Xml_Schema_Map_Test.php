@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Rou
 /**
  * Test class for the maybe_add_xml_schema_map method.
  *
+ * @group schema-aggregator
  * @group Site_Schema_Robots_Txt_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Robots_Txt_Integration::maybe_add_xml_schema_map

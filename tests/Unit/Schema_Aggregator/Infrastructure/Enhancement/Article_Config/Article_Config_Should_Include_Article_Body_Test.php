@@ -9,6 +9,7 @@ use Generator;
 /**
  * Test class for the should_include_article_body method.
  *
+ * @group schema-aggregator
  * @group Article_Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config::should_include_article_body

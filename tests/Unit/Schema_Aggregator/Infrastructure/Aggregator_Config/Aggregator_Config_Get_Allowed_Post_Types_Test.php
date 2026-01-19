@@ -10,6 +10,7 @@ use stdClass;
 /**
  * Test class for the get_allowed_post_types method.
  *
+ * @group schema-aggregator
  * @group Aggregator_Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config::get_allowed_post_types

@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Abstract_Cache_Listener_
 /**
  * Test class for the Abstract_Cache_Listener_Integration constructor.
  *
+ * @group schema-aggregator
  * @group Abstract_Cache_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Abstract_Cache_Listener_Integration::__construct

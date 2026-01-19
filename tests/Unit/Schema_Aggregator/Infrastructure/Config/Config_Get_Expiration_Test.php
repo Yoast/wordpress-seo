@@ -10,6 +10,7 @@ use Mockery;
 /**
  * Test class for the get_expiration method.
  *
+ * @group schema-aggregator
  * @group Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config::get_expiration
