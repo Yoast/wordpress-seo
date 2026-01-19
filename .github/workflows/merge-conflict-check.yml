@@ -21,4 +21,4 @@ jobs:
     if: github.repository_owner == 'Yoast'
 
     name: Check PRs for merge conflicts
-    uses: Yoast/.github/.github/workflows/reusable-merge-conflict-check.yml@main
+    uses: Yoast/.github/.github/workflows/reusable-merge-conflict-check.yml@c14f66005ab514663a48d00712db67617c98728c # v1.0.0

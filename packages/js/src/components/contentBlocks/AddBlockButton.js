@@ -19,9 +19,14 @@ import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
  */
 export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const { insertBlock, replaceBlock } = useDispatch( "core/block-editor" );
-	const { blockInsertionPoint, blocks } = useSelect( select => ( {
+	const { blockInsertionPoint, editorBlocks, isTemplateLocked, postContentBlock } = useSelect( select => ( {
 		blockInsertionPoint: select( "core/block-editor" ).getBlockInsertionPoint(),
-		blocks: select( "core/block-editor" ).getBlocks(),
+		/*
+		 This is the list of the content blocks in the editor, including those parts of the content in template-locked mode.
+		 */
+		editorBlocks: select( "core/editor" ).getEditorBlocks(),
+		isTemplateLocked: select( "core/editor" ).getRenderingMode() === "template-locked",
+		postContentBlock: select( "core/block-editor" ).getBlocksByName( "core/post-content" ),
 	} ), [] );
 	const [ isClicked, setIsClicked ] = useState( false );
 	const [ showTooltip, setShowTooltip ] = useState( false );
@@ -48,8 +53,10 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 			/*
 			 Get the block from the editor with this index.
 			 We use index - 1 because the blockInsertionPoint index starts from 1.
+			 In both "template-locked" and editing modes, we need to refer to the list of content blocks
+			 to determine the block at the insertion point.
 			 */
-			const blockAtIndex = blocks[ index - 1 ];
+			const blockAtIndex = editorBlocks[ index - 1 ];
 			const isBlockAtIndexEmpty = blockAtIndex ? blockAtIndex.name === "core/paragraph" && blockAtIndex.attributes.content?.text === "" : false;
 			const block = createBlock( blockName );
 			/*
@@ -64,16 +71,31 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 					 If the block at the insertion point is an empty paragraph, we want to replace it with the new block.
 					 This prevents having an empty paragraph above the newly inserted block.
 					 This is usually the case when the user hits the enter key to create a new block.
-					 The newly created block is an empty paragraph by default
+					 The newly created block is an empty paragraph by default.
 					 */
 					replaceBlock( blockAtIndex.clientId, block );
 				} else {
-					insertBlock( block, index );
+					if ( isTemplateLocked ) {
+						if ( postContentBlock?.length ) {
+							/*
+							 Insert as the last child of post-content.
+							 This is the same behaviour as Gutenberg's "Add block" button when in template-locked mode.
+							 */
+							insertBlock(
+								block,
+								// eslint-disable-next-line no-undefined
+								undefined,
+								postContentBlock[ 0 ]
+							);
+						}
+					} else {
+						insertBlock( block, index );
+					}
 				}
 				setIsClicked( false );
 			}, 300 );
 		}
-	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, blocks ] );
+	}, [ showUpsellBadge, blockName, insertBlock, replaceBlock, blockInsertionPoint, editorBlocks, isTemplateLocked, postContentBlock ] );
 
 	const handleFocusAndMouseEnter = useCallback( () => {
 		setShowTooltip( true );

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Plans\Application;
 
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Plans\Domain\Add_Ons\Add_On_Interface;
 
 /**
@@ -17,12 +18,21 @@ class Add_Ons_Collector {
 	private $add_ons;
 
 	/**
+	 * Holds the WPSEO_Addon_Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
+
+	/**
 	 * Constructs the instance.
 	 *
-	 * @param Add_On_Interface ...$add_ons All add-ons.
+	 * @param WPSEO_Addon_Manager $addon_manager The WPSEO_Addon_Manager.
+	 * @param Add_On_Interface    ...$add_ons    All add-ons.
 	 */
-	public function __construct( Add_On_Interface ...$add_ons ) {
-		$this->add_ons = $add_ons;
+	public function __construct( WPSEO_Addon_Manager $addon_manager, Add_On_Interface ...$add_ons ) {
+		$this->addon_manager = $addon_manager;
+		$this->add_ons       = $add_ons;
 	}
 
 	/**
@@ -40,12 +50,13 @@ class Add_Ons_Collector {
 	 * @return array<string, string|bool|array<string, string>> The add-ons in an array format.
 	 */
 	public function to_array(): array {
-		$result = [];
+		$result        = [];
+		$active_addons = $this->addon_manager->has_active_addons();
 		foreach ( $this->add_ons as $add_on ) {
 			$result[ $add_on->get_id() ] = [
 				'id'         => $add_on->get_id(),
 				'isActive'   => $add_on->is_active(),
-				'hasLicense' => $add_on->has_license(),
+				'hasLicense' => $active_addons && $add_on->has_license(),
 				'ctb'        => [
 					'action' => $add_on->get_ctb_action(),
 					'id'     => $add_on->get_ctb_id(),

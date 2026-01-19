@@ -29,6 +29,12 @@ const config = {
 		"text-summary",
 	],
 	testEnvironment: "jsdom",
+	transform: {
+		"^.+\\.[jt]sx?$": "babel-jest",
+	},
+	transformIgnorePatterns: [
+		"/node_modules/(?!@yoast/ui-library|@yoast/social-metadata-forms|@yoast/components)",
+	],
 };
 
 module.exports = config;

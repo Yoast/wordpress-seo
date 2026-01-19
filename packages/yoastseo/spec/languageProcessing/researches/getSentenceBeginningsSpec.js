@@ -152,6 +152,15 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].count ).toBe( 1 );
 	} );
 
+	it( "excludes sentences that contains only shortcodes", function() {
+		mockPaper = new Paper( "[shortcode]. [shortcode]. [shortcode]. First sentence.", { shortcodes: [ "shortcode" ] } );
+		researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
+		expect( sentenceBeginnings ).toHaveLength( 1 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "first" );
+	} );
+
 	it( "returns an object with English sentence beginnings with paragraph tags - it should match over paragraphs", function() {
 		mockPaper = new Paper( "<p>Sentence 1. Sentence 2.</p><p>Sentence 3.</p>" );
 		researcher = new EnglishResearcher( mockPaper );

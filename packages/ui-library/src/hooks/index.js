@@ -8,3 +8,4 @@ export { default as useToggleState } from "./use-toggle-state";
 export { default as useMediaQuery } from "./use-media-query";
 
 export { useModalContext } from "../components/modal/hooks";
+export { useImageSelectContext } from "../components/image-select/hooks";
