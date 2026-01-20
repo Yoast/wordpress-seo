@@ -93,9 +93,9 @@ final class WebPage_Schema_Node_Property_Filter_Test extends TestCase {
 			],
 			'WebPage with only breadcrumb to be removed' => [
 				[
-					'@type'      => 'WebPage',
-					'name'       => 'Page with Breadcrumb',
-					'breadcrumb' => [
+					'@type'       => 'WebPage',
+					'name'        => 'Page with Breadcrumb',
+					'breadcrumb'  => [
 						'@type'           => 'BreadcrumbList',
 						'itemListElement' => [],
 					],
@@ -123,17 +123,17 @@ final class WebPage_Schema_Node_Property_Filter_Test extends TestCase {
 			],
 			'WebPage without properties to be removed' => [
 				[
-					'@type'       => 'WebPage',
-					'name'        => 'Clean Page',
-					'description' => 'No properties to remove',
-					'url'         => 'https://example.com/clean',
+					'@type'         => 'WebPage',
+					'name'          => 'Clean Page',
+					'description'   => 'No properties to remove',
+					'url'           => 'https://example.com/clean',
 					'datePublished' => '2023-01-01',
 				],
 				[
-					'@type'       => 'WebPage',
-					'name'        => 'Clean Page',
-					'description' => 'No properties to remove',
-					'url'         => 'https://example.com/clean',
+					'@type'         => 'WebPage',
+					'name'          => 'Clean Page',
+					'description'   => 'No properties to remove',
+					'url'           => 'https://example.com/clean',
 					'datePublished' => '2023-01-01',
 				],
 			],
@@ -152,9 +152,9 @@ final class WebPage_Schema_Node_Property_Filter_Test extends TestCase {
 			],
 			'WebPage with empty breadcrumb array' => [
 				[
-					'@type'      => 'WebPage',
-					'name'       => 'Page with Empty Breadcrumb',
-					'breadcrumb' => [],
+					'@type'       => 'WebPage',
+					'name'        => 'Page with Empty Breadcrumb',
+					'breadcrumb'  => [],
 					'description' => 'Page description',
 				],
 				[
