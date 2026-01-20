@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
-
+use Yoast\WP\SEO\Task_List\Application\Tasks\Set_Search_Appearance_Templates;
 /**
  * Handles registering post type tasks.
  *
@@ -82,7 +82,12 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 	 */
 	private function get_post_type_tasks(): array {
 		// Remove this line when we decide to re-instate the search appearance post type tasks.
-		// $this->post_type_tasks = [];
+		$this->post_type_tasks = \array_filter(
+			$this->post_type_tasks,
+			function( $task ) {
+				return ! $task instanceof Set_Search_Appearance_Templates;
+			}
+		);
 
 		/**
 		 * Filter: 'wpseo_task_list_post_type_tasks' - Allows adding more post type tasks to the task list.
