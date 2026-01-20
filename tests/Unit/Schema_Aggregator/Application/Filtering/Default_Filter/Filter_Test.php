@@ -1,15 +1,11 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Filtering;
+namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Filtering\Default_Filter;
 
 use Brain\Monkey\Functions;
-use Mockery;
-use Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Default_Filter;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece;
 use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
-use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_Context_Map_Repository;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Tests the Default_Filter class.
@@ -18,32 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group schema-aggregator
  */
-final class Default_Filter_Test extends TestCase {
-
-	/**
-	 * The instance of Default_Filter being tested.
-	 *
-	 * @var Default_Filter
-	 */
-	private $instance;
-
-	/**
-	 * The elements context map repository mock.
-	 *
-	 * @var Mockery\MockInterface|Elements_Context_Map_Repository
-	 */
-	private $elements_context_map_repository;
-
-	/**
-	 * Sets up the test fixtures.
-	 *
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-		$this->elements_context_map_repository = Mockery::mock( Elements_Context_Map_Repository::class );
-		$this->instance                        = new Default_Filter( $this->elements_context_map_repository );
-	}
+final class Filter_Test extends Abstract_Default_Filter_Test {
 
 	/**
 	 * Tests the filter method of Default_Filter.
