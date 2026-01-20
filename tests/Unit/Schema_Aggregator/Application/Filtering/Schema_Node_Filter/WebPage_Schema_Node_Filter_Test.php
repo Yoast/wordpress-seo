@@ -38,7 +38,7 @@ final class WebPage_Schema_Node_Filter_Test extends TestCase {
 	/**
 	 * Tests the filter method of WebPage_Schema_Node_Filter.
 	 *
-	 * @dataProvider filter_data_provider
+	 * @dataProvider filter_data
 	 *
 	 *                                   @param array<array<string, string>> $schema_data       The full schema data.
 	 *                                                        @param array<string, string>        $schema_piece_data The schema piece data to be filtered.
