@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Base class for WebSite_Schema_Node_Filter tests.
  */
-class Abstract_WebSite_Schema_Node_Filter_Test extends TestCase {
+final class Abstract_WebSite_Schema_Node_Filter_Test extends TestCase {
 
 	/**
 	 * The WordPress_Current_Site_URL_Provider mock.
