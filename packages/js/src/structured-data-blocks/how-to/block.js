@@ -6,7 +6,6 @@ import { registerBlockType } from "@wordpress/blocks";
 import block from "./block.json";
 import HowTo from "./components/HowTo";
 import legacy from "./legacy";
-import * as v27_0 from "./legacy/27.0";
 
 registerBlockType( block, {
 	/**
@@ -16,7 +15,7 @@ registerBlockType( block, {
 	 * The "edit" property must be a valid function.
 	 *
 	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
-	 * @returns {Component} The editor component.
+	 * @returns {JSX.Element} The editor component.
 	 */
 	edit: ( { attributes, setAttributes, className } ) => {
 		const blockProps = useBlockProps();
@@ -38,7 +37,7 @@ registerBlockType( block, {
 	 * The "save" property must be specified and must be a valid function.
 	 *
 	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
-	 * @returns {Component} The display component.
+	 * @returns {JSX.Element} The display component.
 	 */
 	save: ( { attributes } ) => {
 		const blockProps = useBlockProps.save( attributes );
