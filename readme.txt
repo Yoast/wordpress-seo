@@ -14,10 +14,10 @@ Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade fo
 
 ## Yoast SEO: The #1 WordPress SEO Plugin
 
-Since 2008, **Yoast SEO** has helped millions of websites worldwide improve their visibility and SEO performance.  
+Since 2008, **Yoast SEO** has helped millions of websites worldwide improve their visibility and SEO performance.
 Our mission is **SEO for Everyone** — from small local businesses to some of the most visited sites on the web.
 
-Yoast SEO gives you everything you need to manage your on-site SEO effectively.  
+Yoast SEO gives you everything you need to manage your on-site SEO effectively.
 The [Yoast SEO Premium](https://yoa.st/1v8) plugin and its extensions unlock even more advanced and AI-powered tools.
 
 ---
@@ -34,10 +34,10 @@ Empower search engines to better understand your website using **Schema.org stru
 
 ### Quick and easy setup
 
-Setting up Yoast SEO is quick and straightforward — no technical background required.  
+Setting up Yoast SEO is quick and straightforward — no technical background required.
 Our step-by-step configuration wizard walks you through essential setup details so Yoast SEO can generate accurate **structured data** that helps search engines understand your site.
 
-Switching from another SEO plugin like Rank Math or AIOSEO? Migration is seamless.  
+Switching from another SEO plugin like Rank Math or AIOSEO? Migration is seamless.
 Import your existing SEO data and settings safely with our built-in import/export tools.
 
 ---
@@ -115,7 +115,7 @@ Yoast SEO works seamlessly with popular WordPress tools to enhance your workflow
 
 ## Yoast SEO Premium – AI-powered SEO for WordPress
 
-[Yoast SEO Premium](https://yoa.st/1v8) enhances everything in Yoast SEO with advanced automation, AI tools, and professional support.  
+[Yoast SEO Premium](https://yoa.st/1v8) enhances everything in Yoast SEO with advanced automation, AI tools, and professional support.
 Trusted by millions, it helps you optimize efficiently for both traditional and AI-driven search.
 
 **Tackle your SEO challenges:**
@@ -170,12 +170,12 @@ Built for WooCommerce, trusted by thousands of online stores worldwide.
 Yoast SEO is built with developers in mind. With modern APIs, hooks, and a unified indexables system, you can extend or integrate SEO functionality across custom themes, plugins, or headless setups.
 
 ### REST API
-Retrieve SEO metadata for any post or URL, including meta tags, Open Graph, Twitter Cards, and Schema.org data.  
+Retrieve SEO metadata for any post or URL, including meta tags, Open Graph, Twitter Cards, and Schema.org data.
 [Learn more about the REST API](https://yoa.st/53l).
 
 ### Surfaces API
-Access SEO data directly in code via `YoastSEO()->meta->for_current_page()`.  
-Supports titles, descriptions, canonicals, and schema.  
+Access SEO data directly in code via `YoastSEO()->meta->for_current_page()`.
+Supports titles, descriptions, canonicals, and schema.
 [Read the Surfaces API documentation](https://yoa.st/53m).
 
 ### Metadata API
@@ -185,7 +185,7 @@ Use the [Metadata API](https://yoa.st/53n) to filter, override, or extend meta t
 The [Schema API](https://yoa.st/53o) lets you modify or extend Schema.org graph pieces, including Article, Organization, Person, Breadcrumb, and WebPage entities.
 
 ### Block Editor compatibility
-Yoast SEO integrates directly with the WordPress Block Editor (Gutenberg).  
+Yoast SEO integrates directly with the WordPress Block Editor (Gutenberg).
 It outputs schema for HowTo and FAQ blocks by default, and developers can extend schema for custom blocks.
 
 ### Indexables
@@ -195,7 +195,7 @@ At the core of Yoast SEO lies the [indexables system](https://yoa.st/53q), unify
 
 ## Ongoing support and education
 
-Yoast is powered by expert developers, testers, and SEO specialists who keep improving the plugin.  
+Yoast is powered by expert developers, testers, and SEO specialists who keep improving the plugin.
 We're committed to helping users grow their SEO skills with resources such as:
 
 - [Yoast SEO Academy](https://yoa.st/3ri): Free and premium SEO courses (included in all paid plans).
@@ -206,7 +206,7 @@ We're committed to helping users grow their SEO skills with resources such as:
 **Yoast SEO** — built to make search optimization accessible, reliable, and ready for the future of AI search.
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO first-time configuration as explained in the ‘after activation’ step! For the most up-to-date guidance on how to install Yoast SEO products, [please visit our help center](https://yoast.com/help/yoast-installation-manuals/#h-yoast-seo-and-yoast-seo-premium-for-wordpress). 
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO first-time configuration as explained in the ‘after activation’ step! For the most up-to-date guidance on how to install Yoast SEO products, [please visit our help center](https://yoast.com/help/yoast-installation-manuals/#h-yoast-seo-and-yoast-seo-premium-for-wordpress).
 
 == Frequently Asked Questions ==
 
@@ -313,7 +313,7 @@ Release date: 2026-02-03
 * Improves performance in large sites with lots of inbound links by adding appropriate database indices.
 * Replaces deprecated standard WordPress components with their modern variants.
 * Sets the minimum supported WordPress version to 6.8.
-* Update dependency for improved compatibility with PHP 8.5
+* Updates the OAuth2 Client library for improved compatibility with PHP 8.5.
 
 = 26.8 =
 
