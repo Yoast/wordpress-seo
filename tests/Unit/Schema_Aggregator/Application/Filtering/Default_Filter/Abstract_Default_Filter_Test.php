@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Base class for Default_Filter tests.
  */
-class Abstract_Default_Filter_Test extends TestCase {
+abstract class Abstract_Default_Filter_Test extends TestCase {
 
 	/**
 	 * The instance of Default_Filter being tested.
