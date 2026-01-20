@@ -17,12 +17,20 @@ export const Factory = {
 		imageAltText,
 		removeLabel,
 	} ) => {
-		const [ { imageUrl }, updateArgs ] = useArgs();
+		const [ { imageUrl, isLoading }, updateArgs ] = useArgs();
 		const handleOnSelectImage = useCallback( () => {
-			updateArgs( { imageUrl: "https://yoast.com/app/uploads/2021/01/yoast_logo_rgb_optm.svg" } );
+			updateArgs( {
+				imageUrl: "https://yoast.com/app/uploads/2021/01/yoast_logo_rgb_optm.svg",
+				isLoading: true,
+			} );
+			setTimeout( () => {
+				updateArgs( {
+					isLoading: false,
+				} );
+			}, 2000 );
 		}, [] );
 		const handleOnRemoveImage = useCallback( () => {
-			updateArgs( { imageUrl: "" } );
+			updateArgs( { imageUrl: "", isLoading: false } );
 		}, [] );
 		return <ImageSelect
 			className={ className }
@@ -32,6 +40,7 @@ export const Factory = {
 			replaceButtonLabel={ replaceButtonLabel }
 			onSelectImage={ handleOnSelectImage }
 			isDisabled={ isDisabled }
+			isLoading={ isLoading }
 			id={ id }
 		>
 			<ImageSelect.Preview imageAltText={ imageAltText } />
@@ -50,6 +59,7 @@ export default {
 		replaceButtonLabel: "Replace image",
 		onSelectImage: noop,
 		isDisabled: false,
+		isLoading: false,
 		id: "yst-image-select",
 		imageAltText: "Selected image preview",
 		removeLabel: "Remove image",
@@ -73,6 +83,9 @@ export default {
 		},
 		isDisabled: {
 			description: "Whether the image selector and buttons are disabled.",
+		},
+		isLoading: {
+			description: "Whether the image is currently loading.",
 		},
 		id: {
 			description: "The ID for the image URL input and root element.",

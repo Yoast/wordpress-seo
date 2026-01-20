@@ -7,4 +7,5 @@ export const ImageSelectContext = createContext( {
 	onSelectImage: noop,
 	isDisabled: false,
 	id: "yst-image-select",
+	isLoading: false,
 } );
