@@ -303,6 +303,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 26.9 =
+
+Release date: 2026-02-03
+
+#### Other
+
+* Ensures no deprecated props are used for WordPress components `ToggleControl` and `TextControl` for How-to block.
+* Improves performance in large sites with lots of inbound links by adding appropriate database indices.
+* Replaces deprecated standard WordPress components with their modern variants.
+* Sets the minimum supported WordPress version to 6.8.
+* Update dependency for improved compatibility with PHP 8.5
+
 = 26.8 =
 
 Release date: 2026-01-20
@@ -328,26 +340,6 @@ Yoast SEO 26.8 brings more enhancements and bugfixes. [Find more information abo
 * Improves the translatability of some tasks' title in the task list.
 * Replaces Yoast product logos with new designs across the plugin’s interface.
 * Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
-
-= 26.7 =
-
-Release date: 2026-01-07
-
-*New:* Yoast SEO (free) now includes full access to the Site Kit by Google integration in your Dashboard. [Read the full release post here](https://yoa.st/551).
-
-#### Enhancements
-
-* Changes the Schema output to render `Article` entities even when the `publisher` property is left empty.
-* Rolls out the Site Kit integration for all Yoast users.
-
-#### Bugfixes
-
-* Fixes a bug where the Yoast AI consent modal would incorrectly pop up when interacting with unrelated buttons or fields on Profile setting page.
-
-#### Other
-
-* Hides the llms.txt task in multisites, since the feature is disabled in such setups.
-* Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
