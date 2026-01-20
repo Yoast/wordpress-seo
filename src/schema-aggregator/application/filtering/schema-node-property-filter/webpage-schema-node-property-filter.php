@@ -26,8 +26,7 @@ class WebPage_Schema_Node_Property_Filter extends Base_Schema_Node_Property_Filt
 		$filtered_piece = parent::filter_properties( $schema_piece );
 		$data           = $filtered_piece->get_data();
 
-		// Remove the article body to reduce schema size.
-		if ( isset( $data['breadcrumb'] ) ) {
+		if ( \array_key_exists( 'breadcrumb', $data ) ) {
 			unset( $data['breadcrumb'] );
 		}
 

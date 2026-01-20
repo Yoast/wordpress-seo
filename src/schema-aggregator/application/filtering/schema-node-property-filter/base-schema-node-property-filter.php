@@ -29,7 +29,7 @@ class Base_Schema_Node_Property_Filter implements Schema_Node_Property_Filter_In
 		$data = $schema_piece->get_data();
 
 		foreach ( $this->get_properties_avoid_list() as $property ) {
-			if ( isset( $data[ $property ] ) ) {
+			if ( \array_key_exists( $property, $data ) ) {
 				unset( $data[ $property ] );
 			}
 		}
@@ -39,6 +39,8 @@ class Base_Schema_Node_Property_Filter implements Schema_Node_Property_Filter_In
 
 	/**
 	 * Gets the properties avoid list.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The properties avoid list.
 	 */
