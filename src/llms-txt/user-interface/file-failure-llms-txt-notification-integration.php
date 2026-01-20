@@ -16,6 +16,7 @@ use Yoast_Notification_Center;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class File_Failure_Llms_Txt_Notification_Integration implements Integration_Interface {
+
 	use No_Conditionals;
 
 	/**

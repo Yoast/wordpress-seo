@@ -1,6 +1,5 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
 import { get, toString } from "lodash";
@@ -17,17 +16,6 @@ import { getImageElements, getImageSrc } from "../../shared-utils";
 
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
-
-/**
- * Modified Text Control to provide a better layout experience.
- *
- * @returns {wp.Element} The TextControl with additional spacing below.
- */
-const SpacedTextControl = styled( TextControl )`
-	&&& {
-		margin-bottom: 32px;
-	}
-`;
 
 /**
  * A How-to block component.
@@ -187,10 +175,10 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number}  [index]	The index of the Step after which a new Step should be added.
-	 * @param {string}  [name]	The title of the new Step.
-	 * @param {string}  [text]	The description of the new Step.
-	 * @param {Object[]}	[images]		The images of the new Step.
+	 * @param {number|null}  [index=null]	The index of the Step after which a new Step should be added.
+	 * @param {string}  [name=""]	The title of the new Step.
+	 * @param {string}  [text=""]	The description of the new Step.
+	 * @param {Object[]}	[images=[]]		The images of the new Step.
 	 * @param {boolean}		[focus=true]	Whether to focus the new Step.
 	 *
 	 * @returns {void}
@@ -273,7 +261,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to a specific step in the How-to block.
+	 * Sets the focus on a specific step in the How-to block.
 	 *
 	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
 	 *
@@ -288,7 +276,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to an element within teh specified step.
+	 * Sets the focus to an element within the specified step.
 	 *
 	 * @param {number} stepIndex      Index of the step to focus.
 	 * @param {string} elementToFocus Name of the element to focus.
@@ -300,7 +288,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Move the step at the specified index one step up.
+	 * Moves the step at the specified index one step up.
 	 *
 	 * @param {number} stepIndex Index of the step that should be moved.
 	 *
@@ -311,7 +299,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Move the step at the specified index one step down.
+	 * Moves the step at the specified index one step down.
 	 *
 	 * @param {number} stepIndex Index of the step that should be moved.
 	 *
@@ -357,10 +345,10 @@ export default class HowTo extends Component {
 	/**
 	 * Formats the time in the input fields by removing leading zeros.
 	 *
-	 * @param {number} duration    The duration as entered by the user.
-	 * @param {number} maxDuration Optional. The max duration a field can have.
+	 * @param {number|string} duration    The duration as entered by the user.
+	 * @param {number|null} [maxDuration=null] The max duration a field can have.
 	 *
-	 * @returns {number} The formatted duration.
+	 * @returns {number|string} The formatted duration.
 	 */
 	formatDuration( duration, maxDuration = null ) {
 		if ( duration === "" ) {
@@ -405,7 +393,7 @@ export default class HowTo extends Component {
 	 *
 	 * @param {Object} props the attributes of the How-to block.
 	 *
-	 * @returns {Component} The component representing a How-to block.
+	 * @returns {JSX.Element} The component representing a How-to block.
 	 */
 	static Content( props ) {
 		const {
@@ -454,7 +442,7 @@ export default class HowTo extends Component {
 	/**
 	 * Retrieves a button to add a step at the end of the How-to list.
 	 *
-	 * @returns {Component} The button to add a step.
+	 * @returns {JSX.Element} The button to add a step.
 	 */
 	getAddStepButton() {
 		return (
@@ -471,7 +459,7 @@ export default class HowTo extends Component {
 	/**
 	 * Adds CSS classes to this how-to block's list.
 	 *
-	 * @param {string} value The additional css classes.
+	 * @param {string} value The additional CSS classes.
 	 *
 	 * @returns {void}
 	 */
@@ -504,7 +492,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Set focus to the description field.
+	 * Sets focus to the description field.
 	 *
 	 * @returns {void}
 	 */
@@ -599,7 +587,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns a component to manage this how-to block's duration.
 	 *
-	 * @returns {Component} The duration editor component.
+	 * @returns {JSX.Element} The duration editor component.
 	 */
 	getDuration() {
 		const { attributes } = this.props;
@@ -692,7 +680,7 @@ export default class HowTo extends Component {
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
 	 * @param {string}  durationText      The text to describe the duration.
 	 *
-	 * @returns {Component} The controls to add to the sidebar.
+	 * @returns {JSX.Element} The controls to add to the sidebar.
 	 */
 	getSidebar( unorderedList, additionalClasses, durationText ) {
 		if ( durationText === this.getDefaultDurationText() ) {
@@ -701,24 +689,29 @@ export default class HowTo extends Component {
 
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<SpacedTextControl
+				<TextControl
 					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
+					__next40pxDefaultSize={ true }
+					__nextHasNoMarginBottom={ true }
 				/>
-				<SpacedTextControl
+				<TextControl
 					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
 					value={ durationText }
 					onChange={ this.setDurationText }
 					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
 					placeholder={ this.getDefaultDurationText() }
+					__next40pxDefaultSize={ true }
+					__nextHasNoMarginBottom={ true }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
 					checked={ unorderedList || false }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
+					__nextHasNoMarginBottom={ true }
 				/>
 			</PanelBody>
 		</InspectorControls>;
@@ -727,7 +720,7 @@ export default class HowTo extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {Component} The how-to block editor.
+	 * @returns {JSX.Element} The how-to block editor.
 	 */
 	render() {
 		const { attributes, className } = this.props;
@@ -745,8 +738,6 @@ export default class HowTo extends Component {
 					value={ attributes.description }
 					onChange={ this.onChangeDescription }
 					onFocus={ this.focusDescription }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.focusDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 				/>
 				<ul className={ listClassNames }>

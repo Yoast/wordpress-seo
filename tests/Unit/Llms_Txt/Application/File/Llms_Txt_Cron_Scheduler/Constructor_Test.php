@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\Application\File\Llms_Txt_Cron_Scheduler;

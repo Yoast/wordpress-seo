@@ -16,9 +16,9 @@ import {
  * @returns {JSX.Element} The schema framework feature route.
  */
 const SchemaFramework = () => {
-	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/structured-data" );
+	const structuredDataLearnMoreLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-structured-data" );
 	const learnMoreFilterLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-filters" );
-	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-api" );
+	const schemaApiLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-framework-schema-api" );
 	const schemaDocumentationLink = useSelectSettings( "selectLink", [], "https://yoa.st/schema-documentation" );
 	const isSchemaDisabledProgrammatically = useSelectSettings( "selectSchemaIsSchemaDisabledProgrammatically", [] );
 

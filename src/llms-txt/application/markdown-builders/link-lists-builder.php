@@ -1,11 +1,11 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Application\Markdown_Builders;
 
 use Yoast\WP\SEO\Llms_Txt\Domain\Markdown\Sections\Link_List;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Content_Types_Collector;
 use Yoast\WP\SEO\Llms_Txt\Infrastructure\Markdown_Services\Terms_Collector;
-
 
 /**
  * The builder of the link list sections.

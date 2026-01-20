@@ -96,7 +96,7 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the title editor.
+	 * Handles the on change event in the title editor.
 	 *
 	 * @param {string} value The new title.
 	 *
@@ -116,7 +116,7 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Handles the on change event on the text editor.
+	 * Handles the on change event in the text editor.
 	 *
 	 * @param {string} value The new text.
 	 *
@@ -141,7 +141,7 @@ export default class HowToStep extends Component {
 	 * @param {Object}		props      The receive props.
 	 * @param {Function}	props.open Opens the media upload dialog.
 	 *
-	 * @returns {wp.Element} The media upload button.
+	 * @returns {JSX.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (
@@ -156,9 +156,9 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * The insert and remove step buttons.
+	 * Gets the buttons for inserting and removing a step and for adding an image.
 	 *
-	 * @returns {wp.Element} The buttons.
+	 * @returns {JSX.Element} The buttons.
 	 */
 	getButtons() {
 		const {
@@ -192,7 +192,7 @@ export default class HowToStep extends Component {
 	/**
 	 * The mover buttons.
 	 *
-	 * @returns {Component} the buttons.
+	 * @returns {JSX.Element} the buttons.
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
@@ -256,7 +256,7 @@ export default class HowToStep extends Component {
 	 *
 	 * @param {Object} step The how-to step.
 	 *
-	 * @returns {wp.Element} The component to be rendered.
+	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( step ) {
 		const { name, text, id } = step;
@@ -285,7 +285,7 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {wp.Element} The how-to step editor.
+	 * @returns {JSX.Element} The how-to step editor.
 	 */
 	render() {
 		const {
@@ -313,8 +313,6 @@ export default class HowToStep extends Component {
 					value={ name }
 					onChange={ this.onChangeTitle }
 					onFocus={ this.onFocusTitle }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
@@ -326,8 +324,6 @@ export default class HowToStep extends Component {
 					value={ text }
 					onChange={ this.onChangeText }
 					onFocus={ this.onFocusText }
-					// The unstableOnFocus prop is added for backwards compatibility with Gutenberg versions <= 15.1 (WordPress 6.2).
-					unstableOnFocus={ this.onFocusText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 				/>
 				{ isSelected &&
