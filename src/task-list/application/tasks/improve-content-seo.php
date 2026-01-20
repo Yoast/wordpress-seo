@@ -5,12 +5,20 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Task_Group;
-use WP_Query;
+use Yoast\WP\SEO\Task_List\Domain\Data\Improve_Content_Item_Task;
+use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
  * Represents the task for improving content SEO.
  */
 class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
+
+	/**
+	 * The default maximum number of content items to retrieve.
+	 *
+	 * @var int
+	 */
+	public const DEFAULT_LIMIT = 100;
 
 	/**
 	 * Holds the id.
@@ -32,6 +40,22 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 	 * @var int
 	 */
 	protected $duration = 15;
+
+	/**
+	 * Holds the recent content indexable collector.
+	 *
+	 * @var Recent_Content_Indexable_Collector
+	 */
+	private $recent_content_indexable_collector;
+
+	/**
+	 * Constructs the task.
+	 *
+	 * @param Recent_Content_Indexable_Collector $recent_content_indexable_collector The recent content indexable collector.
+	 */
+	public function __construct( Recent_Content_Indexable_Collector $recent_content_indexable_collector ) {
+		$this->recent_content_indexable_collector = $recent_content_indexable_collector;
+	}
 
 	/**
 	 * Returns whether this task is completed.
@@ -101,41 +125,15 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 
 		$two_months_ago = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 months' ) );
 
-		// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- We need to query for content without a focus keyphrase.
-		$query = new WP_Query(
-			[
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-				'date_query'     => [
-					[
-						'column' => 'post_modified',
-						'after'  => $two_months_ago,
-					],
-				],
-				'meta_query'     => [
-					'relation' => 'OR',
-					[
-						'key'     => '_yoast_wpseo_focuskw',
-						'compare' => 'NOT EXISTS',
-					],
-					[
-						'key'     => '_yoast_wpseo_focuskw',
-						'value'   => '',
-						'compare' => '=',
-					],
-				],
-				'orderby'        => 'modified',
-				'order'          => 'DESC',
-			]
+		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_with_seo_scores(
+			$post_type,
+			$two_months_ago,
+			self::DEFAULT_LIMIT
 		);
 
 		$grouped_tasks = [];
-
-		if ( $query->have_posts() ) {
-			foreach ( $query->posts as $post ) {
-				$grouped_tasks[] = new Improve_Content_Item_SEO( $this, $post );
-			}
+		foreach ( $recent_content_items as $content_item_data ) {
+			$grouped_tasks[] = new Improve_Content_Item_SEO( $this, $content_item_data );
 		}
 
 		$this->set_grouped_tasks( $grouped_tasks );
@@ -154,8 +152,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 			$grouped_tasks_data[] = $grouped_task->to_array();
 		}
 
-		$data['groupedTasks']      = $grouped_tasks_data;
-		$data['groupedTasksCount'] = \count( $grouped_tasks_data );
+		$data['groupedTasks'] = $grouped_tasks_data;
 
 		return $data;
 	}
