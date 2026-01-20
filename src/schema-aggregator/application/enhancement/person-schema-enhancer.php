@@ -77,6 +77,8 @@ class Person_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema_
 	 *
 	 * Retrieves job title from user meta.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id User ID.
 	 *
 	 * @return string|null Job title or null if unavailable.
