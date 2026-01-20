@@ -77,7 +77,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -85,7 +87,7 @@ jobs:
       # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version-file: './.nvmrc'
           cache: 'yarn'
@@ -117,7 +119,7 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       - name: Upload coverage results to Coveralls
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
@@ -146,7 +148,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Checks for changes
         uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # dorny/paths-filter@v3.0.2
@@ -165,12 +169,13 @@ jobs:
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
         if: ${{ steps.checks-run.outputs.should == 'true' && matrix.needs_premium_config == true }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: Yoast/YoastSEO.js-premium-configuration
           path: packages/yoastseo/premium-configuration
           fetch-depth: 0
           token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+          persist-credentials: true
 
       # The ubuntu images come with Node, npm and yarn pre-installed.
       # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -179,7 +184,7 @@ jobs:
       # https://github.com/actions/setup-node
       - name: Set up node and enable caching of dependencies
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version-file: './.nvmrc'
           cache: 'yarn'
@@ -218,7 +223,7 @@ jobs:
 
       - name: Upload coverage results to Coveralls
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:

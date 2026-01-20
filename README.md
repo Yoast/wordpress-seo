@@ -8,8 +8,8 @@
 [![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Yoast/wordpress-seo/badge.svg?branch=trunk)](https://coveralls.io/github/Yoast/wordpress-seo?branch=trunk)
 
-[![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
-[![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
+[![Stable Version](https://img.shields.io/packagist/v/yoast/wordpress-seo)](https://packagist.org/packages/yoast/wordpress-seo)
+[![License](https://img.shields.io/packagist/l/yoast/wordpress-seo)](https://packagist.org/packages/yoast/wordpress-seo)
 
 ## Welcome to the Yoast SEO GitHub repository
 

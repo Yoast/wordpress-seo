@@ -121,6 +121,7 @@ domReady( () => {
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
 			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
 			llmsTxt: get( window, "wpseoScriptData.llmsTxt", {} ),
+			schemaFramework: get( window, "wpseoScriptData.schemaFrameworkConfiguration", {} ),
 		},
 	} );
 

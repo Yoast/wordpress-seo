@@ -23,7 +23,7 @@
 		"security": "https://yoast.com/security-program/"
 	},
 	"require": {
-		"php": "^7.4| ^8.0",
+		"php": "^7.4 || ^8.0",
 		"ext-filter": "*",
 		"composer/installers": "^1.12 || ^2.0"
 	},
