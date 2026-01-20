@@ -6,6 +6,7 @@ import { registerBlockType } from "@wordpress/blocks";
 import block from "./block.json";
 import HowTo from "./components/HowTo";
 import legacy from "./legacy";
+import * as v27_0 from "./legacy/27.0";
 
 registerBlockType( block, {
 	/**
@@ -49,9 +50,9 @@ registerBlockType( block, {
 		// Legacy versions to support loading and migrating old block data when the step name/text were stored as arrays.
 		{
 			attributes: block.attributes,
-			save: legacy.v26_9.legacySave,
-			migrate: legacy.v26_9.migrateToStringFormat,
-			isEligible: legacy.v26_9.needsMigration,
+			save: legacy.v27_0.legacySave,
+			migrate: legacy.v27_0.migrateToStringFormat,
+			isEligible: legacy.v27_0.needsMigration,
 		},
 		{
 			attributes: block.attributes,

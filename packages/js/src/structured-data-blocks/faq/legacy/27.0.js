@@ -2,11 +2,11 @@ import { pickBy } from "lodash";
 import { useBlockProps } from "@wordpress/block-editor";
 
 import Faq from "../components/FAQ";
-import { childrenToString, getImageArray } from "../../shared-utils/migrationHelpers269";
+import { childrenToString, getImageArray } from "../../shared-utils/migrationHelpers270";
 
 /*
  * Converts rich text children to an HTML string.
- * In versions prior to 26.9, the FAQ block stored
+ * In versions prior to 27.0, the FAQ block stored
  * Question's question and answer items as arrays of rich text elements.
  * This migration converts those arrays to HTML strings.
  * Additionally, it extracts image elements from the answer arrays

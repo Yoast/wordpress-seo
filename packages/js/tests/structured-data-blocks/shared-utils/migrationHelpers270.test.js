@@ -1,7 +1,7 @@
 import { createElement } from "@wordpress/element";
-import { childrenToString, getImageArray } from "../../../src/structured-data-blocks/shared-utils/migrationHelpers269";
+import { childrenToString, getImageArray } from "../../../src/structured-data-blocks/shared-utils/migrationHelpers270";
 
-describe( "migrationHelpers269", () => {
+describe( "migrationHelpers270", () => {
 	describe( "childrenToString", () => {
 		describe( "when value is falsy", () => {
 			it( "should return empty string when value is null", () => {

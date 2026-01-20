@@ -49,9 +49,9 @@ registerBlockType( block, {
 		// Legacy versions to support loading and migrating old block data when the question/answer were stored as arrays.
 		{
 			attributes: block.attributes,
-			save: legacy.v26_9.legacySave,
-			migrate: legacy.v26_9.migrateToStringFormat,
-			isEligible: legacy.v26_9.needsMigration,
+			save: legacy.v27_0.legacySave,
+			migrate: legacy.v27_0.migrateToStringFormat,
+			isEligible: legacy.v27_0.needsMigration,
 		},
 		{
 			attributes: block.attributes,
