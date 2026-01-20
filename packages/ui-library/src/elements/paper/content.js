@@ -8,7 +8,7 @@ import React from "react";
  * @param {React.ReactNode} children The content.
  * @returns {React.ReactElement} The element.
  */
-const Content = ( { as: Component, className, children } ) => (
+const Content = ( { as: Component = "div", className = "", children } ) => (
 	<Component className={ classNames( "yst-paper__content", className ) }>
 		{ children }
 	</Component>
@@ -18,11 +18,6 @@ Content.propTypes = {
 	as: PropTypes.node,
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
-};
-
-Content.defaultProps = {
-	as: "div",
-	className: "",
 };
 
 export default Content;

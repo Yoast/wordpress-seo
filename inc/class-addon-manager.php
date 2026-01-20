@@ -5,6 +5,8 @@
  * @package WPSEO\Inc
  */
 
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 
 /**
@@ -71,7 +73,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * The expected addon data.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected static $addons = [
 		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
@@ -84,7 +86,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * The addon data for the shortlinks.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
 	private $addon_details = [
 		self::PREMIUM_SLUG     => [
@@ -209,7 +211,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves a list of (subscription) slugs by the active addons.
 	 *
-	 * @return array The slugs.
+	 * @return array<string, stdClass> The slugs.
 	 */
 	public function get_subscriptions_for_active_addons() {
 		$active_addons      = array_keys( $this->get_active_addons() );
@@ -225,7 +227,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves a list of versions for each addon.
 	 *
-	 * @return array The addon versions.
+	 * @return array<string, string> The addon versions.
 	 */
 	public function get_installed_addons_versions() {
 		$addon_versions = [];
@@ -315,7 +317,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Checks if there are addon updates.
 	 *
-	 * @param stdClass|mixed $data The current data for update_plugins.
+	 * @param stdClass $data The current data for update_plugins.
 	 *
 	 * @return stdClass Extended data for update_plugins.
 	 */
@@ -405,18 +407,19 @@ class WPSEO_Addon_Manager {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 
 			$sale_copy = '';
-			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2023-promotion' ) ) {
+			if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-promotion' ) ) {
 				$sale_copy = sprintf(
-				/* translators: %1$s is a <br> tag. */
-					esc_html__( '%1$s Now with 30%% Black Friday Discount!', 'wordpress-seo' ),
-					'<br>'
+				/* translators: %1$s and %2$s are a <span> opening and closing tag. */
+					esc_html__( '%1$s30%% OFF - Black Friday %2$s', 'wordpress-seo' ),
+					'<span class="yoast-update-plugin-bf-sale-badge">',
+					'</span>'
 				);
 			}
 			echo '<br><br>';
 			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> '
 				. sprintf(
 					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
-					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
+					esc_html__( 'Your %1$s plugin cannot be updated as your subscription has expired. %2$sRenew your product subscription%3$s to restore updates and full feature access.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
@@ -485,6 +488,17 @@ class WPSEO_Addon_Manager {
 
 			$notification_center->remove_notification( $notification );
 		}
+	}
+
+	/**
+	 * Checks if the user has any active addons.
+	 *
+	 * @return bool Whether there are active addons.
+	 */
+	public function has_active_addons() {
+		$active_addons = $this->get_active_addons();
+
+		return ! empty( $active_addons );
 	}
 
 	/**
@@ -738,7 +752,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		// Check whether the licenses are valid or whether we need to show notifications.
-		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+		$quick = ( $current_page === Plans_Page_Integration::PAGE || $current_page === General_Page_Integration::PAGE );
 
 		// Also do a fresh request on Plugins & Core Update pages.
 		$quick = $quick || $pagenow === 'plugins.php';

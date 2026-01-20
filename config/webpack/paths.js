@@ -42,6 +42,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"redirect-old-features-tab": `${ sourceDirectory }/redirect-old-features-tab.js`,
 	settings: `${ sourceDirectory }/settings.js`,
 	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
+	redirects: `${ sourceDirectory }/redirects/initialize.js`,
 	academy: `${ sourceDirectory }/academy/initialize.js`,
 	"general-page": `${ sourceDirectory }/general/initialize.js`,
 	support: `${ sourceDirectory }/support/initialize.js`,
@@ -49,9 +50,11 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"faq-block": `${ sourceDirectory }/structured-data-blocks/faq/block.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,
-	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
+	"ai-generator": `${ sourceDirectory }/ai-generator/initialize.js`,
+	"ai-consent": `${ sourceDirectory }/ai-consent/initialize.js`,
+	plans: `${ sourceDirectory }/plans/initialize.js`,
 } );
 
 /**

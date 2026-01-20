@@ -28,6 +28,7 @@ class Default_Tagline_Runner implements Runner_Interface {
 		$blog_description = \get_option( 'blogdescription' );
 
 		// We are using the WordPress internal translation.
+		// @TODO: This doesn't work when checking in a cron for some reason, investigate.
 		$translated_blog_description = \__( 'Just another WordPress site', 'default' );
 
 		$this->has_default_tagline = $translated_blog_description === $blog_description || $blog_description === self::DEFAULT_BLOG_DESCRIPTION;

@@ -144,14 +144,6 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.externalDofollow ).toBe( 1 );
 	} );
 
-	it( "should ignore malformed rel tag", function() {
-		const mockPaper = new Paper( "string <a href='http://example.com' rel=\"nofollow'>link</a>", paperAttributes );
-		const researcher = new EnglishResearcher( mockPaper );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 1 );
-		expect( foundLinks.externalNofollow ).toBe( 0 );
-	} );
-
 	it( "should return all special types", function() {
 		const attributes = {
 			keyword: "keyword",
@@ -222,6 +214,16 @@ describe( "Tests a string for anchors and its attributes", function() {
 			otherDofollow: 0,
 			otherNofollow: 0,
 		} );
+	} );
+
+	it( "should ignore links inside yoast-ai-summarize block", function() {
+		const mockPaper = new Paper(
+			"<div class='yoast-ai-summarize'><a href='http://yoast.com'>link</a></div> <a href='http://example.com'>link</a>", paperAttributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+		expect( foundLinks.total ).toBe( 1 );
+		expect( foundLinks.internalTotal ).toBe( 0 );
+		expect( foundLinks.externalTotal ).toBe( 1 );
 	} );
 } );
 

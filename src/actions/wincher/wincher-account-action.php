@@ -49,9 +49,9 @@ class Wincher_Account_Action {
 		try {
 			$results = $this->client->get( self::ACCOUNT_URL );
 
-			$usage   = $results['limits']['keywords']['usage'];
-			$limit   = $results['limits']['keywords']['limit'];
-			$history = $results['limits']['history_days'];
+			$usage   = ( $results['limits']['keywords']['usage'] ?? null );
+			$limit   = ( $results['limits']['keywords']['limit'] ?? null );
+			$history = ( $results['limits']['history_days'] ?? null );
 
 			return (object) [
 				'canTrack'    => ( $limit === null || $usage < $limit ),

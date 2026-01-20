@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Support_Integration;
+use Yoast\WP\SEO\Plans\User_Interface\Plans_Page_Integration;
 
 /**
  * Class WPSEO_HelpScout
@@ -34,9 +35,23 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $beacon_id_tracking_users = '6b8e74c5-aa81-4295-b97b-c2a62a13ea7f';
 
 	/**
+	 * The id for the beacon for Premium users.
+	 *
+	 * @var string
+	 */
+	protected $beacon_id_premium = '1ae02e91-5865-4f13-b220-7daed946ba25';
+
+	/**
+	 * The id for the beacon for WooCommerce SEO users.
+	 *
+	 * @var string
+	 */
+	protected $beacon_id_woocommerce = '8535d745-4e80-48b9-b211-087880aa857d';
+
+	/**
 	 * The products the beacon is loaded for.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $products = [];
 
@@ -55,16 +70,23 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $options;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
 	 * The array of pages we need to show the beacon on with their respective beacon IDs.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $pages_ids;
 
 	/**
 	 * The array of pages we need to show the beacon on.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $base_pages = [
 		'wpseo_dashboard',
@@ -73,7 +95,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		Support_Integration::PAGE,
 		'wpseo_search_console',
 		'wpseo_tools',
-		'wpseo_licenses',
+		Plans_Page_Integration::PAGE,
 		'wpseo_workouts',
 		'wpseo_integrations',
 	];
@@ -105,10 +127,12 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @param Options_Helper            $options          The options helper.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The asset manager.
 	 * @param Migration_Status          $migration_status The migrations status.
+	 * @param WPSEO_Addon_Manager       $addon_manager    The addon manager.
 	 */
-	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
+	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status, WPSEO_Addon_Manager $addon_manager ) {
 		$this->options       = $options;
 		$this->asset_manager = $asset_manager;
+		$this->addon_manager = $addon_manager;
 		$this->ask_consent   = ! $this->options->get( 'tracking' );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
@@ -120,19 +144,16 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 		$this->migration_status = $migration_status;
 
+		$beacon_id = $this->get_beacon_id();
 		foreach ( $this->base_pages as $page ) {
-			if ( $this->ask_consent ) {
-				// We want to be able to show surveys to people who have tracking on, so we give them a different beacon.
-				$this->pages_ids[ $page ] = $this->beacon_id_tracking_users;
-			}
-			else {
-				$this->pages_ids[ $page ] = $this->beacon_id;
-			}
+			$this->pages_ids[ $page ] = $beacon_id;
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_help_scout_script' ] );
@@ -246,7 +267,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * Returns basic info about the server software.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	private function get_server_info() {
 		$server_tracking_data = new WPSEO_Tracking_Server_Data();
@@ -440,10 +461,35 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
-	 * @return array The array of conditionals.
+	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
+	}
+
+	/**
+	 * Get the beacon id to use based on the user's subscription and tracking settings.
+	 *
+	 * @return string The beacon id to use.
+	 */
+	private function get_beacon_id() {
+		// Case where the user has a Yoast WooCommerce SEO plan subscription (highest priority).
+		if ( $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ) ) {
+			return $this->beacon_id_woocommerce;
+		}
+
+		// Case where the user has a Yoast SEO Premium plan subscription.
+		if ( $this->addon_manager->has_active_addons() && $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+			return $this->beacon_id_premium;
+		}
+
+		// Case where the user has no plan active and tracking enabled.
+		if ( $this->ask_consent ) {
+			return $this->beacon_id_tracking_users;
+		}
+
+		// Case where the user has no plan active and tracking disabled.
+		return $this->beacon_id;
 	}
 
 	/**
@@ -463,8 +509,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		 * @param string $beacon_settings The HelpScout beacon settings.
 		 */
 		$helpscout_settings = \apply_filters( 'wpseo_helpscout_beacon_settings', $filterable_helpscout_setting );
-
-		$this->products  = $helpscout_settings['products'];
-		$this->pages_ids = $helpscout_settings['pages_ids'];
+		$this->products     = $helpscout_settings['products'];
+		$this->pages_ids    = $helpscout_settings['pages_ids'];
 	}
 }

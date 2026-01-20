@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Tracking;
 
@@ -46,8 +47,8 @@ final class Setup_Steps_Tracking_Repository_Fake implements Setup_Steps_Tracking
 	 *
 	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- This is a fake..
 	 *
-	 * @param string $element_name  The name of the element to set.
-	 * @param string $element_value The value of the element to set.
+	 * @param string      $element_name  The name of the element to set.
+	 * @param string|null $element_value The value of the element to set.
 	 *
 	 * @return bool False when the update failed, true when the update succeeded.
 	 *

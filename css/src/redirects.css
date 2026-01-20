@@ -1,0 +1,152 @@
+@import url(../src/icons.css);
+@import url(../../packages/components/src/base/colors.css);
+
+body.seo_page_wpseo_redirects {
+	@apply yst-bg-slate-100;
+
+	/* Move WP footer behind our content. */
+	z-index: -1;
+
+	#wpcontent {
+		padding-left: 0 !important;
+	}
+
+	#wpfooter {
+		@apply yst-pr-4;
+
+		@media (min-width: 768px) {
+			@apply yst-pr-8;
+
+			padding-left: 17rem;
+		}
+	}
+
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
+
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
+
+	&.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+	}
+
+	&:not(.sticky-menu) .wp-responsive-open .yst-root {
+		.yst-notifications--bottom-left {
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
+		}
+	}
+
+	.yst-root {
+		.yst-notifications--bottom-left {
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		.yst-mobile-navigation__top {
+			@media (min-width: 601px) and (max-width: 768px) {
+				top: 46px;
+			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
+			}
+		}
+		.yst-mobile-navigation__dialog {
+			z-index: 99999;
+		}
+
+		.yst-paper {
+			/* custom for redirects page and reset WP styles */
+			@apply yst-whitespace-normal yst-min-h-[unset] yst-mb-[unset] yst-align-[unset];
+		}
+	}
+
+	.yst-table--minimal table  {
+		.yst-table-header {
+			@apply yst-font-medium yst-text-slate-800;
+		}
+
+		.yst-table-cell {
+			@apply yst-py-5 yst-text-slate-500;
+			.yst-checkbox__label {
+				@apply yst-ms-9;
+			}
+		}
+
+		.yst-checkbox__label {
+			@apply yst-ms-6;
+		}
+
+		.yst-table-header:first-child {
+			@apply yst-ps-3;
+		}
+		.yst-table-cell:first-child {
+			@apply yst-ps-3;
+		}
+
+		.yst-dropdown-menu__item--button {
+			@apply yst-text-slate-600 hover:yst-text-slate-900 hover:yst-bg-slate-200 yst-justify-start yst-py-2 yst-px-3;
+		}
+
+		.yst-dropdown-menu__list {
+			z-index: 1100 !important;
+		}
+	}
+	.yst-modal__panel{
+		@apply yst-max-w-lg;
+	}
+
+	.yst-logo-icon {
+		background-color: var(--yoast-color-primary);
+		mask-image: var(--yoast-svg-icon-yoast);
+		-webkit-mask-image: var(--yoast-svg-icon-yoast);
+		mask-size: 100% 100%;
+		-webkit-mask-size: 100% 100%;
+		width: 17px;
+		height: 17px;
+	}
+	.yst-modal-uppercase {
+		letter-spacing: 0.8px;
+		@apply yst-uppercase yst-text-slate-500;
+	}
+
+	/* RTL */
+
+	&.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
+		}
+	}
+
+	#screen-meta-links {
+		display: none;
+	}
+}

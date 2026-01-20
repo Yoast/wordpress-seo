@@ -31,33 +31,27 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.social_preview.social'                   => 'https://yoa.st/social-preview-facebook',
 		'shortlinks.upsell.social_preview.x'                        => 'https://yoa.st/social-preview-twitter',
 		'shortlinks.upsell.sidebar.news'                            => 'https://yoa.st/get-news-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup-sidebar',
 		'shortlinks.upsell.sidebar.additional_link'                 => 'https://yoa.st/textlink-keywords-sidebar',
 		'shortlinks.upsell.sidebar.additional_button'               => 'https://yoa.st/add-keywords-sidebar',
-		'shortlinks.upsell.sidebar.keyphrase_distribution'          => 'https://yoa.st/keyphrase-distribution-sidebar',
 		'shortlinks.upsell.sidebar.word_complexity'                 => 'https://yoa.st/word-complexity-sidebar',
 		'shortlinks.upsell.sidebar.internal_linking_suggestions'    => 'https://yoa.st/internal-linking-suggestions-sidebar',
 		'shortlinks.upsell.sidebar.highlighting_seo_analysis'       => 'https://yoa.st/highlighting-seo-analysis',
 		'shortlinks.upsell.sidebar.highlighting_readability_analysis' => 'https://yoa.st/highlighting-readability-analysis',
 		'shortlinks.upsell.sidebar.highlighting_inclusive_analysis' => 'https://yoa.st/highlighting-inclusive-analysis',
+		'shortlinks.upsell.sidebar.content_blocks'                  => 'https://yoa.st/content-blocks-sidebar',
 		'shortlinks.upsell.metabox.news'                            => 'https://yoa.st/get-news-metabox',
 		'shortlinks.upsell.metabox.go_premium'                      => 'https://yoa.st/pe-premium-page',
-		'shortlinks.upsell.metabox.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup',
 		'shortlinks.upsell.metabox.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-metabox',
-		'shortlinks.upsell.metabox.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup',
 		'shortlinks.upsell.metabox.additional_link'                 => 'https://yoa.st/textlink-keywords-metabox',
 		'shortlinks.upsell.metabox.additional_button'               => 'https://yoa.st/add-keywords-metabox',
-		'shortlinks.upsell.metabox.keyphrase_distribution'          => 'https://yoa.st/keyphrase-distribution-metabox',
 		'shortlinks.upsell.metabox.word_complexity'                 => 'https://yoa.st/word-complexity-metabox',
 		'shortlinks.upsell.metabox.internal_linking_suggestions'    => 'https://yoa.st/internal-linking-suggestions-metabox',
+		'shortlinks.upsell.metabox.content_blocks'                  => 'https://yoa.st/content-blocks-metabox',
 		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.inclusive_language_analysis_info'               => 'https://yoa.st/inclusive-language-analysis',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
-		'shortlinks.upsell.sidebar.morphology_upsell_metabox'       => 'https://yoa.st/morphology-upsell-metabox',
-		'shortlinks.upsell.sidebar.morphology_upsell_sidebar'       => 'https://yoa.st/morphology-upsell-sidebar',
 		'shortlinks.wincher.seo_performance'                        => 'https://yoa.st/wincher-integration',
 		'shortlinks-insights-estimated_reading_time'                => 'https://yoa.st/4fd',
 		'shortlinks-insights-flesch_reading_ease'                   => 'https://yoa.st/34r',
@@ -114,14 +108,10 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 
 		$shortlinks = $this->shortlinks;
 
-		$shortlinks['shortlinks.upsell.metabox.focus_keyword_synonyms_button']   = 'https://yoa.st/keyword-synonyms-popup-term';
-		$shortlinks['shortlinks.upsell.metabox.focus_keyword_additional_button'] = 'https://yoa.st/add-keywords-popup-term';
-		$shortlinks['shortlinks.upsell.metabox.additional_link']                 = 'https://yoa.st/textlink-keywords-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.additional_button']               = 'https://yoa.st/add-keywords-metabox-term';
-		$shortlinks['shortlinks.upsell.sidebar.morphology_upsell_metabox']       = 'https://yoa.st/morphology-upsell-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.keyphrase_distribution']          = 'https://yoa.st/keyphrase-distribution-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.word_complexity']                 = 'https://yoa.st/word-complexity-metabox-term';
-		$shortlinks['shortlinks.upsell.metabox.internal_linking_suggestions']    = 'https://yoa.st/internal-linking-suggestions-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.additional_link']              = 'https://yoa.st/textlink-keywords-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.additional_button']            = 'https://yoa.st/add-keywords-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.word_complexity']              = 'https://yoa.st/word-complexity-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.internal_linking_suggestions'] = 'https://yoa.st/internal-linking-suggestions-metabox-term';
 
 		return $shortlinks;
 	}

@@ -37,7 +37,7 @@
 		}
 
 		.yst-radio__label {
-			@apply yst-ml-3 yst-font-medium yst-text-gray-700 !important;
+			@apply yst-ml-3 yst-font-medium yst-text-slate-800 !important;
 		}
 
 		.yst-radio-group__label {

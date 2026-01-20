@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\WP\Editors\Framework\Site;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Alerts\Infrastructure\Default_SEO_Data\Default_SEO_Data_Collector;
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -73,6 +74,13 @@ final class Post_Site_Information_Test extends TestCase {
 	private $options_helper;
 
 	/**
+	 * The default SEO data collector.
+	 *
+	 * @var Mockery\MockInterface|Default_SEO_Data_Collector
+	 */
+	private $default_seo_data_collector;
+
+	/**
 	 * The Post_Site_Information container.
 	 *
 	 * @var Post_Site_Information
@@ -88,16 +96,16 @@ final class Post_Site_Information_Test extends TestCase {
 		parent::set_up();
 		$this->promotion_manager = Mockery::mock( Promotion_Manager::class );
 		$this->promotion_manager->expects( 'get_current_promotions' )->andReturn( [] );
-		$this->promotion_manager->expects( 'is' )->with( 'black-friday-2023-checklist' )->andReturn( false );
 		$this->short_link_helper = \YoastSEO()->helpers->short_link;
 		$this->wistia_embed_repo = Mockery::mock( Wistia_Embed_Permission_Repository::class );
 		$this->wistia_embed_repo->expects( 'get_value_for_user' )->with( 0 )->andReturnTrue();
-		$this->meta_surface           = \YoastSEO()->meta;
-		$this->product_helper         = \YoastSEO()->helpers->product;
-		$this->options_helper         = \YoastSEO()->helpers->options;
-		$this->alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$this->meta_surface               = \YoastSEO()->meta;
+		$this->product_helper             = \YoastSEO()->helpers->product;
+		$this->options_helper             = \YoastSEO()->helpers->options;
+		$this->alert_dismissal_action     = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$this->default_seo_data_collector = \YoastSEO()->classes->get( Default_SEO_Data_Collector::class );
 
-		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager );
+		$this->instance = new Post_Site_Information( $this->short_link_helper, $this->wistia_embed_repo, $this->meta_surface, $this->product_helper, $this->alert_dismissal_action, $this->options_helper, $this->promotion_manager, $this->default_seo_data_collector );
 		$this->instance->set_permalink( 'perma' );
 	}
 
@@ -115,9 +123,9 @@ final class Post_Site_Information_Test extends TestCase {
 	 */
 	public function test_legacy_site_information() {
 		$expected = [
-			'dismissedAlerts'            => false,
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'metabox'                    => [
+			'dismissedAlerts'             => false,
+			'webinarIntroBlockEditorUrl'  => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'metabox'                     => [
 				'search_url'    => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
 				'post_edit_url' => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
 				'base_url'      => 'http://example.org/',
@@ -132,14 +140,15 @@ final class Post_Site_Information_Test extends TestCase {
 					'twitter'  => true,
 				],
 			],
-			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
-			'linkParams'                 => $this->short_link_helper->get_query_params(),
-			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
-			'wistiaEmbedPermission'      => true,
-			'sitewideSocialImage'        => '',
-			'isPrivateBlog'              => false,
-			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
+			'isRecentTitlesDefault'       => false,
+			'isRecentDescriptionsDefault' => false,
+			'adminUrl'                    => 'http://example.org/wp-admin/admin.php',
+			'linkParams'                  => $this->short_link_helper->get_query_params(),
+			'pluginUrl'                   => 'http://example.org/wp-content/plugins/wordpress-seo',
+			'wistiaEmbedPermission'       => true,
+			'sitewideSocialImage'         => '',
+			'isPrivateBlog'               => false,
+			'currentPromotions'           => [],
 		];
 
 		$this->assertSame( $expected, $this->instance->get_legacy_site_information() );
@@ -161,29 +170,30 @@ final class Post_Site_Information_Test extends TestCase {
 		\update_option( 'blog_public', '0' );
 
 		$expected = [
-			'dismissedAlerts'            => false,
-			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'search_url'                 => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
-			'post_edit_url'              => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
-			'base_url'                   => 'http://example.org/',
-			'adminUrl'                   => 'http://example.org/wp-admin/admin.php',
-			'linkParams'                 => $this->short_link_helper->get_query_params(),
-			'pluginUrl'                  => 'http://example.org/wp-content/plugins/wordpress-seo',
-			'wistiaEmbedPermission'      => true,
-			'site_name'                  => 'Test Blog',
-			'contentLocale'              => 'en_US',
-			'userLocale'                 => 'en_US',
-			'isRtl'                      => false,
-			'isPremium'                  => false,
-			'siteIconUrl'                => '',
-			'showSocial'                 => [
+			'dismissedAlerts'             => false,
+			'webinarIntroBlockEditorUrl'  => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'search_url'                  => 'http://example.org/wp-admin/edit.php?seo_kw_filter={keyword}',
+			'post_edit_url'               => 'http://example.org/wp-admin/post.php?post={id}&action=edit',
+			'base_url'                    => 'http://example.org/',
+			'isRecentTitlesDefault'       => false,
+			'isRecentDescriptionsDefault' => false,
+			'adminUrl'                    => 'http://example.org/wp-admin/admin.php',
+			'linkParams'                  => $this->short_link_helper->get_query_params(),
+			'pluginUrl'                   => 'http://example.org/wp-content/plugins/wordpress-seo',
+			'wistiaEmbedPermission'       => true,
+			'site_name'                   => 'Test Blog',
+			'contentLocale'               => 'en_US',
+			'userLocale'                  => 'en_US',
+			'isRtl'                       => false,
+			'isPremium'                   => false,
+			'siteIconUrl'                 => '',
+			'showSocial'                  => [
 				'facebook' => true,
 				'twitter'  => true,
 			],
-			'sitewideSocialImage'        => '',
-			'isPrivateBlog'              => true,
-			'currentPromotions'          => [],
-			'blackFridayBlockEditorUrl'  => '',
+			'sitewideSocialImage'         => '',
+			'isPrivateBlog'               => true,
+			'currentPromotions'           => [],
 		];
 
 		$site_info = $this->instance->get_site_information();

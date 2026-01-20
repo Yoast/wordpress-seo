@@ -1,7 +1,8 @@
-import { ExclamationCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
+/* eslint-disable complexity */
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
+import { useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
-import { useMemo } from "@wordpress/element";
 
 import { getErrorAriaProps } from "../helpers";
 import MultiLineText from "./multi-line-text";
@@ -9,13 +10,12 @@ import MultiLineText from "./multi-line-text";
 /**
  * An icon for when feedback should be shown.
  *
- * @param {Object}  props            The props object.
- * @param {boolean} props.hasError   Whether there is an error icon.
- * @param {boolean} props.hasSuccess Whether there is a success icon.
+ * @param {boolean} [hasError=false] Whether there is an error icon.
+ * @param {boolean} [hasSuccess=false] Whether there is a success icon.
  *
- * @returns {WPElement|null} Returns an icon or null.
+ * @returns {JSX.Element} Returns an icon or null.
  */
-function FeedbackIcon( { hasError, hasSuccess } ) {
+function FeedbackIcon( { hasError = false, hasSuccess = false } ) {
 	if ( hasError ) {
 		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-3">
 			<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
@@ -33,27 +33,34 @@ FeedbackIcon.propTypes = {
 	hasSuccess: PropTypes.bool,
 };
 
-FeedbackIcon.defaultProps = {
-	hasError: false,
-	hasSuccess: false,
-};
-
 /**
  * The Text Input component.
  *
  * @param {string} [className=""] The classname for the wrapper div.
  * @param {string} id The id for the label and input field.
  * @param {string} [label=""] The text for the label.
- * @param {string} [description=""] The text for the description.
- * @param {string} value The value for the input field.
+ * @param {React.ReactNode} [description=null] The text for the description.
+ * @param {string} [value=""] The value for the input field.
  * @param {string} [placeholder=""] The placeholder for the input field.
- * @param {Object} onChange The function which handles the onChange event.
- * @param {String} type The type of the input, defaults to text.
- * @param {ValidationError} [error] Validation error object.
+ * @param {function} onChange The function which handles the onChange event.
+ * @param {string} [type="text"] The type of the input, defaults to text.
+ * @param {{type: string, message: [], isVisible: boolean}} [error] Validation error object.
+ * @param {...Object} [inputProps] Additional props to pass to the input element.
  *
- * @returns {WPElement} The Text Input component.
+ * @returns {JSX.Element} The Text Input component.
  */
-export default function TextInput( { className, id, label, description, value, onChange, placeholder, feedback, type, ...inputProps } ) {
+export default function TextInput( {
+	className = "",
+	id,
+	label = "",
+	description = null,
+	value = "",
+	onChange,
+	placeholder = "",
+	feedback = { message: [], isVisible: false },
+	type = "text",
+	...inputProps
+} ) {
 	const inputType = type ? type : "text";
 
 	const hasError = useMemo( () => feedback.isVisible && feedback.type === "error", [ feedback.isVisible, feedback.type ] );
@@ -61,7 +68,7 @@ export default function TextInput( { className, id, label, description, value, o
 
 	return (
 		<div className={ className }>
-			{ label && <label className="yst-block yst-mb-2 yst-font-medium yst-text-slate-700" htmlFor={ id }>
+			{ label && <label className="yst-block yst-mb-2 yst-font-medium yst-text-slate-800" htmlFor={ id }>
 				{ label }
 			</label> }
 			<div className="yst-relative">
@@ -70,7 +77,7 @@ export default function TextInput( { className, id, label, description, value, o
 					type={ inputType }
 					value={ value }
 					className={ classNames(
-						"yst-block yst-w-full yst-h-[45px] yst-input focus:yst-ring-1",
+						"yst-block yst-w-full yst-h-[40px] yst-input focus:yst-ring-1",
 						{
 							"yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500": hasError,
 							"yst-border-emerald-600 yst-text-slate-700 focus:yst-ring-emerald-600 focus:yst-border-emerald-600": hasSuccess,
@@ -114,17 +121,4 @@ TextInput.propTypes = {
 		isVisible: PropTypes.bool,
 	} ),
 	type: PropTypes.string,
-};
-
-TextInput.defaultProps = {
-	value: "",
-	className: "",
-	label: "",
-	description: null,
-	placeholder: "",
-	feedback: {
-		message: [],
-		isVisible: false,
-	},
-	type: "text",
 };

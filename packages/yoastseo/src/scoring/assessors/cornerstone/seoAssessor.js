@@ -4,6 +4,7 @@ import KeyphraseInImagesAssessment from "../../assessments/seo/KeyphraseInImageT
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
+import SubHeadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment";
 
 /**
  * The CornerstoneSEOAssessor class is used for the SEO analysis for cornerstone content.
@@ -22,7 +23,7 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 			scores: { tooLong: 3, tooShort: 3 },
 		} ) );
 		this.addAssessment( "imageKeyphrase", new KeyphraseInImagesAssessment( {
-			scores: { withAltNonKeyword: 3, withAlt: 3, noAlt: 3 },
+			scores: { withAltNonKeyword: 3, noAlt: 3 },
 		} ) );
 		this.addAssessment( "textLength", new TextLengthAssessment( {
 			recommendedMinimum: 900,
@@ -36,6 +37,10 @@ export default class CornerstoneSEOAssessor extends SEOAssessor {
 		}, true ) );
 		this.addAssessment( "slugKeyword", new SlugKeywordAssessment( {
 			scores: { okay: 3 },
+		} ) );
+		this.addAssessment( "subheadingsKeyword", new SubHeadingsKeywordAssessment( {
+			cornerstoneContent: true,
+			parameters: { recommendedMaximumLength: 250 },
 		} ) );
 	}
 }

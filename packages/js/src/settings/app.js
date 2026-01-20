@@ -1,18 +1,17 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { useSelect } from "@wordpress/data";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Badge, ChildrenLimiter, ErrorBoundary, Paper, SidebarNavigation, useBeforeUnload, useSvgAria, useNavigationContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, PremiumUpsellList, SidebarRecommendations, YoastLogo } from "../shared-admin/components";
-import { ErrorFallback, Notifications, Search } from "./components";
+import { ErrorFallback, Notifications, Search, AdvancedMenu, ChildrenLimiterButton } from "./components";
 import { STORE_NAME } from "./constants";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -22,9 +21,11 @@ import {
 	DateArchives,
 	FormatArchives,
 	Homepage,
+	LlmTxt,
 	MediaPages,
 	PostType,
 	Rss,
+	SchemaFramework,
 	SiteBasics,
 	SiteConnections,
 	SiteFeatures,
@@ -41,29 +42,21 @@ import {
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
+	const { pathname } = useLocation();
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const { history, setHistory, addToHistory, removeFromHistory } = useNavigationContext();
 
-	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
-
-		return (
-			<div className="yst-relative">
-				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
-				<button
-					type="button"
-					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
-					onClick={ toggle }
-					{ ...ariaProps }
-				>
-					{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
-					<ChevronIcon
-						className="yst-h-4 yst-w-4 yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3"
-						{ ...svgAriaProps }
-					/>
-				</button>
-			</div>
-		);
+	useEffect( () => {
+		setHistory( [ `menu-content-types${ idSuffix }`, `menu-categories-and-tags${ idSuffix }`, `menu-general${ idSuffix }` ] );
 	}, [] );
+
+	const renderMoreContentTypesButton = useCallback( ( { show, toggle, ariaProps } ) => {
+		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-content-types${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
+	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
+
+	const renderMoreCategoriesButton = useCallback( ( { show, toggle, ariaProps } ) => {
+		return <ChildrenLimiterButton { ...{ show, toggle, ariaProps, id: `more-categories${ idSuffix }`, addToHistory, removeFromHistory, history } } />;
+	}, [ idSuffix, addToHistory, removeFromHistory, history ] );
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
@@ -77,11 +70,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
-		<div className="yst-px-0.5 yst-space-y-6">
+		<div className="yst-px-0.5 yst-space-y-6" key={ `menu-${ idSuffix }-${ pathname }` }>
 			<SidebarNavigation.MenuItem
 				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-general${ idSuffix }` ) }
 			>
 				<MenuItemLink to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<MenuItemLink to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -96,8 +90,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-content-types${ idSuffix }` ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreContentTypesButton } initialShow={ history.includes( `more-content-types${ idSuffix }` ) }>
 					<MenuItemLink to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { name, route, label, isNew } ) => (
 						<MenuItemLink
@@ -116,8 +111,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
+				defaultOpen={ history.includes( `menu-categories-and-tags${ idSuffix }` ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreCategoriesButton } initialShow={ history.includes( `more-categories${ idSuffix }` ) }>
 					{ map( taxonomies, taxonomy => (
 						<MenuItemLink
 							key={ `link-taxonomy-${ taxonomy.name }` }
@@ -131,25 +127,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					) ) }
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
-			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix }` }
-				icon={ AdjustmentsIcon }
-				label={ __( "Advanced", "wordpress-seo" ) }
-				defaultOpen={ false }
-			>
-				<MenuItemLink
-					to="/crawl-optimization"
-					label={ __( "Crawl optimization", "wordpress-seo" ) }
-					idSuffix={ idSuffix }
-				/>
-				<MenuItemLink to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<MenuItemLink to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			</SidebarNavigation.MenuItem>
+			<AdvancedMenu idSuffix={ idSuffix } />
 		</div>
 	</>;
 };
@@ -169,10 +147,13 @@ const App = () => {
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const wooLinkList = useSelectSettings( "selectLink", [], "https://yoa.st/admin-footer-upsell-woocommerce" );
 	const premiumLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
+	const wooLinkSidebar = useSelectSettings( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
 	const { isPromotionActive } = useSelect( STORE_NAME );
+	const isWooCommerceActive = useSelectSettings( "selectPreference", [], "isWooCommerceActive" );
 
 	useRouterScrollRestore();
 
@@ -222,6 +203,8 @@ const App = () => {
 											<Route path="date-archives" element={ <DateArchives /> } />
 											<Route path="homepage" element={ <Homepage /> } />
 											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="llms-txt" element={ <LlmTxt /> } />
+											<Route path="schema-framework" element={ <SchemaFramework /> } />
 											<Route path="media-pages" element={ <MediaPages /> } />
 											<Route path="rss" element={ <Rss /> } />
 											<Route path="site-basics" element={ <SiteBasics /> } />
@@ -253,18 +236,20 @@ const App = () => {
 								</ErrorBoundary>
 							</Paper>
 							{ ! isPremium && <PremiumUpsellList
-								premiumLink={ premiumLinkList }
+								premiumLink={ isWooCommerceActive ? wooLinkList : premiumLinkList }
 								premiumUpsellConfig={ premiumUpsellConfig }
 								isPromotionActive={ isPromotionActive }
+								isWooCommerceActive={ isWooCommerceActive }
 							/> }
 						</div>
 						{ ! isPremium &&
 							<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 								<SidebarRecommendations
-									premiumLink={ premiumLinkSidebar }
+									premiumLink={ isWooCommerceActive ? wooLinkSidebar : premiumLinkSidebar }
 									premiumUpsellConfig={ premiumUpsellConfig }
 									academyLink={ academyLink }
 									isPromotionActive={ isPromotionActive }
+									isWooCommerceActive={ isWooCommerceActive }
 								/>
 							</div>
 						}

@@ -1,4 +1,5 @@
 @import url(../src/score_icon.css);
+@import url(../src/icons.css);
 
 #wp-admin-bar-wpseo-menu .wpseo-score-icon {
   margin: 10px 0 0 4px !important;
@@ -16,15 +17,12 @@
   margin-bottom: 5px;
 }
 
-#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium a {
-	font-weight: bold !important;
-	color: #fff !important;
-}
+
 
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium span {
 	color: rgb(252, 211, 77);
 	border: solid rgb(252, 211, 77) 1px;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	background: rgb(31, 41, 55);
 	padding: 1px 4px;
@@ -107,10 +105,6 @@
   background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgc3R5bGU9ImZpbGw6IzgyODc4YyIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxnPjxnPjxnPjxnPjxwYXRoIGQ9Ik0yMDMuNiwzOTVjNi44LTE3LjQsNi44LTM2LjYsMC01NGwtNzkuNC0yMDRoNzAuOWw0Ny43LDE0OS40bDc0LjgtMjA3LjZIMTE2LjRjLTQxLjgsMC03NiwzNC4yLTc2LDc2VjM1N2MwLDQxLjgsMzQuMiw3Niw3Niw3NkgxNzNDMTg5LDQyNC4xLDE5Ny42LDQxMC4zLDIwMy42LDM5NXoiLz48L2c+PGc+PHBhdGggZD0iTTQ3MS42LDE1NC44YzAtNDEuOC0zNC4yLTc2LTc2LTc2aC0zTDI4NS43LDM2NWMtOS42LDI2LjctMTkuNCw0OS4zLTMwLjMsNjhoMjE2LjJWMTU0Ljh6Ii8+PC9nPjwvZz48cGF0aCBzdHJva2Utd2lkdGg9IjIuOTc0IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0zMzgsMS4zbC05My4zLDI1OS4xbC00Mi4xLTEzMS45aC04OS4xbDgzLjgsMjE1LjJjNiwxNS41LDYsMzIuNSwwLDQ4Yy03LjQsMTktMTksMzcuMy01Myw0MS45bC03LjIsMXY3Nmg4LjNjODEuNywwLDExOC45LTU3LjIsMTQ5LjYtMTQyLjlMNDMxLjYsMS4zSDMzOHogTTI3OS40LDM2MmMtMzIuOSw5Mi02Ny42LDEyOC43LTEyNS43LDEzMS44di00NWMzNy41LTcuNSw1MS4zLTMxLDU5LjEtNTEuMWM3LjUtMTkuMyw3LjUtNDAuNywwLTYwbC03NS0xOTIuN2g1Mi44bDUzLjMsMTY2LjhsMTA1LjktMjk0aDU4LjFMMjc5LjQsMzYyeiIvPjwvZz48L2c+PC9zdmc+");
 }
 
-#wpadminbar #wp-admin-bar-wpseo-licenses .ab-item {
-  color: #f18500;
-}
-
 #wpadminbar .wpseo-no-adminbar-notifications {
   display: none;
 }
@@ -150,4 +144,129 @@
   }
 }
 
+/** A lot of CSS for this stolen from the UI libary but slightly modified since the site bar css is very aggressive */
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium .ab-empty-item{
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-h-4
+	yst-mt-2
+	yst-mx-3
+	yst-text-xs
+	yst-leading-4
+	yst-px-2.5
+	yst-py-1.5
+	yst-ring-inset
+	yst-ring-1
+	yst-ring-transparent
+	yst-shadow-sm
+	yst-no-underline
+	yst-cursor-pointer
+	yst-rounded-md
+	yst-font-medium
+	yst-text-center
+
+	focus:yst-outline
+	focus:yst-outline-2
+	focus:yst-outline-offset-2
+	yst-bg-amber-300
+	yst-border-transparent
+	hover:yst-text-amber-900
+	hover:yst-bg-amber-400
+	focus:yst-text-amber-900
+	focus:yst-outline-amber-400
+	visited:yst-text-amber-900
+	visited:hover:yst-text-amber-900;
+
+}
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium {
+ @apply yst-flex;
+}
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium .ab-empty-item a{
+	@apply
+	yst-text-amber-900;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-upgrade-sidebar {
+	@apply yst-hidden;
+}
+
+/** AI Brand Insights button styling */
+#wpadminbar #wp-admin-bar-wpseo_brand_insights,
+#wpadminbar #wp-admin-bar-wpseo_brand_insights_premium {
+	@apply yst-flex;
+}
+
+#wpadminbar #wp-admin-bar-wpseo_brand_insights .ab-item,
+#wpadminbar #wp-admin-bar-wpseo_brand_insights_premium .ab-item {
+	@apply
+	yst-pt-2.5
+	yst-pb-2
+	yst-px-3
+	md:yst-w-full;
+}
+
+/* Gradient border wrapper for the AI Brand Insights button */
+#wpadminbar .yoast-brand-insights-gradient-border {
+	@apply
+	yst-relative
+	yst-flex
+	yst-rounded-md
+	yst-p-px;
+	background: linear-gradient(97.38deg, #CD82AB 0%, #A5B4FC 100%);
+}
+
+/* Inner content wrapper for the AI Brand Insights button */
+#wpadminbar .yoast-brand-insights-content {
+	@apply
+	yst-relative
+	yst-rounded-md
+	yst-px-[1.1rem]
+	yst-flex
+	yst-items-center
+	yst-justify-center
+	yst-gap-1
+	yst-font-medium
+	yst-text-xs
+	yst-whitespace-nowrap
+	yst-w-full
+	lg:yst-px-4;
+	background: var(--yoast-adminbar-submenu-bg, #2c3338);
+}
+
+/* External link icon for the AI Brand Insights button */
+#wpadminbar .yst-external-link-icon {
+	@apply
+	yst-inline-block
+	yst-w-3.5
+	yst-h-3.5
+	yst-align-middle
+	yst-mb-0.5;
+	background-color: currentColor;
+	mask-image: var(--yoast-svg-icon-external-link);
+	-webkit-mask-image: var(--yoast-svg-icon-external-link);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+}
+
+#wpseo-new-badge-upgrade {
+	@apply
+	yst-inline-flex
+	yst-items-center
+	yst-justify-center
+	yst-whitespace-nowrap
+	yst-m-0.5
+	yst-mt-0.5
+	yst-mb-0.5
+	yst-ml-2
+	yst-mr-2
+	yst-w-[2.375rem]
+	yst-h-4
+	yst-rounded-[18px]
+	yst-bg-blue-200
+	yst-text-blue-800
+	yst-text-xs
+	yst-font-semibold
+}
 /*# sourceMappingURL=adminbar.css.map */

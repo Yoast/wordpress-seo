@@ -1,43 +1,39 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
+const condensedBenefits = [
+	__( "Create optimized SEO titles & meta descriptions in seconds", "wordpress-seo" ),
+	__( "Apply AI suggestions to improve content in 1 click", "wordpress-seo" ),
+	__( "Manage redirects with ease and without extra plugins", "wordpress-seo" ),
+	__( "Optimize pages for multiple keywords with guidance", "wordpress-seo" ),
+];
+const condensedWooBenefits = [
+	__( "Add product details to help your listings stand out", "wordpress-seo" ),
+	__( "Make sure search engines show the right version of your product page", "wordpress-seo" ),
+	__( "Create optimized SEO titles & meta descriptions with AI", "wordpress-seo" ),
+	__( "Receive clear SEO and readability guidance to optimize your products", "wordpress-seo" ),
+];
+const fullBenefits = [
+	__( "Generate SEO optimized metadata in seconds with AI", "wordpress-seo" ),
+	__( "Make your articles visible, be seen in Google News", "wordpress-seo" ),
+	__( "Built to get found by search, AI, and real users", "wordpress-seo" ),
+	__( "Easy Local SEO. Show up in Google Maps results", "wordpress-seo" ),
+	__( "Internal links and redirect management, easy", "wordpress-seo" ),
+	__( "Access to friendly help when you need it, day or night", "wordpress-seo" ),
+];
 /**
  * @returns {string[]} The premium benefits.
  */
-export const getPremiumBenefits = () => [
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$sAI%2$s: Better SEO titles and meta descriptions, faster.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$sMultiple keywords%2$s: Rank higher for more searches.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$sSuper fast%2$s internal linking suggestions.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$sNo more broken links%2$s: Automatic redirect manager.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$sAppealing social previews%2$s people actually want to click on.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-	sprintf(
-		/* translators: %1$s expands to a strong opening tag, %2$s expands to a strong closing tag. */
-		__( "%1$s24/7 support%2$s: Also on evenings and weekends.", "wordpress-seo" ),
-		"<strong>",
-		"</strong>"
-	),
-];
+export const getPremiumBenefits = ( condensed = false  ) => {
+	return condensed ? condensedBenefits : fullBenefits;
+};
+
+export const getWooSeoBenefits = ( condensed = false ) => {
+	if ( condensed ) {
+		return condensedWooBenefits;
+	}
+
+	const wooSeoBenefits = [ ...fullBenefits ];
+	wooSeoBenefits[ 1 ] = __( "Boost visibility for your products, from 10 or 10,000+", "wordpress-seo" );
+	return wooSeoBenefits;
+};
+

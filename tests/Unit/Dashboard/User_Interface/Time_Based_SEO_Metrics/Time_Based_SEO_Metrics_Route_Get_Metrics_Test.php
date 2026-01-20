@@ -1,7 +1,9 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\User_Interface\Time_Based_SEO_Metrics;
 
+use Brain\Monkey;
 use DateTime;
 use Mockery;
 use WP_REST_Request;
@@ -19,6 +21,7 @@ use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Paramete
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route::get_time_based_seo_metrics
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route::set_date_range_parameters
  * @covers Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route::set_comparison_date_range_parameters
+ * @covers Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route::get_base_date
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -35,6 +38,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 	 * @param int    $organic_sessions_daily_count   The times we ask for the organic sessions daily repository.
 	 * @param int    $organic_sessions_compare_count The times we ask for the organic sessions compare repository.
 	 * @param int    $search_ranking_compare_count   The times we ask for the search ranking compare repository.
+	 * @param string $base_date_filter_count         The times we filter the base date.
+	 * @param string $filtered_base_date             The filtered base date.
 	 *
 	 * @return void
 	 */
@@ -44,7 +49,9 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 		$top_queries_count,
 		$organic_sessions_daily_count,
 		$organic_sessions_compare_count,
-		$search_ranking_compare_count
+		$search_ranking_compare_count,
+		$base_date_filter_count,
+		$filtered_base_date
 	) {
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
@@ -162,6 +169,11 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 			->times( ( $top_queries_count === 1 || $top_pages_count === 1 ) ? 1 : 0 )
 			->andReturn( 5 );
 
+		Monkey\Functions\expect( 'apply_filters' )
+			->times( $base_date_filter_count )
+			->with( 'wpseo_custom_site_kit_base_date', 'now' )
+			->andReturn( $filtered_base_date );
+
 		$this->assertInstanceOf(
 			'WP_REST_Response',
 			$this->instance->get_time_based_seo_metrics( $wp_rest_request )
@@ -205,29 +217,35 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 	 */
 	public static function data_get_time_based_seo_metrics() {
 		return [
-			'Top pages route'          => [
+			'Top pages route' => [
 				'page',
 				1,
 				0,
 				0,
 				0,
 				0,
+				2,
+				'now',
 			],
-			'Top queries route'        => [
+			'Top queries route' => [
 				'query',
 				0,
 				1,
 				0,
 				0,
 				0,
+				2,
+				'now',
 			],
-			'Daily organic sessions'   => [
+			'Daily organic sessions' => [
 				'organicSessionsDaily',
 				0,
 				0,
 				1,
 				0,
 				0,
+				2,
+				'now',
 			],
 			'Compare organic sessions' => [
 				'organicSessionsCompare',
@@ -236,14 +254,58 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 				0,
 				1,
 				0,
+				3,
+				'now',
 			],
-			'Compare search rankings'  => [
+			'Compare search rankings' => [
 				'searchRankingCompare',
 				0,
 				0,
 				0,
 				0,
 				1,
+				3,
+				'now',
+			],
+			'Daily organic sessions with custom base date' => [
+				'organicSessionsDaily',
+				0,
+				0,
+				1,
+				0,
+				0,
+				2,
+				'2023-01-01',
+			],
+			'Compare search rankings with custom base date' => [
+				'searchRankingCompare',
+				0,
+				0,
+				0,
+				0,
+				1,
+				3,
+				'2023-01-01',
+			],
+			'Daily organic sessions with invalid custom base date' => [
+				'organicSessionsDaily',
+				0,
+				0,
+				1,
+				0,
+				0,
+				2,
+				'2023-44-01',
+			],
+			'Compare search rankings with invalid custom base date' => [
+				'searchRankingCompare',
+				0,
+				0,
+				0,
+				0,
+				1,
+				3,
+				'2023-41-01',
 			],
 		];
 	}

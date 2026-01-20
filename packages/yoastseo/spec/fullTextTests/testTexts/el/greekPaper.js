@@ -54,8 +54,8 @@ const expectedResults = {
 	textCompetingLinks: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with " +
-			"the words you want this page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: You have a link which uses your " +
+			"keyphrase or synonym as its anchor text. <a href='https://yoa.st/34m' target='_blank'>Fix that</a>!",
 	},
 	textImages: {
 		isApplicable: true,
@@ -153,7 +153,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Images on this page do not have alt attributes " +
 			"with at least half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {

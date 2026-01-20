@@ -58,12 +58,15 @@ const expectedResults = {
 			"target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/shopify16' target='_blank'>Keyphrase in subheading</a>: You are not using any higher-level subheadings" +
+			" containing the keyphrase or its synonyms. <a href='https://yoa.st/shopify17' target='_blank'>Fix that</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/shopify18' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -93,8 +96,8 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: You don't have multiple H1 headings, well done!",
 	},
 	productIdentifiers: {
 		isApplicable: true,
@@ -113,7 +116,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Good job!",
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Keyphrase in image alt attributes</a>: Good job!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -125,7 +128,7 @@ const expectedResults = {
 	imageAltTags: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt attributes</a>: All images have alt attributes. Good job!",
 	},
 	keyphraseDistribution: {
 		isApplicable: true,

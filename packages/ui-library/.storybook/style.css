@@ -30,6 +30,7 @@
 @import "../src/components/modal/style.css";
 @import "../src/components/notifications/style.css";
 @import "../src/components/pagination/style.css";
+@import "../src/components/popover/style.css";
 @import "../src/components/radio-group/style.css";
 @import "../src/components/root/style.css";
 @import "../src/components/select-field/style.css";
@@ -41,6 +42,7 @@
 @import "../src/components/tooltip-container/style.css";
 @import "../src/components/dropdown-menu/style.css";
 @import "../src/components/stepper/style.css";
+@import "../src/components/image-select/style.css";
 
 @tailwind base;
 @tailwind components;

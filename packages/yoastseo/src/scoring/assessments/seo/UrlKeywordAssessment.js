@@ -64,9 +64,15 @@ export default class SlugKeywordAssessment extends Assessment {
 		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if ( assessmentResult.getScore() < 9 && this._canAssess ) {
+		if ( assessmentResult.getScore() < 9 ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "slug", "wordpress-seo" ) );
+			if ( paper.hasKeyword() ) {
+				assessmentResult.setEditFieldName( "slug" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your slug", "wordpress-seo" ) );
+			} else {
+				assessmentResult.setEditFieldName( "keyphrase" );
+				assessmentResult.setEditFieldAriaLabel( __( "Edit your keyphrase", "wordpress-seo" ) );
+			}
 		}
 		return assessmentResult;
 	}

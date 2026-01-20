@@ -1,6 +1,6 @@
 {
   "name": "@yoast/dashboard-frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The frontend for the Yoast Dashboard",
   "main": "build/index.js",
   "style": "build/css/style.css",
@@ -13,12 +13,15 @@
   "private": false,
   "sideEffects": false,
   "scripts": {
-    "clean:build": "rm -rf build",
     "build": "yarn clean:build && yarn build:js",
     "build:js": "babel src --out-dir build",
+    "build:storybook": "storybook build",
+    "clean:build": "rm -rf build",
+    "clean:storybook": "rm -rf storybook-static",
     "lint": "eslint . --max-warnings=0",
+    "storybook": "storybook dev -p 6008",
     "test": "jest",
-    "watch": "yarn watch:js",
+    "watch": "yarn clean:build && yarn watch:js",
     "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
@@ -28,27 +31,51 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@jest/globals": "^29.7.0",
+    "@storybook/addon-a11y": "^8.6.12",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-styling-webpack": "^1.0.1",
+    "@storybook/addon-webpack5-compiler-swc": "^3.0.0",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/manager-api": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/react-webpack5": "^8.6.12",
+    "@storybook/test": "^8.6.12",
+    "@storybook/theming": "^8.6.12",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/postcss-preset": "^1.2.1",
+    "@yoast/tailwindcss-preset": "^2.5.0",
+    "css-loader": "^7.1.2",
     "eslint": "^9.23.0",
+    "eslint-plugin-storybook": "^0.12.0",
     "globals": "^16.0.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "postcss": "^8.4.19",
+    "postcss-loader": "^8.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "storybook": "^8.6.12",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.16"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.3",
-    "@wordpress/i18n": "^5.0.1",
+    "@wordpress/i18n": "^5.8.2",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "@wordpress/element": "^6.0.1",
-    "@yoast/ui-library": "^4.2.0",
+    "@yoast/ui-library": "^4.4.0",
     "chart.js": "^4.2.1",
-    "react": "^18.2.0",
+    "react": "^18",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18"
   }
 }

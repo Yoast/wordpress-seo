@@ -1,8 +1,10 @@
-// eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { actions, reducers, selectors } from "@yoast/externals/redux";
 import { merge } from "lodash";
-import { reducers, selectors, actions } from "@yoast/externals/redux";
 import {
+	DOCUMENT_TITLE_NAME,
+	documentTitleReducer,
+	documentTitleSelectors,
 	getInitialLinkParamsState,
 	getInitialNotificationsState,
 	LINK_PARAMS_NAME,
@@ -22,6 +24,25 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import indexablePages, {
+	createInitialIndexablePagesState,
+	INDEXABLE_PAGE_NAME,
+	indexablePagesActions,
+	indexablePagesControls,
+	indexablePagesSelectors,
+} from "./indexable-pages";
+import llmsTxt, {
+	createInitialLlmsTxtState,
+	llmsTxtActions,
+	LLMS_TXT_NAME,
+	llmsTxtSelectors,
+} from "./llms-txt";
+import schemaFramework, {
+	createInitialSchemaFrameworkState,
+	schemaFrameworkActions,
+	SCHEMA_FRAMEWORK_NAME,
+	schemaFrameworkSelectors,
+} from "./schema-framework";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import pageReducer, { getPageInitialState, PAGE_NAME, pageActions, pageControls, pageSelectors } from "./pages";
 import postTypes, { createInitialPostTypesState, postTypeControls, postTypesActions, postTypesSelectors } from "./post-types";
@@ -35,6 +56,12 @@ import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors, taxonomyControls } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
+import siteFeatures, {
+	siteFeaturesActions,
+	siteFeaturesSelectors,
+	SITE_FEATURES_NAME,
+	createInitialSiteFeaturesState,
+} from "./site-features";
 
 const { isPromotionActive } = selectors;
 const { currentPromotions } = reducers;
@@ -51,7 +78,10 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...defaultSettingValuesActions,
 			...fallbacksActions,
+			...indexablePagesActions,
 			...linkParamsActions,
+			...llmsTxtActions,
+			...schemaFrameworkActions,
 			...mediaActions,
 			...notificationsActions,
 			...pageActions,
@@ -63,12 +93,17 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesActions,
 			...usersActions,
 			setCurrentPromotions,
+			...siteFeaturesActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
+			...documentTitleSelectors,
 			...fallbacksSelectors,
+			...indexablePagesSelectors,
 			...linkParamsSelectors,
+			...llmsTxtSelectors,
+			...schemaFrameworkSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
 			...pageSelectors,
@@ -80,13 +115,16 @@ const createStore = ( { initialState } ) => {
 			...taxonomiesSelectors,
 			...usersSelectors,
 			isPromotionActive,
+			...siteFeaturesSelectors,
 		},
 		initialState: merge(
 			{},
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
+				[ INDEXABLE_PAGE_NAME ]: createInitialIndexablePagesState(),
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
+				[ LLMS_TXT_NAME ]: createInitialLlmsTxtState(),
 				media: createInitialMediaState(),
 				[ NOTIFICATIONS_NAME ]: getInitialNotificationsState(),
 				[ PAGE_NAME ]: getPageInitialState(),
@@ -94,16 +132,21 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				[ SCHEMA_FRAMEWORK_NAME ]: createInitialSchemaFrameworkState(),
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
 				currentPromotions: { promotions: [] },
+				[ SITE_FEATURES_NAME ]: createInitialSiteFeaturesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
 			defaultSettingValues,
+			[ DOCUMENT_TITLE_NAME ]: documentTitleReducer,
 			fallbacks,
+			[ INDEXABLE_PAGE_NAME ]: indexablePages,
+			llmsTxt,
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			media,
 			[ NOTIFICATIONS_NAME ]: notificationsReducer,
@@ -112,10 +155,12 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			replacementVariables,
 			schema,
+			schemaFramework,
 			search,
 			taxonomies,
 			users,
 			currentPromotions,
+			siteFeatures,
 		} ),
 		controls: {
 			...mediaControls,
@@ -123,6 +168,7 @@ const createStore = ( { initialState } ) => {
 			...postTypeControls,
 			...taxonomyControls,
 			...pageControls,
+			...indexablePagesControls,
 		},
 	} );
 };

@@ -5,14 +5,14 @@ import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
 import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipe-maker-logo.svg";
 import { ReactComponent as WoocommerceSeoLogo } from "../../images/woo-yoast-logo.svg";
 import { ReactComponent as EDDLogo } from "../../images/edd-logo.svg";
-import { createInterpolateElement } from "@wordpress/element";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { WoocommerceIntegration } from "./woocommerce-integration";
 
 const integrations = [
 	{
 		name: "The Events Calendar",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your events%2$s in Google search", "wordpress-seo" ),
@@ -38,7 +38,7 @@ const integrations = [
 	},
 	{
 		name: "Seriously Simple Podcasting",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your podcast%2$s in Google search", "wordpress-seo" ),
@@ -64,7 +64,7 @@ const integrations = [
 	},
 	{
 		name: "Easy Digital Downloads",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your digital products%2$s in Google search", "wordpress-seo" ),
@@ -91,7 +91,7 @@ const integrations = [
 	},
 	{
 		name: "WP Recipe Maker",
-		claim: createInterpolateElement(
+		claim: safeCreateInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
 				__( "Get %1$srich results for your recipes%2$s in Google search", "wordpress-seo" ),
@@ -118,7 +118,7 @@ const integrations = [
 ];
 const wooIntegration = {
 	name: "WooCommerce",
-	claim: createInterpolateElement(
+	claim: safeCreateInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: bold close tag. */
 			__( "Get %1$srich product results%2$s in Google search", "wordpress-seo" ),
@@ -150,6 +150,7 @@ const SchemaAPIIntegrations = [
 				key={ index }
 				integration={ integration }
 				isActive={ getInitialState( integration ) }
+				isSchemaAPIIntegration={ true }
 			/>
 		);
 	} ),
@@ -164,6 +165,7 @@ SchemaAPIIntegrations.push(
 		isPrerequisiteActive={ Boolean( window.wpseoIntegrationsData[ "woocommerce_active" ] ) }
 		upsellLink={ window.wpseoIntegrationsData[ "woocommerce_seo_upsell_url" ] }
 		activationLink={ window.wpseoIntegrationsData[ "woocommerce_seo_activate_url" ] }
+		isSchemaAPIIntegration={ true }
 	/>
 );
 /* eslint-enable dot-notation */

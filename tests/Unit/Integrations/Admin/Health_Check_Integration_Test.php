@@ -49,11 +49,13 @@ final class Health_Check_Integration_Test extends TestCase {
 		$this->runner_mocks = [
 			Mockery::mock( Runner_Interface::class ),
 			Mockery::mock( Runner_Interface::class ),
+			Mockery::mock( Runner_Interface::class ),
 		];
 
 		$this->health_check_mocks = [
 			Mockery::mock( Health_Check_Double::class, [ $this->runner_mocks[0] ] ),
 			Mockery::mock( Health_Check_Double::class, [ $this->runner_mocks[1] ] ),
+			Mockery::mock( Health_Check_Double::class, [ $this->runner_mocks[2] ] ),
 		];
 
 		$this->instance = new Health_Check_Integration( ...$this->health_check_mocks );
@@ -137,6 +139,21 @@ final class Health_Check_Integration_Test extends TestCase {
 		$this->health_check_mocks[1]
 			->shouldReceive( 'get_test_identifier' )
 			->andReturn( 'test1' )
+			->once();
+
+		$this->health_check_mocks[0]
+			->shouldReceive( 'is_excluded' )
+			->andReturn( false )
+			->once();
+
+		$this->health_check_mocks[1]
+			->shouldReceive( 'is_excluded' )
+			->andReturn( false )
+			->once();
+
+		$this->health_check_mocks[2]
+			->shouldReceive( 'is_excluded' )
+			->andReturn( true )
 			->once();
 
 		$actual = $this->instance->add_health_checks( $input );

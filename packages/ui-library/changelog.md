@@ -1,9 +1,50 @@
 # Changelog
 
+## 4.4.0
+
+### Enhancements:
+
+* Adds two button variants for AI features and improves button icons accessibility.  [#22692](https://github.com/Yoast/wordpress-seo/pull/22692)
+* Adds the `ai` variant to the Badge component. [#22717](https://github.com/Yoast/wordpress-seo/pull/22717)
+* Adds support to add styling to the progress indicator for the progress bar component. [#22720](https://github.com/Yoast/wordpress-seo/pull/22720)
+* Adds the ImageSelect component. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
+
+### Bugfixes:
+
+* Fixes a bug where table backgrounds would expand beyond the rounded corners in Firefox. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Fixes a bug where link buttons would be outlined on mouse click when using tertiary buttons and links.  [#22796](https://github.com/Yoast/wordpress-seo/pull/22796)
+
+### Other:
+
+* Removes unused `Table.Cell` prop `variant` from definition. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Applies `Table.Head` background color styling to the header cell instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Applies striped table row styling on the cell, instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+
+
+## 4.3.0
+
+### Enhancements:
+* Adds support to add steps to the stepper as a prop. [#22151](https://github.com/Yoast/wordpress-seo/pull/22151)
+* Adds support to remove steps. [#22151](https://github.com/Yoast/wordpress-seo/pull/22151)
+* Adds support to custom progress bar as a prop. [#22151](https://github.com/Yoast/wordpress-seo/pull/22151)
+* Adds `success` and `error` variants to the Badge component. [#22374](https://github.com/Yoast/wordpress-seo/pull/22374)
+* Adds support for optional label for checkbox components. [#22372](https://github.com/Yoast/wordpress-seo/pull/22372)
+
+### Bugfixes:
+* Adds supprt for collapsable history to the `Sidebar navigation` context. [#22681](https://github.com/Yoast/wordpress-seo/pull/22681)
+
+### Other:
+* Re-arranges the stepper elements rendering order to avoid specifying their z-index. [#22235](https://github.com/Yoast/wordpress-seo/pull/22235)
+
+### Non user facing:
+* Allows anyone interested in our `FeatureUpsell` to switch between the upsell and non-upsell state. [#20263](https://github.com/Yoast/wordpress-seo/pull/20263)
+* Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
+* Adds stories to custom step, custom progress bar and steps as a prop. [#22151](https://github.com/Yoast/wordpress-seo/pull/22151)
+* Improves the popover component in the UI library. [#22326](https://github.com/Yoast/wordpress-seo/pull/22326)
+
 ## 4.2.0
 
-Enhancements:
-
+### Enhancements:
 * Adds a `useKeydown` hook to handle the `keydown` event listener subscription. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
 * Adds a `TooltipContainer` component to provide a11y functionality around the Tooltip element. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
 * Adds a new `Table` property `variant` to support a `minimal` style. [#21951](https://github.com/Yoast/wordpress-seo/pull/21951)
@@ -13,31 +54,26 @@ Enhancements:
 * Adds optional `onClear` to the Autocomplete to support detecting of the difference between a `null` value and the user clearing the value. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
 * Improves the RTL support in the Pagination component to always have the LTR direction. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
 
-Bugfixes:
-
+### Bugfixes:
 * Fixes a bug where the Autocomplete would have an empty trailing space after the input, which would especially show when using `nullable`. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
 * Fixes a bug where the Tooltip would be positioned wrong when using a RTL language. [#21870](https://github.com/Yoast/wordpress-seo/pull/21870)
 
-Other:
-
+### Other:
 * Fixes a bug in the storybook where the RTL styling would not affect the dialogs. [#21909](https://github.com/Yoast/wordpress-seo/pull/21909)
 * Improves contrast of default text color in `Table.Cell`. [#21916](https://github.com/Yoast/wordpress-seo/pull/21916)
 
 ## 4.1.0
 
-Enhancements:
-
+### Enhancements:
 * Improves styling of Autocomplete disabled state. [#21321](https://github.com/Yoast/wordpress-seo/pull/21321)
 * Adds a `Toast` element. [#21407](https://github.com/Yoast/wordpress-seo/pull/21407)
 
-Bugfixes:
-
+### Bugfixes:
 * Removes the 100% height styling from the Autocomplete `.yst-autocomplete__button` class. [#21323](https://github.com/Yoast/wordpress-seo/pull/21323)
 
 ## 4.0.0
 
-Enhancements:
-
+### Enhancements:
 * Replaces peer dependency `@wordpress/element:^4.1.1` (containing `react:^17.0.2`) with `react:^18.2.0`. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
 * Now compatible with the latest two stable versions of actively maintained browsers, through the usage of browserslist config. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
 * Adds a new "extra-large" value for the `Button` property `size`, re-aligning the entire sizing scale. [#21121](https://github.com/Yoast/wordpress-seo/pull/21121)
@@ -47,21 +83,18 @@ Enhancements:
 * Adds a `Tooltip` element.  [#21197](https://github.com/Yoast/wordpress-seo/pull/21197)
 * Adds `reset` as valid value of `type`, in the `Button` element. [#21309](https://github.com/Yoast/wordpress-seo/pull/21309)
 
-Bugfixes:
-
+### Bugfixes:
 * Fixes a bug where the `Textarea` element did not use the `cols` default. [#20944](https://github.com/Yoast/wordpress-seo/pull/20944)
 * Fixes a bug where the `TextInput` with type `date` would span 2 lines in Chrome, by removing our placeholder and icon overrides. [#21187](https://github.com/Yoast/wordpress-seo/pull/21187)
 * Fixes a bug where the background of the `Autocomplete` element would not be applied to the full width of the element. [#21173](https://github.com/Yoast/wordpress-seo/pull/21173)
 
 ## 3.3.0
 
-Enhancements:
-
+### Enhancements:
 * Adds support for readonly and disabled styling in `Textarea` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
 * Adds styling and placeholder to date type of `TextInput` component. [#21008](https://github.com/Yoast/wordpress-seo/pull/21008)
 
-Bugfixes:
-
+### Bugfixes:
 * Adds missing button type to the Notifications' dismiss button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
 * Adds missing button type to the SidebarNavigation MenuItem' button. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
 * Adds missing button type to the SidebarNavigation Mobile' open and close buttons. [#20920](https://github.com/Yoast/wordpress-seo/pull/20920)
@@ -72,15 +105,14 @@ Bugfixes:
 
 ## 3.2.1
 
-Bugfixes:
+### Bugfixes:
 
 * Fixes a bug in the `FileInput` element where the `onChange` callback would sometimes retrieve an unexpected `File` instead of the intended change event. This introduces an `onDrop` callback to retrieve the drop event containing the dropped files. [#20646](https://github.com/Yoast/wordpress-seo/pull/20646)
 * Fixes a bug in the `FileImport` component where drag-and-drop would not provide the uploaded file and throw an error instead. [#20646](https://github.com/Yoast/wordpress-seo/pull/20646)
 
 ## 3.2.0
 
-Enhancements:
-
+### Enhancements:
 * Increases the z-index of the AutoSuggest component. [#20349](https://github.com/Yoast/wordpress-seo/pull/20349)
 * Adds a Container to the Modal. It has a Header, Content and Footer. The Content can overflow. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
 * Adds the `initialFocus` prop to the modal context. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
@@ -94,8 +126,7 @@ Enhancements:
 * Adds Paper element. [#20359](https://github.com/Yoast/wordpress-seo/pull/20359)
 * Add a clear button to nullable autocomplete field. [#20496](https://github.com/Yoast/wordpress-seo/pull/20496)
 
-Bugfixes:
-
+### Bugfixes:
 * Fixes a bug where the Notifications max width and height would not handle scrolling properly. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
 * Fixes a bug where the Modal overlay would not handle scrolling properly. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
 * Fixes the default color for placeholder and removed placeholder color styles from components css files. [#20433](https://github.com/Yoast/wordpress-seo/pull/20433)
@@ -119,33 +150,33 @@ Bugfixes:
 
 ## 3.0.0 (2022-12-15)
 
-Breaking changes:
-- Adds the need for the `Modal.Panel` component to be rendered inside the `Modal` [component](https://ui-library.yoast.com/?path=/docs/2-components-modal--factory) to give more control over the modal panel.
-- Removes `error` and `isError` prop support on `Select` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory), `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-autocomplete--factory) and all `*Field` components, ie. the `TextField` [component](https://ui-library.yoast.com/?path=/docs/2-components-text-field--factory), in favour of a more flexible `validation` prop which supports additional `info`, `warning` and `success` variants.
+### Breaking changes:
+* Adds the need for the `Modal.Panel` component to be rendered inside the `Modal` [component](https://ui-library.yoast.com/?path=/docs/2-components-modal--factory) to give more control over the modal panel.
+* Removes `error` and `isError` prop support on `Select` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory), `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-autocomplete--factory) and all `*Field` components, ie. the `TextField` [component](https://ui-library.yoast.com/?path=/docs/2-components-text-field--factory), in favour of a more flexible `validation` prop which supports additional `info`, `warning` and `success` variants.
 
-New components:
-- Introduces the `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-autocomplete--factory) and `AutocompleteField` [component](https://ui-library.yoast.com/?path=/docs/2-components-autocomplete-field--factory) for a queryable select interface.
-- Introduces the `Card` [component](https://ui-library.yoast.com/?path=/docs/2-components-card--factory).
-- Introduces the `ChildrenLimiter` [component](https://ui-library.yoast.com/?path=/docs/2-components-children-limiter--factory) for restricting and expanding its sub-component.
-- Introduces the `FeatureUpsell` [component](https://ui-library.yoast.com/?path=/docs/2-components-feature-upsell--factory) for upselling features by wrapping its sub-components.
-- Introduces the `Notifications` [component](https://ui-library.yoast.com/?path=/docs/2-components-notifications--factory) for displaying toast notifications.
-- Introduces the `SidebarNavigation` [component](https://ui-library.yoast.com/?path=/docs/2-components-sidebar-navigation--factory) for displaying sidebar navigation with mobile support.
-- Introduces the `TagInput` [element](https://ui-library.yoast.com/?path=/docs/1-elements-tag-input--factory) and `TagField` [component](https://ui-library.yoast.com/?path=/docs/2-components-tag-field--factory) for a richer interface for ie. comma separated list inputs.
-- Introduces the `Code` [element](https://ui-library.yoast.com/?path=/docs/1-elements-code--factory) for displaying code snippets.
-- Introduces the `ErrorBoundary` [element](https://ui-library.yoast.com/?path=/docs/1-elements-error-boundary--factory) for catching unforeseen errors in the component tree and displaying a fallback UI.
-- Introduces the `FileInput` [element](https://ui-library.yoast.com/?path=/docs/1-elements-file-input--factory) for a richer interface for `type="file"` inputs.
-- Introduces the `Table` [element](https://ui-library.yoast.com/?path=/docs/1-elements-table--factory).
-- Introduces the `ValidationIcon` and `ValidationMessage` elements for diplaying icons and text based on a validation variant.
+### New components:
+* Introduces the `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-autocomplete--factory) and `AutocompleteField` [component](https://ui-library.yoast.com/?path=/docs/2-components-autocomplete-field--factory) for a queryable select interface.
+* Introduces the `Card` [component](https://ui-library.yoast.com/?path=/docs/2-components-card--factory).
+* Introduces the `ChildrenLimiter` [component](https://ui-library.yoast.com/?path=/docs/2-components-children-limiter--factory) for restricting and expanding its sub-component.
+* Introduces the `FeatureUpsell` [component](https://ui-library.yoast.com/?path=/docs/2-components-feature-upsell--factory) for upselling features by wrapping its sub-components.
+* Introduces the `Notifications` [component](https://ui-library.yoast.com/?path=/docs/2-components-notifications--factory) for displaying toast notifications.
+* Introduces the `SidebarNavigation` [component](https://ui-library.yoast.com/?path=/docs/2-components-sidebar-navigation--factory) for displaying sidebar navigation with mobile support.
+* Introduces the `TagInput` [element](https://ui-library.yoast.com/?path=/docs/1-elements-tag-input--factory) and `TagField` [component](https://ui-library.yoast.com/?path=/docs/2-components-tag-field--factory) for a richer interface for ie. comma separated list inputs.
+* Introduces the `Code` [element](https://ui-library.yoast.com/?path=/docs/1-elements-code--factory) for displaying code snippets.
+* Introduces the `ErrorBoundary` [element](https://ui-library.yoast.com/?path=/docs/1-elements-error-boundary--factory) for catching unforeseen errors in the component tree and displaying a fallback UI.
+* Introduces the `FileInput` [element](https://ui-library.yoast.com/?path=/docs/1-elements-file-input--factory) for a richer interface for `type="file"` inputs.
+* Introduces the `Table` [element](https://ui-library.yoast.com/?path=/docs/1-elements-table--factory).
+* Introduces the `ValidationIcon` and `ValidationMessage` elements for diplaying icons and text based on a validation variant.
 
-Other changes:
-- Adds `disabled` prop support to the `CheckboxGroup` [component](https://ui-library.yoast.com/?path=/docs/2-components-checkbox-group--factory).
-- Adds new `selected` and `aborted` status to the `FileImport` [component](https://ui-library.yoast.com/?path=/docs/2-components-file-import--factory).
-- Adds `labelSuffix` prop support to various `*Field` components for displaying nodes next to label elements.
-- Adds an export for the `VALIDATION_VARIANTS` and `VALIDATION_ICON_MAP` constants which hold supported validation variants and their associated icons.
-- Adds `size` prop support to the `Badge` [element](https://ui-library.yoast.com/?path=/docs/1-elements-badge--factory).
-- Adds `children`  prop support to the `Label` [element](https://ui-library.yoast.com/?path=/docs/1-elements-label--factory).
-- Adds `children` prop support to the `Select` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory) and `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory) for rendering options as children instead of via the `options` prop.
-- Introduces various [hooks](https://ui-library.yoast.com/?path=/docs/other-exports-hooks--page).
+### Other changes:
+* Adds `disabled` prop support to the `CheckboxGroup` [component](https://ui-library.yoast.com/?path=/docs/2-components-checkbox-group--factory).
+* Adds new `selected` and `aborted` status to the `FileImport` [component](https://ui-library.yoast.com/?path=/docs/2-components-file-import--factory).
+* Adds `labelSuffix` prop support to various `*Field` components for displaying nodes next to label elements.
+* Adds an export for the `VALIDATION_VARIANTS` and `VALIDATION_ICON_MAP` constants which hold supported validation variants and their associated icons.
+* Adds `size` prop support to the `Badge` [element](https://ui-library.yoast.com/?path=/docs/1-elements-badge--factory).
+* Adds `children`  prop support to the `Label` [element](https://ui-library.yoast.com/?path=/docs/1-elements-label--factory).
+* Adds `children` prop support to the `Select` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory) and `Autocomplete` [element](https://ui-library.yoast.com/?path=/docs/1-elements-select--factory) for rendering options as children instead of via the `options` prop.
+* Introduces various [hooks](https://ui-library.yoast.com/?path=/docs/other-exports-hooks--page).
 
 &nbsp;
 

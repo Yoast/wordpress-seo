@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { noop } from "lodash";
-import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
+import { BetaBadge, IconButtonToggle, IconCTAEditButton, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
+import { noop } from "lodash";
+import PropTypes from "prop-types";
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 
 const { stripTagsFromHtmlString } = strings;
 
@@ -41,13 +41,12 @@ const AnalysisResultText = styled.p`
 /**
  * Determines whether the mark buttons should be hidden.
  *
- * @param {Object} props The component's props.
- * @param {String} props.marksButtonStatus The status for the mark buttons.
- * @param {boolean} props.hasMarksButton Whether a mark button exists.
+ * @param {boolean} hasMarksButton Whether a mark button exists.
+ * @param {string} marksButtonStatus The status for the mark buttons.
  * @returns {boolean} True if mark buttons should be hidden.
  */
-const areMarkButtonsHidden = function( props ) {
-	return ( ! props.hasMarksButton ) || props.marksButtonStatus === "hidden";
+const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
+	return ! hasMarksButton || marksButtonStatus === "hidden";
 };
 
 /**
@@ -84,30 +83,78 @@ const createMarkButton = ( {
 /**
  * Returns an AnalysisResult component.
  *
- * @param {object} props Component props.
- * @param {Function} [markButtonFactory] Injectable factory to create mark button.
+ * @param {string} text The text to be displayed in the result.
+ * @param {boolean} [suppressedText=false] Whether the text should be suppressed.
+ * @param {string} bulletColor The color of the bullet icon.
+ * @param {boolean} hasMarksButton Whether the result has a marks button.
+ * @param {boolean} [hasEditButton=false] Whether the result has an edit button.
+ * @param {boolean} [hasAIFixes=false] Whether the result has AI fixes.
+ * @param {string} buttonIdMarks The id of the marks button.
+ * @param {string} [buttonIdEdit=""] The id of the edit button.
+ * @param {boolean} pressed Whether the marks button is pressed.
+ * @param {string} ariaLabelMarks The aria-label for the marks button.
+ * @param {string} [ariaLabelEdit=""] The aria-label for the edit button.
+ * @param {Function} onButtonClickMarks The function to call when the marks button is clicked.
+ * @param {Function} [onButtonClickEdit=noop] The function to call when the edit button is clicked.
+ * @param {string} [marksButtonStatus="enabled"] The status of the marks button.
+ * @param {string} [marksButtonClassName=""] The class name for the marks button.
+ * @param {Function} [markButtonFactory=null] Injectable factory to create mark button.
+ * @param {string} [editButtonClassName=""] The class name for the edit button.
+ * @param {boolean} [hasBetaBadgeLabel=false] Whether the result has a beta badge label.
+ * @param {boolean} [isPremium=false] Whether the user has a premium subscription.
+ * @param {Function} [onResultChange=noop] The function to call when the result changes.
+ * @param {string} [id=""] The id of the result.
+ * @param {Function|array} [marker=noop] The function or array to mark the result.
+ * @param {boolean} [shouldUpsellHighlighting=false] Whether to show the upsell for highlighting.
+ * @param {Function} [renderHighlightingUpsell=noop] The function to render the highlighting upsell.
+ * @param {Function} [renderAIOptimizeButton=noop] The function to render the AI optimize button.
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+const AnalysisResult = ( {
+	ariaLabelMarks,
+	ariaLabelEdit = "",
+	bulletColor,
+	buttonIdMarks,
+	buttonIdEdit = "",
+	editButtonClassName = "",
+	hasAIFixes = false,
+	hasBetaBadgeLabel = false,
+	hasEditButton = false,
+	hasMarksButton,
+	id = "",
+	isPremium = false,
+	marker = noop,
+	markButtonFactory = null,
+	marksButtonStatus = "enabled",
+	marksButtonClassName = "",
+	onButtonClickMarks,
+	onButtonClickEdit = noop,
+	onResultChange = noop,
+	pressed,
+	renderHighlightingUpsell = noop,
+	renderAIOptimizeButton = noop,
+	shouldUpsellHighlighting = false,
+	suppressedText = false,
+	text,
+} ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
 
 	markButtonFactory = markButtonFactory || createMarkButton;
-	const { id, marker, hasMarksButton } = props;
 
 	let marksButton = null;
-	if ( ! areMarkButtonsHidden( props ) ) {
+	if ( ! areMarkButtonsHidden( hasMarksButton, marksButtonStatus ) ) {
 		marksButton = markButtonFactory(
 			{
-				onClick: props.shouldUpsellHighlighting ? openModal : props.onButtonClickMarks,
-				status: props.marksButtonStatus,
-				className: props.marksButtonClassName,
-				id: props.buttonIdMarks,
-				isPressed: props.pressed,
-				ariaLabel: props.ariaLabelMarks,
+				onClick: shouldUpsellHighlighting ? openModal : onButtonClickMarks,
+				status: marksButtonStatus,
+				className: marksButtonClassName,
+				id: buttonIdMarks,
+				isPressed: pressed,
+				ariaLabel: ariaLabelMarks,
 			}
 		);
 	}
@@ -119,34 +166,34 @@ const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	 * c) the information whether there is an object to be marked for the current result.
 	 */
 	useEffect( () => {
-		props.onResultChange( id, marker, hasMarksButton );
+		onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
 
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
 				icon="circle"
-				color={ props.bulletColor }
+				color={ bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText suppressedText={ props.suppressedText }>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
-				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
+			<AnalysisResultText suppressedText={ suppressedText }>
+				{ hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			<ResultButtonsContainer>
 				{ marksButton }
-				{ props.renderHighlightingUpsell( isOpen, closeModal ) }
+				{ renderHighlightingUpsell( isOpen, closeModal ) }
 				{
-					props.hasEditButton && props.isPremium &&
+					hasEditButton && isPremium &&
 					<IconCTAEditButton
-						className={ props.editButtonClassName }
-						onClick={ props.onButtonClickEdit }
-						id={ props.buttonIdEdit }
+						className={ editButtonClassName }
+						onClick={ onButtonClickEdit }
+						id={ buttonIdEdit }
 						icon="edit"
-						ariaLabel={ props.ariaLabelEdit }
+						ariaLabel={ ariaLabelEdit }
 					/>
 				}
-				{ props.renderAIFixesButton( props.hasAIFixes, props.id ) }
+				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
@@ -158,7 +205,6 @@ AnalysisResult.propTypes = {
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
-	hasAIButton: PropTypes.bool,
 	hasAIFixes: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string,
@@ -181,27 +227,7 @@ AnalysisResult.propTypes = {
 	] ),
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
-	renderAIFixesButton: PropTypes.func,
-};
-
-AnalysisResult.defaultProps = {
-	suppressedText: false,
-	marksButtonStatus: "enabled",
-	marksButtonClassName: "",
-	editButtonClassName: "",
-	hasBetaBadgeLabel: false,
-	hasEditButton: false,
-	hasAIFixes: false,
-	buttonIdEdit: "",
-	ariaLabelEdit: "",
-	onButtonClickEdit: noop,
-	isPremium: false,
-	onResultChange: noop,
-	id: "",
-	marker: noop,
-	shouldUpsellHighlighting: false,
-	renderHighlightingUpsell: noop,
-	renderAIFixesButton: noop,
+	renderAIOptimizeButton: PropTypes.func,
 };
 
 export default AnalysisResult;

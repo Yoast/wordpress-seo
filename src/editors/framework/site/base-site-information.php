@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
@@ -111,7 +112,6 @@ abstract class Base_Site_Information {
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'             => ( (string) \get_option( 'blog_public' ) ) === '0',
 			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
-			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 		];
 	}
 
@@ -132,7 +132,6 @@ abstract class Base_Site_Information {
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'             => ( (string) \get_option( 'blog_public' ) ) === '0',
 			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
-			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'metabox'                   => [
 				'site_name'     => $this->meta->for_current_page()->site_name,
 				'contentLocale' => \get_locale(),
