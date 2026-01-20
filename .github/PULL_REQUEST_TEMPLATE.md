@@ -9,7 +9,7 @@ What do we want to achieve with this PR? Why did we write this code?
 
 <!--
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
-If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
+If the changelog item is a bugfix, describe the incorrect behaviour that occurred, followed by the condition that triggered it. Use clear, past tense language and avoid hypothetical or nested conditionals. Example structure: “Fixes a bug where... happened when/was caused by ...”
 If the changelog item is meant for the changelog of another add-on, start your changelog item with the name of that add-on's repo between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
 If the changelog item is meant for the changelog of a JavaScript package, specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
 If the same changelog item is applicable to multiple changelogs/add-ons, add a separate changelog item for all of them.
