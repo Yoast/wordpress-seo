@@ -18,6 +18,7 @@ class Call_To_Action_Entry {
 		'link',
 		'add',
 		'delete',
+		'edit',
 	];
 
 	/**

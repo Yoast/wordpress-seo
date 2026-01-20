@@ -58,7 +58,8 @@ class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
 	 * @return string
 	 */
 	public function get_id(): string {
-		return $this->id . '-' . $this->content_item_data->get_content_id();
+		// @TODO: probably improve this with inheritance.
+		return $this->task_group->get_id() . '-' . $this->content_item_data->get_content_id();
 	}
 
 	/**
@@ -85,7 +86,7 @@ class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
 	 * @return string|null
 	 */
 	public function get_link(): ?string {
-		return \get_edit_post_link( $this->content_item_data->get_content_id(), 'raw' );
+		return \get_edit_post_link( $this->content_item_data->get_content_id(), '&' );
 	}
 
 	/**
@@ -117,21 +118,4 @@ class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
 			\__( 'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' )
 		);
 	}
-
-	// /**
-	//  * Returns an array representation of the task data.
-	//  *
-	//  * @return array<string, string|bool|int> Returns in an array format.
-	//  */
-	// public function to_array(): array {
-	// 	$data = parent::to_array();
-
-	// 	$data['contentId']    = $this->content_item_data->get_content_id();
-	// 	$data['contentTitle'] = $this->content_item_data->get_title();
-	// 	$data['contentType']  = $this->content_item_data->get_content_type();
-	// 	$data['seoScore']     = $this->content_item_data->get_seo_score();
-	// 	$data['groupId']      = $this->get_task_group()->get_id();
-
-	// 	return $data;
-	// }
 }

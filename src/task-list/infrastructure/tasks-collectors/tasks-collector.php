@@ -106,7 +106,7 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		 */
 		$tasks = \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
 
-		// Check that every item is an instance of Task_Interface.
+		$extra_tasks = [];
 		foreach ( $tasks as $task_id => $task ) {
 			if ( ! $task instanceof Task_Interface ) {
 				throw new Invalid_Tasks_Exception();
@@ -119,11 +119,11 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 
 			// Populate grouped tasks for task groups.
 			if ( $task instanceof Task_Group_Interface ) {
-				$task->populate_grouped_tasks();
+				\array_push( $extra_tasks, ...$task->generate_grouped_tasks() );
 			}
 		}
 
-		return $tasks;
+		return \array_merge( $tasks, $extra_tasks );
 	}
 
 	/**

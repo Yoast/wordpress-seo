@@ -36,10 +36,50 @@ abstract class Abstract_Post_Type_Task_Group extends Abstract_Post_Type_Task imp
 	}
 
 	/**
-	 * Populates the grouped tasks.
-	 * Should be implemented by child classes to dynamically generate grouped tasks.
+	 * Returns whether this task is completed.
+	 * The group task is completed when all grouped tasks are completed.
 	 *
-	 * @return void
+	 * @return bool Whether this task is completed.
 	 */
-	abstract public function populate_grouped_tasks(): void;
+	public function get_is_completed(): bool {
+		$grouped_tasks = $this->get_grouped_tasks();
+
+		if ( empty( $grouped_tasks ) ) {
+			return true;
+		}
+
+		foreach ( $grouped_tasks as $task ) {
+			if ( ! $task->get_is_completed() ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Populates the grouped tasks.
+	 *
+	 * @return Grouped_Task_Interface[].
+	 */
+	public function generate_grouped_tasks(): array {
+		$grouped_tasks = $this->populate_grouped_tasks();
+
+		$this->set_grouped_tasks( $grouped_tasks );
+
+		return $grouped_tasks;
+	}
+
+	/**
+	 * Returns an array representation of the task data.
+	 *
+	 * @return array<string, string|bool> Returns in an array format.
+	 */
+	public function to_array(): array {
+		$data = parent::to_array();
+
+		$data['taskGroup'] = true;
+
+		return $data;
+	}
 }

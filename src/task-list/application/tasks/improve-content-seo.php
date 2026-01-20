@@ -4,8 +4,9 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Task_Group;
 use Yoast\WP\SEO\Task_List\Domain\Data\Improve_Content_Item_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Task_Group;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Grouped_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
@@ -58,28 +59,6 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 	}
 
 	/**
-	 * Returns whether this task is completed.
-	 * The group task is completed when all grouped tasks are completed.
-	 *
-	 * @return bool Whether this task is completed.
-	 */
-	public function get_is_completed(): bool {
-		$grouped_tasks = $this->get_grouped_tasks();
-
-		if ( empty( $grouped_tasks ) ) {
-			return true;
-		}
-
-		foreach ( $grouped_tasks as $task ) {
-			if ( ! $task->get_is_completed() ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Returns the task's link.
 	 *
 	 * @return string|null
@@ -113,14 +92,13 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 	/**
 	 * Populates the grouped tasks by querying content modified in the last two months.
 	 *
-	 * @return void
+	 * @return Grouped_Task_Interface[]
 	 */
-	public function populate_grouped_tasks(): void {
+	public function populate_grouped_tasks(): array {
 		$post_type = $this->get_post_type();
 
 		if ( empty( $post_type ) ) {
-			$this->set_grouped_tasks( [] );
-			return;
+			return [];
 		}
 
 		$two_months_ago = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 months' ) );
@@ -136,24 +114,6 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 			$grouped_tasks[] = new Improve_Content_Item_SEO( $this, $content_item_data );
 		}
 
-		$this->set_grouped_tasks( $grouped_tasks );
-	}
-
-	/**
-	 * Returns an array representation of the task data.
-	 *
-	 * @return array<string, string|bool> Returns in an array format.
-	 */
-	public function to_array(): array {
-		$data = parent::to_array();
-
-		$grouped_tasks_data = [];
-		foreach ( $this->get_grouped_tasks() as $grouped_task ) {
-			$grouped_tasks_data[] = $grouped_task->to_array();
-		}
-
-		$data['groupedTasks'] = $grouped_tasks_data;
-
-		return $data;
+		return $grouped_tasks;
 	}
 }

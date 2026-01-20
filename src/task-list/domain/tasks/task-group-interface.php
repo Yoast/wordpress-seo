@@ -24,9 +24,16 @@ interface Task_Group_Interface extends Task_Interface {
 	public function set_grouped_tasks( array $grouped_tasks ): void;
 
 	/**
-	 * Populates the grouped tasks dynamically.
+	 * Generates the grouped tasks dynamically.
 	 *
-	 * @return void
+	 * @return Grouped_Task_Interface[] The generated grouped tasks.
 	 */
-	public function populate_grouped_tasks(): void;
+	public function generate_grouped_tasks(): array;
+
+	/**
+	 * Populates the grouped tasks.
+	 *
+	 * @return Grouped_Task_Interface[] The populated grouped tasks.
+	 */
+	public function populate_grouped_tasks(): array;
 }

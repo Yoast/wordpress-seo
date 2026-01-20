@@ -34,4 +34,17 @@ abstract class Abstract_Grouped_Task extends Abstract_Task implements Grouped_Ta
 	public function set_task_group( Task_Group_Interface $task_group ): void {
 		$this->task_group = $task_group;
 	}
+
+	/**
+	 * Returns an array representation of the task data.
+	 *
+	 * @return array<string, string|bool|int> Returns in an array format.
+	 */
+	public function to_array(): array {
+		$data = parent::to_array();
+
+		$data['taskGroupId'] = $this->task_group->get_id();
+
+		return $data;
+	}
 }
