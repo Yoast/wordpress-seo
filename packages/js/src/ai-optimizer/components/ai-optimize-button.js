@@ -15,7 +15,6 @@ import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { isTextViewActive } from "../../lib/tinymce";
-import { setClickedAIButton } from "../../helpers/aiButtonClickedRef";
 
 /**
  * Returns the editor mode based on the editor type.
@@ -183,7 +182,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	const handleClick = useCallback( () => {
 		// Store the clicked button reference for accurate focus restoration.
-		if ( buttonRef.current ) {
+		// Use window-exposed function to ensure same module instance as premium plugin.
+		const setClickedAIButton = get( window, "yoast.editorModules.helpers.aiButtonFocus.setClickedAIButton" );
+		if ( buttonRef.current && setClickedAIButton ) {
 			setClickedAIButton( buttonRef.current );
 		}
 

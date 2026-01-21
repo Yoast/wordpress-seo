@@ -35,7 +35,6 @@ export const notificationClassNameMap  = {
  * @param {Function} [onDismiss=noop] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss=null] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
- * @param {boolean} [autoFocus=false] Whether to auto-focus the close button when the notification becomes visible.
  * @returns {JSX.Element} The Notification component.
  */
 const Notification = ( {
@@ -48,7 +47,6 @@ const Notification = ( {
 	onDismiss = noop,
 	autoDismiss = null,
 	dismissScreenReaderLabel,
-	autoFocus = false,
 } ) => {
 	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
@@ -68,8 +66,6 @@ const Notification = ( {
 			dismissScreenReaderLabel={ dismissScreenReaderLabel }
 			isVisible={ isVisible }
 			setIsVisible={ setIsVisible }
-			// eslint-disable-next-line jsx-a11y/no-autofocus
-			autoFocus={ autoFocus }
 		>
 			<div className="yst-flex yst-items-start yst-gap-3">
 				<div className="yst-flex-shrink-0">
@@ -99,7 +95,6 @@ Notification.propTypes = {
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
-	autoFocus: PropTypes.bool,
 };
 
 const notificationsClassNameMap = {

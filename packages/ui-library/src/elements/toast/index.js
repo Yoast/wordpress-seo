@@ -112,7 +112,6 @@ const Toast = ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
-	...props
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -152,7 +151,6 @@ const Toast = ( {
 					className,
 				) }
 				role={ role }
-				{ ...props }
 			>
 				{ children }
 			</Transition>

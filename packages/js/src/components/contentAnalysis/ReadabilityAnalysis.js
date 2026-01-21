@@ -21,7 +21,6 @@ import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
-import AIButtonFocusWrapper from "./AIButtonFocusWrapper";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -180,46 +179,32 @@ class ReadabilityAnalysis extends Component {
 								if ( this.props.shouldUpsell ) {
 									upsellResults = this.getUpsellResults( location, locationContext );
 								}
-								const collapsibleId = `yoast-readability-analysis-collapsible-${ location }`;
 
 								if ( location === "sidebar" ) {
 									return (
-										<AIButtonFocusWrapper
-											results={ this.props.results }
-											fallbackElementId={ collapsibleId }
+										<Collapsible
+											title={ __( "Readability analysis", "wordpress-seo" ) }
+											titleScreenReaderText={ score.screenReaderReadabilityText }
+											prefixIcon={ getIconForScore( score.className ) }
+											prefixIconCollapsed={ getIconForScore( score.className ) }
+											id={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
-											<Collapsible
-												title={ __( "Readability analysis", "wordpress-seo" ) }
-												titleScreenReaderText={ score.screenReaderReadabilityText }
-												prefixIcon={ getIconForScore( score.className ) }
-												prefixIconCollapsed={ getIconForScore( score.className ) }
-												id={ collapsibleId }
-											>
-												{ this.renderResults( upsellResults ) }
-											</Collapsible>
-										</AIButtonFocusWrapper>
+											{ this.renderResults( upsellResults ) }
+										</Collapsible>
 									);
 								}
 
 								if ( location === "metabox" ) {
 									return (
-										<AIButtonFocusWrapper
-											results={ this.props.results }
-											fallbackElementId={ collapsibleId }
-										>
-											<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
-												<ReadabilityResultsTabContainer
-													id={ collapsibleId }
-													tabIndex={ -1 }
-												>
-													<ScoreIconPortal
-														target="wpseo-readability-score-icon"
-														scoreIndicator={ score.className }
-													/>
-													{ this.renderResults( upsellResults ) }
-												</ReadabilityResultsTabContainer>
-											</ReadabilityResultsPortal>
-										</AIButtonFocusWrapper>
+										<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
+											<ReadabilityResultsTabContainer>
+												<ScoreIconPortal
+													target="wpseo-readability-score-icon"
+													scoreIndicator={ score.className }
+												/>
+												{ this.renderResults( upsellResults ) }
+											</ReadabilityResultsTabContainer>
+										</ReadabilityResultsPortal>
 									);
 								}
 							} }

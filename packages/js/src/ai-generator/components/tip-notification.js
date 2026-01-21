@@ -66,8 +66,6 @@ export const TipNotification = () => {
 			id="ai-generator-content-tip"
 			variant="info"
 			dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
-			// eslint-disable-next-line jsx-a11y/no-autofocus
-			autoFocus={ true }
 		>
 			{ safeCreateInterpolateElement(
 				sprintf( tip, "<span>", "</span>" ),

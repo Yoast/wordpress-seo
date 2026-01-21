@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
  * @param {boolean} [hasBetaBadgeLabel=false] Whether to show the beta badge.
  * @param {boolean} [hasNewBadgeLabel=false] Whether to show the new badge.
  * @param {?string} [buttonId=null] The button id.
- * @param {?string} [id=null] The button id (for accessibility purposes).
  * @param {Function} [renderNewBadgeLabel] Function to render a "New" badge label.
  *
  * @returns {JSX.Element} The element.
@@ -27,11 +26,8 @@ const SidebarCollapsible = ( {
 	hasBetaBadgeLabel = false,
 	hasNewBadgeLabel = false,
 	buttonId = null,
-	id = null,
 	renderNewBadgeLabel = () => {},
 } ) => {
-	// Support both buttonId and id props for consistency with MetaboxCollapsible.
-	const resolvedButtonId = buttonId || id;
 	const [ isOpen, toggleOpen ] = useState( false );
 
 	/**
@@ -49,7 +45,7 @@ const SidebarCollapsible = ( {
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
 				type="button"
-				id={ resolvedButtonId }
+				id={ buttonId }
 			>
 				<span
 					className="yoast-icon-span"
@@ -101,6 +97,5 @@ SidebarCollapsible.propTypes = {
 	hasBetaBadgeLabel: PropTypes.bool,
 	hasNewBadgeLabel: PropTypes.bool,
 	buttonId: PropTypes.string,
-	id: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
 };
