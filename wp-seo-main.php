@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '26.8-RC7' );
+define( 'WPSEO_VERSION', '26.9-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -207,8 +207,6 @@ function _wpseo_activate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 	require_once WPSEO_PATH . 'inc/class-wpseo-installation.php';
 
-	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
-
 	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
@@ -305,27 +303,6 @@ function wpseo_on_activate_blog( $blog_id ) {
 }
 
 /* ***************************** PLUGIN LOADING *************************** */
-
-/**
- * Load translations.
- *
- * @return void
- */
-function wpseo_load_textdomain() {
-	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
-	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
-
-	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
-		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-	else {
-		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-}
-
-add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
-
-
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin.
  *
