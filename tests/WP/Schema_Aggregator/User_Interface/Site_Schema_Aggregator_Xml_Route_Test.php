@@ -71,7 +71,7 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
 		$this->xml_cache_manager->expects( 'get' )
 			->once()
-			->andReturn( false );
+			->andReturn( null );
 		$this->aggregator_config->expects( 'get_allowed_post_types' )
 			->once()
 			->andReturn( [ 'page' ] );
@@ -102,8 +102,7 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 			->once()
 			->andReturn( '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
 		$this->aggregator_config->expects( 'get_allowed_post_types' )
-			->once()
-			->andReturn( [ 'page' ] );
+			->never();
 		$this->xml_cache_manager->expects( 'set' )
 			->never();
 
