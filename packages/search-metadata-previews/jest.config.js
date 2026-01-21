@@ -29,7 +29,7 @@ const config = {
 		"^.+\\.[jt]sx?$": "babel-jest",
 	},
 	transformIgnorePatterns: [
-		"/node_modules/(?!@yoast/ui-library|@yoast/social-metadata-forms|@yoast/components|parse5)",
+		"/node_modules/(?!@yoast|parse5)",
 	],
 };
 
