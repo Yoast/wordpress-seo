@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_Error;
 use WP_REST_Response;
-use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Map_Command;
@@ -33,20 +32,6 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 * @var string
 	 */
 	public const GET_SCHEMA_ROUTE = self::ROUTE_PREFIX . '/get-xml';
-
-	/**
-	 * The configuration instance.
-	 *
-	 * @var Config
-	 */
-	private $config;
-
-	/**
-	 * The capability helper instance.
-	 *
-	 * @var Capability_Helper
-	 */
-	private $capability_helper;
 
 	/**
 	 * The command handler instance.
@@ -81,9 +66,6 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	/**
 	 * Site_Schema_Aggregator_Route constructor.
 	 *
-	 * @param Config                                    $config                                    The config object.
-	 * @param Capability_Helper                         $capability_helper                         The capability
-	 *                                                                                             helper.
 	 * @param Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler The command handler.
 	 * @param Xml_Manager                               $xml_cache_manager                         The XML cache
 	 *                                                                                             manager.
@@ -91,14 +73,10 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	 *                                                                                             configuration.
 	 */
 	public function __construct(
-		Config $config,
-		Capability_Helper $capability_helper,
 		Aggregate_Site_Schema_Map_Command_Handler $aggregate_site_schema_map_command_handler,
 		Xml_Manager $xml_cache_manager,
 		Aggregator_Config $aggregator_config
 	) {
-		$this->config                                    = $config;
-		$this->capability_helper                         = $capability_helper;
 		$this->aggregate_site_schema_map_command_handler = $aggregate_site_schema_map_command_handler;
 		$this->xml_cache_manager                         = $xml_cache_manager;
 		$this->aggregator_config                         = $aggregator_config;
