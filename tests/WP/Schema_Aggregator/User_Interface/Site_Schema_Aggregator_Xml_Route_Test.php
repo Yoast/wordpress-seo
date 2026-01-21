@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route;
 use Yoast\WP\SEO\Tests\WP\TestCase;
+use function var_dump;
 
 /**
  * Integration tests for Site_Schema_Aggregator_Xml_Route_Test.
@@ -50,6 +51,7 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 */
 	private $aggregator_config;
 
+
 	/**
 	 * Set up the test.
 	 *
@@ -60,6 +62,9 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 		$this->xml_cache_manager                         = Mockery::mock( Xml_Manager::class );
 		$this->aggregator_config                         = Mockery::mock( Aggregator_Config::class );
 		$this->instance                                  = new Site_Schema_Aggregator_Xml_Route( $this->aggregate_site_schema_map_command_handler, $this->xml_cache_manager, $this->aggregator_config );
+		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
+
+		\do_action( 'rest_api_init' );
 	}
 
 	/**
@@ -68,7 +73,7 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_render_schema_xml_no_cache() {
-		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
+
 		$this->xml_cache_manager->expects( 'get' )
 			->once()
 			->andReturn( null );
@@ -82,7 +87,6 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 		$response = \rest_get_server()->dispatch( $request );
 
 		$this->assertInstanceOf( WP_REST_Response::class, $response );
-
 		$response_data = $response->get_data();
 
 		$this->assertSame( 200, $response->status );
@@ -97,7 +101,6 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_render_schema_xml_with_cache() {
-		\YoastSEO()->helpers->options->set( 'enable_schema_aggregation_endpoint', true );
 		$this->xml_cache_manager->expects( 'get' )
 			->once()
 			->andReturn( '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>' );
