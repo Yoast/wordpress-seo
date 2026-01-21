@@ -10,7 +10,7 @@ export const getImageElements = ( content ) => {
 	if ( typeof content !== "string" || ! content.includes( "<img" ) ) {
 		return [];
 	}
-	const foundImages = [ ...content.matchAll( /<img[^>]+src=["']([^"']+)["'][^>]*>/ig ) ];
+	const foundImages = [ ...content.matchAll( /<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/ig ) ];
 	const imageElements = [];
 	foundImages.forEach( ( match ) => {
 		const imgTag = match[ 0 ];
