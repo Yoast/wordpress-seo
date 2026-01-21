@@ -417,6 +417,19 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		const hasSubheadings = assessment.hasSubheadings( new Paper( shortText + subheading + longText ) );
 		expect( hasSubheadings ).toBe( true );
 	} );
+
+	it( "Returns false from hasSubheadings when subheadings are only inside filtered HTML blocks", function() {
+		const assessment = new SubheadingDistributionTooLong();
+		// Test with blockquote containing a subheading - should be filtered out
+		const textWithBlockquote = shortText + "<blockquote>" + subheading + longText + "</blockquote>";
+		const hasSubheadingsBlockquote = assessment.hasSubheadings( new Paper( textWithBlockquote ) );
+		expect( hasSubheadingsBlockquote ).toBe( false );
+
+		// Test with table of contents containing a subheading - should be filtered out
+		const textWithToC = shortText + "<div class='yoast-table-of-contents'>" + subheading + longText + "</div>";
+		const hasSubheadingsToC = assessment.hasSubheadings( new Paper( textWithToC ) );
+		expect( hasSubheadingsToC ).toBe( false );
+	} );
 } );
 
 describe( "Language-specific configuration for specific types of content is used: English", function() {
