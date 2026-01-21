@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { useCallback, useRef, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -15,7 +15,7 @@ import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { isTextViewActive } from "../../lib/tinymce";
-import { setClickedAIButton, getClickedAIButton, clearClickedAIButton } from "../../helpers/aiButtonClickedRef";
+import { setClickedAIButton } from "../../helpers/aiButtonClickedRef";
 
 /**
  * Returns the editor mode based on the editor type.
@@ -45,19 +45,18 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase, focusAIButton } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 		keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
-		focusAIButton: select( "yoast-seo/editor" ).getFocusAIFixesButton(),
 	} ), [] );
 	const editorMode = getEditorMode();
 
 	const shouldShowUpsell = ! isPremium || isWooSeoUpsellPost;
 
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus, setFocusAIFixesButton } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const buttonRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
@@ -212,24 +211,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		// Remove tooltip classes on mouse leave
 		setButtonClass( "" );
 	}, [] );
-
-	// Focus the button when it's the target (e.g., after toast dismissal without applying changes).
-	useEffect( () => {
-		if ( focusAIButton === aiOptimizeId && buttonRef.current ) {
-			// Check if this button is the one that was originally clicked.
-			// This handles the case where both metabox and sidebar have AI Optimize buttons with the same ID.
-			const clickedButton = getClickedAIButton();
-			if ( clickedButton && clickedButton !== buttonRef.current ) {
-				// This is not the button that was clicked, skip focusing.
-				return;
-			}
-
-			buttonRef.current.focus();
-			// Clear the stored reference and focus state after focusing.
-			clearClickedAIButton();
-			setFocusAIFixesButton( null );
-		}
-	}, [ focusAIButton, aiOptimizeId, setFocusAIFixesButton ] );
 
 	return (
 		<IconAIFixesButton

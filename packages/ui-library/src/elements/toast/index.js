@@ -3,7 +3,7 @@ import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, forwardRef, useCallback, useContext, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useEffect } from "react";
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
@@ -22,18 +22,14 @@ export const toastClassNameMap = {
 
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
- * @param {string} [className] The additional class name.
- * @param {React.Ref} ref The forwarded ref.
  * @returns {JSX.Element} The close button.
  */
-const Close = forwardRef( ( {
-	dismissScreenReaderLabel,
-}, ref ) => {
+const Close = ( { dismissScreenReaderLabel } ) => {
 	const { handleDismiss } = useToastContext();
+
 	return (
 		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
-				ref={ ref }
 				type="button"
 				onClick={ handleDismiss }
 				className="yst-bg-transparent yst-rounded-md yst-inline-flex yst-text-slate-400 hover:yst-text-slate-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
@@ -43,9 +39,7 @@ const Close = forwardRef( ( {
 			</button>
 		</div>
 	);
-} );
-
-Close.displayName = "Close";
+};
 
 Close.propTypes = {
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
@@ -106,13 +100,12 @@ Title.propTypes = {
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
- * @param {React.Ref} ref The forwarded ref.
  * @returns {JSX.Element} The toast component.
  */
-const Toast = forwardRef( ( {
+const Toast = ( {
 	children = null,
 	id,
-	role = "dialog",
+	role = "alert",
 	className = "",
 	position = "bottom-left",
 	onDismiss = noop,
@@ -120,7 +113,7 @@ const Toast = forwardRef( ( {
 	isVisible,
 	setIsVisible,
 	...props
-}, ref ) => {
+} ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
 		setIsVisible( false );
@@ -129,6 +122,7 @@ const Toast = forwardRef( ( {
 			onDismiss( id );
 		}, 150 );
 	}, [ onDismiss, id ] );
+
 	useEffect( () => {
 		// Enable visibility on mount to trigger transition.
 		setIsVisible( true );
@@ -158,16 +152,13 @@ const Toast = forwardRef( ( {
 					className,
 				) }
 				role={ role }
-				ref={ ref }
 				{ ...props }
 			>
 				{ children }
 			</Transition>
 		</ToastContext.Provider>
 	);
-} );
-
-Toast.displayName = "Toast";
+};
 
 Toast.propTypes = {
 	children: PropTypes.node,

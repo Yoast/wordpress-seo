@@ -1,25 +1,20 @@
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
-import { getClickedAIButton, clearClickedAIButton } from "../helpers/aiButtonClickedRef";
 
 /**
  * Timeout duration (in ms) to wait for the AI button to render after toast dismissal.
  * This accounts for toast exit animation and React re-render cycle.
  */
-const BUTTON_RENDER_TIMEOUT = 1500;
+const BUTTON_RENDER_TIMEOUT = 1600;
 
 /**
- * Gets the stored clicked button if it's still in the DOM.
+ * Finds the AI button element by its ID.
  *
- * @returns {HTMLElement|null} The clicked button element, or null.
+ * @param {string} buttonId The button ID to find.
+ * @returns {HTMLElement|null} The button element, or null if not found.
  */
-const getClickedButton = () => {
-	const clickedButton = getClickedAIButton();
-	if ( clickedButton && document.body.contains( clickedButton ) ) {
-		return clickedButton;
-	}
-	clearClickedAIButton();
-	return null;
+const findButtonById = ( buttonId ) => {
+	return buttonId ? document.getElementById( buttonId ) : null;
 };
 
 /**
@@ -74,12 +69,13 @@ const useAIButtonFocusFallback = ( { fallbackRef = null, fallbackElementId = "",
 		// Delay to allow the button component to render after toast dismissal.
 		// If button doesn't exist after this delay, it means the assessment passed and button won't render.
 		const timeoutId = setTimeout( () => {
-			// Try the stored clicked button reference, or fall back to the fallback element.
-			const focusTarget = getClickedButton() || getFallbackElement( fallbackRef, fallbackElementId );
+			// Try to find the button by ID first. If it exists, focus it.
+			// If it doesn't exist (assessment passed), focus the fallback element.
+			const button = findButtonById( focusAIButton );
+			const focusTarget = button || getFallbackElement( fallbackRef, fallbackElementId );
 
 			if ( focusTarget ) {
 				focusTarget.focus();
-				clearClickedAIButton();
 				setFocusAIFixesButton( null );
 			}
 		}, BUTTON_RENDER_TIMEOUT );
