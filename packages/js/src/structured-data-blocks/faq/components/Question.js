@@ -242,7 +242,7 @@ export default class Question extends Component {
 			index,
 		} = this.props;
 
-		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style="max-width:100%;" />;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style={ { maxWidth: "100%" } } />;
 
 		// Serializes the image element to string and append it to the existing answer (which is now a string).
 		// renderToString is used to convert the image element to an HTML string instead of just creating an image string manually,
