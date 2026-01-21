@@ -42,11 +42,11 @@ export default class FAQ extends Component {
 	/**
 	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix A prefix to use.
+	 * @param {string} [prefix=""] A prefix to use.
 	 *
-	 * @returns {string} A pseudo-unique string, consisting of the prefix and the current time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the (optional) prefix and the current time in milliseconds.
 	 */
-	static generateId( prefix ) {
+	static generateId( prefix = "" ) {
 		return `${ prefix }-${ new Date().getTime() }`;
 	}
 

@@ -113,11 +113,11 @@ export default class HowTo extends Component {
 	/**
 	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix The prefix to use.
+	 * @param {string} [prefix=""] The prefix to use.
 	 *
 	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
-	static generateId( prefix ) {
+	static generateId( prefix = "" ) {
 		return `${ prefix }-${ new Date().getTime() }`;
 	}
 
