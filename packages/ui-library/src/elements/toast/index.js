@@ -100,6 +100,7 @@ Title.propTypes = {
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
+ * @param {Object} [props] Additional props to pass to the toast element.
  * @returns {JSX.Element} The toast component.
  */
 const Toast = ( {
@@ -112,6 +113,7 @@ const Toast = ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
+	...props
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -151,6 +153,7 @@ const Toast = ( {
 					className,
 				) }
 				role={ role }
+				{ ...props }
 			>
 				{ children }
 			</Transition>
