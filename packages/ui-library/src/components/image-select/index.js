@@ -59,13 +59,12 @@ export const ImageSelect = forwardRef( ( {
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className } ) => {
+export const Preview = ( { imageAltText, className, description } ) => {
 	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
 	return <button
 		className={ classNames( "yst-image-select-preview",
-			"yst-w-[130px] yst-min-h-[72px] yst-max-h-[130px]",
 			imageUrl ? "" : "yst-border-2 yst-border-dashed",
 			isLoading && "yst-cursor-wait",
 			className,
@@ -76,7 +75,10 @@ export const Preview = ( { imageAltText, className } ) => {
 		type="button"
 		disabled={ isDisabled || isLoading }
 	>
-		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className={ classNames( "yst-image-select-preview-image", isLoading && "yst-image-select-preview-image--loading" ) } /> : <PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
+		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className={ classNames( "yst-image-select-preview-image", isLoading && "yst-image-select-preview-image--loading" ) } /> : <div>
+			<PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
+			{ description && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8 yst-max-w-48">{ description }</p> }
+		</div>
 		}
 		<span className="yst-sr-only">
 			{ buttonLabel }
