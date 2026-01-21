@@ -1,11 +1,40 @@
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
+import { getClickedAIButton, clearClickedAIButton } from "../helpers/aiButtonClickedRef";
 
 /**
  * Timeout duration (in ms) to wait for the AI button to render after toast dismissal.
  * This accounts for toast exit animation and React re-render cycle.
  */
-const BUTTON_RENDER_TIMEOUT = 1700;
+const BUTTON_RENDER_TIMEOUT = 1500;
+
+/**
+ * Gets the stored clicked button if it's still in the DOM.
+ *
+ * @returns {HTMLElement|null} The clicked button element, or null.
+ */
+const getClickedButton = () => {
+	const clickedButton = getClickedAIButton();
+	if ( clickedButton && document.body.contains( clickedButton ) ) {
+		return clickedButton;
+	}
+	clearClickedAIButton();
+	return null;
+};
+
+/**
+ * Finds the fallback element to focus.
+ *
+ * @param {React.RefObject} fallbackRef A ref to the fallback element.
+ * @param {string} fallbackElementId The ID of the fallback element.
+ * @returns {HTMLElement|null} The fallback element, or null if not found.
+ */
+const getFallbackElement = ( fallbackRef, fallbackElementId ) => {
+	if ( fallbackRef?.current ) {
+		return fallbackRef.current;
+	}
+	return fallbackElementId ? document.getElementById( fallbackElementId ) : null;
+};
 
 /**
  * Custom hook to handle focus fallback when an AI Optimize button is removed from the DOM.
@@ -45,25 +74,12 @@ const useAIButtonFocusFallback = ( { fallbackRef = null, fallbackElementId = "",
 		// Delay to allow the button component to render after toast dismissal.
 		// If button doesn't exist after this delay, it means the assessment passed and button won't render.
 		const timeoutId = setTimeout( () => {
-			const buttonElement = document.getElementById( focusAIButton );
+			// Try the stored clicked button reference, or fall back to the fallback element.
+			const focusTarget = getClickedButton() || getFallbackElement( fallbackRef, fallbackElementId );
 
-			// If the button still exists, focus it directly.
-			if ( buttonElement ) {
-				buttonElement.focus();
-				setFocusAIFixesButton( null );
-				return;
-			}
-
-			// Button was removed, find the fallback element to focus.
-			let fallbackElement = null;
-			if ( fallbackRef?.current ) {
-				fallbackElement = fallbackRef.current;
-			} else if ( fallbackElementId ) {
-				fallbackElement = document.getElementById( fallbackElementId );
-			}
-
-			if ( fallbackElement ) {
-				fallbackElement.focus();
+			if ( focusTarget ) {
+				focusTarget.focus();
+				clearClickedAIButton();
 				setFocusAIFixesButton( null );
 			}
 		}, BUTTON_RENDER_TIMEOUT );

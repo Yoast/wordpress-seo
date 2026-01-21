@@ -15,6 +15,7 @@ import { ModalContent } from "./modal-content";
 import { getAllBlocks } from "../../helpers/getAllBlocks";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { isTextViewActive } from "../../lib/tinymce";
+import { setClickedAIButton, getClickedAIButton, clearClickedAIButton } from "../../helpers/aiButtonClickedRef";
 
 /**
  * Returns the editor mode based on the editor type.
@@ -182,6 +183,11 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	};
 
 	const handleClick = useCallback( () => {
+		// Store the clicked button reference for accurate focus restoration.
+		if ( buttonRef.current ) {
+			setClickedAIButton( buttonRef.current );
+		}
+
 		// eslint-disable-next-line no-negated-condition -- Let's handle the happy path first.
 		if ( ! shouldShowUpsell ) {
 			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
@@ -210,8 +216,17 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// Focus the button when it's the target (e.g., after toast dismissal without applying changes).
 	useEffect( () => {
 		if ( focusAIButton === aiOptimizeId && buttonRef.current ) {
+			// Check if this button is the one that was originally clicked.
+			// This handles the case where both metabox and sidebar have AI Optimize buttons with the same ID.
+			const clickedButton = getClickedAIButton();
+			if ( clickedButton && clickedButton !== buttonRef.current ) {
+				// This is not the button that was clicked, skip focusing.
+				return;
+			}
+
 			buttonRef.current.focus();
-			// Clear the focus state after focusing.
+			// Clear the stored reference and focus state after focusing.
+			clearClickedAIButton();
 			setFocusAIFixesButton( null );
 		}
 	}, [ focusAIButton, aiOptimizeId, setFocusAIFixesButton ] );
