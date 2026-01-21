@@ -18,7 +18,7 @@ import { MODE_DESKTOP, MODE_MOBILE } from "../snippet-preview/constants";
  * @param {string} active Current active mode.
  * @param {string} id ID for the toggle.
  * @param {string} desktopModeInputId ID for the desktop mode input.
- * @param {string} [mobileModeInputId] ID for the mobile mode input.
+ * @param {string} mobileModeInputId ID for the mobile mode input.
  * @param {boolean} [disabled] Whether the switcher is disabled.
  *
  * @returns {JSX.Element} ModeSwitcher component.
