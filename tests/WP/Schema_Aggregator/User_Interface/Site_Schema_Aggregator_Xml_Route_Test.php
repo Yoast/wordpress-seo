@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
 use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Xml_Route;
 use Yoast\WP\SEO\Tests\WP\TestCase;
-use function var_dump;
 
 /**
  * Integration tests for Site_Schema_Aggregator_Xml_Route_Test.
@@ -50,7 +49,6 @@ final class Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 	 * @var Aggregator_Config
 	 */
 	private $aggregator_config;
-
 
 	/**
 	 * Set up the test.
