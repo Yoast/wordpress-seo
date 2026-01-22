@@ -1,12 +1,12 @@
 <?php
 
-
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Llms_Txt\Application\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
+
 /**
  * Responsible for the llms.txt configuration.
  */
