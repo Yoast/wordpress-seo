@@ -303,6 +303,19 @@ function wpseo_on_activate_blog( $blog_id ) {
 }
 
 /* ***************************** PLUGIN LOADING *************************** */
+
+
+/**
+ * Load translations.
+ *
+ * @deprecated 27.0
+ * @codeCoverageIgnore
+ *
+ * @return void
+ */
+function wpseo_load_textdomain() {
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 27.0' );
+}
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin.
  *
