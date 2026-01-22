@@ -1,18 +1,18 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_SEO;
+namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Data\Improve_Content_Item_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
- * Represents the parent task for improving content SEO.
+ * Represents the task for improving content SEO.
  */
-class Improve_Content_SEO_Parent extends Abstract_Post_Type_Parent_Task {
+class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.

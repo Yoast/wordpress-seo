@@ -37,6 +37,9 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 	public function __construct( Task_Interface ...$tasks ) {
 		$tasks_with_id = [];
 		foreach ( $tasks as $task ) {
+			// Since child tasks are excluded by the DI, we don't need to filter them out here, so let's just filter out the post type tasks.
+
+			// @TODO: Maybe also filter out, just in case?
 			if ( $task instanceof Post_Type_Task_Interface ) {
 				continue;
 			}
