@@ -8,6 +8,7 @@ use Brain\Monkey;
 /**
  * Test class for the register_hooks method.
  *
+ * @group schema-aggregator
  * @group Indexables_Update_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Indexables_Update_Listener_Integration::register_hooks

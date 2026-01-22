@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\WordPress_Current_Site_URL_Pro
  *  The class name uses WebSite instead of Website because we need it to reflect the schema piece name.
  *  By doing so we can search for a piece-specific node filter in Default_Filter.
  */
-class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
+class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Decider_Interface {
 
 	/**
 	 * The site info provider.
@@ -38,7 +38,7 @@ class WebSite_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 *
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */
-	public function filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
+	public function should_filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
 		$blog_url = $this->current_site_url_provider->get_current_site_url();
 		$data     = $schema_piece->get_data();
 		if ( $data['url'] === $blog_url ) {

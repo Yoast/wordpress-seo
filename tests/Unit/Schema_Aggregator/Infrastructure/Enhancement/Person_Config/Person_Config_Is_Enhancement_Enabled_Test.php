@@ -9,7 +9,8 @@ use Generator;
 /**
  * Test class for the is_enhancement_enabled method.
  *
- * @group Person_Config
+ * @group schema-aggregator
+ * @group Article_Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Person_Config::is_enhancement_enabled
  *

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Indexables_Update_Listen
 /**
  * Test class for the get_conditionals method.
  *
+ * @group schema-aggregator
  * @group Indexables_Update_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Indexables_Update_Listener_Integration::get_conditionals

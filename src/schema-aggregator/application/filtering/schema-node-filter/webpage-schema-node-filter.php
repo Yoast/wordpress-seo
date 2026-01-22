@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Collection;
  * The class name uses WebPage instead of Webpage because we need it to reflect the schema piece name.
  * By doing so we can search for a piece-specific node filter in Default_Filter.
  */
-class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
+class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Decider_Interface {
 
 	/**
 	 * The articles in the schema.
@@ -29,7 +29,7 @@ class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 *
 	 * @return bool True if the schema piece should be kept, false otherwise.
 	 */
-	public function filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
+	public function should_filter( Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
 		$data         = $schema_piece->get_data();
 		$articles_ids = $this->get_articles_ids( $schema );
 		foreach ( $articles_ids as $article_id ) {
@@ -44,6 +44,8 @@ class WebPage_Schema_Node_Filter implements Schema_Node_Filter_Interface {
 	 * Retrieves the IDs of all Article schema pieces in the schema.
 	 *
 	 * @param Schema_Piece_Collection $schema The full schema.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The IDs of the Article schema pieces.
 	 */

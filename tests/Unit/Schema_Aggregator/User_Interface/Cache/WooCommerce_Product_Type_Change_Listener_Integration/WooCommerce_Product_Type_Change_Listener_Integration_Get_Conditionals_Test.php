@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 /**
  * Test class for the get_conditionals method.
  *
+ * @group schema-aggregator
  * @group WooCommerce_Product_Type_Change_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\WooCommerce_Product_Type_Change_Listener_Integration::get_conditionals

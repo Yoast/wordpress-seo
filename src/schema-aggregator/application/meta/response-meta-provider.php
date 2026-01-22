@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Indexabl
 
 /**
  * Provides metadata for API responses.
+ *
+ * @codeCoverageIgnore -- Currently not used.
  */
 class Response_Meta_Provider {
 

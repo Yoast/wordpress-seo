@@ -54,8 +54,8 @@ class Default_Filter implements Filtering_Strategy_Interface {
 			foreach ( $this->filter_categories as $category ) {
 				if ( \in_array( $schema_piece->get_type(), $elements_context_map[ $category ], true ) ) {
 					$filter_class_name = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\\' . $schema_piece->get_type() . '_Schema_Node_Filter';
-					if ( \class_exists( $filter_class_name ) && \is_a( $filter_class_name, 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\Schema_Node_Filter_Interface', true ) ) {
-						$should_keep = ( new $filter_class_name() )->filter( $schema, $schema_piece );
+					if ( \class_exists( $filter_class_name ) && \is_a( $filter_class_name, 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\Schema_Node_Filter_Decider_Interface', true ) ) {
+						$should_keep = ( new $filter_class_name() )->should_filter( $schema, $schema_piece );
 					}
 					else {
 						$should_keep = false;

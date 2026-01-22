@@ -9,6 +9,7 @@ use Generator;
 /**
  * Test class for the get_config_value method.
  *
+ * @group schema-aggregator
  * @group Article_Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Enhancement\Article_Config::get_config_value

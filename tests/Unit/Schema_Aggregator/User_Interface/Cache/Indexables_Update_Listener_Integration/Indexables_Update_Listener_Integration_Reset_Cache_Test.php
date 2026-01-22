@@ -9,6 +9,7 @@ use Mockery;
 /**
  * Test class for the reset_cache method.
  *
+ * @group schema-aggregator
  * @group Indexables_Update_Listener_Integration
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\User_Interface\Cache\Indexables_Update_Listener_Integration::reset_cache

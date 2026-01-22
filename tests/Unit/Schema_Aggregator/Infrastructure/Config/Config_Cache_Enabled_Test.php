@@ -10,6 +10,7 @@ use stdClass;
 /**
  * Test class for the cache_enabled method.
  *
+ * @group schema-aggregator
  * @group Config
  *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config::cache_enabled
