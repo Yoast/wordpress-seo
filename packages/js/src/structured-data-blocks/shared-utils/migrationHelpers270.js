@@ -37,11 +37,11 @@ export const childrenToString = ( value ) => {
 /**
  * Builds an image object from a node.
  * @param {Object} node The image node.
- * @returns {{type: string, key: null, props: {src: string, alt: string, className: string, style: Object}}} The image object.
+ * @returns {{type: string, key: null, props: {src: string, alt: string, className: string, style: ""}}} The image object.
  */
 const buildImageObject = ( node ) => {
 	const { key, props = {} } = node;
-	const { src = "", alt = "", className = "", style = {} } = props;
+	const { src = "", alt = "", className = "", style = "" } = props;
 
 	return {
 		type: "img",
