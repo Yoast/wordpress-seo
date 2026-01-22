@@ -54,7 +54,7 @@ include __DIR__ . '/deprecated-classes.php';
 $yoast_seo_excluded_files = [
 	'main.php',
 	'config/wincher-pkce-provider.php',
-	'task-list/application/tasks/improve-content-item-seo.php',
+	'task-list/application/tasks/improve-content-seo/improve-content-seo-child.php',
 ];
 
 $yoast_seo_excluded_directories = [

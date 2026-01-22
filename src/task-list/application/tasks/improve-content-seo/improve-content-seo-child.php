@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\Application\Tasks;
+namespace Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_SEO;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
@@ -9,16 +9,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
- * Represents a child task for improving a specific content item's SEO.
+ * Represents the child task for improving content SEO.
  */
-class Improve_Content_Item_SEO extends Abstract_Child_Task {
-
-	/**
-	 * Holds the id.
-	 *
-	 * @var string
-	 */
-	protected $id = 'improve-content-item-seo';
+class Improve_Content_SEO_Child extends Abstract_Child_Task {
 
 	/**
 	 * Holds the priority.
@@ -44,7 +37,7 @@ class Improve_Content_Item_SEO extends Abstract_Child_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface $parent_task        The parent task.
+	 * @param Parent_Task_Interface $parent_task       The parent task.
 	 * @param Content_Item_Data     $content_item_data The content item data.
 	 */
 	public function __construct( Parent_Task_Interface $parent_task, Content_Item_Data $content_item_data ) {

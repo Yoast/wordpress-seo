@@ -52,11 +52,9 @@ trait Parent_Task_Trait {
 	 * @return Child_Task_Interface[] The generated child tasks.
 	 */
 	public function generate_child_tasks(): array {
-		$child_tasks = $this->populate_child_tasks();
+		$this->child_tasks = $this->populate_child_tasks();
 
-		$this->child_tasks = $child_tasks;
-
-		return $child_tasks;
+		return $this->child_tasks;
 	}
 
 	/**

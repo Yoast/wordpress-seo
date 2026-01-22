@@ -1,6 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Task_List\Application\Tasks;
+namespace Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_SEO;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
@@ -10,9 +10,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
- * Represents the task for improving content SEO.
+ * Represents the parent task for improving content SEO.
  */
-class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
+class Improve_Content_SEO_Parent extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.
@@ -37,6 +37,8 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * Holds the duration.
+	 *
+	 * @TODO: will be calculated dynamically, summing the duration of child tasks.
 	 *
 	 * @var int
 	 */
@@ -111,7 +113,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_data ) {
-			$child_tasks[] = new Improve_Content_Item_SEO( $this, $content_item_data );
+			$child_tasks[] = new Improve_Content_SEO_Child( $this, $content_item_data );
 		}
 
 		return $child_tasks;
