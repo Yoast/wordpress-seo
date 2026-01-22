@@ -524,6 +524,7 @@ class Indexable_Repository {
 	 * @return Indexable[] array of indexables.
 	 */
 	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		// @TODO: make sure the post status and robots checks are exactly the same as they are in the similar dashboard widget.
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'primary_focus_keyword_score' )
