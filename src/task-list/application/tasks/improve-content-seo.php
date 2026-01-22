@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Improve_Content_Item_Task;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Task_Group;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Grouped_Task_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
  * Represents the task for improving content SEO.
  */
-class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
+class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.
@@ -90,11 +90,11 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 	}
 
 	/**
-	 * Populates the grouped tasks by querying content modified in the last two months.
+	 * Populates the child tasks by querying content modified in the last two months.
 	 *
-	 * @return Grouped_Task_Interface[]
+	 * @return Child_Task_Interface[]
 	 */
-	public function populate_grouped_tasks(): array {
+	public function populate_child_tasks(): array {
 		$post_type = $this->get_post_type();
 
 		if ( empty( $post_type ) ) {
@@ -109,11 +109,11 @@ class Improve_Content_SEO extends Abstract_Post_Type_Task_Group {
 			self::DEFAULT_LIMIT
 		);
 
-		$grouped_tasks = [];
+		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_data ) {
-			$grouped_tasks[] = new Improve_Content_Item_SEO( $this, $content_item_data );
+			$child_tasks[] = new Improve_Content_Item_SEO( $this, $content_item_data );
 		}
 
-		return $grouped_tasks;
+		return $child_tasks;
 	}
 }

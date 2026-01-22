@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Data;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Grouped_Task;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Group_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
- * Represents a grouped task for improving a specific content item's SEO.
+ * Represents a child task for improving a specific content item's SEO.
  */
-class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
+class Improve_Content_Item_SEO extends Abstract_Child_Task {
 
 	/**
 	 * Holds the id.
@@ -44,11 +44,11 @@ class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Task_Group_Interface $task_group        The parent task group.
-	 * @param Content_Item_Data    $content_item_data The content item data.
+	 * @param Parent_Task_Interface $parent_task        The parent task.
+	 * @param Content_Item_Data     $content_item_data The content item data.
 	 */
-	public function __construct( Task_Group_Interface $task_group, Content_Item_Data $content_item_data ) {
-		$this->task_group        = $task_group;
+	public function __construct( Parent_Task_Interface $parent_task, Content_Item_Data $content_item_data ) {
+		$this->parent_task       = $parent_task;
 		$this->content_item_data = $content_item_data;
 	}
 
@@ -59,7 +59,7 @@ class Improve_Content_Item_SEO extends Abstract_Grouped_Task {
 	 */
 	public function get_id(): string {
 		// @TODO: probably improve this with inheritance.
-		return $this->task_group->get_id() . '-' . $this->content_item_data->get_content_id();
+		return $this->parent_task->get_id() . '-' . $this->content_item_data->get_content_id();
 	}
 
 	/**

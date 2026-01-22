@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Group_Interface;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Task_Interface;
 use Yoast\WP\SEO\Tracking\Infrastructure\Tracking_Link_Adapter;
 
@@ -117,9 +117,9 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 				continue;
 			}
 
-			// Populate grouped tasks for task groups.
-			if ( $task instanceof Task_Group_Interface ) {
-				\array_push( $extra_tasks, ...$task->generate_grouped_tasks() );
+			// Populate child tasks for parent tasks.
+			if ( $task instanceof Parent_Task_Interface ) {
+				\array_push( $extra_tasks, ...$task->generate_child_tasks() );
 			}
 		}
 
