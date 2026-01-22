@@ -250,6 +250,27 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Gets the list of Elementor dependencies.
+	 *
+	 * @return array<string> The array of elementor dependencies.
+	 */
+	protected function get_elementor_dependencies() {
+		$dependencies = [
+			'backbone-marionette',
+			'elementor-common-modules',
+			self::PREFIX . 'api-client',
+			self::PREFIX . 'externals-components',
+			self::PREFIX . 'externals-contexts',
+			self::PREFIX . 'externals-redux',
+		];
+		// Conditionally add Elementor v2 dependency if available.
+		if ( wp_script_is( 'elementor-v2-editor-app-bar', 'registered' ) ) {
+			$dependencies[] = 'elementor-v2-editor-app-bar';
+		}
+		return $dependencies;
+	}
+
+	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
@@ -265,6 +286,7 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 			'redirect-old-features-tab',
 		];
+		$elementor_dependencies  = $this->get_elementor_dependencies();
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
@@ -272,12 +294,7 @@ class WPSEO_Admin_Asset_Manager {
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
-			'elementor'                => [
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-			],
+			'elementor'                => $elementor_dependencies,
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -411,7 +428,6 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'analysis',
-				self::PREFIX . 'react-select',
 				self::PREFIX . 'components-new-package',
 			],
 			'version' => $scripts['workouts']['version'],
@@ -591,6 +607,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'ai-generator',
 				'src'  => 'ai-generator-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'ai-frontend',
 					self::PREFIX . 'tailwind',
 					self::PREFIX . 'introductions',
 				],
@@ -598,6 +615,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'ai-fix-assessments',
 				'src'  => 'ai-fix-assessments-' . $flat_version,
+			],
+			[
+				'name' => 'ai-frontend',
+				'src'  => 'ai-frontend-' . $flat_version,
 			],
 			[
 				'name' => 'introductions',
@@ -626,13 +647,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'admin-global',
 				'src'  => 'admin-global-' . $flat_version,
-			],
-			[
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
-				'deps' => [
-					'wp-components',
-				],
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
 				'name' => 'filter-explanation',
@@ -670,6 +685,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
+				'name' => 'redirects',
+				'src'  => 'redirects-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
 				'name' => 'black-friday-banner',
 				'src'  => 'black-friday-banner-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
@@ -682,6 +702,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'general-page',
 				'src'  => 'general-page-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
+			],
+			[
+				'name' => 'installation-success',
+				'src'  => 'installation-success-' . $flat_version,
 				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 			[
@@ -704,6 +729,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'inside-editor',
 				'src'  => 'inside-editor-' . $flat_version,
+			],
+			[
+				'name' => 'plans',
+				'src'  => 'plans-' . $flat_version,
+				'deps' => [ self::PREFIX . 'tailwind' ],
 			],
 		];
 	}

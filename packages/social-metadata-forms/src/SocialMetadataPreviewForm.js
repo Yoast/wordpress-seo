@@ -1,11 +1,12 @@
 import { __ } from "@wordpress/i18n";
+import SocialImageSelect from "./components/SocialImageSelect";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -21,24 +22,9 @@ const getCaretColor = ( active ) => {
 
 const CaretContainer = styled.div`
 	position: relative;
-
-	${ props => ! props.isPremium && `
-		.yoast-image-select__preview {
-			width: 130px;
-			min-height: 72px;
-			max-height: 130px;
-		}
-	` };
-`
-;
-
-CaretContainer.propTypes = {
-	isPremium: PropTypes.bool,
-};
-
-CaretContainer.defaultProps = {
-	isPremium: false,
-};
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
+`;
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -75,37 +61,39 @@ Caret.defaultProps = {
 
 /**
  * Adds Caret to a component.
- * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
+ * @param {React.ComponentType} WithoutCaretComponent The component to add a Caret to.
  *
- * @returns {React.Element} A component with added Caret.
+ * @returns {React.ComponentType} A component with added Caret.
  */
 export const withCaretStyle = ( WithoutCaretComponent ) => {
-	return function ComponentWithCaret( props ) {
-		// Define function props.
-		ComponentWithCaret.propTypes = {
-			isActive: PropTypes.bool.isRequired,
-			isHovered: PropTypes.bool.isRequired,
-			isPremium: PropTypes.bool,
-		};
-
-		// Destructure the props.
-		const {
-			isActive,
-			isHovered,
-			isPremium,
-			...withoutCaretProps
-		} = props;
-
+	/**
+	 * Adding a Caret around a component.
+	 *
+	 * @param {boolean} isActive Whether the component is active.
+	 * @param {boolean} isHovered Whether the component is hovered.
+	 * @param {Object} [withoutCaretProps] The props for the component.
+	 *
+	 * @returns {JSX.Element} The component with a Caret.
+	 */
+	function ComponentWithCaret( { isActive, isHovered, ...withoutCaretProps } ) {
 		return (
-			<CaretContainer isPremium={ isPremium }>
+			<CaretContainer>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
 		);
+	}
+
+	// Define function props.
+	ComponentWithCaret.propTypes = {
+		isActive: PropTypes.bool.isRequired,
+		isHovered: PropTypes.bool.isRequired,
 	};
+
+	return ComponentWithCaret;
 };
 
-const ImageSelectWithCaret = withCaretStyle( ImageSelect );
+const ImageSelectWithCaret = withCaretStyle( SocialImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -247,11 +235,7 @@ class SocialMetadataPreviewForm extends Component {
 					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
-					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
-					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
-					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
-					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
-					isPremium={ isPremium }
+					id={ join( [ lowerCaseSocialMediumName, "image-select", idSuffix ] ) }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -328,7 +312,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	imageWarnings: [],
 	hoveredField: "",
 	activeField: "",
-	onSelect: () => {},
+	onSelect: noop,
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
 	imageFallbackUrl: "",
@@ -336,8 +320,8 @@ SocialMetadataPreviewForm.defaultProps = {
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,
-	setEditorRef: () => {},
-	onMouseHover: () => {},
+	setEditorRef: noop,
+	onMouseHover: noop,
 	idSuffix: "",
 };
 

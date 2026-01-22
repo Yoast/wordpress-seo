@@ -313,6 +313,24 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Admin bar menu", "wordpress-seo" ),
 			keywords: [],
 		},
+		enable_task_list: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_task_list",
+			fieldLabel: __( "Task list", "wordpress-seo" ),
+			keywords: [
+				__( "Tasks", "wordpress-seo" ),
+				__( "To-do", "wordpress-seo" ),
+				__( "Checklist", "wordpress-seo" ),
+			],
+		},
+		enable_schema: {
+			route: "/site-features",
+			routeLabel: __( "Site features", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_schema",
+			fieldLabel: __( "Schema Framework", "wordpress-seo" ),
+			keywords: [],
+		},
 		enable_headless_rest_endpoints: {
 			route: "/site-features",
 			routeLabel: __( "Site features", "wordpress-seo" ),
@@ -446,6 +464,15 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Webmaster", "wordpress-seo" ),
 				__( "Google search console", "wordpress-seo" ),
 				"gsc",
+			],
+		},
+		ahrefsverify: {
+			route: "/site-connections",
+			routeLabel: __( "Site connections", "wordpress-seo" ),
+			fieldId: "input-wpseo-ahrefsverify",
+			fieldLabel: __( "Ahrefs", "wordpress-seo" ),
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
 			],
 		},
 		msverify: {
@@ -688,6 +715,17 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-clean_permalinks_extra_variables",
 			fieldLabel: __( "Additional URL parameters to allow", "wordpress-seo" ),
+			keywords: [],
+		},
+		enable_llms_txt: {
+			route: "/llms-txt",
+			routeLabel: __( "llms.txt", "wordpress-seo" ),
+			fieldId: "input-wpseo.enable_llms_txt",
+			fieldLabel: sprintf(
+				// translators: %1$s expands to "llms.txt".
+				__( "Enable %1$s file feature", "wordpress-seo" ),
+				"llms.txt"
+			),
 			keywords: [],
 		},
 	},

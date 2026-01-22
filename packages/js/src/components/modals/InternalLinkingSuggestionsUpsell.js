@@ -4,12 +4,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
 import { Badge, useSvgAria, useToggleState } from "@yoast/ui-library";
-import { getPremiumBenefits } from "../../helpers/get-premium-benefits";
 import { MetaboxButton } from "../MetaboxButton";
 import SidebarButton from "../SidebarButton";
-import UpsellBox from "../UpsellBox";
-import { ModalSmallContainer } from "./Container";
-import Modal, { defaultModalClassName } from "./Modal";
+import { UpsellModal } from "./UpsellModal";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * @returns {JSX.Element} The element.
@@ -21,6 +19,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 
 	const isSidebar = locationContext.includes( "sidebar" );
 	const isMetabox = locationContext.includes( "metabox" );
+	const location = isSidebar ? "sidebar" : "metabox";
 	const buyLink = wpseoAdminL10n[
 		isSidebar
 			? "shortlinks.upsell.sidebar.internal_linking_suggestions"
@@ -29,49 +28,34 @@ export const InternalLinkingSuggestionsUpsell = () => {
 
 	return (
 		<>
-			{ isOpen && (
-				<Modal
-					title={ __( "Get internal linking suggestions", "wordpress-seo" ) }
-					onRequestClose={ closeModal }
-					additionalClassName=""
-					id="yoast-internal-linking-suggestions-upsell"
-					className={ `${ defaultModalClassName } yoast-gutenberg-modal__box yoast-gutenberg-modal__no-padding` }
-					shouldCloseOnClickOutside={ true }
-				>
-					<ModalSmallContainer>
-						<UpsellBox
-							title={ __( "Rank higher by connecting your content", "wordpress-seo" ) }
-							description={ sprintf(
-								/* translators: %s expands to Yoast SEO Premium. */
-								__( "%s automatically suggests to what content you can link with easy drag-and-drop functionality, which is good for your SEO!", "wordpress-seo" ),
-								"Yoast SEO Premium"
-							) }
-							benefitsTitle={
-								sprintf(
-									/* translators: %s expands to 'Yoast SEO Premium'. */
-									__( "%s also gives you:", "wordpress-seo" ),
-									"Yoast SEO Premium" )
-							}
-							benefits={ getPremiumBenefits() }
-							upsellButtonText={
-								sprintf(
-									/* translators: %s expands to 'Yoast SEO Premium'. */
-									__( "Unlock with %s", "wordpress-seo" ),
-									"Yoast SEO Premium"
-								)
-							}
-							upsellButton={ {
-								href: addQueryArgs( buyLink, { context: locationContext } ),
-								className: "yoast-button-upsell",
-								rel: null,
-								"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
-								"data-action": "load-nfd-ctb",
-							} }
-							upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
-						/>
-					</ModalSmallContainer>
-				</Modal>
-			) }
+			<UpsellModal
+				isOpen={ isOpen }
+				onClose={ closeModal }
+				id={ `yoast-internal-linking-suggestions-upsell-${location}` }
+				upsellLink={ addQueryArgs( buyLink, { context: locationContext } ) }
+				modalTitle={ __( "Add smarter internal links with Premium", "wordpress-seo" ) }
+				title={ __( "Connect related content without the guesswork", "wordpress-seo" ) }
+				description={ safeCreateInterpolateElement(
+					sprintf(
+						/* translators: %s expands to be tag. */
+						__( "Optimize for up to 5 keyphrases to shape your content around different themes, audiences, and angles. %sScans your content to:", "wordpress-seo" ),
+						"<br />"
+					),
+					{
+						br: <br />,
+					}
+				) }
+				benefits={ [
+					__( "Suggest internal links based on your content’s main topics", "wordpress-seo" ),
+					__( "Build relevant internal links faster", "wordpress-seo" ),
+					__( "Strengthen your site’s structure", "wordpress-seo" ),
+					__( "Keep visitors exploring longer", "wordpress-seo" ),
+
+				] }
+				note={ __( "Upgrade to link your content with ease", "wordpress-seo" ) }
+				ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+			/>
+
 			{ isSidebar && (
 				<SidebarButton
 					id="yoast-internal-linking-suggestions-sidebar-modal-open-button"

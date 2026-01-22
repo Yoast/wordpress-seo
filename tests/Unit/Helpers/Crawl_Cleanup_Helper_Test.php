@@ -427,7 +427,6 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 		return [
 			[ true, $proper_url, 1, 1, 'http://basic.wordpress.test/page/test/?s=test' ],
 			[ false, $proper_url, 0, 0, 'http://basic.wordpress.test/page/test/' ],
-
 		];
 	}
 

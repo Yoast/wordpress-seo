@@ -461,6 +461,61 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns most recently modified posts of a post type.
+	 *
+	 * @param string $post_type                   The post type.
+	 * @param int    $limit                       The maximum number of posts to return.
+	 * @param bool   $exclude_older_than_one_year Whether to exclude posts older than one year.
+	 * @param string $search_filter               Optional. A search filter to apply to the breadcrumb title.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recently_modified_posts( string $post_type, int $limit, bool $exclude_older_than_one_year, string $search_filter = '' ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		if ( $exclude_older_than_one_year === true ) {
+			$query->where_gte( 'object_published_at', \gmdate( 'Y-m-d H:i:s', \strtotime( '-1 year' ) ) );
+		}
+
+		if ( $search_filter !== '' ) {
+			$query->where_like( 'breadcrumb_title', '%' . $search_filter . '%' );
+		}
+
+		$query->order_by_desc( 'object_last_modified' )
+			->limit( $limit );
+
+		return $query->find_many();
+	}
+
+	/**
+	 * Returns the most recently modified cornerstone content of a post type.
+	 *
+	 * @param string   $post_type The post type.
+	 * @param int|null $limit     The maximum number of posts to return.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_recent_cornerstone_for_post_type( string $post_type, ?int $limit ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->where( 'is_cornerstone', 1 )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		return $query->find_many();
+	}
+
+	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
 	 * @param int $indexable_id The indexable id.

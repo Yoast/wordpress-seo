@@ -7,13 +7,13 @@ import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
 	FormikReplacementVariableEditorField,
-	FormikValueChangeField,
 	FormLayout,
 	NewsSeoAlert,
 	RouteLayout,
 } from "../components";
 import { safeToLocaleLower } from "../helpers";
 import { useSelectSettings } from "../hooks";
+import { FormikValueChangeField } from "../../shared-admin/components/form";
 
 /**
  * @returns {JSX.Element} The media pages route.

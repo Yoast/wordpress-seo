@@ -15,11 +15,20 @@ import MultiLineText from "./multi-line-text";
  * @param {Object[]} choices Array of option objects.
  * @param {string} [label=""] Label. If left empty, no label will be rendered.
  * @param {function} onChange Change handler.
- * @param {ValidationError} [error] Validation error object.
+ * @param {{message: string, isVisible: boolean}} [error] Validation error object.
+ * @param {boolean} [disabled=false] Whether the select is disabled.
  *
- * @returns {WPElement} The Select element.
+ * @returns {JSX.Element} The Select element.
  */
-export default function Select( { id, value, choices, label, onChange, error, disabled } ) {
+export default function Select( {
+	id,
+	value,
+	choices,
+	label = "",
+	onChange,
+	error = { message: "", isVisible: false },
+	disabled = false,
+} ) {
 	// Find label to display for value of selected choice.
 	const valueLabel = useMemo( () => {
 		const selectedChoice = choices.find( ( choice ) => value === choice.value );
@@ -30,13 +39,19 @@ export default function Select( { id, value, choices, label, onChange, error, di
 		<Listbox id={ id } as="div" value={ value } onChange={ onChange } disabled={ disabled }>
 			{ ( { open } ) => (
 				<>
-					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-slate-700">{ label }</Listbox.Label> }
+					{ label && (
+						<Listbox.Label
+							className="yst-block yst-max-w-sm yst-mb-2 yst-text-sm yst-font-medium yst-text-slate-800"
+						>
+							{ label }
+						</Listbox.Label>
+					) }
 					<div className="yst-max-w-sm">
 						<div className="yst-relative">
 							<Listbox.Button
 								data-id={ `button-${ id } ` }
 								className={ classNames(
-									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-ps-3 yst-pe-10 yst-text-start yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
+									"yst-relative yst-h-[40px] yst-w-full yst-leading-6 yst-py-2 yst-ps-3 yst-pe-10 yst-text-start yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									{
 										"yst-border-red-300": error.isVisible,
 										"yst-opacity-50": disabled,
@@ -50,9 +65,9 @@ export default function Select( { id, value, choices, label, onChange, error, di
 									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-slate-400" aria-hidden="true" />
 								</span>
 								{ error.isVisible &&
-								<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-8">
-									<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
-								</div> }
+									<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-end-0 yst-me-8">
+										<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
+									</div> }
 							</Listbox.Button>
 
 							<Transition
@@ -101,7 +116,9 @@ export default function Select( { id, value, choices, label, onChange, error, di
 								</Listbox.Options>
 							</Transition>
 						</div>
-						{ error.isVisible && <MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.message } /> }
+						{ error.isVisible && (
+							<MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.message } />
+						) }
 					</div>
 				</>
 			) }
@@ -110,13 +127,13 @@ export default function Select( { id, value, choices, label, onChange, error, di
 }
 
 Select.propTypes = {
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
 	choices: PropTypes.arrayOf( PropTypes.shape( {
 		id: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ).isRequired,
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
 	} ) ).isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	id: PropTypes.string.isRequired,
 	error: PropTypes.shape( {
@@ -124,12 +141,4 @@ Select.propTypes = {
 		isVisible: PropTypes.bool,
 	} ),
 	disabled: PropTypes.bool,
-};
-
-Select.defaultProps = {
-	error: {
-		message: "",
-		isVisible: false,
-	},
-	disabled: false,
 };

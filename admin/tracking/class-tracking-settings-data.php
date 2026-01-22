@@ -21,6 +21,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'googleverify',
 		'msverify',
 		'yandexverify',
+		'ahrefsverify',
 		'myyoast-oauth',
 		'website_name',
 		'alternate_website_name',
@@ -81,6 +82,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'ryte_indexability',
 		'baiduverify',
 		'googleverify',
+		'ahrefsverify',
 		'msverify',
 		'yandexverify',
 		'site_type',
@@ -232,8 +234,19 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'deny_gptbot_crawling',
 		'last_known_no_unindexed',
 		'site_kit_connected',
-		'site_kit_usage_tracking',
+		'site_kit_tracking_setup_widget_loaded',
+		'site_kit_tracking_first_interaction_stage',
+		'site_kit_tracking_last_interaction_stage',
+		'site_kit_tracking_setup_widget_temporarily_dismissed',
+		'site_kit_tracking_setup_widget_permanently_dismissed',
 		'google_site_kit_feature_enabled',
+		'ai_free_sparks_started_on',
+		'enable_llms_txt',
+		'llms_txt_selection_mode',
+		'configuration_finished_steps',
+		'enable_task_list',
+		'enable_schema',
+		// No need to add anything from WPSEO_Option_Tracking_Only as they are added automatically below.
 	];
 
 	/**
@@ -248,6 +261,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		 * @param string $include_list The list with included setting names.
 		 */
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
+
+		// Always include the tracking only option keys.
+		$this->include_list = array_merge( $this->include_list, YoastSEO()->helpers->options->get_tracking_only_options() );
 
 		$options = WPSEO_Options::get_all();
 		// Returns the settings of which the keys intersect with the values of the include list.

@@ -1,28 +1,50 @@
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useToggleState } from "../../hooks";
 import { Icon } from "./icon";
+import { useNavigationContext } from "./index";
 
 /**
  * @param {JSX.ElementClass} [as="div"] The component.
  * @param {string} label The label.
- * @param {JSX.ElementClass} [icon] Optional icon to put before the label.
- * @param {JSX.node} [children] The content.
- * @param {boolean} [defaultOpen] Whether the sub menu starts opened.
- * @param {Object} [props] Extra props.
+ * @param {JSX.ElementClass?} [icon=null] Optional icon to put before the label.
+ * @param {React.ReactNode} [children=null] The content.
+ * @param {boolean} [defaultOpen=true] Whether the sub menu starts opened.
+ * @param {string} id The id.
+ * @param {...any} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
-export const Collapsible = ( { as: Component = "div", label, icon, children, defaultOpen = true, ...props } ) => {
-	const [ isOpen, toggleOpen ] = useToggleState( defaultOpen );
+export const Collapsible = ( {
+	as: Component = "div",
+	label,
+	icon = null,
+	children = null,
+	defaultOpen = true,
+	id,
+	...props
+} ) => {
+	const { history, addToHistory, removeFromHistory } = useNavigationContext();
+	const [ isOpen, toggleOpen, , setOpen ] = useToggleState( defaultOpen );
+
+	const handleClick = useCallback( () => {
+		toggleOpen();
+		isOpen ? removeFromHistory( id ) : addToHistory( id );
+	}, [ toggleOpen, id, isOpen, addToHistory, removeFromHistory ] );
+
+	useEffect( () => {
+		if ( history.includes( id ) ) {
+			setOpen();
+		}
+	}, [ history, id, setOpen ] );
 
 	return (
 		<Component className="yst-sidebar-navigation__collapsible">
 			<button
 				type="button"
 				className="yst-sidebar-navigation__collapsible-button yst-group"
-				onClick={ toggleOpen }
+				onClick={ handleClick }
 				aria-expanded={ isOpen }
 				{ ...props }
 			>
@@ -48,4 +70,5 @@ Collapsible.propTypes = {
 	label: PropTypes.string.isRequired,
 	defaultOpen: PropTypes.bool,
 	children: PropTypes.node,
+	id: PropTypes.string.isRequired,
 };

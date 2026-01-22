@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Llmstxt;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
+use WPSEO_Option_Tracking_Only;
 use WPSEO_Options;
 
 /**
@@ -110,6 +112,17 @@ class Options_Helper {
 	}
 
 	/**
+	 * Retrieves the tracking only options.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @return string[] The tracking only options.
+	 */
+	public function get_tracking_only_options() {
+		return \array_keys( WPSEO_Option_Tracking_Only::get_instance()->get_defaults() );
+	}
+
+	/**
 	 * Get the available separator options.
 	 *
 	 * @return array
@@ -138,5 +151,14 @@ class Options_Helper {
 	 */
 	public function is_twitter_id_valid( $twitter_id ) {
 		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
+	}
+
+	/**
+	 * Gets the limit for the other included pages.
+	 *
+	 * @return int The limit for the other included pages.
+	 */
+	public function get_other_included_pages_limit() {
+		return WPSEO_Option_Llmstxt::get_instance()->get_other_included_pages_limit();
 	}
 }

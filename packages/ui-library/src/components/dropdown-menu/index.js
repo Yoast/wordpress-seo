@@ -9,11 +9,12 @@ import { Button } from "../../index";
  * The item for the dropdown menu that renders as ui library Button with tertiary variant.
  *
  * @param {JSX.node} children Content of the button.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Additional props.
  *
  * @returns {JSX.Element} Button item component.
  */
-const ButtonItem = ( { children, className, ...props } ) => {
+const ButtonItem = ( { children, className = "", ...props } ) => {
 	return (
 		<Menu.Item>
 			{ ( { active } ) => (
@@ -37,13 +38,14 @@ ButtonItem.propTypes = {
 /**
  * Dropdown menu icon trigger.
  *
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {string} [screenReaderTriggerLabel] Screen reader label for the menu trigger.
- * @param {JSX.node} [Icon] Icon component.
+ * @param {React.ComponentType} [Icon=DotsVerticalIcon] Icon component.
+ * @param {...any} [props] Additional props.
  *
  * @returns {JSX.Element} Menu trigger component.
  */
-const IconTrigger = ( { className, screenReaderTriggerLabel, Icon = DotsVerticalIcon, ...props } ) => (
+const IconTrigger = ( { className = "", screenReaderTriggerLabel, Icon = DotsVerticalIcon, ...props } ) => (
 	<Menu.Button { ...props } className={ classNames( "yst-dropdown-menu__icon-trigger", className ) }>
 		{ ( { open } ) => <>
 			<Icon
@@ -66,11 +68,12 @@ IconTrigger.propTypes = {
  * Dropdown menu list.
  *
  * @param {JSX.node} children Content of the menu.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Additional props.
  *
  * @returns {JSX.Element} Menu list component.
  */
-const List = ( { children, className, ...props } ) => {
+const List = ( { children, className = "", ...props } ) => {
 	return (
 		<Transition
 			as={ Fragment }

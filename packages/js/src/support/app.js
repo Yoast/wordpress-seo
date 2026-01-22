@@ -32,16 +32,23 @@ const openHelpScoutBeacon = () => {
 	}
 };
 
+/* eslint-disable complexity */
+
 /**
  * @returns {JSX.Element} The app component.
+ *
  */
 export const App = () => {
-	const isPremium = useSelectSupport( "selectPreference", [], "isPremium", false );
+	const hasPremiumSubscription = useSelectSupport( "selectPreference", [], "hasPremiumSubscription", false );
+	const hasWooSeoSubscription = useSelectSupport( "selectPreference", [], "hasWooSeoSubscription", false );
+	const isWooCommerceActive = useSelectSupport( "selectPreference", [], "isWooCommerceActive", false );
+	const hasAnyAddon = hasPremiumSubscription || hasWooSeoSubscription;
 	const premiumUpsellConfig = useSelectSupport( "selectUpsellSettingsAsProps" );
 	const pluginUrl = useSelectSupport( "selectPreference", [], "pluginUrl", "" );
 	const linkParams = useSelectSupport( "selectLinkParams" );
 	const academyLink = useSelectSupport( "selectLink", [], "https://yoa.st/3t6" );
 	const premiumLink = useSelectSupport( "selectLink", [], "https://yoa.st/jj" );
+	const wooLink = useSelectSupport( "selectLink", [], "https://yoa.st/admin-sidebar-upsell-woocommerce" );
 	const helpCenterLink = useSelectSupport( "selectLink", [], "https://yoa.st/help-center-support-card" );
 	const supportForumsLink = useSelectSupport( "selectLink", [], "https://yoa.st/support-forums-support-card" );
 	const githubLink = useSelectSupport( "selectLink", [], "https://yoa.st/github-repository-support-card" );
@@ -85,7 +92,7 @@ export const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8">
-			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! isPremium && "xl:yst-pe-[17.5rem]" ) }>
+			<div className={ classNames( "yst-flex yst-flex-grow yst-flex-wrap", ! hasAnyAddon && "xl:yst-pe-[17.5rem]" ) }>
 				<Paper as="main" className="yst-max-w-page yst-flex-grow yst-mb-8 xl:yst-mb-0">
 					<Paper.Header>
 						<div className="yst-max-w-screen-sm">
@@ -180,7 +187,7 @@ export const App = () => {
 								title={ (
 									<div className="yst-flex yst-items-center yst-gap-1.5">
 										<span>{ __( "Contact our support team", "wordpress-seo" ) }</span>
-										{ isPremium && <Badge variant="upsell">Premium</Badge> }
+										{ hasAnyAddon && <Badge variant="upsell">Premium</Badge> }
 									</div>
 								) }
 								description={ (
@@ -201,7 +208,7 @@ export const App = () => {
 								) }
 							>
 								<FeatureUpsell
-									shouldUpsell={ ! isPremium }
+									shouldUpsell={ ! hasAnyAddon }
 									variant="card"
 									cardLink={ contactSupportLink }
 									cardText={ sprintf(
@@ -211,7 +218,7 @@ export const App = () => {
 									) }
 									{ ...premiumUpsellConfig }
 								>
-									<div className={ classNames( "yst-flex", ! isPremium && "yst-opacity-50" ) }>
+									<div className={ classNames( "yst-flex", ! hasAnyAddon && "yst-opacity-50" ) }>
 										<div className="yst-me-6">
 											<p>{ __( "Our support team is here to answer any questions you may have. Fill out the (pop-up) contact form, and we'll get back to you as soon as possible!", "wordpress-seo" ) }</p>
 											<Button
@@ -237,13 +244,14 @@ export const App = () => {
 						</div>
 					</Paper.Content>
 				</Paper>
-				{ ! isPremium &&
+				{ ! hasAnyAddon &&
 					<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-end-8 xl:yst-w-[16rem]">
 						<SidebarRecommendations
-							premiumLink={ premiumLink }
+							premiumLink={ isWooCommerceActive ? wooLink :  premiumLink }
 							premiumUpsellConfig={ premiumUpsellConfig }
 							academyLink={ academyLink }
 							isPromotionActive={ isPromotionActive }
+							isWooCommerceActive={ isWooCommerceActive }
 						/>
 					</div>
 				}

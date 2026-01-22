@@ -1,16 +1,15 @@
+/* eslint-disable complexity */
 /* global wpseoAdminGlobalL10n */
 
 /* External dependencies */
 import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
-
-/* Yoast dependencies */
 import { SvgIcon } from "@yoast/components";
-import { colors } from "@yoast/style-guide";
 import { makeOutboundLink } from "@yoast/helpers";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import { checkLimit, getUpgradeCampaign } from "../../helpers/wincherEndpoints";
@@ -34,8 +33,8 @@ const CloseButton = styled.button`
 	top: 9px;
 	right: 9px;
 	border: none;
-    background: none;
-    cursor: pointer;
+	background: none;
+	cursor: pointer;
 `;
 
 const DescriptionContainer = styled.p`
@@ -46,8 +45,8 @@ const DescriptionContainer = styled.p`
 
 const CalloutContainer = styled.div`
 	position: relative;
-	background: ${ props => props.isTitleShortened ? "#F5F7F7" : "transparent" };
-	border: 1px solid #C7C7C7;
+	background: ${ props => props.isTitleShortened ? "#f5f7f7" : "transparent" };
+	border: 1px solid #c7c7c7;
 	border-left: 4px solid${ colors.$color_pink_dark };
 	padding: 0 16px;
 	margin-bottom: 1.5em;
@@ -56,14 +55,14 @@ const CalloutContainer = styled.div`
 /**
  * Hook to fetch the account tracking info.
  *
- * @param {boolean} isLoggedIn Whether the use is logged in.
+ * @param {boolean} isLoggedIn Whether the user is logged in.
  *
- * @returns {object} The Wincher account tracking info.
+ * @returns {Object} The Wincher account tracking info.
  */
 export const useTrackingInfo = ( isLoggedIn ) => {
 	const [ trackingInfo, setTrackingInfo ] = useState( null );
 
-	useEffect( ()=>{
+	useEffect( () => {
 		if ( isLoggedIn && ! trackingInfo ) {
 			checkLimit().then( data => setTrackingInfo( data ) );
 		}
@@ -72,19 +71,15 @@ export const useTrackingInfo = ( isLoggedIn ) => {
 	return trackingInfo;
 };
 
-useTrackingInfo.propTypes = {
-	limit: PropTypes.bool.isRequired,
-};
-
 /**
  * Hook to fetch the upgrade campaign.
  *
- * @returns {object | null} The upgrade campaign.
+ * @returns {Object|null} The upgrade campaign.
  */
 const useUpgradeCampaign = () => {
 	const [ upgradeCampaign, setUpgradeCampaign ] = useState( null );
 
-	useEffect( ()=>{
+	useEffect( () => {
 		if ( ! upgradeCampaign ) {
 			getUpgradeCampaign().then( data => setUpgradeCampaign( data ) );
 		}
@@ -98,11 +93,17 @@ const useUpgradeCampaign = () => {
  *
  * @param {number} limit The account keywords limit.
  * @param {number} usage The account tracked keywords.
- * @param {boolean} isTitleShortened Whether the title is shortened.
+ * @param {boolean} [isTitleShortened] Whether the title is shortened.
+ * @param {boolean} [isFreeAccount] Whether the account is free.
  *
- * @returns {wp.Element | null} The Wincher upgrade callout title.
+ * @returns {JSX.Element} The Wincher upgrade callout title.
  */
-const WincherUpgradeCalloutTitle = ( { limit, usage, isTitleShortened, isFreeAccount } ) => {
+const WincherUpgradeCalloutTitle = ( {
+	limit,
+	usage,
+	isTitleShortened = false,
+	isFreeAccount = false,
+} ) => {
 	const freeExtended = sprintf(
 		/* Translators: %1$s expands to the number of used keywords.
 		 * %2$s expands to the account keywords limit.
@@ -163,12 +164,13 @@ const WincherAccountUpgradeLink = makeOutboundLink();
 /**
  * Displays the wincher upgrade callout description.
  *
- * @param {number} discount The upgrade discount value.
- * @param {number} months The upgrade discount duration.
+ * @param {number} [discount] The upgrade discount value.
+ * @param {number} [months] The upgrade discount duration.
  *
- * @returns {wp.Element | null} The Wincher upgrade callout description.
+ * @returns {JSX.Element} The Wincher upgrade callout description.
  */
-const WincherUpgradeCalloutDescription = ( { discount, months } ) => {
+// eslint-disable-next-line no-undefined
+const WincherUpgradeCalloutDescription = ( { discount = undefined, months = undefined } ) => {
 	const wincherAccountUpgradeLink = (
 		<WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>
 			{
@@ -197,20 +199,13 @@ const WincherUpgradeCalloutDescription = ( { discount, months } ) => {
 			"%1$s and get an exclusive %2$s discount for %3$s month(s).",
 			"wordpress-seo"
 		),
-		"{{wincherAccountUpgradeLink/}}",
+		"<wincherAccountUpgradeLink/>",
 		discountPercentage + "%",
 		months
 	);
 
 	return <DescriptionContainer>
-		{
-			interpolateComponents( {
-				mixedString: description,
-				components: {
-					wincherAccountUpgradeLink,
-				},
-			} )
-		}
+		{ safeCreateInterpolateElement( description, { wincherAccountUpgradeLink } ) }
 	</DescriptionContainer>;
 };
 
@@ -222,12 +217,13 @@ WincherUpgradeCalloutDescription.propTypes = {
 /**
  * Displays a wincher upgrade callout.
  *
- * @param {Function} onClose The close callback.
- * @param {boolean} isTitleShortened Whether the title is shortened.
+ * @param {?function}  [onClose=null] The close callback.
+ * @param {boolean} [isTitleShortened=false] Whether the title is shortened.
+ * @param {?Object} [trackingInfo=null] The tracking info object.
  *
- * @returns {wp.Element | null} The Wincher upgrade callout.
+ * @returns {JSX.Element} The Wincher upgrade callout.
  */
-const WincherUpgradeCallout = ( { onClose, isTitleShortened, trackingInfo } ) => {
+const WincherUpgradeCallout = ( { onClose = null, isTitleShortened = false, trackingInfo = null } ) => {
 	const upgradeCampaign = useUpgradeCampaign();
 
 	if ( trackingInfo === null ) {

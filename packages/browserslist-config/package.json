@@ -1,14 +1,13 @@
 {
   "name": "@yoast/browserslist-config",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/javascript",
+    "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/browserslist-config"
   },
   "description": "The browserslist configuration for Yoast projects",
   "author": "Team Yoast",
-  "homepage": "https://github.com/Yoast/javascript#readme",
   "license": "GPL-3.0",
   "private": false,
   "main": "index.js",
@@ -23,10 +22,10 @@
     "lint": "eslint . --max-warnings=0"
   },
   "bugs": {
-    "url": "https://github.com/Yoast/javascript/issues"
+    "url": "https://github.com/yoast/wordpress-seo/issues"
   },
   "devDependencies": {
-    "@yoast/eslint-config": "^8.0.0",
+    "@yoast/eslint-config": "^8.1.0",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",

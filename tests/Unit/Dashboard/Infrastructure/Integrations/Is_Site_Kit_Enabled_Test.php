@@ -1,8 +1,8 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Dashboard\Infrastructure\Integrations;
 
-use Brain\Monkey\Functions;
 use Generator;
 
 /**
@@ -21,15 +21,13 @@ final class Is_Site_Kit_Enabled_Test extends Abstract_Site_Kit_Test {
 	 *
 	 * @dataProvider generate_site_kit_enabled_provider
 	 *
-	 * @param string $file_name The filename to test against.
-	 * @param bool   $expected  The expected value.
+	 * @param bool $site_kit_enabled Whether Site Kit is enabled.
+	 * @param bool $expected         The expected value.
 	 *
 	 * @return void
 	 */
-	public function test_is_site_kit_enabled( string $file_name, bool $expected ) {
-		Functions\expect( 'is_plugin_active' )
-			->with( $file_name )
-			->andReturn( $expected );
+	public function test_is_site_kit_enabled( bool $site_kit_enabled, bool $expected ) {
+		$this->site_kit_conditional->expects( 'is_met' )->andReturn( $site_kit_enabled );
 
 		$this->assertSame( $expected, $this->instance->is_enabled() );
 	}
@@ -40,14 +38,14 @@ final class Is_Site_Kit_Enabled_Test extends Abstract_Site_Kit_Test {
 	 * @return Generator Test data to use.
 	 */
 	public static function generate_site_kit_enabled_provider() {
-		yield 'Know Site Kit file given' => [
-			'file_name' => 'google-site-kit/google-site-kit.php',
-			'expected'  => true,
+		yield 'Site Kit enabled' => [
+			'site_kit_enabled' => true,
+			'expected'         => true,
 		];
 
-		yield 'Unknown Site Kit file given' => [
-			'file_name' => 'google-site-kit/kit.php',
-			'expected'  => false,
+		yield 'Site Kit disabled' => [
+			'site_kit_enabled' => false,
+			'expected'         => false,
 		];
 	}
 }

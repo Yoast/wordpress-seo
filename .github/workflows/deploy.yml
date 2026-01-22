@@ -56,21 +56,26 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
         with:
           php-version: 7.4
           coverage: none
+        env:
+          fail-fast: true
 
-      # This action also handles the caching of the Yarn dependencies.
       # https://github.com/actions/setup-node
-      - name: Set up node and enable caching of dependencies
-        uses: actions/setup-node@v4
+      - name: Set up node and disable caching of dependencies
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version-file: './.nvmrc'
-          cache: 'yarn'
+          # Explicitly NOT using the cache functionality to prevent cache poisoning for deployments.
+          cache: ''
+          package-manager-cache: false
 
       - name: "Debug info: show tooling versions"
         run: |
@@ -81,17 +86,9 @@ jobs:
           grunt --version
           git --version
 
-      # Install dependencies and handle caching in one go.
-      # The Grunt artifact creation will run `composer install` multiple times (both no-dev as well as dev),
-      # however, Composer packages downloaded are not cached via Grunt.
-      # Running `composer install` ahead of time will ensure that the cache is warmed up
-      # and available across runs of the same workflow.
-      # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
-      - name: Install Composer dependencies and run the prefixing script
-        uses: ramsey/composer-install@v3
-        with:
-          # Bust the cache at least once a week - output format: YYYY-MM-DD.
-          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
+      # The Grunt artifact creation will run `composer install` twice (first: no-dev, then dev).
+      # Explicitly NOT using the cache functionality via the `ramsey/composer-install`
+      # action runner to prevent cache poisoning for deployments.
 
       - name: "Debug info: show directory layout"
         run: tree -dC .
@@ -124,7 +121,7 @@ jobs:
       # Retention is normally 90 days, but this artifact is only for review
       # and use in the next step, so no need to keep it for more than a day.
       - name: Upload the artifact folder
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: ${{ success() }}
         with:
           name: deploy-artifact
@@ -167,13 +164,14 @@ jobs:
           fi
 
       - name: Checkout Yoast Dist repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           repository: ${{ env.DIST_ORG }}/${{ github.event.repository.name }}
           ref: ${{ env.DIST_DEFAULT_BRANCH }}
           # Personal Access Token for (push) access to the dist version of the repo.
           token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
           fetch-depth: 0
+          persist-credentials: true
 
       - name: "Create branch/Switch to branch"
         if: ${{ steps.set_vars.outputs.BRANCH != env.DIST_DEFAULT_BRANCH }}
@@ -196,7 +194,7 @@ jobs:
 
       # The artifact will be unpacked into the root directory of the repository.
       - name: Download and unpack the prepared artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: deploy-artifact
 

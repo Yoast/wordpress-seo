@@ -16,7 +16,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 
 	it( "should return zero if the keyphrase does not occur in the text.", function() {
@@ -24,7 +24,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 0, textLength: 13 } );
 	} );
 
 
@@ -34,7 +34,7 @@ describe( "Test for counting the keyword density in a text with an English resea
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
 		buildTree( mockPaper, mockResearcher );
 
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 9.090909090909092 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 9.090909090909092, textLength: 11 } );
 	} );
 
 	it( "should recognize a hyphenated keyphrase.", function() {
@@ -42,21 +42,21 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology",  morphologyDataEN );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 16.666666666666664 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 16.666666666666664, textLength: 12 } );
 	} );
 
 	it( "should recognize a keyphrase with an underscore in it", function() {
 		const mockPaper = new Paper( "<p>a string of text with the key_word in it, density should be 7.7%</p>", { keyword: "key_word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 
 	it( "should return zero if a multiword keyphrase is not present but the multiword keyphrase occurs with an underscore", function() {
 		const mockPaper = new Paper( "<p>a string of text with the key_word in it, density should be 0.0%</p>", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 0, textLength: 13 } );
 	} );
 
 	it( "should recognize a multiword keyphrase when it occurs hyphenated", function() {
@@ -64,14 +64,14 @@ describe( "Test for counting the keyword density in a text with an English resea
 		const mockResearcher = new EnglishResearcher( mockPaper );
 
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.142857142857142 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.142857142857142, textLength: 14 } );
 	} );
 
 	it( "should recognize a keyphrase with an ampersand in it", function() {
 		const mockPaper = new Paper( "<p>a string of text with the key&word in it, density should be 7.7%</p>", { keyword: "key&word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 
 	it( "should include all keyphrase occurrence if there are more than two consecutive", function() {
@@ -79,54 +79,54 @@ describe( "Test for counting the keyword density in a text with an English resea
 			{ keyword: "keyword" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 56.25 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 56.25, textLength: 16 } );
 	} );
 
 	it( "should recognize a keyphrase with a '$' in it", function() {
 		const mockPaper = new Paper( "<p>a string of text with the $keyword in it, density should be 7.7%</p>", { keyword: "$keyword" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 
 	it( "should recognize a keyphrase regardless of capitalization", function() {
 		const mockPaper = new Paper( "<p>a string of text with the Keyword in it, density should be 7.7%</p>", { keyword: "keyword" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 
 	it( "should recognize a multiword keyphrase regardless of capitalization", function() {
 		const mockPaper = new Paper( "<p>a string of text with the Key word in it, density should be 14.29%</p>", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.142857142857142 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.142857142857142, textLength: 14 } );
 	} );
 
 	it( "should recognize apostrophes regardless of the type of quote that was used", function() {
 		const mockPaper = new Paper( "<p>a string with quotes to match the key'word, even if the quotes differ</p>", { keyword: "key’word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 	it( "should recognize keyphrase separated by &nbsp;", function() {
 		const mockPaper = new Paper( "<p>a string with non-breaking space to match the key&nbsp;word</p>", { keyword: "key word" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 9.090909090909092 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 9.090909090909092, textLength: 11 } );
 	} );
 	it( "should return 0 when the paper contains only excluded element", function() {
 		const mockPaper = new Paper( "<blockquote>In the United States and parts of Europe, " +
 			"tortoiseshell cats are often considered lucky charms.</blockquote>" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 0, textLength: 0 } );
 	} );
 	it( "should return 0 when the paper is empty", function() {
 		const mockPaper = new Paper( "" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 0, textLength: 0 } );
 	} );
 } );
 
@@ -135,13 +135,13 @@ describe( "test for counting the keyword density in a non-English and non-Japane
 		const mockPaper = new Paper( "Ukara sing isine cemeng.", { keyword: "cemeng", locale: "jv_ID" } );
 		const mockResearcher = new DefaultResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 25 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 25, textLength: 4 } );
 	} );
 	it( "should correctly recognize a Turkish transliterated keyphrase with a 'ı' in it", function() {
 		const mockPaper = new Paper( "a string of text with the kapakli in it, density should be 7.7%</p>", { keyword: "kapaklı", locale: "tr_TR" } );
 		const mockResearcher = new TurkishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { density: 7.6923076923076925, textLength: 13 } );
 	} );
 } );
 
@@ -152,7 +152,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		buildTree( mockPaper, mockResearcher );
 
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 0, textLength: 15 } );
 	} );
 
 	it( "returns the keyword density when the keyword is found once", function() {
@@ -160,7 +160,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		buildTree( mockPaper, mockResearcher );
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 16.666666666666664 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 16.666666666666664, textLength: 6 } );
 	} );
 
 	it( "returns the keyword density when the keyword contains multiple words and the sentence contains an inflected form", function() {
@@ -169,7 +169,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 6.666666666666667 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 6.666666666666667, textLength: 15 } );
 	} );
 
 	it( "returns the keyword density when the keyword contains multiple words with an exact match in the sentence", function() {
@@ -178,7 +178,7 @@ describe( "test for counting the keyword density in a text in a language that us
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		buildTree( mockPaper, mockResearcher );
 
-		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 6.666666666666667 );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toEqual( { density: 6.666666666666667, textLength: 15 } );
 	} );
 } );
 

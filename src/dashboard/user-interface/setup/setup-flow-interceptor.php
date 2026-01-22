@@ -1,9 +1,9 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
@@ -69,7 +69,7 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	 * @return string[] The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Google_Site_Kit_Feature_Conditional::class, Admin_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -81,7 +81,6 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 		if ( \get_transient( Setup_Url_Interceptor::SITE_KIT_SETUP_TRANSIENT ) === '1' && $this->is_site_kit_setup_completed_page() ) {
 			\delete_transient( Setup_Url_Interceptor::SITE_KIT_SETUP_TRANSIENT );
 			$this->redirect_helper->do_safe_redirect( \self_admin_url( 'admin.php?page=wpseo_dashboard&redirected_from_site_kit' ), 302, 'Yoast SEO' );
-
 		}
 	}
 

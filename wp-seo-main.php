@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '25.2-RC1' );
+define( 'WPSEO_VERSION', '26.9-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,8 +35,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.4' );
-define( 'YOAST_SEO_WP_TESTED', '6.8.1' );
-define( 'YOAST_SEO_WP_REQUIRED', '6.6' );
+define( 'YOAST_SEO_WP_TESTED', '6.9' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.8' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -207,8 +207,6 @@ function _wpseo_activate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 	require_once WPSEO_PATH . 'inc/class-wpseo-installation.php';
 
-	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
-
 	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
@@ -306,26 +304,18 @@ function wpseo_on_activate_blog( $blog_id ) {
 
 /* ***************************** PLUGIN LOADING *************************** */
 
+
 /**
  * Load translations.
+ *
+ * @deprecated 27.0
+ * @codeCoverageIgnore
  *
  * @return void
  */
 function wpseo_load_textdomain() {
-	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
-	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
-
-	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
-		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-	else {
-		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 27.0' );
 }
-
-add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
-
-
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin.
  *
@@ -340,7 +330,21 @@ function wpseo_init() {
 	WPSEO_Meta::init();
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1, [ 'wpseo' ] ), WPSEO_VERSION, '<' ) ) {
-		if ( function_exists( 'opcache_reset' ) ) {
+		// Invalidate the opcache in 50% of the cases, randomly staggered based on the site URL.
+		// @TODO: Move the staggering logic to its own class, but only after a few releases after the complete sunset of the opcache invalidation. Make sure to document that in the future, maybe `12` should be used as modulus, so that it's easier to tinker the percentage (divisible by 2, 3, 4, 6). (see the technical choices of https://github.com/Yoast/wordpress-seo/pull/22812).
+		$random_seed               = hexdec( substr( hash( 'sha256', site_url() ), 0, 8 ) );
+		$should_invalidate_opcache = ( $random_seed % 2 ) !== 0;
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\should_invalidate_opcache' - Allow developers to enable / disable
+		 * opcache invalidation upon upgrade of the Yoast SEO plugin.
+		 *
+		 * @since 26.1
+		 *
+		 * @param bool $should_invalidate Whether opcache should be invalidated.
+		 */
+		$should_invalidate_opcache = (bool) apply_filters( 'Yoast\WP\SEO\should_invalidate_opcache', $should_invalidate_opcache );
+		if ( $should_invalidate_opcache && function_exists( 'opcache_reset' ) ) {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}

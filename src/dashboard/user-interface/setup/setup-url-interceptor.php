@@ -1,9 +1,9 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
@@ -65,7 +65,7 @@ class Setup_Url_Interceptor implements Integration_Interface {
 	 * @return string[] The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Google_Site_Kit_Feature_Conditional::class, Admin_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -122,7 +122,6 @@ class Setup_Url_Interceptor implements Integration_Interface {
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Only allowed pre verified links can end up here.
 				$redirect_url = \wp_unslash( $_GET['redirect_setup_url'] );
 				$this->redirect_helper->do_safe_redirect( $redirect_url, 302, 'Yoast SEO' );
-
 			}
 			else {
 				$this->redirect_helper->do_safe_redirect( \self_admin_url( 'admin.php?page=wpseo_dashboard' ), 302, 'Yoast SEO' );

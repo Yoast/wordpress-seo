@@ -20,6 +20,7 @@ const config = {
 		getAbsolutePath( "@storybook/addon-webpack5-compiler-swc" ),
 		getAbsolutePath( "@storybook/addon-essentials" ),
 		getAbsolutePath( "@storybook/addon-interactions" ),
+		getAbsolutePath( "@storybook/addon-a11y" ),
 		{
 			name: getAbsolutePath( "@storybook/addon-styling-webpack" ),
 			options: {

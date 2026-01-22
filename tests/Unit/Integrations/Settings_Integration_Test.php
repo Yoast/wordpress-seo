@@ -14,11 +14,16 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Route_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
+use Yoast\WP\SEO\Llms_Txt\Application\Configuration\Llms_Txt_Configuration;
+use Yoast\WP\SEO\Llms_Txt\Application\Health_Check\File_Runner;
+use Yoast\WP\SEO\Llms_Txt\Infrastructure\Content\Manual_Post_Collection;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Settings_Integration_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -67,24 +72,64 @@ final class Settings_Integration_Test extends TestCase {
 	private $options;
 
 	/**
+	 * Holds the Llms_Txt_Configuration instance.
+	 *
+	 * @var Mockery\MockInterface|Llms_Txt_Configuration
+	 */
+	private $llms_txt_configuration;
+
+	/**
+	 * Holds the Manual_Post_Collection instance.
+	 *
+	 * @var Mockery\MockInterface|Manual_Post_Collection
+	 */
+	private $manual_post_collection;
+
+	/**
+	 * Holds the File_Runner instance.
+	 *
+	 * @var Mockery\MockInterface|File_Runner
+	 */
+	private $file_runner;
+
+	/**
+	 * Holds the Route_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Route_Helper
+	 */
+	private $route_helper;
+
+	/**
+	 * Holds the Schema_Configuration instance.
+	 *
+	 * @var Mockery\MockInterface|Schema_Configuration
+	 */
+	private $schema_configuration;
+
+	/**
 	 * Runs the setup to prepare the needed instance
 	 *
 	 * @return void
 	 */
 	public function set_up() {
-		$asset_manager           = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$replace_vars            = Mockery::mock( WPSEO_Replace_Vars::class );
-		$schema_types            = Mockery::mock( Schema_Types::class );
-		$current_page_helper     = Mockery::mock( Current_Page_Helper::class );
-		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
-		$language_helper         = Mockery::mock( Language_Helper::class );
-		$taxonomy_helper         = Mockery::mock( Taxonomy_Helper::class );
-		$product_helper          = Mockery::mock( Product_Helper::class );
-		$woocommerce_helper      = Mockery::mock( Woocommerce_Helper::class );
-		$this->article_helper    = Mockery::mock( Article_Helper::class );
-		$user_helper             = Mockery::mock( User_Helper::class );
-		$this->options           = Mockery::mock( Options_Helper::class );
-		$content_type_visibility = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
+		$asset_manager              = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$replace_vars               = Mockery::mock( WPSEO_Replace_Vars::class );
+		$schema_types               = Mockery::mock( Schema_Types::class );
+		$current_page_helper        = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
+		$language_helper            = Mockery::mock( Language_Helper::class );
+		$taxonomy_helper            = Mockery::mock( Taxonomy_Helper::class );
+		$product_helper             = Mockery::mock( Product_Helper::class );
+		$woocommerce_helper         = Mockery::mock( Woocommerce_Helper::class );
+		$this->article_helper       = Mockery::mock( Article_Helper::class );
+		$user_helper                = Mockery::mock( User_Helper::class );
+		$this->options              = Mockery::mock( Options_Helper::class );
+		$content_type_visibility    = Mockery::mock( Content_Type_Visibility_Dismiss_Notifications::class );
+		$llms_txt_configuration     = Mockery::mock( Llms_Txt_Configuration::class );
+		$manual_post_collection     = Mockery::mock( Manual_Post_Collection::class );
+		$file_runner                = Mockery::mock( File_Runner::class );
+		$this->route_helper         = Mockery::mock( Route_Helper::class );
+		$this->schema_configuration = Mockery::mock( Schema_Configuration::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -99,7 +144,12 @@ final class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility
+			$content_type_visibility,
+			$llms_txt_configuration,
+			$manual_post_collection,
+			$file_runner,
+			$this->route_helper,
+			$this->schema_configuration
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -115,7 +165,12 @@ final class Settings_Integration_Test extends TestCase {
 			$this->article_helper,
 			$user_helper,
 			$this->options,
-			$content_type_visibility
+			$content_type_visibility,
+			$llms_txt_configuration,
+			$manual_post_collection,
+			$file_runner,
+			$this->route_helper,
+			$this->schema_configuration
 		);
 	}
 
@@ -231,6 +286,16 @@ final class Settings_Integration_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'content_type_visibility' ),
 			'Content type visibility notifications is set.'
 		);
+		$this->assertInstanceOf(
+			Route_Helper::class,
+			$this->getPropertyValue( $this->instance, 'route_helper' ),
+			'Route_Helper is set.'
+		);
+		$this->assertInstanceOf(
+			Schema_Configuration::class,
+			$this->getPropertyValue( $this->instance, 'schema_configuration' ),
+			'Schema_Configuration is set.'
+		);
 	}
 
 	/**
@@ -325,6 +390,11 @@ final class Settings_Integration_Test extends TestCase {
 			->with( 'book' )
 			->andReturn( false );
 
+		$post_type = $post_types['book'];
+		$this->route_helper
+			->expects( 'get_route' )
+			->with( $post_type->name, $post_type->rewrite, $post_type->rest_base )
+			->andReturn( $post_type->rewrite['slug'] );
 		$result = $this->instance_double->transform_post_types( $post_types );
 
 		$this->assertSame( $expected, $result );
@@ -412,6 +482,12 @@ final class Settings_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'new_taxonomies', [] )
 			->andReturn( $new_taxonomies );
+
+		$taxonomy = $taxonomies['book_category'];
+		$this->route_helper
+			->expects( 'get_route' )
+			->with( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base )
+			->andReturn( $taxonomy->rewrite['slug'] );
 
 		$result = $this->instance_double->transform_taxonomies( $taxonomies, $post_type_names );
 

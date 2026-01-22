@@ -51,7 +51,7 @@ worker.register();
 Then, in a different script, you have the following code:
 
 ```js
-import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
+import { AnalysisWorkerWrapper, Paper } from "yoastseo";
 
 // `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
 // This should be the script created by the previous code-snippet.
@@ -117,7 +117,7 @@ Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
 | Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ❌<sup>3</sup>                 |
+| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
 | Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
 | Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
 | Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |

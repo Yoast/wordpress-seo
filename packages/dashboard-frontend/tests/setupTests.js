@@ -28,3 +28,9 @@ global.HTMLCanvasElement.prototype.getContext = function( type ) {
 	}
 	return null;
 };
+global.IntersectionObserver = class {
+	constructor() {}
+	observe() {}
+	disconnect() {}
+	unobserve() {}
+};

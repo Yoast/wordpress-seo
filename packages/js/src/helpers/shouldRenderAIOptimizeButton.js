@@ -10,6 +10,5 @@ export const shouldRenderAIOptimizeButton = ( hasAIFixes, isElementor, isTerm ) 
 	const isElementorEditorPageActive = document.body.classList.contains( "elementor-editor-active" );
 	// Check if the current editor is either Elementor or the Elementor in-between screen. In that case, don't show the button.
 	const isNotElementorPage = ! isElementor && ! isElementorEditorPageActive;
-
 	return hasAIFixes && isNotElementorPage && ! isTerm;
 };

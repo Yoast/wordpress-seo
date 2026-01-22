@@ -20,15 +20,23 @@ import EditorModal from "./containers/EditorModal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
 import Results from "./containers/Results";
 import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
-import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import createWatcher from "./helpers/create-watcher";
-import { setTextdomainL10n, safeCreateInterpolateElement } from "./helpers/i18n";
+import { safeCreateInterpolateElement, setTextdomainL10n } from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
 import { update as updateAdminBar } from "./ui/adminBar";
 import { createScoresInPublishBox, scrollToCollapsible, updateScore } from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
+import {
+	FieldsetLayout,
+	UnsavedChangesModal,
+	YoastLogo,
+	SidebarLayout,
+	ErrorFallback,
+} from "./shared-admin/components";
+import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
+import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -38,6 +46,18 @@ window.yoast.editorModules = {
 		getIndicatorForScore,
 		constants,
 		refreshAnalysis,
+	},
+	aiGenerator: {
+		components: {
+			Introduction,
+			SuggestionError,
+			SparksLimitNotification,
+			FeatureError,
+		},
+		helpers: {
+			removesLocaleVariantSuffixes,
+			fetchSuggestions,
+		},
 	},
 	components: {
 		HelpLink,
@@ -65,13 +85,17 @@ window.yoast.editorModules = {
 			ImageSelectPortal,
 			ScoreIconPortal,
 		},
+		FieldsetLayout,
+		UnsavedChangesModal,
+		YoastLogo,
+		SidebarLayout,
+		ErrorFallback,
 	},
 	containers: {
 		EditorModal,
 		PersistentDismissableAlert,
 		Results,
 		SEMrushRelatedKeyphrases,
-		WincherSEOPerformance,
 	},
 	helpers: {
 		ajaxHelper,

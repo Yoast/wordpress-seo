@@ -1,7 +1,7 @@
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
@@ -22,20 +22,27 @@ function getDisplayValue( selectedOption ) {
 /**
  * The Yoast version of a Tailwind Combobox.
  *
- * @param {Object}   props               The props object.
- * @param {string}   props.id            The id for this combo box.
- * @param {Object}   props.value         Selected option with shape {value, label}.
- * @param {*}        props.value.value   The id of the selected option
- * @param {string}   props.value.label   The display label of the selected option
- * @param {string}   props.label         Combobox label.
- * @param {function} props.onChange      Function to manage a selected option.
- * @param {function} props.onQueryChange Function to be called when the text inside the text input changes.
- * @param {array}    props.options       Combobox select options.
- * @param {string}   props.placeholder   Combobox text input placeholder.
+ * @param {string} id The id for this combo box.
+ * @param {?{value: *, label: string}} [value=null] Selected option.
+ * @param {string} [label=""] Combobox label.
+ * @param {function} onChange Function to manage a selected option.
+ * @param {function} [onQueryChange=null] Function to be called when the text inside the text input changes.
+ * @param {Array} options Combobox select options.
+ * @param {string} [placeholder] Combobox text input placeholder.
+ * @param {boolean} [isLoading=false] Whether the combobox is loading.
  *
- * @returns {WPElement} The Yoast version of a Tailwind Combobox.
+ * @returns {JSX.Element} The Yoast version of a Tailwind Combobox.
  */
-export default function YoastComboBox( { id, value, label, onChange, onQueryChange, options, placeholder, isLoading } ) {
+export default function YoastComboBox( {
+	id,
+	value = null,
+	label = "",
+	onChange,
+	onQueryChange = null,
+	options,
+	placeholder = __( "Select an option", "wordpress-seo" ),
+	isLoading = false,
+} ) {
 	const [ filteredOptions, setFilteredOptions ] = useState( options );
 	const [ query, setQuery ] = useState( "" );
 
@@ -85,8 +92,10 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 		{
 			( { open } ) => {
 				return <Fragment>
-					{ label && <Combobox.Label className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-slate-700">{ label }</Combobox.Label> }
-					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
+					{ label && <Combobox.Label
+						className="yst-block yst-mb-2 yst-max-w-sm yst-text-sm yst-font-medium yst-text-slate-800"
+					>{ label }</Combobox.Label> }
+					<div className="yst-h-[40px] yst-max-w-sm yst-relative">
 						<Combobox.Button
 							data-id={ `button-${ id }` }
 							role="button"
@@ -95,7 +104,7 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 						>
 							<Combobox.Input
 								data-id={ `input-${ id }` }
-								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-ps-0 yst-pe-10 yst-shadow-none sm:yst-text-sm"
+								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-1 yst-ps-0 yst-pe-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
 								placeholder={ placeholder }
@@ -104,8 +113,16 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-slate-400 yst-inset-y-0 yst-end-0" aria-hidden="true" />
 						</Combobox.Button>
 						{ ( filteredOptions.length > 0 ) && (
-							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
-								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-ps-3 yst-pe-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-me-2 yst-self-center" />{ __( "Loading…", "wordpress-seo" ) }</div> }
+							<Combobox.Options
+								className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm"
+							>
+								{ isLoading && <div
+									className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-ps-3 yst-pe-9 yst-my-0"
+								>
+									<Spinner
+										className="yst-text-primary-500 yst-h-4 yst-w-4 yst-me-2 yst-self-center"
+									/>{ __( "Loading…", "wordpress-seo" ) }
+								</div> }
 								{ filteredOptions.map( ( option ) => (
 									<Combobox.Option
 										key={ `yst-option-${ option.value }` }
@@ -114,7 +131,9 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 									>
 										{ ( { selected } ) => {
 											return <>
-												<span className={ classNames( "yst-block yst-truncate", ( selected || value.value === option.value ) && "yst-font-semibold" ) }>{ option.label }</span>
+												<span
+													className={ classNames( "yst-block yst-truncate", ( selected || value.value === option.value ) && "yst-font-semibold" ) }
+												>{ option.label }</span>
 												{ ( selected || value.value === option.value ) && (
 													<span
 														className={ "yst-absolute yst-inset-y-0 yst-end-0 yst-flex yst-items-center yst-pe-4 yst-text-white" }
@@ -147,12 +166,4 @@ YoastComboBox.propTypes = {
 	onQueryChange: PropTypes.func,
 	placeholder: PropTypes.string,
 	isLoading: PropTypes.bool,
-};
-
-YoastComboBox.defaultProps = {
-	value: null,
-	label: "",
-	onQueryChange: null,
-	placeholder: __( "Select an option", "wordpress-seo" ),
-	isLoading: false,
 };

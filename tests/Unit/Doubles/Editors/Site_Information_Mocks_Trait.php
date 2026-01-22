@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Editors;
 
 use Brain\Monkey;

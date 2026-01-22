@@ -1,4 +1,3 @@
-// Import the function to test
 import { shouldRenderAIOptimizeButton } from "../../src/helpers/shouldRenderAIOptimizeButton";
 
 describe( "shouldRenderAIOptimizeButton", () => {
@@ -6,8 +5,11 @@ describe( "shouldRenderAIOptimizeButton", () => {
 		// Reset the document body class list before each test
 		document.body.className = "";
 	} );
+	afterEach( () => {
+		jest.clearAllMocks();
+	} );
 
-	it( "should return true when hasAIFixes is true, isElementor is false, isTerm is false, and not on an Elementor editor page", () => {
+	it( "should return true when hasAIFixes is true, isElementor is false, isTerm is false, not on an Elementor editor page", () => {
 		const hasAIFixes = true;
 		const isElementor = false;
 		const isTerm = false;

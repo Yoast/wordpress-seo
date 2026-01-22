@@ -1,17 +1,17 @@
+/* eslint-disable complexity */
 import getResults from "../getAssessorResults";
 import Paper from "../../../src/values/Paper";
 import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import keyphraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
-/* eslint-disable complexity */
 
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
- * @param {boolean} isProductAssessor Whether this assessor is used for products.
+ * @param {boolean} isECommerceAssessor Whether this assessor is used for eCommerce (products, store blogs, collections, taxonomies).
  * @returns {void}
  */
-export function checkAssessmentAvailability( assessor, isProductAssessor = false ) {
+export function checkAssessmentAvailability( assessor, isECommerceAssessor = false ) {
 	/**
 	 * Finds all assessments that have valid results for a given Paper.
 	 * @param {Paper} paper The paper.
@@ -28,24 +28,37 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	const isProduct = assessor.type.startsWith( "product" );
 	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
 
-	// Add the Keyphrase distribution assessment to the assessor, which is available for product assessors (except store blogs) in Shopify.
-	if ( isProductAssessor && ! isStoreBlog ) {
+	// Add the Keyphrase distribution assessment to the assessor, which is available for all assessors (except store blogs) in Shopify.
+	if ( ! isStoreBlog ) {
 		assessor._researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
-			urlTitle: isProduct ? "https://yoast.com/33" : "https://yoa.st/shopify30",
-			urlCallToAction: isProduct ? "https://yoast.com/34" : "https://yoa.st/shopify31",
+			urlTitle: ( isProduct || isECommerceAssessor ) ? "https://yoa.st/shopify30" : "https://yoa.st/33q",
+			urlCallToAction: ( isProduct || isECommerceAssessor ) ? "https://yoa.st/shopify31" : "https://yoa.st/33u",
 		} ) );
 	}
 
 	// defaultAssessments - Assessments that are available in (almost) all assessors, as they don't require any specific attributes on the Paper.
-	let defaultAssessments = [ "introductionKeyword", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
-		"metaDescriptionLength", "slugKeyword", "titleWidth", "textLength" ];
+	let defaultAssessments = [ "introductionKeyword", "singleH1", "keyphraseDistribution", "keyphraseInSEOTitle", "keyphraseLength", "metaDescriptionKeyword",
+		"metaDescriptionLength", "slugKeyword", "titleWidth", "subheadingsKeyword", "keyphraseDensity", "textLength" ];
 	if ( isStoreBlog ) {
-		// The introduction keyword and text length assessments are not available on store blogs.
-		defaultAssessments = defaultAssessments.slice( 1, -1 );
+		/*
+		Remove the following assessments as they are not available for store blogs:
+		- introductionKeyword
+		- singleH1
+		- keyphraseDistribution
+		- subheadingsKeyword
+		- keyphraseDensity
+		- textLength
+		 */
+		defaultAssessments = defaultAssessments.slice( 3, -3 );
 	}
 
-	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase" ];
+	if ( isTaxonomy || isCollection ) {
+		// Remove subheadingsKeyword from default assessments for taxonomies and collections.
+		defaultAssessments = defaultAssessments.filter( assessment => assessment !== "subheadingsKeyword" );
+	}
+
+	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase", "textCompetingLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
 		extraDefaultAssessments = [];
 	}
@@ -68,8 +81,9 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( "<h1>First title</h1><h1>Second title</h1>" );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "singleH1" );
-		expect( assessments.sort() ).toEqual( expected.sort() );
+		// const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "singleH1" );
+		// expect( assessments.sort() ).toEqual( expected.sort() );
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
@@ -84,8 +98,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		const paper = new Paper( text, { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const expected = isStoreBlog ? defaultAssessments : defaultAssessments.concat( "keyphraseDensity" );
-		expect( assessments.sort() ).toEqual( expected.sort() );
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
@@ -105,9 +118,9 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
 		const assessments = assess( paper );
 
-		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
-		expect( assessments.sort() ).toEqual( expected.sort() );
+		// const keyphraseAssessments = isECommerceAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
+		// const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 
 	it( "additionally runs assessments that require a long enough text and one keyword occurrence and one synonym occurrence", function() {
@@ -126,12 +139,10 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword", synonyms: "synonym" } );
 		const assessments = assess( paper );
 
-		const keyphraseAssessments = isProductAssessor ? [ "keyphraseDistribution", "keyphraseDensity" ] : [ "keyphraseDensity" ];
-		const expected = isStoreBlog ? defaultAssessments : [ ...defaultAssessments, ...keyphraseAssessments ];
-		expect( assessments.sort() ).toEqual( expected.sort() );
+		expect( assessments.sort() ).toEqual( defaultAssessments.sort() );
 	} );
 }
-/* eslint-enable complexity */
+
 
 /**
  * Checks the config overrides for a given SEO assessor.
@@ -205,10 +216,10 @@ export function checkConfigOverrides( assessor ) {
 /**
  * Checks the URLs for a given SEO assessor.
  * @param {Assessor} assessor The SEO assessor.
- * @param {boolean} isProductAssessor Whether this assessor is used for products.
+ * @param {boolean} isECommerceAssessor Whether this assessor is used for products.
  * @returns {void}
  */
-export function checkUrls( assessor, isProductAssessor = false ) {
+export function checkUrls( assessor, isECommerceAssessor = false ) {
 	/**
 	 * Checks the URLs for a given assessment.
 	 * @param {Assessment} assessment The assessment.
@@ -228,56 +239,56 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 
 	test( "IntroductionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify8" : "https://yoa.st/33e";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify9" : "https://yoa.st/33f";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify8" : "https://yoa.st/33e";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify9" : "https://yoa.st/33f";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "KeyphraseLengthAssessment", () => {
 		const assessment = assessor.getAssessment( "keyphraseLength" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify10" : "https://yoa.st/33i";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify11" : "https://yoa.st/33j";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify10" : "https://yoa.st/33i";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify11" : "https://yoa.st/33j";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "keyphraseDensityAssessment", () => {
 		const assessment = assessor.getAssessment( "keyphraseDensity" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify12" : "https://yoa.st/33v";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify13" : "https://yoa.st/33w";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify12" : "https://yoa.st/33v";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify13" : "https://yoa.st/33w";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "MetaDescriptionKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "metaDescriptionKeyword" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify14" : "https://yoa.st/33k";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify15" : "https://yoa.st/33l";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify14" : "https://yoa.st/33k";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify15" : "https://yoa.st/33l";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "MetaDescriptionLengthAssessment", () => {
 		const assessment = assessor.getAssessment( "metaDescriptionLength" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify46" : "https://yoa.st/34d";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify47" : "https://yoa.st/34e";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify46" : "https://yoa.st/34d";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify47" : "https://yoa.st/34e";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "SubheadingsKeyword", () => {
 		const assessment = assessor.getAssessment( "subheadingsKeyword" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify16" : "https://yoa.st/33m";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify17" : "https://yoa.st/33n";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify16" : "https://yoa.st/33m";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify17" : "https://yoa.st/33n";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "TextCompetingLinksAssessment", () => {
 		const assessment = assessor.getAssessment( "textCompetingLinks" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify18" : "https://yoa.st/34l";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify19" : "https://yoa.st/34m";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify18" : "https://yoa.st/34l";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify19" : "https://yoa.st/34m";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
@@ -285,13 +296,13 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 	test( "TextLengthAssessment", () => {
 		const assessment = assessor.getAssessment( "textLength" );
 		let urlTitle;
-		if ( isProductAssessor ) {
+		if ( isECommerceAssessor ) {
 			urlTitle = "https://yoa.st/shopify58";
 		} else {
 			urlTitle = isTaxonomy ? "https://yoa.st/34j" : "https://yoa.st/34n";
 		}
 		let urlCallToAction;
-		if ( isProductAssessor ) {
+		if ( isECommerceAssessor ) {
 			urlCallToAction = "https://yoa.st/shopify59";
 		} else {
 			urlCallToAction = isTaxonomy ? "https://yoa.st/34k" : "https://yoa.st/34o";
@@ -302,64 +313,64 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 
 	test( "KeyphraseInSEOTitleAssessment", () => {
 		const assessment = assessor.getAssessment( "keyphraseInSEOTitle" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify24" : "https://yoa.st/33g";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify25" : "https://yoa.st/33h";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify24" : "https://yoa.st/33g";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify25" : "https://yoa.st/33h";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "PageTitleWidthAssessment", () => {
 		const assessment = assessor.getAssessment( "titleWidth" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify52" : "https://yoa.st/34h";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify53" : "https://yoa.st/34i";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify52" : "https://yoa.st/34h";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify53" : "https://yoa.st/34i";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "SlugKeywordAssessment", () => {
 		const assessment = assessor.getAssessment( "slugKeyword" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify26" : "https://yoa.st/33o";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify27" : "https://yoa.st/33p";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify26" : "https://yoa.st/33o";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify27" : "https://yoa.st/33p";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "FunctionWordsInKeyphrase", () => {
 		const assessment = assessor.getAssessment( "functionWordsInKeyphrase" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify50" : "https://yoa.st/functionwordskeyphrase-1";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify51" : "https://yoa.st/functionwordskeyphrase-2";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify50" : "https://yoa.st/functionwordskeyphrase-1";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify51" : "https://yoa.st/functionwordskeyphrase-2";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "SingleH1Assessment", () => {
 		const assessment = assessor.getAssessment( "singleH1" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify54" : "https://yoa.st/3a6";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify55" : "https://yoa.st/3a7";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify54" : "https://yoa.st/3a6";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify55" : "https://yoa.st/3a7";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "ImageCount", () => {
 		const assessment = assessor.getAssessment( "images" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify20" : "https://yoa.st/4f4";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify21" : "https://yoa.st/4f5";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify20" : "https://yoa.st/4f4";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify21" : "https://yoa.st/4f5";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "ImageKeyphrase", () => {
 		const assessment = assessor.getAssessment( "imageKeyphrase" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify22" : "https://yoa.st/4f7";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify23" : "https://yoa.st/4f6";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify22" : "https://yoa.st/4f7";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify23" : "https://yoa.st/4f6";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "KeyphraseDistribution", () => {
 		const assessment = assessor.getAssessment( "keyphraseDistribution" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify30" : "https://yoa.st/33q";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify31" : "https://yoa.st/33u";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify30" : "https://yoa.st/33q";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify31" : "https://yoa.st/33u";
 		// Only test this for product assessors, as the product specific/premium assessments have different URLs: they are not transformed into anchor opening tags.
 		if ( assessment ) {
 			expect( assessment._config ).toBeDefined();
@@ -370,16 +381,16 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 
 	test( "OutboundLinks", () => {
 		const assessment = assessor.getAssessment( "externalLinks" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify62" : "https://yoa.st/34f";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify63" : "https://yoa.st/34g";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify62" : "https://yoa.st/34f";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify63" : "https://yoa.st/34g";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
 	test( "InternalLinksAssessment", () => {
 		const assessment = assessor.getAssessment( "internalLinks" );
-		const urlTitle = isProductAssessor ? "https://yoa.st/shopify60" : "https://yoa.st/33z";
-		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify61" : "https://yoa.st/34a";
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify60" : "https://yoa.st/33z";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify61" : "https://yoa.st/34a";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );

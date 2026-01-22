@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /**
  * WordPress dependencies
  */
@@ -31,8 +30,11 @@ export const link = {
 	className: null,
 	attributes: {
 		url: "href",
+		type: "type",
+		id: "id",
 		target: "target",
 		rel: "rel",
+		"class": "class",
 	},
 	replaces: "core/link",
 	__unstablePasteRule( value, { html, plainText } ) {
@@ -107,6 +109,11 @@ export const link = {
 				speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
 			}
 
+			/**
+			 * Renders the link edit component.
+			 *
+			 * @returns {JSX.Element} The rendered component.
+			 */
 			render() {
 				const {
 					isActive,

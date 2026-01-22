@@ -9,6 +9,7 @@ jest.mock( "@wordpress/data", () => {
 		useDispatch: jest.fn(),
 		useSelect: jest.fn(),
 		combineReducers: jest.fn(),
+		registerStore: jest.fn(),
 	};
 } );
 
@@ -19,6 +20,7 @@ jest.mock( "../../../src/lib/tinymce", () => ( {
 global.window.YoastSEO = {
 	analysis: {
 		applyMarks: jest.fn(),
+		collectData: () => ( { _text: "Some text content with the keyphrase in it." } ),
 	},
 };
 
@@ -30,19 +32,26 @@ global.window.YoastSEO = {
  * @param {object[]} blocks The blocks.
  * @param {string} activeMarker The active marker.
  * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
+ * @param {string} keyword The focus keyphrase.
+ * @param {string} content The editor content.
  * @returns {function} The mock.
  */
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false ) => {
+// eslint-disable-next-line complexity
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it." ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
 		getDisabledAIFixesButtons: () => ( { keyphraseDistributionAIFixes: "Your text is too long." } ),
-		getBlocks: () => blocks,
+		getEditorBlocks: () => blocks,
 		getBlockMode: ( clientId ) => clientId === "htmlTest" ? "text" : "visual",
 		getEditorMode: () => editorMode,
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
+		getFocusKeyphrase: () => keyword,
 	} ) ) );
+
+	// Mock collectData to reflect the provided content
+	global.window.YoastSEO.analysis.collectData = () => ( { _text: content } );
 
 	isTextViewActive.mockReturnValue( editorMode === "text" );
 };
@@ -207,6 +216,42 @@ describe( "AIOptimizeButton", () => {
 		expect( setActiveMarker ).toHaveBeenCalledWith( null );
 		expect( setMarkerPauseStatus ).toHaveBeenCalledWith( false );
 		expect( window.YoastSEO.analysis.applyMarks ).toHaveBeenCalled();
+	} );
+
+	test( "should be disabled when both keyphrase and content are missing for keyphrase-specific assessments", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "" );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
+	} );
+
+	test( "should be disabled when keyphrase is missing for keyphrase-specific assessments", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "Some test content" );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
+	} );
+
+	test( "should be enabled for keyphrase-specific assessments when both keyphrase and content are present", () => {
+		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "test keyphrase", "Some test content with the keyphrase in it." );
+		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
+	} );
+
+	test( "should not apply keyphrase validation to non-keyphrase assessments", () => {
+		mockSelect( "someOtherAssessmentAIFixes", "visual", "blockEditor", [], "", false, "", "" );
+		render( <AIOptimizeButton id="someOtherAssessment" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
 	} );
 } );
 

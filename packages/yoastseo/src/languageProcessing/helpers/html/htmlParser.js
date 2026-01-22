@@ -1,5 +1,5 @@
 /**
- * This file is used for HTML parsing for assessment that not use the HTML Parser.
+ * This file provides HTML parsing for assessments that do NOT use the HTML Parser.
  * We use a (simpler) external library, which can be found here: https://github.com/fb55/htmlparser2.
  */
 import htmlparser from "htmlparser2";
@@ -30,6 +30,7 @@ const IGNORED_TAGS = [ "script", "style", "code", "pre", "blockquote", "textarea
  * @type {string[]}
  */
 const IGNORED_CLASSES = [
+	"yoast-ai-summarize",
 	"yoast-table-of-contents",
 	"yoast-reading-time__wrapper",
 	"elementor-button-wrapper",
@@ -129,17 +130,45 @@ const parser = new htmlparser.Parser( {
  * Note that this function will soon be deprecated in favour of our own HTML parser.
  *
  * @param {string} text The text to parse.
- *
+ * @param {string[]} [ignoredClassesException] An optional array of class names to ignore, in addition to the default ignored classes.
  * @returns {string} The text without the HTML blocks.
  */
-export default function( text ) {
+export default function( text, ignoredClassesException ) {
 	// Return the globals to their starting values.
 	textArray = [];
 	inIgnorableBlock = false;
 	ignoreStack = [];
+
+	const ignoredClasses = ignoredClassesException || IGNORED_CLASSES;
+
+	// Extend the parser’s open-tag logic to recognize and skip elements with ignoredClasses
+	parser._cbs.onopentag = function( tagName, nodeValue ) {
+		if ( inIgnorableBlock ) {
+			ignoreStack.push( tagName );
+			return;
+		}
+
+		const classNames = nodeValue.class ? nodeValue.class.split( " " ) : [];
+		if ( IGNORED_TAGS.includes( tagName ) || classNames.some( className => ignoredClasses.includes( className ) ) ) {
+			inIgnorableBlock = true;
+			ignoreStack.push( tagName );
+			return;
+		}
+
+		const nodeValueType = Object.keys( nodeValue );
+		let nodeValueString = "";
+
+		nodeValueType.forEach( function( node ) {
+			nodeValueString += " " + node + "='" + nodeValue[ node ] + "'";
+		} );
+
+		textArray.push( "<" + tagName + nodeValueString + ">" );
+	};
 
 	parser.write( text );
 	// Make sure to complete the process of parsing and reset the parser to avoid side effects.
 	parser.parseComplete();
 	return textArray.join( "" );
 }
+// Expose ignoredClasses in addition to the default removeHtmlBlocks.
+export { IGNORED_CLASSES };

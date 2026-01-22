@@ -1,6 +1,6 @@
 {
   "name": "@yoast/dashboard-frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The frontend for the Yoast Dashboard",
   "main": "build/index.js",
   "style": "build/css/style.css",
@@ -21,7 +21,7 @@
     "lint": "eslint . --max-warnings=0",
     "storybook": "storybook dev -p 6008",
     "test": "jest",
-    "watch": "yarn watch:js",
+    "watch": "yarn clean:build && yarn watch:js",
     "watch:js": "yarn build:js --watch"
   },
   "devDependencies": {
@@ -31,6 +31,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@jest/globals": "^29.7.0",
+    "@storybook/addon-a11y": "^8.6.12",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-interactions": "^8.6.12",
     "@storybook/addon-styling-webpack": "^1.0.1",
@@ -46,9 +47,9 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
-    "@yoast/eslint-config": "^8.0.0",
-    "@yoast/postcss-preset": "^1.2.0",
-    "@yoast/tailwindcss-preset": "^2.3.0",
+    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/postcss-preset": "^1.2.1",
+    "@yoast/tailwindcss-preset": "^2.5.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.23.0",
     "eslint-plugin-storybook": "^0.12.0",
@@ -65,13 +66,13 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.3",
-    "@wordpress/i18n": "^5.0.1",
+    "@wordpress/i18n": "^5.8.2",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "@wordpress/element": "^6.0.1",
-    "@yoast/ui-library": "^4.2.0",
+    "@yoast/ui-library": "^4.4.0",
     "chart.js": "^4.2.1",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",

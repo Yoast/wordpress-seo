@@ -95,7 +95,6 @@ export { YoastLinkButton } from "./buttons/YoastLinkButton";
 export { default as Logo } from "./Logo";
 export { default as Modal } from "./Modal";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
-export { default as Tabs } from "./Tabs";
 export { default as Warning } from "./Warning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
