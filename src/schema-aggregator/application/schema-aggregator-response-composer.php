@@ -28,6 +28,13 @@ class Schema_Aggregator_Response_Composer {
 				$piece->get_data()
 			);
 		}
+		$composed_pieces[] =
+			[
+				'@context'   => 'https://schema.org',
+				'@type'      => 'Thing',
+				'name'       => 'Yoast SEO schema aggregator version',
+				'identifier' => '0.1',
+			];
 
 		return $composed_pieces;
 	}
