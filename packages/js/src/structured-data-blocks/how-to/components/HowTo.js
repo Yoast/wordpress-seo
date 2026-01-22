@@ -627,7 +627,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-days"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.days }
+							value={ attributes.days || "" }
 							onChange={ this.onChangeDays }
 							placeholder="DD"
 							ref={ this.daysInput }
@@ -642,7 +642,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-hours"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.hours }
+							value={ attributes.hours || "" }
 							onChange={ this.onChangeHours }
 							placeholder="HH"
 						/>
@@ -657,7 +657,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-minutes"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.minutes }
+							value={ attributes.minutes || "" }
 							onChange={ this.onChangeMinutes }
 							placeholder="MM"
 						/>
