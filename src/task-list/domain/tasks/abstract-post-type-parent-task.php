@@ -10,15 +10,4 @@ namespace Yoast\WP\SEO\Task_List\Domain\Tasks;
 abstract class Abstract_Post_Type_Parent_Task extends Abstract_Post_Type_Task implements Post_Type_Task_Interface, Parent_Task_Interface {
 
 	use Parent_Task_Trait;
-
-	/**
-	 * Returns an array representation of the task data.
-	 *
-	 * @return array<string, string|bool> Returns in an array format.
-	 */
-	public function to_array(): array {
-		$data = parent::to_array();
-
-		return $this->add_parent_task_data( $data );
-	}
 }

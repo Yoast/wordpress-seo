@@ -51,11 +51,20 @@ trait Parent_Task_Trait {
 	}
 
 	/**
-	 * Returns an array representation of the task data with parent task flag.
+	 * Returns an array representation of the task data.
+	 * When used in a class extending Abstract_Task, this will call the parent's to_array()
+	 * and add the parent task flag.
 	 *
 	 * @return array<string, string|bool> Returns in an array format.
 	 */
-	protected function add_parent_task_data( array $data ): array {
+	public function to_array(): array {
+		$data = [];
+
+		$parent_class = \get_parent_class( $this );
+		if ( $parent_class !== false && \method_exists( $parent_class, 'to_array' ) ) {
+			$data = parent::to_array();
+		}
+
 		$data['parentTask'] = true;
 
 		return $data;
