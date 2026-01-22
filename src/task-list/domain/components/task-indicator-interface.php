@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Task_List\Domain\Components;
  * Interface for task indicators.
  * Indicators are visual elements that provide additional context about a task,
  * such as a color-coded status or a numeric value.
+ * @TODO: Naming "indicator" TBD.
  */
 interface Task_Indicator_Interface {
 
