@@ -311,6 +311,7 @@ Release date: 2026-02-03
 
 * Ensures no deprecated props are used for WordPress components `ToggleControl` and `TextControl` for How-to block.
 * Improves performance in large sites with lots of inbound links by adding appropriate database indices.
+* Improves the general security of the plugin via sanitization and escaping.
 * Replaces deprecated standard WordPress components with their modern variants.
 * Sets the minimum supported WordPress version to 6.8.
 * Updates the OAuth2 Client library for improved compatibility with PHP 8.5.
