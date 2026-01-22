@@ -36,9 +36,9 @@ final class WebPage_Schema_Node_Filter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the filter method of WebPage_Schema_Node_Filter.
+	 * Tests the should_filter method of WebPage_Schema_Node_Filter.
 	 *
-	 * @dataProvider filter_data
+	 * @dataProvider should_filter_data
 	 *
 	 *                                   @param array<array<string, string>> $schema_data       The full schema data.
 	 *                                                        @param array<string, string>        $schema_piece_data The schema piece data to be filtered.
@@ -46,23 +46,23 @@ final class WebPage_Schema_Node_Filter_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_filter( array $schema_data, array $schema_piece_data, bool $expected ): void {
+	public function test_should_filter( array $schema_data, array $schema_piece_data, bool $expected ): void {
 		$schema_piece = new Schema_Piece( $schema_piece_data, $schema_piece_data['@type'] );
 		$schema       = new Schema_Piece_Collection();
 		foreach ( $schema_data as $data ) {
 			$schema->add( new Schema_Piece( $data, $data['@type'] ) );
 		}
-		$result = $this->instance->filter( $schema, $schema_piece );
+		$result = $this->instance->should_filter( $schema, $schema_piece );
 
 		$this->assertSame( $expected, $result );
 	}
 
 	/**
-	 * Data provider for test_filter.
+	 * Data provider for test_should_filter.
 	 *
 	 * @return array<string, array<array<array<string, string>>, array<string, string>, bool>>
 	 */
-	public function filter_data(): array {
+	public function should_filter_data(): array {
 		return [
 			'WebPage without Article references' => [
 				[
