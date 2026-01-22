@@ -29,8 +29,6 @@ export const GoogleContent = ( { title, description, status, titleForLength, sho
 				onChange={ setMode }
 				active={ mode }
 				id={ `yst-ai-google-preview-mode-switcher-${ location }` }
-				mobileModeInputId={ `yst-ai-mode__mobile__${ location }` }
-				desktopModeInputId={ `yst-ai-mode__desktop__${ location }` }
 				disabled={ status === ASYNC_ACTION_STATUS.loading }
 			/>
 			{ showPreviewSkeleton

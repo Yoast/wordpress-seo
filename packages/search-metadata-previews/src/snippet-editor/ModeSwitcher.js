@@ -17,13 +17,11 @@ import { MODE_DESKTOP, MODE_MOBILE } from "../snippet-preview/constants";
  * @param {Function} onChange Callback when mode is changed.
  * @param {string} active Current active mode.
  * @param {string} id ID for the toggle.
- * @param {string} desktopModeInputId ID for the desktop mode input.
- * @param {string} mobileModeInputId ID for the mobile mode input.
  * @param {boolean} [disabled] Whether the switcher is disabled.
  *
  * @returns {JSX.Element} ModeSwitcher component.
  */
-const ModeSwitcher = ( { onChange, active, id, desktopModeInputId, mobileModeInputId, disabled = false } ) => {
+const ModeSwitcher = ( { onChange, active, id, disabled = false } ) => {
 	const svgAriaProps = useSvgAria();
 	const handleChange = useCallback( () => {
 		const newMode = active === MODE_DESKTOP ? MODE_MOBILE : MODE_DESKTOP;
@@ -53,12 +51,10 @@ const ModeSwitcher = ( { onChange, active, id, desktopModeInputId, mobileModeInp
 						checked={ active === MODE_DESKTOP }
 						onChange={ handleChange }
 						checkedIcon={ <DesktopComputerIcon
-							id={ desktopModeInputId }
 							className="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
 							{ ...svgAriaProps }
 						/> }
 						unCheckedIcon={ <DeviceMobileIcon
-							id={ mobileModeInputId }
 							className="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
 							{ ...svgAriaProps }
 						/> }

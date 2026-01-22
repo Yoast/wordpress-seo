@@ -14,8 +14,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle-mobile"
-					desktopModeInputId="test-desktop-icon-mobile"
-					mobileModeInputId="test-mobile-icon-mobile"
 				/>
 			);
 			expect( container ).toMatchSnapshot();
@@ -27,8 +25,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id="test-toggle-desktop"
-					desktopModeInputId="test-desktop-icon-desktop"
-					mobileModeInputId="test-mobile-icon-desktop"
 				/>
 			);
 			expect( container ).toMatchSnapshot();
@@ -42,8 +38,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -56,8 +50,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -71,8 +63,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -87,8 +77,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -103,8 +91,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -119,8 +105,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -136,8 +120,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -154,8 +136,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -170,8 +150,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -190,8 +168,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ onChangeMock }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -211,8 +187,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ onChangeMock }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -232,8 +206,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ onChangeMock }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -249,8 +221,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ onChangeMock }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -272,8 +242,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -292,8 +260,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -311,8 +277,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -329,8 +293,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 				/>
 			);
 
@@ -346,8 +308,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle-disabled"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 					disabled={ true }
 				/>
 			);
@@ -360,8 +320,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 					disabled={ true }
 				/>
 			);
@@ -377,8 +335,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_DESKTOP }
 					onChange={ jest.fn() }
 					id="test-toggle"
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 					disabled={ true }
 				/>
 			);
@@ -395,8 +351,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ jest.fn() }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 					disabled={ true }
 				/>
 			);
@@ -414,8 +368,6 @@ describe( "ModeSwitcher", () => {
 					active={ MODE_MOBILE }
 					onChange={ onChangeMock }
 					id={ testId }
-					desktopModeInputId="test-desktop-icon"
-					mobileModeInputId="test-mobile-icon"
 					disabled={ true }
 				/>
 			);
