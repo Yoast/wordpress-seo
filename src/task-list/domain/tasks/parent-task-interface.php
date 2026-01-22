@@ -8,22 +8,6 @@ namespace Yoast\WP\SEO\Task_List\Domain\Tasks;
 interface Parent_Task_Interface extends Task_Interface {
 
 	/**
-	 * Returns the child tasks associated with the task.
-	 *
-	 * @return Child_Task_Interface[]
-	 */
-	public function get_child_tasks(): array;
-
-	/**
-	 * Sets the child tasks associated with the task.
-	 *
-	 * @param Child_Task_Interface[] $child_tasks The child tasks.
-	 *
-	 * @return void
-	 */
-	public function set_child_tasks( array $child_tasks ): void;
-
-	/**
 	 * Generates the child tasks dynamically.
 	 *
 	 * @return Child_Task_Interface[] The generated child tasks.
