@@ -16,6 +16,15 @@ trait Parent_Task_Trait {
 	protected $child_tasks = [];
 
 	/**
+	 * Returns the child tasks associated with the task.
+	 *
+	 * @return Child_Task_Interface[]
+	 */
+	public function get_child_tasks(): array {
+		return $this->child_tasks;
+	}
+
+	/**
 	 * Returns whether this task is completed.
 	 * The parent task is completed when all child tasks are completed.
 	 *

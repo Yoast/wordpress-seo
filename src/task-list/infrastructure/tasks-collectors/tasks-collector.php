@@ -106,7 +106,6 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		 */
 		$tasks = \apply_filters( 'wpseo_task_list_tasks', $this->tasks );
 
-		$extra_tasks = [];
 		foreach ( $tasks as $task_id => $task ) {
 			if ( ! $task instanceof Task_Interface ) {
 				throw new Invalid_Tasks_Exception();
@@ -117,13 +116,13 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 				continue;
 			}
 
-			// Populate child tasks for parent tasks.
+			// Generate child tasks for parent tasks (they will be nested in the output).
 			if ( $task instanceof Parent_Task_Interface ) {
-				\array_push( $extra_tasks, ...$task->generate_child_tasks() );
+				$task->generate_child_tasks();
 			}
 		}
 
-		return \array_merge( $tasks, $extra_tasks );
+		return $tasks;
 	}
 
 	/**
@@ -136,22 +135,44 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		$tasks_data = [];
 
 		foreach ( $tasks as $task ) {
-			// We need to enhance the links of the CTA first, if that exists.
-			if ( $task->get_call_to_action() !== null ) {
-				$task->set_enhanced_call_to_action(
-					new Call_To_Action_Entry(
-						$task->get_call_to_action()->get_label(),
-						$task->get_call_to_action()->get_type(),
-						$this->tracking_link_adapter->create_tracking_link_for_tasks(
-							$task->get_call_to_action()->get_href()
-						)
-					)
-				);
+			$task_data = $this->get_task_data_with_enhanced_cta( $task );
+
+			// Nest child tasks inside their parent.
+			if ( $task instanceof Parent_Task_Interface ) {
+				$child_tasks_data = [];
+				foreach ( $task->get_child_tasks() as $child_task ) {
+					$child_task_data = $this->get_task_data_with_enhanced_cta( $child_task );
+					$child_tasks_data[ $child_task->get_id() ] = $child_task_data;
+				}
+				$task_data['childTasks'] = $child_tasks_data;
 			}
 
-			$tasks_data[ $task->get_id() ] = $task->to_array();
+			$tasks_data[ $task->get_id() ] = $task_data;
 		}
 
 		return $tasks_data;
+	}
+
+	/**
+	 * Gets the task data with enhanced CTA tracking links.
+	 *
+	 * @param Task_Interface $task The task.
+	 *
+	 * @return array<string, string|bool> The task data.
+	 */
+	private function get_task_data_with_enhanced_cta( Task_Interface $task ): array {
+		if ( $task->get_call_to_action() !== null ) {
+			$task->set_enhanced_call_to_action(
+				new Call_To_Action_Entry(
+					$task->get_call_to_action()->get_label(),
+					$task->get_call_to_action()->get_type(),
+					$this->tracking_link_adapter->create_tracking_link_for_tasks(
+						$task->get_call_to_action()->get_href()
+					)
+				)
+			);
+		}
+
+		return $task->to_array();
 	}
 }
