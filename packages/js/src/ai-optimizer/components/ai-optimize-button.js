@@ -132,6 +132,16 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
+
+		// Disable this button if another AI button is active (in preview mode).
+		const currentActiveAIButton = select( "yoast-seo/editor" ).getActiveAIFixesButton();
+		if ( currentActiveAIButton && currentActiveAIButton !== aiOptimizeId ) {
+			return {
+				isEnabled: false,
+				ariaLabel: __( "Please apply or discard the current AI suggestion.", "wordpress-seo" ),
+			};
+		}
+
 		// Fallback for when all conditions above pass and the button is enabled.
 		return {
 			isEnabled: true,
