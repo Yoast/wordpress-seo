@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "også", "fortsatt", "derimot", "derfor", "faktisk", "endelig", "likevel", "følgelig", "likeså", "dessuten", "selvsagt",
 	"deretter", "men", "for", "fordi", "mens", "bare", "da", "dog", "enn", "ettersom", "før", "hvorpå", "inntil", "når", "omennskjønt", "samt",
 	"som", "uaktet", "pga.", "uansett", "foruten", "siden", "m.a.o", "attpåtil", "derved", "følgelig", "forøvrig", "iallfall", "imidlertid",

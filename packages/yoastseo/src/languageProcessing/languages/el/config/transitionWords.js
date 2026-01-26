@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 /**
  * Returns a list of transition words consisting of single words
  *
