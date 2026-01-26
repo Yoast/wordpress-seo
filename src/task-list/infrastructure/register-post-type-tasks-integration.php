@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\Task_List\Infrastructure;
 use Yoast\WP\SEO\Conditionals\Task_List_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Set_Search_Appearance_Templates;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Post_Type_Tasks_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Set_Search_Appearance_Templates;
 /**
  * Handles registering post type tasks.
  *
@@ -85,7 +85,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 		// Remove this line when we decide to re-instate the search appearance post type tasks.
 		$this->post_type_tasks = \array_filter(
 			$this->post_type_tasks,
-			function( $task ) {
+			static function ( $task ) {
 				return ! $task instanceof Set_Search_Appearance_Templates;
 			}
 		);

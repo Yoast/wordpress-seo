@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;

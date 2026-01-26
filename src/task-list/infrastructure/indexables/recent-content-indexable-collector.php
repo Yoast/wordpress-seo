@@ -49,8 +49,8 @@ class Recent_Content_Indexable_Collector {
 	/**
 	 * Maps raw database results to Content_Item_SEO_Data value objects.
 	 *
-	 * @param array  $raw_results The raw results from the repository.
-	 * @param string $post_type   The post type.
+	 * @param array<array<string, string>> $raw_results The raw results from the repository.
+	 * @param string                       $post_type   The post type.
 	 *
 	 * @return Content_Item_SEO_Data[] Array of content item SEO data value objects.
 	 */

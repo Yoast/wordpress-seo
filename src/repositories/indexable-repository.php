@@ -518,8 +518,9 @@ class Indexable_Repository {
 	/**
 	 * Returns the most recently modified cornerstone content of a post type.
 	 *
-	 * @param string   $post_type The post type.
-	 * @param int|null $limit     The maximum number of posts to return.
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit The date limit (content modified after this date).
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
@@ -534,7 +535,7 @@ class Indexable_Repository {
 			->where_not_equal( 'primary_focus_keyword_score', 0 )
 			->where_not_null( 'primary_focus_keyword_score' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
-			->where_raw( "( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )" )
+			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
 			->order_by_desc( 'object_last_modified' );
 
 		if ( $limit !== null ) {
