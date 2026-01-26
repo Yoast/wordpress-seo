@@ -25,6 +25,17 @@ trait Parent_Task_Trait {
 	}
 
 	/**
+	 * Sets the child tasks associated with the task.
+	 *
+	 * @param Child_Task_Interface[] $child_tasks The child tasks to set.
+	 *
+	 * @return void
+	 */
+	public function set_child_tasks( array $child_tasks ): void {
+		$this->child_tasks = $child_tasks;
+	}
+
+	/**
 	 * Returns whether this task is completed.
 	 * The parent task is completed when all child tasks are completed.
 	 *
