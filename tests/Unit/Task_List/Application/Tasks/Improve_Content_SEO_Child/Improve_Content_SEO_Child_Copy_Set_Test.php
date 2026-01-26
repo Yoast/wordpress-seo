@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO_Child;
 
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
 

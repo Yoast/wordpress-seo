@@ -516,11 +516,11 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Returns the most recently modified cornerstone content of a post type.
+	 * Returns the most recently modified posts with keywords of a post type.
 	 *
 	 * @param string      $post_type  The post type.
 	 * @param int|null    $limit      The maximum number of posts to return.
-	 * @param string|null $date_limit The date limit (content modified after this date).
+	 * @param string|null $date_limit Only include content modified after this date.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
