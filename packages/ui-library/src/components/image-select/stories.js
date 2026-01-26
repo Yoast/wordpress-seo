@@ -43,7 +43,7 @@ export const Factory = {
 			isLoading={ isLoading }
 			id={ id }
 		>
-			<ImageSelect.Preview imageAltText={ imageAltText } description="No image selected" className="yst-h-48 yst-w-96" />
+			<ImageSelect.Preview imageAltText={ imageAltText } selectDescription="No image selected" className="yst-h-48 yst-w-96" />
 			<ImageSelect.Buttons removeLabel={ removeLabel } onRemoveImage={ handleOnRemoveImage } />
 		</ImageSelect>;
 	},

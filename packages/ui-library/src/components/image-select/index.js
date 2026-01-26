@@ -56,10 +56,11 @@ export const ImageSelect = forwardRef( ( {
  *
  * @param {string} imageAltText The alt text for the image.
  * @param {string} className Additional class names.
+ * @param {string} selectDescription The description for the select image preview box.
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className, description } ) => {
+export const Preview = ( { imageAltText, className, selectDescription } ) => {
 	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
@@ -77,7 +78,7 @@ export const Preview = ( { imageAltText, className, description } ) => {
 	>
 		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className={ classNames( "yst-image-select-preview-image", isLoading && "yst-image-select-preview-image--loading" ) } /> : <div>
 			<PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
-			{ description && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8 yst-max-w-48">{ description }</p> }
+			{ selectDescription && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8 yst-max-w-48">{ selectDescription }</p> }
 		</div>
 		}
 		<span className="yst-sr-only">
