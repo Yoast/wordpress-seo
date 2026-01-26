@@ -118,4 +118,15 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 		return $child_tasks;
 	}
+
+	/**
+	 * Returns whether the task is valid.
+	 *
+	 * @TODO: disable if no indexables enabled, or no SEO analysis enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_valid(): bool {
+		return true;
+	}
 }

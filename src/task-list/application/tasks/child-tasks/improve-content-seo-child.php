@@ -16,6 +16,8 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	/**
 	 * Holds the priority.
 	 *
+	 * @TODO: will be dynamically calculated based on the SEO score.
+	 *
 	 * @var string
 	 */
 	protected $priority = 'medium';
