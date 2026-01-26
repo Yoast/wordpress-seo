@@ -2,8 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Domain\Tasks;
 
-use Yoast\WP\SEO\Task_List\Domain\Components\Task_Indicator_Interface;
-
 /**
  * Abstract class for a child task.
  * Use this when you need a task that belongs to a parent task.
@@ -38,15 +36,6 @@ abstract class Abstract_Child_Task extends Abstract_Task implements Child_Task_I
 	}
 
 	/**
-	 * Returns the indicator for this task.
-	 *
-	 * @return Task_Indicator_Interface|null The indicator, or null if none.
-	 */
-	public function get_indicator(): ?Task_Indicator_Interface {
-		return null;
-	}
-
-	/**
 	 * Returns an array representation of the task data.
 	 *
 	 * @return array<string, string|bool|int|array|null> Returns in an array format.
@@ -55,11 +44,6 @@ abstract class Abstract_Child_Task extends Abstract_Task implements Child_Task_I
 		$data = parent::to_array();
 
 		$data['parentTaskId'] = $this->parent_task->get_id();
-
-		$indicator = $this->get_indicator();
-		if ( $indicator !== null ) {
-			$data['indicator'] = $indicator->to_array();
-		}
 
 		return $data;
 	}

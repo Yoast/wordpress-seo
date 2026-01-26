@@ -3,9 +3,7 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
-use Yoast\WP\SEO\Task_List\Domain\Components\Color_Task_Indicator;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Components\Task_Indicator_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
@@ -115,24 +113,5 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 			\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility.', 'wordpress-seo' ), $title ),
 			\__( 'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' )
 		);
-	}
-
-	/**
-	 * Returns the indicator for this task.
-	 *
-	 * @return Task_Indicator_Interface|null
-	 */
-	public function get_indicator(): ?Task_Indicator_Interface {
-		$seo_score = $this->content_item_data->get_seo_score();
-
-		if ( $seo_score >= 70 ) {
-			return new Color_Task_Indicator( Color_Task_Indicator::COLOR_GREEN, \__( 'Good SEO score', 'wordpress-seo' ) );
-		}
-
-		if ( $seo_score >= 40 ) {
-			return new Color_Task_Indicator( Color_Task_Indicator::COLOR_YELLOW, \__( 'Needs improvement', 'wordpress-seo' ) );
-		}
-
-		return new Color_Task_Indicator( Color_Task_Indicator::COLOR_RED, \__( 'Poor SEO score', 'wordpress-seo' ) );
 	}
 }
