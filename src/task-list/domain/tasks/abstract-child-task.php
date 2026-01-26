@@ -16,26 +16,6 @@ abstract class Abstract_Child_Task extends Abstract_Task implements Child_Task_I
 	protected $parent_task;
 
 	/**
-	 * Returns the parent task associated with the task.
-	 *
-	 * @return Parent_Task_Interface
-	 */
-	public function get_parent_task(): Parent_Task_Interface {
-		return $this->parent_task;
-	}
-
-	/**
-	 * Sets the parent task associated with the task.
-	 *
-	 * @param Parent_Task_Interface $parent_task The parent task.
-	 *
-	 * @return void
-	 */
-	public function set_parent_task( Parent_Task_Interface $parent_task ): void {
-		$this->parent_task = $parent_task;
-	}
-
-	/**
 	 * Returns an array representation of the task data.
 	 *
 	 * @return array<string, string|bool|int|array|null> Returns in an array format.
