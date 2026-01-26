@@ -1,4 +1,5 @@
 <?php
+
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\User_Interface\Readability_Scores;
 

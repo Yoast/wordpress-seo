@@ -316,7 +316,6 @@ function ajax_get_keyword_usage_and_post_types() {
 
 add_action( 'wp_ajax_get_focus_keyword_usage_and_post_types', 'ajax_get_keyword_usage_and_post_types' );
 
-
 /**
  * Retrieves the keyword for the keyword doubles of the termpages.
  *

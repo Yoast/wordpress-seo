@@ -6,11 +6,13 @@ use RuntimeException;
 use Yoast\WP\SEO\AI_Authorization\Domain\Code_Verifier;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+
 /**
  * Class Code_Verifier_Service
  * Handles the generation and validation of code verifiers for users.
  */
 class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
+
 	private const VALIDITY_IN_SECONDS = 300; // 5 minutes
 
 	/**

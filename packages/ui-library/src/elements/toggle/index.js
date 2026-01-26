@@ -1,3 +1,4 @@
+/* eslint-disable no-undefined */
 import { Switch, Transition } from "@headlessui/react";
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
@@ -15,6 +16,8 @@ import { useSvgAria } from "../../hooks";
  * @param {boolean} [disabled] Disabled flag.
  * @param {string} [type] Type.
  * @param {string} [className] CSS class.
+ * @param {JSX.Element} [checkedIcon] Icon to show when checked.
+ * @param {JSX.Element} [unCheckedIcon] Icon to show when unchecked.
  * @returns {JSX.Element} Toggle component.
  */
 const Toggle = forwardRef( ( {
@@ -26,10 +29,11 @@ const Toggle = forwardRef( ( {
 	disabled,
 	className,
 	type,
+	checkedIcon,
+	unCheckedIcon,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
-
 	return (
 		<Switch
 			ref={ ref }
@@ -61,7 +65,7 @@ const Toggle = forwardRef( ( {
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0 yst-hidden"
 				>
-					<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
+					{ checkedIcon || <CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } /> }
 				</Transition>
 				<Transition
 					show={ ! checked }
@@ -73,7 +77,7 @@ const Toggle = forwardRef( ( {
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0 yst-hidden"
 				>
-					<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
+					{ unCheckedIcon || <XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } /> }
 				</Transition>
 			</span>
 		</Switch>
@@ -90,6 +94,8 @@ Toggle.propTypes = {
 	disabled: PropTypes.bool,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	checkedIcon: PropTypes.node,
+	unCheckedIcon: PropTypes.node,
 };
 Toggle.defaultProps = {
 	as: "button",
@@ -97,6 +103,8 @@ Toggle.defaultProps = {
 	disabled: false,
 	type: "",
 	className: "",
+	checkedIcon: undefined,
+	unCheckedIcon: undefined,
 };
 
 export default Toggle;
