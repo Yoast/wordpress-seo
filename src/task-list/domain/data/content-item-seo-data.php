@@ -85,13 +85,4 @@ class Content_Item_SEO_Data {
 	public function get_content_type(): string {
 		return $this->content_type;
 	}
-
-	/**
-	 * Returns whether the content item has a good SEO score (above 70).
-	 *
-	 * @return bool
-	 */
-	public function has_good_seo_score(): bool {
-		return $this->seo_score > 70;
-	}
 }
