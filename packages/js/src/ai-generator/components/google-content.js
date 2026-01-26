@@ -3,7 +3,8 @@ import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Label } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { GooglePreview, GooglePreviewSkeleton, LengthProgressBar, PreviewModePicker } from ".";
+import { ModeSwitcher } from "@yoast/search-metadata-previews";
+import { GooglePreview, GooglePreviewSkeleton, LengthProgressBar } from ".";
 import { ASYNC_ACTION_STATUS, EDIT_TYPE, STORE_NAME_EDITOR } from "../constants";
 import { useLocation, useTitleOrDescriptionLengthProgress, useTypeContext } from "../hooks";
 
@@ -24,17 +25,12 @@ export const GoogleContent = ( { title, description, status, titleForLength, sho
 	const lengthProgress = useTitleOrDescriptionLengthProgress( { editType, title: titleForLength, description } );
 	return (
 		<>
-			<div className="yst-mb-2 lg:yst-flex">
-				<Label as="span" className="yst-flex-grow yst-cursor-default">
-					{ __( "Google preview", "wordpress-seo" ) }
-				</Label>
-				<PreviewModePicker
-					mode={ mode }
-					idSuffix={ location }
-					onChange={ setMode }
-					disabled={ status === ASYNC_ACTION_STATUS.loading }
-				/>
-			</div>
+			<ModeSwitcher
+				onChange={ setMode }
+				active={ mode }
+				id={ `yst-ai-google-preview-mode-switcher-${ location }` }
+				disabled={ status === ASYNC_ACTION_STATUS.loading }
+			/>
 			{ showPreviewSkeleton
 				? <GooglePreviewSkeleton />
 				: <GooglePreview mode={ mode } title={ title } description={ description } />
