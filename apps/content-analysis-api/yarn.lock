@@ -34,29 +34,27 @@
   resolved "https://registry.yarnpkg.com/@tannin/postfix/-/postfix-1.1.0.tgz#6071f4204ae26c2e885cf3a3f1203a9f71e3f291"
   integrity sha512-oocsqY7g0cR+Gur5jRQLSrX2OtpMLMse1I10JQBm8CdGMrDkh1Mg2gjsiquMHRtBs4Qwu5wgEp5GgIYHk4SNPw==
 
-"@wordpress/hooks@*":
-  version "4.14.0"
-  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-4.14.0.tgz#4ea9174389fd9aa8894f04e87a428eb972e56fe9"
-  integrity sha512-Z1JWYBHnYNS5HMF7vAxWO8syGZWEEVtXra/6FtI7Do7rSXleTh2T/j06CqETE7QD47oMIhZOHz+jM8ttR4UlJA==
-  dependencies:
-    "@babel/runtime" "7.25.7"
+"@wordpress/hooks@^4.26.0":
+  version "4.38.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-4.38.0.tgz#61c59da336d7b0dadd1b00c47c4b6baebbf96f07"
+  integrity sha512-nrLo2semyTID4yIlu9/DSKVM9v61Mgrkyr+MNj7LgzlD3PuGjYNzXVh5+ngfgPoKVdhV3kzFhda+1PZ8SK8cYg==
 
-"@wordpress/i18n@^5.11.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-5.14.0.tgz#3032ba75e4a2b08926fd743325b019ffe2ffd4bc"
-  integrity sha512-2KHyQ+zoyQggokmoTqfVhl2DOM4E11pF/M1+5Q0kUDAHLIAVDhKCzHNPZreHjJld4Tm7hl2HUOutfPmCVudj7g==
+"@wordpress/i18n@^5.8.2":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-5.26.0.tgz#90c5c73822648432822c916ae5acc1ea5a54fb0e"
+  integrity sha512-YHzaUWlCuN2ynl47qbsdMkTGtP52+E1giDOdWBgUaSexUYjbeFxKFUzRMB0Wuh1psL80+VzvJOH/mU440KAJnA==
   dependencies:
     "@babel/runtime" "7.25.7"
-    "@wordpress/hooks" "*"
+    "@wordpress/hooks" "^4.26.0"
     gettext-parser "^1.3.1"
     memize "^2.1.0"
     sprintf-js "^1.1.1"
     tannin "^1.2.0"
 
-"@yoast/feature-flag@^0.6.0-alpha.0":
-  version "0.6.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.6.0-alpha.0.tgz#4da6c63ca388fbf0949396e137fdbe64507f9cb5"
-  integrity sha512-11zClQ9HKjc1rGxrmyE2pb6/BbdAeSc+N3Tn/zVPA5Fn8Bax7fg5RYdIL9dAUfDRT5+eGX3GTZ+ZyfrlfY7VxA==
+"@yoast/feature-flag@^0.6.0-alpha.2":
+  version "0.6.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.6.0-alpha.2.tgz#3b00ac3a7b5019b9badabf8449fb72719f83cf1a"
+  integrity sha512-HFgcidTfZ7s91CvWhb8Mu9rVjWr6Ic7EoDGzpOVkpgmhi/hgfK7x8I6tNFoREpuR3HVmJyZ7grFy2M8EF/tbLA==
 
 accepts@^2.0.0:
   version "2.0.0"
@@ -242,10 +240,10 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-entities@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/entities/-/entities-4.5.0.tgz#5d268ea5e7113ec74c4d033b79ea5a35a488fb48"
-  integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
+entities@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-6.0.1.tgz#c28c34a43379ca7f61d074130b2f5f7020a30694"
+  integrity sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==
 
 es-define-property@^1.0.0:
   version "1.0.0"
@@ -545,12 +543,12 @@ once@1.4.0:
   dependencies:
     wrappy "1"
 
-parse5@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/parse5/-/parse5-7.2.1.tgz#8928f55915e6125f430cc44309765bf17556a33a"
-  integrity sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==
+parse5@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-8.0.0.tgz#aceb267f6b15f9b6e6ba9e35bfdd481fc2167b12"
+  integrity sha512-9m4m5GSgXjL4AjumKzq1Fgfp3Z8rsvjRNbnkVwfu2ImRqE5D0LnY2QfDen18FSY9C573YU5XxSapdHZTZ2WolA==
   dependencies:
-    entities "^4.5.0"
+    entities "^6.0.0"
 
 parseurl@^1.3.3, parseurl@~1.3.3:
   version "1.3.3"
