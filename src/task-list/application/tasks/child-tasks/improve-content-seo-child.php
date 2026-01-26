@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
@@ -28,24 +28,24 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	protected $duration = 10;
 
 	/**
-	 * The content item data.
+	 * The content item SEO data.
 	 *
-	 * @var Content_Item_Data
+	 * @var Content_Item_SEO_Data
 	 */
-	private $content_item_data;
+	private $content_item_seo_data;
 
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface $parent_task       The parent task.
-	 * @param Content_Item_Data     $content_item_data The content item data.
+	 * @param Parent_Task_Interface $parent_task           The parent task.
+	 * @param Content_Item_SEO_Data $content_item_seo_data The content item SEO data.
 	 */
 	public function __construct(
 		Parent_Task_Interface $parent_task,
-		Content_Item_Data $content_item_data
+		Content_Item_SEO_Data $content_item_seo_data
 	) {
-		$this->parent_task       = $parent_task;
-		$this->content_item_data = $content_item_data;
+		$this->parent_task           = $parent_task;
+		$this->content_item_seo_data = $content_item_seo_data;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 */
 	public function get_id(): string {
 		// @TODO: probably improve this with inheritance.
-		return $this->parent_task->get_id() . '-' . $this->content_item_data->get_content_id();
+		return $this->parent_task->get_id() . '-' . $this->content_item_seo_data->get_content_id();
 	}
 
 	/**
@@ -64,16 +64,16 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		return $this->content_item_data->has_good_seo_score();
+		return $this->content_item_seo_data->has_good_seo_score();
 	}
 
 	/**
-	 * Returns the content item data.
+	 * Returns the content item SEO data.
 	 *
-	 * @return Content_Item_Data
+	 * @return Content_Item_SEO_Data
 	 */
-	public function get_content_item_data(): Content_Item_Data {
-		return $this->content_item_data;
+	public function get_content_item_seo_data(): Content_Item_SEO_Data {
+		return $this->content_item_seo_data;
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return string|null
 	 */
 	public function get_link(): ?string {
-		return \get_edit_post_link( $this->content_item_data->get_content_id(), '&' );
+		return \get_edit_post_link( $this->content_item_seo_data->get_content_id(), '&' );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
-		$title = $this->content_item_data->get_title();
+		$title = $this->content_item_seo_data->get_title();
 
 		return new Copy_Set(
 			/* translators: %s: The content title. */

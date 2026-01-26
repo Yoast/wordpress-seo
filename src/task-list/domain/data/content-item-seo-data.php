@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Domain\Data;
 /**
  * Value object representing content item data for SEO improvement tasks.
  */
-class Content_Item_Data {
+class Content_Item_SEO_Data {
 
 	/**
 	 * The content item ID.
@@ -43,7 +43,7 @@ class Content_Item_Data {
 	 * @param int    $seo_score    The SEO score.
 	 * @param string $content_type The content type.
 	 */
-	public function __construct( int $content_id, string $title, int $seo_score, string $content_type = '' ) {
+	public function __construct( int $content_id, string $title, int $seo_score, string $content_type ) {
 		$this->content_id   = $content_id;
 		$this->title        = $title;
 		$this->seo_score    = $seo_score;

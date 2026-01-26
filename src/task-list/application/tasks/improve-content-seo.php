@@ -112,8 +112,8 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 		);
 
 		$child_tasks = [];
-		foreach ( $recent_content_items as $content_item_data ) {
-			$child_tasks[] = new Improve_Content_SEO_Child( $this, $content_item_data );
+		foreach ( $recent_content_items as $content_item_seo_data ) {
+			$child_tasks[] = new Improve_Content_SEO_Child( $this, $content_item_seo_data );
 		}
 
 		return $child_tasks;
