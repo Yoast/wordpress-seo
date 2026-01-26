@@ -2,8 +2,14 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\WP\Dashboard\Infrastructure\Analytics_4;
 
-use Google\Site_Kit\Plugin;
-use ReflectionProperty;
+use Google\Site_Kit\Context;
+use Google\Site_Kit\Core\Authentication\Authentication;
+use Google\Site_Kit\Core\Dismissals\Dismissed_Items;
+use Google\Site_Kit\Core\Modules\Modules;
+use Google\Site_Kit\Core\Permissions\Permissions;
+use Google\Site_Kit\Core\REST_API\REST_Routes;
+use Google\Site_Kit\Core\Storage\Options;
+use Google\Site_Kit\Core\Storage\User_Options;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
@@ -31,27 +37,39 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Failed_Request_Test extends 
 	public function set_up() {
 		parent::set_up();
 
-		// Site Kit is loaded as a prereq plugin in the parent test setup. Depending on the WP test bootstrap,
-		// hooks can be reset between tests while Site Kit's singleton remains set, causing routes not to
-		// be registered in CI. Reset the singleton so Plugin::load() reliably wires hooks.
-		$site_kit_instance = new ReflectionProperty( Plugin::class, 'instance' );
-		$site_kit_instance->setAccessible( true );
-		$site_kit_instance->setValue( null, null );
-
 		// Create an admin user with manage_options capability (required by Site Kit).
 		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
 		\wp_set_current_user( $user->ID );
 
-		// Ensure Analytics 4 module is active before Site Kit bootstraps modules on init.
+		// Ensure Analytics 4 module is active before Site Kit bootstraps modules.
 		$active = (array) \get_option( 'googlesitekit_active_modules', [] );
 		if ( ! \in_array( 'analytics-4', $active, true ) ) {
 			$active[] = 'analytics-4';
 		}
 		\update_option( 'googlesitekit_active_modules', $active );
 
-		Plugin::load( \GOOGLESITEKIT_PLUGIN_MAIN_FILE );
+		// Manually bootstrap Site Kit's REST routes without firing 'init' again.
+		// Site Kit normally registers its modules and routes on 'init', but by the time
+		// tests run, 'init' has already fired. We instantiate the required components directly.
+		$context        = new Context( \GOOGLESITEKIT_PLUGIN_MAIN_FILE );
+		$options        = new Options( $context );
+		$user_options   = new User_Options( $context, \get_current_user_id() );
+		$authentication = new Authentication( $context, $options, $user_options );
+		$modules        = new Modules( $context, $options, $user_options, $authentication );
 
-		\do_action( 'init' );
+		// Register modules to add routes to the googlesitekit_rest_routes filter.
+		$modules->register();
+
+		// Register permissions to grant Site Kit capabilities to the user.
+		$dismissed_items = new Dismissed_Items( $user_options );
+		$permissions     = new Permissions( $context, $authentication, $modules, $user_options, $dismissed_items );
+		$permissions->register();
+
+		// Register REST routes to collect from the filter and register with WordPress.
+		$rest_routes = new REST_Routes( $context );
+		$rest_routes->register();
+
+		// Trigger rest_api_init to actually register the routes with WordPress.
 		\do_action( 'rest_api_init' );
 	}
 
