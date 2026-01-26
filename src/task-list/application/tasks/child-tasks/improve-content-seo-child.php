@@ -15,15 +15,6 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 class Improve_Content_SEO_Child extends Abstract_Child_Task {
 
 	/**
-	 * Holds the priority.
-	 *
-	 * @TODO: will be dynamically calculated based on the SEO score.
-	 *
-	 * @var string
-	 */
-	protected $priority = 'medium';
-
-	/**
 	 * Holds the duration.
 	 *
 	 * @var int
@@ -68,6 +59,19 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 */
 	public function get_is_completed(): bool {
 		return $this->content_item_seo_data->has_good_seo_score();
+	}
+
+	/**
+	 * Returns the task's priority.
+	 *
+	 * @return string
+	 */
+	public function get_priority(): string {
+		if ( $this->content_item_seo_data->get_seo_score() < 41 ) {
+			return 'high';
+		}
+
+		return 'medium';
 	}
 
 	/**
