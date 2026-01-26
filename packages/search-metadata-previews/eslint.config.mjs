@@ -46,6 +46,16 @@ export default [
 			// Deviate from the yoast config to allow existing usages of .bind in React components and unused state. New cases are still prohibited.
 			"react/jsx-no-bind": "warn",
 			"react/no-unused-state": "warn",
+
+			// Allow importing from peerDependencies.
+			"import/no-extraneous-dependencies": [
+				"error",
+				{
+					devDependencies: true,
+					optionalDependencies: false,
+					peerDependencies: true,
+				},
+			],
 		},
 	},
 	{
