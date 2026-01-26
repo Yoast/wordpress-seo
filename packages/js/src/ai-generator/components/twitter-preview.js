@@ -18,7 +18,7 @@ export const TwitterPreview = ( { title, description } ) => {
 	const alt = useSelect( select => select( STORE_NAME_EDITOR ).getTwitterAltText(), [] );
 
 	return (
-		<div className="yst-bg-slate-200 yst-p-2 yst--mx-6">
+		<div className="yst-ai-generator-preview-section">
 			<PureTwitterPreview
 				title={ title }
 				description={ description }

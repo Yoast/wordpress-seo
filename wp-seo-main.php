@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '26.8-RC5' );
+define( 'WPSEO_VERSION', '26.9-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -36,7 +36,7 @@ define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '7.4' );
 define( 'YOAST_SEO_WP_TESTED', '6.9' );
-define( 'YOAST_SEO_WP_REQUIRED', '6.7' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.8' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -207,8 +207,6 @@ function _wpseo_activate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 	require_once WPSEO_PATH . 'inc/class-wpseo-installation.php';
 
-	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults.
-
 	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
@@ -306,26 +304,18 @@ function wpseo_on_activate_blog( $blog_id ) {
 
 /* ***************************** PLUGIN LOADING *************************** */
 
+
 /**
  * Load translations.
+ *
+ * @deprecated 27.0
+ * @codeCoverageIgnore
  *
  * @return void
  */
 function wpseo_load_textdomain() {
-	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
-	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
-
-	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
-		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-	else {
-		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
+	_deprecated_function( __FUNCTION__, 'Yoast SEO 27.0' );
 }
-
-add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
-
-
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin.
  *

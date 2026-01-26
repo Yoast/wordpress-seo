@@ -1,10 +1,10 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Llms_Txt\Infrastructure\Content;
 
 use Exception;
 use Yoast\WP\SEO\Llms_Txt\Domain\content\Post_Collection_Interface;
-
 
 /**
  * The factory to determine which post collection class to use.

@@ -1,5 +1,5 @@
 /* eslint-disable complexity, max-statements */
-import { CheckIcon, RefreshIcon } from "@heroicons/react/outline";
+import { CheckIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -302,31 +302,27 @@ export const ModalContent = ( { height } ) => {
 					showLengthProgress={ ! showLoading }
 				/>
 				{ showSuggestions && (
-					showLoading ? <SuggestionsListSkeleton
-						idSuffix={ location }
-						// eslint-disable-next-line no-undefined
-						suggestionClassNames={ editType === EDIT_TYPE.title ? suggestionClassNames : undefined }
-					/>
-						: <>
-							<div className="yst-flex yst-space-y-4">
-								<Label as="span" className="yst-flex-grow yst-cursor-default yst-mt-auto">
-									{ suggestionsTitle }
-								</Label>
+					<>
+						<div className="yst-flex yst-space-y-4">
+							<Label as="span" className="yst-flex-grow yst-cursor-default yst-mt-auto">
+								{ suggestionsTitle }
+							</Label>
 
-								<Button
-									variant="secondary"
-									size="small"
-									onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
-									isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
-									disabled={ disableGenerateMore }
-								>
-									{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
-										<RefreshIcon className="yst--ms-1 yst-me-2 yst-h-4 yst-w-4 yst-text-gray-400" />
-									) }
-									{ __( "Generate 5 more", "wordpress-seo" ) }
-								</Button>
-							</div>
-
+							<Button
+								variant="ai-secondary"
+								size="small"
+								onClick={ suggestions.status === ASYNC_ACTION_STATUS.loading ? noop : handleGenerateMore }
+								isLoading={ suggestions.status === ASYNC_ACTION_STATUS.loading }
+								disabled={ disableGenerateMore }
+							>
+								{ __( "Generate 5 more", "wordpress-seo" ) }
+							</Button>
+						</div>
+						{ showLoading ? <SuggestionsListSkeleton
+							idSuffix={ location }
+							// eslint-disable-next-line no-undefined
+							suggestionClassNames={ editType === EDIT_TYPE.title ? suggestionClassNames : undefined }
+						/> : <>
 							<SuggestionsList
 								idSuffix={ location }
 								suggestions={ suggestionsOnCurrentPage }
@@ -339,7 +335,8 @@ export const ModalContent = ( { height } ) => {
 								onNavigate={ setCurrentPage }
 								disabled={ suggestions.status === ASYNC_ACTION_STATUS.loading || showError }
 							/>
-						</>
+						</> }
+					</>
 				) }
 				{ ( suggestions.status === ASYNC_ACTION_STATUS.error && isOnLastPage ) && (
 					<>
