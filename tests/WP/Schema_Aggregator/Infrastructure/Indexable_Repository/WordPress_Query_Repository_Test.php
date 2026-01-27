@@ -39,7 +39,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	public function set_up(): void {
 		parent::set_up();
 
-		$indexable_builder          = \YoastSEO()->classes->get( Indexable_Builder::class );
+		$indexable_builder         = \YoastSEO()->classes->get( Indexable_Builder::class );
 		$pure_indexable_repository = \YoastSEO()->classes->get( Pure_Indexable_Repository::class );
 
 		$this->instance = new WordPress_Query_Repository( $indexable_builder, $pure_indexable_repository );
@@ -65,12 +65,12 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	 * @dataProvider get_data
 	 * @covers ::get
 	 *
-	 * @param int    $page                The page number.
-	 * @param int    $page_size           The number of items per page.
-	 * @param string $post_type           The post type to filter by.
-	 * @param int    $min_expected        The minimum expected number of results.
-	 * @param array  $expected_properties Expected properties to check in results.
-	 * @param bool   $should_have_results Whether results are expected.
+	 * @param int                   $page                The page number.
+	 * @param int                   $page_size           The number of items per page.
+	 * @param string                $post_type           The post type to filter by.
+	 * @param int                   $min_expected        The minimum expected number of results.
+	 * @param array<string, string> $expected_properties Expected properties to check in results.
+	 * @param bool                  $should_have_results Whether results are expected.
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,8 @@ final class WordPress_Query_Repository_Test extends TestCase {
 					$this->assertEquals( $value, $indexable->$property, "Property {$property} should match expected value" );
 				}
 			}
-		} else {
+		}
+		else {
 			$this->assertEmpty( $result, 'Should have no results when not expected' );
 		}
 	}
@@ -113,8 +114,8 @@ final class WordPress_Query_Repository_Test extends TestCase {
 		$this->assertCount( 1, $page_2, 'Second page should return exactly 1 result with page size 1' );
 
 		$this->assertNotEquals(
-			$page_1[0]->object_id ?? null,
-			$page_2[0]->object_id ?? null,
+			( $page_1[0]->object_id ?? null ),
+			( $page_2[0]->object_id ?? null ),
 			'Different pages should return different posts'
 		);
 	}
@@ -177,7 +178,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	private function create_test_content(): void {
-		$post_ids = self::factory()->post->create_many(
+		$post_ids            = self::factory()->post->create_many(
 			3,
 			[
 				'post_title'  => 'Test Post',
@@ -187,7 +188,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 		);
 		$this->created_posts = \array_merge( $this->created_posts, $post_ids );
 
-		$page_ids = self::factory()->post->create_many(
+		$page_ids            = self::factory()->post->create_many(
 			2,
 			[
 				'post_title'  => 'Test Page',
