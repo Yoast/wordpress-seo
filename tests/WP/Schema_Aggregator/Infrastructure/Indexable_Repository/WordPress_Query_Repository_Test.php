@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for WordPress_Query_Repository.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress_Query_Repository
+ * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress_Query_Repository::get
  */
 final class WordPress_Query_Repository_Test extends TestCase {
 
@@ -63,7 +63,6 @@ final class WordPress_Query_Repository_Test extends TestCase {
 	 * Tests the get method.
 	 *
 	 * @dataProvider get_data
-	 * @covers ::get
 	 *
 	 * @param int                   $page                The page number.
 	 * @param int                   $page_size           The number of items per page.
@@ -99,8 +98,6 @@ final class WordPress_Query_Repository_Test extends TestCase {
 
 	/**
 	 * Tests the get method with pagination.
-	 *
-	 * @covers ::get
 	 *
 	 * @return void
 	 */

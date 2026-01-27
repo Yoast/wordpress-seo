@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for Indexable_Repository.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Repositories\Indexable_Repository
+ * @covers \Yoast\WP\SEO\Repositories\Indexable_Repository::find_all_public_paginated
  */
 final class Indexable_Repository_Test extends TestCase {
 
@@ -63,7 +63,6 @@ final class Indexable_Repository_Test extends TestCase {
 	 * Tests the find_all_public_paginated method with real database data.
 	 *
 	 * @dataProvider find_all_public_paginated_data
-	 * @covers ::find_all_public_paginated
 	 *
 	 * @param int                   $page                The page number.
 	 * @param int                   $page_size           The number of items per page.
