@@ -14,16 +14,16 @@ const badgeOptions = [ "premium", "woo", "ai" ];
 /**
  * The LoadingTaskRow component to display a loading state for a task row.
  *
- * @param {string} title Title of the task or a placeholder title.
+ * @param {string} titleClassName The class names of the task title skeleton.
  * @returns {JSX.Element} The LoadingTaskRow component.
  */
-const LoadingTaskRow = ( { title } ) => {
+const LoadingTaskRow = ( { titleClassName } ) => {
 	const svgAriaProps = useSvgAria();
 	return <Table.Row>
 		<Table.Cell className="yst-font-medium yst-text-slate-800">
 			<div className="yst-flex yst-items-center yst-gap-2">
-				<Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } />
-				<SkeletonLoader className="yst-h-[18px]">{ title }</SkeletonLoader>
+				<Ellipse className="yst-w-4 yst-text-slate-200 yst-shrink-0" { ...svgAriaProps } />
+				<SkeletonLoader className={ classNames( "yst-h-[18px]", titleClassName ) } />
 			</div>
 		</Table.Cell>
 		<Table.Cell>

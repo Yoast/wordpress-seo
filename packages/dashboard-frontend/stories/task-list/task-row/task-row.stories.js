@@ -13,6 +13,71 @@ export default {
 			},
 		},
 	},
+	decorators: [
+		( Story ) => (
+			<div className="yst-bg-white">
+				<Table>
+					<Table.Head>
+						<Table.Row>
+							<Table.Header>Task</Table.Header>
+							<Table.Header>Est. duration</Table.Header>
+							<Table.Header>Priority</Table.Header>
+						</Table.Row>
+					</Table.Head>
+					<Table.Body>
+						<Story />
+					</Table.Body>
+				</Table>
+			</div>
+		),
+	],
+	argTypes: {
+		titleClassName: {
+			description: "Class name for the title skeleton element width. Only classes used in the package are available for testing due to CSS purging.",
+			control: "text",
+		},
+	},
+};
+
+export const Factory = {
+	render: ( args ) => (
+		<>
+			<TaskRow
+				{ ...args }
+			/>
+			<TaskRow
+				taskId="task-2"
+				title="Completed Task"
+				duration={ 5 }
+				priority="low"
+				isCompleted={ true }
+			/>
+			<TaskRow
+				taskId="task-3"
+				title="Completed Task with Premium Badge"
+				duration={ 5 }
+				priority="high"
+				isCompleted={ true }
+				badge="premium"
+			/>
+			<TaskRow
+				taskId="task-4"
+				title="Uncompleted Task with Woo Badge"
+				duration={ 10 }
+				priority="medium"
+				isCompleted={ false }
+				badge="woo"
+			/>
+			<TaskRow
+				taskId="task-5"
+				title="Uncompleted Task with AI Badge"
+				duration={ 20 }
+				priority="high"
+				isCompleted={ false }
+				badge="ai"
+			/>
+		</>
+	),
 	argTypes: {
 		onClick: {
 			description: "Function to call when the row is clicked.",
@@ -56,72 +121,21 @@ export default {
 		isCompleted: false,
 		onClick: noop,
 	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-bg-white">
-				<Table>
-					<Table.Head>
-						<Table.Row>
-							<Table.Header>Task</Table.Header>
-							<Table.Header>Est. duration</Table.Header>
-							<Table.Header>Priority</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
-						<Story />
-					</Table.Body>
-				</Table>
-			</div>
-		),
-	],
-};
-
-export const Factory = {
-	render: ( args ) => (
-		<>
-			<TaskRow
-				{ ...args }
-			/>
-			<TaskRow
-				taskId="task-2"
-				title="Completed Task"
-				duration={ 5 }
-				priority="low"
-				isCompleted={ true }
-			/>
-			<TaskRow
-				taskId="task-3"
-				title="Completed Task with Premium Badge"
-				duration={ 5 }
-				priority="high"
-				isCompleted={ true }
-				badge="premium"
-			/>
-			<TaskRow
-				taskId="task-4"
-				title="Uncompleted Task with Woo Badge"
-				duration={ 10 }
-				priority="medium"
-				isCompleted={ false }
-				badge="woo"
-			/>
-			<TaskRow
-				taskId="task-5"
-				title="Uncompleted Task with AI Badge"
-				duration={ 20 }
-				priority="high"
-				isCompleted={ false }
-				badge="ai"
-			/>
-		</>
-	),
 
 };
 
 export const TaskRowLoading = {
-	render: () => (
-		<TaskRow.Loading
-			title="Loading Task with long title..."
-		/>
-	),
+	component: TaskRow.Loading,
+	render: ( args ) => <TaskRow.Loading { ...args } />,
+	args: {
+		titleClassName: "yst-w-96",
+	},
+	argTypes: {
+		titleClassName: {
+			control: {
+				type: "select",
+			},
+			options: [ "yst-w-8", "yst-w-12", "yst-w-20", "yst-w-36", "yst-w-40", "yst-w-60", "yst-w-72", "yst-w-80", "yst-w-96" ],
+		},
+	},
 };
