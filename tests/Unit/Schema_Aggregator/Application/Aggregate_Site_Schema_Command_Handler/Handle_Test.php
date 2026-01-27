@@ -56,7 +56,7 @@ final class Handle_Test extends Abstract_Aggregate_Site_Schema_Command_Handler_T
 		$this->schema_response_composer
 			->expects( 'compose' )
 			->once()
-			->with( $aggregated_pieces )
+			->with( $aggregated_pieces, false )
 			->andReturn( $composed_response );
 
 		$result = $this->instance->handle( $command );
