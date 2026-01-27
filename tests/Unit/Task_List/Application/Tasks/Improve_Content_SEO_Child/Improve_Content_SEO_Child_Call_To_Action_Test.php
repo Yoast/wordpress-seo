@@ -37,7 +37,7 @@ final class Improve_Content_SEO_Child_Call_To_Action_Test extends Abstract_Impro
 
 		$this->assertInstanceOf( Call_To_Action_Entry::class, $call_to_action );
 		$this->assertSame( 'Improve SEO', $array['label'] );
-		$this->assertSame( 'edit', $array['type'] );
+		$this->assertSame( 'link', $array['type'] );
 		$this->assertSame( $expected_link, $array['href'] );
 	}
 }
