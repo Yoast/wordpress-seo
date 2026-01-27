@@ -2,16 +2,18 @@ import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePu
 import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
 import abbreviations from "../../languages/en/config/abbreviations";
 
+/** @type {string[]} */
 const ABBREVIATIONS = abbreviations.map( abbreviation => abbreviation.toLocaleLowerCase() );
 
 /**
- * Removes punctuation from the beginning and end of a word token, and creates separate tokens from them.
+ * Removes punctuation from the beginning and end of a word token and creates separate tokens from them.
  *
  * @param {string[]} rawTokens	The tokens that may contain punctuation at the beginning and end of words.
  *
  * @returns {string[]} The tokens with the punctuation moved into separate tokens.
  */
 const createPunctuationTokens = ( rawTokens ) => {
+	/** @type {string[]} */
 	const tokenTexts = [];
 	rawTokens.forEach( token => {
 		// Pretokens contains all that occurs before the first letter of the token.
@@ -20,7 +22,7 @@ const createPunctuationTokens = ( rawTokens ) => {
 		const postTokens = [];
 
 		// Add all punctuation marks that occur before the first letter of the token to the pretokens array.
-		// Also, prevent matching with a hashed HTML entity in the beginning of the token.
+		// Also, prevent matching with a hashed HTML entity at the beginning of the token.
 		while ( punctuationRegexStart.test( token ) && ! hashedHtmlEntitiesRegexStart.test( token ) ) {
 			preTokens.push( token[ 0 ] );
 			token = token.slice( 1 );

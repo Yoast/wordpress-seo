@@ -241,69 +241,50 @@ describe( "a test for finding transition words from a string", function() {
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
-		expect( result ).toEqual( {
-			totalSentences: 1,
-			sentenceResults: [
-				{
-					sentence: "what’s more",
-					transitionWords: [ "what's more" ],
-				},
-			],
-			transitionWordSentences: 1,
-		} );
+		expect( result.totalSentences ).toEqual( 1 );
+		expect( result.sentenceResults[ 0 ].sentence.text ).toEqual( "what’s more" );
+		expect( result.sentenceResults[ 0 ].sentence.tokens.length ).toEqual( 3 );
+		expect( result.sentenceResults[ 0 ].transitionWords ).toEqual( [ "what's more" ] );
+		expect( result.transitionWordSentences ).toEqual( 1 );
 	} );
 
 	it( "works with the no-break space character", function() {
 		// Transition word: then.
 		mockPaper = new Paper( "and\u00a0then" );
-		const expected = {
-			totalSentences: 1,
-			sentenceResults: [ {
-				sentence: "and\u00a0then",
-				transitionWords: [ "then" ],
-			} ],
-			transitionWordSentences: 1,
-		};
 
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
-		expect( result ).toEqual( expected );
+		expect( result.sentenceResults[ 0 ].sentence.text ).toEqual( "and then" );
+		expect( result.sentenceResults[ 0 ].sentence.tokens.length ).toEqual( 3 );
+		expect( result.totalSentences ).toEqual( 1 );
+		expect( result.transitionWordSentences ).toEqual( 1 );
 	} );
 
 	it( "does not recognize 'eggs' as a transition word (don't ask).", function() {
 		// Non-transition word: eggs.
 		mockPaper = new Paper( "Let's bake some eggs." );
-		const expected = {
-			totalSentences: 1,
-			sentenceResults: [ ],
-			transitionWordSentences: 0,
-		};
 
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
-		expect( result ).toEqual( expected );
+		expect( result.totalSentences ).toEqual( 1 );
+		expect( result.transitionWordSentences ).toEqual( 0 );
+		expect( result.sentenceResults.length ).toEqual( 0 );
 	} );
 
 	it( "does recognize transition words with full stops, like 'e.g.'.", function() {
 		// Transition words: e.g., i.e.
 		mockPaper = new Paper( "E.g. potatoes. I.e. apples." );
-		const expected = {
-			sentenceResults: [ {
-				sentence: "E.g. potatoes.",
-				transitionWords: [ "e.g." ],
-			}, {
-				sentence: " I.e. apples.",
-				transitionWords: [ "i.e." ],
-			} ],
-			totalSentences: 2,
-			transitionWordSentences: 2,
-		};
 
 		buildTree( mockPaper, mockResearcher );
 		result = transitionWordsResearch( mockPaper, mockResearcher );
 
-		expect( result ).toEqual( expected );
+		expect( result.totalSentences ).toEqual( 2 );
+		expect( result.transitionWordSentences ).toEqual( 2 );
+		expect( result.sentenceResults[ 0 ].sentence.text ).toEqual( "E.g. potatoes." );
+		expect( result.sentenceResults[ 0 ].transitionWords ).toEqual( [ "e.g." ] );
+		expect( result.sentenceResults[ 1 ].sentence.text ).toEqual( " I.e. apples." );
+		expect( result.sentenceResults[ 1 ].transitionWords ).toEqual( [ "i.e." ] );
 	} );
 } );
