@@ -29,6 +29,7 @@ class Indexable_Repository implements Indexable_Repository_Interface {
 	/**
 	 * Retrieves existing public indexables in a paginated manner.
 	 *
+	 * @codeCoverageIgnore -- This is a wrapper for indexable_Repository::find_all_public_paginated, which has dedicated integration tests.
 	 * @param int    $page      The page number.
 	 * @param int    $page_size The number of items per page.
 	 * @param string $post_type The post type to filter by.
