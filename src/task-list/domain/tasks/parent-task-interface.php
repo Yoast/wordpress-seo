@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Task_List\Domain\Tasks;
 
 /**
- * Represents a task with subtasks.
+ * Represents a parent task.
  */
 interface Parent_Task_Interface extends Task_Interface {
 

@@ -522,7 +522,7 @@ class Indexable_Repository {
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
 	 *
-	 * @return Indexable[] array of indexables.
+	 * @return array<array<string, string>> array of indexables.
 	 */
 	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
 		// @TODO: make sure the post status, noindex and keyword score checks are exactly the same as they are and yield the same posts with the respective dashboard widget.

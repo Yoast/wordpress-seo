@@ -121,7 +121,7 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 				continue;
 			}
 
-			// Generate child tasks for parent tasks (they will be nested in the output).
+			// Generate child tasks for parent tasks.
 			if ( $task instanceof Parent_Task_Interface ) {
 				\array_push( $extra_tasks, ...$task->generate_child_tasks() );
 			}

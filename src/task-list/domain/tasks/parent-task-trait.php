@@ -44,10 +44,6 @@ trait Parent_Task_Trait {
 	public function get_is_completed(): bool {
 		$child_tasks = $this->child_tasks;
 
-		if ( empty( $child_tasks ) ) {
-			return true;
-		}
-
 		foreach ( $child_tasks as $task ) {
 			if ( ! $task->get_is_completed() ) {
 				return false;
