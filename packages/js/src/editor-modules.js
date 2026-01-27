@@ -37,7 +37,6 @@ import {
 } from "./shared-admin/components";
 import { Introduction, SuggestionError, SparksLimitNotification, FeatureError } from "./ai-generator/components";
 import { removesLocaleVariantSuffixes, fetchSuggestions } from "./ai-generator/helpers";
-import { getClickedAIButton, clearClickedAIButton, setClickedAIButton } from "./helpers/aiButtonClickedRef";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -115,10 +114,5 @@ window.yoast.editorModules = {
 		},
 		updateAdminBar,
 		updateTrafficLight,
-		aiButtonFocus: {
-			setClickedAIButton,
-			getClickedAIButton,
-			clearClickedAIButton,
-		},
 	},
 };

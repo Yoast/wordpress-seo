@@ -181,13 +181,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	};
 
 	const handleClick = useCallback( () => {
-		// Store the clicked button reference for accurate focus restoration.
-		// Use window-exposed function to ensure same module instance as premium plugin.
-		const setClickedAIButton = get( window, "yoast.editorModules.helpers.aiButtonFocus.setClickedAIButton" );
-		if ( buttonRef.current && setClickedAIButton ) {
-			setClickedAIButton( buttonRef.current );
-		}
-
 		// eslint-disable-next-line no-negated-condition -- Let's handle the happy path first.
 		if ( ! shouldShowUpsell ) {
 			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
