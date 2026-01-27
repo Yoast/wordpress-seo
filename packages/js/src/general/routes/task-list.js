@@ -1,11 +1,25 @@
 import { Paper, Title, Table } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
-import { values, isEmpty, size, sortBy } from "lodash";
-import { useEffect, useState, useCallback } from "@wordpress/element";
+import { values, isEmpty } from "lodash";
+import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { Task, TaskListUpsellRow } from "../components";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+
+const loadingTasksTitleWidth = [
+	"sm:yst-w-60",
+	"sm:yst-w-72",
+	"sm:yst-w-72",
+	"sm:yst-w-80",
+	"sm:yst-w-28",
+	"sm:yst-w-40",
+	"sm:yst-w-28",
+	"sm:yst-w-32",
+	"sm:yst-w-52",
+	"sm:yst-w-60",
+];
 
 /**
  * The TaskList component to display the task list page content.
@@ -13,84 +27,39 @@ import { Task, TaskListUpsellRow } from "../components";
  * @returns {JSX.Element} The TaskList component.
  */
 export const TaskList = () => {
-	const { setTasks } = useDispatch( STORE_NAME );
-	const { getTasksEndpoint, isPremium, tasks, nonce } = useSelect( ( select ) => {
+	const { fetchTasks } = useDispatch( STORE_NAME );
+	const { getTasksEndpoint,
+		isPremium,
+		tasks,
+		nonce,
+		tasksStatus,
+		tasksError,
+		sortedTasks,
+		totalTasksCount,
+		completedTasksCount,
+	} = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
 			getTasksEndpoint: state.selectTasksEndpoints().getTasks,
 			isPremium: state.getIsPremium(),
 			tasks: state.selectTasks(),
 			nonce: state.selectNonce(),
+			tasksStatus: state.selectTasksStatus(),
+			tasksError: state.selectTasksError(),
+			sortedTasks: state.selectSortedTasks(),
+			totalTasksCount: state.selectTotalTasksCount(),
+			completedTasksCount: state.selectCompletedTasksCount(),
 		};
 	}, [] );
-	const [ fetchState, setFetchState ] = useState( {
-		error: null,
-		isPending: false,
-	} );
-	const [ sortedTasks, setSortedTasks ] = useState( [] );
 
-	/*
-     * Sort tasks whenever they change.
-     * Sorting order:
-     * 1. Incomplete tasks first.
-     * 2. Higher priority tasks first (high, medium, low).
-     * 3. If tasks have the same completion status and priority, sort by duration (shorter duration first).
-     * 4. If tasks have the same completion status, priority, and duration, sort alphabetically by title.
-     */
-	useEffect( () => {
-		const priorityOrder = { high: 1, medium: 2, low: 3 };
-		const newSortedTasks = sortBy( values( tasks ), [
-			( task ) => task.isCompleted,
-			( task ) => priorityOrder[ task.priority ],
-			( task ) => task.duration,
-			( task ) => task.title.toLowerCase(),
-		] );
-		setSortedTasks( newSortedTasks );
-	}, [ tasks ] );
-
-	const totalTasksCount = size( tasks );
-	const completedTasksCount = size(
-		values( tasks ).filter( task => task.isCompleted )
-	);
-
-	const fetchTasks = useCallback( async() => {
-		try {
-			setFetchState( { isPending: true, error: null } );
-			const response = await fetch( getTasksEndpoint, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					"X-WP-Nonce": nonce,
-				},
-			} );
-			const data = await response.json();
-			if ( data.success !== true ) {
-				throw new Error( data.error );
-			}
-			setTasks( data.tasks );
-			setFetchState( { error: null, isPending: false } );
-		} catch ( e ) {
-			setFetchState( { error: e, isPending: false } );
-		}
-	}, [ getTasksEndpoint, nonce, setFetchState, setTasks ] );
-
+	const isPending = tasksStatus === ASYNC_ACTION_STATUS.loading;
 
 	useEffect( () => {
 		// Fetch tasks only if we don't have them yet.
 		if ( isEmpty( tasks ) ) {
-			fetchTasks();
+			fetchTasks( getTasksEndpoint, nonce );
 		}
 	}, [ tasks, fetchTasks ] );
-
-	const { error, isPending } = fetchState;
-
-	const placeholderTasks = [
-		{ id: "task-1", title: "Complete the First-time configuration" },
-		{ id: "task-2", title: "Remove the Hello World post" },
-		{ id: "task-3", title: "Create an llms.txt file" },
-		{ id: "task-4", title: "Set search appearance templates for your posts" },
-		{ id: "task-5", title: "Set search appearance templates for your pages" },
-	];
 
 	return <Paper className="yst-mb-6">
 		<>
@@ -115,8 +84,8 @@ export const TaskList = () => {
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
-						{ isEmpty( tasks ) && isPending && placeholderTasks.map( task => <TaskRow.Loading key={ task.id } { ...task } /> ) }
-						{ error && <GetTasksErrorRow message={ error } /> }
+						{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
+						{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
 						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
 							<Task key={ task.id } { ...task } /> ) ) }
 						{ ! isPremium && <TaskListUpsellRow /> }
