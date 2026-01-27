@@ -11,11 +11,11 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the WebPage_Schema_Node_Filter class.
  *
- * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\WebPage_Schema_Node_Filter::filter
+ * @covers \Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\WebPage_Schema_Node_Filter::should_filter
  *
  * @group schema-aggregator
  */
-final class WebPage_Schema_Node_Filter_Test extends TestCase {
+final class WebPage_Schema_Node_Should_Filter_Test extends TestCase {
 
 	/**
 	 * The instance of WebPage_Schema_Node_Filter being tested.
