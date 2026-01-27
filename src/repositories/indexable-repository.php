@@ -516,6 +516,40 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns the most recently modified posts with keywords of a post type.
+	 *
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit Only include content modified after this date.
+	 *
+	 * @return array<array<string, string>> array of indexables.
+	 */
+	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		// @TODO: make sure the post status, noindex and keyword score checks are exactly the same as they are and yield the same posts with the respective dashboard widget.
+		$query = $this->query()
+			->select( 'object_id' )
+			->select( 'primary_focus_keyword_score' )
+			->select( 'breadcrumb_title' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_not_equal( 'primary_focus_keyword_score', 0 )
+			->where_not_null( 'primary_focus_keyword_score' )
+			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		if ( $date_limit !== null ) {
+			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		return $query->find_array();
+	}
+
+	/**
 	 * Updates the incoming link count for an indexable without first fetching it.
 	 *
 	 * @param int $indexable_id The indexable id.

@@ -106,7 +106,7 @@ abstract class Abstract_Task implements Task_Interface {
 			'priority'     => $this->get_priority(),
 			'badge'        => $this->get_badge(),
 			'isCompleted'  => $this->get_is_completed(),
-			'callToAction' => $this->get_enhanced_call_to_action()->to_array(),
+			'callToAction' => ( $this->get_enhanced_call_to_action() !== null ) ? $this->get_enhanced_call_to_action()->to_array() : null,
 		];
 
 		return \array_merge( $data, $this->get_copy_set()->to_array() );
