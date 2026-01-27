@@ -40,6 +40,8 @@ class WordPress_Query_Repository implements Indexable_Repository_Interface {
 	/**
 	 * Builds on-the-fly public indexables in a paginated manner.
 	 *
+	 * @codeCoverageIgnore -- This is covered by dedicated integration tests.
+	 *
 	 * @param int    $page      The page number.
 	 * @param int    $page_size The number of items per page.
 	 * @param string $post_type The post type to filter by.
