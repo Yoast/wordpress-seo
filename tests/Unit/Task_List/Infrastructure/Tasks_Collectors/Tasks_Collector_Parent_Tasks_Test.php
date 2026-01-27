@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
 final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_Test {
 
 	/**
-	 * Tests that parent tasks have their child tasks generated and included in output.
+	 * Tests that parent tasks have their child tasks generated and included in output at the same level.
 	 *
 	 * @return void
 	 */
@@ -30,22 +30,24 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 		$child_task_1 = $this->create_mock_child_task(
 			'improve-content-seo-1',
 			[
-				'id'          => 'improve-content-seo-1',
-				'title'       => 'Improve SEO for "First Post"',
-				'is_complete' => false,
-				'priority'    => 'high',
-				'duration'    => 10,
+				'id'           => 'improve-content-seo-1',
+				'title'        => 'Improve SEO for "First Post"',
+				'is_complete'  => false,
+				'priority'     => 'high',
+				'duration'     => 10,
+				'parentTaskId' => 'improve-content-seo',
 			]
 		);
 
 		$child_task_2 = $this->create_mock_child_task(
 			'improve-content-seo-2',
 			[
-				'id'          => 'improve-content-seo-2',
-				'title'       => 'Improve SEO for "Second Post"',
-				'is_complete' => true,
-				'priority'    => 'medium',
-				'duration'    => 10,
+				'id'           => 'improve-content-seo-2',
+				'title'        => 'Improve SEO for "Second Post"',
+				'is_complete'  => true,
+				'priority'     => 'medium',
+				'duration'     => 10,
+				'parentTaskId' => 'improve-content-seo',
 			]
 		);
 
@@ -71,13 +73,16 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 
 		$result = $instance->get_tasks_data();
 
+		// Parent task is at the top level.
 		$this->assertArrayHasKey( 'improve-content-seo', $result );
-		$this->assertArrayHasKey( 'childTasks', $result['improve-content-seo'] );
+		$this->assertArrayNotHasKey( 'childTasks', $result['improve-content-seo'] );
 
-		$child_tasks = $result['improve-content-seo']['childTasks'];
-		$this->assertCount( 2, $child_tasks );
-		$this->assertArrayHasKey( 'improve-content-seo-1', $child_tasks );
-		$this->assertArrayHasKey( 'improve-content-seo-2', $child_tasks );
+		// Child tasks are at the same level as the parent, linked via parentTaskId.
+		$this->assertCount( 3, $result );
+		$this->assertArrayHasKey( 'improve-content-seo-1', $result );
+		$this->assertArrayHasKey( 'improve-content-seo-2', $result );
+		$this->assertSame( 'improve-content-seo', $result['improve-content-seo-1']['parentTaskId'] );
+		$this->assertSame( 'improve-content-seo', $result['improve-content-seo-2']['parentTaskId'] );
 	}
 
 	/**
@@ -94,10 +99,9 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 		$parent_task->shouldReceive( 'get_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
 		$parent_task->shouldReceive( 'set_enhanced_call_to_action' )->zeroOrMoreTimes();
 		$parent_task->shouldReceive( 'to_array' )->andReturn( [ 'id' => 'improve-content-seo' ] );
-		$parent_task->shouldReceive( 'get_child_tasks' )->andReturn( [] );
 
-		// This is the key assertion - generate_child_tasks must be called.
-		$parent_task->expects( 'generate_child_tasks' )->once();
+		// This is the key assertion - generate_child_tasks must be called and return an array.
+		$parent_task->expects( 'generate_child_tasks' )->once()->andReturn( [] );
 
 		$instance = new Tasks_Collector( $parent_task );
 		$instance->set_tracking_link_adapter( $this->tracking_link_adapter );
@@ -166,8 +170,7 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 		$mock->shouldReceive( 'is_valid' )->zeroOrMoreTimes()->andReturn( true );
 		$mock->shouldReceive( 'get_call_to_action' )->zeroOrMoreTimes()->andReturn( $cta_mock );
 		$mock->shouldReceive( 'set_enhanced_call_to_action' )->zeroOrMoreTimes();
-		$mock->shouldReceive( 'generate_child_tasks' )->zeroOrMoreTimes();
-		$mock->shouldReceive( 'get_child_tasks' )->andReturn( $child_tasks );
+		$mock->shouldReceive( 'generate_child_tasks' )->zeroOrMoreTimes()->andReturn( $child_tasks );
 		$mock->expects( 'to_array' )->andReturn( $to_array );
 
 		return $mock;
