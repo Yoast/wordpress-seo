@@ -15,10 +15,11 @@ class Schema_Aggregator_Response_Composer {
 	 * Composes the final schema response.
 	 *
 	 * @param Schema_Piece_Collection $schema_pieces The schema pieces to include in the response.
+	 * @param bool                    $is_debug      Whether debug mode is enabled.
 	 *
 	 * @return array<string> The composed schema response.
 	 */
-	public function compose( Schema_Piece_Collection $schema_pieces ): array {
+	public function compose( Schema_Piece_Collection $schema_pieces, bool $is_debug ): array {
 		$composed_pieces = [];
 		foreach ( $schema_pieces->to_array() as $piece ) {
 			$composed_pieces[] = \array_merge(
@@ -27,6 +28,15 @@ class Schema_Aggregator_Response_Composer {
 				],
 				$piece->get_data()
 			);
+		}
+		if ( $is_debug ) {
+			$composed_pieces[] =
+				[
+					'@context'   => 'https://schema.org',
+					'@type'      => 'Thing',
+					'name'       => 'Yoast SEO schema aggregator version',
+					'identifier' => '0.1',
+				];
 		}
 
 		return $composed_pieces;

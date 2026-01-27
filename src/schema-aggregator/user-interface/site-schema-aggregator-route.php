@@ -144,13 +144,17 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 */
 	public function aggregate_site_schema( WP_REST_Request $request ) {
 		$post_type = $request->get_param( 'post_type' );
+		$is_debug  = (bool) $request->get_param( 'debug' );
 		$page      = ( $request->get_param( 'page' ) ?? 1 );
 		$per_page  = $this->config->get_per_page( $post_type );
 
 		$output = $this->cache_manager->get( $post_type, $page, $per_page );
+		if ( $is_debug ) {
+			$output = null;
+		}
 		if ( $output === null ) {
 			try {
-				$output = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type ) );
+				$output = $this->aggregate_site_schema_command_handler->handle( new Aggregate_Site_Schema_Command( $page, $per_page, $post_type, $is_debug ) );
 				$this->cache_manager->set( $post_type, $page, $per_page, $output );
 
 			} catch ( Exception $exception ) {
