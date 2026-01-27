@@ -25,12 +25,11 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 	 * @return void
 	 */
 	public function test_get_copy_set() {
-		$content_item = new Content_Item_SEO_Data( 456, 'My Amazing Blog Post', 60, 'post' );
+		$content_item = new Content_Item_SEO_Data( 456, 'My Amazing Blog Post', 'ok', 'post' );
 
 		$instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$content_item,
-			$this->seo_score_groups_repository
+			$content_item
 		);
 
 		$copy_set = $instance->get_copy_set();

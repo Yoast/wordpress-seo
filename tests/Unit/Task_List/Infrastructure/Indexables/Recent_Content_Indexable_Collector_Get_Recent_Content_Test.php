@@ -39,6 +39,9 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			->with( $post_type, $limit, $date_limit )
 			->andReturn( $raw_results );
 
+		$this->expect_score_group( 50, 'ok' );
+		$this->expect_score_group( 75, 'good' );
+
 		$results = $this->instance->get_recent_content_with_seo_scores( $post_type, $date_limit, $limit );
 
 		$this->assertCount( 2, $results );
@@ -64,6 +67,8 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			->with( $post_type, null, $date_limit )
 			->andReturn( $raw_results );
 
+		$this->expect_score_group( 65, 'ok' );
+
 		$results = $this->instance->get_recent_content_with_seo_scores( $post_type, $date_limit );
 
 		$this->assertCount( 1, $results );
@@ -71,7 +76,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$content_item = $results[0];
 		$this->assertSame( 123, $content_item->get_content_id() );
 		$this->assertSame( 'Test Title', $content_item->get_title() );
-		$this->assertSame( 65, $content_item->get_seo_score() );
+		$this->assertSame( 'ok', $content_item->get_seo_score() );
 		$this->assertSame( 'post', $content_item->get_content_type() );
 	}
 
@@ -93,6 +98,8 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( $raw_results );
+
+		$this->expect_score_group( 85, 'good' );
 
 		$results = $this->instance->get_recent_content_with_seo_scores( $post_type, $date_limit );
 
@@ -176,6 +183,10 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			->expects( 'get_recent_posts_with_keywords_for_post_type' )
 			->once()
 			->andReturn( $raw_results );
+
+		$this->expect_score_group( 10, 'bad' );
+		$this->expect_score_group( 20, 'bad' );
+		$this->expect_score_group( 30, 'bad' );
 
 		$results = $this->instance->get_recent_content_with_seo_scores( $post_type, $date_limit );
 

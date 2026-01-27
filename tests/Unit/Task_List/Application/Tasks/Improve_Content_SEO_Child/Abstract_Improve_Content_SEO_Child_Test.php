@@ -5,10 +5,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO_Child;
 
 use Mockery;
-use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Bad_SEO_Score_Group;
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Good_SEO_Score_Group;
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Ok_SEO_Score_Group;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
@@ -36,13 +32,6 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 	protected $content_item_seo_data;
 
 	/**
-	 * The SEO score groups repository mock.
-	 *
-	 * @var Mockery\MockInterface|SEO_Score_Groups_Repository
-	 */
-	protected $seo_score_groups_repository;
-
-	/**
 	 * Holds the instance.
 	 *
 	 * @var Improve_Content_SEO_Child
@@ -58,75 +47,30 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 		parent::set_up();
 		$this->stubTranslationFunctions();
 
-		$this->parent_task                 = Mockery::mock( Parent_Task_Interface::class );
-		$this->seo_score_groups_repository = Mockery::mock( SEO_Score_Groups_Repository::class );
+		$this->parent_task = Mockery::mock( Parent_Task_Interface::class );
 
-		// Default content item with OK score (55).
-		$this->content_item_seo_data = new Content_Item_SEO_Data( 123, 'Test Post Title', 55, 'post' );
+		// Default content item with OK score.
+		$this->content_item_seo_data = new Content_Item_SEO_Data( 123, 'Test Post Title', 'ok', 'post' );
 
 		$this->instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$this->content_item_seo_data,
-			$this->seo_score_groups_repository
+			$this->content_item_seo_data
 		);
 	}
 
 	/**
-	 * Creates a child task instance with a specific SEO score.
+	 * Creates a child task instance with a specific SEO score group.
 	 *
-	 * @param int $seo_score The SEO score.
+	 * @param string $seo_score The SEO score group name (e.g., 'good', 'ok', 'bad').
 	 *
 	 * @return Improve_Content_SEO_Child
 	 */
-	protected function create_instance_with_score( int $seo_score ): Improve_Content_SEO_Child {
+	protected function create_instance_with_score( string $seo_score ): Improve_Content_SEO_Child {
 		$content_item = new Content_Item_SEO_Data( 123, 'Test Post Title', $seo_score, 'post' );
 
 		return new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$content_item,
-			$this->seo_score_groups_repository
+			$content_item
 		);
-	}
-
-	/**
-	 * Sets up the repository to return a Bad_SEO_Score_Group.
-	 *
-	 * @param int $score The score to expect.
-	 *
-	 * @return void
-	 */
-	protected function expect_bad_score_group( int $score ): void {
-		$this->seo_score_groups_repository
-			->expects( 'get_seo_score_group' )
-			->with( $score )
-			->andReturn( new Bad_SEO_Score_Group() );
-	}
-
-	/**
-	 * Sets up the repository to return an Ok_SEO_Score_Group.
-	 *
-	 * @param int $score The score to expect.
-	 *
-	 * @return void
-	 */
-	protected function expect_ok_score_group( int $score ): void {
-		$this->seo_score_groups_repository
-			->expects( 'get_seo_score_group' )
-			->with( $score )
-			->andReturn( new Ok_SEO_Score_Group() );
-	}
-
-	/**
-	 * Sets up the repository to return a Good_SEO_Score_Group.
-	 *
-	 * @param int $score The score to expect.
-	 *
-	 * @return void
-	 */
-	protected function expect_good_score_group( int $score ): void {
-		$this->seo_score_groups_repository
-			->expects( 'get_seo_score_group' )
-			->with( $score )
-			->andReturn( new Good_SEO_Score_Group() );
 	}
 }

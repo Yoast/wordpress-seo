@@ -24,7 +24,7 @@ class Content_Item_SEO_Data {
 	/**
 	 * The SEO score of the content item.
 	 *
-	 * @var int
+	 * @var string
 	 */
 	private $seo_score;
 
@@ -40,10 +40,10 @@ class Content_Item_SEO_Data {
 	 *
 	 * @param int    $content_id   The content item ID.
 	 * @param string $title        The content item title.
-	 * @param int    $seo_score    The SEO score.
+	 * @param string $seo_score    The SEO score.
 	 * @param string $content_type The content type.
 	 */
-	public function __construct( int $content_id, string $title, int $seo_score, string $content_type ) {
+	public function __construct( int $content_id, string $title, string $seo_score, string $content_type ) {
 		$this->content_id   = $content_id;
 		$this->title        = $title;
 		$this->seo_score    = $seo_score;
@@ -71,9 +71,9 @@ class Content_Item_SEO_Data {
 	/**
 	 * Returns the SEO score.
 	 *
-	 * @return int
+	 * @return string
 	 */
-	public function get_seo_score(): int {
+	public function get_seo_score(): string {
 		return $this->seo_score;
 	}
 

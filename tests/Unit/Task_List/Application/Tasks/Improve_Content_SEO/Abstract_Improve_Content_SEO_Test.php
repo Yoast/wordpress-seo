@@ -5,7 +5,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO;
 
 use Mockery;
-use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_SEO;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -25,13 +24,6 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 	protected $recent_content_indexable_collector;
 
 	/**
-	 * The SEO score groups repository mock.
-	 *
-	 * @var Mockery\MockInterface|SEO_Score_Groups_Repository
-	 */
-	protected $seo_score_groups_repository;
-
-	/**
 	 * Holds the instance.
 	 *
 	 * @var Improve_Content_SEO
@@ -48,11 +40,9 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->recent_content_indexable_collector = Mockery::mock( Recent_Content_Indexable_Collector::class );
-		$this->seo_score_groups_repository        = Mockery::mock( SEO_Score_Groups_Repository::class );
 
 		$this->instance = new Improve_Content_SEO(
-			$this->recent_content_indexable_collector,
-			$this->seo_score_groups_repository
+			$this->recent_content_indexable_collector
 		);
 	}
 }

@@ -21,10 +21,7 @@ final class Improve_Content_SEO_Child_Get_Priority_Test extends Abstract_Improve
 	 * @return void
 	 */
 	public function test_bad_score_has_high_priority() {
-		$score    = 25;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_bad_score_group( $score );
+		$instance = $this->create_instance_with_score( 'bad' );
 
 		$this->assertSame( 'high', $instance->get_priority() );
 	}
@@ -35,10 +32,7 @@ final class Improve_Content_SEO_Child_Get_Priority_Test extends Abstract_Improve
 	 * @return void
 	 */
 	public function test_ok_score_has_medium_priority() {
-		$score    = 55;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_ok_score_group( $score );
+		$instance = $this->create_instance_with_score( 'ok' );
 
 		$this->assertSame( 'medium', $instance->get_priority() );
 	}
@@ -51,53 +45,8 @@ final class Improve_Content_SEO_Child_Get_Priority_Test extends Abstract_Improve
 	 * @return void
 	 */
 	public function test_good_score_has_medium_priority() {
-		$score    = 85;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_good_score_group( $score );
+		$instance = $this->create_instance_with_score( 'good' );
 
 		$this->assertSame( 'medium', $instance->get_priority() );
-	}
-
-	/**
-	 * Tests boundary: score at the upper limit of bad (40) has high priority.
-	 *
-	 * @return void
-	 */
-	public function test_boundary_score_40_has_high_priority() {
-		$score    = 40;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_bad_score_group( $score );
-
-		$this->assertSame( 'high', $instance->get_priority() );
-	}
-
-	/**
-	 * Tests boundary: score at the lower limit of ok (41) has medium priority.
-	 *
-	 * @return void
-	 */
-	public function test_boundary_score_41_has_medium_priority() {
-		$score    = 41;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_ok_score_group( $score );
-
-		$this->assertSame( 'medium', $instance->get_priority() );
-	}
-
-	/**
-	 * Tests that score 1 (minimum bad) has high priority.
-	 *
-	 * @return void
-	 */
-	public function test_minimum_score_has_high_priority() {
-		$score    = 1;
-		$instance = $this->create_instance_with_score( $score );
-
-		$this->expect_bad_score_group( $score );
-
-		$this->assertSame( 'high', $instance->get_priority() );
 	}
 }

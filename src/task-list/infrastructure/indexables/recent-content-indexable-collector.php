@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Indexables;
 
+use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
 
@@ -19,12 +20,24 @@ class Recent_Content_Indexable_Collector {
 	private $indexable_repository;
 
 	/**
+	 * The SEO score groups repository.
+	 *
+	 * @var SEO_Score_Groups_Repository
+	 */
+	private $seo_score_groups_repository;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Indexable_Repository        $indexable_repository        The indexable repository.
+	 * @param SEO_Score_Groups_Repository $seo_score_groups_repository The SEO score groups repository.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		SEO_Score_Groups_Repository $seo_score_groups_repository
+	) {
+		$this->indexable_repository        = $indexable_repository;
+		$this->seo_score_groups_repository = $seo_score_groups_repository;
 	}
 
 	/**
@@ -32,7 +45,7 @@ class Recent_Content_Indexable_Collector {
 	 *
 	 * @param string   $post_type  The post type to query.
 	 * @param string   $date_limit The date limit (content modified after this date).
-	 * @param int|null $limit      Optional. Maximum number of items to retrieve. Defaults to DEFAULT_LIMIT.
+	 * @param int|null $limit      Optional. Maximum number of items to retrieve.
 	 *
 	 * @return Content_Item_SEO_Data[] Array of content item SEO data value objects.
 	 */
@@ -58,10 +71,12 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
+			$seo_score_group = $this->seo_score_groups_repository->get_seo_score_group( $result['primary_focus_keyword_score'] );
+
 			$content_items[] = new Content_Item_SEO_Data(
 				$result['object_id'],
 				$result['breadcrumb_title'],
-				$result['primary_focus_keyword_score'],
+				$seo_score_group->get_name(),
 				$post_type
 			);
 		}

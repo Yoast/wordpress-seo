@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
-use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
@@ -30,27 +29,17 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	private $content_item_seo_data;
 
 	/**
-	 * The SEO score groups repository.
-	 *
-	 * @var SEO_Score_Groups_Repository
-	 */
-	private $seo_score_groups_repository;
-
-	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface       $parent_task                 The parent task.
-	 * @param Content_Item_SEO_Data       $content_item_seo_data       The content item SEO data.
-	 * @param SEO_Score_Groups_Repository $seo_score_groups_repository The SEO score groups repository.
+	 * @param Parent_Task_Interface $parent_task           The parent task.
+	 * @param Content_Item_SEO_Data $content_item_seo_data The content item SEO data.
 	 */
 	public function __construct(
 		Parent_Task_Interface $parent_task,
-		Content_Item_SEO_Data $content_item_seo_data,
-		SEO_Score_Groups_Repository $seo_score_groups_repository
+		Content_Item_SEO_Data $content_item_seo_data
 	) {
-		$this->parent_task                 = $parent_task;
-		$this->content_item_seo_data       = $content_item_seo_data;
-		$this->seo_score_groups_repository = $seo_score_groups_repository;
+		$this->parent_task           = $parent_task;
+		$this->content_item_seo_data = $content_item_seo_data;
 	}
 
 	/**
@@ -69,11 +58,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		$score_group = $this->seo_score_groups_repository->get_seo_score_group(
-			$this->content_item_seo_data->get_seo_score()
-		);
-
-		return $score_group->get_name() === 'good';
+		return $this->content_item_seo_data->get_seo_score() === 'good';
 	}
 
 	/**
@@ -82,25 +67,12 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return string
 	 */
 	public function get_priority(): string {
-		$score_group = $this->seo_score_groups_repository->get_seo_score_group(
-			$this->content_item_seo_data->get_seo_score()
-		);
-
 		// Bad SEO scores get high priority, ok scores get medium priority.
-		if ( $score_group->get_name() === 'bad' ) {
+		if ( $this->content_item_seo_data->get_seo_score() === 'bad' ) {
 			return 'high';
 		}
 
 		return 'medium';
-	}
-
-	/**
-	 * Returns the content item SEO data.
-	 *
-	 * @return Content_Item_SEO_Data
-	 */
-	public function get_content_item_seo_data(): Content_Item_SEO_Data {
-		return $this->content_item_seo_data;
 	}
 
 	/**
@@ -131,6 +103,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
+		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		$title = $this->content_item_seo_data->get_title();
 
 		return new Copy_Set(

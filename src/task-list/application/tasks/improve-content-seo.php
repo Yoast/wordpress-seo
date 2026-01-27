@@ -2,7 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
-use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
@@ -53,24 +52,14 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	private $recent_content_indexable_collector;
 
 	/**
-	 * The SEO score groups repository.
-	 *
-	 * @var SEO_Score_Groups_Repository
-	 */
-	private $seo_score_groups_repository;
-
-	/**
 	 * Constructs the task.
 	 *
 	 * @param Recent_Content_Indexable_Collector $recent_content_indexable_collector The recent content indexable collector.
-	 * @param SEO_Score_Groups_Repository        $seo_score_groups_repository        The SEO score groups repository.
 	 */
 	public function __construct(
-		Recent_Content_Indexable_Collector $recent_content_indexable_collector,
-		SEO_Score_Groups_Repository $seo_score_groups_repository
+		Recent_Content_Indexable_Collector $recent_content_indexable_collector
 	) {
 		$this->recent_content_indexable_collector = $recent_content_indexable_collector;
-		$this->seo_score_groups_repository        = $seo_score_groups_repository;
 	}
 
 	/**
@@ -97,6 +86,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
+		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		return new Copy_Set(
 			\__( 'Improve your content\'s SEO', 'wordpress-seo' ),
 			\__( 'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems.', 'wordpress-seo' ),
@@ -128,8 +118,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 		foreach ( $recent_content_items as $content_item_seo_data ) {
 			$child_tasks[] = new Improve_Content_SEO_Child(
 				$this,
-				$content_item_seo_data,
-				$this->seo_score_groups_repository
+				$content_item_seo_data
 			);
 		}
 
