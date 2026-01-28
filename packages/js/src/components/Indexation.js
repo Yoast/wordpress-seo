@@ -263,19 +263,6 @@ class Indexation extends Component {
 	}
 
 	/**
-	 * Renders a notice if it is the first time the indexation is performed.
-	 *
-	 * @returns {JSX.Element} The rendered component.
-	 */
-	renderFirstIndexationNotice() {
-		return (
-			<Alert type={ "info" }>
-				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
-			</Alert>
-		);
-	}
-
-	/**
 	 * Renders the start button.
 	 *
 	 * @returns {JSX.Element|null} The start button.
@@ -365,7 +352,6 @@ class Indexation extends Component {
 			<Fragment>
 				{ this.isState( STATE.IN_PROGRESS ) && this.renderProgressBar() }
 				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 				{ this.isState( STATE.IN_PROGRESS )
 					? this.renderStopButton()
 					: this.renderStartButton()
