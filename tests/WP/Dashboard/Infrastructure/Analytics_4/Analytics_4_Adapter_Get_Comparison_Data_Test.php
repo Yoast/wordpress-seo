@@ -10,6 +10,7 @@ use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use Mockery;
 use WP_REST_Response;
+use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
 
@@ -36,10 +37,11 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 	 *
 	 * @dataProvider data_get_comparison_data
 	 *
-	 * @param array<string,array<string>> $request_parameters      The request parameters.
-	 * @param array<string,array<string>> $expected_api_parameters The expected API parameters.
-	 * @param array<int,array<string>>    $request_results         The results.
-	 * @param array<int,string>           $expected_results        The expected results.
+	 * @param array<string,array<string>>    $request_parameters      The request parameters.
+	 * @param array<string,array<string>>    $expected_api_parameters The expected API parameters.
+	 * @param array<int,array<string>>       $request_results         The results.
+	 * @param array<int,string>|null         $expected_results        The expected results.
+	 * @param array<string,string|null>|null $expected_exception      The expected exception class and message, or null.
 	 *
 	 * @return void
 	 */
@@ -47,7 +49,8 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 		$request_parameters,
 		$expected_api_parameters,
 		$request_results,
-		$expected_results
+		$expected_results,
+		$expected_exception = null
 	) {
 		$api_response_mock = Mockery::mock( WP_REST_Response::class );
 
@@ -66,7 +69,7 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 		$metric_value->setValue( $request_results['metric_value_1'] );
 		$row_0->setMetricValues( [ $metric_value ] );
 		$dimension_value = new DimensionValue();
-		$dimension_value->setValue( 'date_range_0' );
+		$dimension_value->setValue( $request_results['dimension_value_1'] );
 		$row_0->setDimensionValues( [ $dimension_value ] );
 
 		$row_1        = new Row();
@@ -74,7 +77,7 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 		$metric_value->setValue( $request_results['metric_value_2'] );
 		$row_1->setMetricValues( [ $metric_value ] );
 		$dimension_value = new DimensionValue();
-		$dimension_value->setValue( 'date_range_1' );
+		$dimension_value->setValue( $request_results['dimension_value_2'] );
 		$row_1->setDimensionValues( [ $dimension_value ] );
 
 		$response->setRows( [ $row_0, $row_1 ] );
@@ -104,10 +107,17 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 			->with( $expected_api_parameters )
 			->andReturn( $api_response_mock );
 
+		if ( $expected_exception !== null ) {
+			$this->expectException( $expected_exception['class'] );
+			$this->expectExceptionMessage( $expected_exception['message'] );
+		}
+
 		$result = $this->instance->get_comparison_data( $analytics_4_parameters );
 
-		$this->assertInstanceOf( Data_Container::class, $result );
-		$this->assertSame( $expected_results, $result->to_array() );
+		if ( $expected_exception === null ) {
+			$this->assertInstanceOf( Data_Container::class, $result );
+			$this->assertSame( $expected_results, $result->to_array() );
+		}
 	}
 
 	/**
@@ -143,9 +153,11 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 					'compareEndDate'   => '2025-02-13',
 				],
 				'request_results'         => [
-					'metric_header'  => 'sessions',
-					'metric_value_1' => 2,
-					'metric_value_2' => 4,
+					'metric_header'     => 'sessions',
+					'metric_value_1'    => 2,
+					'metric_value_2'    => 4,
+					'dimension_value_1' => 'date_range_0',
+					'dimension_value_2' => 'date_range_1',
 				],
 				'expected_results'        => [
 					[
@@ -180,9 +192,11 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 					'compareEndDate'   => '2025-02-13',
 				],
 				'request_results'         => [
-					'metric_header'  => 'totalUsers',
-					'metric_value_1' => 2,
-					'metric_value_2' => 4,
+					'metric_header'     => 'totalUsers',
+					'metric_value_1'    => 2,
+					'metric_value_2'    => 4,
+					'dimension_value_1' => 'date_range_0',
+					'dimension_value_2' => 'date_range_1',
 				],
 				'expected_results'        => [
 					[
@@ -193,6 +207,40 @@ final class Analytics_4_Adapter_Get_Comparison_Data_Test extends Abstract_Analyt
 							'total_users'  => 4,
 						],
 					],
+				],
+			],
+			'Unexpected date range name throws exception' => [
+				'request_parameters'      => [
+					'start_date'         => '2025-02-14',
+					'end_date'           => '2025-03-13',
+					'compare_start_date' => '2025-01-17',
+					'compare_end_date'   => '2025-02-13',
+					'metrics'            => [ 'sessions' ],
+				],
+				'expected_api_parameters' => [
+					'slug'             => 'analytics-4',
+					'datapoint'        => 'report',
+					'startDate'        => '2025-02-14',
+					'endDate'          => '2025-03-13',
+					'metrics'          => [
+						[
+							'name' => 'sessions',
+						],
+					],
+					'compareStartDate' => '2025-01-17',
+					'compareEndDate'   => '2025-02-13',
+				],
+				'request_results'         => [
+					'metric_header'     => 'sessions',
+					'metric_value_1'    => 2,
+					'metric_value_2'    => 4,
+					'dimension_value_1' => 'unexpected_range',
+					'dimension_value_2' => 'another_unexpected_range',
+				],
+				'expected_results'        => null,
+				'expected_exception'      => [
+					'class'   => Invalid_Request_Exception::class,
+					'message' => 'The Analytics 4 request is invalid: Unexpected date range names',
 				],
 			],
 		];
