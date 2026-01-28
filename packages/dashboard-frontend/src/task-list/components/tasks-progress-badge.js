@@ -134,7 +134,6 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks } ) => {
 	);
 
 	return <Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm">
-		<span className="yst-sr-only">{ screenReaderText }</span>
 		<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center">
 			{ completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" /> }
 			{ completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
@@ -143,5 +142,6 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks } ) => {
 			</span>
 			{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900"> { label } </span> }
 		</span>
+		<span className="yst-sr-only">{ screenReaderText }</span>
 	</Badge>;
 };
