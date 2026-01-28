@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yoast\WP\SEO\Introductions\Application;
 
 use Yoast\WP\SEO\Helpers\Product_Helper;

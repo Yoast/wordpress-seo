@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Configuration;
 
@@ -93,7 +94,6 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 							'type'              => 'bool',
 							'sanitize_callback' => 'rest_sanitize_boolean',
 						],
-
 					],
 				],
 			]
