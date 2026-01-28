@@ -3,7 +3,7 @@ import { Paper } from "@yoast/ui-library";
 import { get } from "lodash";
 import { useBlocker } from "react-router-dom";
 import FirstTimeConfigurationSteps from "../../first-time-configuration/first-time-configuration-steps";
-import { UnsavedChangesModal } from "../../shared-admin/components";
+import { ConfirmActionModal } from "../../shared-admin/components";
 import { RouteLayout } from "../components";
 
 /**
@@ -25,7 +25,7 @@ export const FirstTimeConfiguration = () => {
 					<FirstTimeConfigurationSteps />
 				</div>
 			</RouteLayout>
-			<UnsavedChangesModal
+			<ConfirmActionModal
 				isOpen={ blocker.state === "blocked" }
 				onClose={ blocker.reset }
 				title={ __( "Unsaved changes", "wordpress-seo" ) }
