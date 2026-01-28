@@ -156,6 +156,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'first_activated_by'                                   => 0,
 		'enable_task_list'                                     => true,
 		'enable_schema'                                        => true,
+		'product_permalink_cleanup_cursor'                     => 0,
+		'product_permalink_cleanup_completed'                  => false,
 	];
 
 	/**
@@ -473,6 +475,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'search_character_limit':
+				case 'product_permalink_cleanup_cursor':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = (int) $dirty[ $key ];
 					}
@@ -551,6 +554,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_llms_txt',
 				 *  'enable_task_list',
 				 *  'enable_schema',
+				 *  'product_permalink_cleanup_completed'
 				 *  and most of the feature variables.
 				 */
 				default:

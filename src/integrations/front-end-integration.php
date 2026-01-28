@@ -249,7 +249,7 @@ class Front_End_Integration implements Integration_Interface {
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9998 );
-		\add_action( 'wpseo_head', [ $this, 'check_product_permalink' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'cleanup_product_permalink' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
 		\remove_action( 'wp_head', 'index_rel_link' );
@@ -288,9 +288,17 @@ class Front_End_Integration implements Integration_Interface {
 	 * with the permalink stored in the indexable. If they differ, purges the indexable's
 	 * permalink so it will be recalculated on the next request.
 	 *
+	 * This method is skipped if the scheduled product permalink cleanup has already completed,
+	 * avoiding an extra get_permalink() call on every product page.
+	 *
 	 * @return void
 	 */
-	public function check_product_permalink() {
+	public function cleanup_product_permalink() {
+		// Skip if the scheduled cleanup has already processed all products.
+		if ( (bool) $this->options->get( Woocommerce_Product_Permalink_Cleanup_Integration::COMPLETED_OPTION, false ) ) {
+			return;
+		}
+
 		$context = $this->context_memoizer->for_current_page();
 
 		// Only check for WooCommerce products.
@@ -302,13 +310,10 @@ class Front_End_Integration implements Integration_Interface {
 		$current_permalink   = \get_permalink( $context->indexable->object_id );
 		$indexable_permalink = $context->indexable->permalink;
 
-		// Only purge if the permalinks differ.
+		// Only update if the permalinks differ.
 		if ( $current_permalink !== $indexable_permalink ) {
-			$this->indexable_repository->reset_permalink(
-				'post',
-				'product',
-				$context->indexable->object_id
-			);
+			$context->indexable->permalink = $current_permalink;
+			$context->indexable->save();
 
 			// Clear the memoizer cache so present_head() sees the updated indexable.
 			$this->context_memoizer->clear_for_current_page();
