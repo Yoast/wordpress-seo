@@ -542,8 +542,7 @@ class SnippetEditor extends React.Component {
 					<ModeSwitcher
 						onChange={ this.onChangeMode }
 						active={ mode }
-						mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", idSuffix ] ) }
-						desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", idSuffix ] ) }
+						id={ `yoast-google-preview-mode-switcher-${ idSuffix }` }
 					/>
 					<SnippetPreview
 						keyword={ keyword }
