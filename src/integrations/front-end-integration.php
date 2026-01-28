@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -47,6 +48,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Helpers_Surface
 	 */
 	protected $helpers;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
 
 	/**
 	 * The replace vars helper.
@@ -202,19 +210,22 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Options_Helper             $options           The options helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
+	 * @param Indexable_Repository		 $indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
 		Helpers_Surface $helpers,
-		WPSEO_Replace_Vars $replace_vars
+		WPSEO_Replace_Vars $replace_vars,
+		Indexable_Repository $indexable_repository
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -237,7 +248,8 @@ class Front_End_Integration implements Integration_Interface {
 		// Removes our robots presenter from the list when wp_robots is handling this.
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
-		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9998 );
+		\add_action( 'wpseo_head', [ $this, 'check_product_permalink' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
 		\remove_action( 'wp_head', 'index_rel_link' );
@@ -269,6 +281,35 @@ class Front_End_Integration implements Integration_Interface {
 		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
 
 		return $title;
+	}
+
+	/**
+	 * Checks if the current entity is a WooCommerce product and compares its permalink
+	 * with the permalink stored in the indexable. If they differ, purges the indexable's
+	 * permalink so it will be recalculated on the next request.
+	 *
+	 * @return void
+	 */
+	public function check_product_permalink() {
+		$context = $this->context_memoizer->for_current_page();
+
+		// Only check for WooCommerce products.
+		// @TODO: We can add more checks here if we want (eg. Woo version, etc.).
+		if ( $context->indexable->object_type !== 'post' || $context->indexable->object_sub_type !== 'product' ) {
+			return;
+		}
+
+		$current_permalink   = \get_permalink( $context->indexable->object_id );
+		$indexable_permalink = $context->indexable->permalink;
+
+		// Only purge if the permalinks differ.
+		if ( $current_permalink !== $indexable_permalink ) {
+			$this->indexable_repository->reset_permalink(
+				'post',
+				'product',
+				$context->indexable->object_id
+			);
+		}
 	}
 
 	/**

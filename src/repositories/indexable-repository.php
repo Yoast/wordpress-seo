@@ -571,7 +571,7 @@ class Indexable_Repository {
 	 *
 	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
 	 */
-	public function reset_permalink( $type = null, $subtype = null ) {
+	public function reset_permalink( $type = null, $subtype = null, $object_id = null ) {
 		$query = $this->query()->set(
 			[
 				'permalink'      => null,
@@ -586,6 +586,10 @@ class Indexable_Repository {
 
 		if ( $type !== null && $subtype !== null ) {
 			$query->where( 'object_sub_type', $subtype );
+		}
+
+		if ( $object_id !== null ) {
+			$query->where( 'object_id', $object_id );
 		}
 
 		return $query->update_many();
