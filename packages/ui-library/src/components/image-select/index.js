@@ -14,6 +14,7 @@ import { Button, Link, useSvgAria } from "../../index";
  * @param {string} replaceButtonLabel The label for the replace image button.
  * @param {Function} onSelectImage Callback called when the "Select image" or "Replace image" button is clicked.
  * @param {boolean} isDisabled Whether the buttons are disabled.
+ * @param {boolean} isLoading Whether the image is loading.
  * @param {string} id The ID for the image URL input.
  *
  * @returns {JSX.Element} The ImageSelect component.
@@ -27,9 +28,10 @@ export const ImageSelect = forwardRef( ( {
 	replaceButtonLabel,
 	onSelectImage,
 	isDisabled,
+	isLoading,
 	id,
 }, ref ) => {
-	const buttonLabel = imageUrl ? replaceButtonLabel : selectButtonLabel;
+	const buttonLabel = imageUrl && ! isLoading ? replaceButtonLabel : selectButtonLabel;
 	return (
 		<ImageSelectContext.Provider
 			value={ {
@@ -37,7 +39,8 @@ export const ImageSelect = forwardRef( ( {
 				buttonLabel,
 				onSelectImage,
 				id,
-				isDisabled }
+				isDisabled,
+				isLoading }
 			}
 		>
 			<div className={ classNames( "yst-image-select", className ) } ref={ ref } id={ id }>
@@ -53,26 +56,30 @@ export const ImageSelect = forwardRef( ( {
  *
  * @param {string} imageAltText The alt text for the image.
  * @param {string} className Additional class names.
+ * @param {string} selectDescription The description for the select image preview box.
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className } ) => {
-	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage } = useImageSelectContext();
+export const Preview = ( { imageAltText, className, selectDescription } ) => {
+	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
 	return <button
 		className={ classNames( "yst-image-select-preview",
-			"yst-w-[130px] yst-min-h-[72px] yst-max-h-[130px]",
 			imageUrl ? "" : "yst-border-2 yst-border-dashed",
+			isLoading && "yst-cursor-wait",
 			className,
 		) }
 		id={ `${ id }-preview` }
 		aria-labelledby={ `${ id }-label ${ id }-preview` }
 		onClick={ onSelectImage }
 		type="button"
-		disabled={ isDisabled }
+		disabled={ isDisabled || isLoading }
 	>
-		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className="yst-image-select-preview-image" /> : <PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
+		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className={ classNames( "yst-image-select-preview-image", isLoading && "yst-image-select-preview-image--loading" ) } /> : <div>
+			<PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
+			{ selectDescription && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8 yst-max-w-48">{ selectDescription }</p> }
+		</div>
 		}
 		<span className="yst-sr-only">
 			{ buttonLabel }
@@ -89,7 +96,7 @@ export const Preview = ( { imageAltText, className } ) => {
  * @returns {JSX.Element} The Buttons component.
  */
 export const Buttons = ( { removeLabel, onRemoveImage } ) => {
-	const { isDisabled, buttonLabel, imageUrl, onSelectImage, id } = useImageSelectContext();
+	const { isDisabled, buttonLabel, imageUrl, onSelectImage, id, isLoading } = useImageSelectContext();
 
 	return <div className="yst-mt-3 yst-flex yst-gap-4 yst-justify-start">
 		<Button
@@ -97,6 +104,7 @@ export const Buttons = ( { removeLabel, onRemoveImage } ) => {
 			id={ imageUrl ? `${ id }-replace-button` : `${ id }-select-button` }
 			onClick={ onSelectImage }
 			disabled={ isDisabled }
+			isLoading={ isLoading }
 		>
 			{ buttonLabel }
 		</Button>
