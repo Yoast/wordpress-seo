@@ -142,11 +142,10 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$post_types             = $this->post_type_helper->get_indexable_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
 		$replacements           = \array_merge(
+			[ $this->version ],
 			$post_types,
 			$excluded_post_statuses
 		);
-
-		$replacements[] = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
@@ -154,12 +153,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.version = %d
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-			AND P.ID not in (
-				SELECT I.object_id from $indexable_table as I
-				WHERE I.object_type = 'post'
-				AND I.version = %d )",
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ')
+			AND I.object_id IS NULL',
 			$replacements
 		);
 	}
@@ -177,10 +177,10 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$post_types             = $this->post_type_helper->get_indexable_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
 		$replacements           = \array_merge(
+			[ $this->version ],
 			$post_types,
 			$excluded_post_statuses
 		);
-		$replacements[]         = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {
@@ -194,12 +194,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.version = %d
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
 			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-			AND P.ID not in (
-				SELECT I.object_id from $indexable_table as I
-				WHERE I.object_type = 'post'
-				AND I.version = %d )
+			AND I.object_id IS NULL
 			$limit_query",
 			$replacements
 		);
