@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "fakat", "halbuki", "hatta", "üstelik", "ancak", "oysa", "sonuçta", "yalnız", "çünkü", "oysaki", "kısacası", "özetle",
 	"böylelikle", "ama", "lakin", "ayrıca", "açıkcası", "yani", "sonucunda", "böylece", "kısaca", "veya", "veyahut", "zira", "öyleyse",
 	"sonrasında", "ardından", "vakıa", "gerçi", "karşın", "tümüyle", "bütünüyle", "tamamıyla", "genelde", "diğer", "başka", "önce",

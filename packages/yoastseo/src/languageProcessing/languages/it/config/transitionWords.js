@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "abbastanza", "acciocché", "acciocchè", "adesso", "affinché", "affinchè", "allora", "almeno", "alquanto", "altrettanto",
 	"altrimenti", "analogamente", "anche", "ancora", "antecedentemente", "anzi", "anzitutto",
 	"apertamente", "appena", "assai", "attualmente", "benché", "benchè", "beninteso", "bensì", "brevemente", "bruscamente",

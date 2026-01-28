@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "ahányszor", "ahelyett", "ahogy", "ahol", "ahonnan", "ahová", "akár", "akárcsak",
 	"akkor", "alapvetően", "alighogy", "ám", "ámbár", "ámde", "ameddig", "amennyiben", "amennyire", "amennyiszer",
 	"amíg", "amikor", "amikorra", "aminthogy", "amióta", "amire", "annálfogva", "annyira", "avagy", "azaz", "azazhogy",

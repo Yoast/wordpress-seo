@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "alltså", "ändå", "annars", "ännu", "även", "avslutningsvis", "bl.a.", "d.v.s.", "då", "därav",
 	"därefter", "däremot", "därför", "därmed", "därpå", "dessutom", "dock", "efteråt", "eftersom", "emellertid", "enligt",
 	"exempelvis", "fastän", "följaktligen", "förrän", "först", "förutom", "huvudsakligen", "ifall", "inledningsvis", "innan",

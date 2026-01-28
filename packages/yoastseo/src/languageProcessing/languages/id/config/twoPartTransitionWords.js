@@ -1,9 +1,6 @@
-/** @module config/twoPartTransitionWords */
-
 /**
- * Returns a list with two-part transition words.
- *
- * @returns {Array} The list of two-part transition words.
+ * Returns an array with two-part transition words to be used by the assessments.
+ * @type {string[][]} The array filled with two-part transition words.
  */
 export default [ [ "baik", "maupun" ], [ "bukan", "melainkan" ], [ "bukan", "tetapi" ], [ "bukannya", "melainkan" ], [ "bukannya", "tetapi" ],
 	[ "tidak", "melainkan" ], [ "tidak", "tetapi" ], [ "tidak hanya", "tetapi juga" ], [ "begitu", "sehingga" ],

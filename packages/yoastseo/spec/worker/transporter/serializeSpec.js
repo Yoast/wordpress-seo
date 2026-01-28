@@ -104,6 +104,7 @@ describe( "serialize", () => {
 			writingDirection: "LTR",
 			wpBlocks: [],
 			isFrontPage: false,
+			shortcodes: [],
 		} );
 	} );
 

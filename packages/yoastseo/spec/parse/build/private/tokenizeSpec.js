@@ -501,6 +501,30 @@ describe( "A test for the tokenize function",
 			expect( br2.sourceCodeRange ).toEqual( { startOffset: 38, endOffset: 39 } );
 			expect( another1.sourceCodeRange ).toEqual( { startOffset: 39, endOffset: 46 } );
 		} );
+
+		it( "should correctly tokenize a paragraph with abbreviations", function() {
+			const mockPaper = new Paper( "<p>This is e.g. a cat from 2023 A.D., nice!</p>" );
+			const mockResearcher = new EnglishResearcher( mockPaper );
+			const languageProcessor = new LanguageProcessor( mockResearcher );
+			buildTreeNoTokenize( mockPaper );
+			const result = tokenize( mockPaper.getTree(), languageProcessor );
+			const sentences = result.childNodes[ 0 ].sentences;
+			expect( sentences.length ).toEqual( 1 );
+			const firstSentence = sentences[ 0 ];
+			expect( firstSentence.text ).toEqual( "This is e.g. a cat from 2023 A.D., nice!" );
+			expect( firstSentence.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 43 } );
+			expect( firstSentence.tokens.length ).toEqual( 19 );
+			const [ this1, , is1, , eg1, , a1, , cat1, , from1, , year1, , ad1, , , nice1, , ] = firstSentence.tokens;
+			expect( this1.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 7 } );
+			expect( is1.sourceCodeRange ).toEqual( { startOffset: 8, endOffset: 10 } );
+			expect( eg1.sourceCodeRange ).toEqual( { startOffset: 11, endOffset: 15 } );
+			expect( a1.sourceCodeRange ).toEqual( { startOffset: 16, endOffset: 17 } );
+			expect( cat1.sourceCodeRange ).toEqual( { startOffset: 18, endOffset: 21 } );
+			expect( from1.sourceCodeRange ).toEqual( { startOffset: 22, endOffset: 26 } );
+			expect( year1.sourceCodeRange ).toEqual( { startOffset: 27, endOffset: 31 } );
+			expect( ad1.sourceCodeRange ).toEqual( { startOffset: 32, endOffset: 36 } );
+			expect( nice1.sourceCodeRange ).toEqual( { startOffset: 38, endOffset: 42 } );
+		} );
 	} );
 
 describe( "A test for tokenizing a Japanese sentence", function() {
