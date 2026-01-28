@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] = `
+<DocumentFragment>
+  <span
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+  >
+    <span
+      class="yst-sr-only"
+    >
+      0 out of 0 tasks completed
+    </span>
+    <span
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span
+        class="yst-text-xs"
+      >
+        <span
+          class="yst-text-slate-600 yst-font-medium"
+        >
+          0
+        </span>
+        <span
+          class="yst-text-slate-500 yst-font-normal"
+        >
+          /0
+        </span>
+      </span>
+    </span>
+  </span>
+</DocumentFragment>
+`;
+
+exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`] = `
+<DocumentFragment>
+  <span
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+  >
+    <span
+      class="yst-sr-only"
+    >
+      5 out of 5 tasks completed
+    </span>
+    <span
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+    >
+      <svg
+        aria-hidden="true"
+        class="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span
+        class="yst-text-xs"
+      >
+        <span
+          class="yst-text-slate-600 yst-font-medium"
+        >
+          5
+        </span>
+        <span
+          class="yst-text-slate-500 yst-font-normal"
+        >
+          /5
+        </span>
+      </span>
+    </span>
+  </span>
+</DocumentFragment>
+`;
+
+exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1`] = `
+<DocumentFragment>
+  <span
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+  >
+    <span
+      class="yst-sr-only"
+    >
+      3 out of 5 tasks completed
+    </span>
+    <span
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+    >
+      <svg
+        fill="none"
+        height="16"
+        viewBox="0 0 16 16"
+        width="16"
+      >
+        <circle
+          cx="8"
+          cy="8"
+          r="6"
+          stroke="#CBD5E1"
+          stroke-width="1.5"
+        />
+        <path
+          d="
+    M 8 8
+    L 8 2.75
+    A 5.25 5.25 0 1 1 4.914127425464517 12.247339220468474
+    Z
+  "
+          fill="#86EFAC"
+        />
+        <path
+          d="
+    M 8 2
+    A 6 6 0 1 1 4.473288486245162 12.854101966249685
+  "
+          fill="none"
+          stroke="#16A34A"
+          stroke-linecap="round"
+          stroke-width="1.5"
+        />
+      </svg>
+      <span
+        class="yst-text-xs"
+      >
+        <span
+          class="yst-text-slate-600 yst-font-medium"
+        >
+          3
+        </span>
+        <span
+          class="yst-text-slate-500 yst-font-normal"
+        >
+          /5
+        </span>
+      </span>
+    </span>
+  </span>
+</DocumentFragment>
+`;
