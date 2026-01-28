@@ -173,9 +173,10 @@ class Crawl_Cleanup_Helper {
 		if ( $this->current_page_helper->is_home_posts_page() ) {
 			return \home_url( '/' );
 		}
-		if ( $this->current_page_helper->is_home_static_page() ) {
+		if ( $this->current_page_helper->is_home_static_page() && isset( $GLOBALS['post'] ) ) {
 			return \get_permalink( $GLOBALS['post']->ID );
 		}
+
 		return '';
 	}
 
