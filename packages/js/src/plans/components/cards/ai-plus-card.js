@@ -73,7 +73,7 @@ export const AiPlusCard = () => {
 	return (
 		<BaseAiPlusCard
 			header={ <AiPlusSvg /> }
-			title="Yoast AI+"
+			title="Yoast SEO AI+"
 			description={
 				__( "For marketers and content publishers looking to boost brand awareness and visibility, this package combines powerful on page SEO tools with AI brand monitoring and insights.", "wordpress-seo" )
 			}
