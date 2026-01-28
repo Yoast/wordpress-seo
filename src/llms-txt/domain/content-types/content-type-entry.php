@@ -65,7 +65,7 @@ class Content_Type_Entry {
 		$this->id          = $id;
 		$this->title       = $title;
 		$this->url         = $url;
-		$this->description = $description;
+		$this->description = self::cleanup_description( $description );
 		$this->slug        = $slug;
 	}
 
@@ -147,5 +147,20 @@ class Content_Type_Entry {
 			$post->post_excerpt,
 			$post->post_name
 		);
+	}
+
+	/**
+	 * Cleans up the description to be suitable for the llms.txt file.
+	 *
+	 * @param string  $content The description of the post or meta object.
+	 *
+	 * @return string The cleaned description
+	 */
+	public static function cleanup_description( ?string $content ): string {
+		if( \is_null( $content ) ) {
+			return '';
+		}
+		$content = \strip_shortcodes( $content );
+		return \wp_strip_all_tags( $content, true );
 	}
 }
