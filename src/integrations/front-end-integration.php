@@ -309,6 +309,10 @@ class Front_End_Integration implements Integration_Interface {
 				'product',
 				$context->indexable->object_id
 			);
+
+			// Clear the memoizer cache so present_head() sees the updated indexable.
+			$this->context_memoizer->clear_for_current_page();
+			$this->context_memoizer->clear( $context->indexable );
 		}
 	}
 
