@@ -313,6 +313,7 @@ Release date: 2026-02-03
 * Improves performance in large sites with lots of inbound links by adding appropriate database indices.
 * Improves the general security of the plugin via sanitization and escaping.
 * Replaces deprecated standard WordPress components with their modern variants.
+* Restores legacy Woo behavior of handling permalinks.
 * Sets the minimum supported WordPress version to 6.8.
 * Updates the OAuth2 Client library for improved compatibility with PHP 8.5.
 
