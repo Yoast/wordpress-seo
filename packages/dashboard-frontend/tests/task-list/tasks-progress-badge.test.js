@@ -43,4 +43,10 @@ describe( "TasksProgressBadge", () => {
 		);
 		expect( asFragment() ).toMatchSnapshot();
 	} );
+
+	it( "renders skeleton loaders when loading", () => {
+		const { container } = render( <TasksProgressBadge completedTasks={ 0 } totalTasks={ 0 } isLoading={ true } /> );
+		const skeletons = container.getElementsByClassName( "yst-skeleton-loader" );
+		expect( skeletons.length ).toBe( 2 );
+	} );
 } );

@@ -3,10 +3,10 @@
 exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] = `
 <DocumentFragment>
   <span
-    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
   >
     <span
-      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
     >
       <svg
         aria-hidden="true"
@@ -51,10 +51,10 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
 exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`] = `
 <DocumentFragment>
   <span
-    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
   >
     <span
-      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
     >
       <svg
         aria-hidden="true"
@@ -99,10 +99,10 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
 exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1`] = `
 <DocumentFragment>
   <span
-    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm"
+    class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
   >
     <span
-      class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
+      class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
     >
       <svg
         aria-hidden="true"

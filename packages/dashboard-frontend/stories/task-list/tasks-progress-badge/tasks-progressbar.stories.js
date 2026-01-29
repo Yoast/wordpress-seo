@@ -23,14 +23,26 @@ export default {
 		label: {
 			description: "Optional label.",
 		},
+		isLoading: {
+			description: "Whether the tasks are loading.",
+			control: "boolean",
+		},
 	},
 	args: {
 		completedTasks: 3,
 		totalTasks: 10,
 		label: "Set social appearance templates",
+		isLoading: false,
 	},
 };
 
 export const Factory = {
 	render: ( args ) => <TasksProgressBadge { ...args } />,
+};
+
+export const Loading = {
+	render: ( args ) => <TasksProgressBadge { ...args } />,
+	args: {
+		isLoading: true,
+	},
 };
