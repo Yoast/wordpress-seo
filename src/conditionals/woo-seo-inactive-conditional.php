@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Conditional that is only met when Yoast WooCommerce SEO is NOT active.
  */
-class Yoast_Woo_SEO_Inactive_Conditional implements Conditional {
+class Woo_SEO_Inactive_Conditional implements Conditional {
 
 	/**
 	 * Returns `true` when Yoast WooCommerce SEO is not active.

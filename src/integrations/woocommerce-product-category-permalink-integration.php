@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WP_Term;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Version_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Woo_SEO_Inactive_Conditional;
 
 /**
  * Integration for WooCommerce product category permalink handling.
@@ -19,7 +19,7 @@ class Woocommerce_Product_Category_Permalink_Integration implements Integration_
 	public static function get_conditionals() {
 		return [
 			WooCommerce_Version_Conditional::class,
-			Yoast_Woo_SEO_Inactive_Conditional::class,
+			Woo_SEO_Inactive_Conditional::class,
 		];
 	}
 
