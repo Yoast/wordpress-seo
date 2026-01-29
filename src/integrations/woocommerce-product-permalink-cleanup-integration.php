@@ -35,11 +35,6 @@ class Woocommerce_Product_Permalink_Cleanup_Integration implements Integration_I
 	public const CRON_HOOK = 'wpseo_product_permalink_cleanup_cron';
 
 	/**
-	 * Identifier for starting the cleanup.
-	 */
-	public const START_HOOK = 'wpseo_start_product_permalink_cleanup';
-
-	/**
 	 * The minimum WooCommerce version required to run this cleanup.
 	 */
 	public const REQUIRED_WC_VERSION = '10.5';
@@ -85,7 +80,7 @@ class Woocommerce_Product_Permalink_Cleanup_Integration implements Integration_I
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( self::START_HOOK, [ $this, 'start_cleanup' ] );
+		\add_action( 'admin_init', [ $this, 'register_cleanup' ] );
 		\add_action( self::CRON_HOOK, [ $this, 'run_cleanup_batch' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'reset_cleanup' ] );
 	}
@@ -97,27 +92,24 @@ class Woocommerce_Product_Permalink_Cleanup_Integration implements Integration_I
 	 *
 	 * @return void
 	 */
-	public function start_cleanup() {
-		// If already completed, do nothing.
-		if ( $this->is_completed() ) {
-			return;
-		}
-
+	public function register_cleanup() {
 		// Only run if WooCommerce is active and meets the minimum version requirement.
 		if ( ! $this->is_woocommerce_version_sufficient() ) {
 			return;
 		}
 
-		// Reset cursor to start from the beginning.
-		$this->options_helper->set( self::CURSOR_OPTION, 0 );
+		// If already completed, do nothing.
+		if ( $this->is_completed() ) {
+			return;
+		}
+
 
 		// Schedule the cron job if not already scheduled.
 		if ( ! \wp_next_scheduled( self::CRON_HOOK ) ) {
+            // Reset cursor to start from the beginning.
+            $this->options_helper->set( self::CURSOR_OPTION, 0 );
 			\wp_schedule_event( \time(), 'hourly', self::CRON_HOOK );
 		}
-
-		// Run the first batch immediately.
-		$this->run_cleanup_batch();
 	}
 
 	/**
