@@ -218,6 +218,7 @@ describe( "a test for finding transition words from a string", function() {
 	it( "returns 1 when a (multiple) transition word is found in a language that uses a custom" +
 		" match transition word helper (Japanese)", function() {
 		// Transition word: ゆえに (tokenized: [ "ゆえ", "に" ])
+		mockPaper = new Paper( "これは重要なポイントであり、ゆえに注意が必要です。", { locale: "ja" } );
 		const japaneseResearcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, japaneseResearcher );
 		result = transitionWordsResearch( mockPaper, japaneseResearcher );
