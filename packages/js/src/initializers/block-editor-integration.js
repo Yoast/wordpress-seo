@@ -56,7 +56,7 @@ function registerFormats() {
 			if ( name ) {
 				// Merge core link settings with our custom settings to preserve WordPress capabilities
 				const mergedSettings = coreLinkSettings && name === "core/link"
-					? { ...coreLinkSettings, ...settings, name, title: settings.title }
+					? { ...coreLinkSettings, ...settings }
 					: settings;
 				registerFormatType( name, mergedSettings );
 			}
