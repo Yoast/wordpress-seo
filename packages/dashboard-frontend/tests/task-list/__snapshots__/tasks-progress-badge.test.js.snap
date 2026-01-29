@@ -12,6 +12,7 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
         aria-hidden="true"
         class="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0"
         fill="none"
+        role="img"
         stroke="currentColor"
         stroke-width="2"
         viewBox="0 0 24 24"
@@ -59,6 +60,7 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
         aria-hidden="true"
         class="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0"
         fill="none"
+        role="img"
         stroke="currentColor"
         stroke-width="2"
         viewBox="0 0 24 24"
@@ -103,8 +105,10 @@ exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1
       class="yst-flex yst-gap-1 yst-justify-between yst-items-center"
     >
       <svg
+        aria-hidden="true"
         fill="none"
         height="16"
+        role="img"
         viewBox="0 0 16 16"
         width="16"
       >

@@ -1,4 +1,4 @@
-import { Badge } from "@yoast/ui-library";
+import { Badge, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 
@@ -39,7 +39,7 @@ const ProgressPie = ( {
 	const borderColor = "#16A34A";
 	const fillColor = "#86EFAC";
 	const progress = totalValue > 0 ? Math.min( 1, Math.max( 0, completedValue / totalValue ) ) : 0;
-
+	const svgAriaProps = useSvgAria();
 	const cx = svgSize / 2;
 	const cy = svgSize / 2;
 
@@ -79,6 +79,7 @@ const ProgressPie = ( {
 			height={ svgSize }
 			viewBox={ `0 0 ${svgSize} ${svgSize}` }
 			fill="none"
+			{ ...svgAriaProps }
 		>
 			{ /* Track */ }
 			<circle
@@ -132,10 +133,11 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks } ) => {
 		completedTasks,
 		totalTasks
 	);
+	const svgAriaProps = useSvgAria();
 
 	return <Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm">
 		<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center">
-			{ completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" /> }
+			{ completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
 			{ completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
 			<span className="yst-text-xs">
 				<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
