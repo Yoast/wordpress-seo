@@ -63,7 +63,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-4"
 				title="Uncompleted Task with Woo Badge"
-				duration={ 10 }
+				duration={ 80 }
 				priority="medium"
 				isCompleted={ false }
 				badge="woo"
@@ -71,7 +71,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-5"
 				title="Uncompleted Task with AI Badge"
-				duration={ 20 }
+				duration={ 210 }
 				priority="high"
 				isCompleted={ false }
 				badge="ai"
