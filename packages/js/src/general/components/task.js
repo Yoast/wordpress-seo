@@ -10,7 +10,6 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  *
  * @param {string} title The title of the task.
  * @param {string} id The ID of the task.
- * @param {string} how The how copy.
  * @param {string} why The why copy.
  * @param {number} duration The duration in minutes.
  * @param {string} priority The priority: 'low', 'medium', 'high'.
@@ -21,7 +20,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  *
  * @returns {JSX.Element} The Task component.
  */
-export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge } ) => {
+export const Task = ( { title, id, why, duration, priority, isCompleted, callToAction, badge } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( false );
 	const { completeTask, resetTaskError } = useDispatch( STORE_NAME );
 	const { status, completeTaskEndpoint, nonce, errorMessage } = useSelect( ( select ) => {
@@ -62,8 +61,7 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 			title={ title }
 			duration={ duration }
 			priority={ priority }
-			why={ why }
-			how={ how }
+			about={ why }
 			isCompleted={ isCompleted }
 			taskId={ id }
 			callToAction={ callToActionProps }
