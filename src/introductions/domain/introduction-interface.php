@@ -15,16 +15,6 @@ interface Introduction_Interface {
 	public function get_id();
 
 	/**
-	 * Returns the unique name.
-	 *
-	 * @deprecated 21.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return string
-	 */
-	public function get_name();
-
-	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @return int

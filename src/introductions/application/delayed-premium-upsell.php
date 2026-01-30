@@ -69,17 +69,6 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 	}
 
 	/**
-	 * Returns the name of the introduction.
-	 *
-	 * @return string The name.
-	 */
-	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO Premium 21.6', 'Please use get_id() instead' );
-
-		return self::ID;
-	}
-
-	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @return int The priority.
