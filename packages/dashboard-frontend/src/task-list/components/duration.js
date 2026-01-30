@@ -1,5 +1,4 @@
 import { ClockIcon } from "@heroicons/react/outline";
-import { _x } from "@wordpress/i18n";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
 
 /**
@@ -47,8 +46,17 @@ export const Duration = ( { minutes, isLoading = false, locale } ) => {
 			// Show both hours and minutes
 			return `${ hourFormatter.format( hours ) } ${ minuteFormatter.format( remainingMinutes ) }`;
 		} catch ( error ) {
-			// Fallback formatting in case Intl.NumberFormat fails
-			return `${ minutes }m`;
+			// Fallback to English format
+			const hours = Math.floor( minutes / 60 );
+			const remainingMinutes = minutes % 60;
+
+			if ( hours === 0 ) {
+				return `${ minutes } m`;
+			}
+			if ( remainingMinutes === 0 ) {
+				return `${ hours } h`;
+			}
+			return `${ hours }h ${ remainingMinutes }m`;
 		}
 	};
 
