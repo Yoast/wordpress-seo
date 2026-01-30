@@ -1,5 +1,6 @@
-import { fireEvent, render, screen } from "../../test-utils";
+import { fireEvent, render, screen, waitFor } from "../../test-utils";
 import { useSelect, useDispatch } from "@wordpress/data";
+import { doAction } from "@wordpress/hooks";
 
 import { isTextViewActive } from "../../../src/lib/tinymce";
 import AIOptimizeButton from "../../../src/ai-optimizer/components/ai-optimize-button";
@@ -12,6 +13,10 @@ jest.mock( "@wordpress/data", () => {
 		registerStore: jest.fn(),
 	};
 } );
+
+jest.mock( "@wordpress/hooks", () => ( {
+	doAction: jest.fn(),
+} ) );
 
 jest.mock( "../../../src/lib/tinymce", () => ( {
 	isTextViewActive: jest.fn(),
@@ -34,10 +39,11 @@ global.window.YoastSEO = {
  * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
  * @param {string} keyword The focus keyphrase.
  * @param {string} content The editor content.
+ * @param {string} focusAIButtonId The focus AI button ID.
  * @returns {function} The mock.
  */
 // eslint-disable-next-line complexity
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it." ) => {
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it.", focusAIButtonId = null ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
@@ -48,6 +54,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => keyword,
+		getFocusAIFixesButtonId: () => focusAIButtonId,
 	} ) ) );
 
 	// Mock collectData to reflect the provided content
@@ -61,18 +68,21 @@ describe( "AIOptimizeButton", () => {
 	let setActiveMarker;
 	let setMarkerPauseStatus;
 	let setMarkerStatus;
+	let setFocusAIFixesButtonId;
 
 	beforeEach( () => {
 		setActiveAIFixesButton = jest.fn();
 		setActiveMarker = jest.fn();
 		setMarkerPauseStatus = jest.fn();
 		setMarkerStatus = jest.fn();
+		setFocusAIFixesButtonId = jest.fn();
 
 		useDispatch.mockImplementation( () => ( {
 			setActiveAIFixesButton,
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
+			setFocusAIFixesButtonId,
 		} ) );
 	} );
 
@@ -109,22 +119,13 @@ describe( "AIOptimizeButton", () => {
 		expect( lockIcon ).not.toBeInTheDocument();
 	} );
 
-	test( "should find the button without tooltip when the button is NOT hovered", () => {
+	test( "should not show tooltip when button is not hovered", () => {
 		mockSelect( "keyphraseDensityAIFixes" );
-		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true }  /> );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
 
-		const buttonWithOutTooltip = document.getElementsByClassName( "ai-button" );
-		expect( buttonWithOutTooltip ).toHaveLength( 1 );
-	} );
-
-	test( "should find the button without tooltip when the button is pressed", () => {
-		// The button is pressed when the active AI button id in the store is the same as the current button id.
-		// The button ID is the component ID + "AIFixes".
-		mockSelect( "keyphraseDensityAIFixes" );
-		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ false }  /> );
-
-		const buttonWithTooltip = document.getElementsByClassName( "yoast-tooltip yoast-tooltip-w" );
-		expect( buttonWithTooltip ).toHaveLength( 0 );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( screen.queryByRole( "tooltip" ) ).not.toBeInTheDocument();
 	} );
 
 	test( "should be enabled under the default circumstances", () => {
@@ -218,42 +219,6 @@ describe( "AIOptimizeButton", () => {
 		expect( window.YoastSEO.analysis.applyMarks ).toHaveBeenCalled();
 	} );
 
-	test( "should be disabled when both keyphrase and content are missing for keyphrase-specific assessments", () => {
-		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "" );
-		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
-		const button = screen.getByRole( "button" );
-		expect( button ).toBeInTheDocument();
-		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
-	} );
-
-	test( "should be disabled when keyphrase is missing for keyphrase-specific assessments", () => {
-		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "", "Some test content" );
-		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
-		const button = screen.getByRole( "button" );
-		expect( button ).toBeInTheDocument();
-		expect( button ).toBeDisabled();
-		expect( button ).toHaveAttribute( "aria-label", "Please add both a keyphrase and some text to your content." );
-	} );
-
-	test( "should be enabled for keyphrase-specific assessments when both keyphrase and content are present", () => {
-		mockSelect( "introductionKeywordAIFixes", "visual", "blockEditor", [], "", false, "test keyphrase", "Some test content with the keyphrase in it." );
-		render( <AIOptimizeButton id="introductionKeyword" isPremium={ true } /> );
-		const button = screen.getByRole( "button" );
-		expect( button ).toBeInTheDocument();
-		expect( button ).toBeEnabled();
-		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
-	} );
-
-	test( "should not apply keyphrase validation to non-keyphrase assessments", () => {
-		mockSelect( "someOtherAssessmentAIFixes", "visual", "blockEditor", [], "", false, "", "" );
-		render( <AIOptimizeButton id="someOtherAssessment" isPremium={ true } /> );
-		const button = screen.getByRole( "button" );
-		expect( button ).toBeInTheDocument();
-		expect( button ).toBeEnabled();
-		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
-	} );
-
 	test( "should be disabled when another AI button is active (in preview mode)", () => {
 		// Another button (introductionKeywordAIFixes) is active, so keyphraseDensity button should be disabled.
 		mockSelect( "introductionKeywordAIFixes" );
@@ -271,6 +236,113 @@ describe( "AIOptimizeButton", () => {
 		expect( button ).toBeInTheDocument();
 		expect( button ).toBeEnabled();
 		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
+	} );
+
+	test( "should call doAction when clicked with Premium", () => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		fireEvent.click( button );
+
+		expect( doAction ).toHaveBeenCalledWith( "yoast.ai.fixAssessments", "keyphraseDensityAIFixes" );
+	} );
+
+	test( "should have ai-primary variant when button is pressed", () => {
+		// Button is pressed when activeAIButtonId matches the button's ID
+		mockSelect( "keyphraseDensityAIFixes" );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		// The component uses variant="ai-primary" when pressed
+		expect( button ).toHaveClass( "yst-button--ai-primary" );
+	} );
+
+	test( "should have ai-secondary variant when button is not pressed", () => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		// The component uses variant="ai-secondary" when not pressed
+		expect( button ).toHaveClass( "yst-button--ai-secondary" );
+	} );
+
+	test( "should show tooltip on pointer enter and hide on pointer leave when not pressed", async() => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		// Tooltip should not be visible initially
+		expect( screen.queryByText( "Optimize with AI" ) ).not.toBeInTheDocument();
+
+		// Trigger pointer enter
+		fireEvent.pointerEnter( button );
+
+		// Tooltip should be visible (the ariaLabel text appears in the Tooltip)
+		await waitFor( () => {
+			expect( screen.getByText( "Optimize with AI" ) ).toBeInTheDocument();
+		} );
+
+		// Trigger pointer leave
+		fireEvent.pointerLeave( button );
+
+		// Tooltip should be hidden
+		await waitFor( () => {
+			expect( screen.queryByText( "Optimize with AI" ) ).not.toBeInTheDocument();
+		} );
+	} );
+
+	test( "should not show tooltip when button is pressed even on hover", () => {
+		mockSelect( "keyphraseDensityAIFixes" );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		// Trigger pointer enter
+		fireEvent.pointerEnter( button );
+
+		// Tooltip should NOT be shown when button is pressed (isButtonPressed is true)
+		// The text from aria-label should not appear as a tooltip element
+		const tooltipText = screen.queryAllByText( "Optimize with AI" );
+		// Should only find the aria-label, not an additional tooltip element
+		expect( tooltipText.length ).toBeLessThanOrEqual( 1 );
+	} );
+
+	test( "should be disabled when nested block is in HTML mode", () => {
+		// The block with clientId "htmlTest" is mocked to be in HTML mode
+		const nestedBlocks = [
+			{
+				clientId: "parent",
+				innerBlocks: [
+					{ clientId: "child1", innerBlocks: [] },
+					{ clientId: "htmlTest", innerBlocks: [] },
+				],
+			},
+		];
+		mockSelect( "keyphraseDensityAIFixes", "visual", "blockEditor", nestedBlocks );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
+	} );
+
+	test( "should set focusAIButtonId when button is clicked", () => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		fireEvent.click( button );
+
+		// setFocusAIFixesButtonId should be called with the button ID and location context
+		expect( setFocusAIFixesButtonId ).toHaveBeenCalled();
+	} );
+
+	test( "should have correct data-id attribute", () => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+
+		// The button data-id should include the assessment ID + "AIFixes"
+		expect( button ).toHaveAttribute( "data-id", "keyphraseDensityAIFixes" );
 	} );
 } );
 

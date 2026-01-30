@@ -224,6 +224,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				onBlur={ resetFocusOnBlur }
 				variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
 				size="small"
+				aria-label={ ariaLabel }
 			>
 				{ isTooltipOpen && ! isButtonPressed && <Tooltip position="left"> { ariaLabel }</Tooltip> }
 				{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
