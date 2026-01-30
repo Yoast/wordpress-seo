@@ -58,8 +58,7 @@ export default {
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
-		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
+		about: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.<br/> <b>Pro tip</b>: Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
 		callToAction: {
 			label: "Start configuration",
 			href: null,
@@ -74,56 +73,63 @@ export default {
 	},
 };
 
-export const Factory = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
+const Template = ( args ) => {
+	const [ isOpen, toggle ] = useToggleState( false );
 
-		return <>
-			Click on the button to open the task modal
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-			/>
-		</>;
-	},
+	return <>
+		Click on the button to open the task modal
+		<br /><br />
+		<Button onClick={ toggle }>Task button</Button>
+		<TaskModal
+			{ ...args }
+			isOpen={ isOpen }
+			onClose={ toggle }
+		/>
+	</>;
+};
+
+export const Factory = {
+	render: ( args ) => <Template { ...args } />,
 };
 
 export const CompletedTask = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
-
-		return <>
-			Click on the button to open the completed task modal
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-				isCompleted={ true }
-			/>
-		</>;
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		isCompleted: true,
 	},
 };
 
 export const ErrorState = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		isError: true,
+		errorMessage: "Failed to load task details.",
+	},
+};
 
-		return <>
-			Click on the button to open the task modal in error state
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-				isError={ true }
-				errorMessage="Failed to load task details."
-			/>
-		</>;
+export const WithChildTasks = {
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		childTasks: [
+			{ title: "Set up site type", duration: 5, priority: "medium", isCompleted: true, taskId: "child-task-1" },
+			{ title: "Configure audience", duration: 7, priority: "high", isCompleted: false, taskId: "child-task-2" },
+			{ title: "Define content focus", duration: 3, priority: "low", isCompleted: false, taskId: "child-task-3" },
+			{ title: "Review settings", duration: 4, priority: "medium", isCompleted: false, taskId: "child-task-4" },
+			{ title: "Finalize configuration", duration: 6, priority: "high", isCompleted: false, taskId: "child-task-5" },
+			{ title: "Complete tutorial", duration: 8, priority: "low", isCompleted: false, taskId: "child-task-6" },
+			{ title: "Optimize homepage", duration: 10, priority: "high", isCompleted: false, taskId: "child-task-7" },
+			{ title: "Set up blog", duration: 12, priority: "medium", isCompleted: false, taskId: "child-task-8" },
+		],
+		totalTasks: 3,
+		completedTasks: 1,
+	},
+};
+
+export const ChildTask = {
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		parentTaskTitle: "Complete the First-time configuration",
+		totalTasks: 5,
+		completedTasks: 2,
 	},
 };
