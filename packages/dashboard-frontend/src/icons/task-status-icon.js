@@ -15,7 +15,7 @@ export const TaskStatusIcon = ( { isCompleted, isLoading } ) => {
 		return <EllipseWithInnerDot className="yst-w-6 yst-text-slate-200 yst-shrink-0" role="img" aria-label={ __( "Task loading", "wordpress-seo" ) } />;
 	}
 	if ( isCompleted ) {
-		return  <CheckCircleIcon className="yst-w-6 yst-text-green-500 yst-shrink-0" role="img" aria-label={ __( "Task completed", "wordpress-seo" ) } />;
+		return  <CheckCircleIcon className="yst-w-6 yst-text-green-500 yst-shrink-0 yst-self-start" role="img" aria-label={ __( "Task completed", "wordpress-seo" ) } />;
 	}
 	return <EllipseWithInnerDot className="yst-w-6 yst-text-primary-500 yst-shrink-0" role="img" aria-label={ __( "Task not completed", "wordpress-seo" ) } />;
 };

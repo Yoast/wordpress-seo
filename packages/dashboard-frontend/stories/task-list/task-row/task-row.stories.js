@@ -20,8 +20,8 @@ export default {
 					<Table.Head>
 						<Table.Row>
 							<Table.Header>Task</Table.Header>
-							<Table.Header>Est. duration</Table.Header>
 							<Table.Header>Priority</Table.Header>
+							<Table.Header>Est. duration</Table.Header>
 							<Table.Header>Progress</Table.Header>
 						</Table.Row>
 					</Table.Head>
