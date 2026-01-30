@@ -94,6 +94,10 @@ export default {
 	component: Tooltip,
 	argTypes: {
 		as: { options: [ "div", "span" ] },
+		position: {
+			options: [ "top", "top-left", "top-right", "right", "bottom", "bottom-left", "bottom-right", "left" ],
+			control: { type: "select" },
+		},
 	},
 	parameters: {
 		docs: {

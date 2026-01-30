@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-/* eslint-disable no-console */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useRef, useLayoutEffect } from "@wordpress/element";
@@ -189,15 +188,20 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	const handleClick = useCallback( () => {
 		// eslint-disable-next-line no-negated-condition -- Let's handle the happy path first.
 		if ( ! shouldShowUpsell ) {
-			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
 			/* Only handle the pressed button state in Premium.
 			We don't want to change the background color of the button and other styling when it's pressed in Free.
 			This is because clicking on the button in Free will open an upsell modal, and the button will not be in a pressed state. */
 			handlePressedButton();
+			/*
+			 * Handle the pressed button state BEFORE firing the action.
+			 * This ensures the Redux state is set before Premium's App component renders,
+			 * which checks activeAIOptimizeButton === assessmentName.
+			 */
+			doAction( "yoast.ai.fixAssessments", aiOptimizeId );
 		} else {
 			setIsModalOpenTrue();
 		}
-	}, [ handlePressedButton, setIsModalOpenTrue ] );
+	}, [ shouldShowUpsell, aiOptimizeId, handlePressedButton, setIsModalOpenTrue ] );
 
 
 	const resetFocusOnBlur = useCallback( () => {
@@ -217,7 +221,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				onClick={ handleClick }
 				onPointerEnter={ toggleTooltipOpen }
 				onPointerLeave={ toggleTooltipOpen }
-				id={ `${ aiOptimizeId }-${locationContext}` }
+				id={ `${ aiOptimizeId }-${ locationContext }` }
 				data-id={ aiOptimizeId }
 				disabled={ ! isEnabled }
 				ref={ focusButtonRef }
@@ -226,7 +230,11 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				size="small"
 				aria-label={ ariaLabel }
 			>
-				{ isTooltipOpen && ! isButtonPressed && <Tooltip position="left"> { ariaLabel }</Tooltip> }
+				{ isTooltipOpen && ! isButtonPressed && (
+					<Tooltip position={ isEnabled ? "left" : "top-left" } className="yst-max-w-[13.5rem]">
+						{ ariaLabel }
+					</Tooltip>
+				) }
 				{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			</Button>
 			{ isModalOpen && (
