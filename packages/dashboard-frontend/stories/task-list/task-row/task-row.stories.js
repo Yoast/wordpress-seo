@@ -55,7 +55,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-3"
 				title="Completed Task with Premium Badge"
-				duration={ 5 }
+				duration={ 60 }
 				priority="high"
 				isCompleted={ true }
 				badge="premium"
