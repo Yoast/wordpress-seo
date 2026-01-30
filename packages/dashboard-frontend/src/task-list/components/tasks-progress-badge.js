@@ -119,7 +119,7 @@ const ProgressPie = ( {
 };
 
 /**
- * The tasks progresss badge.
+ * The tasks progress badge.
  *
  * @param {string} [label=""] The label of the badge.
  * @param {number} completedTasks Number of completed tasks, should be less than or equal to totalTasks.
