@@ -144,7 +144,7 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 				<SkeletonLoader className="yst-h-3 yst-w-3 yst-mx-0.5" />
 				<SkeletonLoader className="yst-h-3 yst-w-7" />
 			</>
-				:  <>
+				: <>
 					<span className="yst-text-xs">
 						<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
 					</span>
