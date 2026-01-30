@@ -54,6 +54,11 @@ describe( "TaskRow", () => {
 		expect( checkIcon ).toBeInTheDocument();
 	} );
 
+	it( "shows check 0 minutes when completed", () => {
+		renderInTable( { isCompleted: true } );
+		expect( screen.getByText( /0m/ ) ).toBeInTheDocument();
+	} );
+
 	it( "shows ellipse icon when not completed", () => {
 		renderInTable( { isCompleted: false } );
 		const ellipseIcon = document.querySelector( ".yst-text-slate-200" );
