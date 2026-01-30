@@ -10,6 +10,7 @@ import { Introduction, IntroductionProvider } from "./components";
 import { AiBrandInsightsPostLaunch } from "./components/modals/ai-brand-insights-post-launch";
 import { BlackFridayAnnouncement } from "./components/modals/black-friday-announcement";
 import { DelayedPremiumUpsell } from "./components/modals/delayed-premium-upsell";
+import { SchemaAggregatorAnnouncement } from "./components/modals/schema-aggregator-announcement";
 import { STORE_NAME_INTRODUCTIONS } from "./constants";
 import { registerStore } from "./store";
 
@@ -25,6 +26,7 @@ domReady( () => {
 		"ai-brand-insights-post-launch": AiBrandInsightsPostLaunch,
 		"black-friday-announcement": BlackFridayAnnouncement,
 		"delayed-premium-upsell": DelayedPremiumUpsell,
+		"schema-aggregator-announcement": SchemaAggregatorAnnouncement,
 	};
 
 	if ( location.href.indexOf( "page=wpseo_dashboard#/first-time-configuration" ) !== -1 ) {
