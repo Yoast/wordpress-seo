@@ -248,8 +248,8 @@ class Front_End_Integration implements Integration_Interface {
 		// Removes our robots presenter from the list when wp_robots is handling this.
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
-		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9998 );
-		\add_action( 'wpseo_head', [ $this, 'check_product_permalink' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'update_outdated_permalink' ], -10000 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
 		\remove_action( 'wp_head', 'index_rel_link' );
@@ -284,29 +284,31 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if the current entity is a WooCommerce product and compares its permalink
-	 * with the permalink stored in the indexable. If they differ, purges the indexable's
-	 * permalink so it will be recalculated on the next request.
+	 * Checks if the current entity has a permalink that has a mismatch
+	 * with the permalink stored in its indexable. If they differ, purges the indexable's
+	 * permalink so it will be recalculated in the same request.
 	 *
 	 * @return void
 	 */
-	public function check_product_permalink() {
+	public function update_outdated_permalink() {
 		$context = $this->context_memoizer->for_current_page();
 
-		// Only check for WooCommerce products.
+		// Only check for the post post type.
 		// @TODO: We can add more checks here if we want (eg. Woo version, etc.).
-		if ( $context->indexable->object_type !== 'post' || $context->indexable->object_sub_type !== 'product' ) {
+		if ( $context->indexable->object_type !== 'post' ) {
 			return;
 		}
 
+		// @TODO: Probably better to use the post indexable builder's get_permalink method?
+		// @TODO: Or even better, to use the builder that this is about (we might want to ensure updated permalinks for all entities, post type archives, terms, etc.). 
 		$current_permalink   = \get_permalink( $context->indexable->object_id );
 		$indexable_permalink = $context->indexable->permalink;
 
 		// Only purge if the permalinks differ.
 		if ( $current_permalink !== $indexable_permalink ) {
 			$this->indexable_repository->reset_permalink(
-				'post',
-				'product',
+				$context->indexable->object_type,
+				$context->indexable->object_sub_type,
 				$context->indexable->object_id
 			);
 
