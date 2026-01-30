@@ -20,7 +20,7 @@ const LoadingProgressBar = () => (
  */
 const ErrorProgressBar = () => (
 	<>
-		<div className="yst-w-[184px] yst-h-1.5 yst-bg-slate-200 yst-rounded" />
+		<div className="yst-h-1.5 yst-bg-slate-200 yst-rounded" />
 		<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
 	</>
 );
@@ -76,7 +76,7 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 				progress={ completedTasks }
 				min={ 0 }
 				max={ totalTasks }
-				className="yst-w-[184px] yst-h-1.5"
+				className="yst-h-1.5"
 				progressClassName="yst-bg-green-500"
 			/>
 			<span className="yst-sr-only">{ screenReaderText }</span>
