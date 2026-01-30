@@ -217,26 +217,30 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	return (
 		<Root>
-			<Button
-				onClick={ handleClick }
+			<div
+				className="yst-relative yst-inline-flex"
 				onPointerEnter={ toggleTooltipOpen }
 				onPointerLeave={ toggleTooltipOpen }
-				id={ `${ aiOptimizeId }-${ locationContext }` }
-				data-id={ aiOptimizeId }
-				disabled={ ! isEnabled }
-				ref={ focusButtonRef }
-				onBlur={ resetFocusOnBlur }
-				variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
-				size="small"
-				aria-label={ ariaLabel }
 			>
+				<Button
+					onClick={ handleClick }
+					id={ `${ aiOptimizeId }-${ locationContext }` }
+					data-id={ aiOptimizeId }
+					disabled={ ! isEnabled }
+					ref={ focusButtonRef }
+					onBlur={ resetFocusOnBlur }
+					variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
+					size="small"
+					aria-label={ ariaLabel }
+				>
+					{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
+				</Button>
 				{ isTooltipOpen && ! isButtonPressed && (
-					<Tooltip position={ isEnabled ? "left" : "top-left" } className="yst-max-w-[13.5rem]">
+					<Tooltip position={ isEnabled ? "left" : "top-left" } className="yst-max-w-[13.5rem] yst-text-center yst-py-1.5">
 						{ ariaLabel }
 					</Tooltip>
 				) }
-				{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
-			</Button>
+			</div>
 			{ isModalOpen && (
 				<Modal className="yst-introduction-modal" isOpen={ isModalOpen } onClose={ setIsModalOpenFalse } initialFocus={ focusElementRef }>
 					<Modal.Panel className="yst-max-w-lg yst-p-0 yst-rounded-3xl yst-introduction-modal-panel">

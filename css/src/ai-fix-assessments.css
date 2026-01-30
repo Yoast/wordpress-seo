@@ -13,8 +13,3 @@
 	pointer-events: auto;
 }
 
-/* Ensure AI button has full opacity when showing tooltip on disabled state */
-.yst-button--ai-secondary.yst-button--disabled:has(.yst-tooltip),
-.yst-button--ai-primary.yst-button--disabled:has(.yst-tooltip) {
-	opacity: 1 !important;
-}
