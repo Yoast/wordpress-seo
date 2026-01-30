@@ -25,7 +25,7 @@ const SingleChildTask = ( { taskId, isCompleted, title, duration, priority, onCl
 	return <button
 		aria-haspopup="dialog"
 		type="button"
-		className="yst-flex yst-gap-3 yst-rounded-md yst-justify-between yst-p-3 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mt-3 yst-border yst-w-full"
+		className="yst-group yst-flex yst-gap-3 yst-rounded-md yst-justify-between yst-p-3 yst-pe-5 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mt-3 yst-border yst-w-full hover:yst-bg-slate-50"
 		onClick={ handleOnClick }
 	>
 		<TaskStatusIcon isCompleted={ isCompleted } />
@@ -43,7 +43,7 @@ const SingleChildTask = ( { taskId, isCompleted, title, duration, priority, onCl
 				· <Duration minutes={ duration } isCompleted={ isCompleted } />
 			</div>
 		</span>
-		<ChevronRightIcon className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180" />
+		<ChevronRightIcon className="yst-transition yst-duration-300 yst-ease-in-out yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-text-slate-800 group-hover:yst-translate-x-2" />
 	</button>;
 };
 
