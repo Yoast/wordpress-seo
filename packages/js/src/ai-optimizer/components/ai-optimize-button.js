@@ -70,7 +70,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
 	// Determines if the button is enabled and what tooltip to show.
-
 	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
 		if ( shouldShowUpsell ) {
