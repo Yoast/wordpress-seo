@@ -1,10 +1,10 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TaskBadge } from "./task-badge";
-import { Ellipse } from "../../icons";
+import { TasksProgressBadge } from "./tasks-progress-badge";
+import { TaskStatusIcon } from "../../icons";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { useMemo } from "react";
@@ -22,7 +22,7 @@ const LoadingTaskRow = ( { titleClassName } ) => {
 	return <Table.Row>
 		<Table.Cell className="yst-font-medium yst-text-slate-800">
 			<div className="yst-flex yst-items-center yst-gap-2">
-				<Ellipse className="yst-w-4 yst-text-slate-200 yst-shrink-0" { ...svgAriaProps } />
+				<TaskStatusIcon isLoading={ true } />
 				<SkeletonLoader className={ classNames( "yst-h-[18px]", titleClassName ) } />
 			</div>
 		</Table.Cell>
@@ -30,8 +30,11 @@ const LoadingTaskRow = ( { titleClassName } ) => {
 			<Duration isLoading={ true } />
 		</Table.Cell>
 		<Table.Cell>
+			<Priority isLoading={ true } />
+		</Table.Cell>
+		<Table.Cell>
 			<div className="yst-flex yst-justify-between">
-				<Priority isLoading={ true } />
+				<TasksProgressBadge isLoading={ true } />
 				<ChevronRightIcon
 					className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
 					{ ...svgAriaProps }
@@ -51,10 +54,12 @@ const LoadingTaskRow = ( { titleClassName } ) => {
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {JSX.Element} [children] Optional children elements for the task modal.
+ * @param {number} [completedTasks] Number of completed child tasks.
+ * @param {number} [totalTasks] Total number of child tasks.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children, completedTasks, totalTasks } ) => {
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
@@ -64,9 +69,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
 			<Table.Cell className={ cellBackground }>
 				<div className="yst-flex yst-items-center yst-gap-2">
-					{ isCompleted
-						? <CheckCircleIcon className="yst-w-4 yst-text-green-500 yst-shrink-0" { ...svgAriaProps } />
-						: <Ellipse className="yst-w-4 yst-text-slate-200 yst-shrink-0" { ...svgAriaProps } /> }
+					<TaskStatusIcon isCompleted={ isCompleted } />
 					<button
 						aria-haspopup="dialog"
 						type="button"
@@ -92,14 +95,17 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 			>
 				<Duration minutes={ duration } />
 			</Table.Cell>
+			<Table.Cell>
+				<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
+			</Table.Cell>
 			<Table.Cell
 				className={ classNames( "yst-pe-5",
 					cellBackground ) }
 			>
 				<div className="yst-flex yst-justify-between">
-					<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
+					{ totalTasks && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
 					<ChevronRightIcon
-						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0",
+						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0 yst-ms-auto",
 							isButtonFocused ? "yst-text-slate-800 yst-translate-x-2" : "group-hover:yst-text-slate-800 group-hover:yst-translate-x-2"
 						) } { ...svgAriaProps }
 					/>

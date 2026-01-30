@@ -22,6 +22,7 @@ export default {
 							<Table.Header>Task</Table.Header>
 							<Table.Header>Est. duration</Table.Header>
 							<Table.Header>Priority</Table.Header>
+							<Table.Header>Progress</Table.Header>
 						</Table.Row>
 					</Table.Head>
 					<Table.Body>
@@ -51,6 +52,8 @@ export const Factory = {
 				duration={ 5 }
 				priority="low"
 				isCompleted={ true }
+				completedTasks={ 3 }
+				totalTasks={ 10 }
 			/>
 			<TaskRow
 				taskId="task-3"
@@ -59,6 +62,8 @@ export const Factory = {
 				priority="high"
 				isCompleted={ true }
 				badge="premium"
+				completedTasks={ 3 }
+				totalTasks={ 3 }
 			/>
 			<TaskRow
 				taskId="task-4"
@@ -75,6 +80,8 @@ export const Factory = {
 				priority="high"
 				isCompleted={ false }
 				badge="ai"
+				completedTasks={ 0 }
+				totalTasks={ 5 }
 			/>
 		</>
 	),
