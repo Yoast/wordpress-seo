@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Woocommerce_Cleanup\Application\Cleanup_Cron_Scheduler;
 use Yoast\WP\SEO\Woocommerce_Cleanup\Application\Commands\Reset_Cleanup_Command_Handler;
 use Yoast\WP\SEO\Woocommerce_Cleanup\Application\Commands\Run_Cleanup_Batch_Command_Handler;
 use Yoast\WP\SEO\Woocommerce_Cleanup\Application\Commands\Start_Cleanup_Command_Handler;
+use Yoast\WP\SEO\Woocommerce_Cleanup\Infrastructure\Cleanup_Status_Options_Repository;
 
 /**
  * Scheduled cleanup integration for WooCommerce product permalinks.
@@ -45,20 +46,30 @@ class Woocommerce_Product_Permalink_Cleanup_Integration implements Integration_I
 	private $reset_cleanup_handler;
 
 	/**
+	 * The cleanup status options repository.
+	 *
+	 * @var Cleanup_Status_Options_Repository
+	 */
+	private $cleanup_status_repository;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Start_Cleanup_Command_Handler     $start_cleanup_handler     The start cleanup command handler.
-	 * @param Run_Cleanup_Batch_Command_Handler $run_cleanup_batch_handler The run cleanup batch command handler.
-	 * @param Reset_Cleanup_Command_Handler     $reset_cleanup_handler     The reset cleanup command handler.
+	 * @param Start_Cleanup_Command_Handler     $start_cleanup_handler       The start cleanup command handler.
+	 * @param Run_Cleanup_Batch_Command_Handler $run_cleanup_batch_handler   The run cleanup batch command handler.
+	 * @param Reset_Cleanup_Command_Handler     $reset_cleanup_handler       The reset cleanup command handler.
+	 * @param Cleanup_Status_Options_Repository $cleanup_status_repository   The cleanup status options repository.
 	 */
 	public function __construct(
 		Start_Cleanup_Command_Handler $start_cleanup_handler,
 		Run_Cleanup_Batch_Command_Handler $run_cleanup_batch_handler,
-		Reset_Cleanup_Command_Handler $reset_cleanup_handler
+		Reset_Cleanup_Command_Handler $reset_cleanup_handler,
+		Cleanup_Status_Options_Repository $cleanup_status_repository
 	) {
 		$this->start_cleanup_handler     = $start_cleanup_handler;
 		$this->run_cleanup_batch_handler = $run_cleanup_batch_handler;
 		$this->reset_cleanup_handler     = $reset_cleanup_handler;
+		$this->cleanup_status_repository = $cleanup_status_repository;
 	}
 
 	/**
@@ -103,5 +114,14 @@ class Woocommerce_Product_Permalink_Cleanup_Integration implements Integration_I
 	 */
 	public function reset_cleanup(): void {
 		$this->reset_cleanup_handler->handle();
+	}
+
+	/**
+	 * Checks if the cleanup is still pending (not yet completed).
+	 *
+	 * @return bool True if the cleanup has not yet completed, false otherwise.
+	 */
+	public function is_cleanup_pending(): bool {
+		return ! $this->cleanup_status_repository->get_status()->is_completed();
 	}
 }

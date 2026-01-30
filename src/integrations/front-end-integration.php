@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Woocommerce_Cleanup\User_Interface\Woocommerce_Product_Permalink_Cleanup_Integration;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -55,6 +56,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Indexable_Repository
 	 */
 	protected $indexable_repository;
+
+	/**
+	 * The WooCommerce product permalink cleanup integration.
+	 *
+	 * @var Woocommerce_Product_Permalink_Cleanup_Integration
+	 */
+	protected $woocommerce_cleanup;
 
 	/**
 	 * The replace vars helper.
@@ -205,12 +213,13 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
-	 * @param ContainerInterface         $service_container The DI container.
-	 * @param Options_Helper             $options           The options helper.
-	 * @param Helpers_Surface            $helpers           The helpers surface.
-	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
-	 * @param Indexable_Repository		 $indexable_repository The indexable repository.
+	 * @param Meta_Tags_Context_Memoizer                        $context_memoizer   The meta tags context memoizer.
+	 * @param ContainerInterface                                $service_container  The DI container.
+	 * @param Options_Helper                                    $options            The options helper.
+	 * @param Helpers_Surface                                   $helpers            The helpers surface.
+	 * @param WPSEO_Replace_Vars                                $replace_vars       The replace vars helper.
+	 * @param Indexable_Repository                              $indexable_repository The indexable repository.
+	 * @param Woocommerce_Product_Permalink_Cleanup_Integration $woocommerce_cleanup The WooCommerce cleanup integration.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
@@ -218,14 +227,16 @@ class Front_End_Integration implements Integration_Interface {
 		Options_Helper $options,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		Woocommerce_Product_Permalink_Cleanup_Integration $woocommerce_cleanup
 	) {
-		$this->container        = $service_container;
-		$this->context_memoizer = $context_memoizer;
-		$this->options          = $options;
-		$this->helpers          = $helpers;
-		$this->replace_vars     = $replace_vars;
+		$this->container            = $service_container;
+		$this->context_memoizer     = $context_memoizer;
+		$this->options              = $options;
+		$this->helpers              = $helpers;
+		$this->replace_vars         = $replace_vars;
 		$this->indexable_repository = $indexable_repository;
+		$this->woocommerce_cleanup  = $woocommerce_cleanup;
 	}
 
 	/**
@@ -248,8 +259,8 @@ class Front_End_Integration implements Integration_Interface {
 		// Removes our robots presenter from the list when wp_robots is handling this.
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
-		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9998 );
-		\add_action( 'wpseo_head', [ $this, 'cleanup_product_permalink' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'cleanup_product_permalink' ], -10000 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
 		\remove_action( 'wp_head', 'index_rel_link' );
@@ -286,7 +297,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Checks if the current entity is a WooCommerce product and compares its permalink
 	 * with the permalink stored in the indexable. If they differ, purges the indexable's
-	 * permalink so it will be recalculated on the next request.
+	 * permalink so it will be recalculated.
 	 *
 	 * This method is skipped if the scheduled product permalink cleanup has already completed,
 	 * avoiding an extra get_permalink() call on every product page.
@@ -295,7 +306,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function cleanup_product_permalink() {
 		// Skip if the scheduled cleanup has already processed all products.
-		if ( (bool) $this->options->get( Woocommerce_Product_Permalink_Cleanup_Integration::COMPLETED_OPTION, false ) ) {
+		if ( ! $this->woocommerce_cleanup->is_cleanup_pending() ) {
 			return;
 		}
 
