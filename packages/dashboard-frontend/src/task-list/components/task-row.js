@@ -89,7 +89,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
 				</div>
 			</Table.Cell>
-			<Table.Cell>
+			<Table.Cell className={ cellBackground }>
 				<Priority level={ priority } isCompleted={ isCompleted } />
 			</Table.Cell>
 			<Table.Cell
