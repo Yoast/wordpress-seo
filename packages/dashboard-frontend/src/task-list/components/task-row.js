@@ -74,9 +74,10 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 						aria-haspopup="dialog"
 						type="button"
 						className={ classNames(
-							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none yst-text-start",
-							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900",
-							isButtonFocused ? "yst-underline" : "group-hover:yst-underline"
+							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none yst-text-start yst-relative yst-leading-5",
+							"after:yst-content-[''] after:yst-absolute after:yst-left-0 after:yst-bottom-0 after:yst-h-[1px] after:yst-w-full after:yst-transition-opacity after:yst-duration-300 after:yst-ease-in-out",
+							isCompleted ? "yst-text-slate-500 after:yst-bg-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900 after:yst-bg-slate-800 hover:after:yst-bg-slate-900",
+							isButtonFocused ? "after:yst-opacity-100" : "after:yst-opacity-0 group-hover:after:yst-opacity-100"
 						) }
 						onFocus={ handleButtonFocus }
 						onBlur={ handleButtonBlur }

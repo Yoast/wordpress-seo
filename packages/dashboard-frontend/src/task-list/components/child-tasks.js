@@ -32,8 +32,9 @@ const SingleChildTask = ( { taskId, isCompleted, title, duration, priority, onCl
 		<span className="yst-flex-grow yst-text-start">
 			<div
 				className={ classNames(
-					isCompleted ? "yst-text-slate-500" : "yst-text-slate-800",
-					"yst-mb-2 yst-font-medium"
+					"yst-mb-2 yst-font-medium yst-relative yst-leading-5 yst-w-fit",
+					"after:yst-content-[''] after:yst-absolute after:yst-left-0 after:yst-bottom-0 after:yst-h-[1px] after:yst-w-full after:yst-transition-opacity after:yst-duration-300 after:yst-ease-in-out after:yst-opacity-0 group-hover:after:yst-opacity-100",
+					isCompleted ? "yst-text-slate-500 after:yst-bg-slate-500" : "yst-text-slate-800 group-hover:yst-text-slate-900 after:yst-bg-slate-800 group-hover:after:yst-bg-slate-900"
 				) }
 			>
 				{ title }
