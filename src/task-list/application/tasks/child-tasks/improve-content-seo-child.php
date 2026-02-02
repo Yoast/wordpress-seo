@@ -110,8 +110,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 			/* translators: %s: The content title. */
 			\sprintf( \__( 'Improve SEO for "%s"', 'wordpress-seo' ), $title ),
 			/* translators: %s: The content title. */
-			\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility.', 'wordpress-seo' ), $title ),
-			\__( 'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' )
+			\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility. Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' ), $title )
 		);
 	}
 }

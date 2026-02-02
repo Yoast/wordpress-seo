@@ -37,12 +37,8 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 
 		$this->assertSame( 'Improve SEO for "My Amazing Blog Post"', $array['title'] );
 		$this->assertSame(
-			'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.',
-			$array['how']
-		);
-		$this->assertSame(
-			'Optimize the SEO for "My Amazing Blog Post" to increase its visibility.',
-			$array['why']
+			'Optimize the SEO for "My Amazing Blog Post" to increase its visibility. Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.',
+			$array['about']
 		);
 	}
 }
