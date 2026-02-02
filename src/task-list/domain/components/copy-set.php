@@ -37,6 +37,15 @@ class Copy_Set {
 	}
 
 	/**
+	 * Returns the copy set's about.
+	 *
+	 * @return array<string>|null
+	 */
+	public function get_about(): array {
+		return $this->about;
+	}
+
+	/**
 	 * Returns an array representation of the copy set data.
 	 *
 	 * @return array<string, string|array<string>> Returns in an array format.

@@ -91,6 +91,12 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 			\__( 'Improve your content\'s SEO', 'wordpress-seo' ),
 			[
 				\__( 'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO. Pro tip: Use AI Optimize to speed up the process with quality suggestions.', 'wordpress-seo' ),
+				\sprintf(
+					/* translators: %1$s expand to opening strong tags and %2$s expand to closing strong tags */
+					\__( '%1$sPro tip%2$s: Use %1$sAI Optimize%2$s to speed up the process with high-quality, actionable suggestions.', 'wordpress-seo' ),
+					'<strong>',
+					'</strong>'
+				),
 			]
 		);
 	}
