@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-02-03
 
+Yoast SEO 26.9 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Other
 
 * Ensures no deprecated props are used for WordPress components `ToggleControl` and `TextControl` for How-to block.
