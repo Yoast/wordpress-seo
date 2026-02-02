@@ -1,5 +1,5 @@
 import { TaskRow } from "../../../src/task-list/components/task-row";
-import { Table } from "@yoast/ui-library";
+import { TaskListTable } from "../../../src/task-list/components/task-list-table";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
 
@@ -16,19 +16,9 @@ export default {
 	decorators: [
 		( Story ) => (
 			<div className="yst-bg-white">
-				<Table>
-					<Table.Head>
-						<Table.Row>
-							<Table.Header>Task</Table.Header>
-							<Table.Header>Priority</Table.Header>
-							<Table.Header>Est. duration</Table.Header>
-							<Table.Header>Progress</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
-						<Story />
-					</Table.Body>
-				</Table>
+				<TaskListTable>
+					<Story />
+				</TaskListTable>
 			</div>
 		),
 	],

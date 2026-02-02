@@ -52,10 +52,10 @@ const SingleChildTask = ( { taskId, isCompleted, title, duration, priority, onCl
  * The ChildTasks component to display progress of child tasks and a list of them.
  *
  * @param {Tasks[]} tasks The list of child tasks.
- * @param {function} onClick Callback function to handle click events on a child task.
+ * @param {function} singleTaskOnClick Callback function to handle click events on a child task.
  * @returns {JSX.Element} The ChildTasks component.
  */
-export const ChildTasks = ( { tasks, onClick } ) => {
+export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 	const ITEMS_PER_PAGE = 4;
 	const [ currentPage, setCurrentPage ] = useState( 1 );
 
@@ -91,7 +91,7 @@ export const ChildTasks = ( { tasks, onClick } ) => {
 				<SingleChildTask
 					key={ task.taskId }
 					{ ...task }
-					onClick={ onClick }
+					onClick={ singleTaskOnClick }
 				/>
 			) ) }
 			<div className="yst-flex yst-justify-between yst-items-center yst-mt-3">

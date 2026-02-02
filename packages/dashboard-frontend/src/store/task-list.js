@@ -54,6 +54,7 @@ const initialState = {
 	nonce: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: null,
+	currentOpenTask: null,
 };
 
 /**
@@ -155,6 +156,9 @@ const slice = createSlice( {
 				state.tasks[ payload ].status = ASYNC_ACTION_STATUS.idle;
 			}
 		},
+		setCurrentOpenTask( state, { payload } ) {
+			state.currentOpenTask = state.tasks[ payload ];
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload: { id } } ) => {
@@ -213,6 +217,11 @@ export const taskListSelectors = {
 		return size(
 			values( tasks ).filter( task => task.isCompleted )
 		);
+	},
+	selectCurrentOpenTask: ( state ) => get( state, [ TASK_LIST_NAME, "currentOpenTask" ], null ),
+	selectChildTasks: ( state, parentTaskId ) => {
+		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		return values( tasks ).filter( task => task.parentTaskId === parentTaskId );
 	},
 };
 

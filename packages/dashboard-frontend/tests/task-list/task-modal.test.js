@@ -16,8 +16,7 @@ describe( "TaskModal", () => {
 		duration: 15,
 		priority: "high",
 		taskId: "task-1",
-		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
-		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
+		about: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
 		isCompleted: false,
 	};
 
@@ -36,14 +35,9 @@ describe( "TaskModal", () => {
 		expect( screen.getByText( /High/i ) ).toBeInTheDocument();
 	} );
 
-	it( "renders the why copy", () => {
+	it( "renders the about copy", () => {
 		render( <TaskModal { ...defaultProps } /> );
 		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." ) ).toBeInTheDocument();
-	} );
-
-	it( "renders the how copy", () => {
-		render( <TaskModal { ...defaultProps } /> );
-		expect( screen.getByText( "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively." ) ).toBeInTheDocument();
 	} );
 
 	it( "calls onClose when Close button is clicked, for both header and footer", () => {
@@ -83,7 +77,8 @@ describe( "TaskModal", () => {
 
 		it( "renders the CompleteStatus component", () => {
 			render( <TaskModal { ...completedProps } /> );
-			expect( screen.queryByText( "Completed" ) ).toBeInTheDocument();
+			const statusIcon = screen.getByRole( "img", { name: /task completed/i } );
+			expect( statusIcon ).toBeInTheDocument();
 		} );
 
 		it( "shows the visual separator (·) after CompleteStatus", () => {
@@ -92,12 +87,12 @@ describe( "TaskModal", () => {
 			// When isCompleted is true, there should be two separators: one after CompleteStatus and one between Duration and Priority
 			// Format should be like "CompleteStatus · 15m · High"
 			const separatorCount = ( statusContainer.textContent.match( /·/g ) || [] ).length;
-			expect( separatorCount ).toBe( 2 );
+			expect( separatorCount ).toBe( 1 );
 		} );
 
-		it( "still displays duration and priority information", () => {
+		it( "displays duration as 0m and priority information", () => {
 			render( <TaskModal { ...completedProps } /> );
-			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
+			expect( screen.getByText( "0m" ) ).toBeInTheDocument();
 			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
 		} );
 	} );

@@ -56,7 +56,7 @@ describe( "TaskRow", () => {
 
 	it( "shows ellipse icon when not completed", () => {
 		renderInTable( { isCompleted: false } );
-		const ellipseIcon = document.querySelector( ".yst-text-slate-200" );
+		const ellipseIcon = document.querySelector( ".yst-text-primary-500" );
 		expect( ellipseIcon ).toBeInTheDocument();
 	} );
 
