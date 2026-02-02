@@ -1,6 +1,8 @@
 
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
+import { useMemo } from "@wordpress/element";
+import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
@@ -56,6 +58,9 @@ export const TaskModal = ( {
 	parentTaskTitle,
 	childTasks,
 } ) => {
+	// Sanitize the about content to prevent XSS attacks
+	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
+
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
 		<Modal.Panel className="yst-p-0">
 			<Modal.Container>
@@ -92,7 +97,7 @@ export const TaskModal = ( {
 					<Title size="small" className="yst-mb-1">
 						{ __( "About this task", "wordpress-seo" ) }
 					</Title>
-					<div dangerouslySetInnerHTML={ { __html: about } } />
+					<div dangerouslySetInnerHTML={ { __html: sanitizedAbout } } />
 					{ childTasks && childTasks.length > 0 && <ChildTasks tasks={ childTasks } onClick={ callToAction.onClick } /> }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
