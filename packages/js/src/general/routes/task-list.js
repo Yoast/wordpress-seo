@@ -1,11 +1,11 @@
-import { Paper, Title, Table } from "@yoast/ui-library";
+import { Paper, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
+import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable } from "@yoast/dashboard-frontend";
 import { values, isEmpty } from "lodash";
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
-import { Task, TaskListUpsellRow } from "../components";
+import { Task, TaskListUpsellRow, TaskListModal } from "../components";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const loadingTasksTitleWidth = [
@@ -75,23 +75,14 @@ export const TaskList = () => {
 					totalTasks={ totalTasksCount }
 					isLoading={ isPending }
 				/>
-				<Table className="yst-mt-4">
-					<Table.Head>
-						<Table.Row>
-							<Table.Header>{ __( "Task", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-max-w-36">{ __( "Priority", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-max-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-max-w-44">{ __( "Progress", "wordpress-seo" ) }</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
-						{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
-						{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
-						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
-							<Task key={ task.id } { ...task } /> ) ) }
-						{ ! isPremium && <TaskListUpsellRow /> }
-					</Table.Body>
-				</Table>
+				<TaskListTable className="yst-mt-4">
+					{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
+					{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
+					{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
+						<Task key={ task.id } { ...task } /> ) ) }
+					{ ! isPremium && <TaskListUpsellRow /> }
+				</TaskListTable>
+				<TaskListModal />
 			</Paper.Content>
 		</>
 	</Paper>;
