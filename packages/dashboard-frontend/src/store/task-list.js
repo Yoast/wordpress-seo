@@ -223,6 +223,9 @@ export const taskListSelectors = {
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
 		return values( tasks ).filter( task => task.parentTaskId === parentTaskId );
 	},
+	selectParentTaskTitle: ( state, parentTaskId ) => {
+		return get( state, [ TASK_LIST_NAME, "tasks", parentTaskId, "title" ], null );
+	},
 };
 
 export const taskListActions = {

@@ -7,7 +7,6 @@ import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TasksProgressBadge } from "./tasks-progress-badge";
-import { ChildTasks } from "./child-tasks";
 import { TaskStatusIcon } from "../../icons";
 
 /**
@@ -37,6 +36,10 @@ import { TaskStatusIcon } from "../../icons";
  * @param {boolean}	 isLoading	Whether the modal content is loading.
  * @param {boolean}  [isError=false]   Whether there was an error loading the task.
  * @param {string}   [errorMessage=""]  Error message to display in the modal.
+ * @param {number}   [totalTasks]     Total number of child tasks.
+ * @param {number}   [completedTasks] Number of completed child tasks.
+ * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
+ * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
@@ -56,7 +59,7 @@ export const TaskModal = ( {
 	totalTasks,
 	completedTasks,
 	parentTaskTitle,
-	childTasks,
+	children,
 } ) => {
 	// Sanitize the about content to prevent XSS attacks
 	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
@@ -98,13 +101,18 @@ export const TaskModal = ( {
 						{ __( "About this task", "wordpress-seo" ) }
 					</Title>
 					<div dangerouslySetInnerHTML={ { __html: sanitizedAbout } } />
-					{ childTasks && childTasks.length > 0 && <ChildTasks tasks={ childTasks } onClick={ callToAction.onClick } /> }
+					{ children }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					{ ! childTasks && <CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } /> }
+					{ callToAction?.type && <CallToActionButton
+						{ ...callToAction }
+						taskId={ taskId }
+						disabled={ isCompleted }
+						isLoading={ isLoading }
+					/> }
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

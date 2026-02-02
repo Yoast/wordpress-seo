@@ -1,4 +1,5 @@
 import { TaskModal } from "../../../src/task-list/components/task-modal";
+import { ChildTasks } from "../../../src/task-list/components/child-tasks";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
@@ -108,7 +109,9 @@ export const ErrorState = {
 };
 
 export const WithChildTasks = {
-	render: ( args ) => <Template { ...args } />,
+	render: ( args ) => <Template { ...args }>
+		<ChildTasks tasks={ args.childTasks } />
+	</Template>,
 	args: {
 		childTasks: [
 			{ title: "Set up site type", duration: 5, priority: "medium", isCompleted: true, taskId: "child-task-1" },
@@ -120,6 +123,7 @@ export const WithChildTasks = {
 			{ title: "Optimize homepage", duration: 10, priority: "high", isCompleted: false, taskId: "child-task-7" },
 			{ title: "Set up blog", duration: 12, priority: "medium", isCompleted: false, taskId: "child-task-8" },
 		],
+		callToAction: {},
 		totalTasks: 3,
 		completedTasks: 1,
 	},
