@@ -313,7 +313,7 @@ Release date: 2026-02-03
 * Improves performance in large sites with lots of inbound links by adding appropriate database indices.
 * Improves the general security of the plugin via sanitization and escaping.
 * Replaces deprecated standard WordPress components with their modern variants.
-* Restores legacy Woo behavior of handling permalinks.
+* WooCommerce introduced a [new logic for permalinks in version 10.5](https://developer.woocommerce.com/2026/01/13/product-permalink-changes-coming-in-woocommerce-10-5/). Since this update could result in mismatching Yoast SEO metadata (such as Schema.org data), this version of Yoast SEO temporarily restores the old behavior. Note that for users of Yoast WooCommerce SEO the new permanent link structure will apply.
 * Sets the minimum supported WordPress version to 6.8.
 * Updates the OAuth2 Client library for improved compatibility with PHP 8.5.
 
