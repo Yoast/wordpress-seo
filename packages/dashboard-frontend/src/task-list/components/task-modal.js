@@ -74,7 +74,7 @@ export const TaskModal = ( {
 							{ title }
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1 yst-items-center">
-							{ totalTasks && <>
+							{ totalTasks > 0 && <>
 								<TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } label={ parentTaskTitle } />
 								·
 							</> }

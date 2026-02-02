@@ -1,6 +1,6 @@
 import { TaskRow } from "@yoast/dashboard-frontend";
-import { useCallback } from "@wordpress/element";
-import { useDispatch } from "@wordpress/data";
+import { useCallback, useMemo } from "@wordpress/element";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 
 /**
@@ -11,14 +11,21 @@ import { STORE_NAME } from "../constants";
  * @param {number} duration The duration in minutes.
  * @param {string} priority The priority: 'low', 'medium', 'high'.
  * @param {boolean} isCompleted Whether the task is completed.
- * @param {number} completedTasks The number of completed child tasks.
- * @param {number} totalTasks The total number of child tasks.
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  *
  * @returns {JSX.Element} The Task component.
  */
-export const Task = ( { title, id, duration, priority, isCompleted, completedTasks, totalTasks, badge } ) => {
+export const Task = ( { title, id, duration, priority, isCompleted, badge } ) => {
 	const { resetTaskError, setCurrentOpenTask } = useDispatch( STORE_NAME );
+	const childTasks = useSelect( ( select ) => select( STORE_NAME ).selectChildTasks( id ), [] );
+
+	const totalTasks = useMemo( () => {
+		return childTasks.length;
+	}, [ childTasks ] );
+
+	const completedTasks = useMemo( () => {
+		return childTasks.filter( ( task ) => task.isCompleted ).length;
+	}, [ childTasks ] );
 
 	const handleOnOpen = useCallback( () => {
 		resetTaskError( id );

@@ -103,7 +103,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					cellBackground ) }
 			>
 				<div className="yst-flex yst-justify-between">
-					{ totalTasks && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
+					{ totalTasks > 0 && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
 					<ChevronRightIcon
 						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0 yst-ms-auto",
 							isButtonFocused ? "yst-text-slate-800 yst-translate-x-2" : "group-hover:yst-text-slate-800 group-hover:yst-translate-x-2"

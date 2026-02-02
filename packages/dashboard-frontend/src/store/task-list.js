@@ -220,11 +220,14 @@ export const taskListSelectors = {
 	},
 	selectCurrentOpenTask: ( state ) => get( state, [ TASK_LIST_NAME, "currentOpenTask" ], null ),
 	selectChildTasks: ( state, parentTaskId ) => {
+		if ( ! parentTaskId ) {
+			return [];
+		}
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
 		return values( tasks ).filter( task => task.parentTaskId === parentTaskId );
 	},
-	selectParentTaskTitle: ( state, parentTaskId ) => {
-		return get( state, [ TASK_LIST_NAME, "tasks", parentTaskId, "title" ], null );
+	selectTaskTitle: ( state, id ) => {
+		return get( state, [ TASK_LIST_NAME, "tasks", id, "title" ], null );
 	},
 };
 

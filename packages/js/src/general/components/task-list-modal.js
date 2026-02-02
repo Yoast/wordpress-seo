@@ -1,10 +1,9 @@
 import { TaskModal, ChildTasks } from "@yoast/dashboard-frontend";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { isEmpty } from "lodash";
-import { useMemo } from "react";
 
 /**
  * The TaskListModal component to display the task details modal.
@@ -27,7 +26,7 @@ export const TaskListModal = () => {
 			childTasks: state.selectChildTasks( currentOpenTask?.id ),
 			status: state.selectTaskStatus( currentOpenTask?.id ),
 			errorMessage: state.selectTaskError( currentOpenTask?.id ),
-			parentTaskTitle: state.selectParentTaskTitle( currentOpenTask?.id ),
+			parentTaskTitle: state.selectTaskTitle( currentOpenTask?.parentTaskId ),
 			parentChildTasks: state.selectChildTasks( currentOpenTask?.parentTaskId ),
 		};
 	}, [ currentOpenTask ] );
@@ -45,9 +44,6 @@ export const TaskListModal = () => {
 	}, [ setCurrentOpenTask ] );
 
 	const totalTasks = useMemo( () => {
-		if ( isEmpty( childTasks ) && isEmpty( parentChildTasks ) ) {
-			return 0;
-		}
 		if ( ! isEmpty( parentChildTasks ) ) {
 			return parentChildTasks.length;
 		}
@@ -55,9 +51,6 @@ export const TaskListModal = () => {
 	}, [ childTasks, parentChildTasks ] );
 
 	const completedTasks = useMemo( () => {
-		if ( isEmpty( childTasks ) && isEmpty( parentChildTasks ) ) {
-			return 0;
-		}
 		if ( ! isEmpty( parentChildTasks ) ) {
 			return parentChildTasks.filter( ( task ) => task.isCompleted ).length;
 		}

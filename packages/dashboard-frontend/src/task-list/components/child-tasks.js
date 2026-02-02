@@ -17,10 +17,21 @@ import { Button } from "@yoast/ui-library";
  * @property {string} taskId The ID of the child task.
  */
 
-const SingleChildTask = ( { taskId, isCompleted, title, duration, priority, onClick } ) => {
+/**
+ * The SingleChildTask component to display a single child task.
+ *
+ * @param {string} id The ID of the child task.
+ * @param {boolean} isCompleted Whether the child task is completed.
+ * @param {string} title Title of the child task.
+ * @param {number} duration Estimated duration to complete the child task.
+ * @param {string} priority Priority of the child task: 'low', 'medium', 'high'.
+ * @param {function} onClick Callback function to handle click events on the child task.
+ * @returns {JSX.Element} The SingleChildTask component.
+ */
+const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick } ) => {
 	const handleOnClick = useCallback( () => {
-		onClick( taskId );
-	}, [ onClick, taskId ] );
+		onClick( id );
+	}, [ onClick, id ] );
 
 	return <button
 		aria-haspopup="dialog"
