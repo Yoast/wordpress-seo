@@ -16,21 +16,21 @@ class Copy_Set {
 	private $title;
 
 	/**
-	 * The about copy.
+	 * The about copy paragraphs.
 	 *
-	 * @var string
+	 * @var array<string>
 	 */
 	private $about;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $title The title copy.
-	 * @param string $about The about copy.
+	 * @param string        $title The title copy.
+	 * @param array<string> $about The about copy paragraphs. Each element can contain HTML markup.
 	 */
 	public function __construct(
 		string $title,
-		?string $about = null
+		array $about = []
 	) {
 		$this->title = $title;
 		$this->about = $about;
@@ -39,7 +39,7 @@ class Copy_Set {
 	/**
 	 * Returns an array representation of the copy set data.
 	 *
-	 * @return array<string, string|null> Returns in an array format.
+	 * @return array<string, string|array<string>> Returns in an array format.
 	 */
 	public function to_array(): array {
 		return [

@@ -109,8 +109,10 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 		return new Copy_Set(
 			/* translators: %s: The content title. */
 			\sprintf( \__( 'Improve SEO for "%s"', 'wordpress-seo' ), $title ),
-			/* translators: %s: The content title. */
-			\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility. Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' ), $title )
+			[
+				/* translators: %s: The content title. */
+				\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility. Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' ), $title ),
+			]
 		);
 	}
 }
