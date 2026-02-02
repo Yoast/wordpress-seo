@@ -381,7 +381,7 @@ Example: 6/15*100 = 0.4
 ### 6) Single title
 **What it does**: Checks if there are multiple H1 headings present in the text.
 
-**When it applies**: When there are at least two H1 headings in the text.
+**When it applies**: Always.
 
 **Name in code**: SingleH1Assessment
 
@@ -391,8 +391,10 @@ Example: 6/15*100 = 0.4
 
 | Traffic light   	 | Score	 | Criterion                                          | Feedback                                                                                                                                                          |
 |-------------------|--------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red	              | 1	     | There are at least two H1 headings in the text		   | **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
-| Green	            | 8	     | There are less than two H1 headings in the text	 	 | **Single title**: You don't have multiple H1 headings, well done! |
+| Red	              | 1	     | There are at least two H1 headings in the text<sup>1</sup>		   | **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+| Green	            | 8	     | There are less than two H1 headings in the text<sup>1</sup>	 	 | **Single title**: You don't have multiple H1 headings, well done! |
+
+<sup>1</sup> In case of the Google Docs add-on, an H1 at the top of the document is excluded from the count, since we treat it as the title.
 
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
