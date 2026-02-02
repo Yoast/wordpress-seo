@@ -29,12 +29,13 @@ const ErrorProgressBar = () => (
  * Wrapper component for the progress bar with title.
  *
  * @param {JSX.Element} children Child elements.
+ * @param {string} [className] Additional class names for the wrapper.
  * @returns {JSX.Element} The ProgressBarWrapper component.
  */
-const ProgressBarWrapper = ( { children } ) => (
-	<div>
+const ProgressBarWrapper = ( { children, className } ) => (
+	<div className={ className }>
 		<Title as="h2" className="yst-text-lg yst-font-medium yst-text-slate-900 yst-mb-2">{ __( "Tasks", "wordpress-seo" ) }</Title>
-		<div className="yst-flex yst-gap-3 yst-items-center yst-max-w-2xl">
+		<div className="yst-flex yst-gap-3 yst-items-center">
 			{ children }
 		</div>
 	</div>
@@ -47,17 +48,18 @@ const ProgressBarWrapper = ( { children } ) => (
  * @param {number} completedTasks Number of completed tasks, should be less than or equal to totalTasks.
  * @param {number} totalTasks Total number of tasks.
  * @param {boolean} isLoading Whether the tasks are loading.
+ * @param {string} [className] Additional class names for the wrapper.
  * @returns {JSX.Element} The TasksProgressBar component.
  */
-export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) => {
+export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className } ) => {
 	if ( isLoading ) {
-		return <ProgressBarWrapper>
+		return <ProgressBarWrapper className={ className }>
 			<LoadingProgressBar />
 		</ProgressBarWrapper>;
 	}
 
 	if ( ! totalTasks || completedTasks > totalTasks ) {
-		return <ProgressBarWrapper>
+		return <ProgressBarWrapper className={ className }>
 			<ErrorProgressBar />
 		</ProgressBarWrapper>;
 	}
@@ -70,7 +72,7 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 	);
 
 	return (
-		<ProgressBarWrapper>
+		<ProgressBarWrapper className={ className }>
 			<ProgressBar
 				label={ __( "Tasks Progress", "wordpress-seo" ) }
 				progress={ completedTasks }
