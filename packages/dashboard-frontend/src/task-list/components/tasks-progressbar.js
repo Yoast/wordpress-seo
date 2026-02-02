@@ -8,7 +8,7 @@ import { __, sprintf } from "@wordpress/i18n";
  */
 const LoadingProgressBar = () => (
 	<>
-		<SkeletonLoader className="yst-w-[184px] yst-h-1.5" />
+		<SkeletonLoader className="yst-w-full yst-h-1.5" />
 		<SkeletonLoader className="yst-w-9 yst-h-5" />
 	</>
 );
@@ -20,7 +20,7 @@ const LoadingProgressBar = () => (
  */
 const ErrorProgressBar = () => (
 	<>
-		<div className="yst-h-1.5 yst-bg-slate-200 yst-rounded" />
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
 		<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
 	</>
 );
@@ -34,7 +34,7 @@ const ErrorProgressBar = () => (
 const ProgressBarWrapper = ( { children } ) => (
 	<div>
 		<Title as="h2" className="yst-text-lg yst-font-medium yst-text-slate-900 yst-mb-2">{ __( "Tasks", "wordpress-seo" ) }</Title>
-		<div className="yst-flex yst-gap-3 yst-items-center">
+		<div className="yst-flex yst-gap-3 yst-items-center yst-max-w-2xl">
 			{ children }
 		</div>
 	</div>
