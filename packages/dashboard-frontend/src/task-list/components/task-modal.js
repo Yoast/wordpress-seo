@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { YoastIcon } from "../../icons";
@@ -91,7 +92,6 @@ export const TaskModal = ( {
 							</Title>
 						</div>
 						{ about.map( ( paragraph, index ) => (
-							/* eslint-disable-next-line react/no-danger, react/no-array-index-key */
 							<p key={ index } className="yst-text-xs yst-text-slate-600 yst-mb-4" dangerouslySetInnerHTML={ { __html: paragraph } } />
 						) ) }
 					</div> }

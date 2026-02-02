@@ -145,7 +145,9 @@ describe( "TaskModal", () => {
 			expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
 			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
 			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
-			expect( screen.getByText( /Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs/i ) ).toBeInTheDocument();
+			expect(
+				screen.getByText( /Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs/i )
+			).toBeInTheDocument();
 		} );
 
 		describe( "with delete type CTA", () => {
