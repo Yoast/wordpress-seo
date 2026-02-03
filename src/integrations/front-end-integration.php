@@ -304,8 +304,8 @@ class Front_End_Integration implements Integration_Interface {
 	public function update_outdated_permalink() {
 		$context = $this->context_memoizer->for_current_page();
 
-		// @TODO: Check whether we want to expand this for all entities (post type archives, terms, etc).
-		if ( $context->indexable->object_type !== 'post' ) {
+		// We're adding this fix only for proudcts because of the 10.5 Woo release. We might expand this for all cases in the future.
+		if ( $context->indexable->object_sub_type !== 'product' ) {
 			return;
 		}
 
