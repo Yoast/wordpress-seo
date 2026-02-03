@@ -99,6 +99,21 @@ describe( "TaskRow", () => {
 			expect( screen.getByText( /1h 30m/ ) ).toBeInTheDocument();
 		} );
 
+		it( "formats hours and minutes with Japanese locale ", () => {
+			renderInTable( { duration: 90, locale: "ja-JP" } );
+			expect( screen.getByText( /1時間30分/ ) ).toBeInTheDocument();
+		} );
+
+		it( "formats hours  with Japanese locale ", () => {
+			renderInTable( { duration: 60, locale: "ja-JP" } );
+			expect( screen.getByText( /1時間/ ) ).toBeInTheDocument();
+		} );
+
+		it( "formats hours  with Japanese locale ", () => {
+			renderInTable( { duration: 30, locale: "ja-JP" } );
+			expect( screen.getByText( /30分/ ) ).toBeInTheDocument();
+		} );
+
 		it( "formats hours and minutes with German locale using 'Std.' and 'Min' abbreviations", () => {
 			renderInTable( { duration: 90, locale: "de-DE" } );
 			// 90 minutes = 1 hour 30 minutes in German (uses "h" and "min")

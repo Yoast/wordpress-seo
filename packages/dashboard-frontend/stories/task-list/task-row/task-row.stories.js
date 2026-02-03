@@ -112,6 +112,10 @@ export const Factory = {
 		children: {
 			description: "Optional children elements for the task modal.",
 		},
+		locale: {
+			description: "Optional locale to use for formatting (defaults to en).",
+			control: "text",
+		},
 	},
 	args: {
 		title: "Uncompleted Task",

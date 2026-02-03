@@ -20,31 +20,44 @@ export const Duration = ( { minutes, isLoading = false, locale = "en", isComplet
 			const hours = Math.floor( min / 60 );
 			const remainingMinutes = min % 60;
 
+			// Some locales (like Japanese) don't have narrow unit formats, so use short for them
+			const unitDisplay = /^(ja|de)/i.test( localeNormalized ) ? "short" : "narrow";
+
+			// For East Asian languages, remove all spaces and concatenate
+			const isEastAsian = /^(ja|zh|ko)/i.test( localeNormalized );
+
 			// Use Intl.NumberFormat for locale-aware unit formatting
 			const hourFormatter = new Intl.NumberFormat( localeNormalized, {
 				style: "unit",
 				unit: "hour",
-				unitDisplay: "narrow",
+				unitDisplay: unitDisplay,
 			} );
 
 			const minuteFormatter = new Intl.NumberFormat( localeNormalized, {
 				style: "unit",
 				unit: "minute",
-				unitDisplay: "narrow",
+				unitDisplay: unitDisplay,
 			} );
 
 			// If less than an hour, show only minutes
 			if ( hours === 0 ) {
-				return minuteFormatter.format( min );
+				return isEastAsian ? ( minuteFormatter.format( min ) ).replace( /\s+/g, "" ) : minuteFormatter.format( min );
 			}
 
 			// If exactly hours with no remaining minutes
 			if ( remainingMinutes === 0 ) {
-				return hourFormatter.format( hours );
+				return isEastAsian ? ( hourFormatter.format( hours ) ).replace( /\s+/g, "" ) : hourFormatter.format( hours );
 			}
 
 			// Show both hours and minutes
-			return `${ hourFormatter.format( hours ) } ${ minuteFormatter.format( remainingMinutes ) }`;
+			const hourFormatted = hourFormatter.format( hours );
+			const minuteFormatted = minuteFormatter.format( remainingMinutes );
+
+
+			if ( isEastAsian ) {
+				return ( hourFormatted + minuteFormatted ).replace( /\s+/g, "" );
+			}
+			return `${ hourFormatted } ${ minuteFormatted }`;
 		} catch ( error ) {
 			// Fallback to simple format
 			const hours = Math.floor( min / 60 );
