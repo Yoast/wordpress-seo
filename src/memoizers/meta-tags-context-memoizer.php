@@ -167,13 +167,16 @@ class Meta_Tags_Context_Memoizer {
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {
 			unset( $this->cache[ $indexable->id ] );
+			$this->presentation_memoizer->clear( $indexable->id );
 			return;
 		}
 		if ( $indexable !== null ) {
 			unset( $this->cache[ $indexable ] );
+			$this->presentation_memoizer->clear( $indexable );
 			return;
 		}
 		$this->cache = [];
+		$this->presentation_memoizer->clear();
 	}
 
 	/**
