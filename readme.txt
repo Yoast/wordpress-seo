@@ -303,6 +303,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 27.0 =
+
+Release date: 2026-02-17
+
+#### Enhancements
+
+* Adds `html-react-parser` dependency for improved HTML string handling in React components.
+* Adds `images` array to FAQ and How-to blocks attributes for explicit image handling.
+* Migrates FAQ block's question/answer fields from array-based formats to HTML strings for better compatibility with WordPress components.
+* Migrates How-to block's step name/text fields from array-based formats to HTML strings for better compatibility with WordPress components.
+* Updates the design for the search appearance mode switcher.
+
+#### Bugfixes
+
+* Fixes a bug where inline link icon was missing when editing a sync pattern in the block editor with WordPress 6.9.
+* Fixes a bug where the AI Optimize buttons remained active even when another button had been pressed.
+* Fixes a bug where the _subheading distribution assessment_ threw an error when there was some text with no subheadings plus a block containing a subheading (like the Yoast Table of contents block).
+
+#### Other
+
+* Changes the AI Generator `Generate 5 more` button design and preview background.
+* Modernizes how translations of the plugin work by removing the unneeded `load_plugin_textdomain()` calls.
+* Restores the suggestions title and `Generate 5 more` button when the suggestions are loading.
+
 = 26.9 =
 
 Release date: 2026-02-03
@@ -318,32 +342,6 @@ Yoast SEO 26.9 brings more enhancements and bugfixes. [Find more information abo
 * WooCommerce introduced a [new logic for permalinks in version 10.5](https://developer.woocommerce.com/2026/01/13/product-permalink-changes-coming-in-woocommerce-10-5/). Since this update could result in mismatching Yoast SEO metadata (such as Schema.org data), this version of Yoast SEO temporarily restores the old behavior. Note that for users of Yoast WooCommerce SEO the new permanent link structure will apply.
 * Sets the minimum supported WordPress version to 6.8.
 * Updates the OAuth2 Client library for improved compatibility with PHP 8.5.
-
-= 26.8 =
-
-Release date: 2026-01-20
-
-Yoast SEO 26.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Adds a schema settings page to allow users more control over the Yoast Schema Framework API.
-* Implements a new, easy-to-use design for the site features settings.
-
-#### Bugfixes
-
-* Fixes a bug where inserting Yoast blocks via Content blocks collapsible was not possible when editing in `template-locked` mode inside Block Editor.
-* Fixes a bug where the alert for signing up to the newsletter didn't support rtl direction for buttons and inputs in RTL languages.
-* Fixes a bug where the assessments highlighting feature did not work when editing in template-locked mode in the Block Editor.
-* Fixes a bug where the Search and Social appearance modals looked off on WordPress 7.0 or with Gutenberg 22.3.0.
-* Fixes a bug where WordPress link classes were not being recognized when Yoast SEO was active. Props to [benoitchantre](https://github.com/benoitchantre).
-
-#### Other
-
-* Adds an opt-in notification for the task list feature on the general page.
-* Improves the translatability of some tasks' title in the task list.
-* Replaces Yoast product logos with new designs across the plugin’s interface.
-* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
