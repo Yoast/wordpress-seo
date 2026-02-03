@@ -1,8 +1,9 @@
 <?php
-
-namespace Yoast\WP\SEO\Introductions\Application;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Schema_Aggregator\Application;
 
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Introductions\Application\User_Allowed_Trait;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
