@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use WP_Error;
 use WP_Post;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;

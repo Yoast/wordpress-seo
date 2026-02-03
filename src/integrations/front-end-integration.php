@@ -13,8 +13,8 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -213,12 +213,12 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
-	 * @param ContainerInterface         $service_container The DI container.
-	 * @param Options_Helper             $options           The options helper.
-	 * @param Helpers_Surface            $helpers           The helpers surface.
-	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
-	 * @param Indexable_Repository		 $indexable_repository The indexable repository.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
+	 * @param ContainerInterface         $service_container    The DI container.
+	 * @param Options_Helper             $options              The options helper.
+	 * @param Helpers_Surface            $helpers              The helpers surface.
+	 * @param WPSEO_Replace_Vars         $replace_vars         The replace vars helper.
+	 * @param Indexable_Repository       $indexable_repository The indexable repository.
 	 * @param Permalink_Helper           $permalink_helper     The permalink helper.
 	 */
 	public function __construct(
@@ -230,13 +230,13 @@ class Front_End_Integration implements Integration_Interface {
 		Indexable_Repository $indexable_repository,
 		Permalink_Helper $permalink_helper
 	) {
-		$this->container        = $service_container;
-		$this->context_memoizer = $context_memoizer;
-		$this->options          = $options;
-		$this->helpers          = $helpers;
-		$this->replace_vars     = $replace_vars;
+		$this->container            = $service_container;
+		$this->context_memoizer     = $context_memoizer;
+		$this->options              = $options;
+		$this->helpers              = $helpers;
+		$this->replace_vars         = $replace_vars;
 		$this->indexable_repository = $indexable_repository;
-		$this->permalink_helper = $permalink_helper;
+		$this->permalink_helper     = $permalink_helper;
 	}
 
 	/**
@@ -304,14 +304,11 @@ class Front_End_Integration implements Integration_Interface {
 	public function update_outdated_permalink() {
 		$context = $this->context_memoizer->for_current_page();
 
-		// Only check for the post post type.
-		// @TODO: We can add more checks here if we want (eg. Woo version, etc.).
+		// @TODO: Check whether we want to expand this for all entities (post type archives, terms, etc).
 		if ( $context->indexable->object_type !== 'post' ) {
 			return;
 		}
 
-		// @TODO: Probably better to use the post indexable builder's get_permalink method?
-		// @TODO: Or even better, to use the builder that this is about (we might want to ensure updated permalinks for all entities, post type archives, terms, etc.). 
 		$current_permalink   = $this->permalink_helper->get_permalink_for_post( $context->indexable->object_sub_type, $context->indexable->object_id );
 		$indexable_permalink = $context->indexable->permalink;
 

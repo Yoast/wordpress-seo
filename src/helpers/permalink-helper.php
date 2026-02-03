@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Error;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
