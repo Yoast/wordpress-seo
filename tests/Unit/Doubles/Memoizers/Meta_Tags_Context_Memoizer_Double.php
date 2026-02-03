@@ -24,7 +24,7 @@ final class Meta_Tags_Context_Memoizer_Double extends Meta_Tags_Context_Memoizer
 	/**
 	 * Used to retrieve the internal cache for testing purposes.
 	 *
-	 * @return array The cache.
+	 * @return array<string, string> The cache.
 	 */
 	public function get_cache() {
 		return $this->cache;

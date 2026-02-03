@@ -125,13 +125,13 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 	 * @return void
 	 */
 	public function test_restore_legacy_permalink_category_with_dynamic_permalinks_disabled() {
-		$category1           = Mockery::mock( WP_Term::class );
-		$category1->parent   = 0;
-		$category1->term_id  = 10;
+		$category1          = Mockery::mock( WP_Term::class );
+		$category1->parent  = 0;
+		$category1->term_id = 10;
 
-		$category2           = Mockery::mock( WP_Term::class );
-		$category2->parent   = 5;
-		$category2->term_id  = 20;
+		$category2          = Mockery::mock( WP_Term::class );
+		$category2->parent  = 5;
+		$category2->term_id = 20;
 
 		$terms = [ $category1, $category2 ];
 

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Builders;
 
-use WP_Error;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 
