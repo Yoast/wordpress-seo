@@ -7,6 +7,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
@@ -41,6 +42,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
 
 	/**
 	 * The helpers surface.
@@ -211,6 +219,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 * @param Indexable_Repository		 $indexable_repository The indexable repository.
+	 * @param Permalink_Helper           $permalink_helper     The permalink helper.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
@@ -218,7 +227,8 @@ class Front_End_Integration implements Integration_Interface {
 		Options_Helper $options,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		Permalink_Helper $permalink_helper
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
@@ -226,6 +236,7 @@ class Front_End_Integration implements Integration_Interface {
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 		$this->indexable_repository = $indexable_repository;
+		$this->permalink_helper = $permalink_helper;
 	}
 
 	/**
@@ -301,7 +312,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		// @TODO: Probably better to use the post indexable builder's get_permalink method?
 		// @TODO: Or even better, to use the builder that this is about (we might want to ensure updated permalinks for all entities, post type archives, terms, etc.). 
-		$current_permalink   = \get_permalink( $context->indexable->object_id );
+		$current_permalink   = $this->permalink_helper->get_permalink_for_post( $context->indexable->object_sub_type, $context->indexable->object_id );
 		$indexable_permalink = $context->indexable->permalink;
 
 		// Only purge if the permalinks differ.
