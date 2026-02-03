@@ -67,18 +67,6 @@ final class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	}
 
 	/**
-	 * Retrieves the permalink for a post with the given post type and ID.
-	 *
-	 * @param string $post_type The post type.
-	 * @param int    $post_id   The post ID.
-	 *
-	 * @return WP_Error|string|false The permalink.
-	 */
-	public function get_permalink( $post_type, $post_id ) {
-		return parent::get_permalink( $post_type, $post_id );
-	}
-
-	/**
 	 * Determines the focus keyword score.
 	 *
 	 * @param string $keyword The focus keyword that is set.

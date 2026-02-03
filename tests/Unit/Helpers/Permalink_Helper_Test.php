@@ -260,4 +260,44 @@ final class Permalink_Helper_Test extends TestCase {
 			$this->instance->get_permalink_for_indexable( $indexable )
 		);
 	}
+
+	/**
+	 * Tests the get_permalink_for_post method for a regular post.
+	 *
+	 * @covers ::get_permalink_for_post
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_post() {
+		$permalink = 'https://example.org/permalink';
+		$post_type = 'post';
+		$post_id   = 4;
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->once()
+			->with( $post_id )
+			->andReturn( $permalink );
+
+		$this->assertSame( $permalink, $this->instance->get_permalink_for_post( $post_type, $post_id ) );
+	}
+
+	/**
+	 * Tests the get_permalink_for_post method for an attachment.
+	 *
+	 * @covers ::get_permalink_for_post
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_post_attachment() {
+		$permalink = 'https://example.org/permalink-of-attachment';
+		$post_type = 'attachment';
+		$post_id   = 4;
+
+		Monkey\Functions\expect( 'wp_get_attachment_url' )
+			->once()
+			->with( $post_id )
+			->andReturn( $permalink );
+
+		$this->assertSame( $permalink, $this->instance->get_permalink_for_post( $post_type, $post_id ) );
+	}
 }

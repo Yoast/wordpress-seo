@@ -8,10 +8,12 @@ use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -46,6 +48,20 @@ final class Front_End_Integration_Test extends TestCase {
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options;
+
+	/**
+	 * Represents the permalink helper.
+	 *
+	 * @var Mockery\MockInterface|Permalink_Helper
+	 */
+	private $permalink_helper;
+
+	/**
+	 * Represents the indexable repository.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Repository
+	 */
+	private $indexable_repository;
 
 	/**
 	 * Represents the meta tags context memoizer.
@@ -83,9 +99,11 @@ final class Front_End_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->container        = Mockery::mock( ContainerInterface::class );
-		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->context_memoizer     = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->container            = Mockery::mock( ContainerInterface::class );
+		$this->options              = Mockery::mock( Options_Helper::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -95,6 +113,8 @@ final class Front_End_Integration_Test extends TestCase {
 				$this->options,
 				Mockery::mock( Helpers_Surface::class ),
 				Mockery::mock( WPSEO_Replace_Vars::class ),
+				$this->indexable_repository,
+				$this->permalink_helper,
 			]
 		)->makePartial();
 
@@ -781,5 +801,22 @@ final class Front_End_Integration_Test extends TestCase {
 
 		$result = $this->instance->query_loop_next_prev( $html, $block );
 		$this->assertNotFalse( \has_filter( 'wpseo_adjacent_rel_url', [ $this->instance, 'adjacent_rel_url' ] ), 'Set the correct next/prev links in head tag' );
+	}
+
+	/**
+	 * Tests the update_outdated_permalink method when the dynamic permalinks feature flag is not set.
+	 *
+	 * @covers ::update_outdated_permalink
+	 *
+	 * @return void
+	 */
+	public function test_update_outdated_permalink_feature_flag_not_met() {
+		// The Dynamic_Product_Permalinks_Conditional checks for a constant that is not defined in tests.
+		// So is_met() should return false and the method should return early.
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->never();
+
+		$this->instance->update_outdated_permalink();
 	}
 }
