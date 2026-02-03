@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
+namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Introductions\Application\Schema_Aggregator_Announcement;
+use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Aggregator_Announcement;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group introductions
  *
- * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\Schema_Aggregator_Announcement
+ * @coversDefaultClass \Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Aggregator_Announcement
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
