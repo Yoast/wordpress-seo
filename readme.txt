@@ -326,6 +326,7 @@ Release date: 2026-02-17
 * Changes the AI Generator `Generate 5 more` button design and preview background.
 * Modernizes how translations of the plugin work by removing the unneeded `load_plugin_textdomain()` calls.
 * Restores the suggestions title and `Generate 5 more` button when the suggestions are loading.
+* Updates the name of the Yoast SEO AI+ card on the plans page.
 
 = 26.9 =
 
