@@ -24,13 +24,14 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( false );
 	const { completeTask, resetTaskError } = useDispatch( STORE_NAME );
-	const { status, completeTaskEndpoint, nonce, errorMessage } = useSelect( ( select ) => {
+	const { status, completeTaskEndpoint, nonce, errorMessage, userLocale } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
 			status: state.selectTaskStatus( id ),
 			errorMessage: state.selectTaskError( id ),
 			completeTaskEndpoint: state.selectTasksEndpoints().completeTask,
 			nonce: state.selectNonce(),
+			userLocale: state.selectPreference( "userLocale" ),
 		};
 	}, [] );
 
@@ -55,6 +56,7 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 		isCompleted={ isCompleted }
 		onClick={ handleOnOpen }
 		badge={ badge }
+		locale={ userLocale }
 	>
 		<TaskModal
 			isOpen={ isOpen }
