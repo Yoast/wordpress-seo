@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Alerts\User_Interface\Default_SEO_Data;
 
@@ -7,6 +8,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+
 /**
  * This handles the process of checking for non-default SEO in the latest content and updating the relevant options right away.
  */

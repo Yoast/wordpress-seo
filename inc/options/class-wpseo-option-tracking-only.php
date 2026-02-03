@@ -27,8 +27,9 @@ class WPSEO_Option_Tracking_Only extends WPSEO_Option {
 	 * @var array<string, int|string|array<int>>
 	 */
 	protected $defaults = [
-		'task_list_first_opened_on' => '',
-		'task_first_actioned_on'    => '',
+		'task_list_first_opened_on'            => '',
+		'task_first_actioned_on'               => '',
+		'frontend_inspector_first_actioned_on' => '',
 	];
 
 	/**
@@ -62,6 +63,7 @@ class WPSEO_Option_Tracking_Only extends WPSEO_Option {
 			switch ( $key ) {
 				case 'task_list_first_opened_on':
 				case 'task_first_actioned_on':
+				case 'frontend_inspector_first_actioned_on':
 					// These should be set only once and never changed again (unless completely reset to default).
 
 					if ( isset( $dirty[ $key ] ) && $old[ $key ] === $this->get_defaults()[ $key ] ) {

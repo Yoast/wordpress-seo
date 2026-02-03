@@ -1,11 +1,11 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Tasks_Collectors\Cached_Collector;
 
 use Brain\Monkey\Functions;
 use WPSEO_Utils;
-
 use Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors\Tasks_Collector;
 
 /**

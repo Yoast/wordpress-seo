@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Initializers\Silence_Load_Textdomain_Just_In_Time_Notices;
 

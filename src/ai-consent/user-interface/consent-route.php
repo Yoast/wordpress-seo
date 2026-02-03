@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
@@ -27,6 +28,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Consent_Route implements Route_Interface {
+
 	/**
 	 *  The namespace for this route.
 	 *
@@ -125,7 +127,7 @@ class Consent_Route implements Route_Interface {
 			return new WP_REST_Response( ( $consent ) ? 'Failed to store consent.' : 'Failed to revoke consent.', 500 );
 		}
 
-			return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
+		return new WP_REST_Response( ( $consent ) ? 'Consent successfully stored.' : 'Consent successfully revoked.' );
 	}
 
 	/**

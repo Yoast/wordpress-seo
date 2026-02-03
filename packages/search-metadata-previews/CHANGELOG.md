@@ -17,6 +17,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Other:
 * Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
 * Replaces the unmaintained `interpolate-components` package with the `createInterpolateElement` from `@wordpress/element`. [#22486](https://github.com/Yoast/wordpress-seo/pull/22486)
+* Updates babel and jest config after updating @yoast/social-metadata-forms to use @yoast/ui-library. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
 
 ### Non user facing
 * Now published as a transpiled package.

@@ -106,7 +106,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 						],
 					]
 				)
-			->once();
+				->once();
 
 		$this->instance->register_routes();
 	}

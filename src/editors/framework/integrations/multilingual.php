@@ -1,4 +1,5 @@
 <?php
+
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 

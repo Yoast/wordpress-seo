@@ -287,12 +287,10 @@ final class SEO_Links_Repository_Test extends TestCase {
 					[
 						'incoming'            => '0',
 						'target_indexable_id' => '1',
-
 					],
 					[
 						'incoming'            => '0',
 						'target_indexable_id' => '2',
-
 					],
 				],
 			],

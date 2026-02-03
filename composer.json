@@ -30,7 +30,7 @@
 	"require-dev": {
 		"guzzlehttp/guzzle": "7.10.0",
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.8.1",
+		"league/oauth2-client": "2.9.0",
 		"psr/container": "1.1.1",
 		"psr/log": "^1.0",
 		"symfony/config": "^5.4.46",

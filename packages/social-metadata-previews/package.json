@@ -1,6 +1,6 @@
 {
   "name": "@yoast/social-metadata-previews",
-  "version": "2.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "main": "build/index.js",
   "files": [
     "build",
@@ -29,8 +29,8 @@
   "dependencies": {
     "@wordpress/i18n": "^5.8.2",
     "@yoast/components": "^3.0.0-alpha.3",
-    "@yoast/replacement-variable-editor": "^2.0.0-alpha.1",
-    "@yoast/social-metadata-forms": "^2.0.0-alpha.1",
+    "@yoast/replacement-variable-editor": "^2.0.0-alpha.3",
+    "@yoast/social-metadata-forms": "^2.0.0-alpha.3",
     "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.6.0",

@@ -1,5 +1,26 @@
 # Changelog
 
+## 4.4.0
+
+### Enhancements:
+
+* Adds two button variants for AI features and improves button icons accessibility.  [#22692](https://github.com/Yoast/wordpress-seo/pull/22692)
+* Adds the `ai` variant to the Badge component. [#22717](https://github.com/Yoast/wordpress-seo/pull/22717)
+* Adds support to add styling to the progress indicator for the progress bar component. [#22720](https://github.com/Yoast/wordpress-seo/pull/22720)
+* Adds the ImageSelect component. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
+
+### Bugfixes:
+
+* Fixes a bug where table backgrounds would expand beyond the rounded corners in Firefox. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Fixes a bug where link buttons would be outlined on mouse click when using tertiary buttons and links.  [#22796](https://github.com/Yoast/wordpress-seo/pull/22796)
+
+### Other:
+
+* Removes unused `Table.Cell` prop `variant` from definition. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Applies `Table.Head` background color styling to the header cell instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+* Applies striped table row styling on the cell, instead of the row. [#22709](https://github.com/Yoast/wordpress-seo/pull/22709)
+
+
 ## 4.3.0
 
 ### Enhancements:

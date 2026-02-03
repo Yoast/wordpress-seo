@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 
@@ -123,8 +124,7 @@ class Get_Usage_Route implements Route_Interface {
 			$action_path     = $this->get_action_path( $is_woo_product_entity );
 			$response        = $this->request_handler->handle( new Request( $action_path, [], $request_headers, false ) );
 			$data            = \json_decode( $response->get_body() );
-
-		}  catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
+		} catch ( Remote_Request_Exception | WP_Request_Exception $e ) {
 			$message = [
 				'errorMessage'    => $e->getMessage(),
 				'errorIdentifier' => $e->get_error_identifier(),

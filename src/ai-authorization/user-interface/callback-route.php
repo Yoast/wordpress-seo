@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
 
@@ -10,6 +11,7 @@ namespace Yoast\WP\SEO\AI_Authorization\User_Interface;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Callback_Route extends Abstract_Callback_Route {
+
 	/**
 	 *  The prefix for this route.
 	 *

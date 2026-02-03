@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0
+### Enhancements:
+* Adds AI gradients background colors. [#22692](https://github.com/Yoast/wordpress-seo/pull/22692)
+
 ## 2.4.0
 ### Enhancements:
 * Adds support for container queries via peer dependency `@tailwindcss/container-queries`. [#21730](https://github.com/Yoast/wordpress-seo/pull/21730)

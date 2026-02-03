@@ -1,8 +1,10 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Llms_Txt\User_Interface\Available_Posts;
 
 use Yoast\WP\SEO\Llms_Txt\User_Interface\Available_Posts_Route;
+
 /**
  * Test class for the get_conditionals method.
  *

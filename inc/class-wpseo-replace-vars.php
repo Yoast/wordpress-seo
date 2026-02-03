@@ -765,13 +765,13 @@ class WPSEO_Replace_Vars {
 				// Post meta can be arrays and in this case we need to exclude them.
 				$name = get_post_meta( $this->args->ID, $field, true );
 				if ( $name !== '' && ! is_array( $name ) ) {
-					$replacement = $name;
+					$replacement = sanitize_text_field( $name );
 				}
 			}
 			elseif ( ! empty( $this->args->term_id ) ) {
 				$name = get_term_meta( $this->args->term_id, $field, true );
 				if ( $name !== '' ) {
-					$replacement = $name;
+					$replacement = sanitize_text_field( $name );
 				}
 			}
 		}
