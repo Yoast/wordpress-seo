@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Integrations;
 
 use WP_HTML_Tag_Processor;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Conditionals\Dynamic_Product_Permalinks_Conditional;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Version_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -302,6 +304,16 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function update_outdated_permalink() {
+		$dynamic_permalinks_conditional = new Dynamic_Product_Permalinks_Conditional();
+		if ( ! $dynamic_permalinks_conditional->is_met() ) {
+			return;
+		}
+
+		$woocommerce_version_conditional = new WooCommerce_Version_Conditional();
+		if ( ! $woocommerce_version_conditional->is_met() ) {
+			return;
+		}
+
 		$context = $this->context_memoizer->for_current_page();
 
 		// We're adding this fix only for proudcts because of the 10.5 Woo release. We might expand this for all cases in the future.
