@@ -6,29 +6,28 @@ import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
  *
  * @param {number} minutes The duration in minutes.
  * @param {boolean} [isLoading=false] Whether the duration is loading.
- * @param {string} [locale] Optional locale to use for formatting (defaults to browser locale)
+ * @param {string} [locale="en"] Optional locale to use for formatting (defaults to "en")
  * @param {boolean} [isCompleted] Whether the task is completed.
  * @returns {JSX.Element} The Duration component.
  */
-export const Duration = ( { minutes, isLoading = false, locale, isCompleted } ) => {
+export const Duration = ( { minutes, isLoading = false, locale = "en", isCompleted } ) => {
 	const svgAriaProps = useSvgAria();
+	const localeNormalized = locale.replace( "_", "-" );
 
 	// Format duration with automatic hour/minute conversion based on locale
 	const formatDuration = ( min ) => {
-		const effectiveLocale = locale || ( typeof navigator === "undefined" ? "en" : navigator.language );
-
 		try {
 			const hours = Math.floor( min / 60 );
 			const remainingMinutes = min % 60;
 
 			// Use Intl.NumberFormat for locale-aware unit formatting
-			const hourFormatter = new Intl.NumberFormat( effectiveLocale, {
+			const hourFormatter = new Intl.NumberFormat( localeNormalized, {
 				style: "unit",
 				unit: "hour",
 				unitDisplay: "narrow",
 			} );
 
-			const minuteFormatter = new Intl.NumberFormat( effectiveLocale, {
+			const minuteFormatter = new Intl.NumberFormat( localeNormalized, {
 				style: "unit",
 				unit: "minute",
 				unitDisplay: "narrow",
@@ -47,15 +46,15 @@ export const Duration = ( { minutes, isLoading = false, locale, isCompleted } ) 
 			// Show both hours and minutes
 			return `${ hourFormatter.format( hours ) } ${ minuteFormatter.format( remainingMinutes ) }`;
 		} catch ( error ) {
-			// Fallback to English format
+			// Fallback to simple format
 			const hours = Math.floor( min / 60 );
 			const remainingMinutes = min % 60;
 
 			if ( hours === 0 ) {
-				return `${ min } m`;
+				return `${ min }m`;
 			}
 			if ( remainingMinutes === 0 ) {
-				return `${ hours } h`;
+				return `${ hours }h`;
 			}
 			return `${ hours }h ${ remainingMinutes }m`;
 		}
