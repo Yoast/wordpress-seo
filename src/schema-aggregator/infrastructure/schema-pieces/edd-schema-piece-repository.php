@@ -76,7 +76,7 @@ class Edd_Schema_Piece_Repository implements External_Schema_Piece_Repository_In
 			// Ensure each piece has an @id.
 			foreach ( $schema_output as $key => $piece ) {
 				if ( ! isset( $piece['@id'] ) ) {
-					$schema_output[ $key ]['@id'] = $this->meta->for_current_page()->canonical . '#/schema/edd-product/' . $post_id;
+					$schema_output[ $key ]['@id'] = $this->meta->for_post( $post_id )->canonical . '#/schema/edd-product/' . $post_id;
 				}
 			}
 
