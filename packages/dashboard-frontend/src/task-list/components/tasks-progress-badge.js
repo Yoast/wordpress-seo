@@ -128,6 +128,10 @@ const ProgressPie = ( {
  * @returns {JSX.Element} The TasksProgressBadge component.
  */
 export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading } ) => {
+	// If totalTasks and completedTasks are not numbers, bail out.
+	if ( isNaN( totalTasks ) || isNaN( completedTasks ) ) {
+		return null;
+	}
 	const screenReaderText = sprintf(
 		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
 		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
