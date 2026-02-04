@@ -36,6 +36,7 @@ import { TaskStatusIcon } from "../../icons";
  * @param {boolean}	 isLoading	Whether the modal content is loading.
  * @param {boolean}  [isError=false]   Whether there was an error loading the task.
  * @param {string}   [errorMessage=""]  Error message to display in the modal.
+ * @param {string}   [locale]      Optional locale to use for formatting (defaults to "en").
  * @param {number}   [totalTasks]     Total number of child tasks.
  * @param {number}   [completedTasks] Number of completed child tasks.
  * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
@@ -56,6 +57,7 @@ export const TaskModal = ( {
 	isLoading = false,
 	isError = false,
 	errorMessage,
+	locale,
 	totalTasks,
 	completedTasks,
 	parentTaskTitle,
@@ -78,7 +80,7 @@ export const TaskModal = ( {
 								<TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } label={ parentTaskTitle } />
 								·
 							</> }
-							<Priority level={ priority } isCompleted={ isCompleted } />
+							<Priority level={ priority } isCompleted={ isCompleted } locale={ locale } />
 							· <Duration minutes={ duration } isCompleted={ isCompleted } />
 						</div>
 					</div>

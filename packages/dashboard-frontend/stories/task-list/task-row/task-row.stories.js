@@ -48,7 +48,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-3"
 				title="Completed Task with Premium Badge"
-				duration={ 5 }
+				duration={ 60 }
 				priority="high"
 				isCompleted={ true }
 				badge="premium"
@@ -58,7 +58,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-4"
 				title="Uncompleted Task with Woo Badge"
-				duration={ 10 }
+				duration={ 80 }
 				priority="medium"
 				isCompleted={ false }
 				badge="woo"
@@ -66,7 +66,7 @@ export const Factory = {
 			<TaskRow
 				taskId="task-5"
 				title="Uncompleted Task with AI Badge"
-				duration={ 20 }
+				duration={ 210 }
 				priority="high"
 				isCompleted={ false }
 				badge="ai"
@@ -108,6 +108,10 @@ export const Factory = {
 		},
 		children: {
 			description: "Optional children elements for the task modal.",
+		},
+		locale: {
+			description: "Optional locale to use for formatting (defaults to en).",
+			control: "text",
 		},
 	},
 	args: {
