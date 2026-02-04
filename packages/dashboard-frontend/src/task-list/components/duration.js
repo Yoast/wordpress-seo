@@ -1,17 +1,18 @@
 import { ClockIcon } from "@heroicons/react/outline";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
 import classNames from "classnames";
+import { useTaskListContext } from "../task-list-context";
 
 /**
  * The Duration component to display task duration.
  *
  * @param {number} minutes The duration in minutes.
  * @param {boolean} [isLoading=false] Whether the duration is loading.
- * @param {string} [locale="en"] Optional locale to use for formatting (defaults to "en")
  * @param {boolean} [isCompleted] Whether the task is completed.
  * @returns {JSX.Element} The Duration component.
  */
-export const Duration = ( { minutes, isLoading = false, locale = "en", isCompleted } ) => {
+export const Duration = ( { minutes, isLoading = false, isCompleted } ) => {
+	const { locale } = useTaskListContext();
 	const svgAriaProps = useSvgAria();
 	const localeNormalized = locale.replace( "_", "-" );
 

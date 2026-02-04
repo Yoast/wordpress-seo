@@ -1,7 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { TaskRow } from "../../src/task-list/components/task-row";
-import { Table } from "@yoast/ui-library";
+import { TaskListTable } from "../../src/task-list/components/task-list-table";
+import { TaskListProvider } from "../../src/task-list/task-list-context";
 
 describe( "TaskRow", () => {
 	const defaultProps = {
@@ -14,12 +15,13 @@ describe( "TaskRow", () => {
 	};
 
 	const renderInTable = ( props ) => {
+		const locale = props?.locale || "en-US";
 		return render(
-			<Table>
-				<Table.Body>
+			<TaskListProvider locale={ locale }>
+				<TaskListTable>
 					<TaskRow { ...defaultProps } { ...props } />
-				</Table.Body>
-			</Table>
+				</TaskListTable>
+			</TaskListProvider>
 		);
 	};
 
@@ -73,14 +75,18 @@ describe( "TaskRow", () => {
 		expect( onClick ).toHaveBeenCalled();
 	} );
 	it( "loading task row matches snapshot", () => {
-		const { asFragment } = render( <TaskRow.Loading titleClassName="yst-w-60" /> );
+		const { asFragment } = render(
+			<TaskListTable>
+				<TaskRow.Loading titleClassName="yst-w-60" />
+			</TaskListTable>
+		);
 		expect( asFragment() ).toMatchSnapshot();
 	} );
 
-	describe( "locale prop", () => {
+	describe( "locale context", () => {
 		it( "formats duration with default locale when no locale is provided", () => {
 			renderInTable( { duration: 30 } );
-			// Default locale is "en" in the Duration component
+			// Default locale is "en-US" in the TaskListProvider
 			expect( screen.getByText( /30m/ ) ).toBeInTheDocument();
 		} );
 

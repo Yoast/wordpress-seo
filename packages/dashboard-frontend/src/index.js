@@ -117,5 +117,6 @@ export { TasksProgressBar } from "./task-list/components/tasks-progressbar";
 export { GetTasksErrorRow } from "./task-list/components/get-tasks-error-row";
 export { TaskListTable } from "./task-list/components/task-list-table";
 export { ChildTasks } from "./task-list/components/child-tasks";
+export { TaskListProvider, useTaskListContext } from "./task-list/task-list-context";
 export * from "./store";
 

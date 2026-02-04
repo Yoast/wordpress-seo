@@ -1,5 +1,6 @@
 import { TaskRow } from "../../../src/task-list/components/task-row";
 import { TaskListTable } from "../../../src/task-list/components/task-list-table";
+import { TaskListProvider } from "../../../src/task-list/task-list-context";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
 
@@ -15,11 +16,13 @@ export default {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-bg-white">
-				<TaskListTable>
-					<Story />
-				</TaskListTable>
-			</div>
+			<TaskListProvider locale="en-US">
+				<div className="yst-bg-white">
+					<TaskListTable>
+						<Story />
+					</TaskListTable>
+				</div>
+			</TaskListProvider>
 		),
 	],
 	argTypes: {
@@ -108,10 +111,6 @@ export const Factory = {
 		},
 		children: {
 			description: "Optional children elements for the task modal.",
-		},
-		locale: {
-			description: "Optional locale to use for formatting (defaults to en).",
-			control: "text",
 		},
 	},
 	args: {

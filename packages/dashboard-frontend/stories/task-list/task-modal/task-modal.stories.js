@@ -1,5 +1,6 @@
 import { TaskModal } from "../../../src/task-list/components/task-modal";
 import { ChildTasks } from "../../../src/task-list/components/child-tasks";
+import { TaskListProvider } from "../../../src/task-list/task-list-context";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
@@ -77,7 +78,7 @@ export default {
 const Template = ( args ) => {
 	const [ isOpen, toggle ] = useToggleState( false );
 
-	return <>
+	return <TaskListProvider locale="en-US">
 		Click on the button to open the task modal
 		<br /><br />
 		<Button onClick={ toggle }>Task button</Button>
@@ -86,7 +87,7 @@ const Template = ( args ) => {
 			isOpen={ isOpen }
 			onClose={ toggle }
 		/>
-	</>;
+	</TaskListProvider>;
 };
 
 export const Factory = {

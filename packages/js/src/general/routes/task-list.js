@@ -1,6 +1,6 @@
 import { Paper, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable } from "@yoast/dashboard-frontend";
+import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable, TaskListProvider } from "@yoast/dashboard-frontend";
 import { values, isEmpty } from "lodash";
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -37,6 +37,7 @@ export const TaskList = () => {
 		sortedTasks,
 		totalTasksCount,
 		completedTasksCount,
+		userLocale,
 	} = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
@@ -49,6 +50,7 @@ export const TaskList = () => {
 			sortedTasks: state.selectSortedTasks(),
 			totalTasksCount: state.selectTotalTasksCount(),
 			completedTasksCount: state.selectCompletedTasksCount(),
+			userLocale: state.selectPreference( "userLocale" ),
 		};
 	}, [] );
 
@@ -62,14 +64,14 @@ export const TaskList = () => {
 	}, [ tasks, fetchTasks ] );
 
 	return <Paper className="yst-mb-6">
-		<>
-			<Paper.Header>
-				<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
-				<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny">
-					{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
-				</p>
-			</Paper.Header>
-			<Paper.Content>
+		<Paper.Header>
+			<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
+			<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny">
+				{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
+			</p>
+		</Paper.Header>
+		<Paper.Content>
+			<TaskListProvider locale={ userLocale }>
 				<TasksProgressBar
 					completedTasks={ completedTasksCount }
 					totalTasks={ totalTasksCount }
@@ -84,7 +86,7 @@ export const TaskList = () => {
 					{ ! isPremium && <TaskListUpsellRow /> }
 				</TaskListTable>
 				<TaskListModal />
-			</Paper.Content>
-		</>
+			</TaskListProvider>
+		</Paper.Content>
 	</Paper>;
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { TaskModal } from "../../src/task-list/components/task-modal";
+import { TaskListProvider } from "../../src/task-list/task-list-context";
 
 describe( "TaskModal", () => {
 	const defaultProps = {
@@ -21,28 +22,48 @@ describe( "TaskModal", () => {
 	};
 
 	it( "renders the modal when open", () => {
-		render( <TaskModal { ...defaultProps } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
 		expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
 	} );
 
 	it( "displays the duration and unit", () => {
-		render( <TaskModal { ...defaultProps } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
 		expect( screen.queryByText( "15m" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows the correct priority label", () => {
-		render( <TaskModal { ...defaultProps } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
 		expect( screen.getByText( /High/i ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the about copy", () => {
-		render( <TaskModal { ...defaultProps } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
 		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." ) ).toBeInTheDocument();
 	} );
 
 	it( "calls onClose when Close button is clicked, for both header and footer", () => {
 		const onClose = jest.fn();
-		render( <TaskModal { ...defaultProps } onClose={ onClose } isOpen={ true } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } onClose={ onClose } isOpen={ true } />
+			</TaskListProvider>
+		);
 		const closeButton = screen.getAllByRole( "button", { name: /close/i } );
 		// Tests for each close button.
 		closeButton.forEach( button => {
@@ -52,7 +73,11 @@ describe( "TaskModal", () => {
 	} );
 
 	it( "calls callToAction onClick when CTA button is clicked", () => {
-		render( <TaskModal { ...defaultProps } /> );
+		render(
+			<TaskListProvider locale="en-US">
+				<TaskModal { ...defaultProps } />
+			</TaskListProvider>
+		);
 		fireEvent.click( screen.getByText( /Start configuration/i ) );
 		expect( defaultProps.callToAction.onClick ).toHaveBeenCalled();
 	} );
@@ -64,25 +89,41 @@ describe( "TaskModal", () => {
 		};
 
 		it( "disables the CTA button", () => {
-			render( <TaskModal { ...completedProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
 			const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
 			expect( ctaButton ).toBeDisabled();
 		} );
 
 		it( "applies gray styling to the title", () => {
-			render( <TaskModal { ...completedProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
 			const title = screen.getByText( /Complete the First-time configuration/i );
 			expect( title ).toHaveClass( "yst-text-slate-500" );
 		} );
 
 		it( "renders the CompleteStatus component", () => {
-			render( <TaskModal { ...completedProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
 			const statusIcon = screen.getByRole( "img", { name: /task completed/i } );
 			expect( statusIcon ).toBeInTheDocument();
 		} );
 
 		it( "shows the visual separator (·) after CompleteStatus", () => {
-			render( <TaskModal { ...completedProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
 			const statusContainer = screen.getByText( /Complete the First-time configuration/i ).closest( "div" ).querySelector( ".yst-flex.yst-gap-1" );
 			// When isCompleted is true, there should be two separators: one after CompleteStatus and one between Duration and Priority
 			// Format should be like "CompleteStatus · 15m · High"
@@ -91,7 +132,11 @@ describe( "TaskModal", () => {
 		} );
 
 		it( "displays duration as 0m and priority information", () => {
-			render( <TaskModal { ...completedProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
 			expect( screen.getByText( "0m" ) ).toBeInTheDocument();
 			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
 		} );
@@ -99,13 +144,21 @@ describe( "TaskModal", () => {
 
 	describe( "when isCompleted is false", () => {
 		it( "does not apply gray styling to the title", () => {
-			render( <TaskModal { ...defaultProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
 			const title = screen.getByText( /Complete the First-time configuration/i );
 			expect( title ).not.toHaveClass( "yst-text-slate-500" );
 		} );
 
 		it( "does not render the CompleteStatus component", () => {
-			render( <TaskModal { ...defaultProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
 			const statusContainer = screen.getByText( /Complete the First-time configuration/i ).closest( "div" ).querySelector( ".yst-flex.yst-gap-1" );
 			// When isCompleted is false, the text should only contain duration and priority with one separator
 			// Format should be like "15m · High" instead of "CompleteStatus · 15m · High"
@@ -115,7 +168,11 @@ describe( "TaskModal", () => {
 		} );
 
 		it( "enables the CTA button", () => {
-			render( <TaskModal { ...defaultProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
 			const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
 			expect( ctaButton ).not.toBeDisabled();
 		} );
@@ -128,19 +185,31 @@ describe( "TaskModal", () => {
 		};
 
 		it( "passes isLoading prop to the CallToActionButton", () => {
-			render( <TaskModal { ...loadingProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
 			const ctaButton = screen.getByText( /Generating…/i ).closest( "button" );
 			expect( ctaButton ).toBeInTheDocument();
 		} );
 
 		it( "shows loading text instead of original CTA label", () => {
-			render( <TaskModal { ...loadingProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
 			expect( screen.queryByText( /Start configuration/i ) ).not.toBeInTheDocument();
 			expect( screen.getByText( /Generating…/i ) ).toBeInTheDocument();
 		} );
 
 		it( "still renders modal content correctly while loading", () => {
-			render( <TaskModal { ...loadingProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
 			expect( screen.getByText( /Complete the First-time configuration/i ) ).toBeInTheDocument();
 			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
 			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
@@ -158,7 +227,11 @@ describe( "TaskModal", () => {
 			};
 
 			it( "shows 'Deleting…' text for delete type CTA when loading", () => {
-				render( <TaskModal { ...deleteLoadingProps } /> );
+				render(
+					<TaskListProvider locale="en-US">
+						<TaskModal { ...deleteLoadingProps } />
+					</TaskListProvider>
+				);
 				expect( screen.queryByText( /Delete task/i ) ).not.toBeInTheDocument();
 				expect( screen.getByText( /Deleting…/i ) ).toBeInTheDocument();
 			} );
@@ -172,7 +245,11 @@ describe( "TaskModal", () => {
 		};
 
 		it( "renders the error alert", () => {
-			render( <TaskModal { ...errorProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...errorProps } />
+				</TaskListProvider>
+			);
 			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
 			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
 			expect( screen.getByText( /Custom error message./i ) ).toBeInTheDocument();
@@ -183,7 +260,11 @@ describe( "TaskModal", () => {
 				...defaultProps,
 				isError: true,
 			};
-			render( <TaskModal { ...noMessageProps } /> );
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...noMessageProps } />
+				</TaskListProvider>
+			);
 			expect( screen.getByRole( "alert" ) ).toBeInTheDocument();
 			expect( screen.getByText( /Oops! Something went wrong./i ) ).toBeInTheDocument();
 			expect( screen.getByText( /Please try again./i ) ).toBeInTheDocument();

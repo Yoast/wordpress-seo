@@ -53,13 +53,12 @@ const LoadingTaskRow = ( { titleClassName } ) => {
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
- * @param {string} [locale] Optional locale to use for formatting (defaults to browser locale)
  * @param {number} [completedTasks] Number of completed child tasks.
  * @param {number} [totalTasks] Total number of child tasks.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, completedTasks, totalTasks, locale } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, completedTasks, totalTasks } ) => {
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
@@ -97,7 +96,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 				className={ classNames( cellBackground,
 					isCompleted ? "yst-opacity-50" : "" ) }
 			>
-				<Duration minutes={ duration } locale={ locale } isCompleted={ isCompleted } />
+				<Duration minutes={ duration } isCompleted={ isCompleted } />
 			</Table.Cell>
 			<Table.Cell
 				className={ classNames( "yst-pe-5",
