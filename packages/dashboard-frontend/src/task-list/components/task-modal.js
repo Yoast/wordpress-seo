@@ -97,7 +97,7 @@ export const TaskModal = ( {
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
 
-					<Title size="small" className="yst-mb-1">
+					<Title size="5" className="yst-mb-1 yst-text-slate-800">
 						{ __( "About this task", "wordpress-seo" ) }
 					</Title>
 					<div dangerouslySetInnerHTML={ { __html: sanitizedAbout } } />
