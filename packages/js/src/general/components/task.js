@@ -72,6 +72,7 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 			isLoading={ status === ASYNC_ACTION_STATUS.loading }
 			isError={ status === ASYNC_ACTION_STATUS.error }
 			errorMessage={ errorMessage }
+			locale={ userLocale }
 		/>
 	</TaskRow>;
 };
