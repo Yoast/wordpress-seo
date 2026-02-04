@@ -14,10 +14,10 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Elements_Context_Map\Elements_
  */
 class Default_Filter implements Filtering_Strategy_Interface {
 
-	private const NODE_FILTER_NAMESPACE       = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\\';
-	private const PROPERTY_FILTER_NAMESPACE   = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Property_Filter\\';
-	private const NODE_FILTER_SUFFIX          = '_Schema_Node_Filter';
-	private const PROPERTY_FILTER_SUFFIX      = '_Schema_Node_Property_Filter';
+	private const NODE_FILTER_NAMESPACE     = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Filter\\';
+	private const PROPERTY_FILTER_NAMESPACE = 'Yoast\WP\SEO\Schema_Aggregator\Application\Filtering\Schema_Node_Property_Filter\\';
+	private const NODE_FILTER_SUFFIX        = '_Schema_Node_Filter';
+	private const PROPERTY_FILTER_SUFFIX    = '_Schema_Node_Property_Filter';
 
 	/**
 	 * The categories to filter.
@@ -41,7 +41,8 @@ class Default_Filter implements Filtering_Strategy_Interface {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Elements_Context_Map_Repository_Interface $elements_context_map_repository The elements-context map repository.
+	 * @param Elements_Context_Map_Repository_Interface $elements_context_map_repository The elements-context map
+	 *                                                                                   repository.
 	 */
 	public function __construct( Elements_Context_Map_Repository_Interface $elements_context_map_repository ) {
 		$this->elements_context_map_repository = $elements_context_map_repository;
@@ -74,34 +75,46 @@ class Default_Filter implements Filtering_Strategy_Interface {
 	/**
 	 * Determines if a schema piece should be kept based on all its types.
 	 *
-	 * @param array<string>           $types                The types to check.
-	 * @param array<string, array>    $elements_context_map The elements context map.
-	 * @param Schema_Piece_Collection $schema               The full schema collection.
-	 * @param Schema_Piece            $schema_piece         The schema piece being checked.
+	 * A piece is kept if at least one of its types should be kept.
+	 *
+	 * @param array<string>                $types                The types to check.
+	 * @param array<string, array<string>> $elements_context_map The elements context map.
+	 * @param Schema_Piece_Collection      $schema               The full schema collection.
+	 * @param Schema_Piece                 $schema_piece         The schema piece being checked.
 	 *
 	 * @return bool Whether to keep the schema piece.
 	 */
-	private function should_keep_piece( array $types, array $elements_context_map, Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
+	private function should_keep_piece(
+		array $types,
+		array $elements_context_map,
+		Schema_Piece_Collection $schema,
+		Schema_Piece $schema_piece
+	): bool {
 		foreach ( $types as $type ) {
-			if ( ! $this->should_keep_type( $type, $elements_context_map, $schema, $schema_piece ) ) {
-				return false;
+			if ( $this->should_keep_type( $type, $elements_context_map, $schema, $schema_piece ) ) {
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
 	 * Determines if a schema piece should be kept based on a single type.
 	 *
-	 * @param string                  $type                 The type to check.
-	 * @param array<string, array>    $elements_context_map The elements context map.
-	 * @param Schema_Piece_Collection $schema               The full schema collection.
-	 * @param Schema_Piece            $schema_piece         The schema piece being checked.
+	 * @param string                       $type                 The type to check.
+	 * @param array<string, array<string>> $elements_context_map The elements context map.
+	 * @param Schema_Piece_Collection      $schema               The full schema collection.
+	 * @param Schema_Piece                 $schema_piece         The schema piece being checked.
 	 *
 	 * @return bool Whether to keep the schema piece.
 	 */
-	private function should_keep_type( string $type, array $elements_context_map, Schema_Piece_Collection $schema, Schema_Piece $schema_piece ): bool {
+	private function should_keep_type(
+		string $type,
+		array $elements_context_map,
+		Schema_Piece_Collection $schema,
+		Schema_Piece $schema_piece
+	): bool {
 		foreach ( self::FILTER_CATEGORIES as $category ) {
 			if ( ! \in_array( $type, $elements_context_map[ $category ], true ) ) {
 				continue;
@@ -109,7 +122,7 @@ class Default_Filter implements Filtering_Strategy_Interface {
 
 			$filter = $this->get_node_filter( $type );
 
-			return $filter !== null ? $filter->should_filter( $schema, $schema_piece ) : false;
+			return ( $filter !== null && $filter->should_filter( $schema, $schema_piece ) );
 		}
 
 		return true;

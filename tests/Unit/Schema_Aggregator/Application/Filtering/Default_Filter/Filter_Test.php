@@ -23,19 +23,21 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 	 *
 	 * @param array<string, array<string>>          $elements_context_map       The elements context map.
 	 * @param array<array<string, string|int|bool>> $schema_pieces_data         The schema pieces data.
+	 * @param array<string|array<string>>           $schema_pieces_types        The types for each schema piece.
 	 * @param array<array<string, string|int|bool>> $expected_data              The expected filtered data.
 	 * @param int                                   $expected_wp_function_calls The expected number of WordPress function calls.
 	 *
 	 * @return void
 	 */
-	public function test_schema_pieces_filter( array $elements_context_map, array $schema_pieces_data, array $expected_data, int $expected_wp_function_calls ): void {
+	public function test_schema_pieces_filter( array $elements_context_map, array $schema_pieces_data, array $schema_pieces_types, array $expected_data, int $expected_wp_function_calls ): void {
 		$this->elements_context_map_repository
 			->shouldReceive( 'get_map' )
 			->andReturn( $elements_context_map );
 
 		$schema_pieces = [];
-		foreach ( $schema_pieces_data as $data ) {
-			$schema_pieces[] = new Schema_Piece( $data, $data['@type'] );
+		foreach ( $schema_pieces_data as $index => $data ) {
+			$type            = ( $schema_pieces_types[ $index ] ?? $data['@type'] );
+			$schema_pieces[] = new Schema_Piece( $data, $type );
 		}
 		$schema = new Schema_Piece_Collection( $schema_pieces );
 
@@ -174,7 +176,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 	/**
 	 * Data provider for test_filter.
 	 *
-	 * @return array<string, array<array<string, array<string>>, array<array<string, string|int|bool>>, array<array<string, string|int|bool>>, int>>
+	 * @return array<string, array<array<string, array<string>>, array<array<string, string|int|bool>>, array<string|array<string>>, array<array<string, string|int|bool>>, int>>
 	 */
 	public function filter_data(): array {
 		return [
@@ -195,6 +197,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 						'@type' => 'Person',
 						'name'  => 'Jane Smith',
 					],
+				],
+				[
+					'Article',
+					'Person',
 				],
 				[
 					[
@@ -227,6 +233,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					],
 				],
 				[
+					'ReadAction',
+					'Article',
+				],
+				[
 					[
 						'@type'    => 'Article',
 						'headline' => 'Test Article',
@@ -255,6 +265,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
 						'url'        => 'https://example.com/page',
 					],
+				],
+				[
+					'Article',
+					'WebPage',
 				],
 				[
 					[
@@ -298,6 +312,12 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					],
 				],
 				[
+					'ReadAction',
+					'Article',
+					'MetaTags',
+					'Person',
+				],
+				[
 					[
 						'@type'    => 'Article',
 						'headline' => 'Test Article',
@@ -317,6 +337,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'meta'        => [],
 					'website'     => [],
 				],
+				[],
 				[],
 				[],
 				0,
@@ -348,12 +369,173 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					],
 				],
 				[
+					'ReadAction',
+					'WebSite',
+					'Article',
+					'EventStatusType',
+				],
+				[
 					[
 						'@type'    => 'Article',
 						'headline' => 'Test Article',
 					],
 				],
 				1,
+			],
+			'Schema piece with array type - all types allowed' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'NewsArticle' ],
+						'headline' => 'Test News Article',
+						'author'   => 'John Doe',
+					],
+				],
+				[
+					[ 'Article', 'NewsArticle' ],
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'NewsArticle' ],
+						'headline' => 'Test News Article',
+						'author'   => 'John Doe',
+					],
+				],
+				0,
+			],
+			'Schema piece with array type - kept if one type allowed' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'ReadAction' ],
+						'headline' => 'Test Article',
+					],
+					[
+						'@type' => 'Person',
+						'name'  => 'Jane Smith',
+					],
+				],
+				[
+					[ 'Article', 'ReadAction' ],
+					'Person',
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'ReadAction' ],
+						'headline' => 'Test Article',
+					],
+					[
+						'@type' => 'Person',
+						'name'  => 'Jane Smith',
+					],
+				],
+				0,
+			],
+			'Schema piece with array type - filtered if all types filtered' => [
+				[
+					'action'      => [ 'ReadAction', 'WriteAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'  => [ 'ReadAction', 'WriteAction' ],
+						'target' => 'https://example.com',
+					],
+					[
+						'@type' => 'Person',
+						'name'  => 'Jane Smith',
+					],
+				],
+				[
+					[ 'ReadAction', 'WriteAction' ],
+					'Person',
+				],
+				[
+					[
+						'@type' => 'Person',
+						'name'  => 'Jane Smith',
+					],
+				],
+				0,
+			],
+			'Schema piece with array type - applies first matching property filter' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'      => [ 'WebPage', 'AboutPage' ],
+						'name'       => 'About Us',
+						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
+						'url'        => 'https://example.com/about',
+					],
+				],
+				[
+					[ 'WebPage', 'AboutPage' ],
+				],
+				[
+					[
+						'@type' => [ 'WebPage', 'AboutPage' ],
+						'name'  => 'About Us',
+						'url'   => 'https://example.com/about',
+					],
+				],
+				0,
+			],
+			'Schema piece with array type - mixed with single type pieces' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'BlogPosting' ],
+						'headline' => 'Blog Post',
+						'author'   => 'Jane Doe',
+					],
+					[
+						'@type'  => 'ReadAction',
+						'target' => 'https://example.com',
+					],
+					[
+						'@type' => 'Person',
+						'name'  => 'John Smith',
+					],
+				],
+				[
+					[ 'Article', 'BlogPosting' ],
+					'ReadAction',
+					'Person',
+				],
+				[
+					[
+						'@type'    => [ 'Article', 'BlogPosting' ],
+						'headline' => 'Blog Post',
+						'author'   => 'Jane Doe',
+					],
+					[
+						'@type' => 'Person',
+						'name'  => 'John Smith',
+					],
+				],
+				0,
 			],
 		];
 	}
