@@ -24,7 +24,7 @@ export const Duration = ( { minutes, isLoading = false, locale = "en", isComplet
 			const unitDisplay = /^(ja|de)/i.test( localeNormalized ) ? "short" : "narrow";
 
 			// For East Asian languages, remove all spaces and concatenate
-			const isEastAsian = /^(ja|zh|ko)/i.test( localeNormalized );
+			const isEastAsian = /^(ja|zh)/i.test( localeNormalized );
 
 			// Use Intl.NumberFormat for locale-aware unit formatting
 			const hourFormatter = new Intl.NumberFormat( localeNormalized, {
