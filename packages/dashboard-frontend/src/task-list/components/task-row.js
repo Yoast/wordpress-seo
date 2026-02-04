@@ -50,7 +50,7 @@ const LoadingTaskRow = ( { titleClassName } ) => {
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
- * @param {string} locale Optional locale to use for formatting (defaults to browser locale)
+ * @param {string} [locale] Optional locale to use for formatting (defaults to browser locale)
  * @param {JSX.Element} [children] Optional children elements for the task modal.
  *
  * @returns {JSX.Element} The TaskRow component.
