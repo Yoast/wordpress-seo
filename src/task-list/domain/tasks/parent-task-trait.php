@@ -79,6 +79,7 @@ trait Parent_Task_Trait {
 			$data = parent::to_array();
 		}
 
+		// @TODO: Consider whether this 'parentTask' flag is still necessary, as the frontend doesn't use it.
 		$data['parentTask'] = true;
 
 		return $data;
