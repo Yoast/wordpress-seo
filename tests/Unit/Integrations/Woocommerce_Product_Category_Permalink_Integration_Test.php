@@ -114,7 +114,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 
 		$result = $this->instance->restore_legacy_permalink_category( $category, $terms );
 
-		$this->assertSame( $terms, $result );
+		$this->assertSame( $category, $result );
 	}
 
 	/**

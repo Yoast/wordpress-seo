@@ -57,11 +57,11 @@ class Woocommerce_Product_Category_Permalink_Integration implements Integration_
 	 * @param WP_Term   $category The deepest category (new default behavior).
 	 * @param WP_Term[] $terms    All categories assigned to the product.
 	 *
-	 * @return WP_Term[] The category to use in the permalink.
+	 * @return WP_Term The category to use in the permalink.
 	 */
 	public function restore_legacy_permalink_category( $category, $terms ) {
 		if ( $this->dynamic_product_permalinks_conditional->is_met() ) {
-			return $terms;
+			return $category;
 		}
 
 		$sorted_terms = \wp_list_sort(
