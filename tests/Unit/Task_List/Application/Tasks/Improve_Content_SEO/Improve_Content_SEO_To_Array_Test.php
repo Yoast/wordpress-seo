@@ -43,10 +43,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'isCompleted'  => true,
 			'callToAction' => null,
 			'title'        => 'Improve your content\'s SEO',
-			'about'        => [
-				'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO. Pro tip: Use AI Optimize to speed up the process with quality suggestions.',
-				'<strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.',
-			],
+			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
 
@@ -74,10 +71,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'isCompleted'  => true,
 			'callToAction' => null,
 			'title'        => 'Improve your content\'s SEO',
-			'about'        => [
-				'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO. Pro tip: Use AI Optimize to speed up the process with quality suggestions.',
-				'<strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.',
-			],
+			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
 
@@ -105,10 +99,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'isCompleted'  => false,
 			'callToAction' => null,
 			'title'        => 'Improve your content\'s SEO',
-			'about'        => [
-				'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO. Pro tip: Use AI Optimize to speed up the process with quality suggestions.',
-				'<strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.',
-			],
+			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
 

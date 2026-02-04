@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { YoastIcon } from "../../icons";
@@ -28,7 +27,7 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   title         Title of the modal.
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
- * @param {string[]} about         Paragraphs describing the task. Each element can contain HTML markup.
+ * @param {string}   about         HTML string describing the task. Can contain HTML tags like <strong> and <p>.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
  * @param {boolean}	 isLoading	Whether the modal content is loading.
@@ -85,15 +84,16 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-					{ about?.length > 0 && <div className="yst-flex yst-flex-col yst-py-4 yst-items-start">
+					{ about && <div className="yst-flex yst-flex-col yst-py-4 yst-items-start">
 						<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
 							<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
 								{ __( "About this task", "wordpress-seo" ) }
 							</Title>
 						</div>
-						{ about.map( ( paragraph, index ) => (
-							<p key={ index } className="yst-text-xs yst-text-slate-600 yst-mb-4" dangerouslySetInnerHTML={ { __html: paragraph } } />
-						) ) }
+						<div
+							className="yst-text-xs yst-text-slate-600 [&>p]:yst-mb-4"
+							dangerouslySetInnerHTML={ { __html: about } }
+						/>
 					</div> }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">

@@ -105,9 +105,12 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Create an llms.txt file', 'wordpress-seo' ),
-			[
-				\__( 'Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.', 'wordpress-seo' ),
-			]
+			\sprintf(
+				/* translators: %1$s expands to an opening p tag, %2$s expands to a closing p tag */
+				\__( '%1$sWithout llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.%2$s', 'wordpress-seo' ),
+				'<p>',
+				'</p>'
+			)
 		);
 	}
 
