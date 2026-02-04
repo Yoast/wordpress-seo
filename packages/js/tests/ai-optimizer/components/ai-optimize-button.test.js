@@ -39,11 +39,10 @@ global.window.YoastSEO = {
  * @param {boolean} shouldUpsellWoo Whether to show the Yoast WooCommerce SEO upsell.
  * @param {string} keyword The focus keyphrase.
  * @param {string} content The editor content.
- * @param {string} focusAIButtonId The focus AI button ID.
  * @returns {function} The mock.
  */
 // eslint-disable-next-line complexity
-const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it.", focusAIButtonId = null ) => {
+const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockEditor", blocks = [], activeMarker = "", shouldUpsellWoo = false, keyword = "test keyphrase", content = "Some text content with the keyphrase in it." ) => {
 	useSelect.mockImplementation( select => select( () => ( {
 		getActiveAIFixesButton: () => activeAIButton,
 		getActiveMarker: () => activeMarker,
@@ -54,7 +53,6 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => keyword,
-		getFocusAIFixesButtonId: () => focusAIButtonId,
 	} ) ) );
 
 	// Mock collectData to reflect the provided content
@@ -68,21 +66,18 @@ describe( "AIOptimizeButton", () => {
 	let setActiveMarker;
 	let setMarkerPauseStatus;
 	let setMarkerStatus;
-	let setFocusAIFixesButtonId;
 
 	beforeEach( () => {
 		setActiveAIFixesButton = jest.fn();
 		setActiveMarker = jest.fn();
 		setMarkerPauseStatus = jest.fn();
 		setMarkerStatus = jest.fn();
-		setFocusAIFixesButtonId = jest.fn();
 
 		useDispatch.mockImplementation( () => ( {
 			setActiveAIFixesButton,
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
-			setFocusAIFixesButtonId,
 		} ) );
 	} );
 
@@ -323,17 +318,6 @@ describe( "AIOptimizeButton", () => {
 		const button = screen.getByRole( "button" );
 		expect( button ).toBeDisabled();
 		expect( button ).toHaveAttribute( "aria-label", "Please switch to the visual editor to optimize with AI." );
-	} );
-
-	test( "should set focusAIButtonId when button is clicked", () => {
-		mockSelect( null );
-		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
-		const button = screen.getByRole( "button" );
-
-		fireEvent.click( button );
-
-		// setFocusAIFixesButtonId should be called with the button ID and location context
-		expect( setFocusAIFixesButtonId ).toHaveBeenCalled();
 	} );
 
 	test( "should have correct data-id attribute", () => {

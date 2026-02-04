@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useCallback, useRef, useLayoutEffect } from "@wordpress/element";
+import { useCallback, useRef } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 import { useSelect, useDispatch } from "@wordpress/data";
 
@@ -9,7 +9,6 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { Modal, useToggleState, Button, Root, Tooltip } from "@yoast/ui-library";
 import { Paper } from "yoastseo";
 import { get } from "lodash";
-import { useLocation } from "../../ai-generator/hooks/use-location";
 
 /* Internal dependencies */
 import { ModalContent } from "./modal-content";
@@ -41,16 +40,13 @@ const getEditorMode = () => {
  * @returns {JSX.Element} The AI Optimize button.
  */
 const AIOptimizeButton = ( { id, isPremium = false } ) => {
-	const locationContext = useLocation();
-	const focusButtonRef = useRef();
 	// The AI Optimize button ID is the same as the assessment ID, with "AIFixes" appended to it.
 	// We continue to use "AIFixes" in the ID to keep it consistent with the Premium implementation.
 	const aiOptimizeId = id + "AIFixes";
 	const [ isModalOpen, , , setIsModalOpenTrue, setIsModalOpenFalse ] = useToggleState( false );
-	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase, focusAIButtonId } = useSelect( ( select ) => ( {
+	const { activeMarker, activeAIButtonId, editorType, isWooSeoUpsellPost, keyphrase } = useSelect( ( select ) => ( {
 		activeMarker: select( "yoast-seo/editor" ).getActiveMarker(),
 		activeAIButtonId: select( "yoast-seo/editor" ).getActiveAIFixesButton(),
-		focusAIButtonId: select( "yoast-seo/editor" ).getFocusAIFixesButtonId(),
 		editorType: select( "yoast-seo/editor" ).getEditorType(),
 		isWooSeoUpsellPost: select( "yoast-seo/editor" ).getIsWooSeoUpsell(),
 		keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
@@ -59,7 +55,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	const shouldShowUpsell = ! isPremium || isWooSeoUpsellPost;
 
-	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus, setFocusAIFixesButtonId } = useDispatch( "yoast-seo/editor" );
+	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
 	const [ isTooltipOpen, toggleTooltipOpen, , , hideTooltip ] = useToggleState( false );
 
@@ -164,7 +160,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			// Remove highlighting from the editor.
 			window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 		}
-		setFocusAIFixesButtonId( `${ aiOptimizeId }-${locationContext}` );
 		/* If the current pressed button ID is the same as the active AI button id,
 		we want to set the active AI button to null and enable back the highlighting button that was disabled
 		when the AI button was pressed the first time. Otherwise, update the active AI button ID. */
@@ -202,18 +197,6 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		}
 	}, [ shouldShowUpsell, aiOptimizeId, handlePressedButton, setIsModalOpenTrue ] );
 
-
-	const resetFocusOnBlur = useCallback( () => {
-		// Reset the focus AI button ID in the store when the button loses focus.
-	//	setFocusAIFixesButtonId( null );
-	}, [ setFocusAIFixesButtonId ] );
-
-	useLayoutEffect( () => {
-		if ( focusButtonRef.current && focusAIButtonId === `${ aiOptimizeId }-${locationContext}` && aiOptimizeId !== activeAIButtonId ) {
-			focusButtonRef.current.focus();
-		}
-	}, [ focusAIButtonId, activeAIButtonId, aiOptimizeId, locationContext ] );
-
 	return (
 		<Root>
 			<div
@@ -223,11 +206,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			>
 				<Button
 					onClick={ handleClick }
-					id={ `${ aiOptimizeId }-${ locationContext }` }
+					id={ aiOptimizeId }
 					data-id={ aiOptimizeId }
 					disabled={ ! isEnabled }
-					ref={ focusButtonRef }
-					onBlur={ resetFocusOnBlur }
 					variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
 					size="small"
 					aria-label={ ariaLabel }

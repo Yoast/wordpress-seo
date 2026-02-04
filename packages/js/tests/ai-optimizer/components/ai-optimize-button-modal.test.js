@@ -56,7 +56,6 @@ const mockSelect = ( { activeAIButton = null, shouldUpsellWoo = false } = {} ) =
 		getEditorType: () => "blockEditor",
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => "test keyphrase",
-		getFocusAIFixesButtonId: () => null,
 	} ) ) );
 
 	isTextViewActive.mockReturnValue( false );
@@ -67,21 +66,18 @@ describe( "AIOptimizeButton modal behavior", () => {
 	let setActiveMarker;
 	let setMarkerPauseStatus;
 	let setMarkerStatus;
-	let setFocusAIFixesButtonId;
 
 	beforeEach( () => {
 		setActiveAIFixesButton = jest.fn();
 		setActiveMarker = jest.fn();
 		setMarkerPauseStatus = jest.fn();
 		setMarkerStatus = jest.fn();
-		setFocusAIFixesButtonId = jest.fn();
 
 		useDispatch.mockImplementation( () => ( {
 			setActiveAIFixesButton,
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
-			setFocusAIFixesButtonId,
 		} ) );
 	} );
 

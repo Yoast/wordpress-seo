@@ -44,7 +44,6 @@ const mockSelect = ( editorMode, editorType, blocks = [] ) => {
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => false,
 		getFocusKeyphrase: () => "",
-		getFocusAIFixesButtonId: () => null,
 	} ) ) );
 
 	isTextViewActive.mockReturnValue( editorMode === "text" );
@@ -57,7 +56,6 @@ describe( "AIOptimizeButton upsell mode", () => {
 			setActiveMarker: jest.fn(),
 			setMarkerPauseStatus: jest.fn(),
 			setMarkerStatus: jest.fn(),
-			setFocusAIFixesButtonId: jest.fn(),
 		} ) );
 	} );
 

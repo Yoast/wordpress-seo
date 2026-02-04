@@ -1,9 +1,8 @@
-import { SET_ACTIVE_AI_FIXES_BUTTON, SET_DISABLED_AI_FIXES_BUTTONS, SET_FOCUS_AI_FIXES_BUTTON_ID } from "../actions";
+import { SET_ACTIVE_AI_FIXES_BUTTON, SET_DISABLED_AI_FIXES_BUTTONS } from "../actions";
 
 const INITIAL_STATE = {
 	activeAIButton: null,
 	disabledAIButtons: {},
-	focusAIButtonId: null,
 };
 
 /**
@@ -25,11 +24,6 @@ export default function AIButton( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				disabledAIButtons: action.disabledAIButtons,
-			};
-		case SET_FOCUS_AI_FIXES_BUTTON_ID:
-			return {
-				...state,
-				focusAIButtonId: action.focusAIButtonId,
 			};
 		default:
 			return state;
