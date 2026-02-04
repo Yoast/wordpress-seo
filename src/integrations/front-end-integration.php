@@ -316,7 +316,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$context = $this->context_memoizer->for_current_page();
 
-		// We're adding this fix only for proudcts because of the 10.5 Woo release. We might expand this for all cases in the future.
+		// We're adding this fix only for products because of the 10.5 Woo release. We might expand this for all cases in the future.
 		if ( $context->indexable->object_sub_type !== 'product' ) {
 			return;
 		}
@@ -332,7 +332,7 @@ class Front_End_Integration implements Integration_Interface {
 				$context->indexable->object_id
 			);
 
-			// Clear the memoizer cache so present_head() sees the updated indexable.
+			// Clear the memoizer caches so present_head() sees the updated indexable.
 			$this->context_memoizer->clear_for_current_page();
 			$this->context_memoizer->clear( $context->indexable );
 		}
