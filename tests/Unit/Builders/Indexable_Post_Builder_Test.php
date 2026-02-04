@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
@@ -82,6 +83,13 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	protected $post_type_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Mockery\MockInterface|Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
 	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
@@ -105,12 +113,14 @@ final class Indexable_Post_Builder_Test extends TestCase {
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
+		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
 			$this->post,
 			$this->post_type_helper,
 			new Indexable_Builder_Versions(),
-			new Meta_Helper()
+			new Meta_Helper(),
+			$this->permalink_helper
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -239,7 +249,10 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_build( $postmeta, $expected_result ) {
-		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
+		$this->permalink_helper->expects( 'get_permalink_for_post' )
+			->once()
+			->with( 'post', 1 )
+			->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn( $postmeta );
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 		Monkey\Functions\expect( 'is_taxonomy_viewable' )->andReturnTrue();
@@ -711,44 +724,6 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_get_robots_noindex_invalid() {
 		$this->assertNull( $this->instance->get_robots_noindex( 'invalid' ) );
-	}
-
-	/**
-	 * Tests the get_permalink method.
-	 *
-	 * @covers ::get_permalink
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink() {
-		$permalink = 'https://example.org/permalink';
-		$post_type = 'post';
-		$post_id   = 4;
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->with( $post_id )
-			->andReturn( $permalink );
-
-		$this->assertSame( $permalink, $this->instance->get_permalink( $post_type, $post_id ) );
-	}
-
-	/**
-	 * Tests the get_permalink method when the post is an attachment.
-	 *
-	 * @covers ::get_permalink
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink_attachment() {
-		$permalink = 'https://example.org/permalink-of-attachment';
-		$post_type = 'attachment';
-		$post_id   = 4;
-
-		Monkey\Functions\expect( 'wp_get_attachment_url' )
-			->with( $post_id )
-			->andReturn( $permalink );
-
-		$this->assertSame( $permalink, $this->instance->get_permalink( $post_type, $post_id ) );
 	}
 
 	/**
