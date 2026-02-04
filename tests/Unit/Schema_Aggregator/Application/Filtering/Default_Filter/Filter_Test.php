@@ -537,6 +537,212 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 				],
 				0,
 			],
+			'Schema piece with WebPage and FAQPage array type - kept because FAQPage is allowed' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebPage' ],
+				],
+				[
+					[
+						'@type'      => [ 'WebPage', 'FAQPage' ],
+						'name'       => 'FAQ',
+						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
+						'url'        => 'https://example.com/faq',
+					],
+				],
+				[
+					[ 'WebPage', 'FAQPage' ],
+				],
+				[
+					[
+						'@type' => [ 'WebPage', 'FAQPage' ],
+						'name'  => 'FAQ',
+						'url'   => 'https://example.com/faq',
+					],
+				],
+				0,
+			],
+			'Schema piece with WebPage and ItemPage array type - kept because ItemPage is allowed' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebPage' ],
+				],
+				[
+					[
+						'@type'      => [ 'WebPage', 'ItemPage' ],
+						'name'       => 'Product Page',
+						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
+						'url'        => 'https://example.com/product',
+					],
+				],
+				[
+					[ 'WebPage', 'ItemPage' ],
+				],
+				[
+					[
+						'@type' => [ 'WebPage', 'ItemPage' ],
+						'name'  => 'Product Page',
+						'url'   => 'https://example.com/product',
+					],
+				],
+				0,
+			],
+			'Schema piece with array type - WebSite filter with existing filter class' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebSite' ],
+				],
+				[
+					[
+						'@type' => [ 'WebSite', 'Organization' ],
+						'name'  => 'Example Site',
+						'url'   => 'https://example.com',
+					],
+				],
+				[
+					[ 'WebSite', 'Organization' ],
+				],
+				[
+					[
+						'@type' => [ 'WebSite', 'Organization' ],
+						'name'  => 'Example Site',
+						'url'   => 'https://example.com',
+					],
+				],
+				1,
+			],
+			'Schema piece with array type - property filter found in second type' => [
+				[
+					'action'      => [],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [],
+				],
+				[
+					[
+						'@type'      => [ 'FAQPage', 'WebPage' ],
+						'name'       => 'FAQ',
+						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
+						'url'        => 'https://example.com/faq',
+					],
+				],
+				[
+					[ 'FAQPage', 'WebPage' ],
+				],
+				[
+					[
+						'@type' => [ 'FAQPage', 'WebPage' ],
+						'name'  => 'FAQ',
+						'url'   => 'https://example.com/faq',
+					],
+				],
+				0,
+			],
+			'Schema piece with single type not in any filter category' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [ 'StatusType' ],
+					'meta'        => [ 'MetaTags' ],
+					'website'     => [ 'WebSite' ],
+				],
+				[
+					[
+						'@type' => 'Product',
+						'name'  => 'Test Product',
+						'price' => 99.99,
+					],
+				],
+				[
+					'Product',
+				],
+				[
+					[
+						'@type' => 'Product',
+						'name'  => 'Test Product',
+						'price' => 99.99,
+					],
+				],
+				0,
+			],
+			'Schema piece with array of 3+ types - kept if at least one allowed' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebPage' ],
+				],
+				[
+					[
+						'@type'      => [ 'WebPage', 'CollectionPage', 'FAQPage' ],
+						'name'       => 'FAQ Collection',
+						'breadcrumb' => [ '@type' => 'BreadcrumbList' ],
+						'url'        => 'https://example.com/faq',
+					],
+				],
+				[
+					[ 'WebPage', 'CollectionPage', 'FAQPage' ],
+				],
+				[
+					[
+						'@type' => [ 'WebPage', 'CollectionPage', 'FAQPage' ],
+						'name'  => 'FAQ Collection',
+						'url'   => 'https://example.com/faq',
+					],
+				],
+				0,
+			],
+			'Schema piece with types in different filter categories - filtered if all categories filter' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebSite' ],
+				],
+				[
+					[
+						'@type' => [ 'ReadAction', 'WebSite' ],
+						'name'  => 'Mixed Types',
+						'url'   => 'https://example.com',
+					],
+				],
+				[
+					[ 'ReadAction', 'WebSite' ],
+				],
+				[],
+				1,
+			],
+			'Schema piece with types in different filter categories - kept if one category allows' => [
+				[
+					'action'      => [ 'ReadAction' ],
+					'enumeration' => [],
+					'meta'        => [],
+					'website'     => [ 'WebSite' ],
+				],
+				[
+					[
+						'@type' => [ 'ReadAction', 'Article' ],
+						'name'  => 'Mixed Types',
+						'url'   => 'https://example.com',
+					],
+				],
+				[
+					[ 'ReadAction', 'Article' ],
+				],
+				[
+					[
+						'@type' => [ 'ReadAction', 'Article' ],
+						'name'  => 'Mixed Types',
+						'url'   => 'https://example.com',
+					],
+				],
+				0,
+			],
 		];
 	}
 }
