@@ -36,6 +36,10 @@ import { link } from "../inline-links/edit-link";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		// Store the original core/link settings before removing it
+		// This ensures we preserve all internal WordPress capabilities and references
+		const coreLinkSettings = select( "core/rich-text" ).getFormatType( "core/link" );
+
 		const unknownSettings = select( "core/rich-text" )
 			.getFormatType( "core/unknown" );
 
@@ -50,7 +54,11 @@ function registerFormats() {
 				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
 			}
 			if ( name ) {
-				registerFormatType( name, settings );
+				// Merge core link settings with our custom settings to preserve WordPress capabilities
+				const mergedSettings = coreLinkSettings && name === "core/link"
+					? { ...coreLinkSettings, ...settings }
+					: settings;
+				registerFormatType( name, mergedSettings );
 			}
 		} );
 

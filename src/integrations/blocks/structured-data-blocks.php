@@ -377,10 +377,26 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_images_from_attributes_to_used_cache( $post_id, $elements, $key ) {
-		// First grab all image IDs from the attributes.
+		// First, grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
-			if ( ! isset( $element[ $key ] ) ) {
+			// Check if the key "images" exists in any of the elements, grab the image IDs.
+			if ( isset( $element['images'] ) && \is_array( $element['images'] ) && \count( $element['images'] ) > 0 ) {
+				$image_data = $element['images'];
+				foreach ( $image_data as $image ) {
+					if ( ! isset( $image['type'] ) || $image['type'] !== 'img' ) {
+						continue;
+					}
+
+					if ( ! isset( $image['key'] ) || ! isset( $image['props']['src'] ) ) {
+						continue;
+					}
+
+					$images[ $image['props']['src'] ] = (int) $image['key'];
+				}
+			}
+			// Don't process the key again if we've already processed the "images" key.
+			if ( ! isset( $element[ $key ] ) || ! \is_array( $element[ $key ] ) || isset( $element['images'] ) ) {
 				continue;
 			}
 			if ( isset( $element[ $key ] ) && \is_array( $element[ $key ] ) ) {
