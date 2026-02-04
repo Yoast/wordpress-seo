@@ -1,9 +1,9 @@
-import { Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useEffect } from "react";
+import React, { createContext, Fragment, useCallback, useContext, useEffect } from "react";
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
@@ -101,6 +101,7 @@ Title.propTypes = {
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
+ * @param {function|Object|null} [initialFocus] The ref of the element to focus initially.
  * @returns {JSX.Element} The toast component.
  */
 const Toast = ( {
@@ -112,6 +113,7 @@ const Toast = ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
+	initialFocus = null,
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -136,22 +138,36 @@ const Toast = ( {
 	}, [] );
 	return (
 		<ToastContext.Provider value={ { handleDismiss } }>
-			<Transition
-				show={ isVisible }
-				enter={ "yst-transition yst-ease-in-out yst-duration-150" }
-				enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-				enterTo="yst-translate-y-0"
-				leave={ "yst-transition yst-ease-in-out yst-duration-150" }
-				leaveFrom="yst-translate-y-0"
-				leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-				className={ classNames(
-					"yst-toast",
-					className,
-				) }
-				role="alert"
-			>
-				{ children }
-			</Transition>
+			<Transition.Root show={ isVisible } as={ Fragment }>
+				{ /* Using the `yst-root` class here to get our styling within the portal. */ }
+				<Dialog
+					as="div"
+					className="yst-root"
+					open={ isVisible }
+					onClose={ handleDismiss }
+					initialFocus={ initialFocus }
+				>
+					<Transition.Child
+						as={ Fragment }
+						enter="yst-transition yst-ease-in-out yst-duration-150"
+						enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
+						enterTo="yst-translate-y-0"
+						leave="yst-transition yst-ease-in-out yst-duration-150"
+						leaveFrom="yst-translate-y-0"
+						leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
+					>
+						<Dialog.Panel
+							className={ classNames(
+								"yst-toast",
+								className,
+							) }
+							role="alert"
+						>
+							{ children }
+						</Dialog.Panel>
+					</Transition.Child>
+				</Dialog>
+			</Transition.Root>
 		</ToastContext.Provider>
 	);
 };
@@ -165,6 +181,7 @@ Toast.propTypes = {
 	autoDismiss: PropTypes.number,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
+	initialFocus: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
 };
 
 Toast.Close = Close;
