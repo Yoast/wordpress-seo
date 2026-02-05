@@ -38,8 +38,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
@@ -86,8 +87,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
@@ -131,8 +133,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
@@ -176,8 +179,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class );
 		$new_post->ID        = 123;
@@ -225,8 +229,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'page';
 
 		$new_page            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_page->ID        = 123;
@@ -274,8 +279,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
@@ -320,8 +326,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$wp_query = (object) [];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
@@ -365,8 +372,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'is_page'           => false,
 		];
 
-		$indexable            = new Indexable_Mock();
-		$indexable->object_id = 123;
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
 
 		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$new_post->ID        = 123;
