@@ -1,7 +1,6 @@
 import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { YoastIcon, HowIcon } from "../../icons";
-import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
+import { YoastIcon } from "../../icons";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
@@ -28,8 +27,7 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   title         Title of the modal.
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
- * @param {string}   why           Details on why the task is important.
- * @param {string}   [how]         Details on how to complete the task.
+ * @param {string}   about         HTML string describing the task. Can contain HTML tags like <strong> and <p>.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
  * @param {boolean}	 isLoading	Whether the modal content is loading.
@@ -46,8 +44,7 @@ export const TaskModal = ( {
 	title,
 	duration,
 	priority,
-	why,
-	how,
+	about,
 	taskId,
 	isCompleted,
 	isLoading = false,
@@ -89,32 +86,17 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-					<ul>
-						<li className="yst-flex yst-flex-col yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst-border-slate-200">
-							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-								<QuestionMarkCircleIcon
-									{ ...svgAriaProps }
-									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
-								/>
-								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-									{ __( "Why this matters", "wordpress-seo" ) }
-								</Title>
-							</div>
-							<p className="yst-text-xs yst-text-slate-600">{ why }</p>
-						</li>
-						{ how && <li className="yst-flex yst-flex-col yst-py-4 yst-items-start">
-							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-								<HowIcon
-									{ ...svgAriaProps }
-									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
-								/>
-								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-									{ __( "How to solve", "wordpress-seo" ) }
-								</Title>
-							</div>
-							<p className="yst-text-xs yst-text-slate-600">{ how }</p>
-						</li> }
-					</ul>
+					{ about && <div className="yst-flex yst-flex-col yst-py-4 yst-items-start">
+						<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
+							<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
+								{ __( "About this task", "wordpress-seo" ) }
+							</Title>
+						</div>
+						<div
+							className="yst-text-xs yst-text-slate-600 [&>p]:yst-mb-4"
+							dangerouslySetInnerHTML={ { __html: about } }
+						/>
+					</div> }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
