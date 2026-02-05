@@ -89,8 +89,17 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		return new Copy_Set(
 			\__( 'Improve your content\'s SEO', 'wordpress-seo' ),
-			\__( 'Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems.', 'wordpress-seo' ),
-			\__( 'Follow the instructions displayed in the SEO analysis to improve your content\'s SEO. Pro tip: Use AI Optimize to speed up the process with quality suggestions.', 'wordpress-seo' )
+			\sprintf(
+				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
+				\__( '%1$sImproving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to speed up the process with high-quality, actionable suggestions.%4$s', 'wordpress-seo' ),
+				'<p>',
+				'</p>',
+				'<p><strong>',
+				'</p>',
+				'</strong>',
+				'<strong>',
+				'</strong>'
+			)
 		);
 	}
 

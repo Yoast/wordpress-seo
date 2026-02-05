@@ -70,8 +70,7 @@ final class Create_New_Content_To_Array_Test extends Abstract_Create_New_Content
 				'href'  => 'https://example.com/wp-admin/post-new.php',
 			],
 			'title'        => 'Create new content',
-			'why'          => 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.',
-			'how'          => 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.',
+			'about'        => '<p>Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return. Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.</p>',
 		];
 
 		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
@@ -109,8 +108,7 @@ final class Create_New_Content_To_Array_Test extends Abstract_Create_New_Content
 				'href'  => 'https://example.com/wp-admin/post-new.php',
 			],
 			'title'        => 'Create new content',
-			'why'          => 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.',
-			'how'          => 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.',
+			'about'        => '<p>Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return. Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.</p>',
 		];
 
 		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
@@ -160,8 +158,7 @@ final class Create_New_Content_To_Array_Test extends Abstract_Create_New_Content
 				'href'  => 'https://example.com/wp-admin/post-new.php',
 			],
 			'title'        => 'Create new content',
-			'why'          => 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.',
-			'how'          => 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.',
+			'about'        => '<p>Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return. Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.</p>',
 		];
 
 		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );

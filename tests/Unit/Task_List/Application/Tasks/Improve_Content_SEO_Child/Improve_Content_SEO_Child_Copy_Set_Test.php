@@ -27,6 +27,16 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 	public function test_get_copy_set() {
 		$content_item = new Content_Item_SEO_Data( 456, 'My Amazing Blog Post', 'ok', 'post' );
 
+		$parent_copy_set = new Copy_Set(
+			'Parent Title',
+			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>'
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->once()
+			->andReturn( $parent_copy_set );
+
 		$instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
 			$content_item
@@ -35,14 +45,10 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 		$copy_set = $instance->get_copy_set();
 		$array    = $copy_set->to_array();
 
-		$this->assertSame( 'Improve SEO for "My Amazing Blog Post"', $array['title'] );
+		$this->assertSame( 'My Amazing Blog Post', $array['title'] );
 		$this->assertSame(
-			'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.',
-			$array['how']
-		);
-		$this->assertSame(
-			'Optimize the SEO for "My Amazing Blog Post" to increase its visibility.',
-			$array['why']
+			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>',
+			$array['about']
 		);
 	}
 }

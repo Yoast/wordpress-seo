@@ -56,8 +56,7 @@ final class Complete_FTC_To_Array_Test extends Abstract_Complete_FTC_Test {
 				'href'  => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration',
 			],
 			'title'        => 'Complete the First-time configuration',
-			'why'          => 'Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.',
-			'how'          => null,
+			'about'        => '<p>Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.</p>',
 		];
 
 		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );
@@ -93,8 +92,7 @@ final class Complete_FTC_To_Array_Test extends Abstract_Complete_FTC_Test {
 				'href'  => 'https://example.com/wp-admin/admin.php?page=wpseo_dashboard#/first-time-configuration',
 			],
 			'title'        => 'Complete the First-time configuration',
-			'why'          => 'Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.',
-			'how'          => null,
+			'about'        => '<p>Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.</p>',
 		];
 
 		$this->instance->set_enhanced_call_to_action( $this->instance->get_call_to_action() );

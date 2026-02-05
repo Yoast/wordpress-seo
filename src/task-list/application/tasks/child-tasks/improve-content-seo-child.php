@@ -103,15 +103,9 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
-		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
-		$title = $this->content_item_seo_data->get_title();
-
 		return new Copy_Set(
-			/* translators: %s: The content title. */
-			\sprintf( \__( 'Improve SEO for "%s"', 'wordpress-seo' ), $title ),
-			/* translators: %s: The content title. */
-			\sprintf( \__( 'Optimize the SEO for "%s" to increase its visibility.', 'wordpress-seo' ), $title ),
-			\__( 'Add a focus keyphrase and follow the SEO analysis recommendations to improve this content.', 'wordpress-seo' )
+			$this->content_item_seo_data->get_title(),
+			$this->parent_task->get_copy_set()->get_about()
 		);
 	}
 }

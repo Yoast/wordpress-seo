@@ -20,8 +20,7 @@ const FETCH_TASK = "fetchTasks";
  * @property {string} title
  * @property {number} duration
  * @property {string} priority
- * @property {string} why
- * @property {string} how
+ * @property {string[]} about
  * @property {string} status
  * @property {Object|null} error
  * @property {CallToAction} callToAction
