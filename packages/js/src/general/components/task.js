@@ -2,6 +2,7 @@ import { TaskRow } from "@yoast/dashboard-frontend";
 import { useCallback, useMemo } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
+import { values } from "lodash";
 
 /**
  * The Task component to display a task row and modal.
@@ -18,7 +19,8 @@ import { STORE_NAME } from "../constants";
 export const Task = ( { title, id, duration, priority, isCompleted, badge } ) => {
 	const { resetTaskError, setCurrentOpenTask } = useDispatch( STORE_NAME );
 
-	const childTasks = useSelect( ( select ) => select( STORE_NAME ).selectChildTasks( id ), [] );
+	const tasks = useSelect( ( select ) => select( STORE_NAME ).selectTasks(), [] );
+	const childTasks = values( tasks ).filter( task => id && task.parentTaskId === id );
 
 	const totalTasks = useMemo( () => {
 		return childTasks.length;
