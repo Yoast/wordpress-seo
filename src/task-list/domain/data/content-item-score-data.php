@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Task_List\Domain\Data;
 
 /**
- * Value object representing content item data for SEO improvement tasks.
+ * Value object representing content item data for score-based improvement tasks.
  */
-class Content_Item_SEO_Data {
+class Content_Item_Score_Data {
 
 	/**
 	 * The content item ID.
@@ -22,11 +22,11 @@ class Content_Item_SEO_Data {
 	private $title;
 
 	/**
-	 * The SEO score of the content item.
+	 * The score of the content item.
 	 *
 	 * @var string
 	 */
-	private $seo_score;
+	private $score;
 
 	/**
 	 * The content type (post type).
@@ -40,13 +40,13 @@ class Content_Item_SEO_Data {
 	 *
 	 * @param int    $content_id   The content item ID.
 	 * @param string $title        The content item title.
-	 * @param string $seo_score    The SEO score.
+	 * @param string $score        The score.
 	 * @param string $content_type The content type.
 	 */
-	public function __construct( int $content_id, string $title, string $seo_score, string $content_type ) {
+	public function __construct( int $content_id, string $title, string $score, string $content_type ) {
 		$this->content_id   = $content_id;
 		$this->title        = $title;
-		$this->seo_score    = $seo_score;
+		$this->score        = $score;
 		$this->content_type = $content_type;
 	}
 
@@ -69,12 +69,12 @@ class Content_Item_SEO_Data {
 	}
 
 	/**
-	 * Returns the SEO score.
+	 * Returns the score.
 	 *
 	 * @return string
 	 */
-	public function get_seo_score(): string {
-		return $this->seo_score;
+	public function get_score(): string {
+		return $this->score;
 	}
 
 	/**

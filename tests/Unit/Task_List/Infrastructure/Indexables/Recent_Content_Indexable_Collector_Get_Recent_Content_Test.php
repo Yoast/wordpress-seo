@@ -4,7 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Indexables;
 
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
  * Tests the get_recent_content_with_seo_scores method.
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
  * @group task-list
  *
  * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::get_recent_content_with_seo_scores
- * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::map_to_content_item_seo_data
+ * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::map_to_seo_score_data
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -45,7 +45,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$results = $this->instance->get_recent_content_with_seo_scores( $post_type, $date_limit, $limit );
 
 		$this->assertCount( 2, $results );
-		$this->assertContainsOnlyInstancesOf( Content_Item_SEO_Data::class, $results );
+		$this->assertContainsOnlyInstancesOf( Content_Item_Score_Data::class, $results );
 	}
 
 	/**
@@ -76,7 +76,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$content_item = $results[0];
 		$this->assertSame( 123, $content_item->get_content_id() );
 		$this->assertSame( 'Test Title', $content_item->get_title() );
-		$this->assertSame( 'ok', $content_item->get_seo_score() );
+		$this->assertSame( 'ok', $content_item->get_score() );
 		$this->assertSame( 'post', $content_item->get_content_type() );
 	}
 

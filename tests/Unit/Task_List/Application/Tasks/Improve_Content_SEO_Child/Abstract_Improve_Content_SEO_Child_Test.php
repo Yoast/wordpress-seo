@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SE
 
 use Mockery;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -25,11 +25,11 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 	protected $parent_task;
 
 	/**
-	 * The content item SEO data.
+	 * The content item score data.
 	 *
-	 * @var Content_Item_SEO_Data
+	 * @var Content_Item_Score_Data
 	 */
-	protected $content_item_seo_data;
+	protected $content_item_score_data;
 
 	/**
 	 * Holds the instance.
@@ -50,23 +50,23 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 		$this->parent_task = Mockery::mock( Parent_Task_Interface::class );
 
 		// Default content item with OK score.
-		$this->content_item_seo_data = new Content_Item_SEO_Data( 123, 'Test Post Title', 'ok', 'post' );
+		$this->content_item_score_data = new Content_Item_Score_Data( 123, 'Test Post Title', 'ok', 'post' );
 
 		$this->instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$this->content_item_seo_data
+			$this->content_item_score_data
 		);
 	}
 
 	/**
-	 * Creates a child task instance with a specific SEO score group.
+	 * Creates a child task instance with a specific score group.
 	 *
-	 * @param string $seo_score The SEO score group name (e.g., 'good', 'ok', 'bad').
+	 * @param string $score The score group name (e.g., 'good', 'ok', 'bad').
 	 *
 	 * @return Improve_Content_SEO_Child
 	 */
-	protected function create_instance_with_score( string $seo_score ): Improve_Content_SEO_Child {
-		$content_item = new Content_Item_SEO_Data( 123, 'Test Post Title', $seo_score, 'post' );
+	protected function create_instance_with_score( string $score ): Improve_Content_SEO_Child {
+		$content_item = new Content_Item_Score_Data( 123, 'Test Post Title', $score, 'post' );
 
 		return new Improve_Content_SEO_Child(
 			$this->parent_task,

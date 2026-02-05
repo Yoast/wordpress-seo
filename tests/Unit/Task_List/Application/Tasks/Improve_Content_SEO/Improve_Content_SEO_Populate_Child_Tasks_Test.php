@@ -5,7 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO;
 
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
  * Test class for the Improve Content SEO populate_child_tasks method.
@@ -55,8 +55,8 @@ final class Improve_Content_SEO_Populate_Child_Tasks_Test extends Abstract_Impro
 	public function test_populate_child_tasks_returns_child_tasks() {
 		$this->instance->set_post_type( 'post' );
 
-		$content_item_1 = new Content_Item_SEO_Data( 1, 'Test Post 1', 30, 'post' );
-		$content_item_2 = new Content_Item_SEO_Data( 2, 'Test Post 2', 55, 'post' );
+		$content_item_1 = new Content_Item_Score_Data( 1, 'Test Post 1', 'bad', 'post' );
+		$content_item_2 = new Content_Item_Score_Data( 2, 'Test Post 2', 'ok', 'post' );
 
 		$this->recent_content_indexable_collector
 			->expects( 'get_recent_content_with_seo_scores' )

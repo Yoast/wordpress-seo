@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SE
 
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_SEO_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
  * Tests the get_copy_set method of the Improve Content SEO Child task.
@@ -25,7 +25,7 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 	 * @return void
 	 */
 	public function test_get_copy_set() {
-		$content_item = new Content_Item_SEO_Data( 456, 'My Amazing Blog Post', 'ok', 'post' );
+		$content_item = new Content_Item_Score_Data( 456, 'My Amazing Blog Post', 'ok', 'post' );
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',

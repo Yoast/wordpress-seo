@@ -5,7 +5,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Indexables;
 
 use Mockery;
+use Yoast\WP\SEO\Dashboard\Application\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
@@ -33,6 +35,13 @@ abstract class Abstract_Recent_Content_Indexable_Collector_Test extends TestCase
 	protected $seo_score_groups_repository;
 
 	/**
+	 * The readability score groups repository mock.
+	 *
+	 * @var Mockery\MockInterface|Readability_Score_Groups_Repository
+	 */
+	protected $readability_score_groups_repository;
+
+	/**
 	 * Holds the instance.
 	 *
 	 * @var Recent_Content_Indexable_Collector
@@ -47,12 +56,14 @@ abstract class Abstract_Recent_Content_Indexable_Collector_Test extends TestCase
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository        = Mockery::mock( Indexable_Repository::class );
-		$this->seo_score_groups_repository = Mockery::mock( SEO_Score_Groups_Repository::class );
+		$this->indexable_repository                = Mockery::mock( Indexable_Repository::class );
+		$this->seo_score_groups_repository         = Mockery::mock( SEO_Score_Groups_Repository::class );
+		$this->readability_score_groups_repository = Mockery::mock( Readability_Score_Groups_Repository::class );
 
 		$this->instance = new Recent_Content_Indexable_Collector(
 			$this->indexable_repository,
-			$this->seo_score_groups_repository
+			$this->seo_score_groups_repository,
+			$this->readability_score_groups_repository
 		);
 	}
 
