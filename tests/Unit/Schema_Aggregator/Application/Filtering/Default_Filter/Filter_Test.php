@@ -106,7 +106,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -134,7 +133,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -161,7 +159,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -192,7 +189,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -228,7 +224,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [ 'ReadAction' ],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -258,7 +253,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -300,7 +294,6 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [ 'ReadAction' ],
 					'enumeration'  => [],
 					'meta'         => [ 'MetaTags' ],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[
@@ -347,66 +340,19 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'       => [],
 					'enumeration'  => [],
 					'meta'         => [],
-					'website'      => [],
 					'website-meta' => [],
 				],
 				[],
 				[],
 				[],
-				0,
-			],
-			'Schema pieces with multiple filterable categories' => [
-				[
-					'action'       => [ 'ReadAction', 'WriteAction' ],
-					'enumeration'  => [ 'EventStatusType' ],
-					'meta'         => [],
-					'website'      => [ 'WebSite' ],
-					'website-meta' => [],
-				],
-				[
-					[
-						'@type'  => 'ReadAction',
-						'target' => 'https://example.com',
-					],
-					[
-						'@type'  => 'WebSite',
-						'name'   => 'Example Site',
-						'url'    => 'https://example.com',
-					],
-					[
-						'@type'    => 'Article',
-						'headline' => 'Test Article',
-					],
-					[
-						'@type' => 'EventStatusType',
-						'name'  => 'EventScheduled',
-					],
-				],
-				[
-					'ReadAction',
-					'WebSite',
-					'Article',
-					'EventStatusType',
-				],
-				[
-					[
-						'@type'  => 'WebSite',
-						'name'   => 'Example Site',
-						'url'    => 'https://example.com',
-					],
-					[
-						'@type'    => 'Article',
-						'headline' => 'Test Article',
-					],
-				],
 				0,
 			],
 			'Schema piece with array type - all types allowed' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -429,10 +375,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with array type - kept if one type allowed' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -462,10 +408,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with array type - filtered if all types filtered' => [
 				[
-					'action'      => [ 'ReadAction', 'WriteAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [ 'ReadAction', 'WriteAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -491,10 +437,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with array type - applies first matching property filter' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -518,10 +464,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with array type - mixed with single type pieces' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -561,7 +507,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'      => [],
 					'enumeration' => [],
 					'meta'        => [],
-					'website'     => [ 'WebPage' ],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -588,7 +534,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'      => [],
 					'enumeration' => [],
 					'meta'        => [],
-					'website'     => [ 'WebPage' ],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -610,38 +556,12 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 				],
 				0,
 			],
-			'Schema piece with array type - WebSite filter with existing filter class' => [
-				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [ 'WebSite' ],
-				],
-				[
-					[
-						'@type' => [ 'WebSite', 'Organization' ],
-						'name'  => 'Example Site',
-						'url'   => 'https://example.com',
-					],
-				],
-				[
-					[ 'WebSite', 'Organization' ],
-				],
-				[
-					[
-						'@type' => [ 'WebSite', 'Organization' ],
-						'name'  => 'Example Site',
-						'url'   => 'https://example.com',
-					],
-				],
-				1,
-			],
 			'Schema piece with array type - property filter found in second type' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -665,10 +585,10 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with single type not in any filter category' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [ 'StatusType' ],
-					'meta'        => [ 'MetaTags' ],
-					'website'     => [ 'WebSite' ],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [ 'StatusType' ],
+					'meta'         => [ 'MetaTags' ],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -694,7 +614,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'action'      => [ 'ReadAction' ],
 					'enumeration' => [],
 					'meta'        => [],
-					'website'     => [ 'WebPage' ],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -716,32 +636,12 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 				],
 				0,
 			],
-			'Schema piece with types in different filter categories - filtered if all categories filter' => [
-				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [ 'WebSite' ],
-				],
-				[
-					[
-						'@type' => [ 'ReadAction', 'WebSite' ],
-						'name'  => 'Mixed Types',
-						'url'   => 'https://example.com',
-					],
-				],
-				[
-					[ 'ReadAction', 'WebSite' ],
-				],
-				[],
-				1,
-			],
 			'Schema piece with types in different filter categories - kept if one category allows' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [ 'WebSite' ],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website-meta' => [],
 				],
 				[
 					[
