@@ -1,6 +1,6 @@
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { useMemo } from "@wordpress/element";
+import { useMemo, useRef, useEffect } from "@wordpress/element";
 import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
@@ -64,9 +64,16 @@ export const TaskModal = ( {
 } ) => {
 	// Sanitize the about content to prevent XSS attacks
 	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
+	const closeButtonRef = useRef();
+
+	useEffect( () => {
+		if ( taskId && closeButtonRef.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ taskId ] );
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
-		<Modal.Panel className="yst-p-0">
+		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
 					<TaskStatusIcon isCompleted={ isCompleted } />
@@ -89,6 +96,7 @@ export const TaskModal = ( {
 							· <Duration minutes={ duration } isCompleted={ isCompleted } />
 						</div>
 					</div>
+					<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-py-6 yst-px-12">
 					{ isError && <Alert
