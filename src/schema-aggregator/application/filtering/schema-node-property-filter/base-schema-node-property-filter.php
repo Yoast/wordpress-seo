@@ -16,7 +16,7 @@ class Base_Schema_Node_Property_Filter implements Schema_Node_Property_Filter_In
 	 *
 	 * @var array<string>
 	 */
-	private const PROPERTIES_AVOID_LIST = [ 'potentialAction', 'isPartOf', 'mainEntityOfPage', 'primaryImageOfPage' ];
+	private const PROPERTIES_AVOID_LIST = [ 'potentialAction', 'primaryImageOfPage' ];
 
 	/**
 	 * Filters any schema piece properties.

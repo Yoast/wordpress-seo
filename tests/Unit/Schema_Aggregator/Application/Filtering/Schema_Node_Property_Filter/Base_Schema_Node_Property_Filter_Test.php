@@ -69,9 +69,11 @@ final class Base_Schema_Node_Property_Filter_Test extends TestCase {
 					'author'              => 'John Doe',
 				],
 				[
-					'@type'    => 'Article',
-					'headline' => 'An example headline',
-					'author'   => 'John Doe',
+					'@type'            => 'Article',
+					'headline'         => 'An example headline',
+					'isPartOf'         => [ '@id' => 'https://example.com/#website' ],
+					'mainEntityOfPage' => [ '@id' => 'https://example.com/page' ],
+					'author'           => 'John Doe',
 				],
 			],
 			'Schema piece with some properties to be removed' => [
@@ -87,6 +89,7 @@ final class Base_Schema_Node_Property_Filter_Test extends TestCase {
 					'@type'       => 'WebPage',
 					'name'        => 'Example Page',
 					'description' => 'A sample page',
+					'isPartOf'    => [ '@id' => 'https://example.com/#website' ],
 					'url'         => 'https://example.com/page',
 				],
 			],
@@ -121,9 +124,10 @@ final class Base_Schema_Node_Property_Filter_Test extends TestCase {
 					'author'             => 'Test Author',
 				],
 				[
-					'@type'    => 'Article',
-					'headline' => 'Test Article',
-					'author'   => 'Test Author',
+					'@type'            => 'Article',
+					'headline'         => 'Test Article',
+					'mainEntityOfPage' => null,
+					'author'           => 'Test Author',
 				],
 			],
 			'Schema piece with empty arrays for avoided properties' => [
@@ -136,9 +140,10 @@ final class Base_Schema_Node_Property_Filter_Test extends TestCase {
 					'url'                 => 'https://example.com',
 				],
 				[
-					'@type' => 'WebSite',
-					'name'  => 'Example Site',
-					'url'   => 'https://example.com',
+					'@type'    => 'WebSite',
+					'name'     => 'Example Site',
+					'isPartOf' => [],
+					'url'      => 'https://example.com',
 				],
 			],
 			'Schema piece with mixed data types for avoided properties' => [
@@ -152,23 +157,12 @@ final class Base_Schema_Node_Property_Filter_Test extends TestCase {
 					'mainEntityOfPage' => false,
 				],
 				[
-					'@type'   => 'Product',
-					'name'    => 'Test Product',
-					'price'   => 99.99,
-					'inStock' => true,
-				],
-			],
-			'Schema piece with only one avoided property' => [
-				[
-					'@type'         => 'BlogPosting',
-					'headline'      => 'Blog Post',
-					'isPartOf'      => [ '@type' => 'Blog' ],
-					'datePublished' => '2023-01-01',
-				],
-				[
-					'@type'         => 'BlogPosting',
-					'headline'      => 'Blog Post',
-					'datePublished' => '2023-01-01',
+					'@type'            => 'Product',
+					'name'             => 'Test Product',
+					'price'            => 99.99,
+					'isPartOf'         => 123,
+					'inStock'          => true,
+					'mainEntityOfPage' => false,
 				],
 			],
 		];
