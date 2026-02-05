@@ -21,11 +21,11 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstract_WordPress_Global_State_Adapter_Test {
 
 	/**
-	 * Tests setting global state with a valid indexable.
+	 * Tests setting global state with a valid post indexable.
 	 *
 	 * @return void
 	 */
-	public function test_set_global_state_with_valid_indexable() {
+	public function test_set_global_state_with_valid_post_indexable() {
 		global $post, $wp_query;
 
 		$initial_post     = Mockery::mock( WP_Post::class );
@@ -36,13 +36,15 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			'queried_object_id' => 999,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$mock_post     = Mockery::mock( WP_Post::class );
-		$mock_post->ID = 123;
+		$mock_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$mock_post->ID        = 123;
+		$mock_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -60,9 +62,67 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 		$this->assertSame( 123, $wp_query->queried_object_id );
 		$this->assertTrue( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
+		$this->assertFalse( $wp_query->is_page );
 		$this->assertSame( $initial_post, $this->getPropertyValue( $this->instance, 'previous_post' ) );
 		$this->assertSame( $initial_post, $this->getPropertyValue( $this->instance, 'previous_queried_object' ) );
 		$this->assertSame( 999, $this->getPropertyValue( $this->instance, 'previous_queried_object_id' ) );
+
+		// Check that previous query flags are stored.
+		$previous_flags = $this->getPropertyValue( $this->instance, 'previous_query_flags' );
+		$this->assertFalse( $previous_flags['is_single'] );
+		$this->assertFalse( $previous_flags['is_singular'] );
+		$this->assertFalse( $previous_flags['is_page'] );
+	}
+
+	/**
+	 * Tests setting global state with a valid page indexable.
+	 *
+	 * @return void
+	 */
+	public function test_set_global_state_with_valid_page_indexable() {
+		global $post, $wp_query;
+
+		$initial_post     = Mockery::mock( WP_Post::class );
+		$initial_post->ID = 999;
+		$post             = $initial_post;
+		$wp_query         = (object) [
+			'queried_object'    => $initial_post,
+			'queried_object_id' => 999,
+			'is_single'         => true,
+			'is_singular'       => true,
+			'is_page'           => false,
+		];
+
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 123;
+
+		$mock_page            = Mockery::mock( WP_Post::class )->makePartial();
+		$mock_page->ID        = 123;
+		$mock_page->post_type = 'page';
+
+		Functions\expect( 'get_post' )
+			->twice()
+			->with( 123 )
+			->andReturn( $mock_page );
+
+		Functions\expect( 'setup_postdata' )
+			->once()
+			->with( $mock_page );
+
+		$this->instance->set_global_state( $indexable );
+
+		$this->assertSame( $mock_page, $post );
+		$this->assertSame( $mock_page, $wp_query->queried_object );
+		$this->assertSame( 123, $wp_query->queried_object_id );
+		$this->assertFalse( $wp_query->is_single );
+		$this->assertTrue( $wp_query->is_singular );
+		$this->assertTrue( $wp_query->is_page );
+
+		// Check that previous query flags are stored.
+		$previous_flags = $this->getPropertyValue( $this->instance, 'previous_query_flags' );
+		$this->assertTrue( $previous_flags['is_single'] );
+		$this->assertTrue( $previous_flags['is_singular'] );
+		$this->assertFalse( $previous_flags['is_page'] );
 	}
 
 	/**
@@ -82,13 +142,15 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			'queried_object_id' => null,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -121,13 +183,15 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			'queried_object_id' => 789,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -162,8 +226,9 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -198,8 +263,9 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -232,8 +298,9 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -249,5 +316,46 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_post' ) );
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_queried_object' ) );
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_queried_object_id' ) );
+	}
+
+	/**
+	 * Tests that set_global_state stores previous query flags correctly.
+	 *
+	 * @return void
+	 */
+	public function test_set_global_state_stores_previous_query_flags() {
+		global $post, $wp_query;
+
+		$post     = null;
+		$wp_query = (object) [
+			'queried_object'    => null,
+			'queried_object_id' => null,
+			'is_single'         => true,
+			'is_singular'       => true,
+			'is_page'           => false,
+		];
+
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 123;
+
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
+
+		Functions\expect( 'get_post' )
+			->twice()
+			->with( 123 )
+			->andReturn( $new_post );
+
+		Functions\expect( 'setup_postdata' )
+			->once()
+			->with( $new_post );
+
+		$this->instance->set_global_state( $indexable );
+
+		$previous_flags = $this->getPropertyValue( $this->instance, 'previous_query_flags' );
+		$this->assertTrue( $previous_flags['is_single'] );
+		$this->assertTrue( $previous_flags['is_singular'] );
+		$this->assertFalse( $previous_flags['is_page'] );
 	}
 }

@@ -35,13 +35,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => 456,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -81,13 +83,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => 789,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -124,13 +128,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => 789,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -154,11 +160,11 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 	}
 
 	/**
-	 * Tests that reset_global_state resets is_single and is_singular flags.
+	 * Tests that reset_global_state properly restores previous query flags.
 	 *
 	 * @return void
 	 */
-	public function test_reset_global_state_resets_is_single_and_is_singular() {
+	public function test_reset_global_state_restores_previous_query_flags() {
 		global $post, $wp_query;
 
 		$post     = null;
@@ -167,13 +173,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => null,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class );
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -188,6 +196,7 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->assertTrue( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
+		$this->assertFalse( $wp_query->is_page );
 
 		Functions\expect( 'wp_reset_postdata' )
 			->once();
@@ -196,6 +205,56 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->assertFalse( $wp_query->is_single );
 		$this->assertFalse( $wp_query->is_singular );
+		$this->assertFalse( $wp_query->is_page );
+	}
+
+	/**
+	 * Tests that reset_global_state properly restores previous query flags for pages.
+	 *
+	 * @return void
+	 */
+	public function test_reset_global_state_restores_previous_query_flags_for_pages() {
+		global $post, $wp_query;
+
+		$post     = null;
+		$wp_query = (object) [
+			'queried_object'    => null,
+			'queried_object_id' => null,
+			'is_single'         => true,
+			'is_singular'       => false,
+			'is_page'           => false,
+		];
+
+		$indexable            = new Indexable_Mock();
+		$indexable->object_id = 123;
+
+		$new_page            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_page->ID        = 123;
+		$new_page->post_type = 'page';
+
+		Functions\expect( 'get_post' )
+			->twice()
+			->with( 123 )
+			->andReturn( $new_page );
+
+		Functions\expect( 'setup_postdata' )
+			->once()
+			->with( $new_page );
+
+		$this->instance->set_global_state( $indexable );
+
+		$this->assertFalse( $wp_query->is_single );
+		$this->assertTrue( $wp_query->is_singular );
+		$this->assertTrue( $wp_query->is_page );
+
+		Functions\expect( 'wp_reset_postdata' )
+			->once();
+
+		$this->instance->reset_global_state();
+
+		$this->assertTrue( $wp_query->is_single );
+		$this->assertFalse( $wp_query->is_singular );
+		$this->assertFalse( $wp_query->is_page );
 	}
 
 	/**
@@ -212,13 +271,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => null,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -262,8 +323,9 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
@@ -300,13 +362,15 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 			'queried_object_id' => null,
 			'is_single'         => false,
 			'is_singular'       => false,
+			'is_page'           => false,
 		];
 
 		$indexable            = new Indexable_Mock();
 		$indexable->object_id = 123;
 
-		$new_post     = Mockery::mock( WP_Post::class );
-		$new_post->ID = 123;
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
 
 		Functions\expect( 'get_post' )
 			->twice()
