@@ -1,4 +1,3 @@
-
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useMemo } from "@wordpress/element";
