@@ -2,6 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
+use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
@@ -52,14 +55,34 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	private $recent_content_indexable_collector;
 
 	/**
+	 * Holds the indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
+	 * Holds the enabled analysis features repository.
+	 *
+	 * @var Enabled_Analysis_Features_Repository
+	 */
+	private $enabled_analysis_features_repository;
+
+	/**
 	 * Constructs the task.
 	 *
-	 * @param Recent_Content_Indexable_Collector $recent_content_indexable_collector The recent content indexable collector.
+	 * @param Recent_Content_Indexable_Collector   $recent_content_indexable_collector   The recent content indexable collector.
+	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper.
+	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 */
 	public function __construct(
-		Recent_Content_Indexable_Collector $recent_content_indexable_collector
+		Recent_Content_Indexable_Collector $recent_content_indexable_collector,
+		Indexable_Helper $indexable_helper,
+		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
 	) {
-		$this->recent_content_indexable_collector = $recent_content_indexable_collector;
+		$this->recent_content_indexable_collector   = $recent_content_indexable_collector;
+		$this->indexable_helper                     = $indexable_helper;
+		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 	}
 
 	/**
@@ -137,11 +160,18 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Returns whether the task is valid.
 	 *
-	 * @TODO: disable if no indexables enabled, or no SEO analysis enabled.
-	 *
 	 * @return bool
 	 */
 	public function is_valid(): bool {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			return false;
+		}
+
+		$enabled_features = $this->enabled_analysis_features_repository->get_enabled_features()->to_array();
+		if ( ! isset( $enabled_features[ Keyphrase_Analysis::NAME ] ) || $enabled_features[ Keyphrase_Analysis::NAME ] === false ) {
+			return false;
+		}
+
 		return true;
 	}
 }
