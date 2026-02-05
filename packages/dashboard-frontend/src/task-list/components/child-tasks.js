@@ -100,7 +100,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 			<TasksProgressBar completedTasks={ completedTasks } totalTasks={ totalTasks } />
 			{ currentPageTasks.map( ( task ) => (
 				<SingleChildTask
-					key={ task.taskId }
+					key={ task.id }
 					{ ...task }
 					onClick={ singleTaskOnClick }
 				/>
