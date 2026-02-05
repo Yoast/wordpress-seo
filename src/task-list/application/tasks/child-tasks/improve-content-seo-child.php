@@ -58,7 +58,11 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		return $this->content_item_seo_data->get_seo_score() === 'good';
+		if ( $this->is_completed === null ) {
+			$this->is_completed = $this->content_item_seo_data->get_seo_score() === 'good';
+		}
+
+		return $this->is_completed;
 	}
 
 	/**

@@ -65,6 +65,28 @@ trait Parent_Task_Trait {
 	}
 
 	/**
+	 * Returns the task's duration, calculated by summing durations of incomplete child tasks.
+	 *
+	 * @return int The total duration in minutes.
+	 */
+	public function get_duration(): int {
+		$child_tasks = $this->get_child_tasks();
+
+		if ( empty( $child_tasks ) ) {
+			return 0;
+		}
+
+		$total_duration = 0;
+		foreach ( $child_tasks as $child_task ) {
+			if ( ! $child_task->get_is_completed() ) {
+				$total_duration += $child_task->get_duration();
+			}
+		}
+
+		return $total_duration;
+	}
+
+	/**
 	 * Returns an array representation of the task data.
 	 * When used in a class extending Abstract_Task, this will call the parent's to_array()
 	 * and add the parent task flag.
