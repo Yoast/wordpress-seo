@@ -66,15 +66,13 @@ class WordPress_Global_State_Adapter {
 
 		$wp_query->is_single   = false;
 		$wp_query->is_page     = false;
-		$wp_query->is_singular = false;
+		$wp_query->is_singular = true;
 
-		if ( $post->post_type === 'page' ) {
-			$wp_query->is_page     = true;
-			$wp_query->is_singular = true;
+		if ( $indexable->object_sub_type === 'page' ) {
+			$wp_query->is_page = true;
 		}
-		elseif ( $post->post_type === 'post' ) {
-			$wp_query->is_single   = true;
-			$wp_query->is_singular = true;
+		else {
+			$wp_query->is_single = true;
 
 		}
 
