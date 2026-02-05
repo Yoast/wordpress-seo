@@ -92,16 +92,10 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 			<Table.Cell className={ cellBackground }>
 				<Priority level={ priority } isCompleted={ isCompleted } />
 			</Table.Cell>
-			<Table.Cell
-				className={ classNames( cellBackground,
-					isCompleted ? "yst-opacity-50" : "" ) }
-			>
+			<Table.Cell className={ cellBackground }>
 				<Duration minutes={ duration } isCompleted={ isCompleted } />
 			</Table.Cell>
-			<Table.Cell
-				className={ classNames( "yst-pe-5",
-					cellBackground ) }
-			>
+			<Table.Cell className={ classNames( "yst-pe-5", cellBackground ) }>
 				<div className="yst-flex yst-justify-between">
 					{ totalTasks > 0 && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
 					<ChevronRightIcon
