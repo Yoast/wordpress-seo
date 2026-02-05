@@ -20,7 +20,7 @@ class Default_Filter implements Filtering_Strategy_Interface {
 		'action',
 		'enumeration',
 		'meta',
-		'website',
+		'website-meta',
 	];
 
 	/**

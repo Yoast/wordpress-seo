@@ -15,7 +15,7 @@ class Default_Elements_Context_Map {
 	 * @var array <string, array<string>>
 	 */
 	private static $map = [
-		'action'      => [
+		'action'       => [
 			'Action',
 			'AcceptAction',
 			'AchieveAction',
@@ -131,7 +131,7 @@ class Default_Elements_Context_Map {
 			'WinAction',
 			'WriteAction',
 		],
-		'commerce'    => [
+		'commerce'     => [
 			'Product',
 			'Car',
 			'Drug',
@@ -176,7 +176,7 @@ class Default_Elements_Context_Map {
 			'CreditCard',
 			'PaymentService',
 		],
-		'content'     => [
+		'content'      => [
 			'CreativeWork',
 			'AmpStory',
 			'AnalysisNewsArticle',
@@ -335,7 +335,7 @@ class Default_Elements_Context_Map {
 			'TouristTrip',
 			'TrainTrip',
 		],
-		'data'        => [
+		'data'         => [
 			'Intangible',
 			'ActionAccessSpecification',
 			'AlignmentObject',
@@ -453,7 +453,7 @@ class Default_Elements_Context_Map {
 			'XPathType',
 			'Time',
 		],
-		'entity'      => [
+		'entity'       => [
 			'Thing',
 			'Person',
 			'Patient',
@@ -690,7 +690,7 @@ class Default_Elements_Context_Map {
 			'TouristDestination',
 			'Taxon',
 		],
-		'enumeration' => [
+		'enumeration'  => [
 			'RespiratoryTherapy',
 			'Enumeration',
 			'ActionStatusType',
@@ -1251,7 +1251,7 @@ class Default_Elements_Context_Map {
 			'Nonprofit527',
 			'WarrantyScope',
 		],
-		'event'       => [
+		'event'        => [
 			'Event',
 			'BusinessEvent',
 			'ChildrensEvent',
@@ -1277,7 +1277,7 @@ class Default_Elements_Context_Map {
 			'TheaterEvent',
 			'VisualArtsEvent',
 		],
-		'medical'     => [
+		'medical'      => [
 			'MedicalEntity',
 			'AnatomicalStructure',
 			'Artery',
@@ -1343,15 +1343,11 @@ class Default_Elements_Context_Map {
 			'Substance',
 			'SuperficialAnatomy',
 		],
-		'meta'        => [ 'Class', 'Property' ],
-		'website'     => [
+		'meta'         => [ 'Class', 'Property' ],
+		'website'      => [
 			'WebSite',
 			'WebPage',
 			'WebPageElement',
-			'SiteNavigationElement',
-			'BreadcrumbList',
-			'ItemList',
-			'ListItem',
 			'AboutPage',
 			'CheckoutPage',
 			'CollectionPage',
@@ -1362,6 +1358,12 @@ class Default_Elements_Context_Map {
 			'QAPage',
 			'RealEstateListing',
 			'SearchResultsPage',
+		],
+		'website-meta' => [
+			'SiteNavigationElement',
+			'BreadcrumbList',
+			'ItemList',
+			'ListItem',
 			'WPAdBlock',
 			'WPFooter',
 			'WPHeader',

@@ -101,10 +101,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 		return [
 			'WebPage with specific property filter (removes breadcrumb and base properties)' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					'@type'               => 'WebPage',
@@ -118,18 +119,21 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'description'         => 'Page description',
 				],
 				[
-					'@type'       => 'WebPage',
-					'name'        => 'Test Page',
-					'url'         => 'https://example.com/page',
-					'description' => 'Page description',
+					'@type'            => 'WebPage',
+					'name'             => 'Test Page',
+					'isPartOf'         => [ '@id' => 'https://example.com/#website' ],
+					'mainEntityOfPage' => [ '@id' => 'https://example.com/page' ],
+					'url'              => 'https://example.com/page',
+					'description'      => 'Page description',
 				],
 			],
 			'Article with base property filter only (removes base properties, no specific filter)' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					'@type'               => 'Article',
@@ -142,18 +146,21 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					'datePublished'       => '2023-01-01',
 				],
 				[
-					'@type'         => 'Article',
-					'headline'      => 'Test Article',
-					'author'        => 'John Doe',
-					'datePublished' => '2023-01-01',
+					'@type'            => 'Article',
+					'headline'         => 'Test Article',
+					'isPartOf'         => [ '@id' => 'https://example.com/#website' ],
+					'mainEntityOfPage' => [ '@id' => 'https://example.com/page' ],
+					'author'           => 'John Doe',
+					'datePublished'    => '2023-01-01',
 				],
 			],
 			'Person with no properties to filter (no specific or base filters needed)' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					'@type'    => 'Person',
@@ -180,10 +187,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 		return [
 			'Schema pieces with no filterable categories' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -211,10 +219,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema pieces with filterable categories but no existing filters' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -236,10 +245,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema pieces with properties to be filtered' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -260,6 +270,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 					[
 						'@type'    => 'Article',
 						'headline' => 'Test Article',
+						'isPartOf' => [ '@id' => 'https://example.com/#website' ],
 						'author'   => 'John Doe',
 					],
 					[
@@ -272,10 +283,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Mixed schema pieces with both node and property filtering' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [ 'MetaTags' ],
-					'website'     => [],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [ 'MetaTags' ],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -312,10 +324,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Empty schema collection' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
-					'website'     => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
+					'website'      => [],
+					'website-meta' => [],
 				],
 				[],
 				[],
@@ -323,10 +336,11 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema pieces with multiple filterable categories' => [
 				[
-					'action'      => [ 'ReadAction', 'WriteAction' ],
-					'enumeration' => [ 'EventStatusType' ],
-					'meta'        => [],
-					'website'     => [ 'WebSite' ],
+					'action'       => [ 'ReadAction', 'WriteAction' ],
+					'enumeration'  => [ 'EventStatusType' ],
+					'meta'         => [],
+					'website'      => [ 'WebSite' ],
+					'website-meta' => [],
 				],
 				[
 					[
@@ -349,11 +363,16 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 				],
 				[
 					[
+						'@type'  => 'WebSite',
+						'name'   => 'Example Site',
+						'url'    => 'https://example.com',
+					],
+					[
 						'@type'    => 'Article',
 						'headline' => 'Test Article',
 					],
 				],
-				1,
+				0,
 			],
 		];
 	}
