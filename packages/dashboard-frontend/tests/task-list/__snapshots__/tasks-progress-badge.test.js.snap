@@ -45,7 +45,7 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
       <span
         class="yst-sr-only"
       >
-        undefined 0 out of 0 tasks completed
+         0 out of 0 tasks completed
       </span>
     </span>
   </button>
@@ -97,7 +97,7 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
       <span
         class="yst-sr-only"
       >
-        undefined 5 out of 5 tasks completed
+         5 out of 5 tasks completed
       </span>
     </span>
   </button>
@@ -168,7 +168,83 @@ exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1
       <span
         class="yst-sr-only"
       >
-        undefined 3 out of 5 tasks completed
+         3 out of 5 tasks completed
+      </span>
+    </span>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`TasksProgressBadge matches snapshot for when with label 1`] = `
+<DocumentFragment>
+  <button
+    disabled=""
+  >
+    <span
+      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
+    >
+      <span
+        class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
+      >
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="16"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <circle
+            cx="8"
+            cy="8"
+            r="6"
+            stroke="#CBD5E1"
+            stroke-width="1.5"
+          />
+          <path
+            d="
+    M 8 8
+    L 8 2.75
+    A 5.25 5.25 0 0 1 8 13.25
+    Z
+  "
+            fill="#86EFAC"
+          />
+          <path
+            d="
+    M 8 2
+    A 6 6 0 0 1 8 14
+  "
+            fill="none"
+            stroke="#16A34A"
+            stroke-linecap="round"
+            stroke-width="1.5"
+          />
+        </svg>
+        <span
+          class="yst-text-xs"
+        >
+          <span
+            class="yst-text-slate-600 yst-font-medium"
+          >
+            2
+          </span>
+          <span
+            class="yst-text-slate-500 yst-font-normal"
+          >
+            /4
+          </span>
+        </span>
+        <span
+          class="yst-text-xs yst-font-medium yst-text-slate-900"
+        >
+           Tasks 
+        </span>
+      </span>
+      <span
+        class="yst-sr-only"
+      >
+        Tasks 2 out of 4 tasks completed
       </span>
     </span>
   </button>

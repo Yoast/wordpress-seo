@@ -164,7 +164,9 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 					</> }
 			</span>
 			<span className="yst-sr-only">
-				{ `${ label } ${ screenReaderText }` }
+				{ label }
+				{ " " }
+				{ screenReaderText }
 			</span>
 		</Badge>
 	</button>;
