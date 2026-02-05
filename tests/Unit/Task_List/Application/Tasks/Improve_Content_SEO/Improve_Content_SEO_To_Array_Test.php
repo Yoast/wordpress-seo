@@ -37,7 +37,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 
 		$expected_result = [
 			'id'           => 'improve-content-seo-post',
-			'duration'     => 15,
+			'duration'     => 0,
 			'priority'     => 'medium',
 			'badge'        => null,
 			'isCompleted'  => true,
@@ -65,7 +65,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 
 		$expected_result = [
 			'id'           => 'improve-content-seo-post',
-			'duration'     => 15,
+			'duration'     => 0,
 			'priority'     => 'medium',
 			'badge'        => null,
 			'isCompleted'  => true,
@@ -88,12 +88,14 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 		$child_task = Mockery::mock( Improve_Content_SEO_Child::class );
 		$child_task->shouldReceive( 'get_is_completed' )
 			->andReturn( false );
+		$child_task->shouldReceive( 'get_duration' )
+			->andReturn( 5 );
 
 		$this->instance->set_child_tasks( [ $child_task ] );
 
 		$expected_result = [
 			'id'           => 'improve-content-seo-post',
-			'duration'     => 15,
+			'duration'     => 5,
 			'priority'     => 'medium',
 			'badge'        => null,
 			'isCompleted'  => false,

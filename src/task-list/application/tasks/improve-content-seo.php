@@ -39,15 +39,6 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	protected $priority = 'medium';
 
 	/**
-	 * Holds the duration.
-	 *
-	 * @TODO: will be calculated dynamically, summing the duration of child tasks.
-	 *
-	 * @var int
-	 */
-	protected $duration = 15;
-
-	/**
 	 * Holds the recent content indexable collector.
 	 *
 	 * @var Recent_Content_Indexable_Collector
