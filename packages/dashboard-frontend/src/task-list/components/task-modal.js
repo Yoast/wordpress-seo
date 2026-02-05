@@ -116,7 +116,7 @@ export const TaskModal = ( {
 							{ __( "About this task", "wordpress-seo" ) }
 						</Title>
 						<div
-							className="yst-text-sm yst-text-slate-600 [&>p]:yst-mb-4"
+							className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4"
 							dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
 						/>
 					</> }
