@@ -106,8 +106,7 @@ class Create_New_Content extends Abstract_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Create new content', 'wordpress-seo' ),
-			\__( 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.', 'wordpress-seo' ),
-			\__( 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.', 'wordpress-seo' )
+			'<p>' . \__( 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return. Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.', 'wordpress-seo' ) . '</p>'
 		);
 	}
 }

@@ -29,7 +29,7 @@ import { TaskStatusIcon } from "../../icons";
  * @param {string}   title         Title of the modal.
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
- * @param {string}   about           Details on why the task is important.
+ * @param {string}   about         HTML string describing the task. Can contain HTML tags like <strong> and <p>.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
  * @param {boolean}	 isLoading	Whether the modal content is loading.
@@ -95,12 +95,15 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-
-					<Title size="5" className="yst-mb-1 yst-text-slate-800">
-						{ __( "About this task", "wordpress-seo" ) }
-					</Title>
-					<div dangerouslySetInnerHTML={ { __html: sanitizedAbout } } />
-					{ children }
+					{ about && <>
+						<Title as="h4" size="5" className="yst-text-slate-800">
+							{ __( "About this task", "wordpress-seo" ) }
+						</Title>
+						<div
+							className="yst-text-xs yst-text-slate-600 [&>p]:yst-mb-4"
+							dangerouslySetInnerHTML={ { __html: about } }
+						/>
+					</> }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>

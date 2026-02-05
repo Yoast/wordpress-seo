@@ -46,6 +46,10 @@ export default {
 		isCompleted: {
 			description: "Whether the task is completed. If true, the call to action button will be disabled.",
 		},
+		about: {
+			description: "HTML string describing the task. Can contain HTML tags like <strong> and <p>.",
+			control: "text",
+		},
 		errorMessage: {
 			description: "Error message to display in the modal.",
 			control: "text",
@@ -60,7 +64,7 @@ export default {
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		about: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.<br/> <b>Pro tip</b>: Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
+		about: "<p>Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.</p>",
 		callToAction: {
 			label: "Start configuration",
 			href: null,
