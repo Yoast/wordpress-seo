@@ -154,14 +154,22 @@ class Default_Filter implements Filtering_Strategy_Interface {
 	 * @return Schema_Piece The filtered schema piece.
 	 */
 	private function apply_property_filters( Schema_Piece $schema_piece, array $types ): Schema_Piece {
+		$filtered_piece   = $schema_piece;
+		$filter_was_found = false;
+
 		foreach ( $types as $type ) {
 			$filter = $this->get_property_filter( $type );
 			if ( $filter !== null ) {
-				return $filter->filter_properties( $schema_piece );
+				$filtered_piece   = $filter->filter_properties( $filtered_piece );
+				$filter_was_found = true;
 			}
 		}
 
-		return ( new Base_Schema_Node_Property_Filter() )->filter_properties( $schema_piece );
+		if ( ! $filter_was_found ) {
+			return ( new Base_Schema_Node_Property_Filter() )->filter_properties( $schema_piece );
+		}
+
+		return $filtered_piece;
 	}
 
 	/**
