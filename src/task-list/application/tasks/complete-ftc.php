@@ -89,13 +89,11 @@ class Complete_FTC extends Abstract_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Complete the First-time configuration', 'wordpress-seo' ),
-			\sprintf(
-				/* translators: %1$s expands to an opening p tag, %2$s expands to Yoast SEO, %3$s expands to a closing p tag */
-				\__( '%1$sSkipping setup limits how much %2$s can help you. Completing it makes sure the core settings are working in your favor.%3$s', 'wordpress-seo' ),
-				'<p>',
-				'Yoast SEO',
-				'</p>'
-			)
+			'<p>' . \sprintf(
+				/* translators: %s expands to Yoast SEO */
+				\__( 'Skipping setup limits how much %s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ),
+				'Yoast SEO'
+			) . '</p>'
 		);
 	}
 }

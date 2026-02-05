@@ -33,6 +33,7 @@ import { CompleteStatus } from "./complete-status";
  * @param {boolean}	 isLoading	Whether the modal content is loading.
  * @param {boolean}  [isError=false]   Whether there was an error loading the task.
  * @param {string}   [errorMessage=""]  Error message to display in the modal.
+ * @param {string}   [locale]      Optional locale to use for formatting (defaults to "en").
  *
  * @returns {JSX.Element} The TaskModal component.
  */
@@ -49,6 +50,7 @@ export const TaskModal = ( {
 	isLoading = false,
 	isError = false,
 	errorMessage,
+	locale,
 } ) => {
 	const svgAriaProps = useSvgAria();
 
@@ -66,7 +68,7 @@ export const TaskModal = ( {
 								<CompleteStatus />
 								·
 							</> }
-							<Duration minutes={ duration } />
+							<Duration minutes={ duration } locale={ locale } isCompleted={ isCompleted } />
 							· <Priority level={ priority } />
 						</div>
 					</div>

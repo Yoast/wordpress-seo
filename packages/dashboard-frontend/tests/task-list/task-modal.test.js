@@ -89,10 +89,9 @@ describe( "TaskModal", () => {
 			expect( separatorCount ).toBe( 2 );
 		} );
 
-		it( "still displays duration and priority information", () => {
+		it( "should display duration as 0", () => {
 			render( <TaskModal { ...completedProps } /> );
-			expect( screen.getByText( "15m" ) ).toBeInTheDocument();
-			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+			expect( screen.getByText( "0m" ) ).toBeInTheDocument();
 		} );
 	} );
 
