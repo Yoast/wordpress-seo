@@ -20,6 +20,13 @@ export const toastClassNameMap = {
 	},
 };
 
+// Fixed positioning classes for Dialog portal
+const dialogPositionClassNameMap = {
+	"bottom-center": "yst-fixed yst-inset-x-0 yst-bottom-0 yst-flex yst-justify-center yst-p-4 yst-z-50",
+	"bottom-left": "yst-fixed yst-bottom-0 yst-left-0 yst-p-4 yst-z-50",
+	"top-center": "yst-fixed yst-inset-x-0 yst-top-0 yst-flex yst-justify-center yst-p-4 yst-z-50",
+};
+
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
  * @param {string} [className] The additional class name.
@@ -95,7 +102,7 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {React.ReactNode} [children=null] The children.
  * @param {string} id The toast ID.
- * @param {string} [className] The additional class name.
+ * @param {string} [className] The additional class name for positioning the wrapper.
  * @param {string} [position="bottom-left"] The toast position. Can be "bottom-left", "bottom-center", or "top-center".
  * @param {Function} [onDismiss=noop] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
@@ -147,25 +154,24 @@ const Toast = ( {
 					onClose={ handleDismiss }
 					initialFocus={ initialFocus }
 				>
-					<Transition.Child
-						as={ Fragment }
-						enter="yst-transition yst-ease-in-out yst-duration-150"
-						enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-						enterTo="yst-translate-y-0"
-						leave="yst-transition yst-ease-in-out yst-duration-150"
-						leaveFrom="yst-translate-y-0"
-						leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-					>
-						<Dialog.Panel
-							className={ classNames(
-								"yst-toast",
-								className,
-							) }
-							role="alert"
+					<div className={ classNames( dialogPositionClassNameMap[ position ], className ) }>
+						<Transition.Child
+							as={ Fragment }
+							enter="yst-transition yst-ease-in-out yst-duration-150"
+							enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
+							enterTo="yst-translate-y-0"
+							leave="yst-transition yst-ease-in-out yst-duration-150"
+							leaveFrom="yst-translate-y-0"
+							leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
 						>
-							{ children }
-						</Dialog.Panel>
-					</Transition.Child>
+							<Dialog.Panel
+								className="yst-toast"
+								role="alert"
+							>
+								{ children }
+							</Dialog.Panel>
+						</Transition.Child>
+					</div>
 				</Dialog>
 			</Transition.Root>
 		</ToastContext.Provider>
