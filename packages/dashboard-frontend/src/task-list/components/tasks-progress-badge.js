@@ -142,7 +142,7 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 	const svgAriaProps = useSvgAria();
 	const handleClick = useCallback( ( event ) => {
 		event.preventDefault();
-		if ( parentTaskId && parentTaskId ) {
+		if ( parentTaskId && onClick ) {
 			onClick( parentTaskId );
 		}
 	}, [ onClick, parentTaskId ] );
