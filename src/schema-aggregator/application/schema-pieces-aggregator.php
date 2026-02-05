@@ -28,11 +28,11 @@ class Schema_Pieces_Aggregator {
 	 * Class constructor
 	 *
 	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
-	 *                                                               @param Properties_Merger         $properties_merger         The properties merger.
+	 *                                                               @param Properties_Merger          $properties_merger          The properties merger.
 	 */
 	public function __construct( Filtering_Strategy_Factory $filtering_strategy_factory, Properties_Merger $properties_merger ) {
 		$this->filtering_strategy_factory = $filtering_strategy_factory;
-		$this->properties_merger         = $properties_merger;
+		$this->properties_merger          = $properties_merger;
 	}
 
 	/**
@@ -62,7 +62,6 @@ class Schema_Pieces_Aggregator {
 				// Add new piece.
 				$aggregated_schema[ $id ] = $piece;
 			}
-
 		}
 
 		// Return only the values to get rid of the keys (which are @id) and wrap in a collection.

@@ -326,7 +326,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 	public function test_set_global_state_stores_previous_query_flags() {
 		global $post, $wp_query;
 
-		$post = null;
+		$post     = null;
 		$wp_query = (object) [
 			'queried_object'    => null,
 			'queried_object_id' => null,

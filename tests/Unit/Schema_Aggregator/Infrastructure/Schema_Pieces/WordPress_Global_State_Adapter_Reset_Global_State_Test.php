@@ -194,7 +194,6 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->instance->set_global_state( $indexable );
 
-		// After setting global state for post
 		$this->assertTrue( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
 		$this->assertFalse( $wp_query->is_page );
@@ -204,7 +203,6 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->instance->reset_global_state();
 
-		// Should be restored to original values
 		$this->assertFalse( $wp_query->is_single );
 		$this->assertFalse( $wp_query->is_singular );
 		$this->assertFalse( $wp_query->is_page );
@@ -245,7 +243,6 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->instance->set_global_state( $indexable );
 
-		// After setting global state for page
 		$this->assertFalse( $wp_query->is_single );
 		$this->assertTrue( $wp_query->is_singular );
 		$this->assertTrue( $wp_query->is_page );
@@ -255,7 +252,6 @@ final class WordPress_Global_State_Adapter_Reset_Global_State_Test extends Abstr
 
 		$this->instance->reset_global_state();
 
-		// Should be restored to original values
 		$this->assertTrue( $wp_query->is_single );
 		$this->assertFalse( $wp_query->is_singular );
 		$this->assertFalse( $wp_query->is_page );
