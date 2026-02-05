@@ -566,10 +566,8 @@ class Indexable_Repository {
 			->select( 'breadcrumb_title' )
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
-			->where_not_equal( 'readability_score', 0 )
-			->where_not_null( 'readability_score' )
+			->where_not_null( 'estimated_reading_time_minutes' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
-			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
 			->order_by_desc( 'object_last_modified' );
 
 		if ( $limit !== null ) {
