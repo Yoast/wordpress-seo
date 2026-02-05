@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readabil
 
 /**
  * The repository to get readability score groups.
+ *
  * @TODO: This class is very similar to the SEO_Score_Groups_Repository. Consider refactoring to a generic Score_Groups_Repository that can be used for both SEO and readability score groups.
  */
 class Readability_Score_Groups_Repository {
@@ -37,7 +38,7 @@ class Readability_Score_Groups_Repository {
 	 * @return Readability_Score_Groups_Interface The readability score group that the readability score belongs to.
 	 */
 	public function get_readability_score_group( ?int $readability_score ): Readability_Score_Groups_Interface {
-		// @TODO: Check if having 0 as readability score should actually get you to the no readability score group.  
+		// @TODO: Check if having 0 as readability score should actually get you to the no readability score group.
 		if ( $readability_score === null || $readability_score === 0 ) {
 			return new No_Readability_Score_Group();
 		}

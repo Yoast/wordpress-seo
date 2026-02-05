@@ -31,7 +31,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface  $parent_task             The parent task.
+	 * @param Parent_Task_Interface   $parent_task             The parent task.
 	 * @param Content_Item_Score_Data $content_item_score_data The content item score data.
 	 */
 	public function __construct(

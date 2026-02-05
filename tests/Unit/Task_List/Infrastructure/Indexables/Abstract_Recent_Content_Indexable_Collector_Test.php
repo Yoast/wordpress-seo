@@ -7,7 +7,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Indexables;
 use Mockery;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
