@@ -29,7 +29,7 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
-			'First paragraph from parent.</br>Second paragraph from parent.'
+			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>'
 		);
 
 		$this->parent_task
@@ -47,7 +47,7 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 
 		$this->assertSame( 'My Amazing Blog Post', $array['title'] );
 		$this->assertSame(
-			'First paragraph from parent.</br>Second paragraph from parent.',
+			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>',
 			$array['about']
 		);
 	}
