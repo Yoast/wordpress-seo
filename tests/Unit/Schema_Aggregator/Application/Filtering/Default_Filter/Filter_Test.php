@@ -504,9 +504,9 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with WebPage and FAQPage array type - kept because FAQPage is allowed' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
 					'website-meta' => [],
 				],
 				[
@@ -531,9 +531,9 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with WebPage and ItemPage array type - kept because ItemPage is allowed' => [
 				[
-					'action'      => [],
-					'enumeration' => [],
-					'meta'        => [],
+					'action'       => [],
+					'enumeration'  => [],
+					'meta'         => [],
 					'website-meta' => [],
 				],
 				[
@@ -611,9 +611,9 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			],
 			'Schema piece with array of 3+ types - kept if at least one allowed' => [
 				[
-					'action'      => [ 'ReadAction' ],
-					'enumeration' => [],
-					'meta'        => [],
+					'action'       => [ 'ReadAction' ],
+					'enumeration'  => [],
+					'meta'         => [],
 					'website-meta' => [],
 				],
 				[
