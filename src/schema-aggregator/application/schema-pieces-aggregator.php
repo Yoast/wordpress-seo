@@ -18,12 +18,21 @@ class Schema_Pieces_Aggregator {
 	private $filtering_strategy_factory;
 
 	/**
+	 * The properties merger.
+	 *
+	 * @var Properties_Merger
+	 */
+	private $properties_merger;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param Filtering_Strategy_Factory $filtering_strategy_factory The filtering strategy factory.
+	 *                                                               @param Properties_Merger          $properties_merger          The properties merger.
 	 */
-	public function __construct( Filtering_Strategy_Factory $filtering_strategy_factory ) {
+	public function __construct( Filtering_Strategy_Factory $filtering_strategy_factory, Properties_Merger $properties_merger ) {
 		$this->filtering_strategy_factory = $filtering_strategy_factory;
+		$this->properties_merger          = $properties_merger;
 	}
 
 	/**
@@ -45,8 +54,14 @@ class Schema_Pieces_Aggregator {
 			if ( \is_null( $id ) ) {
 				continue;
 			}
-			$aggregated_schema[ $id ] = $piece;
 
+			if ( isset( $aggregated_schema[ $id ] ) ) {
+				$aggregated_schema[ $id ] = $this->properties_merger->merge( $aggregated_schema[ $id ], $piece );
+			}
+			else {
+				// Add new piece.
+				$aggregated_schema[ $id ] = $piece;
+			}
 		}
 
 		// Return only the values to get rid of the keys (which are @id) and wrap in a collection.

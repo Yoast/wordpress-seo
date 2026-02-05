@@ -70,9 +70,12 @@ final class WebPage_Schema_Node_Property_Filter_Test extends TestCase {
 					'url'                 => 'https://example.com/page',
 				],
 				[
-					'@type' => 'WebPage',
-					'name'  => 'Example Page',
-					'url'   => 'https://example.com/page',
+					'@type'            => 'WebPage',
+					'name'             => 'Example Page',
+					'isPartOf'         => [ '@id' => 'https://example.com/#website' ],
+					'mainEntityOfPage' => [ '@id' => 'https://example.com/page' ],
+					'url'              => 'https://example.com/page',
+
 				],
 			],
 			'WebPage with some base properties and breadcrumb to be removed' => [
@@ -116,9 +119,11 @@ final class WebPage_Schema_Node_Property_Filter_Test extends TestCase {
 					'datePublished'    => '2023-01-01',
 				],
 				[
-					'@type'         => 'WebPage',
-					'name'          => 'Another Page',
-					'datePublished' => '2023-01-01',
+					'@type'            => 'WebPage',
+					'name'             => 'Another Page',
+					'isPartOf'         => [ '@id' => 'https://example.com/#website' ],
+					'mainEntityOfPage' => [ '@id' => 'https://example.com/another' ],
+					'datePublished'    => '2023-01-01',
 				],
 			],
 			'WebPage without properties to be removed' => [
