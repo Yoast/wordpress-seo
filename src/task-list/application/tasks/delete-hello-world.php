@@ -113,12 +113,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Remove the “Hello World” post', 'wordpress-seo' ),
-			\sprintf(
-				/* translators: %1$s expands to an opening p tag, %2$s expands to a closing p tag */
-				\__( '%1$sLeaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.%2$s', 'wordpress-seo' ),
-				'<p>',
-				'</p>'
-			)
+			'<p>' . \__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ) . '</p>'
 		);
 	}
 }
