@@ -12,7 +12,7 @@ import { isEmpty } from "lodash";
  */
 export const TaskListModal = () => {
 	const { setCurrentOpenTask, completeTask } = useDispatch( STORE_NAME );
-	const { completeTaskEndpoint, nonce, currentOpenTask } = useSelect( ( select ) => {
+	const { completeTaskEndpoint, nonce, currentOpenTask, tasks } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
 			completeTaskEndpoint: state.selectTasksEndpoints().completeTask,
@@ -39,10 +39,6 @@ export const TaskListModal = () => {
 		setCurrentOpenTask( null );
 	}, [ setCurrentOpenTask ] );
 
-	const handleSingleTaskOnClick = useCallback( ( taskId ) => {
-		setCurrentOpenTask( taskId );
-	}, [ setCurrentOpenTask ] );
-
 	const totalTasks = useMemo( () => {
 		if ( ! isEmpty( parentChildTasks ) ) {
 			return parentChildTasks.length;
@@ -57,7 +53,7 @@ export const TaskListModal = () => {
 		return childTasks.filter( ( task ) => task.isCompleted ).length;
 	}, [ childTasks, parentChildTasks ] );
 
-	return <TaskModal
+	return currentOpenTask && <TaskModal
 		isOpen={ ! isEmpty( currentOpenTask ) }
 		onClose={ handleOnClose }
 		{ ...currentOpenTask }
@@ -72,7 +68,8 @@ export const TaskListModal = () => {
 		totalTasks={ totalTasks }
 		completedTasks={ completedTasks }
 		parentTaskTitle={ parentTaskTitle }
+		onProgressBadgeClick={ setCurrentOpenTask }
 	>
-		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ handleSingleTaskOnClick } /> }
+		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTask } /> }
 	</TaskModal>;
 };

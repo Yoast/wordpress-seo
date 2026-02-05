@@ -58,6 +58,8 @@ export const TaskModal = ( {
 	totalTasks,
 	completedTasks,
 	parentTaskTitle,
+	onProgressBadgeClick,
+	parentTaskId,
 	children,
 } ) => {
 	// Sanitize the about content to prevent XSS attacks
@@ -74,7 +76,13 @@ export const TaskModal = ( {
 						</Modal.Title>
 						<div className="yst-flex yst-gap-1 yst-items-center">
 							{ totalTasks > 0 && <>
-								<TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } label={ parentTaskTitle } />
+								<TasksProgressBadge
+									completedTasks={ completedTasks }
+									totalTasks={ totalTasks }
+									label={ parentTaskTitle }
+									onClick={ onProgressBadgeClick }
+									parentTaskId={ parentTaskId }
+								/>
 								·
 							</> }
 							<Priority level={ priority } isCompleted={ isCompleted } />
