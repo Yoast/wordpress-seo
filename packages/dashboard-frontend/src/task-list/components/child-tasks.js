@@ -51,7 +51,7 @@ const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick 
 				{ title }
 			</div>
 			<div className="yst-flex yst-gap-1">
-				<Priority level={ priority }  isCompleted={ isCompleted } />
+				<Priority level={ priority } isCompleted={ isCompleted } />
 				· <Duration minutes={ duration } isCompleted={ isCompleted } />
 			</div>
 		</span>
