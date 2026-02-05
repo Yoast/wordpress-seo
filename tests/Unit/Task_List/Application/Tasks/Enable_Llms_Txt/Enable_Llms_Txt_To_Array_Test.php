@@ -49,7 +49,7 @@ final class Enable_Llms_Txt_To_Array_Test extends Abstract_Enable_Llms_Txt_Test 
 				'href'  => null,
 			],
 			'title'        => 'Create an llms.txt file',
-			'about'        => '<p>Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.</p>',
+			'about'        => 'Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -79,7 +79,7 @@ final class Enable_Llms_Txt_To_Array_Test extends Abstract_Enable_Llms_Txt_Test 
 				'href'  => null,
 			],
 			'title'        => 'Create an llms.txt file',
-			'about'        => '<p>Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.</p>',
+			'about'        => 'Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools.',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
