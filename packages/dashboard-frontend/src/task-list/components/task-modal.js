@@ -96,14 +96,15 @@ export const TaskModal = ( {
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
 					{ about && <>
-						<Title as="h4" size="5" className="yst-text-slate-800">
+						<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
 							{ __( "About this task", "wordpress-seo" ) }
 						</Title>
 						<div
-							className="yst-text-xs yst-text-slate-600 [&>p]:yst-mb-4"
-							dangerouslySetInnerHTML={ { __html: about } }
+							className="yst-text-sm yst-text-slate-600 [&>p]:yst-mb-4"
+							dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
 						/>
 					</> }
+					{ children }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
