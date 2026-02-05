@@ -15,18 +15,10 @@ import { STORE_NAME } from "../constants";
  *
  * @returns {JSX.Element} The Task component.
  */
-export const Task = ( { title, id, how, why, duration, priority, isCompleted, callToAction, badge } ) => {
-	const [ isOpen, toggleOpen ] = useToggleState( false );
-	const { completeTask, resetTaskError } = useDispatch( STORE_NAME );
-	const { status, completeTaskEndpoint, nonce, errorMessage } = useSelect( ( select ) => {
-		const state = select( STORE_NAME );
-		return {
-			status: state.selectTaskStatus( id ),
-			errorMessage: state.selectTaskError( id ),
-			completeTaskEndpoint: state.selectTasksEndpoints().completeTask,
-			nonce: state.selectNonce(),
-		};
-	}, [] );
+export const Task = ( { title, id, duration, priority, isCompleted, badge } ) => {
+	const { resetTaskError, setCurrentOpenTask } = useDispatch( STORE_NAME );
+
+	const childTasks = useSelect( ( select ) => select( STORE_NAME ).selectChildTasks( id ), [] );
 
 	const totalTasks = useMemo( () => {
 		return childTasks.length;
@@ -50,21 +42,5 @@ export const Task = ( { title, id, how, why, duration, priority, isCompleted, ca
 		completedTasks={ completedTasks }
 		totalTasks={ totalTasks }
 		badge={ badge }
-	>
-		<TaskModal
-			isOpen={ isOpen }
-			onClose={ toggleOpen }
-			title={ title }
-			duration={ duration }
-			priority={ priority }
-			why={ why }
-			how={ how }
-			isCompleted={ isCompleted }
-			taskId={ id }
-			callToAction={ callToActionProps }
-			isLoading={ status === ASYNC_ACTION_STATUS.loading }
-			isError={ status === ASYNC_ACTION_STATUS.error }
-			errorMessage={ errorMessage }
-		/>
-	</TaskRow>;
+	/>;
 };
