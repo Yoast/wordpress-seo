@@ -17,7 +17,7 @@ describe( "TaskModal", () => {
 		duration: 15,
 		priority: "high",
 		taskId: "task-1",
-		about: "<p>Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs. Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.</p>",
+		about: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs. Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
 		isCompleted: false,
 	};
 
@@ -54,7 +54,7 @@ describe( "TaskModal", () => {
 				<TaskModal { ...defaultProps } />
 			</TaskListProvider>
 		);
-		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs." ) ).toBeInTheDocument();
+		expect( screen.getByText( "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs. Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively." ) ).toBeInTheDocument();
 	} );
 
 	it( "calls onClose when Close button is clicked, for both header and footer", () => {

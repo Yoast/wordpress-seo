@@ -64,7 +64,7 @@ export default {
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		about: "<p>Skipping setup limits how much Yoast SEO can help you. Completing it makes sure the core settings are working in your favor.</p>",
+		about: "Skipping setup limits how much Yoast SEO can help you. </br></br><strong>Pro tip:</strong> Completing it makes sure the core settings are working in your favor.",
 		callToAction: {
 			label: "Start configuration",
 			href: null,
