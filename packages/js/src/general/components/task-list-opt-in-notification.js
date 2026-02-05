@@ -66,7 +66,7 @@ export const TaskListOptInNotification = () => {
 	return <Toast
 		id="yoast_wpseo_task_list_opt_in_notification"
 		isVisible={ isVisible }
-		className="yst-w-96"
+		className="yst-w-96 yst-left-[160px]"
 		position="bottom-left"
 		setIsVisible={ setIsVisible }
 		onDismiss={ onDismiss }
