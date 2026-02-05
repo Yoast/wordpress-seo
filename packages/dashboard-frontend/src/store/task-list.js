@@ -157,7 +157,7 @@ const slice = createSlice( {
 			}
 		},
 		setCurrentOpenTask( state, { payload } ) {
-			state.currentOpenTask = state.tasks[ payload ];
+			state.currentOpenTask = payload ? state.tasks[ payload ] : null;
 		},
 	},
 	extraReducers: ( builder ) => {
