@@ -48,7 +48,7 @@ function MyComponent() {
     >
       <ImageSelect.Preview 
         imageAltText="Selected image preview"
-        className="yst-h-48 yst-w-96"
+        size="medium-rect"
         selectDescription="No image selected"
       />
       <ImageSelect.Buttons 
@@ -90,7 +90,8 @@ Displays the image preview or a placeholder when no image is selected.
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | `imageAltText` | `string` | Yes | - | The alt text for the image preview |
-| `className` | `string` | No | `"yst-max-h-32 yst-w-32 yst-min-h-20"` | Additional CSS classes for the preview container. Defaults to a square 8rem (32 × 0.25rem) preview box with minimum height of 5rem |
+| `size` | `string` | No | `"default"` | Predefined size preset: `"default"` (8rem square), `"medium-rect"` (12rem × 24rem), or `"medium-square"` (12rem square) |
+| `className` | `string` | No | `""` | Additional CSS classes for the preview container. Use this to override or customize the size beyond the presets |
 | `selectDescription` | `string` | No | `""` | Optional description text shown in the placeholder state |
 
 ### ImageSelect.Buttons
@@ -133,10 +134,18 @@ When `isDisabled` is `true`:
 
 ## Styling
 
-The component uses predefined Tailwind CSS classes with the `yst-` prefix. Key styling options:
+The component provides two ways to control the preview area dimensions:
 
-- **Preview dimensions**: The preview area has a default size of `yst-max-h-32 yst-w-32 yst-min-h-20` (square 8rem box with 5rem minimum height). You can customize this using the `className` prop on `ImageSelect.Preview`
-- **Custom styling**: Adds additional classes to replace the default styles.
+### Using the `size` Prop (Recommended)
+
+Use predefined size presets via the `size` prop for the preview area:
+
+| Size Value | Dimensions | CSS Classes |
+|------------|------------|-------------|
+| `"default"` | 8rem square with 5rem min height | `yst-max-h-32 yst-w-32 yst-min-h-20` |
+| `"medium-rect"` | 12rem height × 24rem width | `yst-h-48 yst-w-96` |
+| `"medium-square"` | 12rem square | `yst-h-48 yst-w-48` |
+| `"custom"` | Custom dimensions via `className` | No default classes, use `className` to set dimensions |
 
 ## Accessibility
 
@@ -154,7 +163,7 @@ The component is built with accessibility in mind:
 2. **Handle loading states**: Set `isLoading={true}` during async operations
 3. **Validate image URLs**: Ensure the `imageUrl` prop contains a valid URL
 4. **Error handling**: Implement proper error handling in your `onSelectImage` callback
-5. **Size the preview appropriately**: Use the `className` prop to set appropriate dimensions
+5. **Size the preview appropriately**: Use the `size` prop for standard sizes, or `className` for custom dimensions
 6. **Provide context**: Use `selectDescription` to guide users when no image is selected
 
 ## Example: With Loading State
@@ -194,7 +203,7 @@ function ImageSelectWithLoading() {
     >
       <ImageSelect.Preview 
         imageAltText="Profile picture preview"
-        className="yst-h-40 yst-w-40 yst-rounded-full"
+        size="medium-square"
         selectDescription="Choose a profile picture"
       />
       <ImageSelect.Buttons 
