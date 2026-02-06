@@ -14,7 +14,7 @@ import { Button, Link, useSvgAria } from "../../index";
  * @param {string} replaceButtonLabel The label for the replace image button.
  * @param {Function} onSelectImage Callback called when the "Select image" or "Replace image" button is clicked.
  * @param {boolean} isDisabled Whether the buttons are disabled.
- * @param {boolean} isLoading Whether the image is loading.
+ * @param {boolean} [isLoading=false] Whether the image is loading.
  * @param {string} id The ID for the image URL input.
  *
  * @returns {JSX.Element} The ImageSelect component.
@@ -28,7 +28,7 @@ export const ImageSelect = forwardRef( ( {
 	replaceButtonLabel,
 	onSelectImage,
 	isDisabled,
-	isLoading,
+	isLoading = false,
 	id,
 }, ref ) => {
 	const buttonLabel = imageUrl ? replaceButtonLabel : selectButtonLabel;
@@ -56,11 +56,11 @@ export const ImageSelect = forwardRef( ( {
  *
  * @param {string} imageAltText The alt text for the image.
  * @param {string} className Additional class names.
- * @param {string} selectDescription The description for the select image preview box.
+ * @param {string} [selectDescription] The description for the select image preview box (optional).
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className, selectDescription } ) => {
+export const Preview = ( { imageAltText, className, selectDescription = "" } ) => {
 	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
