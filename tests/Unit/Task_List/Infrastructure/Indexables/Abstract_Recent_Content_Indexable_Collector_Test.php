@@ -96,7 +96,7 @@ abstract class Abstract_Recent_Content_Indexable_Collector_Test extends TestCase
 		$score_group->expects( 'get_name' )->andReturn( $group_name );
 
 		$this->seo_score_groups_repository
-			->expects( 'get_seo_score_group' )
+			->expects( 'get_score_group' )
 			->with( $score )
 			->andReturn( $score_group );
 	}
