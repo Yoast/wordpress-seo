@@ -4,6 +4,7 @@ import { ImageSelectContext } from "./context";
 import classNames from "classnames";
 import { PhotographIcon } from "@heroicons/react/outline";
 import { Button, Link, useSvgAria } from "../../index";
+import { has } from "lodash";
 
 /**
  * @param {JSX.node} children The children components.
@@ -51,23 +52,32 @@ export const ImageSelect = forwardRef( ( {
 	);
 } );
 
+const sizesClassMap = {
+	"default": "yst-max-h-32 yst-w-32 yst-min-h-20",
+	"medium-rect": "yst-h-48 yst-w-96",
+	"medium-square": "yst-h-48 yst-w-48",
+	custom: "",
+};
+
 /**
  * Preview component for the ImageSelect.
  *
  * @param {string} imageAltText The alt text for the image.
- * @param {string} [className="yst-max-h-32 yst-w-32 yst-min-h-20"] Additional class names.
- * @param {string} [selectDescription] The description for the select image preview box (optional).
+ * @param {string} [className=""] Additional class names.
+ * @param {string} [selectDescription=""] The description for the select image preview box (optional).
+ * @param {string} [size="default"] The size of the preview box (optional).
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className = "yst-max-h-32 yst-w-32 yst-min-h-20", selectDescription = "" } ) => {
+export const Preview = ( { imageAltText, className = "", selectDescription = "", size = "default" } ) => {
 	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
 	return <button
 		className={ classNames( "yst-image-select-preview",
 			imageUrl ? "" : "yst-border-2 yst-border-dashed",
-			isLoading && "yst-cursor-wait",
+			{ "yst-cursor-wait": isLoading },
+			has( sizesClassMap, size ) ? sizesClassMap[ size ] : "",
 			className,
 		) }
 		id={ `${ id }-preview` }
@@ -78,7 +88,7 @@ export const Preview = ( { imageAltText, className = "yst-max-h-32 yst-w-32 yst-
 	>
 		{ imageUrl ? <img src={ imageUrl } alt={ imageAltText } className={ classNames( "yst-image-select-preview-image", isLoading && "yst-image-select-preview-image--loading" ) } /> : <div>
 			<PhotographIcon className="yst-image-select-preview-icon" { ... svgAriaProps } />
-			{ selectDescription && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8 yst-max-w-48">{ selectDescription }</p> }
+			{ selectDescription && <p className="yst-text-xs yst-text-slate-600 yst-text-center yst-px-8 yst-max-w-48">{ selectDescription }</p> }
 		</div>
 		}
 		<span className="yst-sr-only">

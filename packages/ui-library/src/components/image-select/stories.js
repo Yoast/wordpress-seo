@@ -18,6 +18,7 @@ export const Factory = {
 		imageAltText,
 		removeLabel,
 		selectDescription,
+		size,
 	} ) => {
 		const [ { imageUrl, isLoading }, updateArgs ] = useArgs();
 		const handleOnSelectImage = useCallback( () => {
@@ -44,7 +45,7 @@ export const Factory = {
 			isLoading={ isLoading }
 			id={ id }
 		>
-			<ImageSelect.Preview imageAltText={ imageAltText } selectDescription={ selectDescription } className={ className } />
+			<ImageSelect.Preview imageAltText={ imageAltText } selectDescription={ selectDescription } size={ size } className={ className } />
 			<ImageSelect.Buttons removeLabel={ removeLabel } onRemoveImage={ handleOnRemoveImage } />
 		</ImageSelect>;
 	},
@@ -65,7 +66,8 @@ export default {
 		imageAltText: "Selected image preview",
 		removeLabel: "Remove image",
 		onRemoveImage: noop,
-		className: "yst-h-48 yst-w-96",
+		size: "medium-rect",
+		className: "",
 		selectDescription: "No image selected",
 	},
 	argTypes: {
@@ -113,36 +115,15 @@ export default {
 			description: "Callback called when the remove image button is clicked.",
 			table: { type: { summary: "function" } },
 		},
+		size: {
+			description: "Predefined size preset for the image preview box.",
+			table: { type: { summary: "string" }, defaultValue: { summary: "\"default\"" } },
+			control: { type: "select" },
+			options: [ "default", "medium-rect", "medium-square" ],
+		},
 		className: {
-			description: "Additional class names to apply to the select image preview box. Default in component: \"yst-max-h-32 yst-w-32 yst-min-h-20\".",
-			table: { type: { summary: "string" }, defaultValue: { summary: "\"yst-max-h-32 yst-w-32 yst-min-h-20\"" } },
-			control: {
-				type: "select",
-				options: [
-					"yst-max-h-32 yst-w-32 yst-min-h-20",
-					"yst-h-40 yst-w-40",
-					"yst-h-48 yst-w-96",
-					"yst-h-64 yst-w-64",
-					"yst-h-48 yst-w-full",
-					"yst-h-64 yst-w-48",
-				],
-			},
-			options: [
-				"yst-max-h-32 yst-w-32 yst-min-h-20",
-				"yst-h-40 yst-w-40",
-				"yst-h-48 yst-w-96",
-				"yst-h-64 yst-w-64",
-				"yst-h-48 yst-w-full",
-				"yst-h-64 yst-w-48",
-			],
-			mapping: {
-				"Default (8rem square)": "yst-max-h-32 yst-w-32 yst-min-h-20",
-				"Medium square (10rem)": "yst-h-40 yst-w-40",
-				"Large rectangle (12rem × 24rem)": "yst-h-48 yst-w-96",
-				"Large square (16rem)": "yst-h-64 yst-w-64",
-				"Full width (12rem height)": "yst-h-48 yst-w-full",
-				"Portrait (16rem × 12rem)": "yst-h-64 yst-w-48",
-			},
+			description: "Additional class names to apply to the select image preview box. Use this to override or extend the size preset.",
+			table: { type: { summary: "string" }, defaultValue: { summary: "\"\"" } },
 		},
 		selectDescription: {
 			description: "The description for the select image preview box (optional).",
