@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { ImageSelect } from "./index";
 import { noop } from "lodash";
 import { useArgs } from "@storybook/preview-api";
+import { component } from "./docs";
 
 export const Factory = {
 	parameters: {
@@ -150,9 +151,7 @@ export default {
 	},
 	parameters: {
 		docs: {
-			description: {
-				component: "An ImageSelect component allows users to select and preview images. The components consists of a preview area and buttons to select or remove the image.",
-			},
+			description: { component },
 		},
 	},
 };
