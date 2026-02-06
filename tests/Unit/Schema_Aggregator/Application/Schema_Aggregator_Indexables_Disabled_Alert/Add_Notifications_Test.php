@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Application\Schema_Aggregator_Indexables_Disabled_Alert;
 
 use Brain\Monkey\Functions;
+use Generator;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Schema_Aggregator_Indexables_Disabled_Alert;
 
 /**
@@ -84,7 +85,7 @@ final class Add_Notifications_Test extends Abstract_Schema_Aggregator_Indexables
 	/**
 	 * Data provider for test_add_notifications.
 	 *
-	 * @return \Generator
+	 * @return Generator
 	 */
 	public static function add_notifications_data() {
 		yield 'Schema aggregator conditional is not met' => [
