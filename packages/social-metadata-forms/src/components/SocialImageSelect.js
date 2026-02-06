@@ -65,7 +65,6 @@ function SocialImageSelect( {
 					{ hasPreview &&
 					<ImageSelect.Preview
 						imageAltText={ imageAltText }
-						className="yst-max-h-32 yst-w-32 yst-min-h-20"
 					/>
 					}
 					{
