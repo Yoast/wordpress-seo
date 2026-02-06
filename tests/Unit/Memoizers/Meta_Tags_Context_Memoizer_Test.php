@@ -273,6 +273,11 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	public function test_clear_for_indexable() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
 
+		$this->presentation_memoizer
+			->expects( 'clear' )
+			->once()
+			->with( $this->indexable->id );
+
 		$this->instance->clear( $this->indexable );
 
 		$this->indexable_repository
@@ -301,6 +306,11 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	 */
 	public function test_clear_not_instance_of_indexable() {
 		$this->instance->set_cache( 'not_an_instance_of_Indexable', $this->meta_tags_context_mock );
+
+		$this->presentation_memoizer
+			->expects( 'clear' )
+			->once()
+			->with( 'not_an_instance_of_Indexable' );
 
 		$this->instance->clear( 'not_an_instance_of_Indexable' );
 
@@ -331,6 +341,11 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	public function test_clear_complete_cache() {
 		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
 
+		$this->presentation_memoizer
+			->expects( 'clear' )
+			->once()
+			->withNoArgs();
+
 		$this->instance->clear();
 
 		$this->indexable_repository
@@ -348,6 +363,28 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 		$this->mock_get();
 
 		$this->instance->for_current_page();
+	}
+
+	/**
+	 * Tests clearing the memoization of the current page only.
+	 *
+	 * @covers ::clear_for_current_page
+	 *
+	 * @return void
+	 */
+	public function test_clear_for_current_page() {
+		$this->instance->set_cache( 'current_page', $this->meta_tags_context_mock );
+		$this->instance->set_cache( $this->indexable->id, $this->meta_tags_context_mock );
+
+		$this->instance->clear_for_current_page();
+
+		$cache = $this->instance->get_cache();
+
+		// The current_page cache should be cleared.
+		$this->assertArrayNotHasKey( 'current_page', $cache );
+
+		// Other cache entries should remain.
+		$this->assertArrayHasKey( $this->indexable->id, $cache );
 	}
 
 	/**
