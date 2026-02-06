@@ -31,7 +31,7 @@ export const ImageSelect = forwardRef( ( {
 	isLoading,
 	id,
 }, ref ) => {
-	const buttonLabel = imageUrl && ! isLoading ? replaceButtonLabel : selectButtonLabel;
+	const buttonLabel = imageUrl ? replaceButtonLabel : selectButtonLabel;
 	return (
 		<ImageSelectContext.Provider
 			value={ {
