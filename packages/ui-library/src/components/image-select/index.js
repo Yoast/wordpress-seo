@@ -55,12 +55,12 @@ export const ImageSelect = forwardRef( ( {
  * Preview component for the ImageSelect.
  *
  * @param {string} imageAltText The alt text for the image.
- * @param {string} className Additional class names.
+ * @param {string} [className="yst-max-h-32 yst-w-32 yst-min-h-20"] Additional class names.
  * @param {string} [selectDescription] The description for the select image preview box (optional).
  *
  * @returns {JSX.Element} The Preview component.
  */
-export const Preview = ( { imageAltText, className, selectDescription = "" } ) => {
+export const Preview = ( { imageAltText, className = "yst-max-h-32 yst-w-32 yst-min-h-20", selectDescription = "" } ) => {
 	const { id, isDisabled, buttonLabel, imageUrl, onSelectImage, isLoading } = useImageSelectContext();
 	const svgAriaProps = useSvgAria();
 
