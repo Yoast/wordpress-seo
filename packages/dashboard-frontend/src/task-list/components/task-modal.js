@@ -76,7 +76,7 @@ export const TaskModal = ( {
 		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<TaskStatusIcon isCompleted={ isCompleted } />
+					<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
 					<div>
 						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
 							{ title }

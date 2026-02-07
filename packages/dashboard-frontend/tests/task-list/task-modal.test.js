@@ -108,29 +108,6 @@ describe( "TaskModal", () => {
 			expect( title ).toHaveClass( "yst-text-slate-500" );
 		} );
 
-		it( "renders the CompleteStatus component", () => {
-			render(
-				<TaskListProvider locale="en-US">
-					<TaskModal { ...completedProps } />
-				</TaskListProvider>
-			);
-			const statusIcon = screen.getByRole( "img", { name: /task completed/i } );
-			expect( statusIcon ).toBeInTheDocument();
-		} );
-
-		it( "shows the visual separator (·) after CompleteStatus", () => {
-			render(
-				<TaskListProvider locale="en-US">
-					<TaskModal { ...completedProps } />
-				</TaskListProvider>
-			);
-			const statusContainer = screen.getByText( /Complete the First-time configuration/i ).closest( "div" ).querySelector( ".yst-flex.yst-gap-1" );
-			// When isCompleted is true, there should be two separators: one after CompleteStatus and one between Duration and Priority
-			// Format should be like "CompleteStatus · 15m · High"
-			const separatorCount = ( statusContainer.textContent.match( /·/g ) || [] ).length;
-			expect( separatorCount ).toBe( 1 );
-		} );
-
 		it( "displays duration as 0m and priority information", () => {
 			render(
 				<TaskListProvider locale="en-US">
@@ -139,6 +116,15 @@ describe( "TaskModal", () => {
 			);
 			expect( screen.getByText( "0m" ) ).toBeInTheDocument();
 			expect( screen.getByText( /High/i ) ).toBeInTheDocument();
+		} );
+		it( "should display the correct status icon when isCompleted is true", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...completedProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task completed/i } );
+			expect( statusIcon ).toBeInTheDocument();
 		} );
 	} );
 
@@ -153,20 +139,6 @@ describe( "TaskModal", () => {
 			expect( title ).not.toHaveClass( "yst-text-slate-500" );
 		} );
 
-		it( "does not render the CompleteStatus component", () => {
-			render(
-				<TaskListProvider locale="en-US">
-					<TaskModal { ...defaultProps } />
-				</TaskListProvider>
-			);
-			const statusContainer = screen.getByText( /Complete the First-time configuration/i ).closest( "div" ).querySelector( ".yst-flex.yst-gap-1" );
-			// When isCompleted is false, the text should only contain duration and priority with one separator
-			// Format should be like "15m · High" instead of "CompleteStatus · 15m · High"
-			const separatorCount = ( statusContainer.textContent.match( /·/g ) || [] ).length;
-			expect( separatorCount ).toBe( 1 );
-			expect( screen.queryByText( "Completed" ) ).not.toBeInTheDocument();
-		} );
-
 		it( "enables the CTA button", () => {
 			render(
 				<TaskListProvider locale="en-US">
@@ -176,6 +148,16 @@ describe( "TaskModal", () => {
 			const ctaButton = screen.getByText( /Start configuration/i ).closest( "button" );
 			expect( ctaButton ).not.toBeDisabled();
 		} );
+
+		it( "should display the correct status icon when isCompleted is false", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task not completed/i } );
+			expect( statusIcon ).toBeInTheDocument();
+		} );
 	} );
 
 	describe( "when isLoading is true", () => {
@@ -183,6 +165,16 @@ describe( "TaskModal", () => {
 			...defaultProps,
 			isLoading: true,
 		};
+
+		it( "should display the loading status icon", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...loadingProps } />
+				</TaskListProvider>
+			);
+			const statusIcon = screen.getByRole( "img", { name: /task loading/i } );
+			expect( statusIcon ).toBeInTheDocument();
+		} );
 
 		it( "passes isLoading prop to the CallToActionButton", () => {
 			render(
