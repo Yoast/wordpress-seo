@@ -9,12 +9,12 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 
 /**
- * @typedef {Object} Tasks
+ * @typedef {Object} Task
  * @property {string} title Title of the child task.
  * @property {number} duration Estimated duration to complete the child task.
  * @property {string} priority Priority of the child task: 'low', 'medium', 'high'.
  * @property {boolean} isCompleted Whether the child task is completed.
- * @property {string} taskId The ID of the child task.
+ * @property {string} id The ID of the child task.
  */
 
 /**
@@ -62,7 +62,7 @@ const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick 
 /**
  * The ChildTasks component to display progress of child tasks and a list of them.
  *
- * @param {Tasks[]} tasks The list of child tasks.
+ * @param {Task[]} tasks The list of child tasks.
  * @param {function} singleTaskOnClick Callback function to handle click events on a child task.
  * @returns {JSX.Element} The ChildTasks component.
  */
