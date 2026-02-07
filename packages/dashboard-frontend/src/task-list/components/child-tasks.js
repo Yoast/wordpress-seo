@@ -4,7 +4,7 @@ import { Priority } from "./priority";
 import { TaskStatusIcon } from "../../icons";
 import { ChevronRightIcon, ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { useCallback, useState, useMemo } from "@wordpress/element";
+import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 
@@ -69,6 +69,7 @@ const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick 
 export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 	const ITEMS_PER_PAGE = 4;
 	const [ currentPage, setCurrentPage ] = useState( 1 );
+	const parentTaskId = tasks[ 0 ]?.parentTaskId;
 
 	const totalTasks = tasks.length;
 	const completedTasks = tasks.filter( ( task ) => task.isCompleted ).length;
@@ -94,6 +95,10 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 
 	const isPreviousDisabled = currentPage === 1;
 	const isNextDisabled = currentPage === totalPages || totalPages === 0;
+
+	useEffect( () => {
+		setCurrentPage( 1 );
+	}, [ parentTaskId ] );
 
 	return (
 		<div className="yst-mt-6">
