@@ -35,7 +35,7 @@ export const TaskListModal = () => {
 
 	const handleCompleteTask = useCallback( async() => {
 		completeTask( currentOpenTask?.id, completeTaskEndpoint, nonce );
-	}, [ currentOpenTask, completeTaskEndpoint, nonce ] );
+	}, [ currentOpenTask, completeTaskEndpoint, nonce, completeTask ] );
 
 	const handleOnClose = useCallback( () => {
 		setCurrentOpenTask( null );
