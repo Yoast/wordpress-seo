@@ -34,9 +34,5 @@ export const TaskListProvider = ( { locale = "en-US", children } ) => {
  * @returns {TaskListContextValue} The TaskList context value.
  */
 export const useTaskListContext = () => {
-	const context = useContext( TaskListContext );
-	if ( ! context ) {
-		throw new Error( "useTaskListContext must be used within a TaskListProvider" );
-	}
-	return context;
+	return useContext( TaskListContext );
 };
