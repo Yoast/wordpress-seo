@@ -90,7 +90,7 @@ export const TaskModal = ( {
 									onClick={ onProgressBadgeClick }
 									parentTaskId={ parentTaskId }
 								/>
-								·
+								<span aria-hidden="true">·</span>
 							</> }
 							<Priority level={ priority } isCompleted={ isCompleted } />
 							<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
