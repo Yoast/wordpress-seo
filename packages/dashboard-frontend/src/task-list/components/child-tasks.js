@@ -6,7 +6,7 @@ import { ChevronRightIcon, ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@he
 import classNames from "classnames";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button } from "@yoast/ui-library";
+import { Button, useSvgAria } from "@yoast/ui-library";
 
 /**
  * @typedef {Object} Task
@@ -67,6 +67,7 @@ const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick 
  * @returns {JSX.Element} The ChildTasks component.
  */
 export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
+	const svgAriaProps = useSvgAria();
 	const ITEMS_PER_PAGE = 4;
 	const [ currentPage, setCurrentPage ] = useState( 1 );
 	const parentTaskId = tasks[ 0 ]?.parentTaskId;
@@ -124,8 +125,11 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 						onClick={ handlePreviousPage }
 						disabled={ isPreviousDisabled }
 					>
-						<ArrowNarrowLeftIcon className="yst-w-4" />
+						<ArrowNarrowLeftIcon className="yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
 						{ __( "Previous", "wordpress-seo" ) }
+						<span className="yst-sr-only">{ sprintf(
+							/* translators: %d: current page number */
+							__( "Child tasks, current page %d", "wordpress-seo" ), currentPage ) }</span>
 					</Button>
 					<Button
 						variant="tertiary"
@@ -134,7 +138,10 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 						disabled={ isNextDisabled }
 					>
 						{ __( "Next", "wordpress-seo" ) }
-						<ArrowNarrowRightIcon className="yst-w-4" />
+						<ArrowNarrowRightIcon className="yst-w-4 rtl:yst-rotate-180" { ...svgAriaProps } />
+						<span className="yst-sr-only">{ sprintf(
+							/* translators: %d: current page number */
+							__( "Child tasks, current page %d", "wordpress-seo" ), currentPage ) }</span>
 					</Button>
 				</div>
 			</div>
