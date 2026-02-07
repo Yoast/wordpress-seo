@@ -136,13 +136,17 @@ const slice = createSlice( {
 	initialState,
 	reducers: {
 		setTasks( state, { payload } ) {
+			const tasks = {};
 			keys( payload ).forEach( ( id ) => {
-				payload[ id ].status = ASYNC_ACTION_STATUS.idle;
-				payload[ id ].error = null;
-				// eslint-disable-next-line no-inline-comments
-				payload[ id ].badge = null; // Remove this when we want to re-instate badges.
+				tasks[ id ] = {
+					...payload[ id ],
+					status: ASYNC_ACTION_STATUS.idle,
+					error: null,
+					badge: null,
+					// Remove this when we want to re-instate badges.
+				};
 			} );
-			state.tasks = payload;
+			state.tasks = tasks;
 		},
 		setTaskCompleted( state, { payload } ) {
 			if ( state.tasks[ payload ] ) {
