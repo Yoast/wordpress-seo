@@ -52,7 +52,7 @@ const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick 
 			</div>
 			<div className="yst-flex yst-gap-1">
 				<Priority level={ priority } isCompleted={ isCompleted } />
-				· <Duration minutes={ duration } isCompleted={ isCompleted } />
+				<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
 			</div>
 		</span>
 		<ChevronRightIcon className="yst-transition yst-duration-300 yst-ease-in-out yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-text-slate-800 group-hover:yst-translate-x-2" />

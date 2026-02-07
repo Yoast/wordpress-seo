@@ -93,7 +93,7 @@ export const TaskModal = ( {
 								·
 							</> }
 							<Priority level={ priority } isCompleted={ isCompleted } />
-							· <Duration minutes={ duration } isCompleted={ isCompleted } />
+							<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
 						</div>
 					</div>
 					<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
