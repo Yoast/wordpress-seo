@@ -49,7 +49,6 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
               class="yst-flex yst-items-center yst-gap-2"
             >
               <svg
-                aria-hidden="false"
                 aria-label="Task loading"
                 class="yst-w-6 yst-text-slate-200 yst-shrink-0"
                 fill="none"
