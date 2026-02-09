@@ -110,8 +110,7 @@ const checkSentencesForTransitionWords = function( sentences, transitionWords, t
  * @param {Paper} paper The Paper object to get text from.
  * @param {Researcher} researcher The researcher.
  *
- * @returns {TransitionWordsResult} An object
- * with the total number of sentences in the text and the total number of sentences containing one or more transition words.
+ * @returns {TransitionWordsResult} An object with the total number of sentences in the text and the total number of sentences containing one or more transition words.
  */
 export default function( paper, researcher ) {
 	const customCountLength = researcher.getHelper( "customCountLength" );
