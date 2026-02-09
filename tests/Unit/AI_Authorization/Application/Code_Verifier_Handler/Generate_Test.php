@@ -20,8 +20,15 @@ final class Generate_Test extends Abstract_Code_Verifier_Handler_Test {
 	 * @return void
 	 */
 	public function test_generate() {
-		$user_email   = 'test@example.com';
-		$current_time = 1640995200;
+		$user_email     = 'test@example.com';
+		$current_time   = 1640995200;
+		$generated_code = 'mocked_generated_code_123';
+
+		$this->code_generator
+			->expects( 'generate' )
+			->once()
+			->with( $user_email )
+			->andReturn( $generated_code );
 
 		$this->date_helper
 			->expects( 'current_time' )
@@ -31,7 +38,7 @@ final class Generate_Test extends Abstract_Code_Verifier_Handler_Test {
 		$result = $this->instance->generate( $user_email );
 
 		$this->assertInstanceOf( Code_Verifier::class, $result );
-		$this->assertIsString( $result->get_code() );
+		$this->assertSame( $generated_code, $result->get_code() );
 		$this->assertSame( $current_time, $result->get_created_at() );
 	}
 }

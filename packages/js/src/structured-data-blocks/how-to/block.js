@@ -14,15 +14,15 @@ registerBlockType( block, {
 	 *
 	 * The "edit" property must be a valid function.
 	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-	 * @returns {Component} The editor component.
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
+	 * @returns {JSX.Element} The editor component.
 	 */
 	edit: ( { attributes, setAttributes, className } ) => {
 		const blockProps = useBlockProps();
 
 		// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 		if ( ! attributes.steps || attributes.steps.length === 0 ) {
-			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
+			attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: "", text: "", images: [] } ];
 		}
 
 		return <div { ...blockProps }>
@@ -36,8 +36,8 @@ registerBlockType( block, {
 	 *
 	 * The "save" property must be specified and must be a valid function.
 	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-	 * @returns {Component} The display component.
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
+	 * @returns {JSX.Element} The display component.
 	 */
 	save: ( { attributes } ) => {
 		const blockProps = useBlockProps.save( attributes );
@@ -46,6 +46,13 @@ registerBlockType( block, {
 	},
 
 	deprecated: [
+		// Legacy versions to support loading and migrating old block data when the step name/text were stored as arrays.
+		{
+			attributes: block.attributes,
+			save: legacy.v27_0.legacySave,
+			migrate: legacy.v27_0.migrateToStringFormat,
+			isEligible: legacy.v27_0.needsMigration,
+		},
 		{
 			attributes: block.attributes,
 			save: legacy.v11_4,

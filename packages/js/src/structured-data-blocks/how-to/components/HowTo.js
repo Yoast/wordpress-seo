@@ -11,7 +11,9 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 
 import { RichText, InspectorControls } from "@wordpress/block-editor";
 import { Button, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
-import { Component, renderToString, createRef } from "@wordpress/element";
+import { Component, createRef } from "@wordpress/element";
+import { getImageElements, getImageSrc } from "../../shared-utils";
+
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -105,27 +107,27 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	onAddStepButtonClick() {
-		this.insertStep( null, [], [], false );
+		this.insertStep( null, "", "", [], false );
 	}
 
 	/**
 	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} [prefix] The prefix to use.
+	 * @param {string} [prefix=""] The prefix to use.
 	 *
 	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the current time in milliseconds.
 	 */
-	static generateId( prefix ) {
+	static generateId( prefix = "" ) {
 		return `${ prefix }-${ new Date().getTime() }`;
 	}
 
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array}  newName      The new step-name.
-	 * @param {array}  newText      The new step-text.
-	 * @param {array}  previousName The previous step-name.
-	 * @param {array}  previousText The previous step-text.
+	 * @param {string}  newName      The new step-name.
+	 * @param {string}  newText      The new step-text.
+	 * @param {string}  previousName The previous step-name.
+	 * @param {string}  previousText The previous step-text.
 	 * @param {number} index        The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
@@ -155,11 +157,13 @@ export default class HowTo extends Component {
 			id: steps[ index ].id,
 			name: newName,
 			text: newText,
-			jsonName: renderToString( newName ),
-			jsonText: renderToString( newText ),
+			jsonName: newName,
+			jsonText: newText,
 		};
 
-		const imageSrc = HowToStep.getImageSrc( newText );
+		steps[ index ].images = getImageElements( newText );
+
+		const imageSrc = getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
@@ -171,14 +175,15 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number|null} [index=null]	The index of the Step after which a new Step should be added.
-	 * @param {array|string} [name=[]]		The title of the new Step.
-	 * @param {array|string} [text=[]]		The description of the new Step.
-	 * @param {boolean}	[focus=true]		Whether to focus the new Step.
+	 * @param {number|null}  [index=null]	The index of the Step after which a new Step should be added.
+	 * @param {string}  [name=""]	The title of the new Step.
+	 * @param {string}  [text=""]	The description of the new Step.
+	 * @param {Object[]}	[images=[]]		The images of the new Step.
+	 * @param {boolean}		[focus=true]	Whether to focus the new Step.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index = null, name = [], text = [], focus = true ) {
+	insertStep( index = null, name = "", text = "", images = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( index === null ) {
@@ -189,6 +194,7 @@ export default class HowTo extends Component {
 			id: HowTo.generateId( "how-to-step" ),
 			name,
 			text,
+			images,
 			jsonName: "",
 			jsonText: "",
 		} );
@@ -306,7 +312,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns an array of How-to step components to be rendered on screen.
 	 *
-	 * @returns {Component[]} The step components.
+	 * @returns {HowToStep[]} The step components.
 	 */
 	getSteps() {
 		if ( ! this.props.attributes.steps ) {
@@ -364,9 +370,9 @@ export default class HowTo extends Component {
 	/**
 	 * Renders the how-to steps.
 	 *
-	 * @param {array} steps The steps data.
+	 * @param {Object[]} steps The array of steps.
 	 *
-	 * @returns {array} The HowToStep elements.
+	 * @returns {HowToStep.Content[]} The HowToStep content elements.
 	 */
 	static getStepsContent( steps ) {
 		if ( ! steps ) {
@@ -385,7 +391,7 @@ export default class HowTo extends Component {
 	 * Returns the component to be used to render
 	 * the How-to block on WordPress (e.g. not in the editor).
 	 *
-	 * @param {object} props the attributes of the How-to block.
+	 * @param {Object} props the attributes of the How-to block.
 	 *
 	 * @returns {JSX.Element} The component representing a How-to block.
 	 */
@@ -504,7 +510,7 @@ export default class HowTo extends Component {
 	onChangeDescription( value ) {
 		this.props.setAttributes( {
 			description: value,
-			jsonDescription: renderToString( value ),
+			jsonDescription: value,
 		} );
 	}
 
@@ -545,7 +551,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the days input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
@@ -557,7 +563,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the hours input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
@@ -569,7 +575,7 @@ export default class HowTo extends Component {
 	/**
 	 * Handles the minutes input on change event.
 	 *
-	 * @param {SyntheticInputEvent} event The input event.
+	 * @param {ChangeEvent<HTMLInputElement>} event The input event.
 	 *
 	 * @returns {void}
 	 */
@@ -621,7 +627,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-days"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.days }
+							value={ attributes.days || "" }
 							onChange={ this.onChangeDays }
 							placeholder="DD"
 							ref={ this.daysInput }
@@ -636,7 +642,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-hours"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.hours }
+							value={ attributes.hours || "" }
 							onChange={ this.onChangeHours }
 							placeholder="HH"
 						/>
@@ -651,7 +657,7 @@ export default class HowTo extends Component {
 							id="schema-how-to-duration-minutes"
 							className="schema-how-to-duration-input"
 							type="number"
-							value={ attributes.minutes }
+							value={ attributes.minutes || "" }
 							onChange={ this.onChangeMinutes }
 							placeholder="MM"
 						/>

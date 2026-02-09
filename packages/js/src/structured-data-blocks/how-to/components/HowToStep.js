@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-import { Component } from "@wordpress/element";
+import { Component, renderToString } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
+import { convertToHTMLString, getImageSrc } from "../../shared-utils";
 
 const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -137,8 +138,8 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders the media upload button.
 	 *
-	 * @param {object} props      The receive props.
-	 * @param {func}   props.open Opens the media upload dialog.
+	 * @param {Object}		props      The receive props.
+	 * @param {Function}	props.open Opens the media upload dialog.
 	 *
 	 * @returns {JSX.Element} The media upload button.
 	 */
@@ -165,7 +166,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( step.text ) &&
+			{ ! getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				allowedTypes={ [ "image" ] }
@@ -228,43 +229,20 @@ export default class HowToStep extends Component {
 			},
 		} = this.props;
 
-		let newText = text.slice();
-		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt || "" } src={ media.url } style={ { maxWidth: "100%" } } />;
 
-		if ( newText.push ) {
-			newText.push( image );
-		} else {
-			newText = [ newText, image ];
-		}
+		// Serializes the image element to string and append it to the existing text (which is now a string).
+		// renderToString is used to convert the image element to an HTML string instead of just creating an image string manually,
+		// to ensure safe and secure rendering. renderToString handles any necessary escaping and encoding that lowers the risk of XSS attacks.
+		const newText = ( text || "" ) + renderToString( image );
 
 		this.props.onChange( name, newText, name, text, index );
 	}
 
 	/**
-	 * Returns the image src from step contents.
-	 *
-	 * @param {array} contents The step contents.
-	 *
-	 * @returns {string|boolean} The image src or false if none is found.
-	 */
-	static getImageSrc( contents ) {
-		if ( ! contents || ! contents.filter ) {
-			return false;
-		}
-
-		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
-
-		if ( ! image ) {
-			return false;
-		}
-
-		return image.props.src;
-	}
-
-	/**
 	 * Performs a shallow equal to prevent every step from being rerendered.
 	 *
-	 * @param {object} nextProps The next props the component will receive.
+	 * @param {Object} nextProps The next props the component will receive.
 	 *
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
@@ -276,24 +254,29 @@ export default class HowToStep extends Component {
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} step The how-to step.
+	 * @param {Object} step The how-to step.
 	 *
 	 * @returns {JSX.Element} The component to be rendered.
 	 */
 	static Content( step ) {
+		const { name, text, id } = step;
+		// Backward compatibility for legacy array format.
+		const stepName = Array.isArray( name ) ? convertToHTMLString( name ) : name;
+		const stepText = Array.isArray( text ) ? convertToHTMLString( text ) : text;
+
 		return (
-			<li className={ "schema-how-to-step" } id={ step.id } key={ step.id }>
+			<li className={ "schema-how-to-step" } id={ id } key={ id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
-					key={ step.id + "-name" }
-					value={ step.name }
+					key={ id + "-name" }
+					value={ stepName }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
-					key={ step.id + "-text" }
-					value={ step.text }
+					key={ id + "-text" }
+					value={ stepText }
 				/>
 			</li>
 		);

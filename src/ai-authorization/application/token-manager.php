@@ -242,7 +242,7 @@ class Token_Manager implements Token_Manager_Interface {
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
 
 		// Generate a code verifier and store it in the database.
-		$code_verifier = $this->code_verifier->generate( $user->ID, $user->user_email );
+		$code_verifier = $this->code_verifier->generate( $user->user_email );
 		$this->code_verifier_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
 
 		$request_body    = [

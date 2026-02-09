@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd ../.. && wp-scripts build --config config/webpack/webpack.config.js",
     "test": "jest",
-    "lint": "eslint . --max-warnings=44"
+    "lint": "eslint . --max-warnings=43"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -52,6 +52,7 @@
     "draft-js": "^0.11.7",
     "find-with-regex": "~1.0.2",
     "formik": "^2.2.9",
+    "html-react-parser": "^5.2.11",
     "jed": "^1.1.1",
     "lodash": "^4.17.21",
     "marked": "^0.7.0",

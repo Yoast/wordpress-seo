@@ -60,13 +60,15 @@
       "steps": [
         {
           "id": "how-to-step-example-1",
-          "name": [ ],
-          "text": [ ]
+          "name": "",
+          "text": "",
+          "images": []
         },
         {
           "id": "how-to-step-example-2",
-          "name": [ ],
-          "text": [ ]
+          "name": "",
+          "text": "",
+          "images": []
         }
       ]
     }
