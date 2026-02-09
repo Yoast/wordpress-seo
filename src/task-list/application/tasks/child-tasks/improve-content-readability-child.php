@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
+use Yoast\WP\SEO\Task_List\Domain\Components\Score_Task_Analyzer;
+use Yoast\WP\SEO\Task_List\Domain\Components\Task_Analyzer_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
@@ -98,6 +100,34 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 			\__( 'Improve readability', 'wordpress-seo' ),
 			'link',
 			$this->get_link()
+		);
+	}
+
+	/**
+	 * Returns the task's analyzer component.
+	 *
+	 * @return Task_Analyzer_Interface|null
+	 */
+	public function get_analyzer(): ?Task_Analyzer_Interface {
+		$score_labels = [
+			'good' => \__( 'Good', 'wordpress-seo' ),
+			'ok'   => \__( 'OK', 'wordpress-seo' ),
+			'bad'  => \__( 'Needs improvement', 'wordpress-seo' ),
+		];
+
+		$score_details = [
+			'good' => \__( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', 'wordpress-seo' ),
+			'ok'   => \__( 'This post has some readability issues that could be improved to make it easier to read.', 'wordpress-seo' ),
+			'bad'  => \__( 'This post has one or more readability issues that may make it harder for readers to understand.', 'wordpress-seo' ),
+		];
+
+		$score = $this->content_item_score_data->get_score();
+
+		return new Score_Task_Analyzer(
+			\__( 'Readability', 'wordpress-seo' ),
+			$score,
+			$score_labels[ $score ],
+			$score_details[ $score ]
 		);
 	}
 
