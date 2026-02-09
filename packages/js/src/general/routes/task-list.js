@@ -81,7 +81,7 @@ export const TaskList = () => {
 				<TaskListTable className="yst-mt-4">
 					{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
 					{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
-					{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
+					{ ! isEmpty( sortedTasks ) && values( sortedTasks ).filter( task => ! task.parentTaskId ).map( ( task ) => (
 						<Task key={ task.id } { ...task } /> ) ) }
 					{ ! isPremium && <TaskListUpsellRow /> }
 				</TaskListTable>
