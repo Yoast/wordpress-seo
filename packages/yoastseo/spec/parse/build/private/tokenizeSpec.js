@@ -525,6 +525,29 @@ describe( "A test for the tokenize function",
 			expect( ad1.sourceCodeRange ).toEqual( { startOffset: 32, endOffset: 36 } );
 			expect( nice1.sourceCodeRange ).toEqual( { startOffset: 38, endOffset: 42 } );
 		} );
+		// Skipping this test for now, as we are currently not supporting initials in our tokenization.
+		// This is for future reference, in case we want to add support for initials later on.
+		xit( "should correctly tokenise a paragraph containing initials", function() {
+			const mockPaper = new Paper( "<p>J.R.R. Tolkien is a famous author.</p>" );
+			const mockResearcher = new EnglishResearcher( mockPaper );
+			const languageProcessor = new LanguageProcessor( mockResearcher );
+			buildTreeNoTokenize( mockPaper );
+			const result = tokenize( mockPaper.getTree(), languageProcessor );
+			const sentences = result.childNodes[ 0 ].sentences;
+			// Currently, the paragraph will be tokenized into two sentences: "J.R.R." and "Tolkien is a famous author."
+			expect( sentences.length ).toEqual( 1 );
+			const firstSentence = sentences[ 0 ];
+			expect( firstSentence.text ).toEqual( "J.R.R. Tolkien is a famous author." );
+			expect( firstSentence.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 45 } );
+			expect( firstSentence.tokens.length ).toEqual( 11 );
+			const [ j1, , r1, , r2, , tolkien1, , is1, , author1, , ] = firstSentence.tokens;
+			expect( j1.sourceCodeRange ).toEqual( { startOffset: 3, endOffset: 4 } );
+			expect( r1.sourceCodeRange ).toEqual( { startOffset: 5, endOffset: 6 } );
+			expect( r2.sourceCodeRange ).toEqual( { startOffset: 7, endOffset: 8 } );
+			expect( tolkien1.sourceCodeRange ).toEqual( { startOffset: 9, endOffset: 16 } );
+			expect( is1.sourceCodeRange ).toEqual( { startOffset: 17, endOffset: 19 } );
+			expect( author1.sourceCodeRange ).toEqual( { startOffset: 30, endOffset: 36 } );
+		} );
 	} );
 
 describe( "A test for tokenizing a Japanese sentence", function() {
