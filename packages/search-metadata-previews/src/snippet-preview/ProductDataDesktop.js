@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { round, capitalize } from "lodash";
+import { capitalize } from "lodash";
 import { StarRating } from "@yoast/components";
 import { DEFAULT_BEST_RATING } from "./constants";
 
