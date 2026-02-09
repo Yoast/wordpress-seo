@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readabi
  * Test class for the Improve Content Readability to_array method.
  *
  * @group Improve_Content_Readability
+ * @group task-list
  *
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_id
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_duration
