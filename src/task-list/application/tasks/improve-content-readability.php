@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Co
 /**
  * Represents the task for improving content readability.
  */
-class Improve_Readability extends Abstract_Post_Type_Parent_Task {
+class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.
@@ -29,7 +29,7 @@ class Improve_Readability extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * @var string
 	 */
-	protected $id = 'improve-readability';
+	protected $id = 'improve-content-readability';
 
 	/**
 	 * Holds the priority.
@@ -100,8 +100,8 @@ class Improve_Readability extends Abstract_Post_Type_Parent_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
-		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		return new Copy_Set(
+			// @TODO: we are going to reference the post type in the title in a later task.
 			\__( 'Improve your content\'s readability', 'wordpress-seo' ),
 			\sprintf(
 				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
@@ -139,7 +139,7 @@ class Improve_Readability extends Abstract_Post_Type_Parent_Task {
 
 		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_score_data ) {
-			$child_tasks[] = new Improve_Readability_Child(
+			$child_tasks[] = new Improve_Content_Readability_Child(
 				$this,
 				$content_item_score_data
 			);

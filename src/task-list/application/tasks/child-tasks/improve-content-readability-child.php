@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 /**
  * Represents the child task for improving content readability.
  */
-class Improve_Readability_Child extends Abstract_Child_Task {
+class Improve_Content_Readability_Child extends Abstract_Child_Task {
 
 	/**
 	 * Holds the duration.

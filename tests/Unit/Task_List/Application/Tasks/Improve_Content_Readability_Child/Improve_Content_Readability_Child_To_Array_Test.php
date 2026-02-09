@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
- * Tests the to_array method of the Improve Readability Child task.
+ * Tests the to_array method of the Improve Content Readability Child task.
  *
  * @group task-list
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child::to_array
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child::to_array
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Readability_Child_To_Array_Test extends Abstract_Improve_Readability_Child_Test {
+final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Improve_Content_Readability_Child_Test {
 
 	/**
 	 * Tests the to_array method returns correct structure.
@@ -34,25 +34,25 @@ final class Improve_Readability_Child_To_Array_Test extends Abstract_Improve_Rea
 
 		$this->parent_task
 			->shouldReceive( 'get_id' )
-			->andReturn( 'improve-readability-post' );
+			->andReturn( 'improve-content-readability-post' );
 
 		$this->parent_task
 			->shouldReceive( 'get_copy_set' )
 			->andReturn( $parent_copy_set );
 
-		$instance = new Improve_Readability_Child(
+		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$content_item
 		);
 
 		$result = $instance->to_array();
 
-		$this->assertSame( 'improve-readability-post-456', $result['id'] );
+		$this->assertSame( 'improve-content-readability-post-456', $result['id'] );
 		$this->assertSame( 10, $result['duration'] );
 		$this->assertSame( 'medium', $result['priority'] );
 		$this->assertNull( $result['badge'] );
 		$this->assertFalse( $result['isCompleted'] );
-		$this->assertSame( 'improve-readability-post', $result['parentTaskId'] );
+		$this->assertSame( 'improve-content-readability-post', $result['parentTaskId'] );
 		$this->assertSame( 'My Amazing Blog Post', $result['title'] );
 		$this->assertSame( '<p>Parent about text.</p>', $result['about'] );
 		// callToAction is null because enhanced_call_to_action is not set.
@@ -74,20 +74,20 @@ final class Improve_Readability_Child_To_Array_Test extends Abstract_Improve_Rea
 
 		$this->parent_task
 			->shouldReceive( 'get_id' )
-			->andReturn( 'improve-readability-post' );
+			->andReturn( 'improve-content-readability-post' );
 
 		$this->parent_task
 			->shouldReceive( 'get_copy_set' )
 			->andReturn( $parent_copy_set );
 
-		$instance = new Improve_Readability_Child(
+		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$content_item
 		);
 
 		$result = $instance->to_array();
 
-		$this->assertSame( 'improve-readability-post-789', $result['id'] );
+		$this->assertSame( 'improve-content-readability-post-789', $result['id'] );
 		$this->assertTrue( $result['isCompleted'] );
 		$this->assertSame( 'medium', $result['priority'] );
 	}
@@ -107,13 +107,13 @@ final class Improve_Readability_Child_To_Array_Test extends Abstract_Improve_Rea
 
 		$this->parent_task
 			->shouldReceive( 'get_id' )
-			->andReturn( 'improve-readability-post' );
+			->andReturn( 'improve-content-readability-post' );
 
 		$this->parent_task
 			->shouldReceive( 'get_copy_set' )
 			->andReturn( $parent_copy_set );
 
-		$instance = new Improve_Readability_Child(
+		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$content_item
 		);

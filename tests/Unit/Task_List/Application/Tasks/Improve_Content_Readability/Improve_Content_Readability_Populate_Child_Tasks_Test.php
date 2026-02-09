@@ -2,21 +2,21 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability;
 
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
- * Test class for the Improve Readability populate_child_tasks method.
+ * Test class for the Improve Content Readability populate_child_tasks method.
  *
- * @group Improve_Readability
+ * @group Improve_Content_Readability
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Readability::populate_child_tasks
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::populate_child_tasks
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Readability_Populate_Child_Tasks_Test extends Abstract_Improve_Readability_Test {
+final class Improve_Content_Readability_Populate_Child_Tasks_Test extends Abstract_Improve_Content_Readability_Test {
 
 	/**
 	 * Tests populate_child_tasks returns empty array when post type is empty string.
@@ -66,7 +66,7 @@ final class Improve_Readability_Populate_Child_Tasks_Test extends Abstract_Impro
 		$child_tasks = $this->instance->populate_child_tasks();
 
 		$this->assertCount( 2, $child_tasks );
-		$this->assertInstanceOf( Improve_Readability_Child::class, $child_tasks[0] );
-		$this->assertInstanceOf( Improve_Readability_Child::class, $child_tasks[1] );
+		$this->assertInstanceOf( Improve_Content_Readability_Child::class, $child_tasks[0] );
+		$this->assertInstanceOf( Improve_Content_Readability_Child::class, $child_tasks[1] );
 	}
 }

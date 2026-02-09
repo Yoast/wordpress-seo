@@ -2,21 +2,21 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability;
 
 use Mockery;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
 
 /**
- * Test class for the Improve Readability is_valid method.
+ * Test class for the Improve Content Readability is_valid method.
  *
- * @group Improve_Readability
+ * @group Improve_Content_Readability
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Readability::is_valid
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::is_valid
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Readability_Is_Valid_Test extends Abstract_Improve_Readability_Test {
+final class Improve_Content_Readability_Is_Valid_Test extends Abstract_Improve_Content_Readability_Test {
 
 	/**
 	 * Tests that is_valid returns true when indexables are enabled and readability analysis is active.

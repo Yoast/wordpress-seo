@@ -2,18 +2,18 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
 /**
- * Tests the get_is_completed method of the Improve Readability Child task.
+ * Tests the get_is_completed method of the Improve Content Readability Child task.
  *
  * @group task-list
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child::get_is_completed
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child::get_is_completed
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Readability_Child_Is_Completed_Test extends Abstract_Improve_Readability_Child_Test {
+final class Improve_Content_Readability_Child_Is_Completed_Test extends Abstract_Improve_Content_Readability_Child_Test {
 
 	/**
 	 * Tests that task is completed when score is 'good'.

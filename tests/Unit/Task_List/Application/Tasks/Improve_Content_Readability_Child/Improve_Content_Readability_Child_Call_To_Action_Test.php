@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 
 /**
- * Tests the get_call_to_action method of the Improve Readability Child task.
+ * Tests the get_call_to_action method of the Improve Content Readability Child task.
  *
  * @group task-list
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child::get_call_to_action
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Readability_Child::get_link
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child::get_call_to_action
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child::get_link
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Readability_Child_Call_To_Action_Test extends Abstract_Improve_Readability_Child_Test {
+final class Improve_Content_Readability_Child_Call_To_Action_Test extends Abstract_Improve_Content_Readability_Child_Test {
 
 	/**
 	 * Tests that get_call_to_action returns a Call_To_Action_Entry.

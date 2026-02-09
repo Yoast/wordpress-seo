@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Readability;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability;
 
 use Mockery;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Readability;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Base class for the Improve Readability task tests.
+ * Base class for the Improve Content Readability task tests.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Improve_Readability_Test extends TestCase {
+abstract class Abstract_Improve_Content_Readability_Test extends TestCase {
 
 	/**
 	 * The recent content indexable collector mock.
@@ -43,7 +43,7 @@ abstract class Abstract_Improve_Readability_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Improve_Readability
+	 * @var Improve_Content_Readability
 	 */
 	protected $instance;
 
@@ -76,7 +76,7 @@ abstract class Abstract_Improve_Readability_Test extends TestCase {
 			->andReturn( $features_list )
 			->byDefault();
 
-		$this->instance = new Improve_Readability(
+		$this->instance = new Improve_Content_Readability(
 			$this->recent_content_indexable_collector,
 			$this->indexable_helper,
 			$this->enabled_analysis_features_repository

@@ -102,6 +102,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	public function get_copy_set(): Copy_Set {
 		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		return new Copy_Set(
+			// @TODO: we are going to reference the post type in the title in a later task.
 			\__( 'Improve your content\'s SEO', 'wordpress-seo' ),
 			\sprintf(
 				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
