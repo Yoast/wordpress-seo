@@ -4,7 +4,6 @@ import { ImageSelectContext } from "./context";
 import classNames from "classnames";
 import { PhotographIcon } from "@heroicons/react/outline";
 import { Button, Link, useSvgAria } from "../../index";
-import { has } from "lodash";
 
 /**
  * @param {JSX.node} children The children components.
@@ -77,11 +76,12 @@ export const Preview = ( { imageAltText, className = "", selectDescription = "",
 		className={ classNames( "yst-image-select-preview",
 			imageUrl ? "" : "yst-border-2 yst-border-dashed",
 			{ "yst-cursor-wait": isLoading },
-			has( sizesClassMap, size ) ? sizesClassMap[ size ] : "",
+			size in sizesClassMap ? sizesClassMap[ size ] : "",
 			className,
 		) }
 		id={ `${ id }-preview` }
 		aria-labelledby={ `${ id }-label ${ id }-preview` }
+		aria-busy={ isLoading }
 		onClick={ onSelectImage }
 		type="button"
 		disabled={ isDisabled || isLoading }
@@ -113,8 +113,9 @@ export const Buttons = ( { removeLabel, onRemoveImage } ) => {
 			variant="secondary"
 			id={ imageUrl ? `${ id }-replace-button` : `${ id }-select-button` }
 			onClick={ onSelectImage }
-			disabled={ isDisabled }
+			disabled={ isDisabled || isLoading }
 			isLoading={ isLoading }
+			aria-busy={ isLoading }
 		>
 			{ buttonLabel }
 		</Button>
