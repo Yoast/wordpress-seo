@@ -24,11 +24,16 @@ export default {
 			description: "Whether the tasks are loading.",
 			control: "boolean",
 		},
+		className: {
+			description: "Additional class names for the wrapper.",
+			control: "text",
+		},
 	},
 	args: {
 		completedTasks: 3,
 		totalTasks: 10,
 		isLoading: false,
+		className: "yst-max-w-screen-sm",
 	},
 };
 
@@ -40,6 +45,7 @@ export const LoadingState = {
 	render: ( args ) => <TasksProgressBar { ...args } />,
 	args: {
 		isLoading: true,
+		className: "yst-max-w-screen-sm",
 	},
 };
 
@@ -49,6 +55,7 @@ export const ErrorState = {
 		completedTasks: null,
 		totalTasks: null,
 		isLoading: false,
+		className: "yst-max-w-screen-sm",
 	},
 };
 

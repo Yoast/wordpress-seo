@@ -8,7 +8,7 @@ import { __, sprintf } from "@wordpress/i18n";
  */
 const LoadingProgressBar = () => (
 	<>
-		<SkeletonLoader className="yst-w-[184px] yst-h-1.5" />
+		<SkeletonLoader className="yst-w-full yst-h-1.5" />
 		<SkeletonLoader className="yst-w-9 yst-h-5" />
 	</>
 );
@@ -20,7 +20,7 @@ const LoadingProgressBar = () => (
  */
 const ErrorProgressBar = () => (
 	<>
-		<div className="yst-w-[184px] yst-h-1.5 yst-bg-slate-200 yst-rounded" />
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
 		<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
 	</>
 );
@@ -29,10 +29,11 @@ const ErrorProgressBar = () => (
  * Wrapper component for the progress bar with title.
  *
  * @param {JSX.Element} children Child elements.
+ * @param {string} [className] Additional class names for the wrapper.
  * @returns {JSX.Element} The ProgressBarWrapper component.
  */
-const ProgressBarWrapper = ( { children } ) => (
-	<div>
+const ProgressBarWrapper = ( { children, className } ) => (
+	<div className={ className }>
 		<Title as="h2" className="yst-text-lg yst-font-medium yst-text-slate-900 yst-mb-2">{ __( "Tasks", "wordpress-seo" ) }</Title>
 		<div className="yst-flex yst-gap-3 yst-items-center">
 			{ children }
@@ -47,17 +48,18 @@ const ProgressBarWrapper = ( { children } ) => (
  * @param {number} completedTasks Number of completed tasks, should be less than or equal to totalTasks.
  * @param {number} totalTasks Total number of tasks.
  * @param {boolean} isLoading Whether the tasks are loading.
+ * @param {string} [className] Additional class names for the wrapper.
  * @returns {JSX.Element} The TasksProgressBar component.
  */
-export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) => {
+export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className } ) => {
 	if ( isLoading ) {
-		return <ProgressBarWrapper>
+		return <ProgressBarWrapper className={ className }>
 			<LoadingProgressBar />
 		</ProgressBarWrapper>;
 	}
 
 	if ( ! totalTasks || completedTasks > totalTasks ) {
-		return <ProgressBarWrapper>
+		return <ProgressBarWrapper className={ className }>
 			<ErrorProgressBar />
 		</ProgressBarWrapper>;
 	}
@@ -70,13 +72,13 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading } ) =>
 	);
 
 	return (
-		<ProgressBarWrapper>
+		<ProgressBarWrapper className={ className }>
 			<ProgressBar
 				label={ __( "Tasks Progress", "wordpress-seo" ) }
 				progress={ completedTasks }
 				min={ 0 }
 				max={ totalTasks }
-				className="yst-w-[184px] yst-h-1.5"
+				className="yst-h-1.5"
 				progressClassName="yst-bg-green-500"
 			/>
 			<span className="yst-sr-only">{ screenReaderText }</span>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { get, keys, sortBy, values, size } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
@@ -53,6 +53,7 @@ const initialState = {
 	nonce: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: null,
+	currentOpenTask: null,
 };
 
 /**
@@ -135,13 +136,17 @@ const slice = createSlice( {
 	initialState,
 	reducers: {
 		setTasks( state, { payload } ) {
+			const tasks = {};
 			keys( payload ).forEach( ( id ) => {
-				payload[ id ].status = ASYNC_ACTION_STATUS.idle;
-				payload[ id ].error = null;
-				// eslint-disable-next-line no-inline-comments
-				payload[ id ].badge = null; // Remove this when we want to re-instate badges.
+				tasks[ id ] = {
+					...payload[ id ],
+					status: ASYNC_ACTION_STATUS.idle,
+					error: null,
+					badge: null,
+					// Remove this when we want to re-instate badges.
+				};
 			} );
-			state.tasks = payload;
+			state.tasks = tasks;
 		},
 		setTaskCompleted( state, { payload } ) {
 			if ( state.tasks[ payload ] ) {
@@ -153,6 +158,9 @@ const slice = createSlice( {
 				state.tasks[ payload ].error = null;
 				state.tasks[ payload ].status = ASYNC_ACTION_STATUS.idle;
 			}
+		},
+		setCurrentOpenTask( state, { payload } ) {
+			state.currentOpenTask = payload ? state.tasks[ payload ] : null;
 		},
 	},
 	extraReducers: ( builder ) => {
@@ -199,10 +207,10 @@ export const taskListSelectors = {
 	selectIsTaskCompleted: ( state, id ) => get( state, [ TASK_LIST_NAME, "tasks", id, "isCompleted" ], null ),
 	selectTasksStatus: ( state ) => get( state, [ TASK_LIST_NAME, "status" ], ASYNC_ACTION_STATUS.idle ),
 	selectTasksError: ( state ) => get( state, [ TASK_LIST_NAME, "error" ], null ),
-	selectSortedTasks: ( state ) => {
-		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
-		return sortTasks( tasks );
-	},
+	selectSortedTasks: createSelector(
+		( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
+		( tasks ) => sortTasks( tasks )
+	),
 	selectTotalTasksCount: ( state ) => {
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
 		return size( tasks );
@@ -212,6 +220,10 @@ export const taskListSelectors = {
 		return size(
 			values( tasks ).filter( task => task.isCompleted )
 		);
+	},
+	selectCurrentOpenTask: ( state ) => get( state, [ TASK_LIST_NAME, "currentOpenTask" ], null ),
+	selectTaskTitle: ( state, id ) => {
+		return get( state, [ TASK_LIST_NAME, "tasks", id, "title" ], null );
 	},
 };
 

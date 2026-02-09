@@ -1,16 +1,18 @@
 import { ClockIcon } from "@heroicons/react/outline";
 import { useSvgAria, SkeletonLoader } from "@yoast/ui-library";
+import classNames from "classnames";
+import { useTaskListContext } from "../task-list-context";
 
 /**
  * The Duration component to display task duration.
  *
  * @param {number} minutes The duration in minutes.
  * @param {boolean} [isLoading=false] Whether the duration is loading.
- * @param {string} [locale="en"] Optional locale to use for formatting (defaults to "en")
  * @param {boolean} [isCompleted] Whether the task is completed.
  * @returns {JSX.Element} The Duration component.
  */
-export const Duration = ( { minutes, isLoading = false, locale = "en", isCompleted } ) => {
+export const Duration = ( { minutes, isLoading = false, isCompleted } ) => {
+	const { locale } = useTaskListContext();
 	const svgAriaProps = useSvgAria();
 	const localeNormalized = locale.replace( "_", "-" );
 
@@ -73,7 +75,12 @@ export const Duration = ( { minutes, isLoading = false, locale = "en", isComplet
 		}
 	};
 
-	return <span className="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center">
+	return <span
+		className={ classNames(
+			"yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center",
+			{ "yst-opacity-50": isCompleted }
+		) }
+	>
 		<ClockIcon className="yst-w-4 yst-text-slate-400" { ...svgAriaProps } />
 		{ isLoading ? <SkeletonLoader className="yst-w-8 yst-h-[18px] yst-ms-0.5" />
 			: <>{ formatDuration( isCompleted ? 0 : minutes ) }</> }

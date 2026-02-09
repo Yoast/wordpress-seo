@@ -37,9 +37,10 @@ describe( "TasksProgressBadge", () => {
 		[ "0 tasks are completed", { completedTasks: 0, totalTasks: 0 } ],
 		[ "all tasks are completed", { completedTasks: 5, totalTasks: 5 } ],
 		[ "some tasks are completed", { completedTasks: 3, totalTasks: 5 } ],
-	] )( "matches snapshot for when %s", ( _, { completedTasks, totalTasks } ) => {
+		[ "with label", { completedTasks: 2, totalTasks: 4, label: "Tasks" } ],
+	] )( "matches snapshot for when %s", ( _, { completedTasks, totalTasks, label } ) => {
 		const { asFragment } = render(
-			<TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } />
+			<TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } label={ label } />
 		);
 		expect( asFragment() ).toMatchSnapshot();
 	} );
