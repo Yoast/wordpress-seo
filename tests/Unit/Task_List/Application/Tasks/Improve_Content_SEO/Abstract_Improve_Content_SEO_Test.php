@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
@@ -55,6 +56,10 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 		$this->stubTranslationFunctions();
+
+		Monkey\Functions\when( 'get_post_type_object' )->justReturn(
+			(object) [ 'label' => 'Posts', 'name' => 'post' ]
+		);
 
 		$this->recent_content_indexable_collector   = Mockery::mock( Recent_Content_Indexable_Collector::class );
 		$this->indexable_helper                     = Mockery::mock( Indexable_Helper::class );
