@@ -58,7 +58,10 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		Monkey\Functions\when( 'get_post_type_object' )->justReturn(
-			(object) [ 'label' => 'Posts', 'name' => 'post' ]
+			(object) [
+				'label' => 'Posts',
+				'name'  => 'post',
+			]
 		);
 
 		$this->recent_content_indexable_collector   = Mockery::mock( Recent_Content_Indexable_Collector::class );
