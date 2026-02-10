@@ -214,11 +214,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	return (
 		<Root>
-			<div
-				className="yst-relative yst-inline-flex"
-				onPointerEnter={ showTooltip }
-				onPointerLeave={ hideTooltip }
-			>
+			<div className="yst-relative yst-inline-flex">
 				<Button
 					onClick={ handleClick }
 					id={ `${ aiOptimizeId }-${ locationContext }` }
@@ -226,6 +222,8 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					disabled={ ! isEnabled }
 					ref={ focusButtonRef }
 					onBlur={ resetFocusOnBlur }
+					onPointerEnter={ showTooltip }
+					onPointerLeave={ hideTooltip }
 					variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
 					size="small"
 					aria-label={ ariaLabel }
