@@ -142,3 +142,16 @@ export const ChildTask = {
 		completedTasks: 2,
 	},
 };
+
+export const WithTaskAnalyzer = {
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		analyzer: {
+			type: "score",
+			label: "Readability",
+			score: "bad",
+			scoreLabel: "Needs improvement",
+			details: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs to make your content easier to read.",
+		},
+	},
+};
