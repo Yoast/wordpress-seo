@@ -4,8 +4,12 @@ import React, { forwardRef } from "react";
 
 const positionClassNameMap = {
 	top: "yst-tooltip--top",
+	"top-left": "yst-tooltip--top-left",
+	"top-right": "yst-tooltip--top-right",
 	right: "yst-tooltip--right",
 	bottom: "yst-tooltip--bottom",
+	"bottom-left": "yst-tooltip--bottom-left",
+	"bottom-right": "yst-tooltip--bottom-right",
 	left: "yst-tooltip--left",
 };
 
