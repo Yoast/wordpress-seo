@@ -106,7 +106,7 @@ class Recent_Content_Indexable_Collector {
 			$content_items[] = new Content_Item_Score_Data(
 				$result['object_id'],
 				$result['breadcrumb_title'],
-				$seo_score_group,
+				$seo_score_group->get_name(),
 				$post_type
 			);
 		}
@@ -131,7 +131,7 @@ class Recent_Content_Indexable_Collector {
 			$content_items[] = new Content_Item_Score_Data(
 				$result['object_id'],
 				$result['breadcrumb_title'],
-				$readability_score_group,
+				$readability_score_group->get_name(),
 				$post_type
 			);
 		}

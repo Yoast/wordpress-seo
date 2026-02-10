@@ -4,8 +4,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability;
 
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Bad_Readability_Score_Group;
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Ok_Readability_Score_Group;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
@@ -57,8 +55,8 @@ final class Improve_Content_Readability_Populate_Child_Tasks_Test extends Abstra
 	public function test_populate_child_tasks_returns_child_tasks() {
 		$this->instance->set_post_type( 'post' );
 
-		$content_item_1 = new Content_Item_Score_Data( 1, 'Test Post 1', new Bad_Readability_Score_Group(), 'post' );
-		$content_item_2 = new Content_Item_Score_Data( 2, 'Test Post 2', new Ok_Readability_Score_Group(), 'post' );
+		$content_item_1 = new Content_Item_Score_Data( 1, 'Test Post 1', 'bad', 'post' );
+		$content_item_2 = new Content_Item_Score_Data( 2, 'Test Post 2', 'ok', 'post' );
 
 		$this->recent_content_indexable_collector
 			->expects( 'get_recent_content_with_readability_scores' )

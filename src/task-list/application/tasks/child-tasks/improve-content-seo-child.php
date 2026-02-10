@@ -109,13 +109,25 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Task_Analyzer_Interface|null
 	 */
 	public function get_analyzer(): ?Task_Analyzer_Interface {
-		$score_group = $this->content_item_score_data->get_score_group();
+		$score_labels = [
+			'good' => \__( 'Good', 'wordpress-seo' ),
+			'ok'   => \__( 'OK', 'wordpress-seo' ),
+			'bad'  => \__( 'Needs improvement', 'wordpress-seo' ),
+		];
+
+		$score_details = [
+			'good' => \__( 'This post\'s SEO is looking good. Your content should perform well across search engines and AI systems.', 'wordpress-seo' ),
+			'ok'   => \__( 'This post has some SEO issues that could be improved to increase its visibility in search and AI systems.', 'wordpress-seo' ),
+			'bad'  => \__( 'This post has one or more SEO issues that may reduce its visibility in search and AI systems.', 'wordpress-seo' ),
+		];
+
+		$score = $this->content_item_score_data->get_score();
 
 		return new Score_Task_Analyzer(
 			\__( 'SEO analysis', 'wordpress-seo' ),
-			$score_group->get_name(),
-			$score_group->get_label(),
-			$score_group->get_detail()
+			$score,
+			$score_labels[ $score ],
+			$score_details[ $score ]
 		);
 	}
 

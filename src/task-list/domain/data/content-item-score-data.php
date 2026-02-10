@@ -2,8 +2,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Domain\Data;
 
-use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
-
 /**
  * Value object representing content item data for score-based improvement tasks.
  */
@@ -24,11 +22,11 @@ class Content_Item_Score_Data {
 	private $title;
 
 	/**
-	 * The score group of the content item.
+	 * The score of the content item.
 	 *
-	 * @var Score_Groups_Interface
+	 * @var string
 	 */
-	private $score_group;
+	private $score;
 
 	/**
 	 * The content type (post type).
@@ -40,15 +38,15 @@ class Content_Item_Score_Data {
 	/**
 	 * Constructs the content item data.
 	 *
-	 * @param int                    $content_id   The content item ID.
-	 * @param string                 $title        The content item title.
-	 * @param Score_Groups_Interface $score_group  The score group.
-	 * @param string                 $content_type The content type.
+	 * @param int    $content_id   The content item ID.
+	 * @param string $title        The content item title.
+	 * @param string $score        The score.
+	 * @param string $content_type The content type.
 	 */
-	public function __construct( int $content_id, string $title, Score_Groups_Interface $score_group, string $content_type ) {
+	public function __construct( int $content_id, string $title, string $score, string $content_type ) {
 		$this->content_id   = $content_id;
 		$this->title        = $title;
-		$this->score_group  = $score_group;
+		$this->score        = $score;
 		$this->content_type = $content_type;
 	}
 
@@ -76,16 +74,7 @@ class Content_Item_Score_Data {
 	 * @return string
 	 */
 	public function get_score(): string {
-		return $this->score_group->get_name();
-	}
-
-	/**
-	 * Returns the score group.
-	 *
-	 * @return Score_Groups_Interface
-	 */
-	public function get_score_group(): Score_Groups_Interface {
-		return $this->score_group;
+		return $this->score;
 	}
 
 	/**

@@ -53,22 +53,4 @@ class Good_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	public function get_max_score(): ?int {
 		return 100;
 	}
-
-	/**
-	 * Gets the label of the readability score group.
-	 *
-	 * @return string The label of the readability score group.
-	 */
-	public function get_label(): string {
-		return \__( 'Good', 'wordpress-seo' );
-	}
-
-	/**
-	 * Gets the detail of the readability score group.
-	 *
-	 * @return string The detail of the readability score group.
-	 */
-	public function get_detail(): string {
-		return \__( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', 'wordpress-seo' );
-	}
 }
