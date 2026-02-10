@@ -2,20 +2,20 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
 use Mockery;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Base class for the Improve Content SEO Child task tests.
+ * Base class for the Improve Content Readability Child task tests.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
+abstract class Abstract_Improve_Content_Readability_Child_Test extends TestCase {
 
 	/**
 	 * The parent task mock.
@@ -34,7 +34,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Improve_Content_SEO_Child
+	 * @var Improve_Content_Readability_Child
 	 */
 	protected $instance;
 
@@ -52,7 +52,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 		// Default content item with OK score.
 		$this->content_item_score_data = new Content_Item_Score_Data( 123, 'Test Post Title', 'ok', 'post' );
 
-		$this->instance = new Improve_Content_SEO_Child(
+		$this->instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$this->content_item_score_data
 		);
@@ -63,12 +63,12 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 	 *
 	 * @param string $score The score group name (e.g., 'good', 'ok', 'bad').
 	 *
-	 * @return Improve_Content_SEO_Child
+	 * @return Improve_Content_Readability_Child
 	 */
-	protected function create_instance_with_score( string $score ): Improve_Content_SEO_Child {
+	protected function create_instance_with_score( string $score ): Improve_Content_Readability_Child {
 		$content_item = new Content_Item_Score_Data( 123, 'Test Post Title', $score, 'post' );
 
-		return new Improve_Content_SEO_Child(
+		return new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$content_item
 		);

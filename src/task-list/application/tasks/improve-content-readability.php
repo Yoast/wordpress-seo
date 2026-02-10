@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
+use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
@@ -13,9 +13,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
- * Represents the task for improving content SEO.
+ * Represents the task for improving content readability.
  */
-class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
+class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.
@@ -29,7 +29,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * @var string
 	 */
-	protected $id = 'improve-content-seo';
+	protected $id = 'improve-content-readability';
 
 	/**
 	 * Holds the priority.
@@ -100,13 +100,12 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
-		// @TODO: the copy in the task is very much WIP from the designing team, so let's deal with that later on.
 		return new Copy_Set(
 			// @TODO: we are going to reference the post type in the title in a later task.
-			\__( 'Improve your content\'s SEO', 'wordpress-seo' ),
+			\__( 'Improve your content\'s readability', 'wordpress-seo' ),
 			\sprintf(
 				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
-				\__( '%1$sImproving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to speed up the process with high-quality, actionable suggestions.%4$s', 'wordpress-seo' ),
+				\__( '%1$sImproving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to speed up the process with high-quality, actionable suggestions.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
 				'<p><strong>',
@@ -132,7 +131,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 		$two_months_ago = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 months' ) );
 
-		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_with_seo_scores(
+		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_with_readability_scores(
 			$post_type,
 			$two_months_ago,
 			self::DEFAULT_LIMIT
@@ -140,7 +139,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_score_data ) {
-			$child_tasks[] = new Improve_Content_SEO_Child(
+			$child_tasks[] = new Improve_Content_Readability_Child(
 				$this,
 				$content_item_score_data
 			);
@@ -160,7 +159,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 		}
 
 		$enabled_features = $this->enabled_analysis_features_repository->get_enabled_features()->to_array();
-		if ( ! isset( $enabled_features[ Keyphrase_Analysis::NAME ] ) || $enabled_features[ Keyphrase_Analysis::NAME ] === false ) {
+		if ( ! isset( $enabled_features[ Readability_Analysis::NAME ] ) || $enabled_features[ Readability_Analysis::NAME ] === false ) {
 			return false;
 		}
 

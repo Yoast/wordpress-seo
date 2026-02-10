@@ -2,25 +2,25 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
- * Tests the get_copy_set method of the Improve Content SEO Child task.
+ * Tests the get_copy_set method of the Improve Content Readability Child task.
  *
  * @group task-list
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child::get_copy_set
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child::get_copy_set
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Content_SEO_Child_Test {
+final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Improve_Content_Readability_Child_Test {
 
 	/**
-	 * Tests the get_copy_set method.
+	 * Tests that get_copy_set returns a Copy_Set with the correct title.
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 			->once()
 			->andReturn( $parent_copy_set );
 
-		$instance = new Improve_Content_SEO_Child(
+		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
 			$content_item
 		);

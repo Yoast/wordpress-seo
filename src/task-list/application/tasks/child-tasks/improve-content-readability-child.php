@@ -10,9 +10,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
- * Represents the child task for improving content SEO.
+ * Represents the child task for improving content readability.
  */
-class Improve_Content_SEO_Child extends Abstract_Child_Task {
+class Improve_Content_Readability_Child extends Abstract_Child_Task {
 
 	/**
 	 * Holds the duration.
@@ -71,7 +71,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return string
 	 */
 	public function get_priority(): string {
-		// Bad SEO scores get high priority, ok scores get medium priority.
+		// Bad readability scores get high priority, ok scores get medium priority.
 		if ( $this->content_item_score_data->get_score() === 'bad' ) {
 			return 'high';
 		}
@@ -95,7 +95,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 */
 	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Improve SEO', 'wordpress-seo' ),
+			\__( 'Improve readability', 'wordpress-seo' ),
 			'link',
 			$this->get_link()
 		);
