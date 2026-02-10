@@ -49,4 +49,18 @@ interface Score_Groups_Interface {
 	 * @return int
 	 */
 	public function get_position(): int;
+
+	/**
+	 * Gets the label of the score group.
+	 *
+	 * @return string
+	 */
+	public function get_label(): string;
+
+	/**
+	 * Gets the detail of the score group.
+	 *
+	 * @return string
+	 */
+	public function get_detail(): string;
 }

@@ -93,7 +93,7 @@ abstract class Abstract_Recent_Content_Indexable_Collector_Test extends TestCase
 	 */
 	protected function expect_score_group( int $score, string $group_name ): void {
 		$score_group = Mockery::mock( SEO_Score_Groups_Interface::class );
-		$score_group->expects( 'get_name' )->andReturn( $group_name );
+		$score_group->allows( 'get_name' )->andReturn( $group_name );
 
 		$this->seo_score_groups_repository
 			->expects( 'get_score_group' )

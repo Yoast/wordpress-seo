@@ -53,4 +53,22 @@ class Good_SEO_Score_Group extends Abstract_SEO_Score_Group {
 	public function get_max_score(): ?int {
 		return 100;
 	}
+
+	/**
+	 * Gets the label of the SEO score group.
+	 *
+	 * @return string The label of the SEO score group.
+	 */
+	public function get_label(): string {
+		return \__( 'Good', 'wordpress-seo' );
+	}
+
+	/**
+	 * Gets the detail of the SEO score group.
+	 *
+	 * @return string The detail of the SEO score group.
+	 */
+	public function get_detail(): string {
+		return \__( 'This post\'s SEO is looking good. Your content should perform well across search engines and AI systems.', 'wordpress-seo' );
+	}
 }

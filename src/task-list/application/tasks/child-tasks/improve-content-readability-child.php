@@ -109,25 +109,13 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 	 * @return Task_Analyzer_Interface|null
 	 */
 	public function get_analyzer(): ?Task_Analyzer_Interface {
-		$score_labels = [
-			'good' => \__( 'Good', 'wordpress-seo' ),
-			'ok'   => \__( 'OK', 'wordpress-seo' ),
-			'bad'  => \__( 'Needs improvement', 'wordpress-seo' ),
-		];
-
-		$score_details = [
-			'good' => \__( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', 'wordpress-seo' ),
-			'ok'   => \__( 'This post has some readability issues that could be improved to make it easier to read.', 'wordpress-seo' ),
-			'bad'  => \__( 'This post has one or more readability issues that may make it harder for readers to understand.', 'wordpress-seo' ),
-		];
-
-		$score = $this->content_item_score_data->get_score();
+		$score_group = $this->content_item_score_data->get_score_group();
 
 		return new Score_Task_Analyzer(
 			\__( 'Readability', 'wordpress-seo' ),
-			$score,
-			$score_labels[ $score ],
-			$score_details[ $score ]
+			$score_group->get_name(),
+			$score_group->get_label(),
+			$score_group->get_detail()
 		);
 	}
 

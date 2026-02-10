@@ -53,4 +53,22 @@ class Ok_SEO_Score_Group extends Abstract_SEO_Score_Group {
 	public function get_max_score(): ?int {
 		return 70;
 	}
+
+	/**
+	 * Gets the label of the SEO score group.
+	 *
+	 * @return string The label of the SEO score group.
+	 */
+	public function get_label(): string {
+		return \__( 'OK', 'wordpress-seo' );
+	}
+
+	/**
+	 * Gets the detail of the SEO score group.
+	 *
+	 * @return string The detail of the SEO score group.
+	 */
+	public function get_detail(): string {
+		return \__( 'This post has some SEO issues that could be improved to increase its visibility in search and AI systems.', 'wordpress-seo' );
+	}
 }

@@ -53,4 +53,22 @@ class Ok_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	public function get_max_score(): ?int {
 		return 70;
 	}
+
+	/**
+	 * Gets the label of the readability score group.
+	 *
+	 * @return string The label of the readability score group.
+	 */
+	public function get_label(): string {
+		return \__( 'OK', 'wordpress-seo' );
+	}
+
+	/**
+	 * Gets the detail of the readability score group.
+	 *
+	 * @return string The detail of the readability score group.
+	 */
+	public function get_detail(): string {
+		return \__( 'This post has some readability issues that could be improved to make it easier to read.', 'wordpress-seo' );
+	}
 }

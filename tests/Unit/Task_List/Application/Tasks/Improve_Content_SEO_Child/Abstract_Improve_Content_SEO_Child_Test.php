@@ -5,6 +5,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_SEO_Child;
 
 use Mockery;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Bad_SEO_Score_Group;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Good_SEO_Score_Group;
+use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\Ok_SEO_Score_Group;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
@@ -50,7 +54,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 		$this->parent_task = Mockery::mock( Parent_Task_Interface::class );
 
 		// Default content item with OK score.
-		$this->content_item_score_data = new Content_Item_Score_Data( 123, 'Test Post Title', 'ok', 'post' );
+		$this->content_item_score_data = new Content_Item_Score_Data( 123, 'Test Post Title', new Ok_SEO_Score_Group(), 'post' );
 
 		$this->instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
@@ -66,7 +70,21 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 	 * @return Improve_Content_SEO_Child
 	 */
 	protected function create_instance_with_score( string $score ): Improve_Content_SEO_Child {
-		$content_item = new Content_Item_Score_Data( 123, 'Test Post Title', $score, 'post' );
+		$score_groups = [
+			'good' => new Good_SEO_Score_Group(),
+			'ok'   => new Ok_SEO_Score_Group(),
+			'bad'  => new Bad_SEO_Score_Group(),
+		];
+
+		if ( isset( $score_groups[ $score ] ) ) {
+			$score_group = $score_groups[ $score ];
+		}
+		else {
+			$score_group = Mockery::mock( Score_Groups_Interface::class );
+			$score_group->allows( 'get_name' )->andReturn( $score );
+		}
+
+		$content_item = new Content_Item_Score_Data( 123, 'Test Post Title', $score_group, 'post' );
 
 		return new Improve_Content_SEO_Child(
 			$this->parent_task,

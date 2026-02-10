@@ -53,4 +53,22 @@ class No_Readability_Score_Group extends Abstract_Readability_Score_Group {
 	public function get_max_score(): ?int {
 		return null;
 	}
+
+	/**
+	 * Gets the label of the readability score group.
+	 *
+	 * @return string The label of the readability score group.
+	 */
+	public function get_label(): string {
+		return '';
+	}
+
+	/**
+	 * Gets the detail of the readability score group.
+	 *
+	 * @return string The detail of the readability score group.
+	 */
+	public function get_detail(): string {
+		return '';
+	}
 }
