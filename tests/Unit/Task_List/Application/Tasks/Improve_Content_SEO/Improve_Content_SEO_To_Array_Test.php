@@ -42,7 +42,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s SEO',
+			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
@@ -70,7 +70,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s SEO',
+			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
@@ -100,7 +100,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'badge'        => null,
 			'isCompleted'  => false,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s SEO',
+			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
