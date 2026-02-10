@@ -31,6 +31,10 @@ jest.mock( "../../../src/ai-optimizer/components/modal-content", () => ( {
 	),
 } ) );
 
+jest.mock( "../../../src/ai-generator/hooks/use-location", () => ( {
+	useLocation: () => "sidebar",
+} ) );
+
 global.window.YoastSEO = {
 	analysis: {
 		applyMarks: jest.fn(),
@@ -56,6 +60,7 @@ const mockSelect = ( { activeAIButton = null, shouldUpsellWoo = false } = {} ) =
 		getEditorType: () => "blockEditor",
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => "test keyphrase",
+		getFocusAIFixesButtonId: () => null,
 	} ) ) );
 
 	isTextViewActive.mockReturnValue( false );
@@ -78,6 +83,7 @@ describe( "AIOptimizeButton modal behavior", () => {
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
+			setFocusAIFixesButtonId: jest.fn(),
 		} ) );
 	} );
 

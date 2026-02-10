@@ -22,6 +22,10 @@ jest.mock( "../../../src/lib/tinymce", () => ( {
 	isTextViewActive: jest.fn(),
 } ) );
 
+jest.mock( "../../../src/ai-generator/hooks/use-location", () => ( {
+	useLocation: () => "sidebar",
+} ) );
+
 global.window.YoastSEO = {
 	analysis: {
 		applyMarks: jest.fn(),
@@ -53,6 +57,7 @@ const mockSelect = ( activeAIButton, editorMode = "visual", editorType = "blockE
 		getEditorType: () => editorType,
 		getIsWooSeoUpsell: () => shouldUpsellWoo,
 		getFocusKeyphrase: () => keyword,
+		getFocusAIFixesButtonId: () => null,
 	} ) ) );
 
 	// Mock collectData to reflect the provided content
@@ -78,6 +83,7 @@ describe( "AIOptimizeButton", () => {
 			setActiveMarker,
 			setMarkerPauseStatus,
 			setMarkerStatus,
+			setFocusAIFixesButtonId: jest.fn(),
 		} ) );
 	} );
 
