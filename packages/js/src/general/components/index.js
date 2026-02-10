@@ -10,3 +10,4 @@ export { TaskListOptInNotification } from "./task-list-opt-in-notification";
 export { OptInContainer } from "./opt-in-container";
 export { TaskListUpsellRow } from "./task-list-upsell-row";
 export { Task } from "./task";
+export { TaskListModal } from "./task-list-modal";

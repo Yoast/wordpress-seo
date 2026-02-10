@@ -101,10 +101,10 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
-			$seo_score_group = $this->seo_score_groups_repository->get_score_group( $result['primary_focus_keyword_score'] );
+			$seo_score_group = $this->seo_score_groups_repository->get_score_group( (int) $result['primary_focus_keyword_score'] );
 
 			$content_items[] = new Content_Item_Score_Data(
-				$result['object_id'],
+				(int) $result['object_id'],
 				$result['breadcrumb_title'],
 				$seo_score_group->get_name(),
 				$post_type
@@ -126,10 +126,10 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
-			$readability_score_group = $this->readability_score_groups_repository->get_score_group( $result['readability_score'] );
+			$readability_score_group = $this->readability_score_groups_repository->get_score_group( (int) $result['readability_score'] );
 
 			$content_items[] = new Content_Item_Score_Data(
-				$result['object_id'],
+				(int) $result['object_id'],
 				$result['breadcrumb_title'],
 				$readability_score_group->get_name(),
 				$post_type

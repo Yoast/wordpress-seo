@@ -1,52 +1,39 @@
-import { TaskRow, TaskModal } from "@yoast/dashboard-frontend";
-import { useToggleState } from "@yoast/ui-library";
-import { useCallback } from "@wordpress/element";
+import { TaskRow } from "@yoast/dashboard-frontend";
+import { useCallback, useMemo } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { values } from "lodash";
 
 /**
  * The Task component to display a task row and modal.
  *
  * @param {string} title The title of the task.
  * @param {string} id The ID of the task.
- * @param {string} about The about copy.
  * @param {number} duration The duration in minutes.
  * @param {string} priority The priority: 'low', 'medium', 'high'.
  * @param {boolean} isCompleted Whether the task is completed.
- * @param {Function} onClick Function to call when the row is clicked.
- * @param {Object} callToAction The call-to-action props object.
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  *
  * @returns {JSX.Element} The Task component.
  */
-export const Task = ( { title, id, about, duration, priority, isCompleted, callToAction, badge } ) => {
-	const [ isOpen, toggleOpen ] = useToggleState( false );
-	const { completeTask, resetTaskError } = useDispatch( STORE_NAME );
-	const { status, completeTaskEndpoint, nonce, errorMessage, userLocale } = useSelect( ( select ) => {
-		const state = select( STORE_NAME );
-		return {
-			status: state.selectTaskStatus( id ),
-			errorMessage: state.selectTaskError( id ),
-			completeTaskEndpoint: state.selectTasksEndpoints().completeTask,
-			nonce: state.selectNonce(),
-			userLocale: state.selectPreference( "userLocale" ),
-		};
-	}, [] );
+export const Task = ( { title, id, duration, priority, isCompleted, badge } ) => {
+	const { resetTaskError, setCurrentOpenTask } = useDispatch( STORE_NAME );
 
-	const handleCompleteTask = useCallback( async() => {
-		completeTask( id, completeTaskEndpoint, nonce );
-	}, [ nonce ] );
+	const tasks = useSelect( ( select ) => select( STORE_NAME ).selectTasks(), [] );
+	const childTasks = values( tasks ).filter( task => id && task.parentTaskId === id );
 
-	const callToActionProps = {
-		onClick: handleCompleteTask,
-		...callToAction,
-	};
+	const totalTasks = useMemo( () => {
+		return childTasks.length;
+	}, [ childTasks ] );
+
+	const completedTasks = useMemo( () => {
+		return childTasks.filter( ( task ) => task.isCompleted ).length;
+	}, [ childTasks ] );
 
 	const handleOnOpen = useCallback( () => {
 		resetTaskError( id );
-		toggleOpen();
-	}, [ toggleOpen ] );
+		setCurrentOpenTask( id );
+	}, [ resetTaskError, setCurrentOpenTask, id ] );
 
 	return <TaskRow
 		title={ title }
@@ -54,23 +41,8 @@ export const Task = ( { title, id, about, duration, priority, isCompleted, callT
 		priority={ priority }
 		isCompleted={ isCompleted }
 		onClick={ handleOnOpen }
+		completedTasks={ completedTasks }
+		totalTasks={ totalTasks }
 		badge={ badge }
-		locale={ userLocale }
-	>
-		<TaskModal
-			isOpen={ isOpen }
-			onClose={ toggleOpen }
-			title={ title }
-			duration={ duration }
-			priority={ priority }
-			about={ about }
-			isCompleted={ isCompleted }
-			taskId={ id }
-			callToAction={ callToActionProps }
-			isLoading={ status === ASYNC_ACTION_STATUS.loading }
-			isError={ status === ASYNC_ACTION_STATUS.error }
-			errorMessage={ errorMessage }
-			locale={ userLocale }
-		/>
-	</TaskRow>;
+	/>;
 };

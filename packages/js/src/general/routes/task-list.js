@@ -1,11 +1,11 @@
-import { Paper, Title, Table } from "@yoast/ui-library";
+import { Paper, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { TaskRow, TasksProgressBar, GetTasksErrorRow } from "@yoast/dashboard-frontend";
+import { TaskRow, TasksProgressBar, GetTasksErrorRow, TaskListTable, TaskListProvider } from "@yoast/dashboard-frontend";
 import { values, isEmpty } from "lodash";
 import { useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
-import { Task, TaskListUpsellRow } from "../components";
+import { Task, TaskListUpsellRow, TaskListModal } from "../components";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const loadingTasksTitleWidth = [
@@ -37,6 +37,7 @@ export const TaskList = () => {
 		sortedTasks,
 		totalTasksCount,
 		completedTasksCount,
+		userLocale,
 	} = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
@@ -49,6 +50,7 @@ export const TaskList = () => {
 			sortedTasks: state.selectSortedTasks(),
 			totalTasksCount: state.selectTotalTasksCount(),
 			completedTasksCount: state.selectCompletedTasksCount(),
+			userLocale: state.selectPreference( "userLocale" ),
 		};
 	}, [] );
 
@@ -62,36 +64,29 @@ export const TaskList = () => {
 	}, [ tasks, fetchTasks ] );
 
 	return <Paper className="yst-mb-6">
-		<>
-			<Paper.Header>
-				<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
-				<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny">
-					{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
-				</p>
-			</Paper.Header>
-			<Paper.Content>
+		<Paper.Header>
+			<Title>{ __( "Task list", "wordpress-seo" ) }</Title>
+			<p className="yst-max-w-screen-sm yst-mt-3 yst-text-tiny">
+				{ __( "Stay on top of your SEO progress with this task list. Complete each task to ensure your site is optimized and aligned with best SEO practices.", "wordpress-seo" ) }
+			</p>
+		</Paper.Header>
+		<Paper.Content>
+			<TaskListProvider locale={ userLocale }>
 				<TasksProgressBar
 					completedTasks={ completedTasksCount }
 					totalTasks={ totalTasksCount }
 					isLoading={ isPending }
+					className="yst-max-w-screen-sm"
 				/>
-				<Table className="yst-mt-4">
-					<Table.Head>
-						<Table.Row>
-							<Table.Header>{ __( "Task", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-max-w-36">{ __( "Est. duration", "wordpress-seo" ) }</Table.Header>
-							<Table.Header className="yst-max-w-44">{ __( "Priority", "wordpress-seo" ) }</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
-						{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
-						{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
-						{ ! isEmpty( sortedTasks ) && values( sortedTasks ).map( ( task ) => (
-							<Task key={ task.id } { ...task } /> ) ) }
-						{ ! isPremium && <TaskListUpsellRow /> }
-					</Table.Body>
-				</Table>
-			</Paper.Content>
-		</>
+				<TaskListTable className="yst-mt-4">
+					{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
+					{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
+					{ ! isEmpty( sortedTasks ) && values( sortedTasks ).filter( task => ! task.parentTaskId ).map( ( task ) => (
+						<Task key={ task.id } { ...task } /> ) ) }
+					{ ! isPremium && <TaskListUpsellRow /> }
+				</TaskListTable>
+				<TaskListModal />
+			</TaskListProvider>
+		</Paper.Content>
 	</Paper>;
 };

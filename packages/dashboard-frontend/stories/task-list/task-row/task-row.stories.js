@@ -1,5 +1,6 @@
 import { TaskRow } from "../../../src/task-list/components/task-row";
-import { Table } from "@yoast/ui-library";
+import { TaskListTable } from "../../../src/task-list/components/task-list-table";
+import { TaskListProvider } from "../../../src/task-list/task-list-context";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
 
@@ -15,20 +16,13 @@ export default {
 	},
 	decorators: [
 		( Story ) => (
-			<div className="yst-bg-white">
-				<Table>
-					<Table.Head>
-						<Table.Row>
-							<Table.Header>Task</Table.Header>
-							<Table.Header>Est. duration</Table.Header>
-							<Table.Header>Priority</Table.Header>
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
+			<TaskListProvider locale="en-US">
+				<div className="yst-bg-white">
+					<TaskListTable>
 						<Story />
-					</Table.Body>
-				</Table>
-			</div>
+					</TaskListTable>
+				</div>
+			</TaskListProvider>
 		),
 	],
 	argTypes: {
@@ -51,6 +45,8 @@ export const Factory = {
 				duration={ 5 }
 				priority="low"
 				isCompleted={ true }
+				completedTasks={ 3 }
+				totalTasks={ 10 }
 			/>
 			<TaskRow
 				taskId="task-3"
@@ -59,6 +55,8 @@ export const Factory = {
 				priority="high"
 				isCompleted={ true }
 				badge="premium"
+				completedTasks={ 3 }
+				totalTasks={ 3 }
 			/>
 			<TaskRow
 				taskId="task-4"
@@ -75,6 +73,8 @@ export const Factory = {
 				priority="high"
 				isCompleted={ false }
 				badge="ai"
+				completedTasks={ 0 }
+				totalTasks={ 5 }
 			/>
 		</>
 	),
@@ -111,10 +111,6 @@ export const Factory = {
 		},
 		children: {
 			description: "Optional children elements for the task modal.",
-		},
-		locale: {
-			description: "Optional locale to use for formatting (defaults to en).",
-			control: "text",
 		},
 	},
 	args: {

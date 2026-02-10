@@ -1,5 +1,11 @@
 The `TaskRow` component displays a single task as a row in a table, providing a clear overview of task details and status within a task list. It is designed for use in the tasks list table where users need to view and interact with multiple tasks.
 
+## Usage
+
+This component should be used with:
+- **TaskListTable**: Provides the table header and body structure for the task list.
+- **TaskListProvider**: A context provider that accepts the `locale` prop for formatting duration values.
+
 ## Features
 
 - Shows task title, estimated duration, priority, and an optional badge (e.g., `premium`, `woo`, `ai`).

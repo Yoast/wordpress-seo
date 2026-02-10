@@ -1,6 +1,7 @@
 import { Badge, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/outline";
+import { useCallback } from "@wordpress/element";
 
 /**
  * Converts polar coordinates to Cartesian coordinates.
@@ -127,7 +128,11 @@ const ProgressPie = ( {
  * @param {boolean} [isLoading=false] Whether the tasks are loading.
  * @returns {JSX.Element} The TasksProgressBadge component.
  */
-export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading } ) => {
+export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId } ) => {
+	// If totalTasks and completedTasks are not numbers, bail out.
+	if ( isNaN( totalTasks ) || isNaN( completedTasks ) ) {
+		return null;
+	}
 	const screenReaderText = sprintf(
 		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
 		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
@@ -135,22 +140,34 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 		totalTasks
 	);
 	const svgAriaProps = useSvgAria();
+	const handleClick = useCallback( ( event ) => {
+		event.preventDefault();
+		if ( parentTaskId && onClick ) {
+			onClick( parentTaskId );
+		}
+	}, [ onClick, parentTaskId ] );
 
-	return <Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6">
-		<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4">
-			{ ! isLoading && completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
-			{ ! isLoading && completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
-			{ isLoading ? <>
-				<SkeletonLoader className="yst-h-3 yst-w-3 yst-mx-0.5" />
-				<SkeletonLoader className="yst-h-3 yst-w-7" />
-			</>
-				: <>
-					<span className="yst-text-xs">
-						<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
-					</span>
-					{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900"> { label } </span> }
-				</> }
-		</span>
-		<span className="yst-sr-only">{ screenReaderText }</span>
-	</Badge>;
+	return <button onClick={ handleClick } disabled={ ! parentTaskId }>
+		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6">
+			<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4">
+				{ ! isLoading && completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
+				{ ! isLoading && completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
+				{ isLoading ? <>
+					<SkeletonLoader className="yst-h-3 yst-w-3 yst-mx-0.5" />
+					<SkeletonLoader className="yst-h-3 yst-w-7" />
+				</>
+					: <>
+						<span className="yst-text-xs">
+							<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
+						</span>
+						{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900"> { label } </span> }
+					</> }
+			</span>
+			<span className="yst-sr-only">
+				{ label }
+				{ " " }
+				{ screenReaderText }
+			</span>
+		</Badge>
+	</button>;
 };

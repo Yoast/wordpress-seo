@@ -3,94 +3,163 @@
 exports[`TaskRow loading task row matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="yst-flex yst-items-center yst-gap-2"
+    class="yst-table-wrapper yst-table--default"
   >
-    <svg
-      aria-hidden="true"
-      class="yst-w-4 yst-text-slate-200 yst-shrink-0"
-      fill="none"
-      height="13"
-      role="img"
-      viewBox="0 0 13 13"
-      width="13"
-      xmlns="http://www.w3.org/2000/svg"
+    <table
+      class=""
     >
-      <circle
-        cx="6.4"
-        cy="6.4"
-        fill="currentColor"
-        r="6.4"
-      />
-    </svg>
-    <span
-      class="yst-skeleton-loader yst-h-[18px] yst-w-60"
-    />
-  </div>
-  <span
-    class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
-  >
-    <svg
-      aria-hidden="true"
-      class="yst-w-4 yst-text-slate-400"
-      fill="none"
-      role="img"
-      stroke="currentColor"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-    <span
-      class="yst-skeleton-loader yst-w-8 yst-h-[18px] yst-ms-0.5"
-    />
-  </span>
-  <div
-    class="yst-flex yst-justify-between"
-  >
-    <span
-      class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1"
-    >
-      <svg
-        aria-hidden="true"
-        class="yst-w-4 yst-text-slate-400"
-        fill="none"
-        role="img"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+      <thead
+        class=""
       >
-        <path
-          d="M4 8h16M4 16h16"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <span
-        class="yst-skeleton-loader yst-w-11 yst-h-[18px]"
-      />
-    </span>
-    <svg
-      aria-hidden="true"
-      class="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
-      fill="none"
-      role="img"
-      stroke="currentColor"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9 5l7 7-7 7"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
+        <tr
+          class="yst-table-row"
+        >
+          <th
+            class="yst-table-header"
+          >
+            Task
+          </th>
+          <th
+            class="yst-table-header yst-max-w-36"
+          >
+            Priority
+          </th>
+          <th
+            class="yst-table-header yst-max-w-36"
+          >
+            Est. duration
+          </th>
+          <th
+            class="yst-table-header yst-max-w-44"
+          >
+            Progress
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      >
+        <tr
+          class="yst-table-row"
+        >
+          <td
+            class="yst-table-cell yst-font-medium yst-text-slate-800"
+          >
+            <div
+              class="yst-flex yst-items-center yst-gap-2"
+            >
+              <svg
+                aria-label="Task loading"
+                class="yst-w-6 yst-text-slate-200 yst-shrink-0"
+                fill="none"
+                height="24"
+                role="img"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="18"
+                  rx="9"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="18"
+                  x="3"
+                  y="3"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  fill="currentColor"
+                  r="2"
+                />
+              </svg>
+              <span
+                class="yst-skeleton-loader yst-h-[18px] yst-w-60"
+              />
+            </div>
+          </td>
+          <td
+            class="yst-table-cell"
+          >
+            <span
+              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-w-4 yst-text-slate-400"
+                fill="none"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span
+                class="yst-skeleton-loader yst-w-8 yst-h-[18px] yst-ms-0.5"
+              />
+            </span>
+          </td>
+          <td
+            class="yst-table-cell"
+          >
+            <span
+              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-w-4 yst-text-slate-400"
+                fill="none"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 8h16M4 16h16"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span
+                class="yst-skeleton-loader yst-w-11 yst-h-[18px]"
+              />
+            </span>
+          </td>
+          <td
+            class="yst-table-cell"
+          >
+            <div
+              class="yst-flex yst-justify-between"
+            >
+              <svg
+                aria-hidden="true"
+                class="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
+                fill="none"
+                role="img"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </DocumentFragment>
 `;

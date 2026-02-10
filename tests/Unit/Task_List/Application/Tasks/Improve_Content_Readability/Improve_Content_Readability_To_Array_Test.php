@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readabi
  * Test class for the Improve Content Readability to_array method.
  *
  * @group Improve_Content_Readability
+ * @group task-list
  *
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_id
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_duration
@@ -42,7 +43,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s readability',
+			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
@@ -70,7 +71,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s readability',
+			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];
@@ -100,7 +101,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => false,
 			'callToAction' => null,
-			'title'        => 'Improve your content\'s readability',
+			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
 			'parentTask'   => true,
 		];

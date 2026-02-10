@@ -1,10 +1,12 @@
-import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
+import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { YoastIcon } from "../../icons";
+import { useMemo, useRef, useEffect } from "@wordpress/element";
+import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
-import { CompleteStatus } from "./complete-status";
+import { TasksProgressBadge } from "./tasks-progress-badge";
+import { TaskStatusIcon } from "../../icons";
 
 /**
  * The type of callToAction prop.
@@ -33,7 +35,10 @@ import { CompleteStatus } from "./complete-status";
  * @param {boolean}	 isLoading	Whether the modal content is loading.
  * @param {boolean}  [isError=false]   Whether there was an error loading the task.
  * @param {string}   [errorMessage=""]  Error message to display in the modal.
- * @param {string}   [locale]      Optional locale to use for formatting (defaults to "en").
+ * @param {number}   [totalTasks]     Total number of child tasks.
+ * @param {number}   [completedTasks] Number of completed child tasks.
+ * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
+ * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
@@ -50,34 +55,54 @@ export const TaskModal = ( {
 	isLoading = false,
 	isError = false,
 	errorMessage,
-	locale,
+	totalTasks,
+	completedTasks,
+	parentTaskTitle,
+	onProgressBadgeClick,
+	parentTaskId,
+	children,
 } ) => {
-	const svgAriaProps = useSvgAria();
+	// Sanitize the about content to prevent XSS attacks
+	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
+	const closeButtonRef = useRef();
+
+	useEffect( () => {
+		if ( taskId && closeButtonRef.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ taskId ] );
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
-		<Modal.Panel className="yst-p-0">
+		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
+					<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
 					<div>
 						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
 							{ title }
 						</Modal.Title>
-						<div className="yst-flex yst-gap-1">
-							{ isCompleted && <>
-								<CompleteStatus />
-								·
+						<div className="yst-flex yst-gap-1 yst-items-center">
+							{ totalTasks > 0 && <>
+								<TasksProgressBadge
+									completedTasks={ completedTasks }
+									totalTasks={ totalTasks }
+									label={ parentTaskTitle }
+									onClick={ onProgressBadgeClick }
+									parentTaskId={ parentTaskId }
+								/>
+								<span aria-hidden="true">·</span>
 							</> }
-							<Duration minutes={ duration } locale={ locale } isCompleted={ isCompleted } />
-							· <Priority level={ priority } />
+							<Priority level={ priority } isCompleted={ isCompleted } />
+							<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
 						</div>
 					</div>
+					<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 				</Modal.Container.Header>
-				<Modal.Container.Content className="yst-py-2 yst-px-12">
+				<Modal.Container.Content className="yst-py-6 yst-px-12">
 					{ isError && <Alert
 						role="alert"
 						variant="error"
-						className="yst-mt-4 yst-mb-2"
+						className="yst-mb-3"
 					>
 						<p className="yst-font-medium yst-mb-2">{ __( "Oops! Something went wrong.", "wordpress-seo" ) }</p>
 
@@ -86,17 +111,16 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-					{ about && <div className="yst-flex yst-flex-col yst-py-4 yst-items-start">
-						<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-							<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-								{ __( "About this task", "wordpress-seo" ) }
-							</Title>
-						</div>
+					{ about && <>
+						<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
+							{ __( "About this task", "wordpress-seo" ) }
+						</Title>
 						<div
-							className="yst-text-xs yst-text-slate-600 [&>p]:yst-mb-4"
-							dangerouslySetInnerHTML={ { __html: about } }
+							className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4"
+							dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
 						/>
-					</div> }
+					</> }
+					{ children }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
