@@ -81,13 +81,15 @@ final class Site_Schema_Response_Header_Integration_Test extends TestCase {
 
 		$request  = new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-xml' );
 		$response = new WP_REST_Response( '<urlset><url><loc>https://example.com/</loc></url></urlset>' );
-		$response->set_headers( [
-			'Content-Type' => 'application/xml; charset=UTF-8',
-		] );
+		$response->set_headers(
+			[
+				'Content-Type' => 'application/xml; charset=UTF-8',
+			]
+		);
 
-
+		\ob_start();
 		$result = $instance->serve_custom_response( false, $response, $request );
-
+		 \ob_get_clean();
 
 		$this->assertTrue( $result );
 		$headers = $this->get_sent_headers();
@@ -109,15 +111,27 @@ final class Site_Schema_Response_Header_Integration_Test extends TestCase {
 		$instance                  = new Site_Schema_Response_Header_Integration( $schema_map_header_adapter );
 
 		$request  = new WP_REST_Request( 'GET', '/yoast/v1/schema-aggregator/get-schema' );
-		$response = new WP_REST_Response( [
-			[ '@type' => 'WebPage', 'name' => 'Test Page' ],
-		] );
-		$response->set_headers( [
-			'Content-Type' => 'application/json; charset=UTF-8',
-		] );
+		$response = new WP_REST_Response(
+			[
+				[
+					'@type' => 'WebPage',
+					'name'  => 'Test Page',
+				],
+			]
+		);
+		$response->set_headers(
+			[
+				'Content-Type' => 'application/json; charset=UTF-8',
+			]
+		);
 
-
+		// Start multiple output buffers because the adapter calls ob_flush() internally. Otherwise the output gets spammed with random content.
+		\ob_start();
+		\ob_start();
 		$result = $instance->serve_custom_response( false, $response, $request );
+		// Clean up the buffers - output may have been flushed already due to flush() call.
+		\ob_end_clean();
+		\ob_end_clean();
 
 		$this->assertTrue( $result );
 
@@ -132,9 +146,7 @@ final class Site_Schema_Response_Header_Integration_Test extends TestCase {
 	 * @return array<string> List of headers.
 	 */
 	private function get_sent_headers(): array {
-		if ( \function_exists( 'xdebug_get_headers' ) ) {
-			return \xdebug_get_headers();
-		}
+		return \xdebug_get_headers();
 	}
 
 	/**
