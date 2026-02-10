@@ -89,7 +89,7 @@ final class Site_Schema_Response_Header_Integration_Test extends TestCase {
 
 		\ob_start();
 		$result = $instance->serve_custom_response( false, $response, $request );
-		 \ob_get_clean();
+		\ob_get_clean();
 
 		$this->assertTrue( $result );
 		$headers = $this->get_sent_headers();
