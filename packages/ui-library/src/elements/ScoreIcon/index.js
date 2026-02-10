@@ -25,17 +25,13 @@ export const ScoreIcon = ( { score, isEmoji = true, className } ) => {
 		ok: "yst-ok-score",
 	};
 
-	if ( ! ( score in emojiMap ) || ! ( score in colorMap ) ) {
+	if ( ! isEmoji || ! ( score in emojiMap ) ) {
 		return <CircleSolidIcon
 			{ ...svgAriaProps }
-			className={ classNames( "yst-score-icon yst-text-slate-300", className, "yst-ok-score" ) }
-		/>;
-	}
-
-	if ( ! isEmoji ) {
-		return <CircleSolidIcon
-			{ ...svgAriaProps }
-			className={ classNames( "yst-score-icon", colorMap[ score ], className ) }
+			className={ classNames(
+				"yst-score-icon",
+				( score in colorMap ) ? colorMap[ score ] : "yst-text-slate-300",
+				className ) }
 		/>;
 	}
 
