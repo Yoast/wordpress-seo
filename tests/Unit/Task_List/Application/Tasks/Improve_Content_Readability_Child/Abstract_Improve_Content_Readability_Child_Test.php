@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability_Child;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
@@ -46,6 +47,15 @@ abstract class Abstract_Improve_Content_Readability_Child_Test extends TestCase 
 	protected function set_up() {
 		parent::set_up();
 		$this->stubTranslationFunctions();
+
+		Monkey\Functions\when( 'get_post_type_object' )->justReturn(
+			(object) [
+				'labels' => (object) [
+					'singular_name' => 'Post',
+				],
+				'name'   => 'post',
+			]
+		);
 
 		$this->parent_task = Mockery::mock( Parent_Task_Interface::class );
 
