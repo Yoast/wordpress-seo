@@ -179,6 +179,7 @@ class ReadabilityAnalysis extends Component {
 								if ( this.props.shouldUpsell ) {
 									upsellResults = this.getUpsellResults( location, locationContext );
 								}
+
 								if ( location === "sidebar" ) {
 									return (
 										<Collapsible

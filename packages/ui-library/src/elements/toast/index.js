@@ -22,13 +22,11 @@ export const toastClassNameMap = {
 
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
- * @param {string} [className] The additional class name.
  * @returns {JSX.Element} The close button.
  */
-const Close = ( {
-	dismissScreenReaderLabel,
-} ) => {
+const Close = ( { dismissScreenReaderLabel } ) => {
 	const { handleDismiss } = useToastContext();
+
 	return (
 		<div className="yst-flex-shrink-0 yst-flex yst-self-start">
 			<button
@@ -95,23 +93,27 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {React.ReactNode} [children=null] The children.
  * @param {string} id The toast ID.
+ * @param {string} [role="alert"] The ARIA role for the toast.
  * @param {string} [className] The additional class name.
  * @param {string} [position="bottom-left"] The toast position. Can be "bottom-left", "bottom-center", or "top-center".
  * @param {Function} [onDismiss=noop] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
+ * @param {Object} [props] Additional props to pass to the toast element.
  * @returns {JSX.Element} The toast component.
  */
 const Toast = ( {
 	children = null,
 	id,
+	role = "alert",
 	className = "",
 	position = "bottom-left",
 	onDismiss = noop,
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
+	...props
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -121,6 +123,7 @@ const Toast = ( {
 			onDismiss( id );
 		}, 150 );
 	}, [ onDismiss, id ] );
+
 	useEffect( () => {
 		// Enable visibility on mount to trigger transition.
 		setIsVisible( true );
@@ -134,6 +137,7 @@ const Toast = ( {
 		// Cleanup auto dismiss timeout on unmount.
 		return () => clearTimeout( timeout );
 	}, [] );
+
 	return (
 		<ToastContext.Provider value={ { handleDismiss } }>
 			<Transition
@@ -148,7 +152,8 @@ const Toast = ( {
 					"yst-toast",
 					className,
 				) }
-				role="alert"
+				role={ role }
+				{ ...props }
 			>
 				{ children }
 			</Transition>
@@ -159,6 +164,7 @@ const Toast = ( {
 Toast.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
+	role: PropTypes.string,
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( toastClassNameMap.position ) ),
 	onDismiss: PropTypes.func,

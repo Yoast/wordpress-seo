@@ -44,6 +44,7 @@ exports[`the pressed IconAIFixesButton matches the snapshot 1`] = `
 }
 
 <button
+  aria-haspopup=""
   aria-label="Fix with AI"
   aria-pressed={true}
   className="c0 c1 yoast-tooltip yoast-tooltip-w"
@@ -100,6 +101,7 @@ exports[`the unpressed IconAIFixesButton matches the snapshot 1`] = `
 }
 
 <button
+  aria-haspopup=""
   aria-label="Fix with AI"
   aria-pressed={false}
   className="c0 c1 yoast-tooltip yoast-tooltip-w"

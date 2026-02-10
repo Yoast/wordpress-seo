@@ -57,6 +57,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 
 	const { setActiveAIFixesButton, setActiveMarker, setMarkerPauseStatus, setMarkerStatus } = useDispatch( "yoast-seo/editor" );
 	const focusElementRef = useRef( null );
+	const buttonRef = useRef( null );
 	const [ buttonClass, setButtonClass ] = useState( "" );
 
 	const defaultLabel = __( "Optimize with AI", "wordpress-seo" );
@@ -65,9 +66,9 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	// The button is pressed when the active AI button id is the same as the current button id.
 	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
-	// Determines if the button is enabled and what tooltip to show.
+	// Determines if the button is enabled, what tooltip to show, and accessibility attributes.
 	// eslint-disable-next-line complexity
-	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+	const { isEnabled, ariaLabel, ariaHasPopup } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
 		if ( shouldShowUpsell ) {
 			// Gutenberg editor
@@ -77,12 +78,15 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				return {
 					isEnabled: allVisual,
 					ariaLabel: allVisual ? defaultLabel : htmlLabel,
+					ariaHasPopup: allVisual ? "dialog" : "",
 				};
 			}
 			// Classic editor
+			const isVisualMode = editorMode === "visual";
 			return {
-				isEnabled: editorMode === "visual",
-				ariaLabel: editorMode === "visual" ? defaultLabel : htmlLabel,
+				isEnabled: isVisualMode,
+				ariaLabel: isVisualMode ? defaultLabel : htmlLabel,
+				ariaHasPopup: isVisualMode ? "dialog" : "",
 			};
 		}
 		// Editor mode
@@ -90,6 +94,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: htmlLabel,
+				ariaHasPopup: "",
 			};
 		}
 
@@ -101,6 +106,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				return {
 					isEnabled: false,
 					ariaLabel: htmlLabel,
+					ariaHasPopup: "",
 				};
 			}
 		}
@@ -120,6 +126,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				return {
 					isEnabled: false,
 					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
+					ariaHasPopup: "",
 				};
 			}
 		}
@@ -130,6 +137,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			return {
 				isEnabled: false,
 				ariaLabel: disabledAIButtons[ aiOptimizeId ],
+				ariaHasPopup: "",
 			};
 		}
 
@@ -146,6 +154,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		return {
 			isEnabled: true,
 			ariaLabel: defaultLabel,
+			ariaHasPopup: "dialog",
 		};
 	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase ] );
 
@@ -211,12 +220,14 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		<IconAIFixesButton
 			onClick={ handleClick }
 			ariaLabel={ ariaLabel }
+			ariaHasPopup={ ariaHasPopup }
 			onPointerEnter={ handleMouseEnter }
 			onPointerLeave={ handleMouseLeave }
 			id={ aiOptimizeId }
 			className={ `ai-button ${buttonClass}` }
 			pressed={ isButtonPressed }
 			disabled={ ! isEnabled }
+			ref={ buttonRef }
 		>
 			{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 			<SparklesIcon pressed={ isButtonPressed } />

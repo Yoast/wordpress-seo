@@ -2,7 +2,7 @@
 import classNames from "classnames";
 import { keys, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, forwardRef, useContext, useState } from "react";
 import { ValidationIcon } from "../../elements/validation";
 import Toast from "../../elements/toast";
 const NotificationsContext = createContext( { position: "bottom-left" } );
@@ -111,14 +111,15 @@ const notificationsClassNameMap = {
  * @param {string} [className=""] Additional class names.
  * @param {string} [position="bottom-left"] Position on screen. Either bottom-left, bottom-center or top-center.
  * @param {...any} [props] Additional props.
+ * @param {React.Ref} ref The forwarded ref.
  * @returns {JSX.Element} The Notifications element.
  */
-const Notifications = ( {
+const Notifications = forwardRef( ( {
 	children = null,
 	className = "",
 	position = "bottom-left",
 	...props
-} ) => (
+}, ref ) => (
 	<NotificationsContext.Provider value={ { position } }>
 		<aside
 			className={ classNames(
@@ -126,12 +127,15 @@ const Notifications = ( {
 				notificationsClassNameMap.position[ position ],
 				className,
 			) }
+			ref={ ref }
 			{ ...props }
 		>
 			{ children }
 		</aside>
 	</NotificationsContext.Provider>
-);
+) );
+
+Notifications.displayName = "Notifications";
 
 Notifications.propTypes = {
 	children: PropTypes.node,
