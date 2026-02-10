@@ -55,6 +55,7 @@ class Site_Schema_Response_Header_Integration implements Integration_Interface {
 	 * @param WP_REST_Request  $request Request object.
 	 *
 	 * @return bool True if we served the request, false otherwise.
+	 * @codeCoverageIgnore ignore this since its needs to rely on headers being sent. Which does not work in integration tests.
 	 */
 	public function serve_custom_response( $served, $result, $request ): bool {
 		if ( \strpos( $request->get_route(), '/yoast/v1/schema-aggregator' ) !== 0 ) {
