@@ -76,9 +76,13 @@ final class Collect_Test extends TestCase {
 	 * @return void
 	 */
 	public function tear_down(): void {
+		global $wpdb;
+
 		foreach ( $this->created_posts as $post_id ) {
 			\wp_delete_post( $post_id, true );
 		}
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}wc_product_meta_lookup" );
 
 		parent::tear_down();
 	}
