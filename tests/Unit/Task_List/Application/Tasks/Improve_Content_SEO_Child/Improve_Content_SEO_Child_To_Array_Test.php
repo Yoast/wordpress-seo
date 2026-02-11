@@ -59,7 +59,7 @@ final class Improve_Content_SEO_Child_To_Array_Test extends Abstract_Improve_Con
 		$this->assertNull( $result['callToAction'] );
 		$this->assertIsArray( $result['analyzer'] );
 		$this->assertSame( 'score', $result['analyzer']['type'] );
-		$this->assertSame( 'ok', $result['analyzer']['score'] );
+		$this->assertSame( 'ok', $result['analyzer']['result'] );
 	}
 
 	/**

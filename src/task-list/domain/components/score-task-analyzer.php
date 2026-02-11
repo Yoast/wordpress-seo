@@ -11,68 +11,68 @@ use InvalidArgumentException;
 class Score_Task_Analyzer implements Task_Analyzer_Interface {
 
 	/**
-	 * Allowed scores.
+	 * Allowed results.
 	 *
 	 * @var string[]
 	 */
-	private const ALLOWED_SCORES = [
+	private const ALLOWED_RESULTS = [
 		'good',
 		'ok',
 		'bad',
 	];
 
 	/**
-	 * The label of the analyzer (e.g. "SEO analysis").
+	 * The title of the analyzer (e.g. "SEO analysis").
 	 *
 	 * @var string
 	 */
-	private $label;
+	private $title;
 
 	/**
-	 * The score of the analyzer.
+	 * The result of the analyzer.
 	 *
 	 * @var string
 	 */
-	private $score;
+	private $result;
 
 	/**
-	 * The human-readable label for the score (e.g. "Needs improvement").
+	 * The human-readable label for the result (e.g. "Needs improvement").
 	 *
 	 * @var string
 	 */
-	private $score_label;
+	private $result_label;
 
 	/**
-	 * The details text explaining the score.
+	 * The description text explaining the result.
 	 *
 	 * @var string
 	 */
-	private $details;
+	private $result_description;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $label       The label of the analyzer.
-	 * @param string $score       The score.
-	 * @param string $score_label The human-readable label for the score.
-	 * @param string $details     The details text explaining the score.
+	 * @param string $title              The title of the analyzer.
+	 * @param string $result             The result.
+	 * @param string $result_label       The human-readable label for the result.
+	 * @param string $result_description The description text explaining the result.
 	 *
-	 * @throws InvalidArgumentException If the score is invalid.
+	 * @throws InvalidArgumentException If the result is invalid.
 	 */
 	public function __construct(
-		string $label,
-		string $score,
-		string $score_label,
-		string $details
+		string $title,
+		string $result,
+		string $result_label,
+		string $result_description
 	) {
-		if ( ! \in_array( $score, self::ALLOWED_SCORES, true ) ) {
-			throw new InvalidArgumentException( 'Invalid score for score task analyzer' );
+		if ( ! \in_array( $result, self::ALLOWED_RESULTS, true ) ) {
+			throw new InvalidArgumentException( 'Invalid result for score task analyzer' );
 		}
 
-		$this->label       = $label;
-		$this->score       = $score;
-		$this->score_label = $score_label;
-		$this->details     = $details;
+		$this->title              = $title;
+		$this->result             = $result;
+		$this->result_label       = $result_label;
+		$this->result_description = $result_description;
 	}
 
 	/**
@@ -87,15 +87,17 @@ class Score_Task_Analyzer implements Task_Analyzer_Interface {
 	/**
 	 * Returns an array representation of the analyzer data.
 	 *
+	 * @TODO: Add an abstract task analyzer class and move this logic there.
+	 *
 	 * @return array<string, string> Returns in an array format.
 	 */
 	public function to_array(): array {
 		return [
-			'type'       => $this->get_type(),
-			'label'      => $this->label,
-			'score'      => $this->score,
-			'scoreLabel' => $this->score_label,
-			'details'    => $this->details,
+			'type'              => $this->get_type(),
+			'title'             => $this->title,
+			'result'            => $this->result,
+			'resultLabel'       => $this->result_label,
+			'resultDescription' => $this->result_description,
 		];
 	}
 }
