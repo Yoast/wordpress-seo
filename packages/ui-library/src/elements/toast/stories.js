@@ -1,6 +1,6 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { createRef } from "react";
 import Toast, { useToastContext } from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
@@ -174,6 +174,41 @@ export const asComplexLayout = {
 	],
 };
 
+const initialFocusButtonRef = createRef();
+
+const InitialFocusTemplate = ( { isVisible: initialVisible = false, setIsVisible: _ = noop, position, children, ...props } ) => {
+	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
+
+	return (
+		<>
+			<Button onClick={ toggleToast }>Toggle toast</Button>
+			<aside
+				className={ classNames(
+					"yst-notifications",
+					positionClassNameMap.position[ position ],
+				) }
+			>
+				<Toast
+					{ ...props }
+					isVisible={ isVisible }
+					setIsVisible={ openToast }
+					onDismiss={ toggleToast }
+					position={ position }
+					id={ "toast" }
+					initialFocus={ initialFocusButtonRef }
+				>
+					{ children }
+				</Toast>
+			</aside>
+		</>
+	);
+};
+InitialFocusTemplate.displayName = "Toast";
+InitialFocusTemplate.propTypes = {
+	isVisible: PropTypes.bool,
+	setIsVisible: PropTypes.func,
+};
+
 export default {
 	title: "1) Elements/Toast",
 	component: Template,
@@ -216,6 +251,15 @@ export default {
 				defaultValue: { summary: "bottom-left" },
 			},
 		},
+		initialFocus: {
+			control: { disable: true },
+			type: { required: false },
+			description: "A ref to the element that should receive focus when the toast opens.",
+			table: {
+				type: { summary: "func | object" },
+				defaultValue: { summary: "null" },
+			},
+		},
 	},
 	args: {
 		isVisible: true,
@@ -229,7 +273,17 @@ export default {
 			description: {
 				component,
 			},
-			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook, asComplexLayout ] } />,
+			page: () => (
+				<InteractiveDocsPage
+					stories={ [
+						withTitle,
+						withDescription,
+						withClose,
+						useToastContextHook,
+						asComplexLayout,
+					] }
+				/>
+			),
 		},
 	},
 	decorators: [
