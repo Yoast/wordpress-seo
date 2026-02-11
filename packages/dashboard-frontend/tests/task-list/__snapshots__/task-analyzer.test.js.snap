@@ -86,7 +86,7 @@ exports[`TaskAnalyzer should match snapshot for score=good 1`] = `
 </div>
 `;
 
-exports[`TaskAnalyzer should match snapshot for score=null 1`] = `
+exports[`TaskAnalyzer should match snapshot for score=invalid score 1`] = `
 <div>
   <div
     class="yst-flex yst-bg-slate-50 yst-border yst-border-slate-200 yst-rounded-md yst-w-full yst-p-4 yst-gap-4 yst-justify-between yst-mb-5"

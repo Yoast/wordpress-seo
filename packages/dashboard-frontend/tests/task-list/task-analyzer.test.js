@@ -1,14 +1,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { TaskAnalyzer } from "../../src/task-list/components/TaskAnalyzer";
+import { TaskAnalyzer } from "../../src/task-list/components/task-analyzer";
 
 describe( "TaskAnalyzer", () => {
 	const defaultProps = {
 		type: "score",
-		label: "SEO Analysis",
-		score: "good",
-		scoreLabel: "Good",
-		details: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
+		title: "SEO Analysis",
+		result: "good",
+		resultLabel: "Good",
+		resultDescription: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
 	};
 
 	it( "renders the analyzer with all props", () => {
@@ -33,7 +33,7 @@ describe( "TaskAnalyzer", () => {
 	it( "renders the details text", () => {
 		render( <TaskAnalyzer { ...defaultProps } /> );
 
-		const detailsElement = screen.getByText( defaultProps.details );
+		const detailsElement = screen.getByText( defaultProps.resultDescription );
 		expect( detailsElement ).toBeInTheDocument();
 		expect( detailsElement ).toHaveClass( "yst-text-slate-600" );
 	} );
@@ -43,8 +43,8 @@ describe( "TaskAnalyzer", () => {
 			render(
 				<TaskAnalyzer
 					{ ...defaultProps }
-					score="good"
-					scoreLabel="Good"
+					result="good"
+					resultLabel="Good"
 				/>
 			);
 
@@ -55,8 +55,8 @@ describe( "TaskAnalyzer", () => {
 			render(
 				<TaskAnalyzer
 					{ ...defaultProps }
-					score="ok"
-					scoreLabel="OK"
+					result="ok"
+					resultLabel="OK"
 				/>
 			);
 
@@ -67,8 +67,8 @@ describe( "TaskAnalyzer", () => {
 			render(
 				<TaskAnalyzer
 					{ ...defaultProps }
-					score="bad"
-					scoreLabel="Needs improvement"
+					result="bad"
+					resultLabel="Needs improvement"
 				/>
 			);
 
@@ -81,8 +81,8 @@ describe( "TaskAnalyzer", () => {
 			render(
 				<TaskAnalyzer
 					{ ...defaultProps }
-					label="Readability"
-					details="This post's readability is looking good. Your content should be easy for readers to understand."
+					title="Readability"
+					resultDescription="This post's readability is looking good. Your content should be easy for readers to understand."
 				/>
 			);
 
@@ -100,16 +100,90 @@ describe( "TaskAnalyzer", () => {
 		[ "good", "Good" ],
 		[ "ok", "OK" ],
 		[ "bad", "Needs improvement" ],
-		[ null, "No score" ],
-	] )( "should match snapshot for score=%s", ( score, scoreLabel ) => {
+		[ "invalid score", "No score" ],
+	] )( "should match snapshot for score=%s", ( result, resultLabel ) => {
 		const { container } = render(
 			<TaskAnalyzer
 				{ ...defaultProps }
 				type="score"
-				score={ score }
-				scoreLabel={ scoreLabel }
+				result={ result }
+				resultLabel={ resultLabel }
 			/>
 		);
 		expect( container ).toMatchSnapshot();
+	} );
+	describe( "resultDescription with HTML elements", () => {
+		it( "renders HTML with strong tags", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription="This post's SEO is <strong>looking good</strong>."
+				/>
+			);
+			expect( screen.getByText( "looking good" ) ).toBeInTheDocument();
+			expect( container.querySelector( "strong" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders HTML with em tags", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription="This post's SEO is <em>looking good</em>."
+				/>
+			);
+			expect( screen.getByText( "looking good" ) ).toBeInTheDocument();
+			expect( container.querySelector( "em" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders HTML with anchor links", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription='Read more about <a href="https://example.com">SEO best practices</a>.'
+				/>
+			);
+			const link = container.querySelector( "a" );
+			expect( link ).toBeInTheDocument();
+			expect( link ).toHaveAttribute( "href", "https://example.com" );
+			expect( screen.getByText( "SEO best practices" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders HTML with multiple elements", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription='Your <strong>SEO score</strong> is <em>excellent</em>. <a href="https://example.com">Learn more</a>.'
+				/>
+			);
+			expect( container.querySelector( "strong" ) ).toBeInTheDocument();
+			expect( container.querySelector( "em" ) ).toBeInTheDocument();
+			expect( container.querySelector( "a" ) ).toBeInTheDocument();
+			expect( screen.getByText( "SEO score" ) ).toBeInTheDocument();
+			expect( screen.getByText( "excellent" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Learn more" ) ).toBeInTheDocument();
+		} );
+
+		it( "sanitizes dangerous HTML (script tags)", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription='This is safe text. <script>alert("xss")</script>'
+				/>
+			);
+			expect( container.querySelector( "script" ) ).not.toBeInTheDocument();
+			expect( screen.getByText( /This is safe text/i ) ).toBeInTheDocument();
+		} );
+
+		it( "sanitizes dangerous HTML (onclick attributes)", () => {
+			const { container } = render(
+				<TaskAnalyzer
+					{ ...defaultProps }
+					resultDescription='<a href="#" onclick="alert()">Click me</a>'
+				/>
+			);
+			const link = container.querySelector( "a" );
+			expect( link ).toBeInTheDocument();
+			expect( link ).not.toHaveAttribute( "onclick" );
+		} );
 	} );
 } );

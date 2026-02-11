@@ -270,10 +270,10 @@ describe( "TaskModal", () => {
 			...defaultProps,
 			analyzer: {
 				type: "score",
-				label: "SEO Analysis",
-				score: "good",
-				scoreLabel: "Good",
-				details: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
+				title: "SEO Analysis",
+				result: "good",
+				resultLabel: "Good",
+				resultDescription: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
 			},
 		};
 
@@ -293,10 +293,10 @@ describe( "TaskModal", () => {
 				...defaultProps,
 				analyzer: {
 					type: "score",
-					label: "Readability",
-					score: "bad",
-					scoreLabel: "Needs improvement",
-					details: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs.",
+					title: "Readability",
+					result: "bad",
+					resultLabel: "Needs improvement",
+					resultDescription: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs.",
 				},
 			};
 
@@ -315,10 +315,10 @@ describe( "TaskModal", () => {
 				...defaultProps,
 				analyzer: {
 					type: "score",
-					label: "SEO Analysis",
-					score: "ok",
-					scoreLabel: "OK",
-					details: "This post's SEO is okay, but there's room for improvement.",
+					title: "SEO Analysis",
+					result: "ok",
+					resultLabel: "OK",
+					resultDescription: "This post's SEO is okay, but there's room for improvement.",
 				},
 			};
 

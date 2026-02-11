@@ -7,7 +7,7 @@ import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TasksProgressBadge } from "./tasks-progress-badge";
 import { TaskStatusIcon } from "../../icons";
-import { TaskAnalyzer } from "./TaskAnalyzer";
+import { TaskAnalyzer } from "./task-analyzer";
 
 /**
  * The type of callToAction prop.
@@ -25,11 +25,11 @@ import { TaskAnalyzer } from "./TaskAnalyzer";
 * The type analyzer.
  *
  * @typedef {Object} Analyzer
- * @property {string} label The label for the analyzer.
+ * @property {string} title The title for the analyzer.
  * @property {string} type The variant of the analyzer.
- * @property {string} score The score of the analyzer.
- * @property {string} scoreLabel The label for the score of the analyzer.
- * @property {string} details The details of the analyzer.
+ * @property {string} result The result of the analyzer.
+ * @property {string} resultLabel The label for the result of the analyzer.
+ * @property {string} resultDescription The description of the analyzer.
  */
 
 /**
