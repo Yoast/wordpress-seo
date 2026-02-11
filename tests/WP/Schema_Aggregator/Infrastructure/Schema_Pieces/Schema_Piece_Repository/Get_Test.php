@@ -101,6 +101,11 @@ final class Get_Test extends TestCase {
 			$woo_schema_piece_repository
 		);
 
+		// Delete all indexables before each test to ensure a clean slate.
+		global $wpdb;
+		$table = Model::get_table_name( 'Indexable' );
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+
 		$this->create_test_content();
 	}
 
@@ -113,11 +118,6 @@ final class Get_Test extends TestCase {
 		foreach ( $this->created_posts as $post_id ) {
 			\wp_delete_post( $post_id, true );
 		}
-
-		// Delete all indexables to ensure a clean slate for the next test.
-		global $wpdb;
-		$table = Model::get_table_name( 'Indexable' );
-		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 
 		parent::tear_down();
 	}
