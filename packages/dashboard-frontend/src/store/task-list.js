@@ -211,14 +211,24 @@ export const taskListSelectors = {
 		( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
 		( tasks ) => sortTasks( tasks )
 	),
-	selectTotalTasksCount: ( state ) => {
+	selectTotalTasksCount: ( state, includeChildTasks = false ) => {
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
-		return size( tasks );
-	},
-	selectCompletedTasksCount: ( state ) => {
-		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		if ( includeChildTasks ) {
+			return size( tasks );
+		}
 		return size(
-			values( tasks ).filter( task => task.isCompleted )
+			values( tasks ).filter( task => ! task.parentTaskId )
+		);
+	},
+	selectCompletedTasksCount: ( state, includeChildTasks = false ) => {
+		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		if ( includeChildTasks ) {
+			return size(
+				values( tasks ).filter( task => task.isCompleted )
+			);
+		}
+		return size(
+			values( tasks ).filter( task => task.isCompleted && ! task.parentTaskId )
 		);
 	},
 	selectCurrentOpenTask: ( state ) => get( state, [ TASK_LIST_NAME, "currentOpenTask" ], null ),
