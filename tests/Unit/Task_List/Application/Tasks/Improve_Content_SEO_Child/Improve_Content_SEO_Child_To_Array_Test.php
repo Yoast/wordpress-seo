@@ -57,6 +57,9 @@ final class Improve_Content_SEO_Child_To_Array_Test extends Abstract_Improve_Con
 		$this->assertSame( '<p>Parent about text.</p>', $result['about'] );
 		// callToAction is null because enhanced_call_to_action is not set.
 		$this->assertNull( $result['callToAction'] );
+		$this->assertIsArray( $result['analyzer'] );
+		$this->assertSame( 'score', $result['analyzer']['type'] );
+		$this->assertSame( 'ok', $result['analyzer']['result'] );
 	}
 
 	/**
