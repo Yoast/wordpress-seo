@@ -58,6 +58,48 @@ export default {
 			description: "Whether there was an error loading the task.",
 			control: "boolean",
 		},
+		taskId: {
+			description: "The ID of the task associated with the modal.",
+			control: "text",
+		},
+		isLoading: {
+			description: "Whether the modal content is loading.",
+			control: "boolean",
+		},
+		totalTasks: {
+			description: "Total number of child tasks.",
+			control: "number",
+			type: { name: "number" },
+		},
+		completedTasks: {
+			description: "Number of completed child tasks.",
+			control: "number",
+			type: { name: "number" },
+		},
+		parentTaskTitle: {
+			description: "Title of the parent task for child tasks progress badge.",
+			control: "text",
+			type: { name: "string" },
+		},
+		onProgressBadgeClick: {
+			description: "Function to call when clicking the progress badge.",
+			control: false,
+			type: { name: "function" },
+		},
+		parentTaskId: {
+			description: "ID of the parent task.",
+			control: "text",
+			type: { name: "string" },
+		},
+		children: {
+			description: "Additional child elements to render inside the modal.",
+			control: false,
+		},
+		analyzer: {
+			description: "Analyzer details for the task. An object containing type, title, result, resultLabel, and resultDescription.",
+			control: "object",
+			type: { name: "object" },
+		},
 	},
 	args: {
 		isOpen: false,
@@ -148,10 +190,10 @@ export const WithTaskAnalyzer = {
 	args: {
 		analyzer: {
 			type: "score",
-			label: "Readability",
-			score: "bad",
-			scoreLabel: "Needs improvement",
-			details: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs to make your content easier to read.",
+			title: "Readability",
+			result: "bad",
+			resultLabel: "Needs improvement",
+			resultDescription: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs to make your content easier to read.",
 		},
 	},
 };
