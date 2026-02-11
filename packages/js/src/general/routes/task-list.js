@@ -35,8 +35,8 @@ export const TaskList = () => {
 		tasksStatus,
 		tasksError,
 		sortedTasks,
-		totalParentTasksCount,
-		completedParentTasksCount,
+		totalTasksCount,
+		completedTasksCount,
 		userLocale,
 	} = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
@@ -48,8 +48,8 @@ export const TaskList = () => {
 			tasksStatus: state.selectTasksStatus(),
 			tasksError: state.selectTasksError(),
 			sortedTasks: state.selectSortedTasks(),
-			totalParentTasksCount: state.selectTotalParentTasksCount(),
-			completedParentTasksCount: state.selectCompletedParentTasksCount(),
+			totalTasksCount: state.selectTotalTasksCount(),
+			completedTasksCount: state.selectCompletedTasksCount(),
 			userLocale: state.selectPreference( "userLocale" ),
 		};
 	}, [] );
@@ -73,8 +73,8 @@ export const TaskList = () => {
 		<Paper.Content>
 			<TaskListProvider locale={ userLocale }>
 				<TasksProgressBar
-					completedTasks={ completedParentTasksCount }
-					totalTasks={ totalParentTasksCount }
+					completedTasks={ completedTasksCount }
+					totalTasks={ totalTasksCount }
 					isLoading={ isPending }
 					className="yst-max-w-screen-sm"
 				/>

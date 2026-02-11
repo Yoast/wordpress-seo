@@ -211,14 +211,22 @@ export const taskListSelectors = {
 		( state ) => get( state, [ TASK_LIST_NAME, "tasks" ], {} ),
 		( tasks ) => sortTasks( tasks )
 	),
-	selectTotalParentTasksCount: ( state ) => {
+	selectTotalTasksCount: ( state, includeChildTasks = false ) => {
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		if ( includeChildTasks ) {
+			return size( tasks );
+		}
 		return size(
 			values( tasks ).filter( task => ! task.parentTaskId )
 		);
 	},
-	selectCompletedParentTasksCount: ( state ) => {
+	selectCompletedTasksCount: ( state, includeChildTasks = false ) => {
 		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		if ( includeChildTasks ) {
+			return size(
+				values( tasks ).filter( task => task.isCompleted )
+			);
+		}
 		return size(
 			values( tasks ).filter( task => task.isCompleted && ! task.parentTaskId )
 		);

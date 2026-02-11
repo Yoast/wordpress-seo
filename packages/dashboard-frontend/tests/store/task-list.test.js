@@ -261,15 +261,15 @@ describe( "taskListSelectors", () => {
 			expect( taskListSelectors.selectTasksError( state ) ).toBe( "Failed to fetch tasks" );
 		} );
 	} );
-	describe( "selectTotalParentTasksCount", () => {
+	describe( "selectTotalTasksCount", () => {
 		it( "should return 0 when task list slice is missing", () => {
 			const state = {};
-			expect( taskListSelectors.selectTotalParentTasksCount( state ) ).toBe( 0 );
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 0 );
 		} );
 
 		it( "should return 0 when tasks property is missing", () => {
 			const state = { taskList: {} };
-			expect( taskListSelectors.selectTotalParentTasksCount( state ) ).toBe( 0 );
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 0 );
 		} );
 
 		it( "should return the total number of tasks when present", () => {
@@ -285,18 +285,33 @@ describe( "taskListSelectors", () => {
 					},
 				},
 			};
-			expect( taskListSelectors.selectTotalParentTasksCount( state ) ).toBe( 3 );
+			expect( taskListSelectors.selectTotalTasksCount( state ) ).toBe( 3 );
+		} );
+		it( "should return the total number of tasks including child tasks when includeChildTasks is true", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task1: { id: "task1" },
+						task2: { id: "task2" },
+						task3: { id: "task3" },
+						task4: { id: "task4", parentTaskId: "task1" },
+						task5: { id: "task5", parentTaskId: "task2" },
+						task6: { id: "task6", parentTaskId: "task3" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectTotalTasksCount( state, true ) ).toBe( 6 );
 		} );
 	} );
-	describe( "selectCompletedParentTasksCount", () => {
+	describe( "selectCompletedTasksCount", () => {
 		it( "should return 0 when task list slice is missing", () => {
 			const state = {};
-			expect( taskListSelectors.selectCompletedParentTasksCount( state ) ).toBe( 0 );
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 0 );
 		} );
 
 		it( "should return 0 when tasks property is missing", () => {
 			const state = { taskList: {} };
-			expect( taskListSelectors.selectCompletedParentTasksCount( state ) ).toBe( 0 );
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 0 );
 		} );
 
 		it( "should return the number of completed parent tasks", () => {
@@ -312,7 +327,22 @@ describe( "taskListSelectors", () => {
 					},
 				},
 			};
-			expect( taskListSelectors.selectCompletedParentTasksCount( state ) ).toBe( 2 );
+			expect( taskListSelectors.selectCompletedTasksCount( state ) ).toBe( 2 );
+		} );
+		it( "should return the number of completed tasks including child tasks when includeChildTasks is true", () => {
+			const state = {
+				taskList: {
+					tasks: {
+						task1: { id: "task1", isCompleted: true },
+						task2: { id: "task2", isCompleted: false },
+						task3: { id: "task3", isCompleted: true },
+						task4: { id: "task4", isCompleted: true, parentTaskId: "task1" },
+						task5: { id: "task5", isCompleted: false, parentTaskId: "task2" },
+						task6: { id: "task6", isCompleted: true, parentTaskId: "task3" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectCompletedTasksCount( state, true ) ).toBe( 4 );
 		} );
 	} );
 	describe( "selectSortedTasks", () => {
