@@ -112,13 +112,13 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 		$post_type_object = \get_post_type_object( $this->content_item_score_data->get_content_type() );
 		$post_type_label  = \strtolower( $post_type_object->labels->singular_name );
 
-		$score_labels = [
+		$result_labels = [
 			'good' => \__( 'Good', 'wordpress-seo' ),
 			'ok'   => \__( 'OK', 'wordpress-seo' ),
 			'bad'  => \__( 'Needs improvement', 'wordpress-seo' ),
 		];
 
-		$score_details = [
+		$result_descriptions = [
 			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
 			'good' => \sprintf( \__( 'This %s\'s SEO is looking good. Your content should perform well across search engines and AI systems.', 'wordpress-seo' ), $post_type_label ),
 			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
@@ -127,13 +127,13 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 			'bad'  => \sprintf( \__( 'This %s has one or more SEO issues that may reduce its visibility in search and AI systems.', 'wordpress-seo' ), $post_type_label ),
 		];
 
-		$score = $this->content_item_score_data->get_score();
+		$result = $this->content_item_score_data->get_score();
 
 		return new Score_Task_Analyzer(
 			\__( 'SEO analysis', 'wordpress-seo' ),
-			$score,
-			$score_labels[ $score ],
-			$score_details[ $score ]
+			$result,
+			$result_labels[ $result ],
+			$result_descriptions[ $result ]
 		);
 	}
 

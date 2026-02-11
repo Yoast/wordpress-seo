@@ -38,10 +38,10 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'Readability', $array['label'] );
-		$this->assertSame( 'good', $array['score'] );
-		$this->assertSame( 'Good', $array['scoreLabel'] );
-		$this->assertSame( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', $array['details'] );
+		$this->assertSame( 'Readability', $array['title'] );
+		$this->assertSame( 'good', $array['result'] );
+		$this->assertSame( 'Good', $array['resultLabel'] );
+		$this->assertSame( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', $array['resultDescription'] );
 	}
 
 	/**
@@ -54,10 +54,10 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'Readability', $array['label'] );
-		$this->assertSame( 'ok', $array['score'] );
-		$this->assertSame( 'OK', $array['scoreLabel'] );
-		$this->assertSame( 'This post has some readability issues that could be improved to make it easier to read.', $array['details'] );
+		$this->assertSame( 'Readability', $array['title'] );
+		$this->assertSame( 'ok', $array['result'] );
+		$this->assertSame( 'OK', $array['resultLabel'] );
+		$this->assertSame( 'This post has some readability issues that could be improved to make it easier to read.', $array['resultDescription'] );
 	}
 
 	/**
@@ -70,9 +70,9 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'Readability', $array['label'] );
-		$this->assertSame( 'bad', $array['score'] );
-		$this->assertSame( 'Needs improvement', $array['scoreLabel'] );
-		$this->assertSame( 'This post has one or more readability issues that may make it harder for readers to understand.', $array['details'] );
+		$this->assertSame( 'Readability', $array['title'] );
+		$this->assertSame( 'bad', $array['result'] );
+		$this->assertSame( 'Needs improvement', $array['resultLabel'] );
+		$this->assertSame( 'This post has one or more readability issues that may make it harder for readers to understand.', $array['resultDescription'] );
 	}
 }

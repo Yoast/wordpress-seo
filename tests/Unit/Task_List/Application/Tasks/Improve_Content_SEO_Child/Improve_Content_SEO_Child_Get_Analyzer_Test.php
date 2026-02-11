@@ -38,10 +38,10 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'SEO analysis', $array['label'] );
-		$this->assertSame( 'good', $array['score'] );
-		$this->assertSame( 'Good', $array['scoreLabel'] );
-		$this->assertSame( 'This post\'s SEO is looking good. Your content should perform well across search engines and AI systems.', $array['details'] );
+		$this->assertSame( 'SEO analysis', $array['title'] );
+		$this->assertSame( 'good', $array['result'] );
+		$this->assertSame( 'Good', $array['resultLabel'] );
+		$this->assertSame( 'This post\'s SEO is looking good. Your content should perform well across search engines and AI systems.', $array['resultDescription'] );
 	}
 
 	/**
@@ -54,10 +54,10 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'SEO analysis', $array['label'] );
-		$this->assertSame( 'ok', $array['score'] );
-		$this->assertSame( 'OK', $array['scoreLabel'] );
-		$this->assertSame( 'This post has some SEO issues that could be improved to increase its visibility in search and AI systems.', $array['details'] );
+		$this->assertSame( 'SEO analysis', $array['title'] );
+		$this->assertSame( 'ok', $array['result'] );
+		$this->assertSame( 'OK', $array['resultLabel'] );
+		$this->assertSame( 'This post has some SEO issues that could be improved to increase its visibility in search and AI systems.', $array['resultDescription'] );
 	}
 
 	/**
@@ -70,9 +70,9 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$array    = $instance->get_analyzer()->to_array();
 
 		$this->assertSame( 'score', $array['type'] );
-		$this->assertSame( 'SEO analysis', $array['label'] );
-		$this->assertSame( 'bad', $array['score'] );
-		$this->assertSame( 'Needs improvement', $array['scoreLabel'] );
-		$this->assertSame( 'This post has one or more SEO issues that may reduce its visibility in search and AI systems.', $array['details'] );
+		$this->assertSame( 'SEO analysis', $array['title'] );
+		$this->assertSame( 'bad', $array['result'] );
+		$this->assertSame( 'Needs improvement', $array['resultLabel'] );
+		$this->assertSame( 'This post has one or more SEO issues that may reduce its visibility in search and AI systems.', $array['resultDescription'] );
 	}
 }
