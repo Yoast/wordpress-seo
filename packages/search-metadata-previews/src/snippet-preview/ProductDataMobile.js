@@ -37,7 +37,7 @@ const ProductDataInnerLower = styled.div`
  */
 function ProductDataMobile( props ) {
 	const { shoppingData } = props;
-	const { rating, bestRating, reviewCount, availability, price } = shoppingData;
+	const { rating, bestRating = DEFAULT_BEST_RATING, reviewCount, availability, price } = shoppingData;
 
 	return (
 		<ProductData>
