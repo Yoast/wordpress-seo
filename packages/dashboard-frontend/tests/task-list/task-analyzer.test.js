@@ -96,28 +96,20 @@ describe( "TaskAnalyzer", () => {
 			expect( screen.getByText( "SEO Analysis" ) ).toBeInTheDocument();
 		} );
 	} );
-
-	it( "applies correct styling classes", () => {
-		const { container } = render( <TaskAnalyzer { ...defaultProps } /> );
-
-		const wrapper = container.firstChild;
-		expect( wrapper ).toHaveClass( "yst-flex" );
-		expect( wrapper ).toHaveClass( "yst-bg-slate-50" );
-		expect( wrapper ).toHaveClass( "yst-border" );
-		expect( wrapper ).toHaveClass( "yst-border-slate-200" );
-		expect( wrapper ).toHaveClass( "yst-rounded-md" );
-		expect( wrapper ).toHaveClass( "yst-p-4" );
-		expect( wrapper ).toHaveClass( "yst-gap-4" );
-		expect( wrapper ).toHaveClass( "yst-mb-5" );
-	} );
-
-	describe( "when type is score", () => {
-		it( "renders the ScoreIcon component", () => {
-			const { container } = render( <TaskAnalyzer { ...defaultProps } type="score" /> );
-
-			// ScoreIcon should be present
-			const scoreIcon = container.querySelector( "svg" );
-			expect( scoreIcon ).toBeInTheDocument();
-		} );
+	it.each( [
+		[ "good", "Good" ],
+		[ "ok", "OK" ],
+		[ "bad", "Needs improvement" ],
+		[ null, "No score" ],
+	] )( "should match snapshot for score=%s", ( score, scoreLabel ) => {
+		const { container } = render(
+			<TaskAnalyzer
+				{ ...defaultProps }
+				type="score"
+				score={ score }
+				scoreLabel={ scoreLabel }
+			/>
+		);
+		expect( container ).toMatchSnapshot();
 	} );
 } );
