@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Incorrect_Child_Trait_Usage_Exception;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
@@ -26,11 +28,17 @@ trait Content_Score_Child_Task_Trait {
 	 *
 	 * @param Parent_Task_Interface   $parent_task             The parent task.
 	 * @param Content_Item_Score_Data $content_item_score_data The content item score data.
+	 *
+	 * @throws Incorrect_Child_Trait_Usage_Exception If the class using this trait is not an Abstract_Child_Task.
 	 */
 	public function __construct(
 		Parent_Task_Interface $parent_task,
 		Content_Item_Score_Data $content_item_score_data
 	) {
+		if ( ! $this instanceof Abstract_Child_Task ) {
+			throw new Incorrect_Child_Trait_Usage_Exception();
+		}
+
 		$this->parent_task             = $parent_task;
 		$this->content_item_score_data = $content_item_score_data;
 	}
