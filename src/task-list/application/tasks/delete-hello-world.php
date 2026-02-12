@@ -8,12 +8,13 @@ use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_Hello_World_Task_Exception;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 
 /**
  * Represents the task for deleting the Hello World post.
  */
-class Delete_Hello_World extends Abstract_Completeable_Task {
+class Delete_Hello_World extends Abstract_Task implements Completeable_Task_Interface {
 
 	/**
 	 * Holds the id.
