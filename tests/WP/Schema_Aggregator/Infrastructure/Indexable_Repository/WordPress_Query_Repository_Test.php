@@ -13,6 +13,8 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for WordPress_Query_Repository.
  *
+ * @group schema-aggregator
+ *
  * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress_Query_Repository::get
  */
 final class WordPress_Query_Repository_Test extends TestCase {

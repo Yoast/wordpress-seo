@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 /**
  * Integration Test Class for Edd_Schema_Piece_Repository::collect.
  *
+ * @group schema-aggregator
+ *
  * @covers Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces\Edd_Schema_Piece_Repository::collect
  */
 final class Collect_Test extends TestCase {
