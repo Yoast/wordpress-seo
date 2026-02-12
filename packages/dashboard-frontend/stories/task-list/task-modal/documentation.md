@@ -5,7 +5,7 @@ The task modal is a component that displays detailed information about a specifi
 
 - **Task Status**: Visual indicator showing whether a task is completed or in progress
 - **Priority & Duration**: Displays task priority level (low/medium/high) and estimated completion time
-- **Task Analysis**: Shows SEO or readability analysis results with scores when available
+- **Task Analyzer**: Shows the results of the analysis that detected and created the task issue
 - **Progress Tracking**: For child tasks and parent tasks, displays completion progress badge with clickable navigation
 - **Error Handling**: Displays user-friendly error messages when task loading fails
 - **Call to Action**: Configurable action button that can link, create, delete, or trigger custom actions
