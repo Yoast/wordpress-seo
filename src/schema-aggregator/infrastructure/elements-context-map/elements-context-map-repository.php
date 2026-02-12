@@ -45,6 +45,8 @@ class Elements_Context_Map_Repository implements Elements_Context_Map_Repository
 	/**
 	 * Saves the elements-context map.
 	 *
+	 * @codeCoverageIgnore -- This is just a setter.
+	 *
 	 * @param array<array<string, string>> $map The elements-context map to besaved.
 	 *
 	 * @return void

@@ -100,6 +100,8 @@ class Site_Schema_Aggregator_Xml_Route implements Route_Interface {
 	/**
 	 * Permission callback for the route.
 	 *
+	 * @codeCoverageIgnore -- No sensible tests can be written for this.
+	 *
 	 * @return bool True if the user has permission, false otherwise.
 	 */
 	public function get_permission_callback(): bool {
