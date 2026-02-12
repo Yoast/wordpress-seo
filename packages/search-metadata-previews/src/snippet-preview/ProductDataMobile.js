@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { capitalize } from "lodash";
+import { round, capitalize } from "lodash";
 
 import { StarRating } from "@yoast/components";
 
@@ -45,7 +45,7 @@ function ProductDataMobile( props ) {
 				<ProductDataCell50 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						<span>{ rating }{ bestRating === DEFAULT_BEST_RATING ? "" : `/${bestRating}` } </span>
+						<span>{ round( rating, 1 ) }{ bestRating === DEFAULT_BEST_RATING ? "" : `/${bestRating}` } </span>
 						<StarRating rating={ rating / bestRating * DEFAULT_BEST_RATING } />
 						<span> ({ reviewCount })</span>
 					</ProductDataInnerLower>
