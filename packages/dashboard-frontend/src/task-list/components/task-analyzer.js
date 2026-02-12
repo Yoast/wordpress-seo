@@ -13,8 +13,18 @@ import DOMPurify from "dompurify";
  */
 export const TaskAnalyzer = ( { type, title, result, resultLabel, resultDescription } ) => {
 	const sanitizedDescription = DOMPurify.sanitize( resultDescription );
+
+	const renderIcon = () => {
+		switch ( type ) {
+			case "score":
+				return <ScoreIcon score={ result } className="yst-mt-0.5" />;
+			default:
+				return null;
+		}
+	};
+
 	return <div className="yst-flex yst-bg-slate-50 yst-border yst-border-slate-200 yst-rounded-md yst-w-full yst-p-4 yst-gap-4 yst-justify-between yst-mb-5">
-		{ type === "score" && <ScoreIcon score={ result } className="yst-mt-0.5" /> }
+		{ renderIcon() }
 		<div className="yst-flex-grow">
 			<div className="yst-text-black yst-mb-2">
 				<span>{ title }</span>: <span className="yst-font-semibold">{ resultLabel }</span>
