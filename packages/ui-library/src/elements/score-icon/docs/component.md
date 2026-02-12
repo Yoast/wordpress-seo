@@ -10,10 +10,11 @@ ScoreIcon is commonly used in:
 
 ## Score types
 
-The component supports three score levels:
+The component supports four score levels:
 - **good:** Indicates excellent or passing status (green color with a happy emoji).
 - **ok:** Represents acceptable or needs improvement status (orange color with a neutral emoji).
 - **bad:** Shows poor or failing status (red color with a sad emoji).
+- **na:** Indicates that no score is available or applicable (gray color with no emoji).
 
 ## Display modes
 

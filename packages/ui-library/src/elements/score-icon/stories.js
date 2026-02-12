@@ -1,4 +1,4 @@
-import { ScoreIcon } from ".";
+import ScoreIcon from ".";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
 
@@ -17,8 +17,8 @@ export default {
 	argTypes: {
 		score: {
 			control: { type: "select" },
-			options: [ "good", "bad", "ok", "no score" ],
-			description: "The score to display, can be 'good', 'bad', or 'ok'.",
+			options: [ "good", "bad", "ok", "na", "invalid score" ],
+			description: "The score to display, can be 'good', 'bad', 'ok', 'na'. Invalid score falls back to 'na'.",
 			table: { type: { summary: "string" } },
 		},
 		isEmoji: {

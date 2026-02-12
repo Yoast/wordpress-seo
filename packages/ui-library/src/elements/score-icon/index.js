@@ -11,7 +11,7 @@ import useSvgAria from "../../hooks/use-svg-aria";
  * @param {string} [className] A class name to apply to the icon component.
  * @returns {JSX.Element} The ScoreIcon component.
  */
-export const ScoreIcon = ( { score, isEmoji = true, className } ) => {
+const ScoreIcon = ( { score, isEmoji = true, className } ) => {
 	const svgAriaProps = useSvgAria();
 	const emojiMap = {
 		good: EmojiHappyIcon,
@@ -23,14 +23,16 @@ export const ScoreIcon = ( { score, isEmoji = true, className } ) => {
 		good: "yst-good-score",
 		bad: "yst-bad-score",
 		ok: "yst-ok-score",
+		na: "yst-text-slate-300",
 	};
 
+	// If the score is not recognized, or if isEmoji is false, return a gray-colored circle.
 	if ( ! isEmoji || ! ( score in emojiMap ) ) {
 		return <CircleSolidIcon
 			{ ...svgAriaProps }
 			className={ classNames(
 				"yst-score-icon",
-				( score in colorMap ) ? colorMap[ score ] : "yst-text-slate-300",
+				( score in colorMap ) ? colorMap[ score ] : colorMap.na,
 				className ) }
 		/>;
 	}
@@ -42,3 +44,5 @@ export const ScoreIcon = ( { score, isEmoji = true, className } ) => {
 		className={ classNames( "yst-score-icon", className ) }
 	/>;
 };
+
+export default ScoreIcon;
