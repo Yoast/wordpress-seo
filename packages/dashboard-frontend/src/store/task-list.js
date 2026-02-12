@@ -151,6 +151,10 @@ const slice = createSlice( {
 		setTaskCompleted( state, { payload } ) {
 			if ( state.tasks[ payload ] ) {
 				state.tasks[ payload ].isCompleted = true;
+				// Also update currentOpenTask if it's the same task
+				if ( state.currentOpenTask && state.currentOpenTask.id === payload ) {
+					state.currentOpenTask.isCompleted = true;
+				}
 			}
 		},
 		resetTaskError( state, { payload } ) {
@@ -171,6 +175,10 @@ const slice = createSlice( {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.success;
 			state.tasks[ id ].error = null;
 			state.tasks[ id ].isCompleted = true;
+			// Also update currentOpenTask if it's the same task that was completed
+			if ( state.currentOpenTask && state.currentOpenTask.id === id ) {
+				state.currentOpenTask.isCompleted = true;
+			}
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error, id } } ) => {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.error;
