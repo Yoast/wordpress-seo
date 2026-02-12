@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\Infrastructure\Schema_Pieces\Woo_Schema_Piece_Repository;
 
 use Brain\Monkey\Functions;
+use Exception;
 
 /**
  * Test class for the collect method.
@@ -68,6 +69,27 @@ final class Woo_Schema_Piece_Repository_Collect_Test extends Abstract_Woo_Schema
 			->once()
 			->with( 123 )
 			->andReturn( null );
+
+		$result = $this->instance->collect( 123 );
+
+		$this->assertSame( [], $result );
+	}
+
+	/**
+	 * Tests that collect returns empty array when an exception is thrown.
+	 *
+	 * @return void
+	 */
+	public function test_collect_handles_exceptions_gracefully() {
+		$this->woocommerce_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		Functions\expect( 'wc_get_product' )
+			->once()
+			->with( 123 )
+			->andThrow( new Exception( 'WooCommerce error' ) );
 
 		$result = $this->instance->collect( 123 );
 
