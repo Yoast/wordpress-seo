@@ -26,7 +26,7 @@ const ScoreIcon = ( { score, isEmoji = true, className } ) => {
 		na: "yst-text-slate-300",
 	};
 
-	// If the score is not recognized, or if isEmoji is false, return a gray-colored circle.
+	// If the score is not recognized, we will return a gray-colored circle.
 	if ( ! isEmoji || ! ( score in emojiMap ) ) {
 		return <CircleSolidIcon
 			{ ...svgAriaProps }
