@@ -7,6 +7,7 @@ import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TasksProgressBadge } from "./tasks-progress-badge";
 import { TaskStatusIcon } from "../../icons";
+import { TaskAnalyzer } from "./task-analyzer";
 
 /**
  * The type of callToAction prop.
@@ -18,6 +19,17 @@ import { TaskStatusIcon } from "../../icons";
  * @property {Function} [onClick] The onClick handler for the button.
  * @property {boolean} [disabled] Whether the button is disabled.
  * @property {boolean} [isLoading] Whether the button is in a loading state.
+ */
+
+/**
+* The type analyzer.
+ *
+ * @typedef {Object} Analyzer
+ * @property {string} title The title for the analyzer.
+ * @property {string} type The variant of the analyzer.
+ * @property {string} result The result of the analyzer.
+ * @property {string} resultLabel The label for the result of the analyzer.
+ * @property {string} resultDescription The description of the analyzer.
  */
 
 /**
@@ -39,6 +51,7 @@ import { TaskStatusIcon } from "../../icons";
  * @param {number}   [completedTasks] Number of completed child tasks.
  * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
  * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
+ * @param {Analyzer} [analyzer]      Analyzer details for the task.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
@@ -61,6 +74,7 @@ export const TaskModal = ( {
 	onProgressBadgeClick,
 	parentTaskId,
 	children,
+	analyzer,
 } ) => {
 	// Sanitize the about content to prevent XSS attacks
 	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
@@ -111,15 +125,17 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-					{ about && <>
-						<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
-							{ __( "About this task", "wordpress-seo" ) }
-						</Title>
-						<div
-							className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4"
-							dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
-						/>
-					</> }
+
+					{ analyzer && <TaskAnalyzer { ...analyzer } /> }
+
+					<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
+						{ __( "About this task", "wordpress-seo" ) }
+					</Title>
+					<div
+						className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4"
+						dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
+					/>
+
 					{ children }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
