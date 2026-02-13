@@ -6,6 +6,12 @@ import { isUndefined, escapeRegExp, memoize } from "lodash";
 import isDoubleQuoted from "../match/isDoubleQuoted";
 
 /**
+ * @typedef KeyphraseAndSynonymsStems An object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
+ * @property {TopicPhrase} keyphraseStems An array of stems of words in the keyphrase.
+ * @property {TopicPhrase[]} synonymsStems An array of arrays of stems of words in the synonyms.
+ */
+
+/**
  * A TopicPhrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
  */
 class TopicPhrase {
@@ -37,17 +43,23 @@ class TopicPhrase {
 	}
 }
 
+
 /**
- * A stem-original pair ƒor a word in a topic phrase.
- *
- * @param {string} stem     The stem of the topic phrase word.
- * @param {string} original The original word form the topic phrase (unsanitized)
- *
- * @constructor
+ * A stem-original pair for a word in a topic phrase, where the stem is the stem of the topic phrase word and the original is the original word form of the topic phrase (unsanitized).
  */
-function StemOriginalPair( stem, original ) {
-	this.stem = stem;
-	this.original = original;
+class StemOriginalPair {
+	/**
+	 * A stem-original pair ƒor a word in a topic phrase.
+	 *
+	 * @param {string} stem     The stem of the topic phrase word.
+	 * @param {string} original The original word form the topic phrase (unsanitized)
+	 *
+	 * @constructor
+	 */
+	constructor( stem, original ) {
+		this.stem = stem;
+		this.original = original;
+	}
 }
 
 /**
@@ -108,7 +120,8 @@ const buildStems = function( keyphrase, stemmer, functionWords, areHyphensWordBo
  * @param {string[]} functionWords 				The language-specific function words.
  * @param {boolean}	 areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
- * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
+ * @returns {KeyphraseAndSynonymsStems} Object with an array of stems of words in the keyphrase
+ * and an array of arrays of stems of words in the synonyms.
  */
 const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries ) {
 	const keyphraseStems = buildStems( keyphrase, stemmer, functionWords, areHyphensWordBoundaries );
@@ -152,7 +165,7 @@ const primeLanguageSpecificData = memoize( ( stemmer, functionWords, areHyphensW
  * @param {string[]}    functionWords   			The language-specific function words.
  * @param {boolean}		areHyphensWordBoundaries	Whether hyphens should be treated as word boundaries.
  *
- * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
+ * @returns {KeyphraseAndSynonymsStems} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
 function collectStems( keyphrase, synonyms, stemmer, functionWords, areHyphensWordBoundaries ) {
 	const collectStemsWithLanguageSpecificData = primeLanguageSpecificData( stemmer, functionWords, areHyphensWordBoundaries );

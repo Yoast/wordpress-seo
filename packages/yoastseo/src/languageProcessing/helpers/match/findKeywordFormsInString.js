@@ -45,7 +45,7 @@ const findWordFormsInString = function( keywordForms, text, locale, matchWordCus
 /**
  * Matches forms of words in the keyphrase and in the synonyms against a given text.
  *
- * @param {Object}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
+ * @param {TopicFormsResult}      topicForms       The object with word forms of all (content) words from the keyphrase and eventually synonyms,
  * comes in a shape {
  *                     keyphraseForms: [[ form1, form2, ... ], [ form1, form2, ... ]],
  *                     synonymsForms: [
