@@ -1,6 +1,5 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
-import { getSubheadingsTopLevel } from "../../../languageProcessing/helpers/html/getSubheadings";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
@@ -9,6 +8,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
  * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../../languageProcessing/researches/matchKeywordInSubheadings").KeyphraseInSubheadingsResult } KeyphraseInSubheadingsResult
  */
 
 /**
@@ -63,6 +63,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
 		}
 
+		/* @type {KeyphraseInSubheadingsResult} */
 		this._subHeadingsResearchResult = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
@@ -94,18 +95,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		// Use the default language-specific config for non-cornerstone condition.
 		return merge( currentConfig, languageSpecificConfig.defaultParameters );
-	}
-
-	/**
-	 * Checks whether the paper has subheadings.
-	 *
-	 * @param {Paper} paper The paper to use for the check.
-	 *
-	 * @returns {boolean} True when there is at least one subheading.
-	 */
-	hasSubheadings( paper ) {
-		const subheadings =  getSubheadingsTopLevel( paper.getText() );
-		return subheadings.length > 0;
 	}
 
 	/**
@@ -220,7 +209,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			};
 		}
 
-		if ( ! this.hasSubheadings( paper ) ) {
+		if ( ! this._subHeadingsResearchResult.subheadings ) {
 			return this.getResultForNoSubheadings();
 		}
 
