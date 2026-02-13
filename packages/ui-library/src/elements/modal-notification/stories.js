@@ -143,7 +143,7 @@ export default {
 		role: {
 			options: [ "dialog", "alertdialog" ],
 			type: "select",
-			description: "Forwarded to HeadlessUI Dialog. Use \"alertdialog\" for notifications requiring immediate user response.",
+			description: "The ARIA role. Use \"alertdialog\" for notifications requiring immediate user response.",
 			table: {
 				type: { summary: "string" },
 				defaultValue: { summary: "dialog" },
@@ -151,7 +151,7 @@ export default {
 		},
 		"aria-label": {
 			control: "text",
-			description: "Forwarded to HeadlessUI Dialog. Required when ModalNotification.Title is not used.",
+			description: "Accessible name for the dialog. Required when ModalNotification.Title is not used.",
 			table: {
 				type: { summary: "string" },
 				defaultValue: { summary: "null" },

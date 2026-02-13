@@ -1,9 +1,9 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createContext, Fragment, useCallback, useContext, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useEffect } from "react";
 
 const ToastContext = createContext( { handleDismiss: noop } );
 
@@ -18,13 +18,6 @@ export const toastClassNameMap = {
 		"bottom-left": "yst-translate-y-full",
 		"top-center": "yst--translate-y-full",
 	},
-};
-
-// Fixed positioning classes for Dialog portal
-const dialogPositionClassNameMap = {
-	"bottom-center": "yst-fixed yst-inset-x-0 yst-bottom-0 yst-flex yst-justify-center yst-p-4 yst-z-50",
-	"bottom-left": "yst-fixed yst-bottom-0 yst-left-0 yst-p-4 yst-z-50",
-	"top-center": "yst-fixed yst-inset-x-0 yst-top-0 yst-flex yst-justify-center yst-p-4 yst-z-50",
 };
 
 /**
@@ -102,13 +95,12 @@ Title.propTypes = {
  * @param {Object} props The props object.
  * @param {React.ReactNode} [children=null] The children.
  * @param {string} id The toast ID.
- * @param {string} [className] The additional class name for positioning the wrapper.
+ * @param {string} [className] The additional class name.
  * @param {string} [position="bottom-left"] The toast position. Can be "bottom-left", "bottom-center", or "top-center".
  * @param {Function} [onDismiss=noop] Function to trigger on dismissal.
  * @param {number|null} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {boolean} isVisible Whether the notification is visible.
  * @param {Function} setIsVisible Function to set the visibility of the notification.
- * @param {function|Object|null} [initialFocus] The ref of the element to focus initially.
  * @returns {JSX.Element} The toast component.
  */
 const Toast = ( {
@@ -120,7 +112,6 @@ const Toast = ( {
 	autoDismiss = null,
 	isVisible,
 	setIsVisible,
-	initialFocus = null,
 } ) => {
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -145,35 +136,22 @@ const Toast = ( {
 	}, [] );
 	return (
 		<ToastContext.Provider value={ { handleDismiss } }>
-			<Transition.Root show={ isVisible } as={ Fragment }>
-				{ /* Using the `yst-root` class here to get our styling within the portal. */ }
-				<Dialog
-					as="div"
-					className="yst-root"
-					open={ isVisible }
-					onClose={ handleDismiss }
-					initialFocus={ initialFocus }
-				>
-					<div className={ classNames( dialogPositionClassNameMap[ position ], className ) }>
-						<Transition.Child
-							as={ Fragment }
-							enter="yst-transition yst-ease-in-out yst-duration-150"
-							enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-							enterTo="yst-translate-y-0"
-							leave="yst-transition yst-ease-in-out yst-duration-150"
-							leaveFrom="yst-translate-y-0"
-							leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
-						>
-							<Dialog.Panel
-								className="yst-toast"
-								role="alert"
-							>
-								{ children }
-							</Dialog.Panel>
-						</Transition.Child>
-					</div>
-				</Dialog>
-			</Transition.Root>
+			<Transition
+				show={ isVisible }
+				enter={ "yst-transition yst-ease-in-out yst-duration-150" }
+				enterFrom={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
+				enterTo="yst-translate-y-0"
+				leave={ "yst-transition yst-ease-in-out yst-duration-150" }
+				leaveFrom="yst-translate-y-0"
+				leaveTo={ classNames( "yst-opacity-0", toastClassNameMap.position[ position ] ) }
+				className={ classNames(
+					"yst-toast",
+					className,
+				) }
+				role="alert"
+			>
+				{ children }
+			</Transition>
 		</ToastContext.Provider>
 	);
 };
@@ -187,7 +165,6 @@ Toast.propTypes = {
 	autoDismiss: PropTypes.number,
 	isVisible: PropTypes.bool.isRequired,
 	setIsVisible: PropTypes.func.isRequired,
-	initialFocus: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
 };
 
 Toast.Close = Close;
