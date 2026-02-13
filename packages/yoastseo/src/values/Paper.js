@@ -8,7 +8,7 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash";
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string,
- * 		   writingDirection: "LTR", isFrontPage: boolean }}
+ * 		   writingDirection: "LTR", isFrontPage: boolean, wpBlocks: [], shortcodes: []}}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -25,6 +25,7 @@ const defaultAttributes = {
 	writingDirection: "LTR",
 	wpBlocks: [],
 	isFrontPage: false,
+	shortcodes: [],
 };
 
 /**
@@ -50,6 +51,7 @@ export default class Paper {
 	 * @param {string}  [attributes.textTitle]          The title of the text.
 	 * @param {string}  [attributes.writingDirection=LTR]   The writing direction of the paper. Defaults to left to right (LTR).
 	 * @param {boolean} [attributes.isFrontPage=false]  Whether the current page is the front page of the site. Defaults to false.
+	 * @param {string[]} [attributes.shortcodes=[]]     The array of shortcodes present in the text.
 	 */
 	constructor( text, attributes ) {
 		this._text = text || "";

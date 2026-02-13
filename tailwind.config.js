@@ -49,6 +49,7 @@ module.exports = {
 		"yst--left-3",
 		"yst-ring-gray-200",
 		"yst-font-mono",
+		"yst-min-h-20",
 		"sm:yst-w-auto",
 		"sm:yst-mb-0",
 		"sm:yst-ml-3",

@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "además", "adicional", "así", "asimismo", "aún", "aunque", "ciertamente", "como", "concluyendo", "conque",
 	"contrariamente", "cuando", "decididamente", "decisivamente", "después", "diferentemente", "efectivamente", "entonces", "especialmente",
 	"específicamente", "eventualmente", "evidentemente", "finalmente", "frecuentemente", "generalmente", "igualmente", "lógicamente", "luego",

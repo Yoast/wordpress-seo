@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.6.0 (2026-02-12)
+
+Enhancements:
+
+* Excludes empty sentences from the analysis of _consecutive sentences_ assessment. [#22832](https://github.com/Yoast/wordpress-seo/pull/22832)
+* Converts the transition words assessment to use HTML parser in its analysis. [#22279](https://github.com/Yoast/wordpress-seo/pull/22279)
+
+Bugfixes:
+
+* Fixes inconsistent filtering of the paper's text in the Subheading distribution assessment. [#22882](https://github.com/Yoast/wordpress-seo/pull/22882)
+* Fixes an error in the configuration of the Slovak two-part transition words. [#22279](https://github.com/Yoast/wordpress-seo/pull/22279)
+
 ## 3.5.0 (2025-12-03)
 
 ### Enhancements:
