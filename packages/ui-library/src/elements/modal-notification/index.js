@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Portal, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { isArray, noop } from "lodash";
@@ -134,6 +134,8 @@ Panel.propTypes = {
  * @param {boolean} isOpen Whether the modal notification is open.
  * @param {Function} onClose Function to call when the modal notification should close.
  * @param {function|Object|null} [initialFocus] The ref of the element to focus initially.
+ * @param {Object|null} [portalTarget] A ref to an element where the portal should render. Needed when rendering inside
+ * an iframe or a specific container (e.g. the WordPress editor).
  * @param {Object} [rest] Additional props are forwarded to HeadlessUI's Dialog (e.g. role, aria-label).
  * @returns {JSX.Element} The modal notification component.
  */
@@ -144,34 +146,42 @@ const ModalNotification = ( {
 	isOpen,
 	onClose,
 	initialFocus = null,
+	portalTarget = null,
 	...restProps
 } ) => {
+	const dialog = (
+		<Transition.Root show={ isOpen } as={ Fragment }>
+			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
+			<Dialog
+				as="div"
+				className="yst-root"
+				onClose={ onClose }
+				initialFocus={ initialFocus }
+				{ ...restProps }
+			>
+				<div className={ classNames( positionClassNameMap[ position ], className ) }>
+					<Transition.Child
+						as={ Fragment }
+						enter="yst-transition yst-ease-in-out yst-duration-150"
+						enterFrom={ classNames( "yst-opacity-0", modalNotificationClassNameMap.position[ position ] ) }
+						enterTo="yst-translate-y-0"
+						leave="yst-transition yst-ease-in-out yst-duration-150"
+						leaveFrom="yst-translate-y-0"
+						leaveTo={ classNames( "yst-opacity-0", modalNotificationClassNameMap.position[ position ] ) }
+					>
+						{ children }
+					</Transition.Child>
+				</div>
+			</Dialog>
+		</Transition.Root>
+	);
+
 	return (
 		<ModalNotificationContext.Provider value={ { handleDismiss: onClose } }>
-			<Transition.Root show={ isOpen } as={ Fragment }>
-				{ /* Using the `yst-root` class here to get our styling within the portal. */ }
-				<Dialog
-					as="div"
-					className="yst-root"
-					onClose={ onClose }
-					initialFocus={ initialFocus }
-					{ ...restProps }
-				>
-					<div className={ classNames( positionClassNameMap[ position ], className ) }>
-						<Transition.Child
-							as={ Fragment }
-							enter="yst-transition yst-ease-in-out yst-duration-150"
-							enterFrom={ classNames( "yst-opacity-0", modalNotificationClassNameMap.position[ position ] ) }
-							enterTo="yst-translate-y-0"
-							leave="yst-transition yst-ease-in-out yst-duration-150"
-							leaveFrom="yst-translate-y-0"
-							leaveTo={ classNames( "yst-opacity-0", modalNotificationClassNameMap.position[ position ] ) }
-						>
-							{ children }
-						</Transition.Child>
-					</div>
-				</Dialog>
-			</Transition.Root>
+			{ portalTarget
+				? <Portal.Group target={ portalTarget }>{ dialog }</Portal.Group>
+				: dialog
+			}
 		</ModalNotificationContext.Provider>
 	);
 };
@@ -183,6 +193,7 @@ ModalNotification.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	initialFocus: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
+	portalTarget: PropTypes.object,
 };
 
 ModalNotification.Close = Close;
