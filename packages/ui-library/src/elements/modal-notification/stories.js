@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React, { useCallback, useState } from "react";
 import ModalNotification, { modalNotificationClassNameMap, useModalNotificationContext } from ".";
 import Button from "../../elements/button";
+import Link from "../../elements/link";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { component } from "./docs";
 import { ValidationIcon } from "../validation";
@@ -60,8 +61,8 @@ const DismissButton = () => {
 	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>Dismiss</Button>;
 };
 
-export const asComplexLayout = {
-	name: "Complex layout",
+export const WithInteractiveElements = {
+	name: "With multiple interactive elements",
 	args: {
 		role: "alertdialog",
 		children: (
@@ -78,7 +79,8 @@ export const asComplexLayout = {
 						<ModalNotification.Close dismissScreenReaderLabel="Dismiss" />
 					</div>
 				</div>
-				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
+				<div className="yst-flex yst-gap-3 yst-justify-end yst-items-center yst-mt-3">
+					<Link href="https://yoast.com/" target="_blank" rel="noopener noreferrer">Learn more</Link>
 					<DismissButton />
 					<ConfirmButton />
 				</div>
@@ -171,7 +173,7 @@ export default {
 			page: () => (
 				<InteractiveDocsPage
 					stories={ [
-						asComplexLayout,
+						WithInteractiveElements,
 					] }
 				/>
 			),
