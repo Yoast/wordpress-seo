@@ -18,6 +18,7 @@ export const modalNotificationClassNameMap = {
 		"bottom-left": "yst-translate-y-full",
 		"bottom-right": "yst-translate-y-full",
 		"top-center": "yst--translate-y-full",
+		"top-left": "yst--translate-y-full",
 		"top-right": "yst--translate-y-full",
 	},
 };
@@ -27,6 +28,7 @@ const positionClassNameMap = {
 	"bottom-left": "yst-fixed yst-bottom-0 yst-left-0 yst-p-4 yst-z-50",
 	"bottom-right": "yst-fixed yst-bottom-0 yst-right-0 yst-p-4 yst-z-50",
 	"top-center": "yst-fixed yst-inset-x-0 yst-top-0 yst-flex yst-justify-center yst-p-4 yst-z-50",
+	"top-left": "yst-fixed yst-top-0 yst-left-0 yst-p-4 yst-z-50",
 	"top-right": "yst-fixed yst-top-0 yst-right-0 yst-p-4 yst-z-50",
 };
 
