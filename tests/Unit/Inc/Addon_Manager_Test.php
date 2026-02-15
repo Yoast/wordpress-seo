@@ -1078,9 +1078,7 @@ final class Addon_Manager_Test extends TestCase {
 	 * @return string Future date.
 	 */
 	protected function get_future_date() {
-		if ( $this->future_date === null ) {
-			$this->future_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
-		}
+		$this->future_date ??= \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
 
 		return $this->future_date;
 	}
@@ -1091,9 +1089,7 @@ final class Addon_Manager_Test extends TestCase {
 	 * @return string Past date.
 	 */
 	protected function get_past_date() {
-		if ( $this->past_date === null ) {
-			$this->past_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
-		}
+		$this->past_date ??= \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
 
 		return $this->past_date;
 	}

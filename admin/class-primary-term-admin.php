@@ -159,9 +159,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-		if ( $post_id === null ) {
-			$post_id = $this->get_current_id();
-		}
+		$post_id ??= $this->get_current_id();
 
 		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
 		if ( $taxonomies !== false ) {

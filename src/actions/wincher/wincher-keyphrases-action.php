@@ -188,9 +188,7 @@ class Wincher_Keyphrases_Action {
 	 */
 	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null, $start_at = null ) {
 		try {
-			if ( $used_keyphrases === null ) {
-				$used_keyphrases = $this->collect_all_keyphrases();
-			}
+			$used_keyphrases ??= $this->collect_all_keyphrases();
 
 			// If we still have no keyphrases the API will return an error, so
 			// don't even bother sending a request.

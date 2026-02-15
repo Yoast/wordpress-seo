@@ -55,12 +55,10 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 function wpseo_auto_load( $class_name ) {
 	static $classes = null;
 
-	if ( $classes === null ) {
-		$classes = [
-			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
-			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
-		];
-	}
+	$classes ??= [
+		'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+		'walker_category' => ABSPATH . 'wp-includes/category-template.php',
+	];
 
 	$cn = strtolower( $class_name );
 
