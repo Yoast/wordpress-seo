@@ -73,7 +73,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 			$request_uri
 		)
 	);
-	exit;
+	exit();
 }
 
 /**

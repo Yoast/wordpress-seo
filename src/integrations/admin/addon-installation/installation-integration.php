@@ -134,7 +134,7 @@ class Installation_Integration implements Integration_Interface {
 
 		echo '</div>';
 
-		exit;
+		exit();
 	}
 
 	/**

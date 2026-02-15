@@ -544,7 +544,7 @@ class Yoast_Notification_Center {
 		$this->display_notifications( $echo );
 
 		// AJAX die.
-		exit;
+		exit();
 	}
 
 	/**

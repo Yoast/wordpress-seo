@@ -329,6 +329,6 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 		}
 
 		wp_safe_redirect( $sendback );
-		exit;
+		exit();
 	}
 }
