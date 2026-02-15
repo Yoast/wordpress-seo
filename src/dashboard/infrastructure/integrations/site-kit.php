@@ -154,7 +154,7 @@ class Site_Kit {
 	 * @return bool If the user can read the data.
 	 */
 	private function can_read_data( array $module ): bool {
-		return ( ! \is_null( $module['can_view'] ) ? $module['can_view'] : false );
+		return ( $module['can_view'] ?? false );
 	}
 
 	/**
