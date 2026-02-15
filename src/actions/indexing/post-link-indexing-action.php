@@ -50,21 +50,8 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return array Objects to be indexed.
 	 */
 	protected function get_objects() {
-		$query = $this->get_select_query( $this->get_limit() );
-
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
-		$posts = $this->wpdb->get_results( $query );
-
-		return \array_map(
-			static function ( $post ) {
-				return (object) [
-					'id'      => (int) $post->ID,
-					'type'    => 'post',
-					'content' => $post->post_content,
-				];
-			},
-			$posts
-		);
+		return $this->wpdb->get_results( $this->get_select_query( $this->get_limit() ) ) ?? [];
 	}
 
 	/**
@@ -92,6 +79,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+			    AND LENGTH( P.post_content ) > 0
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
 			$public_post_types
@@ -120,7 +108,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
 		return $this->wpdb->prepare(
 			"
-			SELECT P.ID, P.post_content
+			SELECT P.ID as id, 'post' as type, P.post_content as content
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id
@@ -133,6 +121,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id IS NOT NULL
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+			    AND LENGTH( P.post_content ) > 0
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",

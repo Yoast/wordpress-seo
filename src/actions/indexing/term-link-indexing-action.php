@@ -57,18 +57,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
-		$terms = $this->wpdb->get_results( $query );
-
-		return \array_map(
-			static function ( $term ) {
-				return (object) [
-					'id'      => (int) $term->term_id,
-					'type'    => 'term',
-					'content' => $term->description,
-				];
-			},
-			$terms
-		);
+		return $this->wpdb->get_results( $query );
 	}
 
 	/**
@@ -127,7 +116,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
 		return $this->wpdb->prepare(
 			"
-			SELECT T.term_id, T.description
+			SELECT T.term_id, 'term' as type, T.description as content
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
