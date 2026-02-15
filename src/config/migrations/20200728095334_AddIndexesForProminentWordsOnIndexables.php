@@ -44,7 +44,7 @@ class AddIndexesForProminentWordsOnIndexables extends Migration {
 				$this->columns_with_index,
 				[
 					'name' => 'prominent_words',
-				]
+				],
 			);
 		}
 	}

@@ -424,7 +424,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
-				[ 'stackTrace' => $exception->getTraceAsString() ]
+				[ 'stackTrace' => $exception->getTraceAsString() ],
 			);
 		}
 	}

@@ -160,7 +160,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 				'id'           => self::NOTIFICATION_ID,
 				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => [ 'wpseo_manage_options' ],
-			]
+			],
 		);
 	}
 
@@ -197,7 +197,7 @@ class Default_SEO_Data_Alert implements Integration_Interface {
 			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
 			'<strong>',
 			'</strong>',
-			'</a>'
+			'</a>',
 		);
 	}
 }

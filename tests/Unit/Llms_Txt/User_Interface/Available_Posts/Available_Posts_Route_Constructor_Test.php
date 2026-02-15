@@ -25,12 +25,12 @@ final class Available_Posts_Route_Constructor_Test extends Abstract_Available_Po
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Available_Posts_Repository::class,
-			$this->getPropertyValue( $this->instance, 'available_posts_repository' )
+			$this->getPropertyValue( $this->instance, 'available_posts_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Capability_Helper::class,
-			$this->getPropertyValue( $this->instance, 'capability_helper' )
+			$this->getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 	}
 }

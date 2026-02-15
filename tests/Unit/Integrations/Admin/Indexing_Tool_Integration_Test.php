@@ -119,7 +119,7 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 			$this->addon_manager,
 			$this->product_helper,
 			$this->importable_detector,
-			$this->importing_route
+			$this->importing_route,
 		);
 	}
 
@@ -133,35 +133,35 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			self::getPropertyValue( $this->instance, 'asset_manager' )
+			self::getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			self::getPropertyValue( $this->instance, 'indexable_helper' )
+			self::getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			self::getPropertyValue( $this->instance, 'short_link_helper' )
+			self::getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			self::getPropertyValue( $this->instance, 'indexing_helper' )
+			self::getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 		$this->assertInstanceOf(
 			WPSEO_Addon_Manager::class,
-			self::getPropertyValue( $this->instance, 'addon_manager' )
+			self::getPropertyValue( $this->instance, 'addon_manager' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			self::getPropertyValue( $this->instance, 'product_helper' )
+			self::getPropertyValue( $this->instance, 'product_helper' ),
 		);
 		$this->assertInstanceOf(
 			Importable_Detector_Service::class,
-			self::getPropertyValue( $this->instance, 'importable_detector' )
+			self::getPropertyValue( $this->instance, 'importable_detector' ),
 		);
 		$this->assertInstanceOf(
 			Importing_Route::class,
-			self::getPropertyValue( $this->instance, 'importing_route' )
+			self::getPropertyValue( $this->instance, 'importing_route' ),
 		);
 	}
 
@@ -342,7 +342,7 @@ final class Indexing_Tool_Integration_Test extends TestCase {
 
 		// Assert.
 		$this->expectOutputString(
-			'<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>'
+			'<li><strong>Optimize SEO Data</strong><br/>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. If you have a lot of content it might take a while, but trust us, it\'s worth it. <a href="https://yoast.com" target="_blank">Learn more about the benefits of optimized SEO data.</a><div id="yoast-seo-indexing-action" style="margin: 16px 0;"></div></li>',
 		);
 	}
 }

@@ -410,7 +410,7 @@ class WPSEO_Addon_Manager {
 				/* translators: %1$s and %2$s are a <span> opening and closing tag. */
 					esc_html__( '%1$s30%% OFF - Black Friday %2$s', 'wordpress-seo' ),
 					'<span class="yoast-update-plugin-bf-sale-badge">',
-					'</span>'
+					'</span>',
 				);
 			}
 			echo '<br><br>';
@@ -420,7 +420,7 @@ class WPSEO_Addon_Manager {
 					esc_html__( 'Your %1$s plugin cannot be updated as your subscription has expired. %2$sRenew your product subscription%3$s to restore updates and full feature access.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
-					'</a>'
+					'</a>',
 				)
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
 				. $sale_copy
@@ -536,9 +536,9 @@ class WPSEO_Addon_Manager {
 				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">',
 				'MyYoast',
 				'</a>',
-				$product_name
+				$product_name,
 			),
-			$notification_options
+			$notification_options,
 		);
 	}
 

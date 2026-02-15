@@ -158,7 +158,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 				$this->general_indexation,
 				$this->post_link_indexing_action,
 				$this->term_link_indexing_action,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->stubTranslationFunctions();
@@ -176,7 +176,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			[
 				Migrations_Conditional::class,
 			],
-			Background_Indexing_Integration::get_conditionals()
+			Background_Indexing_Integration::get_conditionals(),
 		);
 	}
 
@@ -191,15 +191,15 @@ final class Background_Indexing_Integration_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
-			$this->getPropertyValue( $this->instance, 'complete_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'complete_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 		$this->assertInstanceOf(
 			Yoast_Admin_And_Dashboard_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
+			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' ),
 		);
 	}
 

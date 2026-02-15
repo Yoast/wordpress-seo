@@ -269,7 +269,7 @@ class Site_Kit {
 		return \array_reduce(
 			\array_unique( $actual_paths ),
 			'rest_preload_api_request',
-			[]
+			[],
 		);
 	}
 
@@ -282,8 +282,8 @@ class Site_Kit {
 		return \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . self::SITE_KIT_FILE ),
-				'activate-plugin_' . self::SITE_KIT_FILE
-			)
+				'activate-plugin_' . self::SITE_KIT_FILE,
+			),
 		);
 	}
 
@@ -296,8 +296,8 @@ class Site_Kit {
 		return \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'update.php?action=install-plugin&plugin=google-site-kit' ),
-				'install-plugin_google-site-kit'
-			)
+				'install-plugin_google-site-kit',
+			),
 		);
 	}
 
@@ -310,8 +310,8 @@ class Site_Kit {
 		return \html_entity_decode(
 			\wp_nonce_url(
 				\self_admin_url( 'update.php?action=upgrade-plugin&plugin=' . self::SITE_KIT_FILE ),
-				'upgrade-plugin_' . self::SITE_KIT_FILE
-			)
+				'upgrade-plugin_' . self::SITE_KIT_FILE,
+			),
 		);
 	}
 

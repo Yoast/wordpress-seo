@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Description_Builder_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Description_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'description_adapter' )
+			$this->getPropertyValue( $this->instance, 'description_adapter' ),
 		);
 	}
 }

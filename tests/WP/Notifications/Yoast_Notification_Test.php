@@ -75,7 +75,7 @@ final class Yoast_Notification_Test extends TestCase {
 				'yoast_branding'   => false,
 				'resolve_nonce'    => '',
 			],
-			$test['options']
+			$test['options'],
 		);
 	}
 
@@ -206,7 +206,7 @@ final class Yoast_Notification_Test extends TestCase {
 					'foo',
 				],
 				'capability_check' => 'any',
-			]
+			],
 		);
 
 		$this->assertTrue( $subject->display_for_current_user() );
@@ -233,7 +233,7 @@ final class Yoast_Notification_Test extends TestCase {
 					'foo',
 				],
 				'capability_check' => 'any',
-			]
+			],
 		);
 
 		$this->assertFalse( $subject->display_for_current_user() );
@@ -258,7 +258,7 @@ final class Yoast_Notification_Test extends TestCase {
 					'foo',
 				],
 				'capability_check' => 'all',
-			]
+			],
 		);
 
 		$this->assertTrue( $subject->display_for_current_user() );
@@ -283,7 +283,7 @@ final class Yoast_Notification_Test extends TestCase {
 					'foo',
 				],
 				'capability_check' => 'all',
-			]
+			],
 		);
 
 		$this->add_cap( 'bla' );
@@ -317,7 +317,7 @@ final class Yoast_Notification_Test extends TestCase {
 			[
 				'id'           => 'id',
 				'capabilities' => 'not_an_array',
-			]
+			],
 		);
 		$this->assertFalse( $subject->display_for_current_user() );
 	}

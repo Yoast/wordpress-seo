@@ -46,7 +46,7 @@ final class Asset_Manager_Test extends TestCase {
 					'register_styles',
 					'scripts_to_be_registered',
 					'styles_to_be_registered',
-				]
+				],
 			)
 			->getMock();
 
@@ -54,14 +54,14 @@ final class Asset_Manager_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'scripts_to_be_registered' )
 			->willReturn(
-				[ 'script' ]
+				[ 'script' ],
 			);
 
 		$instance
 			->expects( $this->once() )
 			->method( 'styles_to_be_registered' )
 			->willReturn(
-				[ 'style' ]
+				[ 'style' ],
 			);
 
 		$instance
@@ -265,7 +265,7 @@ final class Asset_Manager_Test extends TestCase {
 			->method( 'register_script' )
 			->withConsecutive(
 				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) ) ],
-				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ]
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ],
 			);
 
 		$class_instance->register_scripts( $asset_args );
@@ -302,7 +302,7 @@ final class Asset_Manager_Test extends TestCase {
 			->method( 'register_style' )
 			->withConsecutive(
 				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) ) ],
-				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ]
+				[ $this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) ) ],
 			);
 
 		$class_instance->register_styles( $asset_args );

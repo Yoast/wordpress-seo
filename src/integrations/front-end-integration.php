@@ -329,7 +329,7 @@ class Front_End_Integration implements Integration_Interface {
 			$this->indexable_repository->reset_permalink(
 				$context->indexable->object_type,
 				$context->indexable->object_sub_type,
-				$context->indexable->object_id
+				$context->indexable->object_id,
 			);
 
 			// Clear the memoizer caches so present_head() sees the updated indexable.
@@ -533,7 +533,7 @@ class Front_End_Integration implements Integration_Interface {
 		return \array_merge(
 			[ new Marker_Open_Presenter() ],
 			$presenter_instances,
-			[ new Marker_Close_Presenter() ]
+			[ new Marker_Close_Presenter() ],
 		);
 	}
 

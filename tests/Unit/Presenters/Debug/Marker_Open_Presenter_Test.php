@@ -39,7 +39,7 @@ final class Marker_Open_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<!-- This site is optimized with the Yoast SEO plugin v' . \WPSEO_VERSION . ' - https://yoast.com/product/yoast-seo-wordpress/ -->',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 
@@ -63,7 +63,7 @@ final class Marker_Open_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 
@@ -111,7 +111,7 @@ final class Marker_Open_Presenter_Test extends TestCase {
 		$expected_version = 'v' . \WPSEO_PREMIUM_VERSION . ' (Yoast SEO v' . \WPSEO_VERSION . ')';
 		$this->assertEquals(
 			'<!-- This site is optimized with the Yoast SEO Premium ' . $expected_version . ' - https://yoast.com/product/yoast-seo-premium-wordpress/ -->',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 }

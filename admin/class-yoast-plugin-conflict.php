@@ -192,8 +192,8 @@ class Yoast_Plugin_Conflict {
 					[
 						'type' => Yoast_Notification::ERROR,
 						'id'   => 'wpseo-conflict-' . $identifier,
-					]
-				)
+					],
+				),
 			);
 		}
 	}

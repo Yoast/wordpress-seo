@@ -97,7 +97,7 @@ class Consent_Route implements Route_Interface {
 				],
 				'callback'            => [ $this, 'consent' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
-			]
+			],
 		);
 	}
 

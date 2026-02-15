@@ -46,7 +46,7 @@ final class Web_Stories_Post_Edit_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Web_Stories_Conditional::class, Post_Conditional::class ],
-			Web_Stories_Post_Edit::get_conditionals()
+			Web_Stories_Post_Edit::get_conditionals(),
 		);
 	}
 

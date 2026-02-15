@@ -95,7 +95,7 @@ class Integrations_Route implements Route_Interface {
 			->set_integration_active( $integration_name, $value );
 
 		return new WP_REST_Response(
-			[ 'json' => $data ]
+			[ 'json' => $data ],
 		);
 	}
 }

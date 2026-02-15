@@ -57,7 +57,7 @@ final class Score_Icon_Helper_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Robots_Helper::class,
-			$this->getPropertyValue( $this->instance, 'robots_helper' )
+			$this->getPropertyValue( $this->instance, 'robots_helper' ),
 		);
 	}
 

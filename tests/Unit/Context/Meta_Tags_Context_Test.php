@@ -134,7 +134,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 			$this->user,
 			$this->permalink_helper,
 			$this->indexable_helper,
-			$this->indexable_repository
+			$this->indexable_repository,
 		);
 	}
 

@@ -115,7 +115,7 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 			$this->post_helper,
 			$this->options_helper,
 			$this->indexable_helper,
-			$this->image_content_extractor
+			$this->image_content_extractor,
 		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 
@@ -125,9 +125,9 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
-					$haystack
+					$haystack,
 				);
-			}
+			},
 		);
 
 		$this->image_url = 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5';
@@ -200,7 +200,7 @@ abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 				'type'         => SEO_Links::TYPE_INTERNAL_IMAGE,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
-			]
+			],
 		)->andReturn( $seo_link );
 	}
 }

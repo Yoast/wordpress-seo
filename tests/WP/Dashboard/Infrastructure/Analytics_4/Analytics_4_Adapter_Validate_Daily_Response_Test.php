@@ -61,7 +61,7 @@ final class Analytics_4_Adapter_Validate_Daily_Response_Test extends Abstract_An
 			'this is an error',
 			[
 				'status' => 400,
-			]
+			],
 		);
 
 		$api_response_mock = Mockery::mock( WP_REST_Response::class );

@@ -122,7 +122,7 @@ final class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 					],
 				],
 			],
-			$this->sut->get()
+			$this->sut->get(),
 		);
 	}
 }

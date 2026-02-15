@@ -181,7 +181,7 @@ class WPSEO_Replace_Vars {
 				array_keys( $replacements ),
 				// Make sure to exclude replacement values that are arrays e.g. coming from a custom field serialized value.
 				array_filter( array_values( $replacements ), 'is_scalar' ),
-				$text
+				$text,
 			);
 		}
 
@@ -1306,7 +1306,7 @@ class WPSEO_Replace_Vars {
 		$replacement_variables = array_filter(
 			array_merge( self::$help_texts['basic'], self::$help_texts['advanced'] ),
 			[ $this, 'is_not_prefixed' ],
-			ARRAY_FILTER_USE_KEY
+			ARRAY_FILTER_USE_KEY,
 		);
 
 		$hidden = $this->get_hidden_replace_vars();
@@ -1323,8 +1323,8 @@ class WPSEO_Replace_Vars {
 						'hidden' => in_array( $name, $hidden, true ),
 					];
 				},
-				array_merge( $replacement_variables, $custom_variables )
-			)
+				array_merge( $replacement_variables, $custom_variables ),
+			),
 		);
 	}
 
@@ -1339,7 +1339,7 @@ class WPSEO_Replace_Vars {
 		$replacement_variables = array_merge(
 			$this->get_replacement_variables(),
 			WPSEO_Custom_Fields::get_custom_fields(),
-			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies(),
 		);
 
 		return array_map( [ $this, 'format_replacement_variable' ], $replacement_variables );
@@ -1463,7 +1463,7 @@ class WPSEO_Replace_Vars {
 		$separator_description = sprintf(
 			$separator_description,
 			// '<code>wp_title()</code>'
-			'wp_title()'
+			'wp_title()',
 		);
 
 		$replacement_variables = [
@@ -1621,7 +1621,7 @@ class WPSEO_Replace_Vars {
 
 		return rtrim(
 			get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args ),
-			$separator
+			$separator,
 		);
 	}
 

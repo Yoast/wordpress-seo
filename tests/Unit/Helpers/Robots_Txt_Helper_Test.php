@@ -41,10 +41,10 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertIsObject(
-			$this->getPropertyValue( $this->instance, 'robots_txt_user_agents' )
+			$this->getPropertyValue( $this->instance, 'robots_txt_user_agents' ),
 		);
 		$this->assertIsArray(
-			$this->getPropertyValue( $this->instance, 'robots_txt_sitemaps' )
+			$this->getPropertyValue( $this->instance, 'robots_txt_sitemaps' ),
 		);
 	}
 

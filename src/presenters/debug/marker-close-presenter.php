@@ -26,7 +26,7 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 
 		return \sprintf(
 			'<!-- / %s. -->',
-			\esc_html( $this->helpers->product->get_name() )
+			\esc_html( $this->helpers->product->get_name() ),
 		);
 	}
 

@@ -101,7 +101,7 @@ abstract class Abstract_Markdown_Builder_Test extends TestCase {
 			$this->description_builder,
 			$this->link_lists_builder,
 			$this->markdown_escaper,
-			$this->optional_link_list_builder
+			$this->optional_link_list_builder,
 		);
 	}
 }

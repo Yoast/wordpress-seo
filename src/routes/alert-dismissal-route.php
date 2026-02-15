@@ -89,7 +89,7 @@ class Alert_Dismissal_Route implements Route_Interface {
 				'success' => $success,
 				'status'  => $status,
 			],
-			$status
+			$status,
 		);
 	}
 

@@ -137,7 +137,7 @@ class WPSEO_MyYoast_Api_Request {
 
 		if ( ! is_object( $response ) ) {
 			throw new WPSEO_MyYoast_Invalid_JSON_Exception(
-				esc_html__( 'No JSON object was returned.', 'wordpress-seo' )
+				esc_html__( 'No JSON object was returned.', 'wordpress-seo' ),
 			);
 		}
 
@@ -158,7 +158,7 @@ class WPSEO_MyYoast_Api_Request {
 		}
 
 		throw new WPSEO_MyYoast_Invalid_JSON_Exception(
-			esc_html__( 'Not all needed fields are present.', 'wordpress-seo' )
+			esc_html__( 'Not all needed fields are present.', 'wordpress-seo' ),
 		);
 	}
 

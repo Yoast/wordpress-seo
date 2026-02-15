@@ -188,7 +188,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 			$this->options_mock,
 			$this->url_mock,
 			$this->versions,
-			$this->post_helper
+			$this->post_helper,
 		);
 		$this->instance->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 	}
@@ -225,13 +225,13 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 				AND p.%i = ''
 				AND p.%i = 'post'
 			",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ],
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
@@ -273,13 +273,13 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 				AND p.%i = ''
 				AND p.%i = 'post'
 			",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ],
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
@@ -320,13 +320,13 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 				AND p.%i = ''
 				AND p.%i = 'post'
 			",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type' ],
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );

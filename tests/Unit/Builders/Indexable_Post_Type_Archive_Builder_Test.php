@@ -79,13 +79,13 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 					AND p.%i = ''
 					AND p.%i = %s
 				",
-			[ 'post_modified_gmt', 'post_date_gmt', $wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type', 'my-post-type' ]
+			[ 'post_modified_gmt', 'post_date_gmt', $wpdb->posts, 'post_status', 'publish', 'post_password', 'post_type', 'my-post-type' ],
 		)->andReturn( 'PREPARED_QUERY' );
 		$wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$indexable_mock      = Mockery::mock( Indexable::class );

@@ -29,7 +29,7 @@ final class Input_Select_Test extends TestCase {
 				'foo' => 'bar',
 				'baz' => 'foo',
 			],
-			false
+			false,
 		);
 		$html   = $select->get_html();
 
@@ -76,7 +76,7 @@ final class Input_Select_Test extends TestCase {
 				'foo' => 'bar',
 				'baz' => 'foo',
 			],
-			'baz'
+			'baz',
 		);
 		$html   = $select->get_html();
 

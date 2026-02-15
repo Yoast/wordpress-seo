@@ -382,7 +382,7 @@ class Settings_Integration implements Integration_Interface {
 					self::PAGE,
 					[ $this, 'display_page' ],
 				],
-			]
+			],
 		);
 
 		return $pages;
@@ -415,7 +415,7 @@ class Settings_Integration implements Integration_Interface {
 					$failure_reason = $runner->get_generation_failure_reason();
 					echo \esc_html( "{{ yoast-llms-txt-generation-failure: $failure_reason }}" );
 				}
-			}
+			},
 		);
 
 		return $pages;
@@ -862,7 +862,7 @@ class Settings_Integration implements Integration_Interface {
 			$settings['wpseo_titles']['breadcrumbs-sep'] = \html_entity_decode(
 				$settings['wpseo_titles']['breadcrumbs-sep'],
 				( \ENT_NOQUOTES | \ENT_HTML5 ),
-				'UTF-8'
+				'UTF-8',
 			);
 		}
 
@@ -872,7 +872,7 @@ class Settings_Integration implements Integration_Interface {
 		$settings['blogdescription'] = \html_entity_decode(
 			$settings['blogdescription'],
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
-			'UTF-8'
+			'UTF-8',
 		);
 
 		if ( isset( $settings['wpseo_llmstxt']['other_included_pages'] ) ) {
@@ -1055,7 +1055,7 @@ class Settings_Integration implements Integration_Interface {
 					$taxonomy->object_type,
 					static function ( $object_type ) use ( $post_type_names ) {
 						return \in_array( $object_type, $post_type_names, true );
-					}
+					},
 				),
 				'isNew'         => \in_array( $taxonomy->name, $new_taxonomies, true ),
 			];
@@ -1065,7 +1065,7 @@ class Settings_Integration implements Integration_Interface {
 			$transformed,
 			static function ( $a, $b ) {
 				return \strnatcmp( $a['label'], $b['label'] );
-			}
+			},
 		);
 
 		return $transformed;

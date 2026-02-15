@@ -91,7 +91,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Settings_Importing_Action::class,
-			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

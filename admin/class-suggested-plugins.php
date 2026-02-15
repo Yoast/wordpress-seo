@@ -95,7 +95,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 				'id'           => $notification_id,
 				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => [ 'install_plugins' ],
-			]
+			],
 		);
 	}
 
@@ -117,7 +117,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			$install_link,
 			'</strong>',
 			$this->create_more_information_link( $suggested_plugin['url'], $suggested_plugin['title'] ),
-			'</a>'
+			'</a>',
 		);
 	}
 
@@ -134,7 +134,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			'<a href="%s" aria-label="%s" target="_blank" rel="noopener noreferrer">',
 			$url,
 			/* translators: Hidden accessibility text; %1$s expands to the dependency name */
-			sprintf( __( 'More information about %1$s', 'wordpress-seo' ), $name )
+			sprintf( __( 'More information about %1$s', 'wordpress-seo' ), $name ),
 		);
 	}
 }

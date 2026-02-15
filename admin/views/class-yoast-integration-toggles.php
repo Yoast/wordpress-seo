@@ -65,7 +65,7 @@ class Yoast_Integration_Toggles {
 				'label'           => sprintf(
 					/* translators: %s: 'Semrush' */
 					__( 'The %s integration offers suggestions and insights for keywords related to the entered focus keyphrase.', 'wordpress-seo' ),
-					'Semrush'
+					'Semrush',
 				),
 				'order'           => 10,
 			],

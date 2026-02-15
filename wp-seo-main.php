@@ -118,7 +118,7 @@ if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
 			$yoast_autoloader->unregister();
 			$yoast_autoloader->register( true );
 		},
-		1
+		1,
 	);
 }
 
@@ -564,7 +564,7 @@ function yoast_wpseo_activation_failed_notice( $message ) {
 	$title = sprintf(
 		/* translators: %s: Yoast SEO. */
 		esc_html__( '%s activation failed', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This function is only called in 3 places that are safe.

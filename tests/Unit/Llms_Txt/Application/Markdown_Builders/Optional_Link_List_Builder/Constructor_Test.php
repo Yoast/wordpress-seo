@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Optional_Link_List_Builder_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Sitemap_Link_Collector::class,
-			$this->getPropertyValue( $this->instance, 'sitemap_link_collector' )
+			$this->getPropertyValue( $this->instance, 'sitemap_link_collector' ),
 		);
 	}
 }

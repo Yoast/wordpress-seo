@@ -59,7 +59,7 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 		$this->instance = new Indexing_Error_Presenter(
 			$this->short_link_helper,
 			$this->product_helper,
-			$this->addon_manager
+			$this->addon_manager,
 		);
 
 		$this->short_link_helper
@@ -80,15 +80,15 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Short_Link_Helper::class,
-			self::getPropertyValue( $this->instance, 'short_link_helper' )
+			self::getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 		self::assertInstanceOf(
 			Product_Helper::class,
-			self::getPropertyValue( $this->instance, 'product_helper' )
+			self::getPropertyValue( $this->instance, 'product_helper' ),
 		);
 		self::assertInstanceOf(
 			WPSEO_Addon_Manager::class,
-			self::getPropertyValue( $this->instance, 'addon_manager' )
+			self::getPropertyValue( $this->instance, 'addon_manager' ),
 		);
 	}
 
@@ -117,7 +117,7 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 		self::assertEquals(
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>'
 			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
-			$actual
+			$actual,
 		);
 	}
 
@@ -147,7 +147,7 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
 			. 'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>'
 			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
-			$actual
+			$actual,
 		);
 	}
 
@@ -177,7 +177,7 @@ final class Indexing_Error_Presenter_Test extends TestCase {
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '
 			. 'Please click the button again to re-start the process. If the problem persists, please contact support.</p>'
 			. '<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
-			$actual
+			$actual,
 		);
 	}
 }

@@ -51,7 +51,7 @@ final class Perform_Request_Get_Test extends Abstract_API_Client_Test {
 				[
 					'body'     => '{"status":"ok"}',
 					'response' => [ 'code' => 200 ],
-				]
+				],
 			);
 
 		$result = $this->instance->perform_request( $action_path, $body, $headers, $is_post );
@@ -61,7 +61,7 @@ final class Perform_Request_Get_Test extends Abstract_API_Client_Test {
 				'body'     => '{"status":"ok"}',
 				'response' => [ 'code' => 200 ],
 			],
-			$result
+			$result,
 		);
 	}
 }

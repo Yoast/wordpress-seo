@@ -28,7 +28,7 @@ final class Aioseo_Validation_Exception_Test extends TestCase {
 
 		self::assertEquals(
 			'The validation of the AIOSEO data structure has failed.',
-			$instance->getMessage()
+			$instance->getMessage(),
 		);
 	}
 }

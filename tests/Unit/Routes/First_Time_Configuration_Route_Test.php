@@ -55,7 +55,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			First_Time_Configuration_Action::class,
-			$this->getPropertyValue( $this->instance, 'first_time_configuration_action' )
+			$this->getPropertyValue( $this->instance, 'first_time_configuration_action' ),
 		);
 	}
 
@@ -106,7 +106,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 							'type'     => 'string',
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -128,7 +128,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 							'type'     => 'array',
 						],
 					],
-				]
+				],
 			);
 
 			Monkey\Functions\expect( 'register_rest_route' )
@@ -144,7 +144,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 								'required' => true,
 							],
 						],
-					]
+					],
 				);
 
 			Monkey\Functions\expect( 'register_rest_route' )
@@ -161,7 +161,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 								'required' => true,
 							],
 						],
-					]
+					],
 				);
 
 			Monkey\Functions\expect( 'register_rest_route' )
@@ -178,7 +178,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 								'required' => true,
 							],
 						],
-					]
+					],
 				);
 
 			Monkey\Functions\expect( 'register_rest_route' )
@@ -191,7 +191,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 							'callback'            => [ $this->instance, 'get_configuration_state' ],
 							'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						],
-					]
+					],
 				);
 
 		$this->instance->register_routes();
@@ -239,7 +239,7 @@ final class First_Time_Configuration_Route_Test extends TestCase {
 
 			$this->assertEquals(
 				$expected,
-				$this->instance->can_edit_user( $request )
+				$this->instance->can_edit_user( $request ),
 			);
 	}
 

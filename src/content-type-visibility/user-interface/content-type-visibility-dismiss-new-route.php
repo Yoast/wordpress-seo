@@ -120,7 +120,7 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 
 		return new WP_REST_Response(
 			(object) $response,
-			$response['status']
+			$response['status'],
 		);
 	}
 
@@ -149,7 +149,7 @@ class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 
 		return new WP_REST_Response(
 			(object) $response,
-			$response['status']
+			$response['status'],
 		);
 	}
 }

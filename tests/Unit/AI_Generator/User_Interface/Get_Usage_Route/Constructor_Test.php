@@ -25,17 +25,17 @@ final class Constructor_Test extends Abstract_Get_Usage_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Token_Manager::class,
-			$this->getPropertyValue( $this->instance, 'token_manager' )
+			$this->getPropertyValue( $this->instance, 'token_manager' ),
 		);
 
 		$this->assertInstanceOf(
 			Request_Handler::class,
-			$this->getPropertyValue( $this->instance, 'request_handler' )
+			$this->getPropertyValue( $this->instance, 'request_handler' ),
 		);
 
 		$this->assertInstanceOf(
 			WPSEO_Addon_Manager::class,
-			$this->getPropertyValue( $this->instance, 'addon_manager' )
+			$this->getPropertyValue( $this->instance, 'addon_manager' ),
 		);
 	}
 }

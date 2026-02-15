@@ -131,7 +131,7 @@ class Actions {
 			__DIR__ . '/../../src/generated/container.php',
 			__DIR__ . '/../dependency-injection/services.php',
 			__DIR__ . '/../../vendor/composer/autoload_classmap.php',
-			'Yoast\WP\SEO\Generated'
+			'Yoast\WP\SEO\Generated',
 		);
 
 		$io->write( 'The dependency injection container has been compiled.' );
@@ -240,7 +240,7 @@ class Actions {
 		$command    = \sprintf(
 			'composer check-cs-warnings -- %s %s',
 			\implode( ' ', \array_map( 'escapeshellarg', $php_files ) ),
-			$extra_args
+			$extra_args,
 		);
 		\system( $command, $exit_code );
 
@@ -260,7 +260,7 @@ class Actions {
 			$files,
 			static function ( $file ) use ( $extension ) {
 				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
-			}
+			},
 		);
 	}
 
@@ -420,7 +420,7 @@ TPL;
 		if ( empty( $args[0] ) ) {
 			throw new RuntimeException(
 				'You must provide an argument with the fully qualified class name'
-				. 'for which you want a unit test to be generated.'
+				. 'for which you want a unit test to be generated.',
 			);
 		}
 

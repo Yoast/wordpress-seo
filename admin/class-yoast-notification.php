@@ -386,7 +386,7 @@ class Yoast_Notification {
 			'<img src="%1$s" height="%2$d" width="%3$d" class="yoast-seo-icon" />',
 			esc_url( plugin_dir_url( WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg' ),
 			60,
-			60
+			60,
 		);
 		$out .= '<div class="yoast-seo-icon-wrap">';
 		$out .= $message;

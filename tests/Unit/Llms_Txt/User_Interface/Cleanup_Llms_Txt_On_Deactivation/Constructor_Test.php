@@ -24,11 +24,11 @@ final class Constructor_Test extends Abstract_Cleanup_Llms_Txt_On_Deactivation_T
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Remove_File_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'command_handler' )
+			$this->getPropertyValue( $this->instance, 'command_handler' ),
 		);
 		$this->assertInstanceOf(
 			Llms_Txt_Cron_Scheduler::class,
-			$this->getPropertyValue( $this->instance, 'cron_scheduler' )
+			$this->getPropertyValue( $this->instance, 'cron_scheduler' ),
 		);
 	}
 }

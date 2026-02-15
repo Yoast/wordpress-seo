@@ -210,7 +210,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 		$asset_manager->localize_script(
 			'network-admin',
 			'wpseoNetworkAdminGlobalL10n',
-			$translations
+			$translations,
 		);
 	}
 

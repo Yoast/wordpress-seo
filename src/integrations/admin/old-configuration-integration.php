@@ -39,7 +39,7 @@ class Old_Configuration_Integration implements Integration_Interface {
 			'',
 			'manage_options',
 			'wpseo_configurator',
-			[ $this, 'render_page' ]
+			[ $this, 'render_page' ],
 		);
 
 		return $submenu_pages;

@@ -42,7 +42,7 @@ final class Indexable_Indexing_Complete_Action_Test extends TestCase {
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Indexable_Indexing_Complete_Action(
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 	}
 
@@ -56,7 +56,7 @@ final class Indexable_Indexing_Complete_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 	}
 

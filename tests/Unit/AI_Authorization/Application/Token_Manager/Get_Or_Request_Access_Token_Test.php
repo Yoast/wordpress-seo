@@ -1092,8 +1092,8 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 				[
 					'typ' => 'JWT',
 					'alg' => 'HS256',
-				]
-			)
+				],
+			),
 		);
 		$payload   = \base64_encode( \json_encode( [ 'exp' => $exp ] ) );
 		$signature = \base64_encode( 'fake-signature' );

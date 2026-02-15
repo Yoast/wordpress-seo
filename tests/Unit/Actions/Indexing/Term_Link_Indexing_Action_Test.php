@@ -89,7 +89,7 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 			$this->link_builder,
 			$this->indexable_helper,
 			$this->repository,
-			$this->wpdb
+			$this->wpdb,
 		);
 		$this->instance->set_helper( $this->taxonomy_helper );
 	}
@@ -106,7 +106,7 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
-			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
 		);
 	}
 
@@ -396,7 +396,7 @@ final class Term_Link_Indexing_Action_Test extends TestCase {
 						'term_id'     => 8,
 						'description' => 'foo',
 					],
-				]
+				],
 			);
 
 		$indexable             = Mockery::mock( Indexable_Mock::class );

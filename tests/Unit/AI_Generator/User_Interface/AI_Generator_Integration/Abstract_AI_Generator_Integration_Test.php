@@ -101,7 +101,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->current_page_helper,
 			$this->options_helper,
 			$this->user_helper,
-			$this->introductions_seen_repository
+			$this->introductions_seen_repository,
 		);
 	}
 }

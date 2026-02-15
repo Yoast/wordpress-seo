@@ -69,7 +69,7 @@ class Woocommerce_Product_Category_Permalink_Integration implements Integration_
 			[
 				'parent'  => 'DESC',
 				'term_id' => 'ASC',
-			]
+			],
 		);
 		return $sorted_terms[0];
 	}

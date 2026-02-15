@@ -26,11 +26,11 @@ final class Default_SEO_Data_Watcher_Constructor_Test extends Abstract_Default_S
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

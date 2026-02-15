@@ -126,7 +126,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 			$this->notification_helper,
 			$this->indexing_helper,
 			$this->addon_manager,
-			$this->environment_helper
+			$this->environment_helper,
 		);
 	}
 
@@ -140,31 +140,31 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
-			$this->getPropertyValue( $this->instance, 'notification_center' )
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'page_helper' )
+			$this->getPropertyValue( $this->instance, 'page_helper' ),
 		);
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 		$this->assertInstanceOf(
 			Notification_Helper::class,
-			$this->getPropertyValue( $this->instance, 'notification_helper' )
+			$this->getPropertyValue( $this->instance, 'notification_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 		$this->assertInstanceOf(
 			Environment_Helper::class,
-			$this->getPropertyValue( $this->instance, 'environment_helper' )
+			$this->getPropertyValue( $this->instance, 'environment_helper' ),
 		);
 	}
 
@@ -260,7 +260,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 				Not_Admin_Ajax_Conditional::class,
 				User_Can_Manage_Wpseo_Options_Conditional::class,
 			],
-			Indexing_Notification_Integration::get_conditionals()
+			Indexing_Notification_Integration::get_conditionals(),
 		);
 	}
 

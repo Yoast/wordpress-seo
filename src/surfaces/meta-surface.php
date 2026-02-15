@@ -224,7 +224,7 @@ class Meta_Surface {
 			function ( $indexable ) {
 				return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type' ) );
 			},
-			$indexables
+			$indexables,
 		);
 	}
 

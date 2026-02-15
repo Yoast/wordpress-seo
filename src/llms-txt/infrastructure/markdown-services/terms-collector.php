@@ -48,7 +48,7 @@ class Terms_Collector {
 					'number'   => 5,
 					'orderby'  => 'count',
 					'order'    => 'DESC',
-				]
+				],
 			);
 
 			$term_links = new Link_List( $taxonomy->label, [] );

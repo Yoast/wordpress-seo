@@ -221,7 +221,7 @@ final class MyYoast_Proxy_Test extends TestCase {
 			->method( 'set_header' )
 			->withConsecutive(
 				[ 'Content-Type: text/javascript; charset=UTF-8' ],
-				[ 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE ]
+				[ 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE ],
 			);
 
 		$instance
@@ -280,7 +280,7 @@ final class MyYoast_Proxy_Test extends TestCase {
 				[ 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE ],
 				[ 'Content-Type: text/plain' ],
 				[ 'Cache-Control: max-age=0' ],
-				[ 'HTTP/1.0 500 Received unexpected response from MyYoast' ]
+				[ 'HTTP/1.0 500 Received unexpected response from MyYoast' ],
 			);
 
 		$instance->render_proxy_page();

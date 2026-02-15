@@ -151,7 +151,7 @@ final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
 			[
 				'sub'  => '1234567890',
 				'name' => 'John Doe',
-			]
+			],
 		);
 		$encoded_payload = \base64_encode( $payload );
 
@@ -269,7 +269,7 @@ final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
 				'exp'   => $past_timestamp,
 				'iat'   => ( $past_timestamp - 3600 ),
 				'scope' => 'ai-generation',
-			]
+			],
 		);
 		$encoded_payload = \base64_encode( $payload );
 
@@ -296,7 +296,7 @@ final class Has_Token_Expired_Test extends Abstract_Token_Manager_Test {
 				'exp'   => $future_timestamp,
 				'iat'   => \time(),
 				'scope' => 'ai-generation',
-			]
+			],
 		);
 		$encoded_payload  = \base64_encode( $payload );
 

@@ -467,7 +467,7 @@ class WPSEO_Sitemap_Image_Parser {
 			[
 				'posts_per_page' => count( $ids_to_include ),
 				'post__in'       => $ids_to_include,
-			]
+			],
 		);
 
 		$gallery_attachments = [];

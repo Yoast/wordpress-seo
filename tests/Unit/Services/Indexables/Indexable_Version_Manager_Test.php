@@ -63,7 +63,7 @@ final class Indexable_Version_Manager_Test extends TestCase {
 	public function test_construct() {
 		self::assertInstanceOf(
 			Indexable_Builder_Versions::class,
-			self::getPropertyValue( $this->instance, 'indexable_builder_versions' )
+			self::getPropertyValue( $this->instance, 'indexable_builder_versions' ),
 		);
 	}
 

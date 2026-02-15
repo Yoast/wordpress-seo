@@ -106,7 +106,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 			$this->jetpack_conditional,
 			$this->site_kit_configuration,
 			$this->site_kit_consent_management_endpoint,
-			$this->schema_configuration
+			$this->schema_configuration,
 		);
 	}
 
@@ -120,7 +120,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Admin_Conditional::class ],
-			$this->instance->get_conditionals()
+			$this->instance->get_conditionals(),
 		);
 	}
 
@@ -243,7 +243,7 @@ final class Integrations_Page_Integration_Test extends TestCase {
 				'site_kit_configuration'             => $site_kit_config,
 				'site_kit_consent_management_url'    => 'https://www.example.com/manage-consent',
 				'schema_framework_enabled'           => true,
-			]
+			],
 		);
 
 		$this->instance->enqueue_assets();

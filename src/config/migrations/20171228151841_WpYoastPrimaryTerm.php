@@ -34,7 +34,7 @@ class WpYoastPrimaryTerm extends Migration {
 				'unsigned' => true,
 				'null'     => false,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'term_id',
@@ -43,7 +43,7 @@ class WpYoastPrimaryTerm extends Migration {
 				'unsigned' => true,
 				'null'     => false,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'taxonomy',
@@ -51,7 +51,7 @@ class WpYoastPrimaryTerm extends Migration {
 			[
 				'null'  => false,
 				'limit' => 32,
-			]
+			],
 		);
 
 		// Executes the SQL to create the table.
@@ -65,7 +65,7 @@ class WpYoastPrimaryTerm extends Migration {
 			],
 			[
 				'name' => 'post_taxonomy',
-			]
+			],
 		);
 
 		$this->add_index(
@@ -76,7 +76,7 @@ class WpYoastPrimaryTerm extends Migration {
 			],
 			[
 				'name' => 'post_term',
-			]
+			],
 		);
 
 		$this->add_timestamps( $table_name );

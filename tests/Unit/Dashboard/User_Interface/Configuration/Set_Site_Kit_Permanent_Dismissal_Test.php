@@ -37,7 +37,7 @@ final class Set_Site_Kit_Permanent_Dismissal_Test extends Abstract_Site_Kit_Conf
 				[
 					'success' => $is_dismissed,
 				],
-				$expected_status
+				$expected_status,
 			)
 			->once();
 
@@ -49,7 +49,7 @@ final class Set_Site_Kit_Permanent_Dismissal_Test extends Abstract_Site_Kit_Conf
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_site_kit_configuration_permanent_dismissal( $wp_rest_request )
+			$this->instance->set_site_kit_configuration_permanent_dismissal( $wp_rest_request ),
 		);
 	}
 

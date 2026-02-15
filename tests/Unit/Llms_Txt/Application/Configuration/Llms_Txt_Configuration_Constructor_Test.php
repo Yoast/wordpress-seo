@@ -26,15 +26,15 @@ final class Llms_Txt_Configuration_Constructor_Test extends Abstract_Llms_Txt_Co
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			File_Runner::class,
-			$this->getPropertyValue( $this->instance, 'runner' )
+			$this->getPropertyValue( $this->instance, 'runner' ),
 		);
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

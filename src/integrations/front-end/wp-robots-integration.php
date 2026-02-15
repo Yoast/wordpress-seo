@@ -195,7 +195,7 @@ class WP_Robots_Integration implements Integration_Interface {
 				$bi    = ( $order[ $b ] ?? 4 );
 
 				return ( $ai - $bi );
-			}
+			},
 		);
 
 		return $robots;
