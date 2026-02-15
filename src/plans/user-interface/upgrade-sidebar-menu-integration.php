@@ -160,6 +160,6 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 		}
 
 		\wp_redirect( $link );//phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Safe redirect is used here.
-		exit;
+		exit();
 	}
 }

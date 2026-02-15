@@ -183,7 +183,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		$this->cache_control_header( 7 * \DAY_IN_SECONDS );
 
 		\wp_safe_redirect( $url, 301, 'Yoast SEO: ' . $reason );
-		exit;
+		exit();
 	}
 
 	/**

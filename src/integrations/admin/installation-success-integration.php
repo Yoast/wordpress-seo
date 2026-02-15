@@ -166,6 +166,6 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function terminate_execution() {
-		exit;
+		exit();
 	}
 }

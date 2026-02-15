@@ -84,7 +84,7 @@ class WPSEO_Product_Upsell_Notice {
 		$this->dismiss_notice();
 
 		if ( wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ) {
-			exit;
+			exit();
 		}
 	}
 
