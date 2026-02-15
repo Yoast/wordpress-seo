@@ -310,7 +310,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 
 		$this->indexing_helper
 			->expects( 'get_started' )
-			->andReturn( 123456789 );
+			->andReturn( 123_456_789 );
 
 		$this->indexing_helper
 			->expects( 'get_filtered_unindexed_count' )
@@ -530,7 +530,7 @@ final class Indexing_Notification_Integration_Test extends TestCase {
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->once()
-			->andReturn( 123456789 );
+			->andReturn( 123_456_789 );
 
 		$this->indexing_helper
 			->expects( 'get_filtered_unindexed_count' )

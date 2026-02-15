@@ -37,7 +37,7 @@ final class Image_Utils_Test extends TestCase {
 				'size'   => 'full',
 				'id'     => $attachment,
 				'alt'    => '',
-				'pixels' => 1000000,
+				'pixels' => 1_000_000,
 				'type'   => '',
 			],
 			WPSEO_Image_Utils::get_image( $attachment, 'full' )

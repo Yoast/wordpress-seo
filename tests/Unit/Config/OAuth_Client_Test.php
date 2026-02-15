@@ -143,7 +143,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -192,7 +192,7 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
 			]
 		);
@@ -219,7 +219,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -259,7 +259,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -304,7 +304,7 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => 604800,
+				'expires'       => 604_800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
 				'error_count'   => 0,
@@ -318,7 +318,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -363,7 +363,7 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => 604800,
+				'expires'       => 604_800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
 				'error_count'   => 0,
@@ -377,7 +377,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -431,7 +431,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -544,7 +544,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -608,7 +608,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -673,7 +673,7 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
 			]
 		);
@@ -688,7 +688,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -742,7 +742,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -779,7 +779,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -790,7 +790,7 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => ( $this->time + 604800 ),
+				'getExpires'      => ( $this->time + 604_800 ),
 				'hasExpired'      => false,
 			]
 		);
@@ -849,7 +849,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
@@ -915,7 +915,7 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,

@@ -51,7 +51,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		}
 
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
-		\add_action( 'wp', [ $this, 'maybe_redirect_feeds' ], -10000 );
+		\add_action( 'wp', [ $this, 'maybe_redirect_feeds' ], -10_000 );
 	}
 
 	/**

@@ -87,7 +87,7 @@ final class Cron_Integration_Test extends TestCase {
 		$this->date_helper
 			->expects( 'current_time' )
 			->once()
-			->andReturn( 123456 );
+			->andReturn( 123_456 );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
@@ -96,7 +96,7 @@ final class Cron_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_event' )
 			->once()
-			->with( 123456, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
+			->with( 123_456, 'daily', Indexing_Notification_Integration::NOTIFICATION_ID );
 
 		$this->instance->register_hooks();
 	}

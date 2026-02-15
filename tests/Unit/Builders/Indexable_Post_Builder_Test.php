@@ -330,7 +330,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
@@ -571,7 +571,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
@@ -625,7 +625,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 

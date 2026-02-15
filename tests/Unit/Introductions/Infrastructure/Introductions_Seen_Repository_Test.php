@@ -97,13 +97,13 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'meta'     => [
 					'foo' => [
 						'is_seen' => true,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 				'expected' => [
 					'foo' => [
 						'is_seen' => true,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 			],
@@ -190,7 +190,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'meta'            => [
 					'foo' => [
 						'is_seen' => true,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 				'expected'        => true,
@@ -210,7 +210,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'meta'            => [
 					'foo' => [
 						'is_seen' => 1,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 				'expected'        => true,
@@ -225,7 +225,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'meta'            => [
 					'foo' => [
 						'is_seen' => '1',
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 				'expected'        => true,
@@ -298,13 +298,13 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 				'meta'            => [
 					'foo' => [
 						'is_seen' => true,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 				'expected_meta'   => [
 					'foo' => [
 						'is_seen' => true,
-						'seen_on' => 12345678,
+						'seen_on' => 12_345_678,
 					],
 				],
 			],

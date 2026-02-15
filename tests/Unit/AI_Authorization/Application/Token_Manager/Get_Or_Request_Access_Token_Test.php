@@ -66,7 +66,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$new_access_jwt = 'new-access-token';
 		$code_verifier  = Mockery::mock( Code_Verifier::class );
 		$code           = 'test-code-verifier';
-		$created_at     = 1640995200;
+		$created_at     = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -146,7 +146,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$new_access_jwt = 'new-access-token';
 		$code_verifier  = Mockery::mock( Code_Verifier::class );
 		$code           = 'test-code-verifier';
-		$created_at     = 1640995200;
+		$created_at     = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -227,7 +227,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$new_access_jwt = 'new-access-token';
 		$code_verifier  = Mockery::mock( Code_Verifier::class );
 		$code           = 'test-code-verifier';
-		$created_at     = 1640995200;
+		$created_at     = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -304,14 +304,14 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$new_access_jwt     = 'refreshed-access-token';
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -375,7 +375,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$new_access_jwt     = 'new-access-token';
 		$refresh_jwt        = 'refresh-token';
@@ -383,7 +383,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$code_verifier_refresh = Mockery::mock( Code_Verifier::class );
 		$code_verifier_request = Mockery::mock( Code_Verifier::class );
 		$code                  = 'test-code-verifier';
-		$created_at            = 1640995200;
+		$created_at            = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -492,13 +492,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -562,7 +562,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -634,7 +634,7 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -712,13 +712,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -775,13 +775,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -838,13 +838,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -901,13 +901,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -964,13 +964,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past.
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past.
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )
@@ -1027,13 +1027,13 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$expired_time       = ( 1640995200 - 3600 ); // 1 hour in the past
+		$expired_time       = ( 1_640_995_200 - 3600 ); // 1 hour in the past
 		$expired_access_jwt = $this->create_jwt_token( $expired_time );
 		$refresh_jwt        = 'refresh-token';
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 
 		$this->user_helper
 			->expects( 'get_meta' )

@@ -578,8 +578,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->with( true )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -604,8 +604,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -636,8 +636,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}

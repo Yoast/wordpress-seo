@@ -249,7 +249,7 @@ final class Wincher_Route_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_valid_website_when_valid_id_is_passed() {
-		$this->assertTrue( $this->instance->has_valid_website_id( 12345 ) );
+		$this->assertTrue( $this->instance->has_valid_website_id( 12_345 ) );
 	}
 
 	/**

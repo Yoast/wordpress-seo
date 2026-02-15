@@ -188,7 +188,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * @param int $max_bytes The maximum weight (in bytes) of an image.
 		 */
-		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
+		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2_097_152 );
 
 		// We cannot check without a path, so assume it's fine.
 		if ( ! isset( $image['path'] ) ) {

@@ -69,7 +69,7 @@ final class Cache_Test extends TestCase {
 		 * to do so ourselves.
 		 * As of PHP 7.4, the new serialization using magic methods is used.
 		 */
-		if ( \PHP_VERSION_ID < 70400 ) {
+		if ( \PHP_VERSION_ID < 70_400 ) {
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
 			$result = \unserialize( $result );
 		}
@@ -190,7 +190,7 @@ final class Cache_Test extends TestCase {
 		$cache  = new WPSEO_Sitemaps_Cache();
 		$result = $cache->get_sitemap_data( $type, $page );
 
-		if ( \PHP_VERSION_ID >= 70400 ) {
+		if ( \PHP_VERSION_ID >= 70_400 ) {
 			// PHP 7.4+.
 			$this->assertInstanceOf( WPSEO_Sitemap_Cache_Data::class, $result );
 			$this->assertSame( $sitemap, $result->get_sitemap() );
@@ -279,7 +279,7 @@ final class Cache_Test extends TestCase {
 		 * difference between the two generations we will end up with the same
 		 * cache invalidator, failing this test.
 		 */
-		\usleep( 10000 );
+		\usleep( 10_000 );
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( [ 'page' ] );

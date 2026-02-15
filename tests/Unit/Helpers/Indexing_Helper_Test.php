@@ -199,7 +199,7 @@ final class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_first_time', false );
 
-		$start_time = 160934509;
+		$start_time = 160_934_509;
 
 		$this->date_helper
 			->expects( 'current_time' )
@@ -312,7 +312,7 @@ final class Indexing_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_started() {
-		$start_time = 160934509;
+		$start_time = 160_934_509;
 		$this->options_helper
 			->expects( 'get' )
 			->once()
