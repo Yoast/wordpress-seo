@@ -105,16 +105,19 @@ Title.propTypes = {
 /**
  * @param {React.ReactNode} children The panel content.
  * @param {string} [className] The additional class name.
+ * @param {string} [tabIndex] The tabIndex for the panel. Set to "-1" to make the panel programmatically focusable
+ * as a fallback for HeadlessUI Dialog focus management (e.g. when the panel content has no focusable elements during a loading state).
  * @param {Object} ref The forwarded ref.
  * @returns {JSX.Element} The panel.
  */
 const Panel = forwardRef( ( {
 	children,
 	className = "",
+	tabIndex,
 }, ref ) => {
 	return (
 		/* The yst-toast class is defined in elements/toast/style.css. */
-		<Dialog.Panel ref={ ref } className={ classNames( "yst-toast", className ) }>
+		<Dialog.Panel ref={ ref } tabIndex={ tabIndex } className={ classNames( "yst-toast", className ) }>
 			{ children }
 		</Dialog.Panel>
 	);
@@ -124,6 +127,7 @@ Panel.displayName = "ModalNotification.Panel";
 Panel.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+	tabIndex: PropTypes.string,
 };
 
 /**
