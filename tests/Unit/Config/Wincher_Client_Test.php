@@ -67,9 +67,9 @@ final class Wincher_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
-					'created_at'    => 1234890,
+					'created_at'    => 1_234_890,
 				]
 			);
 

@@ -512,7 +512,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 12,
 			'alt'    => 'Alt. Text',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 

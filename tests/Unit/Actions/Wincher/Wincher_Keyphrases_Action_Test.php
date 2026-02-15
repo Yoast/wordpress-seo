@@ -130,7 +130,7 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 					'data' => [
 						[
 							'keyword' => 'yoast seo',
-							'id'      => 12345,
+							'id'      => 12_345,
 						],
 					],
 				]
@@ -141,7 +141,7 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
-						'id'      => 12345,
+						'id'      => 12_345,
 					],
 				],
 			],
@@ -240,7 +240,7 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 			(object) [
 				'status'  => 200,
 			],
-			$this->instance->untrack_keyphrase( 12345 )
+			$this->instance->untrack_keyphrase( 12_345 )
 		);
 	}
 
@@ -290,11 +290,11 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 					'data' => [
 						[
 							'keyword' => 'yoast seo',
-							'id'      => 12345,
+							'id'      => 12_345,
 						],
 						[
 							'keyword' => 'wincher',
-							'id'      => 12346,
+							'id'      => 12_346,
 						],
 					],
 				]
@@ -305,11 +305,11 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
-						'id'      => 12345,
+						'id'      => 12_345,
 					],
 					'wincher'   => [
 						'keyword' => 'wincher',
-						'id'      => 12346,
+						'id'      => 12_346,
 					],
 				],
 			],
@@ -417,11 +417,11 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 					'data' => [
 						[
 							'keyword' => 'yoast seo',
-							'id'      => 12345,
+							'id'      => 12_345,
 						],
 						[
 							'keyword' => 'wincher',
-							'id'      => 12346,
+							'id'      => 12_346,
 						],
 					],
 				]
@@ -432,7 +432,7 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 				'results' => (object) [
 					'yoast seo' => [
 						'keyword' => 'yoast seo',
-						'id'      => 12345,
+						'id'      => 12_345,
 					],
 				],
 			],
@@ -475,12 +475,12 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 					'data' => [
 						[
 							'keyword'  => 'yoast seo',
-							'id'       => 22345,
+							'id'       => 22_345,
 							'position' => 20,
 						],
 						[
 							'keyword'  => 'blog seo',
-							'id'       => 22346,
+							'id'       => 22_346,
 							'position' => 22,
 						],
 					],
@@ -492,12 +492,12 @@ final class Wincher_Keyphrases_Action_Test extends TestCase {
 				'results' => (object) [
 					'yoast seo' => [
 						'keyword'  => 'yoast seo',
-						'id'       => 22345,
+						'id'       => 22_345,
 						'position' => 20,
 					],
 					'blog seo'  => [
 						'keyword'  => 'blog seo',
-						'id'       => 22346,
+						'id'       => 22_346,
 						'position' => 22,
 					],
 				],

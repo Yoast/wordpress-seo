@@ -87,7 +87,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 		$token_data = [
 			'access_token'  => 'some valid token',
 			'refresh_token' => 'some valid refresh token',
-			'expires'       => 99999999,
+			'expires'       => 99_999_999,
 			'has_expired'   => false,
 			'created_at'    => 0,
 		];
@@ -98,7 +98,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
 			]
 		);

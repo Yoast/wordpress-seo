@@ -323,7 +323,7 @@ final class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		return [
 			[ [], true, 0 ],
 			[ [ 0 ], false, 1 ],
-			[ [ 54321 ], false, 1 ],
+			[ [ 54_321 ], false, 1 ],
 		];
 	}
 

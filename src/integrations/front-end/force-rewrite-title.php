@@ -75,7 +75,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 			return;
 		}
 
-		\add_action( 'template_redirect', [ $this, 'force_rewrite_output_buffer' ], 99999 );
+		\add_action( 'template_redirect', [ $this, 'force_rewrite_output_buffer' ], 99_999 );
 		\add_action( 'wp_footer', [ $this, 'flush_cache' ], -1 );
 	}
 

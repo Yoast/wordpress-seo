@@ -56,7 +56,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		'size'   => 'full',
 		'id'     => 6,
 		'alt'    => '',
-		'pixels' => 307200,
+		'pixels' => 307_200,
 		'type'   => 'image\/jpeg',
 	];
 

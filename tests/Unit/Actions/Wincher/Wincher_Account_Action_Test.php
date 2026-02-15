@@ -160,7 +160,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				[
 					'limits' => [
 						'keywords'     => [
-							'usage' => 100000,
+							'usage' => 100_000,
 							'limit' => null,
 						],
 						'history_days' => 31,
@@ -173,7 +173,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 			(object) [
 				'canTrack'    => true,
 				'limit'       => null,
-				'usage'       => 100000,
+				'usage'       => 100_000,
 				'status'      => 200,
 				'historyDays' => 31,
 			],

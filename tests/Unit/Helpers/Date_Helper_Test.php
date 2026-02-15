@@ -87,9 +87,9 @@ final class Date_Helper_Test extends TestCase {
 				'expected' => true,
 			],
 			'Test formatting the date with an integer as date' => [
-				'date'     => 123456789,
+				'date'     => 123_456_789,
 				'format'   => \DATE_W3C,
-				'expected' => 123456789,
+				'expected' => 123_456_789,
 			],
 			'Test formatting the date with a string as date' => [
 				'date'     => 'this is a date',
@@ -133,7 +133,7 @@ final class Date_Helper_Test extends TestCase {
 				'expected'  => '1973-11-29 21:33:09',
 			],
 			'Test formatting an integer timestamp to a date' => [
-				'timestamp' => 123456789,
+				'timestamp' => 123_456_789,
 				'format'    => \DATE_W3C,
 				'expected'  => '1973-11-29T21:33:09+00:00',
 			],
@@ -208,7 +208,7 @@ final class Date_Helper_Test extends TestCase {
 				'expected' => true,
 			],
 			'Other non-string' => [
-				'input'    => 123456789,
+				'input'    => 123_456_789,
 				'expected' => false,
 			],
 		];

@@ -142,7 +142,7 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
@@ -194,7 +194,7 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
@@ -313,7 +313,7 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
