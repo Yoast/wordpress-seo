@@ -150,7 +150,7 @@ class Actions {
 		$branch = 'trunk';
 
 		$args = $event->getArguments();
-		if ( ! empty( $args ) ) {
+		if ( ! empty( $args[0] ) ) {
 			$branch = $args[0];
 		}
 
