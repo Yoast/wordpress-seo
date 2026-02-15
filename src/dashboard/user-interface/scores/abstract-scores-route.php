@@ -146,7 +146,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 							'type'              => 'integer',
 							'default'           => null,
 							'sanitize_callback' => static function ( $param ) {
-								return \intval( $param );
+								return (int) $param;
 							},
 						],
 						'troubleshooting' => [

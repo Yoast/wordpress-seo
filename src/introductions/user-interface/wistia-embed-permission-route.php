@@ -120,7 +120,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 	 */
 	public function set_wistia_embed_permission( WP_REST_Request $request ) {
 		$params = $request->get_json_params();
-		$value  = \boolval( $params['value'] );
+		$value  = (bool) $params['value'];
 
 		try {
 			$user_id = $this->user_helper->get_current_user_id();

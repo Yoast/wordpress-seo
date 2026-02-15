@@ -194,8 +194,8 @@ class WPSEO_Sitemaps {
 	 * @return void
 	 */
 	public function set_n( $current_page ) {
-		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
-			$this->current_page = intval( $current_page );
+		if ( is_scalar( $current_page ) && (int) $current_page > 0 ) {
+			$this->current_page = (int) $current_page;
 		}
 	}
 

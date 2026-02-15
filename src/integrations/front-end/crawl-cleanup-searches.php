@@ -118,7 +118,7 @@ class Crawl_Cleanup_Searches implements Integration_Interface {
 
 			$proper_url = \home_url( '/' );
 
-			if ( \intval( \get_query_var( 'paged' ) ) > 1 ) {
+			if ( (int) \get_query_var( 'paged' ) > 1 ) {
 				$proper_url .= \sprintf( 'page/%s/', \get_query_var( 'paged' ) );
 				unset( $args['paged'] );
 			}
