@@ -130,7 +130,7 @@ final class Aioseo_Validate_Data_Action_Test extends TestCase {
 			$this->general_settings_importing_action,
 			$this->posttype_defaults_settings_importing_action,
 			$this->taxonomy_settings_importing_action,
-			$this->post_importing_action
+			$this->post_importing_action,
 		);
 
 		$this->instance->set_aioseo_helper( $this->aioseo_helper );

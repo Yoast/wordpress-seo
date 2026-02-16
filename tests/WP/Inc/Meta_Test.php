@@ -288,11 +288,11 @@ final class Meta_Test extends TestCase {
 		// String should be cleaned.
 		$this->assertEquals(
 			'noarchive,nosnippet',
-			WPSEO_Meta::validate_meta_robots_adv( 'noarchive, nosnippet' )
+			WPSEO_Meta::validate_meta_robots_adv( 'noarchive, nosnippet' ),
 		);
 		$this->assertEquals(
 			'noarchive,nosnippet',
-			WPSEO_Meta::validate_meta_robots_adv( [ 'noarchive', 'nosnippet' ] )
+			WPSEO_Meta::validate_meta_robots_adv( [ 'noarchive', 'nosnippet' ] ),
 		);
 	}
 

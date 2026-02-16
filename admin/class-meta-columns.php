@@ -418,14 +418,14 @@ class WPSEO_Meta_Columns {
 		if ( $this->is_valid_filter( $seo_filter ) ) {
 			$active_filters = array_merge(
 				$active_filters,
-				$this->determine_seo_filters( $seo_filter )
+				$this->determine_seo_filters( $seo_filter ),
 			);
 		}
 
 		if ( $this->is_valid_filter( $readability_filter ) ) {
 			$active_filters = array_merge(
 				$active_filters,
-				$this->determine_readability_filters( $readability_filter )
+				$this->determine_readability_filters( $readability_filter ),
 			);
 		}
 
@@ -441,13 +441,13 @@ class WPSEO_Meta_Columns {
 			$keyphrase_filter = apply_filters(
 				'wpseo_change_keyphrase_filter_in_request',
 				$this->get_keyword_filter( $current_keyword_filter ),
-				$current_keyword_filter
+				$current_keyword_filter,
 			);
 
 			if ( is_array( $keyphrase_filter ) ) {
 				$active_filters = array_merge(
 					$active_filters,
-					[ $keyphrase_filter ]
+					[ $keyphrase_filter ],
 				);
 			}
 		}

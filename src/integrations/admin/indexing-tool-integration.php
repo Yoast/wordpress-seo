@@ -178,7 +178,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$presenter = new Indexing_Error_Presenter(
 			$this->short_link_helper,
 			$this->product_helper,
-			$this->addon_manager
+			$this->addon_manager,
 		);
 
 		return $presenter->present();

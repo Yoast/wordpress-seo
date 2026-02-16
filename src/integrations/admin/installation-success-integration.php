@@ -115,7 +115,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			'',
 			'manage_options',
 			'wpseo_installation_successful_free',
-			[ $this, 'render_page' ]
+			[ $this, 'render_page' ],
 		);
 
 		return $submenu_pages;
@@ -147,7 +147,7 @@ class Installation_Success_Integration implements Integration_Interface {
 				'firstTimeConfigurationUrl' => $ftc_url,
 				'dashboardUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard' ) ),
 				'explorePremiumUrl'         => $this->shortlinker->build( 'https://yoa.st/ftc-premium-link' ),
-			]
+			],
 		);
 	}
 

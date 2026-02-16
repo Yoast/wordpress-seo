@@ -65,11 +65,11 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			$this->getPropertyValue( $this->instance, 'asset_manager' )
+			$this->getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 	}
 
@@ -83,7 +83,7 @@ final class User_Profiles_Additions_Ui_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ User_Profile_Conditional::class ],
-			User_Profiles_Additions_Ui::get_conditionals()
+			User_Profiles_Additions_Ui::get_conditionals(),
 		);
 	}
 

@@ -78,7 +78,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 				// First filter the object.
 				$this->filter( $open_graph_image ),
 				// Then strip all keys that aren't in the image tags or the url.
-				\array_flip( \array_merge( static::$image_tags, [ 'url' ] ) )
+				\array_flip( \array_merge( static::$image_tags, [ 'url' ] ) ),
 			);
 		}
 

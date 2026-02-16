@@ -25,7 +25,7 @@ final class Image_Utils_Test extends TestCase {
 			[
 				'width'  => 1000,
 				'height' => 1000,
-			]
+			],
 		);
 
 		$this->assertEquals(
@@ -40,7 +40,7 @@ final class Image_Utils_Test extends TestCase {
 				'pixels' => 1_000_000,
 				'type'   => '',
 			],
-			WPSEO_Image_Utils::get_image( $attachment, 'full' )
+			WPSEO_Image_Utils::get_image( $attachment, 'full' ),
 		);
 	}
 
@@ -59,7 +59,7 @@ final class Image_Utils_Test extends TestCase {
 			[
 				'width'  => 1000,
 				'height' => 1000,
-			]
+			],
 		);
 
 		$this->assertFalse( WPSEO_Image_Utils::get_image( $attachment, 'medium' ) );
@@ -105,7 +105,7 @@ final class Image_Utils_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			WPSEO_Image_Utils::get_data( $image, $attachment_id ),
-			$message
+			$message,
 		);
 	}
 

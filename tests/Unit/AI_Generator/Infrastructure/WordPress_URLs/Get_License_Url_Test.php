@@ -33,7 +33,7 @@ final class Get_License_Url_Test extends Abstract_WordPress_URLs_Test {
 		$container = $this->create_container_with(
 			[
 				Url_Helper::class => $url_helper,
-			]
+			],
 		);
 
 		Functions\expect( 'YoastSEO' )

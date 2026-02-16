@@ -65,7 +65,7 @@ final class Wincher_Route_Test extends TestCase {
 		$this->instance          = new Wincher_Route(
 			$this->login_action,
 			$this->account_action,
-			$this->keyphrases_action
+			$this->keyphrases_action,
 		);
 	}
 
@@ -79,15 +79,15 @@ final class Wincher_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Wincher_Login_Action::class,
-			$this->getPropertyValue( $this->instance, 'login_action' )
+			$this->getPropertyValue( $this->instance, 'login_action' ),
 		);
 		$this->assertInstanceOf(
 			Wincher_Account_Action::class,
-			$this->getPropertyValue( $this->instance, 'account_action' )
+			$this->getPropertyValue( $this->instance, 'account_action' ),
 		);
 		$this->assertInstanceOf(
 			Wincher_Keyphrases_Action::class,
-			$this->getPropertyValue( $this->instance, 'keyphrases_action' )
+			$this->getPropertyValue( $this->instance, 'keyphrases_action' ),
 		);
 	}
 
@@ -101,7 +101,7 @@ final class Wincher_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Wincher_Enabled_Conditional::class ],
-			Wincher_Route::get_conditionals()
+			Wincher_Route::get_conditionals(),
 		);
 	}
 
@@ -131,7 +131,7 @@ final class Wincher_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -142,7 +142,7 @@ final class Wincher_Route_Test extends TestCase {
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'get_authorization_url' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -158,7 +158,7 @@ final class Wincher_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -180,7 +180,7 @@ final class Wincher_Route_Test extends TestCase {
 							'required' => false,
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -191,7 +191,7 @@ final class Wincher_Route_Test extends TestCase {
 					'methods'             => 'DELETE',
 					'callback'            => [ $this->instance, 'untrack_keyphrase' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -202,7 +202,7 @@ final class Wincher_Route_Test extends TestCase {
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'check_limit' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -213,7 +213,7 @@ final class Wincher_Route_Test extends TestCase {
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'get_upgrade_campaign' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();
@@ -358,7 +358,7 @@ final class Wincher_Route_Test extends TestCase {
 			->expects( 'track_keyphrases' )
 			->with(
 				[ 'seo' ],
-				$limit_response
+				$limit_response,
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -396,7 +396,7 @@ final class Wincher_Route_Test extends TestCase {
 			->with(
 				[ 'seo' ],
 				'https://example.com',
-				'2023-01-01'
+				'2023-01-01',
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -434,7 +434,7 @@ final class Wincher_Route_Test extends TestCase {
 			->with(
 				[ 'seo' ],
 				'',
-				'2023-01-01'
+				'2023-01-01',
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -464,7 +464,7 @@ final class Wincher_Route_Test extends TestCase {
 				(object) [
 					'results' => [],
 					'status'  => '200',
-				]
+				],
 			);
 
 		Mockery::mock( 'overload:' . WP_REST_Response::class );

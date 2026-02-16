@@ -45,7 +45,7 @@ final class Jetpack_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class, Jetpack_Conditional::class, Open_Graph_Conditional::class ],
-			Jetpack::get_conditionals()
+			Jetpack::get_conditionals(),
 		);
 	}
 

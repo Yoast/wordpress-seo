@@ -51,7 +51,7 @@ final class Automatic_Post_Collection_Test extends TestCase {
 			\YoastSEO()->helpers->options,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
 			\YoastSEO()->meta,
-			\YoastSEO()->helpers->indexable
+			\YoastSEO()->helpers->indexable,
 		);
 
 		$this->indexable_post_watcher = \YoastSEO()->classes->get( Indexable_Post_Watcher::class );
@@ -129,7 +129,7 @@ final class Automatic_Post_Collection_Test extends TestCase {
 					'post_type'   => $post_type,
 					'post_status' => 'publish',
 					'post_date'   => \gmdate( 'Y-m-d H:i:s', \strtotime( $posts_created_at ) ),
-				]
+				],
 			);
 		}
 
@@ -152,7 +152,7 @@ final class Automatic_Post_Collection_Test extends TestCase {
 					'meta_input' => [
 						'_yoast_wpseo_is_cornerstone' => '1',
 					],
-				]
+				],
 			);
 		}
 	}
@@ -182,7 +182,7 @@ final class Automatic_Post_Collection_Test extends TestCase {
 					'post_modified'     => \get_date_from_gmt( \gmdate( 'Y-m-d H:i:s', ( $now - $counter ) ) ),
 					'post_modified_gmt' => \get_date_from_gmt( \gmdate( 'Y-m-d H:i:s', ( $now - $counter ) ) ),
 				],
-				[ 'ID' => $id_to_update ]
+				[ 'ID' => $id_to_update ],
 			);
 
 			// Clean cache because of direct database tweaks above.

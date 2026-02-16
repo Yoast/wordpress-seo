@@ -864,7 +864,7 @@ class Yoast_Notification_Center {
 
 		return new Yoast_Notification(
 			$notification_data['message'],
-			$notification_data['options']
+			$notification_data['options'],
 		);
 	}
 

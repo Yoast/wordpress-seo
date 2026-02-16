@@ -25,8 +25,8 @@ final class Register_Hooks_Test extends Abstract_Enable_Llms_Txt_Option_Watcher_
 			10,
 			\has_action(
 				'update_option_wpseo',
-				[ $this->instance, 'check_toggle_llms_txt' ]
-			)
+				[ $this->instance, 'check_toggle_llms_txt' ],
+			),
 		);
 	}
 }

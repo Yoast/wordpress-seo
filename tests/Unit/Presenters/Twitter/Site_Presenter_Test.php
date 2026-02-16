@@ -80,7 +80,7 @@ final class Site_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@AlteredTwitterHandle" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -99,7 +99,7 @@ final class Site_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@TwitterHandle" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -170,7 +170,7 @@ final class Site_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

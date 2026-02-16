@@ -122,7 +122,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 				$this->indexable_helper,
 				$this->post,
 				$this->logger,
-			]
+			],
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
@@ -138,7 +138,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Post_Watcher::get_conditionals()
+			Indexable_Post_Watcher::get_conditionals(),
 		);
 	}
 
@@ -627,7 +627,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 				[
 					'taxonomy',
 					'another-taxonomy',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'is_taxonomy_viewable' )
@@ -651,7 +651,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 					(object) [
 						'term_id' => 1414,
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_the_terms' )
@@ -670,7 +670,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 						'term_id' => 1414,
 					],
 				],
-				'term_id'
+				'term_id',
 			)
 			->andReturn( [ 1337, 1414 ] );
 
@@ -702,7 +702,7 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->assertEquals(
 			[ $indexable, $indexable, $indexable, $indexable ],
-			$this->instance->get_related_indexables( $post )
+			$this->instance->get_related_indexables( $post ),
 		);
 	}
 }

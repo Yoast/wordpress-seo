@@ -83,7 +83,7 @@ abstract class WPSEO_Abstract_Metabox_Tab_With_Sections implements WPSEO_Metabox
 				esc_attr( $this->link_class ),
 				( $this->link_title !== '' ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 				( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-				$this->link_content
+				$this->link_content,
 			);
 		}
 	}

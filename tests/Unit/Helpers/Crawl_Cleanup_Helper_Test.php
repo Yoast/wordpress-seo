@@ -75,7 +75,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 			$this->current_page_helper,
 			$this->options_helper,
 			$this->url_helper,
-			$this->redirect_helper
+			$this->redirect_helper,
 		);
 	}
 
@@ -106,7 +106,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 			[
 				'is_robots'         => $is_robots,
 				'is_user_logged_in' => $is_user_logged_in,
-			]
+			],
 		);
 
 		$this->assertSame( $expected, $this->instance->should_avoid_redirect() );
@@ -261,7 +261,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 				'is_multisite'         => $is_multisite,
 				'is_subdomain_install' => $is_subdomain_install,
 				'is_main_site'         => $is_main_site,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'home_url' )
@@ -330,7 +330,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 				(object) [
 					'term_id'  => 108,
 					'taxonomy' => 'products',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'is_feed' )
@@ -523,7 +523,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 				'is_tax'        => $tax,
 				'is_search'     => $search,
 				'is_404'        => $is404,
-			]
+			],
 		);
 
 		$this->current_page_helper
@@ -585,7 +585,7 @@ final class Crawl_Cleanup_Helper_Test extends TestCase {
 			/* translators: %1$s: Yoast SEO */
 			\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'https://yoa.st/advanced-crawl-settings'
+			'https://yoa.st/advanced-crawl-settings',
 		);
 
 		$this->redirect_helper

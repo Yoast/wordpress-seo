@@ -39,7 +39,7 @@ final class Analysis_Features_List_Test extends TestCase {
 				'legacy-key-false' => false,
 				'legacy-key-true'  => true,
 			],
-			$this->instance->parse_to_legacy_array()
+			$this->instance->parse_to_legacy_array(),
 		);
 	}
 
@@ -59,7 +59,7 @@ final class Analysis_Features_List_Test extends TestCase {
 				'name-false' => false,
 				'name-true'  => true,
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 

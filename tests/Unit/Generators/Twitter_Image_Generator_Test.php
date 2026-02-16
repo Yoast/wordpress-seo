@@ -87,7 +87,7 @@ final class Twitter_Image_Generator_Test extends TestCase {
 
 		$this->instance = Mockery::mock(
 			Twitter_Image_Generator::class,
-			[ $this->image, $this->url, $this->twitter_image ]
+			[ $this->image, $this->url, $this->twitter_image ],
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance

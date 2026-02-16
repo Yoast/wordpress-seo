@@ -122,7 +122,7 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 					'errorIdentifier' => 'test',
 					'errorCode'       => 0,
 				],
-				0
+				0,
 			);
 
 		$result = $this->instance->get_usage( $wp_rest_request );
@@ -181,7 +181,7 @@ final class Get_Usage_Test extends Abstract_Get_Usage_Route_Test {
 					'errorCode'       => 0,
 					'missingLicenses' => 'test',
 				],
-				0
+				0,
 			);
 
 		$result = $this->instance->get_usage( $wp_rest_request );

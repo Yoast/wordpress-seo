@@ -24,7 +24,7 @@ final class Permanently_Dismissed_Site_Kit_Configuration_Repository_Constructor_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

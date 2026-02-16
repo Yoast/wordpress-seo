@@ -120,14 +120,14 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			$this->post_type_helper,
 			new Indexable_Builder_Versions(),
 			new Meta_Helper(),
-			$this->permalink_helper
+			$this->permalink_helper,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 		$this->instance->set_social_image_helpers(
 			$this->image,
 			$this->open_graph_image,
-			$this->twitter_image
+			$this->twitter_image,
 		);
 	}
 
@@ -212,11 +212,11 @@ final class Indexable_Post_Builder_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 		$this->assertInstanceOf(
 			Post_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_helper' )
+			$this->getPropertyValue( $this->instance, 'post_helper' ),
 		);
 	}
 
@@ -232,7 +232,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 	}
 
@@ -270,7 +270,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 					'post_parent'       => '0',
 					'post_date_gmt'     => '1234-12-12 00:00:00',
 					'post_modified_gmt' => '1234-12-12 00:00:00',
-				]
+				],
 			);
 
 		$this->post_type_helper
@@ -319,7 +319,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 				'twitter_image'           => null,
 				'twitter_image_id'        => null,
 				'twitter_image_source'    => null,
-			]
+			],
 		);
 
 		$image_meta = [
@@ -1016,7 +1016,7 @@ final class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'post_type' => 'excluded_post_type',
-				]
+				],
 			);
 
 		$this->post_type_helper->expects( 'is_excluded' )

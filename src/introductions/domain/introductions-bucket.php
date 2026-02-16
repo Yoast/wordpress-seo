@@ -43,7 +43,7 @@ class Introductions_Bucket {
 			static function ( $item ) {
 				return $item->to_array();
 			},
-			$this->introductions
+			$this->introductions,
 		);
 	}
 }

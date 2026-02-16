@@ -113,7 +113,7 @@ final class Indexing_Helper_Test extends TestCase {
 		$this->instance            = new Indexing_Helper(
 			$this->options_helper,
 			$this->date_helper,
-			$this->notification_center
+			$this->notification_center,
 		);
 
 		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
@@ -128,7 +128,7 @@ final class Indexing_Helper_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->post_link_indexing_action,
-			$this->term_link_indexing_action
+			$this->term_link_indexing_action,
 		);
 	}
 
@@ -142,11 +142,11 @@ final class Indexing_Helper_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Date_Helper::class,
-			$this->getPropertyValue( $this->instance, 'date_helper' )
+			$this->getPropertyValue( $this->instance, 'date_helper' ),
 		);
 	}
 
@@ -160,27 +160,27 @@ final class Indexing_Helper_Test extends TestCase {
 	public function test_set_indexing_actions() {
 		$this->assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[0]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[0],
 		);
 		$this->assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[1]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[1],
 		);
 		$this->assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[2]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[2],
 		);
 		$this->assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[3]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[3],
 		);
 		$this->assertInstanceOf(
 			Post_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[4]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[4],
 		);
 		$this->assertInstanceOf(
 			Term_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[5]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[5],
 		);
 	}
 

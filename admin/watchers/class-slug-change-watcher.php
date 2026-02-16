@@ -245,7 +245,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			[
 				'type'           => 'notice-warning is-dismissible',
 				'yoast_branding' => true,
-			]
+			],
 		);
 
 		$notification_center = Yoast_Notification_Center::get();

@@ -43,7 +43,7 @@ final class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		$this->post_conditional = Mockery::mock( Post_Conditional::class );
 
 		$this->instance = new Estimated_Reading_Time_Conditional(
-			$this->post_conditional
+			$this->post_conditional,
 		);
 	}
 

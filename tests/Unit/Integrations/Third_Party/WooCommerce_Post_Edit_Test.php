@@ -46,7 +46,7 @@ final class WooCommerce_Post_Edit_Test extends TestCase {
 	public function test_conditionals() {
 		$this->assertEquals(
 			[ WooCommerce_Conditional::class, Post_Conditional::class ],
-			WooCommerce_Post_Edit::get_conditionals()
+			WooCommerce_Post_Edit::get_conditionals(),
 		);
 	}
 
@@ -66,8 +66,8 @@ final class WooCommerce_Post_Edit_Test extends TestCase {
 				[
 					$this->instance,
 					'remove_meta_description_date',
-				]
-			)
+				],
+			),
 		);
 	}
 

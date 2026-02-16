@@ -231,7 +231,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'id'     => 'wpseo-seo-focus-keyword',
 							'title'  => __( 'Focus keyphrase: ', 'wordpress-seo' ) . '<span class="wpseo-focus-keyword">' . $focus_keyword . '</span>',
 							'meta'   => [ 'tabindex' => '0' ],
-						]
+						],
 					);
 					$wp_admin_bar->add_menu(
 						[
@@ -240,7 +240,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )
 									->present(),
 							'meta'   => [ 'tabindex' => '0' ],
-						]
+						],
 					);
 				}
 
@@ -252,7 +252,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )
 									->present(),
 							'meta'   => [ 'tabindex' => '0' ],
-						]
+						],
 					);
 				}
 
@@ -267,7 +267,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 								'tabindex' => '0',
 								'target'   => '_blank',
 							],
-						]
+						],
 					);
 				}
 			}
@@ -617,12 +617,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'title'  => sprintf(
 					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">%2$s</a>',
 					esc_url( $link ),
-					$button_label
+					$button_label,
 				),
 				'meta'   => [
 					'tabindex' => '0',
 				],
-			]
+			],
 		);
 	}
 
@@ -654,7 +654,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 					'tabindex' => '0',
 					'target'   => '_blank',
 				],
-			]
+			],
 		);
 	}
 
@@ -913,7 +913,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			' <div class="wp-core-ui wp-ui-notification yoast-issue-counter%s"><span class="yoast-issues-count" aria-hidden="true">%d</span><span class="screen-reader-text">%s</span></div>',
 			( $notification_count ) ? '' : ' wpseo-no-adminbar-notifications',
 			$notification_count,
-			$counter_screen_reader_text
+			$counter_screen_reader_text,
 		);
 	}
 
@@ -936,9 +936,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'There is a new notification.',
 				'There are new notifications.',
 				$new_notifications_count,
-				'wordpress-seo'
+				'wordpress-seo',
 			),
-			$new_notifications_count
+			$new_notifications_count,
 		);
 
 		return '<div class="yoast-issue-added">' . $notification . '</div>';

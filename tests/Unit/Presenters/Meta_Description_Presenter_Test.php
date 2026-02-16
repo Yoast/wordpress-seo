@@ -92,7 +92,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $replace_string ) {
 					return $replace_string;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_metadesc' )
@@ -128,7 +128,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $replace_string ) {
 					return $replace_string;
-				}
+				},
 			);
 
 		$this->string
@@ -162,7 +162,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $replace_string ) {
 					return $replace_string;
-				}
+				},
 			);
 
 		$this->string
@@ -198,7 +198,7 @@ final class Meta_Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $replace_string ) {
 					return $replace_string;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_metadesc' )

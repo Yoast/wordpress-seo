@@ -88,7 +88,7 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -108,7 +108,7 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 			return new WP_Error(
 				'wpseo_set_site_kit_configuration_permanent_dismissal_error',
 				$exception->getMessage(),
-				(object) []
+				(object) [],
 			);
 		}
 
@@ -116,7 +116,7 @@ class Site_Kit_Configuration_Dismissal_Route implements Route_Interface {
 				[
 					'success' => $result,
 				],
-				( $result ) ? 200 : 400
+				( $result ) ? 200 : 400,
 			);
 	}
 

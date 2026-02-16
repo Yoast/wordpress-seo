@@ -56,7 +56,7 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 				[
 					'slug' => 'test-category',
 				],
-			]
+			],
 		);
 
 		$term_id   = (int) $term->term_id;
@@ -84,7 +84,7 @@ final class Get_Scores_Test extends Abstract_Readability_Scores_Test {
 					'post_type'     => 'blog-post',
 					'post_category' => ( $post['custom_category'] ) ? [ $term_id ] : [ 1 ],
 					'meta_input'    => $meta_input,
-				]
+				],
 			);
 		}
 

@@ -58,7 +58,7 @@ final class Sitemaps_Router_Test extends TestCase {
 		$this->container                      = $this->create_container_with(
 			[
 				Deactivating_Yoast_Seo_Conditional::class => $this->deactivating_yoast_conditional,
-			]
+			],
 		);
 		$this->deactivating_yoast_conditional->expects( 'is_met' )
 			->once()

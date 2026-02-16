@@ -60,7 +60,7 @@ final class Importing_Route_Test extends TestCase {
 
 		$this->instance = new Importing_Route(
 			$this->importable_detector,
-			...$this->importers
+			...$this->importers,
 		);
 	}
 
@@ -99,7 +99,7 @@ final class Importing_Route_Test extends TestCase {
 					'methods'             => [ 'POST' ],
 					'callback'            => [ $this->instance, 'execute' ],
 					'permission_callback' => [ $this->instance, 'is_user_permitted_to_import' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();
@@ -142,7 +142,7 @@ final class Importing_Route_Test extends TestCase {
 			[
 				'plugin' => $plugin,
 				'type'   => $type,
-			]
+			],
 		);
 
 		$this->assertInstanceOf( $expected_response, $wp_rest_response );
@@ -205,7 +205,7 @@ final class Importing_Route_Test extends TestCase {
 			[
 				'plugin' => 'non',
 				'type'   => 'existent',
-			]
+			],
 		);
 
 		$this->assertInstanceOf( WP_Error::class, $response );

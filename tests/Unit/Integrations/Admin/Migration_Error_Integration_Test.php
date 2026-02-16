@@ -60,7 +60,7 @@ final class Migration_Error_Integration_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Migration_Status::class,
-			$this->getPropertyValue( $this->instance, 'migration_status' )
+			$this->getPropertyValue( $this->instance, 'migration_status' ),
 		);
 	}
 
@@ -158,7 +158,7 @@ final class Migration_Error_Integration_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )

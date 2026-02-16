@@ -67,7 +67,7 @@ final class Twitter_Image_Test extends TestCase {
 					'twitter_image.jpg' => [
 						'url' => 'twitter_image.jpg',
 					],
-				]
+				],
 			);
 
 		$this->assertEquals( 'twitter_image.jpg', $this->instance->generate_twitter_image() );

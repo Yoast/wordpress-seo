@@ -53,7 +53,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 
 		// Object information.
@@ -64,7 +64,7 @@ class WpYoastIndexable extends Migration {
 				'unsigned' => true,
 				'null'     => true,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'object_type',
@@ -72,7 +72,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => false,
 				'limit' => 32,
-			]
+			],
 		);
 		$indexable_table->column(
 			'object_sub_type',
@@ -80,7 +80,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 32,
-			]
+			],
 		);
 
 		// Ownership.
@@ -91,7 +91,7 @@ class WpYoastIndexable extends Migration {
 				'unsigned' => true,
 				'null'     => true,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'post_parent',
@@ -100,7 +100,7 @@ class WpYoastIndexable extends Migration {
 				'unsigned' => true,
 				'null'     => true,
 				'limit'    => 11,
-			]
+			],
 		);
 
 		// Title and description.
@@ -110,7 +110,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
 		$indexable_table->column(
@@ -119,7 +119,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 
 		// Post metadata: status, public, protected.
@@ -129,7 +129,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column(
 			'is_public',
@@ -137,7 +137,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => null,
-			]
+			],
 		);
 		$indexable_table->column( 'is_protected', 'boolean', [ 'default' => false ] );
 		$indexable_table->column(
@@ -146,7 +146,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => null,
-			]
+			],
 		);
 
 		$indexable_table->column(
@@ -157,7 +157,7 @@ class WpYoastIndexable extends Migration {
 				'null'     => true,
 				'default'  => null,
 				'limit'    => 11,
-			]
+			],
 		);
 
 		$indexable_table->column( 'canonical', 'mediumtext', [ 'null' => true ] );
@@ -169,7 +169,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column(
 			'primary_focus_keyword_score',
@@ -177,7 +177,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 3,
-			]
+			],
 		);
 		$indexable_table->column(
 			'readability_score',
@@ -185,7 +185,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 3,
-			]
+			],
 		);
 		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
 
@@ -196,7 +196,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => false,
-			]
+			],
 		);
 		$indexable_table->column(
 			'is_robots_nofollow',
@@ -204,7 +204,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => false,
-			]
+			],
 		);
 		$indexable_table->column(
 			'is_robots_noarchive',
@@ -212,7 +212,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => false,
-			]
+			],
 		);
 		$indexable_table->column(
 			'is_robots_noimageindex',
@@ -220,7 +220,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => false,
-			]
+			],
 		);
 		$indexable_table->column(
 			'is_robots_nosnippet',
@@ -228,7 +228,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'    => true,
 				'default' => false,
-			]
+			],
 		);
 
 		// Twitter.
@@ -238,7 +238,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column( 'twitter_image', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'twitter_description', 'mediumtext', [ 'null' => true ] );
@@ -248,7 +248,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column(
 			'twitter_image_source',
@@ -256,7 +256,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 
 		// Open-Graph.
@@ -266,7 +266,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column( 'open_graph_description', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'open_graph_image', 'mediumtext', [ 'null' => true ] );
@@ -276,7 +276,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column(
 			'open_graph_image_source',
@@ -284,7 +284,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 		$indexable_table->column( 'open_graph_image_meta', 'text', [ 'null' => true ] );
 
@@ -295,7 +295,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'incoming_link_count',
@@ -303,7 +303,7 @@ class WpYoastIndexable extends Migration {
 			[
 				'null'  => true,
 				'limit' => 11,
-			]
+			],
 		);
 
 		// Prominent words.
@@ -315,7 +315,7 @@ class WpYoastIndexable extends Migration {
 				'limit'    => 11,
 				'unsigned' => true,
 				'default'  => null,
-			]
+			],
 		);
 
 		$indexable_table->finish();
@@ -341,7 +341,7 @@ class WpYoastIndexable extends Migration {
 			],
 			[
 				'name' => 'object_type_and_sub_type',
-			]
+			],
 		);
 
 		$this->add_index(
@@ -349,7 +349,7 @@ class WpYoastIndexable extends Migration {
 			'permalink_hash',
 			[
 				'name' => 'permalink_hash',
-			]
+			],
 		);
 	}
 

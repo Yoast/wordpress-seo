@@ -47,7 +47,7 @@ final class Old_Configuration_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 			],
-			Old_Configuration_Integration::get_conditionals()
+			Old_Configuration_Integration::get_conditionals(),
 		);
 	}
 
@@ -66,9 +66,9 @@ final class Old_Configuration_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'add_submenu_page',
-				]
+				],
 			),
-			'Does not have expected admin_menu filter'
+			'Does not have expected admin_menu filter',
 		);
 		$this->assertNotFalse(
 			Monkey\Actions\has(
@@ -76,9 +76,9 @@ final class Old_Configuration_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'redirect_to_new_configuration',
-				]
+				],
 			),
-			'Does not have expected admin_init action'
+			'Does not have expected admin_init action',
 		);
 	}
 
@@ -103,7 +103,7 @@ final class Old_Configuration_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'render_page',
-				]
+				],
 			);
 
 		$submenu_pages = [

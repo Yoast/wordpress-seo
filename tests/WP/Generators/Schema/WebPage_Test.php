@@ -59,14 +59,14 @@ final class WebPage_Test extends TestCase {
 
 		$this->indexable_system_page_builder = new Indexable_System_Page_Builder(
 			\YoastSEO()->helpers->options,
-			\YoastSEO()->classes->get( Indexable_Builder_Versions::class )
+			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 		);
 		$this->meta_tags_context_memoizer    = new Meta_Tags_Context_Memoizer(
 			\YoastSEO()->helpers->blocks,
 			\YoastSEO()->helpers->current_page,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
 			\YoastSEO()->classes->get( Meta_Tags_Context::class ),
-			\YoastSEO()->classes->get( Presentation_Memoizer::class )
+			\YoastSEO()->classes->get( Presentation_Memoizer::class ),
 		);
 	}
 

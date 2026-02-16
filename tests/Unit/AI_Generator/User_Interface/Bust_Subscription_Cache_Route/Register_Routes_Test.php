@@ -31,7 +31,7 @@ final class Register_Routes_Test extends Abstract_Bust_Subscription_Cache_Route_
 					'args'                => [],
 					'callback'            => [ $this->instance, 'bust_subscription_cache' ],
 					'permission_callback' => [ $this->instance, 'check_permissions' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

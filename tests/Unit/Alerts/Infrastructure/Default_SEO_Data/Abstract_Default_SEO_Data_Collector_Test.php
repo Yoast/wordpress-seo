@@ -40,7 +40,7 @@ abstract class Abstract_Default_SEO_Data_Collector_Test extends TestCase {
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Default_SEO_Data_Collector(
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

@@ -296,7 +296,7 @@ class Elementor implements Integration_Interface {
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced', $post->post_type ),
 			$social_fields,
-			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type )
+			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
@@ -513,7 +513,7 @@ class Elementor implements Integration_Interface {
 		\printf(
 			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" id="post_ID" name="post_id" value="%2$s" />',
 			\esc_url( \admin_url( 'admin-ajax.php' ) ),
-			\esc_attr( $this->get_metabox_post()->ID )
+			\esc_attr( $this->get_metabox_post()->ID ),
 		);
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
@@ -541,7 +541,7 @@ class Elementor implements Integration_Interface {
 			 * If the DB value is empty we can auto-generate a slug.
 			 * But if not empty, we should not touch it anymore.
 			 */
-			\esc_attr( $this->get_metabox_post()->post_name )
+			\esc_attr( $this->get_metabox_post()->post_name ),
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
@@ -574,7 +574,7 @@ class Elementor implements Integration_Interface {
 	 */
 	protected function get_metabox_script_data( $permalink ) {
 		$post_formatter = new WPSEO_Metabox_Formatter(
-			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink )
+			new WPSEO_Post_Metabox_Formatter( $this->get_metabox_post(), [], $permalink ),
 		);
 
 		$values = $post_formatter->get_values();
@@ -758,7 +758,7 @@ class Elementor implements Integration_Interface {
 			[
 				\YoastSEO()->meta->for_post( $post->ID )->presentation->title,
 				\YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
-			]
+			],
 		);
 
 		\preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );

@@ -44,7 +44,7 @@ final class WPML_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ WPML_Conditional::class ],
-			WPML::get_conditionals()
+			WPML::get_conditionals(),
 		);
 	}
 

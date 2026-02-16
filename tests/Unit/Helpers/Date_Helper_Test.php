@@ -165,7 +165,7 @@ final class Date_Helper_Test extends TestCase {
 
 		$this->assertSame(
 			'2020-12-31',
-			$this->instance->format_translated( '2020-12-31 13:37:00' )
+			$this->instance->format_translated( '2020-12-31 13:37:00' ),
 		);
 	}
 

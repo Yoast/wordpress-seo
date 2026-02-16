@@ -539,7 +539,7 @@ class WPSEO_Sitemaps {
 					[
 						'post_type',
 						'date',
-					]
+					],
 				);
 
 				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
@@ -555,8 +555,8 @@ class WPSEO_Sitemaps {
 					GROUP BY %i
 					ORDER BY %i DESC
 				',
-						$replacements
-					)
+						$replacements,
+					),
 				);
 
 				foreach ( $dates as $obj ) {

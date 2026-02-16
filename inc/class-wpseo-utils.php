@@ -198,7 +198,7 @@ class WPSEO_Utils {
 			$parts['host'] = preg_replace(
 				'`[^a-z0-9-.:\[\]\\x80-\\xff]`',
 				'',
-				strtolower( $parts['host'] )
+				strtolower( $parts['host'] ),
 			);
 
 			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . (int) $parts['port'] : '' );
@@ -219,7 +219,7 @@ class WPSEO_Utils {
 
 			$parsed_query = array_combine(
 				self::sanitize_encoded_text_field( array_keys( $parsed_query ) ),
-				self::sanitize_encoded_text_field( array_values( $parsed_query ) )
+				self::sanitize_encoded_text_field( array_values( $parsed_query ) ),
 			);
 
 			$url = add_query_arg( $parsed_query, $url );
@@ -235,7 +235,7 @@ class WPSEO_Utils {
 				static function ( $octects ) {
 					return strtolower( $octects[0] );
 				},
-				$url
+				$url,
 			);
 		}
 

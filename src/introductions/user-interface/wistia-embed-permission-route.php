@@ -81,7 +81,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -98,7 +98,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 			return new WP_Error(
 				'wpseo_wistia_embed_permission_error',
 				$exception->getMessage(),
-				(object) []
+				(object) [],
 			);
 		}
 
@@ -107,7 +107,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 				'json' => (object) [
 					'value' => $value,
 				],
-			]
+			],
 		);
 	}
 
@@ -129,7 +129,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 			return new WP_Error(
 				'wpseo_wistia_embed_permission_error',
 				$exception->getMessage(),
-				(object) []
+				(object) [],
 			);
 		}
 
@@ -139,7 +139,7 @@ class Wistia_Embed_Permission_Route implements Route_Interface {
 					'success' => $result,
 				],
 			],
-			( $result ) ? 200 : 400
+			( $result ) ? 200 : 400,
 		);
 	}
 

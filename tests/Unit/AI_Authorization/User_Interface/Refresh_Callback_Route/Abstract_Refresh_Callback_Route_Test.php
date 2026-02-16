@@ -61,7 +61,7 @@ abstract class Abstract_Refresh_Callback_Route_Test extends TestCase {
 		$this->instance = new Refresh_Callback_Route(
 			$this->access_token_repository,
 			$this->refresh_token_repository,
-			$this->code_verifier_repository
+			$this->code_verifier_repository,
 		);
 	}
 }

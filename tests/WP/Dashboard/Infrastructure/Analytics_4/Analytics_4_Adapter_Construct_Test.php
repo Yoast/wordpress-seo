@@ -25,7 +25,7 @@ final class Analytics_4_Adapter_Construct_Test extends Abstract_Analytics_4_Adap
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Site_Kit_Analytics_4_Api_Call::class,
-			$this->getPropertyValue( $this->instance, 'site_kit_search_console_api_call' )
+			$this->getPropertyValue( $this->instance, 'site_kit_search_console_api_call' ),
 		);
 	}
 }

@@ -132,7 +132,7 @@ final class OAuth_Token_Test extends TestCase {
 			'000001',
 			( $this->created_at + 604_800 ),
 			false,
-			$this->created_at
+			$this->created_at,
 		);
 
 		$this->assertEquals(
@@ -144,7 +144,7 @@ final class OAuth_Token_Test extends TestCase {
 				'created_at'    => $this->created_at,
 				'error_count'   => 0,
 			],
-			$instance->to_array()
+			$instance->to_array(),
 		);
 	}
 
@@ -164,7 +164,7 @@ final class OAuth_Token_Test extends TestCase {
 				'getRefreshToken' => '000001',
 				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$instance = OAuth_Token::from_response( $response );

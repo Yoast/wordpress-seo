@@ -41,13 +41,13 @@ class SEMrush_Client extends OAuth_Client {
 			],
 			[
 				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
-			]
+			],
 		);
 
 		parent::__construct(
 			self::TOKEN_OPTION,
 			$provider,
-			$options_helper
+			$options_helper,
 		);
 	}
 
@@ -75,7 +75,7 @@ class SEMrush_Client extends OAuth_Client {
 				'params' => [
 					'access_token' => $this->get_tokens()->access_token,
 				],
-			]
+			],
 		);
 
 		return parent::do_request( $method, $url, $options );

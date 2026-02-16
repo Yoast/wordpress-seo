@@ -121,7 +121,7 @@ class File_Failure_Llms_Txt_Notification_Integration implements Integration_Inte
 					'id'           => self::NOTIFICATION_ID,
 					'capabilities' => 'wpseo_manage_options',
 					'priority'     => 1,
-				]
+				],
 			);
 			$this->notification_center->restore_notification( $notification );
 			$this->notification_center->add_notification( $notification );

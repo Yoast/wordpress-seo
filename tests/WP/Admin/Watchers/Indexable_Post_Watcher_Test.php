@@ -88,13 +88,13 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		$parent = $this->factory()->post->create_and_get(
 			[
 				'post_type' => 'page',
-			]
+			],
 		);
 		$child  = $this->factory()->post->create_and_get(
 			[
 				'post_type'   => 'page',
 				'post_parent' => $parent->ID,
-			]
+			],
 		);
 
 		$parent_indexable = \current( $this->get_indexables_for( $parent ) );
@@ -120,13 +120,13 @@ final class Indexable_Post_Watcher_Test extends TestCase {
 		$parent = $this->factory()->post->create_and_get(
 			[
 				'post_type' => 'page',
-			]
+			],
 		);
 		$child  = $this->factory()->post->create_and_get(
 			[
 				'post_type'   => 'page',
 				'post_parent' => $parent->ID,
-			]
+			],
 		);
 
 		$parent_indexable = \current( $this->get_indexables_for( $parent ) );

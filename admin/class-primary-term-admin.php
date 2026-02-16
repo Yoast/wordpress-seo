@@ -68,7 +68,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
 			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
 			esc_attr( $this->generate_field_name( $taxonomy_name ) ),
-			esc_attr( $this->get_primary_term( $taxonomy_name ) )
+			esc_attr( $this->get_primary_term( $taxonomy_name ) ),
 		);
 	}
 
@@ -237,7 +237,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 				'taxonomy'               => $taxonomy->name,
 				'update_term_meta_cache' => false,
 				'fields'                 => 'id=>name',
-			]
+			],
 		);
 
 		$mapped_terms_for_js = [];

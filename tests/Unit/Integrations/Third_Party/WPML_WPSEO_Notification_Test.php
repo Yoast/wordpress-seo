@@ -60,7 +60,7 @@ final class WPML_WPSEO_Notification_Test extends TestCase {
 		$this->instance               = new WPML_WPSEO_Notification(
 			$this->short_link_helper,
 			$this->notification_center,
-			$this->wpml_wpseo_conditional
+			$this->wpml_wpseo_conditional,
 		);
 	}
 
@@ -74,15 +74,15 @@ final class WPML_WPSEO_Notification_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			$this->getPropertyValue( $this->instance, 'notification_center' )
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		self::assertInstanceOf(
 			WPML_WPSEO_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'wpml_wpseo_conditional' )
+			$this->getPropertyValue( $this->instance, 'wpml_wpseo_conditional' ),
 		);
 		self::assertInstanceOf(
 			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 	}
 

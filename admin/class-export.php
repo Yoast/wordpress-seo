@@ -60,12 +60,12 @@ class WPSEO_Export {
 			/* translators: %1$s expands to Import settings */
 			esc_html__(
 				'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.',
-				'wordpress-seo'
+				'wordpress-seo',
 			),
 			esc_html__(
 				'Import settings',
-				'wordpress-seo'
-			)
+				'wordpress-seo',
+			),
 		);
 		echo '</p>';
 		/* translators: %1$s expands to Yoast SEO */
@@ -96,7 +96,7 @@ class WPSEO_Export {
 			/* translators: %1$s expands to Yoast SEO, %2$s expands to Yoast.com */
 			esc_html__( 'These are settings for the %1$s plugin by %2$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'Yoast.com'
+			'Yoast.com',
 		);
 		$this->write_line( '; ' . $header );
 	}

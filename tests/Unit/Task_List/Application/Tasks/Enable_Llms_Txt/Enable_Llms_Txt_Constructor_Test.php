@@ -25,7 +25,7 @@ final class Enable_Llms_Txt_Constructor_Test extends Abstract_Enable_Llms_Txt_Te
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

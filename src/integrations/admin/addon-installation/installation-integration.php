@@ -103,7 +103,7 @@ class Installation_Integration implements Integration_Interface {
 
 		\printf(
 			'<h1 id="wpseo-title" class="yoast-h1">%s</h1>',
-			\esc_html__( 'Installing and activating addons', 'wordpress-seo' )
+			\esc_html__( 'Installing and activating addons', 'wordpress-seo' ),
 		);
 
 		$licensed_addons = $this->addon_manager->get_myyoast_site_information()->subscriptions;
@@ -129,7 +129,7 @@ class Installation_Integration implements Integration_Interface {
 			\esc_html__( '%1$s Continue to %2$s%3$s', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=' . Plans_Page_Integration::PAGE ) ) . '">',
 			'Yoast SEO Premium',
-			'</a>'
+			'</a>',
 		);
 
 		echo '</div>';
@@ -158,7 +158,7 @@ class Installation_Integration implements Integration_Interface {
 			$output[] = \sprintf(
 				/* Translators:%s expands to the error message. */
 				\__( 'Addon activation failed because of an error: %s.', 'wordpress-seo' ),
-				$exception->getMessage()
+				$exception->getMessage(),
 			);
 		}
 
@@ -190,7 +190,7 @@ class Installation_Integration implements Integration_Interface {
 			$output[] = \sprintf(
 				/* Translators: %s expands to the error message. */
 				\__( 'Addon installation failed because of an error: %s.', 'wordpress-seo' ),
-				$exception->getMessage()
+				$exception->getMessage(),
 			);
 		}
 

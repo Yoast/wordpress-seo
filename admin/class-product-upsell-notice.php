@@ -148,7 +148,7 @@ class WPSEO_Product_Upsell_Notice {
 				/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
 				__( 'By the way, did you know we also have a %1$sPremium plugin%2$s? It offers advanced features, like a redirect manager and support for multiple keyphrases. It also comes with 24/7 personal support.', 'wordpress-seo' ),
 				"<a href='" . WPSEO_Shortlinker::get( 'https://yoa.st/premium-notification' ) . "'>",
-				'</a>'
+				'</a>',
 			);
 		}
 
@@ -166,14 +166,14 @@ class WPSEO_Product_Upsell_Notice {
 			__( 'We\'ve noticed you\'ve been using %1$s for some time now; we hope you love it! We\'d be thrilled if you could %2$sgive us a 5 stars rating on WordPress.org%3$s!', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/rate-yoast-seo' ) . '">',
-			'</a>'
+			'</a>',
 		) . "\n\n";
 
 		$message .= sprintf(
 			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast help center, %2$s is the link closing tag. */
 			__( 'If you are experiencing issues, %1$splease file a bug report%2$s and we\'ll do our best to help you out.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/bugreport' ) . '">',
-			'</a>'
+			'</a>',
 		) . "\n\n";
 
 		$message .= $this->get_premium_upsell_section() . "\n\n";
@@ -187,7 +187,7 @@ class WPSEO_Product_Upsell_Notice {
 				'id'           => 'wpseo-upsell-notice',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 
 		return $notification;

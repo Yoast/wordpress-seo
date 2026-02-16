@@ -90,7 +90,7 @@ trait Presentation_Instance_Builder {
 				$this->date,
 				$this->pagination,
 				$this->post,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -99,7 +99,7 @@ trait Presentation_Instance_Builder {
 			[
 				'model'   => $this->indexable,
 				'context' => $this->context,
-			]
+			],
 		);
 
 		$this->set_instance_dependencies( $this->instance );

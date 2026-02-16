@@ -157,7 +157,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		return \preg_replace(
 			'`User-agent: \*[\r\n]+Disallow: /wp-admin/[\r\n]+Allow: /wp-admin/admin-ajax\.php[\r\n]+`',
 			'',
-			$robots_txt
+			$robots_txt,
 		);
 	}
 

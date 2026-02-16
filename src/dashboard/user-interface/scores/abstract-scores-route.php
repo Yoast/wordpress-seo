@@ -157,7 +157,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -180,13 +180,13 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 				[
 					'error' => $exception->getMessage(),
 				],
-				$exception->getCode()
+				$exception->getCode(),
 			);
 		}
 
 		return new WP_REST_Response(
 			$results,
-			200
+			200,
 		);
 	}
 

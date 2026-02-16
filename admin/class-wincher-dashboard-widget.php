@@ -56,7 +56,7 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'wpseo-wincher-dashboard-overview',
 			/* translators: %1$s expands to Yoast SEO, %2$s to Wincher */
 			sprintf( __( '%1$s / %2$s: Top Keyphrases', 'wordpress-seo' ), 'Yoast SEO', 'Wincher' ),
-			[ $this, 'display_wincher_dashboard_widget' ]
+			[ $this, 'display_wincher_dashboard_widget' ],
 		);
 	}
 

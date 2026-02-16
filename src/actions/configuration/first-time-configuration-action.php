@@ -151,7 +151,7 @@ class First_Time_Configuration_Action {
 			static function ( $key ) {
 				return $key !== 'user_id';
 			},
-			\ARRAY_FILTER_USE_KEY
+			\ARRAY_FILTER_USE_KEY,
 		);
 
 		$failures = $this->social_profiles_helper->set_person_social_profiles( $params['user_id'], $social_profiles );

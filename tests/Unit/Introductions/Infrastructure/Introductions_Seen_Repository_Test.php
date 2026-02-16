@@ -54,7 +54,7 @@ final class Introductions_Seen_Repository_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 

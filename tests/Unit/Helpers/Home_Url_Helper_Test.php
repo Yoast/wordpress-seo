@@ -77,7 +77,7 @@ final class Home_Url_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -85,7 +85,7 @@ final class Home_Url_Helper_Test extends TestCase {
 				'scheme' => 'https',
 				'host'   => 'example.com',
 			],
-			$this->instance->get_parsed()
+			$this->instance->get_parsed(),
 		);
 	}
 
@@ -105,7 +105,7 @@ final class Home_Url_Helper_Test extends TestCase {
 				'scheme' => 'https',
 				'host'   => 'example.com',
 			],
-			$this->instance->get_parsed()
+			$this->instance->get_parsed(),
 		);
 	}
 }

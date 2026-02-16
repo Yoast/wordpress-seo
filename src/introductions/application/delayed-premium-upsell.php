@@ -145,7 +145,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 			$seen_introductions,
 			static function ( $item ) {
 				return \is_bool( $item );
-			}
+			},
 		);
 
 		if ( ! empty( $old_format_introductions ) ) {
@@ -162,7 +162,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 					return $item;
 				}
 				return $carry;
-			}
+			},
 		);
 
 		// If the most recent introduction seen is older than a week, return true.

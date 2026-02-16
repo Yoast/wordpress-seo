@@ -86,15 +86,15 @@ final class Indexable_Social_Image_Trait_Test extends TestCase {
 
 		self::assertInstanceOf(
 			Twitter\Image_Helper::class,
-			$this->getPropertyValue( $this->instance, 'twitter_image' )
+			$this->getPropertyValue( $this->instance, 'twitter_image' ),
 		);
 		self::assertInstanceOf(
 			Open_Graph\Image_Helper::class,
-			$this->getPropertyValue( $this->instance, 'open_graph_image' )
+			$this->getPropertyValue( $this->instance, 'open_graph_image' ),
 		);
 		self::assertInstanceOf(
 			Image_Helper::class,
-			$this->getPropertyValue( $this->instance, 'image' )
+			$this->getPropertyValue( $this->instance, 'image' ),
 		);
 	}
 

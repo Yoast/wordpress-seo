@@ -179,7 +179,7 @@ class Custom_Loader extends PhpFileLoader {
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,
 					$class,
-					$e->getMessage()
+					$e->getMessage(),
 				);
 				continue;
 			}

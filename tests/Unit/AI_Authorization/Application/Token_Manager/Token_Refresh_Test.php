@@ -78,8 +78,8 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/refresh'
 						&& $request->get_body() === [ 'code_challenge' => \hash( 'sha256', $code ) ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $refresh_jwt" ];
-					}
-				)
+					},
+				),
 			)
 			->once();
 

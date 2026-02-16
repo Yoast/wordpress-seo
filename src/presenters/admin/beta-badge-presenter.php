@@ -46,14 +46,14 @@ class Beta_Badge_Presenter extends Abstract_Presenter {
 				'<a class="yoast-badge yoast-badge__is-link yoast-beta-badge" id="%1$s-beta-badge" href="%2$s">%3$s</a>',
 				\esc_attr( $this->id ),
 				\esc_url( $this->link ),
-				'Beta' // We don't want this string to be translatable.
+				'Beta', // We don't want this string to be translatable.
 			);
 		}
 
 		return \sprintf(
 			'<span class="yoast-badge yoast-beta-badge" id="%1$s-beta-badge">%2$s</span>',
 			\esc_attr( $this->id ),
-			'Beta' // We don't want this string to be translatable.
+			'Beta', // We don't want this string to be translatable.
 		);
 	}
 }
