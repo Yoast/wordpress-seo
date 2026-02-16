@@ -309,11 +309,11 @@ Release date: 2026-02-17
 
 #### Enhancements
 
-* Adds `html-react-parser` dependency for improved HTML string handling in React components.
-* Adds `images` array to FAQ and How-to blocks attributes for explicit image handling.
-* Migrates FAQ block's question/answer fields from array-based formats to HTML strings for better compatibility with WordPress components.
-* Migrates How-to block's step name/text fields from array-based formats to HTML strings for better compatibility with WordPress components.
-* Updates the design for the search appearance mode switcher.
+* Introduces an `images` array attribute to FAQ and How-to blocks to allow for explicit image handling.
+* Integrates `html-react-parser` to improve HTML string handling within React components.
+* Migrates FAQ block question and answer fields from arrays to HTML strings to improve compatibility with WordPress components.
+* Migrates How-to block step name and text fields from arrays to HTML strings to improve compatibility with WordPress components.
+* Refines the design of the search appearance mode switcher.
 
 #### Bugfixes
 
