@@ -52,7 +52,7 @@ final class Register_Routes_Test extends Abstract_Refresh_Callback_Route_Test {
 					],
 					'callback'            => [ $this->instance, 'callback' ],
 					'permission_callback' => '__return_true',
-				]
+				],
 			);
 
 		$this->instance->register_routes();

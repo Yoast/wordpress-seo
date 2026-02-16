@@ -62,7 +62,7 @@ final class Search_Console_Adapter_Validate_Response_Test extends Abstract_Searc
 			'this is an error',
 			[
 				'status' => 400,
-			]
+			],
 		);
 
 		$api_response_mock = Mockery::mock( WP_REST_Response::class );

@@ -17,7 +17,7 @@ final class Fake_Expired_Promotion extends Abstract_Promotion implements Promoti
 	public function __construct() {
 		parent::__construct(
 			'fake_expired_promotion',
-			new Time_Interval( \gmmktime( 00, 00, 00, 01, 01, 1980 ), \gmmktime( 00, 00, 00, 12, 31, 1980 ) )
+			new Time_Interval( \gmmktime( 00, 00, 00, 01, 01, 1980 ), \gmmktime( 00, 00, 00, 12, 31, 1980 ) ),
 		);
 	}
 }

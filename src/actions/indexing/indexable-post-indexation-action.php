@@ -143,7 +143,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
 		$replacements           = \array_merge(
 			$post_types,
-			$excluded_post_statuses
+			$excluded_post_statuses,
 		);
 
 		$replacements[] = $this->version;
@@ -160,7 +160,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
 				AND I.version = %d )",
-			$replacements
+			$replacements,
 		);
 	}
 
@@ -178,7 +178,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
 		$replacements           = \array_merge(
 			$post_types,
-			$excluded_post_statuses
+			$excluded_post_statuses,
 		);
 		$replacements[]         = $this->version;
 
@@ -201,7 +201,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 				WHERE I.object_type = 'post'
 				AND I.version = %d )
 			$limit_query",
-			$replacements
+			$replacements,
 		);
 	}
 }

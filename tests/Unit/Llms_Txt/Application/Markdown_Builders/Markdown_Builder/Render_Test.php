@@ -68,7 +68,7 @@ final class Render_Test extends Abstract_Markdown_Builder_Test {
 				$built_link_list1,
 				$built_link_list2,
 				$optional_built_link_list,
-			]
+			],
 		);
 
 		$built_intro->shouldReceive( 'escape_markdown' )->once()->with( $this->markdown_escaper );

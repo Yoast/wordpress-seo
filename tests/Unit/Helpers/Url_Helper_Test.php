@@ -58,7 +58,7 @@ final class Url_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$expected = 'https://example.com/my-page';
@@ -88,7 +88,7 @@ final class Url_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$expected = 'https://example.com/my-page';
@@ -116,7 +116,7 @@ final class Url_Helper_Test extends TestCase {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
 					return \parse_url( $url, $component );
 				},
-			]
+			],
 		);
 
 		$this->assertSame( $expected, $this->instance->get_url_path( $url_input ) );
@@ -195,7 +195,7 @@ final class Url_Helper_Test extends TestCase {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
 					return \parse_url( $url, $component );
 				},
-			]
+			],
 		);
 
 		$this->assertSame( $expected, $this->instance->get_url_host( $url_input ) );
@@ -353,7 +353,7 @@ final class Url_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$this->assertEquals( 'https://example.com/page', $this->instance->ensure_absolute_url( 'page' ) );
@@ -528,7 +528,7 @@ final class Url_Helper_Test extends TestCase {
 		$this->assertEquals(
 			$link_type,
 			$this->instance->get_link_type( $url, $home_url, $is_image ),
-			$message
+			$message,
 		);
 	}
 
@@ -657,7 +657,7 @@ final class Url_Helper_Test extends TestCase {
 
 		$this->assertSame(
 			$expected,
-			$this->instance->recreate_current_url( $params['with_request_uri'] )
+			$this->instance->recreate_current_url( $params['with_request_uri'] ),
 		);
 
 		if ( ! empty( $params['HTTPS'] ) ) {

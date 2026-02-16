@@ -48,7 +48,7 @@ class Link_Lists_Builder {
 	public function build_link_lists(): array {
 		return \array_merge(
 			$this->content_types_collector->get_content_types_lists(),
-			$this->terms_collector->get_terms_lists()
+			$this->terms_collector->get_terms_lists(),
 		);
 	}
 }

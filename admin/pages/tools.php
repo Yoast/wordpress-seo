@@ -47,7 +47,7 @@ if ( $tool_page === '' ) {
 	printf(
 		/* translators: %1$s expands to Yoast SEO */
 		esc_html__( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 	echo '</p>';
 

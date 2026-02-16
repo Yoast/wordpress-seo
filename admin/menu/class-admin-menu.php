@@ -59,7 +59,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$page_identifier,
 			$admin_page_callback,
 			$this->get_icon_svg(),
-			99
+			99,
 		);
 
 		// Wipe notification bits from hooks.
@@ -91,7 +91,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
-				$search_console_callback
+				$search_console_callback,
 			),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 		];

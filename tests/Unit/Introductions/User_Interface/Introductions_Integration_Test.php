@@ -106,7 +106,7 @@ final class Introductions_Integration_Test extends TestCase {
 			$this->user_helper,
 			$this->short_link_helper,
 			$this->wistia_embed_permission_repository,
-			$this->woocommerce_conditional
+			$this->woocommerce_conditional,
 		);
 	}
 
@@ -131,31 +131,31 @@ final class Introductions_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			$this->getPropertyValue( $this->instance, 'admin_asset_manager' )
+			$this->getPropertyValue( $this->instance, 'admin_asset_manager' ),
 		);
 		$this->assertInstanceOf(
 			Introductions_Collector::class,
-			$this->getPropertyValue( $this->instance, 'introductions_collector' )
+			$this->getPropertyValue( $this->instance, 'introductions_collector' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 		$this->assertInstanceOf(
 			Wistia_Embed_Permission_Repository::class,
-			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' )
+			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' ),
 		);
 		$this->assertInstanceOf(
 			WooCommerce_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'woocommerce_conditional' )
+			$this->getPropertyValue( $this->instance, 'woocommerce_conditional' ),
 		);
 	}
 
@@ -368,7 +368,7 @@ final class Introductions_Integration_Test extends TestCase {
 				'pluginUrl'             => $plugin_url,
 				'wistiaEmbedPermission' => $wistia_embed_permission,
 				'isWooEnabled'          => true,
-			]
+			],
 		);
 	}
 }

@@ -47,13 +47,13 @@ final class Person_Test extends TestCase {
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->meta,
-			\YoastSEO()->helpers->permalink
+			\YoastSEO()->helpers->permalink,
 		);
 
 		$indexable_post_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$post_type = 'my-custom-post-type';
@@ -64,7 +64,7 @@ final class Person_Test extends TestCase {
 				'has_archive' => true,
 				'description' => 'a cool post type',
 				'label'       => $post_type,
-			]
+			],
 		);
 
 		$post = [
@@ -83,7 +83,7 @@ final class Person_Test extends TestCase {
 			\YoastSEO()->helpers->current_page,
 			\YoastSEO()->classes->get( Indexable_Repository::class ),
 			\YoastSEO()->classes->get( Meta_Tags_Context::class ),
-			\YoastSEO()->classes->get( Presentation_Memoizer::class )
+			\YoastSEO()->classes->get( Presentation_Memoizer::class ),
 		);
 		$this->context              = $meta_tags_context_memoizer->get( $built_indexable, 'page' );
 	}

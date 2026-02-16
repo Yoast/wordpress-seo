@@ -25,7 +25,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	printf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 
 	foreach ( $feature_toggles as $feature ) {
@@ -52,7 +52,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$help_text .= sprintf(
 				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
 				esc_url( WPSEO_Shortlinker::get( $url ) ),
-				esc_html( $feature->read_more_label )
+				esc_html( $feature->read_more_label ),
 			);
 		}
 
@@ -60,7 +60,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			/* translators: Hidden accessibility text; %s expands to a feature's name. */
 			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
-			$help_text
+			$help_text,
 		);
 
 		$name = $feature->name;
@@ -102,7 +102,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'show_premium_upsell'     => $show_premium_upsell,
 				'premium_upsell_url'      => $premium_upsell_url,
 				'note_when_disabled'      => $note_when_disabled,
-			]
+			],
 		);
 	}
 	?>

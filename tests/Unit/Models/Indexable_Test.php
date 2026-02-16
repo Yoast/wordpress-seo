@@ -59,7 +59,7 @@ final class Indexable_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$this->instance->orm->expects( 'set' )
@@ -99,7 +99,7 @@ final class Indexable_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$this->instance->orm->expects( 'set' )->once()->with( 'permalink', $permalink_slash );

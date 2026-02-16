@@ -127,7 +127,7 @@ final class Index_Command_Test extends TestCase {
 			$this->prepare_indexing_action,
 			$this->post_link_indexation_action,
 			$this->term_link_indexation_action,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 
 		$this->stubTranslationFunctions();
@@ -143,23 +143,23 @@ final class Index_Command_Test extends TestCase {
 	public function test_construct() {
 		self::assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			self::getPropertyValue( $this->instance, 'post_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_indexation_action' ),
 		);
 		self::assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			self::getPropertyValue( $this->instance, 'term_indexation_action' )
+			self::getPropertyValue( $this->instance, 'term_indexation_action' ),
 		);
 		self::assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			self::getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_type_archive_indexation_action' ),
 		);
 		self::assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			self::getPropertyValue( $this->instance, 'general_indexation_action' )
+			self::getPropertyValue( $this->instance, 'general_indexation_action' ),
 		);
 		self::assertInstanceOf(
 			Indexing_Prepare_Action::class,
-			self::getPropertyValue( $this->instance, 'prepare_indexing_action' )
+			self::getPropertyValue( $this->instance, 'prepare_indexing_action' ),
 		);
 	}
 
@@ -345,7 +345,7 @@ final class Index_Command_Test extends TestCase {
 			[
 				'reindex'  => true,
 				'interval' => 500,
-			]
+			],
 		);
 	}
 
@@ -366,7 +366,7 @@ final class Index_Command_Test extends TestCase {
 					'spam'     => 0,
 					'deleted'  => 0,
 					'archived' => 0,
-				]
+				],
 			)
 			->andReturn( [ 1, 2 ] );
 
@@ -393,7 +393,7 @@ final class Index_Command_Test extends TestCase {
 					\array_fill( 0, 25, true ),
 					\array_fill( 0, 5, true ),
 					\array_fill( 0, 25, true ),
-					\array_fill( 0, 5, true )
+					\array_fill( 0, 5, true ),
 				);
 		}
 
@@ -419,7 +419,7 @@ final class Index_Command_Test extends TestCase {
 			[
 				'network'  => true,
 				'interval' => 500,
-			]
+			],
 		);
 	}
 

@@ -309,7 +309,7 @@ final class Recommended_Replace_Vars_Test extends TestCase {
 		return self::factory()->post->create_and_get(
 			[
 				'post_type' => $post_type,
-			]
+			],
 		);
 	}
 }

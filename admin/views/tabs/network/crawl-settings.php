@@ -22,7 +22,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	printf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 
 	echo '<p style="margin: 0.5em 0 1em;">';
@@ -30,7 +30,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		/* translators: %1$s opens the link to the Yoast.com article about Crawl settings, %2$s closes the link, */
 		esc_html__( '%1$sLearn more about crawl settings.%2$s', 'wordpress-seo' ),
 		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings' ) ) . '" target="_blank" rel="noopener noreferrer">',
-		'</a>'
+		'</a>',
 	);
 	echo '</p>';
 

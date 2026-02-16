@@ -61,7 +61,7 @@ final class Analytics_4_Adapter_Validate_Comparison_Response_Test extends Abstra
 			'this is an error',
 			[
 				'status' => 400,
-			]
+			],
 		);
 
 		$api_response_mock = Mockery::mock( WP_REST_Response::class );

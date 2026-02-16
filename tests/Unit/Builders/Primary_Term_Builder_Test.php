@@ -78,7 +78,7 @@ final class Primary_Term_Builder_Test extends TestCase {
 				$this->indexable_helper,
 				$this->primary_term,
 				$this->meta,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -96,27 +96,27 @@ final class Primary_Term_Builder_Test extends TestCase {
 			$this->repository,
 			$this->indexable_helper,
 			$this->primary_term,
-			$this->meta
+			$this->meta,
 		);
 
 		$this->assertInstanceOf(
 			Primary_Term_Repository::class,
-			$this->getPropertyValue( $primary_term_builder, 'repository' )
+			$this->getPropertyValue( $primary_term_builder, 'repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $primary_term_builder, 'indexable_helper' )
+			$this->getPropertyValue( $primary_term_builder, 'indexable_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Primary_Term_Helper::class,
-			$this->getPropertyValue( $primary_term_builder, 'primary_term' )
+			$this->getPropertyValue( $primary_term_builder, 'primary_term' ),
 		);
 
 		$this->assertInstanceOf(
 			Meta_Helper::class,
-			$this->getPropertyValue( $primary_term_builder, 'meta' )
+			$this->getPropertyValue( $primary_term_builder, 'meta' ),
 		);
 	}
 
@@ -143,7 +143,7 @@ final class Primary_Term_Builder_Test extends TestCase {
 						'name'         => 'tag',
 						'hierarchical' => true,
 					],
-				]
+				],
 			);
 
 		$this->instance

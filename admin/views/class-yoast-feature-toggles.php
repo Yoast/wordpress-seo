@@ -36,9 +36,7 @@ class Yoast_Feature_Toggles {
 	 * @return self Main instance.
 	 */
 	public static function instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}
@@ -49,9 +47,7 @@ class Yoast_Feature_Toggles {
 	 * @return array List of sorted Yoast_Feature_Toggle instances.
 	 */
 	public function get_all() {
-		if ( $this->toggles === null ) {
-			$this->toggles = $this->load_toggles();
-		}
+		$this->toggles ??= $this->load_toggles();
 
 		return $this->toggles;
 	}
@@ -157,7 +153,7 @@ class Yoast_Feature_Toggles {
 				/* translators: 1: Yoast SEO, 2: translated version of "Off" */
 					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. The settings in the schema tab allows a user to change schema meta data for a post. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
 					'Yoast SEO',
-					__( 'Off', 'wordpress-seo' )
+					__( 'Off', 'wordpress-seo' ),
 				),
 				'order'   => 90,
 			],
@@ -168,7 +164,7 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => sprintf(
 				/* translators: 1: Yoast SEO */
 					__( 'Allow us to track some data about your site to improve our plugin.', 'wordpress-seo' ),
-					'Yoast SEO'
+					'Yoast SEO',
 				),
 				'read_more_url'   => 'https://yoa.st/usage-tracking-2',
 				'order'           => 95,
@@ -179,7 +175,7 @@ class Yoast_Feature_Toggles {
 				'label'   => sprintf(
 				/* translators: 1: Yoast SEO */
 					__( 'This %1$s REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use %1$s for all their SEO meta output.', 'wordpress-seo' ),
-					'Yoast SEO'
+					'Yoast SEO',
 				),
 				'order'   => 100,
 			],
@@ -239,7 +235,7 @@ class Yoast_Feature_Toggles {
 		$alert = new Alert_Presenter(
 		/* translators: %1$s: expands to an opening anchor tag, %2$s: expands to a closing anchor tag */
 			sprintf( esc_html__( 'Disabling Yoast SEO\'s XML sitemaps will not disable WordPress\' core sitemaps. In some cases, this %1$s may result in SEO errors on your site%2$s. These may be reported in Google Search Console and other tools.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/44z' ) . '">', '</a>' ),
-			'warning'
+			'warning',
 		);
 		$out .= $alert->present();
 		$out .= '</div>';

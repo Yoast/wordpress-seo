@@ -41,7 +41,7 @@ abstract class Abstract_Title_Adapter_Test extends TestCase {
 		$this->default_tagline_runner = Mockery::mock( Default_Tagline_Runner::class );
 
 		$this->instance = new Title_Adapter(
-			$this->default_tagline_runner
+			$this->default_tagline_runner,
 		);
 	}
 }

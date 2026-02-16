@@ -60,7 +60,7 @@ final class Browser_Cache_Configuration_Get_Configuration_Test extends Abstract_
 
 		Functions\expect( 'wp_hash' )
 			->once()
-			->with( $to_hash, )
+			->with( $to_hash )
 			->andReturn( $hash );
 
 		$this->assertEquals( $expected, $this->instance->get_configuration() );

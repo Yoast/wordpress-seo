@@ -40,7 +40,7 @@ class BreadcrumbTitleAndHierarchyReset extends Migration {
 			[
 				'null'  => true,
 				'limit' => 191,
-			]
+			],
 		);
 	}
 

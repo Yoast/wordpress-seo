@@ -93,7 +93,7 @@ abstract class Abstract_Default_SEO_Data_Alert_Test extends TestCase {
 			$this->short_link_helper,
 			$this->product_helper,
 			$this->indexable_helper,
-			$this->post_type_helper
+			$this->post_type_helper,
 		);
 	}
 }

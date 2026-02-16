@@ -74,7 +74,7 @@ final class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 			$this->replacevar_handler,
 			$this->robots_provider,
 			$this->robots_transformer,
-			$this->conflicting_plugins_service
+			$this->conflicting_plugins_service,
 		);
 	}
 

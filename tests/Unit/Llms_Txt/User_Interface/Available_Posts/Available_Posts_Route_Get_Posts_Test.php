@@ -87,15 +87,15 @@ final class Available_Posts_Route_Get_Posts_Test extends Abstract_Available_Post
 						return $request_parameters instanceof Parameters
 						&& $request_parameters->get_post_type() === $post_type
 						&& $request_parameters->get_search_filter() === $search;
-					}
-				)
+					},
+				),
 			)
 			->times( $available_posts_times )
 			->andReturn( $data_container_mock );
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->get_available_posts( $wp_rest_request )
+			$this->instance->get_available_posts( $wp_rest_request ),
 		);
 	}
 

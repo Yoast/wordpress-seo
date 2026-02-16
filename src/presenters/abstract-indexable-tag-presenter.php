@@ -48,7 +48,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			$this->tag_format,
 			$this->escape_value( $value ),
 			$this->key,
-			\is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : ''
+			\is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : '',
 		);
 	}
 

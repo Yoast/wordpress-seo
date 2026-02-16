@@ -67,7 +67,7 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 		$this->instance         = new Indexable_Author_Watcher(
 			$this->repository,
 			$this->indexable_helper,
-			$this->builder
+			$this->builder,
 		);
 	}
 
@@ -81,7 +81,7 @@ final class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Author_Watcher::get_conditionals()
+			Indexable_Author_Watcher::get_conditionals(),
 		);
 	}
 

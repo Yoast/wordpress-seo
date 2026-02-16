@@ -45,14 +45,14 @@ final class Option_Social_Test extends TestCase {
 				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
-			]
+			],
 		);
 
 		$instance = new Option_Social_Double();
 
 		$this->assertEquals(
 			$expected,
-			$instance->validate_option( $dirty, $clean, $old )
+			$instance->validate_option( $dirty, $clean, $old ),
 		);
 	}
 
@@ -78,7 +78,7 @@ final class Option_Social_Test extends TestCase {
 				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
-			]
+			],
 		);
 
 		$instance = new Option_Social_Double();
@@ -96,7 +96,7 @@ final class Option_Social_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$instance->validate_option( $dirty, $clean, $old )
+			$instance->validate_option( $dirty, $clean, $old ),
 		);
 
 		unset( $GLOBALS['wp_settings_errors'] );
@@ -121,7 +121,7 @@ final class Option_Social_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$instance->validate_option( $dirty, $clean, $old )
+			$instance->validate_option( $dirty, $clean, $old ),
 		);
 	}
 

@@ -93,7 +93,7 @@ class Enable_Llms_Txt extends Abstract_Completeable_Task {
 		return new Call_To_Action_Entry(
 			\__( 'Enable llms.txt', 'wordpress-seo' ),
 			'default',
-			$this->get_link()
+			$this->get_link(),
 		);
 	}
 

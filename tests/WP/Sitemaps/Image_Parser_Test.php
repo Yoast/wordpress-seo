@@ -42,7 +42,7 @@ final class Image_Parser_Test extends TestCase {
 
 		$content_src = 'http://example.org/content-image.jpg';
 		$post_id     = $this->factory->post->create(
-			[ 'post_content' => "<img src='{$content_src}' alt='jibberish' />" ]
+			[ 'post_content' => "<img src='{$content_src}' alt='jibberish' />" ],
 		);
 
 		$images = self::$class_instance->get_images( \get_post( $post_id ) );

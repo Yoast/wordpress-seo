@@ -74,7 +74,7 @@ final class Site_Kit_Configuration_Dismissal_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/site_kit_configuration_permanent_dismissal'
+				'yoast/v1/site_kit_configuration_permanent_dismissal',
 			)->andReturnFirstArg();
 		$this->assertSame( 'yoast/v1/site_kit_configuration_permanent_dismissal', $this->instance->get_url() );
 	}

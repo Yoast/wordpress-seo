@@ -25,15 +25,15 @@ final class Constructor_Test extends Abstract_Content_Types_Collector_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 		$this->assertInstanceOf(
 			Post_Collection_Factory::class,
-			$this->getPropertyValue( $this->instance, 'collection_factory' )
+			$this->getPropertyValue( $this->instance, 'collection_factory' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

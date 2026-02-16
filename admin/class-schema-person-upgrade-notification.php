@@ -65,7 +65,7 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 			/* translators: %1$s is a link start tag to the Search Appearance settings, %2$s is the link closing tag. */
 			__( 'You have previously set your site to represent a person. We’ve improved our functionality around Schema and the Knowledge Graph, so you should go in and %1$scomplete those settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 
 		$notification = new Yoast_Notification(
@@ -75,7 +75,7 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 				'id'           => 'wpseo-schema-person-upgrade',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 
 		return $notification;

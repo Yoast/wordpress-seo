@@ -44,7 +44,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 				'hasConsent' => true,
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'linkParams' => [],
-			]
+			],
 		);
 
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );

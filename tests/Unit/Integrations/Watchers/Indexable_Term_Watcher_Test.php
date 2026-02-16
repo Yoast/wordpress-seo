@@ -87,7 +87,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 			$this->builder,
 			$this->link_builder,
 			$this->indexable_helper,
-			$this->site
+			$this->site,
 		);
 	}
 
@@ -101,7 +101,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Term_Watcher::get_conditionals()
+			Indexable_Term_Watcher::get_conditionals(),
 		);
 	}
 
@@ -212,7 +212,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 			->expects( 'build' )
 			->with(
 				$indexable,
-				'This is a term description, with a <a href="https://example.org/target">link</a>.'
+				'This is a term description, with a <a href="https://example.org/target">link</a>.',
 			);
 
 		$this->indexable_helper
@@ -377,7 +377,7 @@ final class Indexable_Term_Watcher_Test extends TestCase {
 			->expects( 'build' )
 			->with(
 				$indexable,
-				'This is a term description, with a <a href="https://example.org/target">link</a>.'
+				'This is a term description, with a <a href="https://example.org/target">link</a>.',
 			);
 
 		$this->indexable_helper

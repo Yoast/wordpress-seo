@@ -26,15 +26,15 @@ final class Get_Tasks_Route_Constructor_Test extends Abstract_Get_Tasks_Route_Te
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Tasks_Repository::class,
-			$this->getPropertyValue( $this->instance, 'tasks_repository' )
+			$this->getPropertyValue( $this->instance, 'tasks_repository' ),
 		);
 		$this->assertInstanceOf(
 			Capability_Helper::class,
-			$this->getPropertyValue( $this->instance, 'capability_helper' )
+			$this->getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 		$this->assertInstanceOf(
 			Action_Tracker::class,
-			$this->getPropertyValue( $this->instance, 'action_tracker' )
+			$this->getPropertyValue( $this->instance, 'action_tracker' ),
 		);
 	}
 }

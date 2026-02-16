@@ -45,7 +45,7 @@ final class Exclude_WooCommerce_Post_Types_Test extends TestCase {
 	public function test_get_conditionals() {
 		self::assertEquals(
 			[ WooCommerce_Conditional::class ],
-			Exclude_WooCommerce_Post_Types::get_conditionals()
+			Exclude_WooCommerce_Post_Types::get_conditionals(),
 		);
 	}
 

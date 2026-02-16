@@ -179,9 +179,9 @@ class Site_Kit_Search_Console_Adapter {
 			throw new Failed_Request_Exception(
 				\wp_kses_post(
 					$response->as_error()
-						->get_error_message()
+						->get_error_message(),
 				),
-				(int) $error_status_code
+				(int) $error_status_code,
 			);
 		}
 

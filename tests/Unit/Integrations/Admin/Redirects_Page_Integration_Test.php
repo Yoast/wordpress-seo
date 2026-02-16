@@ -64,7 +64,7 @@ final class Redirects_Page_Integration_Test extends TestCase {
 		$this->instance = new Redirects_Page_Integration(
 			$this->current_page_helper,
 			$this->user_helper,
-			$this->wistia_embed_permission_repository
+			$this->wistia_embed_permission_repository,
 		);
 	}
 
@@ -81,7 +81,7 @@ final class Redirects_Page_Integration_Test extends TestCase {
 				Admin_Conditional::class,
 				Premium_Inactive_Conditional::class,
 			],
-			Redirects_Page_Integration::get_conditionals()
+			Redirects_Page_Integration::get_conditionals(),
 		);
 	}
 
@@ -102,9 +102,9 @@ final class Redirects_Page_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'add_submenu_page',
-				]
+				],
 			),
-			'Does not have expected wpseo_submenu_pages filter'
+			'Does not have expected wpseo_submenu_pages filter',
 		);
 	}
 

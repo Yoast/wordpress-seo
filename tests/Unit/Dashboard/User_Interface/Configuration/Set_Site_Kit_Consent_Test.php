@@ -37,7 +37,7 @@ final class Set_Site_Kit_Consent_Test extends Abstract_Site_Kit_Consent_Manageme
 				[
 					'success' => $consent,
 				],
-				$expected_status
+				$expected_status,
 			)
 			->once();
 
@@ -49,7 +49,7 @@ final class Set_Site_Kit_Consent_Test extends Abstract_Site_Kit_Consent_Manageme
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_site_kit_consent( $wp_rest_request )
+			$this->instance->set_site_kit_consent( $wp_rest_request ),
 		);
 	}
 

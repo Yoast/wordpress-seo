@@ -75,7 +75,7 @@ final class Replace_Vars_Helper_Test extends TestCase {
 		$this->instance = new Replace_Vars_Helper(
 			$this->replace_vars,
 			$this->id_helper,
-			$this->date_helper
+			$this->date_helper,
 		);
 	}
 
@@ -168,7 +168,7 @@ final class Replace_Vars_Helper_Test extends TestCase {
 				$this->replace_vars,
 				$this->id_helper,
 				$this->date_helper,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -223,7 +223,7 @@ final class Replace_Vars_Helper_Test extends TestCase {
 				$this->replace_vars,
 				$this->id_helper,
 				$this->date_helper,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -289,7 +289,7 @@ final class Replace_Vars_Helper_Test extends TestCase {
 		$instance = new Replace_Vars_Helper_Double(
 			$this->replace_vars,
 			$this->id_helper,
-			$this->date_helper
+			$this->date_helper,
 		);
 		$value    = 'a_value';
 		$closure  = $instance->get_identity_function( $value );

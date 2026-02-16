@@ -49,7 +49,7 @@ final class Options_Helper_Test extends TestCase {
 			->andReturn(
 				[
 					'my-title' => 'This is a title',
-				]
+				],
 			);
 
 		$this->assertEquals( 'This is a title', $this->instance->get_title_default( 'my-title' ) );

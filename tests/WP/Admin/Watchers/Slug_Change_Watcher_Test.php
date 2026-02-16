@@ -306,6 +306,6 @@ final class Slug_Change_Watcher_Test extends TestCase {
 
 		$instance->register_hooks();
 
-		\wp_delete_term( 11111, 'category' );
+		\wp_delete_term( 11_111, 'category' );
 	}
 }

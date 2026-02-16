@@ -149,7 +149,7 @@ class Indexable_Cleanup_Repository {
 				WHERE object_type = 'post'
 				AND object_sub_type IS NOT NULL
 				LIMIT %d",
-				$limit
+				$limit,
 			);
 		}
 		else {
@@ -160,7 +160,7 @@ class Indexable_Cleanup_Repository {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )
 				LIMIT %d',
-				\array_merge( $included_post_types, [ $limit ] )
+				\array_merge( $included_post_types, [ $limit ] ),
 			);
 		}
 		// phpcs:enable
@@ -217,7 +217,7 @@ class Indexable_Cleanup_Repository {
 				WHERE object_type = 'term'
 				AND object_sub_type IS NOT NULL
 				LIMIT %d",
-				$limit
+				$limit,
 			);
 		}
 		else {
@@ -228,7 +228,7 @@ class Indexable_Cleanup_Repository {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )
 				LIMIT %d',
-				\array_merge( $included_taxonomies, [ $limit ] )
+				\array_merge( $included_taxonomies, [ $limit ] ),
 			);
 		}
 		// phpcs:enable
@@ -265,7 +265,7 @@ class Indexable_Cleanup_Repository {
 				WHERE object_type = 'post-type-archive'
 				AND object_sub_type IS NOT NULL
 				LIMIT %d",
-				$limit
+				$limit,
 			);
 		}
 		else {
@@ -276,7 +276,7 @@ class Indexable_Cleanup_Repository {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $post_archives ), '%s' ) ) . ' )
 				LIMIT %d',
-				\array_merge( $post_archives, [ $limit ] )
+				\array_merge( $post_archives, [ $limit ] ),
 			);
 		}
 		// phpcs:enable
@@ -409,7 +409,7 @@ class Indexable_Cleanup_Repository {
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
 					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
 				) LIMIT %d',
-			\array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] )
+			\array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] ),
 		);
 		// phpcs:enable
 
@@ -443,7 +443,7 @@ class Indexable_Cleanup_Repository {
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
 					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
 				)',
-			\array_merge( $author_archive_post_types, $viewable_post_stati )
+			\array_merge( $author_archive_post_types, $viewable_post_stati ),
 		);
 		// phpcs:enable
 
@@ -480,7 +480,7 @@ class Indexable_Cleanup_Repository {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = '{$object_type}'
 			LIMIT %d",
-			$limit
+			$limit,
 		);
 		// phpcs:enable
 
@@ -518,7 +518,7 @@ class Indexable_Cleanup_Repository {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = 'user'
 			LIMIT %d",
-			$limit
+			$limit,
 		);
 		// phpcs:enable
 
@@ -555,7 +555,7 @@ class Indexable_Cleanup_Repository {
 			ON indexable_table.object_id = source_table.{$source_identifier}
 			WHERE source_table.{$source_identifier} IS NULL
 			AND indexable_table.object_id IS NOT NULL
-			AND indexable_table.object_type = '{$object_type}'"
+			AND indexable_table.object_type = '{$object_type}'",
 		)[0];
 		// phpcs:enable
 	}
@@ -578,7 +578,7 @@ class Indexable_Cleanup_Repository {
 			ON indexable_table.object_id = source_table.ID
 			WHERE source_table.ID IS NULL
 			AND indexable_table.object_id IS NOT NULL
-			AND indexable_table.object_type = 'user'"
+			AND indexable_table.object_type = 'user'",
 		)[0];
 		// phpcs:enable
 	}
@@ -609,7 +609,7 @@ class Indexable_Cleanup_Repository {
 			WHERE indexable_table.id IS NULL
 			AND table_to_clean.{$column} IS NOT NULL
 			LIMIT %d",
-			$limit
+			$limit,
 		);
 		// phpcs:enable
 
@@ -647,7 +647,7 @@ class Indexable_Cleanup_Repository {
 			LEFT JOIN {$indexable_table} AS indexable_table
 			ON table_to_clean.{$column} = indexable_table.id
 			WHERE indexable_table.id IS NULL
-			AND table_to_clean.{$column} IS NOT NULL"
+			AND table_to_clean.{$column} IS NOT NULL",
 		)[0];
 		// phpcs:enable
 	}
@@ -697,7 +697,7 @@ class Indexable_Cleanup_Repository {
 			GROUP BY {$indexable_table}.author_id, {$posts_table}.post_author
 			ORDER BY {$indexable_table}.author_id
 			LIMIT %d",
-			$limit
+			$limit,
 		);
 		// phpcs:enable
 
@@ -724,7 +724,7 @@ class Indexable_Cleanup_Repository {
 			static function ( $obj ) {
 				return (array) $obj;
 			},
-			$reassigned_authors_objs
+			$reassigned_authors_objs,
 		);
 
 		$reassigned_authors = \array_combine( \array_column( $reassigned_authors_array, 'author_id' ), \array_column( $reassigned_authors_array, 'post_author' ) );
@@ -738,7 +738,7 @@ class Indexable_Cleanup_Repository {
 				WHERE {$indexable_table}.author_id = {$old_author_id}
 				AND object_type='post'
 				LIMIT %d",
-				$limit
+				$limit,
 			);
 			// phpcs:enable
 

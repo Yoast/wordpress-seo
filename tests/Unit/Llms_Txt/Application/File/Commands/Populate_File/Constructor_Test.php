@@ -27,19 +27,19 @@ final class Constructor_Test extends Abstract_Populate_File_Command_Handler_Test
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			WordPress_File_System_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'file_system_adapter' )
+			$this->getPropertyValue( $this->instance, 'file_system_adapter' ),
 		);
 		$this->assertInstanceOf(
 			Markdown_Builder::class,
-			$this->getPropertyValue( $this->instance, 'markdown_builder' )
+			$this->getPropertyValue( $this->instance, 'markdown_builder' ),
 		);
 		$this->assertInstanceOf(
 			WordPress_Llms_Txt_Permission_Gate::class,
-			$this->getPropertyValue( $this->instance, 'permission_gate' )
+			$this->getPropertyValue( $this->instance, 'permission_gate' ),
 		);
 	}
 }

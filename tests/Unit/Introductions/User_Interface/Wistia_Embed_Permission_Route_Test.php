@@ -69,11 +69,11 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Wistia_Embed_Permission_Repository::class,
-			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' )
+			$this->getPropertyValue( $this->instance, 'wistia_embed_permission_repository' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 
@@ -119,7 +119,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();
@@ -162,13 +162,13 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 					'json' => (object) [
 						'value' => true,
 					],
-				]
+				],
 			)
 			->once();
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->get_wistia_embed_permission()
+			$this->instance->get_wistia_embed_permission(),
 		);
 	}
 
@@ -190,7 +190,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_Error',
-			$this->instance->get_wistia_embed_permission()
+			$this->instance->get_wistia_embed_permission(),
 		);
 	}
 
@@ -219,7 +219,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 						'success' => true,
 					],
 				],
-				200
+				200,
 			)
 			->once();
 
@@ -231,7 +231,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_wistia_embed_permission( $wp_rest_request )
+			$this->instance->set_wistia_embed_permission( $wp_rest_request ),
 		);
 	}
 
@@ -260,7 +260,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 						'success' => false,
 					],
 				],
-				400
+				400,
 			)
 			->once();
 
@@ -272,7 +272,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_wistia_embed_permission( $wp_rest_request )
+			$this->instance->set_wistia_embed_permission( $wp_rest_request ),
 		);
 	}
 
@@ -300,7 +300,7 @@ final class Wistia_Embed_Permission_Route_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_Error',
-			$this->instance->set_wistia_embed_permission( $wp_rest_request )
+			$this->instance->set_wistia_embed_permission( $wp_rest_request ),
 		);
 	}
 }

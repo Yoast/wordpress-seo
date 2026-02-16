@@ -83,15 +83,15 @@ final class Indexable_Helper_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Environment_Helper::class,
-			$this->getPropertyValue( $this->instance, 'environment_helper' )
+			$this->getPropertyValue( $this->instance, 'environment_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 	}
 
@@ -360,18 +360,14 @@ final class Indexable_Helper_Test extends TestCase {
 			->andReturn( $is_production_mode );
 
 		// In order to test not having an overriding "Yoast\WP\SEO\should_index_indexables" filter.
-		if ( $should_index_indexables === null ) {
-			$should_index_indexables = $is_production_mode;
-		}
+		$should_index_indexables ??= $is_production_mode;
 		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\should_index_indexables' )
 			->once()
 			->with( $is_production_mode )
 			->andReturn( $should_index_indexables );
 
 		// In order to test not having an overriding "wpseo_should_save_indexable" filter.
-		if ( $should_save_indexable === null ) {
-			$should_save_indexable = $should_index_indexables;
-		}
+		$should_save_indexable ??= $should_index_indexables;
 		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
 			->once()
 			->with( $should_index_indexables, $indexable )

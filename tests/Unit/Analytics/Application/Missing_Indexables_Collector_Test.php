@@ -36,7 +36,7 @@ final class Missing_Indexables_Collector_Test extends TestCase {
 		$sut = new Missing_Indexables_Collector( $initial_indexation_actions );
 		$this->assertEquals(
 			$expected_result,
-			$sut->get()
+			$sut->get(),
 		);
 	}
 

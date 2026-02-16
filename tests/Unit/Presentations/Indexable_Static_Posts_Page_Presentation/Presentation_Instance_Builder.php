@@ -78,7 +78,7 @@ trait Presentation_Instance_Builder {
 			$this->post_type,
 			$this->date,
 			$this->pagination,
-			$this->post
+			$this->post,
 		);
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );

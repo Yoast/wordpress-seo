@@ -60,12 +60,12 @@ final class Meta_Test extends TestCase {
 				Helpers_Surface::class       => $helpers,
 				WPSEO_Replace_Vars::class    => $replace_vars,
 				Front_End_Integration::class => $front_end,
-			]
+			],
 		);
 
 		$this->instance = new Meta(
 			$this->context,
-			$this->container
+			$this->container,
 		);
 	}
 
