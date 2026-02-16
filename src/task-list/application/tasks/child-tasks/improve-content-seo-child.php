@@ -41,9 +41,6 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Task_Analyzer_Interface|null
 	 */
 	public function get_analyzer(): ?Task_Analyzer_Interface {
-		$post_type_object = \get_post_type_object( $this->content_item_score_data->get_content_type() );
-		$post_type_label  = \strtolower( $post_type_object->labels->singular_name );
-
 		$result_labels = [
 			'good' => \__( 'Good', 'wordpress-seo' ),
 			'ok'   => \__( 'OK', 'wordpress-seo' ),
