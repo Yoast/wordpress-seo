@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\User_Interface\Site_Schema_A
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
@@ -56,6 +57,13 @@ abstract class Abstract_Site_Schema_Aggregator_Route_Test extends TestCase {
 	protected $cache_manager;
 
 	/**
+	 * Holds the Post_Type_Helper mock.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -67,12 +75,14 @@ abstract class Abstract_Site_Schema_Aggregator_Route_Test extends TestCase {
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
 		$this->command_handler   = Mockery::mock( Aggregate_Site_Schema_Command_Handler::class );
 		$this->cache_manager     = Mockery::mock( Manager::class );
+		$this->post_type_helper  = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Site_Schema_Aggregator_Route(
 			$this->config,
 			$this->capability_helper,
 			$this->command_handler,
 			$this->cache_manager,
+			$this->post_type_helper,
 		);
 	}
 }
