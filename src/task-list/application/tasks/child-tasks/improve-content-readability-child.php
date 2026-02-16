@@ -51,12 +51,9 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 		];
 
 		$result_descriptions = [
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'good' => \sprintf( \__( 'This %s\'s readability is looking good. Your content should be easy for readers to understand.', 'wordpress-seo' ), $post_type_label ),
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'ok'   => \sprintf( \__( 'This %s has some readability issues that could be improved to make it easier to read.', 'wordpress-seo' ), $post_type_label ),
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'bad'  => \sprintf( \__( 'This %s has one or more readability issues that may make it harder for readers to understand.', 'wordpress-seo' ), $post_type_label ),
+			'good' => \__( 'Your content is clear and easy to read. This helps your audience stay engaged with your message.', 'wordpress-seo' ),
+			'ok'   => \__( 'Your content is readable but could be clearer. Consider simplifying a few sentences to improve the overall flow.', 'wordpress-seo' ),
+			'bad'  => \__( 'Your content is currently difficult to read. Check the analysis for specific ways to simplify your writing for a better user experience.', 'wordpress-seo' ),
 		];
 
 		$result = $this->content_item_score_data->get_score();
