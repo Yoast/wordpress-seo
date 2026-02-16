@@ -25,6 +25,7 @@ The `ChildTasks` component can be passed as children to the TaskModal to display
 - **Task details**: Each child task displays its title, priority level, estimated duration, and completion status
 - **Interactive navigation**: Click on any child task to open its detailed view
 - **Pagination controls**: Navigate between pages with Previous/Next buttons and page indicators
+- **No tasks message**: Displays a message when there are no child tasks available
 
 ### Props
 
@@ -34,5 +35,6 @@ The `ChildTasks` component can be passed as children to the TaskModal to display
   - `duration`: Estimated duration in minutes
   - `priority`: Priority level ('low', 'medium', 'high')
   - `isCompleted`: Boolean indicating completion status
+  - `parentTask`: Boolean indicating if the task is a parent task
 - `singleTaskOnClick`: Callback function that receives the task ID when a child task is clicked
 

@@ -1,4 +1,4 @@
-The **Tasks Progress Bar** component visually displays the progress of completed tasks out of a total number of tasks. It is useful for indicating task completion status in dashboards or task lists. It includes an H2 title for the progress bar.
+The **Tasks Progress Bar** component visually displays the progress of completed tasks out of a total number of tasks. It is useful for indicating task completion status in dashboards or task lists. It includes a label for the progress bar.
 
 When loading, skeleton loaders are shown in place of the progress bar and task count. When not loading, the progress bar and the completed/total task count are displayed.
 
