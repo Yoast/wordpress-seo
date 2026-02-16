@@ -11,7 +11,7 @@ import { isEmpty, values } from "lodash";
  * @returns {JSX.Element} The TaskListModal component.
  */
 export const TaskListModal = () => {
-	const { setCurrentOpenTask, completeTask } = useDispatch( STORE_NAME );
+	const { setCurrentOpenTaskId, completeTask } = useDispatch( STORE_NAME );
 	const { completeTaskEndpoint, nonce, currentOpenTask, tasks } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
