@@ -264,4 +264,91 @@ describe( "TaskModal", () => {
 			expect( screen.getByText( /Please try again./i ) ).toBeInTheDocument();
 		} );
 	} );
+
+	describe( "when analyzer prop is provided", () => {
+		const analyzerProps = {
+			...defaultProps,
+			analyzer: {
+				type: "score",
+				title: "SEO Analysis",
+				result: "good",
+				resultLabel: "Good",
+				resultDescription: "This post's SEO is looking good. Your content should perform well across search engines and AI systems.",
+			},
+		};
+
+		it( "renders the TaskAnalyzer component", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...analyzerProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "SEO Analysis" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Good" ) ).toBeInTheDocument();
+			expect( screen.getByText( "This post's SEO is looking good. Your content should perform well across search engines and AI systems." ) ).toBeInTheDocument();
+		} );
+
+		it( "renders TaskAnalyzer with readability score", () => {
+			const readabilityProps = {
+				...defaultProps,
+				analyzer: {
+					type: "score",
+					title: "Readability",
+					result: "bad",
+					resultLabel: "Needs improvement",
+					resultDescription: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs.",
+				},
+			};
+
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...readabilityProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "Readability" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Needs improvement" ) ).toBeInTheDocument();
+			expect( screen.getByText( "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs." ) ).toBeInTheDocument();
+		} );
+
+		it( "renders TaskAnalyzer with ok score", () => {
+			const okScoreProps = {
+				...defaultProps,
+				analyzer: {
+					type: "score",
+					title: "SEO Analysis",
+					result: "ok",
+					resultLabel: "OK",
+					resultDescription: "This post's SEO is okay, but there's room for improvement.",
+				},
+			};
+
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...okScoreProps } />
+				</TaskListProvider>
+			);
+			expect( screen.getByText( "SEO Analysis" ) ).toBeInTheDocument();
+			expect( screen.getByText( "OK" ) ).toBeInTheDocument();
+		} );
+
+		it( "does not render TaskAnalyzer when analyzer prop is null", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } analyzer={ null } />
+				</TaskListProvider>
+			);
+			expect( screen.queryByText( "SEO Analysis" ) ).not.toBeInTheDocument();
+			expect( screen.queryByText( "Readability" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "does not render TaskAnalyzer when analyzer prop is undefined", () => {
+			render(
+				<TaskListProvider locale="en-US">
+					<TaskModal { ...defaultProps } />
+				</TaskListProvider>
+			);
+			expect( screen.queryByText( "SEO Analysis" ) ).not.toBeInTheDocument();
+			expect( screen.queryByText( "Readability" ) ).not.toBeInTheDocument();
+		} );
+	} );
 } );

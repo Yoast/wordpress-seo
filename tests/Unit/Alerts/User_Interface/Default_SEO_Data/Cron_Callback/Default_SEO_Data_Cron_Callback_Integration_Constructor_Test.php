@@ -27,15 +27,15 @@ final class Default_SEO_Data_Cron_Callback_Integration_Constructor_Test extends 
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Default_SEO_Data_Cron_Scheduler::class,
-			$this->getPropertyValue( $this->instance, 'scheduler' )
+			$this->getPropertyValue( $this->instance, 'scheduler' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 	}
 }

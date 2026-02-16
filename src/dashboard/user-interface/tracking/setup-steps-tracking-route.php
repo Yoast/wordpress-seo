@@ -108,7 +108,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -133,7 +133,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 				$data,
 				static function ( $value ) {
 					return $value !== null;
-				}
+				},
 			);
 
 			// Check if all values are null then return an error that no valid params were passed.
@@ -141,7 +141,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 			return new WP_Error(
 				'wpseo_set_site_kit_usage_tracking',
 				\__( 'No valid parameters were passed.', 'wordpress-seo' ),
-				[ 'status' => 400 ]
+				[ 'status' => 400 ],
 			);
 		}
 
@@ -153,7 +153,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 				return new WP_Error(
 					'wpseo_set_site_kit_usage_tracking',
 					$exception->getMessage(),
-					(object) []
+					(object) [],
 				);
 			}
 			if ( ! $result ) {
@@ -165,7 +165,7 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 			[
 				'success' => $result,
 			],
-			( $result ) ? 200 : 400
+			( $result ) ? 200 : 400,
 		);
 	}
 

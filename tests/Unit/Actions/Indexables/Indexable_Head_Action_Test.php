@@ -55,7 +55,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Meta_Surface::class,
-			$this->getPropertyValue( $this->instance, 'meta_surface' )
+			$this->getPropertyValue( $this->instance, 'meta_surface' ),
 		);
 	}
 
@@ -100,7 +100,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				'json'   => [ 'key' => 'value' ],
 				'status' => 200,
 			],
-			$output
+			$output,
 		);
 	}
 
@@ -127,7 +127,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				'json'   => [ 'key' => 'value' ],
 				'status' => 200,
 			],
-			$this->instance->for_posts_page()
+			$this->instance->for_posts_page(),
 		);
 	}
 
@@ -156,7 +156,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				(object) [
 					'html' => 'this is the 404 head',
 					'json' => [ 'key' => 'value' ],
-				]
+				],
 			);
 
 		$this->meta_surface
@@ -180,7 +180,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				'json'   => [ 'key' => 'value' ],
 				'status' => 404,
 			],
-			$this->instance->{$method}( $input )
+			$this->instance->{$method}( $input ),
 		);
 	}
 
@@ -199,7 +199,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				(object) [
 					'html' => 'this is the 404 head',
 					'json' => [ 'key' => 'value' ],
-				]
+				],
 			);
 
 		$this->meta_surface
@@ -216,7 +216,7 @@ final class Indexable_Head_Action_Test extends TestCase {
 				'json'   => [ 'key' => 'value' ],
 				'status' => 404,
 			],
-			$this->instance->for_posts_page()
+			$this->instance->for_posts_page(),
 		);
 	}
 

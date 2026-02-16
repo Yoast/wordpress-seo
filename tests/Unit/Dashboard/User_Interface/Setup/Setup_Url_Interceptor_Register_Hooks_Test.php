@@ -26,15 +26,15 @@ final class Setup_Url_Interceptor_Register_Hooks_Test extends Abstract_Setup_Url
 			10,
 			\has_filter(
 				'admin_menu',
-				[ $this->instance, 'add_redirect_page' ]
-			)
+				[ $this->instance, 'add_redirect_page' ],
+			),
 		);
 		$this->assertEquals(
 			1,
 			\has_action(
 				'admin_init',
-				[ $this->instance, 'intercept_site_kit_setup_url_redirect' ]
-			)
+				[ $this->instance, 'intercept_site_kit_setup_url_redirect' ],
+			),
 		);
 	}
 }

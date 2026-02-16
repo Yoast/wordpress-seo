@@ -77,7 +77,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 	}
 
@@ -96,7 +96,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
@@ -121,7 +121,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		$actual = $this->instance->present();
@@ -145,7 +145,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_title' )
@@ -175,7 +175,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 

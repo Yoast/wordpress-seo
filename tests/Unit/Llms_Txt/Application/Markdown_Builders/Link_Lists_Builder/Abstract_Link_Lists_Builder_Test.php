@@ -51,7 +51,7 @@ abstract class Abstract_Link_Lists_Builder_Test extends TestCase {
 
 		$this->instance = new Link_Lists_Builder(
 			$this->content_types_collector,
-			$this->terms_collector
+			$this->terms_collector,
 		);
 	}
 }

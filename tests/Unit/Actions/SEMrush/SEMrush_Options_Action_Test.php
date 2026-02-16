@@ -52,7 +52,7 @@ final class SEMrush_Options_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 
@@ -75,7 +75,7 @@ final class SEMrush_Options_Action_Test extends TestCase {
 				'success' => true,
 				'status'  => 200,
 			],
-			$this->instance->set_country_code( 'us' )
+			$this->instance->set_country_code( 'us' ),
 		);
 	}
 
@@ -99,7 +99,7 @@ final class SEMrush_Options_Action_Test extends TestCase {
 				'status'  => 500,
 				'error'   => 'Could not save option in the database',
 			],
-			$this->instance->set_country_code( 'us' )
+			$this->instance->set_country_code( 'us' ),
 		);
 	}
 }

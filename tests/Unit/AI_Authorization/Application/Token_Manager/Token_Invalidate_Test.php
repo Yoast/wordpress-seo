@@ -43,8 +43,8 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/invalidate'
 						&& $request->get_body() === [ 'user_id' => $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
-					}
-				)
+					},
+				),
 			)
 			->once();
 
@@ -86,8 +86,8 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/invalidate'
 						&& $request->get_body() === [ 'user_id' => $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => 'Bearer ' ];
-					}
-				)
+					},
+				),
 			)
 			->once();
 
@@ -130,8 +130,8 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/invalidate'
 						&& $request->get_body() === [ 'user_id' => $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
-					}
-				)
+					},
+				),
 			)
 			->once()
 			->andThrow( new Unauthorized_Exception( 'Unauthorized', 401 ) );
@@ -175,8 +175,8 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/invalidate'
 						&& $request->get_body() === [ 'user_id' => $user_id ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $access_jwt" ];
-					}
-				)
+					},
+				),
 			)
 			->once()
 			->andThrow( new Forbidden_Exception( 'Forbidden', 403 ) );

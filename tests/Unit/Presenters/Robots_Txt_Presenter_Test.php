@@ -70,7 +70,7 @@ final class Robots_Txt_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			$expected,
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 

@@ -53,7 +53,7 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 		$instance = new Indexing_Notification_Presenter(
 			$this->short_link_helper,
 			50,
-			''
+			'',
 		);
 
 		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this will take less than a minute.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
@@ -78,7 +78,7 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 		$instance = new Indexing_Notification_Presenter(
 			$this->short_link_helper,
 			500,
-			''
+			'',
 		);
 
 		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this will take a couple of minutes.</p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';
@@ -111,7 +111,7 @@ final class Indexing_Notification_Presenter_Test extends TestCase {
 		$instance = new Indexing_Notification_Presenter(
 			$this->short_link_helper,
 			4000,
-			'A message to show in the notification.'
+			'A message to show in the notification.',
 		);
 
 		$expected = '<p>You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:<ul class="ul-disc"><li>Wait for a week or so, until Yoast SEO automatically processes most of your content in the background.</li><li><a href="https://yoa.st/3-w?some-query-arg=some-value" target="_blank">Run the indexation process on your server</a> using <a href="https://wp-cli.org/" target="_blank">WP CLI</a>.</li></ul></p><a class="button" href="https://example.org/wp-admin/admin.php?page=wpseo_tools">Start SEO data optimization</a>';

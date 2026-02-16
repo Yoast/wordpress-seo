@@ -26,19 +26,19 @@ final class Constructor_Test extends Abstract_Llms_Txt_Cron_Callback_Integration
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Llms_Txt_Cron_Scheduler::class,
-			$this->getPropertyValue( $this->instance, 'scheduler' )
+			$this->getPropertyValue( $this->instance, 'scheduler' ),
 		);
 		$this->assertInstanceOf(
 			Populate_File_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'populate_file_command_handler' )
+			$this->getPropertyValue( $this->instance, 'populate_file_command_handler' ),
 		);
 		$this->assertInstanceOf(
 			Remove_File_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'remove_file_command_handler' )
+			$this->getPropertyValue( $this->instance, 'remove_file_command_handler' ),
 		);
 	}
 }

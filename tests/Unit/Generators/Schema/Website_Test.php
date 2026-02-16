@@ -111,7 +111,7 @@ final class Website_Test extends TestCase {
 					$data['inLanguage'] = 'language';
 
 					return $data;
-				}
+				},
 			);
 
 		$expected = [
@@ -173,7 +173,7 @@ final class Website_Test extends TestCase {
 					$data['inLanguage'] = 'language';
 
 					return $data;
-				}
+				},
 			);
 
 		$expected = [

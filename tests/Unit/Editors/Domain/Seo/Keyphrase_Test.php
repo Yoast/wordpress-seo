@@ -45,7 +45,7 @@ final class Keyphrase_Test extends TestCase {
 				'keyphrase_usage'          => [ 'post' => 1 ],
 				'keyphrase_usage_per_type' => [ 'post' => 2 ],
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 
@@ -62,7 +62,7 @@ final class Keyphrase_Test extends TestCase {
 				'keyword_usage'            => [ 'post' => 1 ],
 				'keyword_usage_post_types' => [ 'post' => 2 ],
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 }

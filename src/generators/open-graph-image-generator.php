@@ -162,8 +162,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 					(array) $meta_data,
 					[
 						'url' => $indexable->open_graph_image,
-					]
-				)
+					],
+				),
 			);
 		}
 	}

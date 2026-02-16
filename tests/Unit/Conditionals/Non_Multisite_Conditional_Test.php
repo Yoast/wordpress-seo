@@ -43,7 +43,7 @@ final class Non_Multisite_Conditional_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite'   => true,
-			]
+			],
 		);
 		self::assertFalse( $this->instance->is_met() );
 	}
@@ -59,7 +59,7 @@ final class Non_Multisite_Conditional_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite'   => false,
-			]
+			],
 		);
 
 		self::assertTrue( $this->instance->is_met() );

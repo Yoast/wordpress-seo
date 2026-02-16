@@ -41,7 +41,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 			[
 				'user_login' => 'user',
 				'user_pass'  => 'password',
-			]
+			],
 		)->ID;
 
 		\update_user_meta( $this->user_id, 'wpseo_title', 'Title' );
@@ -54,7 +54,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 			\YoastSEO()->helpers->author_archive,
 			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
 			\YoastSEO()->helpers->options,
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 	}
 
@@ -72,7 +72,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 				'post_date'   => '1978-09-13 08:50:00',
 				'post_status' => 'publish',
 				'post_author' => $this->user_id,
-			]
+			],
 		);
 
 		$indexable      = new Indexable();
@@ -124,7 +124,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 				'post_date'   => '1978-09-13 08:50:00',
 				'post_status' => 'publish',
 				'post_author' => $this->user_id,
-			]
+			],
 		);
 
 		\YoastSEO()->helpers->options->set( 'disable-author', true );
@@ -183,7 +183,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 				'post_date'   => '1978-09-13 08:50:00',
 				'post_status' => 'publish',
 				'post_author' => $this->user_id,
-			]
+			],
 		);
 
 		\YoastSEO()->helpers->options->set( 'disable-author', true );
@@ -194,7 +194,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 				return new Author_Not_Built_Exception( 'Author not built because of filter.' );
 			},
 			10,
-			2
+			2,
 		);
 		$this->expectException( Author_Not_Built_Exception::class );
 		$this->expectExceptionMessage( 'Author not built because of filter' );

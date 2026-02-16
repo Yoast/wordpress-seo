@@ -93,9 +93,9 @@ class Dialog_Integration implements Integration_Interface {
 				/* translators: %1$s expands to Yoast SEO */
 				\esc_html__(
 					'No %1$s plugins have been installed. You don\'t seem to own any active subscriptions.',
-					'wordpress-seo'
+					'wordpress-seo',
 				),
-				'Yoast SEO'
+				'Yoast SEO',
 			)
 			. '</p></div>';
 	}
@@ -112,7 +112,7 @@ class Dialog_Integration implements Integration_Interface {
 			[
 				'addons' => $this->owned_addons,
 				'nonce'  => \wp_create_nonce( 'wpseo_addon_installation' ),
-			]
+			],
 		);
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();

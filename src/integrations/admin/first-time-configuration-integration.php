@@ -137,8 +137,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			new WPSEO_Option_Tab(
 				'first-time-configuration',
 				\__( 'First-time configuration', 'wordpress-seo' ),
-				[ 'save_button' => false ]
-			)
+				[ 'save_button' => false ],
+			),
 		);
 	}
 
@@ -192,7 +192,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			$options,
 			function ( $item ) {
 				return $item['value'] === $this->is_company_or_person();
-			}
+			},
 		);
 		$selected_option       = \reset( $filtered_options );
 		if ( \is_array( $selected_option ) ) {

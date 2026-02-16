@@ -306,7 +306,7 @@ class WPSEO_Admin_Init {
 		// Determine which filters have been registered.
 		$deprecated_notices = array_intersect(
 			array_keys( $deprecated_filters ),
-			array_keys( $wp_filter )
+			array_keys( $wp_filter ),
 		);
 
 		// Show notice for each deprecated filter or action that has been registered.
@@ -316,7 +316,7 @@ class WPSEO_Admin_Init {
 			_deprecated_hook(
 				$deprecated_filter,
 				'WPSEO ' . $deprecation_info['version'],
-				$deprecation_info['alternative']
+				$deprecation_info['alternative'],
 			);
 			// phpcs:enable
 		}
@@ -347,11 +347,11 @@ class WPSEO_Admin_Init {
 					/* translators: %1$s and %2$s expand to <em> items to emphasize the word in the middle. */
 					esc_html__( 'Changing your permalinks settings can seriously impact your search engine visibility. It should almost %1$s never %2$s be done on a live website.', 'wordpress-seo' ),
 					'<em>',
-					'</em>'
+					'</em>',
 				),
 				esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' ) ),
 				// The link's content.
-				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
+				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' ),
 			);
 		}
 	}

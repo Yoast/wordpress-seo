@@ -74,7 +74,7 @@ final class Site_Kit_Consent_Management_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/site_kit_manage_consent'
+				'yoast/v1/site_kit_manage_consent',
 			)->andReturnFirstArg();
 		$this->assertSame( 'yoast/v1/site_kit_manage_consent', $this->instance->get_url() );
 	}

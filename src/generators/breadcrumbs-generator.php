@@ -153,7 +153,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$indexables,
 			static function ( $indexable ) {
 				return \is_a( $indexable, Indexable::class );
-			}
+			},
 		);
 
 		$crumbs = \array_map( [ $this, 'get_post_type_crumb' ], $indexables );
@@ -176,7 +176,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			\_doing_it_wrong(
 				'Filter: \'wpseo_breadcrumb_links\'',
 				'The `wpseo_breadcrumb_links` filter should return a multi-dimensional array.',
-				'YoastSEO v20.0'
+				'YoastSEO v20.0',
 			);
 		}
 		else {
@@ -422,7 +422,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			'text' => \sprintf(
 				/* translators: %s expands to the current page number */
 				\__( 'Page %s', 'wordpress-seo' ),
-				$current_page_number
+				$current_page_number,
 			),
 		];
 

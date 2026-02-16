@@ -50,7 +50,7 @@ final class Default_SEO_Data_Cron_Scheduler_Schedule_Default_SEO_Data_Detection_
 	 */
 	public static function schedule_default_seo_data_detection_provider() {
 		yield 'Cron already scheduled - do not schedule again' => [
-			'wp_next_scheduled_result' => 1234567890,
+			'wp_next_scheduled_result' => 1_234_567_890,
 			'wp_schedule_event_times'  => 0,
 		];
 

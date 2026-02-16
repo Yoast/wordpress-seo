@@ -65,7 +65,7 @@ final class Migration_Error_Presenter_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )

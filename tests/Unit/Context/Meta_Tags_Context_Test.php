@@ -134,7 +134,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 			$this->user,
 			$this->permalink_helper,
 			$this->indexable_helper,
-			$this->indexable_repository
+			$this->indexable_repository,
 		);
 	}
 
@@ -512,7 +512,7 @@ final class Meta_Tags_Context_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 12,
 			'alt'    => 'Alt. Text',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 

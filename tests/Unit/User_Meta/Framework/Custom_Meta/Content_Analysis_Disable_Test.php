@@ -56,7 +56,7 @@ final class Content_Analysis_Disable_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 

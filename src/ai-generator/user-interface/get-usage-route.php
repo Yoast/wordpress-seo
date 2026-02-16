@@ -102,7 +102,7 @@ class Get_Usage_Route implements Route_Interface {
 				],
 				'callback'            => [ $this, 'get_usage' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
-			]
+			],
 		);
 	}
 
@@ -135,7 +135,7 @@ class Get_Usage_Route implements Route_Interface {
 			}
 			return new WP_REST_Response(
 				$message,
-				$e->getCode()
+				$e->getCode(),
 			);
 		}
 

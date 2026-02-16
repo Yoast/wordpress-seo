@@ -74,7 +74,7 @@ final class SEO_Scores_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/seo_scores'
+				'yoast/v1/seo_scores',
 			)->andReturnFirstArg();
 		$this->assertSame( 'yoast/v1/seo_scores', $this->instance->get_url() );
 	}

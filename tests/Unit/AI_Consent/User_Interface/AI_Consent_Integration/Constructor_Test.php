@@ -25,15 +25,15 @@ final class Constructor_Test extends Abstract_AI_Consent_Integration_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			$this->getPropertyValue( $this->instance, 'asset_manager' )
+			$this->getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 	}
 }

@@ -213,9 +213,7 @@ class Url_Helper {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 
-		if ( $home_url === null ) {
-			$home_url = \wp_parse_url( \home_url() );
-		}
+		$home_url ??= \wp_parse_url( \home_url() );
 
 		// When the base host is equal to the host.
 		if ( isset( $url['host'] ) && $url['host'] !== $home_url['host'] ) {

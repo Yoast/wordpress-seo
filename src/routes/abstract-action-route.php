@@ -24,7 +24,7 @@ abstract class Abstract_Action_Route implements Route_Interface {
 			[
 				'objects'  => $objects,
 				'next_url' => $next_url,
-			]
+			],
 		);
 	}
 }

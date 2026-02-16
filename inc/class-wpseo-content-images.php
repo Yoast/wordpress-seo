@@ -87,9 +87,7 @@ class WPSEO_Content_Images {
 	 * @return string The content of the supplied post.
 	 */
 	private function get_post_content( $post_id, $post ) {
-		if ( $post === null ) {
-			$post = get_post( $post_id );
-		}
+		$post ??= get_post( $post_id );
 
 		if ( $post === null ) {
 			return '';

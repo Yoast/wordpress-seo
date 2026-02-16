@@ -29,7 +29,7 @@ final class Setup_Url_Interceptor_Add_Redirect_Page_Test extends Abstract_Setup_
 				'',
 				'',
 				'wpseo_manage_options',
-				'wpseo_page_site_kit_set_up'
+				'wpseo_page_site_kit_set_up',
 			);
 
 		$this->assertEquals( [], $this->instance->add_redirect_page( [] ) );

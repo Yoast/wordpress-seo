@@ -41,7 +41,7 @@ abstract class Abstract_Terms_Collector_Test extends TestCase {
 		$this->taxonomy_helper = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Terms_Collector(
-			$this->taxonomy_helper
+			$this->taxonomy_helper,
 		);
 	}
 }

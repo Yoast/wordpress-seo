@@ -25,15 +25,15 @@ final class Constructor_Test extends Abstract_File_Failure_Llms_Txt_Notification
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
-			$this->getPropertyValue( $this->instance, 'notification_center' )
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		$this->assertInstanceOf(
 			File_Failure_Notification_Presenter::class,
-			$this->getPropertyValue( $this->instance, 'presenter' )
+			$this->getPropertyValue( $this->instance, 'presenter' ),
 		);
 	}
 }

@@ -24,12 +24,12 @@ final class Constructor_Test extends Abstract_Request_Handler_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			API_Client::class,
-			$this->getPropertyValue( $this->instance, 'api_client' )
+			$this->getPropertyValue( $this->instance, 'api_client' ),
 		);
 
 		$this->assertInstanceOf(
 			Response_Parser::class,
-			$this->getPropertyValue( $this->instance, 'response_parser' )
+			$this->getPropertyValue( $this->instance, 'response_parser' ),
 		);
 	}
 }

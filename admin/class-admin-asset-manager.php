@@ -41,9 +41,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param string                          $prefix         The prefix for naming assets.
 	 */
 	public function __construct( ?WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
-		if ( $asset_location === null ) {
-			$asset_location = self::create_default_location();
-		}
+		$asset_location ??= self::create_default_location();
 
 		$this->asset_location = $asset_location;
 		$this->prefix         = $prefix;
@@ -102,7 +100,7 @@ class WPSEO_Admin_Asset_Manager {
 			$url,
 			$script->get_deps(),
 			$script->get_version(),
-			$args
+			$args,
 		);
 
 		if ( in_array( 'wp-i18n', $script->get_deps(), true ) ) {
@@ -123,7 +121,7 @@ class WPSEO_Admin_Asset_Manager {
 			$this->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
 			$style->get_deps(),
 			$style->get_version(),
-			$style->get_media()
+			$style->get_media(),
 		);
 	}
 
@@ -348,7 +346,7 @@ class WPSEO_Admin_Asset_Manager {
 				'ext_length'      => 3,
 				'additional_deps' => $additional_dependencies,
 				'header_scripts'  => $header_scripts,
-			]
+			],
 		);
 		$external_scripts = $this->load_generated_asset_file(
 			[
@@ -358,7 +356,7 @@ class WPSEO_Admin_Asset_Manager {
 				'base_dir'        => 'externals/',
 				'additional_deps' => $additional_dependencies,
 				'header_scripts'  => $header_scripts,
-			]
+			],
 		);
 		$language_scripts = $this->load_generated_asset_file(
 			[
@@ -368,7 +366,7 @@ class WPSEO_Admin_Asset_Manager {
 				'base_dir'        => 'languages/',
 				'additional_deps' => $additional_dependencies,
 				'header_scripts'  => $header_scripts,
-			]
+			],
 		);
 		$renamed_scripts  = $this->load_renamed_scripts();
 
@@ -376,7 +374,7 @@ class WPSEO_Admin_Asset_Manager {
 			$plugin_scripts,
 			$external_scripts,
 			$language_scripts,
-			$renamed_scripts
+			$renamed_scripts,
 		);
 
 		$scripts['installation-success'] = [
@@ -404,7 +402,7 @@ class WPSEO_Admin_Asset_Manager {
 					}
 					return $dep;
 				},
-				$scripts['post-edit']['deps']
+				$scripts['post-edit']['deps'],
 			),
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
 			'version'   => $scripts['post-edit']['version'],
@@ -477,7 +475,7 @@ class WPSEO_Admin_Asset_Manager {
 				'additional_deps' => [],
 				'base_dir'        => '',
 				'header_scripts'  => [],
-			]
+			],
 		);
 		$scripts = [];
 		$assets  = require $args['asset_file'];

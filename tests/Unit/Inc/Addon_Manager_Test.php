@@ -76,7 +76,7 @@ final class Addon_Manager_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'subscriptions' => [],
-				]
+				],
 			);
 
 		$this->assertEquals( [], $this->instance->get_subscriptions() );
@@ -102,7 +102,7 @@ final class Addon_Manager_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'subscriptions' => [],
-				]
+				],
 			);
 
 		$this->assertEquals( [], $this->instance->get_subscriptions() );
@@ -195,7 +195,7 @@ final class Addon_Manager_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'subscriptions' => [],
-				]
+				],
 			);
 
 		$this->assertEquals( [], $this->instance->get_subscriptions() );
@@ -222,7 +222,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			$subscription,
-			$this->instance->get_subscription( 'wordpress-seo' )
+			$this->instance->get_subscription( 'wordpress-seo' ),
 		);
 	}
 
@@ -264,7 +264,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php' => [
 						'Version' => '10.0',
 					],
-				]
+				],
 			);
 
 		$this->instance
@@ -278,7 +278,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -300,7 +300,7 @@ final class Addon_Manager_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->get_subscriptions_for_active_addons()
+			$this->instance->get_subscriptions_for_active_addons(),
 		);
 	}
 
@@ -322,7 +322,7 @@ final class Addon_Manager_Test extends TestCase {
 				'wpseo-woocommerce.php' => 'yoast-seo-woocommerce',
 				'local-seo.php'         => 'yoast-seo-local',
 			],
-			$actual
+			$actual,
 		);
 	}
 
@@ -342,7 +342,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
 					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
 					'wpseo-news.php'             => [ 'Version' => '9.5' ],
-				]
+				],
 			);
 
 		$actual = $this->instance->get_plugin_file( 'yoast-seo-news' );
@@ -366,7 +366,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
 					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
 					'wpseo-news.php'             => [ 'Version' => '9.5' ],
-				]
+				],
 			);
 
 		$actual = $this->instance->get_plugin_file( 'some-other-plugin-slug' );
@@ -390,7 +390,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php' => [
 						'Version' => '10.0',
 					],
-				]
+				],
 			);
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -399,7 +399,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -410,7 +410,7 @@ final class Addon_Manager_Test extends TestCase {
 			[
 				'yoast-seo-wordpress-premium' => '10.0',
 			],
-			$this->instance->get_installed_addons_versions()
+			$this->instance->get_installed_addons_versions(),
 		);
 	}
 
@@ -447,13 +447,13 @@ final class Addon_Manager_Test extends TestCase {
 							'requires'     => \YOAST_SEO_WP_REQUIRED,
 						],
 					],
-				]
+				],
 			);
 
 		$this->assertEquals(
 			$expected,
 			$this->instance->get_plugin_information( false, $action, (object) $args ),
-			$message
+			$message,
 		);
 	}
 
@@ -472,7 +472,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			true,
-			$this->instance->has_valid_subscription( 'yoast-seo-wordpress-premium' )
+			$this->instance->has_valid_subscription( 'yoast-seo-wordpress-premium' ),
 		);
 	}
 
@@ -491,7 +491,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			false,
-			$this->instance->has_valid_subscription( 'yoast-seo-news' )
+			$this->instance->has_valid_subscription( 'yoast-seo-news' ),
 		);
 	}
 
@@ -510,7 +510,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			false,
-			$this->instance->has_valid_subscription( 'unknown-slug' )
+			$this->instance->has_valid_subscription( 'unknown-slug' ),
 		);
 	}
 
@@ -547,7 +547,7 @@ final class Addon_Manager_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'requires' => \YOAST_SEO_WP_REQUIRED,
-				]
+				],
 			);
 
 		if ( ! empty( $addons ) ) {
@@ -557,7 +557,7 @@ final class Addon_Manager_Test extends TestCase {
 			$container = $this->create_container_with(
 				[
 					Product_Helper::class => $product_helper_mock,
-				]
+				],
 			);
 
 			Monkey\Functions\expect( 'YoastSEO' )
@@ -574,7 +574,7 @@ final class Addon_Manager_Test extends TestCase {
 							'requires_php' => '7.4',
 						],
 					],
-				]
+				],
 			);
 
 		global $wp_version;
@@ -604,7 +604,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -629,7 +629,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -740,7 +740,7 @@ final class Addon_Manager_Test extends TestCase {
 					'no-yoast-seo-extension-php' => [
 						'Version' => '10.0',
 					],
-				]
+				],
 			);
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -749,7 +749,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -758,7 +758,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$this->assertEquals(
 			[],
-			$this->instance->get_installed_addons()
+			$this->instance->get_installed_addons(),
 		);
 	}
 
@@ -778,7 +778,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php' => [
 						'Version' => '10.0',
 					],
-				]
+				],
 			);
 
 		$this->assertTrue( $this->instance->has_installed_addons() );
@@ -800,7 +800,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php' => [
 						'Version' => '10.0',
 					],
-				]
+				],
 			);
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -809,7 +809,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -822,7 +822,7 @@ final class Addon_Manager_Test extends TestCase {
 					'Version' => '10.0',
 				],
 			],
-			$this->instance->get_installed_addons()
+			$this->instance->get_installed_addons(),
 		);
 	}
 
@@ -842,7 +842,7 @@ final class Addon_Manager_Test extends TestCase {
 					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
 					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
 					'wpseo-news.php'             => [ 'Version' => '9.5' ],
-				]
+				],
 			);
 
 		$this->instance
@@ -856,7 +856,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Product_Helper::class => $product_helper_mock,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -869,7 +869,7 @@ final class Addon_Manager_Test extends TestCase {
 					'Version' => '10.0',
 				],
 			],
-			$this->instance->get_active_addons()
+			$this->instance->get_active_addons(),
 		);
 	}
 
@@ -1066,9 +1066,9 @@ final class Addon_Manager_Test extends TestCase {
 							'changelog'    => 'changelog',
 						],
 					],
-				]
+				],
 			),
-			false
+			false,
 		);
 	}
 
@@ -1078,9 +1078,7 @@ final class Addon_Manager_Test extends TestCase {
 	 * @return string Future date.
 	 */
 	protected function get_future_date() {
-		if ( $this->future_date === null ) {
-			$this->future_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
-		}
+		$this->future_date ??= \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
 
 		return $this->future_date;
 	}
@@ -1091,9 +1089,7 @@ final class Addon_Manager_Test extends TestCase {
 	 * @return string Past date.
 	 */
 	protected function get_past_date() {
-		if ( $this->past_date === null ) {
-			$this->past_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
-		}
+		$this->past_date ??= \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
 
 		return $this->past_date;
 	}
@@ -1236,7 +1232,7 @@ final class Addon_Manager_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link_mock,
-			]
+			],
 		);
 
 		$admin_user     = Mockery::mock( WP_User::class );
@@ -1260,7 +1256,7 @@ final class Addon_Manager_Test extends TestCase {
 
 		$expected = new Yoast_Notification(
 			'<strong> ' . $product_name . ' isn\'t working as expected </strong> and you are not receiving updates or support! Make sure to <a href="' . $short_link . '" target="_blank"> activate your product subscription in MyYoast</a> to unlock all the features of ' . $product_name . '.',
-			$notification_options
+			$notification_options,
 		);
 		$this->assertEquals( $expected, $notification );
 	}

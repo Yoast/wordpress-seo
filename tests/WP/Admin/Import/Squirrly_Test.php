@@ -337,7 +337,7 @@ final class Squirrly_Test extends TestCase {
 				'og_media'    => 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png',
 				'og_title'    => 'OpenGraph AIOSEO title',
 				'cornerstone' => 1,
-			]
+			],
 		);
 		$this->insert_post( $post_id, $blob );
 		\update_post_meta( $post_id, '_sq_post_keyword', '{"keyword":"squirrly test","update":1521207189}' );
@@ -383,7 +383,7 @@ final class Squirrly_Test extends TestCase {
 				'patterns'       => '',
 				'sep'            => '',
 			],
-			$data
+			$data,
 		);
 	}
 
@@ -413,8 +413,8 @@ final class Squirrly_Test extends TestCase {
 				$post_id,
 				\get_permalink( $post_id ),
 				\md5( \get_permalink( $post_id ) ),
-				\serialize( $blob )
-			)
+				\serialize( $blob ),
+			),
 		);
 	}
 
@@ -441,7 +441,7 @@ final class Squirrly_Test extends TestCase {
 				UNIQUE KEY `url_hash` (`url_hash`) USING BTREE,
 				KEY `post_id` (`post_id`) USING BTREE,
 				KEY `blog_id_url_hash` (`blog_id`,`url_hash`) USING BTREE
-			) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8"
+			) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8",
 		);
 	}
 }

@@ -90,7 +90,7 @@ final class Organization_Test extends TestCase {
 		$this->instance        = new Organization(
 			$this->image,
 			$this->options,
-			$this->html
+			$this->html,
 		);
 
 		$this->instance->context = $this->context;

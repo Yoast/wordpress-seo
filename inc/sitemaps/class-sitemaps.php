@@ -194,8 +194,8 @@ class WPSEO_Sitemaps {
 	 * @return void
 	 */
 	public function set_n( $current_page ) {
-		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
-			$this->current_page = intval( $current_page );
+		if ( is_scalar( $current_page ) && (int) $current_page > 0 ) {
+			$this->current_page = (int) $current_page;
 		}
 	}
 
@@ -270,7 +270,7 @@ class WPSEO_Sitemaps {
 
 		if ( get_query_var( 'sitemap_n' ) === '1' || get_query_var( 'sitemap_n' ) === '0' ) {
 			wp_safe_redirect( home_url( "/$type-sitemap.xml" ), 301, 'Yoast SEO' );
-			exit;
+			exit();
 		}
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
@@ -539,7 +539,7 @@ class WPSEO_Sitemaps {
 					[
 						'post_type',
 						'date',
-					]
+					],
 				);
 
 				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
@@ -555,8 +555,8 @@ class WPSEO_Sitemaps {
 					GROUP BY %i
 					ORDER BY %i DESC
 				',
-						$replacements
-					)
+						$replacements,
+					),
 				);
 
 				foreach ( $dates as $obj ) {

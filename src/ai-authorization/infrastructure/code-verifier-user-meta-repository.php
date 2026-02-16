@@ -55,7 +55,7 @@ class Code_Verifier_User_Meta_Repository implements Code_Verifier_User_Meta_Repo
 			[
 				'code'       => $code,
 				'created_at' => $created_at,
-			]
+			],
 		);
 	}
 

@@ -75,7 +75,7 @@ class Llms_Txt_Cron_Callback_Integration implements Integration_Interface {
 			[
 				$this,
 				'populate_file',
-			]
+			],
 		);
 	}
 

@@ -81,7 +81,7 @@ final class Provider_Overlap_Test extends TestCase {
 
 		// Expect the author-sitemap to be present in the index.
 		$this->expectOutputContains(
-			'<loc>' . $url . '</loc>'
+			'<loc>' . $url . '</loc>',
 		);
 	}
 
@@ -103,7 +103,7 @@ final class Provider_Overlap_Test extends TestCase {
 
 		// Expect the author-sitemap to be present in the index.
 		$this->expectOutputContains(
-			'<loc>' . \get_author_posts_url( $user_id ) . '</loc>'
+			'<loc>' . \get_author_posts_url( $user_id ) . '</loc>',
 		);
 	}
 }

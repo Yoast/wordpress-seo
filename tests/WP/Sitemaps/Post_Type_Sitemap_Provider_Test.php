@@ -121,7 +121,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 
 		// Expect an empty list to be output.
 		$this->expectOutputContains(
-			'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\r\n" . '</urlset>'
+			'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\r\n" . '</urlset>',
 		);
 
 		// Remove the filter.
@@ -331,14 +331,14 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$this->factory->post->create(
 			[
 				'post_password' => 'secret',
-			]
+			],
 		);
 
 		// Expect the protected post should not be added.
 		$this->assertCount(
 			0,
 			self::$class_instance->get_sitemap_links( 'post', 100, 0 ),
-			'Password protected posts should not be in the sitemap'
+			'Password protected posts should not be in the sitemap',
 		);
 	}
 
@@ -357,7 +357,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$post_id = $this->factory->post->create(
 			[
 				'post_password' => '',
-			]
+			],
 		);
 
 		$this->factory->post->create(
@@ -365,7 +365,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 				'post_parent' => $post_id,
 				'post_type'   => 'attachment',
 				'post_status' => 'inherit',
-			]
+			],
 		);
 
 		// Expect the attchment to be in the list.
@@ -389,7 +389,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 		$post_id = $this->factory->post->create(
 			[
 				'post_password' => 'secret',
-			]
+			],
 		);
 
 		$this->factory->post->create(
@@ -397,7 +397,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 				'post_parent' => $post_id,
 				'post_type'   => 'attachment',
 				'post_status' => 'inherit',
-			]
+			],
 		);
 
 		// Expect the attachment not to be added to the list.
@@ -437,7 +437,7 @@ final class Post_Type_Sitemap_Provider_Test extends TestCase {
 			[
 				'post_type'   => 'page',
 				'post_status' => 'publish',
-			]
+			],
 		);
 		\update_option( 'page_on_front', $post_id );
 

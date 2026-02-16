@@ -153,7 +153,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			$child_indexables,
 			static function ( $indexable ) {
 				return $indexable->object_type === 'post';
-			}
+			},
 		);
 
 		$existing_post_object_ids = \wp_list_pluck( $existing_post_indexables, 'object_id' );
@@ -218,8 +218,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 				FROM %i
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $child_object_ids ) ), '%s' ) ) . ' )',
 				$wpdb->term_taxonomy,
-				...$child_object_ids
-			)
+				...$child_object_ids,
+			),
 		);
 
 		// In the case of faulty data having been saved the above query can return 0 results.
@@ -235,8 +235,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 				FROM %i
 				WHERE term_taxonomy_id IN( ' . \implode( ', ', \array_fill( 0, \count( $term_taxonomy_ids ), '%s' ) ) . ' )',
 				$wpdb->term_relationships,
-				...$term_taxonomy_ids
-			)
+				...$term_taxonomy_ids,
+			),
 		);
 	}
 }

@@ -80,7 +80,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<a id="%1$s" class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="%2$s" target="_blank">%3$s</a>',
 			esc_attr( 'wpseo-' . $this->identifier . '-popup-button' ),
 			esc_url( $url ),
-			$button_text
+			$button_text,
 		);
 
 		echo '<div class="' . esc_attr( $class ) . '">';
@@ -129,7 +129,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<li style="line-height: 19.5px"><img src="%1$s" alt="" width="19.5" height="19.5"><div class="%2$s">%3$s</div></li>',
 			esc_url( $assets_uri . 'packages/js/images/icon-check-circle-green.svg' ),
 			esc_attr( $class . '--argument' ),
-			$argument
+			$argument,
 		);
 	}
 
@@ -179,7 +179,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$header_text = sprintf(
 			/* translators: %s expands to Yoast WooCommerce SEO */
 				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
-				'Yoast WooCommerce SEO'
+				'Yoast WooCommerce SEO',
 			);
 			$header_icon = sprintf(
 				'<img src="%s" alt="" width="14" height="14" style="margin-inline-start: 8px;">',
@@ -190,12 +190,12 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$header_text = sprintf(
 			/* translators: %s expands to Yoast SEO Premium*/
 				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
+				'Yoast SEO Premium',
 			);
 
 			$header_icon = sprintf(
 				'<img src="%s" alt="" width="14" height="14" style="margin-inline-start: 8px;">',
-				esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' )
+				esc_url( $assets_uri . 'packages/js/images/icon-crown.svg' ),
 			);
 		}
 		return [ $header_text, $header_icon ];

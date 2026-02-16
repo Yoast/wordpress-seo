@@ -58,7 +58,7 @@ final class Taxonomies_Repository_Test extends TestCase {
 					'slug' => 'yoast-test-books',
 				],
 				'show_in_rest' => true,
-			]
+			],
 		);
 		\register_taxonomy(
 			'alternative-genre',
@@ -70,7 +70,7 @@ final class Taxonomies_Repository_Test extends TestCase {
 				'rest_base'      => 'alternative_genres',
 				'rest_namespace' => 'my_custom_namespace/v1',
 				'rewrite'        => [ 'slug' => 'alternative-genre' ],
-			]
+			],
 		);
 
 		\register_taxonomy(
@@ -79,7 +79,7 @@ final class Taxonomies_Repository_Test extends TestCase {
 			[
 				'public'       => true,
 				'show_in_rest' => true,
-			]
+			],
 		);
 	}
 

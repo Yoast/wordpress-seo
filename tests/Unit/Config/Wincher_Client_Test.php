@@ -67,10 +67,10 @@ final class Wincher_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
-					'created_at'    => 1234890,
-				]
+					'created_at'    => 1_234_890,
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -78,17 +78,17 @@ final class Wincher_Client_Test extends TestCase {
 			[
 				$this->options_helper,
 				Mockery::mock( WP_Remote_Handler::class ),
-			]
+			],
 		)->makePartial();
 
 		$this->assertInstanceOf(
 			Wincher_PKCE_Provider::class,
-			$this->getPropertyValue( $instance, 'provider' )
+			$this->getPropertyValue( $instance, 'provider' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 	}
 }

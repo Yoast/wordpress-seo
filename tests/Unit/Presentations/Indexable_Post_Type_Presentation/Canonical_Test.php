@@ -68,7 +68,7 @@ final class Canonical_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $val ) {
 					return $val;
-				}
+				},
 			);
 
 		Monkey\Functions\expect( 'is_date' )
@@ -115,7 +115,7 @@ final class Canonical_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $val ) {
 					return $val;
-				}
+				},
 			);
 
 		Monkey\Functions\expect( 'is_date' )
@@ -162,7 +162,7 @@ final class Canonical_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $val ) {
 					return $val;
-				}
+				},
 			);
 
 		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->generate_canonical() );
@@ -207,7 +207,7 @@ final class Canonical_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $val ) {
 					return $val;
-				}
+				},
 			);
 
 		$this->assertEquals( 'https://example.com/dynamic-permalink/2/', $this->instance->generate_canonical() );

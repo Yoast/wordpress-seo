@@ -66,7 +66,7 @@ final class Site_Helper_Test extends TestCase {
 			[
 				'is_multisite'   => true,
 				'ms_is_switched' => true,
-			]
+			],
 		);
 
 		self::assertTrue( $this->instance->is_multisite_and_switched() );

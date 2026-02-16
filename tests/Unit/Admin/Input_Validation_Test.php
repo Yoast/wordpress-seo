@@ -48,7 +48,7 @@ final class Input_Validation_Test extends TestCase {
 						'message' => 'This is the error message',
 						'type'    => 'error',
 					],
-				]
+				],
 			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
@@ -83,7 +83,7 @@ final class Input_Validation_Test extends TestCase {
 						'message' => 'This is the second error message',
 						'type'    => 'error',
 					],
-				]
+				],
 			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
@@ -112,7 +112,7 @@ final class Input_Validation_Test extends TestCase {
 						'message' => 'This is the error message',
 						'type'    => 'error',
 					],
-				]
+				],
 			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
@@ -141,7 +141,7 @@ final class Input_Validation_Test extends TestCase {
 						'message' => 'This is the error message',
 						'type'    => 'error',
 					],
-				]
+				],
 			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );

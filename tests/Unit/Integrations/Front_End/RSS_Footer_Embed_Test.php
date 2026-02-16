@@ -57,7 +57,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			RSS_Footer_Embed::get_conditionals()
+			RSS_Footer_Embed::get_conditionals(),
 		);
 	}
 
@@ -88,7 +88,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'Not on feed page',
-			$this->instance->embed_rssfooter( 'Not on feed page' )
+			$this->instance->embed_rssfooter( 'Not on feed page' ),
 		);
 	}
 
@@ -109,7 +109,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'Disabled feature by filter.',
-			$this->instance->embed_rssfooter( 'Disabled feature by filter.' )
+			$this->instance->embed_rssfooter( 'Disabled feature by filter.' ),
 		);
 	}
 
@@ -134,7 +134,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'No options set',
-			$this->instance->embed_rssfooter( 'No options set' )
+			$this->instance->embed_rssfooter( 'No options set' ),
 		);
 	}
 
@@ -168,7 +168,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 					'%%POSTLINK%%'     => 'post_link',
 					'%%BLOGLINK%%'     => 'blog_link',
 					'%%BLOGDESCLINK%%' => 'blog_description_link',
-				]
+				],
 			);
 
 		$this->options->expects( 'get' )->with( 'rssbefore', '' )->once()->andReturn( '%%authorlink%%' );
@@ -176,7 +176,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'<a href="#">author_link</a>No options set',
-			$this->instance->embed_rssfooter( 'No options set' )
+			$this->instance->embed_rssfooter( 'No options set' ),
 		);
 	}
 
@@ -192,7 +192,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'Feature is disabled',
-			$this->instance->embed_rssfooter_excerpt( 'Feature is disabled' )
+			$this->instance->embed_rssfooter_excerpt( 'Feature is disabled' ),
 		);
 	}
 
@@ -230,7 +230,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 					'%%POSTLINK%%'     => 'post_link',
 					'%%BLOGLINK%%'     => 'blog_link',
 					'%%BLOGDESCLINK%%' => 'blog_description_link',
-				]
+				],
 			);
 
 		$this->options->expects( 'get' )->with( 'rssbefore', '' )->once()->andReturn( '%%authorlink%%' );
@@ -238,7 +238,7 @@ final class RSS_Footer_Embed_Test extends TestCase {
 
 		$this->assertEquals(
 			'<a rel="nofollow" href="#">author_link</a>No options set',
-			$this->instance->embed_rssfooter_excerpt( 'No options set' )
+			$this->instance->embed_rssfooter_excerpt( 'No options set' ),
 		);
 	}
 }

@@ -26,15 +26,15 @@ final class Setup_Url_Interceptor_Constructor_Test extends Abstract_Setup_Url_In
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 		$this->assertInstanceOf(
 			Site_Kit::class,
-			$this->getPropertyValue( $this->instance, 'site_kit_configuration' )
+			$this->getPropertyValue( $this->instance, 'site_kit_configuration' ),
 		);
 		$this->assertInstanceOf(
 			Redirect_Helper::class,
-			$this->getPropertyValue( $this->instance, 'redirect_helper' )
+			$this->getPropertyValue( $this->instance, 'redirect_helper' ),
 		);
 	}
 }

@@ -37,7 +37,7 @@ final class Maybe_Build_Author_Indexable_Test extends Abstract_Indexable_Builder
 			$this->primary_term_builder,
 			$this->indexable_helper,
 			$this->version_manager,
-			$this->link_builder
+			$this->link_builder,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );

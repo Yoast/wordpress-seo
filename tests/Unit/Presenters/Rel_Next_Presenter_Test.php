@@ -55,7 +55,7 @@ final class Rel_Next_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -100,7 +100,7 @@ final class Rel_Next_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="next" href="https://filtered" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -123,7 +123,7 @@ final class Rel_Next_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="next" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

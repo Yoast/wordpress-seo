@@ -62,7 +62,7 @@ class Default_Tagline_Reports {
 			/* translators: 1: link open tag; 2: link close tag. */
 			\esc_html__( '%1$sYou can change the tagline in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( $customize_url ) . '">',
-			'</a>'
+			'</a>',
 		);
 	}
 }

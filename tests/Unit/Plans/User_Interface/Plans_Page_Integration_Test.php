@@ -111,7 +111,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 				'has_license'    => true,
 				'get_ctb_action' => 'load-nfd-ctb',
 				'get_ctb_id'     => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
-			]
+			],
 		);
 
 		$this->add_ons_collector      = new Add_Ons_Collector( $this->addon_manager, $premium_add_on );
@@ -128,7 +128,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 			$this->short_link_helper,
 			$this->admin_conditional,
 			$this->promotion_manager,
-			$this->duplicate_post_manager
+			$this->duplicate_post_manager,
 		);
 	}
 
@@ -255,7 +255,7 @@ final class Plans_Page_Integration_Test extends TestCase {
 					[ $this->instance, 'display_page' ],
 				],
 			],
-			$this->instance->add_page( [ 'wpseo_tools' ] )
+			$this->instance->add_page( [ 'wpseo_tools' ] ),
 		);
 	}
 

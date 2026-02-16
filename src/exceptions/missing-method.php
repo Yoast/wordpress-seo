@@ -23,8 +23,8 @@ class Missing_Method extends Exception {
 				/* translators: %1$s expands to the method name. %2$s expands to the class name */
 				\__( 'Method %1$s() does not exist in class %2$s', 'wordpress-seo' ),
 				$method,
-				$class_name
-			)
+				$class_name,
+			),
 		);
 	}
 }
