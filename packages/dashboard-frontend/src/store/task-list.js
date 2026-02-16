@@ -53,7 +53,7 @@ const initialState = {
 	nonce: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: null,
-	currentOpenTask: null,
+	currentOpenTaskId: null,
 };
 
 /**
@@ -151,10 +151,6 @@ const slice = createSlice( {
 		setTaskCompleted( state, { payload } ) {
 			if ( state.tasks[ payload ] ) {
 				state.tasks[ payload ].isCompleted = true;
-				// Also update currentOpenTask if it's the same task
-				if ( state.currentOpenTask && state.currentOpenTask.id === payload ) {
-					state.currentOpenTask.isCompleted = true;
-				}
 			}
 		},
 		resetTaskError( state, { payload } ) {
@@ -163,8 +159,8 @@ const slice = createSlice( {
 				state.tasks[ payload ].status = ASYNC_ACTION_STATUS.idle;
 			}
 		},
-		setCurrentOpenTask( state, { payload } ) {
-			state.currentOpenTask = payload ? state.tasks[ payload ] : null;
+		setCurrentOpenTaskId( state, { payload } ) {
+			state.currentOpenTaskId = payload;
 		},
 	},
 	extraReducers: ( builder ) => {
@@ -175,10 +171,6 @@ const slice = createSlice( {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.success;
 			state.tasks[ id ].error = null;
 			state.tasks[ id ].isCompleted = true;
-			// Also update currentOpenTask if it's the same task that was completed
-			if ( state.currentOpenTask && state.currentOpenTask.id === id ) {
-				state.currentOpenTask.isCompleted = true;
-			}
 		} );
 		builder.addCase( `${ COMPLETE_TASK }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload: { error, id } } ) => {
 			state.tasks[ id ].status = ASYNC_ACTION_STATUS.error;
@@ -239,7 +231,14 @@ export const taskListSelectors = {
 			values( tasks ).filter( task => task.isCompleted && ! task.parentTaskId )
 		);
 	},
-	selectCurrentOpenTask: ( state ) => get( state, [ TASK_LIST_NAME, "currentOpenTask" ], null ),
+	selectCurrentOpenTask: ( state ) => {
+		const currentTaskId = get( state, [ TASK_LIST_NAME, "currentOpenTaskId" ], null );
+		const tasks = get( state, [ TASK_LIST_NAME, "tasks" ], {} );
+		if ( currentTaskId && tasks[ currentTaskId ] ) {
+			return tasks[ currentTaskId ];
+		}
+		return null;
+	},
 	selectTaskTitle: ( state, id ) => {
 		return get( state, [ TASK_LIST_NAME, "tasks", id, "title" ], null );
 	},
