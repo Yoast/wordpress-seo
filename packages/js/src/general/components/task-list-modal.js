@@ -4,6 +4,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { isEmpty, values } from "lodash";
+import { __ } from "@wordpress/i18n";
 
 /**
  * The TaskListModal component to display the task details modal.
@@ -72,6 +73,6 @@ export const TaskListModal = () => {
 		parentTaskTitle={ parentTaskTitle }
 		onProgressBadgeClick={ setCurrentOpenTask }
 	>
-		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTask } /> }
+		{ currentOpenTask.parentTask && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTask } /> }
 	</TaskModal>;
 };

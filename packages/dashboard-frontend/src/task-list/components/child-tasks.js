@@ -4,6 +4,7 @@ import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useSvgAria } from "@yoast/ui-library";
 import { SingleTaskButton } from "./single-task-button";
+import { isEmpty } from "lodash";
 
 /**
  * @typedef {Object} Task
@@ -25,10 +26,20 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 	const svgAriaProps = useSvgAria();
 	const ITEMS_PER_PAGE = 4;
 	const [ currentPage, setCurrentPage ] = useState( 1 );
-	const parentTaskId = tasks[ 0 ]?.parentTaskId;
+	const parentTaskId = isEmpty( tasks ) ? null : tasks[ 0 ]?.parentTaskId;
 
-	const totalTasks = tasks.length;
-	const completedTasks = tasks.filter( ( task ) => task.isCompleted ).length;
+	useEffect( () => {
+		setCurrentPage( 1 );
+	}, [ parentTaskId ] );
+
+	if ( isEmpty( tasks ) ) {
+		return <div className="yst-italic yst-pt-6 yst-mt-6 yst-text-center yst-text-sm yst-text-slate-600 yst-border-t yst-border-t-slate-200">
+			{ __( "No tasks detected", "wordpress-seo" ) }
+		</div>;
+	}
+
+	const totalTasks = tasks?.length;
+	const completedTasks = tasks.filter( ( task ) => task.isCompleted )?.length;
 
 	// Calculate pagination values
 	const totalPages = Math.ceil( totalTasks / ITEMS_PER_PAGE );
@@ -51,10 +62,6 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 
 	const isPreviousDisabled = currentPage === 1;
 	const isNextDisabled = currentPage === totalPages || totalPages === 0;
-
-	useEffect( () => {
-		setCurrentPage( 1 );
-	}, [ parentTaskId ] );
 
 	return (
 		<div className="yst-mt-6">

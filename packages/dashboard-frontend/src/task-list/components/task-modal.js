@@ -23,14 +23,7 @@ import { TaskAnalyzer } from "./task-analyzer";
  */
 
 /**
-* The type analyzer.
- *
- * @typedef {Object} Analyzer
- * @property {string} title The title for the analyzer.
- * @property {string} type The variant of the analyzer.
- * @property {string} result The result of the analyzer.
- * @property {string} resultLabel The label for the result of the analyzer.
- * @property {string} resultDescription The description of the analyzer.
+ * @typedef {import('../../store/task-list').Analyzer} Analyzer
  */
 
 /**
