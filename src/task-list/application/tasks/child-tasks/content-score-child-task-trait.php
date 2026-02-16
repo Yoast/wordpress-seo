@@ -58,9 +58,7 @@ trait Content_Score_Child_Task_Trait {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		if ( $this->is_completed === null ) {
-			$this->is_completed = $this->content_item_score_data->get_score() === 'good';
-		}
+		$this->is_completed ??= $this->content_item_score_data->get_score() === 'good';
 
 		return $this->is_completed;
 	}
