@@ -227,6 +227,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
 					size="small"
 					aria-label={ ariaLabel }
+					className="yst-px-2"
 				>
 					{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 				</Button>
