@@ -2,14 +2,14 @@ import { ProgressBar, SkeletonLoader, Label } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 
 /**
- * The task progressbar Title component to display title.
+ * The task progressbar Label component to display label.
  *
  * @param {string} label The label for the progress bar.
- * @param {JSX.Element} children Optional children to display next to the title, e.g. a badge.
+ * @param {JSX.Element} children Optional children to display next to the label, e.g. a badge.
  *
- * @returns {JSX.Element} The TasksProgressBarTitle component.
+ * @returns {JSX.Element} The TasksProgressBarLabel component.
  */
-export const TasksProgressBarTitle = ( { label, children } ) => (
+export const TasksProgressBarLabel = ( { label, children } ) => (
 	<div className="yst-flex yst-gap-1 yst-mb-2 yst-items-center">
 		<Label className="yst-font-medium yst-text-slate-900 yst-text-sm">
 			{ label }
@@ -25,9 +25,9 @@ export const TasksProgressBarTitle = ( { label, children } ) => (
  */
 const LoadingProgressBar = ( { className, label } ) => (
 	<div className={ className }>
-		<TasksProgressBarTitle label={ label }>
+		<TasksProgressBarLabel label={ label }>
 			<SkeletonLoader className="yst-w-9 yst-h-5" />
-		</TasksProgressBarTitle>
+		</TasksProgressBarLabel>
 		<SkeletonLoader className="yst-w-full yst-h-1.5" />
 	</div>
 );
@@ -39,9 +39,9 @@ const LoadingProgressBar = ( { className, label } ) => (
  */
 const ErrorProgressBar = ( { className, label } ) => (
 	<div className={ className }>
-		<TasksProgressBarTitle label={ label }>
+		<TasksProgressBarLabel label={ label }>
 			<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
-		</TasksProgressBarTitle>
+		</TasksProgressBarLabel>
 		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
 	</div>
 );
@@ -74,11 +74,11 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 
 	return (
 		<div className={ className }>
-			<TasksProgressBarTitle label={ label }>
+			<TasksProgressBarLabel label={ label }>
 				<span className="yst-text-xs yst-font-medium">
 					<span className="yst-text-slate-600">{ completedTasks }</span><span className="yst-text-slate-500">/{ totalTasks }</span>
 				</span>
-			</TasksProgressBarTitle>
+			</TasksProgressBarLabel>
 			<ProgressBar
 				progress={ completedTasks }
 				min={ 0 }
