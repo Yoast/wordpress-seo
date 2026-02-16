@@ -53,7 +53,7 @@ class Properties_Merger {
 			if ( $key === '@type' ) {
 				$merged['@type'] = $this->merge_types(
 					( $merged['@type'] ?? null ),
-					$value
+					$value,
 				);
 				continue;
 			}

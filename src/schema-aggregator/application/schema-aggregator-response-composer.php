@@ -26,7 +26,7 @@ class Schema_Aggregator_Response_Composer {
 				[
 					'@context' => 'https://schema.org',
 				],
-				$piece->get_data()
+				$piece->get_data(),
 			);
 		}
 		if ( $is_debug ) {

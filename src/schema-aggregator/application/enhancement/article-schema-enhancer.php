@@ -54,7 +54,7 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 					'NewsArticle',
 					'BlogPosting',
 				],
-				true
+				true,
 			) ) {
 			$schema_data = $this->enhance_schema_piece( $schema_data, $indexable );
 		}

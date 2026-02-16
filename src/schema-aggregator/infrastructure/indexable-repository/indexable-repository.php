@@ -40,7 +40,7 @@ class Indexable_Repository implements Indexable_Repository_Interface {
 		return $this->indexable_repository->find_all_public_paginated(
 			$page,
 			$page_size,
-			$post_type
+			$post_type,
 		);
 	}
 }

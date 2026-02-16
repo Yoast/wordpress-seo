@@ -36,9 +36,7 @@ class Elements_Context_Map_Repository implements Elements_Context_Map_Repository
 	 * @return array<array<string, string>> The elements context-map.
 	 */
 	public function get_map(): array {
-		if ( $this->map === null ) {
-			$this->map = $this->map_loader->load();
-		}
+		$this->map ??= $this->map_loader->load();
 		return $this->map;
 	}
 

@@ -87,7 +87,7 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 			$this->cache_manager->invalidate( $assoc_args['post_type'], $assoc_args['page'] );
 			$this->xml_manager->invalidate();
 			WP_CLI::log(
-				\__( 'The site schema cache has been cleared successfully.', 'wordpress-seo' )
+				\__( 'The site schema cache has been cleared successfully.', 'wordpress-seo' ),
 			);
 
 			return;
@@ -96,7 +96,7 @@ class Site_Schema_Aggregator_Cache_Cli_Command implements Command_Interface {
 		$this->xml_manager->invalidate();
 
 		WP_CLI::log(
-			\__( 'All site schema cache has been cleared successfully.', 'wordpress-seo' )
+			\__( 'All site schema cache has been cleared successfully.', 'wordpress-seo' ),
 		);
 	}
 }
