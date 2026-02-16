@@ -88,7 +88,7 @@ require_once $_tests_dir . 'includes/functions.php';
 	 */
 	static function () {
 		require \dirname( __DIR__, 2 ) . '/wp-seo.php';
-	}
+	},
 );
 
 // Overwrite the plugin URL to not include the full path.
@@ -114,7 +114,7 @@ require_once $_tests_dir . 'includes/functions.php';
 		return $url;
 	},
 	10,
-	3
+	3,
 );
 
 // Make sure the tests never register as being in development mode.

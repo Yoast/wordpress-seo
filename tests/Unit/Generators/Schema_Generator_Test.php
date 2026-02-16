@@ -120,13 +120,13 @@ final class Schema_Generator_Test extends TestCase {
 				Article_Helper::class      => $this->article,
 				Date_Helper::class         => $this->date,
 				Language_Helper::class     => new Language_Helper(),
-			]
+			],
 		);
 		$helpers   = $this->create_helper_surface( $container );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
-			[ $helpers, $this->replace_vars_helper ]
+			[ $helpers, $this->replace_vars_helper ],
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->context = Mockery::mock(
@@ -139,7 +139,7 @@ final class Schema_Generator_Test extends TestCase {
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 				Mockery::mock( Site_Helper::class ),
 				Mockery::mock( User_Helper::class ),
-			]
+			],
 		)->shouldAllowMockingProtectedMethods();
 
 		$this->context->blocks = [
@@ -317,7 +317,7 @@ final class Schema_Generator_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -409,7 +409,7 @@ final class Schema_Generator_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -485,7 +485,7 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$this->get_expected_schema(),
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -684,7 +684,7 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$this->get_expected_schema(),
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -769,7 +769,7 @@ final class Schema_Generator_Test extends TestCase {
 						],
 					],
 					'inLanguage'      => 'English',
-				]
+				],
 			);
 
 		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
@@ -798,7 +798,7 @@ final class Schema_Generator_Test extends TestCase {
 				],
 				'inLanguage'      => 'English',
 			],
-			$this->instance->generate( $this->context )['@graph'][1]
+			$this->instance->generate( $this->context )['@graph'][1],
 		);
 	}
 
@@ -886,7 +886,7 @@ final class Schema_Generator_Test extends TestCase {
 						],
 					],
 					'inLanguage'      => 'English',
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -912,7 +912,7 @@ final class Schema_Generator_Test extends TestCase {
 				],
 				'inLanguage'      => 'English',
 			],
-			$this->instance->generate( $this->context )['@graph'][1]
+			$this->instance->generate( $this->context )['@graph'][1],
 		);
 	}
 
@@ -1009,7 +1009,7 @@ final class Schema_Generator_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -1126,7 +1126,7 @@ final class Schema_Generator_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 
@@ -1199,7 +1199,7 @@ final class Schema_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected_schema,
-			$this->instance->generate( $this->context )
+			$this->instance->generate( $this->context ),
 		);
 	}
 

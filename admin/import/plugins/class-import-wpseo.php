@@ -197,7 +197,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 			[
 				'taxonomy'   => get_taxonomies(),
 				'hide_empty' => false,
-			]
+			],
 		);
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
@@ -300,7 +300,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 			[
 				'taxonomy'   => get_taxonomies(),
 				'hide_empty' => false,
-			]
+			],
 		);
 
 		foreach ( $terms as $term ) {

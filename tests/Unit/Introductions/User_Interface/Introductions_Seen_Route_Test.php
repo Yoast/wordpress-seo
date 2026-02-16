@@ -78,11 +78,11 @@ final class Introductions_Seen_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Introductions_Seen_Repository::class,
-			$this->getPropertyValue( $this->instance, 'introductions_seen_repository' )
+			$this->getPropertyValue( $this->instance, 'introductions_seen_repository' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 
@@ -129,7 +129,7 @@ final class Introductions_Seen_Route_Test extends TestCase {
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();
@@ -175,7 +175,7 @@ final class Introductions_Seen_Route_Test extends TestCase {
 						'success' => true,
 					],
 				],
-				200
+				200,
 			)
 			->once();
 
@@ -187,12 +187,12 @@ final class Introductions_Seen_Route_Test extends TestCase {
 				[
 					'introduction_id' => $introduction_id,
 					'is_seen'         => true,
-				]
+				],
 			);
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_introduction_seen( $wp_rest_request )
+			$this->instance->set_introduction_seen( $wp_rest_request ),
 		);
 	}
 
@@ -223,7 +223,7 @@ final class Introductions_Seen_Route_Test extends TestCase {
 						'success' => false,
 					],
 				],
-				400
+				400,
 			)
 			->once();
 
@@ -235,12 +235,12 @@ final class Introductions_Seen_Route_Test extends TestCase {
 				[
 					'introduction_id' => $introduction_id,
 					'is_seen'         => true,
-				]
+				],
 			);
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_introduction_seen( $wp_rest_request )
+			$this->instance->set_introduction_seen( $wp_rest_request ),
 		);
 	}
 
@@ -270,12 +270,12 @@ final class Introductions_Seen_Route_Test extends TestCase {
 				[
 					'introduction_id' => $introduction_id,
 					'is_seen'         => true,
-				]
+				],
 			);
 
 		$this->assertInstanceOf(
 			'WP_Error',
-			$this->instance->set_introduction_seen( $wp_rest_request )
+			$this->instance->set_introduction_seen( $wp_rest_request ),
 		);
 	}
 
@@ -297,7 +297,7 @@ final class Introductions_Seen_Route_Test extends TestCase {
 			->expects( '__construct' )
 			->with(
 				[],
-				400
+				400,
 			)
 			->once();
 
@@ -309,12 +309,12 @@ final class Introductions_Seen_Route_Test extends TestCase {
 				[
 					'introduction_id' => $introduction_id,
 					'is_seen'         => true,
-				]
+				],
 			);
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->set_introduction_seen( $wp_rest_request )
+			$this->instance->set_introduction_seen( $wp_rest_request ),
 		);
 	}
 }

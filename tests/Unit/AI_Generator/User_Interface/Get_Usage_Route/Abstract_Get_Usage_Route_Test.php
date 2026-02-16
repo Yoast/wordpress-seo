@@ -61,7 +61,7 @@ abstract class Abstract_Get_Usage_Route_Test extends TestCase {
 		$this->instance = new Get_Usage_Route(
 			$this->token_manager,
 			$this->request_handler,
-			$this->addon_manager
+			$this->addon_manager,
 		);
 	}
 }

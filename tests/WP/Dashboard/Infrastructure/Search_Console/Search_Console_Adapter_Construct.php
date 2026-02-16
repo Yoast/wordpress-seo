@@ -28,7 +28,7 @@ final class Search_Console_Adapter_Construct extends Abstract_Search_Console_Ada
 
 		$this->assertInstanceOf(
 			Module::class,
-			$module
+			$module,
 		);
 	}
 }

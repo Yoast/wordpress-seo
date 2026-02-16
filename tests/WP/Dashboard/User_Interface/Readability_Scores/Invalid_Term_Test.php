@@ -26,7 +26,7 @@ final class Invalid_Term_Test extends Abstract_Readability_Scores_Test {
 			'post_tag',
 			[
 				'slug' => 'test-tag',
-			]
+			],
 		);
 
 		$request = new WP_REST_Request( 'GET', '/yoast/v1/readability_scores' );

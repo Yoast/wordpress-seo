@@ -84,7 +84,7 @@ final class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase 
 			$this->repository,
 			$this->builder,
 			$this->post_type,
-			$this->versions
+			$this->versions,
 		);
 	}
 

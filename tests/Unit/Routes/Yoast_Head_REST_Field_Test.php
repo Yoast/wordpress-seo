@@ -74,7 +74,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			$this->post_type_helper,
 			$this->taxonomy_helper,
 			$this->post_helper,
-			$this->head_action
+			$this->head_action,
 		);
 	}
 
@@ -99,15 +99,15 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
-			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Head_Action::class,
-			$this->getPropertyValue( $this->instance, 'head_action' )
+			$this->getPropertyValue( $this->instance, 'head_action' ),
 		);
 	}
 
@@ -134,7 +134,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			->with(
 				'post_type',
 				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
-				[ 'get_callback' => [ $this->instance, 'for_post' ] ]
+				[ 'get_callback' => [ $this->instance, 'for_post' ] ],
 			);
 
 		Monkey\Functions\expect( 'register_rest_field' )
@@ -142,7 +142,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			->with(
 				'taxonomy',
 				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
-				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
+				[ 'get_callback' => [ $this->instance, 'for_term' ] ],
 			);
 
 		Monkey\Functions\expect( 'register_rest_field' )
@@ -150,7 +150,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			->with(
 				'tag',
 				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
-				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
+				[ 'get_callback' => [ $this->instance, 'for_term' ] ],
 			);
 
 		Monkey\Functions\expect( 'register_rest_field' )
@@ -158,7 +158,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			->with(
 				'user',
 				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
-				[ 'get_callback' => [ $this->instance, 'for_author' ] ]
+				[ 'get_callback' => [ $this->instance, 'for_author' ] ],
 			);
 
 		Monkey\Functions\expect( 'register_rest_field' )
@@ -166,7 +166,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 			->with(
 				'type',
 				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
-				[ 'get_callback' => [ $this->instance, 'for_post_type_archive' ] ]
+				[ 'get_callback' => [ $this->instance, 'for_post_type_archive' ] ],
 			);
 
 		$this->instance->register_routes();
@@ -264,7 +264,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 				(object) [
 					'status' => 404,
 					'head'   => 'this is the 404 head',
-				]
+				],
 			);
 
 		if ( $method === 'for_post' ) {
@@ -293,7 +293,7 @@ final class Yoast_Head_REST_Field_Test extends TestCase {
 				(object) [
 					'status' => 404,
 					'head'   => 'this is the 404 head',
-				]
+				],
 			);
 
 		$this->assertNull( $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );

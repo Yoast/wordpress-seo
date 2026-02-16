@@ -55,7 +55,7 @@ class Container_Compiler {
 				[
 					'class'     => 'Cached_Container',
 					'namespace' => $target_namespace,
-				]
+				],
 			);
 			$code   = \str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );
 			$code   = \str_replace( 'Symfony\\\\Component\\\\DependencyInjection', 'YoastSEO_Vendor\\\\Symfony\\\\Component\\\\DependencyInjection', $code );

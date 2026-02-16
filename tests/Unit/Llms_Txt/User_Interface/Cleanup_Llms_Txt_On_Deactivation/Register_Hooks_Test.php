@@ -25,8 +25,8 @@ final class Register_Hooks_Test extends Abstract_Cleanup_Llms_Txt_On_Deactivatio
 			10,
 			\has_action(
 				'wpseo_deactivate',
-				[ $this->instance, 'maybe_remove_llms_file' ]
-			)
+				[ $this->instance, 'maybe_remove_llms_file' ],
+			),
 		);
 	}
 }

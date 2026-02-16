@@ -110,7 +110,7 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			$this->current_page,
 			$this->indexable_repository,
 			$this->meta_tags_context,
-			$this->presentation_memoizer
+			$this->presentation_memoizer,
 		);
 
 		$this->meta_tags_context_mock        = new Meta_Tags_Context_Mock();
@@ -127,23 +127,23 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Blocks_Helper::class,
-			$this->getPropertyValue( $this->instance, 'blocks' )
+			$this->getPropertyValue( $this->instance, 'blocks' ),
 		);
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page' )
+			$this->getPropertyValue( $this->instance, 'current_page' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'repository' )
+			$this->getPropertyValue( $this->instance, 'repository' ),
 		);
 		$this->assertInstanceOf(
 			Meta_Tags_Context::class,
-			$this->getPropertyValue( $this->instance, 'context_prototype' )
+			$this->getPropertyValue( $this->instance, 'context_prototype' ),
 		);
 		$this->assertInstanceOf(
 			Presentation_Memoizer::class,
-			$this->getPropertyValue( $this->instance, 'presentation_memoizer' )
+			$this->getPropertyValue( $this->instance, 'presentation_memoizer' ),
 		);
 	}
 

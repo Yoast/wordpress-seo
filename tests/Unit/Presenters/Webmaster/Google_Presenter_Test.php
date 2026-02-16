@@ -73,7 +73,7 @@ final class Google_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="google-site-verification" content="google-ver" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -90,7 +90,7 @@ final class Google_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -106,7 +106,7 @@ final class Google_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'google-ver',
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 
@@ -125,7 +125,7 @@ final class Google_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="google-site-verification" content="google-ver" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

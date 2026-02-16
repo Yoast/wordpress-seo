@@ -44,7 +44,7 @@ final class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 				'count'        => 0,
 				'cleanup_name' => 'cleanup_name',
 			],
-			$this->sut->to_array()
+			$this->sut->to_array(),
 		);
 	}
 

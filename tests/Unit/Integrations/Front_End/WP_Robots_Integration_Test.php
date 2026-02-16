@@ -55,7 +55,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Meta_Tags_Context_Memoizer::class,
-			$this->getPropertyValue( $this->instance, 'context_memoizer' )
+			$this->getPropertyValue( $this->instance, 'context_memoizer' ),
 		);
 	}
 
@@ -85,7 +85,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 				Front_End_Conditional::class,
 				WP_Robots_Conditional::class,
 			],
-			WP_Robots_Integration::get_conditionals()
+			WP_Robots_Integration::get_conditionals(),
 		);
 	}
 
@@ -117,7 +117,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 				'index'  => true,
 				'follow' => true,
 			],
-			$this->instance->add_robots( 'robots_string' )
+			$this->instance->add_robots( 'robots_string' ),
 		);
 	}
 
@@ -153,7 +153,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 			[
 				'index'  => true,
 				'follow' => true,
-			]
+			],
 		);
 
 		$this->assertEquals(
@@ -162,7 +162,7 @@ final class WP_Robots_Integration_Test extends TestCase {
 				'index'             => true,
 				'max-image-preview' => 'large',
 			],
-			$result
+			$result,
 		);
 	}
 
@@ -205,8 +205,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 				[
 					'index'  => true,
 					'follow' => true,
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -248,8 +248,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 				[
 					'index'  => true,
 					'follow' => true,
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -291,8 +291,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 				[
 					'index'   => true,
 					'noindex' => false,
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -336,8 +336,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 				[
 					'noimageindex'      => true,
 					'max-image-preview' => '',
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -385,8 +385,8 @@ final class WP_Robots_Integration_Test extends TestCase {
 					'archive'    => true,
 					'imageindex' => true,
 					'snippet'    => true,
-				]
-			)
+				],
+			),
 		);
 	}
 }

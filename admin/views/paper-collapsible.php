@@ -44,7 +44,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is an instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
 				$help_text->get_button_html(),
 				esc_html( $title ) . wp_kses_post( $title_after ),
-				wp_kses_post( $collapsible_config['toggle_icon'] )
+				wp_kses_post( $collapsible_config['toggle_icon'] ),
 			);
 		}
 		else {
@@ -72,7 +72,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput -- $container_id_attr is escaped above.
 		$container_id_attr,
 		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
-		$content
+		$content,
 	);
 	?>
 

@@ -90,7 +90,7 @@ final class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			$this->primary_term_repository,
 			$this->post_type_helper,
 			$this->indexable_repository,
-			$this->indexable_hierarchy_builder
+			$this->indexable_hierarchy_builder,
 		);
 	}
 
@@ -132,7 +132,7 @@ final class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 				Migrations_Conditional::class,
 				Doing_Post_Quick_Edit_Save_Conditional::class,
 			],
-			Primary_Category_Quick_Edit_Watcher::get_conditionals()
+			Primary_Category_Quick_Edit_Watcher::get_conditionals(),
 		);
 	}
 

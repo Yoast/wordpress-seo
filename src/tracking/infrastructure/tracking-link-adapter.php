@@ -25,7 +25,7 @@ class Tracking_Link_Adapter {
 				'wpseo_tracked_action' => 'task_first_actioned_on',
 				'wpseo_tracking_nonce' => \wp_create_nonce( 'wpseo_tracking_nonce' ),
 			],
-			$url
+			$url,
 		);
 	}
 }

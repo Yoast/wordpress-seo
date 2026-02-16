@@ -61,7 +61,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 				$request['focus_keyphrase'],
 				$request['language'],
 				$request['platform'],
-				$request['editor']
+				$request['editor'],
 			);
 
 		$wp_rest_response
@@ -115,7 +115,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 				$request['focus_keyphrase'],
 				$request['language'],
 				$request['platform'],
-				$request['editor']
+				$request['editor'],
 			)
 			->andThrow( $payment_required_exception );
 
@@ -140,7 +140,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 					'errorIdentifier' => 'test',
 					'missingLicenses' => 'test',
 				],
-				0
+				0,
 			);
 
 		$result = $this->instance->get_suggestions( $wp_rest_request );
@@ -189,7 +189,7 @@ final class Get_Suggestions_Test extends Abstract_Get_Suggestions_Route_Test {
 				$request['focus_keyphrase'],
 				$request['language'],
 				$request['platform'],
-				$request['editor']
+				$request['editor'],
 			)
 			->andThrow( $runtime_exception );
 

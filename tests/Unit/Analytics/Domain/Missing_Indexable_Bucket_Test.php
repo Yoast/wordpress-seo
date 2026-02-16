@@ -53,7 +53,7 @@ final class Missing_Indexable_Bucket_Test extends TestCase {
 					'count'          => 0,
 				],
 			],
-			$this->sut->to_array()
+			$this->sut->to_array(),
 		);
 	}
 }

@@ -56,7 +56,7 @@ final class Content_Type_Visibility_Dismiss_Notifications_Test extends TestCase 
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options' ),
-			'Options helper is not set correctly.'
+			'Options helper is not set correctly.',
 		);
 	}
 

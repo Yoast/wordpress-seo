@@ -89,7 +89,7 @@ final class Semrush_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'classes' => $this->classes,
-				]
+				],
 			);
 		$this->options
 			->expects( 'get' )
@@ -108,7 +108,7 @@ final class Semrush_Test extends TestCase {
 				'countryCode'              => true,
 				'SEMrushLoginStatus'       => true,
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 

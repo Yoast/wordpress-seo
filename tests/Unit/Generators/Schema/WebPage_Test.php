@@ -171,7 +171,7 @@ final class WebPage_Test extends TestCase {
 					$data['inLanguage'] = 'the-language';
 
 					return $data;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
@@ -208,7 +208,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
@@ -229,7 +229,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$expected = [
@@ -272,7 +272,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$expected = [
@@ -322,7 +322,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$expected = [
@@ -371,7 +371,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$this->id
@@ -421,7 +421,7 @@ final class WebPage_Test extends TestCase {
 			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
 		);
 
 		$this->html
@@ -474,7 +474,7 @@ final class WebPage_Test extends TestCase {
 			'CollectionPage',
 			0,
 			0,
-			0
+			0,
 		);
 
 		$expected = [
@@ -509,7 +509,7 @@ final class WebPage_Test extends TestCase {
 			'CollectionPage',
 			1,
 			1,
-			0
+			0,
 		);
 
 		$expected = [

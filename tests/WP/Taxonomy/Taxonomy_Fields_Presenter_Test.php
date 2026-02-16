@@ -52,7 +52,7 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 					'description' => 'this is a test field',
 					'options'     => '',
 				],
-			]
+			],
 		);
 
 		$expected = '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
@@ -77,7 +77,7 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 					'description' => 'this is a test field',
 					'options'     => '',
 				],
-			]
+			],
 		);
 
 		$expected = '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
@@ -102,7 +102,7 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 					'description' => '',
 					'options'     => [],
 				],
-			]
+			],
 		);
 
 		$this->assertEquals( '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/>', $output );
@@ -128,12 +128,12 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 						],
 					],
 				],
-			]
+			],
 		);
 
 		$this->assertStringContainsString(
 			'<select name="wpseo_fieldname" id="wpseo_fieldname"><option  value="value">option_value</option></select>',
-			$output
+			$output,
 		);
 	}
 
@@ -157,12 +157,12 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 						],
 					],
 				],
-			]
+			],
 		);
 
 		$this->assertStringContainsString(
 			'<input name="wpseo_fieldname" id="wpseo_fieldname" type="checkbox" />',
-			$output
+			$output,
 		);
 	}
 
@@ -182,12 +182,12 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 					'description' => '',
 					'options'     => '',
 				],
-			]
+			],
 		);
 
 		$this->assertStringContainsString(
 			'<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" value="" />',
-			$output
+			$output,
 		);
 	}
 
@@ -207,12 +207,12 @@ final class Taxonomy_Fields_Presenter_Test extends TestCase {
 					'description' => 'description for the field',
 					'options'     => '',
 				],
-			]
+			],
 		);
 
 		$this->assertStringContainsString(
 			'<p id="wpseo_fieldname-desc" class="yoast-metabox__description">description for the field</p>',
-			$output
+			$output,
 		);
 	}
 }

@@ -24,11 +24,11 @@ final class Constructor_Test extends Abstract_Link_Lists_Builder_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Content_Types_Collector::class,
-			$this->getPropertyValue( $this->instance, 'content_types_collector' )
+			$this->getPropertyValue( $this->instance, 'content_types_collector' ),
 		);
 		$this->assertInstanceOf(
 			Terms_Collector::class,
-			$this->getPropertyValue( $this->instance, 'terms_collector' )
+			$this->getPropertyValue( $this->instance, 'terms_collector' ),
 		);
 	}
 }

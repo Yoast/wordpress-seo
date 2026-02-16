@@ -251,6 +251,6 @@ class WPSEO_Rewrite {
 		$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
 
 		wp_safe_redirect( $catlink, 301, 'Yoast SEO' );
-		exit;
+		exit();
 	}
 }

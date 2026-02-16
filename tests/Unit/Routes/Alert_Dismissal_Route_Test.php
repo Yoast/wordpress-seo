@@ -57,7 +57,7 @@ final class Alert_Dismissal_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Alert_Dismissal_Action::class,
-			$this->getPropertyValue( $this->instance, 'alert_dismissal_action' )
+			$this->getPropertyValue( $this->instance, 'alert_dismissal_action' ),
 		);
 	}
 
@@ -71,7 +71,7 @@ final class Alert_Dismissal_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[],
-			Alert_Dismissal_Route::get_conditionals()
+			Alert_Dismissal_Route::get_conditionals(),
 		);
 	}
 
@@ -97,7 +97,7 @@ final class Alert_Dismissal_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			)
 			->once();
 

@@ -300,7 +300,7 @@ final class Article_Test extends TestCase {
 					$data['inLanguage'] = 'language';
 
 					return $data;
-				}
+				},
 			);
 
 		Monkey\Functions\expect( 'post_type_supports' )

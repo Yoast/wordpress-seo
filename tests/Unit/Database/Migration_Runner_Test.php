@@ -44,7 +44,7 @@ final class Migration_Runner_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[],
-			Migration_Runner::get_conditionals()
+			Migration_Runner::get_conditionals(),
 		);
 	}
 

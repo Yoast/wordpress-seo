@@ -51,7 +51,7 @@ final class Custom_Meta_Collector_Test extends TestCase {
 
 		$this->instance = new Custom_Meta_Collector(
 			$this->author_metadesc,
-			$this->noindex_author
+			$this->noindex_author,
 		);
 	}
 

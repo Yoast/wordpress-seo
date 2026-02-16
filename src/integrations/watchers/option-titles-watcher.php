@@ -121,8 +121,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 				)',
 				$hierarchy_table,
 				$indexable_table,
-				...$post_types
-			)
+				...$post_types,
+			),
 		);
 
 		return $result !== false;

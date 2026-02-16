@@ -79,7 +79,7 @@ class Unit_Test_Generator {
 			$groups,
 			$property_statements,
 			$create_mock_statements,
-			$instance_argument_statements
+			$instance_argument_statements,
 		);
 
 		\file_put_contents( __DIR__ . '/../../' . $unit_test_path, $filled_in_template );
@@ -148,7 +148,7 @@ class Unit_Test_Generator {
 			static function ( $group ) {
 				return ' * @group ' . $group;
 			},
-			$groups
+			$groups,
 		);
 
 		return \implode( \PHP_EOL, $groups );
@@ -244,7 +244,7 @@ TPL;
 					return 'use ' . $argument->getClass()->getShortName() . ';';
 				}
 			},
-			$constructor_arguments
+			$constructor_arguments,
 		);
 
 		return \implode( \PHP_EOL, $statements );
@@ -262,7 +262,7 @@ TPL;
 			static function ( $argument ) {
 				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
-			$constructor_arguments
+			$constructor_arguments,
 		);
 
 		return \implode( \PHP_EOL . \PHP_EOL, $statements );
@@ -300,7 +300,7 @@ TPL;
 			static function ( $argument ) {
 				return '$this->' . $argument->getName() . ' = Mockery::mock( ' . $argument->getClass()->getShortName() . '::class );';
 			},
-			$constructor_arguments
+			$constructor_arguments,
 		);
 
 		return \implode( \PHP_EOL . "\t\t", $statements );
@@ -318,7 +318,7 @@ TPL;
 			static function ( $argument ) {
 				return '$this->' . $argument->getName();
 			},
-			$constructor_arguments
+			$constructor_arguments,
 		);
 
 		return \implode( ',' . \PHP_EOL . "\t\t\t", $statements );

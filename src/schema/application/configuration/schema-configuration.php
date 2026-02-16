@@ -92,7 +92,7 @@ class Schema_Configuration {
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
-			'activate-plugin_' . $woocommerce_seo_file
+			'activate-plugin_' . $woocommerce_seo_file,
 		);
 
 		$is_premium = $this->product_helper->is_premium();

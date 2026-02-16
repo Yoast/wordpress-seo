@@ -101,7 +101,7 @@ abstract class Abstract_Callback_Route implements Route_Interface {
 			[
 				'message'       => 'Tokens successfully stored.',
 				'code_verifier' => $code_verifier->get_code(),
-			]
+			],
 		);
 	}
 

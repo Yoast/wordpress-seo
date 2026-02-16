@@ -113,7 +113,7 @@ class Academy_Integration implements Integration_Interface {
 					self::PAGE,
 					[ $this, 'display_page' ],
 				],
-			]
+			],
 		);
 
 		return $pages;

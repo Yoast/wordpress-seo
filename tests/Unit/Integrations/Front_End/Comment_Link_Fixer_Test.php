@@ -66,7 +66,7 @@ final class Comment_Link_Fixer_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Comment_Link_Fixer::get_conditionals()
+			Comment_Link_Fixer::get_conditionals(),
 		);
 	}
 

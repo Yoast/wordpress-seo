@@ -53,7 +53,7 @@ final class Indexing_Complete_Action_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 	}
 

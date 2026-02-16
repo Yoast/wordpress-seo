@@ -113,7 +113,7 @@ final class WooCommerce_Test extends TestCase {
 			$this->context_memoizer,
 			$this->repository,
 			$this->pagination_helper,
-			$this->woocommerce_helper
+			$this->woocommerce_helper,
 		);
 
 		$presentation       = new Indexable_Presentation();
@@ -131,7 +131,7 @@ final class WooCommerce_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ WooCommerce_Conditional::class, Front_End_Conditional::class ],
-			WooCommerce::get_conditionals()
+			WooCommerce::get_conditionals(),
 		);
 	}
 
@@ -149,16 +149,16 @@ final class WooCommerce_Test extends TestCase {
 			$this->context_memoizer,
 			$this->repository,
 			$this->pagination_helper,
-			$this->woocommerce_helper
+			$this->woocommerce_helper,
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options' )
+			$this->getPropertyValue( $instance, 'options' ),
 		);
 		$this->assertInstanceOf(
 			WPSEO_Replace_Vars::class,
-			$this->getPropertyValue( $instance, 'replace_vars' )
+			$this->getPropertyValue( $instance, 'replace_vars' ),
 		);
 	}
 
@@ -321,7 +321,7 @@ final class WooCommerce_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->title( 'This is a value', $this->presentation )
+			$this->instance->title( 'This is a value', $this->presentation ),
 		);
 	}
 
@@ -366,7 +366,7 @@ final class WooCommerce_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->description( 'This is a value', $this->presentation )
+			$this->instance->description( 'This is a value', $this->presentation ),
 		);
 	}
 
@@ -461,7 +461,7 @@ final class WooCommerce_Test extends TestCase {
 
 		$this->assertEquals(
 			'This is a template value',
-			$this->instance->title( 'This is a value', $this->presentation )
+			$this->instance->title( 'This is a value', $this->presentation ),
 		);
 	}
 
@@ -498,7 +498,7 @@ final class WooCommerce_Test extends TestCase {
 
 		$this->assertEquals(
 			'This is a template value',
-			$this->instance->description( 'This is a value', $this->presentation )
+			$this->instance->description( 'This is a value', $this->presentation ),
 		);
 	}
 

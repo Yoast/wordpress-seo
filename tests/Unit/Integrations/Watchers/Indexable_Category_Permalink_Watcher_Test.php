@@ -71,7 +71,7 @@ final class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 			[
 				'wp_next_scheduled' => false,
 				'wp_schedule_event' => false,
-			]
+			],
 		);
 
 		$this->options          = Mockery::mock( Options_Helper::class );
@@ -83,7 +83,7 @@ final class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 			$this->post_type,
 			$this->options,
 			$this->indexable_helper,
-			$this->taxonomy_helper
+			$this->taxonomy_helper,
 		);
 	}
 

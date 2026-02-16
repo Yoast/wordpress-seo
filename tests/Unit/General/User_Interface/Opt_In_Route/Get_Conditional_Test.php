@@ -23,7 +23,7 @@ final class Get_Conditional_Test extends Abstract_Opt_In_Route_Test {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ User_Can_Manage_Wpseo_Options_Conditional::class ],
-			$this->instance::get_conditionals()
+			$this->instance::get_conditionals(),
 		);
 	}
 }

@@ -72,7 +72,7 @@ abstract class OAuth_Client {
 				$tokens['expires'],
 				$tokens['has_expired'],
 				$tokens['created_at'],
-				( $tokens['error_count'] ?? 0 )
+				( $tokens['error_count'] ?? 0 ),
 			);
 		}
 	}
@@ -93,7 +93,7 @@ abstract class OAuth_Client {
 					'authorization_code',
 					[
 						'code' => $code,
-					]
+					],
 				);
 
 			$token = OAuth_Token::from_response( $response );
@@ -274,7 +274,7 @@ abstract class OAuth_Client {
 				'refresh_token',
 				[
 					'refresh_token' => $tokens->refresh_token,
-				]
+				],
 			);
 
 			$token_obj = OAuth_Token::from_response( $new_tokens );

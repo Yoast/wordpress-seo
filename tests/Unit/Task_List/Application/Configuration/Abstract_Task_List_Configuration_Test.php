@@ -50,7 +50,7 @@ abstract class Abstract_Task_List_Configuration_Test extends TestCase {
 
 		$this->instance = new Task_List_Configuration(
 			$this->options_helper,
-			$this->endpoints_repository
+			$this->endpoints_repository,
 		);
 	}
 }

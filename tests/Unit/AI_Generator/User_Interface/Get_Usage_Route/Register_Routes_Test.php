@@ -36,7 +36,7 @@ final class Register_Routes_Test extends Abstract_Get_Usage_Route_Test {
 					],
 					'callback'            => [ $this->instance, 'get_usage' ],
 					'permission_callback' => [ $this->instance, 'check_permissions' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

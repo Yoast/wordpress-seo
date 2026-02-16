@@ -57,7 +57,7 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ WooCommerce_Conditional::class, Migrations_Conditional::class ],
-			Woocommerce_Permalinks::get_conditionals()
+			Woocommerce_Permalinks::get_conditionals(),
 		);
 	}
 
@@ -71,7 +71,7 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 	}
 
@@ -107,8 +107,8 @@ final class WooCommerce_Permalinks_Test extends TestCase {
 					'post'    => 'post',
 					'page'    => 'page',
 					'product' => 'product',
-				]
-			)
+				],
+			),
 		);
 	}
 

@@ -45,31 +45,31 @@ class ExpandIndexableColumnLengths extends Migration {
 			$this->get_table_name(),
 			'title',
 			'string',
-			$attr_limit_191
+			$attr_limit_191,
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'opengraph_title',
 			'string',
-			$attr_limit_191
+			$attr_limit_191,
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_title',
 			'string',
-			$attr_limit_191
+			$attr_limit_191,
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'open_graph_image_source',
 			'string',
-			$attr_limit_191
+			$attr_limit_191,
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_image_source',
 			'string',
-			$attr_limit_191
+			$attr_limit_191,
 		);
 	}
 

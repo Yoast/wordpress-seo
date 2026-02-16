@@ -269,8 +269,8 @@ final class Admin_Bar_Menu_Test extends TestCase {
 		$first_result = $admin_bar_menu->meets_requirements();
 		$this->assertFalse( $first_result );
 
-		\add_filter( 'option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10000 );
-		\add_filter( 'default_option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10000 );
+		\add_filter( 'option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10_000 );
+		\add_filter( 'default_option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10_000 );
 		WPSEO_Options::clear_cache();
 
 		$second_result = $admin_bar_menu->meets_requirements();

@@ -45,7 +45,7 @@ final class Category_Term_Description_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Category_Term_Description::get_conditionals()
+			Category_Term_Description::get_conditionals(),
 		);
 	}
 
@@ -76,7 +76,7 @@ final class Category_Term_Description_Test extends TestCase {
 
 		$this->assertEquals(
 			'This is a category text',
-			$this->instance->add_shortcode_support( 'This is a category text' )
+			$this->instance->add_shortcode_support( 'This is a category text' ),
 		);
 	}
 }

@@ -55,7 +55,7 @@ final class Crawl_Cleanup_Basic_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Crawl_Cleanup_Basic::get_conditionals()
+			Crawl_Cleanup_Basic::get_conditionals(),
 		);
 	}
 

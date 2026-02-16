@@ -41,7 +41,7 @@ abstract class Abstract_Description_Adapter_Test extends TestCase {
 		$this->meta = Mockery::mock( Meta_Surface::class );
 
 		$this->instance = new Description_Adapter(
-			$this->meta
+			$this->meta,
 		);
 	}
 }
