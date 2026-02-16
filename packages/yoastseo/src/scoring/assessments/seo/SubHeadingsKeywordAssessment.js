@@ -74,10 +74,18 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setHasMarks( this._subHeadingsResearchResult.matches.numberOfSubheadings > 0  );
 
 		return assessmentResult;
 	}
 
+	/**
+	 * Returns the markings of the keyphrase matches in the subheadings.
+	 * @returns {Mark[]} The markings of the keyphrase matches in the subheadings.
+	 */
+	getMarks() {
+		return this._subHeadingsResearchResult.matches.markings;
+	}
 	/**
 	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
 	 *
@@ -106,7 +114,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase is included in too few subheadings.
 	 */
 	hasTooFewMatches() {
-		return this._subHeadingsResearchResult.matches > 0 && this._subHeadingsResearchResult.matches < this._minNumberOfSubheadings;
+		return this._subHeadingsResearchResult.matches.numberOfSubheadings > 0 &&
+			this._subHeadingsResearchResult.matches.numberOfSubheadings < this._minNumberOfSubheadings;
 	}
 
 	/**
@@ -119,7 +128,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
-		return this._subHeadingsResearchResult.count > 1 && this._subHeadingsResearchResult.matches > this._maxNumberOfSubheadings;
+		return this._subHeadingsResearchResult.count > 1 &&
+			this._subHeadingsResearchResult.matches.numberOfSubheadings > this._maxNumberOfSubheadings;
 	}
 
 	/**
@@ -129,7 +139,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * subheading has a keyphrase match.
 	 */
 	isOneOfOne() {
-		return this._subHeadingsResearchResult.count === 1 && this._subHeadingsResearchResult.matches === 1;
+		return this._subHeadingsResearchResult.count === 1 && this._subHeadingsResearchResult.matches.numberOfSubheadings === 1;
 	}
 
 	/**
@@ -142,7 +152,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
-			this._subHeadingsResearchResult.matches,
+			this._subHeadingsResearchResult.matches.numberOfSubheadings,
 			this._minNumberOfSubheadings,
 			this._maxNumberOfSubheadings
 		);
@@ -257,7 +267,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._subHeadingsResearchResult.matches
+					this._subHeadingsResearchResult.matches.numberOfSubheadings
 				),
 			};
 		}
@@ -271,12 +281,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					_n(
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
-						this._subHeadingsResearchResult.matches,
+						this._subHeadingsResearchResult.matches.numberOfSubheadings,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._subHeadingsResearchResult.matches
+					this._subHeadingsResearchResult.matches.numberOfSubheadings
 				),
 			};
 		}
