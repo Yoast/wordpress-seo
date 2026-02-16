@@ -57,6 +57,15 @@ class Aggregator_Config {
 	public function get_allowed_post_types(): array {
 		$default_post_types = $this->post_type_helper->get_indexable_post_types();
 
+		foreach ( $default_post_types as $key => $post_type ) {
+			if ( ! $this->post_type_helper->is_indexable( $post_type ) ) {
+				unset( $default_post_types[ $key ] );
+			}
+		}
+
+		// Reindex the array to avoid gaps.
+		$default_post_types = \array_values( $default_post_types );
+
 		$post_types = \apply_filters( 'wpseo_schema_aggregator_post_types', $default_post_types );
 
 		if ( ! \is_array( $post_types ) ) {
