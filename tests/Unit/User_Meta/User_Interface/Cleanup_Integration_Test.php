@@ -42,7 +42,7 @@ final class Cleanup_Integration_Test extends TestCase {
 		$this->cleanup_service = Mockery::mock( Cleanup_Service::class );
 
 		$this->instance = new Cleanup_Integration(
-			$this->cleanup_service
+			$this->cleanup_service,
 		);
 	}
 
@@ -67,7 +67,7 @@ final class Cleanup_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Cleanup_Service::class,
-			$this->getPropertyValue( $this->instance, 'cleanup_service' )
+			$this->getPropertyValue( $this->instance, 'cleanup_service' ),
 		);
 	}
 

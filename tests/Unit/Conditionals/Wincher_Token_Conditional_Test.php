@@ -52,7 +52,7 @@ final class Wincher_Token_Conditional_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Wincher_Client::class,
-			$this->getPropertyValue( $this->instance, 'client' )
+			$this->getPropertyValue( $this->instance, 'client' ),
 		);
 	}
 

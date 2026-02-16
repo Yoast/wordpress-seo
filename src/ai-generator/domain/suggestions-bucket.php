@@ -43,7 +43,7 @@ class Suggestions_Bucket {
 			static function ( $item ) {
 				return $item->get_value();
 			},
-			$this->suggestions
+			$this->suggestions,
 		);
 	}
 }

@@ -24,7 +24,7 @@ final class Setup_Steps_Tracking_Repository_Constructor_Test extends Abstract_Se
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

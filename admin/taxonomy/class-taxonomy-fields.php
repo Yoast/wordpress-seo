@@ -209,7 +209,7 @@ class WPSEO_Taxonomy_Fields {
 						'options'     => '',
 						'hide'        => false,
 					],
-				]
+				],
 			);
 		}
 

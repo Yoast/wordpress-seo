@@ -62,7 +62,7 @@ final class Web_Stories_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Web_Stories_Conditional::class ],
-			Web_Stories::get_conditionals()
+			Web_Stories::get_conditionals(),
 		);
 	}
 
@@ -76,7 +76,7 @@ final class Web_Stories_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Front_End_Integration::class,
-			$this->getPropertyValue( $this->instance, 'front_end' )
+			$this->getPropertyValue( $this->instance, 'front_end' ),
 		);
 	}
 

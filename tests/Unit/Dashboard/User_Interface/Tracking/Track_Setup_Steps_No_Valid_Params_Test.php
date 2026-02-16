@@ -52,7 +52,7 @@ final class Track_Setup_Steps_No_Valid_Params_Test extends Abstract_Setup_Steps_
 
 		$this->assertInstanceOf(
 			'WP_Error',
-			$this->instance->track_setup_steps( $wp_rest_request )
+			$this->instance->track_setup_steps( $wp_rest_request ),
 		);
 	}
 }

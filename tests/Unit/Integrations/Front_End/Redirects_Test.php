@@ -93,7 +93,7 @@ final class Redirects_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Redirects::get_conditionals()
+			Redirects::get_conditionals(),
 		);
 	}
 

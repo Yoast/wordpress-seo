@@ -19,13 +19,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yoast_free_js_button_label = sprintf(
 		$yoast_free_js_button_label,
 		'{{data.term}}',
-		'{{data.taxonomy.title}}'
+		'{{data.taxonomy.title}}',
 	);
 
 	printf(
 		'<button type="button" class="wpseo-make-primary-term" aria-label="%1$s">%2$s</button>',
 		esc_attr( $yoast_free_js_button_label ),
-		esc_html__( 'Make primary', 'wordpress-seo' )
+		esc_html__( 'Make primary', 'wordpress-seo' ),
 	);
 	?>
 
@@ -38,7 +38,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yoast_free_js_taxonomy_title = __( 'Primary %s', 'wordpress-seo' );
 	$yoast_free_js_taxonomy_title = sprintf(
 		'(' . $yoast_free_js_taxonomy_title . ')',
-		'{{data.taxonomy.title}}'
+		'{{data.taxonomy.title}}',
 	);
 	?>
 	<span class="screen-reader-text wpseo-primary-category-label"><?php echo esc_html( $yoast_free_js_taxonomy_title ); ?></span>

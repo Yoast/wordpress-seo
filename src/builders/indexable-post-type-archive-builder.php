@@ -160,8 +160,8 @@ class Indexable_Post_Type_Archive_Builder {
 					AND p.%i = ''
 					AND p.%i = %s
 				",
-				$replacements
-			)
+				$replacements,
+			),
 		);
 		//phpcs:enable
 	}

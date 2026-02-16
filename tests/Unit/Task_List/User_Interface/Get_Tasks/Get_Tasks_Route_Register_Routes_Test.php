@@ -51,7 +51,7 @@ final class Get_Tasks_Route_Register_Routes_Test extends Abstract_Get_Tasks_Rout
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

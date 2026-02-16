@@ -79,7 +79,7 @@ final class Metabox_Test extends TestCase {
 							'link_aria_label' => 'this-is-a-tab',
 						],
 					],
-				]
+				],
 			);
 
 		$actual = $this->instance->get_additional_tabs();
@@ -112,7 +112,7 @@ final class Metabox_Test extends TestCase {
 						'content'      => 'Testing 1 2 3',
 					],
 					123,
-				]
+				],
 			);
 
 		$actual = $this->instance->get_additional_tabs();
@@ -142,7 +142,7 @@ final class Metabox_Test extends TestCase {
 						'link_content' => 'Testing Tab',
 						'content'      => 'Testing 1 2 3',
 					],
-				]
+				],
 			);
 
 		$actual = $this->instance->get_additional_tabs();

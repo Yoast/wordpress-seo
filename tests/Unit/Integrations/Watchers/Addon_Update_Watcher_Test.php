@@ -173,7 +173,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 		$this->instance->toggle_auto_updates_for_add_ons(
 			'auto_update_plugins',
 			$new,
-			$old
+			$old,
 		);
 	}
 
@@ -221,7 +221,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 		$this->instance->toggle_auto_updates_for_add_ons(
 			'auto_update_plugins',
 			$new,
-			$old
+			$old,
 		);
 	}
 
@@ -265,7 +265,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 		$this->instance->toggle_auto_updates_for_add_ons(
 			'auto_update_plugins',
 			$new,
-			$old
+			$old,
 		);
 	}
 
@@ -285,7 +285,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			'other-plugin/plugin-file.php'
+			'other-plugin/plugin-file.php',
 		);
 
 		self::assertEquals( $old_html, $new_html );
@@ -308,7 +308,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			'wordpress-seo-premium/wp-seo-premium.php'
+			'wordpress-seo-premium/wp-seo-premium.php',
 		);
 
 		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
@@ -331,7 +331,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			'wordpress-seo-premium/wp-seo-premium.php'
+			'wordpress-seo-premium/wp-seo-premium.php',
 		);
 
 		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
@@ -355,7 +355,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			'other-plugin/plugin-file.php'
+			'other-plugin/plugin-file.php',
 		);
 
 		self::assertEquals( $old_html, $new_html );
@@ -383,7 +383,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			$plugin
+			$plugin,
 		);
 
 		self::assertEquals( '<em>Auto-updates are enabled based on this setting for Yoast SEO.</em>', $new_html );
@@ -412,7 +412,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			$plugin
+			$plugin,
 		);
 
 		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
@@ -441,7 +441,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			$plugin
+			$plugin,
 		);
 
 		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
@@ -470,7 +470,7 @@ final class Addon_Update_Watcher_Test extends TestCase {
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
-			$plugin
+			$plugin,
 		);
 
 		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );

@@ -54,7 +54,7 @@ final class AMP_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			AMP::get_conditionals()
+			AMP::get_conditionals(),
 		);
 	}
 

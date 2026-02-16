@@ -66,7 +66,7 @@ final class Tracking_Link_Adapter_Test extends TestCase {
 					'wpseo_tracked_action' => 'task_first_actioned_on',
 					'wpseo_tracking_nonce' => $nonce_value,
 				],
-				$input_url
+				$input_url,
 			)
 			->once()
 			->andReturn( $expected_url );

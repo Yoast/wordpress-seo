@@ -63,7 +63,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 					'content' => $post->post_content,
 				];
 			},
-			$posts
+			$posts,
 		);
 	}
 
@@ -94,7 +94,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
-			$public_post_types
+			$public_post_types,
 		);
 	}
 
@@ -136,7 +136,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND P.post_status = 'publish'
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",
-			$replacements
+			$replacements,
 		);
 	}
 }

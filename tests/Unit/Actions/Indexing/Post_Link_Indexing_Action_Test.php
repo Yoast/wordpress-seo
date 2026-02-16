@@ -89,7 +89,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 			$this->link_builder,
 			$this->indexable_helper,
 			$this->repository,
-			$this->wpdb
+			$this->wpdb,
 		);
 		$this->instance->set_helper( $this->post_type_helper );
 	}
@@ -106,7 +106,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 	}
 
@@ -357,7 +357,7 @@ final class Post_Link_Indexing_Action_Test extends TestCase {
 						'ID'           => 8,
 						'post_content' => 'foo',
 					],
-				]
+				],
 			);
 
 		$indexable             = Mockery::mock( Indexable_Mock::class );

@@ -100,7 +100,7 @@ class Breadcrumbs_Block extends Dynamic_Block_V3 {
 							'object_id'        => $post_id,
 							'object_type'      => 'post',
 							'object_sub_type'  => $post->post_type,
-						]
+						],
 					);
 				}
 

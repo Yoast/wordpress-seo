@@ -53,7 +53,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 		$this->options_helper  = Mockery::mock( Options_Helper::class );
 		$this->instance        = new Wincher_Login_Action(
 			$this->client_instance,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 
@@ -67,12 +67,12 @@ final class Wincher_Login_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Wincher_Client::class,
-			$this->getPropertyValue( $this->instance, 'client' )
+			$this->getPropertyValue( $this->instance, 'client' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 
@@ -87,7 +87,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 		$token_data = [
 			'access_token'  => 'some valid token',
 			'refresh_token' => 'some valid refresh token',
-			'expires'       => 99999999,
+			'expires'       => 99_999_999,
 			'has_expired'   => false,
 			'created_at'    => 0,
 		];
@@ -98,9 +98,9 @@ final class Wincher_Login_Action_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$tokens_class = Mockery::mock( OAuth_Token::class );
@@ -123,7 +123,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 				'tokens' => $token_data,
 				'status' => 200,
 			],
-			$this->instance->authenticate( '123456', '12345' )
+			$this->instance->authenticate( '123456', '12345' ),
 		);
 	}
 
@@ -145,7 +145,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 					'tokens' => [],
 					'error'  => 'Invalid token',
 					'status' => 500,
-				]
+				],
 			);
 
 		$this->options_helper
@@ -163,7 +163,7 @@ final class Wincher_Login_Action_Test extends TestCase {
 				'error'  => 'Invalid token',
 				'status' => 500,
 			],
-			$this->instance->authenticate( '123456', '12345' )
+			$this->instance->authenticate( '123456', '12345' ),
 		);
 	}
 }

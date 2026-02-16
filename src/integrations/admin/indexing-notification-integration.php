@@ -227,7 +227,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 	}
 

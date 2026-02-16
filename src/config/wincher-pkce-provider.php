@@ -80,10 +80,10 @@ class Wincher_PKCE_Provider extends GenericProvider {
 				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 				\base64_encode( \random_bytes( $length ) ),
 				'+/',
-				'-_'
+				'-_',
 			),
 			0,
-			$length
+			$length,
 		);
 	}
 
@@ -136,9 +136,9 @@ class Wincher_PKCE_Provider extends GenericProvider {
 						// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 						\base64_encode( \hash( 'sha256', $this->pkceCode, true ) ),
 						'+/',
-						'-_'
+						'-_',
 					),
-					'='
+					'=',
 				);
 			}
 			elseif ( $pkce_method === 'plain' ) {
@@ -190,7 +190,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 
 		if ( \is_array( $response ) === false ) {
 			throw new UnexpectedValueException(
-				'Invalid response received from Authorization Server. Expected JSON.'
+				'Invalid response received from Authorization Server. Expected JSON.',
 			);
 		}
 
@@ -217,7 +217,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 				'responseResourceOwnerId',
 				'scopes',
 				'pkceMethod',
-			]
+			],
 		);
 	}
 

@@ -140,8 +140,8 @@ class Indexable_Home_Page_Builder {
 				AND p.%i = ''
 				AND p.%i = 'post'
 			",
-				$replacements
-			)
+				$replacements,
+			),
 		);
 		//phpcs:enable
 	}

@@ -51,7 +51,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/permalink',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -72,7 +72,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/attachment',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -92,7 +92,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/homepage',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -126,7 +126,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/term',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -147,7 +147,7 @@ final class Permalink_Helper_Test extends TestCase {
 			->andReturn( null );
 
 		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -176,7 +176,7 @@ final class Permalink_Helper_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -197,7 +197,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/search',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -219,7 +219,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/post-type',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -241,7 +241,7 @@ final class Permalink_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/user/1',
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 
@@ -257,7 +257,7 @@ final class Permalink_Helper_Test extends TestCase {
 		$indexable->object_type = 'unknown';
 
 		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+			$this->instance->get_permalink_for_indexable( $indexable ),
 		);
 	}
 

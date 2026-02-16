@@ -26,15 +26,15 @@ final class Constructor_Test extends Abstract_Remove_File_Command_Handler_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			WordPress_File_System_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'file_system_adapter' )
+			$this->getPropertyValue( $this->instance, 'file_system_adapter' ),
 		);
 		$this->assertInstanceOf(
 			WordPress_Llms_Txt_Permission_Gate::class,
-			$this->getPropertyValue( $this->instance, 'permission_gate' )
+			$this->getPropertyValue( $this->instance, 'permission_gate' ),
 		);
 	}
 }

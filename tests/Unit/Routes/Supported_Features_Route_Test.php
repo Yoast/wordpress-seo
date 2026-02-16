@@ -45,7 +45,7 @@ final class Supported_Features_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Addon_Installation_Conditional::class ],
-			Supported_Features_Route::get_conditionals()
+			Supported_Features_Route::get_conditionals(),
 		);
 	}
 
@@ -65,7 +65,7 @@ final class Supported_Features_Route_Test extends TestCase {
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get_supported_features' ],
 					'permission_callback' => '__return_true',
-				]
+				],
 			)
 			->once();
 
@@ -86,7 +86,7 @@ final class Supported_Features_Route_Test extends TestCase {
 		$expected = new WP_REST_Response(
 			[
 				'addon-installation' => 1,
-			]
+			],
 		);
 
 		$this->assertInstanceOf( WP_REST_Response::class, $actual );

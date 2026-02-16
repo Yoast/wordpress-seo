@@ -69,7 +69,7 @@ final class Cache_Test extends TestCase {
 		 * to do so ourselves.
 		 * As of PHP 7.4, the new serialization using magic methods is used.
 		 */
-		if ( \PHP_VERSION_ID < 70400 ) {
+		if ( \PHP_VERSION_ID < 70_400 ) {
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
 			$result = \unserialize( $result );
 		}
@@ -135,7 +135,7 @@ final class Cache_Test extends TestCase {
 			static function ( $pre_transient ) {
 				$pre_transient = 'C:24:"WPSEO_Sitemap_Cache_Data":107:{a:2:{s:6:"status";s:2:"ok";s:3:"xml";s:61:"this is a wpseo_sitemap_cache_data object stored in PHP < 7.4";}}';
 				return \maybe_unserialize( $pre_transient );
-			}
+			},
 		);
 
 		$cache  = new WPSEO_Sitemaps_Cache();
@@ -184,13 +184,13 @@ final class Cache_Test extends TestCase {
 			static function ( $pre_transient ) {
 				$pre_transient = 'O:24:"WPSEO_Sitemap_Cache_Data":2:{s:6:"status";s:2:"ok";s:3:"xml";s:62:"this is a wpseo_sitemap_cache_data object stored in PHP >= 7.4";}';
 				return \maybe_unserialize( $pre_transient );
-			}
+			},
 		);
 
 		$cache  = new WPSEO_Sitemaps_Cache();
 		$result = $cache->get_sitemap_data( $type, $page );
 
-		if ( \PHP_VERSION_ID >= 70400 ) {
+		if ( \PHP_VERSION_ID >= 70_400 ) {
 			// PHP 7.4+.
 			$this->assertInstanceOf( WPSEO_Sitemap_Cache_Data::class, $result );
 			$this->assertSame( $sitemap, $result->get_sitemap() );
@@ -279,7 +279,7 @@ final class Cache_Test extends TestCase {
 		 * difference between the two generations we will end up with the same
 		 * cache invalidator, failing this test.
 		 */
-		\usleep( 10000 );
+		\usleep( 10_000 );
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( [ 'page' ] );
@@ -340,7 +340,7 @@ final class Cache_Test extends TestCase {
 		// Hook will be added on default priority.
 		$has_action = \has_action(
 			'update_option',
-			[ WPSEO_Sitemaps_Cache::class, 'clear_on_option_update' ]
+			[ WPSEO_Sitemaps_Cache::class, 'clear_on_option_update' ],
 		);
 		$this->assertEquals( 10, $has_action );
 	}
@@ -399,7 +399,7 @@ final class Cache_Test extends TestCase {
 	 */
 	public function test_clearing_author_sitemap_by_userid() {
 		$user_id = $this->factory->user->create(
-			[ 'role' => 'administrator' ]
+			[ 'role' => 'administrator' ],
 		);
 
 		$this->assertTrue( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );
@@ -414,7 +414,7 @@ final class Cache_Test extends TestCase {
 	 */
 	public function test_clearing_author_sitemap_by_userid_with_subscriber_role() {
 		$user_id = $this->factory->user->create(
-			[ 'role' => 'subscriber' ]
+			[ 'role' => 'subscriber' ],
 		);
 
 		$this->assertFalse( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );

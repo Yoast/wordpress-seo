@@ -24,7 +24,7 @@ final class Tasks_Repository_Constructor_Test extends Abstract_Tasks_Repository_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Cached_Tasks_Collector::class,
-			$this->getPropertyValue( $this->instance, 'tasks_collector' )
+			$this->getPropertyValue( $this->instance, 'tasks_collector' ),
 		);
 	}
 }

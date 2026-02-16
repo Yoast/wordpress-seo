@@ -73,17 +73,17 @@ final class Google_Docs_Addon_Upsell_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 	}
 

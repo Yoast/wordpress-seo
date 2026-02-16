@@ -56,10 +56,10 @@ final class Site_Kit_Capabilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_enable_site_kit_capabilities( $current_capabilities, $capability_to_check, $user_roles, $expected ) {
-		$user_id = self::factory()->user->create_and_get(
+		$user_id = self::factory()->user->create(
 			[
 				'role' => $user_roles,
-			]
+			],
 		);
 		\wp_set_current_user( $user_id );
 		$this->assertSame( $expected, $this->instance->enable_site_kit_capabilities( $current_capabilities, $capability_to_check ) );

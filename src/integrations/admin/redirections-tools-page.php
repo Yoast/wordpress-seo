@@ -58,7 +58,7 @@ class Redirections_Tools_Page implements Integration_Interface {
 		$page_title = \sprintf(
 			/* translators: %s: expands to Yoast */
 			\esc_html__( '%s Redirects', 'wordpress-seo' ),
-			'Yoast'
+			'Yoast',
 		);
 
 		\add_management_page(
@@ -66,7 +66,7 @@ class Redirections_Tools_Page implements Integration_Interface {
 			$page_title,
 			'edit_others_posts',
 			'wpseo_redirects_tools',
-			[ $this, 'show_redirects_page' ]
+			[ $this, 'show_redirects_page' ],
 		);
 	}
 

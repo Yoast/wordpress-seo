@@ -91,7 +91,7 @@ class Available_Posts_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -113,13 +113,13 @@ class Available_Posts_Route implements Route_Interface {
 				[
 					'error' => $exception->getMessage(),
 				],
-				$exception->getCode()
+				$exception->getCode(),
 			);
 		}
 
 		return new WP_REST_Response(
 			$available_posts_container->to_array(),
-			200
+			200,
 		);
 	}
 

@@ -61,7 +61,7 @@ abstract class Abstract_Action_Tracking_Route_Test extends TestCase {
 		$this->instance = new Action_Tracking_Route(
 			$this->action_tracker,
 			$this->capability_helper,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 

@@ -26,22 +26,22 @@ final class Constructor_Test extends Abstract_Suggestions_Provider_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Consent_Handler::class,
-			$this->getPropertyValue( $this->instance, 'consent_handler' )
+			$this->getPropertyValue( $this->instance, 'consent_handler' ),
 		);
 
 		$this->assertInstanceOf(
 			Request_Handler::class,
-			$this->getPropertyValue( $this->instance, 'request_handler' )
+			$this->getPropertyValue( $this->instance, 'request_handler' ),
 		);
 
 		$this->assertInstanceOf(
 			Token_Manager::class,
-			$this->getPropertyValue( $this->instance, 'token_manager' )
+			$this->getPropertyValue( $this->instance, 'token_manager' ),
 		);
 
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 }

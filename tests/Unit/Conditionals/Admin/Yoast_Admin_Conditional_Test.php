@@ -53,7 +53,7 @@ final class Yoast_Admin_Conditional_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 	}
 

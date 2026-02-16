@@ -206,7 +206,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 				$this->robots_provider,
 				$this->robots_transformer,
 				$this->social_images_provider,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->cleanup_action = Mockery::mock(
@@ -215,7 +215,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 				$this->wpdb,
 				$this->options,
 				$this->wpdb_helper,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->instance      = new Importable_Detector_Service( $this->importing_action, $this->cleanup_action );
@@ -224,7 +224,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 			[
 				$this->importing_action,
 				$this->cleanup_action,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -241,7 +241,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 		$importer = \array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$importer
+			$importer,
 		);
 	}
 
@@ -457,7 +457,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 		$this->assertTrue( \count( $filtered_importers_no_filters ) === 1 );
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$filtered_importers_no_filters[0]
+			$filtered_importers_no_filters[0],
 		);
 	}
 
@@ -475,7 +475,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 		$this->assertTrue( \count( $filtered_importers_plugin_filters ) === 1 );
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$filtered_importers_plugin_filters[0]
+			$filtered_importers_plugin_filters[0],
 		);
 	}
 
@@ -493,7 +493,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 		$this->assertTrue( \count( $filtered_importers_type_filters ) === 1 );
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$filtered_importers_type_filters[0]
+			$filtered_importers_type_filters[0],
 		);
 	}
 
@@ -511,7 +511,7 @@ final class Importable_Detector_Service_Test extends TestCase {
 		$this->assertTrue( \count( $filtered_importers_plugin_type_filters ) === 1 );
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$filtered_importers_plugin_type_filters[0]
+			$filtered_importers_plugin_type_filters[0],
 		);
 	}
 

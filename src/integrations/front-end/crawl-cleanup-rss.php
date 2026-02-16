@@ -51,7 +51,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		}
 
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
-		\add_action( 'wp', [ $this, 'maybe_redirect_feeds' ], -10000 );
+		\add_action( 'wp', [ $this, 'maybe_redirect_feeds' ], -10_000 );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		$this->cache_control_header( 7 * \DAY_IN_SECONDS );
 
 		\wp_safe_redirect( $url, 301, 'Yoast SEO: ' . $reason );
-		exit;
+		exit();
 	}
 
 	/**

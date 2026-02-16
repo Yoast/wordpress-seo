@@ -1,7 +1,15 @@
 
 The task modal is a component that displays detailed information about a specific task in the task list. It provides users with an overview of the task, its priority, its duration, and a call to action to complete the task.
 
-The prop `isCompleted` will disable the call to action button when set to true, indicating that the task has already been completed.
+## Features
+
+- **Task Status**: Visual indicator showing whether a task is completed or in progress
+- **Priority & Duration**: Displays task priority level (low/medium/high) and estimated completion time
+- **Task Analyzer**: Shows the results of the analysis that detected and created the task issue
+- **Progress Tracking**: For child tasks and parent tasks, displays completion progress badge with clickable navigation
+- **Error Handling**: Displays user-friendly error messages when task loading fails
+- **Call to Action**: Configurable action button that can link, create, delete, or trigger custom actions
+- **Content Safety**: Automatically sanitizes HTML content to prevent XSS attacks
 
 ## Usage
 
@@ -27,3 +35,4 @@ The `ChildTasks` component can be passed as children to the TaskModal to display
   - `priority`: Priority level ('low', 'medium', 'high')
   - `isCompleted`: Boolean indicating completion status
 - `singleTaskOnClick`: Callback function that receives the task ID when a child task is clicked
+

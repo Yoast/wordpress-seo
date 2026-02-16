@@ -63,7 +63,7 @@ abstract class Abstract_File_Failure_Llms_Txt_Notification_Integration_Test exte
 		$this->instance = new File_Failure_Llms_Txt_Notification_Integration(
 			$this->options_helper,
 			$this->notification_center,
-			$this->file_failure_notification_presenter
+			$this->file_failure_notification_presenter,
 		);
 	}
 }

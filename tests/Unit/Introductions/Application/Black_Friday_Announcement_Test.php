@@ -63,7 +63,7 @@ final class Black_Friday_Announcement_Test extends TestCase {
 		$this->instance = new Black_Friday_Announcement(
 			$this->current_page_helper,
 			$this->promotion_manager,
-			$this->product_helper
+			$this->product_helper,
 		);
 	}
 
@@ -77,15 +77,15 @@ final class Black_Friday_Announcement_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 		$this->assertInstanceOf(
 			Promotion_Manager::class,
-			$this->getPropertyValue( $this->instance, 'promotion_manager' )
+			$this->getPropertyValue( $this->instance, 'promotion_manager' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 	}
 

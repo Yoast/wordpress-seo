@@ -60,7 +60,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( $unknown_group ),
-			'Group "' . $unknown_group . '" should not exist and should not be considered "new"'
+			'Group "' . $unknown_group . '" should not exist and should not be considered "new"',
 		);
 	}
 
@@ -76,7 +76,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version ),
 		);
 	}
 
@@ -92,7 +92,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version ),
 		);
 	}
 
@@ -108,7 +108,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version ),
 		);
 	}
 
@@ -124,7 +124,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version ),
 		);
 	}
 
@@ -140,7 +140,7 @@ final class Badge_Group_Names_Test extends TestCase {
 
 		self::assertTrue(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			\sprintf( 'Group should be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should be "new" on version %s', $expiry_version ),
 		);
 	}
 }

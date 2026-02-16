@@ -30,9 +30,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	 * @param string|null $url Where the dev server is located.
 	 */
 	public function __construct( $url = null ) {
-		if ( $url === null ) {
-			$url = self::DEFAULT_URL;
-		}
+		$url ??= self::DEFAULT_URL;
 
 		$this->url = $url;
 	}

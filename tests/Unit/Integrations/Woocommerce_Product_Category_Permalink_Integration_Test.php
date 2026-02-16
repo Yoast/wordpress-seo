@@ -45,7 +45,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 		$this->dynamic_product_permalinks_conditional = Mockery::mock( Dynamic_Product_Permalinks_Conditional::class );
 
 		$this->instance = new Woocommerce_Product_Category_Permalink_Integration(
-			$this->dynamic_product_permalinks_conditional
+			$this->dynamic_product_permalinks_conditional,
 		);
 	}
 
@@ -62,7 +62,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 				WooCommerce_Version_Conditional::class,
 				Woo_SEO_Inactive_Conditional::class,
 			],
-			Woocommerce_Product_Category_Permalink_Integration::get_conditionals()
+			Woocommerce_Product_Category_Permalink_Integration::get_conditionals(),
 		);
 	}
 
@@ -76,7 +76,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Dynamic_Product_Permalinks_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'dynamic_product_permalinks_conditional' )
+			$this->getPropertyValue( $this->instance, 'dynamic_product_permalinks_conditional' ),
 		);
 	}
 
@@ -92,7 +92,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 
 		$this->assertNotFalse(
 			\has_filter( 'wc_product_post_type_link_product_cat', [ $this->instance, 'restore_legacy_permalink_category' ] ),
-			'Does not have expected wc_product_post_type_link_product_cat filter'
+			'Does not have expected wc_product_post_type_link_product_cat filter',
 		);
 	}
 
@@ -150,7 +150,7 @@ final class Woocommerce_Product_Category_Permalink_Integration_Test extends Test
 				[
 					'parent'  => 'DESC',
 					'term_id' => 'ASC',
-				]
+				],
 			)
 			->andReturn( $sorted_terms );
 

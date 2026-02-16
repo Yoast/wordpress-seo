@@ -163,7 +163,7 @@ class Indexable_Author_Builder {
 			[
 				'size'   => 500,
 				'scheme' => 'https',
-			]
+			],
 		);
 		if ( $gravatar_image ) {
 			return [
@@ -208,8 +208,8 @@ class Indexable_Author_Builder {
 					AND p.%i = ''
 					AND p.%i = %d
 				",
-				$replacements
-			)
+				$replacements,
+			),
 		);
 		//phpcs:enable
 	}

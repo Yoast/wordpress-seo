@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Bust_Subscription_Cache_Route_Test
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Addon_Manager::class,
-			$this->getPropertyValue( $this->instance, 'addon_manager' )
+			$this->getPropertyValue( $this->instance, 'addon_manager' ),
 		);
 	}
 }

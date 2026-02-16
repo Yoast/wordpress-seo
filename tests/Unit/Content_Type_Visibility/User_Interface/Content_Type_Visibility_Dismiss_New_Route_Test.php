@@ -58,7 +58,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			Content_Type_Visibility_Dismiss_Notifications::class,
 			$this->getPropertyValue( $this->instance, 'dismiss_notifications' ),
-			'Content_Type_Visibility_Dismiss_Notifications is set correctly.'
+			'Content_Type_Visibility_Dismiss_Notifications is set correctly.',
 		);
 	}
 
@@ -85,7 +85,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 							},
 						],
 					],
-				]
+				],
 			)
 			->once();
 
@@ -104,7 +104,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 								},
 							],
 						],
-					]
+					],
 				)
 				->once();
 
@@ -187,7 +187,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'message' => 'Post type is no longer new.',
 					'success' => true,
 					'status'  => 200,
-				]
+				],
 			);
 
 		Mockery::mock( 'overload:' . WP_REST_Response::class );
@@ -221,7 +221,7 @@ final class Content_Type_Visibility_Dismiss_New_Route_Test extends TestCase {
 					'message' => 'Taxonomy is no longer new.',
 					'success' => true,
 					'status'  => 200,
-				]
+				],
 			);
 
 		Mockery::mock( 'overload:' . WP_REST_Response::class );

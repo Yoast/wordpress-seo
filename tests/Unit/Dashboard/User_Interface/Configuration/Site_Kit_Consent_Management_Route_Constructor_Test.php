@@ -24,7 +24,7 @@ final class Site_Kit_Consent_Management_Route_Constructor_Test extends Abstract_
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Site_Kit_Consent_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'site_kit_consent_repository' )
+			$this->getPropertyValue( $this->instance, 'site_kit_consent_repository' ),
 		);
 	}
 }

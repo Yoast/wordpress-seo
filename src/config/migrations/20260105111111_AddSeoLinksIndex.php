@@ -30,7 +30,7 @@ class AddSeoLinksIndex extends Migration {
 			'url',
 			[
 				'name' => 'url_index',
-			]
+			],
 		);
 
 		$this->add_index(
@@ -38,7 +38,7 @@ class AddSeoLinksIndex extends Migration {
 			'target_indexable_id',
 			[
 				'name' => 'target_indexable_id_index',
-			]
+			],
 		);
 	}
 
@@ -55,14 +55,14 @@ class AddSeoLinksIndex extends Migration {
 			'url',
 			[
 				'name' => 'url_index',
-			]
+			],
 		);
 		$this->remove_index(
 			$table_name,
 			'target_indexable_id',
 			[
 				'name' => 'target_indexable_id_index',
-			]
+			],
 		);
 	}
 

@@ -23,7 +23,7 @@ class WordPress_File_System_Adapter implements Llms_File_System_Interface {
 			$result = $wp_filesystem->put_contents(
 				$this->get_llms_file_path(),
 				$content,
-				\FS_CHMOD_FILE
+				\FS_CHMOD_FILE,
 			);
 
 			return $result;

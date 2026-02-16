@@ -132,7 +132,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_with_prefix,
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -264,7 +264,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_without_prefix,
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -291,7 +291,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ),
 		);
 	}
 
@@ -322,7 +322,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ),
 		);
 	}
 
@@ -350,7 +350,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ),
 		);
 	}
 
@@ -378,7 +378,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 		$_GET['context'] = 'edit';
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ),
 		);
 		unset( $_GET['context'] );
 	}
@@ -413,7 +413,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 1, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ),
 		);
 	}
 
@@ -447,7 +447,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 1, 2 )
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ),
 		);
 	}
 
@@ -481,7 +481,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 3, 4 )
+			$this->instance->crumb_to_link( $breadcrumb, 3, 4 ),
 		);
 	}
 
@@ -828,7 +828,7 @@ final class Breadcrumbs_Presenter_Test extends TestCase {
 				$breadcrumb_1,
 				$breadcrumb_2,
 			],
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 }

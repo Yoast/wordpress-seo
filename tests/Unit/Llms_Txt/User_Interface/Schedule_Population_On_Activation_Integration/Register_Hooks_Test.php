@@ -25,8 +25,8 @@ final class Register_Hooks_Test extends Abstract_Schedule_Population_On_Activati
 			10,
 			\has_action(
 				'wpseo_activate',
-				[ $this->instance, 'schedule_llms_txt_population' ]
-			)
+				[ $this->instance, 'schedule_llms_txt_population' ],
+			),
 		);
 	}
 }

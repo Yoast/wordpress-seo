@@ -38,7 +38,7 @@ class CreateSEOLinksTable extends Migration {
 					'limit'          => 20,
 					'unsigned'       => true,
 					'auto_increment' => true,
-				]
+				],
 			);
 			$table->column( 'url', 'string', [ 'limit' => 255 ] );
 			$table->column(
@@ -47,7 +47,7 @@ class CreateSEOLinksTable extends Migration {
 				[
 					'limit'    => 20,
 					'unsigned' => true,
-				]
+				],
 			);
 			$table->column(
 				'target_post_id',
@@ -55,7 +55,7 @@ class CreateSEOLinksTable extends Migration {
 				[
 					'limit'    => 20,
 					'unsigned' => true,
-				]
+				],
 			);
 			$table->column( 'type', 'string', [ 'limit' => 8 ] );
 			$table->finish();
