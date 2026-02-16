@@ -41,7 +41,7 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$this->assertSame( 'SEO analysis', $array['title'] );
 		$this->assertSame( 'good', $array['result'] );
 		$this->assertSame( 'Good', $array['resultLabel'] );
-		$this->assertSame( 'This post\'s SEO is looking good. Your content should perform well across search engines and AI systems.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is well optimized for search engines. This increases your chances of ranking higher in search results.', $array['resultDescription'] );
 	}
 
 	/**
@@ -57,7 +57,7 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$this->assertSame( 'SEO analysis', $array['title'] );
 		$this->assertSame( 'ok', $array['result'] );
 		$this->assertSame( 'OK', $array['resultLabel'] );
-		$this->assertSame( 'This post has some SEO issues that could be improved to increase its visibility in search and AI systems.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is partially optimized. Adding a few more SEO best practices will help you reach a wider audience.', $array['resultDescription'] );
 	}
 
 	/**
@@ -73,6 +73,6 @@ final class Improve_Content_SEO_Child_Get_Analyzer_Test extends Abstract_Improve
 		$this->assertSame( 'SEO analysis', $array['title'] );
 		$this->assertSame( 'bad', $array['result'] );
 		$this->assertSame( 'Needs improvement', $array['resultLabel'] );
-		$this->assertSame( 'This post has one or more SEO issues that may reduce its visibility in search and AI systems.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is not yet optimized for search. Follow the SEO recommendations to help search engines understand and rank your page.', $array['resultDescription'] );
 	}
 }

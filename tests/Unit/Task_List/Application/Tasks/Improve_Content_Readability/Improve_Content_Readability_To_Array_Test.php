@@ -43,8 +43,8 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve the readability of your content type: Posts',
-			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -70,8 +70,8 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve the readability of your content type: Posts',
-			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -99,8 +99,8 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'badge'        => null,
 			'isCompleted'  => false,
 			'callToAction' => null,
-			'title'        => 'Improve the readability of your content type: Posts',
-			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
