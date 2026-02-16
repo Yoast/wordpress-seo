@@ -29,7 +29,7 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 	 */
 	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Improve readability', 'wordpress-seo' ),
+			\__( 'Open editor', 'wordpress-seo' ),
 			'link',
 			$this->get_link(),
 		);
