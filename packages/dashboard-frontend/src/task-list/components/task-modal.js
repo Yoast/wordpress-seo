@@ -104,8 +104,6 @@ export const TaskModal = ( {
 									<TasksProgressBadge
 										completedTasks={ completedTasks }
 										totalTasks={ totalTasks }
-										onClick={ onProgressBadgeClick }
-										parentTaskId={ parentTaskId }
 									/>
 									<span aria-hidden="true">·</span>
 								</> }
