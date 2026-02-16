@@ -31,7 +31,7 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Xml_Rou
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'render_schema_xml' ],
 					'permission_callback' => [ $this->instance, 'get_permission_callback' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

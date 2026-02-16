@@ -27,11 +27,11 @@ final class Indexable_Count_Test extends TestCase {
 
 		$this->assertSame(
 			'post',
-			$this->getPropertyValue( $instance, 'post_type' )
+			$this->getPropertyValue( $instance, 'post_type' ),
 		);
 		$this->assertSame(
 			42,
-			$this->getPropertyValue( $instance, 'count' )
+			$this->getPropertyValue( $instance, 'count' ),
 		);
 	}
 
@@ -66,8 +66,8 @@ final class Indexable_Count_Test extends TestCase {
 			'expected' => 0,
 		];
 		yield 'Large count' => [
-			'count'    => 999999,
-			'expected' => 999999,
+			'count'    => 999_999,
+			'expected' => 999_999,
 		];
 		yield 'Small count' => [
 			'count'    => 1,
@@ -160,7 +160,7 @@ final class Indexable_Count_Test extends TestCase {
 		];
 		yield 'Custom post type with large count' => [
 			'post_type' => 'product',
-			'count'     => 500000,
+			'count'     => 500_000,
 		];
 		yield 'Post type with underscore and count' => [
 			'post_type' => 'custom_type',

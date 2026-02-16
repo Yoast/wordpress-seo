@@ -26,7 +26,7 @@ final class Indexables_Update_Listener_Integration_Register_Hooks_Test extends A
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Actions\has( 'wpseo_save_indexable', [ $this->instance, 'reset_cache' ] )
+			Monkey\Actions\has( 'wpseo_save_indexable', [ $this->instance, 'reset_cache' ] ),
 		);
 	}
 }

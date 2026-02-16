@@ -46,7 +46,7 @@ abstract class Abstract_Indexable_Repository_Factory_Test extends TestCase {
 		$this->wordpress_query_repository = Mockery::mock( WordPress_Query_Repository::class );
 		$this->instance                   = new Indexable_Repository_Factory(
 			$this->indexable_repository,
-			$this->wordpress_query_repository
+			$this->wordpress_query_repository,
 		);
 	}
 }

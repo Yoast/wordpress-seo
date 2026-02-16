@@ -30,7 +30,7 @@ final class Invalidate_All_Test extends Abstract_Manager_Test {
 			->with(
 				"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
 				'_transient_yoast_schema_aggregator_page_%',
-				'_transient_timeout_yoast_schema_aggregator_page_%'
+				'_transient_timeout_yoast_schema_aggregator_page_%',
 			)
 			->andReturn( 'PREPARED_QUERY' );
 

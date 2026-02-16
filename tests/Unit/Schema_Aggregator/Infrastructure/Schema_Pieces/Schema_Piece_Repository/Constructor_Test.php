@@ -31,37 +31,37 @@ final class Constructor_Test extends Abstract_Schema_Piece_Repository_Test {
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Meta_Tags_Context_Memoizer::class,
-			$this->getPropertyValue( $this->instance, 'memoizer' )
+			$this->getPropertyValue( $this->instance, 'memoizer' ),
 		);
 
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Meta_Tags_Context_Memoizer_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'adapter' )
+			$this->getPropertyValue( $this->instance, 'adapter' ),
 		);
 
 		$this->assertInstanceOf(
 			Aggregator_Config::class,
-			$this->getPropertyValue( $this->instance, 'config' )
+			$this->getPropertyValue( $this->instance, 'config' ),
 		);
 
 		$this->assertInstanceOf(
 			Schema_Enhancement_Factory::class,
-			$this->getPropertyValue( $this->instance, 'enhancement_factory' )
+			$this->getPropertyValue( $this->instance, 'enhancement_factory' ),
 		);
 
 		$this->assertInstanceOf(
 			Indexable_Repository_Factory::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository_factory' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository_factory' ),
 		);
 
 		$this->assertInstanceOf(
 			WordPress_Global_State_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'global_state_adapter' )
+			$this->getPropertyValue( $this->instance, 'global_state_adapter' ),
 		);
 
 		$external_repositories = $this->getPropertyValue( $this->instance, 'external_repositories' );
@@ -69,7 +69,7 @@ final class Constructor_Test extends Abstract_Schema_Piece_Repository_Test {
 		$this->assertCount( 1, $external_repositories );
 		$this->assertInstanceOf(
 			External_Schema_Piece_Repository_Interface::class,
-			$external_repositories[0]
+			$external_repositories[0],
 		);
 	}
 }

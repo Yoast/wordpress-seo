@@ -27,7 +27,7 @@ final class Schema_Piece_Collection_Test extends TestCase {
 
 		$this->assertSame(
 			[],
-			$this->getPropertyValue( $instance, 'pieces' )
+			$this->getPropertyValue( $instance, 'pieces' ),
 		);
 	}
 
@@ -54,7 +54,7 @@ final class Schema_Piece_Collection_Test extends TestCase {
 				'@type' => 'Article',
 				'name'  => 'Test Article',
 			],
-			'Article'
+			'Article',
 		);
 
 		$instance->add( $schema_piece );
@@ -77,21 +77,21 @@ final class Schema_Piece_Collection_Test extends TestCase {
 				'@type' => 'Article',
 				'name'  => 'Article 1',
 			],
-			'Article'
+			'Article',
 		);
 		$piece2 = new Schema_Piece(
 			[
 				'@type' => 'Person',
 				'name'  => 'John Doe',
 			],
-			'Person'
+			'Person',
 		);
 		$piece3 = new Schema_Piece(
 			[
 				'@type' => 'Organization',
 				'name'  => 'Yoast',
 			],
-			'Organization'
+			'Organization',
 		);
 
 		$instance->add( $piece1 );
@@ -117,7 +117,7 @@ final class Schema_Piece_Collection_Test extends TestCase {
 				'@type' => 'WebPage',
 				'name'  => 'Test Page',
 			],
-			'WebPage'
+			'WebPage',
 		);
 
 		$instance->add( $schema_piece );
@@ -140,28 +140,28 @@ final class Schema_Piece_Collection_Test extends TestCase {
 				'@type'    => 'Article',
 				'headline' => 'Article 1',
 			],
-			'Article'
+			'Article',
 		);
 		$piece2 = new Schema_Piece(
 			[
 				'@type' => 'Person',
 				'name'  => 'Person 1',
 			],
-			'Person'
+			'Person',
 		);
 		$piece3 = new Schema_Piece(
 			[
 				'@type' => 'Organization',
 				'name'  => 'Org 1',
 			],
-			'Organization'
+			'Organization',
 		);
 		$piece4 = new Schema_Piece(
 			[
 				'@type' => 'WebPage',
 				'name'  => 'Page 1',
 			],
-			'WebPage'
+			'WebPage',
 		);
 
 		$instance->add( $piece1 );
@@ -188,14 +188,14 @@ final class Schema_Piece_Collection_Test extends TestCase {
 				'@type'    => 'Article',
 				'headline' => 'Test Article',
 			],
-			'Article'
+			'Article',
 		);
 		$piece2 = new Schema_Piece(
 			[
 				'@type' => 'Person',
 				'name'  => 'Test Person',
 			],
-			'Person'
+			'Person',
 		);
 
 		$instance = new Schema_Piece_Collection( [ $piece1, $piece2 ] );

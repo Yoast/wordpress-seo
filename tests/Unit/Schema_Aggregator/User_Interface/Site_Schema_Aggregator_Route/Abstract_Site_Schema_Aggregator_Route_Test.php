@@ -72,7 +72,7 @@ abstract class Abstract_Site_Schema_Aggregator_Route_Test extends TestCase {
 			$this->config,
 			$this->capability_helper,
 			$this->command_handler,
-			$this->cache_manager
+			$this->cache_manager,
 		);
 	}
 }

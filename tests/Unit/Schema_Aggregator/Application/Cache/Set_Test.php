@@ -132,7 +132,7 @@ final class Set_Test extends Abstract_Manager_Test {
 			'page'         => 2,
 			'per_page'     => 50,
 			'data'         => \array_fill( 0, 100, 'large_data' ),
-			'expiration'   => 21600,
+			'expiration'   => 21_600,
 			'expected_key' => 'yoast_schema_aggregator_page_2_per_50_type_post_v1',
 		];
 	}

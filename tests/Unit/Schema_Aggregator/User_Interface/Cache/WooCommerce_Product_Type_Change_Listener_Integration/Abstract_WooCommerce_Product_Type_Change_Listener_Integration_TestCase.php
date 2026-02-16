@@ -70,7 +70,7 @@ abstract class Abstract_WooCommerce_Product_Type_Change_Listener_Integration_Tes
 			$this->indexable_repository,
 			$this->config,
 			$this->manager,
-			$this->xml_manager
+			$this->xml_manager,
 		);
 	}
 }

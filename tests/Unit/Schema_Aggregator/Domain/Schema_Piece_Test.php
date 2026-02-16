@@ -34,11 +34,11 @@ final class Schema_Piece_Test extends TestCase {
 
 		$this->assertSame(
 			$data,
-			$this->getPropertyValue( $instance, 'data' )
+			$this->getPropertyValue( $instance, 'data' ),
 		);
 		$this->assertSame(
 			$type,
-			$this->getPropertyValue( $instance, 'type' )
+			$this->getPropertyValue( $instance, 'type' ),
 		);
 	}
 
@@ -54,11 +54,11 @@ final class Schema_Piece_Test extends TestCase {
 
 		$this->assertSame(
 			$data,
-			$this->getPropertyValue( $instance, 'data' )
+			$this->getPropertyValue( $instance, 'data' ),
 		);
 		$this->assertSame(
 			$type,
-			$this->getPropertyValue( $instance, 'type' )
+			$this->getPropertyValue( $instance, 'type' ),
 		);
 	}
 

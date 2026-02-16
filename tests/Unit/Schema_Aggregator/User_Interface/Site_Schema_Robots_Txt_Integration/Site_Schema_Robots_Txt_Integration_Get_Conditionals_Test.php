@@ -26,7 +26,7 @@ final class Site_Schema_Robots_Txt_Integration_Get_Conditionals_Test extends Abs
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Schema_Aggregator_Conditional::class ],
-			Site_Schema_Robots_Txt_Integration::get_conditionals()
+			Site_Schema_Robots_Txt_Integration::get_conditionals(),
 		);
 	}
 }

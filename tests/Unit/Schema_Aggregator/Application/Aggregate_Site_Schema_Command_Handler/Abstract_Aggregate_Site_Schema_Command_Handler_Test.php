@@ -60,7 +60,7 @@ abstract class Abstract_Aggregate_Site_Schema_Command_Handler_Test extends TestC
 		$this->instance = new Aggregate_Site_Schema_Command_Handler(
 			$this->schema_piece_repository,
 			$this->schema_piece_aggregator,
-			$this->schema_response_composer
+			$this->schema_response_composer,
 		);
 	}
 }

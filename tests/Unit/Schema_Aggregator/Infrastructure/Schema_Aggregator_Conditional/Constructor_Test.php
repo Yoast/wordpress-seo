@@ -22,7 +22,7 @@ final class Constructor_Test extends Abstract_Schema_Aggregator_Conditional_Test
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options' )
+			$this->getPropertyValue( $this->instance, 'options' ),
 		);
 	}
 }

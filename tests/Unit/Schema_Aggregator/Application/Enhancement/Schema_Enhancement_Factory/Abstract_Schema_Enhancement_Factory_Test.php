@@ -47,7 +47,7 @@ abstract class Abstract_Schema_Enhancement_Factory_Test extends TestCase {
 		$this->person_enhancer  = Mockery::mock( Person_Schema_Enhancer::class );
 		$this->instance         = new Schema_Enhancement_Factory(
 			$this->article_enhancer,
-			$this->person_enhancer
+			$this->person_enhancer,
 		);
 	}
 }

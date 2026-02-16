@@ -57,7 +57,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			static function ( $piece ) {
 				return $piece->get_data();
 			},
-			$result->to_array()
+			$result->to_array(),
 		);
 
 		$this->assertSame( $expected_data, $result_data );
@@ -87,7 +87,7 @@ final class Filter_Test extends Abstract_Default_Filter_Test {
 			static function ( $piece ) {
 				return $piece->get_data();
 			},
-			$result->to_array()
+			$result->to_array(),
 		);
 
 		$this->assertCount( 1, $result_data );

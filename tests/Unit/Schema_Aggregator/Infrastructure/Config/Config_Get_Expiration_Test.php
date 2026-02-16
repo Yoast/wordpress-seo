@@ -46,43 +46,43 @@ final class Config_Get_Expiration_Test extends Abstract_Config_Test {
 	 */
 	public static function get_expiration_data() {
 		yield 'Small data (< 100KB) - shorter cache' => [
-			'data'         => self::generate_array_of_size( 50000 ),
+			'data'         => self::generate_array_of_size( 50_000 ),
 			'filtered_ttl' => 1800,
 			'expected'     => 1800,
 		];
 
 		yield 'Medium data (100KB - 1MB) - default cache' => [
-			'data'         => self::generate_array_of_size( 500000 ),
+			'data'         => self::generate_array_of_size( 500_000 ),
 			'filtered_ttl' => 3600,
 			'expected'     => 3600,
 		];
 
 		yield 'Large data (> 1MB) - longer cache' => [
-			'data'         => self::generate_array_of_size( 1100000 ),
-			'filtered_ttl' => 21600,
-			'expected'     => 21600,
+			'data'         => self::generate_array_of_size( 1_100_000 ),
+			'filtered_ttl' => 21_600,
+			'expected'     => 21_600,
 		];
 
 		yield 'Filter returns invalid (zero) - falls back to default' => [
-			'data'         => self::generate_array_of_size( 500000 ),
+			'data'         => self::generate_array_of_size( 500_000 ),
 			'filtered_ttl' => 0,
 			'expected'     => 3600,
 		];
 
 		yield 'Filter returns invalid (negative) - falls back to default' => [
-			'data'         => self::generate_array_of_size( 500000 ),
+			'data'         => self::generate_array_of_size( 500_000 ),
 			'filtered_ttl' => -100,
 			'expected'     => 3600,
 		];
 
 		yield 'Filter returns non-integer (string) - falls back to default' => [
-			'data'         => self::generate_array_of_size( 500000 ),
+			'data'         => self::generate_array_of_size( 500_000 ),
 			'filtered_ttl' => 'invalid',
 			'expected'     => 3600,
 		];
 
 		yield 'Filter returns valid positive integer' => [
-			'data'         => self::generate_array_of_size( 50000 ),
+			'data'         => self::generate_array_of_size( 50_000 ),
 			'filtered_ttl' => 7200,
 			'expected'     => 7200,
 		];
@@ -94,33 +94,33 @@ final class Config_Get_Expiration_Test extends Abstract_Config_Test {
 		];
 
 		yield 'Data just below small boundary' => [
-			'data'         => self::generate_array_of_size( 102399 ),
+			'data'         => self::generate_array_of_size( 102_399 ),
 			'filtered_ttl' => 1800,
 			'expected'     => 1800,
 		];
 
 		yield 'Data at small boundary (102400 bytes) - uses default' => [
-			'data'         => self::generate_array_of_size( 102400 ),
+			'data'         => self::generate_array_of_size( 102_400 ),
 			'filtered_ttl' => 3600,
 			'expected'     => 3600,
 		];
 
 		yield 'Data just above small boundary' => [
-			'data'         => self::generate_array_of_size( 102401 ),
+			'data'         => self::generate_array_of_size( 102_401 ),
 			'filtered_ttl' => 3600,
 			'expected'     => 3600,
 		];
 
 		yield 'Data just below large boundary' => [
-			'data'         => self::generate_array_of_size( 1048575 ),
+			'data'         => self::generate_array_of_size( 1_048_575 ),
 			'filtered_ttl' => 3600,
 			'expected'     => 3600,
 		];
 
 		yield 'Data just above large boundary (1048577 bytes) - uses large cache' => [
-			'data'         => self::generate_array_of_size( 1048577 ),
-			'filtered_ttl' => 21600,
-			'expected'     => 21600,
+			'data'         => self::generate_array_of_size( 1_048_577 ),
+			'filtered_ttl' => 21_600,
+			'expected'     => 21_600,
 		];
 	}
 

@@ -25,7 +25,7 @@ final class Constructor_Test extends Abstract_Schema_Aggregator_Announcement_Tes
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 	}
 }

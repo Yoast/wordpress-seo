@@ -52,7 +52,7 @@ abstract class Abstract_Edd_Schema_Piece_Repository_Test extends TestCase {
 
 		$this->instance = new Edd_Schema_Piece_Repository(
 			$this->edd_conditional,
-			$this->meta
+			$this->meta,
 		);
 	}
 }

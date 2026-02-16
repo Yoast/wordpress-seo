@@ -42,7 +42,7 @@ abstract class Abstract_Woo_Schema_Piece_Repository_Test extends TestCase {
 		$this->woocommerce_conditional = Mockery::mock( WooCommerce_Conditional::class );
 
 		$this->instance = new Woo_Schema_Piece_Repository(
-			$this->woocommerce_conditional
+			$this->woocommerce_conditional,
 		);
 	}
 }

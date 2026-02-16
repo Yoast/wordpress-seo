@@ -43,7 +43,7 @@ abstract class Abstract_Schema_Aggregator_Announcement_Test extends TestCase {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
 		$this->instance = new Schema_Aggregator_Announcement(
-			$this->current_page_helper
+			$this->current_page_helper,
 		);
 	}
 }

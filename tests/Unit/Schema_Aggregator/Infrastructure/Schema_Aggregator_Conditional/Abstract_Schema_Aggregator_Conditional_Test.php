@@ -40,7 +40,7 @@ abstract class Abstract_Schema_Aggregator_Conditional_Test extends TestCase {
 		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Schema_Aggregator_Conditional(
-			$this->options
+			$this->options,
 		);
 	}
 }

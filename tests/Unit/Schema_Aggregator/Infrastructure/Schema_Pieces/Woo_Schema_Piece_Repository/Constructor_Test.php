@@ -24,7 +24,7 @@ final class Constructor_Test extends Abstract_Woo_Schema_Piece_Repository_Test {
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			WooCommerce_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'woocommerce_conditional' )
+			$this->getPropertyValue( $this->instance, 'woocommerce_conditional' ),
 		);
 	}
 }

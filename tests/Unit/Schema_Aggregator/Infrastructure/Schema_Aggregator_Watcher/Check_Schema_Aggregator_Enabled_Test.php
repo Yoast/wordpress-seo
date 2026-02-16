@@ -77,7 +77,7 @@ final class Check_Schema_Aggregator_Enabled_Test extends Abstract_Schema_Aggrega
 			'expected'               => false,
 			'should_check_timestamp' => true,
 			'should_set_timestamp'   => false,
-			'current_timestamp'      => 1234567890,
+			'current_timestamp'      => 1_234_567_890,
 		];
 		yield 'Returns false when already enabled (no transition)' => [
 			'old_value'              => [ 'enable_schema_aggregation_endpoint' => true ],
@@ -174,7 +174,7 @@ final class Check_Schema_Aggregator_Enabled_Test extends Abstract_Schema_Aggrega
 			->expects( 'get' )
 			->once()
 			->with( 'schema_aggregation_endpoint_enabled_on' )
-			->andReturn( 1234567890 );
+			->andReturn( 1_234_567_890 );
 
 		$this->options_helper
 			->expects( 'set' )

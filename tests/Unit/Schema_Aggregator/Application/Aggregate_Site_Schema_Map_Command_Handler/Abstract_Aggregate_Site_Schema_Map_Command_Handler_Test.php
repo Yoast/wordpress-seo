@@ -69,7 +69,7 @@ abstract class Abstract_Aggregate_Site_Schema_Map_Command_Handler_Test extends T
 			$this->schema_map_repository_factory,
 			$this->schema_map_builder,
 			$this->schema_map_xml_renderer,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 	}
 }

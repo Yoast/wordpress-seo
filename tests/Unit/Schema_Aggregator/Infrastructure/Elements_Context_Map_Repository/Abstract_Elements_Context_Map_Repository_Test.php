@@ -42,7 +42,7 @@ abstract class Abstract_Elements_Context_Map_Repository_Test extends TestCase {
 		$this->map_loader = Mockery::mock( Map_Loader_Interface::class );
 
 		$this->instance = new Elements_Context_Map_Repository(
-			$this->map_loader
+			$this->map_loader,
 		);
 	}
 }

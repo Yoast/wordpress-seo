@@ -28,7 +28,7 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Route_T
 			->with(
 				'yoast/v1',
 				Mockery::type( 'string' ),
-				Mockery::type( 'array' )
+				Mockery::type( 'array' ),
 			);
 
 		$this->instance->register_routes();
@@ -51,8 +51,8 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Route_T
 					static function ( $config ) use ( &$captured_config ) {
 						$captured_config = $config;
 						return true;
-					}
-				)
+					},
+				),
 			);
 
 		Functions\expect( 'register_rest_route' )
@@ -60,7 +60,7 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Route_T
 			->with(
 				'yoast/v1',
 				'schema-aggregator/get-schema/(?P<post_type>[a-z0-9_-]+)/(?P<page>\d+)',
-				Mockery::type( 'array' )
+				Mockery::type( 'array' ),
 			);
 
 		$this->instance->register_routes();
@@ -85,7 +85,7 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Route_T
 			->with(
 				'yoast/v1',
 				'schema-aggregator/get-schema/(?P<post_type>[a-z0-9_-]+)',
-				Mockery::type( 'array' )
+				Mockery::type( 'array' ),
 			);
 
 		Functions\expect( 'register_rest_route' )
@@ -97,8 +97,8 @@ final class Register_Routes_Test extends Abstract_Site_Schema_Aggregator_Route_T
 					static function ( $config ) use ( &$captured_config ) {
 						$captured_config = $config;
 						return true;
-					}
-				)
+					},
+				),
 			);
 
 		$this->instance->register_routes();

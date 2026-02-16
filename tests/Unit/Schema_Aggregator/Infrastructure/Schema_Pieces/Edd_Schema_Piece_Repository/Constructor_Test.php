@@ -25,12 +25,12 @@ final class Constructor_Test extends Abstract_Edd_Schema_Piece_Repository_Test {
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			EDD_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'edd_conditional' )
+			$this->getPropertyValue( $this->instance, 'edd_conditional' ),
 		);
 
 		$this->assertInstanceOf(
 			Meta_Surface::class,
-			$this->getPropertyValue( $this->instance, 'meta' )
+			$this->getPropertyValue( $this->instance, 'meta' ),
 		);
 	}
 }

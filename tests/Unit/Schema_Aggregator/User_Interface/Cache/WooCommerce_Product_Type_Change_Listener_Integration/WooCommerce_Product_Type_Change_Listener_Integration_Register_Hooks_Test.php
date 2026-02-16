@@ -26,7 +26,7 @@ final class WooCommerce_Product_Type_Change_Listener_Integration_Register_Hooks_
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Actions\has( 'woocommerce_product_type_changed', [ $this->instance, 'reset_cache' ] )
+			Monkey\Actions\has( 'woocommerce_product_type_changed', [ $this->instance, 'reset_cache' ] ),
 		);
 	}
 }

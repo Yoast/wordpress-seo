@@ -62,7 +62,7 @@ abstract class Abstract_Site_Schema_Aggregator_Xml_Route_Test extends TestCase {
 		$this->instance = new Site_Schema_Aggregator_Xml_Route(
 			$this->command_handler,
 			$this->xml_cache_manager,
-			$this->aggregator_config
+			$this->aggregator_config,
 		);
 	}
 }

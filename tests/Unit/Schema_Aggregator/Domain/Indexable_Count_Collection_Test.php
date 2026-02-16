@@ -27,7 +27,7 @@ final class Indexable_Count_Collection_Test extends TestCase {
 
 		$this->assertSame(
 			[],
-			$this->getPropertyValue( $instance, 'indexable_counts' )
+			$this->getPropertyValue( $instance, 'indexable_counts' ),
 		);
 	}
 

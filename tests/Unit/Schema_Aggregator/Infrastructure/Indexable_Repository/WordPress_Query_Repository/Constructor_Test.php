@@ -59,12 +59,12 @@ final class Constructor_Test extends TestCase {
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Indexable_Builder::class,
-			$this->getPropertyValue( $this->instance, 'indexable_builder' )
+			$this->getPropertyValue( $this->instance, 'indexable_builder' ),
 		);
 
 		$this->assertInstanceOf(
 			Pure_Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 	}
 }

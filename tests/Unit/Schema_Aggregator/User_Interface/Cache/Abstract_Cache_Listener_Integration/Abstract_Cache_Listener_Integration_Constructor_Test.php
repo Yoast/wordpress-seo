@@ -71,19 +71,19 @@ final class Abstract_Cache_Listener_Integration_Constructor_Test extends Abstrac
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 		$this->assertInstanceOf(
 			Config::class,
-			$this->getPropertyValue( $this->instance, 'config' )
+			$this->getPropertyValue( $this->instance, 'config' ),
 		);
 		$this->assertInstanceOf(
 			Manager::class,
-			$this->getPropertyValue( $this->instance, 'manager' )
+			$this->getPropertyValue( $this->instance, 'manager' ),
 		);
 		$this->assertInstanceOf(
 			Xml_Manager::class,
-			$this->getPropertyValue( $this->instance, 'xml_manager' )
+			$this->getPropertyValue( $this->instance, 'xml_manager' ),
 		);
 	}
 }
