@@ -247,7 +247,7 @@ final class Get_Test extends TestCase {
 		}
 
 		// Create a noindex post.
-		$noindex_post_id = self::factory()->post->create(
+		$noindex_post_id       = self::factory()->post->create(
 			[
 				'post_title'   => 'Noindex Post',
 				'post_status'  => 'publish',

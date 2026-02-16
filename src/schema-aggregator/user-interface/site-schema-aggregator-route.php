@@ -164,9 +164,9 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 			);
 		}
 
-		$is_debug  = (bool) $request->get_param( 'debug' );
-		$page      = ( $request->get_param( 'page' ) ?? 1 );
-		$per_page  = $this->config->get_per_page( $post_type );
+		$is_debug = (bool) $request->get_param( 'debug' );
+		$page     = ( $request->get_param( 'page' ) ?? 1 );
+		$per_page = $this->config->get_per_page( $post_type );
 
 		$output = $this->cache_manager->get( $post_type, $page, $per_page );
 		if ( $is_debug ) {
