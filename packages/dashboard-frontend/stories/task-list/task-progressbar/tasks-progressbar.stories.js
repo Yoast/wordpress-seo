@@ -28,6 +28,10 @@ export default {
 			description: "Additional class names for the wrapper.",
 			control: "text",
 		},
+		label: {
+			description: "Label for the progress bar.",
+			control: "text",
+		},
 	},
 	args: {
 		completedTasks: 3,
