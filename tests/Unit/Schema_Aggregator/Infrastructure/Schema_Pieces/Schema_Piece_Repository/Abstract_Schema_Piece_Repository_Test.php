@@ -112,7 +112,7 @@ abstract class Abstract_Schema_Piece_Repository_Test extends TestCase {
 			$this->enhancement_factory,
 			$this->indexable_repository_factory,
 			$this->global_state_adapter,
-			$this->external_repository
+			$this->external_repository,
 		);
 	}
 }

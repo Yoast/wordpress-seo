@@ -24,7 +24,7 @@ final class Constructor_Test extends Abstract_Elements_Context_Map_Repository_Te
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Map_Loader_Interface::class,
-			$this->getPropertyValue( $this->instance, 'map_loader' )
+			$this->getPropertyValue( $this->instance, 'map_loader' ),
 		);
 	}
 }

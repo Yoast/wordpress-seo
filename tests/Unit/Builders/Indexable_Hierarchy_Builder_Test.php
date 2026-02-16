@@ -98,7 +98,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 			$this->primary_term_repository,
 			$this->options,
 			$this->post,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 	}
@@ -131,7 +131,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
@@ -172,7 +172,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
@@ -247,7 +247,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 		$this->post->expects( 'get_post' )
 			->twice()
@@ -256,7 +256,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -309,7 +309,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 		$this->post
 			->expects( 'get_post' )
@@ -319,7 +319,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -363,7 +363,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->post
@@ -374,7 +374,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -423,7 +423,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->post
@@ -434,7 +434,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -475,7 +475,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 2,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->post
@@ -486,7 +486,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 				(object) [
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -536,7 +536,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
@@ -556,7 +556,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -595,7 +595,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository
@@ -627,7 +627,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -688,7 +688,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 3,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -698,7 +698,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
@@ -720,7 +720,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -767,7 +767,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 						'taxonomy' => 'tag',
 						'parent'   => 0,
 					],
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_term' )
 			->with( 2 )
@@ -776,7 +776,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
@@ -796,7 +796,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -832,7 +832,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
@@ -849,7 +849,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -887,7 +887,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
@@ -904,7 +904,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
@@ -965,7 +965,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 						'taxonomy' => 'tag',
 						'parent'   => 4,
 					],
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -975,7 +975,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 4,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_term' )
 			->twice()
@@ -985,7 +985,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 4,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 		$this->indexable_helper->expects( 'should_index_indexable' )->with( $indexable )->andReturnTrue();
@@ -1008,7 +1008,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$actual = $this->instance->build( $indexable );
@@ -1050,7 +1050,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 1,
 					'taxonomy' => 'tag',
 					'parent'   => 2,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -1060,7 +1060,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
@@ -1099,7 +1099,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 1,
 					'taxonomy' => 'tag',
 					'parent'   => 2,
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_term' )
@@ -1110,7 +1110,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository
@@ -1154,7 +1154,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 1,
 					'taxonomy' => 'tag',
 					'parent'   => 2,
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_term' )
@@ -1165,7 +1165,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository
@@ -1211,7 +1211,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 1,
 					'taxonomy' => 'tag',
 					'parent'   => 2,
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_term' )
@@ -1222,7 +1222,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 3,
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_term' )
@@ -1233,7 +1233,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
-				]
+				],
 			);
 
 		$this->indexable_hierarchy_repository
@@ -1305,7 +1305,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'ID'          => 1,
 					'post_parent' => 0,
 					'post_type'   => 'post',
-				]
+				],
 			);
 
 		$this->options
@@ -1334,7 +1334,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 						'parent'     => 0,
 						'term_order' => 1,
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_term' )
@@ -1345,7 +1345,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 					'taxonomy'   => 'tag',
 					'parent'     => 0,
 					'term_order' => 1,
-				]
+				],
 			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 

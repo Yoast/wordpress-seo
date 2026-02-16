@@ -64,11 +64,11 @@ final class Robots_Helper_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
-			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
 		);
 	}
 
@@ -153,8 +153,8 @@ final class Robots_Helper_Test extends TestCase {
 				[
 					'index'  => 'index',
 					'follow' => 'follow',
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -170,12 +170,12 @@ final class Robots_Helper_Test extends TestCase {
 			->with(
 				Robots_Helper::class . '::set_robots_no_index',
 				'14.1',
-				'$robots has to be a key-value paired array.'
+				'$robots has to be a key-value paired array.',
 			);
 
 		$this->assertEquals(
 			'noindex,follow',
-			$this->instance->set_robots_no_index( 'noindex,follow' )
+			$this->instance->set_robots_no_index( 'noindex,follow' ),
 		);
 	}
 }

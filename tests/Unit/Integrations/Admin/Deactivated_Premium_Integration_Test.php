@@ -126,7 +126,7 @@ final class Deactivated_Premium_Integration_Test extends TestCase {
                         dismiss_premium_deactivated_notice();
                     } );
                 } );
-            </script>"
+            </script>",
 		);
 
 		$this->instance->premium_deactivated_notice();

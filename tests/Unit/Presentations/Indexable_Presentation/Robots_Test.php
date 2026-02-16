@@ -71,7 +71,7 @@ final class Robots_Test extends TestCase {
 				'index'  => 'noindex',
 				'follow' => 'nofollow',
 			],
-			$this->instance->generate_robots()
+			$this->instance->generate_robots(),
 		);
 	}
 
@@ -96,7 +96,7 @@ final class Robots_Test extends TestCase {
 				'index'  => 'noindex',
 				'follow' => 'follow',
 			],
-			$this->instance->generate_robots()
+			$this->instance->generate_robots(),
 		);
 	}
 
@@ -121,13 +121,13 @@ final class Robots_Test extends TestCase {
 					'max-image-preview' => 'max-image-preview:large',
 					'max-video-preview' => 'max-video-preview:-1',
 				],
-				$this->instance
+				$this->instance,
 			)
 			->andReturn(
 				[
 					'index'  => 'noindex',
 					'follow' => 'nofollow',
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -135,7 +135,7 @@ final class Robots_Test extends TestCase {
 				'index'  => 'noindex',
 				'follow' => 'nofollow',
 			],
-			$this->instance->generate_robots()
+			$this->instance->generate_robots(),
 		);
 	}
 

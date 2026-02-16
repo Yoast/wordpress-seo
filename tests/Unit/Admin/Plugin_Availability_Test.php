@@ -53,7 +53,7 @@ final class Plugin_Availability_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -78,7 +78,7 @@ final class Plugin_Availability_Test extends TestCase {
 					'premium'       => true,
 				],
 			],
-			$this->instance->get_plugins_with_dependencies()
+			$this->instance->get_plugins_with_dependencies(),
 		);
 	}
 
@@ -97,7 +97,7 @@ final class Plugin_Availability_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -138,7 +138,7 @@ final class Plugin_Availability_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )

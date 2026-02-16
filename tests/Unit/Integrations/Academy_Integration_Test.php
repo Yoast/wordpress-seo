@@ -75,7 +75,7 @@ final class Academy_Integration_Test extends TestCase {
 			$this->asset_manager,
 			$this->current_page_helper,
 			$this->product_helper,
-			$this->shortlink_helper
+			$this->shortlink_helper,
 		);
 	}
 
@@ -93,8 +93,8 @@ final class Academy_Integration_Test extends TestCase {
 				$this->asset_manager,
 				$this->current_page_helper,
 				$this->product_helper,
-				$this->shortlink_helper
-			)
+				$this->shortlink_helper,
+			),
 		);
 	}
 
@@ -111,7 +111,7 @@ final class Academy_Integration_Test extends TestCase {
 				Admin_Conditional::class,
 				User_Can_Manage_Wpseo_Options_Conditional::class,
 			],
-			Academy_Integration::get_conditionals()
+			Academy_Integration::get_conditionals(),
 		);
 	}
 
@@ -180,7 +180,7 @@ final class Academy_Integration_Test extends TestCase {
 				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ $this, 'display_page' ] ],
 				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ $this, 'display_page' ] ],
 				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ $this, 'display_page' ] ],
-			]
+			],
 		);
 
 		// Assert that the new page was added at index 3.

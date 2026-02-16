@@ -206,7 +206,7 @@ final class RankMath_Test extends TestCase {
 				'homepage_title'       => 'Test homepage title',
 				'homepage_description' => 'Test homepage description',
 				'pt_post_title'        => 'Test post title template %sep% %sitename%',
-			]
+			],
 		);
 	}
 }

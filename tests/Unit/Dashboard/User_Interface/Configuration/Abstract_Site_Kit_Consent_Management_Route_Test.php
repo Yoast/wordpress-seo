@@ -46,7 +46,7 @@ abstract class Abstract_Site_Kit_Consent_Management_Route_Test extends TestCase 
 
 		$this->instance = new Site_Kit_Consent_Management_Route(
 			new Site_Kit_Consent_Repository_Fake(),
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 }

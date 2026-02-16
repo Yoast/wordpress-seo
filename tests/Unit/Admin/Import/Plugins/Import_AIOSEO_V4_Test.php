@@ -59,7 +59,7 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
-				'%#custom_field-%'
+				'%#custom_field-%',
 			);
 
 		$wpdb->expects( 'get_col' )
@@ -70,35 +70,35 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 					'#custom_field-veldje',
 					'#custom_field-some_custom_field #separator_sa #site_title&nbsp;&nbsp;#custom_field-some_custom_field',
 					'#custom_field-some_custom_field %%hello%% some stuff#site_title&nbsp;&nbsp;',
-				]
+				],
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#custom_field-veldje',
-				'%%cf_veldje%%'
+				'%%cf_veldje%%',
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#custom_field-gras',
-				'%%cf_gras%%'
+				'%%cf_gras%%',
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#custom_field-groen',
-				'%%cf_groen%%'
+				'%%cf_groen%%',
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#custom_field-some_custom_field',
-				'%%cf_some_custom_field%%'
+				'%%cf_some_custom_field%%',
 			);
 
 		// Custom taxonomies.
@@ -106,7 +106,7 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
-				'%#tax_name-%'
+				'%#tax_name-%',
 			);
 
 		$wpdb->expects( 'get_col' )
@@ -115,21 +115,21 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 					'#post_title#tax_name-taxonomy',
 					'some text | #tax_name-taxonomy',
 					'#tax_name-taxonomy#tax_name-category',
-				]
+				],
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#tax_name-taxonomy',
-				'%%ct_taxonomy%%'
+				'%%ct_taxonomy%%',
 			);
 
 		$wpdb->expects( 'prepare' )
 			->with(
 				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 				'#tax_name-category',
-				'%%ct_category%%'
+				'%%ct_category%%',
 			);
 
 		// The `$replace_values` argument is not used by the class, so pass an empty array.
@@ -163,7 +163,7 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
-				'%#custom_field-%'
+				'%#custom_field-%',
 			);
 
 		$wpdb->expects( 'get_col' )
@@ -174,7 +174,7 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
-				'%#tax_name-%'
+				'%#tax_name-%',
 			);
 
 		$wpdb->expects( 'get_col' )
@@ -221,7 +221,7 @@ final class Import_AIOSEO_V4_Test extends TestCase {
 				->with(
 					'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
 					$aioseo_variable,
-					$yoast_variable
+					$yoast_variable,
 				);
 		}
 	}

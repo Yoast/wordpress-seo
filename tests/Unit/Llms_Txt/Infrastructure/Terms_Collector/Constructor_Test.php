@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Terms_Collector_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
-			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
 		);
 	}
 }

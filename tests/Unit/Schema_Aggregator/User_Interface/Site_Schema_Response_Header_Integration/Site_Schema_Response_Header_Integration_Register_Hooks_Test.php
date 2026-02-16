@@ -25,7 +25,7 @@ final class Site_Schema_Response_Header_Integration_Register_Hooks_Test extends 
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Filters\has( 'rest_pre_serve_request', [ $this->instance, 'serve_custom_response' ] )
+			Monkey\Filters\has( 'rest_pre_serve_request', [ $this->instance, 'serve_custom_response' ] ),
 		);
 	}
 }

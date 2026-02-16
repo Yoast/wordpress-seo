@@ -24,7 +24,7 @@ final class Setup_Steps_Tracking_Constructor_Test extends Abstract_Setup_Steps_T
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Setup_Steps_Tracking_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'setup_steps_tracking_repository' )
+			$this->getPropertyValue( $this->instance, 'setup_steps_tracking_repository' ),
 		);
 	}
 }

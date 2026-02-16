@@ -48,7 +48,7 @@ abstract class Abstract_Setup_Steps_Tracking_Route_Test extends TestCase {
 
 		$this->instance = new Setup_Steps_Tracking_Route(
 			new Setup_Steps_Tracking_Repository_Fake(),
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 }

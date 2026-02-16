@@ -226,7 +226,7 @@ class Social_Profiles_Helper {
 					$social_profiles[ $field_name ],
 					static function ( $other_social_url ) {
 						return $other_social_url !== '';
-					}
+					},
 				);
 
 				$social_profiles[ $field_name ] = \array_values( $other_social_urls );

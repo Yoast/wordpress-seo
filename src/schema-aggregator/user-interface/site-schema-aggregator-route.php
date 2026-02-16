@@ -161,7 +161,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 				return new WP_Error(
 					'wpseo_aggregate_site_schema_error',
 					$exception->getMessage(),
-					(object) []
+					(object) [],
 				);
 			}
 		}

@@ -105,7 +105,7 @@ class Site_Schema_Aggregator_Cli_Command implements Command_Interface {
 		$output = WPSEO_Utils::format_json_encode( $result );
 		$output = \str_replace( "\n", \PHP_EOL . "\t", $output );
 		WP_CLI::log(
-			$output
+			$output,
 		);
 	}
 }

@@ -42,7 +42,7 @@ class Browser_Cache_Configuration {
 		$current_user  = \wp_get_current_user();
 		$auth_cookie   = \wp_parse_auth_cookie();
 		$blog_id       = \get_current_blog_id();
-		$session_token = isset( $auth_cookie['token'] ) ? $auth_cookie['token'] : '';
+		$session_token = ( $auth_cookie['token'] ?? '' );
 
 		return \wp_hash( $current_user->user_login . '|' . $session_token . '|' . $blog_id );
 	}

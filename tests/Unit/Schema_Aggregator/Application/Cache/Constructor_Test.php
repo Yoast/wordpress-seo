@@ -22,7 +22,7 @@ final class Constructor_Test extends Abstract_Manager_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Config::class,
-			$this->getPropertyValue( $this->instance, 'config' )
+			$this->getPropertyValue( $this->instance, 'config' ),
 		);
 	}
 }

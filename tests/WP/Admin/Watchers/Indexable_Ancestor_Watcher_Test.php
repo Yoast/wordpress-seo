@@ -95,7 +95,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_hierarchy_repository,
 			$this->indexable_helper,
 			$this->permalink_helper,
-			$this->post_type_helper
+			$this->post_type_helper,
 		);
 	}
 
@@ -114,7 +114,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			[
 				'name'     => 'test_term',
 				'taxonomy' => 'category',
-			]
+			],
 		);
 
 		\wp_set_object_terms( $post1->ID, $term_id, 'category' );

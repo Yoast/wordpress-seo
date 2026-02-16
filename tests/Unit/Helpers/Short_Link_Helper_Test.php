@@ -54,7 +54,7 @@ final class Short_Link_Helper_Test extends TestCase {
 
 		$this->instance = new Short_Link_Helper(
 			$this->options_helper,
-			$this->product_helper
+			$this->product_helper,
 		);
 	}
 

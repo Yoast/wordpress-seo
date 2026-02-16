@@ -24,8 +24,8 @@ final class Register_Hooks_Test extends Abstract_Schema_Aggregator_Watcher_Test 
 			10,
 			\has_action(
 				'update_option_wpseo',
-				[ $this->instance, 'check_schema_aggregator_enabled' ]
-			)
+				[ $this->instance, 'check_schema_aggregator_enabled' ],
+			),
 		);
 	}
 }

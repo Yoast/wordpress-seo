@@ -23,12 +23,12 @@ final class Constructor_Test extends Abstract_Indexable_Repository_Factory_Test 
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'native_repository' )
+			$this->getPropertyValue( $this->instance, 'native_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			WordPress_Query_Repository::class,
-			$this->getPropertyValue( $this->instance, 'wordpress_repository' )
+			$this->getPropertyValue( $this->instance, 'wordpress_repository' ),
 		);
 	}
 }

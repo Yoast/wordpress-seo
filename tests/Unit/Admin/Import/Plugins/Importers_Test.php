@@ -40,7 +40,7 @@ final class Importers_Test extends TestCase {
 				'WPSEO_Import_WooThemes_SEO',
 				'WPSEO_Import_WPSEO',
 			],
-			WPSEO_Plugin_Importers::get()
+			WPSEO_Plugin_Importers::get(),
 		);
 	}
 }

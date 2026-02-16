@@ -88,7 +88,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			$this->compatibility_checker->get_installed_version(),
-			'Gutenberg'
+			'Gutenberg',
 		);
 
 		$notification = new Yoast_Notification(
@@ -97,7 +97,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 				'id'       => $this->notification_id,
 				'type'     => $level,
 				'priority' => 1,
-			]
+			],
 		);
 
 		$this->notification_center->add_notification( $notification );

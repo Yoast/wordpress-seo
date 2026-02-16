@@ -22,7 +22,7 @@ final class Constructor_Test extends Abstract_Default_Filter_Test {
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Elements_Context_Map_Repository::class,
-			$this->getPropertyValue( $this->instance, 'elements_context_map_repository' )
+			$this->getPropertyValue( $this->instance, 'elements_context_map_repository' ),
 		);
 	}
 }

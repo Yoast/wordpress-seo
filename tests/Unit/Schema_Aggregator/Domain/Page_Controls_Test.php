@@ -28,15 +28,15 @@ final class Page_Controls_Test extends TestCase {
 
 		$this->assertSame(
 			1,
-			$this->getPropertyValue( $instance, 'page' )
+			$this->getPropertyValue( $instance, 'page' ),
 		);
 		$this->assertSame(
 			20,
-			$this->getPropertyValue( $instance, 'page_size' )
+			$this->getPropertyValue( $instance, 'page_size' ),
 		);
 		$this->assertSame(
 			'post',
-			$this->getPropertyValue( $instance, 'post_type' )
+			$this->getPropertyValue( $instance, 'post_type' ),
 		);
 	}
 

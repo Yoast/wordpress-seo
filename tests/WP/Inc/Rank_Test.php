@@ -30,7 +30,7 @@ final class Rank_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor() {
-		$rank_non_existant = new WPSEO_Rank( 100000 );
+		$rank_non_existant = new WPSEO_Rank( 100_000 );
 		$this->assertEquals( WPSEO_Rank::BAD, $rank_non_existant->get_rank() );
 	}
 

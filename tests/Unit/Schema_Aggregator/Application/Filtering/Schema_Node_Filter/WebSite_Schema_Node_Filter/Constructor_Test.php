@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_WebSite_Schema_Node_Filter_Test {
 
 		$this->assertInstanceOf(
 			WordPress_Current_Site_URL_Provider::class,
-			$this->getPropertyValue( $this->instance, 'current_site_url_provider' )
+			$this->getPropertyValue( $this->instance, 'current_site_url_provider' ),
 		);
 	}
 }

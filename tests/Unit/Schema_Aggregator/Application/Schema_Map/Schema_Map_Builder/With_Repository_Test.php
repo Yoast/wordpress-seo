@@ -42,7 +42,7 @@ final class With_Repository_Test extends Abstract_Schema_Map_Builder_Test {
 	public function test_with_repository_sets_property() {
 		$this->assertInstanceOf(
 			Schema_Map_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'schema_map_repository' )
+			$this->getPropertyValue( $this->instance, 'schema_map_repository' ),
 		);
 	}
 }

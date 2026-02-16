@@ -309,17 +309,17 @@ Release date: 2026-02-17
 
 #### Enhancements
 
-* Adds `html-react-parser` dependency for improved HTML string handling in React components.
-* Adds `images` array to FAQ and How-to blocks attributes for explicit image handling.
-* Migrates FAQ block's question/answer fields from array-based formats to HTML strings for better compatibility with WordPress components.
-* Migrates How-to block's step name/text fields from array-based formats to HTML strings for better compatibility with WordPress components.
-* Updates the design for the search appearance mode switcher.
+* Introduces an `images` array attribute to FAQ and How-to blocks to allow for explicit image handling.
+* Integrates `html-react-parser` to improve HTML string handling within React components.
+* Migrates FAQ block question and answer fields from arrays to HTML strings to improve compatibility with WordPress components.
+* Migrates How-to block step name and text fields from arrays to HTML strings to improve compatibility with WordPress components.
+* Refines the design of the search appearance mode switcher.
 
 #### Bugfixes
 
-* Fixes a bug where inline link icon was missing when editing a sync pattern in the block editor with WordPress 6.9.
+* Fixes a bug where the inline link icon was missing when editing a synced pattern in the Block Editor on WordPress 6.9.
 * Fixes a bug where the AI Optimize buttons remained active even when another button had been pressed.
-* Fixes a bug where the _subheading distribution assessment_ threw an error when there was some text with no subheadings plus a block containing a subheading (like the Yoast Table of contents block).
+* Fixes a bug where the subheading distribution assessment threw an error when the content contained text without subheadings followed by a block that included a subheading (such as a Table of Contents block).
 
 #### Other
 

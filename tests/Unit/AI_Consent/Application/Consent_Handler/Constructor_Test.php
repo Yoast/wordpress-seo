@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Consent_Handler_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 }

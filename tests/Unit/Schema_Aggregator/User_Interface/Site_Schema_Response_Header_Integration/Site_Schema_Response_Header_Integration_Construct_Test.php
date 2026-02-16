@@ -26,7 +26,7 @@ final class Site_Schema_Response_Header_Integration_Construct_Test extends Abstr
 		$this->assertInstanceOf( Site_Schema_Response_Header_Integration::class, $this->instance );
 		$this->assertInstanceOf(
 			Schema_Map_Header_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'schema_map_header_adapter' )
+			$this->getPropertyValue( $this->instance, 'schema_map_header_adapter' ),
 		);
 	}
 }

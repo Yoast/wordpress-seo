@@ -110,7 +110,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . $link_url . '">',
 				'Yoast SEO',
-				'</a>'
+				'</a>',
 			);
 		}
 		else {
@@ -118,7 +118,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 				/* translators: 1: Link start tag to the first-time configuration, 2: Link closing tag. */
 				\__( 'We noticed that you haven\'t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved %1$s First-time configuration%2$s.', 'wordpress-seo' ),
 				'<a href="' . $link_url . '">',
-				'</a>'
+				'</a>',
 			);
 		}
 
@@ -128,7 +128,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			'mirrored_fit_bubble_woman_1_optim.svg',
 			null,
 			true,
-			'yoast-first-time-configuration-notice'
+			'yoast-first-time-configuration-notice',
 		);
 
 		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.

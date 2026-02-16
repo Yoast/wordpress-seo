@@ -72,13 +72,13 @@ class Filtered_Map_Loader implements Map_Loader_Interface {
 
 			if ( ! \is_string( $first_key ) ) {
 				throw new InvalidArgumentException(
-					'Filter "wpseo_schema_aggregator_elements_context_map" must return an array with string keys (context names).'
+					'Filter "wpseo_schema_aggregator_elements_context_map" must return an array with string keys (context names).',
 				);
 			}
 
 			if ( ! \is_array( $first_value ) ) {
 				throw new InvalidArgumentException(
-					'Filter "wpseo_schema_aggregator_elements_context_map" must return an array with array values (element lists).'
+					'Filter "wpseo_schema_aggregator_elements_context_map" must return an array with array values (element lists).',
 				);
 			}
 		}

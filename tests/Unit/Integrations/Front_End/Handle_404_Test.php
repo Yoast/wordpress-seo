@@ -59,7 +59,7 @@ final class Handle_404_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Handle_404::get_conditionals()
+			Handle_404::get_conditionals(),
 		);
 	}
 

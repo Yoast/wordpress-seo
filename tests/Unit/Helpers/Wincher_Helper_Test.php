@@ -74,7 +74,7 @@ final class Wincher_Helper_Test extends TestCase {
 		$this->assertInstanceOf( Wincher_Helper::class, $this->instance );
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options' )
+			$this->getPropertyValue( $this->instance, 'options' ),
 		);
 	}
 
@@ -104,7 +104,7 @@ final class Wincher_Helper_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => true,
-			]
+			],
 		);
 
 		$this->assertFalse( $this->instance->is_active() );

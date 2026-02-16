@@ -70,7 +70,7 @@ abstract class Abstract_Indexables_Update_Listener_Integration_Test extends Test
 			$this->indexable_repository,
 			$this->config,
 			$this->manager,
-			$this->xml_manager
+			$this->xml_manager,
 		);
 	}
 }

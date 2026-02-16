@@ -111,7 +111,7 @@ class Xml_Manager {
 		return \sprintf(
 			'%s_xml_sitemap_v%d',
 			self::CACHE_PREFIX,
-			self::CACHE_VERSION
+			self::CACHE_VERSION,
 		);
 	}
 }

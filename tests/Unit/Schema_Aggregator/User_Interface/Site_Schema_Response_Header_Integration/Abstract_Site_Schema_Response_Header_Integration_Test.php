@@ -40,7 +40,7 @@ abstract class Abstract_Site_Schema_Response_Header_Integration_Test extends Tes
 		$this->schema_map_header_adapter = Mockery::mock( Schema_Map_Header_Adapter::class );
 
 		$this->instance = new Site_Schema_Response_Header_Integration(
-			$this->schema_map_header_adapter
+			$this->schema_map_header_adapter,
 		);
 	}
 }

@@ -31,7 +31,7 @@ final class Indexable_Date_Archive_Builder_Test extends TestCase {
 
 		$this->instance = new Indexable_Date_Archive_Builder(
 			\YoastSEO()->helpers->options,
-			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' )
+			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
 		);
 	}
 

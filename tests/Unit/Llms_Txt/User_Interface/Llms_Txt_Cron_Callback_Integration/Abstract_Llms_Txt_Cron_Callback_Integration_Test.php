@@ -74,7 +74,7 @@ abstract class Abstract_Llms_Txt_Cron_Callback_Integration_Test extends TestCase
 			$this->options_helper,
 			$this->cron_scheduler,
 			$this->populate_file_command_handler,
-			$this->command_handler
+			$this->command_handler,
 		);
 	}
 }

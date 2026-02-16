@@ -126,7 +126,7 @@ class Aioseo_Social_Images_Provider_Service {
 				'post_status'    => 'inherit',
 				'post_type'      => 'attachment',
 				'post_mime_type' => 'image',
-			]
+			],
 		);
 
 		if ( $attachments && ! empty( $attachments ) ) {

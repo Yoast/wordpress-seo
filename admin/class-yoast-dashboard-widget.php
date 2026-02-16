@@ -37,9 +37,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
 	 */
 	public function __construct( ?WPSEO_Statistics $statistics = null ) {
-		if ( $statistics === null ) {
-			$statistics = new WPSEO_Statistics();
-		}
+		$statistics ??= new WPSEO_Statistics();
 
 		$this->statistics    = $statistics;
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -77,7 +75,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'wpseo-dashboard-overview',
 			/* translators: %s is the plugin name */
 			sprintf( __( '%s Posts Overview', 'wordpress-seo' ), 'Yoast SEO' ),
-			[ $this, 'display_dashboard_widget' ]
+			[ $this, 'display_dashboard_widget' ],
 		);
 	}
 
@@ -128,7 +126,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'feed_header'          => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
 				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
-				'Yoast.com'
+				'Yoast.com',
 			),
 			'feed_footer'          => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),

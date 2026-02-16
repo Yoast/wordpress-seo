@@ -67,14 +67,14 @@ final class First_Time_Configuration_Notice_Helper_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 		$this->assertIsBool(
-			$this->getPropertyValue( $this->instance, 'show_alternate_message' )
+			$this->getPropertyValue( $this->instance, 'show_alternate_message' ),
 		);
 	}
 

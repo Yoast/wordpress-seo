@@ -66,7 +66,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 				$this->options_helper,
 				$this->product_helper,
 				$this->shortlinker,
-			]
+			],
 		)->makePartial();
 	}
 
@@ -82,7 +82,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 			],
-			Installation_Success_Integration::get_conditionals()
+			Installation_Success_Integration::get_conditionals(),
 		);
 	}
 
@@ -96,12 +96,12 @@ final class Installation_Success_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 	}
 
@@ -120,9 +120,9 @@ final class Installation_Success_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'add_submenu_page',
-				]
+				],
 			),
-			'Does not have expected admin_menu filter'
+			'Does not have expected admin_menu filter',
 		);
 		$this->assertNotFalse(
 			Monkey\Actions\has(
@@ -130,9 +130,9 @@ final class Installation_Success_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'enqueue_assets',
-				]
+				],
 			),
-			'Does not have expected admin_enqueue_scripts action'
+			'Does not have expected admin_enqueue_scripts action',
 		);
 		$this->assertNotFalse(
 			Monkey\Actions\has(
@@ -140,9 +140,9 @@ final class Installation_Success_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'maybe_redirect',
-				]
+				],
 			),
-			'Does not have expected admin_init action'
+			'Does not have expected admin_init action',
 		);
 	}
 
@@ -421,7 +421,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 				[
 					$this->instance,
 					'render_page',
-				]
+				],
 			);
 
 		$submenu_pages = [

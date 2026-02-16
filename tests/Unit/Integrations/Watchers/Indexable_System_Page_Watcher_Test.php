@@ -66,7 +66,7 @@ final class Indexable_System_Page_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_System_Page_Watcher::get_conditionals()
+			Indexable_System_Page_Watcher::get_conditionals(),
 		);
 	}
 
@@ -131,7 +131,7 @@ final class Indexable_System_Page_Watcher_Test extends TestCase {
 				'other_key'          => 'baz',
 				'title-search-wpseo' => 'baz',
 				'title-404-wpseo'    => 'baz',
-			]
+			],
 		);
 	}
 

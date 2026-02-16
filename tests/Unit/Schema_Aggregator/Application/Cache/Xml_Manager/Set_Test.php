@@ -105,7 +105,7 @@ final class Set_Test extends Abstract_Xml_Manager_Test {
 		];
 		yield 'Large XML, long expiration' => [
 			'data'       => \str_repeat( '<item>large content here</item>', 500 ),
-			'expiration' => 21600,
+			'expiration' => 21_600,
 			'expected'   => true,
 		];
 		yield 'Empty string' => [

@@ -24,7 +24,7 @@ final class Constructor_Test extends Abstract_Schema_Map_Xml_Renderer_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Schema_Map_Config::class,
-			$this->getPropertyValue( $this->instance, 'config' )
+			$this->getPropertyValue( $this->instance, 'config' ),
 		);
 	}
 }

@@ -23,11 +23,11 @@ final class Constructor_Test extends Abstract_Schema_Enhancement_Factory_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Article_Schema_Enhancer::class,
-			$this->getPropertyValue( $this->instance, 'article_schema_enhancer' )
+			$this->getPropertyValue( $this->instance, 'article_schema_enhancer' ),
 		);
 		$this->assertInstanceOf(
 			Person_Schema_Enhancer::class,
-			$this->getPropertyValue( $this->instance, 'person_schema_enhancer' )
+			$this->getPropertyValue( $this->instance, 'person_schema_enhancer' ),
 		);
 	}
 }

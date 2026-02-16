@@ -24,11 +24,11 @@ final class Constructor_Test extends Abstract_Code_Verifier_Handler_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Date_Helper::class,
-			$this->getPropertyValue( $this->instance, 'date_helper' )
+			$this->getPropertyValue( $this->instance, 'date_helper' ),
 		);
 		$this->assertInstanceOf(
 			Code_Verifier_User_Meta_Repository::class,
-			$this->getPropertyValue( $this->instance, 'code_verifier_repository' )
+			$this->getPropertyValue( $this->instance, 'code_verifier_repository' ),
 		);
 	}
 }

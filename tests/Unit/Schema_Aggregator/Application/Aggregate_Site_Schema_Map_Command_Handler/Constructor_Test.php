@@ -25,19 +25,19 @@ final class Constructor_Test extends Abstract_Aggregate_Site_Schema_Map_Command_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Schema_Map_Repository_Factory::class,
-			$this->getPropertyValue( $this->instance, 'schema_map_repository_factory' )
+			$this->getPropertyValue( $this->instance, 'schema_map_repository_factory' ),
 		);
 		$this->assertInstanceOf(
 			Schema_Map_Builder::class,
-			$this->getPropertyValue( $this->instance, 'schema_map_builder' )
+			$this->getPropertyValue( $this->instance, 'schema_map_builder' ),
 		);
 		$this->assertInstanceOf(
 			Schema_Map_Xml_Renderer::class,
-			$this->getPropertyValue( $this->instance, 'schema_map_xml_renderer' )
+			$this->getPropertyValue( $this->instance, 'schema_map_xml_renderer' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 	}
 }

@@ -57,7 +57,7 @@ class Presentation_Memoizer {
 				[
 					'model'   => $indexable,
 					'context' => $context,
-				]
+				],
 			);
 
 			$this->cache[ $indexable->id ] = $context->presentation;

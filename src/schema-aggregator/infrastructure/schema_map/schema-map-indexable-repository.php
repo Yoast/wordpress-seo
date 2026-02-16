@@ -123,8 +123,8 @@ class Schema_Map_Indexable_Repository implements Schema_Map_Repository_Interface
 ",
 					$post_type,
 					$per_page,
-					$offset
-				)
+					$offset,
+				),
 			);
 			// Convert to ISO 8601 format or use current time if no posts.
 			if ( $lastmod && ! empty( $lastmod ) ) {

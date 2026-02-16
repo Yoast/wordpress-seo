@@ -149,7 +149,7 @@ class Indexable_Repository {
 					'object_type' => 'unknown',
 					'post_status' => 'unindexed',
 					'version'     => 1,
-				]
+				],
 			);
 		}
 
@@ -600,7 +600,7 @@ class Indexable_Repository {
 				'permalink'      => null,
 				'permalink_hash' => null,
 				'version'        => 0,
-			]
+			],
 		);
 
 		if ( $type !== null ) {

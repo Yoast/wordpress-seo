@@ -29,31 +29,31 @@ final class Constructor_Test extends Abstract_Markdown_Builder_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Llms_Txt_Renderer::class,
-			$this->getPropertyValue( $this->instance, 'llms_txt_renderer' )
+			$this->getPropertyValue( $this->instance, 'llms_txt_renderer' ),
 		);
 		$this->assertInstanceOf(
 			Intro_Builder::class,
-			$this->getPropertyValue( $this->instance, 'intro_builder' )
+			$this->getPropertyValue( $this->instance, 'intro_builder' ),
 		);
 		$this->assertInstanceOf(
 			Title_Builder::class,
-			$this->getPropertyValue( $this->instance, 'title_builder' )
+			$this->getPropertyValue( $this->instance, 'title_builder' ),
 		);
 		$this->assertInstanceOf(
 			Description_Builder::class,
-			$this->getPropertyValue( $this->instance, 'description_builder' )
+			$this->getPropertyValue( $this->instance, 'description_builder' ),
 		);
 		$this->assertInstanceOf(
 			Link_Lists_Builder::class,
-			$this->getPropertyValue( $this->instance, 'link_lists_builder' )
+			$this->getPropertyValue( $this->instance, 'link_lists_builder' ),
 		);
 		$this->assertInstanceOf(
 			Markdown_Escaper::class,
-			$this->getPropertyValue( $this->instance, 'markdown_escaper' )
+			$this->getPropertyValue( $this->instance, 'markdown_escaper' ),
 		);
 		$this->assertInstanceOf(
 			Optional_Link_List_Builder::class,
-			$this->getPropertyValue( $this->instance, 'optional_link_list_builder' )
+			$this->getPropertyValue( $this->instance, 'optional_link_list_builder' ),
 		);
 	}
 }

@@ -51,7 +51,7 @@ final class Build_Test extends Abstract_Schema_Map_Builder_Test {
 			->andReturnUsing(
 				static function ( $route ) {
 					return 'https://example.com/wp-json/' . $route;
-				}
+				},
 			);
 
 		$result = $this->instance->build( $collection );

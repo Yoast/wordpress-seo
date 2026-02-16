@@ -115,7 +115,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 		$this->assertNotEquals(
 			( $page_1[0]->object_id ?? null ),
 			( $page_2[0]->object_id ?? null ),
-			'Different pages should return different posts'
+			'Different pages should return different posts',
 		);
 	}
 
@@ -183,7 +183,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 				'post_title'  => 'Test Post',
 				'post_status' => 'publish',
 				'post_type'   => 'post',
-			]
+			],
 		);
 		$this->created_posts = \array_merge( $this->created_posts, $post_ids );
 
@@ -193,7 +193,7 @@ final class WordPress_Query_Repository_Test extends TestCase {
 				'post_title'  => 'Test Page',
 				'post_status' => 'publish',
 				'post_type'   => 'page',
-			]
+			],
 		);
 		$this->created_posts = \array_merge( $this->created_posts, $page_ids );
 	}

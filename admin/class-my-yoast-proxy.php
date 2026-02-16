@@ -66,7 +66,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 		$this->render_proxy_page();
 
 		// Prevent the WordPress UI from loading.
-		exit;
+		exit();
 	}
 
 	/**

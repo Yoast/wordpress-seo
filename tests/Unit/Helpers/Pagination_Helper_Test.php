@@ -76,11 +76,11 @@ final class Pagination_Helper_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WP_Rewrite_Wrapper::class,
-			$this->getPropertyValue( $this->instance, 'wp_rewrite_wrapper' )
+			$this->getPropertyValue( $this->instance, 'wp_rewrite_wrapper' ),
 		);
 		$this->assertInstanceOf(
 			WP_Query_Wrapper::class,
-			$this->getPropertyValue( $this->instance, 'wp_query_wrapper' )
+			$this->getPropertyValue( $this->instance, 'wp_query_wrapper' ),
 		);
 	}
 
@@ -475,7 +475,7 @@ final class Pagination_Helper_Test extends TestCase {
 					}
 
 					return $default_response;
-				}
+				},
 			);
 
 		$this->assertSame( 2, $this->instance->get_current_page_number() );

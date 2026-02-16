@@ -96,8 +96,8 @@ class Schema_Map_WordPress_Repository implements Schema_Map_Repository_Interface
                      ) AS posts_range",
 					$post_type,
 					$per_page,
-					$offset
-				)
+					$offset,
+				),
 			);
 			// phpcs:enable
 			// Convert to ISO 8601 format or use current time if no posts.

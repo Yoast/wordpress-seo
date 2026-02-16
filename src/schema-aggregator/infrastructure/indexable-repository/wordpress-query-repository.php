@@ -57,7 +57,7 @@ class WordPress_Query_Repository implements Indexable_Repository_Interface {
 				'paged'          => $page,
 				'fields'         => 'ids',
 				'no_found_rows'  => false,
-			]
+			],
 		);
 
 		if ( ! $query instanceof WP_Query ) {

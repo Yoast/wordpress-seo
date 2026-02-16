@@ -67,7 +67,7 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Indexable_Hierarchy_Builder::class,
-			$this->getPropertyValue( $this->instance, 'builder' )
+			$this->getPropertyValue( $this->instance, 'builder' ),
 		);
 	}
 
@@ -83,7 +83,7 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 	}
 
@@ -253,7 +253,7 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 					'ancestor_id'  => 2,
 					'depth'        => 1,
 					'blog_id'      => 1,
-				]
+				],
 			)
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -324,7 +324,7 @@ final class Indexable_Hierarchy_Repository_Test extends TestCase {
 			[
 				0 => 2,
 				1 => 3,
-			]
+			],
 		);
 
 		$this->assertSame( [ 2, 3 ], $this->instance->find_children( $indexable ) );

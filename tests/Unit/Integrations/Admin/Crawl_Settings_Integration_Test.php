@@ -65,7 +65,7 @@ final class Crawl_Settings_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 			],
-			Crawl_Settings_Integration::get_conditionals()
+			Crawl_Settings_Integration::get_conditionals(),
 		);
 	}
 

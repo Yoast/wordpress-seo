@@ -26,7 +26,7 @@ final class Indexables_Update_Listener_Integration_Get_Conditionals_Test extends
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Schema_Aggregator_Conditional::class ],
-			Indexables_Update_Listener_Integration::get_conditionals()
+			Indexables_Update_Listener_Integration::get_conditionals(),
 		);
 	}
 }

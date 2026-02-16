@@ -51,7 +51,7 @@ final class Time_Based_SEO_Metrics_Route_Register_Routes_Test extends Abstract_T
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

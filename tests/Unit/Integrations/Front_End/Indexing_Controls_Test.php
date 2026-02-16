@@ -55,7 +55,7 @@ final class Indexing_Controls_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Indexing_Controls::get_conditionals()
+			Indexing_Controls::get_conditionals(),
 		);
 	}
 
@@ -104,7 +104,7 @@ final class Indexing_Controls_Test extends TestCase {
 	public function test_nofollow_link() {
 		$this->assertEquals(
 			'<a rel="nofollow" href="#">A link</a>',
-			$this->instance->nofollow_link( '<a href="#">A link</a>' )
+			$this->instance->nofollow_link( '<a href="#">A link</a>' ),
 		);
 	}
 }

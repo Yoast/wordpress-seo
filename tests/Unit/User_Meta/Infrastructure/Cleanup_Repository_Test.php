@@ -64,7 +64,7 @@ final class Cleanup_Repository_Test extends TestCase {
 					'facebook',
 					'wpseo_noindex_author',
 					1000,
-				]
+				],
 			)
 			->andReturn(
 				'
@@ -72,7 +72,7 @@ final class Cleanup_Repository_Test extends TestCase {
 				WHERE meta_key IN( "facebook", "wpseo_noindex_author" )
 				AND meta_value = ""
 				ORDER BY user_id
-				LIMIT 1000'
+				LIMIT 1000',
 			);
 
 		$wpdb
@@ -84,7 +84,7 @@ final class Cleanup_Repository_Test extends TestCase {
 				WHERE meta_key IN( "facebook", "wpseo_noindex_author" )
 				AND meta_value = ""
 				ORDER BY user_id
-				LIMIT 1000'
+				LIMIT 1000',
 			)
 			->andReturn( 200 );
 

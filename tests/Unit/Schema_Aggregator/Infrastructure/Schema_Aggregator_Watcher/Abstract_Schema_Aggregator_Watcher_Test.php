@@ -40,7 +40,7 @@ abstract class Abstract_Schema_Aggregator_Watcher_Test extends TestCase {
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Schema_Aggregator_Watcher(
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

@@ -140,8 +140,8 @@ class Manager {
 				$wpdb->prepare(
 					"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
 					$pattern,
-					$timeout_pattern
-				)
+					$timeout_pattern,
+				),
 			);
 
 			return $deleted !== false;
@@ -170,8 +170,8 @@ class Manager {
 				$wpdb->prepare(
 					"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
 					$pattern,
-					$timeout_pattern
-				)
+					$timeout_pattern,
+				),
 			);
 
 			if ( $deleted === false ) {
@@ -202,7 +202,7 @@ class Manager {
 			$page,
 			$per_page,
 			$post_type,
-			self::CACHE_VERSION
+			self::CACHE_VERSION,
 		);
 	}
 }

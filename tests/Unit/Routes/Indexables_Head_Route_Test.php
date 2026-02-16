@@ -66,7 +66,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Indexable_Head_Action::class,
-			$this->getPropertyValue( $this->instance, 'head_action' )
+			$this->getPropertyValue( $this->instance, 'head_action' ),
 		);
 	}
 
@@ -82,7 +82,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 			[
 				Headless_Rest_Endpoints_Enabled_Conditional::class,
 			],
-			Indexables_Head_Route::get_conditionals()
+			Indexables_Head_Route::get_conditionals(),
 		);
 	}
 
@@ -108,7 +108,7 @@ final class Indexables_Head_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

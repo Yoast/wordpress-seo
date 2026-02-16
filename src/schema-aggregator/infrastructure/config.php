@@ -90,12 +90,12 @@ class Config {
 			$size = \strlen( $serialized );
 
 			// Large payloads: cache longer.
-			if ( $size > 1048576 ) {
+			if ( $size > 1_048_576 ) {
 				$cache_ttl = ( 6 * \HOUR_IN_SECONDS );
 			}
 
 			// Small payloads: cache shorter.
-			if ( $size < 102400 ) {
+			if ( $size < 102_400 ) {
 				$cache_ttl = ( 30 * \MINUTE_IN_SECONDS );
 			}
 

@@ -58,7 +58,7 @@ final class Estimated_Reading_Time_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Estimated_Reading_Time_Conditional::class ],
-			Estimated_Reading_Time::get_conditionals()
+			Estimated_Reading_Time::get_conditionals(),
 		);
 	}
 
@@ -79,7 +79,7 @@ final class Estimated_Reading_Time_Test extends TestCase {
 				'type'  => 'hidden',
 				'title' => 'estimated-reading-time-minutes',
 			],
-			$actual['estimated-reading-time-minutes']
+			$actual['estimated-reading-time-minutes'],
 		);
 	}
 

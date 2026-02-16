@@ -151,7 +151,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -225,13 +225,13 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 				[
 					'error' => $exception->getMessage(),
 				],
-				$exception->getCode()
+				$exception->getCode(),
 			);
 		}
 
 		return new WP_REST_Response(
 			$time_based_seo_metrics_container->to_array(),
-			200
+			200,
 		);
 	}
 

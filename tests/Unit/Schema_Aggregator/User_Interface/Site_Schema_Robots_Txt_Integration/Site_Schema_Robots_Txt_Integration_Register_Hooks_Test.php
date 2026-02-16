@@ -26,7 +26,7 @@ final class Site_Schema_Robots_Txt_Integration_Register_Hooks_Test extends Abstr
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse(
-			Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'maybe_add_xml_schema_map' ] )
+			Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'maybe_add_xml_schema_map' ] ),
 		);
 	}
 }

@@ -27,22 +27,22 @@ final class Constructor_Test extends Abstract_Site_Schema_Aggregator_Route_Test 
 	public function test_constructor(): void {
 		$this->assertInstanceOf(
 			Config::class,
-			$this->getPropertyValue( $this->instance, 'config' )
+			$this->getPropertyValue( $this->instance, 'config' ),
 		);
 
 		$this->assertInstanceOf(
 			Capability_Helper::class,
-			$this->getPropertyValue( $this->instance, 'capability_helper' )
+			$this->getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Aggregate_Site_Schema_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'aggregate_site_schema_command_handler' )
+			$this->getPropertyValue( $this->instance, 'aggregate_site_schema_command_handler' ),
 		);
 
 		$this->assertInstanceOf(
 			Manager::class,
-			$this->getPropertyValue( $this->instance, 'cache_manager' )
+			$this->getPropertyValue( $this->instance, 'cache_manager' ),
 		);
 	}
 }

@@ -67,7 +67,7 @@ final class Introductions_Bucket_Test extends TestCase {
 					'priority' => 2,
 				],
 			],
-			$instance->to_array()
+			$instance->to_array(),
 		);
 	}
 }

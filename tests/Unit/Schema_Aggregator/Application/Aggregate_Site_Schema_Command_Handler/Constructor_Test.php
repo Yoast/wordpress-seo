@@ -24,15 +24,15 @@ final class Constructor_Test extends Abstract_Aggregate_Site_Schema_Command_Hand
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Schema_Piece_Repository::class,
-			$this->getPropertyValue( $this->instance, 'schema_piece_repository' )
+			$this->getPropertyValue( $this->instance, 'schema_piece_repository' ),
 		);
 		$this->assertInstanceOf(
 			Schema_Pieces_Aggregator::class,
-			$this->getPropertyValue( $this->instance, 'schema_piece_aggregator' )
+			$this->getPropertyValue( $this->instance, 'schema_piece_aggregator' ),
 		);
 		$this->assertInstanceOf(
 			Schema_Aggregator_Response_Composer::class,
-			$this->getPropertyValue( $this->instance, 'schema_response_composer' )
+			$this->getPropertyValue( $this->instance, 'schema_response_composer' ),
 		);
 	}
 }

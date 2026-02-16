@@ -66,7 +66,7 @@ final class Collect_Test extends TestCase {
 			'woocommerce_structured_data_product',
 			static function ( $markup ) {
 				return \apply_filters( 'wpseo_schema_product', $markup );
-			}
+			},
 		);
 
 		$this->instance = new Woo_Schema_Piece_Repository( new WooCommerce_Conditional() );
@@ -125,7 +125,7 @@ final class Collect_Test extends TestCase {
 				'post_title'  => 'Regular Post',
 				'post_status' => 'publish',
 				'post_type'   => 'post',
-			]
+			],
 		);
 		$this->created_posts[] = $post_id;
 
@@ -141,7 +141,7 @@ final class Collect_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_collect_returns_empty_for_non_existent_post(): void {
-		$result = $this->instance->collect( 999999 );
+		$result = $this->instance->collect( 999_999 );
 
 		$this->assertIsArray( $result );
 		$this->assertEmpty( $result, 'Expected empty array for a non-existent post ID.' );
