@@ -4,7 +4,6 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { isEmpty, values } from "lodash";
-import { __ } from "@wordpress/i18n";
 
 /**
  * The TaskListModal component to display the task details modal.
