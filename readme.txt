@@ -317,9 +317,9 @@ Release date: 2026-02-17
 
 #### Bugfixes
 
-* Fixes a bug where inline link icon was missing when editing a sync pattern in the block editor with WordPress 6.9.
+* Fixes a bug where the inline link icon was missing when editing a synced pattern in the Block Editor on WordPress 6.9.
 * Fixes a bug where the AI Optimize buttons remained active even when another button had been pressed.
-* Fixes a bug where the _subheading distribution assessment_ threw an error when there was some text with no subheadings plus a block containing a subheading (like the Yoast Table of contents block).
+* Fixes a bug where the subheading distribution assessment threw an error when the content contained text without subheadings followed by a block that included a subheading (such as a Table of Contents block).
 
 #### Other
 
