@@ -108,7 +108,6 @@ dependencies.md
 # Temp files
 ############
 /.tmp
-
 .cache/phpunit/cache/
 
 .claude/
