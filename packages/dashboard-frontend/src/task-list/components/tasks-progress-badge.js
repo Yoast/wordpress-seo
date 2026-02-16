@@ -2,6 +2,7 @@ import { Badge, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";
+import classNames from "classnames";
 
 /**
  * Converts polar coordinates to Cartesian coordinates.
@@ -80,6 +81,7 @@ const ProgressPie = ( {
 			height={ svgSize }
 			viewBox={ `0 0 ${svgSize} ${svgSize}` }
 			fill="none"
+			className="yst-shrink-0"
 			{ ...svgAriaProps }
 		>
 			{ /* Track */ }
@@ -126,11 +128,15 @@ const ProgressPie = ( {
  * @param {number} completedTasks Number of completed tasks, should be less than or equal to totalTasks.
  * @param {number} totalTasks Total number of tasks.
  * @param {boolean} [isLoading=false] Whether the tasks are loading.
+ * @param {Function} [onClick] Click handler for the badge.
+ * @param {string} [parentTaskId] ID of the parent task.
+ * @param {string} [className] Additional class names for the badge.
+ *
  * @returns {JSX.Element} The TasksProgressBadge component.
  */
-export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId } ) => {
+export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId, className } ) => {
 	// If totalTasks and completedTasks are not numbers, bail out.
-	if ( isNaN( totalTasks ) || isNaN( completedTasks ) ) {
+	if ( ( isNaN( totalTasks ) || isNaN( completedTasks ) ) && ! isLoading ) {
 		return null;
 	}
 	const screenReaderText = sprintf(
@@ -147,9 +153,9 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 		}
 	}, [ onClick, parentTaskId ] );
 
-	return <button onClick={ handleClick } disabled={ ! parentTaskId }>
-		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6">
-			<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4">
+	return <button onClick={ handleClick } disabled={ ! parentTaskId } className={ classNames( "yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate", className ) }>
+		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full">
+			<span className="yst-flex yst-gap-1 yst-items-center yst-leading-4">
 				{ ! isLoading && completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
 				{ ! isLoading && completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
 				{ isLoading ? <>
@@ -157,10 +163,10 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 					<SkeletonLoader className="yst-h-3 yst-w-7" />
 				</>
 					: <>
-						<span className="yst-text-xs">
+						<span className="yst-text-xs yst-shrink-0">
 							<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
 						</span>
-						{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900"> { label } </span> }
+						{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900 yst-truncate yst-max-w-64 sm:yst-max-w-full"> { label } </span> }
 					</> }
 			</span>
 			<span className="yst-sr-only">

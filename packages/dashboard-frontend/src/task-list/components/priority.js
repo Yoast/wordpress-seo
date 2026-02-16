@@ -44,7 +44,7 @@ export const Priority = ( { level = "low", isLoading = false, className = "", is
 		</>
 			: <>
 				{ getPriorityIcon( level ) }
-				<span className="sm:yst-inline-block yst-hidden">{ priorityLabels[ level ] }</span>
+				<span>{ priorityLabels[ level ] }</span>
 			</> }
 	</span>;
 };

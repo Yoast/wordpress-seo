@@ -76,7 +76,8 @@ export const TaskList = () => {
 					completedTasks={ completedTasksCount }
 					totalTasks={ totalTasksCount }
 					isLoading={ isPending }
-					className="yst-max-w-screen-sm"
+					className="yst-max-w-screen-sm [&_label]:yst-text-lg [&_span]:yst-text-tiny"
+					label={ __( "Tasks", "wordpress-seo" ) }
 				/>
 				<TaskListTable className="yst-mt-4">
 					{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }

@@ -1,12 +1,9 @@
 import { TasksProgressBar } from "./tasks-progressbar";
-import { Duration } from "./duration";
-import { Priority } from "./priority";
-import { TaskStatusIcon } from "../../icons";
-import { ChevronRightIcon, ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@heroicons/react/outline";
-import classNames from "classnames";
+import { ArrowNarrowRightIcon, ArrowNarrowLeftIcon } from "@heroicons/react/outline";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, useSvgAria } from "@yoast/ui-library";
+import { SingleTaskButton } from "./single-task-button";
 
 /**
  * @typedef {Object} Task
@@ -16,48 +13,6 @@ import { Button, useSvgAria } from "@yoast/ui-library";
  * @property {boolean} isCompleted Whether the child task is completed.
  * @property {string} id The ID of the child task.
  */
-
-/**
- * The SingleChildTask component to display a single child task.
- *
- * @param {string} id The ID of the child task.
- * @param {boolean} isCompleted Whether the child task is completed.
- * @param {string} title Title of the child task.
- * @param {number} duration Estimated duration to complete the child task.
- * @param {string} priority Priority of the child task: 'low', 'medium', 'high'.
- * @param {function} onClick Callback function to handle click events on the child task.
- * @returns {JSX.Element} The SingleChildTask component.
- */
-const SingleChildTask = ( { id, isCompleted, title, duration, priority, onClick } ) => {
-	const handleOnClick = useCallback( () => {
-		onClick( id );
-	}, [ onClick, id ] );
-
-	return <button
-		aria-haspopup="dialog"
-		type="button"
-		className="yst-group yst-flex yst-gap-3 yst-rounded-md yst-justify-between yst-p-3 yst-pe-5 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mt-3 yst-border yst-w-full hover:yst-bg-slate-50"
-		onClick={ handleOnClick }
-	>
-		<TaskStatusIcon isCompleted={ isCompleted } />
-		<span className="yst-flex-grow yst-text-start">
-			<div
-				className={ classNames(
-					"yst-mb-2 yst-font-medium yst-relative yst-leading-5 yst-w-fit",
-					"after:yst-content-[''] after:yst-absolute after:yst-left-0 after:yst-bottom-0 after:yst-h-[1px] after:yst-w-full after:yst-transition-opacity after:yst-duration-300 after:yst-ease-in-out after:yst-opacity-0 group-hover:after:yst-opacity-100",
-					isCompleted ? "yst-text-slate-500 after:yst-bg-slate-500" : "yst-text-slate-800 group-hover:yst-text-slate-900 after:yst-bg-slate-800 group-hover:after:yst-bg-slate-900"
-				) }
-			>
-				{ title }
-			</div>
-			<div className="yst-flex yst-gap-1">
-				<Priority level={ priority } isCompleted={ isCompleted } />
-				<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
-			</div>
-		</span>
-		<ChevronRightIcon className="yst-transition yst-duration-300 yst-ease-in-out yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 group-hover:yst-text-slate-800 group-hover:yst-translate-x-2" />
-	</button>;
-};
 
 /**
  * The ChildTasks component to display progress of child tasks and a list of them.
@@ -103,12 +58,17 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 
 	return (
 		<div className="yst-mt-6">
-			<TasksProgressBar completedTasks={ completedTasks } totalTasks={ totalTasks } />
+			<TasksProgressBar
+				label={ __( "Progress", "wordpress-seo" ) }
+				completedTasks={ completedTasks }
+				totalTasks={ totalTasks }
+			/>
 			{ currentPageTasks.map( ( task ) => (
-				<SingleChildTask
+				<SingleTaskButton
 					key={ task.id }
 					{ ...task }
 					onClick={ singleTaskOnClick }
+					className="yst-rounded-md yst-p-3 yst-pe-5 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mt-3 yst-border hover:yst-bg-slate-50"
 				/>
 			) ) }
 			<div className="yst-flex yst-justify-between yst-items-center yst-mt-3">

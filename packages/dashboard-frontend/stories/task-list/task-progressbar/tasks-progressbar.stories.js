@@ -34,6 +34,7 @@ export default {
 		totalTasks: 10,
 		isLoading: false,
 		className: "yst-max-w-screen-sm",
+		label: "Tasks Progress",
 	},
 };
 
