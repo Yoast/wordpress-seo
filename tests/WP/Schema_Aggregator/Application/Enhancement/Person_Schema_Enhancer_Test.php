@@ -81,7 +81,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		\update_user_meta( $user_id, 'job_title', 'Senior Developer' );
@@ -92,7 +92,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -120,7 +120,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		\update_user_meta( $user_id, 'job_title', 'Senior Developer' );
@@ -131,7 +131,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -159,7 +159,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		// Set empty job title.
@@ -171,7 +171,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -198,7 +198,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		$post = $this->factory()->post->create_and_get(
@@ -207,7 +207,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -234,7 +234,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		\update_user_meta( $user_id, 'job_title', '  Senior Developer  ' );
@@ -245,7 +245,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -273,7 +273,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		\update_user_meta( $user_id, 'job_title', 'Senior Developer' );
@@ -284,7 +284,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -314,7 +314,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 			[
 				'user_login' => 'testauthor',
 				'role'       => 'author',
-			]
+			],
 		);
 
 		\update_user_meta( $user_id, 'job_title', 'Senior Developer' );
@@ -325,7 +325,7 @@ final class Person_Schema_Enhancer_Test extends TestCase {
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );

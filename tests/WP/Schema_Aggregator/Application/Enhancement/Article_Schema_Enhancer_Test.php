@@ -85,7 +85,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_excerpt' => 'This is a test excerpt for the article.',
 				'post_content' => 'This is the full article content.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -136,7 +136,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_excerpt' => 'Test excerpt',
 				'post_content' => 'This is the full article content that should appear as articleBody.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -169,7 +169,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_title'  => 'Test Article',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		// Create and assign tags.
@@ -206,7 +206,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_title'  => 'Test Article',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		// Create and assign category.
@@ -243,7 +243,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_excerpt' => 'Breaking news excerpt.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -273,7 +273,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_excerpt' => 'Blog post excerpt.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -303,7 +303,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_excerpt' => 'Article with multiple types.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -333,7 +333,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_excerpt' => 'This should not be used.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -363,7 +363,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
 				'post_content' => 'This should not be used.',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -392,7 +392,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_title'  => 'Test Article',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		// Create and assign tags.
@@ -425,7 +425,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_title'  => 'Test Article',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
@@ -460,7 +460,7 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_excerpt' => 'This should not be added.',
 				'post_content' => 'This should not be added.',
-			]
+			],
 		);
 
 		// Create and assign tags.

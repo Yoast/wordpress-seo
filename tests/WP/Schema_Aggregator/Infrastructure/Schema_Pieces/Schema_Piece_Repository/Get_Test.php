@@ -100,7 +100,7 @@ final class Get_Test extends TestCase {
 			$indexable_repository_factory,
 			$wordpress_global_state_adapter,
 			$edd_schema_piece_repository,
-			$woo_schema_piece_repository
+			$woo_schema_piece_repository,
 		);
 
 		// Delete all indexables before each test to ensure a clean slate.
@@ -158,7 +158,7 @@ final class Get_Test extends TestCase {
 		$this->assertGreaterThanOrEqual(
 			$min_expected_pieces,
 			\count( $pieces ),
-			"Should return at least {$min_expected_pieces} schema pieces."
+			"Should return at least {$min_expected_pieces} schema pieces.",
 		);
 
 		foreach ( $pieces as $piece ) {
@@ -220,13 +220,13 @@ final class Get_Test extends TestCase {
 			static function ( Schema_Piece $piece ) {
 				return $piece->get_data();
 			},
-			$page_1_pieces
+			$page_1_pieces,
 		);
 		$page_2_data = \array_map(
 			static function ( Schema_Piece $piece ) {
 				return $piece->get_data();
 			},
-			$page_2_pieces
+			$page_2_pieces,
 		);
 
 		$this->assertNotEquals( $page_1_data, $page_2_data, 'Different pages should return different schema pieces.' );
@@ -350,7 +350,7 @@ final class Get_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_type'    => 'post',
 				'post_content' => 'Test post content for schema aggregation.',
-			]
+			],
 		);
 		$this->created_posts = \array_merge( $this->created_posts, $post_ids );
 
@@ -361,7 +361,7 @@ final class Get_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
 				'post_content' => 'Test page content for schema aggregation.',
-			]
+			],
 		);
 		$this->created_posts = \array_merge( $this->created_posts, $page_ids );
 	}

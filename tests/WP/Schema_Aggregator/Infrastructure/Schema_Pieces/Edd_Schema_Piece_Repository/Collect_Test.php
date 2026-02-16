@@ -92,7 +92,7 @@ final class Collect_Test extends TestCase {
 				'post_status'  => 'publish',
 				'post_type'    => 'download',
 				'post_excerpt' => 'A test digital download.',
-			]
+			],
 		);
 		$this->created_posts[] = $post_id;
 
@@ -122,7 +122,7 @@ final class Collect_Test extends TestCase {
 				'post_title'  => 'Regular Post',
 				'post_status' => 'publish',
 				'post_type'   => 'post',
-			]
+			],
 		);
 		$this->created_posts[] = $post_id;
 
@@ -138,7 +138,7 @@ final class Collect_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_collect_returns_empty_for_non_existent_post(): void {
-		$result = $this->instance->collect( 999999 );
+		$result = $this->instance->collect( 999_999 );
 
 		$this->assertIsArray( $result );
 		$this->assertEmpty( $result, 'Expected empty array for a non-existent post ID.' );
