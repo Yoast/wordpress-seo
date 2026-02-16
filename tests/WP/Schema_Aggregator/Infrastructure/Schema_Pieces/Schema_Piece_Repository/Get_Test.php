@@ -233,6 +233,61 @@ final class Get_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that posts marked as noindex are excluded from schema pieces.
+	 *
+	 * @dataProvider enabled_indexables_data
+	 *
+	 * @param bool $enabled_indexables Whether indexables are enabled.
+	 *
+	 * @return void
+	 */
+	public function test_get_excludes_noindex_posts( bool $enabled_indexables ): void {
+		if ( ! $enabled_indexables ) {
+			\add_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_false' );
+		}
+
+		// Create a noindex post.
+		$noindex_post_id = self::factory()->post->create(
+			[
+				'post_title'   => 'Noindex Post',
+				'post_status'  => 'publish',
+				'post_type'    => 'post',
+				'post_content' => 'This post should be excluded from schema aggregation.',
+			],
+		);
+		$this->created_posts[] = $noindex_post_id;
+
+		// Mark the post as noindex.
+		\update_post_meta( $noindex_post_id, '_yoast_wpseo_meta-robots-noindex', '1' );
+
+		// Rebuild the indexable so is_robots_noindex is set.
+		$indexable_builder = \YoastSEO()->classes->get( Indexable_Builder::class );
+		$indexable_repo    = \YoastSEO()->classes->get( Pure_Indexable_Repository::class );
+		$indexable         = $indexable_repo->find_by_id_and_type( $noindex_post_id, 'post' );
+		$indexable_builder->build( $indexable );
+
+		// Fetch all posts with a large page size to include all posts.
+		$result = $this->instance->get( 1, 100, 'post' );
+		$pieces = $result->to_array();
+
+		// Verify the noindex post's schema pieces are not in the result.
+		$noindex_post_url = \get_permalink( $noindex_post_id );
+		foreach ( $pieces as $piece ) {
+			$data = $piece->get_data();
+			if ( isset( $data['@id'] ) ) {
+				$this->assertStringNotContainsString(
+					$noindex_post_url,
+					$data['@id'],
+					'Schema pieces for noindex posts should be excluded.',
+				);
+			}
+		}
+
+		// Verify that regular posts still have schema pieces.
+		$this->assertNotEmpty( $pieces, 'Regular posts should still return schema pieces.' );
+	}
+
+	/**
 	 * Data provider for test_get_with_results.
 	 *
 	 * @return Generator Test data to use.
