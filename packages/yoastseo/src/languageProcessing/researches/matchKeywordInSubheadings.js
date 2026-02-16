@@ -4,35 +4,63 @@ import { filterShortcodesFromHTML } from "../helpers";
 import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
 import { flattenDeep, isEmpty } from "lodash";
 import { matchWordFormsInSentence } from "../helpers/match/matchWordFormsWithSentence";
+import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
+import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 
 /**
  * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
  * @typedef {import("../../values/").Paper } Paper
  * @typedef {import("../../parse/structure/Node").default } Node
+ * @typedef {import("../../parse/structure/Sentence").default } Sentence
+ * @typedef {import("../../parse/structure/Token").default } Token
+ * @typedef {import("../../parse/structure/Heading").default } Heading
  * @typedef {import("./getWordForms").TopicFormsResult } TopicFormsResult
+ */
+
+/**
+ * @typedef {Object} SubheadingsWithTopicResult
+ * @property {number} numberOfSubheadings The number or subheadings that reflect the topic.
+ * @property {Mark[]} markings The markings of the matches in the subheadings that reflect the topic.
  */
 
 /**
  * @typedef {Object} KeyphraseInSubheadingsResult
  * @property {number} count The number of subheadings.
- * @property {number} matches The number of subheadings reflecting the topic.
+ * @property {SubheadingsWithTopicResult} matches The subheadings that reflect the topic and the markings of the matches in those subheadings.
  * @property {number} percentReflectingTopic The percentage of subheadings reflecting the topic.
  * @property {number} textLength The length of the text that was analyzed in words or in characters depending on the configuration.
- * @property {Node[]} subheadings An array of objects representing the subheadings, their content and position.
+ * @property {Heading[]} subheadings An array of objects representing the subheadings, their content and position.
  */
 
 /**
- * Matches forms of words in the keyphrase and in the synonyms against a given node content.
+ * Checks if the keyphrase or its synonyms are found in the heading and returns the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  * @param {TopicFormsResult} topicForms The object with word forms of all (content) words from the keyphrase and eventually synonyms.
- * @param {Node|string} heading The heading node or string to match the word forms against.
+ * @param {Heading|string} heading The heading node or string to match the word forms against.
  * @param {boolean} useSynonyms Whether to use synonyms as if it was keyphrase or not (depends on the assessment).
  * @param {string} locale The locale of the paper.
+ * @param {Node} tree The tree representation of the paper's content, used to find parent nodes of sentences in the heading.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
  * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
- * @returns {{percentWordMatches: (number|number), matches: Token[], keyphraseOrSynonym: string}|*} Object containing the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
+ * @returns {{percentWordMatches: number, matches: Token[], keyphraseOrSynonym: string, sentencesWithTopicForms: Sentence[]}} Object containing the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  */
-const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matchWordCustomHelper, customSplitIntoTokensHelper ) => {
-	const sentences = typeof heading === "string" ? [ heading ] : heading.sentences;
+const findTopicFormsInHeading = ( topicForms,
+	heading,
+	useSynonyms,
+	locale,
+	tree,
+	matchWordCustomHelper,
+	customSplitIntoTokensHelper ) => {
+	const sentences = [];
+	if ( typeof heading === "string" ) {
+		sentences.push( heading );
+	} else {
+		const headingSentences = heading.sentences.map( sentence => {
+			sentence.setParentAttributes( heading, tree );
+			return sentence;
+		} );
+		sentences.push( ...headingSentences );
+	}
+	const sentencesWithTopicForms = [];
 	// First check if the keyword is found in the text
 	const keyphraseForms = topicForms.keyphraseForms;
 	const synonymsForms = topicForms.synonymsForms;
@@ -48,6 +76,9 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 		}, 0 );
 		keyphraseMatches.push( matchedKeyphrase  );
 		keyphraseMatchCount += foundWords;
+		if ( foundWords > 0 ) {
+			sentencesWithTopicForms.push( sentence );
+		}
 	} );
 
 
@@ -55,6 +86,7 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 	const keyphraseResult = {
 		percentWordMatches: matchedPercentage,
 		matches: flattenDeep( keyphraseMatches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
+		sentencesWithTopicForms,
 		keyphraseOrSynonym: "keyphrase",
 	};
 
@@ -65,6 +97,7 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 
 	// Loop through the synonyms and check how many words of each synonym are found in the sentences of the heading, save the matches and calculate the percentage of the synonym words found in the heading.
 	const synonymResults = synonymsForms.map( synonymForm => {
+		const sentencesWithSynonymForms = [];
 		const synonymMatches = [];
 		let synonymMatchCount = 0;
 		sentences.forEach( ( sentence ) => {
@@ -75,6 +108,9 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 			}, 0 );
 			synonymMatches.push( matchedSynonym );
 			synonymMatchCount += foundWords;
+			if ( foundWords > 0 ) {
+				sentencesWithSynonymForms.push( sentence );
+			}
 		} );
 
 		const synonymMatchedPercentage = synonymForm.length > 0 ? Math.round( ( synonymMatchCount / synonymForm.length ) * 100 ) : 0;
@@ -82,6 +118,7 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 		return {
 			percentWordMatches: synonymMatchedPercentage,
 			matches: flattenDeep( synonymMatches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
+			sentencesWithTopicForms: sentencesWithSynonymForms,
 		};
 	} );
 
@@ -102,52 +139,73 @@ const findTopicFormsInHeading = ( topicForms, heading, useSynonyms, locale, matc
 };
 
 /**
- * Computes the number of subheadings reflecting the topic.
+ * Checks which subheadings reflect the topic of the paper by matching the keyphrase and its synonyms against the subheadings
+ * and returns the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  *
  * @param {TopicFormsResult}		topicForms      The main key phrase and its synonyms to check.
- * @param {Node[]|string[]}		subheadings     The subheadings to check.
+ * @param {Heading[]|string[]}		subheadings     The subheadings to check.
  * @param {boolean}		useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}		locale          The current locale.
  * @param {string[]}	functionWords	The function words list.
+ * @param {Node}		tree            The tree representation of the paper's content, used to find parent nodes of sentences in the subheadings.
  * @param {Function}	matchWordCustomHelper   The language-specific helper function to match word in text.
  * @param {Function}	customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
  *
- * @returns {Node[]} The number of subheadings reflecting the topic.
+ * @returns {SubheadingsWithTopicResult} An object containing the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  */
 const getSubheadingsReflectingTopic = ( topicForms,
 	subheadings,
 	useSynonyms,
 	locale,
 	functionWords,
+	tree,
 	matchWordCustomHelper,
 	customSplitIntoTokensHelper ) => {
-	return subheadings.filter( subheading => {
+	const subheadingsWithTopics = [];
+	const allMatchedTopics = [];
+	const sentencesWithTopicForms = [];
+	subheadings.forEach( subheading => {
 		const matchedTopicForms = findTopicFormsInHeading( topicForms,
 			subheading,
 			useSynonyms,
 			locale,
+			tree,
 			matchWordCustomHelper,
 			customSplitIntoTokensHelper
 		);
 
-		if ( functionWords.length === 0 ) {
-			return matchedTopicForms.percentWordMatches === 100;
+		if ( ( functionWords.length === 0 && matchedTopicForms.percentWordMatches === 100 ) ||
+			matchedTopicForms.percentWordMatches > 50
+		) {
+			subheadingsWithTopics.push( subheading );
+			allMatchedTopics.push( ...matchedTopicForms.matches );
+			sentencesWithTopicForms.push( ...matchedTopicForms.sentencesWithTopicForms );
 		}
-		return matchedTopicForms.percentWordMatches > 50;
 	} );
+
+	const markings = sentencesWithTopicForms.map( sentence => {
+		if ( matchWordCustomHelper ) {
+			return markWordsInASentence( sentence, flattenDeep( allMatchedTopics ), matchWordCustomHelper );
+		}
+		return getMarkingsInSentence( sentence, flattenDeep( allMatchedTopics ) );
+	} );
+	return {
+		numberOfSubheadings: subheadingsWithTopics.length,
+		markings: flattenDeep( markings ),
+	};
 };
 
 /**
  * Gets all h2 and h3 subheadings from the paper, excluding those without content.
  *
  * @param {Paper} paper The paper object containing the text and keyword.
+ * @param {Node} tree The tree representation of the paper's content, used to find heading nodes.
  *
- * @returns {Node[]} An array of nodes representing the top-level subheadings with content.
+ * @returns {Heading[]} An array of heading nodes representing the top-level subheadings with content.
  */
-const getTopLevelSubheadings = ( paper ) =>{
-	const tree = paper.getTree();
+const getTopLevelSubheadings = ( paper, tree ) =>{
 	const topLevelSubheadings = tree.findAll( node => /h[2-3]/i.test( node.name ) );
-	return topLevelSubheadings.filter( subheading => subheading.sentences.length > 0 );
+	return topLevelSubheadings.filter( subheading => subheading?.sentences.length > 0 );
 };
 
 /**
@@ -177,20 +235,21 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	}
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
+	const tree = paper.getTree();
 
 	const useSynonyms = true;
-	const subheadings = getTopLevelSubheadings( paper );
+	const subheadings = getTopLevelSubheadings( paper, tree );
 	const subheadingsWithKeyphrase = getSubheadingsReflectingTopic( topicForms,
 		subheadings,
 		useSynonyms,
 		locale,
 		functionWords,
+		tree,
 		matchWordCustomHelper,
 		customSplitIntoTokensHelper
 	);
 
-	console.log( { topicForms, subheadings, useSynonyms, locale, functionWords, matchWordCustomHelper, subheadingsWithKeyphrase } );
-
+	/* @type {KeyphraseInSubheadingsResult} */
 	return {
 		count: subheadings.length,
 		matches: subheadingsWithKeyphrase,
