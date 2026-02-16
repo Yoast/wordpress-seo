@@ -25,7 +25,7 @@ final class Improve_Content_Readability_Constructor_Test extends Abstract_Improv
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Recent_Content_Indexable_Collector::class,
-			$this->getPropertyValue( $this->instance, 'recent_content_indexable_collector' )
+			$this->getPropertyValue( $this->instance, 'recent_content_indexable_collector' ),
 		);
 	}
 }

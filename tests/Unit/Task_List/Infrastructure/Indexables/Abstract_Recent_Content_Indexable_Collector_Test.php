@@ -62,7 +62,7 @@ abstract class Abstract_Recent_Content_Indexable_Collector_Test extends TestCase
 		$this->instance = new Recent_Content_Indexable_Collector(
 			$this->indexable_repository,
 			$this->seo_score_groups_repository,
-			$this->readability_score_groups_repository
+			$this->readability_score_groups_repository,
 		);
 	}
 

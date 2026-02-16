@@ -29,7 +29,7 @@ final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Imp
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
-			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>'
+			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>',
 		);
 
 		$this->parent_task
@@ -39,7 +39,7 @@ final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Imp
 
 		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
-			$content_item
+			$content_item,
 		);
 
 		$copy_set = $instance->get_copy_set();
@@ -48,7 +48,7 @@ final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Imp
 		$this->assertSame( 'My Amazing Blog Post', $array['title'] );
 		$this->assertSame(
 			'<p>First paragraph from parent.</p><p>Second paragraph from parent.</p>',
-			$array['about']
+			$array['about'],
 		);
 	}
 }

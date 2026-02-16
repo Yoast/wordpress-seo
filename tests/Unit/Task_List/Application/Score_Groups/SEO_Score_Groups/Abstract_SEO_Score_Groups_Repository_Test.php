@@ -60,7 +60,7 @@ abstract class Abstract_SEO_Score_Groups_Repository_Test extends TestCase {
 		$this->instance = new SEO_Score_Groups_Repository(
 			$this->good_seo_score_group,
 			$this->ok_seo_score_group,
-			$this->bad_seo_score_group
+			$this->bad_seo_score_group,
 		);
 	}
 }
