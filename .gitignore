@@ -110,3 +110,5 @@ dependencies.md
 /.tmp
 
 .cache/phpunit/cache/
+
+.claude/
