@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { TasksProgressBar } from "../../src/task-list/components/tasks-progressbar";
 
 describe( "TasksProgressBar", () => {
-	it( "renders the title", () => {
-		render( <TasksProgressBar completedTasks={ 2 } totalTasks={ 5 } isLoading={ false } /> );
+	it( "renders the label", () => {
+		render( <TasksProgressBar completedTasks={ 2 } totalTasks={ 5 } isLoading={ false } label="Tasks" /> );
 		expect( screen.getByText( "Tasks" ) ).toBeInTheDocument();
 	} );
 

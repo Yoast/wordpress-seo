@@ -3,13 +3,14 @@
 exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] = `
 <DocumentFragment>
   <button
+    class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
     disabled=""
   >
     <span
-      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
+      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
     >
       <span
-        class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
+        class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
       >
         <svg
           aria-hidden="true"
@@ -28,7 +29,7 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
           />
         </svg>
         <span
-          class="yst-text-xs"
+          class="yst-text-xs yst-shrink-0"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
@@ -55,13 +56,14 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
 exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`] = `
 <DocumentFragment>
   <button
+    class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
     disabled=""
   >
     <span
-      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
+      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
     >
       <span
-        class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
+        class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
       >
         <svg
           aria-hidden="true"
@@ -80,7 +82,7 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
           />
         </svg>
         <span
-          class="yst-text-xs"
+          class="yst-text-xs yst-shrink-0"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
@@ -107,16 +109,18 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
 exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1`] = `
 <DocumentFragment>
   <button
+    class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
     disabled=""
   >
     <span
-      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
+      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
     >
       <span
-        class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
+        class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
       >
         <svg
           aria-hidden="true"
+          class="yst-shrink-0"
           fill="none"
           height="16"
           role="img"
@@ -151,7 +155,7 @@ exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1
           />
         </svg>
         <span
-          class="yst-text-xs"
+          class="yst-text-xs yst-shrink-0"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
@@ -178,16 +182,18 @@ exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1
 exports[`TasksProgressBadge matches snapshot for when with label 1`] = `
 <DocumentFragment>
   <button
+    class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
     disabled=""
   >
     <span
-      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6"
+      class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
     >
       <span
-        class="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4"
+        class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
       >
         <svg
           aria-hidden="true"
+          class="yst-shrink-0"
           fill="none"
           height="16"
           role="img"
@@ -222,7 +228,7 @@ exports[`TasksProgressBadge matches snapshot for when with label 1`] = `
           />
         </svg>
         <span
-          class="yst-text-xs"
+          class="yst-text-xs yst-shrink-0"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
@@ -236,7 +242,7 @@ exports[`TasksProgressBadge matches snapshot for when with label 1`] = `
           </span>
         </span>
         <span
-          class="yst-text-xs yst-font-medium yst-text-slate-900"
+          class="yst-text-xs yst-font-medium yst-text-slate-900 yst-truncate yst-max-w-64 sm:yst-max-w-full"
         >
            Tasks 
         </span>
