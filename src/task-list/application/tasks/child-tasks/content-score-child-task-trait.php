@@ -96,7 +96,7 @@ trait Content_Score_Child_Task_Trait {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			$this->content_item_score_data->get_title(),
-			$this->parent_task->get_copy_set()->get_about()
+			$this->parent_task->get_copy_set()->get_about(),
 		);
 	}
 }

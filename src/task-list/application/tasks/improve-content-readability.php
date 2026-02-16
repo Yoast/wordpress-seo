@@ -114,8 +114,8 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 				'</p>',
 				'</strong>',
 				'<strong>',
-				'</strong>'
-			)
+				'</strong>',
+			),
 		);
 	}
 
@@ -136,14 +136,14 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_with_readability_scores(
 			$post_type,
 			$two_months_ago,
-			self::DEFAULT_LIMIT
+			self::DEFAULT_LIMIT,
 		);
 
 		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_score_data ) {
 			$child_tasks[] = new Improve_Content_Readability_Child(
 				$this,
-				$content_item_score_data
+				$content_item_score_data,
 			);
 		}
 

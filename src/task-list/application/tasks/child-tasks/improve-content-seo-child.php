@@ -31,7 +31,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 		return new Call_To_Action_Entry(
 			\__( 'Improve SEO', 'wordpress-seo' ),
 			'link',
-			$this->get_link()
+			$this->get_link(),
 		);
 	}
 
@@ -65,7 +65,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 			\__( 'SEO analysis', 'wordpress-seo' ),
 			$result,
 			$result_labels[ $result ],
-			$result_descriptions[ $result ]
+			$result_descriptions[ $result ],
 		);
 	}
 }
