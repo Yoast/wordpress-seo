@@ -69,6 +69,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 				label={ __( "Progress", "wordpress-seo" ) }
 				completedTasks={ completedTasks }
 				totalTasks={ totalTasks }
+				size="small"
 			/>
 			{ currentPageTasks.map( ( task ) => (
 				<SingleTaskButton

@@ -32,6 +32,13 @@ export default {
 			description: "Label for the progress bar.",
 			control: "text",
 		},
+		size: {
+			description: "The size of the progress bar, e.g. 'small', 'medium'.",
+			control: {
+				type: "select",
+			},
+			options: [ "small", "medium" ],
+		},
 	},
 	args: {
 		completedTasks: 3,

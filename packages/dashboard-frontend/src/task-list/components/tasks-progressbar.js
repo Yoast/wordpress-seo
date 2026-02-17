@@ -1,17 +1,31 @@
 import { ProgressBar, SkeletonLoader, Label } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
+import classNames from "classnames";
+
+const sizeClassNames = {
+	small: {
+		label: "yst-text-sm",
+		count: "yst-text-xs",
+	},
+	medium: {
+		label: "yst-text-lg",
+		count: "yst-text-tiny",
+	},
+};
+
 
 /**
  * The task progressbar Label component to display label.
  *
  * @param {string} label The label for the progress bar.
  * @param {JSX.Element} children Optional children to display next to the label, e.g. a badge.
+ * @param {string} [size] The size of the progress bar label, e.g. 'small', 'medium', 'large'.
  *
  * @returns {JSX.Element} The TasksProgressBarLabel component.
  */
-export const TasksProgressBarLabel = ( { label, children } ) => (
+export const TasksProgressBarLabel = ( { label, children, size = "medium" } ) => (
 	<div className="yst-flex yst-gap-1 yst-mb-2 yst-items-center">
-		<Label className="yst-font-medium yst-text-slate-900 yst-text-sm">
+		<Label className={ classNames( "yst-font-medium yst-text-slate-900", sizeClassNames[ size ]?.label ) }>
 			{ label }
 		</Label>
 		{ children }
@@ -54,9 +68,10 @@ const ErrorProgressBar = ( { className, label } ) => (
  * @param {boolean} isLoading Whether the tasks are loading.
  * @param {string} [className] Additional class names for the wrapper.
  * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium', 'large'.
  * @returns {JSX.Element} The TasksProgressBar component.
  */
-export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className, label } ) => {
+export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className, label, size = "medium" } ) => {
 	if ( isLoading ) {
 		return <LoadingProgressBar className={ className } label={ label } />;
 	}
@@ -75,8 +90,8 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 	return (
 		<div className={ className }>
 			<TasksProgressBarLabel label={ label }>
-				<span className="yst-text-xs yst-font-medium">
-					<span className="yst-text-slate-600">{ completedTasks }</span><span className="yst-text-slate-500">/{ totalTasks }</span>
+				<span className={ classNames( "yst-font-medium yst-flex yst-gap-0.5", sizeClassNames[ size ]?.count ) }>
+					<span className="yst-text-slate-600">{ completedTasks }</span>/<span className="yst-text-slate-500">{ totalTasks }</span>
 				</span>
 			</TasksProgressBarLabel>
 			<ProgressBar
