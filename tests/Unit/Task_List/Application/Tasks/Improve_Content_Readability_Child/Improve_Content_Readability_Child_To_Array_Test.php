@@ -29,7 +29,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
-			'<p>Parent about text.</p>'
+			'<p>Parent about text.</p>',
 		);
 
 		$this->parent_task
@@ -42,7 +42,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
-			$content_item
+			$content_item,
 		);
 
 		$result = $instance->to_array();
@@ -72,7 +72,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
-			'<p>Parent about text.</p>'
+			'<p>Parent about text.</p>',
 		);
 
 		$this->parent_task
@@ -85,7 +85,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
-			$content_item
+			$content_item,
 		);
 
 		$result = $instance->to_array();
@@ -105,7 +105,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
-			'<p>Parent about text.</p>'
+			'<p>Parent about text.</p>',
 		);
 
 		$this->parent_task
@@ -118,7 +118,7 @@ final class Improve_Content_Readability_Child_To_Array_Test extends Abstract_Imp
 
 		$instance = new Improve_Content_Readability_Child(
 			$this->parent_task,
-			$content_item
+			$content_item,
 		);
 
 		$result = $instance->to_array();

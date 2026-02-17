@@ -4,17 +4,16 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
-use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Components\Score_Task_Analyzer;
 use Yoast\WP\SEO\Task_List\Domain\Components\Task_Analyzer_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
  * Represents the child task for improving content readability.
  */
 class Improve_Content_Readability_Child extends Abstract_Child_Task {
+
+	use Content_Score_Child_Task_Trait;
 
 	/**
 	 * Holds the duration.
@@ -22,73 +21,6 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 	 * @var int
 	 */
 	protected $duration = 10;
-
-	/**
-	 * The content item score data.
-	 *
-	 * @var Content_Item_Score_Data
-	 */
-	private $content_item_score_data;
-
-	/**
-	 * Constructs the task.
-	 *
-	 * @param Parent_Task_Interface   $parent_task             The parent task.
-	 * @param Content_Item_Score_Data $content_item_score_data The content item score data.
-	 */
-	public function __construct(
-		Parent_Task_Interface $parent_task,
-		Content_Item_Score_Data $content_item_score_data
-	) {
-		$this->parent_task             = $parent_task;
-		$this->content_item_score_data = $content_item_score_data;
-	}
-
-	/**
-	 * Returns the task ID.
-	 *
-	 * @return string
-	 */
-	public function get_id(): string {
-		// @TODO: probably improve this with inheritance.
-		return $this->parent_task->get_id() . '-' . $this->content_item_score_data->get_content_id();
-	}
-
-	/**
-	 * Returns whether this task is completed.
-	 *
-	 * @return bool Whether this task is completed.
-	 */
-	public function get_is_completed(): bool {
-		if ( $this->is_completed === null ) {
-			$this->is_completed = $this->content_item_score_data->get_score() === 'good';
-		}
-
-		return $this->is_completed;
-	}
-
-	/**
-	 * Returns the task's priority.
-	 *
-	 * @return string
-	 */
-	public function get_priority(): string {
-		// Bad readability scores get high priority, ok scores get medium priority.
-		if ( $this->content_item_score_data->get_score() === 'bad' ) {
-			return 'high';
-		}
-
-		return 'medium';
-	}
-
-	/**
-	 * Returns the task's link.
-	 *
-	 * @return string|null
-	 */
-	public function get_link(): ?string {
-		return \get_edit_post_link( $this->content_item_score_data->get_content_id(), '&' );
-	}
 
 	/**
 	 * Returns the task's call to action entry.
@@ -99,7 +31,7 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 		return new Call_To_Action_Entry(
 			\__( 'Improve readability', 'wordpress-seo' ),
 			'link',
-			$this->get_link()
+			$this->get_link(),
 		);
 	}
 
@@ -133,19 +65,7 @@ class Improve_Content_Readability_Child extends Abstract_Child_Task {
 			\__( 'Readability', 'wordpress-seo' ),
 			$result,
 			$result_labels[ $result ],
-			$result_descriptions[ $result ]
-		);
-	}
-
-	/**
-	 * Returns the task's copy set.
-	 *
-	 * @return Copy_Set
-	 */
-	public function get_copy_set(): Copy_Set {
-		return new Copy_Set(
-			$this->content_item_score_data->get_title(),
-			$this->parent_task->get_copy_set()->get_about()
+			$result_descriptions[ $result ],
 		);
 	}
 }

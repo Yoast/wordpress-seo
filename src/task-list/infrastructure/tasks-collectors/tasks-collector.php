@@ -4,7 +4,9 @@
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Tasks_Collectors;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
+use Yoast\WP\SEO\Task_List\Domain\Exceptions\Incorrect_Child_Task_Usage_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Invalid_Tasks_Exception;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Post_Type_Task_Interface;
@@ -34,13 +36,17 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 	 * Constructs the collector.
 	 *
 	 * @param Task_Interface ...$tasks All the tasks.
+	 *
+	 * @throws Incorrect_Child_Task_Usage_Exception If a child task is added.
 	 */
 	public function __construct( Task_Interface ...$tasks ) {
 		$tasks_with_id = [];
 		foreach ( $tasks as $task ) {
-			// Since child tasks are excluded by the DI, we don't need to filter them out here, so let's just filter out the post type tasks.
+			if ( $task instanceof Child_Task_Interface ) {
+				// Implementations of the Child_Task_Interface are excluded at the DI level, but let's make sure to also throw an exception.
+				throw new Incorrect_Child_Task_Usage_Exception( \esc_html( $task->get_id() ) );
+			}
 
-			// @TODO: Maybe also filter out, just in case?
 			if ( $task instanceof Post_Type_Task_Interface ) {
 				continue;
 			}

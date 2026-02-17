@@ -25,7 +25,7 @@ final class SEO_Score_Groups_Repository_Constructor_Test extends Abstract_SEO_Sc
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			SEO_Score_Groups_Repository::class,
-			$this->instance
+			$this->instance,
 		);
 	}
 }

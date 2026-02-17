@@ -87,7 +87,7 @@ class Register_Post_Type_Tasks_Integration implements Integration_Interface {
 			$this->post_type_tasks,
 			static function ( $task ) {
 				return ! $task instanceof Set_Search_Appearance_Templates;
-			}
+			},
 		);
 
 		/**

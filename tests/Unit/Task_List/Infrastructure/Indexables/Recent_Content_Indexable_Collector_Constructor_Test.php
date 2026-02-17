@@ -23,7 +23,7 @@ final class Recent_Content_Indexable_Collector_Constructor_Test extends Abstract
 	public function test_construct() {
 		$this->assertInstanceOf(
 			'Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector',
-			$this->instance
+			$this->instance,
 		);
 	}
 }

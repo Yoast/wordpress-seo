@@ -45,7 +45,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
-			'parentTask'   => true,
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -73,7 +73,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
-			'parentTask'   => true,
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -103,7 +103,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your content type: Posts',
 			'about'        => '<p>Improving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
-			'parentTask'   => true,
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );

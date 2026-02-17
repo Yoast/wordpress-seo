@@ -92,8 +92,8 @@ class Complete_FTC extends Abstract_Task {
 			'<p>' . \sprintf(
 				/* translators: %s expands to Yoast SEO */
 				\__( 'Skipping setup limits how much %s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ),
-				'Yoast SEO'
-			) . '</p>'
+				'Yoast SEO',
+			) . '</p>',
 		);
 	}
 }

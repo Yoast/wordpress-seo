@@ -54,7 +54,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 					'singular_name' => 'Post',
 				],
 				'name'   => 'post',
-			]
+			],
 		);
 
 		$this->parent_task = Mockery::mock( Parent_Task_Interface::class );
@@ -64,7 +64,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 
 		$this->instance = new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$this->content_item_score_data
+			$this->content_item_score_data,
 		);
 	}
 
@@ -80,7 +80,7 @@ abstract class Abstract_Improve_Content_SEO_Child_Test extends TestCase {
 
 		return new Improve_Content_SEO_Child(
 			$this->parent_task,
-			$content_item
+			$content_item,
 		);
 	}
 }

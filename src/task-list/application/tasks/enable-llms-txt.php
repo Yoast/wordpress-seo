@@ -7,12 +7,13 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_LLMS_Task_Exception;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 
 /**
  * Represents the task for the enabling the llms.txt file.
  */
-class Enable_Llms_Txt extends Abstract_Completeable_Task {
+class Enable_Llms_Txt extends Abstract_Task implements Completeable_Task_Interface {
 
 	/**
 	 * Holds the id.

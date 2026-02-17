@@ -36,7 +36,7 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 				'priority'     => 'high',
 				'duration'     => 10,
 				'parentTaskId' => 'improve-content-seo',
-			]
+			],
 		);
 
 		$child_task_2 = $this->create_mock_child_task(
@@ -48,7 +48,7 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 				'priority'     => 'medium',
 				'duration'     => 10,
 				'parentTaskId' => 'improve-content-seo',
-			]
+			],
 		);
 
 		$parent_task = $this->create_mock_parent_task(
@@ -60,7 +60,7 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 				'priority'    => 'medium',
 				'duration'    => 10,
 			],
-			[ $child_task_1, $child_task_2 ]
+			[ $child_task_1, $child_task_2 ],
 		);
 
 		$instance = new Tasks_Collector( $parent_task );
@@ -139,7 +139,7 @@ final class Tasks_Collector_Parent_Tasks_Test extends Abstract_Tasks_Collector_T
 				'priority'    => 'medium',
 				'duration'    => 10,
 			],
-			[ $child_task ]
+			[ $child_task ],
 		);
 
 		$instance = new Tasks_Collector( $parent_task );
