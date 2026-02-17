@@ -229,7 +229,7 @@ class Indexable_Repository {
 	public function find_all_public_paginated( int $page, int $page_size, string $post_type ): array {
 		$offset = ( ( $page - 1 ) * $page_size );
 
-		$query = $this->query()->where_raw( '( is_public IS NULL OR is_public = 1 )' );
+		$query = $this->query()->where_raw( '( is_public IS NULL OR is_public = 1 ) AND ( is_robots_noindex IS NULL OR is_robots_noindex = 0 )' );
 		$query->where( 'object_sub_type', $post_type );
 		$query->where( 'post_status', 'publish' );
 

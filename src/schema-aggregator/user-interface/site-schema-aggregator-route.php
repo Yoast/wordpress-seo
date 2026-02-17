@@ -7,6 +7,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command;
@@ -64,6 +65,13 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	private $cache_manager;
 
 	/**
+	 * The post type helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Returns the conditional for this route.
 	 *
 	 * @return array<string> The conditionals that must be met to load this.
@@ -79,17 +87,20 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 * @param Capability_Helper                     $capability_helper                     The capability helper.
 	 * @param Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler The command handler.
 	 * @param Manager                               $cache_manager                         The cache manager.
+	 * @param Post_Type_Helper                      $post_type_helper                      The post type helper.
 	 */
 	public function __construct(
 		Config $config,
 		Capability_Helper $capability_helper,
 		Aggregate_Site_Schema_Command_Handler $aggregate_site_schema_command_handler,
-		Manager $cache_manager
+		Manager $cache_manager,
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->config                                = $config;
 		$this->capability_helper                     = $capability_helper;
 		$this->aggregate_site_schema_command_handler = $aggregate_site_schema_command_handler;
 		$this->cache_manager                         = $cache_manager;
+		$this->post_type_helper                      = $post_type_helper;
 	}
 
 	/**
@@ -144,9 +155,18 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 	 */
 	public function aggregate_site_schema( WP_REST_Request $request ) {
 		$post_type = $request->get_param( 'post_type' );
-		$is_debug  = (bool) $request->get_param( 'debug' );
-		$page      = ( $request->get_param( 'page' ) ?? 1 );
-		$per_page  = $this->config->get_per_page( $post_type );
+
+		if ( ! $this->post_type_helper->is_indexable( $post_type ) ) {
+			return new WP_Error(
+				'wpseo_post_type_not_indexable',
+				\sprintf( 'The post type "%s" is excluded from search results.', $post_type ),
+				[ 'status' => 404 ],
+			);
+		}
+
+		$is_debug = (bool) $request->get_param( 'debug' );
+		$page     = ( $request->get_param( 'page' ) ?? 1 );
+		$per_page = $this->config->get_per_page( $post_type );
 
 		$output = $this->cache_manager->get( $post_type, $page, $per_page );
 		if ( $is_debug ) {

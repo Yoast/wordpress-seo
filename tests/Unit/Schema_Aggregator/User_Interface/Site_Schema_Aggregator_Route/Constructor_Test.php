@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\User_Interface\Site_Schema_Aggregator_Route;
 
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Aggregate_Site_Schema_Command_Handler;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Cache\Manager;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Config;
@@ -43,6 +44,11 @@ final class Constructor_Test extends Abstract_Site_Schema_Aggregator_Route_Test 
 		$this->assertInstanceOf(
 			Manager::class,
 			$this->getPropertyValue( $this->instance, 'cache_manager' ),
+		);
+
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 	}
 }

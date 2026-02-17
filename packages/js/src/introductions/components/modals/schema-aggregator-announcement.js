@@ -54,7 +54,6 @@ const SchemaAggregatorAnnouncementContent = ( {
 						size="extra-large"
 						variant="primary"
 						href={ buttonLink }
-						target="_blank"
 						ref={ initialFocus }
 					>
 						{ __( "Enable Schema aggregation endpoint", "wordpress-seo" ) }
