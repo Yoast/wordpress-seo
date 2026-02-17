@@ -101,6 +101,8 @@ trait Parent_Task_Trait {
 			$data = parent::to_array();
 		}
 
+		$data['isParentTask'] = true;
+
 		return $data;
 	}
 }

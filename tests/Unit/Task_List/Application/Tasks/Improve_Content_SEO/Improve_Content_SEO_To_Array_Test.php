@@ -44,6 +44,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -71,6 +72,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -100,6 +102,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your content type: Posts',
 			'about'        => '<p>Improving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to speed up the process with high-quality, actionable suggestions.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
