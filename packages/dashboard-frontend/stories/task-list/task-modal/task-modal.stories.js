@@ -183,6 +183,7 @@ export const ParentTaskWithoutChildTasks = {
 	args: {
 		isParentTask: true,
 		callToAction: {},
+		childTasks: [],
 	},
 };
 

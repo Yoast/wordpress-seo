@@ -14,8 +14,6 @@ const FETCH_TASK = "fetchTasks";
  */
 
 /**
-* The type analyzer.
- *
  * @typedef {Object} Analyzer
  * @property {string} title The title for the analyzer.
  * @property {string} type The variant of the analyzer.

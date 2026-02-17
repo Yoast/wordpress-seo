@@ -70,23 +70,21 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
 	const cellBackground = useMemo( () => isButtonFocused ? "yst-bg-slate-50" : "group-hover:yst-bg-slate-50", [ isButtonFocused ] );
-	const isMobileView = useMemo( () => window.innerWidth < 640, [] );
 
 	return (
 		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
 			<Table.Cell className={ cellBackground }>
-				{ isMobileView ? <SingleTaskButton
+				<SingleTaskButton
 					title={ title }
 					duration={ duration }
 					priority={ priority }
-					badge={ badge }
 					isCompleted={ isCompleted }
 					onClick={ onClick }
 					completedTasks={ completedTasks }
 					totalTasks={ totalTasks }
-					classNme="yst-border-none"
-
-				/> : <div className="yst-flex yst-items-center yst-gap-2">
+					className="sm:yst-hidden"
+				/>
+				<div className="sm:yst-flex yst-items-center yst-gap-2 yst-hidden">
 					<TaskStatusIcon isCompleted={ isCompleted } />
 					<button
 						aria-haspopup="dialog"
@@ -106,7 +104,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 						</span>
 					</button>
 					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
-				</div> }
+				</div>
 			</Table.Cell>
 			<Table.Cell className={ classNames( "yst-hidden sm:yst-table-cell", cellBackground ) }>
 				<Priority level={ priority } isCompleted={ isCompleted } />

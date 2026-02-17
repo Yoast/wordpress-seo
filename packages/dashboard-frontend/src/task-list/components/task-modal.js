@@ -80,7 +80,7 @@ export const TaskModal = ( {
 	}, [ taskId ] );
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
-		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
 					{ parentTaskTitle &&

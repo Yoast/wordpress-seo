@@ -76,7 +76,7 @@ export const TaskList = () => {
 					completedTasks={ completedTasksCount }
 					totalTasks={ totalTasksCount }
 					isLoading={ isPending }
-					className="yst-max-w-screen-sm [&_label]:yst-text-lg [&_span]:yst-text-tiny"
+					className="yst-max-w-screen-sm"
 					label={ __( "Tasks", "wordpress-seo" ) }
 				/>
 				<TaskListTable className="yst-mt-4">
