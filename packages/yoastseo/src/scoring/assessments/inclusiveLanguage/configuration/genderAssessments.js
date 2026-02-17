@@ -8,10 +8,10 @@ import { alternative,
 	avoidDerogatory,
 } from "./feedbackStrings/generalFeedbackStrings";
 import { orangeExclusionaryUnless,
-	orangeExclusionaryUnlessMen,
-	orangeExclusionaryUnlessMenAndWomen,
+	// orangeExclusionaryUnlessMen,
+	// orangeExclusionaryUnlessMenAndWomen,
 	orangeExclusionaryUnlessTwoGenders,
-	orangeExclusionaryUnlessUseTheTerm,
+	// orangeExclusionaryUnlessUseTheTerm,
 } from "./feedbackStrings/genderAssessmentStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
@@ -24,14 +24,14 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "firemen" ],
 		inclusiveAlternatives: "<i>firefighters</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: orangeExclusionaryUnlessMen,
+		feedbackFormat: orangeExclusionaryUnless,
 	},
 	{
 		identifier: "policemen",
 		nonInclusivePhrases: [ "policemen" ],
 		inclusiveAlternatives: "<i>police officers</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: orangeExclusionaryUnlessMen,
+		feedbackFormat: orangeExclusionaryUnless,
 	},
 	{
 		identifier: "menAndWomen",
@@ -134,7 +134,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
 		inclusiveAlternatives: "<i>everyone, folks, honored guests</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: orangeExclusionaryUnlessMenAndWomen,
+		feedbackFormat: orangeExclusionaryUnless,
 	},
 	{
 		identifier: "husbandAndWife",
@@ -149,7 +149,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "mothers and fathers", "fathers and mothers" ],
 		inclusiveAlternatives: "<i>parents</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: orangeExclusionaryUnlessUseTheTerm,
+		feedbackFormat: orangeExclusionaryUnless
 	},
 	{
 		identifier: "manHours",

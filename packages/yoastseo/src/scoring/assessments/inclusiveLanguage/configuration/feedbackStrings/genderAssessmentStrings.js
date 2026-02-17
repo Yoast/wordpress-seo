@@ -5,29 +5,29 @@
 
 /*
  * Used for terms that are exclusionary unless they describe a group that only consists of the people that the term mentions.
- * For example, "boys and girls".
+ * For example, "boys and girls", or "firemen" is the group consists only of male firefighters.
  *
  * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of %1$s,
  *  use an alternative, such as %2$s."
  */
 export const orangeExclusionaryUnless = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of %1$s, use an alternative, such as %2$s.";
-/*
- * Used for terms that are exclusionary unless the group this term describes only consists of men, for example "firemen"."
- *
- * Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of %1$s,
- *  use an alternative, such as %2$s."
- */
-export const orangeExclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
-	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
-/*
- * Used for terms that are exclusionary unless the group this term describes only consists of men and women, for example "ladies and gentlemen".
- *
- * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of men and women,
- *  use an alternative, such as %2$s."
- */
-export const orangeExclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
-	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
+// /*
+//  * Used for terms that are exclusionary unless the group this term describes only consists of men, for example "firemen"."
+//  *
+//  * Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of %1$s,
+//  *  use an alternative, such as %2$s."
+//  */
+// export const orangeExclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
+// 	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
+// /*
+//  * Used for terms that are exclusionary unless the group this term describes only consists of men and women, for example "ladies and gentlemen".
+//  *
+//  * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of men and women,
+//  *  use an alternative, such as %2$s."
+//  */
+// export const orangeExclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
+// 	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
 /*
  * Used for terms that are exclusionary unless the group this term describes only consists of two genders, for example "both genders".
  *
