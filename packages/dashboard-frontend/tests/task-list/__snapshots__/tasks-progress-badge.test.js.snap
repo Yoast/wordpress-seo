@@ -29,17 +29,18 @@ exports[`TasksProgressBadge matches snapshot for when 0 tasks are completed 1`] 
           />
         </svg>
         <span
-          class="yst-text-xs yst-shrink-0"
+          class="yst-text-xs yst-flex yst-gap-0.5"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
           >
             0
           </span>
+          /
           <span
             class="yst-text-slate-500 yst-font-normal"
           >
-            /0
+            0
           </span>
         </span>
       </span>
@@ -82,17 +83,18 @@ exports[`TasksProgressBadge matches snapshot for when all tasks are completed 1`
           />
         </svg>
         <span
-          class="yst-text-xs yst-shrink-0"
+          class="yst-text-xs yst-flex yst-gap-0.5"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
           >
             5
           </span>
+          /
           <span
             class="yst-text-slate-500 yst-font-normal"
           >
-            /5
+            5
           </span>
         </span>
       </span>
@@ -155,17 +157,18 @@ exports[`TasksProgressBadge matches snapshot for when some tasks are completed 1
           />
         </svg>
         <span
-          class="yst-text-xs yst-shrink-0"
+          class="yst-text-xs yst-flex yst-gap-0.5"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
           >
             3
           </span>
+          /
           <span
             class="yst-text-slate-500 yst-font-normal"
           >
-            /5
+            5
           </span>
         </span>
       </span>
@@ -228,17 +231,18 @@ exports[`TasksProgressBadge matches snapshot for when with label 1`] = `
           />
         </svg>
         <span
-          class="yst-text-xs yst-shrink-0"
+          class="yst-text-xs yst-flex yst-gap-0.5"
         >
           <span
             class="yst-text-slate-600 yst-font-medium"
           >
             2
           </span>
+          /
           <span
             class="yst-text-slate-500 yst-font-normal"
           >
-            /4
+            4
           </span>
         </span>
         <span

@@ -56,7 +56,7 @@ describe( "ChildTasks", () => {
 		render( <ChildTasks tasks={ mockTasks } singleTaskOnClick={ mockOnClick } /> );
 		expect( screen.getByText( "Progress" ) ).toBeInTheDocument();
 		expect( screen.getByText( "2" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		expect( screen.getByText( ( content, element ) => element.textContent === "2/5" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders the first page of tasks (4 tasks per page)", () => {
@@ -170,8 +170,7 @@ describe( "ChildTasks", () => {
 
 		expect( screen.getByText( "First child task" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Page 1 out of 1" ) ).toBeInTheDocument();
-		expect( screen.getByText( "1" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/1" ) ).toBeInTheDocument();
+		expect( screen.getByText( ( content, element ) => element.textContent === "1/1" ) ).toBeInTheDocument();
 	} );
 
 	it( "calculates pagination correctly with 9 tasks (3 pages)", () => {
@@ -218,16 +217,14 @@ describe( "ChildTasks", () => {
 		const completedTasks = mockTasks.map( task => ( { ...task, isCompleted: true } ) );
 		render( <ChildTasks tasks={ completedTasks } singleTaskOnClick={ mockOnClick } /> );
 
-		expect( screen.getByText( "5" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		expect( screen.getByText( ( content, element ) => element.textContent === "5/5" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders with no tasks completed", () => {
 		const incompleteTasks = mockTasks.map( task => ( { ...task, isCompleted: false } ) );
 		render( <ChildTasks tasks={ incompleteTasks } singleTaskOnClick={ mockOnClick } /> );
 
-		expect( screen.getByText( "0" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		expect( screen.getByText( ( content, element ) => element.textContent === "0/5" ) ).toBeInTheDocument();
 	} );
 
 	it( "includes screen reader text for pagination", () => {

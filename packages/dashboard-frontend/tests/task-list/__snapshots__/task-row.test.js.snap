@@ -140,7 +140,7 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
               </span>
                
               <span
-                class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
+                class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
               >
                 <svg
                   aria-hidden="true"
@@ -168,7 +168,7 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             class="yst-table-cell yst-hidden sm:yst-table-cell"
           >
             <span
-              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
+              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
             >
               <svg
                 aria-hidden="true"
