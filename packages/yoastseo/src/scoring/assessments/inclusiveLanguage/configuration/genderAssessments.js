@@ -8,10 +8,7 @@ import { alternative,
 	avoidDerogatory,
 } from "./feedbackStrings/generalFeedbackStrings";
 import { orangeExclusionaryUnless,
-	// orangeExclusionaryUnlessMen,
-	// orangeExclusionaryUnlessMenAndWomen,
 	orangeExclusionaryUnlessTwoGenders,
-	// orangeExclusionaryUnlessUseTheTerm,
 } from "./feedbackStrings/genderAssessmentStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
