@@ -63,7 +63,7 @@ abstract class Abstract_Indexables_Disabled_Alert_Test extends TestCase {
 		$this->instance = new Indexables_Disabled_Alert(
 			$this->notification_center,
 			$this->indexable_helper,
-			$this->short_link_helper
+			$this->short_link_helper,
 		);
 	}
 }

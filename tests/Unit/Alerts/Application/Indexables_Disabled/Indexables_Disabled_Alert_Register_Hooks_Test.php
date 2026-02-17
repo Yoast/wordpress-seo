@@ -26,8 +26,8 @@ final class Indexables_Disabled_Alert_Register_Hooks_Test extends Abstract_Index
 			10,
 			\has_action(
 				'admin_init',
-				[ $this->instance, 'add_notifications' ]
-			)
+				[ $this->instance, 'add_notifications' ],
+			),
 		);
 	}
 }

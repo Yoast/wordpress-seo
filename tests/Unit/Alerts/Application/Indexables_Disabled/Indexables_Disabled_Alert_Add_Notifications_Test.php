@@ -71,7 +71,7 @@ final class Indexables_Disabled_Alert_Add_Notifications_Test extends Abstract_In
 				static function ( $notification ) use ( $expected_message ) {
 					$notification_array = $notification->to_array();
 					return $notification_array['message'] === $expected_message;
-				}
+				},
 			);
 
 		$this->instance->add_notifications();
