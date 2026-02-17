@@ -35,7 +35,7 @@ const FETCH_TASK = "fetchTasks";
  * @property {string} status
  * @property {Object|null} error
  * @property {CallToAction} callToAction
- * @property {boolean} parentTask
+ * @property {boolean} isParentTask
  * @property {Analyzer} analyzer
  */
 

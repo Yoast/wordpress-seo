@@ -181,7 +181,7 @@ export const ParentTaskWithoutChildTasks = {
 		<ChildTasks tasks={ args.childTasks } />
 	</Template>,
 	args: {
-		parentTask: true,
+		isParentTask: true,
 		callToAction: {},
 	},
 };

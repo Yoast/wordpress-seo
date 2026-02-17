@@ -35,6 +35,6 @@ The `ChildTasks` component can be passed as children to the TaskModal to display
   - `duration`: Estimated duration in minutes
   - `priority`: Priority level ('low', 'medium', 'high')
   - `isCompleted`: Boolean indicating completion status
-  - `parentTask`: Boolean indicating if the task is a parent task
+  - `isParentTask`: Boolean indicating if the task is a parent task
 - `singleTaskOnClick`: Callback function that receives the task ID when a child task is clicked
 
