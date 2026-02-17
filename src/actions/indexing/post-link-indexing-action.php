@@ -78,24 +78,31 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		return $this->wpdb->prepare(
-			"SELECT COUNT(P.ID)
-			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN $links_table AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
-			$public_post_types,
-		);
+        return $this->wpdb->prepare(
+            "SELECT COUNT(*)
+             FROM {$this->wpdb->posts} AS P
+             WHERE P.post_status = 'publish'
+               AND P.post_type IN (" . \implode(', ', \array_fill(0, \count($public_post_types), '%s')) . ")
+               AND (
+                 NOT EXISTS (
+                     SELECT 1
+                     FROM $indexable_table AS I
+                     WHERE I.object_id = P.ID
+                       AND I.object_type = 'post'
+                       AND I.link_count IS NOT NULL
+                 )
+                 OR EXISTS (
+                     SELECT 1
+                     FROM $links_table AS L
+                     WHERE L.post_id = P.ID
+                       AND L.type = 'internal'
+                       AND L.target_indexable_id IS NULL
+                       AND L.target_post_id IS NOT NULL
+                       AND L.target_post_id != 0
+                 )
+               )",
+            $public_post_types
+        );
 	}
 
 	/**
@@ -111,32 +118,38 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
-		$limit_query = '';
-		if ( $limit ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $limit;
-		}
+        $limit_query = '';
+        if ($limit !== false) {
+            $limit_query = 'LIMIT %d';
+            $replacements[] = (int)$limit;
+        }
 
-		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare(
-			"
-			SELECT P.ID, P.post_content
-			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.link_count IS NOT NULL
-				AND I.object_type = 'post'
-			LEFT JOIN $links_table AS L
-				ON L.post_id = P.ID
-				AND L.target_indexable_id IS NULL
-				AND L.type = 'internal'
-				AND L.target_post_id IS NOT NULL
-				AND L.target_post_id != 0
-			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
-				AND P.post_status = 'publish'
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
-			$limit_query",
-			$replacements,
-		);
+        // Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+        return $this->wpdb->prepare(
+            "SELECT P.ID, P.post_content
+            FROM {$this->wpdb->posts} AS P
+            WHERE P.post_status = 'publish'
+              AND P.post_type IN (" . \implode(', ', \array_fill(0, \count($public_post_types), '%s')) . ")
+              AND (
+                NOT EXISTS (
+                    SELECT 1
+                    FROM $indexable_table AS I
+                    WHERE I.object_id = P.ID
+                      AND I.link_count IS NOT NULL
+                      AND I.object_type = 'post'
+                )
+                OR EXISTS (
+                    SELECT 1
+                    FROM $links_table AS L
+                    WHERE L.post_id = P.ID
+                      AND L.target_indexable_id IS NULL
+                      AND L.type = 'internal'
+                      AND L.target_post_id IS NOT NULL
+                      AND L.target_post_id != 0
+                )
+              )
+            $limit_query",
+            $replacements
+        );
 	}
 }
