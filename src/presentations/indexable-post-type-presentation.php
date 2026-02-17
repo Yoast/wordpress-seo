@@ -314,7 +314,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 				'imageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
 				'archive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
 				'snippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
-			]
+			],
 		);
 
 		// No snippet means max snippet can be omitted.

@@ -69,7 +69,7 @@ class Notification_Helper {
 					'resolveNonce' => $notification->get_resolve_nonce(),
 				];
 			},
-			$all_notifications
+			$all_notifications,
 		);
 	}
 }

@@ -25,11 +25,11 @@ final class Setup_Flow_Interceptor_Constructor_Test extends Abstract_Setup_Flow_
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 		$this->assertInstanceOf(
 			Redirect_Helper::class,
-			$this->getPropertyValue( $this->instance, 'redirect_helper' )
+			$this->getPropertyValue( $this->instance, 'redirect_helper' ),
 		);
 	}
 }

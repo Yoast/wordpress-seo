@@ -48,7 +48,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Option_Titles_Watcher::get_conditionals()
+			Option_Titles_Watcher::get_conditionals(),
 		);
 	}
 
@@ -157,7 +157,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 				)",
 				'wp_yoast_indexable_hierarchy',
 				'wp_yoast_indexable',
-				'post'
+				'post',
 			)
 			->andReturn(
 				"
@@ -167,7 +167,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 					FROM `wp_yoast_indexable`
 					WHERE object_type = 'post'
 					AND object_sub_type IN( post )
-				)"
+				)",
 			);
 
 		$wpdb
@@ -181,7 +181,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 					FROM `wp_yoast_indexable`
 					WHERE object_type = 'post'
 					AND object_sub_type IN( post )
-				)"
+				)",
 			)
 			->andReturn( 2 );
 
@@ -199,8 +199,8 @@ final class Option_Titles_Watcher_Test extends TestCase {
 				],
 				[
 					'post_types-post-maintax' => 1,
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -232,7 +232,7 @@ final class Option_Titles_Watcher_Test extends TestCase {
 				)",
 				'wp_yoast_indexable_hierarchy',
 				'wp_yoast_indexable',
-				'post'
+				'post',
 			)
 			->andReturn( 'the query' );
 
@@ -256,8 +256,8 @@ final class Option_Titles_Watcher_Test extends TestCase {
 				],
 				[
 					'post_types-post-maintax' => 1,
-				]
-			)
+				],
+			),
 		);
 	}
 }

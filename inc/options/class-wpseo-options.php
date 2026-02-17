@@ -561,9 +561,7 @@ class WPSEO_Options {
 	protected static function is_multisite() {
 		static $is_multisite;
 
-		if ( $is_multisite === null ) {
-			$is_multisite = is_multisite();
-		}
+		$is_multisite ??= is_multisite();
 
 		return $is_multisite;
 	}

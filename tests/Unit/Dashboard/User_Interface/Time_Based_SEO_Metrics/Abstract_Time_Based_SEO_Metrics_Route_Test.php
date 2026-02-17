@@ -92,7 +92,7 @@ abstract class Abstract_Time_Based_SEO_Metrics_Route_Test extends TestCase {
 			$this->organic_sessions_compare_repository,
 			$this->organic_sessions_daily_repository,
 			$this->search_ranking_compare_repository,
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 }

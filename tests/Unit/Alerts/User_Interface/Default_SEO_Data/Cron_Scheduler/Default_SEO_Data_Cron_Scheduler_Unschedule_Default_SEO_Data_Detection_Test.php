@@ -56,7 +56,7 @@ final class Default_SEO_Data_Cron_Scheduler_Unschedule_Default_SEO_Data_Detectio
 		];
 
 		yield 'Cron scheduled - unschedule it' => [
-			'wp_next_scheduled_result'  => 1234567890,
+			'wp_next_scheduled_result'  => 1_234_567_890,
 			'wp_unschedule_event_times' => 1,
 		];
 	}

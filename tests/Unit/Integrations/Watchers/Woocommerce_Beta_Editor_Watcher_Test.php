@@ -76,7 +76,7 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 			$this->notification_center,
 			$this->notification_helper,
 			$this->short_link_helper,
-			$this->woocommerce_conditional
+			$this->woocommerce_conditional,
 		);
 	}
 
@@ -90,15 +90,15 @@ final class Woocommerce_Beta_Editor_Watcher_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			self::getPropertyValue( $this->instance, 'notification_center' )
+			self::getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		self::assertInstanceOf(
 			Notification_Helper::class,
-			self::getPropertyValue( $this->instance, 'notification_helper' )
+			self::getPropertyValue( $this->instance, 'notification_helper' ),
 		);
 		self::assertInstanceOf(
 			Short_Link_Helper::class,
-			self::getPropertyValue( $this->instance, 'short_link_helper' )
+			self::getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 	}
 

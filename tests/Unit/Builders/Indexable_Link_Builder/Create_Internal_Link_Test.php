@@ -56,7 +56,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 					'scheme' => 'http',
 					'host'   => 'basic.wordpress.test',
 				],
-			]
+			],
 		);
 
 		// Executed in build->create_links->create_internal_link.
@@ -134,7 +134,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 					'host'   => 'basic.wordpress.test',
 				],
 				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
-			]
+			],
 		);
 
 		// Executed in build->create_links->create_internal_link.
@@ -212,7 +212,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 				],
 				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
 				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
-			]
+			],
 		);
 
 		// Executed in build->create_links->create_internal_link.
@@ -280,7 +280,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 
 				// Executed in build->create_links->create_internal_link.
 				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
-			]
+			],
 		);
 
 		// Executed in build->create_links->create_internal_link.
@@ -366,7 +366,7 @@ final class Create_Internal_Link_Test extends Abstract_Indexable_Link_Builder_Te
 
 				// Executed in build->create_links->create_internal_link->WPSEO_Image_Utils::get_attachment_by_url->attachment_url_to_postid.
 				'wp_cache_get'                => 108,
-			]
+			],
 		);
 
 		// Executed in build->create_links->create_internal_link.

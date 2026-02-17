@@ -96,7 +96,7 @@ class Action_Tracking_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -124,7 +124,7 @@ class Action_Tracking_Route implements Route_Interface {
 					'success' => false,
 					'error'   => $exception->getMessage(),
 				],
-				$exception->getCode()
+				$exception->getCode(),
 			);
 		}
 
@@ -133,7 +133,7 @@ class Action_Tracking_Route implements Route_Interface {
 				'success' => true,
 				'action'  => $action_to_track,
 			],
-			200
+			200,
 		);
 	}
 

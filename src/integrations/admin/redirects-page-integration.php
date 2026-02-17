@@ -127,7 +127,7 @@ class Redirects_Page_Integration implements Integration_Interface {
 				'linkParams'            => \YoastSEO()->helpers->short_link->get_query_params(),
 				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
-			]
+			],
 		);
 	}
 

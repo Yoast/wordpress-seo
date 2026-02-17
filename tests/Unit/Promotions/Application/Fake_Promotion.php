@@ -17,7 +17,7 @@ final class Fake_Promotion extends Abstract_Promotion implements Promotion_Inter
 	public function __construct() {
 		parent::__construct(
 			'fake_promotion',
-			new Time_Interval( ( \time() - 10000 ), ( \time() + 10000 ) )
+			new Time_Interval( ( \time() - 10_000 ), ( \time() + 10_000 ) ),
 		);
 	}
 }

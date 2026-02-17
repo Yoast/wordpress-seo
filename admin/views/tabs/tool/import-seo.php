@@ -20,7 +20,7 @@ if ( count( $import_check->needs_import ) === 0 ) {
 	printf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( '%s did not detect any plugin data from plugins it can import from.', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 	echo '</p>';
 
@@ -65,7 +65,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 		printf(
 			/* translators: 1: expands to Yoast SEO */
 			esc_html__( 'This will import the post metadata like SEO titles and descriptions into your %1$s metadata. It will only do this when there is no existing %1$s metadata yet. The original data will remain in place.', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 		?>
 	</p>
@@ -105,7 +105,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 			/* translators: 1: Link start tag to the First time configuration tab in the General page, 2: Link closing tag. */
 			esc_html__( 'You should finish the %1$sfirst time configuration%2$s to make sure your SEO data has been optimized and you’ve set the essential Yoast SEO settings for your site.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( $ftc_page ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 		?>
 	</p>

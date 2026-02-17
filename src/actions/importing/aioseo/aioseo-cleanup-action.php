@@ -130,7 +130,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"DELETE FROM {$table} WHERE meta_key IN (" . \implode( ', ', \array_fill( 0, \count( $meta_keys_to_delete ), '%s' ) ) . ')',
-			$meta_keys_to_delete
+			$meta_keys_to_delete,
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}

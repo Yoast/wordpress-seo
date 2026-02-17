@@ -40,7 +40,7 @@ abstract class TestCase extends WPTestUtils_TestCase {
 
 		if ( $this->prereq_plugin_include_failed === true ) {
 			$this->markTestSkipped(
-				"\n" . 'Couldn\'t include the required plugin file(s): ' . $this->prereq_plugin_basename . '. Skipping all tests in class ' . static::class . '.'
+				"\n" . 'Couldn\'t include the required plugin file(s): ' . $this->prereq_plugin_basename . '. Skipping all tests in class ' . static::class . '.',
 			);
 		}
 	}

@@ -60,7 +60,7 @@ abstract class Abstract_Llms_Txt_Configuration_Test extends TestCase {
 		$this->instance = new Llms_Txt_Configuration(
 			$this->runner,
 			$this->post_type_helper,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

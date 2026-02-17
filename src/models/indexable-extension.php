@@ -22,9 +22,7 @@ abstract class Indexable_Extension extends Model {
 	 * @return Indexable The indexable.
 	 */
 	public function indexable() {
-		if ( $this->indexable === null ) {
-			$this->indexable = $this->belongs_to( 'Indexable', 'indexable_id', 'id' )->find_one();
-		}
+		$this->indexable ??= $this->belongs_to( 'Indexable', 'indexable_id', 'id' )->find_one();
 
 		return $this->indexable;
 	}

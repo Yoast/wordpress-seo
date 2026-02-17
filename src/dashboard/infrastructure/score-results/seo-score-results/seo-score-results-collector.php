@@ -39,7 +39,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 			[
 				Model::get_table_name( 'Indexable' ),
 				$content_type_name,
-			]
+			],
 		);
 
 		if ( $term_id === null ) {
@@ -53,7 +53,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 					AND I.object_type = 'post'
 					AND I.object_sub_type = %s
 					AND ( I.is_robots_noindex IS NULL OR I.is_robots_noindex <> 1 )",
-				$replacements
+				$replacements,
 			);
 			//phpcs:enable
 		}
@@ -76,7 +76,7 @@ class SEO_Score_Results_Collector implements Score_Results_Collector_Interface {
 						FROM %i
 						WHERE term_taxonomy_id = %d
 				)",
-				$replacements
+				$replacements,
 			);
 			//phpcs:enable
 		}

@@ -179,19 +179,19 @@ class Integrations_Page implements Integration_Interface {
 		if ( $acf_seo_installed ) {
 			$acf_seo_activate_url = \wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
-				'activate-plugin_' . $acf_seo_file
+				'activate-plugin_' . $acf_seo_file,
 			);
 		}
 		else {
 			$acf_seo_activate_url = \wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file_github ),
-				'activate-plugin_' . $acf_seo_file_github
+				'activate-plugin_' . $acf_seo_file_github,
 			);
 		}
 
 		$acf_seo_install_url = \wp_nonce_url(
 			\self_admin_url( 'update.php?action=install-plugin&plugin=acf-content-analysis-for-yoast-seo' ),
-			'install-plugin_acf-content-analysis-for-yoast-seo'
+			'install-plugin_acf-content-analysis-for-yoast-seo',
 		);
 
 		$this->admin_asset_manager->localize_script(
@@ -226,7 +226,7 @@ class Integrations_Page implements Integration_Interface {
 				'site_kit_configuration'             => $this->site_kit_integration_data->to_array(),
 				'site_kit_consent_management_url'    => $this->site_kit_consent_management_endpoint->get_url(),
 				'schema_framework_enabled'           => $this->options_helper->get( 'enable_schema', true ) === true && ! $this->schema_configuration->is_schema_disabled_programmatically(),
-			]
+			],
 		);
 	}
 

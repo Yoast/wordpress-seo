@@ -281,7 +281,7 @@ class ORM implements ArrayAccess {
 			$parameters,
 			static function ( $parameter ) {
 				return $parameter !== null;
-			}
+			},
 		);
 		if ( ! empty( $parameters ) ) {
 			$query = $wpdb->prepare( $query, $parameters );
@@ -1080,7 +1080,7 @@ class ORM implements ArrayAccess {
 			[
 				self::CONDITION_FRAGMENT => $fragment,
 				self::CONDITION_VALUES   => $values,
-			]
+			],
 		);
 
 		return $this;
@@ -1742,7 +1742,7 @@ class ORM implements ArrayAccess {
 				$this->build_order_by(),
 				$this->build_limit(),
 				$this->build_offset(),
-			]
+			],
 		);
 	}
 
@@ -2439,7 +2439,7 @@ class ORM implements ArrayAccess {
 				'DELETE FROM',
 				$this->quote_identifier( $this->table_name ),
 				$this->build_where(),
-			]
+			],
 		);
 
 		return self::execute( $query, $this->values );

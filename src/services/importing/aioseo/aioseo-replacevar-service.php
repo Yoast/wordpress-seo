@@ -81,7 +81,7 @@ class Aioseo_Replacevar_Service {
 			static function ( $cf_matches ) {
 				return '%%cf_' . $cf_matches[1] . '%%';
 			},
-			$yoast_replacevar
+			$yoast_replacevar,
 		);
 
 		// Transform the '#tax_name-<custom-tax-name>' tags into '%%ct_<custom-tax-name>%%' ones.
@@ -90,7 +90,7 @@ class Aioseo_Replacevar_Service {
 			static function ( $ct_matches ) {
 				return '%%ct_' . $ct_matches[1] . '%%';
 			},
-			$yoast_replacevar
+			$yoast_replacevar,
 		);
 
 		return $yoast_replacevar;

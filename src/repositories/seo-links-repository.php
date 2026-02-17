@@ -175,7 +175,7 @@ class SEO_Links_Repository {
 		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0.
 		foreach ( $indexable_ids as $id ) {
 			// Cast the ID to string, as the arrays only contain stringified versions of the ID.
-			$id = \strval( $id );
+			$id = (string) $id;
 			if ( isset( $returned_ids[ $id ] ) === false ) {
 				$indexable_counts[] = [
 					'incoming'            => '0',

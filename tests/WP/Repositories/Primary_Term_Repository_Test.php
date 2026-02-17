@@ -39,7 +39,7 @@ final class Primary_Term_Repository_Test extends TestCase {
 				'created_at' => '2024-05-22 10:16:42',
 				'updated_at' => '2024-05-22 10:16:42',
 				'blog_id'    => '1',
-			]
+			],
 		);
 
 		$this->instance = new Primary_Term_Repository();

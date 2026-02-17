@@ -50,7 +50,7 @@ class WPSEO_Option_Tabs_Formatter {
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
-				$label
+				$label,
 			);
 		}
 		echo '</h2>';

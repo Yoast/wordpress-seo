@@ -59,7 +59,7 @@ final class Open_Graph_OEmbed_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class, Open_Graph_Conditional::class ],
-			Open_Graph_OEmbed::get_conditionals()
+			Open_Graph_OEmbed::get_conditionals(),
 		);
 	}
 

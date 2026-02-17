@@ -160,7 +160,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 				'capabilities'  => [ 'wpseo_manage_options' ],
 				'priority'      => 20,
 				'resolve_nonce' => \wp_create_nonce( 'wpseo-resolve-alert-nonce' ),
-			]
+			],
 		);
 	}
 
@@ -173,7 +173,7 @@ class Ping_Other_Admins_Alert implements Integration_Interface {
 		$message = \sprintf(
 			/* translators: %1$s expands to "Yoast SEO". */
 			\esc_html__( 'Looks like you’re new here. %1$s makes it easy to optimize your website for search engines. Want to keep your site healthy and easier to find? Sign up below to receive practical emails to get you started!', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 
 		$notification_text = '<p>' . $message . '</p>';

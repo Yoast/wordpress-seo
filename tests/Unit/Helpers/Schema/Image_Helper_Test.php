@@ -84,7 +84,7 @@ final class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			[],
-			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption' )
+			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption' ),
 		);
 	}
 
@@ -110,7 +110,7 @@ final class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			[],
-			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption', false, false )
+			$this->instance->generate_from_url( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption', false, false ),
 		);
 	}
 
@@ -139,7 +139,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'width'  => 256,
 					'height' => 512,
-				]
+				],
 			);
 
 		$this->language
@@ -163,8 +163,8 @@ final class Image_Helper_Test extends TestCase {
 			$this->instance->generate_from_attachment_id(
 				'https://example.com/#/schema/logo/image/',
 				1337,
-				'Company name'
-			)
+				'Company name',
+			),
 		);
 	}
 
@@ -209,8 +209,8 @@ final class Image_Helper_Test extends TestCase {
 			$this->instance->generate_from_attachment_id(
 				'https://example.com/#/schema/logo/image/',
 				1337,
-				'Company name'
-			)
+				'Company name',
+			),
 		);
 	}
 
@@ -267,7 +267,7 @@ final class Image_Helper_Test extends TestCase {
 		$actual = $this->instance->generate_from_attachment_id(
 			'https://example.com/#/schema/logo/image/',
 			1337,
-			''
+			'',
 		);
 
 		$this->assertEquals( $expected, $actual );
@@ -319,7 +319,7 @@ final class Image_Helper_Test extends TestCase {
 		$actual = $this->instance->generate_from_attachment_id(
 			'https://example.com/#/schema/logo/image/',
 			1337,
-			''
+			'',
 		);
 
 		$this->assertEquals( $expected, $actual );
@@ -360,7 +360,7 @@ final class Image_Helper_Test extends TestCase {
 		$actual = $this->instance->simple_image_object(
 			'https://example.com/#/schema/logo/image/',
 			'https://example.com/logo.jpg',
-			'Image caption'
+			'Image caption',
 		);
 
 		$this->assertEquals( $expected, $actual );

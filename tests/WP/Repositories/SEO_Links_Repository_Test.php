@@ -39,7 +39,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'target_post_id'      => '112',
 				'target_indexable_id' => '344',
 				'id'                  => '113',
-			]
+			],
 		);
 
 		$this->instance = new SEO_Links_Repository();
@@ -104,7 +104,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 		$this->assertContainsOnlyInstancesOf(
 			SEO_Links::class,
 			$result,
-			'The result should only contain SEO_Links instances.'
+			'The result should only contain SEO_Links instances.',
 		);
 
 		$this->assertCount( 1, $result, 'The result should contain 1 items.' );
@@ -131,7 +131,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'type'         => 'external',
 				'indexable_id' => 1,
 				'post_id'      => $post_id,
-			]
+			],
 		);
 		$link_2  = $this->instance->query()->create(
 			[
@@ -139,7 +139,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'type'         => 'internal',
 				'indexable_id' => 2,
 				'post_id'      => $post_id,
-			]
+			],
 		);
 
 		$links = [ $link_1, $link_2 ];
@@ -147,7 +147,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 		$this->instance->insert_many( $links );
 
 		$result = $wpdb->get_results(
-			$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yoast_seo_links WHERE post_id = %d", $post_id )
+			$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yoast_seo_links WHERE post_id = %d", $post_id ),
 		);
 
 		$this->assertCount( 2, $result, 'The result should contain 2 items.' );
@@ -225,7 +225,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 		$this->assertContainsOnlyInstancesOf(
 			SEO_Links::class,
 			$result,
-			'The result should only contain SEO_Links instances.'
+			'The result should only contain SEO_Links instances.',
 		);
 
 		$this->assertCount( 1, $result, 'The result should contain one item.' );
@@ -327,7 +327,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '110',
 				'target_post_id' => '159',
 				'id'             => '223',
-			]
+			],
 		);
 
 		$result = $this->instance->delete_all_by_post_id( $post_id );
@@ -382,7 +382,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '110',
 				'target_post_id' => '154',
 				'id'             => '222',
-			]
+			],
 		);
 		$wpdb->insert(
 			$wpdb->prefix . 'yoast_seo_links',
@@ -393,7 +393,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '110',
 				'target_post_id' => '159',
 				'id'             => '229',
-			]
+			],
 		);
 
 		$result = $this->instance->delete_all_by_post_id_where_indexable_id_null( $post_id );
@@ -447,7 +447,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '110',
 				'target_post_id' => '154',
 				'id'             => '222',
-			]
+			],
 		);
 
 		$result = $this->instance->delete_all_by_indexable_id( $indexable_id );
@@ -519,7 +519,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '108',
 				'target_post_id' => '154',
 				'id'             => '222',
-			]
+			],
 		);
 
 		$result = $this->instance->get_incoming_link_counts_for_post_ids( $post_ids );
@@ -569,7 +569,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'post_id'        => '108',
 				'target_post_id' => '154',
 				'id'             => '222',
-			]
+			],
 		);
 
 		$result = $this->instance->delete_many_by_id( $ids );
@@ -653,7 +653,7 @@ final class SEO_Links_Repository_Test extends TestCase {
 				'target_post_id'      => '154',
 				'id'                  => '222',
 				'target_indexable_id' => '355',
-			]
+			],
 		);
 
 		$result = $this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids );

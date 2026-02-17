@@ -150,7 +150,7 @@ class Table {
 				'null'    => false,
 				'default' => 'CURRENT_TIMESTAMP',
 				'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
-			]
+			],
 		);
 	}
 
@@ -208,7 +208,7 @@ class Table {
 					'unsigned'       => true,
 					'null'           => false,
 					'auto_increment' => true,
-				]
+				],
 			);
 			$create_table_sql    .= $primary_id->to_sql() . ",\n";
 		}

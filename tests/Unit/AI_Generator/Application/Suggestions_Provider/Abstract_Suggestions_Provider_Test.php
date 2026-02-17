@@ -71,7 +71,7 @@ abstract class Abstract_Suggestions_Provider_Test extends TestCase {
 			$this->consent_handler,
 			$this->request_handler,
 			$this->token_manager,
-			$this->user_helper
+			$this->user_helper,
 		);
 	}
 }

@@ -54,7 +54,7 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user' )
+			$this->getPropertyValue( $this->instance, 'user' ),
 		);
 	}
 
@@ -93,7 +93,7 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 				[
 					'other alert' => true,
 					'test'        => true,
-				]
+				],
 			);
 
 		$this->assertTrue( $this->instance->dismiss( 'test' ) );
@@ -289,7 +289,7 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 					'some alert'  => true,
 					'test'        => true,
 					'other alert' => true,
-				]
+				],
 			);
 
 		$this->user
@@ -304,14 +304,14 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 				[
 					'some alert'  => true,
 					'other alert' => true,
-				]
+				],
 			)
 			->once()
 			->andReturn(
 				[
 					'some alert'  => true,
 					'other alert' => true,
-				]
+				],
 			);
 
 		$this->assertTrue( $this->instance->reset( 'test' ) );
@@ -603,7 +603,7 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 					'some alert'  => true,
 					'test'        => true,
 					'other alert' => true,
-				]
+				],
 			);
 
 		$this->user
@@ -618,7 +618,7 @@ final class Alert_Dismissal_Action_Test extends TestCase {
 				[
 					'some alert'  => true,
 					'other alert' => true,
-				]
+				],
 			)
 			->once()
 			->andReturn( false );

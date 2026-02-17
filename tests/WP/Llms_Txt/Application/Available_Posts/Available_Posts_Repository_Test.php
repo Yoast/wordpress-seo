@@ -121,7 +121,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 					'post_title'  => 'Test Page ' . $i,
 					'post_type'   => 'page',
 					'post_status' => 'publish',
-				]
+				],
 			);
 		}
 
@@ -155,7 +155,7 @@ final class Available_Posts_Repository_Test extends TestCase {
 					'post_modified'     => $date,
 					'post_modified_gmt' => $date,
 				],
-				[ 'ID' => $id_to_update ]
+				[ 'ID' => $id_to_update ],
 			);
 
 			// Clean cache because of direct database tweaks above.

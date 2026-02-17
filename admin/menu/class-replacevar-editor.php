@@ -65,7 +65,7 @@ class WPSEO_Replacevar_Editor {
 				'has_new_badge'           => false,
 				'is_disabled'             => false,
 				'has_premium_badge'       => false,
-			]
+			],
 		);
 
 		$this->validate_arguments( $arguments );
@@ -122,7 +122,7 @@ class WPSEO_Replacevar_Editor {
 			esc_attr( $this->arguments['description_placeholder'] ),
 			esc_attr( $this->arguments['has_new_badge'] ),
 			esc_attr( $this->arguments['is_disabled'] ),
-			esc_attr( $this->arguments['has_premium_badge'] )
+			esc_attr( $this->arguments['has_premium_badge'] ),
 		);
 	}
 
@@ -150,8 +150,8 @@ class WPSEO_Replacevar_Editor {
 					sprintf(
 						/* translators: %1$s expands to the missing field name.  */
 						__( 'Not all required fields are given. Missing field %1$s', 'wordpress-seo' ),
-						$field_name
-					)
+						$field_name,
+					),
 				);
 			}
 		}

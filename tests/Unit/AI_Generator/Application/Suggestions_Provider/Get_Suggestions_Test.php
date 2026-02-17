@@ -54,7 +54,7 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			false
+			false,
 		);
 
 		$this->assertArrayHasKey( 0, $suggestions_array );
@@ -107,7 +107,7 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			$retry_on_unauthorized
+			$retry_on_unauthorized,
 		);
 	}
 
@@ -161,7 +161,7 @@ final class Get_Suggestions_Test extends Abstract_Suggestions_Provider_Test {
 			'',
 			'',
 			'',
-			false
+			false,
 		);
 	}
 }

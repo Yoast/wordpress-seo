@@ -76,7 +76,7 @@ final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 		$this->instance = new Content_Type_Visibility_Watcher_Actions(
 			$this->options,
 			$this->notification_center,
-			$this->content_type_dismiss_notifications
+			$this->content_type_dismiss_notifications,
 		);
 	}
 
@@ -91,19 +91,19 @@ final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options' ),
-			'Options helper is set correctly.'
+			'Options helper is set correctly.',
 		);
 
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
 			$this->getPropertyValue( $this->instance, 'notification_center' ),
-			'Notification center is set correctly.'
+			'Notification center is set correctly.',
 		);
 
 		$this->assertInstanceOf(
 			Content_Type_Visibility_Dismiss_Notifications::class,
 			$this->getPropertyValue( $this->instance, 'content_type_dismiss_notifications' ),
-			'Content type dismiss notifications is set correctly.'
+			'Content type dismiss notifications is set correctly.',
 		);
 	}
 
@@ -338,7 +338,7 @@ final class Content_Type_Visibility_Watcher_Actions_Test extends TestCase {
 			[
 				'esc_url'             => 'https://yoa.st/3.0-content-types',
 				'admin_url'           => 'admin.php?page=wpseo_page_settings',
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'get_current_user_id' )

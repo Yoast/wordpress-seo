@@ -134,7 +134,7 @@ class Dashboard_Configuration {
 				[
 					Readability_Analysis::NAME,
 					Keyphrase_Analysis::NAME,
-				]
+				],
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),

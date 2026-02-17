@@ -120,7 +120,7 @@ final class Cache_Validator_Test extends TestCase {
 		$this->assertEquals( '32', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 123 ) );
 
 		// Check against PHP_INT_MAX on 32-bit systems.
-		$this->assertEquals( '3y75pX', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 2147483647 ) );
+		$this->assertEquals( '3y75pX', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 2_147_483_647 ) );
 	}
 
 	/**

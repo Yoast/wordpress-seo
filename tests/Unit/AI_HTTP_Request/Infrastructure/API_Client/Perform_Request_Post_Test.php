@@ -52,7 +52,7 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 				[
 					'body'     => '{"success":true}',
 					'response' => [ 'code' => 200 ],
-				]
+				],
 			);
 
 		$result = $this->instance->perform_request( $action_path, $body, $headers, $is_post );
@@ -62,7 +62,7 @@ final class Perform_Request_Post_Test extends Abstract_API_Client_Test {
 				'body'     => '{"success":true}',
 				'response' => [ 'code' => 200 ],
 			],
-			$result
+			$result,
 		);
 	}
 }

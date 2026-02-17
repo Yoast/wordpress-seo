@@ -120,7 +120,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Term_Builder_Double(
 			$this->taxonomy,
 			$this->versions,
-			$this->post_helper
+			$this->post_helper,
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -130,7 +130,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance->set_social_image_helpers(
 			$this->image,
 			$this->open_graph_image,
-			$this->twitter_image
+			$this->twitter_image,
 		);
 	}
 
@@ -210,7 +210,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Term_Builder::class,
-			$this->instance
+			$this->instance,
 		);
 	}
 
@@ -260,7 +260,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-image'            => 'twitter_image',
 					'wpseo_twitter-image-id'         => 'twitter_image_id',
 					'wpseo_twitter-description'      => 'twitter_description',
-				]
+				],
 			);
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
@@ -279,14 +279,14 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			WHERE	p.%i IN (%s)
 				AND		p.%i = ''
 			",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, $this->wpdb->term_relationships, 'object_id', 'ID', $this->wpdb->term_taxonomy, 'term_taxonomy_id', 'term_taxonomy_id', 'taxonomy', 'category', 'term_id', 1, 'post_status', 'publish', 'post_password' ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, $this->wpdb->term_relationships, 'object_id', 'ID', $this->wpdb->term_taxonomy, 'term_taxonomy_id', 'term_taxonomy_id', 'taxonomy', 'category', 'term_id', 1, 'post_status', 'publish', 'post_password' ],
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -335,7 +335,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 				'twitter_image'           => null,
 				'twitter_image_id'        => null,
 				'twitter_image_source'    => null,
-			]
+			],
 		);
 
 		$image_meta = [
@@ -346,7 +346,7 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			'size'   => 'full',
 			'id'     => 13,
 			'alt'    => '',
-			'pixels' => 307200,
+			'pixels' => 307_200,
 			'type'   => 'image/jpeg',
 		];
 
