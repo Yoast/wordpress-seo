@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.9
-Stable tag: 26.9
+Stable tag: 27.0
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-02-17
 
+Yoast SEO 27.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Introduces an `images` array attribute to FAQ and How-to blocks to allow for explicit image handling.
@@ -323,10 +325,10 @@ Release date: 2026-02-17
 
 #### Other
 
-* Changes the AI Generator `Generate 5 more` button design and preview background.
-* Modernizes how translations of the plugin work by removing the unneeded `load_plugin_textdomain()` calls.
-* Restores the suggestions title and `Generate 5 more` button when the suggestions are loading.
-* Updates the name of the Yoast SEO AI+ card on the plans page.
+* Updates the design of the `Generate 5 more` button and the preview background within the AI generator.
+* Modernizes plugin translation handling by removing obsolete `load_plugin_textdomain()` calls.
+* Restores the visibility of the suggestions title and the `Generate 5 more` button while suggestions are in the loading state.
+* Renames the Yoast SEO AI+ card on the plans page for better clarity.
 
 = 26.9 =
 
