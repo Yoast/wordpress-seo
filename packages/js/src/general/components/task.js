@@ -17,7 +17,7 @@ import { values } from "lodash";
  * @returns {JSX.Element} The Task component.
  */
 export const Task = ( { title, id, duration, priority, isCompleted, badge } ) => {
-	const { resetTaskError, setCurrentOpenTask } = useDispatch( STORE_NAME );
+	const { resetTaskError, setCurrentOpenTaskId } = useDispatch( STORE_NAME );
 
 	const tasks = useSelect( ( select ) => select( STORE_NAME ).selectTasks(), [] );
 	const childTasks = values( tasks ).filter( task => id && task.parentTaskId === id );
@@ -32,8 +32,8 @@ export const Task = ( { title, id, duration, priority, isCompleted, badge } ) =>
 
 	const handleOnOpen = useCallback( () => {
 		resetTaskError( id );
-		setCurrentOpenTask( id );
-	}, [ resetTaskError, setCurrentOpenTask, id ] );
+		setCurrentOpenTaskId( id );
+	}, [ resetTaskError, setCurrentOpenTaskId, id ] );
 
 	return <TaskRow
 		title={ title }

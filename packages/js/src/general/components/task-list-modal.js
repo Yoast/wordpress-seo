@@ -11,7 +11,7 @@ import { isEmpty, values } from "lodash";
  * @returns {JSX.Element} The TaskListModal component.
  */
 export const TaskListModal = () => {
-	const { setCurrentOpenTask, completeTask } = useDispatch( STORE_NAME );
+	const { setCurrentOpenTaskId, completeTask } = useDispatch( STORE_NAME );
 	const { completeTaskEndpoint, nonce, currentOpenTask, tasks } = useSelect( ( select ) => {
 		const state = select( STORE_NAME );
 		return {
@@ -38,8 +38,8 @@ export const TaskListModal = () => {
 	}, [ currentOpenTask, completeTaskEndpoint, nonce, completeTask ] );
 
 	const handleOnClose = useCallback( () => {
-		setCurrentOpenTask( null );
-	}, [ setCurrentOpenTask ] );
+		setCurrentOpenTaskId( null );
+	}, [ setCurrentOpenTaskId ] );
 
 	const totalTasks = useMemo( () => {
 		if ( ! isEmpty( parentChildTasks ) ) {
@@ -70,8 +70,8 @@ export const TaskListModal = () => {
 		totalTasks={ totalTasks }
 		completedTasks={ completedTasks }
 		parentTaskTitle={ parentTaskTitle }
-		onProgressBadgeClick={ setCurrentOpenTask }
+		onProgressBadgeClick={ setCurrentOpenTaskId }
 	>
-		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTask } /> }
+		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTaskId } /> }
 	</TaskModal>;
 };
