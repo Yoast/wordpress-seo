@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Infrastructure\Tasks_Collectors;
 
+use Brain\Monkey\Functions;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Incorrect_Child_Task_Usage_Exception;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
@@ -99,6 +100,11 @@ final class Tasks_Collector_Constructor_Test extends Abstract_Tasks_Collector_Te
 	public function test_constructor_throws_exception_for_child_tasks() {
 		$regular_task = $this->create_mock_task( 'regular-task' );
 		$child_task   = $this->create_mock_task( 'child-task', [], Child_Task_Interface::class );
+
+		Functions\expect( 'esc_html' )
+			->once()
+			->with( 'child-task' )
+			->andReturn( 'child-task' );
 
 		$this->expectException( Incorrect_Child_Task_Usage_Exception::class );
 
