@@ -44,6 +44,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your recent content: Posts',
 			'about'        => '<p>By aligning your content with search intent and focus keyphrases, you make it easier for people and AI systems to find your website, improving your organic visibility. Use the recommendations in the SEO analysis to strengthen your technical performance and ranking potential.</p><p><strong>Pro tip</strong>: Use <strong>AI Generate</strong> to quickly generate high quality meta descriptions and keyphrase-rich headers that rank well.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -71,6 +72,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your recent content: Posts',
 			'about'        => '<p>By aligning your content with search intent and focus keyphrases, you make it easier for people and AI systems to find your website, improving your organic visibility. Use the recommendations in the SEO analysis to strengthen your technical performance and ranking potential.</p><p><strong>Pro tip</strong>: Use <strong>AI Generate</strong> to quickly generate high quality meta descriptions and keyphrase-rich headers that rank well.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -100,6 +102,7 @@ final class Improve_Content_SEO_To_Array_Test extends Abstract_Improve_Content_S
 			'callToAction' => null,
 			'title'        => 'Improve the SEO of your recent content: Posts',
 			'about'        => '<p>By aligning your content with search intent and focus keyphrases, you make it easier for people and AI systems to find your website, improving your organic visibility. Use the recommendations in the SEO analysis to strengthen your technical performance and ranking potential.</p><p><strong>Pro tip</strong>: Use <strong>AI Generate</strong> to quickly generate high quality meta descriptions and keyphrase-rich headers that rank well.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );

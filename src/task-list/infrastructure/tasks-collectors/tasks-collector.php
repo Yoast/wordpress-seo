@@ -44,7 +44,7 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 		foreach ( $tasks as $task ) {
 			if ( $task instanceof Child_Task_Interface ) {
 				// Implementations of the Child_Task_Interface are excluded at the DI level, but let's make sure to also throw an exception.
-				throw new Incorrect_Child_Task_Usage_Exception();
+				throw new Incorrect_Child_Task_Usage_Exception( \esc_html( $task->get_id() ) );
 			}
 
 			if ( $task instanceof Post_Type_Task_Interface ) {

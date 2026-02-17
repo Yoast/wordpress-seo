@@ -45,6 +45,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your recent content: Posts',
 			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -72,6 +73,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your recent content: Posts',
 			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -101,6 +103,7 @@ final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_C
 			'callToAction' => null,
 			'title'        => 'Improve the readability of your recent content: Posts',
 			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback  to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
