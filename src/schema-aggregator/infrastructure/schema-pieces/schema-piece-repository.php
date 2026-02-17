@@ -121,10 +121,6 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$schema_pieces        = [];
 
 		foreach ( $indexables as $indexable ) {
-			if ( $indexable->is_robots_noindex === true ) {
-				continue;
-			}
-
 			if ( ! \in_array( $indexable->object_sub_type, $this->config->get_allowed_post_types(), true ) ) {
 				continue;
 			}
