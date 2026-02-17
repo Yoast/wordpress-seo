@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useMemo, useRef, useEffect } from "@wordpress/element";
@@ -84,7 +83,7 @@ export const TaskModal = ( {
 		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
-					{ totalTasks > 0 && parentTaskTitle &&
+					{ parentTaskTitle &&
 					<TasksProgressBadge
 						completedTasks={ completedTasks }
 						totalTasks={ totalTasks }
@@ -100,7 +99,7 @@ export const TaskModal = ( {
 								{ title }
 							</Modal.Title>
 							<div className="yst-flex yst-gap-2 yst-items-center">
-								{ totalTasks > 0 && ! parentTaskTitle && <>
+								{ ! parentTaskTitle && <>
 									<TasksProgressBadge
 										completedTasks={ completedTasks }
 										totalTasks={ totalTasks }
@@ -144,9 +143,7 @@ export const TaskModal = ( {
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					{ callToAction?.type &&
-						<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
-					}
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>
