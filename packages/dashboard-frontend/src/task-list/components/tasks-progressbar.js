@@ -34,12 +34,15 @@ export const TasksProgressBarLabel = ( { label, children, size = "medium" } ) =>
 
 /**
  * The LoadingProgressBar component to display a loading state for the progress bar.
+ * @param {string} [className] Additional class names for the wrapper.
+ * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium'.
  *
  * @returns {JSX.Element} The LoadingProgressBar component.
  */
-const LoadingProgressBar = ( { className, label } ) => (
+const LoadingProgressBar = ( { className, label, size } ) => (
 	<div className={ className }>
-		<TasksProgressBarLabel label={ label }>
+		<TasksProgressBarLabel label={ label } size={ size }>
 			<SkeletonLoader className="yst-w-9 yst-h-5" />
 		</TasksProgressBarLabel>
 		<SkeletonLoader className="yst-w-full yst-h-1.5" />
@@ -49,11 +52,15 @@ const LoadingProgressBar = ( { className, label } ) => (
 /**
  * Component displaying an error state for the progress bar.
  *
+ * @param {string} [className] Additional class names for the wrapper.
+ * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium'.
+ *
  * @returns {JSX.Element} The ErrorProgressBar component.
  */
-const ErrorProgressBar = ( { className, label } ) => (
+const ErrorProgressBar = ( { className, label, size } ) => (
 	<div className={ className }>
-		<TasksProgressBarLabel label={ label }>
+		<TasksProgressBarLabel label={ label } size={ size }>
 			<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
 		</TasksProgressBarLabel>
 		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
@@ -73,11 +80,11 @@ const ErrorProgressBar = ( { className, label } ) => (
  */
 export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className, label, size = "medium" } ) => {
 	if ( isLoading ) {
-		return <LoadingProgressBar className={ className } label={ label } />;
+		return <LoadingProgressBar className={ className } label={ label } size={ size } />;
 	}
 
 	if ( ! totalTasks || completedTasks > totalTasks ) {
-		return <ErrorProgressBar className={ className } label={ label } />;
+		return <ErrorProgressBar className={ className } label={ label } size={ size } />;
 	}
 
 	const screenReaderText = sprintf(
@@ -89,7 +96,7 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 
 	return (
 		<div className={ className }>
-			<TasksProgressBarLabel label={ label }>
+			<TasksProgressBarLabel label={ label } size={ size }>
 				<span className={ classNames( "yst-font-medium yst-flex yst-gap-0.5", sizeClassNames[ size ]?.count ) }>
 					<span className="yst-text-slate-600">{ completedTasks }</span>/<span className="yst-text-slate-500">{ totalTasks }</span>
 				</span>
