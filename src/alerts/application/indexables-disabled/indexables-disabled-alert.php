@@ -103,7 +103,7 @@ class Indexables_Disabled_Alert implements Integration_Interface {
 				'id'           => self::NOTIFICATION_ID,
 				'type'         => Yoast_Notification::WARNING,
 				'capabilities' => [ 'wpseo_manage_options' ],
-			]
+			],
 		);
 	}
 
@@ -120,7 +120,7 @@ class Indexables_Disabled_Alert implements Integration_Interface {
 			\esc_html__( '%1$s indexables are disabled because your site is in a non-production environment or custom code is blocking them. This may affect your SEO features. %2$sLearn more about this%3$s.', 'wordpress-seo' ),
 			'Yoast',
 			'<a href="' . \esc_url( $shortlink ) . '" target="_blank">',
-			'</a>'
+			'</a>',
 		);
 
 		return $message;
