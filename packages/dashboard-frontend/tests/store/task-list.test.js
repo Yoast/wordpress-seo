@@ -379,4 +379,33 @@ describe( "taskListSelectors", () => {
 			} );
 		} );
 	} );
+	describe( "selectCurrentOpenTask", () => {
+		it( "should return null when task list slice is missing", () => {
+			const state = {};
+			expect( taskListSelectors.selectCurrentOpenTask( state ) ).toBeNull();
+		} );
+
+		it( "should return null when currentOpenTaskId property is missing", () => {
+			const state = { taskList: {} };
+			expect( taskListSelectors.selectCurrentOpenTask( state ) ).toBeNull();
+		} );
+
+		it( "should return null when tasks property is missing", () => {
+			const state = { taskList: { currentOpenTaskId: "task1" } };
+			expect( taskListSelectors.selectCurrentOpenTask( state ) ).toBeNull();
+		} );
+
+		it( "should return the currently open task object when present", () => {
+			const state = {
+				taskList: {
+					currentOpenTaskId: "task1",
+					tasks: {
+						task1: { id: "task1", title: "Task 1" },
+						task2: { id: "task2", title: "Task 2" },
+					},
+				},
+			};
+			expect( taskListSelectors.selectCurrentOpenTask( state ) ).toEqual( { id: "task1", title: "Task 1" } );
+		} );
+	} );
 } );
