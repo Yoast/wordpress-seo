@@ -20,4 +20,13 @@ final class Meta_Tags_Context_Memoizer_Double extends Meta_Tags_Context_Memoizer
 	public function set_cache( $key, $value ) {
 		$this->cache[ $key ] = $value;
 	}
+
+	/**
+	 * Used to retrieve the internal cache for testing purposes.
+	 *
+	 * @return array<string, string> The cache.
+	 */
+	public function get_cache() {
+		return $this->cache;
+	}
 }

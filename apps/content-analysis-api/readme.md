@@ -5,7 +5,13 @@ This is a small sample/PoC project to demonstrate how to use the `yoastseo` pack
 
 You can run this project locally by executing the following commands.
 
-First, install the dependencies.
+First, make sure you are using Node.js version 22 or higher. This is required for the `--experimental-require-module` flag used to run the server.
+
+```bash
+nvm use 22
+```
+
+Then, install the dependencies.
 
 ```bash
 yarn

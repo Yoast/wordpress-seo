@@ -48,7 +48,7 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @return Code_Verifier The generated code verifier.
 	 */
 	public function generate( string $user_email ): Code_Verifier {
-		$random_string = \substr( \str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ), 1, 10 );
+		$random_string = \wp_generate_password( 10, false );
 		$code          = \hash( 'sha256', $user_email . $random_string );
 		$created_at    = $this->date_helper->current_time();
 

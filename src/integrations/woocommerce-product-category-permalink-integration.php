@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WP_Term;
+use Yoast\WP\SEO\Conditionals\Dynamic_Product_Permalinks_Conditional;
 use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Version_Conditional;
 
@@ -10,6 +11,13 @@ use Yoast\WP\SEO\Conditionals\WooCommerce_Version_Conditional;
  * Integration for WooCommerce product category permalink handling.
  */
 class Woocommerce_Product_Category_Permalink_Integration implements Integration_Interface {
+
+	/**
+	 * Holds the Dynamic_Product_Permalinks_Conditional.
+	 *
+	 * @var Dynamic_Product_Permalinks_Conditional
+	 */
+	private $dynamic_product_permalinks_conditional;
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
@@ -21,6 +29,17 @@ class Woocommerce_Product_Category_Permalink_Integration implements Integration_
 			WooCommerce_Version_Conditional::class,
 			Woo_SEO_Inactive_Conditional::class,
 		];
+	}
+
+	/**
+	 * Constructs Support_Integration.
+	 *
+	 * @param Dynamic_Product_Permalinks_Conditional $dynamic_product_permalinks_conditional The Dynamic_Product_Permalinks_Conditional.
+	 */
+	public function __construct(
+		Dynamic_Product_Permalinks_Conditional $dynamic_product_permalinks_conditional
+	) {
+		$this->dynamic_product_permalinks_conditional = $dynamic_product_permalinks_conditional;
 	}
 
 	/**
@@ -41,6 +60,10 @@ class Woocommerce_Product_Category_Permalink_Integration implements Integration_
 	 * @return WP_Term The category to use in the permalink.
 	 */
 	public function restore_legacy_permalink_category( $category, $terms ) {
+		if ( $this->dynamic_product_permalinks_conditional->is_met() ) {
+			return $category;
+		}
+
 		$sorted_terms = \wp_list_sort(
 			$terms,
 			[

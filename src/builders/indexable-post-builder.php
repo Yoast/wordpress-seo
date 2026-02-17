@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use WP_Error;
 use WP_Post;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -44,6 +44,13 @@ class Indexable_Post_Builder {
 	protected $post_type_helper;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * Knows the latest version of the Indexable post builder type.
 	 *
 	 * @var int
@@ -64,17 +71,20 @@ class Indexable_Post_Builder {
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
 	 * @param Indexable_Builder_Versions $versions         The indexable builder versions.
 	 * @param Meta_Helper                $meta             The meta helper.
+	 * @param Permalink_Helper           $permalink_helper The permalink helper.
 	 */
 	public function __construct(
 		Post_Helper $post_helper,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Builder_Versions $versions,
-		Meta_Helper $meta
+		Meta_Helper $meta,
+		Permalink_Helper $permalink_helper
 	) {
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
 		$this->version          = $versions->get_latest_version_for_type( 'post' );
 		$this->meta             = $meta;
+		$this->permalink_helper = $permalink_helper;
 	}
 
 	/**
@@ -119,7 +129,7 @@ class Indexable_Post_Builder {
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = $post->post_type;
-		$indexable->permalink       = $this->get_permalink( $post->post_type, $post_id );
+		$indexable->permalink       = $this->permalink_helper->get_permalink_for_post( $post->post_type, $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->meta->get_value( 'focuskw', $post_id ),
@@ -175,22 +185,6 @@ class Indexable_Post_Builder {
 		$indexable->version = $this->version;
 
 		return $indexable;
-	}
-
-	/**
-	 * Retrieves the permalink for a post with the given post type and ID.
-	 *
-	 * @param string $post_type The post type.
-	 * @param int    $post_id   The post ID.
-	 *
-	 * @return WP_Error|string|false The permalink.
-	 */
-	protected function get_permalink( $post_type, $post_id ) {
-		if ( $post_type !== 'attachment' ) {
-			return \get_permalink( $post_id );
-		}
-
-		return \wp_get_attachment_url( $post_id );
 	}
 
 	/**

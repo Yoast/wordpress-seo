@@ -44,6 +44,7 @@ module.exports = {
 	transformIgnorePatterns: [
 		// Build or process incompatible dependencies:
 		// - @yoast/ai-frontend includes CSS that needs to be processed (to mock it away)
-		"/node_modules/(?!(@yoast/ai-frontend)).+\\.js$",
+		// - parse5 is ESM and needs transforming for Jest
+		"/node_modules/(?!(@yoast/ai-frontend|parse5)).+\\.js$",
 	],
 };

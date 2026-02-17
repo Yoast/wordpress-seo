@@ -253,5 +253,24 @@ describe( "AIOptimizeButton", () => {
 		expect( button ).toBeEnabled();
 		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
 	} );
+
+	test( "should be disabled when another AI button is active (in preview mode)", () => {
+		// Another button (introductionKeywordAIFixes) is active, so keyphraseDensity button should be disabled.
+		mockSelect( "introductionKeywordAIFixes" );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeDisabled();
+		expect( button ).toHaveAttribute( "aria-label", "Please apply or discard the current AI suggestion." );
+	} );
+
+	test( "should be enabled when no other AI button is active", () => {
+		mockSelect( null );
+		render( <AIOptimizeButton id="keyphraseDensity" isPremium={ true } /> );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toBeEnabled();
+		expect( button ).toHaveAttribute( "aria-label", "Optimize with AI" );
+	} );
 } );
 

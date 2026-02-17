@@ -1,122 +1,76 @@
 // External dependencies.
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { useCallback } from "react";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
+import { DeviceMobileIcon } from "@heroicons/react/outline";
+import { DesktopComputerIcon } from "@heroicons/react/solid";
 
-// Yoast dependencies
-import { Input, Label } from "@yoast/components";
-import { getDirectionalStyle } from "@yoast/helpers";
-import { colors } from "@yoast/style-guide";
+// Yoast dependencies.
+import { Label, Toggle, Root, useSvgAria } from "@yoast/ui-library";
 
 // Internal dependencies.
-import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../snippet-preview/constants";
-
-const Switcher = styled.fieldset`
-	border: 0;
-	padding: 0;
-	margin: 0 0 16px;
-`;
-
-const SwitcherTitle = styled.legend`
-	margin: 8px 0;
-	padding: 0;
-	color: ${ colors.$color_headings };
-	font-size: 14px;
-	font-weight: 600;
-`;
-
-const ModeLabel = styled( Label )`
-	${ getDirectionalStyle( "margin-right: 16px", "margin-left: 16px" ) };
-	color: inherit;
-	font-size: 14px;
-	line-height: 1.71428571;
-	cursor: pointer;
-	/* Helps RTL in Chrome */
-	display: inline-block;
-`;
-
-const ModeRadio = styled( Input )`
-	&& {
-		${ getDirectionalStyle( "margin: 0 8px 0 0", "margin: 0 0 0 8px" ) };
-		cursor: pointer;
-	}
-`;
+import { MODE_DESKTOP, MODE_MOBILE } from "../snippet-preview/constants";
 
 /**
- * The mode switcher component for the google preview.
+ * The ModeSwitcher component allows switching between mobile and desktop preview modes.
+ * Includes a toggle and labels for each mode.
+ *
+ * @param {Function} onChange Callback when mode is changed.
+ * @param {string} active Current active mode.
+ * @param {string} id ID for the toggle.
+ * @param {boolean} [disabled] Whether the switcher is disabled.
+ *
+ * @returns {JSX.Element} ModeSwitcher component.
  */
-class ModeSwitcher extends Component {
-	/**
-	 * ModeSwitcher constructor.
-	 *
-	 * @param {Object} props Component props.
-	 */
-	constructor( props ) {
-		super( props );
+const ModeSwitcher = ( { onChange, active, id, disabled = false } ) => {
+	const svgAriaProps = useSvgAria();
+	const handleChange = useCallback( () => {
+		const newMode = active === MODE_DESKTOP ? MODE_MOBILE : MODE_DESKTOP;
+		onChange( newMode );
+	}, [ onChange, active ] );
 
-		this.switchToMobile = this.props.onChange.bind( this, "mobile" );
-		this.switchToDesktop = this.props.onChange.bind( this, "desktop" );
-	}
-
-	/**
-	 * Render the ModeSwitcher component.
-	 *
-	 * @returns {JSX.Element} The rendered component.
-	 */
-	render() {
-		const {
-			active,
-			mobileModeInputId,
-			desktopModeInputId,
-		} = this.props;
-
-		const mobileInputId = mobileModeInputId.length > 0 ? mobileModeInputId : "yoast-google-preview-mode-mobile";
-		const desktopInputId = desktopModeInputId.length > 0 ? desktopModeInputId : "yoast-google-preview-mode-desktop";
-
-		return ( <Switcher>
-			<SwitcherTitle>{ __( "Preview as:", "wordpress-seo" ) }</SwitcherTitle>
-			<ModeRadio
-				onChange={ this.switchToMobile }
-				type="radio"
-				name="screen"
-				value="mobile"
-				optionalAttributes={ {
-					id: mobileInputId,
-					checked: active === MODE_MOBILE,
-				} }
-			/>
-			<ModeLabel for={ mobileInputId }>
-				{ __( "Mobile result", "wordpress-seo" ) }
-			</ModeLabel>
-			<ModeRadio
-				onChange={ this.switchToDesktop }
-				type="radio"
-				name="screen"
-				value="desktop"
-				optionalAttributes={ {
-					id: desktopInputId,
-					checked: active === MODE_DESKTOP,
-				} }
-			/>
-			<ModeLabel for={ desktopInputId }>
-				{ __( "Desktop result", "wordpress-seo" ) }
-			</ModeLabel>
-		</Switcher> );
-	}
-}
-
-ModeSwitcher.propTypes = {
-	onChange: PropTypes.func.isRequired,
-	active: PropTypes.oneOf( MODES ),
-	mobileModeInputId: PropTypes.string,
-	desktopModeInputId: PropTypes.string,
-};
-
-ModeSwitcher.defaultProps = {
-	active: MODE_MOBILE,
-	mobileModeInputId: "",
-	desktopModeInputId: "",
+	const label = __( "Google preview", "wordpress-seo" );
+	const screenReaderLabel = active === MODE_DESKTOP
+		? __( "Switch to mobile preview. Currently showing desktop preview.", "wordpress-seo" )
+		: __( "Switch to desktop preview. Currently showing mobile preview.", "wordpress-seo" );
+	return (
+		<Root>
+			<div className="yst-flex yst-justify-between yst-mb-4">
+				<Label>
+					{ label }
+				</Label>
+				<div className="yst-flex yst-gap-3 yst-items-center" role="group">
+					<span
+						className={ active === MODE_MOBILE ? "yst-text-slate-800" : "yst-text-slate-500" }
+						aria-hidden="true"
+					>
+						{ __( "Mobile", "wordpress-seo" ) }
+					</span>
+					<Toggle
+						id={ id }
+						className="yst-bg-primary-500"
+						checked={ active === MODE_DESKTOP }
+						onChange={ handleChange }
+						checkedIcon={ <DesktopComputerIcon
+							className="yst-shrink-0 yst-grow-0 yst-transition-opacity yst-ease-out yst-duration-100 yst-text-slate-800 yst-stroke-0 yst-h-4 yst-w-4"
+							{ ...svgAriaProps }
+						/> }
+						unCheckedIcon={ <DeviceMobileIcon
+							className="yst-toggle__icon yst-text-slate-800 yst-h-4 yst-w-4"
+							{ ...svgAriaProps }
+						/> }
+						screenReaderLabel={ `${label}: ${ screenReaderLabel }` }
+						disabled={ disabled }
+					/>
+					<span
+						className={ active === MODE_DESKTOP ? "yst-text-slate-800" : "yst-text-slate-500" }
+						aria-hidden="true"
+					>
+						{ __( "Desktop", "wordpress-seo" ) }
+					</span>
+				</div>
+			</div>
+		</Root>
+	);
 };
 
 export default ModeSwitcher;

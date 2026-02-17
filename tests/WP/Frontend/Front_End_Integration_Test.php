@@ -5,8 +5,10 @@ namespace Yoast\WP\SEO\Tests\WP\Frontend;
 use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\WP\Doubles\Integrations\Front_End_Integration_Double;
 use Yoast\WP\SEO\Tests\WP\TestCase;
@@ -55,6 +57,20 @@ final class Front_End_Integration_Test extends TestCase {
 	protected $replace_vars;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink_helper;
+
+	/**
 	 * The instance.
 	 *
 	 * @var Front_End_Integration_Double
@@ -68,18 +84,22 @@ final class Front_End_Integration_Test extends TestCase {
 	 */
 	public function set_up(): void {
 		parent::set_up();
-		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->container        = Mockery::mock( ContainerInterface::class );
-		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->helpers          = Mockery::mock( Helpers_Surface::class );
-		$this->replace_vars     = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->context_memoizer     = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->container            = Mockery::mock( ContainerInterface::class );
+		$this->options              = Mockery::mock( Options_Helper::class );
+		$this->helpers              = Mockery::mock( Helpers_Surface::class );
+		$this->replace_vars         = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 
 		$this->instance = new Front_End_Integration_Double(
 			$this->context_memoizer,
 			$this->container,
 			$this->options,
 			$this->helpers,
-			$this->replace_vars
+			$this->replace_vars,
+			$this->indexable_repository,
+			$this->permalink_helper
 		);
 	}
 

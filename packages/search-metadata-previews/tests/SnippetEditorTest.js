@@ -1,6 +1,6 @@
 import React from "react";
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
-import { fireEvent, render, screen } from "./test-utils";
+import { fireEvent, render, screen, waitFor } from "./test-utils";
 
 const defaultData = {
 	title: "Test title",
@@ -19,21 +19,25 @@ const defaultArgs = {
 describe( "SnippetEditor", () => {
 	it( "Mobile mode", async() => {
 		const { container } = render( <SnippetEditor { ...defaultArgs } /> );
-		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
-		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
-		expect( desktopRadioInput ).not.toBeChecked();
-		expect( mobileRadioInput ).toBeChecked();
+		// Wait for any async state updates from Transition component
+		await waitFor( () => expect( container.firstChild ).toBeInTheDocument() );
+		const toggle = screen.getByRole( "switch", { name: /Google preview/i } );
+		expect( toggle ).toHaveAttribute( "aria-checked", "false" );
+		expect( screen.getByText( "Mobile" ) ).toHaveClass( "yst-text-slate-800" );
+		expect( screen.getByText( "Desktop" ) ).toHaveClass( "yst-text-slate-500" );
 		expect( container ).toMatchSnapshot();
 	} );
 	it( "Desktop mode and should switch to mobile", async() => {
 		const { container } = render( <SnippetEditor { ...defaultArgs } mode="desktop" /> );
-		const desktopRadioInput = screen.getByLabelText( "Desktop result" );
-		const mobileRadioInput = screen.getByLabelText( "Mobile result" );
-		expect( desktopRadioInput ).toBeChecked();
-		expect( mobileRadioInput ).not.toBeChecked();
+		// Wait for any async state updates from Transition component
+		await waitFor( () => expect( container.firstChild ).toBeInTheDocument() );
+		const toggle = screen.getByRole( "switch", { name: /Google preview/i } );
+		expect( toggle ).toHaveAttribute( "aria-checked", "true" );
+		expect( screen.getByText( "Mobile" ) ).toHaveClass( "yst-text-slate-500" );
+		expect( screen.getByText( "Desktop" ) ).toHaveClass( "yst-text-slate-800" );
 		expect( container ).toMatchSnapshot();
 
-		fireEvent.click( mobileRadioInput );
+		fireEvent.click( toggle );
 		expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "mobile" );
 	} );
 
@@ -57,8 +61,8 @@ describe( "SnippetEditor", () => {
 		} );
 
 		it( "should switch to desktop mode", () => {
-			const desktopRadioInput = screen.getByLabelText( "Desktop result" );
-			fireEvent.click( desktopRadioInput );
+			const toggle = screen.getByRole( "switch", { name: /Google preview/i } );
+			fireEvent.click( toggle );
 			expect( defaultArgs.onChange ).toHaveBeenCalledWith( "mode", "desktop" );
 		} );
 	} );

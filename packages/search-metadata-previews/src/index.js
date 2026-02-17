@@ -2,6 +2,7 @@
 export { default as FixedWidthContainer } from "./snippet-preview/FixedWidthContainer";
 export { default as HelpTextWrapper } from "./snippet-preview/HelpTextWrapper";
 export { default as SnippetPreview } from "./snippet-preview/SnippetPreview";
+export { default as ModeSwitcher } from "./snippet-editor/ModeSwitcher";
 
 // Snippet editor exports.
 export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";

@@ -28,7 +28,7 @@ export const GooglePreview = ( { mode, title, description } ) => {
 	const isMobileUserAgent = useMemo( () => isMobileUserAgentRegExp.test( window?.navigator?.userAgent ), [ window?.navigator?.userAgent ] );
 
 	return (
-		<div className={ `yst-bg-slate-200 yst--mx-6 ${ mode }${ isMobileUserAgent ? " yst-user-agent__mobile" : "" }` }>
+		<div className={ `yst-ai-generator-preview-section ${ mode }${ isMobileUserAgent ? " yst-user-agent__mobile" : "" }` }>
 			<SnippetPreview
 				title={ title }
 				description={ description }

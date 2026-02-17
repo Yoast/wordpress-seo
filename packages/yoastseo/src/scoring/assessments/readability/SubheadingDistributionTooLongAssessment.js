@@ -177,7 +177,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {boolean} True when there is at least one subheading.
 	 */
 	hasSubheadings( paper ) {
-		const subheadings = getSubheadings( paper.getText() );
+		let text = paper.getText();
+		text = removeHtmlBlocks( text );
+		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+		const subheadings = getSubheadings( text );
 		return subheadings.length > 0;
 	}
 

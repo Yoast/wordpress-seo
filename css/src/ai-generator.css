@@ -61,8 +61,23 @@
 		box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 	}
 
-	.yoast-snippet-preview-section {
-		@apply yst-p-2;
+	.yst-ai-generator-preview-section {
+		@apply yst--mx-6 yst-relative yst-p-2;
+	}
+
+	.yst-ai-generator-preview-section:before {
+		@apply yst-absolute yst-bg-ai-500 yst-rounded-full yst-opacity-15 yst-top-9;
+		content: '';
+		height: 72%;
+		width: 80%;
+		left: 10%;
+		filter: blur(32px);
+		z-index: -1;
+	}
+
+	.yst-ai-generator-preview-section.mobile:before {
+		width: 74%;
+		left: 13%;
 	}
 
 	.yoast-snippet-preview-container__wrapper {

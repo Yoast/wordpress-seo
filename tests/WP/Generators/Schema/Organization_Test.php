@@ -46,7 +46,8 @@ final class Organization_Test extends TestCase {
 			\YoastSEO()->helpers->post,
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->meta
+			\YoastSEO()->helpers->meta,
+			\YoastSEO()->helpers->permalink
 		);
 
 		$indexable_post_builder->set_social_image_helpers(
