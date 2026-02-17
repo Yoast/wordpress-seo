@@ -8,12 +8,13 @@ use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_Hello_World_Task_Exception;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 
 /**
  * Represents the task for deleting the Hello World post.
  */
-class Delete_Hello_World extends Abstract_Completeable_Task {
+class Delete_Hello_World extends Abstract_Task implements Completeable_Task_Interface {
 
 	/**
 	 * Holds the id.
@@ -53,7 +54,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 				'post_id' => 1,
 				'number'  => 1,
 				'order'   => 'ASC',
-			]
+			],
 		);
 
 		if ( empty( $comments ) || \is_a( $comments[0], WP_Comment::class ) === false || $comments[0]->comment_author_email !== 'wapuu@wordpress.example' ) {
@@ -101,7 +102,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		return new Call_To_Action_Entry(
 			\__( 'Delete for me', 'wordpress-seo' ),
 			'delete',
-			$this->get_link()
+			$this->get_link(),
 		);
 	}
 
@@ -113,7 +114,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Remove the “Hello World” post', 'wordpress-seo' ),
-			'<p>' . \__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ) . '</p>'
+			'<p>' . \__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ) . '</p>',
 		);
 	}
 }

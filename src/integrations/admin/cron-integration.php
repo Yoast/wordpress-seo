@@ -42,7 +42,7 @@ class Cron_Integration implements Integration_Interface {
 			\wp_schedule_event(
 				$this->date_helper->current_time(),
 				'daily',
-				Indexing_Notification_Integration::NOTIFICATION_ID
+				Indexing_Notification_Integration::NOTIFICATION_ID,
 			);
 		}
 	}

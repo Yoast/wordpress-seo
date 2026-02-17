@@ -61,7 +61,7 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 			(object) [
 				'label' => 'Posts',
 				'name'  => 'post',
-			]
+			],
 		);
 
 		$this->recent_content_indexable_collector   = Mockery::mock( Recent_Content_Indexable_Collector::class );
@@ -87,7 +87,7 @@ abstract class Abstract_Improve_Content_SEO_Test extends TestCase {
 		$this->instance = new Improve_Content_SEO(
 			$this->recent_content_indexable_collector,
 			$this->indexable_helper,
-			$this->enabled_analysis_features_repository
+			$this->enabled_analysis_features_repository,
 		);
 	}
 }

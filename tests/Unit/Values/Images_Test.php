@@ -74,7 +74,7 @@ final class Images_Test extends TestCase {
 			[
 				'image.jpg' => $image,
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 
@@ -101,7 +101,7 @@ final class Images_Test extends TestCase {
 					'url' => $image,
 				],
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 
@@ -153,7 +153,7 @@ final class Images_Test extends TestCase {
 			[
 				'image.jpg' => $image1,
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 
@@ -230,7 +230,7 @@ final class Images_Test extends TestCase {
 			[
 				'image.jpg' => $image,
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 
@@ -261,7 +261,7 @@ final class Images_Test extends TestCase {
 					'url' => 'image.jpg',
 				],
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 

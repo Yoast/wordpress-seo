@@ -67,7 +67,7 @@ class Default_SEO_Data_Cron_Callback_Integration implements Integration_Interfac
 			[
 				$this,
 				'detect_default_seo_data_in_recent',
-			]
+			],
 		);
 	}
 

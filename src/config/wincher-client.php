@@ -56,13 +56,13 @@ class Wincher_Client extends OAuth_Client {
 			],
 			[
 				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
-			]
+			],
 		);
 
 		parent::__construct(
 			self::TOKEN_OPTION,
 			$provider,
-			$options_helper
+			$options_helper,
 		);
 	}
 
@@ -77,7 +77,7 @@ class Wincher_Client extends OAuth_Client {
 		$url = $this->provider->getAuthorizationUrl(
 			[
 				'state' => WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
-			]
+			],
 		);
 
 		$pkce_code = $this->provider->getPkceCode();

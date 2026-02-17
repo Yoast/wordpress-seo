@@ -25,11 +25,11 @@ final class Task_List_Configuration_Constructor_Test extends Abstract_Task_List_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Endpoints_Repository::class,
-			$this->getPropertyValue( $this->instance, 'endpoints_repository' )
+			$this->getPropertyValue( $this->instance, 'endpoints_repository' ),
 		);
 	}
 }

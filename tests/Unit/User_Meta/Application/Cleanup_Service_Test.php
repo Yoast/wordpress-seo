@@ -61,7 +61,7 @@ final class Cleanup_Service_Test extends TestCase {
 		$this->instance = new Cleanup_Service(
 			$this->additional_contactmethods_collector,
 			$this->custom_meta_collector,
-			$this->cleanup_repository
+			$this->cleanup_repository,
 		);
 	}
 
@@ -75,15 +75,15 @@ final class Cleanup_Service_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Additional_Contactmethods_Collector::class,
-			$this->getPropertyValue( $this->instance, 'additional_contactmethods_collector' )
+			$this->getPropertyValue( $this->instance, 'additional_contactmethods_collector' ),
 		);
 		$this->assertInstanceOf(
 			Custom_Meta_Collector::class,
-			$this->getPropertyValue( $this->instance, 'custom_meta_collector' )
+			$this->getPropertyValue( $this->instance, 'custom_meta_collector' ),
 		);
 		$this->assertInstanceOf(
 			Cleanup_Repository::class,
-			$this->getPropertyValue( $this->instance, 'cleanup_repository' )
+			$this->getPropertyValue( $this->instance, 'cleanup_repository' ),
 		);
 	}
 

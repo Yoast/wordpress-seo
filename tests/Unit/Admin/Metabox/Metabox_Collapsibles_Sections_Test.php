@@ -48,13 +48,13 @@ final class Metabox_Collapsibles_Sections_Test extends TestCase {
 		$collapsibles[] = new WPSEO_Metabox_Collapsible(
 			'collapsible-1',
 			'Collapsible 1 content',
-			'Collapsible 1 label'
+			'Collapsible 1 label',
 		);
 
 		$section = new WPSEO_Metabox_Collapsibles_Sections(
 			'collapsibles-tab',
 			'Metabox Tab Title',
-			$collapsibles
+			$collapsibles,
 		);
 
 		$section->display_content();
@@ -95,13 +95,13 @@ final class Metabox_Collapsibles_Sections_Test extends TestCase {
 		$collapsibles[] = new WPSEO_Metabox_Collapsible(
 			'collapsible-1',
 			'Collapsible 1 content',
-			'Collapsible 1 label'
+			'Collapsible 1 label',
 		);
 
 		$section = new WPSEO_Metabox_Collapsibles_Sections(
 			'collapsibles-tab',
 			'Metabox Tab Title',
-			$collapsibles
+			$collapsibles,
 		);
 
 		$section->display_link();

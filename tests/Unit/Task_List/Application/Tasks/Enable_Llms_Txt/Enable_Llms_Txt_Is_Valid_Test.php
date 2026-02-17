@@ -26,7 +26,7 @@ final class Enable_Llms_Txt_Is_Valid_Test extends Abstract_Enable_Llms_Txt_Test 
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => false,
-			]
+			],
 		);
 
 		$this->assertTrue( $this->instance->is_valid() );
@@ -41,7 +41,7 @@ final class Enable_Llms_Txt_Is_Valid_Test extends Abstract_Enable_Llms_Txt_Test 
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => true,
-			]
+			],
 		);
 
 		$this->assertFalse( $this->instance->is_valid() );

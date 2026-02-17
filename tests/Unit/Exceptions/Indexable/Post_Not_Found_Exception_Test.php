@@ -28,7 +28,7 @@ final class Post_Not_Found_Exception_Test extends TestCase {
 
 		self::assertEquals(
 			'The post could not be found.',
-			$instance->getMessage()
+			$instance->getMessage(),
 		);
 	}
 }

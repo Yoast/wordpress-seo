@@ -37,7 +37,7 @@ final class Register_Routes_Test extends Abstract_Consent_Route_Test {
 					],
 					'callback'            => [ $this->instance, 'consent' ],
 					'permission_callback' => [ $this->instance, 'check_permissions' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

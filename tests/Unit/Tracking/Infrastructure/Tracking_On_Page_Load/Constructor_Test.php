@@ -24,15 +24,15 @@ final class Constructor_Test extends Abstract_Tracking_On_Page_Load_Integration_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Action_Tracker::class,
-			$this->getPropertyValue( $this->instance, 'action_tracker' )
+			$this->getPropertyValue( $this->instance, 'action_tracker' ),
 		);
 		$this->assertInstanceOf(
 			Capability_Helper::class,
-			$this->getPropertyValue( $this->instance, 'capability_helper' )
+			$this->getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

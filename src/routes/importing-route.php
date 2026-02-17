@@ -68,7 +68,7 @@ class Importing_Route extends Abstract_Action_Route {
 				'callback'            => [ $this, 'execute' ],
 				'permission_callback' => [ $this, 'is_user_permitted_to_import' ],
 				'methods'             => [ 'POST' ],
-			]
+			],
 		);
 	}
 
@@ -94,7 +94,7 @@ class Importing_Route extends Abstract_Action_Route {
 					'Requested importer not found',
 					[
 						'status' => 404,
-					]
+					],
 				);
 			}
 
@@ -106,21 +106,21 @@ class Importing_Route extends Abstract_Action_Route {
 
 			return $this->respond_with(
 				$result,
-				$next_url
+				$next_url,
 			);
 		} catch ( Exception $exception ) {
 			if ( $exception instanceof Aioseo_Validation_Exception ) {
 				return new WP_Error(
 					'wpseo_error_validation',
 					$exception->getMessage(),
-					[ 'stackTrace' => $exception->getTraceAsString() ]
+					[ 'stackTrace' => $exception->getTraceAsString() ],
 				);
 			}
 
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
-				[ 'stackTrace' => $exception->getTraceAsString() ]
+				[ 'stackTrace' => $exception->getTraceAsString() ],
 			);
 		}
 	}

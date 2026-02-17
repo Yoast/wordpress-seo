@@ -105,7 +105,7 @@ class Conflicting_Plugins {
 			self::OPEN_GRAPH_PLUGINS,
 			self::XML_SITEMAPS_PLUGINS,
 			self::CLOAKING_PLUGINS,
-			self::SEO_PLUGINS
+			self::SEO_PLUGINS,
 		);
 	}
 }

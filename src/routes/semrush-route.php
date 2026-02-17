@@ -220,7 +220,7 @@ class SEMrush_Route implements Route_Interface {
 			->phrases_action
 			->get_related_keyphrases(
 				$request['keyphrase'],
-				$request['country_code']
+				$request['country_code'],
 			);
 
 		return new WP_REST_Response( $data, $data->status );

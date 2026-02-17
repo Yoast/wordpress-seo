@@ -64,7 +64,7 @@ BrainMonkey\makeDoublesForUnavailableClasses(
 		'WP_Term',
 		'WP_User',
 		'wpdb',
-	]
+	],
 );
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */

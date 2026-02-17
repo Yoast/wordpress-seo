@@ -53,7 +53,7 @@ class Taxonomies_Collector {
 			\_doing_it_wrong(
 				'Filter: \'wpseo_{$content_type}_filtering_taxonomy\'',
 				'The `wpseo_{$content_type}_filtering_taxonomy` filter should return a public taxonomy, available in REST API, that is associated with that content type.',
-				'YoastSEO v24.1'
+				'YoastSEO v24.1',
 			);
 		}
 

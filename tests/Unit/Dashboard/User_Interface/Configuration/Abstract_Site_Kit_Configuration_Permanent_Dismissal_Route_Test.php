@@ -46,7 +46,7 @@ abstract class Abstract_Site_Kit_Configuration_Permanent_Dismissal_Route_Test ex
 
 		$this->instance = new Site_Kit_Configuration_Dismissal_Route(
 			new Permanently_Dismissed_Site_Kit_Configuration_Repository_Fake(),
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 }

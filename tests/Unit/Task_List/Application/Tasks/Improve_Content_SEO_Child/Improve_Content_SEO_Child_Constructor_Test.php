@@ -23,7 +23,7 @@ final class Improve_Content_SEO_Child_Constructor_Test extends Abstract_Improve_
 	public function test_construct() {
 		$this->assertInstanceOf(
 			'Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child',
-			$this->instance
+			$this->instance,
 		);
 	}
 }

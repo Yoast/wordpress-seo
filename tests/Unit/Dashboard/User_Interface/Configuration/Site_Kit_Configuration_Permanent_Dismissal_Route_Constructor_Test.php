@@ -24,7 +24,7 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Constructor_Test ex
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'permanently_dismissed_site_kit_configuration_repository' )
+			$this->getPropertyValue( $this->instance, 'permanently_dismissed_site_kit_configuration_repository' ),
 		);
 	}
 }

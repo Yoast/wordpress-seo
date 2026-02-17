@@ -77,7 +77,7 @@ abstract class Abstract_Content_Types_Collector_Test extends TestCase {
 		$this->instance = new Content_Types_Collector(
 			$this->post_type_helper,
 			$this->post_collection_factory,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

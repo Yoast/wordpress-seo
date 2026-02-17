@@ -70,10 +70,10 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 	wp_redirect(
 		remove_query_arg(
 			[ '_wp_http_referer', '_wpnonce' ],
-			$request_uri
-		)
+			$request_uri,
+		),
 	);
-	exit;
+	exit();
 }
 
 /**

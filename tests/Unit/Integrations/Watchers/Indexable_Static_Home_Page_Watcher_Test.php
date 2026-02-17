@@ -57,7 +57,7 @@ final class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Admin_Conditional::class ],
-			Indexable_Static_Home_Page_Watcher::get_conditionals()
+			Indexable_Static_Home_Page_Watcher::get_conditionals(),
 		);
 	}
 

@@ -35,7 +35,7 @@ final class Language_Helper_Test extends TestCase {
 			[
 				'inLanguage' => 'English',
 			],
-			$instance->add_piece_language( [] )
+			$instance->add_piece_language( [] ),
 		);
 	}
 }

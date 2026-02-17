@@ -64,7 +64,7 @@ class Recent_Content_Indexable_Collector {
 		$raw_results = $this->indexable_repository->get_recent_posts_with_keywords_for_post_type(
 			$post_type,
 			$limit,
-			$date_limit
+			$date_limit,
 		);
 
 		return $this->map_to_seo_score_data( $raw_results, $post_type );
@@ -83,7 +83,7 @@ class Recent_Content_Indexable_Collector {
 		$raw_results = $this->indexable_repository->get_recent_posts_with_readability_scores_for_post_type(
 			$post_type,
 			$limit,
-			$date_limit
+			$date_limit,
 		);
 
 		return $this->map_to_readability_score_data( $raw_results, $post_type );
@@ -107,7 +107,7 @@ class Recent_Content_Indexable_Collector {
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
 				$seo_score_group->get_name(),
-				$post_type
+				$post_type,
 			);
 		}
 
@@ -132,7 +132,7 @@ class Recent_Content_Indexable_Collector {
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
 				$readability_score_group->get_name(),
-				$post_type
+				$post_type,
 			);
 		}
 

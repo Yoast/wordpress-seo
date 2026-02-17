@@ -60,7 +60,7 @@ abstract class Abstract_Get_Tasks_Route_Test extends TestCase {
 		$this->instance = new Get_Tasks_Route(
 			$this->tasks_repository,
 			$this->capability_helper,
-			$this->action_tracker
+			$this->action_tracker,
 		);
 	}
 }

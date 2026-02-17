@@ -66,7 +66,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 			$indexing_actions,
 			static function ( $indexing_action ) {
 				return \is_a( $indexing_action, Indexation_Action_Interface::class );
-			}
+			},
 		);
 	}
 }

@@ -21,7 +21,7 @@ final class Generate_Test extends Abstract_Code_Verifier_Handler_Test {
 	 */
 	public function test_generate() {
 		$user_email     = 'test@example.com';
-		$current_time   = 1640995200;
+		$current_time   = 1_640_995_200;
 		$generated_code = 'mocked_generated_code_123';
 
 		$this->code_generator

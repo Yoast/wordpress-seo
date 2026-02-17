@@ -31,7 +31,7 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 			],
 			[
 				'name' => 'object_id_and_type',
-			]
+			],
 		);
 	}
 
@@ -49,7 +49,7 @@ class AddIndexableObjectIdAndTypeIndex extends Migration {
 			],
 			[
 				'name' => 'object_id_and_type',
-			]
+			],
 		);
 	}
 

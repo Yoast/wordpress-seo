@@ -29,27 +29,27 @@ final class Default_SEO_Data_Alert_Constructor_Test extends Abstract_Default_SEO
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
-			$this->getPropertyValue( $this->instance, 'notification_center' )
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		$this->assertInstanceOf(
 			Default_SEO_Data_Collector::class,
-			$this->getPropertyValue( $this->instance, 'default_seo_data_collector' )
+			$this->getPropertyValue( $this->instance, 'default_seo_data_collector' ),
 		);
 		$this->assertInstanceOf(
 			Short_Link_Helper::class,
-			$this->getPropertyValue( $this->instance, 'short_link_helper' )
+			$this->getPropertyValue( $this->instance, 'short_link_helper' ),
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
-			$this->getPropertyValue( $this->instance, 'product_helper' )
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 	}
 }

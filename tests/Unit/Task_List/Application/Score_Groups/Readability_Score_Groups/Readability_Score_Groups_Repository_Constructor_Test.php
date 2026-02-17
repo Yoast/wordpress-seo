@@ -25,7 +25,7 @@ final class Readability_Score_Groups_Repository_Constructor_Test extends Abstrac
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Readability_Score_Groups_Repository::class,
-			$this->instance
+			$this->instance,
 		);
 	}
 }

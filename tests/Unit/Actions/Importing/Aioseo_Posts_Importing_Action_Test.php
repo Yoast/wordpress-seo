@@ -180,7 +180,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			$this->replacevar_handler,
 			$this->robots_provider,
 			$this->robots_transformer,
-			$this->social_images_provider
+			$this->social_images_provider,
 		);
 		$this->mock_instance = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
@@ -197,7 +197,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->robots_provider,
 				$this->robots_transformer,
 				$this->social_images_provider,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->mock_instance->set_aioseo_helper( $this->aioseo_helper );
@@ -230,7 +230,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 1337, 25 ]
+				[ 1337, 25 ],
 			)
 			->andReturn(
 				'
@@ -238,7 +238,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				FROM wp_aioseo_posts
 				WHERE id > 1337
 				ORDER BY id
-				LIMIT 25'
+				LIMIT 25',
 			);
 
 		$this->aioseo_helper->expects( 'get_table' )
@@ -253,7 +253,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				FROM wp_aioseo_posts
 				WHERE id > 1337
 				ORDER BY id
-				LIMIT 25'
+				LIMIT 25',
 			)
 			->andReturn( [ '1338', '1339', '1340' ] );
 
@@ -298,7 +298,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 1337, 25 ]
+				[ 1337, 25 ],
 			)
 			->andReturn(
 				'
@@ -306,7 +306,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				FROM wp_aioseo_posts
 				WHERE id > 1337
 				ORDER BY id
-				LIMIT 25'
+				LIMIT 25',
 			);
 
 			$this->aioseo_helper->expects( 'get_table' )
@@ -395,7 +395,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 					'focus' => [
 						'keyphrase' => 'key phrase',
 					],
-				]
+				],
 			),
 			'og_image_type'            => 'default',
 			'twitter_image_type'       => 'auto',
@@ -577,7 +577,7 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 					'focus' => [
 						'not_keyphrase' => 'key phrase',
 					],
-				]
+				],
 			),
 			'og_image_type'       => 'attach',
 			'twitter_image_type'  => 'auto',

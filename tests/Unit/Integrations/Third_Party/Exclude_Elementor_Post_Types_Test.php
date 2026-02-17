@@ -45,7 +45,7 @@ final class Exclude_Elementor_Post_Types_Test extends TestCase {
 	public function test_get_conditionals() {
 		self::assertEquals(
 			[ Elementor_Activated_Conditional::class ],
-			Exclude_Elementor_Post_Types::get_conditionals()
+			Exclude_Elementor_Post_Types::get_conditionals(),
 		);
 	}
 

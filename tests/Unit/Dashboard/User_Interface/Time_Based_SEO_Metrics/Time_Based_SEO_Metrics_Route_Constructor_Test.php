@@ -28,27 +28,27 @@ final class Time_Based_SEO_Metrics_Route_Constructor_Test extends Abstract_Time_
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Top_Page_Repository::class,
-			$this->getPropertyValue( $this->instance, 'top_page_repository' )
+			$this->getPropertyValue( $this->instance, 'top_page_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Top_Query_Repository::class,
-			$this->getPropertyValue( $this->instance, 'top_query_repository' )
+			$this->getPropertyValue( $this->instance, 'top_query_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Organic_Sessions_Compare_Repository::class,
-			$this->getPropertyValue( $this->instance, 'organic_sessions_compare_repository' )
+			$this->getPropertyValue( $this->instance, 'organic_sessions_compare_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Organic_Sessions_Daily_Repository::class,
-			$this->getPropertyValue( $this->instance, 'organic_sessions_daily_repository' )
+			$this->getPropertyValue( $this->instance, 'organic_sessions_daily_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Search_Ranking_Compare_Repository::class,
-			$this->getPropertyValue( $this->instance, 'search_ranking_compare_repository' )
+			$this->getPropertyValue( $this->instance, 'search_ranking_compare_repository' ),
 		);
 	}
 }

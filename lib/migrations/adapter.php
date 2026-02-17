@@ -604,7 +604,7 @@ class Adapter {
 			( $unique === true ) ? 'UNIQUE ' : '',
 			$this->identifier( $index_name ),
 			$this->identifier( $table_name ),
-			\implode( ', ', $cols )
+			\implode( ', ', $cols ),
 		);
 
 		return $this->execute_ddl( $sql );
@@ -658,7 +658,7 @@ class Adapter {
 				'null'    => false,
 				'default' => 'CURRENT_TIMESTAMP',
 				'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
-			]
+			],
 		);
 
 		return $created_at && $updated_at;
@@ -813,7 +813,7 @@ class Adapter {
 			else {
 				$column_type_sql .= \sprintf(
 					"('%s')",
-					\implode( "','", \array_map( [ $this, 'quote_string' ], $values ) )
+					\implode( "','", \array_map( [ $this, 'quote_string' ], $values ) ),
 				);
 			}
 		}

@@ -163,7 +163,7 @@ class Schema_Types {
 					'name'  => \__( 'None', 'wordpress-seo' ),
 					'value' => 'None',
 				],
-			]
+			],
 		);
 	}
 }

@@ -60,7 +60,7 @@ abstract class Abstract_Readability_Score_Groups_Repository_Test extends TestCas
 		$this->instance = new Readability_Score_Groups_Repository(
 			$this->good_readability_score_group,
 			$this->ok_readability_score_group,
-			$this->bad_readability_score_group
+			$this->bad_readability_score_group,
 		);
 	}
 }

@@ -88,10 +88,10 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				'<a href="' . \esc_url(
 					\wp_nonce_url(
 						\self_admin_url( 'plugins.php?action=activate&plugin=' . $premium_file ),
-						'activate-plugin_' . $premium_file
-					)
+						'activate-plugin_' . $premium_file,
+					),
 				) . '">',
-				'</a>'
+				'</a>',
 			);
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 			echo new Notice_Presenter(
@@ -101,7 +101,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				'support-team.svg',
 				null,
 				true,
-				'yoast-premium-deactivated-notice'
+				'yoast-premium-deactivated-notice',
 			);
 			// phpcs:enable
 

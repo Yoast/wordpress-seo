@@ -484,7 +484,7 @@ class Model implements JsonSerializable {
 					"{$associated_table_name}.{$associated_table_id_column}",
 					'=',
 					"{$join_table_name}.{$key_to_associated_table}",
-				]
+				],
 			)
 			->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
 	}

@@ -42,7 +42,7 @@ class Missing_Indexable_Bucket {
 			static function ( $item ) {
 				return $item->to_array();
 			},
-			$this->missing_indexable_counts
+			$this->missing_indexable_counts,
 		);
 	}
 }

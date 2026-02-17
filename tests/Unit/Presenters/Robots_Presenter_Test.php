@@ -99,7 +99,7 @@ final class Robots_Presenter_Test extends TestCase {
 				'index'  => 'index',
 				'follow' => 'nofollow',
 			],
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 }

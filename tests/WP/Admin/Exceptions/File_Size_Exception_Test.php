@@ -22,7 +22,7 @@ final class File_Size_Exception_Test extends TestCase {
 
 		$this->assertEquals(
 			'Cannot get the size of https://external.im/age.jpg because it is hosted externally.',
-			$expected_exception->getMessage()
+			$expected_exception->getMessage(),
 		);
 	}
 
@@ -38,7 +38,7 @@ final class File_Size_Exception_Test extends TestCase {
 
 		$this->assertEquals(
 			'Cannot get the size of image.jpg because of unknown reasons.',
-			$expected_exception->getMessage()
+			$expected_exception->getMessage(),
 		);
 	}
 }

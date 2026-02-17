@@ -75,7 +75,7 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 			[
 				'get_the_author_meta' => 'Agatha Christie',
 				'is_singular'         => true,
-			]
+			],
 		);
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
@@ -84,7 +84,7 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" />\n"
 			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" />\n"
 			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" />",
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -111,14 +111,14 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 			[
 				'get_the_author_meta' => 'Agatha Christie',
 				'is_singular'         => true,
-			]
+			],
 		);
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			"<meta name=\"twitter:label1\" content=\"Est. reading time\" />\n"
 			. "\t<meta name=\"twitter:data1\" content=\"40 minutes\" />",
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -145,7 +145,7 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 			[
 				'get_the_author_meta' => 'Agatha Christie',
 				'is_singular'         => true,
-			]
+			],
 		);
 		Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
@@ -154,7 +154,7 @@ final class Enhanced_Data_Presenter_Test extends TestCase {
 			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" class=\"yoast-seo-meta-tag\" />\n"
 			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" class=\"yoast-seo-meta-tag\" />\n"
 			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" class=\"yoast-seo-meta-tag\" />",
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

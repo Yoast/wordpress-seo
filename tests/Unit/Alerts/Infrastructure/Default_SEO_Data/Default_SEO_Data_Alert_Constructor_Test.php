@@ -24,7 +24,7 @@ final class Default_SEO_Data_Alert_Constructor_Test extends Abstract_Default_SEO
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

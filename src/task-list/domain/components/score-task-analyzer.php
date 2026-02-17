@@ -8,7 +8,7 @@ use InvalidArgumentException;
 /**
  * Represents a score-based analyzer component for a task.
  */
-class Score_Task_Analyzer implements Task_Analyzer_Interface {
+class Score_Task_Analyzer extends Abstract_Task_Analyzer {
 
 	/**
 	 * Allowed results.
@@ -20,34 +20,6 @@ class Score_Task_Analyzer implements Task_Analyzer_Interface {
 		'ok',
 		'bad',
 	];
-
-	/**
-	 * The title of the analyzer (e.g. "SEO analysis").
-	 *
-	 * @var string
-	 */
-	private $title;
-
-	/**
-	 * The result of the analyzer.
-	 *
-	 * @var string
-	 */
-	private $result;
-
-	/**
-	 * The human-readable label for the result (e.g. "Needs improvement").
-	 *
-	 * @var string
-	 */
-	private $result_label;
-
-	/**
-	 * The description text explaining the result.
-	 *
-	 * @var string
-	 */
-	private $result_description;
 
 	/**
 	 * The constructor.
@@ -82,22 +54,5 @@ class Score_Task_Analyzer implements Task_Analyzer_Interface {
 	 */
 	public function get_type(): string {
 		return 'score';
-	}
-
-	/**
-	 * Returns an array representation of the analyzer data.
-	 *
-	 * @TODO: Add an abstract task analyzer class and move this logic there.
-	 *
-	 * @return array<string, string> Returns in an array format.
-	 */
-	public function to_array(): array {
-		return [
-			'type'              => $this->get_type(),
-			'title'             => $this->title,
-			'result'            => $this->result,
-			'resultLabel'       => $this->result_label,
-			'resultDescription' => $this->result_description,
-		];
 	}
 }

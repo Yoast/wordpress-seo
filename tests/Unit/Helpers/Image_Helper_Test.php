@@ -143,7 +143,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'https://example.com/media/image.jpg',
 					'https://example.com/media/image2.jpg',
-				]
+				],
 			);
 
 		$this->assertEquals( 'https://example.com/media/image.jpg', $this->instance->get_gallery_image( 100 ) );
@@ -354,7 +354,7 @@ final class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.com/media/content_image.jpg',
-			$this->instance->get_term_content_image( 1337 )
+			$this->instance->get_term_content_image( 1337 ),
 		);
 	}
 
@@ -448,7 +448,7 @@ final class Image_Helper_Test extends TestCase {
 			[
 				'meta' => 'data',
 			],
-			$this->instance->get_metadata( 1337 )
+			$this->instance->get_metadata( 1337 ),
 		);
 	}
 
@@ -500,7 +500,7 @@ final class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/image.jpg',
-			$this->instance->get_attachment_image_url( 1337, 'full' )
+			$this->instance->get_attachment_image_url( 1337, 'full' ),
 		);
 	}
 
@@ -535,7 +535,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
 		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( 'https://example.com/image.jpg' ) );
@@ -555,7 +555,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 		$this->url_helper->expects( 'get_link_type' )->andReturn( SEO_Links::TYPE_EXTERNAL );
 		$this->assertEquals( 0, $this->actual_instance->get_attachment_by_url( '' ) );
@@ -575,7 +575,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 		$indexable                  = new Indexable_Mock();
 		$indexable->object_type     = 'post';
@@ -601,7 +601,7 @@ final class Image_Helper_Test extends TestCase {
 				[
 					'scheme' => 'https',
 					'host'   => 'example.com',
-				]
+				],
 			);
 
 		$url = \md5( 'a_dir/something' );

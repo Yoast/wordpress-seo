@@ -249,7 +249,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => 123,
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => 123,
 			],
@@ -298,7 +298,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => 123,
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],
@@ -317,7 +317,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => '123',
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => 123,
 			],
@@ -336,7 +336,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => '2e2',
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => 200,
 			],
@@ -355,7 +355,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => '123.456',
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => 123,
 			],
@@ -372,7 +372,7 @@ final class Request_Post_Test extends TestCase {
 							'action' => 'get_document_config',
 							'data'   => [],
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],
@@ -388,7 +388,7 @@ final class Request_Post_Test extends TestCase {
 						'document-1' => [
 							'action' => 'get_document_config',
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],
@@ -407,7 +407,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => 123,
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],
@@ -426,7 +426,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => 123,
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],
@@ -445,7 +445,7 @@ final class Request_Post_Test extends TestCase {
 								'id' => 123,
 							],
 						],
-					]
+					],
 				),
 				'return_value'          => null,
 			],

@@ -74,7 +74,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
@@ -98,7 +98,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		$actual = $this->instance->present();
@@ -121,7 +121,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_title' )
@@ -151,7 +151,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
