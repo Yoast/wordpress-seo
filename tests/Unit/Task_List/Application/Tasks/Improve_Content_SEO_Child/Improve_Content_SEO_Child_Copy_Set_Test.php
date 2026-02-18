@@ -51,4 +51,33 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 			$array['about'],
 		);
 	}
+
+	/**
+	 * Tests that get_copy_set decodes HTML entities in the title.
+	 *
+	 * @return void
+	 */
+	public function test_get_copy_set_decodes_html_entities_in_title() {
+		$content_item = new Content_Item_Score_Data( 456, 'Sarah&#8217;s Blog Post', 'ok', 'post' );
+
+		$parent_copy_set = new Copy_Set(
+			'Parent Title',
+			'<p>About text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->once()
+			->andReturn( $parent_copy_set );
+
+		$instance = new Improve_Content_SEO_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$copy_set = $instance->get_copy_set();
+		$array    = $copy_set->to_array();
+
+		$this->assertSame( 'Sarah’s Blog Post', $array['title'] );
+	}
 }

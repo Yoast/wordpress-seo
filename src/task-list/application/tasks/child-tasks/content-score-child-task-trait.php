@@ -93,7 +93,7 @@ trait Content_Score_Child_Task_Trait {
 	 */
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
-			$this->content_item_score_data->get_title(),
+			\html_entity_decode( $this->content_item_score_data->get_title(), \ENT_QUOTES, 'UTF-8' ),
 			$this->parent_task->get_copy_set()->get_about(),
 		);
 	}
