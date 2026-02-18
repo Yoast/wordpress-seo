@@ -105,10 +105,10 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 
 		return new Copy_Set(
 			/* translators: %1$s expands to the post type label this task is about */
-			\sprintf( \__( 'Improve the SEO of your content type: %1$s', 'wordpress-seo' ), $post_type->label ),
+			\sprintf( \__( 'Improve the SEO of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
 				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
-				\__( '%1$sImproving your content\'s SEO increases the discoverability on search engines, LLMs and other AI systems. Follow the instructions displayed in the SEO analysis to improve your content\'s SEO.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to speed up the process with high-quality, actionable suggestions.%4$s', 'wordpress-seo' ),
+				\__( '%1$sBy aligning your content with search intent and focus keyphrases, you make it easier for people and AI systems to find your website, improving your organic visibility. Use the recommendations in the SEO analysis to strengthen your technical performance and ranking potential.%2$s%3$sPro tip%5$s: Use %6$sAI Generate%7$s to quickly generate high quality meta descriptions and keyphrase-rich headers that rank well.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
 				'<p><strong>',

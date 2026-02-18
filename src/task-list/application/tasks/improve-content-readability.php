@@ -104,10 +104,10 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 
 		return new Copy_Set(
 			/* translators: %1$s expands to the post type label this task is about */
-			\sprintf( \__( 'Improve the readability of your content type: %1$s', 'wordpress-seo' ), $post_type->label ),
+			\sprintf( \__( 'Improve the readability of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
 				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
-				\__( '%1$sImproving your content\'s readability makes it easier for your audience to understand and engage with your content. Follow the instructions displayed in the readability analysis to improve your content\'s readability.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to speed up the process with high-quality, actionable suggestions.%4$s', 'wordpress-seo' ),
+				\__( '%1$sChecking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to automatically simplify complex sentences and improve the flow of your writing.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
 				'<p><strong>',

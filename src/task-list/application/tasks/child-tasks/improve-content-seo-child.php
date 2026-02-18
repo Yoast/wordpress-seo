@@ -29,7 +29,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 */
 	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
-			\__( 'Improve SEO', 'wordpress-seo' ),
+			\__( 'Open editor', 'wordpress-seo' ),
 			'link',
 			$this->get_link(),
 		);
@@ -41,9 +41,6 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 	 * @return Task_Analyzer_Interface|null
 	 */
 	public function get_analyzer(): ?Task_Analyzer_Interface {
-		$post_type_object = \get_post_type_object( $this->content_item_score_data->get_content_type() );
-		$post_type_label  = \strtolower( $post_type_object->labels->singular_name );
-
 		$result_labels = [
 			'good' => \__( 'Good', 'wordpress-seo' ),
 			'ok'   => \__( 'OK', 'wordpress-seo' ),
@@ -51,12 +48,9 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 		];
 
 		$result_descriptions = [
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'good' => \sprintf( \__( 'This %s\'s SEO is looking good. Your content should perform well across search engines and AI systems.', 'wordpress-seo' ), $post_type_label ),
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'ok'   => \sprintf( \__( 'This %s has some SEO issues that could be improved to increase its visibility in search and AI systems.', 'wordpress-seo' ), $post_type_label ),
-			/* translators: %s: The post type name (e.g., "post", "page", "product"). */
-			'bad'  => \sprintf( \__( 'This %s has one or more SEO issues that may reduce its visibility in search and AI systems.', 'wordpress-seo' ), $post_type_label ),
+			'good' => \__( 'Your content is well optimized for search engines. This increases your chances of ranking higher in search results.', 'wordpress-seo' ),
+			'ok'   => \__( 'Your content is partially optimized. Adding a few more SEO best practices will help you reach a wider audience.', 'wordpress-seo' ),
+			'bad'  => \__( 'Your content is not yet optimized for search. Follow the SEO recommendations to help search engines understand and rank your page.', 'wordpress-seo' ),
 		];
 
 		$result = $this->content_item_score_data->get_score();

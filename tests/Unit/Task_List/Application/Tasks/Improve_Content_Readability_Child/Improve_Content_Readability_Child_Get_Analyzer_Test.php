@@ -41,7 +41,7 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$this->assertSame( 'Readability', $array['title'] );
 		$this->assertSame( 'good', $array['result'] );
 		$this->assertSame( 'Good', $array['resultLabel'] );
-		$this->assertSame( 'This post\'s readability is looking good. Your content should be easy for readers to understand.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is clear and easy to read. This helps your audience stay engaged with your message.', $array['resultDescription'] );
 	}
 
 	/**
@@ -57,7 +57,7 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$this->assertSame( 'Readability', $array['title'] );
 		$this->assertSame( 'ok', $array['result'] );
 		$this->assertSame( 'OK', $array['resultLabel'] );
-		$this->assertSame( 'This post has some readability issues that could be improved to make it easier to read.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is readable but could be clearer. Consider simplifying a few sentences to improve the overall flow.', $array['resultDescription'] );
 	}
 
 	/**
@@ -73,6 +73,6 @@ final class Improve_Content_Readability_Child_Get_Analyzer_Test extends Abstract
 		$this->assertSame( 'Readability', $array['title'] );
 		$this->assertSame( 'bad', $array['result'] );
 		$this->assertSame( 'Needs improvement', $array['resultLabel'] );
-		$this->assertSame( 'This post has one or more readability issues that may make it harder for readers to understand.', $array['resultDescription'] );
+		$this->assertSame( 'Your content is currently difficult to read. Check the analysis for specific ways to simplify your writing for a better user experience.', $array['resultDescription'] );
 	}
 }
