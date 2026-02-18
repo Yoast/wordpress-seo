@@ -1,6 +1,6 @@
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { useMemo, useRef, useEffect } from "@wordpress/element";
+import { useMemo, useRef, useEffect, useCallback } from "@wordpress/element";
 import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
@@ -79,11 +79,18 @@ export const TaskModal = ( {
 		}
 	}, [ taskId ] );
 
+	const shouldRenderProgressBadge = useCallback( ( parentTaskCheck ) => {
+		if ( parentTaskCheck ) {
+			return totalTasks > 0;
+		}
+		return false;
+	}, [ totalTasks, completedTasks ] );
+
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
 		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
 			<Modal.Container>
 				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
-					{ parentTaskTitle &&
+					{ shouldRenderProgressBadge( parentTaskTitle ) &&
 					<TasksProgressBadge
 						completedTasks={ completedTasks }
 						totalTasks={ totalTasks }
@@ -99,7 +106,7 @@ export const TaskModal = ( {
 								{ title }
 							</Modal.Title>
 							<div className="yst-flex yst-gap-2 yst-items-center">
-								{ ! parentTaskTitle && <>
+								{ shouldRenderProgressBadge( ! parentTaskTitle ) && <>
 									<TasksProgressBadge
 										completedTasks={ completedTasks }
 										totalTasks={ totalTasks }
