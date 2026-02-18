@@ -42,7 +42,6 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
  * @typedef {Object} KeyphraseInSubheadingsResult
  * @property {number} count The number of subheadings.
  * @property {SubheadingsWithTopicResult} matches The subheadings that reflect the topic and the markings of the matches in those subheadings.
- * @property {number} percentReflectingTopic The percentage of subheadings reflecting the topic.
  * @property {number} textLength The length of the text that was analyzed in words or in characters depending on the configuration.
  */
 
@@ -295,8 +294,7 @@ const getTopLevelSubheadings = ( paper, tree ) =>{
  * @param {Paper}		paper      The paper object containing the text and keyword.
  * @param {Researcher}	researcher The researcher object.
  *
- * @returns {KeyphraseInSubheadingsResult} An object containing the number of subheadings,
- * the number of subheadings reflecting the topic, the percentage of subheadings reflecting the topic and an empty string.
+ * @returns {KeyphraseInSubheadingsResult} An object containing the number of subheadings, the subheadings that reflect the topic, and the length of the text that was analyzed.
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
@@ -337,7 +335,6 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	return {
 		count: subheadings.length,
 		matches: subheadingsWithKeyphrase,
-		percentReflectingTopic: subheadings.length ? subheadingsWithKeyphrase / subheadings.length * 100 : 0,
 		textLength: textLength,
 	};
 }
