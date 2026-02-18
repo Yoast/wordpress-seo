@@ -12,14 +12,19 @@ import AssessmentResult from "../../../values/AssessmentResult";
  */
 
 /**
- * Represents the assessment that checks if the keyphrase is present in one of the subheadings.
+ * Assessment to check whether the keyphrase or synonyms are included in a good number of top-level subheadings (H2 and H3).
+ *
+ * The assessment checks the number of top-level subheadings that include the keyphrase or synonyms and compares this to the total
+ * number of subheadings. The score is based on whether the number of matches is within a recommended range, which is
+ * determined by the lower and upper boundaries. If there are no matches, but the text is short enough, this will not
+ * lead to a bad score, as it is not always necessary to include the keyphrase in subheadings in short texts.
  */
 export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
-	 * Sets the identifier and the config.
+	 * Creates an instance of SubHeadingsKeywordAssessment.
 	 *
-	 * @param {object} config The configuration to use.
-	 *
+	 * @param {Object} config The configuration to use.
+	 * @constructor
 	 */
 	constructor( config = {} ) {
 		super();
@@ -80,12 +85,13 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the markings of the keyphrase matches in the subheadings.
-	 * @returns {Mark[]} The markings of the keyphrase matches in the subheadings.
+	 * Returns the Mark objects of the matched keyphrase in the top-level subheadings.
+	 * @returns {Mark[]} The Mark objects of the matched keyphrase in the top-level subheadings.
 	 */
 	getMarks() {
 		return this._subHeadingsResearchResult.matches.markings;
 	}
+
 	/**
 	 * Checks if there is language-specific config, and if so, overwrite the current config with it.
 	 *
@@ -159,7 +165,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines the score and the Result text for the case there are no subheadings.
+	 * Determines the score and the result text for when there are no subheadings.
 	 *
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
@@ -198,7 +204,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines the score and the Result text for the subheadings.
+	 * Determines the score and the result text for the subheadings.
 	 * @param {Paper} paper to use for the check.
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
@@ -219,7 +225,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			};
 		}
 
-		if ( ! this._subHeadingsResearchResult.subheadings ) {
+		if ( ! this._subHeadingsResearchResult.count ) {
 			return this.getResultForNoSubheadings();
 		}
 

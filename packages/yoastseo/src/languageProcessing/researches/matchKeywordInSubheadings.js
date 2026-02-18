@@ -3,9 +3,10 @@ import removeHtmlBlocks from "../helpers/html/htmlParser";
 import { filterShortcodesFromHTML } from "../helpers";
 import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
 import { flattenDeep, isEmpty } from "lodash";
-import { matchWordFormsInSentence } from "../helpers/match/matchWordFormsWithSentence";
+import matchWordFormsWithSentence from "../helpers/match/matchWordFormsWithSentence";
 import getMarkingsInSentence from "../helpers/highlighting/getMarkingsInSentence";
 import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
+import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 
 /**
  * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
@@ -19,7 +20,7 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 
 /**
  * @typedef {Object} SubheadingsWithTopicResult
- * @property {number} numberOfSubheadings The number or subheadings that reflect the topic.
+ * @property {number} numberOfSubheadings The number of subheadings that reflect the topic.
  * @property {Mark[]} markings The markings of the matches in the subheadings that reflect the topic.
  */
 
@@ -34,6 +35,7 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 
 /**
  * Checks if the keyphrase or its synonyms are found in the heading and returns the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
+ *
  * @param {TopicFormsResult} topicForms The object with word forms of all (content) words from the keyphrase and eventually synonyms.
  * @param {Heading|string} heading The heading node or string to match the word forms against.
  * @param {boolean} useSynonyms Whether to use synonyms as if it was keyphrase or not (depends on the assessment).
@@ -41,6 +43,8 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
  * @param {Node} tree The tree representation of the paper's content, used to find parent nodes of sentences in the heading.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
  * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
+ * @param {boolean} isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
+ *
  * @returns {{percentWordMatches: number, matches: Token[], keyphraseOrSynonym: string, sentencesWithTopicForms: Sentence[]}} Object containing the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  */
 const findTopicFormsInHeading = ( topicForms,
@@ -49,7 +53,8 @@ const findTopicFormsInHeading = ( topicForms,
 	locale,
 	tree,
 	matchWordCustomHelper,
-	customSplitIntoTokensHelper ) => {
+	customSplitIntoTokensHelper,
+	isExactMatchRequested ) => {
 	const sentences = [];
 	if ( typeof heading === "string" ) {
 		sentences.push( heading );
@@ -61,7 +66,7 @@ const findTopicFormsInHeading = ( topicForms,
 		sentences.push( ...headingSentences );
 	}
 	const sentencesWithTopicForms = [];
-	// First check if the keyword is found in the text
+	// First, check if the keyword is found in the text
 	const keyphraseForms = topicForms.keyphraseForms;
 	const synonymsForms = topicForms.synonymsForms;
 	// For each sentence in the heading, check how many words of the keyphrase are found in the sentence and save the matches.
@@ -69,8 +74,11 @@ const findTopicFormsInHeading = ( topicForms,
 	const keyphraseMatches = [];
 	let keyphraseMatchCount = 0;
 	sentences.forEach( ( sentence ) => {
-		const matchedKeyphrase = keyphraseForms.map( wordForms => matchWordFormsInSentence( sentence,
-			wordForms, locale, matchWordCustomHelper, false, customSplitIntoTokensHelper ) );
+		const matchedKeyphrase = keyphraseForms.map( wordForms => {
+			const sentenceToMatch = matchWordCustomHelper ? sentence.text : sentence;
+			// eslint-disable-next-line stylistic/max-len
+			return matchWordFormsWithSentence( sentenceToMatch, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper );
+		} );
 		const foundWords = matchedKeyphrase.reduce( ( count, { count: matchCount } ) => {
 			return matchCount > 0 ? count + 1 : count;
 		}, 0 );
@@ -101,8 +109,11 @@ const findTopicFormsInHeading = ( topicForms,
 		const synonymMatches = [];
 		let synonymMatchCount = 0;
 		sentences.forEach( ( sentence ) => {
-			const matchedSynonym = synonymForm.map( wordForms => matchWordFormsInSentence( sentence,
-				wordForms, locale, matchWordCustomHelper, false, customSplitIntoTokensHelper ) );
+			const matchedSynonym = synonymForm.map( wordForms =>{
+				const sentenceToMatch = matchWordCustomHelper ? sentence.text : sentence;
+				// eslint-disable-next-line stylistic/max-len
+				return matchWordFormsWithSentence( sentenceToMatch, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper );
+			} );
 			const foundWords = matchedSynonym.reduce( ( count, { count: matchCount } ) => {
 				return matchCount > 0 ? count + 1 : count;
 			}, 0 );
@@ -139,6 +150,38 @@ const findTopicFormsInHeading = ( topicForms,
 };
 
 /**
+ * Checks which sentences in the subheadings contain the matched topics and returns the markings of the matches in those sentences.
+ *
+ * @param {Sentence[]|string[]} sentences The sentences to check for the matched topics.
+ * @param {Token[]|string[]} matchedTopics The matched topics to check for in the sentences.
+ * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
+ *
+ * @returns {Mark[]} An array of markings of the matches in the sentences.
+ */
+const getMarkingsInSentences = ( sentences, matchedTopics, matchWordCustomHelper ) => {
+	const markings = sentences.map( sentence => {
+		if ( matchWordCustomHelper ) {
+			return markWordsInASentence( sentence.text, flattenDeep( matchedTopics ), matchWordCustomHelper );
+		}
+		// Don't get the marking for the sentence if the matched topics are not found in this sentence.
+		const sentencePosition = sentence.sourceCodeRange;
+		const sentenceStartOffset = sentencePosition.startOffset;
+		const sentenceEndOffset = sentencePosition.endOffset;
+		// Filter the matched topics to only include those that are found in the current sentence based on their position in the source code.
+		const matchedTopicsInSentence = flattenDeep( matchedTopics ).filter( matchedTopic => {
+			const matchedTopicPosition = matchedTopic.sourceCodeRange;
+			return matchedTopicPosition.startOffset >= sentenceStartOffset && matchedTopicPosition.endOffset <= sentenceEndOffset;
+		} );
+		if ( matchedTopicsInSentence.length === 0 ) {
+			return null;
+		}
+		return getMarkingsInSentence( sentence, matchedTopicsInSentence );
+	} ).filter( Boolean );
+
+	return flattenDeep( markings );
+};
+
+/**
  * Checks which subheadings reflect the topic of the paper by matching the keyphrase and its synonyms against the subheadings
  * and returns the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  *
@@ -150,6 +193,7 @@ const findTopicFormsInHeading = ( topicForms,
  * @param {Node}		tree            The tree representation of the paper's content, used to find parent nodes of sentences in the subheadings.
  * @param {Function}	matchWordCustomHelper   The language-specific helper function to match word in text.
  * @param {Function}	customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
+ * @param {boolean}	isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
  *
  * @returns {SubheadingsWithTopicResult} An object containing the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  */
@@ -160,10 +204,12 @@ const getSubheadingsReflectingTopic = ( topicForms,
 	functionWords,
 	tree,
 	matchWordCustomHelper,
-	customSplitIntoTokensHelper ) => {
+	customSplitIntoTokensHelper,
+	isExactMatchRequested ) => {
 	const subheadingsWithTopics = [];
 	const allMatchedTopics = [];
 	const sentencesWithTopicForms = [];
+
 	subheadings.forEach( subheading => {
 		const matchedTopicForms = findTopicFormsInHeading( topicForms,
 			subheading,
@@ -171,7 +217,8 @@ const getSubheadingsReflectingTopic = ( topicForms,
 			locale,
 			tree,
 			matchWordCustomHelper,
-			customSplitIntoTokensHelper
+			customSplitIntoTokensHelper,
+			isExactMatchRequested
 		);
 
 		if ( ( functionWords.length === 0 && matchedTopicForms.percentWordMatches === 100 ) ||
@@ -183,15 +230,11 @@ const getSubheadingsReflectingTopic = ( topicForms,
 		}
 	} );
 
-	const markings = sentencesWithTopicForms.map( sentence => {
-		if ( matchWordCustomHelper ) {
-			return markWordsInASentence( sentence, flattenDeep( allMatchedTopics ), matchWordCustomHelper );
-		}
-		return getMarkingsInSentence( sentence, flattenDeep( allMatchedTopics ) );
-	} );
+	const markings = getMarkingsInSentences( sentencesWithTopicForms, allMatchedTopics, matchWordCustomHelper );
+
 	return {
 		numberOfSubheadings: subheadingsWithTopics.length,
-		markings: flattenDeep( markings ),
+		markings,
 	};
 };
 
@@ -236,6 +279,8 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const tree = paper.getTree();
+	// Exact matching is requested when the keyphrase is enclosed in double quotes.
+	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
 	const useSynonyms = true;
 	const subheadings = getTopLevelSubheadings( paper, tree );
@@ -246,7 +291,8 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 		functionWords,
 		tree,
 		matchWordCustomHelper,
-		customSplitIntoTokensHelper
+		customSplitIntoTokensHelper,
+		isExactMatchRequested
 	);
 
 	/* @type {KeyphraseInSubheadingsResult} */
