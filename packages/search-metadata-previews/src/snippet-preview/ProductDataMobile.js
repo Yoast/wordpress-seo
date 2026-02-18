@@ -41,7 +41,7 @@ function ProductDataMobile( props ) {
 
 	return (
 		<ProductData>
-			{ ( rating > 0 && rating <= bestRating  && reviewCount > 0 ) &&
+			{ ( rating > 0 && rating <= bestRating && reviewCount > 0 ) &&
 				<ProductDataCell50 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
