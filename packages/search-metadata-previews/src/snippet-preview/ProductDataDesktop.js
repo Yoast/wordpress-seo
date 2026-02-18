@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { __, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { round, capitalize } from "lodash";
 import { StarRating } from "@yoast/components";
 import { DEFAULT_BEST_RATING } from "./constants";
@@ -26,7 +26,9 @@ function ProductDataDesktop( props ) {
 	const ratingPart = sprintf( __( "Rating: %s", "wordpress-seo" ), round( rating, 1 ) + ( bestRating === DEFAULT_BEST_RATING ? "" : `/${bestRating}` ) );
 
 	/* Translators: %s expands to the review count. */
-	const reviewPart = sprintf( __( "%s reviews", "wordpress-seo" ), reviewCount );
+	const reviewPart = sprintf( _n( "%s review", "%s reviews", reviewCount, "wordpress-seo" ), reviewCount );
+
+	const hasPriceOrAvailability = Boolean( price ) || Boolean( availability );
 
 	return (
 		<ProductData>
@@ -34,7 +36,7 @@ function ProductDataDesktop( props ) {
 				<Fragment>
 					<StarRating rating={ rating / bestRating * DEFAULT_BEST_RATING } />
 					<span> { ratingPart } · </span>
-					<span>{ reviewPart } · </span>
+					<span>{ reviewPart }{ hasPriceOrAvailability ? " · " : "" }</span>
 				</Fragment>
 			}
 			{ price &&
