@@ -48,15 +48,12 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 /**
  * Extracts sentences from a heading, setting parent attributes if needed.
  *
- * @param {Heading|string} heading The heading node or string.
+ * @param {Heading} heading The heading node.
  * @param {Node} tree The tree representation of the paper's content.
  *
  * @returns {Sentence[]|string[]} An array of sentences from the heading.
  */
 const getSentencesFromHeading = ( heading, tree ) => {
-	if ( typeof heading === "string" ) {
-		return [ heading ];
-	}
 	return heading.sentences.map( sentence => {
 		sentence.setParentAttributes( heading, tree );
 		return sentence;
@@ -143,13 +140,13 @@ const getBestSynonymMatch = ( synonymResults, keyphraseResult ) => {
  * that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  *
  * @param {TopicFormsResult} topicForms The object with word forms of all (content) words from the keyphrase and eventually synonyms.
- * @param {Heading|string} heading The heading node or string to match the word forms against.
+ * @param {Heading}	heading	The heading node to match the word forms against.
  * @param {boolean} useSynonyms Whether to use synonyms as if it was keyphrase or not (depends on the assessment).
  * @param {string} locale The locale of the paper.
  * @param {Node} tree The tree representation of the paper's content, used to find parent nodes of sentences in the heading.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
  * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
- * @param {boolean} isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
+ * @param {boolean}	isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
  *
  * @returns {TopicFormsInSubheadingsResult} An object containing the percentage of matched words, the matches and the sentences with matched topic forms in the heading.
  */
@@ -222,15 +219,15 @@ const getMarkingsInSentences = ( sentences, matchedTopics, matchWordCustomHelper
  * Checks which subheadings reflect the topic of the paper by matching the keyphrase and its synonyms against the subheadings
  * and returns the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  *
- * @param {TopicFormsResult}		topicForms      The main key phrase and its synonyms to check.
- * @param {Heading[]|string[]}		subheadings     The subheadings to check.
+ * @param {TopicFormsResult}	topicForms      The main key phrase and its synonyms to check.
+ * @param {Heading[]}	subheadings     The subheadings to check.
  * @param {boolean}		useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}		locale          The current locale.
  * @param {string[]}	functionWords	The function words list.
  * @param {Node}		tree            The tree representation of the paper's content, used to find parent nodes of sentences in the subheadings.
- * @param {Function}	matchWordCustomHelper   The language-specific helper function to match word in text.
+ * @param {Function}	matchWordCustomHelper   	The language-specific helper function to match word in text.
  * @param {Function}	customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
- * @param {boolean}	isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
+ * @param {boolean}		isExactMatchRequested 		Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
  *
  * @returns {SubheadingsWithTopicResult} An object containing the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  */
