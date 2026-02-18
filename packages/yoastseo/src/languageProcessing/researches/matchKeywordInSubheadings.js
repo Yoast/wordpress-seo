@@ -259,7 +259,7 @@ const getSubheadingsReflectingTopic = ( topicForms,
 		);
 
 		if ( ( functionWords.length === 0 && matchedTopicForms.percentWordMatches === 100 ) ||
-			matchedTopicForms.percentWordMatches > 50
+			( functionWords.length > 0 && matchedTopicForms.percentWordMatches > 50 )
 		) {
 			subheadingsWithTopics.push( subheading );
 			allMatchedTopics.push( ...matchedTopicForms.matches );
