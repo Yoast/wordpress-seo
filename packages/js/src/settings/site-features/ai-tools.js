@@ -36,7 +36,7 @@ export const aiToolsFeatures = {
 		isPremiumFeature: false,
 		title: __( "Schema aggregation endpoint", "wordpress-seo" ),
 		description: __( "Provides everything required to connect with your site's public structured data. This enables conversational interfaces like NLWeb to power natural language queries on your content.", "wordpress-seo" ),
-		learnMoreUrl: "https://yoa.st/site-features-schema-aggregation-endpoint-learn-more",
+		learnMoreUrl: "https://yoa.st/schema-aggregation-toggle",
 		learnMoreLinkId: "link-schema-aggregation-endpoint",
 		learnMoreLinkAriaLabel: __( "Schema aggregation endpoint", "wordpress-seo" ),
 	},
