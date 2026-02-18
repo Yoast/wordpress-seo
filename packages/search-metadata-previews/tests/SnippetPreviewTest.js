@@ -98,7 +98,7 @@ const positiveEdgeCases = [
 	{
 		description: "reviewCount is 1",
 		shoppingData: { rating: 4.5, reviewCount: 1 },
-		desktopMatcher: [ "Rating: 4.5", "1 reviews" ],
+		desktopMatcher: [ "Rating: 4.5", "1 review" ],
 		mobileMatcher: [ "Rating", "(1)" ],
 	},
 ];
