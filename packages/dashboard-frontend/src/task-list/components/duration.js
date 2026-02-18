@@ -77,7 +77,7 @@ export const Duration = ( { minutes, isLoading = false, isCompleted } ) => {
 
 	return <span
 		className={ classNames(
-			"yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center",
+			"yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center",
 			{ "yst-opacity-50": isCompleted }
 		) }
 	>

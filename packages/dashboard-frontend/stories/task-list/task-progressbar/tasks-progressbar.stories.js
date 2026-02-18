@@ -28,12 +28,24 @@ export default {
 			description: "Additional class names for the wrapper.",
 			control: "text",
 		},
+		label: {
+			description: "Label for the progress bar.",
+			control: "text",
+		},
+		size: {
+			description: "The size of the progress bar, e.g. 'small', 'medium'.",
+			control: {
+				type: "select",
+			},
+			options: [ "small", "medium" ],
+		},
 	},
 	args: {
 		completedTasks: 3,
 		totalTasks: 10,
 		isLoading: false,
 		className: "yst-max-w-screen-sm",
+		label: "Tasks Progress",
 	},
 };
 

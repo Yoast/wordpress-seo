@@ -2,6 +2,7 @@ import { Badge, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { useCallback } from "@wordpress/element";
+import classNames from "classnames";
 
 /**
  * Converts polar coordinates to Cartesian coordinates.
@@ -39,7 +40,7 @@ const ProgressPie = ( {
 	const strokeWidth = 1.5;
 	const borderColor = "#16A34A";
 	const fillColor = "#86EFAC";
-	const progress = totalValue > 0 ? Math.min( 1, Math.max( 0, completedValue / totalValue ) ) : 0;
+	const progress = ! isNaN( completedValue ) && totalValue > 0 ? Math.min( 1, Math.max( 0, completedValue / totalValue ) ) : 0;
 	const svgAriaProps = useSvgAria();
 	const cx = svgSize / 2;
 	const cy = svgSize / 2;
@@ -80,6 +81,7 @@ const ProgressPie = ( {
 			height={ svgSize }
 			viewBox={ `0 0 ${svgSize} ${svgSize}` }
 			fill="none"
+			className="yst-shrink-0"
 			{ ...svgAriaProps }
 		>
 			{ /* Track */ }
@@ -126,13 +128,13 @@ const ProgressPie = ( {
  * @param {number} completedTasks Number of completed tasks, should be less than or equal to totalTasks.
  * @param {number} totalTasks Total number of tasks.
  * @param {boolean} [isLoading=false] Whether the tasks are loading.
+ * @param {Function} [onClick] Click handler for the badge.
+ * @param {string} [parentTaskId] ID of the parent task.
+ * @param {string} [className] Additional class names for the badge.
+ *
  * @returns {JSX.Element} The TasksProgressBadge component.
  */
-export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId } ) => {
-	// If totalTasks and completedTasks are not numbers, bail out.
-	if ( isNaN( totalTasks ) || isNaN( completedTasks ) ) {
-		return null;
-	}
+export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId, className } ) => {
 	const screenReaderText = sprintf(
 		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
 		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
@@ -147,9 +149,9 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 		}
 	}, [ onClick, parentTaskId ] );
 
-	return <button onClick={ handleClick } disabled={ ! parentTaskId }>
-		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6">
-			<span className="yst-flex yst-gap-1 yst-justify-between yst-items-center yst-leading-4">
+	return <button onClick={ handleClick } disabled={ ! parentTaskId } className={ classNames( "yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate", className ) }>
+		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full">
+			<span className="yst-flex yst-gap-1 yst-items-center yst-leading-4">
 				{ ! isLoading && completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
 				{ ! isLoading && completedTasks < totalTasks && <ProgressPie completedValue={ completedTasks } totalValue={ totalTasks } /> }
 				{ isLoading ? <>
@@ -157,10 +159,10 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 					<SkeletonLoader className="yst-h-3 yst-w-7" />
 				</>
 					: <>
-						<span className="yst-text-xs">
-							<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span><span className="yst-text-slate-500 yst-font-normal">/{ totalTasks }</span>
+						<span className="yst-text-xs yst-flex yst-gap-0.5">
+							<span className="yst-text-slate-600 yst-font-medium">{ completedTasks }</span>/<span className="yst-text-slate-500 yst-font-normal">{ totalTasks }</span>
 						</span>
-						{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900"> { label } </span> }
+						{ label && <span className="yst-text-xs yst-font-medium yst-text-slate-900 yst-truncate yst-max-w-64 sm:yst-max-w-full"> { label } </span> }
 					</> }
 			</span>
 			<span className="yst-sr-only">

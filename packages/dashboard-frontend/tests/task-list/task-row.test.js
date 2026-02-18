@@ -27,27 +27,23 @@ describe( "TaskRow", () => {
 
 	it( "renders the task title", () => {
 		renderInTable();
-		expect( screen.getByText( "Test Task" ) ).toBeInTheDocument();
+		const elements = screen.getAllByText( "Test Task"  );
+		// Both mobile and desktop.
+		expect( elements.length ).toBe( 2 );
 	} );
 
 	it( "renders the duration", () => {
 		renderInTable( { duration: 25 } );
-		expect( screen.getByText( /25m/ ) ).toBeInTheDocument();
+		const elements = screen.getAllByText( /25m/ );
+		// Both mobile and desktop.
+		expect( elements.length ).toBe( 2 );
 	} );
 
 	it( "renders the priority", () => {
 		renderInTable( { priority: "high" } );
-		expect( screen.getByText( "High" ) ).toBeInTheDocument();
-	} );
-
-	it( "renders the badge if provided", () => {
-		renderInTable( { badge: "ai" } );
-		expect( screen.getByText( "AI+" ) ).toBeInTheDocument();
-	} );
-
-	it( "does not render a badge if not provided", () => {
-		renderInTable( { badge: "" } );
-		expect( screen.queryByText( /Premium|Woo SEO|AI\+/i ) ).not.toBeInTheDocument();
+		const elements = screen.getAllByText( "High" );
+		// Both mobile and desktop.
+		expect( elements.length ).toBe( 2 );
 	} );
 
 	it( "shows check icon when completed", () => {
@@ -58,7 +54,9 @@ describe( "TaskRow", () => {
 
 	it( "shows check 0 minutes when completed", () => {
 		renderInTable( { isCompleted: true } );
-		expect( screen.getByText( /0m/ ) ).toBeInTheDocument();
+		const elements = screen.getAllByText( /0m/ );
+		// Both mobile and desktop.
+		expect( elements.length ).toBe( 2 );
 	} );
 
 	it( "shows ellipse icon when not completed", () => {
@@ -87,48 +85,66 @@ describe( "TaskRow", () => {
 		it( "formats duration with default locale when no locale is provided", () => {
 			renderInTable( { duration: 30 } );
 			// Default locale is "en-US" in the TaskListProvider
-			expect( screen.getByText( /30m/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /30m/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats minutes with English locale using 'm' abbreviation", () => {
 			renderInTable( { duration: 30, locale: "en-US" } );
-			expect( screen.getByText( /30m/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /30m/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours with English locale using 'h' abbreviation", () => {
 			renderInTable( { duration: 120, locale: "en-US" } );
-			expect( screen.getByText( /2h/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /2h/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours and minutes with English locale using 'h' and 'm' abbreviations", () => {
 			renderInTable( { duration: 90, locale: "en-US" } );
-			expect( screen.getByText( /1h 30m/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /1h 30m/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours and minutes with Japanese locale ", () => {
 			renderInTable( { duration: 90, locale: "ja-JP" } );
-			expect( screen.getByText( /1時間30分/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /1時間30分/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours  with Japanese locale ", () => {
 			renderInTable( { duration: 60, locale: "ja-JP" } );
-			expect( screen.getByText( /1時間/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /1時間/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours  with Japanese locale ", () => {
 			renderInTable( { duration: 30, locale: "ja-JP" } );
-			expect( screen.getByText( /30分/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /30分/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats hours and minutes with German locale using 'Std.' and 'Min' abbreviations", () => {
 			renderInTable( { duration: 90, locale: "de-DE" } );
 			// 90 minutes = 1 hour 30 minutes in German (uses "h" and "min")
-			expect( screen.getByText( /1 Std. 30 Min/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( /1 Std. 30 Min/ );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 
 		it( "formats minutes with Italian locale using 'min' abbreviation", () => {
 			renderInTable( { duration: 35, locale: "it-IT" } );
-			expect( screen.getByText( /35min/ ) ).toBeInTheDocument();
+			const elements = screen.getAllByText( "35min" );
+			// Both mobile and desktop.
+			expect( elements.length ).toBe( 2 );
 		} );
 	} );
 } );

@@ -1,46 +1,71 @@
-import { ProgressBar, SkeletonLoader, Title } from "@yoast/ui-library";
+import { ProgressBar, SkeletonLoader, Label } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
+import classNames from "classnames";
+
+const sizeClassNames = {
+	small: {
+		label: "yst-text-sm",
+		count: "yst-text-xs",
+	},
+	medium: {
+		label: "yst-text-lg",
+		count: "yst-text-tiny",
+	},
+};
+
+
+/**
+ * The task progressbar Label component to display label.
+ *
+ * @param {string} label The label for the progress bar.
+ * @param {JSX.Element} children Optional children to display next to the label, e.g. a badge.
+ * @param {string} [size] The size of the progress bar label, e.g. 'small', 'medium', 'large'.
+ *
+ * @returns {JSX.Element} The TasksProgressBarLabel component.
+ */
+export const TasksProgressBarLabel = ( { label, children, size = "medium" } ) => (
+	<div className="yst-flex yst-gap-1 yst-mb-2 yst-items-center">
+		<Label className={ classNames( "yst-font-medium yst-text-slate-900", sizeClassNames[ size ]?.label ) }>
+			{ label }
+		</Label>
+		{ children }
+	</div>
+);
 
 /**
  * The LoadingProgressBar component to display a loading state for the progress bar.
+ * @param {string} [className] Additional class names for the wrapper.
+ * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium'.
  *
  * @returns {JSX.Element} The LoadingProgressBar component.
  */
-const LoadingProgressBar = () => (
-	<>
+const LoadingProgressBar = ( { className, label, size } ) => (
+	<div className={ className }>
+		<TasksProgressBarLabel label={ label } size={ size }>
+			<SkeletonLoader className="yst-w-9 yst-h-5" />
+		</TasksProgressBarLabel>
 		<SkeletonLoader className="yst-w-full yst-h-1.5" />
-		<SkeletonLoader className="yst-w-9 yst-h-5" />
-	</>
+	</div>
 );
 
 /**
  * Component displaying an error state for the progress bar.
  *
+ * @param {string} [className] Additional class names for the wrapper.
+ * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium'.
+ *
  * @returns {JSX.Element} The ErrorProgressBar component.
  */
-const ErrorProgressBar = () => (
-	<>
-		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
-		<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
-	</>
-);
-
-/**
- * Wrapper component for the progress bar with title.
- *
- * @param {JSX.Element} children Child elements.
- * @param {string} [className] Additional class names for the wrapper.
- * @returns {JSX.Element} The ProgressBarWrapper component.
- */
-const ProgressBarWrapper = ( { children, className } ) => (
+const ErrorProgressBar = ( { className, label, size } ) => (
 	<div className={ className }>
-		<Title as="h2" className="yst-text-lg yst-font-medium yst-text-slate-900 yst-mb-2">{ __( "Tasks", "wordpress-seo" ) }</Title>
-		<div className="yst-flex yst-gap-3 yst-items-center">
-			{ children }
-		</div>
+		<TasksProgressBarLabel label={ label } size={ size }>
+			<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
+		</TasksProgressBarLabel>
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
 	</div>
 );
-
 
 /**
  * Component displaying a progress bar for tasks.
@@ -49,19 +74,17 @@ const ProgressBarWrapper = ( { children, className } ) => (
  * @param {number} totalTasks Total number of tasks.
  * @param {boolean} isLoading Whether the tasks are loading.
  * @param {string} [className] Additional class names for the wrapper.
+ * @param {string} label The label for the progress bar.
+ * @param {string} [size] The size of the progress bar, e.g. 'small', 'medium', 'large'.
  * @returns {JSX.Element} The TasksProgressBar component.
  */
-export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className } ) => {
+export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, className, label, size = "medium" } ) => {
 	if ( isLoading ) {
-		return <ProgressBarWrapper className={ className }>
-			<LoadingProgressBar />
-		</ProgressBarWrapper>;
+		return <LoadingProgressBar className={ className } label={ label } size={ size } />;
 	}
 
 	if ( ! totalTasks || completedTasks > totalTasks ) {
-		return <ProgressBarWrapper className={ className }>
-			<ErrorProgressBar />
-		</ProgressBarWrapper>;
+		return <ErrorProgressBar className={ className } label={ label } size={ size } />;
 	}
 
 	const screenReaderText = sprintf(
@@ -72,9 +95,13 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 	);
 
 	return (
-		<ProgressBarWrapper className={ className }>
+		<div className={ className }>
+			<TasksProgressBarLabel label={ label } size={ size }>
+				<span className={ classNames( "yst-font-medium yst-flex yst-gap-0.5", sizeClassNames[ size ]?.count ) }>
+					<span className="yst-text-slate-600">{ completedTasks }</span>/<span className="yst-text-slate-500">{ totalTasks }</span>
+				</span>
+			</TasksProgressBarLabel>
 			<ProgressBar
-				label={ __( "Tasks Progress", "wordpress-seo" ) }
 				progress={ completedTasks }
 				min={ 0 }
 				max={ totalTasks }
@@ -82,9 +109,6 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 				progressClassName="yst-bg-green-500"
 			/>
 			<span className="yst-sr-only">{ screenReaderText }</span>
-			<span className="yst-text-tiny yst-font-medium yst-leading-5">
-				<span className="yst-text-slate-600">{ completedTasks }</span><span className="yst-text-slate-500">/{ totalTasks }</span>
-			</span>
-		</ProgressBarWrapper>
+		</div>
 	);
 };

@@ -72,6 +72,6 @@ export const TaskListModal = () => {
 		parentTaskTitle={ parentTaskTitle }
 		onProgressBadgeClick={ setCurrentOpenTaskId }
 	>
-		{ ! isEmpty( childTasks ) && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTaskId } /> }
+		{ currentOpenTask.isParentTask && <ChildTasks tasks={ childTasks } singleTaskOnClick={ setCurrentOpenTaskId } /> }
 	</TaskModal>;
 };

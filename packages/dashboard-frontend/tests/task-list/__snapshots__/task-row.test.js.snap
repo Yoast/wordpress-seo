@@ -20,17 +20,17 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             Task
           </th>
           <th
-            class="yst-table-header yst-max-w-36"
+            class="yst-table-header yst-max-w-36 yst-hidden sm:yst-table-cell sm:yst-bg-slate-50"
           >
             Priority
           </th>
           <th
-            class="yst-table-header yst-max-w-36"
+            class="yst-table-header yst-max-w-36 yst-hidden sm:yst-table-cell sm:yst-bg-slate-50"
           >
             Est. duration
           </th>
           <th
-            class="yst-table-header yst-max-w-44"
+            class="yst-table-header yst-max-w-44 yst-hidden sm:yst-table-cell sm:yst-bg-slate-50"
           >
             Progress
           </th>
@@ -78,12 +78,97 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
                 class="yst-skeleton-loader yst-h-[18px] yst-w-60"
               />
             </div>
+            <div
+              class="yst-mt-2 yst-gap-2 yst-flex sm:yst-hidden"
+            >
+              <button
+                class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
+                disabled=""
+              >
+                <span
+                  class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
+                >
+                  <span
+                    class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
+                  >
+                    <span
+                      class="yst-skeleton-loader yst-h-3 yst-w-3 yst-mx-0.5"
+                    />
+                    <span
+                      class="yst-skeleton-loader yst-h-3 yst-w-7"
+                    />
+                  </span>
+                  <span
+                    class="yst-sr-only"
+                  >
+                     %1$d out of %2$d tasks completed
+                  </span>
+                </span>
+              </button>
+              <span
+                aria-hidden="true"
+              >
+                ·
+              </span>
+              <span
+                class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-w-4 yst-text-slate-400"
+                  fill="none"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 8h16M4 16h16"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span
+                  class="yst-skeleton-loader yst-w-11 yst-h-[18px]"
+                />
+              </span>
+              <span
+                aria-hidden="true"
+              >
+                ·
+              </span>
+               
+              <span
+                class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="yst-w-4 yst-text-slate-400"
+                  fill="none"
+                  role="img"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span
+                  class="yst-skeleton-loader yst-w-8 yst-h-[18px] yst-ms-0.5"
+                />
+              </span>
+            </div>
           </td>
           <td
-            class="yst-table-cell"
+            class="yst-table-cell yst-hidden sm:yst-table-cell"
           >
             <span
-              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-0.5 yst-items-center"
+              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
             >
               <svg
                 aria-hidden="true"
@@ -107,10 +192,10 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             </span>
           </td>
           <td
-            class="yst-table-cell"
+            class="yst-table-cell yst-hidden sm:yst-table-cell"
           >
             <span
-              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1"
+              class="yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center"
             >
               <svg
                 aria-hidden="true"
@@ -134,11 +219,35 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             </span>
           </td>
           <td
-            class="yst-table-cell"
+            class="yst-table-cell yst-hidden sm:yst-table-cell"
           >
             <div
               class="yst-flex yst-justify-between"
             >
+              <button
+                class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
+                disabled=""
+              >
+                <span
+                  class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
+                >
+                  <span
+                    class="yst-flex yst-gap-1 yst-items-center yst-leading-4"
+                  >
+                    <span
+                      class="yst-skeleton-loader yst-h-3 yst-w-3 yst-mx-0.5"
+                    />
+                    <span
+                      class="yst-skeleton-loader yst-h-3 yst-w-7"
+                    />
+                  </span>
+                  <span
+                    class="yst-sr-only"
+                  >
+                     %1$d out of %2$d tasks completed
+                  </span>
+                </span>
+              </button>
               <svg
                 aria-hidden="true"
                 class="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"

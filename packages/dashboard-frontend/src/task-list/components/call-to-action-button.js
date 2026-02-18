@@ -71,6 +71,10 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, disabl
 		}
 	}, [ onClick, taskId ] );
 
+	if ( ! type ) {
+		return null;
+	}
+
 	const buttonProps = getButtonProps( type, handleOnClick, href, taskId, disabled, isLoading );
 
 	if ( type === "add" ) {

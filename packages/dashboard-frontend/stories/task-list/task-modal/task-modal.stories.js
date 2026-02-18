@@ -176,6 +176,17 @@ export const WithChildTasks = {
 	},
 };
 
+export const ParentTaskWithoutChildTasks = {
+	render: ( args ) => <Template { ...args }>
+		<ChildTasks tasks={ args.childTasks } />
+	</Template>,
+	args: {
+		isParentTask: true,
+		callToAction: {},
+		childTasks: [],
+	},
+};
+
 export const ChildTask = {
 	render: ( args ) => <Template { ...args } />,
 	args: {

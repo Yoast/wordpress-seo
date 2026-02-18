@@ -1,6 +1,6 @@
 import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { useMemo, useRef, useEffect } from "@wordpress/element";
+import { useMemo, useRef, useEffect, useCallback } from "@wordpress/element";
 import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
@@ -22,14 +22,7 @@ import { TaskAnalyzer } from "./task-analyzer";
  */
 
 /**
-* The type analyzer.
- *
- * @typedef {Object} Analyzer
- * @property {string} title The title for the analyzer.
- * @property {string} type The variant of the analyzer.
- * @property {string} result The result of the analyzer.
- * @property {string} resultLabel The label for the result of the analyzer.
- * @property {string} resultDescription The description of the analyzer.
+ * @typedef {import('../../store/task-list').Analyzer} Analyzer
  */
 
 /**
@@ -86,31 +79,46 @@ export const TaskModal = ( {
 		}
 	}, [ taskId ] );
 
+	const shouldRenderProgressBadge = useCallback( ( parentTaskCheck ) => {
+		if ( parentTaskCheck ) {
+			return totalTasks > 0;
+		}
+		return false;
+	}, [ totalTasks, completedTasks ] );
+
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
-		<Modal.Panel className="yst-p-0" hasCloseButton={ false }>
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
 			<Modal.Container>
-				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
-					<div>
-						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
-							{ title }
-						</Modal.Title>
-						<div className="yst-flex yst-gap-1 yst-items-center">
-							{ totalTasks > 0 && <>
-								<TasksProgressBadge
-									completedTasks={ completedTasks }
-									totalTasks={ totalTasks }
-									label={ parentTaskTitle }
-									onClick={ onProgressBadgeClick }
-									parentTaskId={ parentTaskId }
-								/>
-								<span aria-hidden="true">·</span>
-							</> }
-							<Priority level={ priority } isCompleted={ isCompleted } />
-							<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
+				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
+					{ shouldRenderProgressBadge( parentTaskTitle ) &&
+					<TasksProgressBadge
+						completedTasks={ completedTasks }
+						totalTasks={ totalTasks }
+						label={ parentTaskTitle }
+						onClick={ onProgressBadgeClick }
+						parentTaskId={ parentTaskId }
+						className="yst-mb-2"
+					/> }
+					<div className="yst-flex yst-gap-3 yst-items-start yst-justify-between">
+						<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
+						<div className="yst-flex-grow">
+							<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
+								{ title }
+							</Modal.Title>
+							<div className="yst-flex yst-gap-2 yst-items-center">
+								{ shouldRenderProgressBadge( ! parentTaskTitle ) && <>
+									<TasksProgressBadge
+										completedTasks={ completedTasks }
+										totalTasks={ totalTasks }
+									/>
+									<span aria-hidden="true">·</span>
+								</> }
+								<Priority level={ priority } isCompleted={ isCompleted } />
+								<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
+							</div>
 						</div>
+						<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 					</div>
-					<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-py-6 yst-px-12">
 					{ isError && <Alert
@@ -138,13 +146,11 @@ export const TaskModal = ( {
 
 					{ children }
 				</Modal.Container.Content>
-				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
+				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-3 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					{ callToAction?.type &&
-						<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
-					}
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

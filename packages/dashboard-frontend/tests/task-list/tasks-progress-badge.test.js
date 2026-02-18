@@ -11,19 +11,22 @@ describe( "TasksProgressBadge", () => {
 	it( "renders the task count", () => {
 		render( <TasksProgressBadge completedTasks={ 3 } totalTasks={ 10 } /> );
 		expect( screen.getByText( "3" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/10" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( screen.getByText( "10" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows 0 completed tasks correctly", () => {
 		render( <TasksProgressBadge completedTasks={ 0 } totalTasks={ 5 } /> );
 		expect( screen.getByText( "0" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( screen.getByText( "5" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows all tasks completed correctly", () => {
 		render( <TasksProgressBadge completedTasks={ 5 } totalTasks={ 5 } /> );
-		expect( screen.getByText( "5" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		const taskCount = screen.getAllByText( "5" );
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( taskCount.length ).toBe( 2 );
 	} );
 
 	it( "includes screen reader text for progress", () => {
