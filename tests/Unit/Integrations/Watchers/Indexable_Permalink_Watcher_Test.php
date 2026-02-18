@@ -71,7 +71,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 			[
 				'wp_next_scheduled' => false,
 				'wp_schedule_event' => false,
-			]
+			],
 		);
 
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
@@ -93,7 +93,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Permalink_Watcher::get_conditionals()
+			Indexable_Permalink_Watcher::get_conditionals(),
 		);
 	}
 
@@ -450,7 +450,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'book-category',
 					'book-genre'    => 'book-genre',
-				]
+				],
 			);
 
 		$this->options
@@ -461,7 +461,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'yoast-book-category',
 					'book-genre'    => 'yoast-test-book-genre',
-				]
+				],
 			);
 
 		$this->taxonomy_helper
@@ -480,7 +480,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'yoast-test-book-category',
 					'book-genre'    => 'yoast-test-book-genre',
-				]
+				],
 			);
 
 		$this->instance->reset_altered_custom_taxonomies();
@@ -501,7 +501,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'book-category',
 					'book-genre'    => 'book-genre',
-				]
+				],
 			);
 
 		$this->options
@@ -512,7 +512,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'yoast-test-book-category',
 					'book-genre'    => 'yoast-test-book-genre',
-				]
+				],
 			);
 
 		$this->taxonomy_helper
@@ -531,7 +531,7 @@ final class Indexable_Permalink_Watcher_Test extends TestCase {
 				[
 					'book-category' => 'yoast-test-book-category',
 					'book-genre'    => 'yoast-test-book-genre',
-				]
+				],
 			);
 
 		$this->instance->reset_altered_custom_taxonomies();

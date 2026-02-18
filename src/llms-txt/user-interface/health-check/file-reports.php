@@ -68,7 +68,7 @@ class File_Reports {
 					'<p>',
 					'</p>',
 					'<p>',
-					'</p>'
+					'</p>',
 				);
 				break;
 			case 'filesystem_permissions':
@@ -79,7 +79,7 @@ class File_Reports {
 					'<p>',
 					'</p>',
 					'<p>',
-					'</p>'
+					'</p>',
 				);
 				break;
 			default:

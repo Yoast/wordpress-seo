@@ -156,8 +156,8 @@ class Token_Manager implements Token_Manager_Interface {
 				new Request(
 					'/token/invalidate',
 					$request_body,
-					$request_headers
-				)
+					$request_headers,
+				),
 			);
 		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
 			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side.

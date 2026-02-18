@@ -151,7 +151,7 @@ final class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 		$this->mock_instance = Mockery::mock(
 			Aioseo_General_Settings_Importing_Action_Double::class,
-			[ $this->import_cursor, $this->options, $this->sanitization, $this->image, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->image, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 		$this->mock_instance->set_import_helper( $this->import_helper );
 	}

@@ -104,13 +104,13 @@ final class Open_Graph_Image_Generator_Test extends TestCase {
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->open_graph_image = Mockery::mock(
 			Open_Graph_Image_Helper::class,
-			[ $this->url, $this->image ]
+			[ $this->url, $this->image ],
 		);
 		$this->image_container  = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Open_Graph_Image_Generator::class,
-			[ $this->open_graph_image, $this->image, $this->options, $this->url ]
+			[ $this->open_graph_image, $this->image, $this->options, $this->url ],
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance
@@ -235,7 +235,7 @@ final class Open_Graph_Image_Generator_Test extends TestCase {
 				'height' => 1024,
 				'width'  => 2048,
 				'url'    => 'image.jpg',
-			]
+			],
 		);
 
 		$this->instance->expects( 'add_from_templates' )->andReturnNull();

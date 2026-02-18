@@ -121,6 +121,6 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	 */
 	protected function redirect_to_dashboard() {
 		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-		exit;
+		exit();
 	}
 }

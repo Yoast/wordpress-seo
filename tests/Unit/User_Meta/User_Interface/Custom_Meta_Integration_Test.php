@@ -48,7 +48,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 		$this->custom_meta_collector = Mockery::mock( Custom_Meta_Collector::class );
 
 		$this->instance = new Custom_Meta_Integration(
-			$this->custom_meta_collector
+			$this->custom_meta_collector,
 		);
 	}
 
@@ -79,7 +79,7 @@ final class Custom_Meta_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Custom_Meta_Collector::class,
-			$this->getPropertyValue( $this->instance, 'custom_meta_collector' )
+			$this->getPropertyValue( $this->instance, 'custom_meta_collector' ),
 		);
 	}
 

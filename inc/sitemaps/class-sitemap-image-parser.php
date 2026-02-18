@@ -257,7 +257,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$id = $post_id;
 
 			if ( ! empty( $gallery['id'] ) ) {
-				$id = intval( $gallery['id'] );
+				$id = (int) $gallery['id'];
 			}
 
 			// Forked from core gallery_shortcode() to have exact same logic. R.
@@ -467,7 +467,7 @@ class WPSEO_Sitemap_Image_Parser {
 			[
 				'posts_per_page' => count( $ids_to_include ),
 				'post__in'       => $ids_to_include,
-			]
+			],
 		);
 
 		$gallery_attachments = [];

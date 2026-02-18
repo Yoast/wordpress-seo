@@ -156,7 +156,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
 			\esc_html__( 'You\'ve added a new type of content. We recommend that you review the corresponding %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 
 		$notification = new Yoast_Notification(
@@ -166,7 +166,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 				'id'           => 'content-types-made-public',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 
 		$this->notification_center->add_notification( $notification );

@@ -77,7 +77,7 @@ final class Metabox_Section_Additional_Test extends TestCase {
 			[
 				'link_class'      => 'additional-class',
 				'link_aria_label' => 'additional-aria',
-			]
+			],
 		);
 
 		$section->display_link();
@@ -114,7 +114,7 @@ final class Metabox_Section_Additional_Test extends TestCase {
 			'additional-tab',
 			'Additional Tab',
 			'Additional Content',
-			[ 'link_class' => 'additional-class' ]
+			[ 'link_class' => 'additional-class' ],
 		);
 
 		$section->display_link();

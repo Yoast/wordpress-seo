@@ -53,7 +53,7 @@ class Supported_Features_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'addon-installation' => 1,
-			]
+			],
 		);
 	}
 }

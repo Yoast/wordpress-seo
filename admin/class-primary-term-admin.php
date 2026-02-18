@@ -68,7 +68,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'<input class="yoast-wpseo-primary-term" type="hidden" id="%1$s" name="%2$s" value="%3$s" />',
 			esc_attr( $this->generate_field_id( $taxonomy_name ) ),
 			esc_attr( $this->generate_field_name( $taxonomy_name ) ),
-			esc_attr( $this->get_primary_term( $taxonomy_name ) )
+			esc_attr( $this->get_primary_term( $taxonomy_name ) ),
 		);
 	}
 
@@ -159,9 +159,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-		if ( $post_id === null ) {
-			$post_id = $this->get_current_id();
-		}
+		$post_id ??= $this->get_current_id();
 
 		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
 		if ( $taxonomies !== false ) {
@@ -239,7 +237,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 				'taxonomy'               => $taxonomy->name,
 				'update_term_meta_cache' => false,
 				'fields'                 => 'id=>name',
-			]
+			],
 		);
 
 		$mapped_terms_for_js = [];

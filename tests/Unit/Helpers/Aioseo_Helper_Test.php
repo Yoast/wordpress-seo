@@ -51,7 +51,7 @@ final class Aioseo_Helper_Test extends TestCase {
 		$this->wpdb_helper = Mockery::mock( Wpdb_Helper::class );
 		$this->instance    = new Aioseo_Helper(
 			$this->wpdb,
-			$this->wpdb_helper
+			$this->wpdb_helper,
 		);
 
 		$this->wpdb->prefix = 'wp_';

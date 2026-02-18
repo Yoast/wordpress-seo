@@ -88,13 +88,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 			\WPSEO_PATH . 'blocks/structured-data-blocks/faq/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_faq_images' ],
-			]
+			],
 		);
 		\register_block_type(
 			\WPSEO_PATH . 'blocks/structured-data-blocks/how-to/block.json',
 			[
 				'render_callback' => [ $this, 'optimize_how_to_images' ],
-			]
+			],
 		);
 	}
 
@@ -130,21 +130,21 @@ class Structured_Data_Blocks implements Integration_Interface {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of day/days. */
 				\_n( '%d day', '%d days', $days, 'wordpress-seo' ),
-				$days
+				$days,
 			);
 		}
 		if ( $hours ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of hour/hours. */
 				\_n( '%d hour', '%d hours', $hours, 'wordpress-seo' ),
-				$hours
+				$hours,
 			);
 		}
 		if ( $minutes ) {
 			$strings[] = \sprintf(
 			/* translators: %d expands to the number of minute/minutes. */
 				\_n( '%d minute', '%d minutes', $minutes, 'wordpress-seo' ),
-				$minutes
+				$minutes,
 			);
 		}
 		return $strings;
@@ -170,13 +170,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 				return \sprintf(
 				/* translators: %s expands to a unit of time (e.g. 1 day). */
 					\__( '%1$s and %2$s', 'wordpress-seo' ),
-					...$elements
+					...$elements,
 				);
 			case 3:
 				return \sprintf(
 				/* translators: %s expands to a unit of time (e.g. 1 day). */
 					\__( '%1$s, %2$s and %3$s', 'wordpress-seo' ),
-					...$elements
+					...$elements,
 				);
 			default:
 				return '';
@@ -204,7 +204,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
 			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
 			$content,
-			1
+			1,
 		);
 	}
 
@@ -282,13 +282,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 					'wpseo_structured_data_blocks_image_size',
 					$image_size,
 					$attachment_id,
-					$src_matches[1]
+					$src_matches[1],
 				);
 				$image_html = \wp_get_attachment_image(
 					$attachment_id,
 					$image_size,
 					false,
-					$image_style
+					$image_style,
 				);
 
 				if ( empty( $image_html ) ) {
@@ -297,7 +297,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 				return $image_html;
 			},
-			$content
+			$content,
 		);
 
 		if ( ! $this->registered_shutdown_function ) {

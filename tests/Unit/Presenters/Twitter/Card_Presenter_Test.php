@@ -55,7 +55,7 @@ final class Card_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:card" content="summary" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -92,7 +92,7 @@ final class Card_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:card" content="summary" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

@@ -25,17 +25,17 @@ final class Constructor_Test extends Abstract_Callback_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Access_Token_User_Meta_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'access_token_repository' )
+			$this->getPropertyValue( $this->instance, 'access_token_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Refresh_Token_User_Meta_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'refresh_token_repository' )
+			$this->getPropertyValue( $this->instance, 'refresh_token_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Code_Verifier_User_Meta_Repository_Interface::class,
-			$this->getPropertyValue( $this->instance, 'code_verifier_repository' )
+			$this->getPropertyValue( $this->instance, 'code_verifier_repository' ),
 		);
 	}
 }

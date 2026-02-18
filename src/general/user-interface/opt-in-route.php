@@ -108,7 +108,7 @@ class Opt_In_Route implements Route_Interface {
 				'success' => $success,
 				'status'  => $status,
 			],
-			$status
+			$status,
 		);
 	}
 

@@ -108,7 +108,7 @@ class OAuth_Token {
 			$response->getRefreshToken(),
 			$response->getExpires(),
 			$response->hasExpired(),
-			\time()
+			\time(),
 		);
 	}
 

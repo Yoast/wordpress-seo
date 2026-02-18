@@ -26,7 +26,7 @@ class WPSEO_File_Size_Service {
 					'type'          => 'success',
 					'size_in_bytes' => $this->get_file_size( $file_url ),
 				],
-				200
+				200,
 			);
 		} catch ( WPSEO_File_Size_Exception $exception ) {
 			return new WP_REST_Response(
@@ -34,7 +34,7 @@ class WPSEO_File_Size_Service {
 					'type'     => 'failure',
 					'response' => $exception->getMessage(),
 				],
-				404
+				404,
 			);
 		}
 	}
@@ -99,7 +99,7 @@ class WPSEO_File_Size_Service {
 		return WPSEO_Image_Utils::get_file_size(
 			[
 				'path' => $file_url,
-			]
+			],
 		);
 	}
 }

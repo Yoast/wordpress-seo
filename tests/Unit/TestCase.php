@@ -37,7 +37,7 @@ abstract class TestCase extends YoastTestCase {
 			[
 				// Null makes it so the function returns its first argument.
 				'is_admin' => false,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'get_option' )
@@ -87,7 +87,7 @@ abstract class TestCase extends YoastTestCase {
 			$container,
 			new Open_Graph_Helpers_Surface( $container ),
 			new Schema_Helpers_Surface( $container ),
-			new Twitter_Helpers_Surface( $container )
+			new Twitter_Helpers_Surface( $container ),
 		);
 	}
 

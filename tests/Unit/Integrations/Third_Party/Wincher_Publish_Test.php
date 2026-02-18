@@ -81,7 +81,7 @@ final class Wincher_Publish_Test extends TestCase {
 				$this->options_helper,
 				$this->keyphrases_action,
 				$this->account_action,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -102,7 +102,7 @@ final class Wincher_Publish_Test extends TestCase {
 				Wincher_Automatically_Track_Conditional::class,
 				Wincher_Token_Conditional::class,
 			],
-			Wincher_Publish::get_conditionals()
+			Wincher_Publish::get_conditionals(),
 		);
 	}
 
@@ -118,27 +118,27 @@ final class Wincher_Publish_Test extends TestCase {
 			$this->wincher_enabled,
 			$this->options_helper,
 			$this->keyphrases_action,
-			$this->account_action
+			$this->account_action,
 		);
 
 		$this->assertInstanceOf(
 			Wincher_Enabled_Conditional::class,
-			$this->getPropertyValue( $instance, 'wincher_enabled' )
+			$this->getPropertyValue( $instance, 'wincher_enabled' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Wincher_Keyphrases_Action::class,
-			$this->getPropertyValue( $instance, 'keyphrases_action' )
+			$this->getPropertyValue( $instance, 'keyphrases_action' ),
 		);
 
 		$this->assertInstanceOf(
 			Wincher_Account_Action::class,
-			$this->getPropertyValue( $instance, 'account_action' )
+			$this->getPropertyValue( $instance, 'account_action' ),
 		);
 	}
 
@@ -174,7 +174,7 @@ final class Wincher_Publish_Test extends TestCase {
 					'yoast seo',
 					'blog seo',
 					'wincher',
-				]
+				],
 			);
 
 		$this->account_action
@@ -186,7 +186,7 @@ final class Wincher_Publish_Test extends TestCase {
 					'limit'    => 100,
 					'usage'    => 10,
 					'status'   => 200,
-				]
+				],
 			);
 
 		$this->keyphrases_action->expects( 'track_keyphrases' )->once();

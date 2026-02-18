@@ -73,7 +73,7 @@ final class Baidu_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="baidu-site-verification" content="baidu" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -90,7 +90,7 @@ final class Baidu_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -106,7 +106,7 @@ final class Baidu_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'baidu',
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 
@@ -122,7 +122,7 @@ final class Baidu_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'',
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 
@@ -141,7 +141,7 @@ final class Baidu_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="baidu-site-verification" content="baidu" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

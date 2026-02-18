@@ -86,7 +86,7 @@ final class Add_Ons_Collector_Test extends TestCase {
 				$this->premium,
 				$this->woo,
 			],
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 

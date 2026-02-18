@@ -61,7 +61,7 @@ final class Cleanup_Integration_Test extends TestCase {
 
 		$this->instance = new Cleanup_Integration(
 			$this->indexable_repository,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 
 		global $wpdb;

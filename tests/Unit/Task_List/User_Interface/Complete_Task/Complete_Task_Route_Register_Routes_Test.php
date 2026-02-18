@@ -46,7 +46,7 @@ final class Complete_Task_Route_Register_Routes_Test extends Abstract_Complete_T
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

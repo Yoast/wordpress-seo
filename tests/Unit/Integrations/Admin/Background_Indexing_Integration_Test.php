@@ -158,7 +158,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 				$this->general_indexation,
 				$this->post_link_indexing_action,
 				$this->term_link_indexing_action,
-			]
+			],
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->stubTranslationFunctions();
@@ -176,7 +176,7 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			[
 				Migrations_Conditional::class,
 			],
-			Background_Indexing_Integration::get_conditionals()
+			Background_Indexing_Integration::get_conditionals(),
 		);
 	}
 
@@ -191,15 +191,15 @@ final class Background_Indexing_Integration_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
-			$this->getPropertyValue( $this->instance, 'complete_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'complete_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 		$this->assertInstanceOf(
 			Yoast_Admin_And_Dashboard_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
+			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' ),
 		);
 	}
 
@@ -578,8 +578,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->with( true )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -604,8 +604,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -636,8 +636,8 @@ final class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12_345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12_345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}

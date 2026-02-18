@@ -97,6 +97,6 @@ final class Last_Completed_Indexation_Integration_Test extends TestCase {
 			->with( 'update_option_wpseo', [ 'WPSEO_Utils', 'clear_cache' ] )
 			->never();
 
-		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 100000 );
+		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 100_000 );
 	}
 }

@@ -267,7 +267,7 @@ class WPSEO_Meta {
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ]
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -398,7 +398,7 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
-					$clean = strval( $int ); // Convert to string to make sure default check works.
+					$clean = (string) $int; // Convert to string to make sure default check works.
 				}
 				break;
 
@@ -721,7 +721,7 @@ class WPSEO_Meta {
 				;",
 			$old_metakey,
 			$wpdb->esc_like( self::$meta_prefix . '%' ),
-			self::$meta_prefix . 'linkdex'
+			self::$meta_prefix . 'linkdex',
 		);
 		$oldies = $wpdb->get_results( $query );
 
@@ -773,7 +773,7 @@ class WPSEO_Meta {
 				;",
 			self::$meta_prefix . 'meta-robots',
 			self::$meta_prefix . 'meta-robots-noindex',
-			self::$meta_prefix . 'meta-robots-nofollow'
+			self::$meta_prefix . 'meta-robots-nofollow',
 		);
 		$oldies = $wpdb->get_results( $query );
 
@@ -825,7 +825,7 @@ class WPSEO_Meta {
 
 					$query[] = $wpdb->prepare(
 						"( meta_key = %s AND meta_value NOT IN ( '" . implode( "','", esc_sql( $valid ) ) . "' ) )",
-						self::$meta_prefix . $key
+						self::$meta_prefix . $key,
 					);
 					unset( $valid );
 				}
@@ -833,13 +833,13 @@ class WPSEO_Meta {
 					$query[] = $wpdb->prepare(
 						'( meta_key = %s AND meta_value = %s )',
 						self::$meta_prefix . $key,
-						$field_def['default_value']
+						$field_def['default_value'],
 					);
 				}
 				else {
 					$query[] = $wpdb->prepare(
 						"( meta_key = %s AND meta_value = '' )",
-						self::$meta_prefix . $key
+						self::$meta_prefix . $key,
 					);
 				}
 			}
@@ -877,7 +877,7 @@ class WPSEO_Meta {
 		 */
 		$query  = $wpdb->prepare(
 			"SELECT meta_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s",
-			self::$meta_prefix . 'meta-robots-adv'
+			self::$meta_prefix . 'meta-robots-adv',
 		);
 		$oldies = $wpdb->get_results( $query );
 

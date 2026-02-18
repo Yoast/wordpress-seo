@@ -41,7 +41,7 @@ abstract class Abstract_Optional_Link_List_Builder_Test extends TestCase {
 		$this->sitemap_link_collector = Mockery::mock( Sitemap_Link_Collector::class );
 
 		$this->instance = new Optional_Link_List_Builder(
-			$this->sitemap_link_collector
+			$this->sitemap_link_collector,
 		);
 	}
 }

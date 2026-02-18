@@ -62,7 +62,7 @@ final class Dashboard_Configuration_Get_Configuration_Test extends Abstract_Dash
 				'setupStepsTracking'      => $setup_steps_tracking,
 				'browserCache'            => $cache_configuration,
 			],
-			$this->instance->get_configuration()
+			$this->instance->get_configuration(),
 		);
 	}
 

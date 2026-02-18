@@ -99,7 +99,7 @@ final class Front_End_Integration_Test extends TestCase {
 			$this->helpers,
 			$this->replace_vars,
 			$this->indexable_repository,
-			$this->permalink_helper
+			$this->permalink_helper,
 		);
 	}
 

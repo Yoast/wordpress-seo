@@ -42,7 +42,7 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 				'maybe_set_indexables_unindexed_calculated',
 			],
 			10,
-			2
+			2,
 		);
 	}
 

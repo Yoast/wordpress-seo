@@ -35,7 +35,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned'    => true,
 				'null'        => true,
 				'limit'       => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'ancestor_id',
@@ -45,7 +45,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned'    => true,
 				'null'        => true,
 				'limit'       => 11,
-			]
+			],
 		);
 		$indexable_table->column(
 			'depth',
@@ -54,7 +54,7 @@ class WpYoastIndexableHierarchy extends Migration {
 				'unsigned' => true,
 				'null'     => true,
 				'limit'    => 11,
-			]
+			],
 		);
 		$indexable_table->finish();
 

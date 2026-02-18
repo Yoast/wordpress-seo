@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Title_Adapter_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Default_Tagline_Runner::class,
-			$this->getPropertyValue( $this->instance, 'default_tagline_runner' )
+			$this->getPropertyValue( $this->instance, 'default_tagline_runner' ),
 		);
 	}
 }

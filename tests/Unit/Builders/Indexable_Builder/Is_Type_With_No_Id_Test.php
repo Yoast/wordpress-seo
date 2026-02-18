@@ -34,7 +34,7 @@ final class Is_Type_With_No_Id_Test extends Abstract_Indexable_Builder_TestCase 
 			$this->primary_term_builder,
 			$this->indexable_helper,
 			$this->version_manager,
-			$this->link_builder
+			$this->link_builder,
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );

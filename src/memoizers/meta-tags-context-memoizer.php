@@ -146,7 +146,7 @@ class Meta_Tags_Context_Memoizer {
 					'blocks'    => $blocks,
 					'post'      => $post,
 					'page_type' => $page_type,
-				]
+				],
 			);
 
 			$context->presentation = $this->presentation_memoizer->get( $indexable, $context, $page_type );

@@ -32,7 +32,7 @@ final class Admin_Features_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Url_Helper::class => $url_helper,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )

@@ -52,14 +52,14 @@ final class Indexable_Term_Builder_Test extends TestCase {
 				'post_title'  => 'Test post',
 				'post_date'   => '1978-09-13 08:50:00',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		$this->term_id = self::factory()->category->create(
 			[
 				'name'     => 'test_term',
 				'taxonomy' => 'category',
-			]
+			],
 		);
 
 		self::factory()->term->add_post_terms( $post_id, $this->term_id, 'category', true );
@@ -82,13 +82,13 @@ final class Indexable_Term_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Term_Builder(
 			\YoastSEO()->helpers->taxonomy,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 
 		$this->instance->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 	}
 
@@ -155,14 +155,14 @@ final class Indexable_Term_Builder_Test extends TestCase {
 			[
 				'public'            => false,
 				'query_var'         => false,
-			]
+			],
 		);
 
 		$term_id = self::factory()->term->create(
 			[
 				'taxonomy' => 'test_tax',
 				'name'     => 'test_term',
-			]
+			],
 		);
 
 		$indexable      = new Indexable();

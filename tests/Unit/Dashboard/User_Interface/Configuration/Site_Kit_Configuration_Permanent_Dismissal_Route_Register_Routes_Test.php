@@ -40,7 +40,7 @@ final class Site_Kit_Configuration_Permanent_Dismissal_Route_Register_Routes_Tes
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

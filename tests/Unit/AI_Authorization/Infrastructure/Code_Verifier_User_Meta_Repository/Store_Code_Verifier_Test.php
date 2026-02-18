@@ -36,7 +36,7 @@ final class Store_Code_Verifier_Test extends Abstract_Code_Verifier_User_Meta_Re
 				[
 					'code'       => $code,
 					'created_at' => $created_at,
-				]
+				],
 			);
 
 		$this->instance->store_code_verifier( $user_id, $code, $created_at );

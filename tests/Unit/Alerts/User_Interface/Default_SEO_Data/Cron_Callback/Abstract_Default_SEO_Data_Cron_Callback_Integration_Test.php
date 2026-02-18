@@ -63,7 +63,7 @@ abstract class Abstract_Default_SEO_Data_Cron_Callback_Integration_Test extends 
 		$this->instance = new Default_SEO_Data_Cron_Callback_Integration(
 			$this->options_helper,
 			$this->scheduler,
-			$this->indexable_repository
+			$this->indexable_repository,
 		);
 	}
 }

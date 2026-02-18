@@ -55,7 +55,7 @@ final class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Post_Watcher::get_conditionals()
+			Indexable_Post_Watcher::get_conditionals(),
 		);
 	}
 

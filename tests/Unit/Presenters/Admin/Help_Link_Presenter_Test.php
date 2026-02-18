@@ -45,7 +45,7 @@ final class Help_Link_Presenter_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			$this->getPropertyValue( $test, 'asset_manager' )
+			$this->getPropertyValue( $test, 'asset_manager' ),
 		);
 	}
 

@@ -69,17 +69,6 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 	}
 
 	/**
-	 * Returns the name of the introduction.
-	 *
-	 * @return string The name.
-	 */
-	public function get_name(): string {
-		\_deprecated_function( __METHOD__, 'Yoast SEO Premium 21.6', 'Please use get_id() instead' );
-
-		return self::ID;
-	}
-
-	/**
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @return int The priority.
@@ -145,7 +134,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 			$seen_introductions,
 			static function ( $item ) {
 				return \is_bool( $item );
-			}
+			},
 		);
 
 		if ( ! empty( $old_format_introductions ) ) {
@@ -162,7 +151,7 @@ class Delayed_Premium_Upsell implements Introduction_Interface {
 					return $item;
 				}
 				return $carry;
-			}
+			},
 		);
 
 		// If the most recent introduction seen is older than a week, return true.

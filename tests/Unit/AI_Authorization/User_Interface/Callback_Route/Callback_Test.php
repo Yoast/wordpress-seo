@@ -88,7 +88,7 @@ final class Callback_Test extends Abstract_Callback_Route_Test {
 				[
 					'message'       => 'Tokens successfully stored.',
 					'code_verifier' => 'test',
-				]
+				],
 			);
 
 		$result = $this->instance->callback( $wp_rest_request );

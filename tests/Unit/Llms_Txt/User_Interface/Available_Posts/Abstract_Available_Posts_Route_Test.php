@@ -52,7 +52,7 @@ abstract class Abstract_Available_Posts_Route_Test extends TestCase {
 
 		$this->instance = new Available_Posts_Route(
 			$this->available_posts_repository,
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 }

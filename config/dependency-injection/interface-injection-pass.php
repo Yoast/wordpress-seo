@@ -149,7 +149,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 				}
 
 				return \is_subclass_of( $other_class, $definition_class->splat_argument_type );
-			}
+			},
 		);
 	}
 }

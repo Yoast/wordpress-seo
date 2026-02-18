@@ -27,8 +27,8 @@ final class Register_Post_Type_Tasks_Integration_Register_Hooks_Test extends Abs
 			10,
 			\has_filter(
 				'wpseo_task_list_tasks',
-				[ $this->instance, 'register_post_type_tasks' ]
-			)
+				[ $this->instance, 'register_post_type_tasks' ],
+			),
 		);
 	}
 }

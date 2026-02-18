@@ -30,7 +30,7 @@ final class Token_Request_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier        = Mockery::mock( Code_Verifier::class );
 		$code                 = 'test-code-verifier';
-		$created_at           = 1640995200;
+		$created_at           = 1_640_995_200;
 		$callback_url         = 'https://example.com/callback';
 		$refresh_callback_url = 'https://example.com/refresh-callback';
 
