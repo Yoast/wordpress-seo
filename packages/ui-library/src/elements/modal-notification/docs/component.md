@@ -1,4 +1,4 @@
-A modal notification component that traps focus, handles Escape key dismissal, and manages focus restoration. Unlike the regular `Toast` element (which is non-modal), the `ModalNotification` is a modal dialog that requires user attention.
+A modal notification component that traps focus, handles Escape key dismissal, and manages focus restoration. Unlike the regular `Toast` element (which is non-modal), the `ModalNotification` is a dialog that requires user attention and must always provide a visible closing mechanism.
 
 Use `ModalNotification` when you need an interactive notification popup that requires user attention and focus trapping. Use the regular `Toast` for non-modal status notifications that don't require explicit user interaction.
 
