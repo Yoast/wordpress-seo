@@ -35,7 +35,7 @@ class Schema_Aggregator_Response_Composer {
 					'@context'   => 'https://schema.org',
 					'@type'      => 'Thing',
 					'name'       => 'Yoast SEO schema aggregator version',
-					'identifier' => '0.1',
+					'identifier' => '1.0',
 				];
 		}
 
