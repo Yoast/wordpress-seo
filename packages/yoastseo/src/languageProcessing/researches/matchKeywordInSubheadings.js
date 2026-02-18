@@ -25,16 +25,123 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
  */
 
 /**
+ * @typedef {Object} TopicFormsInSubheadingsResult
+ * @property {number} percentWordMatches The percentage of the topic words that were matched in the subheadings by at least one form.
+ * @property {Token[]|string[]} matches The matched topic forms in the subheadings.
+ * @property {Sentence[]|string[]} sentencesWithTopicForms The sentences in the subheadings that contain the matched topic forms.
+ */
+
+/**
+ * @typedef {Object} MatchedTopicFormsInSentencesResult
+ * @property {Token[]|string[]} matches The matched topic forms in the sentences.
+ * @property {number} matchCount The number of matched topic forms in the sentences.
+ * @property {Sentence[]|string[]} sentencesWithMatches The sentences that contain the matched topic forms.
+ */
+
+/**
  * @typedef {Object} KeyphraseInSubheadingsResult
  * @property {number} count The number of subheadings.
  * @property {SubheadingsWithTopicResult} matches The subheadings that reflect the topic and the markings of the matches in those subheadings.
  * @property {number} percentReflectingTopic The percentage of subheadings reflecting the topic.
  * @property {number} textLength The length of the text that was analyzed in words or in characters depending on the configuration.
- * @property {Heading[]} subheadings An array of objects representing the subheadings, their content and position.
  */
 
 /**
- * Checks if the keyphrase or its synonyms are found in the heading and returns the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
+ * Extracts sentences from a heading, setting parent attributes if needed.
+ *
+ * @param {Heading|string} heading The heading node or string.
+ * @param {Node} tree The tree representation of the paper's content.
+ *
+ * @returns {Sentence[]|string[]} An array of sentences from the heading.
+ */
+const getSentencesFromHeading = ( heading, tree ) => {
+	if ( typeof heading === "string" ) {
+		return [ heading ];
+	}
+	return heading.sentences.map( sentence => {
+		sentence.setParentAttributes( heading, tree );
+		return sentence;
+	} );
+};
+
+/**
+ * Matches word forms against sentences and calculates match statistics.
+ *
+ * @param {Sentence[]|string[]} sentences The sentences to match against.
+ * @param {string[][]} wordForms The word forms to match.
+ * @param {string} locale The locale of the paper.
+ * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
+ * @param {boolean} isExactMatchRequested Whether to match the keyphrase forms exactly.
+ * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens.
+ *
+ * @returns {MatchedTopicFormsInSentencesResult} The match results.
+ */
+const matchWordFormsInSentences = ( sentences, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper ) => {
+	const allMatches = [];
+	let totalMatchCount = 0;
+	const sentencesWithMatches = [];
+
+	sentences.forEach( sentence => {
+		const sentenceToMatch = matchWordCustomHelper ? sentence.text : sentence;
+		const matchedForms = wordForms.map( forms =>
+			matchWordFormsWithSentence( sentenceToMatch, forms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper )
+		);
+
+		const foundWords = matchedForms.reduce( ( count, { count: matchCount } ) => matchCount > 0 ? count + 1 : count, 0 );
+
+		allMatches.push( matchedForms );
+		totalMatchCount += foundWords;
+
+		if ( foundWords > 0 ) {
+			sentencesWithMatches.push( sentence );
+		}
+	} );
+
+	return { matches: allMatches, matchCount: totalMatchCount, sentencesWithMatches };
+};
+
+/**
+ * Creates a result object from match data.
+ *
+ * @param {MatchedTopicFormsInSentencesResult} matchedTopicData The data containing matches, match count and sentences with matches.
+ * @param {number} topicLength The total number of words in the topic (keyphrase or synonym).
+ *
+ * @returns {TopicFormsInSubheadingsResult} The result object.
+ */
+const createMatchResult = ( matchedTopicData, topicLength ) => {
+	const { matches, matchCount, sentencesWithMatches } = matchedTopicData;
+	const percentWordMatches = topicLength > 0 ? Math.round( ( matchCount / topicLength ) * 100 ) : 0;
+
+	return {
+		percentWordMatches,
+		matches: flattenDeep( matches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
+		sentencesWithTopicForms: sentencesWithMatches,
+	};
+};
+
+/**
+ * Finds the best synonym match from all synonym results.
+ *
+ * @param {TopicFormsInSubheadingsResult[]} synonymResults The results from matching all synonyms.
+ * @param {TopicFormsInSubheadingsResult} keyphraseResult The result from matching the keyphrase.
+ *
+ * @returns {TopicFormsInSubheadingsResult} The best result (either keyphrase or the best synonym).
+ */
+const getBestSynonymMatch = ( synonymResults, keyphraseResult ) => {
+	const foundSynonyms = synonymResults.map( result => result.percentWordMatches );
+	const bestSynonymIndex = foundSynonyms.indexOf( Math.max( ...foundSynonyms ) );
+	const bestSynonymResult = synonymResults[ bestSynonymIndex ];
+
+	if ( keyphraseResult.percentWordMatches >= bestSynonymResult.percentWordMatches ) {
+		return keyphraseResult;
+	}
+
+	return bestSynonymResult;
+};
+
+/**
+ * Checks if the keyphrase or its synonyms are found in the heading and returns the percentage of the keyphrase words
+ * that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  *
  * @param {TopicFormsResult} topicForms The object with word forms of all (content) words from the keyphrase and eventually synonyms.
  * @param {Heading|string} heading The heading node or string to match the word forms against.
@@ -45,7 +152,7 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
  * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
  * @param {boolean} isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
  *
- * @returns {{percentWordMatches: number, matches: Token[], keyphraseOrSynonym: string, sentencesWithTopicForms: Sentence[]}} Object containing the percentage of the keyphrase words that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
+ * @returns {TopicFormsInSubheadingsResult} An object containing the percentage of matched words, the matches and the sentences with matched topic forms in the heading.
  */
 const findTopicFormsInHeading = ( topicForms,
 	heading,
@@ -55,98 +162,29 @@ const findTopicFormsInHeading = ( topicForms,
 	matchWordCustomHelper,
 	customSplitIntoTokensHelper,
 	isExactMatchRequested ) => {
-	const sentences = [];
-	if ( typeof heading === "string" ) {
-		sentences.push( heading );
-	} else {
-		const headingSentences = heading.sentences.map( sentence => {
-			sentence.setParentAttributes( heading, tree );
-			return sentence;
-		} );
-		sentences.push( ...headingSentences );
-	}
-	const sentencesWithTopicForms = [];
-	// First, check if the keyword is found in the text
-	const keyphraseForms = topicForms.keyphraseForms;
-	const synonymsForms = topicForms.synonymsForms;
-	// For each sentence in the heading, check how many words of the keyphrase are found in the sentence and save the matches.
-	// Collect all the matches of the sentences in the heading and calculate the percentage of the keyphrase words found in the heading.
-	const keyphraseMatches = [];
-	let keyphraseMatchCount = 0;
-	sentences.forEach( ( sentence ) => {
-		const matchedKeyphrase = keyphraseForms.map( wordForms => {
-			const sentenceToMatch = matchWordCustomHelper ? sentence.text : sentence;
-			// eslint-disable-next-line stylistic/max-len
-			return matchWordFormsWithSentence( sentenceToMatch, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper );
-		} );
-		const foundWords = matchedKeyphrase.reduce( ( count, { count: matchCount } ) => {
-			return matchCount > 0 ? count + 1 : count;
-		}, 0 );
-		keyphraseMatches.push( matchedKeyphrase  );
-		keyphraseMatchCount += foundWords;
-		if ( foundWords > 0 ) {
-			sentencesWithTopicForms.push( sentence );
-		}
-	} );
+	const sentences = getSentencesFromHeading( heading, tree );
+	const { keyphraseForms, synonymsForms } = topicForms;
 
+	// Match keyphrase forms against sentences.
+	const keyphraseMatchData = matchWordFormsInSentences(
+		sentences, keyphraseForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper
+	);
+	const keyphraseResult = createMatchResult( keyphraseMatchData, keyphraseForms.length );
 
-	const matchedPercentage = keyphraseForms.length > 0 ? Math.round( ( keyphraseMatchCount / keyphraseForms.length ) * 100 ) : 0;
-	const keyphraseResult = {
-		percentWordMatches: matchedPercentage,
-		matches: flattenDeep( keyphraseMatches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
-		sentencesWithTopicForms,
-		keyphraseOrSynonym: "keyphrase",
-	};
-
-	// If a full match found with the keyword or if no synonyms are supplied or supposed to be used, return the keyphrase search result.
+	// Return early if full match found, synonyms not used, or no synonyms available.
 	if ( keyphraseResult.percentWordMatches === 100 || useSynonyms === false || isEmpty( synonymsForms ) ) {
 		return keyphraseResult;
 	}
 
-	// Loop through the synonyms and check how many words of each synonym are found in the sentences of the heading, save the matches and calculate the percentage of the synonym words found in the heading.
+	// Match each synonym against sentences and find the best result.
 	const synonymResults = synonymsForms.map( synonymForm => {
-		const sentencesWithSynonymForms = [];
-		const synonymMatches = [];
-		let synonymMatchCount = 0;
-		sentences.forEach( ( sentence ) => {
-			const matchedSynonym = synonymForm.map( wordForms =>{
-				const sentenceToMatch = matchWordCustomHelper ? sentence.text : sentence;
-				// eslint-disable-next-line stylistic/max-len
-				return matchWordFormsWithSentence( sentenceToMatch, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper );
-			} );
-			const foundWords = matchedSynonym.reduce( ( count, { count: matchCount } ) => {
-				return matchCount > 0 ? count + 1 : count;
-			}, 0 );
-			synonymMatches.push( matchedSynonym );
-			synonymMatchCount += foundWords;
-			if ( foundWords > 0 ) {
-				sentencesWithSynonymForms.push( sentence );
-			}
-		} );
-
-		const synonymMatchedPercentage = synonymForm.length > 0 ? Math.round( ( synonymMatchCount / synonymForm.length ) * 100 ) : 0;
-
-		return {
-			percentWordMatches: synonymMatchedPercentage,
-			matches: flattenDeep( synonymMatches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
-			sentencesWithTopicForms: sentencesWithSynonymForms,
-		};
+		const synonymMatchData = matchWordFormsInSentences(
+			sentences, synonymForm, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper
+		);
+		return createMatchResult( synonymMatchData, synonymForm.length );
 	} );
 
-
-	// Find which synonym occurred most fully.
-	const foundSynonyms = synonymResults.map( resultSynonym => resultSynonym.percentWordMatches );
-	const bestSynonymIndex = foundSynonyms.indexOf( Math.max( ...foundSynonyms ) );
-	const bestSynonymResult = synonymResults[ bestSynonymIndex ];
-	// If the best synonym showed lower results than the keyword, return the keyword.
-	if ( keyphraseResult.percentWordMatches >= bestSynonymResult.percentWordMatches ) {
-		return keyphraseResult;
-	}
-
-	// If the best synonym showed better results than the keyword, return the synonym.
-	bestSynonymResult.keyphraseOrSynonym = "synonym";
-
-	return bestSynonymResult;
+	return getBestSynonymMatch( synonymResults, keyphraseResult );
 };
 
 /**
@@ -301,6 +339,5 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 		matches: subheadingsWithKeyphrase,
 		percentReflectingTopic: subheadings.length ? subheadingsWithKeyphrase / subheadings.length * 100 : 0,
 		textLength: textLength,
-		subheadings,
 	};
 }
