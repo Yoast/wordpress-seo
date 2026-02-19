@@ -97,10 +97,11 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 				}
 			}
 
-			if ( $this->config->is_enhancement_enabled( 'keywords' ) && ! isset( $schema_data['keywords'] ) ) {
+			if ( $this->config->is_enhancement_enabled( 'keywords' ) ) {
 				$keywords = $this->get_article_keywords( $indexable->object_id );
 				if ( ! empty( $keywords ) ) {
-					$schema_data['keywords'] = \implode( ', ', $keywords );
+					$existing                = (array) ( $schema_data['keywords'] ?? [] );
+					$schema_data['keywords'] = \implode( ', ', \array_unique( \array_merge( $existing, $keywords ) ) );
 				}
 			}
 
