@@ -98,6 +98,7 @@ export const TaskModal = ( {
 						onClick={ onProgressBadgeClick }
 						parentTaskId={ parentTaskId }
 						className="yst-mb-2"
+						as="button"
 					/> }
 					<div className="yst-flex yst-gap-3 yst-items-start yst-justify-between">
 						<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
