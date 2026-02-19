@@ -4,10 +4,12 @@ import Mark from "../../../../src/values/Mark";
 import buildTree from "../../../specHelpers/parse/buildTree";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataTurkish = getMorphologyData( "tr" );
 
 const assessment = new SubheadingsKeywordAssessment();
 
@@ -313,6 +315,49 @@ describe( "An assessment for matching keywords in subheadings", () => {
 				},
 			} ),
 		] );
+	} );
+
+	it( "matches the keyphrase in subheadings assessment for a paper with h2 and h3 subheadings in Turkish", () => {
+		const mockPaper = new Paper( "<h3>Çiçek nektarları <a href=\"example.com\">değiştir</a>kaynağı değiştir</a></h3>" +
+			"<p>Nektarlar, çiçekte farklı bitkisel dokularda bulunabilirler. Bunun amacı potansiyel tozlaştırıcıları çiçeğe çekmektir.</p>" +
+			"<h2>Çiçek dışı nektarlar</h2><p>Bitkide çiçek dışındaki diğer dokularda (çoğunlukla yaprak ve yaprak sapında)" +
+			" bulunan ve esas görevi tozlaşma olmayan nektarlardır.</p>", { keyword: "Nektar", synonyms: "nektar", locale: "tr_TR" } );
+		const mockResearcher = new TurkishResearcher( mockPaper );
+		mockResearcher.addResearchData( "morphology", morphologyDataTurkish );
+		buildTree( mockPaper, mockResearcher );
+		const result = assessment.getResult( mockPaper, mockResearcher );
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual(
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
+		);
+		expect( assessment.getMarks().length ).toBe( 2 );
+		expect( assessment.getMarks() ).toEqual( [
+			new Mark( {
+				marked: "Çiçek <yoastmark class='yoast-text-mark'>nektarları</yoastmark> değiştirkaynağı değiştir",
+				original: "Çiçek nektarları değiştirkaynağı değiştir",
+				position: {
+					attributeId: "",
+					clientId: "",
+					endOffset: 20,
+					endOffsetBlock: 16,
+					isFirstSection: false,
+					startOffset: 10,
+					startOffsetBlock: 6,
+				},
+			} ),
+			new Mark( {
+				marked: "Çiçek dışı <yoastmark class='yoast-text-mark'>nektarlar</yoastmark>",
+				original: "Çiçek dışı nektarlar",
+				position: {
+					attributeId: "",
+					clientId: "",
+					endOffset: 229,
+					endOffsetBlock: 20,
+					isFirstSection: false,
+					startOffset: 220,
+					startOffsetBlock: 11,
+				},
+			} ) ] );
 	} );
 
 	it( "checks isApplicable for a paper without text", () => {
