@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56db8f7750c720f81714055b33cb602f",
+    "content-hash": "39a23b5c2ed5051c90d7939162f27c90",
     "packages": [
         {
             "name": "composer/installers",
@@ -5045,6 +5045,25 @@
             "time": "2025-11-25T12:08:04+00:00"
         },
         {
+            "name": "wpackagist-plugin/easy-digital-downloads",
+            "version": "dev-trunk",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/easy-digital-downloads/",
+                "reference": "trunk"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/easy-digital-downloads.zip?timestamp=1770453369"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/easy-digital-downloads/",
+            "time": "2026-02-07T08:36:09+00:00"
+        },
+        {
             "name": "wpackagist-plugin/google-site-kit",
             "version": "dev-trunk",
             "source": {
@@ -5062,6 +5081,25 @@
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/google-site-kit/",
             "time": "2025-02-25T15:00:59+00:00"
+        },
+        {
+            "name": "wpackagist-plugin/woocommerce",
+            "version": "dev-trunk",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/woocommerce/",
+                "reference": "trunk"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.zip?timestamp=1770770357"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/woocommerce/",
+            "time": "2026-02-11T00:39:17+00:00"
         },
         {
             "name": "yoast/phpunit-polyfills",
@@ -5263,7 +5301,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "wpackagist-plugin/google-site-kit": 20
+        "wpackagist-plugin/easy-digital-downloads": 20,
+        "wpackagist-plugin/google-site-kit": 20,
+        "wpackagist-plugin/woocommerce": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
