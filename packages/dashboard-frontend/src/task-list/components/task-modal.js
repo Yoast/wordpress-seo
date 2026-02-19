@@ -120,7 +120,7 @@ export const TaskModal = ( {
 						<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 					</div>
 				</Modal.Container.Header>
-				<Modal.Container.Content className="yst-py-6 yst-px-12">
+				<Modal.Container.Content className="yst-py-6 yst-px-6 yst-mx-0 yst-overflow-y-auto yst-relative">
 					{ isError && <Alert
 						role="alert"
 						variant="error"
@@ -145,6 +145,10 @@ export const TaskModal = ( {
 					/>
 
 					{ children }
+					<div
+						className="yst-sticky -yst-left-6 -yst-right-6 -yst-bottom-6 yst-h-16 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+						aria-hidden="true"
+					/>
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-3 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
