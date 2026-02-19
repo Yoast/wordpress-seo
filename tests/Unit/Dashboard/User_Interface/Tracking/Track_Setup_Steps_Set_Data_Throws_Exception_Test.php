@@ -51,7 +51,7 @@ final class Track_Setup_Steps_Set_Data_Throws_Exception_Test extends TestCase {
 
 		$this->instance = new Setup_Steps_Tracking_Route(
 			new Setup_Steps_Tracking_Repository_Fake( false, true ),
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 
@@ -89,7 +89,7 @@ final class Track_Setup_Steps_Set_Data_Throws_Exception_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			'WP_Error',
-			$this->instance->track_setup_steps( $wp_rest_request )
+			$this->instance->track_setup_steps( $wp_rest_request ),
 		);
 	}
 }

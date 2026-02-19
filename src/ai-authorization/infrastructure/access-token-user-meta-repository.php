@@ -57,7 +57,7 @@ class Access_Token_User_Meta_Repository implements Access_Token_User_Meta_Reposi
 		$this->user_helper->update_meta(
 			$user_id,
 			self::META_KEY,
-			$value
+			$value,
 		); }
 
 	/**

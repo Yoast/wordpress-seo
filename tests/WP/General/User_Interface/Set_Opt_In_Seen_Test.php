@@ -35,7 +35,7 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 				$capability_helper = new Capability_Helper();
 				$opt_in_route      = new Opt_In_Route( $user_helper, $capability_helper );
 				$opt_in_route->register_routes();
-			}
+			},
 		);
 
 		// Trigger the rest_api_init action to register routes.

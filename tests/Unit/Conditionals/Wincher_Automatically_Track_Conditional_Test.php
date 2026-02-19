@@ -52,7 +52,7 @@ final class Wincher_Automatically_Track_Conditional_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options' )
+			$this->getPropertyValue( $this->instance, 'options' ),
 		);
 	}
 

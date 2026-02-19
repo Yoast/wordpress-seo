@@ -77,7 +77,7 @@ final class Delete_Test extends Abstract_Indexable_Link_Builder_TestCase {
 						'target_indexable_id' => 3,
 						'incoming'            => 7,
 					],
-				]
+				],
 			);
 
 		$this->indexable_repository

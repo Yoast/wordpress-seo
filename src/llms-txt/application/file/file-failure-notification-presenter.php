@@ -38,7 +38,7 @@ class File_Failure_Notification_Presenter extends Abstract_Presenter {
 				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
 					\esc_html__( 'An existing llms.txt file wasn\'t created by Yoast or has been edited manually. Yoast won\'t overwrite it. %1$sDelete it manually%2$s or turn off this feature.', 'wordpress-seo' ),
 					'<a href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/llms-txt-file-deletion' ) ) . '" target="_blank" rel="noopener noreferrer">',
-					'</a>'
+					'</a>',
 				);
 				break;
 			case 'filesystem_permissions':
@@ -53,7 +53,7 @@ class File_Failure_Notification_Presenter extends Abstract_Presenter {
 		return \sprintf(
 			'<strong>%1$s</strong> %2$s',
 			\esc_html__( 'Your llms.txt file couldn\'t be auto-generated', 'wordpress-seo' ),
-			$message
+			$message,
 		);
 	}
 }

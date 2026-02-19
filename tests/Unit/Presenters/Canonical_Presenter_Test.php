@@ -50,7 +50,7 @@ final class Canonical_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://permalink" />',
-			$presented_canonical
+			$presented_canonical,
 		);
 	}
 
@@ -97,7 +97,7 @@ final class Canonical_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://filtered" />',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 
@@ -142,7 +142,7 @@ final class Canonical_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://permalink" class="yoast-seo-meta-tag" />',
-			$presented_canonical
+			$presented_canonical,
 		);
 	}
 }

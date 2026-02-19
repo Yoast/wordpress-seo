@@ -41,10 +41,10 @@ final class Robots_Txt_Helper_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertIsObject(
-			$this->getPropertyValue( $this->instance, 'robots_txt_user_agents' )
+			$this->getPropertyValue( $this->instance, 'robots_txt_user_agents' ),
 		);
 		$this->assertIsArray(
-			$this->getPropertyValue( $this->instance, 'robots_txt_sitemaps' )
+			$this->getPropertyValue( $this->instance, 'robots_txt_sitemaps' ),
 		);
 	}
 
@@ -283,6 +283,70 @@ final class Robots_Txt_Helper_Test extends TestCase {
 			'Single sitemap'    => $single_sitemap,
 			'Multiple sitemaps' => $multiple_sitemaps,
 			'Duplicate sitemap' => $duplicate_sitemap,
+		];
+	}
+
+	/**
+	 * Tests if add_schemamap works as expected.
+	 *
+	 * @dataProvider add_schemamap_dataprovider
+	 *
+	 * @covers ::add_allow
+	 *
+	 * @param array<array<string>> $schemamaps The schemamaps to be passed to the function.
+	 * @param array<array<string>> $expected   The expected result.
+	 *
+	 * @return void
+	 */
+	public function test_add_schemamap( $schemamaps, $expected ) {
+		foreach ( $schemamaps as $schemamap ) {
+			$this->instance->add_schemamap( $schemamap );
+		}
+
+		$this->assertEquals( $expected, $this->instance->get_schemamap_rules() );
+	}
+
+	/**
+	 * Data provider for test_add_schemamap.
+	 *
+	 * @return array<array<string>> Data to use for test_add_schemamap.
+	 */
+	public static function add_schemamap_dataprovider() {
+		$single_schemamap     = [
+			'sitemaps' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+			'expected' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+		];
+		$multiple_schemamaps  = [
+			'sitemaps' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://example.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://google.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+			'expected' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://example.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://google.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+		];
+		$duplicate_schemamaps = [
+			'sitemaps' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://google.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+			'expected' => [
+				'http://sitemap.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+				'http://google.com/wp-json/yoast/v1/schema-aggregator/get-xml',
+			],
+		];
+		return [
+			'Single schemamap'     => $single_schemamap,
+			'Multiple schemamaps'  => $multiple_schemamaps,
+			'Duplicate schemamaps' => $duplicate_schemamaps,
 		];
 	}
 }

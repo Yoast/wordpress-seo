@@ -63,7 +63,7 @@ final class Filter_Pairs_Repository_Test extends TestCase {
 			[
 				'public'       => $is_public,
 				'show_in_rest' => $show_in_rest,
-			]
+			],
 		);
 		self::assertEquals( $expected, $this->instance->get_taxonomy( $object_type_name ) );
 		\unregister_taxonomy( $taxonomy_name );

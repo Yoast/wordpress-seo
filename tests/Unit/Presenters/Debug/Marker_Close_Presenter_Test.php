@@ -40,7 +40,7 @@ final class Marker_Close_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<!-- / Yoast SEO plugin. -->',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 
@@ -64,7 +64,7 @@ final class Marker_Close_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'',
-			$instance->present()
+			$instance->present(),
 		);
 	}
 

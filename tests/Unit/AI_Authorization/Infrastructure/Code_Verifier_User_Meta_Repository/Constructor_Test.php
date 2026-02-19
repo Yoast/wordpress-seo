@@ -23,11 +23,11 @@ final class Constructor_Test extends Abstract_Code_Verifier_User_Meta_Repository
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Date_Helper::class,
-			$this->getPropertyValue( $this->instance, 'date_helper' )
+			$this->getPropertyValue( $this->instance, 'date_helper' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 }

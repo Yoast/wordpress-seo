@@ -24,7 +24,7 @@ final class Site_Kit_Consent_Repository_Constructor_Test extends Abstract_Site_K
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

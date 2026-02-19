@@ -95,7 +95,7 @@ class WPSEO_Admin {
 		$integrations = array_merge(
 			$integrations,
 			$this->get_admin_features(),
-			$this->initialize_cornerstone_content()
+			$this->initialize_cornerstone_content(),
 		);
 
 		foreach ( $integrations as $integration ) {
@@ -246,7 +246,7 @@ class WPSEO_Admin {
 			$no_deactivation_explanation = '<span style="color: #32373c">' . sprintf(
 				/* translators: %s expands to Yoast SEO Premium. */
 				__( 'Required by %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
+				'Yoast SEO Premium',
 			) . '</span>';
 
 			array_unshift( $links, $no_deactivation_explanation );
@@ -348,14 +348,14 @@ class WPSEO_Admin {
 				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 					__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
 					'<code>%s</code>',
-					'HelpScout beacon'
+					'HelpScout beacon',
 				),
 				/* translators: %s: expends to Yoast SEO */
 				'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 				'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 				'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
 			],
-			YoastSEO()->helpers->wincher->get_admin_global_links()
+			YoastSEO()->helpers->wincher->get_admin_global_links(),
 		);
 	}
 

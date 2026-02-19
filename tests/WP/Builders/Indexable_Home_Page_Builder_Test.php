@@ -34,13 +34,13 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 			\YoastSEO()->helpers->options,
 			\YoastSEO()->helpers->url,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 
 		$this->instance->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 	}
 
@@ -146,7 +146,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 				'post_parent'    => 0,
 				'post_mime_type' => 'image/jpeg',
 				'guid'           => \home_url() . $fake_image_path,
-			]
+			],
 		);
 
 		$expected_image['id'] = $id;
@@ -158,7 +158,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 			[
 				'width'  => $fake_image_width,
 				'height' => $fake_image_height,
-			]
+			],
 		);
 
 		\YoastSEO()->helpers->options->set( 'open_graph_frontpage_image_id', $id );

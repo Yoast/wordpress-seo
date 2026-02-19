@@ -40,7 +40,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -78,8 +78,8 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 						return $request->get_action_path() === '/token/refresh'
 						&& $request->get_body() === [ 'code_challenge' => \hash( 'sha256', $code ) ]
 						&& $request->get_headers() === [ 'Authorization' => "Bearer $refresh_jwt" ];
-					}
-				)
+					},
+				),
 			)
 			->once();
 
@@ -123,7 +123,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -177,7 +177,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -231,7 +231,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'expired-refresh-token';
 
 		$this->refresh_token_repository
@@ -285,7 +285,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -339,7 +339,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -393,7 +393,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -447,7 +447,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -501,7 +501,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository
@@ -555,7 +555,7 @@ final class Token_Refresh_Test extends Abstract_Token_Manager_Test {
 
 		$code_verifier = Mockery::mock( Code_Verifier::class );
 		$code          = 'test-code-verifier';
-		$created_at    = 1640995200;
+		$created_at    = 1_640_995_200;
 		$refresh_jwt   = 'valid-refresh-token';
 
 		$this->refresh_token_repository

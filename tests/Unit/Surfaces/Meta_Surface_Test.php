@@ -103,7 +103,7 @@ final class Meta_Surface_Test extends TestCase {
 			$this->context_memoizer,
 			$this->repository,
 			$this->wp_rewrite_wrapper,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 
 		$this->context->presentation = (object) [ 'test' => 'succeeds' ];
@@ -517,7 +517,7 @@ final class Meta_Surface_Test extends TestCase {
 							// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Test mock.
 							return \parse_url( $url, $component );
 					}
-				}
+				},
 			);
 
 		$this->container->expects( 'get' )
@@ -563,7 +563,7 @@ final class Meta_Surface_Test extends TestCase {
 					'([0-9]{4})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&paged=$matches[2]',
 					'([0-9]{4})/([0-9]{1,2})/?$'      => 'index.php?year=$matches[1]&monthnum=$matches[2]',
 					'([0-9]{4})/?$'                   => 'index.php?year=$matches[1]',
-				]
+				],
 			);
 
 		$this->indexable->object_type     = $object_type;
@@ -616,7 +616,7 @@ final class Meta_Surface_Test extends TestCase {
 				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
-			]
+			],
 		);
 
 		$this->assertFalse( $this->instance->for_url( $url ) );

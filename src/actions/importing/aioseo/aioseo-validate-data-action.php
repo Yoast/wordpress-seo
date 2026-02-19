@@ -142,7 +142,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 
 		$aioseo_columns = $this->wpdb->get_col(
 			"SHOW COLUMNS FROM {$table}", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-			0
+			0,
 		);
 
 		return $needed_data === \array_intersect( $needed_data, $aioseo_columns );

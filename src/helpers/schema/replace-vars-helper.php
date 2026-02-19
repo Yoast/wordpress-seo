@@ -116,7 +116,7 @@ class Replace_Vars_Helper {
 	protected function register_replacement( $variable, $value ) {
 		$this->replace_vars->safe_register_replacement(
 			$variable,
-			$this->get_identity_function( $value )
+			$this->get_identity_function( $value ),
 		);
 	}
 

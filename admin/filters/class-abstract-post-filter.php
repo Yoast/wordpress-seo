@@ -95,7 +95,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 		$asset_manager->localize_script(
 			'filter-explanation',
 			'yoastFilterExplanation',
-			[ 'text' => $explanation ]
+			[ 'text' => $explanation ],
 		);
 	}
 
@@ -112,7 +112,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 			esc_url( $this->get_filter_url() ),
 			( $this->is_filter_active() ) ? ' class="current" aria-current="page"' : '',
 			$this->get_label(),
-			$this->get_post_total()
+			$this->get_post_total(),
 		);
 
 		return $views;

@@ -60,7 +60,7 @@ final class Images_Test extends TestCase {
 		$this->url              = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->open_graph_image = Mockery::mock(
 			Open_Graph_Image_Helper::class,
-			[ new Url_Helper(), $this->image ]
+			[ new Url_Helper(), $this->image ],
 		)->makePartial();
 
 		$this->instance = new Images( $this->image, $this->url );
@@ -89,7 +89,7 @@ final class Images_Test extends TestCase {
 					'url' => 'image.jpg',
 				],
 			],
-			$this->instance->get_images()
+			$this->instance->get_images(),
 		);
 	}
 

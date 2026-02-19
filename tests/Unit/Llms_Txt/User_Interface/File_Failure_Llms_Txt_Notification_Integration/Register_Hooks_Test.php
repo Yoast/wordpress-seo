@@ -25,8 +25,8 @@ final class Register_Hooks_Test extends Abstract_File_Failure_Llms_Txt_Notificat
 			10,
 			\has_action(
 				'admin_init',
-				[ $this->instance, 'maybe_show_notification' ]
-			)
+				[ $this->instance, 'maybe_show_notification' ],
+			),
 		);
 	}
 }

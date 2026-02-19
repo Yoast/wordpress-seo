@@ -22,12 +22,12 @@ final class Suggested_Plugins_Construct_Test extends Suggested_Plugins_TestCase 
 	public function test_construct() {
 		$this->assertInstanceOf(
 			WPSEO_Plugin_Availability::class,
-			$this->getPropertyValue( $this->instance, 'availability_checker' )
+			$this->getPropertyValue( $this->instance, 'availability_checker' ),
 		);
 
 		$this->assertInstanceOf(
 			Yoast_Notification_Center::class,
-			$this->getPropertyValue( $this->instance, 'notification_center' )
+			$this->getPropertyValue( $this->instance, 'notification_center' ),
 		);
 	}
 }

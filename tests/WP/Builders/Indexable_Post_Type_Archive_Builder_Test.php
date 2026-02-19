@@ -34,7 +34,7 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 			\YoastSEO()->helpers->options,
 			\YoastSEO()->classes->get( 'Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions' ),
 			\YoastSEO()->helpers->post,
-			\YoastSEO()->helpers->post_type
+			\YoastSEO()->helpers->post_type,
 		);
 	}
 
@@ -54,7 +54,7 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 				'has_archive' => true,
 				'description' => 'a cool post type',
 				'label'       => $post_type,
-			]
+			],
 		);
 
 		$post = [
@@ -98,7 +98,7 @@ final class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 				'has_archive' => true,
 				'description' => 'a cool post type',
 				'label'       => $post_type,
-			]
+			],
 		);
 
 		$post = [

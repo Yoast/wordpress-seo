@@ -289,7 +289,7 @@ final class Author_Test extends TestCase {
 				'facebook'  => 'https://facebook.example.org/admin',
 				'instagram' => 'https://instagram.example.org/admin',
 				'linkedin'  => 'https://linkedin.example.org/admin',
-			]
+			],
 		);
 
 		$this->set_pronouns_expectations( $user_id );
@@ -464,7 +464,7 @@ final class Author_Test extends TestCase {
 					'url'    => 'http://example.com/image.png',
 				],
 				$user_data->display_name,
-				false
+				false,
 			)
 			->andReturn( 'our_image_schema' );
 	}

@@ -62,7 +62,7 @@ abstract class Abstract_Tracking_On_Page_Load_Integration_Test extends TestCase 
 		$this->instance = new Tracking_On_Page_Load_Integration(
 			$this->action_tracker,
 			$this->capability_helper,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

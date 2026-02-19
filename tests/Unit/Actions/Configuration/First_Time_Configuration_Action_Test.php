@@ -64,11 +64,11 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Social_Profiles_Helper::class,
-			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
+			$this->getPropertyValue( $this->instance, 'social_profiles_helper' ),
 		);
 	}
 
@@ -107,7 +107,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->set_site_representation( $params )
+			$this->instance->set_site_representation( $params ),
 		);
 	}
 
@@ -211,7 +211,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->set_social_profiles( $params )
+			$this->instance->set_social_profiles( $params ),
 		);
 	}
 
@@ -298,7 +298,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->set_enable_tracking( $params )
+			$this->instance->set_enable_tracking( $params ),
 		);
 	}
 
@@ -404,7 +404,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->check_capability( $user_id )
+			$this->instance->check_capability( $user_id ),
 		);
 	}
 
@@ -464,7 +464,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			$this->instance->save_configuration_state( $params )
+			$this->instance->save_configuration_state( $params ),
 		);
 	}
 
@@ -559,7 +559,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 					'finishedSteps'     => [ 'step1', 'step2' ],
 				],
 			],
-			$this->instance->get_configuration_state()
+			$this->instance->get_configuration_state(),
 		);
 	}
 
@@ -583,7 +583,7 @@ final class First_Time_Configuration_Action_Test extends TestCase {
 				'status'  => 500,
 				'error'   => 'Could not get data from the database',
 			],
-			$this->instance->get_configuration_state()
+			$this->instance->get_configuration_state(),
 		);
 	}
 }

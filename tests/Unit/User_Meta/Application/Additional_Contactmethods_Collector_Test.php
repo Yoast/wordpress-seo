@@ -52,7 +52,7 @@ final class Additional_Contactmethods_Collector_Test extends TestCase {
 
 		$this->instance = new Additional_Contactmethods_Collector(
 			$this->facebook,
-			$this->youtube
+			$this->youtube,
 		);
 	}
 

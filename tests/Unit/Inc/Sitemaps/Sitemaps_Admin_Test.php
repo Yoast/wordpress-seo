@@ -64,7 +64,7 @@ final class Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'development',
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'get_post_type' )
@@ -102,7 +102,7 @@ final class Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'production',
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'get_post_type' )

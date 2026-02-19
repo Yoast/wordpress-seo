@@ -225,7 +225,7 @@ class Post_Type_Helper {
 			static function ( $post_type_object ) {
 				return $post_type_object->name;
 			},
-			$public_type_objects
+			$public_type_objects,
 		);
 
 		return \in_array( $post_type, $public_types, true );

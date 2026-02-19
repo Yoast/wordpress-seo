@@ -26,8 +26,8 @@ final class Setup_Flow_Interceptor_Register_Hooks_Test extends Abstract_Setup_Fl
 			999,
 			\has_action(
 				'admin_init',
-				[ $this->instance, 'intercept_site_kit_setup_flow' ]
-			)
+				[ $this->instance, 'intercept_site_kit_setup_flow' ],
+			),
 		);
 	}
 }

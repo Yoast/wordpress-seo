@@ -74,7 +74,7 @@ final class Readability_Scores_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/readability_scores'
+				'yoast/v1/readability_scores',
 			)->andReturnFirstArg();
 		$this->assertSame( 'yoast/v1/readability_scores', $this->instance->get_url() );
 	}

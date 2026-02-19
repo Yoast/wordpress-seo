@@ -81,7 +81,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'//core/modules/data/list',
 					'//core/user/data/permissions',
 					'//core/site/data/connection',
-				]
+				],
 			);
 			Functions\expect( 'rest_preload_api_request' )->andReturn(
 				[
@@ -91,7 +91,7 @@ final class Site_Kit_To_Array_Test extends Abstract_Site_Kit_Test {
 					'//core/modules/data/list' => [
 						'body' => $data_list,
 					],
-				]
+				],
 			);
 		}
 

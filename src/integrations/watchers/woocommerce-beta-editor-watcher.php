@@ -140,7 +140,7 @@ class Woocommerce_Beta_Editor_Watcher implements Integration_Interface {
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 1,
-			]
+			],
 		);
 	}
 }

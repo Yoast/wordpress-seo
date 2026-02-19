@@ -25,7 +25,7 @@ final class Complete_FTC_Constructor_Test extends Abstract_Complete_FTC_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			First_Time_Configuration_Notice_Helper::class,
-			$this->getPropertyValue( $this->instance, 'ftc_notice_helper' )
+			$this->getPropertyValue( $this->instance, 'ftc_notice_helper' ),
 		);
 	}
 }

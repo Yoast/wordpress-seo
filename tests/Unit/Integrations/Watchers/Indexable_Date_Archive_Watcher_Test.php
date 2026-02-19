@@ -66,7 +66,7 @@ final class Indexable_Date_Archive_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Date_Archive_Watcher::get_conditionals()
+			Indexable_Date_Archive_Watcher::get_conditionals(),
 		);
 	}
 

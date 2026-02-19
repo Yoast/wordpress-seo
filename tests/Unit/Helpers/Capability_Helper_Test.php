@@ -184,7 +184,7 @@ final class Capability_Helper_Test extends TestCase {
 				(object) [
 					'name'         => 'administrator',
 					'capabilities' => $capabilities['administrator'],
-				]
+				],
 			);
 
 		$wp_roles->expects( 'get_role' )
@@ -279,7 +279,7 @@ final class Capability_Helper_Test extends TestCase {
 					(object) [
 						'name'         => $id,
 						'capabilities' => $capabilities[ $id ],
-					]
+					],
 				);
 		}
 

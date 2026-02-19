@@ -30,7 +30,7 @@ final class Register_Routes_Test extends Abstract_Free_Sparks_Route_Test {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'start' ],
 					'permission_callback' => [ $this->instance, 'can_edit_posts' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

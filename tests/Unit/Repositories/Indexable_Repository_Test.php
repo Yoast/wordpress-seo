@@ -97,7 +97,7 @@ final class Indexable_Repository_Test extends TestCase {
 				$this->hierarchy_repository,
 				$this->wpdb,
 				$this->version_manager,
-			]
+			],
 		)->makePartial();
 	}
 
@@ -394,7 +394,7 @@ final class Indexable_Repository_Test extends TestCase {
 					'permalink'      => null,
 					'permalink_hash' => null,
 					'version'        => 0,
-				]
+				],
 			)
 			->once()
 			->andReturnSelf();
@@ -428,7 +428,7 @@ final class Indexable_Repository_Test extends TestCase {
 					'permalink'      => null,
 					'permalink_hash' => null,
 					'version'        => 0,
-				]
+				],
 			)
 			->once()
 			->andReturnSelf();
@@ -472,7 +472,7 @@ final class Indexable_Repository_Test extends TestCase {
 					'permalink'      => null,
 					'permalink_hash' => null,
 					'version'        => 0,
-				]
+				],
 			)
 			->once()
 			->andReturnSelf();

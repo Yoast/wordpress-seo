@@ -38,7 +38,7 @@ final class Register_Routes_Test extends Abstract_Opt_In_Route_Test {
 							'validate_callback' => [ $this->instance, 'validate_key' ],
 						],
 					],
-				]
+				],
 			)
 			->once();
 

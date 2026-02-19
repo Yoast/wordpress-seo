@@ -214,7 +214,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 
 		$notification = new Yoast_Notification(
 			$message,
-			$options
+			$options,
 		);
 
 		$subject = $this->get_notification_center();
@@ -499,7 +499,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 			[
 				'nonce' => $old_nonce,
 				'id'    => 'test',
-			]
+			],
 		);
 		$new      = new Yoast_Notification( 'new', [ 'id' => 'test' ] );
 
@@ -827,7 +827,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'get_notification_by_id' )
 			->willReturn(
-				new Yoast_Notification( 'message', [ 'id' => 'this-id-exists' ] )
+				new Yoast_Notification( 'message', [ 'id' => 'this-id-exists' ] ),
 			);
 
 		$notification_center->remove_notification_by_id( 'this-id-exists' );
@@ -882,7 +882,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 			[
 				'user_id'      => $user_1->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
-			]
+			],
 		);
 
 		$notification_for_user_2 = new Yoast_Notification(
@@ -890,7 +890,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 			[
 				'user_id'      => $user_2->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
-			]
+			],
 		);
 
 		$instance->add_notification( $notification_for_user_1 );
@@ -926,7 +926,7 @@ final class Yoast_Notification_Center_Test extends TestCase {
 				'id'           => 'Yoast_Notification_Test',
 				'user_id'      => $user->ID,
 				'capabilities' => [ 'wpseo_manage_options' ],
-			]
+			],
 		);
 
 		$instance->add_notification( $notification );
@@ -949,11 +949,11 @@ final class Yoast_Notification_Center_Test extends TestCase {
 		return [
 			new Yoast_Notification(
 				'notification',
-				[ 'id' => 'some_id' ]
+				[ 'id' => 'some_id' ],
 			),
 			new Yoast_Notification(
 				'notification',
-				[ 'id' => 'another_id' ]
+				[ 'id' => 'another_id' ],
 			),
 		];
 	}

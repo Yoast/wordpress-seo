@@ -131,7 +131,7 @@ class Get_Suggestions_Route implements Route_Interface {
 				],
 				'callback'            => [ $this, 'get_suggestions' ],
 				'permission_callback' => [ $this, 'check_permissions' ],
-			]
+			],
 		);
 	}
 
@@ -152,7 +152,7 @@ class Get_Suggestions_Route implements Route_Interface {
 				$request->get_param( 'focus_keyphrase' ),
 				$request->get_param( 'language' ),
 				$request->get_param( 'platform' ),
-				$request->get_param( 'editor' )
+				$request->get_param( 'editor' ),
 			);
 		} catch ( Remote_Request_Exception $e ) {
 			$message = [
@@ -164,7 +164,7 @@ class Get_Suggestions_Route implements Route_Interface {
 			}
 			return new WP_REST_Response(
 				$message,
-				$e->getCode()
+				$e->getCode(),
 			);
 		} catch ( RuntimeException $e ) {
 			return new WP_REST_Response( 'Failed to get suggestions.', 500 );

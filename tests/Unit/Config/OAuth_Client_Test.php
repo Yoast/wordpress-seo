@@ -104,22 +104,22 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		);
 
 		$this->assertEquals(
 			'oauth_token',
-			$this->getPropertyValue( $instance, 'token_option' )
+			$this->getPropertyValue( $instance, 'token_option' ),
 		);
 
 		$this->assertInstanceOf(
 			GenericProvider::class,
-			$this->getPropertyValue( $instance, 'provider' )
+			$this->getPropertyValue( $instance, 'provider' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 
 		$this->assertNull( $this->getPropertyValue( $instance, 'token' ) );
@@ -143,11 +143,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -156,27 +156,27 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		);
 
 		$this->assertEquals(
 			'oauth_token',
-			$this->getPropertyValue( $instance, 'token_option' )
+			$this->getPropertyValue( $instance, 'token_option' ),
 		);
 
 		$this->assertInstanceOf(
 			GenericProvider::class,
-			$this->getPropertyValue( $instance, 'provider' )
+			$this->getPropertyValue( $instance, 'provider' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			OAuth_Token::class,
-			$this->getPropertyValue( $instance, 'token' )
+			$this->getPropertyValue( $instance, 'token' ),
 		);
 	}
 
@@ -192,9 +192,9 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$this->options_helper
@@ -219,11 +219,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			)
 			->andReturns( $this->token );
 
@@ -233,7 +233,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial();
 
 		$requested_tokens             = $instance->request_tokens( '123456' );
@@ -259,11 +259,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$this->provider
@@ -278,7 +278,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial();
 
 		$instance->request_tokens( '' );
@@ -304,11 +304,11 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => 604800,
+				'expires'       => 604_800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
 				'error_count'   => 0,
-			]
+			],
 		);
 
 		$this->options_helper
@@ -318,11 +318,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			)
 			->once()
 			->andReturnTrue();
@@ -333,7 +333,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial();
 
 		$stored_token = $instance->store_token( $this->token );
@@ -363,11 +363,11 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => 604800,
+				'expires'       => 604_800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
 				'error_count'   => 0,
-			]
+			],
 		);
 
 		$this->options_helper
@@ -377,11 +377,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			)
 			->once()
 			->andReturnFalse();
@@ -392,7 +392,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial();
 
 		$instance->store_token( $this->token );
@@ -431,11 +431,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -444,7 +444,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial()
 		->shouldAllowMockingProtectedMethods();
@@ -474,7 +474,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 							->makePartial()
 							->shouldAllowMockingProtectedMethods();
@@ -486,7 +486,7 @@ final class OAuth_Client_Test extends TestCase {
 					'https://google.com',
 					[
 						'body' => 'request body',
-					]
+					],
 				)
 				->andReturn( [] );
 
@@ -513,7 +513,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial()
 		->shouldAllowMockingProtectedMethods();
@@ -544,11 +544,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -557,7 +557,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial();
 
@@ -584,7 +584,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial();
 
@@ -608,11 +608,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -621,12 +621,12 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial();
 
 		$this->assertNotEmpty(
-			$this->getPropertyValue( $instance, 'token' )
+			$this->getPropertyValue( $instance, 'token' ),
 		);
 
 		$this->assertTrue( $instance->has_valid_tokens() );
@@ -654,7 +654,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial();
 
@@ -673,9 +673,9 @@ final class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$this->time = \time();
@@ -688,11 +688,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$this->options_helper
@@ -705,7 +705,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial()
 		->shouldAllowMockingProtectedMethods();
 
@@ -742,11 +742,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => ( $this->time + 604800 ),
+					'expires'       => ( $this->time + 604_800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -755,7 +755,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial();
 
 		$this->assertInstanceOf( OAuth_Token::class, $instance->get_tokens() );
@@ -779,20 +779,20 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$this->response->allows(
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => ( $this->time + 604800 ),
+				'getExpires'      => ( $this->time + 604_800 ),
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$this->provider
@@ -807,7 +807,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)->makePartial()
 		->shouldAllowMockingProtectedMethods();
 
@@ -825,7 +825,7 @@ final class OAuth_Client_Test extends TestCase {
 
 		$this->assertInstanceOf(
 			OAuth_Token::class,
-			$this->getPropertyValue( $instance, 'token' )
+			$this->getPropertyValue( $instance, 'token' ),
 		);
 	}
 
@@ -849,11 +849,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$this->provider
@@ -868,7 +868,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 		->makePartial()
 		->shouldAllowMockingProtectedMethods();
@@ -915,11 +915,11 @@ final class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
 					'error_count'   => 0,
-				]
+				],
 			);
 
 		$this->provider
@@ -934,7 +934,7 @@ final class OAuth_Client_Test extends TestCase {
 				'oauth_token',
 				$this->provider,
 				$this->options_helper,
-			]
+			],
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();

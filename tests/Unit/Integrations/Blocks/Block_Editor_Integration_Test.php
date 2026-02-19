@@ -56,7 +56,7 @@ final class Block_Editor_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Post_Conditional::class ],
-			Block_Editor_Integration::get_conditionals()
+			Block_Editor_Integration::get_conditionals(),
 		);
 	}
 
@@ -70,7 +70,7 @@ final class Block_Editor_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			$this->getPropertyValue( $this->instance, 'asset_manager' )
+			$this->getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 	}
 

@@ -77,7 +77,7 @@ final class Redirect_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 			],
-			Redirect_Integration::get_conditionals()
+			Redirect_Integration::get_conditionals(),
 		);
 	}
 

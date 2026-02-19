@@ -247,7 +247,7 @@ final class WPSEO_Test extends TestCase {
 			[
 				'name'     => $name,
 				'taxonomy' => 'category',
-			]
+			],
 		);
 		\update_option( 'wpseo_category_' . $term_id, $desc );
 		\update_option( 'wpseo_category_' . $term_id . '_robots', $robots );

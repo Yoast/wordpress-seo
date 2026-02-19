@@ -623,7 +623,7 @@ final class Current_Page_Helper_Test extends TestCase {
 					}
 
 					return null;
-				}
+				},
 			);
 
 		$this->assertTrue( $this->instance->is_home_static_page() );

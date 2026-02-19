@@ -75,15 +75,15 @@ final class SEMrush_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			SEMrush_Login_Action::class,
-			$this->getPropertyValue( $this->instance, 'login_action' )
+			$this->getPropertyValue( $this->instance, 'login_action' ),
 		);
 		$this->assertInstanceOf(
 			SEMrush_Options_Action::class,
-			$this->getPropertyValue( $this->instance, 'options_action' )
+			$this->getPropertyValue( $this->instance, 'options_action' ),
 		);
 		$this->assertInstanceOf(
 			SEMrush_Phrases_Action::class,
-			$this->getPropertyValue( $this->instance, 'phrases_action' )
+			$this->getPropertyValue( $this->instance, 'phrases_action' ),
 		);
 	}
 
@@ -97,7 +97,7 @@ final class SEMrush_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ SEMrush_Enabled_Conditional::class ],
-			SEMrush_Route::get_conditionals()
+			SEMrush_Route::get_conditionals(),
 		);
 	}
 
@@ -123,7 +123,7 @@ final class SEMrush_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -140,7 +140,7 @@ final class SEMrush_Route_Test extends TestCase {
 							'required'          => true,
 						],
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -160,7 +160,7 @@ final class SEMrush_Route_Test extends TestCase {
 							'required' => true,
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

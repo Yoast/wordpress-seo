@@ -272,7 +272,7 @@ class Schema_Generator implements Generator_Interface {
 				'datePublished',
 				'dateModified',
 				'breadcrumb',
-			]
+			],
 		);
 
 		$graph_piece          = \array_intersect_key( $graph_piece, $properties_to_show );

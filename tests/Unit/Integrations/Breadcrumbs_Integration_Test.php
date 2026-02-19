@@ -53,7 +53,7 @@ final class Breadcrumbs_Integration_Test extends TestCase {
 		$this->instance         = new Breadcrumbs_Integration(
 			Mockery::mock( Helpers_Surface::class ),
 			Mockery::mock( WPSEO_Replace_Vars::class ),
-			$this->context_memoizer
+			$this->context_memoizer,
 		);
 	}
 

@@ -44,7 +44,7 @@ final class OAuth_Token_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_creating_new_instance() {
-		$instance = new OAuth_Token( '000000', '000001', 604800, false, $this->created_at );
+		$instance = new OAuth_Token( '000000', '000001', 604_800, false, $this->created_at );
 
 		$this->assertInstanceOf( OAuth_Token::class, $instance );
 	}
@@ -59,7 +59,7 @@ final class OAuth_Token_Test extends TestCase {
 	public function test_creating_new_instance_empty_access_token() {
 		$this->expectException( Empty_Property_Exception::class );
 
-		new OAuth_Token( '', '000001', 604800, true, $this->created_at );
+		new OAuth_Token( '', '000001', 604_800, true, $this->created_at );
 	}
 
 	/**
@@ -72,7 +72,7 @@ final class OAuth_Token_Test extends TestCase {
 	public function test_creating_new_instance_empty_refresh_token() {
 		$this->expectException( Empty_Property_Exception::class );
 
-		new OAuth_Token( '000000', '', 604800, true, $this->created_at );
+		new OAuth_Token( '000000', '', 604_800, true, $this->created_at );
 	}
 
 	/**
@@ -98,7 +98,7 @@ final class OAuth_Token_Test extends TestCase {
 	public function test_creating_new_instance_empty_has_expired() {
 		$this->expectException( Empty_Property_Exception::class );
 
-		new OAuth_Token( '000000', '000001', 604800, null, $this->created_at );
+		new OAuth_Token( '000000', '000001', 604_800, null, $this->created_at );
 	}
 
 	/**
@@ -109,11 +109,11 @@ final class OAuth_Token_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_getters() {
-		$instance = new OAuth_Token( '000000', '000001', ( $this->created_at + 604800 ), false, $this->created_at );
+		$instance = new OAuth_Token( '000000', '000001', ( $this->created_at + 604_800 ), false, $this->created_at );
 
 		$this->assertEquals( '000000', $instance->access_token );
 		$this->assertEquals( '000001', $instance->refresh_token );
-		$this->assertEquals( ( $this->created_at + 604800 ), $instance->expires );
+		$this->assertEquals( ( $this->created_at + 604_800 ), $instance->expires );
 		$this->assertFalse( $instance->has_expired() );
 		$this->assertEquals( $this->created_at, $instance->created_at );
 		$this->assertEquals( 0, $instance->error_count );
@@ -130,21 +130,21 @@ final class OAuth_Token_Test extends TestCase {
 		$instance = new OAuth_Token(
 			'000000',
 			'000001',
-			( $this->created_at + 604800 ),
+			( $this->created_at + 604_800 ),
 			false,
-			$this->created_at
+			$this->created_at,
 		);
 
 		$this->assertEquals(
 			[
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => ( $this->created_at + 604800 ),
+				'expires'       => ( $this->created_at + 604_800 ),
 				'has_expired'   => false,
 				'created_at'    => $this->created_at,
 				'error_count'   => 0,
 			],
-			$instance->to_array()
+			$instance->to_array(),
 		);
 	}
 
@@ -162,9 +162,9 @@ final class OAuth_Token_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$instance = OAuth_Token::from_response( $response );
@@ -172,7 +172,7 @@ final class OAuth_Token_Test extends TestCase {
 		$this->assertInstanceOf( OAuth_Token::class, $instance );
 		$this->assertEquals( '000000', $this->getPropertyValue( $instance, 'access_token' ) );
 		$this->assertEquals( '000001', $this->getPropertyValue( $instance, 'refresh_token' ) );
-		$this->assertEquals( 604800, $this->getPropertyValue( $instance, 'expires' ) );
+		$this->assertEquals( 604_800, $this->getPropertyValue( $instance, 'expires' ) );
 		$this->assertEquals( false, $this->getPropertyValue( $instance, 'has_expired' ) );
 		$this->assertEquals( $this->created_at, $this->getPropertyValue( $instance, 'created_at' ) );
 	}

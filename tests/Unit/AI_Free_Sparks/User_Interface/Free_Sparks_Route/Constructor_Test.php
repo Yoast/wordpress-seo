@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Free_Sparks_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Free_Sparks_Handler_Interface::class,
-			$this->getPropertyValue( $this->instance, 'free_sparks_handler' )
+			$this->getPropertyValue( $this->instance, 'free_sparks_handler' ),
 		);
 	}
 }

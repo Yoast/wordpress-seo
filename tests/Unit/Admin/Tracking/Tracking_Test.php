@@ -29,7 +29,7 @@ final class Tracking_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'development',
-			]
+			],
 		);
 
 		WPSEO_Options::set( 'tracking', true );
@@ -62,7 +62,7 @@ final class Tracking_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'production',
-			]
+			],
 		);
 		WPSEO_Options::set( 'tracking', true );
 
@@ -96,7 +96,7 @@ final class Tracking_Test extends TestCase {
 			[
 				Missing_Indexables_Collector::class       => Mockery::mock( Missing_Indexables_Collector::class ),
 				To_Be_Cleaned_Indexables_Collector::class => Mockery::mock( To_Be_Cleaned_Indexables_Collector::class ),
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )

@@ -46,14 +46,14 @@ class Premium_Badge_Presenter extends Abstract_Presenter {
 				'<a class="yoast-badge yoast-badge__is-link yoast-premium-badge" id="%1$s-premium-badge" href="%2$s">%3$s</a>',
 				\esc_attr( $this->id ),
 				\esc_url( $this->link ),
-				'Premium' // We don't want this string to be translatable.
+				'Premium', // We don't want this string to be translatable.
 			);
 		}
 
 		return \sprintf(
 			'<span class="yoast-badge yoast-premium-badge" id="%1$s-premium-badge">%2$s</span>',
 			\esc_attr( $this->id ),
-			'Premium' // We don't want this string to be translatable.
+			'Premium', // We don't want this string to be translatable.
 		);
 	}
 }

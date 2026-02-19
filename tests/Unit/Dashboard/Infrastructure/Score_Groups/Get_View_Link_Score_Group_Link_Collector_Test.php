@@ -61,7 +61,7 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 					'post_status'                  => 'publish',
 					'post_type'                    => $content_type->get_name(),
 					$score_group->get_filter_key() => $score_group->get_filter_value(),
-				]
+				],
 			)
 			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() );
 
@@ -102,7 +102,7 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 					'post_status'                  => 'publish',
 					'post_type'                    => $content_type->get_name(),
 					$score_group->get_filter_key() => $score_group->get_filter_value(),
-				]
+				],
 			)
 			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() . '&query=slug' );
 
@@ -178,7 +178,7 @@ final class Get_View_Link_Score_Group_Link_Collector_Test extends TestCase {
 					'post_status'                  => 'publish',
 					'post_type'                    => $content_type->get_name(),
 					$score_group->get_filter_key() => $score_group->get_filter_value(),
-				]
+				],
 			)
 			->andReturn( 'edit.php?post_status=publish&page_type=' . $content_type->get_name() . '&' . $score_group->get_filter_key() . '=' . $score_group->get_filter_value() . '&' . $taxonomy_query_var . '=slug' );
 

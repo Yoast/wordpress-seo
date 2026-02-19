@@ -136,9 +136,9 @@ class Tasks_Collector implements Tasks_Collector_Interface {
 					$task->get_call_to_action()->get_label(),
 					$task->get_call_to_action()->get_type(),
 					$this->tracking_link_adapter->create_tracking_link_for_tasks(
-						$task->get_call_to_action()->get_href()
-					)
-				)
+						$task->get_call_to_action()->get_href(),
+					),
+				),
 			);
 
 			$tasks_data[ $task->get_id() ] = $task->to_array();

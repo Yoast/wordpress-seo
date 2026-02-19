@@ -101,7 +101,7 @@ class Indexable_Term_Builder {
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
-			$this->get_meta_value( 'wpseo_linkdex', $term_meta )
+			$this->get_meta_value( 'wpseo_linkdex', $term_meta ),
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
@@ -283,8 +283,8 @@ class Indexable_Term_Builder {
 			WHERE	p.%i IN (' . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND		p.%i = ''
 			",
-				$replacements
-			)
+				$replacements,
+			),
 		);
 		//phpcs:enable
 	}

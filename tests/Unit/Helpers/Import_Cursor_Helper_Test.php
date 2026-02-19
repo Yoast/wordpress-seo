@@ -128,7 +128,7 @@ final class Import_Cursor_Helper_Test extends TestCase {
 			[ -1 ],
 			[ 1336 ],
 			[ 1337 ],
-			[ -9223372036854775808 ],
+			[ -9_223_372_036_854_775_807 ],
 			[ 1336.3 ],
 			[ null ],
 		];
@@ -171,7 +171,7 @@ final class Import_Cursor_Helper_Test extends TestCase {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],
-			[ 9223372036854775807 ],
+			[ 9_223_372_036_854_775_808 ],
 		];
 	}
 }

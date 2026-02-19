@@ -55,7 +55,7 @@ final class Robots_Txt_Conditional_Test extends TestCase {
 		$this->assertInstanceOf( Robots_Txt_Conditional::class, $this->instance );
 		$this->assertInstanceOf(
 			Front_End_Conditional::class,
-			$this->getPropertyValue( $this->instance, 'front_end_conditional' )
+			$this->getPropertyValue( $this->instance, 'front_end_conditional' ),
 		);
 	}
 
@@ -120,7 +120,7 @@ final class Robots_Txt_Conditional_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => true,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'is_network_admin' )
@@ -218,7 +218,7 @@ final class Robots_Txt_Conditional_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => true,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'is_network_admin' )

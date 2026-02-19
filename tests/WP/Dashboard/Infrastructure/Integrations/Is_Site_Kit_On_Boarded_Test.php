@@ -86,7 +86,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 			'googlesitekit_oauth_secret',
 			static function () use ( $oauth_keys ) {
 				return $oauth_keys;
-			}
+			},
 		);
 
 		$this->site_kit_consent_repository->set_site_kit_consent( $is_consent_granted );
@@ -106,7 +106,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 						'client_id'     => 'client_id',
 						'client_secret' => 'client_secret',
 					],
-				]
+				],
 			),
 			'is_consent_granted'    => true,
 			'expected'              => true,
@@ -118,7 +118,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 						'client_id'     => 'client_id',
 						'client_secret' => 'client_secret',
 					],
-				]
+				],
 			),
 			'is_consent_granted'    => false,
 			'expected'              => false,
@@ -134,7 +134,7 @@ final class Is_Site_Kit_On_Boarded_Test extends TestCase {
 					'web' => [
 						'client_id'     => 'client_id',
 					],
-				]
+				],
 			),
 			'is_consent_granted'    => true,
 			'expected'              => false,
