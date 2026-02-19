@@ -44,5 +44,6 @@ export const Task = ( { title, id, duration, priority, isCompleted, badge } ) =>
 		completedTasks={ completedTasks }
 		totalTasks={ totalTasks }
 		badge={ badge }
+		id={ id }
 	/>;
 };

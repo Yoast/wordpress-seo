@@ -62,10 +62,11 @@ const LoadingTaskRow = ( { titleClassName } ) => {
  * @param {Function} onClick Function to call when the row is clicked.
  * @param {number} [completedTasks] Number of completed child tasks.
  * @param {number} [totalTasks] Total number of child tasks.
+ * @param {string} id The ID of the task, used for accessibility and as a key for child tasks progress badge click handling.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, completedTasks, totalTasks } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, completedTasks, totalTasks, id } ) => {
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
@@ -114,7 +115,7 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 			</Table.Cell>
 			<Table.Cell className={ classNames( "yst-hidden sm:yst-table-cell yst-pe-5", cellBackground ) }>
 				<div className="yst-flex yst-justify-between">
-					{ totalTasks > 0 && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
+					{ totalTasks > 0 && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } parentTaskId={ id } /> }
 					<ChevronRightIcon
 						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0 yst-ms-auto",
 							isButtonFocused ? "yst-text-slate-800 yst-translate-x-2" : "group-hover:yst-text-slate-800 group-hover:yst-translate-x-2"
