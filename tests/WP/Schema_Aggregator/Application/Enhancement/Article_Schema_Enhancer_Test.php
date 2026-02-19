@@ -159,11 +159,14 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	}
 
 	/**
-	 * Tests enhance() adds keywords from tags.
+	 * Tests enhance() adds keywords from categories when enabled.
 	 *
 	 * @return void
 	 */
-	public function test_enhance_adds_keywords_from_tags() {
+	public function test_enhance_adds_keywords_from_categories() {
+		// Enable categories as keywords.
+		\add_filter( 'wpseo_article_enhance_config_categories_as_keywords', '__return_true' );
+
 		$post = $this->factory()->post->create_and_get(
 			[
 				'post_title'  => 'Test Article',
@@ -172,10 +175,10 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			],
 		);
 
-		// Create and assign tags.
-		$tag1 = $this->factory()->tag->create( [ 'name' => 'SEO' ] );
-		$tag2 = $this->factory()->tag->create( [ 'name' => 'WordPress' ] );
-		\wp_set_post_tags( $post->ID, [ $tag1, $tag2 ] );
+		// Create and assign categories.
+		$category1 = $this->factory()->category->create( [ 'name' => 'SEO' ] );
+		$category2 = $this->factory()->category->create( [ 'name' => 'WordPress' ] );
+		\wp_set_post_categories( $post->ID, [ $category1, $category2 ] );
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
@@ -189,7 +192,11 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 
 		$enhanced_data = $result->get_data();
 		$this->assertArrayHasKey( 'keywords', $enhanced_data );
-		$this->assertSame( 'SEO, WordPress', $enhanced_data['keywords'] );
+		$this->assertStringContainsString( 'SEO', $enhanced_data['keywords'] );
+		$this->assertStringContainsString( 'WordPress', $enhanced_data['keywords'] );
+
+		// Clean up filter.
+		\remove_filter( 'wpseo_article_enhance_config_categories_as_keywords', '__return_true' );
 	}
 
 	/**
@@ -382,11 +389,14 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 	}
 
 	/**
-	 * Tests enhance() does not override existing keywords.
+	 * Tests enhance() merges existing keywords with new categories.
 	 *
 	 * @return void
 	 */
-	public function test_enhance_does_not_override_existing_keywords() {
+	public function test_enhance_merges_existing_keywords_with_categories() {
+		// Enable categories as keywords.
+		\add_filter( 'wpseo_article_enhance_config_categories_as_keywords', '__return_true' );
+
 		$post = $this->factory()->post->create_and_get(
 			[
 				'post_title'  => 'Test Article',
@@ -395,9 +405,9 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 			],
 		);
 
-		// Create and assign tags.
-		$tag = $this->factory()->tag->create( [ 'name' => 'SEO' ] );
-		\wp_set_post_tags( $post->ID, [ $tag ] );
+		// Create and assign a category.
+		$category = $this->factory()->category->create( [ 'name' => 'Technology' ] );
+		\wp_set_post_categories( $post->ID, [ $category ] );
 
 		$indexable = \current( $this->get_indexables_for( $post ) );
 
@@ -411,7 +421,12 @@ final class Article_Schema_Enhancer_Test extends TestCase {
 		$result = $this->instance->enhance( $schema_piece, $indexable );
 
 		$enhanced_data = $result->get_data();
-		$this->assertSame( 'Existing, Keywords', $enhanced_data['keywords'] );
+		$this->assertStringContainsString( 'Existing', $enhanced_data['keywords'] );
+		$this->assertStringContainsString( 'Keywords', $enhanced_data['keywords'] );
+		$this->assertStringContainsString( 'Technology', $enhanced_data['keywords'] );
+
+		// Clean up filter.
+		\remove_filter( 'wpseo_article_enhance_config_categories_as_keywords', '__return_true' );
 	}
 
 	/**
