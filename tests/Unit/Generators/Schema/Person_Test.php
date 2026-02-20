@@ -408,7 +408,7 @@ final class Person_Test extends TestCase {
 				'instagram' => 1234,
 				'youtube'   => false,
 				'wikipedia' => 'wiki',
-			]
+			],
 		);
 
 		$this->expects_for_pronouns( $this->instance->context->site_user_id, '' );

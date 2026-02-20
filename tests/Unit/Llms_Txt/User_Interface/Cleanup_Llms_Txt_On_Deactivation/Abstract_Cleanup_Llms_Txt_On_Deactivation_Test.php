@@ -53,7 +53,7 @@ abstract class Abstract_Cleanup_Llms_Txt_On_Deactivation_Test extends TestCase {
 
 		$this->instance = new Cleanup_Llms_Txt_On_Deactivation(
 			$this->command_handler,
-			$this->cron_scheduler
+			$this->cron_scheduler,
 		);
 	}
 }

@@ -34,7 +34,7 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 			'<!-- This site is optimized with the %1$s %2$s - %3$s -->',
 			$product_name,
 			$version,
-			$url
+			$url,
 		);
 	}
 

@@ -35,7 +35,7 @@ final class Taxonomy_Meta_Test extends TestCase {
 			->create_and_get(
 				[
 					'taxonomy' => null,
-				]
+				],
 			);
 
 		$this->assertFalse( WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
@@ -54,7 +54,7 @@ final class Taxonomy_Meta_Test extends TestCase {
 			->create_and_get(
 				[
 					'taxonomy' => 'category',
-				]
+				],
 			);
 
 		$this->assertEquals( '', WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
@@ -87,7 +87,7 @@ final class Taxonomy_Meta_Test extends TestCase {
 						'keyword' => '\\',
 						'score'   => 'bad',
 					],
-				]
+				],
 			),
 			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
@@ -124,7 +124,7 @@ final class Taxonomy_Meta_Test extends TestCase {
 						'keyword' => '\\',
 						'score'   => 'bad',
 					],
-				]
+				],
 			),
 			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
@@ -148,7 +148,7 @@ final class Taxonomy_Meta_Test extends TestCase {
 						'keyword' => '\\',
 						'score'   => 'bad',
 					],
-				]
+				],
 			),
 			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '  &quotdouble quotes" `>&lt;&gt;&#96<`and \backslashes\.  ',

@@ -181,7 +181,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				'type'         => $link_type,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
-			]
+			],
 		)->andReturn( $new_seo_link );
 		$query_mock->expects( 'create' )->once()->with(
 			[
@@ -189,7 +189,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				'type'         => $link_type,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
-			]
+			],
 		)->andReturn( $existing_seo_link );
 
 		$old_seo_link                      = new SEO_Links_Mock();
@@ -210,7 +210,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 						'target_indexable_id' => 3,
 						'incoming'            => 0,
 					],
-				]
+				],
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
@@ -301,7 +301,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 				'type'         => $link_type,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
-			]
+			],
 		)->andReturn( $seo_link );
 
 		$old_seo_link                      = new SEO_Links_Mock();
@@ -324,7 +324,7 @@ final class Build_Test extends Abstract_Indexable_Link_Builder_TestCase {
 						'target_indexable_id' => 3,
 						'incoming'            => 0,
 					],
-				]
+				],
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 2, 0 );
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );

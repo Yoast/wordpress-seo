@@ -54,7 +54,7 @@ final class BbPress_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			BbPress::get_conditionals()
+			BbPress::get_conditionals(),
 		);
 	}
 

@@ -244,7 +244,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			\array_slice( $this->instance->generate( $this->context ), -2 ),
-			$message
+			$message,
 		);
 	}
 
@@ -344,7 +344,7 @@ final class Breadcrumbs_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			\array_slice( $this->instance->generate( $this->context ), -2 )
+			\array_slice( $this->instance->generate( $this->context ), -2 ),
 		);
 	}
 

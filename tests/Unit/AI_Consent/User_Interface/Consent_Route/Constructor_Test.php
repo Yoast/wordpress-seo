@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Consent_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Consent_Handler_Interface::class,
-			$this->getPropertyValue( $this->instance, 'consent_handler' )
+			$this->getPropertyValue( $this->instance, 'consent_handler' ),
 		);
 	}
 }

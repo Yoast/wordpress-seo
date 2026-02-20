@@ -66,7 +66,7 @@ final class Force_Rewrite_Title_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Force_Rewrite_Title::get_conditionals()
+			Force_Rewrite_Title::get_conditionals(),
 		);
 	}
 

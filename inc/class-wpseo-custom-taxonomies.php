@@ -40,7 +40,7 @@ class WPSEO_Custom_Taxonomies {
 				array_push(
 					self::$custom_taxonomies,
 					self::add_custom_taxonomies_prefix( $custom_taxonomy ),
-					self::add_custom_taxonomies_description_prefix( $custom_taxonomy )
+					self::add_custom_taxonomies_description_prefix( $custom_taxonomy ),
 				);
 			}
 		}

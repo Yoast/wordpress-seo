@@ -57,7 +57,7 @@ class Refresh_Token_User_Meta_Repository implements Refresh_Token_User_Meta_Repo
 		$this->user_helper->update_meta(
 			$user_id,
 			self::META_KEY,
-			$value
+			$value,
 		); }
 
 	/**

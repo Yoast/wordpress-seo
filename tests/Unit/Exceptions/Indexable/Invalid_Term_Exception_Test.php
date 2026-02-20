@@ -28,7 +28,7 @@ final class Invalid_Term_Exception_Test extends TestCase {
 
 		self::assertEquals(
 			'The term is considered invalid. The following reason was given by WordPress: A WordPress reason.',
-			$instance->getMessage()
+			$instance->getMessage(),
 		);
 	}
 }

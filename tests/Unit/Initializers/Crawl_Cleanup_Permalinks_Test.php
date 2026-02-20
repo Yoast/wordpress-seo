@@ -75,7 +75,7 @@ final class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			$this->options_helper,
 			$this->url_helper,
 			$this->redirect_helper,
-			$this->crawl_cleanup_helper
+			$this->crawl_cleanup_helper,
 		);
 	}
 

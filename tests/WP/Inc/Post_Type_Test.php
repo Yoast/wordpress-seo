@@ -64,7 +64,7 @@ final class Post_Type_Test extends TestCase {
 			[
 				'public'             => true,
 				'publicly_queryable' => false,
-			]
+			],
 		);
 
 		$this->assertNotContains( 'hidden-post-type', WPSEO_Post_Type::get_accessible_post_types() );
@@ -188,8 +188,8 @@ final class Post_Type_Test extends TestCase {
 				[
 					'post'       => 'post',
 					'attachment' => 'attachment',
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -222,7 +222,7 @@ final class Post_Type_Test extends TestCase {
 			[
 				'public'       => true,
 				'show_in_rest' => true,
-			]
+			],
 		);
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type-api' ) );
 

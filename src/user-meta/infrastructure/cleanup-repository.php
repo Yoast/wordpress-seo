@@ -25,7 +25,7 @@ class Cleanup_Repository {
 			AND meta_value = ""
 			ORDER BY user_id
 			LIMIT %d',
-			\array_merge( [ $wpdb->usermeta ], $meta_keys, [ $limit ] )
+			\array_merge( [ $wpdb->usermeta ], $meta_keys, [ $limit ] ),
 		);
 		// phpcs:enable
 

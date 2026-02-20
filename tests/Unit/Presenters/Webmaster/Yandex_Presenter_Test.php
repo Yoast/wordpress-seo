@@ -73,7 +73,7 @@ final class Yandex_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="yandex-verification" content="yandex-ver" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -90,7 +90,7 @@ final class Yandex_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -106,7 +106,7 @@ final class Yandex_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'yandex-ver',
-			$this->instance->get()
+			$this->instance->get(),
 		);
 	}
 
@@ -125,7 +125,7 @@ final class Yandex_Presenter_Test extends TestCase {
 
 		$this->assertSame(
 			'<meta name="yandex-verification" content="yandex-ver" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

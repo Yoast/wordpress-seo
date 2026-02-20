@@ -41,12 +41,12 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	public function __construct() {
 		$this->add_for_page_types(
 			[ 'page', 'post', 'custom_post_type' ],
-			WPSEO_Custom_Fields::get_custom_fields()
+			WPSEO_Custom_Fields::get_custom_fields(),
 		);
 
 		$this->add_for_page_types(
 			[ 'post', 'term-in-custom-taxonomy' ],
-			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies(),
 		);
 	}
 
@@ -63,7 +63,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		 */
 		$replacement_variables = apply_filters(
 			'wpseo_editor_specific_replace_vars',
-			$this->replacement_variables
+			$this->replacement_variables,
 		);
 
 		if ( ! is_array( $replacement_variables ) ) {
@@ -85,7 +85,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	public function get_generic( $replacement_variables ) {
 		$shared_variables = array_diff(
 			$this->extract_names( $replacement_variables ),
-			$this->get_unique_replacement_variables()
+			$this->get_unique_replacement_variables(),
 		);
 
 		return array_values( $shared_variables );

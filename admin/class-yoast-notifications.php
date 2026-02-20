@@ -159,7 +159,7 @@ class Yoast_Notifications {
 			[
 				'html'  => $html,
 				'total' => self::get_active_notification_count(),
-			]
+			],
 		);
 		// phpcs:enable -- Reason: WPSEO_Utils::format_json_encode is safe.
 	}

@@ -69,14 +69,14 @@ final class Feature_Flag_Integration_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			self::getPropertyValue( $this->instance, 'asset_manager' )
+			self::getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 		self::assertIsArray(
-			self::getPropertyValue( $this->instance, 'feature_flags' )
+			self::getPropertyValue( $this->instance, 'feature_flags' ),
 		);
 		self::assertInstanceOf(
 			Feature_Flag_Conditional::class,
-			self::getPropertyValue( $this->instance, 'feature_flags' )[0]
+			self::getPropertyValue( $this->instance, 'feature_flags' )[0],
 		);
 	}
 

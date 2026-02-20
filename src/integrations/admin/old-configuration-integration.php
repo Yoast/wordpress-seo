@@ -39,7 +39,7 @@ class Old_Configuration_Integration implements Integration_Interface {
 			'',
 			'manage_options',
 			'wpseo_configurator',
-			[ $this, 'render_page' ]
+			[ $this, 'render_page' ],
 		);
 
 		return $submenu_pages;
@@ -66,6 +66,6 @@ class Old_Configuration_Integration implements Integration_Interface {
 		}
 		$redirect_url = 'admin.php?page=wpseo_dashboard#/first-time-configuration';
 		\wp_safe_redirect( \admin_url( $redirect_url ), 302, 'Yoast SEO' );
-		exit;
+		exit();
 	}
 }

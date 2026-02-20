@@ -149,7 +149,7 @@ final class Settings_Integration_Test extends TestCase {
 			$manual_post_collection,
 			$file_runner,
 			$this->route_helper,
-			$this->schema_configuration
+			$this->schema_configuration,
 		);
 
 		$this->instance_double = new Settings_Integration_Double(
@@ -170,7 +170,7 @@ final class Settings_Integration_Test extends TestCase {
 			$manual_post_collection,
 			$file_runner,
 			$this->route_helper,
-			$this->schema_configuration
+			$this->schema_configuration,
 		);
 	}
 
@@ -186,7 +186,7 @@ final class Settings_Integration_Test extends TestCase {
 			[
 				Settings_Conditional::class,
 			],
-			Settings_Integration::get_conditionals()
+			Settings_Integration::get_conditionals(),
 		);
 	}
 
@@ -224,77 +224,77 @@ final class Settings_Integration_Test extends TestCase {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			$this->getPropertyValue( $this->instance, 'asset_manager' ),
-			'asset_manager is set.'
+			'asset_manager is set.',
 		);
 		$this->assertInstanceOf(
 			WPSEO_Replace_Vars::class,
 			$this->getPropertyValue( $this->instance, 'replace_vars' ),
-			'replace_vars is set.'
+			'replace_vars is set.',
 		);
 		$this->assertInstanceOf(
 			Schema_Types::class,
 			$this->getPropertyValue( $this->instance, 'schema_types' ),
-			'schema_types is set.'
+			'schema_types is set.',
 		);
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
 			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
-			'current_page_helper is set.'
+			'current_page_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
 			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
-			'post_type_helper is set.'
+			'post_type_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Language_Helper::class,
 			$this->getPropertyValue( $this->instance, 'language_helper' ),
-			'language_helper is set.'
+			'language_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Taxonomy_Helper::class,
 			$this->getPropertyValue( $this->instance, 'taxonomy_helper' ),
-			'taxonomy_helper is set.'
+			'taxonomy_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Product_Helper::class,
 			$this->getPropertyValue( $this->instance, 'product_helper' ),
-			'product_helper is set.'
+			'product_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Woocommerce_Helper::class,
 			$this->getPropertyValue( $this->instance, 'woocommerce_helper' ),
-			'woocommerce_helper is set.'
+			'woocommerce_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Article_Helper::class,
 			$this->getPropertyValue( $this->instance, 'article_helper' ),
-			'article_helper is set.'
+			'article_helper is set.',
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
 			$this->getPropertyValue( $this->instance, 'user_helper' ),
-			'user_helper is set.'
+			'user_helper is set.',
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options' ),
-			'Options helper is set.'
+			'Options helper is set.',
 		);
 		$this->assertInstanceOf(
 			Content_Type_Visibility_Dismiss_Notifications::class,
 			$this->getPropertyValue( $this->instance, 'content_type_visibility' ),
-			'Content type visibility notifications is set.'
+			'Content type visibility notifications is set.',
 		);
 		$this->assertInstanceOf(
 			Route_Helper::class,
 			$this->getPropertyValue( $this->instance, 'route_helper' ),
-			'Route_Helper is set.'
+			'Route_Helper is set.',
 		);
 		$this->assertInstanceOf(
 			Schema_Configuration::class,
 			$this->getPropertyValue( $this->instance, 'schema_configuration' ),
-			'Schema_Configuration is set.'
+			'Schema_Configuration is set.',
 		);
 	}
 
@@ -570,7 +570,7 @@ final class Settings_Integration_Test extends TestCase {
 					'location_email'                             => 'example@location.con',
 					'location_vat_id'                            => '123456',
 					'location_tax_id'                            => '654321',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'wpseo_has_primary_location' )
@@ -611,7 +611,7 @@ final class Settings_Integration_Test extends TestCase {
 					'location_email'                             => 'example@location.con',
 					'location_vat_id'                            => '123456',
 					'location_tax_id'                            => '654321',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'wpseo_has_primary_location' )
@@ -681,7 +681,7 @@ final class Settings_Integration_Test extends TestCase {
 					'location_email'                             => 'example@location.con',
 					'location_vat_id'                            => '123456',
 					'location_tax_id'                            => '654321',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'wpseo_has_primary_location' )

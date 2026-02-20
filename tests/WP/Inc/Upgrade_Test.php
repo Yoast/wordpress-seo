@@ -259,8 +259,8 @@ final class Upgrade_Test extends TestCase {
 				FROM %i
 				WHERE option_name LIKE %s
 				AND autoload IN ('on', 'yes')",
-				[ $wpdb->options, 'wpseo_sitemap_%' ]
-			)
+				[ $wpdb->options, 'wpseo_sitemap_%' ],
+			),
 		);
 
 		$number_of_sitemap_options_no_autoload = $wpdb->query(
@@ -269,8 +269,8 @@ final class Upgrade_Test extends TestCase {
 				FROM %i
 				WHERE option_name LIKE %s
 				AND autoload IN ('off', 'no')",
-				[ $wpdb->options, 'wpseo_sitemap_%' ]
-			)
+				[ $wpdb->options, 'wpseo_sitemap_%' ],
+			),
 		);
 		$this->assertEquals( 0, $number_of_sitemap_options );
 		$this->assertEquals( 1, $number_of_sitemap_options_no_autoload );
@@ -288,13 +288,13 @@ final class Upgrade_Test extends TestCase {
 			[
 				'user_login'   => 'User_Login',
 				'display_name' => 'User_Nicename',
-			]
+			],
 		);
 		$other_user_id = $this->factory->user->create(
 			[
 				'user_login'   => 'Other_User_Login',
 				'display_name' => 'Other_User_Nicename',
-			]
+			],
 		);
 
 		$notifications = [
@@ -371,8 +371,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE meta_key = "_yst_content_links_processed"',
-				[ $wpdb->postmeta ]
-			)
+				[ $wpdb->postmeta ],
+			),
 		);
 
 		$this->assertEquals( 0, $number_of_rows );
@@ -398,8 +398,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE option_name LIKE %s',
-				[ $wpdb->options, 'wpseo_sitemap_%' ]
-			)
+				[ $wpdb->options, 'wpseo_sitemap_%' ],
+			),
 		);
 
 		$this->assertEquals( 0, $number_of_sitemap_options );
@@ -429,7 +429,7 @@ final class Upgrade_Test extends TestCase {
 				'id'           => 'wpseo-dismiss-wordpress-upgrade',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 
 		$center = Yoast_Notification_Center::get();
@@ -445,8 +445,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE meta_key = %s',
-				[ $wpdb->usermeta, 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
-			)
+				[ $wpdb->usermeta, 'wp_yoast_promo_hide_premium_upsell_admin_block' ],
+			),
 		);
 
 		$this->assertEquals( 0, $number_of_rows );
@@ -472,13 +472,13 @@ final class Upgrade_Test extends TestCase {
 		$term_builder = new Indexable_Term_Builder(
 			\YoastSEO()->helpers->taxonomy,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 
 		$term_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$indexable      = new Indexable();
@@ -493,8 +493,8 @@ final class Upgrade_Test extends TestCase {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE %i SET is_public = false WHERE object_id = %d',
-				[ $this->indexables_table, $result->object_id ]
-			)
+				[ $this->indexables_table, $result->object_id ],
+			),
 		);
 
 		$instance = $this->get_instance();
@@ -505,8 +505,8 @@ final class Upgrade_Test extends TestCase {
 				"SELECT id FROM %i
 				WHERE object_type = 'term'
 				AND object_sub_type = %s",
-				[ $this->indexables_table, $taxonomy ]
-			)
+				[ $this->indexables_table, $taxonomy ],
+			),
 		);
 
 		$this->assertEmpty( $private_taxonomy_indexables );
@@ -532,8 +532,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE option_name LIKE %s',
-				[ $wpdb->options, 'wpseo_sitemap%validator%' ]
-			)
+				[ $wpdb->options, 'wpseo_sitemap%validator%' ],
+			),
 		);
 
 		$this->assertEquals( 0, $number_of_sitemap_validators );
@@ -556,13 +556,13 @@ final class Upgrade_Test extends TestCase {
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->meta,
-			\YoastSEO()->helpers->permalink
+			\YoastSEO()->helpers->permalink,
 		);
 
 		$post_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$indexable      = new Indexable();
@@ -576,16 +576,16 @@ final class Upgrade_Test extends TestCase {
 				"UPDATE %i
 				SET object_sub_type = 'attachment'
 				WHERE object_id = %s",
-				[ $this->indexables_table, $post_id ]
-			)
+				[ $this->indexables_table, $post_id ],
+			),
 		);
 		$indexables_for_non_public_posts = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT *
 				FROM %i
 				WHERE object_id = %s',
-				[ $this->indexables_table, $post_id ]
-			)
+				[ $this->indexables_table, $post_id ],
+			),
 		);
 		$instance                        = $this->get_instance();
 		$instance->remove_indexable_rows_for_non_public_post_types();
@@ -595,8 +595,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE object_id = %s',
-				[ $this->indexables_table, $post_id ]
-			)
+				[ $this->indexables_table, $post_id ],
+			),
 		);
 
 		$this->assertEmpty( $indexables_for_non_public_posts );
@@ -619,13 +619,13 @@ final class Upgrade_Test extends TestCase {
 			\YoastSEO()->helpers->post_type,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
 			\YoastSEO()->helpers->meta,
-			\YoastSEO()->helpers->permalink
+			\YoastSEO()->helpers->permalink,
 		);
 
 		$post_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$indexable      = new Indexable();
@@ -643,8 +643,8 @@ final class Upgrade_Test extends TestCase {
 				'SELECT *
 				FROM %i
 				WHERE object_id = %s',
-				[ $this->indexables_table, $post_id ]
-			)
+				[ $this->indexables_table, $post_id ],
+			),
 		);
 
 		$this->assertEmpty( $indexables_for_non_public_posts );
@@ -669,13 +669,13 @@ final class Upgrade_Test extends TestCase {
 		$term_builder = new Indexable_Term_Builder(
 			\YoastSEO()->helpers->taxonomy,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 
 		$term_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$indexable      = new Indexable();
@@ -693,8 +693,8 @@ final class Upgrade_Test extends TestCase {
 				SET is_public = false
 				WHERE object_type = 'term'
 				AND object_sub_type = %s",
-				[ $this->indexables_table, $taxonomy ]
-			)
+				[ $this->indexables_table, $taxonomy ],
+			),
 		);
 
 		$instance = $this->get_instance();
@@ -705,8 +705,8 @@ final class Upgrade_Test extends TestCase {
 				"SELECT id FROM %i
 				WHERE object_type = 'term'
 				AND object_sub_type = %s",
-				[ $this->indexables_table, $taxonomy ]
-			)
+				[ $this->indexables_table, $taxonomy ],
+			),
 		);
 
 		$this->assertEmpty( $private_taxonomy_indexables );
@@ -731,13 +731,13 @@ final class Upgrade_Test extends TestCase {
 		$term_builder = new Indexable_Term_Builder(
 			\YoastSEO()->helpers->taxonomy,
 			\YoastSEO()->classes->get( Indexable_Builder_Versions::class ),
-			\YoastSEO()->helpers->post
+			\YoastSEO()->helpers->post,
 		);
 
 		$term_builder->set_social_image_helpers(
 			\YoastSEO()->helpers->image,
 			\YoastSEO()->helpers->open_graph->image,
-			\YoastSEO()->helpers->twitter->image
+			\YoastSEO()->helpers->twitter->image,
 		);
 
 		$indexable      = new Indexable();
@@ -757,8 +757,8 @@ final class Upgrade_Test extends TestCase {
 				SET is_public = false
 				WHERE object_type = 'term'
 				AND object_sub_type = %s",
-				[ $this->indexables_table, $taxonomy ]
-			)
+				[ $this->indexables_table, $taxonomy ],
+			),
 		);
 
 		$instance = $this->get_instance();
@@ -769,8 +769,8 @@ final class Upgrade_Test extends TestCase {
 				"SELECT id FROM %i
 				WHERE object_type = 'term'
 				AND object_sub_type = %s",
-				[ $this->indexables_table, $taxonomy ]
-			)
+				[ $this->indexables_table, $taxonomy ],
+			),
 		);
 
 		$this->assertEmpty( $private_taxonomy_indexables );
@@ -799,8 +799,8 @@ final class Upgrade_Test extends TestCase {
 				(1, 'user', 'unindexed'),
 				(1, 'user', 'unindexed'),
 				(1, 'user', 'unindexed')",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$instance = $this->get_instance();
@@ -813,8 +813,8 @@ final class Upgrade_Test extends TestCase {
 				WHERE object_id = 1
 				AND object_type = 'post'
 				AND post_status = 'unindexed'",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 		$terms = $wpdb->query(
 			$wpdb->prepare(
@@ -823,8 +823,8 @@ final class Upgrade_Test extends TestCase {
 				WHERE object_id = 1
 				AND object_type = 'user'
 				AND post_status = 'unindexed'",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 		$users = $wpdb->query(
 			$wpdb->prepare(
@@ -833,8 +833,8 @@ final class Upgrade_Test extends TestCase {
 				WHERE object_id = 1
 				AND object_type = 'user'
 				AND post_status = 'unindexed'",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 		$this->assertEquals( 1, $posts );
 		$this->assertEquals( 1, $terms );
@@ -862,8 +862,8 @@ final class Upgrade_Test extends TestCase {
 				(1, 'post', 'unindexed'),
 				(2, 'user', 'draft'),
 				(3, 'system-page', 'unindexed')",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$instance = $this->get_instance();
@@ -876,8 +876,8 @@ final class Upgrade_Test extends TestCase {
 				WHERE object_id IS NULL
 				AND object_type IN ( 'post', 'term', 'user' )
 				AND post_status = 'unindexed'",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$this->assertEquals( 0, $null_ids );
@@ -900,8 +900,8 @@ final class Upgrade_Test extends TestCase {
 				(1, 'user', 'publish'),
 				(2, 'user', 'publish'),
 				(3, 'user', 'publish')",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$options_helper->set( 'disable-author', true );
@@ -914,8 +914,8 @@ final class Upgrade_Test extends TestCase {
 				"SELECT *
 				FROM %i
 				WHERE object_type = 'user'",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$this->assertEquals( 0, $user_indexables );
@@ -948,8 +948,8 @@ final class Upgrade_Test extends TestCase {
 				(3, 'post', 'unindexed'),
 				(3, 'post', 'unindexed'),
 				(3, 'term', 'publish')",
-				[ $this->indexables_table ]
-			)
+				[ $this->indexables_table ],
+			),
 		);
 
 		$duplicates = $wpdb->get_results(
@@ -969,9 +969,9 @@ final class Upgrade_Test extends TestCase {
 					object_type
 				HAVING
 					count(*) > 1",
-				[ $this->indexables_table ]
+				[ $this->indexables_table ],
 			),
-			\ARRAY_A
+			\ARRAY_A,
 		);
 
 		$posts_ids = \array_column(
@@ -979,18 +979,18 @@ final class Upgrade_Test extends TestCase {
 				$duplicates,
 				static function ( $duplicate ) {
 					return $duplicate['object_type'] === 'post';
-				}
+				},
 			),
-			'newest_id'
+			'newest_id',
 		);
 		$terms_ids = \array_column(
 			\array_filter(
 				$duplicates,
 				static function ( $duplicate ) {
 					return $duplicate['object_type'] === 'term';
-				}
+				},
 			),
-			'newest_id'
+			'newest_id',
 		);
 
 		$users_ids   = \array_column(
@@ -998,9 +998,9 @@ final class Upgrade_Test extends TestCase {
 				$duplicates,
 				static function ( $duplicate ) {
 					return $duplicate['object_type'] === 'user';
-				}
+				},
 			),
-			'newest_id'
+			'newest_id',
 		);
 		$instance    = $this->get_instance();
 		$posts_query = $instance->get_indexable_deduplication_query_for_type( 'post', $duplicates, $wpdb );
@@ -1067,7 +1067,7 @@ final class Upgrade_Test extends TestCase {
 				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no security risk, because users don't interact with tests.
 				'option_value' => \serialize( $option_value ),
 			],
-			[ 'option_name' => $option_name ]
+			[ 'option_name' => $option_name ],
 		);
 	}
 }

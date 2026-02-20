@@ -56,7 +56,7 @@ final class Introduction_Item_Test extends TestCase {
 				'id'       => 'test',
 				'priority' => 5,
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 

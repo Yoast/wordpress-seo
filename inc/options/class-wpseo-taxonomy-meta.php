@@ -237,7 +237,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				case 'wpseo_keywordsynonyms':
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
 						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
-						$input         = json_decode( $meta_data[ $key ], true );
+						$input = json_decode( $meta_data[ $key ], true );
+						// If something is wrong with the JSON make sure this cannot break.
+						$input       ??= [];
 						$sanitized     = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], $input );
 						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}

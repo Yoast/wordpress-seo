@@ -166,7 +166,7 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 					$indexable->version = 2;
 
 					return $indexable;
-				}
+				},
 			);
 
 		$this->expect_save_indexable( $this->indexable );
@@ -254,7 +254,7 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 					$indexable->version = 2;
 
 					return $indexable;
-				}
+				},
 			);
 
 		$expected_indexable              = clone $empty_indexable;
@@ -301,7 +301,7 @@ final class Build_Test extends Abstract_Indexable_Builder_TestCase {
 					$indexable->version = 2;
 
 					return $indexable;
-				}
+				},
 			);
 
 		$expected_indexable              = clone $this->indexable;

@@ -41,7 +41,7 @@ abstract class Abstract_Title_Builder_Test extends TestCase {
 		$this->title_adapter = Mockery::mock( Title_Adapter::class );
 
 		$this->instance = new Title_Builder(
-			$this->title_adapter
+			$this->title_adapter,
 		);
 	}
 }

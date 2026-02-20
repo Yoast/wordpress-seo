@@ -70,7 +70,7 @@ final class Conflicting_Plugins_Service_Test extends TestCase {
 				[
 					'xml-sitemaps/xml-sitemaps.php',
 					'not-conflicting/plugin.php',
-				]
+				],
 			);
 
 		// Act.
@@ -98,7 +98,7 @@ final class Conflicting_Plugins_Service_Test extends TestCase {
 				[
 					'xml-sitemaps/xml-sitemaps.php',
 					'not-conflicting/plugin.php',
-				]
+				],
 			);
 		Monkey\Functions\expect( 'wp_unslash' )
 			->andReturnFirstArg();
@@ -139,7 +139,7 @@ final class Conflicting_Plugins_Service_Test extends TestCase {
 				[
 					'xml-sitemaps/xml-sitemaps.php',
 					'not-conflicting/plugin.php',
-				]
+				],
 			);
 
 		$_GET['action'] = $action;

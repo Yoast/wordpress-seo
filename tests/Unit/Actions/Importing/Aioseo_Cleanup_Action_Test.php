@@ -154,12 +154,12 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 					'_aioseo_og_description',
 					'_aioseo_twitter_title',
 					'_aioseo_twitter_description',
-				]
+				],
 			)
 			->andReturn(
 				"
 				DELETE FROM wp_postmeta
-				WHERE meta_key IN ('_aioseo_title','_aioseo_description','_aioseo_og_title','_aioseo_og_description','_aioseo_twitter_title','_aioseo_twitter_description')"
+				WHERE meta_key IN ('_aioseo_title','_aioseo_description','_aioseo_og_title','_aioseo_og_description','_aioseo_twitter_title','_aioseo_twitter_description')",
 			);
 
 		$this->wpdb->expects( 'query' )
@@ -167,10 +167,10 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 			->with(
 				"
 				DELETE FROM wp_postmeta
-				WHERE meta_key IN ('_aioseo_title','_aioseo_description','_aioseo_og_title','_aioseo_og_description','_aioseo_twitter_title','_aioseo_twitter_description')"
+				WHERE meta_key IN ('_aioseo_title','_aioseo_description','_aioseo_og_title','_aioseo_og_description','_aioseo_twitter_title','_aioseo_twitter_description')",
 			)
 			->andReturn(
-				$postmeta_cleanup
+				$postmeta_cleanup,
 			);
 
 		$this->aioseo_helper->expects( 'aioseo_exists' )
@@ -186,7 +186,7 @@ final class Aioseo_Cleanup_Action_Test extends TestCase {
 			->times( $query_times )
 			->with( $expected_truncate_query )
 			->andReturn(
-				$truncate_cleanup
+				$truncate_cleanup,
 			);
 
 		$this->options->expects( 'get' )

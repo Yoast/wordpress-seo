@@ -34,7 +34,7 @@ class AddColumnsToIndexables extends Migration {
 					'null'    => false,
 					'limit'   => 20,
 					'default' => $blog_id,
-				]
+				],
 			);
 		}
 

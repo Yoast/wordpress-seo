@@ -153,7 +153,7 @@ class Introductions_Integration implements Integration_Interface {
 				'pluginUrl'             => \plugins_url( '', \WPSEO_FILE ),
 				'wistiaEmbedPermission' => $this->wistia_embed_permission_repository->get_value_for_user( $user_id ),
 				'isWooEnabled'          => $this->woocommerce_conditional->is_met(),
-			]
+			],
 		);
 		$this->admin_asset_manager->enqueue_style( 'introductions' );
 	}
@@ -182,7 +182,7 @@ class Introductions_Integration implements Integration_Interface {
 			static function ( $carry, $item ) {
 				return ( $carry === null || $item['priority'] < $carry['priority'] ) ? $item : $carry;
 			},
-			null
+			null,
 		);
 
 		if ( $highest_priority_intro === null ) {

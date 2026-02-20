@@ -98,10 +98,10 @@ final class Cleanup_Command implements Command_Interface {
 					'Cleaned up %1$d record.',
 					'Cleaned up %1$d records.',
 					$total_removed,
-					'wordpress-seo'
+					'wordpress-seo',
 				),
-				$total_removed
-			)
+				$total_removed,
+			),
 		);
 	}
 
@@ -184,11 +184,11 @@ final class Cleanup_Command implements Command_Interface {
 					'Cleaned up %1$d record from %2$s.',
 					'Cleaned up %1$d records from %2$s.',
 					$total_removed,
-					'wordpress-seo'
+					'wordpress-seo',
 				),
 				$total_removed,
-				$site_url
-			)
+				$site_url,
+			),
 		);
 
 		return $total_removed;

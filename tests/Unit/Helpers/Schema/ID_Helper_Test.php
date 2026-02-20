@@ -63,7 +63,7 @@ final class ID_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/#/schema/person/1234567890',
-			$this->instance->get_user_schema_id( 1337, $context )
+			$this->instance->get_user_schema_id( 1337, $context ),
 		);
 	}
 
@@ -85,7 +85,7 @@ final class ID_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'',
-			$this->instance->get_user_schema_id( 1337, $context )
+			$this->instance->get_user_schema_id( 1337, $context ),
 		);
 	}
 }

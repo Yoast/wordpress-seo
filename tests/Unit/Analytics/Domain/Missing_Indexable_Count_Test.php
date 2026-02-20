@@ -44,7 +44,7 @@ final class Missing_Indexable_Count_Test extends TestCase {
 				'indexable_type' => 'indexable_type',
 				'count'          => 0,
 			],
-			$this->sut->to_array()
+			$this->sut->to_array(),
 		);
 	}
 

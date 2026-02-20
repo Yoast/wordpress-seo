@@ -96,7 +96,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 			$this->indexable_hierarchy_repository,
 			$this->indexable_helper,
 			$this->permalink_helper,
-			$this->post_type_helper
+			$this->post_type_helper,
 		);
 	}
 
@@ -145,15 +145,15 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'indexable_repository' )
+			$this->getPropertyValue( $this->instance, 'indexable_repository' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Hierarchy_Builder::class,
-			$this->getPropertyValue( $this->instance, 'indexable_hierarchy_builder' )
+			$this->getPropertyValue( $this->instance, 'indexable_hierarchy_builder' ),
 		);
 		$this->assertInstanceOf(
 			Permalink_Helper::class,
-			$this->getPropertyValue( $this->instance, 'permalink_helper' )
+			$this->getPropertyValue( $this->instance, 'permalink_helper' ),
 		);
 	}
 
@@ -167,7 +167,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Ancestor_Watcher::get_conditionals()
+			Indexable_Ancestor_Watcher::get_conditionals(),
 		);
 	}
 
@@ -355,9 +355,9 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
-					$haystack
+					$haystack,
 				);
-			}
+			},
 		);
 
 		$this->set_expectations_for_get_object_ids_for_term( $term_id, $indexable_1->object_id, $indexable_2->object_id );
@@ -375,7 +375,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 					2 => 21,
 				],
 				'post',
-				false
+				false,
 			)
 			->andReturn( [ $indexable_term_1, $indexable_term_2 ] );
 
@@ -390,7 +390,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 				[
 					0 => 566,
 					2 => 569,
-				]
+				],
 			)
 			->andReturn( [ $additional_indexable_2 ] );
 
@@ -418,7 +418,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 				FROM %i
 				WHERE term_id IN( ' . \implode( ', ', \array_fill( 0, ( \count( $object_ids ) ), '%s' ) ) . ' )',
 				$wpdb->term_taxonomy,
-				...$object_ids
+				...$object_ids,
 			);
 
 		$wpdb->expects( 'get_col' )
@@ -432,7 +432,7 @@ final class Indexable_Ancestor_Watcher_Test extends TestCase {
 				$wpdb->term_relationships,
 				321,
 				322,
-				323
+				323,
 			);
 
 		$wpdb->expects( 'get_col' )

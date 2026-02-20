@@ -84,7 +84,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				$this->taxonomy,
 				$this->post_type,
 				$this->author_archive,
-			]
+			],
 		)->makePartial();
 
 		global $wpdb;
@@ -111,7 +111,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				'DELETE FROM wp_yoast_indexable WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d',
 				'post',
 				'shop_order',
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_shop_order_delete_query' );
 
@@ -135,7 +135,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			->with(
 				'DELETE FROM wp_yoast_indexable WHERE object_type = \'post\' AND post_status = %s ORDER BY id LIMIT %d',
 				'auto-draft',
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_auto_draft_delete_query' );
 
@@ -172,7 +172,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			WHERE indexable_table.id IS NULL
 			AND table_to_clean.{$column} IS NOT NULL
 			LIMIT %d",
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_indexable_hierarchy_select_query' );
 
@@ -215,7 +215,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				'my_cpt',
 				'post',
 				'attachment',
-			]
+			],
 		);
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
@@ -225,7 +225,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( %s, %s, %s )
 				LIMIT %d',
-				[ 'my_cpt', 'post', 'attachment', $this->limit ]
+				[ 'my_cpt', 'post', 'attachment', $this->limit ],
 			)
 			->andReturn( 'prepared_clean_query' );
 
@@ -249,7 +249,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				'category',
 				'post_tag',
 				'my_custom_tax',
-			]
+			],
 		);
 
 		$this->wpdb->shouldReceive( 'prepare' )
@@ -260,7 +260,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( %s, %s, %s )
 				LIMIT %d',
-				[ 'category', 'post_tag', 'my_custom_tax', $this->limit ]
+				[ 'category', 'post_tag', 'my_custom_tax', $this->limit ],
 			)
 			->andReturn( 'prepared_clean_query' );
 
@@ -298,7 +298,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( %s, %s, %s )
 				LIMIT %d',
-					[ 'my_cpt', 'post', 'attachment', $this->limit ]
+					[ 'my_cpt', 'post', 'attachment', $this->limit ],
 				)
 				->andReturn( 'prepared_clean_query' );
 
@@ -345,7 +345,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 		Monkey\Functions\expect( 'is_post_status_viewable' )->twice()->andReturnUsing(
 			static function ( $value ) {
 				return $value === 'publish';
-			}
+			},
 		);
 		$this->wpdb->posts = 'wp_posts';
 
@@ -360,7 +360,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 					WHERE post_type IN ( %s )
 					AND post_status IN ( %s )
 				) LIMIT %d',
-				[ 'post', 'publish', $this->limit ]
+				[ 'post', 'publish', $this->limit ],
 			)
 			->andReturn( 'prepared_clean_query' );
 
@@ -395,7 +395,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			GROUP BY wp_yoast_indexable.author_id, wp_posts.post_author
 			ORDER BY wp_yoast_indexable.author_id
 			LIMIT %d",
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_select_query' );
 
@@ -417,7 +417,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 				WHERE wp_yoast_indexable.author_id = 1
 				AND object_type=\'post\'
 				LIMIT %d',
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_update_query' );
 
@@ -454,7 +454,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = '{$object_type}'
 			LIMIT %d",
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_clean_query' );
 
@@ -498,7 +498,7 @@ final class Indexable_Cleanup_Repository_Test extends TestCase {
 			AND indexable_table.object_id IS NOT NULL
 			AND indexable_table.object_type = 'user'
 			LIMIT %d",
-				$this->limit
+				$this->limit,
 			)
 			->andReturn( 'prepared_clean_query' );
 

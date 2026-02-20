@@ -21,7 +21,7 @@ final class Functions_Test extends TestCase {
 			[
 				'user_login'   => 'User_Login',
 				'display_name' => 'User_Nicename',
-			]
+			],
 		);
 
 		// Create post.
@@ -32,7 +32,7 @@ final class Functions_Test extends TestCase {
 				'post_excerpt' => 'Post_Excerpt',
 				'post_author'  => $user_id,
 				'post_date'    => \date( 'Y-m-d H:i:s', \strtotime( '2000-01-01 2:30:00' ) ),
-			]
+			],
 		);
 
 		// Get post.
@@ -74,7 +74,7 @@ final class Functions_Test extends TestCase {
 			'locale',
 			static function () use ( $locale ) {
 				return $locale;
-			}
+			},
 		);
 
 		$post = null;

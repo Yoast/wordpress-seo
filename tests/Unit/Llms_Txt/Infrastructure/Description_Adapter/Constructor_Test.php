@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Description_Adapter_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Meta_Surface::class,
-			$this->getPropertyValue( $this->instance, 'meta' )
+			$this->getPropertyValue( $this->instance, 'meta' ),
 		);
 	}
 }

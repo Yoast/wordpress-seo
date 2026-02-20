@@ -154,7 +154,7 @@ final class Metabox_Editor_Test extends TestCase {
 			[
 				'custom_elements' => '',
 				'other_property'  => 'hello world',
-			]
+			],
 		);
 		\ksort( $actual );
 

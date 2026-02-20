@@ -89,9 +89,9 @@ class WPSEO_Upgrade_History {
 				SELECT %i, %i FROM ' . $wpdb->options . ' WHERE
 				%i IN ( ' . implode( ',', array_fill( 0, count( $option_names ), '%s' ) ) . ' )
 				',
-				array_merge( [ 'option_value', 'option_name', 'option_name' ], $option_names )
+				array_merge( [ 'option_value', 'option_name', 'option_name' ], $option_names ),
 			),
-			ARRAY_A
+			ARRAY_A,
 		);
 
 		$data = [];

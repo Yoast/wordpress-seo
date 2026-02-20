@@ -27,8 +27,8 @@ final class Register_Hooks_Test extends Abstract_Llms_Txt_Cron_Callback_Integrat
 			10,
 			\has_action(
 				Llms_Txt_Cron_Scheduler::LLMS_TXT_POPULATION,
-				[ $this->instance, 'populate_file' ]
-			)
+				[ $this->instance, 'populate_file' ],
+			),
 		);
 	}
 }

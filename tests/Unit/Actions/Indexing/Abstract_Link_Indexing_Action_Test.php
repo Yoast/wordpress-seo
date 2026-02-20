@@ -89,7 +89,7 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 				$this->indexable_helper,
 				$this->repository,
 				$this->wpdb,
-			]
+			],
 		)->makePartial();
 	}
 
@@ -103,19 +103,19 @@ final class Abstract_Link_Indexing_Action_Test extends TestCase {
 	public function test_construct() {
 		$this->assertInstanceOf(
 			Indexable_Link_Builder::class,
-			$this->getPropertyValue( $this->instance, 'link_builder' )
+			$this->getPropertyValue( $this->instance, 'link_builder' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Repository::class,
-			$this->getPropertyValue( $this->instance, 'repository' )
+			$this->getPropertyValue( $this->instance, 'repository' ),
 		);
 		$this->assertInstanceOf(
 			'wpdb',
-			$this->getPropertyValue( $this->instance, 'wpdb' )
+			$this->getPropertyValue( $this->instance, 'wpdb' ),
 		);
 	}
 

@@ -67,7 +67,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 					'content' => $term->description,
 				];
 			},
-			$terms
+			$terms,
 		);
 	}
 
@@ -97,7 +97,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN ($placeholders)",
-			$public_taxonomies
+			$public_taxonomies,
 		);
 	}
 
@@ -136,7 +136,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query",
-			$replacements
+			$replacements,
 		);
 	}
 }

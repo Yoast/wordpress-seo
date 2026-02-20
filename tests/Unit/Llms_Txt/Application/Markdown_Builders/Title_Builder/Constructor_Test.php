@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Title_Builder_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Title_Adapter::class,
-			$this->getPropertyValue( $this->instance, 'title_adapter' )
+			$this->getPropertyValue( $this->instance, 'title_adapter' ),
 		);
 	}
 }

@@ -57,7 +57,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://permalink/post/2" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -78,7 +78,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -123,7 +123,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://filtered" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -146,7 +146,7 @@ final class Rel_Prev_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

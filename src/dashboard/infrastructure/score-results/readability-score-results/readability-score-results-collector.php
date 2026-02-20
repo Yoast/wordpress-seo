@@ -39,7 +39,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 			[
 				Model::get_table_name( 'Indexable' ),
 				$content_type_name,
-			]
+			],
 		);
 
 		if ( $term_id === null ) {
@@ -52,7 +52,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 				WHERE ( I.post_status = 'publish' OR I.post_status IS NULL )
 					AND I.object_type = 'post'
 					AND I.object_sub_type = %s",
-				$replacements
+				$replacements,
 			);
 			//phpcs:enable
 		}
@@ -74,7 +74,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 						FROM %i
 						WHERE term_taxonomy_id = %d
 				)",
-				$replacements
+				$replacements,
 			);
 			//phpcs:enable
 		}

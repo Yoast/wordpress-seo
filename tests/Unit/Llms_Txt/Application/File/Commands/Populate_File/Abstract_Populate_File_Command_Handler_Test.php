@@ -71,7 +71,7 @@ abstract class Abstract_Populate_File_Command_Handler_Test extends TestCase {
 			$this->options_helper,
 			$this->file_system_adapter,
 			$this->markdown_builder,
-			$this->permission_gate
+			$this->permission_gate,
 		);
 	}
 }

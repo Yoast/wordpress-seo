@@ -45,7 +45,7 @@ final class Title_Test extends TestCase {
 				'title_template'             => 'a-title',
 				'title_template_no_fallback' => 'a-fb-title',
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 
@@ -62,7 +62,7 @@ final class Title_Test extends TestCase {
 				'title_template'             => 'a-title',
 				'title_template_no_fallback' => 'a-fb-title',
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 }

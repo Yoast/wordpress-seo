@@ -64,7 +64,7 @@ abstract class Abstract_Setup_Url_Interceptor_Test extends TestCase {
 		$this->instance = new Setup_Url_Interceptor(
 			$this->current_page_helper,
 			$this->site_kit,
-			$this->redirect_helper
+			$this->redirect_helper,
 		);
 	}
 }

@@ -201,7 +201,7 @@ class Report_Builder {
 			\esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
 			'<p class="yoast-site-health__signature"><img src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
 			'Yoast SEO',
-			'</p>'
+			'</p>',
 		);
 	}
 }

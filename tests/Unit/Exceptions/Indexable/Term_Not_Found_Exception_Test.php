@@ -28,7 +28,7 @@ final class Term_Not_Found_Exception_Test extends TestCase {
 
 		self::assertEquals(
 			'The term could not be found.',
-			$instance->getMessage()
+			$instance->getMessage(),
 		);
 	}
 }

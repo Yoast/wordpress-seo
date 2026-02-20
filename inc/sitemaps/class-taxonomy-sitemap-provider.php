@@ -202,7 +202,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'update_term_meta_cache' => false,
 				'offset'                 => $offset,
 				'number'                 => $steps,
-			]
+			],
 		);
 
 		// If there are no terms fetched for this range, we are on an invalid page.
@@ -227,7 +227,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'post_status',
 			],
 			$post_statuses,
-			[ 'post_password' ]
+			[ 'post_password' ],
 		);
 
 		/**
@@ -279,8 +279,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			WHERE	p.%i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
 				AND		p.%i = ''
 			",
-					$current_replacements
-				)
+					$current_replacements,
+				),
 			);
 
 			if ( $this->include_images ) {

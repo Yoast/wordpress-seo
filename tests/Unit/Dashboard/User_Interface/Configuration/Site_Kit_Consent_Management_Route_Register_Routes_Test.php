@@ -40,7 +40,7 @@ final class Site_Kit_Consent_Management_Route_Register_Routes_Test extends Abstr
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

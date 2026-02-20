@@ -66,7 +66,7 @@ class Free_Sparks_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'start' ],
 				'permission_callback' => [ $this, 'can_edit_posts' ],
-			]
+			],
 		);
 	}
 

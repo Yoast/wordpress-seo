@@ -25,7 +25,7 @@ final class Create_New_Content_Constructor_Test extends Abstract_Create_New_Cont
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Post_Type_Helper::class,
-			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+			$this->getPropertyValue( $this->instance, 'post_type_helper' ),
 		);
 	}
 }
