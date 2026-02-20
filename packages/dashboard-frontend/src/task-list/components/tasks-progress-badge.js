@@ -146,7 +146,9 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 	const buttonProps = {};
 
 	if ( Component === "button" ) {
-		buttonProps.disabled = ! onClick || ! parentTaskId || isLoading;
+		const isDisabled = ! onClick || ! parentTaskId || isLoading;
+		buttonProps.type = "button";
+		buttonProps.disabled = isDisabled;
 		buttonProps.onClick = () => onClick( parentTaskId );
 	}
 
