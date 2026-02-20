@@ -86,13 +86,15 @@ Message.propTypes = {
 /**
  * @param {string} title The title.
  * @param {string} [className] The additional class name.
+ * @param {string} [as="h2"] The HTML element to render the title as.
  * @returns {JSX.Element} The title.
  */
 const Title = ( {
 	title,
 	className = "",
+	as = "h2",
 } ) => {
-	return <Dialog.Title as="p" className={ classNames( "yst-text-sm yst-font-medium yst-text-slate-800", className ) }>
+	return <Dialog.Title as={ as } className={ classNames( "yst-text-sm yst-font-medium yst-text-slate-800", className ) }>
 		{ title }
 	</Dialog.Title>;
 };
@@ -100,6 +102,7 @@ const Title = ( {
 Title.propTypes = {
 	title: PropTypes.string.isRequired,
 	className: PropTypes.string,
+	as: PropTypes.string,
 };
 
 /**
