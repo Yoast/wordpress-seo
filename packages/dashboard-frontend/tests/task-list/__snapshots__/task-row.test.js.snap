@@ -81,9 +81,8 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             <div
               class="yst-mt-2 yst-gap-2 yst-flex sm:yst-hidden"
             >
-              <button
+              <span
                 class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
-                disabled=""
               >
                 <span
                   class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
@@ -104,7 +103,7 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
                      %1$d out of %2$d tasks completed
                   </span>
                 </span>
-              </button>
+              </span>
               <span
                 aria-hidden="true"
               >
@@ -224,9 +223,8 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
             <div
               class="yst-flex yst-justify-between"
             >
-              <button
+              <span
                 class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
-                disabled=""
               >
                 <span
                   class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"
@@ -247,7 +245,7 @@ exports[`TaskRow loading task row matches snapshot 1`] = `
                      %1$d out of %2$d tasks completed
                   </span>
                 </span>
-              </button>
+              </span>
               <svg
                 aria-hidden="true"
                 class="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
