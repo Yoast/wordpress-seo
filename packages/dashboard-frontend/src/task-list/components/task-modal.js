@@ -152,13 +152,7 @@ export const TaskModal = ( {
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
-					<CallToActionButton
-						{ ...callToAction }
-						taskId={ taskId }
-						parentTaskId={ parentTaskId }
-						disabled={ isCompleted }
-						isLoading={ isLoading }
-					/>
+					<CallToActionButton { ...callToAction } taskId={ taskId } disabled={ isCompleted } isLoading={ isLoading } />
 				</Modal.Container.Footer>
 			</Modal.Container>
 		</Modal.Panel>

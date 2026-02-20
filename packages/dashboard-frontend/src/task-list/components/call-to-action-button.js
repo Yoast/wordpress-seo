@@ -11,13 +11,12 @@ import { __ } from "@wordpress/i18n";
  * @param {Function} handleOnClick The onClick handler for the button.
  * @param {string} href The URL to navigate to (for external links).
  * @param {string} taskId The ID of the task associated with the button.
- * @param {string} parentTaskId The ID of the parent task, if available.
  * @param {boolean} disabled Whether the button is disabled.
  * @param {boolean} isLoading Whether the button is in a loading state.
  *
  * @returns {{variant: string, id: string, className: string, disabled, isLoading}} The button properties.
  */
-const getButtonProps = ( type, handleOnClick, href, taskId, parentTaskId, disabled, isLoading ) => {
+const getButtonProps = ( type, handleOnClick, href, taskId, disabled, isLoading ) => {
 	// Always set isLoading to false for "link" or "add" type buttons, or when disabled is true.
 	const effectiveIsLoading = ( type === "link" || type === "add" || disabled ) ? false : isLoading;
 
@@ -44,11 +43,8 @@ const getButtonProps = ( type, handleOnClick, href, taskId, parentTaskId, disabl
 		} else {
 			// Different page, use href for navigation.
 			buttonProps.href = href;
-			// If parentTaskId is defined, open the page in a new tab to ensure the current page remains open.
-			if ( parentTaskId ) {
-				buttonProps.target = "_blank";
-				buttonProps.rel = "noopener noreferrer";
-			}
+			buttonProps.target = "_blank";
+			buttonProps.rel = "noopener noreferrer";
 		}
 	} else {
 		buttonProps.onClick = handleOnClick;
@@ -65,13 +61,12 @@ const getButtonProps = ( type, handleOnClick, href, taskId, parentTaskId, disabl
  * @param {Function} onClick The onClick handler for the button.
  * @param {string} href The URL to navigate to (for external links).
  * @param {string} taskId The ID of the task associated with the button.
- * @param {string} parentTaskId The ID of the parent task, if available.
  * @param {boolean} [disabled=false] Whether the button is disabled.
  * @param {boolean} [isLoading=false] Whether the button is in a loading state.
  *
  * @returns {JSX.Element} The CallToActionButton component.
  */
-export const CallToActionButton = ( { type, label, href, onClick, taskId, parentTaskId, disabled = false, isLoading = false }  ) => {
+export const CallToActionButton = ( { type, label, href, onClick, taskId, disabled = false, isLoading = false }  ) => {
 	const handleOnClick = useCallback( () => {
 		if ( onClick ) {
 			onClick( taskId );
@@ -82,7 +77,7 @@ export const CallToActionButton = ( { type, label, href, onClick, taskId, parent
 		return null;
 	}
 
-	const buttonProps = getButtonProps( type, handleOnClick, href, taskId, parentTaskId, disabled, isLoading );
+	const buttonProps = getButtonProps( type, handleOnClick, href, taskId, disabled, isLoading );
 
 	if ( type === "add" ) {
 		return <Button
