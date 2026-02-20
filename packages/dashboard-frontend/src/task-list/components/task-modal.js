@@ -43,6 +43,8 @@ import { TaskAnalyzer } from "./task-analyzer";
  * @param {number}   [totalTasks]     Total number of child tasks.
  * @param {number}   [completedTasks] Number of completed child tasks.
  * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
+ * @param {Function} [onProgressBadgeClick] Callback function when the progress badge is clicked.
+ * @param {string}   [parentTaskId]  The ID of the parent task, if applicable.
  * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
  * @param {Analyzer} [analyzer]      Analyzer details for the task.
  *

@@ -5,6 +5,8 @@ exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   <svg
     aria-hidden="true"
@@ -55,6 +57,8 @@ exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   Go
   <svg
@@ -170,6 +174,8 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   Go
   <svg
