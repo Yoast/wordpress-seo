@@ -261,6 +261,7 @@ exports[`TasksProgressBadge matches snapshot when rendered as a button 1`] = `
 <DocumentFragment>
   <button
     class="yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate"
+    disabled=""
   >
     <span
       class="yst-badge yst-badge--info yst-badge--large yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full"

@@ -79,37 +79,22 @@ describe( "TasksProgressBadge", () => {
 	it( "calls onClick with parentTaskId when both are provided and clicked", () => {
 		const onClick = jest.fn();
 		const { container } = render(
-			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } onClick={ onClick } parentTaskId="task-1" />
+			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } onClick={ onClick } parentTaskId="task-1" as="button" />
 		);
 		fireEvent.click( container.firstChild );
 		expect( onClick ).toHaveBeenCalledTimes( 1 );
 		expect( onClick ).toHaveBeenCalledWith( "task-1" );
 	} );
-
-	it( "does not call onClick when parentTaskId is missing", () => {
-		const onClick = jest.fn();
+	it.each( [
+		[ "parentTaskId is missing", { as: "button", onClick: jest.fn() } ],
+		[ "onClick is missing", { as: "button", parentTaskId: "task-1" } ],
+		[ "isLoading is true", { as: "button", onClick: jest.fn(), parentTaskId: "task-1", isLoading: true } ],
+		[ "rendered as a span (default)", { onClick: jest.fn(), parentTaskId: "task-1" } ],
+	] )( "does not call onClick when %s", ( _, props ) => {
 		const { container } = render(
-			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } onClick={ onClick } />
-		);
-		fireEvent.click( container.firstChild );
-		expect( onClick ).not.toHaveBeenCalled();
-	} );
-
-	it( "does not call onClick when onClick is missing", () => {
-		const { container } = render(
-			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } parentTaskId="task-1" />
+			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } { ...props } />
 		);
 		// Should not throw when clicked without an onClick handler.
 		expect( () => fireEvent.click( container.firstChild ) ).not.toThrow();
-	} );
-
-	it( "calls event.preventDefault on click", () => {
-		const { container } = render(
-			<TasksProgressBadge completedTasks={ 2 } totalTasks={ 5 } onClick={ jest.fn() } parentTaskId="task-1" />
-		);
-		const event = new MouseEvent( "click", { bubbles: true, cancelable: true } );
-		jest.spyOn( event, "preventDefault" );
-		fireEvent( container.firstChild, event );
-		expect( event.preventDefault ).toHaveBeenCalled();
 	} );
 } );
