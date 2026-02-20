@@ -257,8 +257,8 @@ class Loader {
 						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
 						\__( '%1$s attempted to load the class %2$s but it could not be found.', 'wordpress-seo' ),
 						'Yoast SEO',
-						$loadable_class
-					)
+						$loadable_class,
+					),
 				);
 			}
 			return false;

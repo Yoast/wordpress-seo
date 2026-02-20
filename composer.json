@@ -35,9 +35,11 @@
 		"psr/log": "^1.0",
 		"symfony/config": "^5.4.46",
 		"symfony/dependency-injection": "^5.4.48",
+		"wpackagist-plugin/easy-digital-downloads": "dev-trunk",
 		"wpackagist-plugin/google-site-kit": "dev-trunk",
-		"yoast/wp-test-utils": "^1.2",
-		"yoast/yoastcs": "^3.2.0"
+		"wpackagist-plugin/woocommerce": "dev-trunk",
+		"yoast/wp-test-utils": "^1.2.1",
+		"yoast/yoastcs": "^3.3.0"
 	},
 	"suggest": {
 		"ext-bcmath": "For more accurate calculations",
@@ -86,7 +88,9 @@
 	"extra": {
 		"installer-paths": {
 			"vendor/{$name}": [
-				"wpackagist-plugin/google-site-kit"
+				"wpackagist-plugin/easy-digital-downloads",
+				"wpackagist-plugin/google-site-kit",
+				"wpackagist-plugin/woocommerce"
 			]
 		}
 	},
@@ -107,8 +111,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2379",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=251",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2384",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=256",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [

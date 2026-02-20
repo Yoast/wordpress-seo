@@ -39,7 +39,7 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 	public function test_add_for_page_types() {
 		$this->class_instance->add_for_page_types(
 			[ 'post' ],
-			[ 'cf_custom_field' ]
+			[ 'cf_custom_field' ],
 		);
 
 		$actual   = $this->class_instance->get();
@@ -94,8 +94,8 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 		$this->assertEquals(
 			[ 'title' ],
 			$this->class_instance->get_generic(
-				$replace_vars_list
-			)
+				$replace_vars_list,
+			),
 		);
 	}
 
@@ -326,7 +326,7 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 		return self::factory()->post->create_and_get(
 			[
 				'post_type' => $post_type,
-			]
+			],
 		);
 	}
 
@@ -354,7 +354,7 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected_replacement_variables,
-			$this->class_instance->get()
+			$this->class_instance->get(),
 		);
 
 		\remove_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_editor_specific_replacement_variables' ] );
@@ -385,7 +385,7 @@ final class Editor_Specific_Replace_Vars_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected_replacement_variables,
-			$this->class_instance->get()
+			$this->class_instance->get(),
 		);
 
 		\remove_filter( 'wpseo_editor_specific_replace_vars', '__return_false' );

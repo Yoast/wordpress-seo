@@ -168,27 +168,27 @@ class WPSEO_Rank {
 			self::NO_FOCUS => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'No Focus Keyphrase', 'wordpress-seo' )
+				__( 'No Focus Keyphrase', 'wordpress-seo' ),
 			),
 			self::BAD => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'Needs improvement', 'wordpress-seo' )
+				__( 'Needs improvement', 'wordpress-seo' ),
 			),
 			self::OK => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'OK', 'wordpress-seo' )
+				__( 'OK', 'wordpress-seo' ),
 			),
 			self::GOOD => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'Good', 'wordpress-seo' )
+				__( 'Good', 'wordpress-seo' ),
 			),
 			self::NO_INDEX => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'Post Noindexed', 'wordpress-seo' )
+				__( 'Post Noindexed', 'wordpress-seo' ),
 			),
 		];
 
@@ -205,22 +205,22 @@ class WPSEO_Rank {
 			self::BAD => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
-				__( 'Needs improvement', 'wordpress-seo' )
+				__( 'Needs improvement', 'wordpress-seo' ),
 			),
 			self::OK => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
-				__( 'OK', 'wordpress-seo' )
+				__( 'OK', 'wordpress-seo' ),
 			),
 			self::GOOD => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
-				__( 'Good', 'wordpress-seo' )
+				__( 'Good', 'wordpress-seo' ),
 			),
 			self::NO_FOCUS => sprintf(
 			/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
-				__( 'Not analyzed', 'wordpress-seo' )
+				__( 'Not analyzed', 'wordpress-seo' ),
 			),
 		];
 
@@ -237,17 +237,17 @@ class WPSEO_Rank {
 			self::BAD => sprintf(
 			/* translators: %s expands to the inclusive language score */
 				__( 'Inclusive language: %s', 'wordpress-seo' ),
-				__( 'Needs improvement', 'wordpress-seo' )
+				__( 'Needs improvement', 'wordpress-seo' ),
 			),
 			self::OK => sprintf(
 			/* translators: %s expands to the inclusive language score */
 				__( 'Inclusive language: %s', 'wordpress-seo' ),
-				__( 'Potentially non-inclusive', 'wordpress-seo' )
+				__( 'Potentially non-inclusive', 'wordpress-seo' ),
 			),
 			self::GOOD => sprintf(
 			/* translators: %s expands to the inclusive language score */
 				__( 'Inclusive language: %s', 'wordpress-seo' ),
-				__( 'Good', 'wordpress-seo' )
+				__( 'Good', 'wordpress-seo' ),
 			),
 		];
 

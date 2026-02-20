@@ -67,7 +67,7 @@ final class Crawl_Cleanup_Searches_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Crawl_Cleanup_Searches::get_conditionals()
+			Crawl_Cleanup_Searches::get_conditionals(),
 		);
 	}
 
@@ -104,8 +104,8 @@ final class Crawl_Cleanup_Searches_Test extends TestCase {
 				[
 					$this->instance,
 					'maybe_redirect_searches',
-				]
-			)
+				],
+			),
 		);
 	}
 

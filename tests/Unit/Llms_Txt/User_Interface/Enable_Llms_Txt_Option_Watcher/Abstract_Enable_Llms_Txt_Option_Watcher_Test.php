@@ -74,7 +74,7 @@ abstract class Abstract_Enable_Llms_Txt_Option_Watcher_Test extends TestCase {
 			$this->cron_scheduler,
 			$this->command_handler,
 			$this->populate_file_command_handler,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

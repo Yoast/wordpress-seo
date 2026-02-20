@@ -54,7 +54,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 
 		$this->instance = new Structured_Data_Blocks(
 			$this->asset_manager,
-			$this->image_helper
+			$this->image_helper,
 		);
 	}
 
@@ -70,8 +70,8 @@ final class Structured_Data_Blocks_Test extends TestCase {
 			Structured_Data_Blocks::class,
 			new Structured_Data_Blocks(
 				$this->asset_manager,
-				$this->image_helper
-			)
+				$this->image_helper,
+			),
 		);
 	}
 
@@ -168,9 +168,9 @@ final class Structured_Data_Blocks_Test extends TestCase {
 			$expected,
 			$this->instance->present_duration_text(
 				$attributes,
-				$content
+				$content,
 			),
-			$message
+			$message,
 		);
 	}
 
@@ -234,9 +234,9 @@ final class Structured_Data_Blocks_Test extends TestCase {
 			$expected,
 			$this->instance->optimize_how_to_images(
 				$attributes,
-				$content
+				$content,
 			),
-			$message
+			$message,
 		);
 	}
 }

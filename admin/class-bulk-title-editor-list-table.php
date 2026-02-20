@@ -80,7 +80,7 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 				return sprintf(
 					'<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" aria-labelledby="col_new_yoast_seo_title" />',
 					'wpseo-new-title-' . $record->ID,
-					$record->ID
+					$record->ID,
 				);
 		}
 

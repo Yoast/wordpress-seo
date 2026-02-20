@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Llms_Txt_Cron_Scheduler_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 }

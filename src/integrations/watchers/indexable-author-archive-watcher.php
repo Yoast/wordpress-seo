@@ -39,7 +39,7 @@ class Indexable_Author_Archive_Watcher implements Integration_Interface {
 			'update_option_wpseo_titles',
 			[ $this, 'reschedule_indexable_cleanup_when_author_archives_are_disabled' ],
 			10,
-			2
+			2,
 		);
 	}
 

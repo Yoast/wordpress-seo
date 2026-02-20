@@ -62,7 +62,7 @@ abstract class Abstract_Complete_Task_Route_Test extends TestCase {
 		$this->instance = new Complete_Task_Route(
 			$this->tasks_collector,
 			$this->capability_helper,
-			$this->action_tracker
+			$this->action_tracker,
 		);
 	}
 

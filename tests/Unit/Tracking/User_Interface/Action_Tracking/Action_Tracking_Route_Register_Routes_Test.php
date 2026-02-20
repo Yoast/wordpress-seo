@@ -40,7 +40,7 @@ final class Action_Tracking_Route_Register_Routes_Test extends Abstract_Action_T
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

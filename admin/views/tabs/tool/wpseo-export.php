@@ -24,7 +24,7 @@ if ( isset( $_POST['do_export'] ) && wp_unslash( $_POST['do_export'] ) === '1' )
 $wpseo_export_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
 	__( 'Export your %1$s settings here, to copy them on another site.', 'wordpress-seo' ),
-	'Yoast SEO'
+	'Yoast SEO',
 );
 ?>
 

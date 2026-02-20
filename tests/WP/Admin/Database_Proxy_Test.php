@@ -44,7 +44,7 @@ final class Database_Proxy_Test extends TestCase {
 			],
 			[
 				'PRIMARY KEY (id)',
-			]
+			],
 		);
 	}
 
@@ -90,7 +90,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 				'testval' => 'value2',
 			],
-			[ '%s', '%s' ]
+			[ '%s', '%s' ],
 		);
 
 		$this->assertSame( 1, $result );
@@ -109,7 +109,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 				'testval' => 'value2',
 			],
-			[ '%s', '%s' ]
+			[ '%s', '%s' ],
 		);
 
 		$result = self::$proxy->insert(
@@ -118,7 +118,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 				'testval' => 'value2',
 			],
-			[ '%d', '%s', '%s' ]
+			[ '%d', '%s', '%s' ],
 		);
 
 		$this->assertFalse( $result );
@@ -136,7 +136,7 @@ final class Database_Proxy_Test extends TestCase {
 			[
 				'testvalue' => 'value2',
 			],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertFalse( $result );
@@ -155,7 +155,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 				'testval' => 'value2',
 			],
-			[ '%s', '%s' ]
+			[ '%s', '%s' ],
 		);
 
 		$result = self::$proxy->update(
@@ -166,7 +166,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 			],
 			[ '%s' ],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertSame( 1, $result );
@@ -188,7 +188,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key2',
 			],
 			[ '%s' ],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertSame( 0, $result );
@@ -210,7 +210,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key1',
 			],
 			[ '%s' ],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertFalse( $result );
@@ -233,7 +233,7 @@ final class Database_Proxy_Test extends TestCase {
 			[
 				'id' => 2,
 			],
-			[ '%d', '%s', '%s' ]
+			[ '%d', '%s', '%s' ],
 		);
 
 		$this->assertSame( 1, $result );
@@ -253,7 +253,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key10',
 				'testval' => 'value10-1',
 			],
-			[ '%d', '%s', '%s' ]
+			[ '%d', '%s', '%s' ],
 		);
 
 		$result = self::$proxy->upsert(
@@ -265,7 +265,7 @@ final class Database_Proxy_Test extends TestCase {
 			[
 				'id' => 10,
 			],
-			[ '%d', '%s', '%s' ]
+			[ '%d', '%s', '%s' ],
 		);
 
 		/*
@@ -288,7 +288,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key10',
 				'testval' => 'value10-2',
 			],
-			$results[0]
+			$results[0],
 		);
 	}
 
@@ -305,14 +305,14 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key1',
 				'testval' => 'value',
 			],
-			[ '%s', '%s' ]
+			[ '%s', '%s' ],
 		);
 
 		$result = self::$proxy->delete(
 			[
 				'testkey' => 'key1',
 			],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertSame( 1, $result );
@@ -330,7 +330,7 @@ final class Database_Proxy_Test extends TestCase {
 			[
 				'testkey' => 'key2',
 			],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertSame( 0, $result );
@@ -348,7 +348,7 @@ final class Database_Proxy_Test extends TestCase {
 			[
 				'testvalue' => 'key1',
 			],
-			[ '%s' ]
+			[ '%s' ],
 		);
 
 		$this->assertFalse( $result );
@@ -369,7 +369,7 @@ final class Database_Proxy_Test extends TestCase {
 				'testkey' => 'key1',
 				'testval' => 'value',
 			],
-			[ '%s', '%s' ]
+			[ '%s', '%s' ],
 		);
 
 		$result = self::$proxy->get_results( "SELECT * FROM $table_name WHERE testkey = 'key1'" );
@@ -406,7 +406,7 @@ final class Database_Proxy_Test extends TestCase {
 			],
 			[
 				'PRIMARY KEY (id)',
-			]
+			],
 		);
 
 		$this->assertTrue( $result );

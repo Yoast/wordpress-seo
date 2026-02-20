@@ -1,12 +1,11 @@
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import React, { createRef } from "react";
+import React from "react";
 import Toast, { useToastContext } from ".";
 import Button from "../../elements/button";
 import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
-import { description, component, close, title, useToastContext as useToastContextDocs, complexLayout } from "./docs";
+import { description, component, close, title, useToastContext as useToastContextDocs } from "./docs";
 import classNames from "classnames";
-import { ValidationIcon } from "../validation";
 import { useToggleState } from "../../hooks";
 
 const positionClassNameMap = {
@@ -132,82 +131,6 @@ export const useToastContextHook = {
 	},
 };
 
-const DismissButton = () => {
-	const { handleDismiss } = useToastContext();
-	return <Button size="small" variant="tertiary" onClick={ handleDismiss }>Dismiss</Button>;
-};
-
-export const asComplexLayout = {
-	name: "Complex layout",
-	args: {
-		children: (
-			<>
-				<div className="yst-flex yst-gap-3">
-					<div className="yst-flex-shrink-0">
-						<ValidationIcon className="yst-w-5 yst-h-5" />
-					</div>
-					<div className="yst-flex-1">
-						<Toast.Title title="Perform an action?" />
-						<p>An optional action can be performed. Please confirm this action. Otherwise, feel free to dismiss this suggestion.</p>
-					</div>
-					<div>
-						<Toast.Close dismissScreenReaderLabel="Dismiss" />
-					</div>
-				</div>
-				<div className="yst-flex yst-gap-3 yst-justify-end yst-mt-3">
-					<DismissButton />
-					<ConfirmButton />
-				</div>
-			</>
-		),
-	},
-	parameters: {
-		controls: { disable: true },
-		docs: { description: { story: complexLayout } },
-	},
-	decorators: [
-		( Story ) => (
-			<div className="yst-min-h-[21rem]">
-				<Story />
-			</div>
-		),
-	],
-};
-
-const initialFocusButtonRef = createRef();
-
-const InitialFocusTemplate = ( { isVisible: initialVisible = false, setIsVisible: _ = noop, position, children, ...props } ) => {
-	const [ isVisible, toggleToast, , openToast ] = useToggleState( initialVisible );
-
-	return (
-		<>
-			<Button onClick={ toggleToast }>Toggle toast</Button>
-			<aside
-				className={ classNames(
-					"yst-notifications",
-					positionClassNameMap.position[ position ],
-				) }
-			>
-				<Toast
-					{ ...props }
-					isVisible={ isVisible }
-					setIsVisible={ openToast }
-					onDismiss={ toggleToast }
-					position={ position }
-					id={ "toast" }
-					initialFocus={ initialFocusButtonRef }
-				>
-					{ children }
-				</Toast>
-			</aside>
-		</>
-	);
-};
-InitialFocusTemplate.displayName = "Toast";
-InitialFocusTemplate.propTypes = {
-	isVisible: PropTypes.bool,
-	setIsVisible: PropTypes.func,
-};
 
 export default {
 	title: "1) Elements/Toast",
@@ -251,15 +174,6 @@ export default {
 				defaultValue: { summary: "bottom-left" },
 			},
 		},
-		initialFocus: {
-			control: { disable: true },
-			type: { required: false },
-			description: "A ref to the element that should receive focus when the toast opens.",
-			table: {
-				type: { summary: "func | object" },
-				defaultValue: { summary: "null" },
-			},
-		},
 	},
 	args: {
 		isVisible: true,
@@ -273,17 +187,7 @@ export default {
 			description: {
 				component,
 			},
-			page: () => (
-				<InteractiveDocsPage
-					stories={ [
-						withTitle,
-						withDescription,
-						withClose,
-						useToastContextHook,
-						asComplexLayout,
-					] }
-				/>
-			),
+			page: () => <InteractiveDocsPage stories={ [ withTitle, withDescription, withClose, useToastContextHook ] } />,
 		},
 	},
 	decorators: [

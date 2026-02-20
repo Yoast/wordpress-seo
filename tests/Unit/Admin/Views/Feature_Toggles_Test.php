@@ -122,7 +122,7 @@ final class Feature_Toggles_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link_mock,
-			]
+			],
 		);
 
 		Functions\expect( 'YoastSEO' )
@@ -197,7 +197,7 @@ final class Feature_Toggles_Test extends TestCase {
 		$container = $this->create_container_with(
 			[
 				Short_Link_Helper::class => $short_link_mock,
-			]
+			],
 		);
 
 		Functions\expect( 'YoastSEO' )

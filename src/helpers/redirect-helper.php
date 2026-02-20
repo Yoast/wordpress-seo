@@ -21,7 +21,7 @@ class Redirect_Helper {
 	public function do_unsafe_redirect( $location, $status = 302, $reason = 'Yoast SEO' ) {
 		// phpcs:ignore WordPress.Security.SafeRedirect -- intentional, function has been renamed to make unsafe more clear.
 		\wp_redirect( $location, $status, $reason );
-		exit;
+		exit();
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Redirect_Helper {
 	 */
 	public function do_safe_redirect( $location, $status = 302, $reason = 'Yoast SEO' ) {
 		\wp_safe_redirect( $location, $status, $reason );
-		exit;
+		exit();
 	}
 
 	/**

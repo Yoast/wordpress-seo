@@ -105,7 +105,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$out .= '<span class="yoast-icon"></span>';
 		$out .= \sprintf(
 			'<h2 class="notice-yoast__header-heading yoast-notice-migrated-header">%s</h2>',
-			\esc_html( $this->title )
+			\esc_html( $this->title ),
 		);
 		$out .= '</div>';
 		$out .= '<div class="notice-yoast-content">';

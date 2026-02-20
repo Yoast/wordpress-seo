@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '27.0-RC2' );
+define( 'WPSEO_VERSION', '27.1-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -55,12 +55,10 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 function wpseo_auto_load( $class_name ) {
 	static $classes = null;
 
-	if ( $classes === null ) {
-		$classes = [
-			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
-			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
-		];
-	}
+	$classes ??= [
+		'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+		'walker_category' => ABSPATH . 'wp-includes/category-template.php',
+	];
 
 	$cn = strtolower( $class_name );
 
@@ -120,7 +118,7 @@ if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
 			$yoast_autoloader->unregister();
 			$yoast_autoloader->register( true );
 		},
-		1
+		1,
 	);
 }
 
@@ -566,7 +564,7 @@ function yoast_wpseo_activation_failed_notice( $message ) {
 	$title = sprintf(
 		/* translators: %s: Yoast SEO. */
 		esc_html__( '%s activation failed', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO',
 	);
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This function is only called in 3 places that are safe.

@@ -206,7 +206,7 @@ final class MyYoast_Api_Request_Test extends TestCase {
 			->willReturn(
 				[
 					'This is' => 'the request body',
-				]
+				],
 			);
 
 		$instance
@@ -215,7 +215,7 @@ final class MyYoast_Api_Request_Test extends TestCase {
 			->willReturn(
 				[
 					'yoast-seo-wordpress-premium' => '10.0',
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -227,7 +227,7 @@ final class MyYoast_Api_Request_Test extends TestCase {
 					'yoast-seo-wordpress-premium-version' => '10.0',
 				],
 			],
-			$instance->enrich_request_arguments( [] )
+			$instance->enrich_request_arguments( [] ),
 		);
 	}
 
@@ -256,7 +256,7 @@ final class MyYoast_Api_Request_Test extends TestCase {
 			->willReturn(
 				[
 					'yoast-seo-wordpress-premium' => '10.0',
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -265,7 +265,7 @@ final class MyYoast_Api_Request_Test extends TestCase {
 					'yoast-seo-wordpress-premium-version' => '10.0',
 				],
 			],
-			$instance->enrich_request_arguments( [] )
+			$instance->enrich_request_arguments( [] ),
 		);
 	}
 

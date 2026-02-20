@@ -60,7 +60,7 @@ final class Setup_Steps_Tracking_Route_Register_Routes_Test extends Abstract_Set
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

@@ -25,15 +25,15 @@ final class Constructor_Test extends Abstract_Enable_Llms_Txt_Option_Watcher_Tes
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Llms_Txt_Cron_Scheduler::class,
-			$this->getPropertyValue( $this->instance, 'scheduler' )
+			$this->getPropertyValue( $this->instance, 'scheduler' ),
 		);
 		$this->assertInstanceOf(
 			Remove_File_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'remove_file_command_handler' )
+			$this->getPropertyValue( $this->instance, 'remove_file_command_handler' ),
 		);
 		$this->assertInstanceOf(
 			Populate_File_Command_Handler::class,
-			$this->getPropertyValue( $this->instance, 'populate_file_command_handler' )
+			$this->getPropertyValue( $this->instance, 'populate_file_command_handler' ),
 		);
 	}
 }

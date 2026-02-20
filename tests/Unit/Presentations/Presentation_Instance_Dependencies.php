@@ -133,7 +133,7 @@ trait Presentation_Instance_Dependencies {
 			$this->user,
 			$this->indexable_helper,
 			$this->permalink_helper,
-			$this->values_helper
+			$this->values_helper,
 		);
 
 		$this->open_graph_image_generator = Mockery::mock(
@@ -143,7 +143,7 @@ trait Presentation_Instance_Dependencies {
 				$this->image,
 				$this->options,
 				$this->url,
-			]
+			],
 		);
 
 		$this->twitter_image_generator = Mockery::mock(
@@ -152,7 +152,7 @@ trait Presentation_Instance_Dependencies {
 				$this->image,
 				$this->url,
 				$this->twitter,
-			]
+			],
 		);
 
 		$presentation_instance->set_generators(
@@ -160,7 +160,7 @@ trait Presentation_Instance_Dependencies {
 			new Open_Graph_Locale_Generator(),
 			$this->open_graph_image_generator,
 			$this->twitter_image_generator,
-			Mockery::mock( Breadcrumbs_Generator::class )
+			Mockery::mock( Breadcrumbs_Generator::class ),
 		);
 	}
 }

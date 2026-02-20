@@ -96,7 +96,7 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -116,7 +116,7 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 			return new WP_Error(
 				'wpseo_set_site_kit_consent_error',
 				$exception->getMessage(),
-				(object) []
+				(object) [],
 			);
 		}
 
@@ -124,7 +124,7 @@ class Site_Kit_Consent_Management_Route implements Route_Interface {
 			[
 				'success' => $result,
 			],
-			( $result ) ? 200 : 400
+			( $result ) ? 200 : 400,
 		);
 	}
 

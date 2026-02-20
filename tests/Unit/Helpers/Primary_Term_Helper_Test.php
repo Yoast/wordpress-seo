@@ -65,7 +65,7 @@ final class Primary_Term_Helper_Test extends TestCase {
 						'name'         => 'tag',
 						'hierarchical' => false,
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_post_type' )
@@ -102,7 +102,7 @@ final class Primary_Term_Helper_Test extends TestCase {
 						'name'         => 'tag',
 						'hierarchical' => false,
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_post_type' )

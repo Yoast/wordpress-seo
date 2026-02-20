@@ -93,7 +93,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			$this->repository,
 			$this->wpdb,
 			$this->builder_versions,
-			$this->post_helper
+			$this->post_helper,
 		);
 	}
 
@@ -287,7 +287,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 'auto-draft', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ],
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -371,7 +371,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 'auto-draft', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ],
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -427,7 +427,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 'auto-draft', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ],
 			)
 			->andReturn( 'query' );
 		$this->wpdb

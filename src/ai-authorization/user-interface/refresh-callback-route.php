@@ -54,7 +54,7 @@ class Refresh_Callback_Route extends Abstract_Callback_Route {
 				],
 				'callback'            => [ $this, 'callback' ],
 				'permission_callback' => '__return_true',
-			]
+			],
 		);
 	}
 }

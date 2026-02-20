@@ -172,7 +172,7 @@ final class HowTo_Test extends TestCase {
 					$data['inLanguage'] = 'language';
 
 					return $data;
-				}
+				},
 			);
 
 		$this->post
@@ -271,7 +271,7 @@ final class HowTo_Test extends TestCase {
 		// Remove JSON text and -name attributes.
 		unset(
 			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'],
-			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName']
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'],
 		);
 
 		$schema = $this->base_schema;
@@ -293,7 +293,7 @@ final class HowTo_Test extends TestCase {
 		$blocks = $this->base_blocks;
 		// Remove the steps attribute.
 		unset(
-			$blocks['yoast/how-to-block'][0]['attrs']['steps']
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'],
 		);
 
 		$schema = $this->base_schema;
@@ -335,7 +335,7 @@ final class HowTo_Test extends TestCase {
 			->expects( 'generate_from_url' )
 			->with(
 				'#schema-image-94025919e8fe3836562573a84a14a305',
-				'https://example.com/wp-content/uploads/2020/02/download.jpeg'
+				'https://example.com/wp-content/uploads/2020/02/download.jpeg',
 			)
 			->andReturn(
 				[
@@ -345,7 +345,7 @@ final class HowTo_Test extends TestCase {
 					'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
 					'width'      => 474,
 					'height'     => 474,
-				]
+				],
 			);
 
 		$schema = $this->base_schema;

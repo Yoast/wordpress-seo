@@ -41,7 +41,7 @@ abstract class Abstract_Description_Builder_Test extends TestCase {
 		$this->description_adapter = Mockery::mock( Description_Adapter::class );
 
 		$this->instance = new Description_Builder(
-			$this->description_adapter
+			$this->description_adapter,
 		);
 	}
 }

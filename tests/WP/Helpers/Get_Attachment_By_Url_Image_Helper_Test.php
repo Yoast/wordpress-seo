@@ -45,7 +45,7 @@ final class Get_Attachment_By_Url_Image_Helper_Test extends TestCase {
 				'target_post_id'      => '112',
 				'target_indexable_id' => '344',
 				'id'                  => '113',
-			]
+			],
 		);
 	}
 

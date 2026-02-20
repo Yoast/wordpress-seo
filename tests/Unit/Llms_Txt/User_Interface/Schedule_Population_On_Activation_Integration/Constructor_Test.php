@@ -24,11 +24,11 @@ final class Constructor_Test extends Abstract_Schedule_Population_On_Activation_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Llms_Txt_Cron_Scheduler::class,
-			$this->getPropertyValue( $this->instance, 'scheduler' )
+			$this->getPropertyValue( $this->instance, 'scheduler' ),
 		);
 	}
 }

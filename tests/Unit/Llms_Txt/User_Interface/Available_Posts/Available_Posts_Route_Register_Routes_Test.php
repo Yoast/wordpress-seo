@@ -45,7 +45,7 @@ final class Available_Posts_Route_Register_Routes_Test extends Abstract_Availabl
 							],
 						],
 					],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

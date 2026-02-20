@@ -97,16 +97,16 @@ final class SEMrush_Client_Test extends TestCase {
 			[
 				$this->options_helper,
 				Mockery::mock( WP_Remote_Handler::class ),
-			]
+			],
 		)->makePartial();
 
 		$this->assertInstanceOf(
 			GenericProvider::class,
-			$this->getPropertyValue( $instance, 'provider' )
+			$this->getPropertyValue( $instance, 'provider' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 	}
 
@@ -125,10 +125,10 @@ final class SEMrush_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => 604800,
+					'expires'       => 604_800,
 					'has_expired'   => true,
-					'created_at'    => 1234890,
-				]
+					'created_at'    => 1_234_890,
+				],
 			);
 
 		$instance = Mockery::mock(
@@ -136,20 +136,20 @@ final class SEMrush_Client_Test extends TestCase {
 			[
 				$this->options_helper,
 				Mockery::mock( WP_Remote_Handler::class ),
-			]
+			],
 		)->makePartial();
 
 		$this->assertInstanceOf(
 			GenericProvider::class,
-			$this->getPropertyValue( $instance, 'provider' )
+			$this->getPropertyValue( $instance, 'provider' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $instance, 'options_helper' )
+			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			OAuth_Token::class,
-			$this->getPropertyValue( $instance, 'token' )
+			$this->getPropertyValue( $instance, 'token' ),
 		);
 	}
 }

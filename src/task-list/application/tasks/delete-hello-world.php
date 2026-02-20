@@ -53,7 +53,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 				'post_id' => 1,
 				'number'  => 1,
 				'order'   => 'ASC',
-			]
+			],
 		);
 
 		if ( empty( $comments ) || \is_a( $comments[0], WP_Comment::class ) === false || $comments[0]->comment_author_email !== 'wapuu@wordpress.example' ) {
@@ -101,7 +101,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		return new Call_To_Action_Entry(
 			\__( 'Delete for me', 'wordpress-seo' ),
 			'delete',
-			$this->get_link()
+			$this->get_link(),
 		);
 	}
 
@@ -114,7 +114,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 		return new Copy_Set(
 			\__( 'Remove the “Hello World” post', 'wordpress-seo' ),
 			\__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ),
-			null
+			null,
 		);
 	}
 }

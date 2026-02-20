@@ -42,7 +42,7 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 		$this->additional_contactmethods_collector = Mockery::mock( Additional_Contactmethods_Collector::class );
 
 		$this->instance = new Additional_Contactmethods_Integration(
-			$this->additional_contactmethods_collector
+			$this->additional_contactmethods_collector,
 		);
 	}
 
@@ -67,7 +67,7 @@ final class Additional_Contactmethods_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Additional_Contactmethods_Collector::class,
-			$this->getPropertyValue( $this->instance, 'additional_contactmethods_collector' )
+			$this->getPropertyValue( $this->instance, 'additional_contactmethods_collector' ),
 		);
 	}
 

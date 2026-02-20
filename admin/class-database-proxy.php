@@ -147,14 +147,14 @@ class WPSEO_Database_Proxy {
 			$this->get_table_name(),
 			implode( ', ', $keys ),
 			implode( ', ', array_fill( 0, count( $data ), '%s' ) ),
-			implode( ', ', $update )
+			implode( ', ', $update ),
 		);
 
 		$result = $this->database->query(
 			$this->database->prepare(
 				$query,
-				array_values( $data )
-			)
+				array_values( $data ),
+			),
 		);
 
 		$this->post_execution();
@@ -210,7 +210,7 @@ class WPSEO_Database_Proxy {
 			'CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
 			$this->get_table_name(),
 			implode( ',', array_merge( $columns, $indexes ) ),
-			$this->database->get_charset_collate()
+			$this->database->get_charset_collate(),
 		);
 
 		$this->pre_execution();

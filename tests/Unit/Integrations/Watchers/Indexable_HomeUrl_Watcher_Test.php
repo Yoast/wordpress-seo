@@ -63,7 +63,7 @@ final class Indexable_HomeUrl_Watcher_Test extends TestCase {
 			[
 				'wp_next_scheduled' => false,
 				'wp_schedule_event' => false,
-			]
+			],
 		);
 
 		$this->post_type        = Mockery::mock( Post_Type_Helper::class );
@@ -84,7 +84,7 @@ final class Indexable_HomeUrl_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_HomeUrl_Watcher::get_conditionals()
+			Indexable_HomeUrl_Watcher::get_conditionals(),
 		);
 	}
 

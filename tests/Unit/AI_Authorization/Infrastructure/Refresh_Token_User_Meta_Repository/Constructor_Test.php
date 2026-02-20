@@ -22,7 +22,7 @@ final class Constructor_Test extends Abstract_Refresh_Token_User_Meta_Repository
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 	}
 }

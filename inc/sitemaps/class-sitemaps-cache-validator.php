@@ -110,8 +110,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 				throw new OutOfRangeException(
 					__(
 						'Trying to build the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
-						'wordpress-seo'
-					)
+						'wordpress-seo',
+					),
 				);
 			}
 
@@ -195,8 +195,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 			$wpdb->prepare(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 				'DELETE FROM %i WHERE ' . implode( ' OR ', array_fill( 0, count( $where ), '%s' ) ),
-				array_merge( [ $wpdb->options ], $where )
-			)
+				array_merge( [ $wpdb->options ], $where ),
+			),
 		);
 
 		wp_cache_delete( 'alloptions', 'options' );

@@ -32,40 +32,40 @@ final class Dashboard_Configuration_Constructor_Test extends Abstract_Dashboard_
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Content_Types_Repository::class,
-			$this->getPropertyValue( $this->instance, 'content_types_repository' )
+			$this->getPropertyValue( $this->instance, 'content_types_repository' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexable_helper' )
+			$this->getPropertyValue( $this->instance, 'indexable_helper' ),
 		);
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 		$this->assertInstanceOf(
 			Enabled_Analysis_Features_Repository::class,
-			$this->getPropertyValue( $this->instance, 'enabled_analysis_features_repository' )
+			$this->getPropertyValue( $this->instance, 'enabled_analysis_features_repository' ),
 		);
 
 		$this->assertInstanceOf(
 			Endpoints_Repository::class,
-			$this->getPropertyValue( $this->instance, 'endpoints_repository' )
+			$this->getPropertyValue( $this->instance, 'endpoints_repository' ),
 		);
 		$this->assertInstanceOf(
 			Nonce_Repository::class,
-			$this->getPropertyValue( $this->instance, 'nonce_repository' )
+			$this->getPropertyValue( $this->instance, 'nonce_repository' ),
 		);
 		$this->assertInstanceOf(
 			Site_Kit::class,
-			$this->getPropertyValue( $this->instance, 'site_kit_integration_data' )
+			$this->getPropertyValue( $this->instance, 'site_kit_integration_data' ),
 		);
 		$this->assertInstanceOf(
 			Setup_Steps_Tracking::class,
-			$this->getPropertyValue( $this->instance, 'setup_steps_tracking' )
+			$this->getPropertyValue( $this->instance, 'setup_steps_tracking' ),
 		);
 		$this->assertInstanceOf(
 			Browser_Cache_Configuration::class,
-			$this->getPropertyValue( $this->instance, 'browser_cache_configuration' )
+			$this->getPropertyValue( $this->instance, 'browser_cache_configuration' ),
 		);
 	}
 }

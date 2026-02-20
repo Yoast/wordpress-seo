@@ -154,6 +154,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'default_seo_title'                                    => [],
 		'default_seo_meta_desc'                                => [],
 		'first_activated_by'                                   => 0,
+		'enable_schema_aggregation_endpoint'                   => false,
+		'schema_aggregation_endpoint_enabled_on'               => null,
 		'enable_task_list'                                     => true,
 		'enable_schema'                                        => true,
 	];
@@ -356,6 +358,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'site_kit_tracking_setup_widget_temporarily_dismissed':
 				case 'site_kit_tracking_setup_widget_permanently_dismissed':
 				case 'ai_free_sparks_started_on':
+				case 'schema_aggregation_endpoint_enabled_on':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -549,6 +552,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'site_kit_connected',
 				 *  'google_site_kit_feature_enabled',
 				 *  'enable_llms_txt',
+				 *  'enable_schema_aggregation_endpoint'
 				 *  'enable_task_list',
 				 *  'enable_schema',
 				 *  and most of the feature variables.
@@ -622,6 +626,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'google_site_kit_feature_enabled'    => false,
 			'enable_llms_txt'                    => false,
 			'enable_task_list'                   => false,
+			'enable_schema_aggregation_endpoint' => false,
 			'enable_schema'                      => false,
 		];
 

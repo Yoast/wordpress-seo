@@ -79,14 +79,14 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		Monkey\Functions\expect( 'wp_get_document_title' )
 			->andReturnUsing(
 				function () {
 					return $this->instance->get_title();
-				}
+				},
 			);
 	}
 
@@ -105,7 +105,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		$expected = '<title>example_title</title>';
@@ -129,7 +129,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		$actual = $this->instance->present();
@@ -153,7 +153,7 @@ final class Title_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_title' )

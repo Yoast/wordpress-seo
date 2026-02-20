@@ -50,7 +50,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 		$this->options_helper  = Mockery::mock( Options_Helper::class );
 		$this->instance        = new Wincher_Account_Action(
 			$this->client_instance,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 
@@ -64,12 +64,12 @@ final class Wincher_Account_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Wincher_Client::class,
-			$this->getPropertyValue( $this->instance, 'client' )
+			$this->getPropertyValue( $this->instance, 'client' ),
 		);
 
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 	}
 
@@ -94,7 +94,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 						'history_days' => 31,
 					],
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -105,7 +105,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'status'      => 200,
 				'historyDays' => 31,
 			],
-			$this->instance->check_limit()
+			$this->instance->check_limit(),
 		);
 	}
 
@@ -130,7 +130,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 						'history_days' => 31,
 					],
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -141,7 +141,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'status'      => 200,
 				'historyDays' => 31,
 			],
-			$this->instance->check_limit()
+			$this->instance->check_limit(),
 		);
 	}
 
@@ -160,24 +160,24 @@ final class Wincher_Account_Action_Test extends TestCase {
 				[
 					'limits' => [
 						'keywords'     => [
-							'usage' => 100000,
+							'usage' => 100_000,
 							'limit' => null,
 						],
 						'history_days' => 31,
 					],
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
 			(object) [
 				'canTrack'    => true,
 				'limit'       => null,
-				'usage'       => 100000,
+				'usage'       => 100_000,
 				'status'      => 200,
 				'historyDays' => 31,
 			],
-			$this->instance->check_limit()
+			$this->instance->check_limit(),
 		);
 	}
 
@@ -198,7 +198,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 					'value'  => 0.9,
 					'months' => 10,
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -207,7 +207,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'months'   => null,
 				'status'   => 200,
 			],
-			$this->instance->get_upgrade_campaign()
+			$this->instance->get_upgrade_campaign(),
 		);
 	}
 
@@ -228,7 +228,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 					'value'  => 0.9,
 					'months' => 0,
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -237,7 +237,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'months'   => null,
 				'status'   => 200,
 			],
-			$this->instance->get_upgrade_campaign()
+			$this->instance->get_upgrade_campaign(),
 		);
 	}
 
@@ -258,7 +258,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 					'value'  => 0.9,
 					'months' => 10,
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->assertEquals(
@@ -267,7 +267,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'months'   => 10,
 				'status'   => 200,
 			],
-			$this->instance->get_upgrade_campaign()
+			$this->instance->get_upgrade_campaign(),
 		);
 	}
 
@@ -290,7 +290,7 @@ final class Wincher_Account_Action_Test extends TestCase {
 				'months'   => null,
 				'status'   => 200,
 			],
-			$this->instance->get_upgrade_campaign()
+			$this->instance->get_upgrade_campaign(),
 		);
 	}
 }

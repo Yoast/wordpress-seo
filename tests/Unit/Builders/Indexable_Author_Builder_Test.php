@@ -207,14 +207,14 @@ final class Indexable_Author_Builder_Test extends TestCase {
 					AND p.%i = ''
 					AND p.%i = %d
 				",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ],
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
@@ -293,14 +293,14 @@ final class Indexable_Author_Builder_Test extends TestCase {
 					AND p.%i = ''
 					AND p.%i = %d
 				",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ],
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
@@ -372,14 +372,14 @@ final class Indexable_Author_Builder_Test extends TestCase {
 					AND p.%i = ''
 					AND p.%i = %d
 				",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ],
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
@@ -392,7 +392,7 @@ final class Indexable_Author_Builder_Test extends TestCase {
 				[
 					'size'   => 500,
 					'scheme' => 'https',
-				]
+				],
 			)
 			->andReturn( '' );
 
@@ -463,14 +463,14 @@ final class Indexable_Author_Builder_Test extends TestCase {
 					AND p.%i = ''
 					AND p.%i = %d
 				",
-			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ]
+			[ 'post_modified_gmt', 'post_date_gmt', $this->wpdb->posts, 'post_status', 'publish', 'post_password', 'post_author', 1 ],
 		)->andReturn( 'PREPARED_QUERY' );
 
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
 				'last_modified' => '1234-12-12 00:00:00',
 				'published_at'  => '1234-12-12 00:00:00',
-			]
+			],
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );

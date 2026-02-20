@@ -51,7 +51,7 @@ abstract class Abstract_Request_Handler_Test extends TestCase {
 
 		$this->instance = new Request_Handler(
 			$this->api_client,
-			$this->response_parser
+			$this->response_parser,
 		);
 	}
 }

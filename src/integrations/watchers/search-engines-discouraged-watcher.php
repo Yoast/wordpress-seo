@@ -212,7 +212,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 		\printf(
 			'<div id="robotsmessage" class="notice notice-error">%1$s</div>',
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
-			$this->presenter->present()
+			$this->presenter->present(),
 		);
 	}
 
@@ -229,7 +229,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 1,
-			]
+			],
 		);
 	}
 

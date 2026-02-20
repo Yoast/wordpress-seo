@@ -95,7 +95,7 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 			[
 				'is_installed'        => $installed,
 				'is_fully_compatible' => $fully_compatible,
-			]
+			],
 		);
 
 		$this->notification_center_mock->expects( 'remove_notification_by_id' )->once()->with( 'wpseo-outdated-gutenberg-plugin' );
@@ -142,7 +142,7 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 			[
 				'is_installed'        => true,
 				'is_fully_compatible' => false,
-			]
+			],
 		);
 
 		Monkey\Functions\expect( 'get_current_user_id' )
@@ -153,7 +153,7 @@ final class Gutenberg_Compatibility_Notification_Test extends TestCase {
 			static function ( $arg ) {
 				// Verify that the added notification is a Yoast_Notification object and has the correct id.
 				return ( \is_a( $arg, Yoast_Notification::class ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' );
-			}
+			},
 		);
 
 		$this->gutenberg_notification->manage_notification();

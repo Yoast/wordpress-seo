@@ -47,13 +47,13 @@ final class Indexables_Head_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
 			$response,
-			'get_head WP_REST_Response object'
+			'get_head WP_REST_Response object',
 		);
 
 		$this->assertEquals(
 			$valid_head_data,
 			\is_object( $response->data ) && \property_exists( $response->data, 'html' ) && \property_exists( $response->data, 'json' ),
-			'get_head valid data'
+			'get_head valid data',
 		);
 	}
 

@@ -26,7 +26,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
 			__( 'You cannot create a %s file.', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		exit( esc_html( $die_msg ) );
 	}
@@ -47,7 +47,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to robots.txt. */
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		exit( esc_html( $die_msg ) );
 	}
@@ -63,7 +63,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 			$msg = sprintf(
 				/* translators: %s expands to robots.txt. */
 				__( 'Updated %s', 'wordpress-seo' ),
-				'robots.txt'
+				'robots.txt',
 			);
 		}
 	}
@@ -74,7 +74,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to ".htaccess". */
 			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
-			'.htaccess'
+			'.htaccess',
 		);
 		exit( esc_html( $die_msg ) );
 	}
@@ -114,7 +114,7 @@ if ( ! file_exists( $robots_file ) ) {
 		printf(
 			/* translators: %s expands to robots.txt. */
 			esc_html__( 'You don\'t have a %s file, create one here:', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		echo '</p>';
 
@@ -123,8 +123,8 @@ if ( ! file_exists( $robots_file ) ) {
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Create %s file', 'wordpress-seo' ),
-				'robots.txt'
-			)
+				'robots.txt',
+			),
 		);
 		echo '</form>';
 	}
@@ -133,7 +133,7 @@ if ( ! file_exists( $robots_file ) ) {
 		printf(
 			/* translators: %s expands to robots.txt. */
 			esc_html__( 'If you had a %s file and it was editable, you could edit it from here.', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		echo '</p>';
 	}
@@ -151,7 +151,7 @@ else {
 		printf(
 			/* translators: %s expands to robots.txt. */
 			esc_html__( 'If your %s were writable, you could edit it from here.', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		echo '</em></p>';
 		echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
@@ -163,7 +163,7 @@ else {
 		printf(
 			/* translators: %s expands to robots.txt. */
 			esc_html__( 'Edit the content of your %s:', 'wordpress-seo' ),
-			'robots.txt'
+			'robots.txt',
 		);
 		echo '</label>';
 		echo '<textarea class="large-text code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
@@ -172,8 +172,8 @@ else {
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
-				'robots.txt'
-			)
+				'robots.txt',
+			),
 		);
 		echo '</form>';
 	}
@@ -184,7 +184,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 	printf(
 		/* translators: %s expands to ".htaccess". */
 		esc_html__( '%s file', 'wordpress-seo' ),
-		'.htaccess'
+		'.htaccess',
 	);
 	echo '</h2>';
 
@@ -201,7 +201,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			printf(
 				/* translators: %s expands to ".htaccess". */
 				esc_html__( 'If your %s were writable, you could edit it from here.', 'wordpress-seo' ),
-				'.htaccess'
+				'.htaccess',
 			);
 			echo '</em></p>';
 			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
@@ -213,7 +213,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			printf(
 				/* translators: %s expands to ".htaccess". */
 				esc_html__( 'Edit the content of your %s:', 'wordpress-seo' ),
-				'.htaccess'
+				'.htaccess',
 			);
 			echo '</label>';
 			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
@@ -222,8 +222,8 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 				sprintf(
 					/* translators: %s expands to ".htaccess". */
 					esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
-					'.htaccess'
-				)
+					'.htaccess',
+				),
 			);
 			echo '</form>';
 		}
@@ -233,7 +233,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		printf(
 			/* translators: %s expands to ".htaccess". */
 			esc_html__( 'If you had a %s file and it was editable, you could edit it from here.', 'wordpress-seo' ),
-			'.htaccess'
+			'.htaccess',
 		);
 		echo '</p>';
 	}

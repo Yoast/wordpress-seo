@@ -64,7 +64,7 @@ class Yoast_Input_Validation {
 				/* translators: %1$s: amount of errors, %2$s: the admin page title */
 				_n( 'The form contains %1$s error. %2$s', 'The form contains %1$s errors. %2$s', $error_count, 'wordpress-seo' ),
 				number_format_i18n( $error_count ),
-				$admin_title
+				$admin_title,
 			);
 		}
 

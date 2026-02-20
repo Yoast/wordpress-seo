@@ -37,7 +37,7 @@ final class Statistics_Service_Test extends TestCase {
 				'ok'  => 10,
 				'na'  => 0,
 				'bad' => 0,
-			]
+			],
 		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
@@ -61,7 +61,7 @@ final class Statistics_Service_Test extends TestCase {
 				'ok'  => 10,
 				'na'  => 0,
 				'bad' => 0,
-			]
+			],
 		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
@@ -70,7 +70,7 @@ final class Statistics_Service_Test extends TestCase {
 
 		$this->assertEquals(
 			\esc_url( \admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=ok&author=0' ) ),
-			$response_data['seo_scores'][0]['link']
+			$response_data['seo_scores'][0]['link'],
 		);
 	}
 
@@ -90,7 +90,7 @@ final class Statistics_Service_Test extends TestCase {
 				'ok'  => 10,
 				'na'  => 0,
 				'bad' => 0,
-			]
+			],
 		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );
@@ -99,7 +99,7 @@ final class Statistics_Service_Test extends TestCase {
 
 		$this->assertEquals(
 			\esc_url( \admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=ok' ) ),
-			$response_data['seo_scores'][0]['link']
+			$response_data['seo_scores'][0]['link'],
 		);
 
 		$user->remove_cap( 'edit_others_posts' );
@@ -118,7 +118,7 @@ final class Statistics_Service_Test extends TestCase {
 				'ok'  => 10,
 				'na'  => 0,
 				'bad' => 0,
-			]
+			],
 		);
 
 		$class_instance = new WPSEO_Statistics_Service( $statistics );

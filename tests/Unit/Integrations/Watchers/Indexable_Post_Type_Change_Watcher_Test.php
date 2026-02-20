@@ -93,7 +93,7 @@ final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			$this->indexing_helper,
 			$this->post_type_helper,
 			$this->notification_center,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 	}
 
@@ -111,7 +111,7 @@ final class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 				Admin_Conditional::class,
 				Migrations_Conditional::class,
 			],
-			Indexable_Post_Type_Change_Watcher::get_conditionals()
+			Indexable_Post_Type_Change_Watcher::get_conditionals(),
 		);
 	}
 

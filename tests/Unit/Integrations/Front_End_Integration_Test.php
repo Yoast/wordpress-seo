@@ -115,7 +115,7 @@ final class Front_End_Integration_Test extends TestCase {
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 				$this->indexable_repository,
 				$this->permalink_helper,
-			]
+			],
 		)->makePartial();
 
 		// Set up mocks for classes which which are used in multiple tests.
@@ -136,7 +136,7 @@ final class Front_End_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Front_End_Integration::get_conditionals()
+			Front_End_Integration::get_conditionals(),
 		);
 	}
 
@@ -270,7 +270,7 @@ final class Front_End_Integration_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			\array_map( $callback, $this->instance->get_presenters( 'Post_Type' ) )
+			\array_map( $callback, $this->instance->get_presenters( 'Post_Type' ) ),
 		);
 	}
 
@@ -342,7 +342,7 @@ final class Front_End_Integration_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			\array_map( $callback, $this->instance->get_presenters( 'Static_Home_Page' ) )
+			\array_map( $callback, $this->instance->get_presenters( 'Static_Home_Page' ) ),
 		);
 	}
 
@@ -390,7 +390,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$expected
+			$expected,
 		);
 	}
 
@@ -460,7 +460,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$expected
+			$expected,
 		);
 	}
 
@@ -513,7 +513,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$actual
+			$actual,
 		);
 	}
 
@@ -560,7 +560,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$actual
+			$actual,
 		);
 	}
 
@@ -614,7 +614,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$expected
+			$expected,
 		);
 	}
 
@@ -681,7 +681,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 			],
-			$this->instance->filter_robots_presenter( $presenters )
+			$this->instance->filter_robots_presenter( $presenters ),
 		);
 	}
 
@@ -713,7 +713,7 @@ final class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 			],
-			$this->instance->filter_robots_presenter( $presenters )
+			$this->instance->filter_robots_presenter( $presenters ),
 		);
 	}
 
