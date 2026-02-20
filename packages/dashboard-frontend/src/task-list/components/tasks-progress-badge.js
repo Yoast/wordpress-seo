@@ -1,7 +1,6 @@
 import { Badge, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 
 /**
@@ -131,10 +130,12 @@ const ProgressPie = ( {
  * @param {Function} [onClick] Click handler for the badge.
  * @param {string} [parentTaskId] ID of the parent task.
  * @param {string} [className] Additional class names for the badge.
+ * @param {string} [as="span"] The HTML element to render the badge. Should be "button" if onClick is provided for accessibility reasons.
  *
  * @returns {JSX.Element} The TasksProgressBadge component.
  */
-export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId, className } ) => {
+// eslint-disable-next-line complexity
+export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoading, onClick, parentTaskId, className, as: Component = "span" } ) => {
 	const screenReaderText = sprintf(
 		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
 		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
@@ -142,14 +143,16 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 		totalTasks
 	);
 	const svgAriaProps = useSvgAria();
-	const handleClick = useCallback( ( event ) => {
-		event.preventDefault();
-		if ( parentTaskId && onClick ) {
-			onClick( parentTaskId );
-		}
-	}, [ onClick, parentTaskId ] );
+	const buttonProps = {};
 
-	return <button onClick={ handleClick } disabled={ ! parentTaskId } className={ classNames( "yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate", className ) }>
+	if ( Component === "button" ) {
+		const isDisabled = ! onClick || ! parentTaskId || isLoading;
+		buttonProps.type = "button";
+		buttonProps.disabled = isDisabled;
+		buttonProps.onClick = () => onClick( parentTaskId );
+	}
+
+	return <Component { ...buttonProps } className={ classNames( "yst-max-w-80 sm:yst-max-w-full yst-min-w-0 yst-truncate", className ) }>
 		<Badge size="large" className="yst-bg-white yst-border yst-border-slate-200 yst-ps-1.5 yst-pe-2 yst-shadow-sm yst-h-6 yst-w-full">
 			<span className="yst-flex yst-gap-1 yst-items-center yst-leading-4">
 				{ ! isLoading && completedTasks >= totalTasks && <CheckCircleIcon className="yst-text-green-500 yst-h-4 yst-w-4 yst-shrink-0" { ... svgAriaProps } /> }
@@ -171,5 +174,5 @@ export const TasksProgressBadge = ( { label, completedTasks, totalTasks, isLoadi
 				{ screenReaderText }
 			</span>
 		</Badge>
-	</button>;
+	</Component>;
 };
