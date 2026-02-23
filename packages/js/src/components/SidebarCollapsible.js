@@ -27,8 +27,9 @@ const SidebarCollapsible = ( {
 	hasNewBadgeLabel = false,
 	buttonId = null,
 	renderNewBadgeLabel = () => {},
+	initialIsOpen = false,
 } ) => {
-	const [ isOpen, toggleOpen ] = useState( false );
+	const [ isOpen, toggleOpen ] = useState( initialIsOpen );
 
 	/**
 	 * Toggles the SidebarCollapsible open and closed state.
@@ -98,4 +99,5 @@ SidebarCollapsible.propTypes = {
 	hasNewBadgeLabel: PropTypes.bool,
 	buttonId: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
+	initialIsOpen: PropTypes.bool,
 };
