@@ -25,11 +25,17 @@ final class Improve_Content_SEO_Child_Call_To_Action_Test extends Abstract_Impro
 	 * @return void
 	 */
 	public function test_get_call_to_action_returns_entry() {
-		$expected_link = 'https://example.com/wp-admin/post.php?post=123&action=edit';
+		$base_link     = 'https://example.com/wp-admin/post.php?post=123&action=edit';
+		$expected_link = $base_link . '&yoast-tab=seo';
 
 		Monkey\Functions\expect( 'get_edit_post_link' )
 			->once()
 			->with( 123, '&' )
+			->andReturn( $base_link );
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->with( 'yoast-tab', 'seo', $base_link )
 			->andReturn( $expected_link );
 
 		$call_to_action = $this->instance->get_call_to_action();
