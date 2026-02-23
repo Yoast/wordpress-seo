@@ -8,6 +8,7 @@ import { noop, uniqueId } from "lodash";
 import PropTypes from "prop-types";
 import HelpLink from "../components/HelpLink";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
+import CSSClassesSetting from "./css-classes-setting";
 import { link as linkSettings } from "./edit-link";
 import { createLinkFormat, isValidHref } from "./utils";
 
@@ -129,6 +130,7 @@ function InlineLinkUI( {
 		sponsored: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "sponsored" ),
 		title: currentText,
 		className: activeAttributes.class,
+		cssClasses: activeAttributes.class,
 		...nextLinkValue,
 	};
 
@@ -318,7 +320,7 @@ function InlineLinkUI( {
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
-			className: nextValue.className,
+			className: nextValue.cssClasses || nextValue.className,
 		} );
 
 		if ( shouldInsertLink() ) {
@@ -385,6 +387,17 @@ function InlineLinkUI( {
 		{
 			id: "sponsored",
 			title: sponsoredLabel,
+		},
+		{
+			id: "cssClasses",
+			title: __( "Additional CSS class(es)", "wordpress-seo" ),
+			render: ( setting, val, onSettingChange ) => (
+				<CSSClassesSetting
+					key={ setting.id }
+					value={ val }
+					onChange={ onSettingChange }
+				/>
+			),
 		},
 	];
 
