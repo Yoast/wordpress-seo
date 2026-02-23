@@ -220,4 +220,9 @@ export default function initTabs( jQuery ) {
 	window.wpseo_init_tabs();
 
 	wpseoAriaTabsInit();
+	// If a `yoast-tab` URL parameter is present, programmatically activate the matching tab.
+	const yoastTab = new URLSearchParams( window.location.search ).get( "yoast-tab" );
+	if ( yoastTab === "readability" ) {
+		jQuery( "#wpseo-meta-tab-readability" ).trigger( "click" );
+	}
 }
