@@ -320,7 +320,7 @@ function InlineLinkUI( {
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
-			className: nextValue.cssClasses || nextValue.className,
+			className: nextValue.cssClasses ?? nextValue.className,
 		} );
 
 		if ( shouldInsertLink() ) {
