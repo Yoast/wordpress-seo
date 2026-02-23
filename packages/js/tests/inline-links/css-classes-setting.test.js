@@ -124,4 +124,30 @@ describe( "CSSClassesSetting", () => {
 		const checkbox = screen.getByRole( "checkbox", { name: "Additional CSS class(es)" } );
 		expect( checkbox ).not.toBeChecked();
 	} );
+
+	it( "syncs expanded state when value changes externally", () => {
+		const { rerender } = render( <CSSClassesSetting value={ {} } onChange={ onChange } /> );
+
+		const checkbox = screen.getByRole( "checkbox" );
+		expect( checkbox ).not.toBeChecked();
+
+		// Simulate an external value change (e.g. undo/redo or selecting a different link).
+		rerender( <CSSClassesSetting value={ { cssClasses: "new-class" } } onChange={ onChange } /> );
+
+		expect( checkbox ).toBeChecked();
+		expect( screen.getByRole( "textbox" ) ).toHaveValue( "new-class" );
+	} );
+
+	it( "collapses expanded state when value is cleared externally", () => {
+		const { rerender } = render( <CSSClassesSetting value={ { cssClasses: "my-class" } } onChange={ onChange } /> );
+
+		expect( screen.getByRole( "checkbox" ) ).toBeChecked();
+		expect( screen.getByRole( "textbox" ) ).toBeInTheDocument();
+
+		// Simulate external clear.
+		rerender( <CSSClassesSetting value={ { cssClasses: "" } } onChange={ onChange } /> );
+
+		expect( screen.getByRole( "checkbox" ) ).not.toBeChecked();
+		expect( screen.queryByRole( "textbox" ) ).not.toBeInTheDocument();
+	} );
 } );

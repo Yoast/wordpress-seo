@@ -145,7 +145,8 @@ function InlineLinkUI( {
 		return linkValue.url === nextValue.url && (
 			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
 			linkValue.noFollow !== nextValue.noFollow ||
-			linkValue.sponsored !== nextValue.sponsored
+			linkValue.sponsored !== nextValue.sponsored ||
+			linkValue.cssClasses !== nextValue.cssClasses
 		);
 	};
 

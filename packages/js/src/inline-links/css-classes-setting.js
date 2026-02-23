@@ -1,6 +1,6 @@
 import { CheckboxControl, __experimentalInputControl as InputControl, __experimentalVStack as VStack } from "@wordpress/components";
 import { useInstanceId } from "@wordpress/compose";
-import { useState } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -31,6 +31,11 @@ export default function CSSClassesSetting( { value, onChange } ) {
 	const [ isExpanded, setIsExpanded ] = useState( Boolean( value?.cssClasses ) );
 	const instanceId = useInstanceId( CSSClassesSetting, "css-classes-setting" );
 	const inputId = `${ instanceId }-input`;
+
+	// Sync expanded state when value changes externally (e.g. undo/redo, selecting a different link).
+	useEffect( () => {
+		setIsExpanded( Boolean( value?.cssClasses ) );
+	}, [ value?.cssClasses ] );
 
 	const handleCheckboxChange = ( checked ) => {
 		setIsExpanded( checked );
