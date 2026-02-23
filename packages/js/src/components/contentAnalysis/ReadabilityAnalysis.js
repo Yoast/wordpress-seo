@@ -17,10 +17,13 @@ import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
-import { addQueryArgs } from "@wordpress/url";
+import { addQueryArgs, getQueryArg } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
+
+// Capture at module-load time, before `openGeneralSidebar` causes WordPress to replace the URL.
+const initialYoastTab = getQueryArg( window.location.href, "yoast-tab" );
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -180,6 +183,7 @@ class ReadabilityAnalysis extends Component {
 									upsellResults = this.getUpsellResults( location, locationContext );
 								}
 								if ( location === "sidebar" ) {
+									const initialIsOpen = initialYoastTab === "readability";
 									return (
 										<Collapsible
 											title={ __( "Readability analysis", "wordpress-seo" ) }
@@ -187,6 +191,7 @@ class ReadabilityAnalysis extends Component {
 											prefixIcon={ getIconForScore( score.className ) }
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
+											initialIsOpen={ initialIsOpen }
 										>
 											{ this.renderResults( upsellResults ) }
 										</Collapsible>
