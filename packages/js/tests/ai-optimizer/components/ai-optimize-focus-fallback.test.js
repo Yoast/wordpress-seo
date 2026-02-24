@@ -36,7 +36,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "keyphraseInIntroduction" } ] }
+				results={ [ { getIdentifier: () => "keyphraseInIntroduction" } ] }
 				fallbackElementId="yoast-seo-analysis-collapsible-sidebar"
 			/>
 		);
@@ -52,7 +52,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "keyphraseInIntroduction" } ] }
+				results={ [ { getIdentifier: () => "keyphraseInIntroduction" } ] }
 				fallbackElementId="yoast-seo-analysis-collapsible-sidebar"
 			/>
 		);
@@ -68,7 +68,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "keyphraseInIntroduction" } ] }
+				results={ [ { getIdentifier: () => "keyphraseInIntroduction" } ] }
 				fallbackElementId="yoast-seo-analysis-collapsible-sidebar"
 			/>
 		);
@@ -89,7 +89,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "keyphraseInIntroduction" } ] }
+				results={ [ { getIdentifier: () => "keyphraseInIntroduction" } ] }
 				fallbackElementId="yoast-seo-analysis-collapsible-sidebar"
 			/>
 		);
@@ -118,7 +118,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "keyphraseInIntroduction" } ] }
+				results={ [ { getIdentifier: () => "keyphraseInIntroduction" } ] }
 				fallbackElementId="yoast-seo-analysis-collapsible-sidebar"
 			/>
 		);
@@ -147,7 +147,7 @@ describe( "AIOptimizeFocusFallback", () => {
 
 		render(
 			<AIOptimizeFocusFallback
-				results={ [ { id: "sentenceLength" } ] }
+				results={ [ { getIdentifier: () => "sentenceLength" } ] }
 				fallbackElementId="wpseo-meta-tab-readability"
 			/>
 		);

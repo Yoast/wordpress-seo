@@ -41,7 +41,7 @@ const AIOptimizeFocusFallback = ( { results, fallbackElementId } ) => {
 
 		// Extract the assessment ID and check if it belongs to this section.
 		const assessmentId = focusAIButtonId.slice( 0, -suffix.length );
-		if ( ! results.some( ( result ) => result.id === assessmentId ) ) {
+		if ( ! results.some( ( result ) => result.getIdentifier() === assessmentId ) ) {
 			return;
 		}
 
