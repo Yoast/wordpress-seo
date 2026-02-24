@@ -130,9 +130,10 @@ class Recent_Content_Indexable_Collector {
 			// Also read as: The refactoring of https://github.com/Yoast/wordpress-seo/pull/22947 was not quite right.
 			if ( (int) $result['readability_score'] === 0 ) {
 				$score_name = 'bad';
-			} else {
+			}
+			else {
 				$readability_score_group = $this->readability_score_groups_repository->get_score_group( (int) $result['readability_score'] );
-				$score_name = $readability_score_group->get_name();
+				$score_name              = $readability_score_group->get_name();
 			}
 
 			$content_items[] = new Content_Item_Score_Data(
