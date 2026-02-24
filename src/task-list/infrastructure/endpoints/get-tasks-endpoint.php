@@ -44,12 +44,6 @@ class Get_Tasks_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_url(): string {
-		return \add_query_arg(
-			'_locale',
-			'user',
-			\rest_url(
-				$this->get_namespace() . $this->get_route(),
-			),
-		);
+		return \rest_url( $this->get_namespace() . $this->get_route() );
 	}
 }
