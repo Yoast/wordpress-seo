@@ -126,7 +126,7 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
-			// @TODO: Instead of this inline quick fix, let's properly handle the case where readability_score is 0 in the repository method, and return 'bad' directly from there.
+			// @TODO: Instead of this inline quick fix, let's properly handle the case where readability_score is 0 in the repository method, and return 'bad' directly from there (SEO scores having a different logic might make this a bit harder).
 			// Also read as: The refactoring of https://github.com/Yoast/wordpress-seo/pull/22947 was not quite right.
 			if ( (int) $result['readability_score'] === 0 ) {
 				$score_name = 'bad';
