@@ -79,18 +79,21 @@ jobs:
       - name: "Grunt: create artifact"
         run: grunt artifact
 
+      - name: Set timestamp
+        id: timestamp
+        run: echo "value=$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_OUTPUT"
+
       - name: Create zip
         run: |
           cd artifact
-          zip -r ../wordpress-seo.zip .
+          zip -r ../wordpress-seo-${{ steps.timestamp.outputs.value }}.zip .
 
       - name: Upload zip
         uses: actions/upload-artifact@v4
         with:
-          name: wordpress-seo
-          path: wordpress-seo.zip
+          name: wordpress-seo-${{ steps.timestamp.outputs.value }}
+          path: wordpress-seo-${{ steps.timestamp.outputs.value }}.zip
           retention-days: 1
-          overwrite: true
 
       - name: Post artifact link
         if: github.event_name == 'issue_comment'
