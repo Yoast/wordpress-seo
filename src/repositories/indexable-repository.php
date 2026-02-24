@@ -589,7 +589,6 @@ class Indexable_Repository {
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
 			->where_not_null( 'estimated_reading_time_minutes' )
-			->where_not_equal( 'readability_score', 0 )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
 			->order_by_desc( 'object_last_modified' );
 
