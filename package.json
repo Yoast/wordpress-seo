@@ -24,7 +24,7 @@
     ]
   },
   "scripts": {
-    "build": "wp-scripts build --config config/webpack/webpack.config.js",
+    "build": "yarn workspace @yoast/dashboard-frontend build && wp-scripts build --config config/webpack/webpack.config.js",
     "build:css": "postcss css/dist/*.css --verbose --replace",
     "lint": "yarn lint:plugin && yarn lint:tooling",
     "lint:plugin": "eslint packages/js --max-warnings=43",
