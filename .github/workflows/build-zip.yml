@@ -83,10 +83,8 @@ jobs:
         id: timestamp
         run: echo "value=$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_OUTPUT"
 
-      - name: Create zip
-        run: |
-          cd artifact
-          zip -r ../wordpress-seo-${{ steps.timestamp.outputs.value }}.zip .
+      - name: Rename zip
+        run: mv artifact.zip wordpress-seo-${{ steps.timestamp.outputs.value }}.zip
 
       - name: Upload zip
         uses: actions/upload-artifact@v4
