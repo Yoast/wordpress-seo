@@ -12,7 +12,7 @@ import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
-import { useSvgAria } from "@yoast/ui-library/src";
+import { useSvgAria } from "@yoast/ui-library";
 
 
 const StyledHeroIcon = styled( ShareIcon )`

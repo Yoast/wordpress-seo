@@ -261,7 +261,7 @@ const syncPackageDependenciesFor = async( packageFolder, wpDependencies, modifie
 		return true;
 	}
 
-	const command = `yarn workspace ${ packageJson.name } add ${ dependenciesWithWantedVersions.join( " " ) }`;
+	const command = `yarn --cwd packages/${ packageFolder } add ${ dependenciesWithWantedVersions.join( " " ) }`;
 	console.log( "=============================================" );
 	console.log( command );
 	try {

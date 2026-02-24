@@ -104,7 +104,7 @@ jobs:
           yarn run jest --version
 
       - name: Build all packages
-        run: yarn run build --ignore "@yoast/wordpress-seo"
+        run: npx lerna run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         run: yarn run jest --version
@@ -204,7 +204,7 @@ jobs:
 
       - name: Build all packages
         if: ${{ steps.checks-run.outputs.should == 'true' }}
-        run: yarn run build --ignore "@yoast/wordpress-seo"
+        run: npx lerna run build --ignore "@yoast/wordpress-seo"
 
       - name: Show Jest version
         if: ${{ steps.checks-run.outputs.should == 'true' }}

@@ -27,28 +27,17 @@ module.exports = {
 	},
 	js: {
 		files: [
-			"packages/**/src/**/*.js",
+			"packages/js/src/**/*.js",
 		],
 		tasks: [
-			"shell:yarn:build",
-			"shell:yarn:lint:packages",
-		],
-	},
-	jsTests: {
-		files: [
-			"<%= files.jsTests %>",
-		],
-		tasks: [
-			"shell:yarn:lint:packages --scope @yoast/wordpress-seo",
+			"build:js",
 		],
 	},
 	css: {
 		files: [
 			"<%= files.css %>",
-			"packages/ui-library/src/**/*.css",
 		],
 		tasks: [
-			"build:packages",
 			"build:css",
 		],
 	},

@@ -2,7 +2,7 @@
 import { SearchIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { useSvgAria } from "@yoast/ui-library/src";
+import { useSvgAria } from "@yoast/ui-library";
 import styled from "styled-components";
 
 /* Internal dependencies */
