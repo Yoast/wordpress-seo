@@ -59,7 +59,7 @@ final class Endpoints_Repository_Test extends TestCase {
 				'endpoints'     => [ $complete_task_endpoint, $get_tasks_endpoint ],
 				'expected_list' => [
 					'completeTask' => 'http://example.org/index.php?rest_route=/yoast/v1/complete_task',
-					'getTasks'     => 'http://example.org/index.php?rest_route=/yoast/v1/get_tasks',
+					'getTasks'     => 'http://example.org/index.php?rest_route=/yoast/v1/get_tasks&_locale=user',
 				],
 			],
 			'Complete task endpoint only' => [
@@ -71,7 +71,7 @@ final class Endpoints_Repository_Test extends TestCase {
 			'Get tasks endpoint only' => [
 				'endpoints'     => [ $get_tasks_endpoint ],
 				'expected_list' => [
-					'getTasks' => 'http://example.org/index.php?rest_route=/yoast/v1/get_tasks',
+					'getTasks' => 'http://example.org/index.php?rest_route=/yoast/v1/get_tasks&_locale=user',
 				],
 			],
 			'No endpoints' => [
