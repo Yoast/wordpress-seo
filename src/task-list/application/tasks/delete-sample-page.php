@@ -3,7 +3,6 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
-use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_Sample_Page_Task_Exception;
@@ -48,7 +47,7 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 				'numberposts' => 1,
-			]
+			],
 		);
 
 		return empty( $pages );
@@ -77,7 +76,7 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 				'numberposts' => 1,
-			]
+			],
 		);
 
 		if ( ! empty( $pages ) ) {
