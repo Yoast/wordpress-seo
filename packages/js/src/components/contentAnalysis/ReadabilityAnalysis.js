@@ -20,6 +20,7 @@ import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import AIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
@@ -187,8 +188,13 @@ class ReadabilityAnalysis extends Component {
 											prefixIcon={ getIconForScore( score.className ) }
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
+											buttonId={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
 											{ this.renderResults( upsellResults ) }
+											<AIOptimizeFocusFallback
+												results={ this.props.results }
+												fallbackElementId={ `yoast-readability-analysis-collapsible-${ location }` }
+											/>
 										</Collapsible>
 									);
 								}
@@ -202,6 +208,10 @@ class ReadabilityAnalysis extends Component {
 													scoreIndicator={ score.className }
 												/>
 												{ this.renderResults( upsellResults ) }
+												<AIOptimizeFocusFallback
+													results={ this.props.results }
+													fallbackElementId="wpseo-meta-tab-readability"
+												/>
 											</ReadabilityResultsTabContainer>
 										</ReadabilityResultsPortal>
 									);

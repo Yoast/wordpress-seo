@@ -12,6 +12,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
+import AIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
 
@@ -110,6 +111,7 @@ class SeoAnalysis extends Component {
 											prefixIconCollapsed={ getIconForScore( score.className ) }
 											subTitle={ this.props.keyword }
 											id={ `yoast-seo-analysis-collapsible-${ location }` }
+											buttonId={ `yoast-seo-analysis-collapsible-${ location }` }
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }
@@ -126,6 +128,10 @@ class SeoAnalysis extends Component {
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
 												renderAIOptimizeButton={ this.renderAIOptimizeButton }
+											/>
+											<AIOptimizeFocusFallback
+												results={ this.props.results }
+												fallbackElementId={ `yoast-seo-analysis-collapsible-${ location }` }
 											/>
 										</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
