@@ -126,12 +126,20 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
-			$readability_score_group = $this->readability_score_groups_repository->get_score_group( (int) $result['readability_score'] );
+			// @TODO: Instead of this inline quick fix, let's properly handle the case where readability_score is 0 in the repository method, and return 'bad' directly from there (SEO scores having a different logic might make this a bit harder).
+			// Also read as: The refactoring of https://github.com/Yoast/wordpress-seo/pull/22947 was not quite right.
+			if ( (int) $result['readability_score'] === 0 ) {
+				$score_name = 'bad';
+			}
+			else {
+				$readability_score_group = $this->readability_score_groups_repository->get_score_group( (int) $result['readability_score'] );
+				$score_name              = $readability_score_group->get_name();
+			}
 
 			$content_items[] = new Content_Item_Score_Data(
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
-				$readability_score_group->get_name(),
+				$score_name,
 				$post_type,
 			);
 		}
