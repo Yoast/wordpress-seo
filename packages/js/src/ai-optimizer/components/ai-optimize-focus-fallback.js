@@ -55,7 +55,7 @@ const AIOptimizeFocusFallback = ( { results, fallbackElementId } ) => {
 				}
 				setFocusAIFixesButtonId( null );
 			}
-		}, 100 );
+		}, 1000 );
 
 		return () => clearTimeout( timerRef.current );
 	}, [ focusAIButtonId, locationContext, results, fallbackElementId, setFocusAIFixesButtonId ] );
