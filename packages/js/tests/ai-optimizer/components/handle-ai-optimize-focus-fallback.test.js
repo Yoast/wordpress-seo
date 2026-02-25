@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { dispatch } from "@wordpress/data";
-import handleAIOptimizeFocusFallback from "../../../src/ai-optimizer/components/handle-ai-optimize-focus-fallback";
+import handleAIOptimizeFocusFallback from "../../../src/helpers/handle-ai-optimize-focus-fallback";
 
 jest.mock( "@wordpress/data", () => {
 	return {
