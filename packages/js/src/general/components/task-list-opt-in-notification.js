@@ -76,8 +76,8 @@ export const TaskListOptInNotification = ( { isOpen, onClose } ) => {
 	return <ModalNotification
 		isOpen={ isOpen }
 		onClose={ onClose }
-		className={ classNames(
-			isAdminSidebarExpanded() && "md:yst-start-[160px] rtl:yst-end-[160px]"
+		className={ classNames( "yst-z-[9999]",
+			isAdminSidebarExpanded() && "md:yst-start-40"
 		) }
 		position="bottom-left"
 		aria-label={ __( "New: Your SEO Task list", "wordpress-seo" ) }
