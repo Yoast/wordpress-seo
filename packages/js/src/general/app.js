@@ -157,7 +157,7 @@ const App = () => {
 				</div>
 			</SidebarNavigation>
 			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-start-48"
+				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-notifications--wp-admin-offset"
 				position="bottom-left"
 			>
 				<OptInContainer />

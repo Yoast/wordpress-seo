@@ -15,6 +15,12 @@
 			@apply yst-bottom-8 yst-start-8;
 		}
 
+		@media (min-width: 768px) {
+			.yst-notifications--wp-admin-offset {
+				inset-inline-start: 12rem; /* 192px, matches WP admin sidebar width. */
+			}
+		}
+
 		.yst-notifications--top-center {
 			@apply yst-top-8 yst-items-center;
 		}
