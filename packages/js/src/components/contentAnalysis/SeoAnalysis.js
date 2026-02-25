@@ -12,7 +12,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
-import AIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
+import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
 
@@ -27,6 +27,44 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
+	/**
+	 * @param {Object} props The component props.
+	 */
+	constructor( props ) {
+		super( props );
+		this._aiFocusTimer = { current: null };
+	}
+
+	/**
+	 * Triggers AI focus fallback handling when relevant props change.
+	 *
+	 * @param {Object} previousProps The previous props.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( previousProps ) {
+		if ( previousProps.focusAIButtonId === this.props.focusAIButtonId && previousProps.results === this.props.results ) {
+			return;
+		}
+
+		handleAIOptimizeFocusFallback( {
+			focusAIButtonId: this.props.focusAIButtonId,
+			locationContext: this._location,
+			results: this.props.results,
+			fallbackElementId: `yoast-seo-analysis-collapsible-${ this._location }`,
+			timerRef: this._aiFocusTimer,
+		} );
+	}
+
+	/**
+	 * Cleans up the AI focus fallback timer on unmount.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		clearTimeout( this._aiFocusTimer.current );
+	}
+
 	/**
 	 * Renders the ScoreIconPortal component, which displays a score indication icon in the SEO metabox tab.
 	 *
@@ -95,6 +133,7 @@ class SeoAnalysis extends Component {
 		return (
 			<LocationConsumer>
 				{ location => {
+					this._location = location;
 					return (
 						<RootContext.Consumer>
 							{ () => {
@@ -129,11 +168,7 @@ class SeoAnalysis extends Component {
 												highlightingUpsellLink={ highlightingUpsellLink }
 												renderAIOptimizeButton={ this.renderAIOptimizeButton }
 											/>
-											<AIOptimizeFocusFallback
-												results={ this.props.results }
-												fallbackElementId={ `yoast-seo-analysis-collapsible-${ location }` }
-											/>
-										</Collapsible>
+																			</Collapsible>
 										{ this.renderTabIcon( location, score.className ) }
 									</Fragment>
 								);
@@ -157,6 +192,7 @@ SeoAnalysis.propTypes = {
 	isAiFeatureEnabled: PropTypes.bool,
 	isPremium: PropTypes.bool,
 	isTerm: PropTypes.bool,
+	focusAIButtonId: PropTypes.string,
 };
 
 SeoAnalysis.defaultProps = {
@@ -170,6 +206,7 @@ SeoAnalysis.defaultProps = {
 	isAiFeatureEnabled: false,
 	isPremium: false,
 	isTerm: false,
+	focusAIButtonId: null,
 };
 
 export default withSelect( ( select, ownProps ) => {
@@ -181,6 +218,7 @@ export default withSelect( ( select, ownProps ) => {
 		getIsPremium,
 		getIsAiFeatureEnabled,
 		getIsTerm,
+		getFocusAIFixesButtonId,
 	} = select( "yoast-seo/editor" );
 
 	const keyword = getFocusKeyphrase();
@@ -193,5 +231,6 @@ export default withSelect( ( select, ownProps ) => {
 		isPremium: getIsPremium(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
 		isTerm: getIsTerm(),
+		focusAIButtonId: getFocusAIFixesButtonId(),
 	};
 } )( SeoAnalysis );

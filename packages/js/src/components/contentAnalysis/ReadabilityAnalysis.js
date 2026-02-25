@@ -20,7 +20,7 @@ import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
-import AIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
+import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
@@ -42,6 +42,48 @@ const StyledHelpLink = styled( HelpLink )`
  * Redux container for the readability analysis.
  */
 class ReadabilityAnalysis extends Component {
+	/**
+	 * @param {Object} props The component props.
+	 */
+	constructor( props ) {
+		super( props );
+		this._aiFocusTimer = { current: null };
+	}
+
+	/**
+	 * Triggers AI focus fallback handling when relevant props change.
+	 *
+	 * @param {Object} previousProps The previous props.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( previousProps ) {
+		if ( previousProps.focusAIButtonId === this.props.focusAIButtonId && previousProps.results === this.props.results ) {
+			return;
+		}
+
+		const fallbackElementId = this._location === "metabox"
+			? "wpseo-meta-tab-readability"
+			: `yoast-readability-analysis-collapsible-${ this._location }`;
+
+		handleAIOptimizeFocusFallback( {
+			focusAIButtonId: this.props.focusAIButtonId,
+			locationContext: this._location,
+			results: this.props.results,
+			fallbackElementId,
+			timerRef: this._aiFocusTimer,
+		} );
+	}
+
+	/**
+	 * Cleans up the AI focus fallback timer on unmount.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		clearTimeout( this._aiFocusTimer.current );
+	}
+
 	/**
 	 * Renders the Readability Analysis results.
 	 *
@@ -173,6 +215,7 @@ class ReadabilityAnalysis extends Component {
 		return (
 			<LocationConsumer>
 				{ location => {
+					this._location = location;
 					return (
 						<RootContext.Consumer>
 							{ ( { locationContext } ) => {
@@ -191,10 +234,6 @@ class ReadabilityAnalysis extends Component {
 											buttonId={ `yoast-readability-analysis-collapsible-${ location }` }
 										>
 											{ this.renderResults( upsellResults ) }
-											<AIOptimizeFocusFallback
-												results={ this.props.results }
-												fallbackElementId={ `yoast-readability-analysis-collapsible-${ location }` }
-											/>
 										</Collapsible>
 									);
 								}
@@ -208,10 +247,6 @@ class ReadabilityAnalysis extends Component {
 													scoreIndicator={ score.className }
 												/>
 												{ this.renderResults( upsellResults ) }
-												<AIOptimizeFocusFallback
-													results={ this.props.results }
-													fallbackElementId="wpseo-meta-tab-readability"
-												/>
 											</ReadabilityResultsTabContainer>
 										</ReadabilityResultsPortal>
 									);
@@ -234,6 +269,7 @@ ReadabilityAnalysis.propTypes = {
 	isAiFeatureEnabled: PropTypes.bool,
 	isElementor: PropTypes.bool,
 	isTerm: PropTypes.bool,
+	focusAIButtonId: PropTypes.string,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -243,6 +279,7 @@ ReadabilityAnalysis.defaultProps = {
 	isAiFeatureEnabled: false,
 	isElementor: false,
 	isTerm: false,
+	focusAIButtonId: null,
 };
 
 export default withSelect( select => {
@@ -252,6 +289,7 @@ export default withSelect( select => {
 		getIsElementorEditor,
 		getIsAiFeatureEnabled,
 		getIsTerm,
+		getFocusAIFixesButtonId,
 	} = select( "yoast-seo/editor" );
 
 	return {
@@ -260,5 +298,6 @@ export default withSelect( select => {
 		isElementor: getIsElementorEditor(),
 		isAiFeatureEnabled: getIsAiFeatureEnabled(),
 		isTerm: getIsTerm(),
+		focusAIButtonId: getFocusAIFixesButtonId(),
 	};
 } )( ReadabilityAnalysis );
