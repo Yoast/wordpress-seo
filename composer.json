@@ -39,7 +39,7 @@
 		"wpackagist-plugin/google-site-kit": "dev-trunk",
 		"wpackagist-plugin/woocommerce": "dev-trunk",
 		"yoast/wp-test-utils": "^1.2.1",
-		"yoast/yoastcs": "^3.3.0"
+		"yoast/yoastcs": "^3.4.0"
 	},
 	"suggest": {
 		"ext-bcmath": "For more accurate calculations",
@@ -111,8 +111,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2384",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=256",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2393",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=257",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
