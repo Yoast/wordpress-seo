@@ -156,11 +156,11 @@ const App = () => {
 					</div>
 				</div>
 			</SidebarNavigation>
+			<OptInContainer />
 			<Notifications
 				className="yst-mx-[calc(50%-50vw)] yst-transition-all yst-notifications--wp-admin-offset"
 				position="bottom-left"
 			>
-				<OptInContainer />
 				{ alertToggleError && <Notifications.Notification
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }

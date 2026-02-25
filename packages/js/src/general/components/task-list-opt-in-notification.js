@@ -1,21 +1,34 @@
-import { Toast, Button, useSvgAria, useToggleState, useToastContext } from "@yoast/ui-library";
+import { ModalNotification, Button, useSvgAria, useModalNotificationContext } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import classNames from "classnames";
 import { useCallback, useEffect } from "@wordpress/element";
 import { STORE_NAME } from "../constants";
 import { useDispatch } from "@wordpress/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../routes";
+import PropTypes from "prop-types";
 
 /**
- * The buttons for the LLM txt opt-in notification.
- * Used for the toast context.
+ * Checks whether the WP admin sidebar is expanded (not collapsed).
+ * When collapsed, the sidebar is ~36px wide; when expanded, ~160px.
+ *
+ * @returns {boolean} True if the admin sidebar is expanded or absent.
+ */
+const isAdminSidebarExpanded = () => {
+	const adminmenuWrap = document.getElementById( "adminmenuwrap" );
+	return ! adminmenuWrap || adminmenuWrap.offsetWidth > 100;
+};
+
+/**
+ * The buttons for the task list opt-in notification.
+ * Uses the ModalNotification context for dismissal.
  *
  * @returns {JSX.Element} The buttons.
  */
 const NotificationButtons = () => {
-	const { handleDismiss } = useToastContext();
+	const { handleDismiss } = useModalNotificationContext();
 	const svgAriaProps = useSvgAria();
 	const taskListpath = ROUTES.taskList;
 	const navigate = useNavigate();
@@ -37,25 +50,22 @@ const NotificationButtons = () => {
 };
 
 /**
- * The LLM txt opt-in notification component.
+ * The task list opt-in notification component.
+ * Uses ModalNotification for accessible focus management and modal behavior.
  *
- * @returns {JSX.Element} The LLM txt opt-in notification component.
+ * @param {Object} props The component props.
+ * @param {boolean} props.isOpen Whether the notification is open.
+ * @param {Function} props.onClose Function to call when the notification should close.
+ *
+ * @returns {JSX.Element} The task list opt-in notification component.
  */
-export const TaskListOptInNotification = () => {
+export const TaskListOptInNotification = ( { isOpen, onClose } ) => {
 	const { setOptInNotificationSeen, hideOptInNotification } = useDispatch( STORE_NAME );
 	const svgAriaProps = useSvgAria();
-	const [ isVisible, toggleIsVisible, setIsVisible ] = useToggleState( false );
-
-	const onDismiss = useCallback( () => {
-		hideOptInNotification( "task_list" );
-	}, [ hideOptInNotification ] );
 
 	useEffect( () => {
 		// Mark the notification as seen when mounting.
 		setOptInNotificationSeen( "task_list" );
-
-		// For the transition to take place.
-		toggleIsVisible();
 
 		return () => {
 			// Hide the notification when unmounting when switching to the FTC tab.
@@ -63,30 +73,34 @@ export const TaskListOptInNotification = () => {
 		};
 	}, [] );
 
-	return <Toast
-		id="yoast_wpseo_task_list_opt_in_notification"
-		isVisible={ isVisible }
-		className="yst-w-96"
+	return <ModalNotification
+		isOpen={ isOpen }
+		onClose={ onClose }
+		className={ classNames(
+			isAdminSidebarExpanded() && "md:yst-start-[160px] rtl:yst-end-[160px]"
+		) }
 		position="bottom-left"
-		setIsVisible={ setIsVisible }
-		onDismiss={ onDismiss }
+		aria-label={ __( "New: Your SEO Task list", "wordpress-seo" ) }
 	>
-		<>
+		<ModalNotification.Panel className="yst-w-96">
 			<div className="yst-flex yst-gap-3">
 				<div className="yst-flex-shrink-0">
 					<YoastIcon className="yst-w-5 yst-h-5 yst-fill-primary-500" { ...svgAriaProps } />
 				</div>
 				<div className="yst-flex-1">
-					<Toast.Title title={  __( "New: Your SEO Task list", "wordpress-seo" ) } className="yst-mb-1" />
-					<p>
-						{  __( "Stay on top of SEO with a clear task list tailored to your site.", "wordpress-seo" ) }
-					</p>
+					<ModalNotification.Title title={ __( "New: Your SEO Task list", "wordpress-seo" ) } className="yst-mb-1" />
+					<ModalNotification.Message message={ __( "Stay on top of SEO with a clear task list tailored to your site.", "wordpress-seo" ) } />
 				</div>
 				<div>
-					<Toast.Close dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
+					<ModalNotification.Close dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
 				</div>
 			</div>
 			<NotificationButtons />
-		</>
-	</Toast>;
+		</ModalNotification.Panel>
+	</ModalNotification>;
+};
+
+TaskListOptInNotification.propTypes = {
+	isOpen: PropTypes.bool.isRequired,
+	onClose: PropTypes.func.isRequired,
 };
