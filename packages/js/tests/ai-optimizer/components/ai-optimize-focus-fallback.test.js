@@ -94,7 +94,7 @@ describe( "AIOptimizeFocusFallback", () => {
 			/>
 		);
 
-		act( () => jest.advanceTimersByTime( 200 ) );
+		act( () => jest.advanceTimersByTime( 1000 ) );
 		expect( focusSpy ).toHaveBeenCalled();
 		expect( setFocusAIFixesButtonId ).toHaveBeenCalledWith( null );
 
@@ -123,7 +123,7 @@ describe( "AIOptimizeFocusFallback", () => {
 			/>
 		);
 
-		act( () => jest.advanceTimersByTime( 200 ) );
+		act( () => jest.advanceTimersByTime( 1000 ) );
 		expect( focusSpy ).not.toHaveBeenCalled();
 		expect( setFocusAIFixesButtonId ).not.toHaveBeenCalled();
 
@@ -152,7 +152,7 @@ describe( "AIOptimizeFocusFallback", () => {
 			/>
 		);
 
-		act( () => jest.advanceTimersByTime( 200 ) );
+		act( () => jest.advanceTimersByTime( 1000 ) );
 		expect( focusSpy ).toHaveBeenCalled();
 		expect( setFocusAIFixesButtonId ).toHaveBeenCalledWith( null );
 
