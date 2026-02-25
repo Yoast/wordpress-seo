@@ -12,7 +12,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
-import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
+import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/handle-ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 import { PremiumSeoAnalysisUpsellAd } from "./PremiumSeoAnalysisUpsellAd";
 

@@ -20,7 +20,7 @@ import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers
 import { addQueryArgs } from "@wordpress/url";
 import getL10nObject from "../../analysis/getL10nObject";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
-import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/ai-optimize-focus-fallback";
+import handleAIOptimizeFocusFallback from "../../ai-optimizer/components/handle-ai-optimize-focus-fallback";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
 
 const AnalysisHeader = styled.span`
