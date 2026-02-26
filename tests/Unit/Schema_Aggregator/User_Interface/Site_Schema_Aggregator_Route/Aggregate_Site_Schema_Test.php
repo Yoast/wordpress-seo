@@ -49,4 +49,28 @@ final class Aggregate_Site_Schema_Test extends Abstract_Site_Schema_Aggregator_R
 
 		$this->assertInstanceOf( WP_Error::class, $result );
 	}
+
+	/**
+	 * Tests that aggregate_site_schema returns a WP_Error when the page parameter is invalid.
+	 *
+	 * @return void
+	 */
+	public function test_aggregate_site_schema_returns_error_for_invalid_page() {
+		$request = Mockery::mock( WP_REST_Request::class );
+		$request->expects( 'get_param' )
+			->with( 'post_type' )
+			->andReturn( 'post' );
+		$request->expects( 'get_param' )
+			->with( 'page' )
+			->andReturn( '0' );
+
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->with( 'post' )
+			->andReturn( true );
+
+		$result = $this->instance->aggregate_site_schema( $request );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+	}
 }

@@ -127,9 +127,7 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$schema_aggregator_route_page                 = $base_route_config;
 		$schema_aggregator_route_page['args']['page'] = [
 			'default'           => 1,
-			'validate_callback' => static function ( $param ) {
-				return \is_numeric( $param ) && $param > 0 && $param < \PHP_INT_MAX;
-			},
+			'validate_callback' => [ $this, 'validate_page' ],
 			'sanitize_callback' => 'absint',
 		];
 
@@ -164,7 +162,16 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 			);
 		}
 
-		$page     = ( $request->get_param( 'page' ) ?? 1 );
+		$page = ( $request->get_param( 'page' ) ?? 1 );
+
+		if ( ! $this->validate_page( (string) $page ) ) {
+			return new WP_Error(
+				'rest_invalid_param',
+				\sprintf( 'Invalid parameter(s): %s', 'page' ),
+				[ 'status' => 400 ],
+			);
+		}
+
 		$per_page = $this->config->get_per_page( $post_type );
 
 		$output = $this->cache_manager->get( $post_type, $page, $per_page );
@@ -186,5 +193,16 @@ class Site_Schema_Aggregator_Route implements Route_Interface {
 		$response->header( 'Cache-Control', 'public, max-age=300' );
 
 		return $response;
+	}
+
+	/**
+	 * Validates the page parameter.
+	 *
+	 * @param string $page The page parameter to validate.
+	 *
+	 * @return bool True if the page is valid, false otherwise.
+	 */
+	private function validate_page( string $page ): bool {
+		return \is_numeric( $page ) && $page > 0 && $page < \PHP_INT_MAX;
 	}
 }
