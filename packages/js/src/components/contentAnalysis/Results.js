@@ -352,6 +352,7 @@ class Results extends Component {
 					marksButtonStatus={ marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
+					location={ this.props.location }
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }

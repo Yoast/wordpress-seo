@@ -42,9 +42,10 @@ class ContentAnalysis extends React.Component {
 	 *
 	 * @returns {ReactElement} The collapsible section with list of results.
 	 */
-	renderCollapsible( title, headingLevel, results ) {
+	renderCollapsible( title, headingLevel, results, id = null ) {
 		return (
 			<StyledCollapsible
+				id={ id }
 				initialIsOpen={ true }
 				title={ `${ title } (${ results.length })` }
 				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
@@ -112,7 +113,12 @@ class ContentAnalysis extends React.Component {
 					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}
 				{ ( problemsFound + numberOfUpsellResults ) > 0 &&
-					this.renderCollapsible( labels.problems, headingLevel, [ ...upsellResults, ...problemsResults ] )
+					this.renderCollapsible(
+						labels.problems,
+						headingLevel,
+						[ ...upsellResults, ...problemsResults ],
+						this.props.location ? `yoast-problems-collapsible-${ this.props.location }` : null
+					)
 				}
 				{ improvementsFound > 0 &&
 					this.renderCollapsible( labels.improvements, headingLevel, improvementsResults )
@@ -155,6 +161,7 @@ ContentAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIOptimizeButton: PropTypes.func,
+	location: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -178,6 +185,7 @@ ContentAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
 	renderAIOptimizeButton: () => {},
+	location: "",
 };
 
 export default ContentAnalysis;
