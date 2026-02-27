@@ -9,6 +9,7 @@ import { useDispatch } from "@wordpress/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../routes";
 import PropTypes from "prop-types";
+import { useSelectGeneralPage } from "../hooks";
 
 /**
  * Checks whether the WP admin sidebar is expanded (not collapsed).
@@ -73,13 +74,23 @@ export const TaskListOptInNotification = ( { isOpen, onClose } ) => {
 		};
 	}, [] );
 
+	const isRtl = useSelectGeneralPage( "selectPreference", [], "isRtl" );
+
+	let notificationPositionClass;
+
+	if ( isAdminSidebarExpanded() ) {
+		notificationPositionClass = "md:yst-start-40 rtl:md:yst-start-44";
+	} else if ( isRtl ) {
+		notificationPositionClass = "md:yst-start-[3.25rem]";
+	} else {
+		notificationPositionClass = "md:yst-start-10";
+	}
+
 	return <ModalNotification
 		isOpen={ isOpen }
 		onClose={ onClose }
-		className={ classNames( "yst-z-[9999]",
-			isAdminSidebarExpanded() && "md:yst-start-40"
-		) }
-		position="bottom-left"
+		className={ classNames( "yst-z-[9999]", notificationPositionClass ) }
+		position={ isRtl ? "bottom-right" : "bottom-left" }
 		aria-label={ __( "New: Your SEO Task list", "wordpress-seo" ) }
 	>
 		<ModalNotification.Panel className="yst-w-96">
