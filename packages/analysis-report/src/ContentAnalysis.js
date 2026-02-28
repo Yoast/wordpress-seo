@@ -117,7 +117,7 @@ class ContentAnalysis extends React.Component {
 						labels.problems,
 						headingLevel,
 						[ ...upsellResults, ...problemsResults ],
-						this.props.location ? `yoast-problems-collapsible-${ this.props.location }` : null
+						this.props.problemsCollapsibleId || null
 					)
 				}
 				{ improvementsFound > 0 &&
@@ -161,7 +161,7 @@ ContentAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIOptimizeButton: PropTypes.func,
-	location: PropTypes.string,
+	problemsCollapsibleId: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -185,7 +185,7 @@ ContentAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
 	renderAIOptimizeButton: () => {},
-	location: "",
+	problemsCollapsibleId: "",
 };
 
 export default ContentAnalysis;

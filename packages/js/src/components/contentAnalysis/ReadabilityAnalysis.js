@@ -73,6 +73,7 @@ class ReadabilityAnalysis extends Component {
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
 					location={ location }
+					problemsCollapsibleId={ location ? `yoast-readability-problems-collapsible-${ location }` : "" }
 					highlightingUpsellLink={ highlightingUpsellLink }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 					renderAIOptimizeButton={ this.renderAIOptimizeButton }
