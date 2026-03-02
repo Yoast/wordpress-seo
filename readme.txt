@@ -311,8 +311,8 @@ New: Introducing the Schema Aggregation feature. Futureproof your website for an
 
 #### Enhancements
 
+* Introduces the Schema aggregation feature. Thanks to Syde for helping us with testing it!
 * Introduces a more robust HTML processing and highlighting approach for the *transition words* assessment.
-* Introduces the Schema aggregation feature.
 
 #### Bugfixes
 
