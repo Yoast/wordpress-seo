@@ -1,3 +1,4 @@
+import { useEffect } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
 import styled from "styled-components";
 
@@ -26,8 +27,14 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
-const MetaboxCollapsible = ( props ) => {
-	return <StyledMetaboxCollapsible hasPadding={ true } hasSeparator={ true } { ...props } />;
+const MetaboxCollapsible = ( { initialIsOpen, id, ...rest } ) => {
+	useEffect( () => {
+		if ( initialIsOpen && id ) {
+			document.getElementById( id )?.focus();
+		}
+	}, [] );
+
+	return <StyledMetaboxCollapsible hasPadding={ true } hasSeparator={ true } initialIsOpen={ initialIsOpen } id={ id } { ...rest } />;
 };
 
 export default MetaboxCollapsible;

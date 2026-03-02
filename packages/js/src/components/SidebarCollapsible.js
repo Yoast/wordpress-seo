@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 
 import PropTypes from "prop-types";
@@ -30,6 +30,13 @@ const SidebarCollapsible = ( {
 	initialIsOpen = false,
 } ) => {
 	const [ isOpen, toggleOpen ] = useState( initialIsOpen );
+	const buttonRef = useRef( null );
+
+	useEffect( () => {
+		if ( initialIsOpen && buttonRef.current ) {
+			buttonRef.current.focus();
+		}
+	}, [] );
 
 	/**
 	 * Toggles the SidebarCollapsible open and closed state.
@@ -43,6 +50,7 @@ const SidebarCollapsible = ( {
 	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
+				ref={ buttonRef }
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
 				type="button"
