@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
  * @param {boolean} [hasNewBadgeLabel=false] Whether to show the new badge.
  * @param {?string} [buttonId=null] The button id.
  * @param {Function} [renderNewBadgeLabel] Function to render a "New" badge label.
+ * @param {boolean} [initialIsOpen=false] Whether the collapsible should be initially open.
  *
  * @returns {JSX.Element} The element.
  */
