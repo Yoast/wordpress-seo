@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { TasksProgressBar } from "../../src/task-list/components/tasks-progressbar";
 
 describe( "TasksProgressBar", () => {
-	it( "renders the title", () => {
-		render( <TasksProgressBar completedTasks={ 2 } totalTasks={ 5 } isLoading={ false } /> );
+	it( "renders the label", () => {
+		render( <TasksProgressBar completedTasks={ 2 } totalTasks={ 5 } isLoading={ false } label="Tasks" /> );
 		expect( screen.getByText( "Tasks" ) ).toBeInTheDocument();
 	} );
 
@@ -13,7 +13,8 @@ describe( "TasksProgressBar", () => {
 		const progressbar = container.querySelector( ".yst-progress-bar" );
 		expect( progressbar ).toBeInTheDocument();
 		expect( screen.getByText( "3" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/10" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( screen.getByText( "10" ) ).toBeInTheDocument();
 	} );
 
 	it( "renders skeleton loaders when loading", () => {
@@ -25,13 +26,15 @@ describe( "TasksProgressBar", () => {
 	it( "shows 0 completed tasks correctly", () => {
 		render( <TasksProgressBar completedTasks={ 0 } totalTasks={ 5 } isLoading={ false } /> );
 		expect( screen.getByText( "0" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( screen.getByText( "5" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows all tasks completed correctly", () => {
 		render( <TasksProgressBar completedTasks={ 5 } totalTasks={ 5 } isLoading={ false } /> );
-		expect( screen.getByText( "5" ) ).toBeInTheDocument();
-		expect( screen.getByText( "/5" ) ).toBeInTheDocument();
+		const taskCount = screen.getAllByText( "5" );
+		expect( screen.getByText( "/" ) ).toBeInTheDocument();
+		expect( taskCount.length ).toBe( 2 );
 	} );
 
 	it.each( [
@@ -60,5 +63,30 @@ describe( "TasksProgressBar", () => {
 		const srText = container.querySelector( ".yst-sr-only" );
 		expect( srText ).toBeInTheDocument();
 		expect( srText ).toHaveTextContent( "4 out of 8 tasks completed" );
+	} );
+
+	it( "applies medium size class names by default", () => {
+		render( <TasksProgressBar completedTasks={ 3 } totalTasks={ 10 } isLoading={ false } label="Tasks" /> );
+		const label = screen.getByText( "Tasks" );
+		expect( label ).toHaveClass( "yst-text-lg" );
+		const count = screen.getByText( "/" );
+		expect( count ).toHaveClass( "yst-text-tiny" );
+	} );
+
+	it( "applies small size class names when size prop is 'small'", () => {
+		const { debug } = render( <TasksProgressBar completedTasks={ 3 } totalTasks={ 10 } isLoading={ false } label="Tasks" size="small" /> );
+		debug();
+		const label = screen.getByText( "Tasks" );
+		expect( label ).toHaveClass( "yst-text-sm" );
+		const count =  screen.getByText( "/" );
+		expect( count ).toHaveClass( "yst-text-xs" );
+	} );
+
+	it( "applies medium size class names when size prop is 'medium'", () => {
+		render( <TasksProgressBar completedTasks={ 3 } totalTasks={ 10 } isLoading={ false } label="Tasks" size="medium" /> );
+		const label = screen.getByText( "Tasks" );
+		expect( label ).toHaveClass( "yst-text-lg" );
+		const count = screen.getByText( "/" );
+		expect( count ).toHaveClass( "yst-text-tiny" );
 	} );
 } );

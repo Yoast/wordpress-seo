@@ -63,9 +63,9 @@ interface Task_Interface {
 	/**
 	 * Returns the task's call to action.
 	 *
-	 * @return Call_To_Action_Entry
+	 * @return Call_To_Action_Entry|null
 	 */
-	public function get_call_to_action(): Call_To_Action_Entry;
+	public function get_call_to_action(): ?Call_To_Action_Entry;
 
 	/**
 	 * Returns the task's copy set.

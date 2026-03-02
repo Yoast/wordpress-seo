@@ -320,6 +320,10 @@ final class General_Page_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
 
+		Monkey\Functions\expect( 'get_user_locale' )
+			->once()
+			->andReturn( 'en_US' );
+
 		$this->asset_manager
 			->expects( 'enqueue_script' )
 			->with( 'general-page' )

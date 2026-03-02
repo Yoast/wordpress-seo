@@ -8,12 +8,13 @@ use WP_Post;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Exceptions\Complete_Hello_World_Task_Exception;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Completeable_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Task;
+use Yoast\WP\SEO\Task_List\Domain\Tasks\Completeable_Task_Interface;
 
 /**
  * Represents the task for deleting the Hello World post.
  */
-class Delete_Hello_World extends Abstract_Completeable_Task {
+class Delete_Hello_World extends Abstract_Task implements Completeable_Task_Interface {
 
 	/**
 	 * Holds the id.
@@ -95,9 +96,9 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	/**
 	 * Returns the task's call to action entry.
 	 *
-	 * @return string|null
+	 * @return Call_To_Action_Entry|null
 	 */
-	public function get_call_to_action(): Call_To_Action_Entry {
+	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
 			\__( 'Delete for me', 'wordpress-seo' ),
 			'delete',
@@ -113,8 +114,7 @@ class Delete_Hello_World extends Abstract_Completeable_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Remove the “Hello World” post', 'wordpress-seo' ),
-			\__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ),
-			null,
+			'<p>' . \__( 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.', 'wordpress-seo' ) . '</p>',
 		);
 	}
 }
