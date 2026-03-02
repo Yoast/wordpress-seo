@@ -317,7 +317,7 @@ New: Introducing the Schema Aggregation feature. Futureproof your website for an
 #### Bugfixes
 
 * Fixes a bug where sentences containing transition words failed to be highlighted in _transition words_ assessment when they contained elements excluded from the analysis such as `<code>`.
-* Fixes a bug where Slovak two-part transition words wasn't recognized when running the readability analysis.
+* Fixes a bug where Slovak two-part transition words weren't recognized when running the readability analysis.
 
 = 27.0 =
 
