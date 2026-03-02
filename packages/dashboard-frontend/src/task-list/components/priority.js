@@ -32,18 +32,19 @@ const getPriorityIcon = ( level ) => {
  * @param {string} [level=low] The priority level: 'low', 'medium', 'high'.
  * @param {boolean} [isLoading=false] Whether the priority is loading.
  * @param {string} [className=""] Additional class names.
+ * @param {boolean} [isCompleted=false] Whether the task is completed.
  * @returns {JSX.Element} The Priority component.
  */
-export const Priority = ( { level = "low", isLoading = false, className = "" } ) => {
+export const Priority = ( { level = "low", isLoading = false, className = "", isCompleted } ) => {
 	const svgAriaProps = useSvgAria();
-	return <span className={ classNames( "yst-text-xs yst-text-slate-600 yst-flex yst-gap-1", className ) }>
+	return <span className={ classNames( "yst-text-xs yst-text-slate-600 yst-flex yst-gap-1 yst-items-center", className, { "yst-opacity-50": isCompleted } ) }>
 		{ isLoading ? <>
 			<MenuAlt4Icon className="yst-w-4 yst-text-slate-400" { ...svgAriaProps } />
 			<SkeletonLoader className="yst-w-11 yst-h-[18px]" />
 		</>
 			: <>
 				{ getPriorityIcon( level ) }
-				<span className="sm:yst-inline-block yst-hidden">{ priorityLabels[ level ] }</span>
+				<span>{ priorityLabels[ level ] }</span>
 			</> }
 	</span>;
 };

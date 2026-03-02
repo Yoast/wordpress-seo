@@ -1,11 +1,13 @@
-import { Alert, Button, Modal, useSvgAria, Title } from "@yoast/ui-library";
+import { Alert, Button, Modal, Title } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { YoastIcon, HowIcon } from "../../icons";
-import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
+import { useMemo, useRef, useEffect, useCallback } from "@wordpress/element";
+import DOMPurify from "dompurify";
 import { CallToActionButton } from "./call-to-action-button";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
-import { CompleteStatus } from "./complete-status";
+import { TasksProgressBadge } from "./tasks-progress-badge";
+import { TaskStatusIcon } from "../../icons";
+import { TaskAnalyzer } from "./task-analyzer";
 
 /**
  * The type of callToAction prop.
@@ -20,6 +22,10 @@ import { CompleteStatus } from "./complete-status";
  */
 
 /**
+ * @typedef {import('../../store/task-list').Analyzer} Analyzer
+ */
+
+/**
  * A modal component to display task details.
  *
  * @param {boolean}  isOpen        Whether the modal is open.
@@ -28,13 +34,19 @@ import { CompleteStatus } from "./complete-status";
  * @param {string}   title         Title of the modal.
  * @param {number}   duration      Estimated duration to complete the task.
  * @param {string}   priority      Priority of the task: 'low', 'medium', 'high'.
- * @param {string}   why           Details on why the task is important.
- * @param {string}   [how]         Details on how to complete the task.
+ * @param {string}   about         HTML string describing the task. Can contain HTML tags like <strong> and <p>.
  * @param {string}   taskId        The ID of the task associated with the modal.
  * @param {boolean}  isCompleted   Whether the task is completed.
  * @param {boolean}	 isLoading	Whether the modal content is loading.
  * @param {boolean}  [isError=false]   Whether there was an error loading the task.
  * @param {string}   [errorMessage=""]  Error message to display in the modal.
+ * @param {number}   [totalTasks]     Total number of child tasks.
+ * @param {number}   [completedTasks] Number of completed child tasks.
+ * @param {string}   [parentTaskTitle] Title of the parent task for child tasks progress badge.
+ * @param {Function} [onProgressBadgeClick] Callback function when the progress badge is clicked.
+ * @param {string}   [parentTaskId]  The ID of the parent task, if applicable.
+ * @param {JSX.Element} [children]   Additional child elements to render inside the modal.
+ * @param {Analyzer} [analyzer]      Analyzer details for the task.
  *
  * @returns {JSX.Element} The TaskModal component.
  */
@@ -45,40 +57,77 @@ export const TaskModal = ( {
 	title,
 	duration,
 	priority,
-	why,
-	how,
+	about,
 	taskId,
 	isCompleted,
 	isLoading = false,
 	isError = false,
 	errorMessage,
+	totalTasks,
+	completedTasks,
+	parentTaskTitle,
+	onProgressBadgeClick,
+	parentTaskId,
+	children,
+	analyzer,
 } ) => {
-	const svgAriaProps = useSvgAria();
+	// Sanitize the about content to prevent XSS attacks
+	const sanitizedAbout = useMemo( () => DOMPurify.sanitize( about ), [ about ] );
+	const closeButtonRef = useRef();
+
+	useEffect( () => {
+		if ( taskId && closeButtonRef.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ taskId ] );
+
+	const shouldRenderProgressBadge = useCallback( ( parentTaskCheck ) => {
+		if ( parentTaskCheck ) {
+			return totalTasks > 0;
+		}
+		return false;
+	}, [ totalTasks, completedTasks ] );
 
 	return <Modal isOpen={ isOpen } onClose={ onClose } position="center">
-		<Modal.Panel className="yst-p-0">
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
 			<Modal.Container>
-				<Modal.Container.Header className="yst-p-6 yst-flex yst-gap-3 yst-border-b yst-border-slate-200 yst-items-start">
-					<YoastIcon className="yst-w-4 yst-fill-primary-500 yst-pt-1 lg:yst-pt-0.5" { ...svgAriaProps } />
-					<div>
-						<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
-							{ title }
-						</Modal.Title>
-						<div className="yst-flex yst-gap-1">
-							{ isCompleted && <>
-								<CompleteStatus />
-								·
-							</> }
-							<Duration minutes={ duration } />
-							· <Priority level={ priority } />
+				<Modal.Container.Header className="yst-p-6 yst-border-b yst-border-slate-200">
+					{ shouldRenderProgressBadge( parentTaskTitle ) &&
+					<TasksProgressBadge
+						completedTasks={ completedTasks }
+						totalTasks={ totalTasks }
+						label={ parentTaskTitle }
+						onClick={ onProgressBadgeClick }
+						parentTaskId={ parentTaskId }
+						className="yst-mb-2"
+						as="button"
+					/> }
+					<div className="yst-flex yst-gap-3 yst-items-start yst-justify-between">
+						<TaskStatusIcon isCompleted={ isCompleted } isLoading={ isLoading } />
+						<div className="yst-flex-grow">
+							<Modal.Title as="h3" className={ `yst-mb-2 yst-text-lg yst-max-w-lg ${isCompleted ? "yst-text-slate-500" : ""}` }>
+								{ title }
+							</Modal.Title>
+							<div className="yst-flex yst-gap-2 yst-items-center">
+								{ shouldRenderProgressBadge( ! parentTaskTitle ) && <>
+									<TasksProgressBadge
+										completedTasks={ completedTasks }
+										totalTasks={ totalTasks }
+									/>
+									<span aria-hidden="true">·</span>
+								</> }
+								<Priority level={ priority } isCompleted={ isCompleted } />
+								<span aria-hidden="true">·</span> <Duration minutes={ duration } isCompleted={ isCompleted } />
+							</div>
 						</div>
+						<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 					</div>
 				</Modal.Container.Header>
-				<Modal.Container.Content className="yst-py-2 yst-px-12">
+				<Modal.Container.Content className="yst-pt-6 yst-px-6 yst-mx-0 yst-overflow-y-auto yst-relative">
 					{ isError && <Alert
 						role="alert"
 						variant="error"
-						className="yst-mt-4 yst-mb-2"
+						className="yst-mb-3"
 					>
 						<p className="yst-font-medium yst-mb-2">{ __( "Oops! Something went wrong.", "wordpress-seo" ) }</p>
 
@@ -87,34 +136,24 @@ export const TaskModal = ( {
 							{ " " }
 							{ __( "If the issue continues, our support team is here to help!", "wordpress-seo" ) }</p>
 					</Alert> }
-					<ul>
-						<li className="yst-flex yst-flex-col yst-py-4 yst-items-start last:yst-border-b-0 yst-border-b yst-border-slate-200">
-							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-								<QuestionMarkCircleIcon
-									{ ...svgAriaProps }
-									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
-								/>
-								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-									{ __( "Why this matters", "wordpress-seo" ) }
-								</Title>
-							</div>
-							<p className="yst-text-xs yst-text-slate-600">{ why }</p>
-						</li>
-						{ how && <li className="yst-flex yst-flex-col yst-py-4 yst-items-start">
-							<div className="yst-flex yst-gap-1 yst-items-center yst-mb-1">
-								<HowIcon
-									{ ...svgAriaProps }
-									className="yst-w-4 yst-text-slate-400 yst-flex-shrink-0"
-								/>
-								<Title as="h4" className="yst-text-sm yst-font-medium yst-text-slate-800">
-									{ __( "How to solve", "wordpress-seo" ) }
-								</Title>
-							</div>
-							<p className="yst-text-xs yst-text-slate-600">{ how }</p>
-						</li> }
-					</ul>
+
+					{ analyzer && <TaskAnalyzer { ...analyzer } /> }
+
+					<Title as="h4" size="5" className="yst-text-slate-800 yst-mb-2">
+						{ __( "About this task", "wordpress-seo" ) }
+					</Title>
+					<div
+						className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4 yst-mb-6"
+						dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
+					/>
+
+					{ children }
+					{ children && <div
+						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+						aria-hidden="true"
+					/> }
 				</Modal.Container.Content>
-				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-2 yst-p-6 yst-border-t yst-border-slate-200">
+				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-3 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
