@@ -36,7 +36,9 @@ final class Delete_Sample_Page_To_Array_Test extends Abstract_Delete_Sample_Page
 	 * @return void
 	 */
 	public function test_to_array_not_completed() {
-		$post = Mockery::mock( WP_Post::class );
+		$post                = Mockery::mock( WP_Post::class );
+		$post->post_date     = '2024-03-08 07:26:12';
+		$post->post_modified = '2024-03-08 07:26:12';
 
 		$get_posts_args = [
 			'name'        => 'sample-page',
@@ -85,6 +87,46 @@ final class Delete_Sample_Page_To_Array_Test extends Abstract_Delete_Sample_Page
 			->once()
 			->with( $get_posts_args )
 			->andReturn( [] );
+
+		$expected_result = [
+			'id'           => 'delete-sample-page',
+			'duration'     => 1,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => true,
+			'callToAction' => [
+				'label' => 'Delete for me',
+				'type'  => 'delete',
+				'href'  => null,
+			],
+			'title'        => 'Remove the "Sample Page"',
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array method when completed because the sample page has been modified.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_completed_because_page_is_modified() {
+		$post                = Mockery::mock( WP_Post::class );
+		$post->post_date     = '2024-03-08 07:26:12';
+		$post->post_modified = '2024-03-08 07:26:13';
+
+		$get_posts_args = [
+			'name'        => 'sample-page',
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+			'numberposts' => 1,
+		];
+
+		Monkey\Functions\expect( 'get_posts' )
+			->once()
+			->with( $get_posts_args )
+			->andReturn( [ $post ] );
 
 		$expected_result = [
 			'id'           => 'delete-sample-page',
