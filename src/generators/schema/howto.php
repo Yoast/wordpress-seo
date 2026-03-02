@@ -125,6 +125,8 @@ class HowTo extends Abstract_Schema_Piece {
 		$json_text = \html_entity_decode( $json_text );
 		// Remove the image from the text if it exists. Search and replace the img tag.
 		$json_text = \preg_replace( '/<img[^>]+>/i', '', $json_text );
+		// Strip all HTML tags to ensure plain text for the JSON-LD output.
+		$json_text = \wp_strip_all_tags( $json_text );
 		// Trim whitespace.
 		$json_text = \trim( $json_text );
 

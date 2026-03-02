@@ -388,6 +388,42 @@ final class HowTo_Test extends TestCase {
 	}
 
 	/**
+	 * Regression test: HTML-entity-encoded script tags in step text must not end up as raw tags
+	 * in the schema after html_entity_decode() is applied inside add_step_description().
+	 *
+	 * Gutenberg stores rich text as HTML entities, e.g. &lt;script&gt;, so sanitize() does not
+	 * strip them before html_entity_decode() reintroduces the real tags.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_how_to
+	 * @covers ::add_steps
+	 * @covers ::add_step_description
+	 *
+	 * @return void
+	 */
+	public function test_step_description_strips_html_tags_after_entity_decode() {
+		$blocks = $this->base_blocks;
+		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'] = '&lt;script&gt;alert(1)&lt;/script&gt;';
+
+		$schema               = $this->base_schema;
+		$schema[0]['step'][0] = [
+			'@type'           => 'HowToStep',
+			'url'             => '#how-to-step-1583764039837',
+			'name'            => '<strong>Step 1 title</strong>',
+			'itemListElement' => [
+				[
+					'@type' => 'HowToDirection',
+					'text'  => '',
+				],
+			],
+		];
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate();
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
 	 * Tests that a condensed how-to step is generated, with the block's text as the text,
 	 * when no name is available.
 	 *
