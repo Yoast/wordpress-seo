@@ -123,7 +123,7 @@ export const TaskModal = ( {
 						<Modal.CloseButton ref={ closeButtonRef } onClick={ onClose } />
 					</div>
 				</Modal.Container.Header>
-				<Modal.Container.Content className="yst-py-6 yst-px-6 yst-mx-0 yst-overflow-y-auto yst-relative">
+				<Modal.Container.Content className="yst-pt-6 yst-px-6 yst-mx-0 yst-overflow-y-auto yst-relative">
 					{ isError && <Alert
 						role="alert"
 						variant="error"
@@ -143,15 +143,15 @@ export const TaskModal = ( {
 						{ __( "About this task", "wordpress-seo" ) }
 					</Title>
 					<div
-						className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4"
+						className="yst-text-sm yst-text-slate-600 [&>p:not(:last-child)]:yst-mb-4 yst-mb-6"
 						dangerouslySetInnerHTML={ { __html: sanitizedAbout } }
 					/>
 
 					{ children }
-					<div
-						className="yst-sticky -yst-left-6 -yst-right-6 -yst-bottom-6 yst-h-16 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					{ children && <div
+						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
 						aria-hidden="true"
-					/>
+					/> }
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-justify-end yst-gap-3 yst-p-6 yst-border-t yst-border-slate-200">
 					<Button variant="secondary" onClick={ onClose }>
