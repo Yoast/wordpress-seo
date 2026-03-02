@@ -5,6 +5,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\AI_Consent_Integration;
 
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Tests the AI_Consent_Integration's enqueue_assets method.
@@ -34,6 +36,10 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 			->once()
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 
+		$endpoint_list = Mockery::mock( Endpoint_List::class );
+		$endpoint_list->expects( 'to_array' )->once()->andReturn( [] );
+		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
+
 		// Enqueueing.
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-consent' );
@@ -44,6 +50,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 				'hasConsent' => true,
 				'pluginUrl'  => 'https://example.com/wp-content/plugins/wordpress-seo',
 				'linkParams' => [],
+				'endpoints'  => [],
 			],
 		);
 

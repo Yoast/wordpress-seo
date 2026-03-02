@@ -7,6 +7,8 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\AI_Generator_Integ
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
+use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration;
 use Yoast\WP\SEO\AI\HTTP_Request\Infrastructure\API_Client;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -79,6 +81,20 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	protected $introductions_seen_repository;
 
 	/**
+	 * Represents the generator endpoints repository.
+	 *
+	 * @var Mockery\MockInterface|Generator_Endpoints_Repository
+	 */
+	protected $generator_endpoints_repository;
+
+	/**
+	 * Represents the free sparks endpoints repository.
+	 *
+	 * @var Mockery\MockInterface|Free_Sparks_Endpoints_Repository
+	 */
+	protected $free_sparks_endpoints_repository;
+
+	/**
 	 * Sets an instance for test purposes.
 	 *
 	 * @return void
@@ -86,13 +102,15 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->asset_manager                 = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->addon_manager                 = Mockery::mock( WPSEO_Addon_Manager::class );
-		$this->api_client                    = Mockery::mock( API_Client::class );
-		$this->current_page_helper           = Mockery::mock( Current_Page_Helper::class );
-		$this->options_helper                = Mockery::mock( Options_Helper::class );
-		$this->user_helper                   = Mockery::mock( User_Helper::class );
-		$this->introductions_seen_repository = Mockery::mock( Introductions_Seen_Repository::class );
+		$this->asset_manager                    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->addon_manager                    = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->api_client                       = Mockery::mock( API_Client::class );
+		$this->current_page_helper              = Mockery::mock( Current_Page_Helper::class );
+		$this->options_helper                   = Mockery::mock( Options_Helper::class );
+		$this->user_helper                      = Mockery::mock( User_Helper::class );
+		$this->introductions_seen_repository    = Mockery::mock( Introductions_Seen_Repository::class );
+		$this->generator_endpoints_repository   = Mockery::mock( Generator_Endpoints_Repository::class );
+		$this->free_sparks_endpoints_repository = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
 
 		$this->instance = new Ai_Generator_Integration(
 			$this->asset_manager,
@@ -102,6 +120,8 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->options_helper,
 			$this->user_helper,
 			$this->introductions_seen_repository,
+			$this->generator_endpoints_repository,
+			$this->free_sparks_endpoints_repository,
 		);
 	}
 }

@@ -4,7 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\Domain\Endpoint\Endpoint_List;
 
-use Yoast\WP\SEO\AI\Generator\Domain\Endpoint\Endpoint_List;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

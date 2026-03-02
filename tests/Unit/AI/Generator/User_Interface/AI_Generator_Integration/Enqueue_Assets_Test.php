@@ -4,8 +4,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\AI_Generator_Integration;
 
+use Mockery;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Introductions\Application\Ai_Fix_Assessments_Upsell;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Tests the AI_Generator_Integration's enqueue_assets method.
@@ -57,6 +59,13 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 			->with( 'ai_free_sparks_started_on', null )
 			->andReturn( \time() );
 
+		$generator_endpoint_list = Mockery::mock( Endpoint_List::class );
+		$free_sparks_endpoint_list = Mockery::mock( Endpoint_List::class );
+		$this->generator_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $generator_endpoint_list );
+		$this->free_sparks_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $free_sparks_endpoint_list );
+		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
+		$generator_endpoint_list->expects( 'to_array' )->once()->andReturn( [] );
+
 		// Enqueueing.
 		$this->asset_manager->expects( 'enqueue_script' )->once()->with( 'ai-generator' );
 		$this->asset_manager->expects( 'localize_script' )->once()->with(
@@ -71,6 +80,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 				'hasSeenIntroduction'  => true,
 				'requestTimeout'       => 0,
 				'isFreeSparks'         => true,
+				'endpoints'            => [],
 			],
 		);
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
