@@ -61,33 +61,6 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 	}
 
 	/**
-	 * Returns whether this task is valid and should be shown in the task list.
-	 *
-	 * The task is invalid (and thus excluded) when the sample page exists but has been
-	 * repurposed: either its title was changed or its content was modified.
-	 *
-	 * @return bool Whether this task is valid.
-	 */
-	public function is_valid(): bool {
-		$pages = \get_posts(
-			[
-				'name'        => 'sample-page',
-				'post_type'   => 'page',
-				'post_status' => 'publish',
-				'numberposts' => 1,
-			],
-		);
-
-		if ( empty( $pages ) || $pages[0] instanceof WP_Post === false ) {
-			return true;
-		}
-
-		$page = $pages[0];
-
-		return $page->post_date === $page->post_modified;
-	}
-
-	/**
 	 * Returns the task's link.
 	 *
 	 * @return string|null
