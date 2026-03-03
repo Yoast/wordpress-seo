@@ -64,7 +64,7 @@ final class Get_Script_Data_Test extends Abstract_AI_Generator_Integration_Test 
 		$this->generator_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $generator_endpoint_list );
 		$this->free_sparks_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $free_sparks_endpoint_list );
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
-		$generator_endpoint_list->expects( 'to_array' )->once()->andReturn( [] );
+		$generator_endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 
 		$expected = [
 			'hasConsent'           => true,

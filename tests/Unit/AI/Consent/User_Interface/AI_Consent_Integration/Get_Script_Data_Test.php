@@ -39,7 +39,7 @@ final class Get_Script_Data_Test extends Abstract_AI_Consent_Integration_Test {
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
-		$endpoint_list->expects( 'to_array' )->once()->andReturn( [] );
+		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 
 		$this->instance->get_script_data();

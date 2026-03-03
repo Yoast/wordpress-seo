@@ -37,7 +37,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Consent_Integration_Test {
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 
 		$endpoint_list = Mockery::mock( Endpoint_List::class );
-		$endpoint_list->expects( 'to_array' )->once()->andReturn( [] );
+		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 
 		// Enqueueing.

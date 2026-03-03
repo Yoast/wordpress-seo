@@ -166,7 +166,7 @@ class Ai_Generator_Integration implements Integration_Interface {
 		$endpoints = $this->generator_endpoints_repository->get_all_endpoints()
 			->merge_with(
 				$this->free_sparks_endpoints_repository->get_all_endpoints(),
-			)->to_array();
+			)->to_paths_array();
 		return [
 			'hasConsent'           => $this->user_helper->get_meta( $user_id, '_yoast_wpseo_ai_consent', true ),
 			'productSubscriptions' => $this->get_product_subscriptions(),
