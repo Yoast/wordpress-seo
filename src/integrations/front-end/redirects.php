@@ -224,7 +224,7 @@ class Redirects implements Integration_Interface {
 		return \apply_filters(
 			'wpseo_attachment_redirect_url',
 			\wp_get_attachment_url( \get_queried_object_id() ),
-			\get_queried_object()
+			\get_queried_object(),
 		);
 	}
 

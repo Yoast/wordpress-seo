@@ -77,7 +77,7 @@ final class Primary_Term_Watcher_Test extends TestCase {
 				$this->site,
 				$this->primary_term,
 				$this->primary_term_builder,
-			]
+			],
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
@@ -93,7 +93,7 @@ final class Primary_Term_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Primary_Term_Watcher::get_conditionals()
+			Primary_Term_Watcher::get_conditionals(),
 		);
 	}
 

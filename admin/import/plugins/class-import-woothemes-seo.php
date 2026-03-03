@@ -130,8 +130,8 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s",
-				$key
-			)
+				$key,
+			),
 		);
 		return $wpdb->__get( 'result' );
 	}

@@ -149,7 +149,7 @@ final class Indexing_Route_Test extends TestCase {
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
 			$this->options_helper,
-			$this->indexing_helper
+			$this->indexing_helper,
 		);
 	}
 
@@ -163,47 +163,47 @@ final class Indexing_Route_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'post_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'term_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+			$this->getPropertyValue( $this->instance, 'general_indexation_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexable_Indexing_Complete_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexable_indexing_complete_action' )
+			$this->getPropertyValue( $this->instance, 'indexable_indexing_complete_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Complete_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_complete_action' )
+			$this->getPropertyValue( $this->instance, 'indexing_complete_action' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Prepare_Action::class,
-			$this->getPropertyValue( $this->instance, 'prepare_indexing_action' )
+			$this->getPropertyValue( $this->instance, 'prepare_indexing_action' ),
 		);
 		$this->assertInstanceOf(
 			Post_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' )
+			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' ),
 		);
 		$this->assertInstanceOf(
 			Term_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' )
+			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' ),
 		);
 		$this->assertInstanceOf(
 			Options_Helper::class,
-			$this->getPropertyValue( $this->instance, 'options_helper' )
+			$this->getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
-			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+			$this->getPropertyValue( $this->instance, 'indexing_helper' ),
 		);
 	}
 
@@ -223,7 +223,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'prepare' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -234,7 +234,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'complete' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -245,7 +245,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_posts' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -256,7 +256,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_terms' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -267,7 +267,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_post_type_archives' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -278,7 +278,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_general' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -289,7 +289,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'indexables_complete' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -300,7 +300,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_post_links' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'register_rest_route' )
@@ -311,7 +311,7 @@ final class Indexing_Route_Test extends TestCase {
 					'methods'             => 'POST',
 					'callback'            => [ $this->instance, 'index_term_links' ],
 					'permission_callback' => [ $this->instance, 'can_index' ],
-				]
+				],
 			);
 
 		$this->instance->register_routes();

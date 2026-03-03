@@ -53,7 +53,7 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			SEMrush_Client::class,
-			$this->getPropertyValue( $this->instance, 'client' )
+			$this->getPropertyValue( $this->instance, 'client' ),
 		);
 	}
 
@@ -110,7 +110,7 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 				],
 				'status'  => 200,
 			],
-			$this->instance->get_related_keyphrases( $keyphrase, $country_code )
+			$this->instance->get_related_keyphrases( $keyphrase, $country_code ),
 		);
 	}
 
@@ -135,7 +135,7 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 						'rows'        => [],
 					],
 					'status' => 200,
-				]
+				],
 			);
 
 		$this->client_instance->expects( 'get' )->times( 0 );
@@ -150,7 +150,7 @@ final class SEMrush_Phrases_Action_Test extends TestCase {
 				],
 				'status'  => 200,
 			],
-			$this->instance->get_related_keyphrases( $keyphrase, $database )
+			$this->instance->get_related_keyphrases( $keyphrase, $database ),
 		);
 	}
 }

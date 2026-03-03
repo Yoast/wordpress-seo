@@ -53,7 +53,7 @@ final class To_Be_Cleaned_Indexable_Bucket_Test extends TestCase {
 					'cleanup_name' => 'cleanup_name',
 				],
 			],
-			$this->sut->to_array()
+			$this->sut->to_array(),
 		);
 	}
 }

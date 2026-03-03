@@ -47,7 +47,7 @@ class Introductions_Collector {
 				continue;
 			}
 			$bucket->add_introduction(
-				new Introduction_Item( $introduction->get_id(), $introduction->get_priority() )
+				new Introduction_Item( $introduction->get_id(), $introduction->get_priority() ),
 			);
 		}
 
@@ -76,7 +76,7 @@ class Introductions_Collector {
 			$filtered_introductions,
 			static function ( $introduction ) {
 				return \is_a( $introduction, Introduction_Interface::class );
-			}
+			},
 		);
 	}
 

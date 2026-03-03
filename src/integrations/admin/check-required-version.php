@@ -83,13 +83,13 @@ class Check_Required_Version implements Integration_Interface {
 				/* translators: 1: Current Yoast SEO version, 2: Version required by the uploaded plugin. */
 				\__( 'The Yoast SEO version on your site is %1$s, however the uploaded plugin requires %2$s.', 'wordpress-seo' ),
 				\WPSEO_VERSION,
-				\esc_html( $requires_yoast_seo )
+				\esc_html( $requires_yoast_seo ),
 			);
 
 			return new WP_Error(
 				'incompatible_yoast_seo_required_version',
 				\__( 'The package could not be installed because it\'s not supported by the currently installed Yoast SEO version.', 'wordpress-seo' ),
-				$error
+				$error,
 			);
 		}
 
@@ -114,7 +114,7 @@ class Check_Required_Version implements Integration_Interface {
 				'<tr><td class="name-label">%1$s</td><td>%2$s</td><td>%3$s</td></tr>',
 				\__( 'Required Yoast SEO version', 'wordpress-seo' ),
 				( $requires_yoast_seo_current !== false ) ? \esc_html( $requires_yoast_seo_current ) : '-',
-				( $requires_yoast_seo_new !== false ) ? \esc_html( $requires_yoast_seo_new ) : '-'
+				( $requires_yoast_seo_new !== false ) ? \esc_html( $requires_yoast_seo_new ) : '-',
 			);
 
 			$table = \str_replace( '</tbody>', $new_row . '</tbody>', $table );

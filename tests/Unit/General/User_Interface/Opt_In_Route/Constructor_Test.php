@@ -24,12 +24,12 @@ final class Constructor_Test extends Abstract_Opt_In_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			User_Helper::class,
-			$this->getPropertyValue( $this->instance, 'user_helper' )
+			$this->getPropertyValue( $this->instance, 'user_helper' ),
 		);
 
 		$this->assertInstanceOf(
 			Capability_Helper::class,
-			$this->getPropertyValue( $this->instance, 'capability_helper' )
+			$this->getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 	}
 }

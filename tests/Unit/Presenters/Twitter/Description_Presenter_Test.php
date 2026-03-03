@@ -71,7 +71,7 @@ final class Description_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:description" content="This is the twitter description" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -117,7 +117,7 @@ final class Description_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:description" content="This is the twitter description" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

@@ -55,7 +55,7 @@ final class SEMrush_Login_Action_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			SEMrush_Client::class,
-			$this->getPropertyValue( $this->instance, 'client' )
+			$this->getPropertyValue( $this->instance, 'client' ),
 		);
 	}
 
@@ -70,7 +70,7 @@ final class SEMrush_Login_Action_Test extends TestCase {
 		$token_data = [
 			'access_token'  => 'some valid token',
 			'refresh_token' => 'some valid refresh token',
-			'expires'       => 99999999,
+			'expires'       => 99_999_999,
 			'has_expired'   => false,
 			'created_at'    => 0,
 		];
@@ -81,9 +81,9 @@ final class SEMrush_Login_Action_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => 604800,
+				'getExpires'      => 604_800,
 				'hasExpired'      => false,
-			]
+			],
 		);
 
 		$tokens_class = Mockery::mock( OAuth_Token::class );
@@ -101,7 +101,7 @@ final class SEMrush_Login_Action_Test extends TestCase {
 				'tokens' => $token_data,
 				'status' => 200,
 			],
-			$this->instance->authenticate( '123456' )
+			$this->instance->authenticate( '123456' ),
 		);
 	}
 
@@ -123,7 +123,7 @@ final class SEMrush_Login_Action_Test extends TestCase {
 					'tokens' => [],
 					'error'  => 'Invalid token',
 					'status' => 500,
-				]
+				],
 			);
 
 		$this->client_instance
@@ -137,7 +137,7 @@ final class SEMrush_Login_Action_Test extends TestCase {
 				'error'  => 'Invalid token',
 				'status' => 500,
 			],
-			$this->instance->authenticate( '123456' )
+			$this->instance->authenticate( '123456' ),
 		);
 	}
 }

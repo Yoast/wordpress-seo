@@ -47,7 +47,7 @@ final class Social_Test extends TestCase {
 				'social_image_template'              => 'social-image-template',
 				'first_content_image_social_preview' => 'https://wordpress.test/image.png',
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 
@@ -66,7 +66,7 @@ final class Social_Test extends TestCase {
 				'social_image_template'              => 'social-image-template',
 				'first_content_image'                => 'https://wordpress.test/image.png',
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 }

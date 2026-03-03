@@ -43,7 +43,7 @@ class WPSEO_Plugin_Availability {
 				'description'  => sprintf(
 					/* translators: %1$s expands to Yoast SEO */
 					__( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ),
-					'Yoast SEO'
+					'Yoast SEO',
 				),
 				'installed'    => false,
 				'slug'         => 'wordpress-seo-premium/wp-seo-premium.php',
@@ -87,7 +87,7 @@ class WPSEO_Plugin_Availability {
 				'description'   => sprintf(
 					/* translators: %1$s expands to Yoast SEO */
 					__( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ),
-					'Yoast SEO'
+					'Yoast SEO',
 				),
 				'_dependencies' => [
 					'WooCommerce' => [

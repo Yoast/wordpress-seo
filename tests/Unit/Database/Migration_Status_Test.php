@@ -86,7 +86,7 @@ final class Migration_Status_Test extends TestCase {
 				[
 					'version' => '1.0',
 					'lock'    => \strtotime( '-20 minutes' ),
-				]
+				],
 			);
 
 		$instance = new Migration_Status();
@@ -129,7 +129,7 @@ final class Migration_Status_Test extends TestCase {
 				[
 					'version' => '1.0',
 					'lock'    => \strtotime( 'now' ),
-				]
+				],
 			);
 
 		$instance = new Migration_Status();
@@ -254,7 +254,7 @@ final class Migration_Status_Test extends TestCase {
 				[
 					'version' => '1.0',
 					'error'   => $error,
-				]
+				],
 			);
 
 		$instance = new Migration_Status();

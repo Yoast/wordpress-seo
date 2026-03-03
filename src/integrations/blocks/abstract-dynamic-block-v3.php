@@ -62,7 +62,7 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 			[
 				'editor_script'   => $this->script,
 				'render_callback' => [ $this, 'present' ],
-			]
+			],
 		);
 	}
 

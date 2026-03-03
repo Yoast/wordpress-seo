@@ -80,7 +80,7 @@ class Importable_Detector_Service {
 			$all_actions,
 			static function ( $action ) use ( $plugin, $type ) {
 				return $action->is_compatible_with( $plugin, $type );
-			}
+			},
 		);
 	}
 }

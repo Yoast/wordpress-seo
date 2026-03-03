@@ -30,14 +30,23 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	private $code_verifier_repository;
 
 	/**
+	 * The code generator.
+	 *
+	 * @var Code_Generator_Interface
+	 */
+	private $code_generator;
+
+	/**
 	 * Code_Verifier_Service constructor.
 	 *
 	 * @param Date_Helper                        $date_helper              The date helper.
 	 * @param Code_Verifier_User_Meta_Repository $code_verifier_repository The code verifier repository.
+	 * @param Code_Generator_Interface           $code_generator           The code  generator.
 	 */
-	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository ) {
+	public function __construct( Date_Helper $date_helper, Code_Verifier_User_Meta_Repository $code_verifier_repository, Code_Generator_Interface $code_generator ) {
 		$this->date_helper              = $date_helper;
 		$this->code_verifier_repository = $code_verifier_repository;
+		$this->code_generator           = $code_generator;
 	}
 
 	/**
@@ -48,9 +57,8 @@ class Code_Verifier_Handler implements Code_Verifier_Handler_Interface {
 	 * @return Code_Verifier The generated code verifier.
 	 */
 	public function generate( string $user_email ): Code_Verifier {
-		$random_string = \wp_generate_password( 10, false );
-		$code          = \hash( 'sha256', $user_email . $random_string );
-		$created_at    = $this->date_helper->current_time();
+		$code       = $this->code_generator->generate( $user_email );
+		$created_at = $this->date_helper->current_time();
 
 		return new Code_Verifier( $code, $created_at );
 	}

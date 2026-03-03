@@ -23,7 +23,7 @@ final class Constructor_Test extends Abstract_Get_Suggestions_Route_Test {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Suggestions_Provider::class,
-			$this->getPropertyValue( $this->instance, 'suggestions_provider' )
+			$this->getPropertyValue( $this->instance, 'suggestions_provider' ),
 		);
 	}
 }

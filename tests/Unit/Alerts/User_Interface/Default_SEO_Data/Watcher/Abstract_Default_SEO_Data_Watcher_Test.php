@@ -53,7 +53,7 @@ abstract class Abstract_Default_SEO_Data_Watcher_Test extends TestCase {
 
 		$this->instance = new Default_SEO_Data_Watcher(
 			$this->indexable_repository,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

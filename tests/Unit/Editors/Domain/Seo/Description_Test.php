@@ -45,7 +45,7 @@ final class Description_Test extends TestCase {
 				'description_template' => 'a-template',
 				'description_date'     => '01-01-1970',
 			],
-			$this->instance->to_array()
+			$this->instance->to_array(),
 		);
 	}
 
@@ -62,7 +62,7 @@ final class Description_Test extends TestCase {
 				'metadesc_template'   => 'a-template',
 				'metaDescriptionDate' => '01-01-1970',
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 }

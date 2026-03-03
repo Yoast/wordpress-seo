@@ -23,16 +23,16 @@ final class Suggested_Plugins_Register_Hooks_Test extends Suggested_Plugins_Test
 			10,
 			\has_action(
 				'admin_init',
-				[ $this->availability_checker, 'register' ]
-			)
+				[ $this->availability_checker, 'register' ],
+			),
 		);
 
 		$this->assertEquals(
 			10,
 			\has_action(
 				'admin_init',
-				[ $this->instance, 'add_notifications' ]
-			)
+				[ $this->instance, 'add_notifications' ],
+			),
 		);
 	}
 }

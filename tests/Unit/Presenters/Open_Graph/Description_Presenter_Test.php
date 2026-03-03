@@ -76,7 +76,7 @@ final class Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 
 		$this->presentation->source = [];
@@ -87,7 +87,7 @@ final class Description_Presenter_Test extends TestCase {
 			->andReturnUsing(
 				static function ( $str ) {
 					return $str;
-				}
+				},
 			);
 	}
 

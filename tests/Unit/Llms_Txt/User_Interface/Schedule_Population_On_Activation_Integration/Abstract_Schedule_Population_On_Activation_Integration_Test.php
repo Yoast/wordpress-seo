@@ -54,7 +54,7 @@ abstract class Abstract_Schedule_Population_On_Activation_Integration_Test exten
 
 		$this->instance = new Schedule_Population_On_Activation_Integration(
 			$this->cron_scheduler,
-			$this->options_helper
+			$this->options_helper,
 		);
 	}
 }

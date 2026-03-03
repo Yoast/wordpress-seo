@@ -138,13 +138,13 @@ final class Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
 			$result,
-			'post_type_dismiss_returns WP_REST_Response object'
+			'post_type_dismiss_returns WP_REST_Response object',
 		);
 
 		$this->assertSame(
 			$message,
 			$result->data->message,
-			'post_type_dismiss_returns correct message'
+			'post_type_dismiss_returns correct message',
 		);
 	}
 
@@ -192,13 +192,13 @@ final class Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
 			$result,
-			'taxonomy_dismiss_returns WP_REST_Response object'
+			'taxonomy_dismiss_returns WP_REST_Response object',
 		);
 
 		$this->assertSame(
 			$message,
 			$result->data->message,
-			'taxonomy_dismiss_returns correct message'
+			'taxonomy_dismiss_returns correct message',
 		);
 	}
 
@@ -238,13 +238,13 @@ final class Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
 			$result,
-			'taxonomy_dismiss_returns WP_REST_Response object'
+			'taxonomy_dismiss_returns WP_REST_Response object',
 		);
 
 		$this->assertSame(
 			'Error: Taxonomy was not removed from new_taxonomies list.',
 			$result->data->message,
-			'taxonomy_dismiss_returns correct message'
+			'taxonomy_dismiss_returns correct message',
 		);
 	}
 
@@ -284,13 +284,13 @@ final class Dismiss_New_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			WP_REST_Response::class,
 			$result,
-			'post_type_dismiss_returns WP_REST_Response object'
+			'post_type_dismiss_returns WP_REST_Response object',
 		);
 
 		$this->assertSame(
 			'Error: Post type was not removed from new_post_types list.',
 			$result->data->message,
-			'post_type_dismiss_returns correct message'
+			'post_type_dismiss_returns correct message',
 		);
 	}
 }

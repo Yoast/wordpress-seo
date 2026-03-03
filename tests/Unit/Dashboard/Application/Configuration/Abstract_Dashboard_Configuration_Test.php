@@ -120,7 +120,7 @@ abstract class Abstract_Dashboard_Configuration_Test extends TestCase {
 			$this->nonce_repository,
 			$this->site_kit_integration_data,
 			$this->setup_steps_tracking,
-			$this->browser_cache_configuration
+			$this->browser_cache_configuration,
 		);
 	}
 }

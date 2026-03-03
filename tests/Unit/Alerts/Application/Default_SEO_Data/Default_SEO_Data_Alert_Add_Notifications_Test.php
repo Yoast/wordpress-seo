@@ -118,7 +118,7 @@ final class Default_SEO_Data_Alert_Add_Notifications_Test extends Abstract_Defau
 				static function ( $notification ) use ( $expected_message ) {
 					$notification_array = $notification->to_array();
 					return $notification_array['message'] === $expected_message;
-				}
+				},
 			);
 
 		$this->instance->add_notifications();

@@ -102,7 +102,7 @@ final class Wincher_Test extends TestCase {
 				'wincherWebsiteId'         => 'some-id',
 				'wincherAutoAddKeyphrases' => true,
 			],
-			$this->instance->to_legacy_array()
+			$this->instance->to_legacy_array(),
 		);
 	}
 

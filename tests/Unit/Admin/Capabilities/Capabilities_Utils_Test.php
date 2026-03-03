@@ -40,7 +40,7 @@ final class Capabilities_Utils_Test extends TestCase {
 			->andReturn(
 				[
 					'administrator' => 'Administrator',
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'wp_roles' )
@@ -65,7 +65,7 @@ final class Capabilities_Utils_Test extends TestCase {
 					'capabilities' => [
 						'wpseo_manage_options' => true,
 					],
-				]
+				],
 			);
 
 		Monkey\Functions\expect( 'get_users' )

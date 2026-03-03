@@ -62,7 +62,7 @@ final class Creator_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:creator" content="@TwitterHandle" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 
@@ -108,7 +108,7 @@ final class Creator_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:creator" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 }

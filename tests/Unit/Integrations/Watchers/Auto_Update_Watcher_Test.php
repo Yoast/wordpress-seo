@@ -43,7 +43,7 @@ final class Auto_Update_Watcher_Test extends TestCase {
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
 		$this->instance = new Auto_Update_Watcher(
-			$this->notification_center
+			$this->notification_center,
 		);
 	}
 
@@ -57,7 +57,7 @@ final class Auto_Update_Watcher_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			self::getPropertyValue( $this->instance, 'notification_center' )
+			self::getPropertyValue( $this->instance, 'notification_center' ),
 		);
 	}
 

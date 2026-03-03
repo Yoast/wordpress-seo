@@ -314,8 +314,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i WHERE %i LIKE %s AND autoload IN ("on", "yes")',
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
-			)
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ],
+			),
 		);
 	}
 
@@ -358,8 +358,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
-				WPSEO_Cornerstone_Filter::META_NAME
-			)
+				WPSEO_Cornerstone_Filter::META_NAME,
+			),
 		);
 	}
 
@@ -398,9 +398,9 @@ class WPSEO_Upgrade {
 					$meta_key,
 					'meta_value',
 					'%wpseo-dismiss-about%',
-				]
+				],
 			),
-			ARRAY_A
+			ARRAY_A,
 		);
 
 		if ( empty( $usermetas ) ) {
@@ -452,8 +452,8 @@ class WPSEO_Upgrade {
 			$wpdb->prepare(
 				"DELETE FROM %i
 				WHERE %i = '_yst_content_links_processed'",
-				[ $wpdb->postmeta, 'meta_key' ]
-			)
+				[ $wpdb->postmeta, 'meta_key' ],
+			),
 		);
 	}
 
@@ -658,8 +658,8 @@ class WPSEO_Upgrade {
 			$wpdb->prepare(
 				'DELETE FROM %i
 				WHERE %i LIKE %s',
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ]
-			)
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap_%' ],
+			),
 		);
 	}
 
@@ -743,8 +743,8 @@ class WPSEO_Upgrade {
 			$wpdb->prepare(
 				'DELETE FROM %i
 				WHERE %i = %s',
-				[ $wpdb->usermeta, 'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ]
-			)
+				[ $wpdb->usermeta, 'meta_key', 'wp_yoast_promo_hide_premium_upsell_admin_block' ],
+			),
 		);
 
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
@@ -1012,7 +1012,7 @@ class WPSEO_Upgrade {
 		WPSEO_Options::set( 'should_redirect_after_install_free', false );
 		// We're adding a hardcoded time here, so that in the future we can be able to identify whether the user did see the Installation Success page or not.
 		// If they did, they wouldn't have this hardcoded value in that option, but rather (roughly) the timestamp of the moment they saw it.
-		WPSEO_Options::set( 'activation_redirect_timestamp_free', 1652258756 );
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', 1_652_258_756 );
 
 		// Transfer the Social URLs.
 		$other   = [];
@@ -1218,7 +1218,7 @@ class WPSEO_Upgrade {
 				'object_type',
 				'object_sub_type',
 			],
-			$private_taxonomies
+			$private_taxonomies,
 		);
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
@@ -1230,8 +1230,8 @@ class WPSEO_Upgrade {
 				AND %i IN ("
 				. implode( ', ', array_fill( 0, count( $private_taxonomies ), '%s' ) )
 				. ')',
-				$replacements
-			)
+				$replacements,
+			),
 		);
 
 		$wpdb->show_errors = $show_errors;
@@ -1255,8 +1255,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				"UPDATE %i SET %i = NULL WHERE %i = 'post' AND %i = 'attachment'",
-				[ Model::get_table_name( 'Indexable' ), 'permalink', 'object_type', 'object_sub_type' ]
-			)
+				[ Model::get_table_name( 'Indexable' ), 'permalink', 'object_type', 'object_sub_type' ],
+			),
 		);
 
 		$wpdb->show_errors = $show_errors;
@@ -1335,8 +1335,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM %i WHERE %i LIKE %s',
-				[ $wpdb->options, 'option_name', 'wpseo_sitemap%validator%' ]
-			)
+				[ $wpdb->options, 'option_name', 'wpseo_sitemap%validator%' ],
+			),
 		);
 	}
 
@@ -1357,9 +1357,9 @@ class WPSEO_Upgrade {
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				'SELECT %i FROM %i WHERE %i = %s',
-				[ 'option_value', $wpdb->options, 'option_name', $option_name ]
+				[ 'option_value', $wpdb->options, 'option_name', $option_name ],
 			),
-			ARRAY_A
+			ARRAY_A,
 		);
 
 		if ( ! empty( $results ) ) {
@@ -1402,9 +1402,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	protected function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
-		if ( $target_setting === null ) {
-			$target_setting = $source_setting;
-		}
+		$target_setting ??= $source_setting;
 
 		if ( isset( $source_data[ $source_setting ] ) ) {
 			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );
@@ -1433,7 +1431,7 @@ class WPSEO_Upgrade {
 			WPSEO_Meta::set_value(
 				'title',
 				$option_title,
-				$shop_page_id
+				$shop_page_id,
 			);
 
 			WPSEO_Options::set( 'title-ptarchive-product', '' );
@@ -1447,7 +1445,7 @@ class WPSEO_Upgrade {
 			WPSEO_Meta::set_value(
 				'metadesc',
 				$option_metadesc,
-				$shop_page_id
+				$shop_page_id,
 			);
 
 			WPSEO_Options::set( 'metadesc-ptarchive-product', '' );
@@ -1461,7 +1459,7 @@ class WPSEO_Upgrade {
 			WPSEO_Meta::set_value(
 				'bctitle',
 				$option_bctitle,
-				$shop_page_id
+				$shop_page_id,
 			);
 
 			WPSEO_Options::set( 'bctitle-ptarchive-product', '' );
@@ -1475,7 +1473,7 @@ class WPSEO_Upgrade {
 			WPSEO_Meta::set_value(
 				'meta-robots-noindex',
 				$option_noindex,
-				$shop_page_id
+				$shop_page_id,
 			);
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
@@ -1614,8 +1612,8 @@ class WPSEO_Upgrade {
 					"DELETE FROM %i
 					WHERE %i = 'post'
 					AND %i IS NOT NULL",
-					[ $indexable_table, 'object_type', 'object_sub_type' ]
-				)
+					[ $indexable_table, 'object_type', 'object_sub_type' ],
+				),
 			);
 		}
 		else {
@@ -1634,9 +1632,9 @@ class WPSEO_Upgrade {
 							'object_sub_type',
 							'object_sub_type',
 						],
-						$included_post_types
-					)
-				)
+						$included_post_types,
+					),
+				),
 			);
 		}
 
@@ -1668,8 +1666,8 @@ class WPSEO_Upgrade {
 					"DELETE FROM %i
 					WHERE %i = 'term'
 					AND %i IS NOT NULL",
-					[ $indexable_table, 'object_type', 'object_sub_type' ]
-				)
+					[ $indexable_table, 'object_type', 'object_sub_type' ],
+				),
 			);
 		}
 		else {
@@ -1688,9 +1686,9 @@ class WPSEO_Upgrade {
 							'object_sub_type',
 							'object_sub_type',
 						],
-						$included_taxonomies
-					)
-				)
+						$included_taxonomies,
+					),
+				),
 			);
 		}
 
@@ -1729,9 +1727,9 @@ class WPSEO_Upgrade {
 				object_type
 			HAVING
 				count(*) > 1",
-				[ Model::get_table_name( 'Indexable' ) ]
+				[ Model::get_table_name( 'Indexable' ) ],
 			),
-			ARRAY_A
+			ARRAY_A,
 		);
 
 		if ( empty( $duplicates ) ) {
@@ -1780,8 +1778,8 @@ class WPSEO_Upgrade {
 				WHERE %i = 'unindexed'
 				AND %i NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
 				AND %i IS NULL",
-				[ Model::get_table_name( 'Indexable' ), 'post_status', 'object_type', 'object_id' ]
-			)
+				[ Model::get_table_name( 'Indexable' ), 'post_status', 'object_type', 'object_id' ],
+			),
 		);
 
 		$wpdb->show_errors = $show_errors;
@@ -1808,8 +1806,8 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM %i WHERE %i = 'user'",
-				[ Model::get_table_name( 'Indexable' ), 'object_type' ]
-			)
+				[ Model::get_table_name( 'Indexable' ), 'object_type' ],
+			),
 		);
 
 		$wpdb->show_errors = $show_errors;
@@ -1829,7 +1827,7 @@ class WPSEO_Upgrade {
 			$duplicates,
 			static function ( $duplicate ) use ( $object_type ) {
 				return $duplicate['object_type'] === $object_type;
-			}
+			},
 		);
 
 		if ( empty( $filtered_duplicates ) ) {
@@ -1845,7 +1843,7 @@ class WPSEO_Upgrade {
 				'object_id',
 			],
 			array_values( $object_ids ),
-			array_values( $newest_indexable_ids )
+			array_values( $newest_indexable_ids ),
 		);
 		$replacements[] = $object_type;
 
@@ -1858,7 +1856,7 @@ class WPSEO_Upgrade {
 				%i IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND id NOT IN ( ' . implode( ', ', array_fill( 0, count( $filtered_duplicates ), '%d' ) ) . ' )
 				AND object_type = %s',
-			$replacements
+			$replacements,
 		);
 	}
 

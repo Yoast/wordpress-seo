@@ -71,7 +71,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 				'hasSeenIntroduction'  => true,
 				'requestTimeout'       => 0,
 				'isFreeSparks'         => true,
-			]
+			],
 		);
 		$this->asset_manager->expects( 'enqueue_style' )->once()->with( 'ai-generator' );
 

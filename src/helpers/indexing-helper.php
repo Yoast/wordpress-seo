@@ -178,7 +178,7 @@ class Indexing_Helper {
 	 */
 	protected function remove_indexing_notification() {
 		$this->notification_center->remove_notification_by_id(
-			Indexing_Notification_Integration::NOTIFICATION_ID
+			Indexing_Notification_Integration::NOTIFICATION_ID,
 		);
 	}
 

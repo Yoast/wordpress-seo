@@ -78,7 +78,7 @@ trait Presentation_Instance_Builder {
 			[
 				$this->wp_query_wrapper,
 				$this->taxonomy,
-			]
+			],
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();

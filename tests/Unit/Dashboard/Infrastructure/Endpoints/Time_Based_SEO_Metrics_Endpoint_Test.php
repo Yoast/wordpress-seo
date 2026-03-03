@@ -74,7 +74,7 @@ final class Time_Based_SEO_Metrics_Endpoint_Test extends TestCase {
 		Functions\expect( 'rest_url' )
 			->once()
 			->with(
-				'yoast/v1/time_based_seo_metrics'
+				'yoast/v1/time_based_seo_metrics',
 			)->andReturnFirstArg();
 		$this->assertSame( 'yoast/v1/time_based_seo_metrics', $this->instance->get_url() );
 	}

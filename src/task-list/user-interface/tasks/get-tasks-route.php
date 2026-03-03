@@ -113,7 +113,7 @@ final class Get_Tasks_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -133,7 +133,7 @@ final class Get_Tasks_Route implements Route_Interface {
 					'success' => false,
 					'error'   => $exception->getMessage(),
 				],
-				$exception->getCode()
+				$exception->getCode(),
 			);
 		}
 
@@ -142,7 +142,7 @@ final class Get_Tasks_Route implements Route_Interface {
 				'success' => true,
 				'tasks'   => $tasks_data,
 			],
-			200
+			200,
 		);
 	}
 

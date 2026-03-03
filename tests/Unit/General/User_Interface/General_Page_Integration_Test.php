@@ -164,7 +164,7 @@ final class General_Page_Integration_Test extends TestCase {
 			$this->options_helper,
 			$this->woocommerce_conditional,
 			$this->addon_manager,
-			$this->task_list_configuration
+			$this->task_list_configuration,
 		);
 	}
 
@@ -191,8 +191,8 @@ final class General_Page_Integration_Test extends TestCase {
 				$this->options_helper,
 				$this->woocommerce_conditional,
 				$this->addon_manager,
-				$this->task_list_configuration
-			)
+				$this->task_list_configuration,
+			),
 		);
 	}
 
@@ -209,7 +209,7 @@ final class General_Page_Integration_Test extends TestCase {
 				Admin_Conditional::class,
 				Non_Network_Admin_Conditional::class,
 			],
-			General_Page_Integration::get_conditionals()
+			General_Page_Integration::get_conditionals(),
 		);
 	}
 
@@ -274,7 +274,7 @@ final class General_Page_Integration_Test extends TestCase {
 				[ 'page1', '', 'Page 1', 'manage_options', 'page1', [ 'custom_display_page' ] ],
 				[ 'page2', '', 'Page 2', 'manage_options', 'page2', [ 'custom_display_page' ] ],
 				[ 'page3', '', 'Page 3', 'manage_options', 'page3', [ 'custom_display_page' ] ],
-			]
+			],
 		);
 
 		// Assert that the new page was added at index 0.
@@ -374,7 +374,7 @@ final class General_Page_Integration_Test extends TestCase {
 				[
 					'enabled'            => true,
 					'tasksConfiguration' => [],
-				]
+				],
 			);
 
 		$this->expect_get_script_data();

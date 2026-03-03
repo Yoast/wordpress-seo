@@ -68,7 +68,7 @@ final class Import_Integration_Test extends TestCase {
 		$this->instance = new Import_Integration(
 			$this->asset_manager,
 			$this->importable_detector,
-			$this->importing_route
+			$this->importing_route,
 		);
 	}
 
@@ -82,15 +82,15 @@ final class Import_Integration_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
-			self::getPropertyValue( $this->instance, 'asset_manager' )
+			self::getPropertyValue( $this->instance, 'asset_manager' ),
 		);
 		$this->assertInstanceOf(
 			Importable_Detector_Service::class,
-			self::getPropertyValue( $this->instance, 'importable_detector' )
+			self::getPropertyValue( $this->instance, 'importable_detector' ),
 		);
 		$this->assertInstanceOf(
 			Importing_Route::class,
-			self::getPropertyValue( $this->instance, 'importing_route' )
+			self::getPropertyValue( $this->instance, 'importing_route' ),
 		);
 	}
 

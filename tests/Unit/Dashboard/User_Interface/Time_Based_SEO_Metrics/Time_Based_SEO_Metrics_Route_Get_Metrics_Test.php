@@ -66,7 +66,7 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 			->expects( '__construct' )
 			->with(
 				[],
-				200
+				200,
 			)
 			->once();
 
@@ -87,8 +87,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 						&& $request_parameters->get_limit() === 5
 						&& $request_parameters->get_dimensions() === [ 'page' ]
 						&& self::has_27_days_interval( $request_parameters );
-					}
-				)
+					},
+				),
 			)
 			->times( $top_pages_count )
 			->andReturn( $data_container_mock );
@@ -103,8 +103,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 						&& $request_parameters->get_limit() === 5
 						&& $request_parameters->get_dimensions() === [ 'query' ]
 						&& self::has_27_days_interval( $request_parameters );
-					}
-				)
+					},
+				),
 			)
 			->times( $top_queries_count )
 			->andReturn( $data_container_mock );
@@ -120,8 +120,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 						&& $request_parameters->get_dimension_filters() === [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ]
 						&& self::has_27_days_interval( $request_parameters )
 						&& self::has_27_days_compare_interval( $request_parameters );
-					}
-				)
+					},
+				),
 			)
 			->times( $organic_sessions_compare_count )
 			->andReturn( $data_container_mock );
@@ -141,8 +141,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 						&& $request_parameters->get_dimension_filters() === [ 'sessionDefaultChannelGrouping' => [ 'Organic Search' ] ]
 						&& $request_parameters->get_order_by() === $order_by
 						&& self::has_27_days_interval( $request_parameters );
-					}
-				)
+					},
+				),
 			)
 			->times( $organic_sessions_daily_count )
 			->andReturn( $data_container_mock );
@@ -157,8 +157,8 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 						&& $request_parameters->get_dimensions() === [ 'date' ]
 						&& self::has_27_days_interval( $request_parameters )
 						&& self::has_27_days_compare_interval( $request_parameters );
-					}
-				)
+					},
+				),
 			)
 			->times( $search_ranking_compare_count )
 			->andReturn( $data_container_mock );
@@ -176,7 +176,7 @@ final class Time_Based_SEO_Metrics_Route_Get_Metrics_Test extends Abstract_Time_
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->get_time_based_seo_metrics( $wp_rest_request )
+			$this->instance->get_time_based_seo_metrics( $wp_rest_request ),
 		);
 	}
 

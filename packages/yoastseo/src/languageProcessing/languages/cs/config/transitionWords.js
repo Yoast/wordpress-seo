@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "předtím", "vždyť", "definitely", "konečně", "jasné", "možné", "ale", "demzufolge", "však",
 	"ačkoliv", "protože", "ovšem", "zkrátka", "potom", "stejně", "tím", "jinak", "zatímco", "když", "co", "kdežto", "ačkoli",
 	"přestože", "čas", "chvíle", "chvilka", "avšak", "jenže", "nicméně", "přitom", "aniž", "a", "proto", "tedy", "teda",

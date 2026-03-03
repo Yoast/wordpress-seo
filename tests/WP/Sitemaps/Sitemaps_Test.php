@@ -125,7 +125,7 @@ final class Sitemaps_Test extends TestCase {
 					'lastmod' => \date( '1' ),
 				];
 				return $links;
-			}
+			},
 		);
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );

@@ -93,7 +93,7 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			$this->notification_helper,
 			$this->current_page_helper,
 			$this->options_helper,
-			$this->capability_helper
+			$this->capability_helper,
 		);
 	}
 
@@ -107,23 +107,23 @@ final class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	public function test_constructor() {
 		self::assertInstanceOf(
 			Yoast_Notification_Center::class,
-			self::getPropertyValue( $this->instance, 'notification_center' )
+			self::getPropertyValue( $this->instance, 'notification_center' ),
 		);
 		self::assertInstanceOf(
 			Notification_Helper::class,
-			self::getPropertyValue( $this->instance, 'notification_helper' )
+			self::getPropertyValue( $this->instance, 'notification_helper' ),
 		);
 		self::assertInstanceOf(
 			Current_Page_Helper::class,
-			self::getPropertyValue( $this->instance, 'current_page_helper' )
+			self::getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 		self::assertInstanceOf(
 			Options_Helper::class,
-			self::getPropertyValue( $this->instance, 'options_helper' )
+			self::getPropertyValue( $this->instance, 'options_helper' ),
 		);
 		self::assertInstanceOf(
 			Capability_Helper::class,
-			self::getPropertyValue( $this->instance, 'capability_helper' )
+			self::getPropertyValue( $this->instance, 'capability_helper' ),
 		);
 	}
 

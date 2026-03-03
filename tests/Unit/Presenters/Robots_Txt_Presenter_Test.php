@@ -52,6 +52,7 @@ final class Robots_Txt_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 * @covers ::handle_user_agents
 	 * @covers ::handle_site_maps
+	 * @covers ::handle_schema_maps
 	 *
 	 * @param array  $robots_txt_user_agents Output for the registered user agents.
 	 * @param array  $sitemaps               Output for the registered sitemaps.
@@ -68,9 +69,13 @@ final class Robots_Txt_Presenter_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( $sitemaps );
 
+		$this->robots_txt_helper
+			->expects( 'get_schemamap_rules' )
+			->andReturn( [] );
+
 		$this->assertSame(
 			$expected,
-			$this->instance->present()
+			$this->instance->present(),
 		);
 	}
 

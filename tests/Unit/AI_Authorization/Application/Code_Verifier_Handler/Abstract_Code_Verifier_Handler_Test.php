@@ -6,8 +6,10 @@ namespace Yoast\WP\SEO\Tests\Unit\AI_Authorization\Application\Code_Verifier_Han
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\AI_Authorization\Application\Code_Generator_Interface;
 use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
 use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -33,6 +35,13 @@ abstract class Abstract_Code_Verifier_Handler_Test extends TestCase {
 	protected $code_verifier_repository;
 
 	/**
+	 * The code generator mock.
+	 *
+	 * @var Mockery\MockInterface|Code_Generator_Interface
+	 */
+	protected $code_generator;
+
+	/**
 	 * The instance to test.
 	 *
 	 * @var Code_Verifier_Handler
@@ -51,7 +60,8 @@ abstract class Abstract_Code_Verifier_Handler_Test extends TestCase {
 
 		$this->date_helper              = Mockery::mock( Date_Helper::class );
 		$this->code_verifier_repository = Mockery::mock( Code_Verifier_User_Meta_Repository::class );
+		$this->code_generator           = Mockery::mock( Code_Generator_Interface::class );
 
-		$this->instance = new Code_Verifier_Handler( $this->date_helper, $this->code_verifier_repository );
+		$this->instance = new Code_Verifier_Handler( $this->date_helper, $this->code_verifier_repository, $this->code_generator );
 	}
 }

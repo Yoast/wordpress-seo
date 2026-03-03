@@ -26,7 +26,7 @@ final class Store_Token_Test extends Abstract_Refresh_Token_User_Meta_Repository
 			->with(
 				$user_id,
 				'_yoast_wpseo_ai_generator_refresh_jwt',
-				$token
+				$token,
 			);
 
 		$this->instance->store_token( $user_id, $token );

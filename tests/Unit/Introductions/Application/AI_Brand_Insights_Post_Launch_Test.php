@@ -55,7 +55,7 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	public function test_constructor() {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
-			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
 		);
 	}
 

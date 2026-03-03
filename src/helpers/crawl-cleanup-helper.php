@@ -270,7 +270,7 @@ class Crawl_Cleanup_Helper {
 			/* translators: %1$s: Yoast SEO */
 			\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'https://yoa.st/advanced-crawl-settings'
+			'https://yoa.st/advanced-crawl-settings',
 		);
 
 		$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );

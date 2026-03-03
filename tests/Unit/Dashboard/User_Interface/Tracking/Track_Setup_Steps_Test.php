@@ -42,7 +42,7 @@ final class Track_Setup_Steps_Test extends Abstract_Setup_Steps_Tracking_Route_T
 				[
 					'success' => $expected_success,
 				],
-				$expected_status
+				$expected_status,
 			)
 			->once();
 
@@ -74,7 +74,7 @@ final class Track_Setup_Steps_Test extends Abstract_Setup_Steps_Tracking_Route_T
 
 		$this->assertInstanceOf(
 			'WP_REST_Response',
-			$this->instance->track_setup_steps( $wp_rest_request )
+			$this->instance->track_setup_steps( $wp_rest_request ),
 		);
 	}
 

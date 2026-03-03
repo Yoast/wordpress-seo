@@ -160,7 +160,7 @@ class WPSEO_Taxonomy_Metabox {
 				'',
 				[
 					'html_after' => '<div id="wpseo-section-social"></div>',
-				]
+				],
 			);
 		}
 
@@ -209,7 +209,7 @@ class WPSEO_Taxonomy_Metabox {
 					$tab['name'],
 					$tab['link_content'],
 					$tab['content'],
-					$options
+					$options,
 				);
 			}
 		}

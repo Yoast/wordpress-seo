@@ -75,7 +75,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 		$this->instance = new First_Time_Configuration_Notice_Integration(
 			$this->options_helper,
 			$this->first_time_configuration_notice_helper,
-			$this->admin_asset_manager
+			$this->admin_asset_manager,
 		);
 
 		$this->notice_presenter = Mockery::mock( Notice_Presenter::class );
@@ -91,7 +91,7 @@ final class First_Time_Configuration_Notice_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Admin_Conditional::class ],
-			$this->instance->get_conditionals()
+			$this->instance->get_conditionals(),
 		);
 	}
 

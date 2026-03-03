@@ -78,7 +78,7 @@ final class Indexable_Attachment_Watcher_Test extends TestCase {
 			$this->indexing_helper,
 			$this->attachment_cleanup,
 			$this->notification_center,
-			$this->indexable_helper
+			$this->indexable_helper,
 		);
 	}
 

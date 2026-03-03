@@ -93,7 +93,7 @@ class Setup_Url_Interceptor implements Integration_Interface {
 			'',
 			'',
 			'wpseo_manage_options',
-			self::PAGE
+			self::PAGE,
 		);
 
 		return $pages;

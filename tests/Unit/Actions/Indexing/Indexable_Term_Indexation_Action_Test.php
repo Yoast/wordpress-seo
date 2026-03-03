@@ -83,7 +83,7 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			$this->taxonomy,
 			$this->repository,
 			$this->wpdb,
-			$this->versions
+			$this->versions,
 		);
 	}
 
@@ -113,7 +113,7 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			[
 				'public_taxonomy',
 				'other_taxonomy',
-			]
+			],
 		);
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -158,7 +158,7 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			[
 				'public_taxonomy',
 				'other_taxonomy',
-			]
+			],
 		);
 
 		$this->wpdb->expects( 'prepare' )
@@ -247,7 +247,7 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			[
 				'public_taxonomy',
 				'other_taxonomy',
-			]
+			],
 		);
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -317,7 +317,7 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			[
 				'public_taxonomy',
 				'other_taxonomy',
-			]
+			],
 		);
 		$this->wpdb->expects( 'prepare' )
 			->once()
