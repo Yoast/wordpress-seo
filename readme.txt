@@ -303,6 +303,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 27.1.1 =
+
+Release date: 2026-03-03
+
+#### Bugfixes
+
+* Fixes a bug where Schema aggregator endpoints were returning a fatal error when trying to access response pages other than the first one by using slash syntax.
+
 = 27.1 =
 
 Release date: 2026-03-03
