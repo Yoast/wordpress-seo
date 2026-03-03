@@ -352,7 +352,7 @@ class Results extends Component {
 					marksButtonStatus={ marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
-					problemsCollapsibleId={ this.props.problemsCollapsibleId }
+					id={ this.props.id }
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
 					onResultChange={ this.handleResultsChange }
@@ -379,7 +379,7 @@ Results.propTypes = {
 	activeAIFixesButton: PropTypes.string,
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
-	problemsCollapsibleId: PropTypes.string,
+	id: PropTypes.string,
 	isPremium: PropTypes.bool,
 	resultCategoryLabels: PropTypes.shape( {
 		errors: PropTypes.string,
@@ -404,7 +404,7 @@ Results.defaultProps = {
 	activeAIFixesButton: null,
 	keywordKey: "",
 	location: "",
-	problemsCollapsibleId: "",
+	id: "",
 	isPremium: false,
 	resultCategoryLabels: {},
 	shortcodesForParsing: [],

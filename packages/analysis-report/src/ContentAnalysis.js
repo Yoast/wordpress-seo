@@ -45,7 +45,7 @@ class ContentAnalysis extends React.Component {
 	renderCollapsible( title, headingLevel, results, id = null ) {
 		return (
 			<StyledCollapsible
-				id={ id }
+				id={ id ? `${ id }-collapsible` : null }
 				initialIsOpen={ true }
 				title={ `${ title } (${ results.length })` }
 				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
@@ -88,6 +88,7 @@ class ContentAnalysis extends React.Component {
 			upsellResults,
 			headingLevel,
 			resultCategoryLabels,
+			id,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
@@ -117,7 +118,7 @@ class ContentAnalysis extends React.Component {
 						labels.problems,
 						headingLevel,
 						[ ...upsellResults, ...problemsResults ],
-						this.props.problemsCollapsibleId || null
+						id ? `${ id }-problems` : null
 					)
 				}
 				{ improvementsFound > 0 &&
@@ -161,7 +162,7 @@ ContentAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIOptimizeButton: PropTypes.func,
-	problemsCollapsibleId: PropTypes.string,
+	id: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -185,7 +186,7 @@ ContentAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
 	renderAIOptimizeButton: () => {},
-	problemsCollapsibleId: "",
+	id: "",
 };
 
 export default ContentAnalysis;
