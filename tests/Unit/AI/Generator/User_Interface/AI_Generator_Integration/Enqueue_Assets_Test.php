@@ -59,7 +59,7 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 			->with( 'ai_free_sparks_started_on', null )
 			->andReturn( \time() );
 
-		$generator_endpoint_list = Mockery::mock( Endpoint_List::class );
+		$generator_endpoint_list   = Mockery::mock( Endpoint_List::class );
 		$free_sparks_endpoint_list = Mockery::mock( Endpoint_List::class );
 		$this->generator_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $generator_endpoint_list );
 		$this->free_sparks_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $free_sparks_endpoint_list );
