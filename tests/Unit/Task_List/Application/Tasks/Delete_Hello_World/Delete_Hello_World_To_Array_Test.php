@@ -70,8 +70,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -115,8 +114,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -162,8 +160,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -192,8 +189,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -239,8 +235,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );
@@ -272,8 +267,7 @@ final class Delete_Hello_World_To_Array_Test extends Abstract_Delete_Hello_World
 				'href'  => null,
 			],
 			'title'        => 'Remove the “Hello World” post',
-			'why'          => 'Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.',
-			'how'          => null,
+			'about'        => '<p>Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines.</p>',
 		];
 
 		$this->assertSame( $expected_result, $this->instance->to_array() );

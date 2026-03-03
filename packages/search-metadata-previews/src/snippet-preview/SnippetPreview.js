@@ -22,7 +22,7 @@ import { safeCreateInterpolateElement } from "../helpers/safeCreateInterpolateEl
 import FixedWidthContainer from "./FixedWidthContainer";
 import ProductDataDesktop from "./ProductDataDesktop";
 import ProductDataMobile from "./ProductDataMobile";
-import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
+import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES, DEFAULT_BEST_RATING } from "./constants";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -814,6 +814,7 @@ export default class SnippetPreview extends PureComponent {
 			availability: shoppingData.availability || "",
 			price: shoppingData.price ? decodeHTML( shoppingData.price ) : "",
 			rating: shoppingData.rating || 0,
+			bestRating: shoppingData.bestRating || DEFAULT_BEST_RATING,
 			reviewCount: shoppingData.reviewCount || 0,
 		};
 
