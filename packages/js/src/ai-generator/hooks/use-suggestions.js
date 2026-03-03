@@ -104,6 +104,7 @@ export const useSuggestions = () => {
 	const [ state, dispatch ] = useReducer( slice.reducer, slice.getInitialState() );
 	const { editType, previewType, postType, contentType } = useTypeContext();
 	const promptContent = useSelect( select => select( STORE_NAME_AI ).selectPromptContent(), [] );
+	const getSuggestionsEndpoint = useSelect( select => select( STORE_NAME_AI ).selectGetSuggestionsEndpoint(), [] );
 	const { contentLocale, focusKeyphrase, isWooCommerceActive, isGutenberg, isElementor } = useSelect( select => ( {
 		contentLocale: select( STORE_NAME_EDITOR ).getContentLocale(),
 		focusKeyphrase: select( STORE_NAME_EDITOR ).getFocusKeyphrase(),
@@ -135,7 +136,7 @@ export const useSuggestions = () => {
 	const fetchSuggestions = useCallback( async( canAbort = true ) => {
 		dispatch( slice.actions.setLoading() );
 		const { status, payload } = await pureFetchSuggestions( {
-			endpoint: "yoast/v1/ai_generator/get_suggestions/",
+			endpoint: getSuggestionsEndpoint,
 			canAbort,
 			data: {
 				type: type,
