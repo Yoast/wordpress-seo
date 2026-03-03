@@ -1,5 +1,7 @@
 /* Browser:true */
+import { subscribe, select } from "@wordpress/data";
 import createCustomEvent from "../helpers/createCustomEvent";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 /**
  * @summary Initializes the metabox tabs script.
@@ -220,9 +222,31 @@ export default function initTabs( jQuery ) {
 	window.wpseo_init_tabs();
 
 	wpseoAriaTabsInit();
+
+	const isGutenberg = isBlockEditor();
 	// If a `yoast-tab` URL parameter is present, programmatically activate and focus the matching tab.
 	const yoastTab = new URLSearchParams( window.location.search ).get( "yoast-tab" );
-	if ( yoastTab === "readability" ) {
-		jQuery( "#wpseo-meta-tab-readability" ).trigger( "click" ).focus();
+	if ( yoastTab === "readability" && ! isGutenberg ) {
+		const unsubscribe = subscribe( () => {
+			// Check if the readability results are available, which indicates that the editor has loaded and the readability analysis.
+			// In the metabox the readabiity is a tab, and in the sidebar it's a collapsible, that why we deal with each in a different way.
+			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
+			if ( overallScore !== null ) {
+				unsubscribe();
+				jQuery( "#wpseo-meta-tab-readability" ).trigger( "click" ).focus();
+			}
+		} );
+	}
+
+	if ( yoastTab === "seo" && ! isGutenberg ) {
+		const unsubscribe = subscribe( () => {
+			// Check if the readability results are available, which indicates that the SEO analysis is also completed.
+			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
+			if ( overallScore !== null ) {
+				unsubscribe();
+				// We set the intialIsOpen in the SeoAnalysis component which applies both for metabox and sidebar.
+				jQuery( "#yoast-seo-analysis-collapsible-metabox" ).focus();
+			}
+		} );
 	}
 }
