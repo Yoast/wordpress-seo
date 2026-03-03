@@ -41,6 +41,20 @@ class Endpoint_List {
 	}
 
 	/**
+	 * Converts the list to an array of paths (namespace + route, without host).
+	 *
+	 * @return array<string, string> The array of endpoint paths.
+	 */
+	public function to_paths_array(): array {
+		$result = [];
+		foreach ( $this->endpoints as $endpoint ) {
+			$result[ $endpoint->get_name() ] = $endpoint->get_namespace() . $endpoint->get_route();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Merges two Endpoint_List objects together.
 	 * Returns the current instance for method chaining.
 	 *
