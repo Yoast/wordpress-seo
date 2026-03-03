@@ -34,7 +34,7 @@ class Improve_Content_SEO_Child extends Abstract_Child_Task {
 		}
 
 		return new Call_To_Action_Entry(
-			\__( 'Open editor', 'wordpress-seo' ),
+			\__( 'Improve SEO', 'wordpress-seo' ),
 			'link',
 			$link,
 		);
