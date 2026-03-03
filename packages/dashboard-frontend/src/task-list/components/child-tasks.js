@@ -64,7 +64,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 	const isNextDisabled = currentPage === totalPages || totalPages === 0;
 
 	return (
-		<div className="yst-mt-6">
+		<div>
 			<TasksProgressBar
 				label={ __( "Progress", "wordpress-seo" ) }
 				completedTasks={ completedTasks }

@@ -7,6 +7,7 @@ export { default as Code } from "./elements/code";
 export { default as ErrorBoundary } from "./elements/error-boundary";
 export { default as Label } from "./elements/label";
 export { default as Link } from "./elements/link";
+export { default as ModalNotification, useModalNotificationContext } from "./elements/modal-notification";
 export { default as Paper } from "./elements/paper";
 export { default as ProgressBar } from "./elements/progress-bar";
 export { default as Radio } from "./elements/radio";

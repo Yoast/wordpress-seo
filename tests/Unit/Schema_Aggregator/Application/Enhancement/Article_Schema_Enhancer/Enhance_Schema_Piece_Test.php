@@ -396,6 +396,11 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 			->with( 'keywords' )
 			->andReturn( true );
 
+		$this->config
+			->expects( 'get_config_value' )
+			->with( 'categories_as_keywords', false )
+			->andReturn( false );
+
 		$data = $this->article_schema_enhancer_double->enhance_schema_piece( $schema_data, $indexable );
 		$this->assertSame( $schema_data, $data );
 	}
@@ -407,14 +412,13 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 	 *
 	 * @dataProvider enhance_schema_piece_keywords_data_provider
 	 *
-	 * @param array<int, object>   $tags                   The tags assigned to the post.
 	 * @param bool                 $categories_as_keywords Whether to include categories as keywords.
 	 * @param array<int, object>   $categories             The categories assigned to the post.
 	 * @param array<string, mixed> $expected_data          The expected enhanced schema data.
 	 *
 	 * @return void
 	 */
-	public function test_enhance_schema_piece_keywords( $tags, $categories_as_keywords, $categories, $expected_data ) {
+	public function test_enhance_schema_piece_keywords( $categories_as_keywords, $categories, $expected_data ) {
 		$schema_data = [
 			'@context'      => 'https://schema.org',
 			'@type'         => 'Article',
@@ -441,10 +445,6 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 			->with( 'keywords' )
 			->andReturn( true );
 
-		Functions\expect( 'get_the_tags' )
-			->with( $indexable->object_id )
-			->andReturn( $tags );
-
 		$this->config
 			->expects( 'get_config_value' )
 			->with( 'categories_as_keywords', false )
@@ -467,43 +467,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 	 */
 	public function enhance_schema_piece_keywords_data_provider(): array {
 		return [
-			'with_tags_and_categories_as_keywords'         => [
-				'tags'                   => [
-					(object) [ 'name' => 'Tag1' ],
-					(object) [ 'name' => 'Tag2' ],
-				],
-				'categories_as_keywords' => true,
-				'categories'             => [
-					(object) [ 'name' => 'Category1' ],
-					(object) [ 'name' => 'Category2' ],
-				],
-				'expected_data'          => [
-					'@context'      => 'https://schema.org',
-					'@type'         => 'Article',
-					'@id'           => 'https://example.com/article/#article',
-					'headline'      => 'Test Article',
-					'datePublished' => '2025-08-31T14:47:54+00:00',
-					'keywords'      => 'Tag1, Tag2, Category1, Category2',
-				],
-			],
-			'with_tags_and_without_categories_as_keywords' => [
-				'tags'                   => [
-					(object) [ 'name' => 'Tag1' ],
-					(object) [ 'name' => 'Tag2' ],
-				],
-				'categories_as_keywords' => false,
-				'categories'             => [],
-				'expected_data'          => [
-					'@context'      => 'https://schema.org',
-					'@type'         => 'Article',
-					'@id'           => 'https://example.com/article/#article',
-					'headline'      => 'Test Article',
-					'datePublished' => '2025-08-31T14:47:54+00:00',
-					'keywords'      => 'Tag1, Tag2',
-				],
-			],
-			'without_tags_and_with_categories_as_keywords' => [
-				'tags'                   => [],
+			'with_categories_as_keywords'    => [
 				'categories_as_keywords' => true,
 				'categories'             => [
 					(object) [ 'name' => 'Category1' ],
@@ -518,8 +482,7 @@ final class Enhance_Schema_Piece_Test extends Abstract_Article_Schema_Enhancer_T
 					'keywords'      => 'Category1, Category2',
 				],
 			],
-			'without_tags_and_categories_as_keywords'      => [
-				'tags'                   => [],
+			'without_categories_as_keywords' => [
 				'categories_as_keywords' => false,
 				'categories'             => [],
 				'expected_data'          => [

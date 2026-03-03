@@ -97,10 +97,11 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 				}
 			}
 
-			if ( $this->config->is_enhancement_enabled( 'keywords' ) && ! isset( $schema_data['keywords'] ) ) {
+			if ( $this->config->is_enhancement_enabled( 'keywords' ) ) {
 				$keywords = $this->get_article_keywords( $indexable->object_id );
 				if ( ! empty( $keywords ) ) {
-					$schema_data['keywords'] = \implode( ', ', $keywords );
+					$existing                = (array) ( $schema_data['keywords'] ?? [] );
+					$schema_data['keywords'] = \implode( ', ', \array_unique( \array_merge( $existing, $keywords ) ) );
 				}
 			}
 
@@ -122,15 +123,6 @@ class Article_Schema_Enhancer extends Abstract_Schema_Enhancer implements Schema
 	private function get_article_keywords( int $post_id ): array {
 		try {
 			$keywords = [];
-
-			$tags = \get_the_tags( $post_id );
-			if ( \is_array( $tags ) && ! empty( $tags ) ) {
-				foreach ( $tags as $tag ) {
-					if ( isset( $tag->name ) ) {
-						$keywords[] = $tag->name;
-					}
-				}
-			}
 
 			if ( $this->config->get_config_value( 'categories_as_keywords', false ) ) {
 				$categories = \get_the_category( $post_id );

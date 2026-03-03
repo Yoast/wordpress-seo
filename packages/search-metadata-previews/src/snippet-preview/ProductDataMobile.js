@@ -6,6 +6,8 @@ import { round, capitalize } from "lodash";
 
 import { StarRating } from "@yoast/components";
 
+import { DEFAULT_BEST_RATING } from "./constants";
+
 const ProductData = styled.div`
 	display: flex;
 	margin-top: -16px;
@@ -35,33 +37,34 @@ const ProductDataInnerLower = styled.div`
  */
 function ProductDataMobile( props ) {
 	const { shoppingData } = props;
+	const { rating, bestRating = DEFAULT_BEST_RATING, reviewCount, availability, price } = shoppingData;
 
 	return (
 		<ProductData>
-			{ ( shoppingData.rating > 0 ) &&
+			{ ( rating > 0 && rating <= bestRating && reviewCount > 0 ) &&
 				<ProductDataCell50 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						<span>{ round( ( shoppingData.rating * 2 ), 1 ) }/10 </span>
-						<StarRating rating={ shoppingData.rating } />
-						<span> ({ shoppingData.reviewCount })</span>
+						<span>{ round( rating, 1 ) }{ bestRating === DEFAULT_BEST_RATING ? "" : `/${bestRating}` } </span>
+						<StarRating rating={ rating / bestRating * DEFAULT_BEST_RATING } />
+						<span> ({ reviewCount })</span>
 					</ProductDataInnerLower>
 				</ProductDataCell50>
 			}
-			{ ( shoppingData.price ) &&
+			{ ( price ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Price", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower
 						className="yoast-shopping-data-preview__lower"
-						dangerouslySetInnerHTML={ { __html: shoppingData.price } }
+						dangerouslySetInnerHTML={ { __html: price } }
 					/>
 				</ProductDataCell25>
 			}
-			{ ( shoppingData.availability ) &&
+			{ ( availability ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Availability", "wordpress-seo" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						{ capitalize( shoppingData.availability ) }
+						{ capitalize( availability ) }
 					</ProductDataInnerLower>
 				</ProductDataCell25>
 			}
@@ -74,6 +77,7 @@ export default ProductDataMobile;
 ProductDataMobile.propTypes = {
 	shoppingData: PropTypes.shape( {
 		rating: PropTypes.number,
+		bestRating: PropTypes.number,
 		reviewCount: PropTypes.number,
 		availability: PropTypes.string,
 		price: PropTypes.string,
