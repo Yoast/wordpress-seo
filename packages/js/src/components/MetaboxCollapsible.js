@@ -23,6 +23,8 @@ const StyledMetaboxCollapsible = styled( Collapsible )`
  * The MetaboxCollapsible.
  *
  * @param {Object} props The props
+ * @param {boolean} props.initialIsOpen Whether the collapsible should be open by default
+ * @param {string} props.id The id of the collapsible
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
