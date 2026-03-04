@@ -5,9 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## Future Release
+## 2.0.0 March 9th, 2026
 ### Enhancements
+* Update styling to match settings styling. [#20905](https://github.com/Yoast/wordpress-seo/pull/20905)
+* Adds a button container around the buttons: insert, slot and filterable buttons. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
 * Updates the replacement variables buttons style. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
+* Adds the `yoast.replacementVariableEditor.additionalButtons` filter for adding extra buttons. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
 
 ### Other:
 * Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
@@ -15,7 +18,14 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Non user facing
 * Now published as a transpiled package.
 * Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
+* Adds eslint configuration. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Refactors deprecated react life cycle method. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Upgrades react to 18.2.0, Upgrade react test renderer. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Adds missing development dependency on `@yoast/browserslist-config`. [#20916](https://github.com/Yoast/wordpress-seo/pull/20916)
+* Migrates enzyme tests to use react testing library. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Upgrades ESLint and plugins (`import`, `jsx-a11y` and `react`) to the latest versions. [#21315](https://github.com/Yoast/wordpress-seo/pull/21315)
 * Bumps `@yoast/ui-library` to version `4.4.0` from `4.3.0`. [#22862](https://github.com/Yoast/wordpress-seo/pull/22862)
+* Bumps `@yoast/ui-library` to version `4.5.0` from `4.4.0`. [#23045](https://github.com/Yoast/wordpress-seo/pull/23045)
 
 ## 1.18.0
 ### Enhancements

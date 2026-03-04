@@ -16,7 +16,7 @@
     "@yoast/components": "^3.0.0-alpha.3",
     "@yoast/configuration-wizard": "^2.22.0",
     "@yoast/helpers": "^0.17.0-alpha.2",
-    "@yoast/search-metadata-previews": "^3.0.0-alpha.1",
+    "@yoast/search-metadata-previews": "^3.0.0",
     "@yoast/style-guide": "^0.14.0-alpha.1",
     "babel-polyfill": "^6.23.0",
     "lodash": "4.17.23",
