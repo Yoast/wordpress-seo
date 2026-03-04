@@ -240,8 +240,8 @@ export default function initTabs( jQuery ) {
 
 	if ( yoastTab === "seo" && ! isGutenberg ) {
 		const unsubscribe = subscribe( () => {
-			// Check if the readability results are available, which indicates that the SEO analysis is also completed.
-			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
+			// Check if the SEO results are available, which indicates that the SEO analysis has completed.
+			const { overallScore } = select( "yoast-seo/editor" ).getSeoResults();
 			if ( overallScore !== null ) {
 				unsubscribe();
 				// We set the initialIsOpen in the SeoAnalysis component which applies both for metabox and sidebar.
