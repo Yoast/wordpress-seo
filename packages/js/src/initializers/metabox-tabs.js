@@ -244,7 +244,7 @@ export default function initTabs( jQuery ) {
 			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
 			if ( overallScore !== null ) {
 				unsubscribe();
-				// We set the intialIsOpen in the SeoAnalysis component which applies both for metabox and sidebar.
+				// We set the initialIsOpen in the SeoAnalysis component which applies both for metabox and sidebar.
 				jQuery( "#yoast-seo-analysis-collapsible-metabox" ).focus();
 			}
 		} );
