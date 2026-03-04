@@ -229,7 +229,7 @@ export default function initTabs( jQuery ) {
 	if ( yoastTab === "readability" && ! isGutenberg ) {
 		const unsubscribe = subscribe( () => {
 			// Check if the readability results are available, which indicates that the editor has loaded and the readability analysis.
-			// In the metabox the readabiity is a tab, and in the sidebar it's a collapsible, that why we deal with each in a different way.
+			// In the metabox the readability is a tab, and in the sidebar it's a collapsible, that why we deal with each in a different way.
 			const { overallScore } = select( "yoast-seo/editor" ).getReadabilityResults();
 			if ( overallScore !== null ) {
 				unsubscribe();
