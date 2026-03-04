@@ -39,12 +39,14 @@ class ContentAnalysis extends React.Component {
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
 	 * @param {object} results      The list of results to display.
+	 * @param {string} id           An optional ID to use for the collapsible section, used for accessibility.
 	 *
 	 * @returns {ReactElement} The collapsible section with list of results.
 	 */
-	renderCollapsible( title, headingLevel, results ) {
+	renderCollapsible( title, headingLevel, results, id = null ) {
 		return (
 			<StyledCollapsible
+				id={ id ? `${ id }-collapsible` : null }
 				initialIsOpen={ true }
 				title={ `${ title } (${ results.length })` }
 				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
@@ -87,6 +89,7 @@ class ContentAnalysis extends React.Component {
 			upsellResults,
 			headingLevel,
 			resultCategoryLabels,
+			id,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
@@ -112,7 +115,12 @@ class ContentAnalysis extends React.Component {
 					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}
 				{ ( problemsFound + numberOfUpsellResults ) > 0 &&
-					this.renderCollapsible( labels.problems, headingLevel, [ ...upsellResults, ...problemsResults ] )
+					this.renderCollapsible(
+						labels.problems,
+						headingLevel,
+						[ ...upsellResults, ...problemsResults ],
+						id ? `${ id }-problems` : null
+					)
 				}
 				{ improvementsFound > 0 &&
 					this.renderCollapsible( labels.improvements, headingLevel, improvementsResults )
@@ -155,6 +163,7 @@ ContentAnalysis.propTypes = {
 	shouldUpsellHighlighting: PropTypes.bool,
 	renderHighlightingUpsell: PropTypes.func,
 	renderAIOptimizeButton: PropTypes.func,
+	id: PropTypes.string,
 };
 
 ContentAnalysis.defaultProps = {
@@ -178,6 +187,7 @@ ContentAnalysis.defaultProps = {
 	shouldUpsellHighlighting: false,
 	renderHighlightingUpsell: () => {},
 	renderAIOptimizeButton: () => {},
+	id: "",
 };
 
 export default ContentAnalysis;
