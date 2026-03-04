@@ -39,6 +39,7 @@ class ContentAnalysis extends React.Component {
 	 * @param {string} title        The title of the collapsible section.
 	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
 	 * @param {object} results      The list of results to display.
+	 * @param {string} id           An optional ID to use for the collapsible section, used for accessibility.
 	 *
 	 * @returns {ReactElement} The collapsible section with list of results.
 	 */
