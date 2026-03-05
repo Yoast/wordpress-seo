@@ -158,7 +158,7 @@ describe( "ChildTasks", () => {
 		render( <ChildTasks tasks={ fourTasks } singleTaskOnClick={ mockOnClick } /> );
 		expect( screen.queryByText( "Page 1 out of 1" ) ).not.toBeInTheDocument();
 		expect( screen.queryByText( "Next" ) ).not.toBeInTheDocument();
-		expect( screen.queryByText( "Next" ) ).not.toBeInTheDocument();
+		expect( screen.queryByText( "Previous" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "renders correctly with only 1 task", () => {
