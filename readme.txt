@@ -316,7 +316,6 @@ Release date: 2026-03-17
 
 * Adds sanitization to duration text for the HowTo block.
 * Fixes a bug where `ImageObject` id related to Person Schema was not a fully-qualified, absolute URL.
-* Fixes a bug where Schema aggregator endpoints were returning a fatal error when trying to access response pages other than the first one by using slash syntax.
 * Fixes a bug where structured data broke when `script` tag was used in the step description of the HowTo block.
 * Fixes a bug where the \"Additional CSS class(es)\" field was missing from the link popover when Yoast SEO was active. Props to [somecodeiwrote](https://github.com/somecodeiwrote).
 

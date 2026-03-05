@@ -79,7 +79,7 @@ export const TaskList = () => {
 					className="yst-max-w-screen-sm"
 					label={ __( "Tasks", "wordpress-seo" ) }
 				/>
-				<TaskListTable className="yst-mt-4">
+				<TaskListTable className="yst-mt-6">
 					{ isEmpty( tasks ) && isPending && loadingTasksTitleWidth.map( ( width, index ) => <TaskRow.Loading key={ `${index}-loading-task` } titleClassName={ `yst-w-20 ${width}` } /> ) }
 					{ tasksStatus === ASYNC_ACTION_STATUS.error && <GetTasksErrorRow message={ tasksError } /> }
 					{ ! isEmpty( sortedTasks ) && values( sortedTasks ).filter( task => ! task.parentTaskId ).map( ( task ) => (
