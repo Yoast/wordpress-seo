@@ -36,7 +36,7 @@ FeedbackIcon.propTypes = {
 /**
  * The Text Input component.
  *
- * @param {string} [ ] The classname for the wrapper div.
+ * @param {string} [className] The classname for the wrapper div.
  * @param {string} id The id for the label and input field.
  * @param {string} [label=""] The text for the label.
  * @param {React.ReactNode} [description=null] The text for the description.

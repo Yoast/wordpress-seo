@@ -9,7 +9,7 @@ import classNames from "classnames";
  *
  * @param {Object[]} [data=[]] The data to represent.
  * @param {string} [itemScreenReaderText=""] Optional screen reader text for the items. Expected to contain `%d` to be replaced by the item number.
- * @param {string} [ ] Extra classname for the list (ul).
+ * @param {string} [className] Extra classname for the list (ul).
  * @param {Object} listProps Any extra properties are for the list (ul).
  *
  * @returns {React.ReactNode} A <ul> with <li> items.

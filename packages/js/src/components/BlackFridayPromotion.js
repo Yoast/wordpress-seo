@@ -45,7 +45,7 @@ export const BlackFridayPromotion = ( {
 	}
 
 	return (
-		<div>
+		<>
 			<div
 				className={
 					classNames(
@@ -90,7 +90,7 @@ export const BlackFridayPromotion = ( {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

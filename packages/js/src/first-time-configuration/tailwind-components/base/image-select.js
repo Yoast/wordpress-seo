@@ -19,7 +19,7 @@ import Spinner from "./spinner";
  * @param {string} [label=""] Label.
  * @param {function} [onSelectImageClick=noop] Select image handler.
  * @param {function} [onRemoveImageClick=noop] Remove image handler.
- * @param {string} [ ] CSS classnames.
+ * @param {string} [className] CSS classnames.
  * @param {{message: string, isVisible: boolean}} [error] Validation error object.
  * @param {string} [status="idle"] Upload status.
  *

@@ -10,6 +10,7 @@ export const RootContext = createContext( defaultRootContext );
 /**
  * @param {JSX.node} children The React children.
  * @param {{ isRtl: boolean }} context The root context value.
+ * @param {Object} props Additional HTML attributes to pass to the wrapper div (className, id, etc.).
  * @returns {JSX.Element} The Root component.
  */
 const Root = ( { children, context = {}, ...props } ) => {
