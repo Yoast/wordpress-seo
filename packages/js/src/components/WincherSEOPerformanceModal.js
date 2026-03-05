@@ -110,7 +110,7 @@ export default function WincherSEOPerformanceModal( {
 			}
 
 			{ location === "metabox" && (
-				<div>
+				<div className="yst-root">
 					<MetaboxButton
 						id={ `wincher-open-button-${location}` }
 						onClick={ onModalOpen }

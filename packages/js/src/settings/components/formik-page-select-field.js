@@ -12,7 +12,7 @@ import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
  * @param {JSX.node} children The children.
- * @param {string} [className=""] The className.
+ * @param {string} [className] The className.
  * @returns {JSX.Element} The page select options content decorator component.
  */
 const PageSelectOptionsContent = ( { children, className = "" } ) => (

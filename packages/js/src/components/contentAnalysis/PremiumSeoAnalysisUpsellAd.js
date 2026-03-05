@@ -55,7 +55,7 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	};
 
 	return (
-		<>
+		<div className="yst-root">
 			<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
 				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
 					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
@@ -110,6 +110,6 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 				</Button>
 			</div>
-		</>
+		</div>
 	);
 };

@@ -13,7 +13,7 @@ const MAX_INDEXABLE_PAGES = 10;
 
 /**
  * @param {JSX.node} children The children.
- * @param {string} [className=""] The className.
+ * @param {string} [className] The className.
  * @returns {JSX.Element} The indexable page select options content decorator component.
  */
 const IndexablePageSelectOptionsContent = ( { children, className = "" } ) => (

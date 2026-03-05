@@ -16,7 +16,7 @@ let abortController;
 
 /**
  * @param {JSX.node} children The children.
- * @param {string} [className=""] The className.
+ * @param {string} [className] The className.
  * @returns {JSX.Element} The user select options content decorator component.
  */
 const UserSelectOptionsContent = ( { children, className = "" } ) => (
