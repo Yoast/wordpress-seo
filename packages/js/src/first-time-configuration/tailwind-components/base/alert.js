@@ -13,7 +13,7 @@ import AnimateHeight from "react-animate-height";
  *
  * @param {string} [type="info"] The type of the alert.
  * @param {React.ReactNode} children The content of the alert.
- * @param {string} [className] The class name for the alert.
+ * @param {string} [className=""] The class name for the alert.
  * @returns {JSX.Element} The Alert.
  */
 export default function Alert( { type = "info", children, className = "" } ) {
@@ -66,7 +66,7 @@ Alert.propTypes = {
  * @param {number} [expandDuration=400] The expand animation duration.
  * @param {string} [type="info"] The type of the alert.
  * @param {React.ReactNode} children The content of the alert.
- * @param {string} [className] The class name for the alert.
+ * @param {string} [className=""] The class name for the alert.
  *
  * @returns {JSX.Element} An Alert that expands and fades in.
  */

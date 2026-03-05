@@ -10,7 +10,7 @@ import { ModalContext, useModalContext } from "./hooks";
 
 /**
  * @param {JSX.node} children Title text.
- * @param {string} [className] Additional class names.
+ * @param {string} [className=""] Additional class names.
  * @param {string|JSX.Element} [as="h1"] Base component.
  * @param {string} [size] Size of title.
  * @param {Object} [props] Additional props.
@@ -47,7 +47,7 @@ Title.defaultProps = {
 };
 
 /**
- * @param {string} [className] Additional classname for the button.
+ * @param {string} [className=""] Additional classname for the button.
  * @param {function} [onClick] Function that is called when the user clicks the button. Defaults to the onClose function from the context.
  * @param {string} [screenReaderText] The screen reader text. Used when no children are provided.
  * @param {JSX.node} [children] Possible to override the default screen reader text and X icon.
@@ -93,7 +93,7 @@ CloseButton.defaultProps = {
 
 /**
  * @param {JSX.node} children Contents of the modal.
- * @param {string} [className] Additional class names.
+ * @param {string} [className=""] Additional class names.
  * @param {boolean} [hasCloseButton] Whether the modal has a close button.
  * @param {string} [closeButtonScreenReaderText] The screen reader text of the close button. Used when hasCloseButton is true.
  * @param {Object} [props] Additional props.
@@ -136,7 +136,7 @@ export const classNameMap = {
  * @param {boolean} isOpen Whether the modal is open.
  * @param {function} onClose Function that is called when the user wants to close the modal.
  * @param {JSX.node} children Contents of the modal.
- * @param {string} [className] Additional class names.
+ * @param {string} [className=""] Additional class names.
  * @param {string} [position] Modal screen position. See `classNameMap.position` for the options.
  * @param {function|Object|null} [initialFocus] The ref of the element to focus initially.
  * @param {Object} [props] Additional Dialog props.

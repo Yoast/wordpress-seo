@@ -18,7 +18,7 @@ const transformScoreToClass = ( score ) => {
 };
 
 /**
- * @param {string} [className] Extra className.
+ * @param {string} [className=""] Extra className.
  * @param {Number} progress The current progress.
  * @param {Number} max The maximum progress.
  * @param {Number} score The length assessment score; used to determine the color.

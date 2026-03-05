@@ -13,7 +13,7 @@ const classNameMap = {
 /**
  * @param {JSX.Element} [Component] The component to render as.
  * @param {string} [variant] The variant of the link.
- * @param {string} [className] The HTML classes.
+ * @param {string} [className=""] The HTML classes.
  * @param {JSX.node} children The content of the link.
  * @param {Object} [props] The props.
  * @returns {JSX.Element} The link.

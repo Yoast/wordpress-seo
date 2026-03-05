@@ -6,7 +6,7 @@ import { Paper } from "@yoast/ui-library";
  * Renders the upsell notice component.
  *
  * @param {React.ReactNode} children The content of the alert.
- * @param {string} [className] The class name for the alert.
+ * @param {string} [className=""] The class name for the alert.
  * @returns {JSX.Element} The Alert.
  */
 export default function UpsellNotice( { children, className = "" } ) {

@@ -8,7 +8,7 @@ import { useDescribedBy } from "../../hooks";
 /**
  * @param {string} id Identifier.
  * @param {Object} validation The validation state.
- * @param {string} [className] Optional CSS class.
+ * @param {string} [className=""] Optional CSS class.
  * @param {string} label Label.
  * @param {Boolean} [disabled] Disabled state.
  * @param {JSX.node} [description] Optional description.

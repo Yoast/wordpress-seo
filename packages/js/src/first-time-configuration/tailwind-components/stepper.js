@@ -160,7 +160,7 @@ Step.propTypes = {
  *
  * @param {string} id The id for the error.
  * @param {string} message The error message.
- * @param {string} [className] The class name for the error.
+ * @param {string} [className=""] The class name for the error.
  *
  * @returns {JSX.Element} The StepError component.
  */

@@ -86,7 +86,7 @@ const SparksLimitUpsellContent = ( {
 /**
  * The notification component when the user has reached the limit of the AI.
  *
- * @param {string} [className] The class name.
+ * @param {string} [className=""] The class name.
  *
  * @returns {JSX.Element} The element.
  */

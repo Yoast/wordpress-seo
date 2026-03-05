@@ -9,7 +9,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
  * Creates the content for the Wincher reconnect alert.
  *
  * @param {function}  onReconnect Callback to trigger reconnect.
- * @param {string} [className] Optional className for the alert.
+ * @param {string} [className=""] Optional className for the alert.
  *
  * @returns {JSX.Element} The Wincher reconnect alert.
  */

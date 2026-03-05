@@ -33,7 +33,7 @@ const classNameMap = {
  * @param {string} [selectLabel] Label for the select button.
  * @param {string} [replaceLabel] Label for the replace button.
  * @param {string} [removeLabel] Label for the remove button.
- * @param {string} [className] Classname.
+ * @param {string} [className=""] Classname.
  * @returns {JSX.Element} The Formik compatible media select element.
  */
 const FormikMediaSelectField = ( {

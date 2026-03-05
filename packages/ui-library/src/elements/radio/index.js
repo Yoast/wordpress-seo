@@ -20,7 +20,7 @@ const classNameMap = {
  * @param {string} [screenReaderLabel] Screen reader label.
  * @param {string} [variant] Variant.
  * @param {boolean} [disabled] Disabled state.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {boolean} [isLabelDangerousHtml] Whether the label should be dangerously set as HTML.
  * @returns {JSX.Element} Radio component.
  */

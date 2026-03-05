@@ -53,7 +53,7 @@ Option.propTypes = optionPropType;
  * @param {Function} onChange Change callback.
  * @param {boolean} [disabled] Disabled state.
  * @param {Object} [validation] The validation state.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.

@@ -60,7 +60,7 @@ Tag.propTypes = {
 /**
  * @param {string[]} [tags] The tags.
  * @param {JSX.node} [children] Render tags override.
- * @param {string} [className] Extra CSS class.
+ * @param {string} [className=""] Extra CSS class.
  * @param {boolean} [disabled] Whether the input is disabled.
  * @param {function} [onAddTag] Add tag handler.
  * @param {function} [onRemoveTag] Remove tag handler.
