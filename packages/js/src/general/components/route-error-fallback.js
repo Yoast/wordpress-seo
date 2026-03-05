@@ -6,7 +6,7 @@ import { ErrorFallback } from "../../shared-admin/components";
 import { useSelectGeneralPage } from "../hooks";
 
 /**
- * @param {string} [className=""] The class name.
+ * @param {string} [ ] The class name.
  * @returns {React.ReactNode} The element.
  */
 export const RouteErrorFallback = ( { className = "" } ) => {

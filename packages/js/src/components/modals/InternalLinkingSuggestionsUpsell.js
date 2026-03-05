@@ -62,7 +62,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 					title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 					onClick={ openModal }
 				>
-					<div className="yst-root">
+					<div>
 						<Badge size="small" variant="upsell">
 							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
 						</Badge>
@@ -70,7 +70,7 @@ export const InternalLinkingSuggestionsUpsell = () => {
 				</SidebarButton>
 			) }
 			{ isMetabox && (
-				<div className="yst-root">
+				<div>
 					<MetaboxButton
 						id="yoast-internal-linking-suggestions-metabox-modal-open-button"
 						onClick={ openModal }

@@ -60,7 +60,7 @@ AlertItem.propTypes = {
 };
 
 /**
- * @param {string} [className=""] The class name.
+ * @param {string} [ ] The class name.
  * @param {Object[]} [items=[]] The list of items.
  *
  * @returns {JSX.Element} The list component.

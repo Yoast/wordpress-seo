@@ -49,7 +49,7 @@ const KeywordUpsell = () => {
 					prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 					onClick={ openModal }
 				>
-					<div className="yst-root">
+					<div>
 						<Badge size="small" variant="upsell">
 							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
 						</Badge>
@@ -57,7 +57,7 @@ const KeywordUpsell = () => {
 				</SidebarButton>
 			) }
 			{ location === "metabox" && (
-				<div className="yst-root">
+				<div>
 					<MetaboxButton
 						id="yoast-additional-keyphrase-metabox-modal-open-button"
 						onClick={ openModal }

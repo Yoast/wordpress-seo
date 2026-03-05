@@ -45,7 +45,7 @@ export const BlackFridayPromotion = ( {
 	}
 
 	return (
-		<div className="yst-root">
+		<div>
 			<div
 				className={
 					classNames(

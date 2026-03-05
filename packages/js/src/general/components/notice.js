@@ -14,7 +14,7 @@ import { STORE_NAME } from "../constants";
  * @param {string} id The id of the notice.
  * @param {boolean} isDismissable Whether the notice is dismissable.
  * @param {string} children The content of the notice.
- * @param {string} [className=""] The class name to add to the notice.
+ * @param {string} [ ] The class name to add to the notice.
  *
  * @returns {JSX.Element} The Notice.
  */

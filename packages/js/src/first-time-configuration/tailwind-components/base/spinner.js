@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 /**
  * The Spinner component.
- * @param {string} [className=""] Additional CSS class names.
+ * @param {string} [ ] Additional CSS class names.
  * @returns {JSX.Element} The Spinner.
  */
 const Spinner = ( { className = "" } ) => {

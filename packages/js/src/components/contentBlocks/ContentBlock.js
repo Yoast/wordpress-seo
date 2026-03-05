@@ -62,7 +62,7 @@ export const ContentBlock = ( { blockTitle, blockName, isPremiumBlock, hasNewBad
 							location={ location }
 						/>
 						{ showUpsellBadge &&
-							<div className="yst-root">
+							<div>
 								<Badge className="yst-absolute yst-p-0.5 yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
 									<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
 								</Badge>

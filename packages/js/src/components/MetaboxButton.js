@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 /**
  * Text for in the MetaboxButton.
  *
- * @param {string} [className=""] Extra classes.
+ * @param {string} [ ] Extra classes.
  * @param {...Object} [props] Extra props.
  *
  * @returns {JSX.Element} The element.
@@ -29,7 +29,7 @@ MetaboxButtonText.propTypes = {
  *
  * Expects a `yst-root` parent and the Tailwind stylesheet loaded in.
  *
- * @param {string} [className=""] Extra classes.
+ * @param {string} [ ] Extra classes.
  * @param {...Object} [props] Extra props.
  *
  * @returns {JSX.Element} The element.

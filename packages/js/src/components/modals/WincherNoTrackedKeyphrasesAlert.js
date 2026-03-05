@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /**
  * Creates the content for the Wincher currently tracking alert in the Track SEO Performance modal.
  *
- * @param {string} [className=""] Optional className for the alert.
+ * @param {string} [ ] Optional className for the alert.
  *
  * @returns {JSX.Element} The Wincher currently tracking alert.
  */

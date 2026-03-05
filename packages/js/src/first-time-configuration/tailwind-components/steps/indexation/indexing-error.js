@@ -63,7 +63,7 @@ ErrorBox.propTypes = {
  *
  * @param {string} message The error message to show.
  * @param {Error|RequestError|ParseError} error The error itself.
- * @param {string} [className=""] Optional class name.
+ * @param {string} [ ] Optional class name.
  * @returns {JSX.Element} The indexation error component.
  */
 export default function IndexingError( { message, error, className = "" } ) {

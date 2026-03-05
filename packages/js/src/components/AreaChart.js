@@ -15,7 +15,7 @@ import AreaChartTable from "./AreaChartTable";
  * @param {?string} [fillColor=null] The SVG chart area background color in HEX format.
  * @param {string} [strokeColor="#000000"] The SVG chart line color in HEX format.
  * @param {number} [strokeWidth=1] The SVG chart line width.
- * @param {string} [className=""] The CSS class name for the chart.
+ * @param {string} [ ] The CSS class name for the chart.
  * @param {function|null} [mapChartDataToTableData=null] Function to adapt the chart points to meaningful data for the table.
  * @param {string} dataTableCaption The data table caption text.
  * @param {Array} dataTableHeaderLabels The text to be used for the data table headers.

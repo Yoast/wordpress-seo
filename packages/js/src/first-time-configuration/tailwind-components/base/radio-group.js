@@ -24,7 +24,7 @@ const classNameMap = {
  * @param {string|number} value Value.
  * @param {string} label Label.
  * @param {string} [variant="default"] Variant.
- * @param {string} [className=""] CSS class.
+ * @param {string} [ ] CSS class.
  * @param {...Object} [props] Additional properties.
  * @returns {JSX.Element} Radio element.
  */
@@ -70,7 +70,7 @@ Radio.propTypes = {
 /**
  * @param {React.ReactNode} children Content of the Label.
  * @param {string|function} [as="label"] Base component.
- * @param {string} [className=""] CSS class.
+ * @param {string} [ ] CSS class.
  * @returns {JSX.Element} Label component.
  */
 const Label = ( {
@@ -102,7 +102,7 @@ Label.propTypes = {
  * @param {{value: string|number, label: string}[]} options Options to choose from.
  * @param {function}  onChange Change handler.
  * @param {string} [variant="default"] Variant.
- * @param {string} [className=""] CSS class.
+ * @param {string} [ ] CSS class.
  * @param {...Object} [props] Additional properties.
  * @returns {JSX.Element} RadioGroup component.
  */
