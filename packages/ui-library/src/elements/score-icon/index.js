@@ -8,7 +8,7 @@ import useSvgAria from "../../hooks/use-svg-aria";
  *
  * @param {string} score The score to display, can be "good", "bad", or "ok".
  * @param {boolean} [isEmoji=true] A flag to indicate if the score should be displayed as an emoji.
- * @param {string} [className=""] A class name to apply to the icon component.
+ * @param {string} [className] A class name to apply to the icon component.
  * @returns {JSX.Element} The ScoreIcon component.
  */
 const ScoreIcon = ( { score, isEmoji = true, className } ) => {

@@ -16,7 +16,7 @@ export const RootContext = createContext( defaultRootContext );
 const Root = ( { children, context = {}, ...props } ) => {
 	return (
 		<RootContext.Provider value={ { ...defaultRootContext, ...context } }>
-			<div { ...props }>
+			<div className="yst-root" { ...props }>
 				{ children }
 			</div>
 		</RootContext.Provider>

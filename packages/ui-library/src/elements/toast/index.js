@@ -23,7 +23,6 @@ export const toastClassNameMap = {
 
 /**
  * @param {string} dismissScreenReaderLabel The screen reader label for the dismiss button.
- * @param {string} [className=""] The additional class name.
  * @returns {JSX.Element} The close button.
  */
 const Close = ( {
