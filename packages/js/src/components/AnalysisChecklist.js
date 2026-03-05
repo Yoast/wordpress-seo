@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment } from "@wordpress/element";
 import { Button, Root } from "@yoast/ui-library";
 
 import AnalysisCheck from "./AnalysisCheck";
@@ -16,11 +15,11 @@ export default function AnalysisChecklist( {
 } ) {
 	const perfectScore = checklist.every( item => item.score === "good" );
 
-	return <Fragment>
+	return <div aria-live="polite" aria-relevant="additions text">
 		{ checklist.map( item => <AnalysisCheck key={ item.label } { ...item } /> ) }
 		<br />
 		{ ! perfectScore && <Root><Button variant="secondary" size="small" onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button></Root> }
-	</Fragment>;
+	</div>;
 }
 
 AnalysisChecklist.propTypes = {

@@ -5,6 +5,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { __ } from "@wordpress/i18n";
 import { Component, Fragment } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
+import { speak } from "@wordpress/a11y";
 
 import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
@@ -58,9 +59,14 @@ class Results extends Component {
 	 */
 	componentDidUpdate( prevProps ) {
 		if ( this.props.results !== null && this.props.results !== prevProps.results ) {
+			const mapped = mapResults( this.props.results, this.props.keywordKey );
 			this.setState( {
-				mappedResults: mapResults( this.props.results, this.props.keywordKey ),
+				mappedResults: mapped,
 			} );
+			speak(
+				`${ mapped.problemsResults.length } problems, ${ mapped.improvementsResults.length } improvements, ${ mapped.goodResults.length } good results`,
+				"polite"
+			);
 		}
 	}
 
