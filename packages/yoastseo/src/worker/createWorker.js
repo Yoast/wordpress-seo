@@ -89,6 +89,12 @@ function createWorkerFallback( url ) {
  * @returns 	{Worker} 					The worker.
  */
 function createWorker( url ) {
+	// When cross-origin isolation is active (e.g. WP 7.0+ block editor with COEP/COOP headers),
+	// blob URL workers have an opaque origin and importScripts() fails. Use the URL directly.
+	if ( window.crossOriginIsolated ) {
+		return new Worker( url );
+	}
+
 	// If we are not on the same domain, or we are editing a post in the Web Stories plug-in integration, we require a fallback worker.
 	if ( ! isSameOrigin( window.location, url ) || ( window.wpseoAdminL10n && window.wpseoAdminL10n.isWebStoriesIntegrationActive === "1" ) ) {
 		return createWorkerFallback( url );
