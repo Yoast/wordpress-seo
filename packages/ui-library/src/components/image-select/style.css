@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root { 
+	 
 		.yst-image-select-preview {
 			@apply
 			yst-flex
@@ -37,5 +37,4 @@
 			@apply
 			yst-blur-sm
 			yst-opacity-70;
-		}
-	} }
+		} }

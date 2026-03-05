@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-paper {
 			@apply yst-flex yst-flex-col yst-rounded-lg yst-bg-white yst-shadow;
 		}
@@ -11,5 +11,4 @@
 		.yst-paper__content {
 			@apply yst-flex-grow yst-p-8;
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-file-input {
 			@apply
 			yst-w-full
@@ -79,5 +79,4 @@
 		.yst-file-input__select-label {
 			@apply yst-rounded-md yst-font-medium;
 		}
-	}
 }

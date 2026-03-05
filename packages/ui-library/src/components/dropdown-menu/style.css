@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-dropdown-menu__icon-trigger {
 			@apply 
 			yst-text-slate-400
@@ -32,5 +32,4 @@
 			yst-bg-white
 			focus-visible:yst-outline-none;
 		}
-	}
 }

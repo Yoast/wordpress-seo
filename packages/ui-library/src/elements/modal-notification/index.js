@@ -156,10 +156,8 @@ const ModalNotification = ( {
 } ) => {
 	const dialog = (
 		<Transition.Root show={ isOpen } as={ Fragment }>
-			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
 			<Dialog
 				as="div"
-				className="yst-root"
 				onClose={ onClose }
 				initialFocus={ initialFocus }
 				{ ...restProps }

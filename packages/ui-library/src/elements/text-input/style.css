@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-text-input {
 			@apply
 			yst-w-full
@@ -34,5 +34,4 @@
 			yst-bg-slate-50
 			yst-cursor-default;
 		}
-	}
 }

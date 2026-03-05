@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-code {
 			@apply
 			yst-inline-block
@@ -22,5 +22,4 @@
 			yst-max-w-full
 			yst-overflow-x-auto;
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-badge {
 			@apply
 			yst-inline-flex
@@ -65,5 +65,4 @@
 			yst-px-3
 			yst-text-base;
 		}
-	}
 }

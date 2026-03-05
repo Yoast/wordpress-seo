@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 
 		.yst-notifications {
 			max-width: calc(100vw - 4rem); /* 100vw - top and left of 2rem = 4rem. */
@@ -26,5 +26,4 @@
 		.yst-notification__icon {
 			@apply yst-w-5 yst-h-5;
 		}
-	}
 }

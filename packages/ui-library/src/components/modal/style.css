@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-modal {
 			@apply yst-fixed yst-inset-0 yst-z-10 yst-p-4 sm:yst-p-8 md:yst-p-20;
 		}
@@ -72,5 +72,4 @@
 			/* Workaround the panel padding to have the scrollbar at the edge. */
 			@apply yst--mx-6 yst-px-6;
 		}
-	}
 }

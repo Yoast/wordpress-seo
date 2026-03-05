@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-select-field {}
 
 		.yst-select-field--disabled {
@@ -23,5 +23,4 @@
 		.yst-select-field__validation {
 			@apply yst-mt-2;
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-autocomplete-field--disabled {
 			.yst-autocomplete-field__label,
 			.yst-autocomplete-field__description {
@@ -18,5 +18,4 @@
 		.yst-autocomplete-field__validation {
 			@apply yst-mt-2;
 		}
-	}
 }

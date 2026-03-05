@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 
 		.yst-stepper {
 			@apply yst-relative yst-flex yst-justify-between yst-items-center;
@@ -52,5 +52,4 @@
 				@apply yst-bg-primary-500 yst-text-white yst-ring-primary-500 yst-transition-none yst-delay-0;
 			}
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-tooltip-container {
 			@apply yst-relative;
 		}
@@ -15,5 +15,4 @@
 			focus-visible:yst-bg-white
 			focus-visible:yst-border-opacity-0;
 		}
-	}
 }

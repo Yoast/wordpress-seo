@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-autocomplete {
 			@apply yst-relative;
 		}
@@ -138,5 +138,4 @@
 			yst-text-white
 			yst-shrink-0;
 		}
-	}
 }

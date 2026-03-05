@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-skeleton-loader {
 			@apply
 			yst-block
@@ -30,5 +30,4 @@
 				}
 			}
 		}
-	}
 }

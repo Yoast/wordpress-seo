@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-title {
 			@apply yst-text-slate-900 yst-font-medium yst-leading-tight;
 		}
@@ -23,5 +23,4 @@
 		.yst-title--5 {
 			@apply yst-text-sm;
 		}
-	}
 }

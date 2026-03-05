@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 
 		.yst-toast {
 			@apply
@@ -20,5 +20,4 @@
 		.yst-toast--large {
 			@apply yst-w-96;
 		}
-	}
 }

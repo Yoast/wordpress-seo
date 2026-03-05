@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-textarea {
 			@apply
 			yst-w-full
@@ -25,5 +25,4 @@
 			yst-cursor-not-allowed
 			focus:yst-ring-0;
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-toggle-field {
 			@apply
 			yst-flex
@@ -35,5 +35,4 @@
 		.yst-toggle-field__description {
 			@apply yst-me-[4.25rem];
 		}
-	}
 }

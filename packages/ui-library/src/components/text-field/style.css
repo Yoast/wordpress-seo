@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-text-field--disabled {
 			.yst-text-field__label,
 			.yst-text-field__description {
@@ -24,5 +24,4 @@
 		.yst-text-field__validation {
 			@apply yst-mt-2;
 		}
-	}
 }

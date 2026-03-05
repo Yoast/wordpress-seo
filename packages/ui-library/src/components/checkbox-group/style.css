@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-checkbox-group {}
 
 		.yst-checkbox-group--disabled {
@@ -23,5 +23,4 @@
 		.yst-checkbox-group__description {
 			@apply -yst-mt-2 yst-mb-4;
 		}
-	}
 }

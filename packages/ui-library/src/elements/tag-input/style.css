@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-tag-input {
 			@apply
 			yst-flex
@@ -99,5 +99,4 @@
 			focus:yst-outline-none
 			focus:yst-ring-0;
 		}
-	}
 }

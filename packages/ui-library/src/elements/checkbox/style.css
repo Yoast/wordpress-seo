@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-checkbox {
 			@apply
 			yst-flex
@@ -27,5 +27,4 @@
 		.yst-checkbox__label {
 			@apply yst-ms-3;
 		}
-	}
 }

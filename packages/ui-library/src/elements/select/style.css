@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-select {
 			@apply yst-relative;
 		}
@@ -92,5 +92,4 @@
 			yst-text-white
 			yst-shrink-0;
 		}
-	}
 }

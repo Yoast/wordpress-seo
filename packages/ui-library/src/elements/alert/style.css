@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-alert {
 			@apply
 			yst-flex
@@ -49,5 +49,4 @@
 			yst-h-5
 			yst-w-5;
 		}
-	}
 }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-progress-bar {
 			@apply yst-block yst-w-full yst-bg-slate-200 yst-rounded-full yst-overflow-hidden;
 		}
@@ -15,5 +15,4 @@
 			yst-ease-linear
 			yst-duration-200;
 		}
-	}
 }

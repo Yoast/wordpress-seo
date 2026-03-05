@@ -153,11 +153,9 @@ const Modal = forwardRef( ( {
 }, ref ) => (
 	<ModalContext.Provider value={ { isOpen, onClose, initialFocus } }>
 		<Transition.Root show={ isOpen } as={ Fragment }>
-			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
 			<Dialog
 				as="div"
 				ref={ ref }
-				className="yst-root"
 				open={ isOpen }
 				onClose={ onClose }
 				initialFocus={ initialFocus }

@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-radio-group--inline-block {
 
 			.yst-radio-group__options {
@@ -36,5 +36,4 @@
 		.yst-radio-group__description {
 			@apply -yst-mt-2 yst-mb-4;
 		}
-	}
 }

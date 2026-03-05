@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 
 		/* Validation icon */
 
@@ -106,5 +106,4 @@
 		.yst-validation-message--error {
 			@apply yst-text-red-600;
 		}
-	}
 }

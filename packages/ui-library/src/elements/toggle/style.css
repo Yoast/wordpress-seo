@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-toggle {
 			@apply
 			yst-relative
@@ -80,5 +80,4 @@
 		.yst-toggle__icon--x {
 			@apply yst-text-slate-500;
 		}
-	}
 }

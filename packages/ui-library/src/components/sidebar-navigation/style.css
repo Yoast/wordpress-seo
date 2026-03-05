@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-mobile-navigation__top {
 			@apply yst-sticky yst-top-0 yst-w-full yst-z-50;
 		}
@@ -109,5 +109,4 @@
 		.yst-sidebar-navigation__icon {
 			@apply yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500;
 		}
-	}
 }

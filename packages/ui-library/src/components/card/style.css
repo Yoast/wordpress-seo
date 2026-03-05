@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-card {
 			@apply
 			yst-relative
@@ -38,5 +38,4 @@
 			yst-border-gray-200
 			yst-pt-6
 		}
-	}
 }

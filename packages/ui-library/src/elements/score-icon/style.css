@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-bad-score {
 			color: #dc3232;
 		}
@@ -12,5 +12,4 @@
 		.yst-score-icon {
 			@apply yst-w-4 yst-h-4 yst-shrink-0;
 		}
-	}
 }

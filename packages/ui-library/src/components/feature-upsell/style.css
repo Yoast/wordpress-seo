@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-feature-upsell {
 			@apply yst-relative;
 		}
@@ -11,5 +11,4 @@
 		.yst-feature-upsell--card {
 			@apply yst-p-6;
 		}
-	}
 }

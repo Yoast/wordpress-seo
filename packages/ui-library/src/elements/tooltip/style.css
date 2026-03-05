@@ -1,5 +1,5 @@
 @layer components {
-	.yst-root {
+	
 		.yst-tooltip {
 			@apply yst-absolute
 			yst-z-10
@@ -196,5 +196,4 @@
 				after:yst-border-s-white;
 			}
 		}
-	}
 }
