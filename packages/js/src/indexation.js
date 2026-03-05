@@ -2,12 +2,14 @@ import { createRoot } from "@wordpress/element";
 import jQuery from "jquery";
 
 import Indexation from "./components/Indexation";
+import { doAjaxRequest } from "./helpers/ajaxHelper";
 
 window.yoast = window.yoast || {};
 window.yoast.indexing = window.yoast.indexing || {};
 
 window.yoast.indexing.preIndexingActions = {};
 window.yoast.indexing.indexingActions = {};
+window.yoast.indexing.helpers = { doAjaxRequest };
 
 let root;
 
