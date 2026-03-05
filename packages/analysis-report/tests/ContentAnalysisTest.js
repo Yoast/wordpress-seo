@@ -1,6 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
 import ContentAnalysis from "../src/ContentAnalysis.js";
+
+expect.extend( toHaveNoViolations );
 
 const problemsResults = [
 	{
@@ -235,5 +239,18 @@ describe( "ContentAnalysis", () => {
 
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "has no accessibility violations", async() => {
+		const { container } = render(
+			<ContentAnalysis
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				goodResults={ goodResults }
+				considerationsResults={ considerationsResults }
+				errorsResults={ errorsResults }
+			/>
+		);
+		expect( await axe( container ) ).toHaveNoViolations();
 	} );
 } );
