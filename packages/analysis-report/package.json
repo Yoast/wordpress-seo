@@ -23,8 +23,10 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "@wordpress/i18n": "^5.8.2",
     "@yoast/components": "^3.0.0-alpha.3",
+    "@yoast/ui-library": "^4.4.0",
     "@yoast/helpers": "^0.17.0-alpha.2",
     "@yoast/style-guide": "^0.14.0-alpha.1",
     "lodash": "^4.17.21",

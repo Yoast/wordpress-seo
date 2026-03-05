@@ -1,5 +1,7 @@
-import { BetaBadge, IconButtonToggle, IconCTAEditButton, SvgIcon } from "@yoast/components";
+import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
+import { Button } from "@yoast/ui-library";
+import { EyeIcon, PencilIcon } from "@heroicons/react/solid";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
@@ -69,15 +71,18 @@ const createMarkButton = ( {
 	onClick,
 	isPressed,
 } ) => {
-	return <IconButtonToggle
-		marksButtonStatus={ status }
+	return <Button
+		variant="secondary"
+		size="small"
+		disabled={ status === "disabled" }
 		className={ className }
 		onClick={ onClick }
 		id={ id }
-		icon="eye"
-		pressed={ isPressed }
-		ariaLabel={ ariaLabel }
-	/>;
+		aria-pressed={ isPressed }
+		aria-label={ ariaLabel }
+	>
+		<EyeIcon className="yst-w-[18px] yst-h-[18px]" />
+	</Button>;
 };
 
 /**
@@ -185,13 +190,16 @@ const AnalysisResult = ( {
 				{ renderHighlightingUpsell( isOpen, closeModal ) }
 				{
 					hasEditButton && isPremium &&
-					<IconCTAEditButton
+					<Button
+						variant="secondary"
+						size="small"
 						className={ editButtonClassName }
 						onClick={ onButtonClickEdit }
 						id={ buttonIdEdit }
-						icon="edit"
-						ariaLabel={ ariaLabelEdit }
-					/>
+						aria-label={ ariaLabelEdit }
+					>
+						<PencilIcon className="yst-w-[18px] yst-h-[18px]" />
+					</Button>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
