@@ -13,7 +13,7 @@ import { CheckIcon } from "@heroicons/react/solid";
  */
 export function InstallationSuccessPage() {
 	return (
-		<div className="yst-root yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center">
+		<div className="yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center">
 			<div className="yst-bg-green-200 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-0 yst-flex yst-items-center yst-justify-center">
 				<CheckIcon className="yst-w-8 yst-text-green-600" />
 			</div>
