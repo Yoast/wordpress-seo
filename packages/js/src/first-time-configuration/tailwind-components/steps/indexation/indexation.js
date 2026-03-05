@@ -133,12 +133,22 @@ class Indexation extends Component {
 	 */
 	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.indexing_endpoints[ endpoint ];
+		let previousUrl = null;
+		let previousFirstObjectId = null;
 
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
 				await this.doPreIndexingAction( endpoint );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
+
+				// Detect infinite loop: same URL and same first object means the server is stuck.
+				const currentFirstObjectId = response.objects.length > 0 ? response.objects[ 0 ].object_id : null;
+				if ( url === response.next_url && currentFirstObjectId === previousFirstObjectId && previousFirstObjectId !== null ) {
+					throw new Error( "Indexing loop detected: server returned the same batch twice." );
+				}
+				previousUrl = url;
+				previousFirstObjectId = currentFirstObjectId;
 
 				flushSync( () => {
 					this.setState( previousState => (
