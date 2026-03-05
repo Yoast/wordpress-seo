@@ -45,7 +45,7 @@ const LoadingProgressBar = ( { className, label, size } ) => (
 		<TasksProgressBarLabel label={ label } size={ size }>
 			<SkeletonLoader className="yst-w-9 yst-h-5" />
 		</TasksProgressBarLabel>
-		<SkeletonLoader className="yst-w-full yst-h-1.5" />
+		<SkeletonLoader className="yst-w-full yst-h-2" />
 	</div>
 );
 
@@ -63,7 +63,7 @@ const ErrorProgressBar = ( { className, label, size } ) => (
 		<TasksProgressBarLabel label={ label } size={ size }>
 			<span className="yst-w-9 yst-h-5 yst-bg-slate-200 yst-rounded" />
 		</TasksProgressBarLabel>
-		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded" />
+		<div className="yst-w-full yst-h-2 yst-bg-slate-200 yst-rounded" />
 	</div>
 );
 
@@ -105,8 +105,8 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 				progress={ completedTasks }
 				min={ 0 }
 				max={ totalTasks }
-				className="yst-h-1.5"
-				progressClassName="yst-bg-green-500"
+				className="yst-h-2"
+				progressClassName="yst-bg-green-500 yst-h-2"
 			/>
 			<span className="yst-sr-only">{ screenReaderText }</span>
 		</div>
