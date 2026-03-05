@@ -46,6 +46,7 @@ const SidebarCollapsible = ( {
 				className="components-button components-panel__body-toggle"
 				type="button"
 				id={ buttonId }
+				aria-expanded={ isOpen }
 			>
 				<span
 					className="yoast-icon-span"

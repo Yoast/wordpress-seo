@@ -13,13 +13,16 @@ describe( "SidebarCollapsible", () => {
 		fireEvent.click( button );
 		const innerDiv = container.querySelector( "#inner-div" );
 		expect( innerDiv ).toBeInTheDocument();
+		expect( button ).toHaveAttribute( "aria-expanded", "true" );
 		expect( container ).toMatchSnapshot();
 	} );
 
 	it( "is closed", async() => {
 		const { container } = render( <SidebarCollapsible { ...defaultArgs } /> );
+		const button = screen.getByRole( "button" );
 		const innerDiv = container.querySelector( "#inner-div" );
 		expect( innerDiv ).not.toBeInTheDocument();
+		expect( button ).toHaveAttribute( "aria-expanded", "false" );
 		expect( container ).toMatchSnapshot();
 	} );
 
