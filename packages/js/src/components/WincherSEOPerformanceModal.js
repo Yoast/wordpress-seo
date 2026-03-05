@@ -110,7 +110,7 @@ export default function WincherSEOPerformanceModal( {
 			}
 
 			{ location === "metabox" && (
-				<div className="yst-root">
+				<>
 					<MetaboxButton
 						id={ `wincher-open-button-${location}` }
 						onClick={ onModalOpen }
@@ -118,7 +118,7 @@ export default function WincherSEOPerformanceModal( {
 						<MetaboxButton.Text>{ title }</MetaboxButton.Text>
 						<ChartBarIcon className="yst-h-5 yst-w-5 yst-text-slate-500" { ...svgAriaProps } />
 					</MetaboxButton>
-				</div>
+				</>
 			) }
 		</Fragment>
 	);
