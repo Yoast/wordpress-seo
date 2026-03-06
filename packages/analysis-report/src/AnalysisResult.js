@@ -74,15 +74,14 @@ const createMarkButton = ( {
 	return <Button
 		variant="secondary"
 		size="small"
-		disabled={ status === "disabled" }
+		icon={ EyeIcon }
 		className={ className }
 		onClick={ onClick }
 		id={ id }
+		disabled={ status === "disabled" }
 		aria-pressed={ isPressed }
 		aria-label={ ariaLabel }
-	>
-		<EyeIcon className="yst-w-[18px] yst-h-[18px]" />
-	</Button>;
+	/>;
 };
 
 /**
@@ -193,13 +192,12 @@ const AnalysisResult = ( {
 					<Button
 						variant="secondary"
 						size="small"
+						icon={ PencilIcon }
 						className={ editButtonClassName }
 						onClick={ onButtonClickEdit }
 						id={ buttonIdEdit }
 						aria-label={ ariaLabelEdit }
-					>
-						<PencilIcon className="yst-w-[18px] yst-h-[18px]" />
-					</Button>
+					/>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
