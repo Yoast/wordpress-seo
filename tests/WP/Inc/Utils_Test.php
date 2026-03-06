@@ -184,12 +184,12 @@ final class Utils_Test extends TestCase {
 	public static function sanitize_url_provider() {
 		return [
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099.
-			'with_at_sign_in_url_path'       => [
+			'with_at_sign_in_url_path' => [
 				'expected'        => 'https://example.org/test1/@test2',
 				'url_to_sanitize' => 'https://example.org/test1/@test2',
 			],
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/14476.
-			'with_encoded_url'               => [
+			'with_encoded_url' => [
 				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
 				'url_to_sanitize' => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
 			],
@@ -198,44 +198,44 @@ final class Utils_Test extends TestCase {
 				'url_to_sanitize' => 'https://example.com/گروه-تلگرام-سئو',
 			],
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/7664.
-			'invalid_url'                    => [
+			'invalid_url' => [
 				'expected'        => '',
 				'url_to_sanitize' => 'WordPress',
 			],
-			'only_absolute_path'             => [
+			'only_absolute_path' => [
 				'expected'        => '/images/user-defined.png',
 				'url_to_sanitize' => '/images/user-defined.png',
 			],
-			'with_non_encoded_url'           => [
+			'with_non_encoded_url' => [
 				'expected'        => 'https://example.org/this-is-a-page',
 				'url_to_sanitize' => 'https://example.org/this-is-a-page',
 			],
-			'with_html_in_url'               => [
+			'with_html_in_url' => [
 				'expected'        => 'https://example.org/this-is-a-page',
 				'url_to_sanitize' => 'https://example.org/this-<strong>is-a-</strong>page',
 			],
-			'with_all_components_in_url'     => [
+			'with_all_components_in_url' => [
 				'expected'        => 'http://user:pass@example.com:8080/subdir/test1?mod%c3%a8le=num%c3%a9rique#compl%c3%a8tement',
 				'url_to_sanitize' => 'http://user:pass@example.com:8080/subdir/test1?modèle=numérique#complètement',
 			],
-			'with_invalid_utf8_in_url'       => [
+			'with_invalid_utf8_in_url' => [
 				'expected'        => 'https://example.com/',
 				'url_to_sanitize' => 'https://example.com/%e2%28%a1-aaaaaa',
 			],
-			'with_reserved_chars_in_url'     => [
+			'with_reserved_chars_in_url' => [
 				'expected'        => 'https://www.example.com/%c2%a9-2020/?email=test%40example.com&%c3%a2lt=%c2%a9%c3%b2d%c3%abs',
 				'url_to_sanitize' => 'https://www.example.com/©-2020/?email=test@example.com&âlt=©òdës',
 			],
-			'with_ipv6_in_url'               => [
+			'with_ipv6_in_url' => [
 				'expected'        => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
 				'url_to_sanitize' => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
 			],
-			'html_injection'                 => [
+			'html_injection' => [
 				'expected'        => 'https://onafterprintconsole.log0',
 				'url_to_sanitize' => 'https://" onafterprint="console.log(0)',
 			],
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/22903.
-			'with_non_encoded_chinese_url'   => [
+			'with_non_encoded_chinese_url' => [
 				'expected'        => 'https://example.com/%e4%b8%ad%e6%96%87%e8%b7%af%e5%be%84',
 				'url_to_sanitize' => 'https://example.com/中文路径',
 			],

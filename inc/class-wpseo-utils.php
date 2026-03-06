@@ -189,7 +189,7 @@ class WPSEO_Utils {
 			static function ( $matches ) {
 				return rawurlencode( $matches[0] );
 			},
-			$value
+			$value,
 		);
 
 		$url   = '';
