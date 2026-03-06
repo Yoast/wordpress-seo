@@ -87,15 +87,14 @@ class Results extends Component {
 			<Button
 				variant="secondary"
 				size="small"
-				disabled={ status === "disabled" }
+				icon={ EyeIcon }
 				className={ className }
 				onClick={ onClick }
 				id={ id }
+				disabled={ status === "disabled" }
 				aria-pressed={ isPressed }
 				aria-label={ ariaLabel }
-			>
-				<EyeIcon className="yst-w-[18px] yst-h-[18px]" />
-			</Button>
+			/>
 			{ this.props.shouldUpsellHighlighting &&
 				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
 					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
