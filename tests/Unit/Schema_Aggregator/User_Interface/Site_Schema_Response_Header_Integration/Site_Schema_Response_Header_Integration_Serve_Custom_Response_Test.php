@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Schema_Aggregator\User_Interface\Site_Schema_R
 
 use Generator;
 use Mockery;
+use stdClass;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -50,7 +51,7 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 * @return void
 	 */
 	public function test_returns_cast_served_for_non_rest_request( $served, $expected ) {
-		$request = new \stdClass();
+		$request = new stdClass();
 		$result  = Mockery::mock( WP_REST_Response::class );
 
 		$this->assertSame( $expected, $this->instance->serve_custom_response( $served, $result, $request ) );
@@ -88,7 +89,7 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 */
 	public function test_returns_cast_served_for_non_rest_response( $served, $expected ) {
 		$request = Mockery::mock( WP_REST_Request::class );
-		$result  = new \stdClass();
+		$result  = new stdClass();
 
 		$request->expects( 'get_route' )->andReturn( '/yoast/v1/schema-aggregator/schema' );
 
