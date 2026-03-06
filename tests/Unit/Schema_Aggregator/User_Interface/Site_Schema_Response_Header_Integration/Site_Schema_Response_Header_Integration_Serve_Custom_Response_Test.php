@@ -33,7 +33,7 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 */
 	public function test_returns_cast_served_for_non_matching_route( $served, $route, $expected ) {
 		$request  = Mockery::mock( WP_REST_Request::class );
-		$response = Mockery::mock( WP_REST_Response::class );
+		$response = new stdClass();
 
 		$request->expects( 'get_route' )->andReturn( $route );
 
@@ -52,7 +52,7 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 */
 	public function test_returns_cast_served_for_non_rest_request( $served, $expected ) {
 		$request = new stdClass();
-		$result  = Mockery::mock( WP_REST_Response::class );
+		$result  = new stdClass();
 
 		$this->assertSame( $expected, $this->instance->serve_custom_response( $served, $result, $request ) );
 	}
@@ -68,11 +68,15 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 * @return void
 	 */
 	public function test_returns_cast_served_for_error_response( $served, $expected ) {
-		$request  = Mockery::mock( WP_REST_Request::class );
-		$response = Mockery::mock( WP_REST_Response::class );
+		$request = Mockery::mock( WP_REST_Request::class );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class )
+			->expects( 'is_error' )
+			->andReturn( true );
+
+		$response = new WP_REST_Response();
 
 		$request->expects( 'get_route' )->andReturn( '/yoast/v1/schema-aggregator/schema' );
-		$response->expects( 'is_error' )->andReturn( true );
 
 		$this->assertSame( $expected, $this->instance->serve_custom_response( $served, $response, $request ) );
 	}
@@ -106,11 +110,15 @@ final class Site_Schema_Response_Header_Integration_Serve_Custom_Response_Test e
 	 * @return void
 	 */
 	public function test_returns_true_for_valid_matching_request( $served ) {
-		$request  = Mockery::mock( WP_REST_Request::class );
-		$response = Mockery::mock( WP_REST_Response::class );
+		$request = Mockery::mock( WP_REST_Request::class );
+
+		Mockery::mock( 'overload:' . WP_REST_Response::class )
+			->expects( 'is_error' )
+			->andReturn( false );
+
+		$response = new WP_REST_Response();
 
 		$request->expects( 'get_route' )->andReturn( '/yoast/v1/schema-aggregator/schema' );
-		$response->expects( 'is_error' )->andReturn( false );
 
 		$this->schema_map_header_adapter
 			->expects( 'set_header_for_request' )
