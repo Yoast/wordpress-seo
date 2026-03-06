@@ -234,6 +234,15 @@ final class Utils_Test extends TestCase {
 				'expected'        => 'https://onafterprintconsole.log0',
 				'url_to_sanitize' => 'https://" onafterprint="console.log(0)',
 			],
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/22903.
+			'with_non_encoded_chinese_url'   => [
+				'expected'        => 'https://example.com/%e4%b8%ad%e6%96%87%e8%b7%af%e5%be%84',
+				'url_to_sanitize' => 'https://example.com/中文路径',
+			],
+			'with_mixed_encoded_and_unencoded_non_latin_url' => [
+				'expected'        => 'https://example.com/%d0%bf%d1%83%d1%82%d1%8c/%da%af%d8%b1%d9%88%d9%87',
+				'url_to_sanitize' => 'https://example.com/путь/%da%af%d8%b1%d9%88%d9%87',
+			],
 		];
 	}
 }
