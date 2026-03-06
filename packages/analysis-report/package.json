@@ -41,7 +41,9 @@
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
+    "@testing-library/react": "^14.0.0",
     "jest": "^27.5.1",
+    "jest-axe": "^10.0.0",
     "jest-styled-components": "^7.0.8",
     "react-test-renderer": "^18.2.0"
   },
