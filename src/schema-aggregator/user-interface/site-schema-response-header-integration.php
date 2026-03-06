@@ -58,12 +58,12 @@ class Site_Schema_Response_Header_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore ignore this since its needs to rely on headers being sent. Which does not work in integration tests.
 	 */
 	public function serve_custom_response( $served, $result, $request ): bool {
-		if ( \strpos( $request->get_route(), '/yoast/v1/schema-aggregator' ) !== 0 ) {
-			return $served;
+		if ( ! $request instanceof WP_REST_Request || \strpos( $request->get_route(), '/yoast/v1/schema-aggregator' ) !== 0 ) {
+			return (bool) $served;
 		}
 
 		if ( ! $result instanceof WP_REST_Response || $result->is_error() ) {
-			return $served;
+			return (bool) $served;
 		}
 
 		$this->schema_map_header_adapter->set_header_for_request( $result );
