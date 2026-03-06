@@ -413,7 +413,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_submenu_page' )
 			->with(
-				'',
+				'options.php',
 				'Installation Successful',
 				'',
 				'manage_options',
