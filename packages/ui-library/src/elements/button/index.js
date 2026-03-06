@@ -67,7 +67,7 @@ const Button = forwardRef( ( {
 	>
 		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading"  { ...svgAriaProps } /> }
 		{ variant.startsWith( "ai-" ) && <SparklesIcon className="yst-button--sparkles-icon yst-shrink-0" { ...svgAriaProps } /> }
-		{ Icon && <Icon className="yst-button--icon" { ...svgAriaProps } /> }
+		{ Icon && <Icon className={ size === "small" ? "yst-w-4 yst-h-4" : "yst-w-5 yst-h-5" } { ...svgAriaProps } /> }
 		{ children }
 	</Component>;
 } );

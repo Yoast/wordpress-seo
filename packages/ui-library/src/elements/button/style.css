@@ -211,13 +211,4 @@
 		yst-me-2;
 	}
 
-	/* Icon sizing */
-
-	.yst-button--icon {
-		@apply yst-w-[18px] yst-h-[18px];
-	}
-
-	.yst-button--small .yst-button--icon {
-		@apply yst-w-4 yst-h-4;
-	}
 }
