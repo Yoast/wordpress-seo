@@ -292,7 +292,7 @@ const getSubheadingsReflectingTopic = ( topicForms,
  *
  * @returns {HeadingWithSentences[]} An array of heading nodes representing the top-level subheadings with content.
  */
-const getTopLevelSubheadings = ( paper, tree ) =>{
+const getTopLevelSubheadings = ( tree ) =>{
 	const topLevelSubheadings = tree.findAll( node => /h[2-3]/i.test( node.name ) );
 	return topLevelSubheadings.filter( subheading => subheading?.sentences.length > 0 );
 };
