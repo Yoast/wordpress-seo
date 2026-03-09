@@ -49,29 +49,25 @@ const KeywordUpsell = () => {
 					prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 					onClick={ openModal }
 				>
-					<>
-						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
-						</Badge>
-					</>
+					<Badge size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+					</Badge>
 				</SidebarButton>
 			) }
 			{ location === "metabox" && (
-				<>
-					<MetaboxButton
-						id="yoast-additional-keyphrase-metabox-modal-open-button"
-						onClick={ openModal }
-					>
-						<SvgIcon icon="plus" color={ colors.$color_grey_medium_dark } />
-						<MetaboxButton.Text>
-							{ __( "Add related keyphrase", "wordpress-seo" ) }
-						</MetaboxButton.Text>
-						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
-							<span>Premium</span>
-						</Badge>
-					</MetaboxButton>
-				</>
+				<MetaboxButton
+					id="yoast-additional-keyphrase-metabox-modal-open-button"
+					onClick={ openModal }
+				>
+					<SvgIcon icon="plus" color={ colors.$color_grey_medium_dark } />
+					<MetaboxButton.Text>
+						{ __( "Add related keyphrase", "wordpress-seo" ) }
+					</MetaboxButton.Text>
+					<Badge size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
+						<span>Premium</span>
+					</Badge>
+				</MetaboxButton>
 			) }
 		</>
 	);

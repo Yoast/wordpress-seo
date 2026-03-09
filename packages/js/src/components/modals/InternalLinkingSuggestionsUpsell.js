@@ -62,28 +62,24 @@ export const InternalLinkingSuggestionsUpsell = () => {
 					title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 					onClick={ openModal }
 				>
-					<>
-						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
-						</Badge>
-					</>
+					<Badge size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" { ...svgAriaProps } />
+					</Badge>
 				</SidebarButton>
 			) }
 			{ isMetabox && (
-				<>
-					<MetaboxButton
-						id="yoast-internal-linking-suggestions-metabox-modal-open-button"
-						onClick={ openModal }
-					>
-						<MetaboxButton.Text>
-							{ __( "Internal linking suggestions", "wordpress-seo" ) }
-						</MetaboxButton.Text>
-						<Badge size="small" variant="upsell">
-							<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
-							<span>Premium</span>
-						</Badge>
-					</MetaboxButton>
-				</>
+				<MetaboxButton
+					id="yoast-internal-linking-suggestions-metabox-modal-open-button"
+					onClick={ openModal }
+				>
+					<MetaboxButton.Text>
+						{ __( "Internal linking suggestions", "wordpress-seo" ) }
+					</MetaboxButton.Text>
+					<Badge size="small" variant="upsell">
+						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
+						<span>Premium</span>
+					</Badge>
+				</MetaboxButton>
 			) }
 		</>
 	);
