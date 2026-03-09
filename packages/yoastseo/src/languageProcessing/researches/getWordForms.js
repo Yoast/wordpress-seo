@@ -37,12 +37,12 @@ class StemWithForms {
  * @property {string[][]} keyphraseForms An array of arrays of keyphrase forms, where each inner array contains the forms for a specific word in the keyphrase.
  * @property {string[][][]} synonymsForms An array of arrays of arrays of synonym forms, where each inner array contains the forms for a specific word in a specific synonym.
  */
-class TopicFormsResult {
+export class TopicFormsResult {
 	/**
 	 * A result for all topic forms.
 	 *
-	 * @param {Array[]} keyphraseForms  All keyphrase forms.
-	 * @param {Array[]} synonymsForms   All synonym forms.
+	 * @param {string[][]} keyphraseForms  All keyphrase forms.
+	 * @param {string[][][]} synonymsForms   All synonym forms.
 	 * @constructor
 	 */
 	constructor( keyphraseForms = [], synonymsForms = [] ) {

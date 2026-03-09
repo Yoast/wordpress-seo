@@ -8,6 +8,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
  * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../../values/Mark") } Mark
  * @typedef {import("../../../languageProcessing/researches/matchKeywordInSubheadings").KeyphraseInSubheadingsResult } KeyphraseInSubheadingsResult
  */
 
@@ -265,15 +266,13 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: sprintf(
-					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					%3$d expands to the number of subheadings containing the keyphrase. */
+					/* translators: %1$s expands to a link on yoast.com and %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					"</a>",
-					this._subHeadingsResearchResult.matches.numberOfSubheadings
+					"</a>"
 				),
 			};
 		}

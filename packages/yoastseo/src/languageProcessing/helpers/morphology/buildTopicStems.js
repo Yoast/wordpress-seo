@@ -49,10 +49,10 @@ class TopicPhrase {
  */
 class StemOriginalPair {
 	/**
-	 * A stem-original pair ƒor a word in a topic phrase.
+	 * A stem-original pair for a word in a topic phrase.
 	 *
 	 * @param {string} stem     The stem of the topic phrase word.
-	 * @param {string} original The original word form the topic phrase (unsanitized)
+	 * @param {string} original The original word form of the topic phrase (unsanitized)
 	 *
 	 * @constructor
 	 */

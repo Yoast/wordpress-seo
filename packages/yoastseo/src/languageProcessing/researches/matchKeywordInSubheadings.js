@@ -9,13 +9,15 @@ import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 
 /**
- * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../AbstractResearcher").default } Researcher
  * @typedef {import("../../values/").Paper } Paper
+ * @typedef {import("../../values/").Mark } Mark
  * @typedef {import("../../parse/structure/Node").default } Node
  * @typedef {import("../../parse/structure/Sentence").default } Sentence
  * @typedef {import("../../parse/structure/Token").default } Token
  * @typedef {import("../../parse/structure/Heading").default } Heading
  * @typedef {import("./getWordForms").TopicFormsResult } TopicFormsResult
+ * @typedef {import("../helpers/match/matchWordFormsWithSentence").MatchResult } MatchResult
  */
 
 /**
@@ -28,14 +30,14 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
  * @typedef {Object} TopicFormsInSubheadingsResult
  * @property {number} percentWordMatches The percentage of the topic words that were matched in the subheadings by at least one form.
  * @property {Token[]|string[]} matches The matched topic forms in the subheadings.
- * @property {Sentence[]|string[]} sentencesWithTopicForms The sentences in the subheadings that contain the matched topic forms.
+ * @property {Sentence[]} sentencesWithTopicForms The sentences in the subheadings that contain the matched topic forms.
  */
 
 /**
  * @typedef {Object} MatchedTopicFormsInSentencesResult
- * @property {Token[]|string[]} matches The matched topic forms in the sentences.
+ * @property {MatchResult[][]} matches The matched topic forms in the sentences.
  * @property {number} matchCount The number of matched topic forms in the sentences.
- * @property {Sentence[]|string[]} sentencesWithMatches The sentences that contain the matched topic forms.
+ * @property {Sentence[]} sentencesWithMatches The sentences that contain the matched topic forms.
  */
 
 /**
@@ -48,10 +50,10 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
 /**
  * Extracts sentences from a heading, setting parent attributes if needed.
  *
- * @param {Heading} heading The heading node.
+ * @param {HeadingWithSentences} heading The heading node.
  * @param {Node} tree The tree representation of the paper's content.
  *
- * @returns {Sentence[]|string[]} An array of sentences from the heading.
+ * @returns {Sentence[]} An array of sentences from the heading.
  */
 const getSentencesFromHeading = ( heading, tree ) => {
 	return heading.sentences.map( sentence => {
@@ -63,7 +65,7 @@ const getSentencesFromHeading = ( heading, tree ) => {
 /**
  * Matches word forms against sentences and calculates match statistics.
  *
- * @param {Sentence[]|string[]} sentences The sentences to match against.
+ * @param {Sentence[]} sentences The sentences to match against.
  * @param {string[][]} wordForms The word forms to match.
  * @param {string} locale The locale of the paper.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
@@ -73,8 +75,10 @@ const getSentencesFromHeading = ( heading, tree ) => {
  * @returns {MatchedTopicFormsInSentencesResult} The match results.
  */
 const matchWordFormsInSentences = ( sentences, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper ) => {
+	/** @type {MatchResult[][]} */
 	const allMatches = [];
 	let totalMatchCount = 0;
+	/** @type {Sentence[]} */
 	const sentencesWithMatches = [];
 
 	sentences.forEach( sentence => {
@@ -107,10 +111,11 @@ const matchWordFormsInSentences = ( sentences, wordForms, locale, matchWordCusto
 const createMatchResult = ( matchedTopicData, topicLength ) => {
 	const { matches, matchCount, sentencesWithMatches } = matchedTopicData;
 	const percentWordMatches = topicLength > 0 ? Math.round( ( matchCount / topicLength ) * 100 ) : 0;
-
+	/* @type {Token[]|string[]} */
+	const flattenedMatches = flattenDeep( matches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) );
 	return {
 		percentWordMatches,
-		matches: flattenDeep( matches.map( match => match.map( wordFormMatch => wordFormMatch.matches ) ) ),
+		matches: flattenedMatches,
 		sentencesWithTopicForms: sentencesWithMatches,
 	};
 };
@@ -140,13 +145,13 @@ const getBestSynonymMatch = ( synonymResults, keyphraseResult ) => {
  * that were matched in the heading by at least one form, the matches and whether the matches are for the keyphrase or a synonym.
  *
  * @param {TopicFormsResult} topicForms The object with word forms of all (content) words from the keyphrase and eventually synonyms.
- * @param {Heading}	heading	The heading node to match the word forms against.
+ * @param {HeadingWithSentences} heading The heading node to match the word forms against.
  * @param {boolean} useSynonyms Whether to use synonyms as if it was keyphrase or not (depends on the assessment).
  * @param {string} locale The locale of the paper.
  * @param {Node} tree The tree representation of the paper's content, used to find parent nodes of sentences in the heading.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
  * @param {Function} customSplitIntoTokensHelper A custom helper to split sentences into tokens, used in some languages to split sentences into words.
- * @param {boolean}	isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
+ * @param {boolean} isExactMatchRequested Whether to match the keyphrase forms exactly or not, based on whether the keyphrase is enclosed in double quotes.
  *
  * @returns {TopicFormsInSubheadingsResult} An object containing the percentage of matched words, the matches and the sentences with matched topic forms in the heading.
  */
@@ -186,7 +191,7 @@ const findTopicFormsInHeading = ( topicForms,
 /**
  * Checks which sentences in the subheadings contain the matched topics and returns the markings of the matches in those sentences.
  *
- * @param {Sentence[]|string[]} sentences The sentences to check for the matched topics.
+ * @param {Sentence[]} sentences The sentences to check for the matched topics.
  * @param {Token[]|string[]} matchedTopics The matched topics to check for in the sentences.
  * @param {Function} matchWordCustomHelper The language-specific helper function to match word in text.
  *
@@ -220,7 +225,7 @@ const getMarkingsInSentences = ( sentences, matchedTopics, matchWordCustomHelper
  * and returns the number of subheadings that reflect the topic and the markings of the matches in those subheadings.
  *
  * @param {TopicFormsResult}	topicForms      The main key phrase and its synonyms to check.
- * @param {Heading[]}	subheadings     The subheadings to check.
+ * @param {HeadingWithSentences[]} subheadings The subheadings to check.
  * @param {boolean}		useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}		locale          The current locale.
  * @param {string[]}	functionWords	The function words list.
@@ -241,7 +246,9 @@ const getSubheadingsReflectingTopic = ( topicForms,
 	customSplitIntoTokensHelper,
 	isExactMatchRequested ) => {
 	const subheadingsWithTopics = [];
+	/** @type {Token[]} */
 	const allMatchedTopics = [];
+	/** @type {Sentence[]} */
 	const sentencesWithTopicForms = [];
 
 	subheadings.forEach( subheading => {
@@ -275,10 +282,9 @@ const getSubheadingsReflectingTopic = ( topicForms,
 /**
  * Gets all h2 and h3 subheadings from the paper, excluding those without content.
  *
- * @param {Paper} paper The paper object containing the text and keyword.
  * @param {Node} tree The tree representation of the paper's content, used to find heading nodes.
  *
- * @returns {Heading[]} An array of heading nodes representing the top-level subheadings with content.
+ * @returns {HeadingWithSentences[]} An array of heading nodes representing the top-level subheadings with content.
  */
 const getTopLevelSubheadings = ( paper, tree ) =>{
 	const topLevelSubheadings = tree.findAll( node => /h[2-3]/i.test( node.name ) );
@@ -305,7 +311,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	if ( customCountLength ) {
 		let text = paper.getText();
 		text = removeHtmlBlocks( text );
-		text = filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+		text = filterShortcodesFromHTML( text, ( paper._attributes && paper._attributes.shortcodes ) || [] );
 		text = stripSomeTags( text );
 		textLength = customCountLength( text );
 	}
@@ -316,7 +322,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	const isExactMatchRequested = isDoubleQuoted( paper.getKeyword() );
 
 	const useSynonyms = true;
-	const subheadings = getTopLevelSubheadings( paper, tree );
+	const subheadings = getTopLevelSubheadings( tree );
 	const subheadingsWithKeyphrase = getSubheadingsReflectingTopic( topicForms,
 		subheadings,
 		useSynonyms,
