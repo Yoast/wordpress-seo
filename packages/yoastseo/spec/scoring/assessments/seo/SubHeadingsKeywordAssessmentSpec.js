@@ -11,9 +11,11 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataTurkish = getMorphologyData( "tr" );
 
-const assessment = new SubheadingsKeywordAssessment();
-
 describe( "Tests for the keyphrase in subheadings assessment when no keyphrase and/or text is added", () => {
+	let assessment;
+	beforeEach( () => {
+		assessment = new SubheadingsKeywordAssessment();
+	} );
 	it( "shows feedback for keyphrase in subheadings when there is a text but no keyphrase", () => {
 		const paper = new Paper( "some text", { keyword: "" } );
 		const researcher = new DefaultResearcher( paper );
@@ -52,6 +54,10 @@ const shortTextJapanese = "熱".repeat( 599 );
 const longTextJapanese = "熱".repeat( 601 );
 
 describe( "Tests for the keyphrase in subheadings assessment when there are no subheadings", () => {
+	let assessment;
+	beforeEach( () => {
+		assessment = new SubheadingsKeywordAssessment();
+	} );
 	it( "shows feedback for keyphrase in subheadings when there is a short text with no subheadings", () => {
 		const paper = new Paper( shortText, { keyword: "keyphrase" } );
 		const researcher = new DefaultResearcher( paper );
@@ -95,6 +101,10 @@ describe( "Tests for the keyphrase in subheadings assessment when there are no s
 } );
 
 describe( "An assessment for matching keywords in subheadings", () => {
+	let assessment;
+	beforeEach( () => {
+		assessment = new SubheadingsKeywordAssessment();
+	} );
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", () => {
 		const mockPaper = new Paper( shortText + "<h2>Subheading</h2>" + shortText, { keyword: "keyphrase" } );
 		const mockResearcher = new DefaultResearcher( mockPaper );
@@ -392,6 +402,10 @@ describe( "An assessment for matching keywords in subheadings", () => {
 } );
 
 describe( "Test for SubheadingsKeywordAssessment for Japanese (the only language not using HTML parser yet)", () => {
+	let assessment;
+	beforeEach( () => {
+		assessment = new SubheadingsKeywordAssessment();
+	} );
 	it( "returns a good score and appropriate feedback when the subheading contains the keyphrase.", () => {
 		const mockPaper = new Paper( "<h3>日本の猫</h3>私は美しい猫を飼っています。野生のハーブの刺繡。", { keyword: "日本の猫" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
