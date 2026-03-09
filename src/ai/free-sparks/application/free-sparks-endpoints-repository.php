@@ -12,19 +12,11 @@ use Yoast\WP\SEO\Routes\Endpoint\Endpoints_Repository;
 class Free_Sparks_Endpoints_Repository extends Endpoints_Repository {
 
 	/**
-	 * Holds the endpoints.
-	 *
-	 * @var array<Free_Sparks_Endpoint_Interface>
-	 */
-	private $endpoints;
-
-	/**
 	 * Constructs the repository.
 	 *
 	 * @param Free_Sparks_Endpoint_Interface ...$endpoints The endpoints to add to the repository.
 	 */
 	public function __construct( Free_Sparks_Endpoint_Interface ...$endpoints ) {
 		parent::__construct( ...$endpoints );
-		$this->endpoints = $endpoints;
 	}
 }
