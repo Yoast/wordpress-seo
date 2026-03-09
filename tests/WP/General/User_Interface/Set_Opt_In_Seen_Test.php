@@ -160,6 +160,30 @@ final class Set_Opt_In_Seen_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that calling the endpoint twice returns 200 both times (idempotent).
+	 *
+	 * @return void
+	 */
+	public function test_set_opt_in_seen_is_idempotent() {
+		$user = $this->factory->user->create_and_get( [ 'role' => 'administrator' ] );
+		$user->add_cap( 'wpseo_manage_options' );
+		\wp_set_current_user( $user->ID );
+
+		$request = new WP_REST_Request( 'POST', '/yoast/v1/seen-opt-in-notification' );
+		$request->set_param( 'key', 'task_list' );
+
+		// First call: sets the meta.
+		$response = \rest_get_server()->dispatch( $request );
+		$this->assertSame( 200, $response->status );
+		$this->assertTrue( $response->get_data()->success );
+
+		// Second call: meta already set, should still return 200.
+		$response = \rest_get_server()->dispatch( $request );
+		$this->assertSame( 200, $response->status );
+		$this->assertTrue( $response->get_data()->success );
+	}
+
+	/**
 	 * Tests setting opt-in notification as seen without key parameter.
 	 *
 	 * @return void
