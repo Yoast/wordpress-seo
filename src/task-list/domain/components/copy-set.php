@@ -16,46 +16,44 @@ class Copy_Set {
 	private $title;
 
 	/**
-	 * The why copy.
+	 * The about copy.
 	 *
 	 * @var string
 	 */
-	private $why;
-
-	/**
-	 * The how copy.
-	 *
-	 * @var string
-	 */
-	private $how;
+	private $about;
 
 	/**
 	 * The constructor.
 	 *
 	 * @param string $title The title copy.
-	 * @param string $why   The why copy.
-	 * @param string $how   The how copy.
+	 * @param string $about The about copy. Can contain HTML markup like <strong> and <p>.
 	 */
 	public function __construct(
 		string $title,
-		string $why,
-		?string $how = null
+		string $about = ''
 	) {
 		$this->title = $title;
-		$this->why   = $why;
-		$this->how   = $how;
+		$this->about = $about;
+	}
+
+	/**
+	 * Returns the copy set's about.
+	 *
+	 * @return string
+	 */
+	public function get_about(): string {
+		return $this->about;
 	}
 
 	/**
 	 * Returns an array representation of the copy set data.
 	 *
-	 * @return array<string, string|bool> Returns in an array format.
+	 * @return array<string, string> Returns in an array format.
 	 */
 	public function to_array(): array {
 		return [
 			'title' => $this->title,
-			'why'   => $this->why,
-			'how'   => $this->how,
+			'about' => $this->about,
 		];
 	}
 }

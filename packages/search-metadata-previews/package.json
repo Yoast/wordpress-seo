@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-alpha.3",
   "private": false,
   "main": "build/index.js",
   "files": [

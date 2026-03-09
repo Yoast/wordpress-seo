@@ -7,6 +7,7 @@ export { default as Code } from "./elements/code";
 export { default as ErrorBoundary } from "./elements/error-boundary";
 export { default as Label } from "./elements/label";
 export { default as Link } from "./elements/link";
+export { default as ModalNotification, useModalNotificationContext } from "./elements/modal-notification";
 export { default as Paper } from "./elements/paper";
 export { default as ProgressBar } from "./elements/progress-bar";
 export { default as Radio } from "./elements/radio";
@@ -22,6 +23,7 @@ export { default as Toast, useToastContext } from "./elements/toast";
 export { default as Toggle } from "./elements/toggle";
 export { default as Tooltip } from "./elements/tooltip";
 export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
+export { default as ScoreIcon } from "./elements/score-icon";
 
 export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";

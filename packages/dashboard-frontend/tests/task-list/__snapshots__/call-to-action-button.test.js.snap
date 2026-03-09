@@ -5,6 +5,8 @@ exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   <svg
     aria-hidden="true"
@@ -23,16 +25,6 @@ exports[`CallToActionButton matches snapshot for type 'add' 1`] = `
   </svg>
   Create
 </a>
-`;
-
-exports[`CallToActionButton matches snapshot for type 'default' 1`] = `
-<button
-  class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
-  id="cta-button-undefined"
-  type="button"
->
-  Default
-</button>
 `;
 
 exports[`CallToActionButton matches snapshot for type 'delete' 1`] = `
@@ -65,6 +57,8 @@ exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   Go
   <svg
@@ -84,6 +78,8 @@ exports[`CallToActionButton matches snapshot for type 'link' 1`] = `
   </svg>
 </a>
 `;
+
+exports[`CallToActionButton matches snapshot for type 'no type' 1`] = `null`;
 
 exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'add' 1`] = `
 <a
@@ -109,7 +105,7 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
 </a>
 `;
 
-exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'default' 1`] = `
+exports[`CallToActionButton when isLoading is true matches loading snapshot for type 'create' 1`] = `
 <button
   class="yst-button yst-button--primary yst-cursor-wait yst-flex yst-items-center"
   id="cta-button-undefined"
@@ -178,6 +174,8 @@ exports[`CallToActionButton when isLoading is true matches loading snapshot for 
   class="yst-button yst-button--primary yst-flex yst-items-center yst-gap-1"
   href="https://example.com"
   id="cta-button-undefined"
+  rel="noopener noreferrer"
+  target="_blank"
 >
   Go
   <svg

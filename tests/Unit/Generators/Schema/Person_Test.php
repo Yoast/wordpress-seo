@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
@@ -101,7 +100,7 @@ final class Person_Test extends TestCase {
 			'display_name' => 'John',
 			'description'  => 'Description',
 		];
-		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
+		$person_schema_logo_id = $this->instance->context->person_logo_meta['url'];
 
 		$image_schema = [
 			'@type'      => 'ImageObject',
@@ -119,7 +118,7 @@ final class Person_Test extends TestCase {
 			'@id'         => 'person_id',
 			'name'        => 'John',
 			'pronouns'    => $pronouns,
-			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
+			'logo'        => [ '@id' => $person_schema_logo_id ],
 			'description' => 'Description',
 			'sameAs'      => [
 				'https://example.com/social/facebook',
@@ -277,7 +276,7 @@ final class Person_Test extends TestCase {
 			'@type'    => [ 'Person', 'Organization' ],
 			'@id'      => 'person_id',
 			'name'     => $user_data->display_name,
-			'logo'     => [ '@id' => 'https://example.com/#/schema/person/image/' ],
+			'logo'     => [ '@id' => $image_schema['@id'] ],
 			'image'    => $image_schema,
 		];
 
@@ -496,7 +495,7 @@ final class Person_Test extends TestCase {
 			'display_name' => 'John',
 			'description'  => 'Description',
 		];
-		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
+		$person_schema_logo_id = $this->instance->context->person_logo_meta['url'];
 		$image_schema          = [
 			'@type'      => 'ImageObject',
 			'@id'        => $person_schema_logo_id,
@@ -524,7 +523,7 @@ final class Person_Test extends TestCase {
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',
 			'name'        => 'John',
-			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
+			'logo'        => [ '@id' => $person_schema_logo_id ],
 			'description' => 'Description',
 			'sameAs'      => [
 				'https://example.com/social/facebook',
@@ -663,16 +662,16 @@ final class Person_Test extends TestCase {
 	 * @return array<string, string|int> The image schema.
 	 */
 	protected function expects_for_set_image_from_avatar( $user_data, $scenario = 'default' ) {
+		$avatar_url   = 'https://example.com/image.png';
 		$image_schema = [
 			'@type'      => 'ImageObject',
-			'@id'        => $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+			'@id'        => $avatar_url,
 			'inLanguage' => 'en-US',
-			'url'        => 'https://example.com/image.png',
+			'url'        => $avatar_url,
 			'width'      => 64,
 			'height'     => 128,
 			'caption'    => 'Person image',
 		];
-		$avatar_url   = $image_schema['url'];
 
 		switch ( $scenario ) {
 			case 'empty_avatar_url':

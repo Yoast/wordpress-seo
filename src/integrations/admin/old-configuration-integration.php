@@ -34,7 +34,7 @@ class Old_Configuration_Integration implements Integration_Interface {
 	 */
 	public function add_submenu_page( $submenu_pages ) {
 		\add_submenu_page(
-			'',
+			'options.php',
 			\__( 'Old Configuration Wizard', 'wordpress-seo' ),
 			'',
 			'manage_options',
