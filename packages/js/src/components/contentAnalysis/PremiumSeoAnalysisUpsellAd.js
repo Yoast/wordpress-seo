@@ -55,61 +55,59 @@ export const PremiumSeoAnalysisUpsellAd = ( { location } ) => {
 	};
 
 	return (
-		<>
-			<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
-				<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
-					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
-					<CrownIcon className="yst-w-4" { ...svgAriaProps } />
-				</Title>
-				<p>
-					{ __(
-						"Get deeper keyphrase insights and stronger headlines",
-						"wordpress-seo"
-					) }
-				</p>
-				<div className="yst-py-2 yst-ps-6">
-					<ul className="yst-list-disc yst-list-outside marker:yst-mr-0">
-						<li className="yst-mb-2 yst-list-item">{
-							safeCreateInterpolateElement(
-								sprintf(
-									/* translators: 1: Bold open tag, 2: Bold close tag */
-									__( "%1$sSynonyms & word form recognition:%2$s Write more natural, flowing content.", "wordpress-seo" ),
-									"<strong>",
-									"</strong>"
-								), {
-									strong: <strong />,
-								}
-							)
-						}
-						</li>
-						<li className="yst-list-item">{
-							safeCreateInterpolateElement(
-								sprintf(
-									/* translators: 1: Bold open tag, 2: Bold close tag */
-									__( "%1$sExtra SEO assessments:%2$s See additional recommendation to improve your content.", "wordpress-seo" ),
-									"<strong>",
-									"</strong>"
-								), {
-									strong: <strong />,
-								}
-							)
-						}</li>
-					</ul>
-				</div>
-				<Button
-					variant="upsell"
-					as="a"
-					href={ upsellLinks[ locationKey ] }
-					target="_blank"
-					rel="noopener noreferrer"
-					className="yst-mt-2"
-					data-action="load-nfd-ctb"
-					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-				>
-					<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
-					{ __( "Unlock with Premium", "wordpress-seo" ) }
-				</Button>
+		<div id={ `premium-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-primary-200 yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2">
+			<Title as="h3" variant="h3" className="yst-text-primary-500 yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+				{ __( "Premium SEO Analysis", "wordpress-seo" ) }
+				<CrownIcon className="yst-w-4" { ...svgAriaProps } />
+			</Title>
+			<p>
+				{ __(
+					"Get deeper keyphrase insights and stronger headlines",
+					"wordpress-seo"
+				) }
+			</p>
+			<div className="yst-py-2 yst-ps-6">
+				<ul className="yst-list-disc yst-list-outside marker:yst-mr-0">
+					<li className="yst-mb-2 yst-list-item">{
+						safeCreateInterpolateElement(
+							sprintf(
+								/* translators: 1: Bold open tag, 2: Bold close tag */
+								__( "%1$sSynonyms & word form recognition:%2$s Write more natural, flowing content.", "wordpress-seo" ),
+								"<strong>",
+								"</strong>"
+							), {
+								strong: <strong />,
+							}
+						)
+					}
+					</li>
+					<li className="yst-list-item">{
+						safeCreateInterpolateElement(
+							sprintf(
+								/* translators: 1: Bold open tag, 2: Bold close tag */
+								__( "%1$sExtra SEO assessments:%2$s See additional recommendation to improve your content.", "wordpress-seo" ),
+								"<strong>",
+								"</strong>"
+							), {
+								strong: <strong />,
+							}
+						)
+					}</li>
+				</ul>
 			</div>
-		</>
+			<Button
+				variant="upsell"
+				as="a"
+				href={ upsellLinks[ locationKey ] }
+				target="_blank"
+				rel="noopener noreferrer"
+				className="yst-mt-2"
+				data-action="load-nfd-ctb"
+				data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+			>
+				<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
+				{ __( "Unlock with Premium", "wordpress-seo" ) }
+			</Button>
+		</div>
 	);
 };

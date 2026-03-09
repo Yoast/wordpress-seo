@@ -3,7 +3,7 @@
 exports[`InstallationSuccessPage should match the snapshot 1`] = `
 <div>
   <div
-    class="yst-root yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center"
+    class="yst-my-auto yst-flex yst-flex-col yst-min-h-[84vh] yst-py-12 yst-justify-center"
   >
     <div
       class="yst-bg-green-200 yst-w-20 yst-h-20 yst-rounded-full yst-mx-auto yst-my-0 yst-flex yst-items-center yst-justify-center"

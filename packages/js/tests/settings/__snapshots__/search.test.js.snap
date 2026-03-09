@@ -4,7 +4,6 @@ exports[`Search modal should open 1`] = `
 <div
   aria-label="Search"
   aria-modal="true"
-  class="yst-root"
   data-headlessui-state="open"
   id="modal-search"
   role="dialog"

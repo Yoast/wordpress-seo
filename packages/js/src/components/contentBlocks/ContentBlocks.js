@@ -149,9 +149,7 @@ export const ContentBlocks = () => {
 	 */
 	const renderNewBadgeLabel = useCallback( () => {
 		return (
-			<>
-				<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
-			</>
+			<Badge variant="info" size="small">{ __( "New", "wordpress-seo" ) }</Badge>
 		);
 	}, [] );
 
