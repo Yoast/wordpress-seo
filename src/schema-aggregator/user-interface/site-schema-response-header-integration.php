@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Schema_Aggregator\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Aggregator_Conditional;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Header_Adapter;
 
 /**
@@ -13,14 +13,21 @@ use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Map\Schema_Map_Header_A
  */
 class Site_Schema_Response_Header_Integration implements Integration_Interface {
 
-	use No_Conditionals;
-
 	/**
 	 * The schema map header adapter.
 	 *
 	 * @var Schema_Map_Header_Adapter
 	 */
 	private $schema_map_header_adapter;
+
+	/**
+	 * Returns the conditional for this route.
+	 *
+	 * @return array<string> The conditionals that must be met to load this.
+	 */
+	public static function get_conditionals() {
+		return [ Schema_Aggregator_Conditional::class ];
+	}
 
 	/**
 	 * Constructor.
