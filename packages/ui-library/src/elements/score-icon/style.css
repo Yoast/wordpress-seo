@@ -1,15 +1,14 @@
 @layer components {
-	
-		.yst-bad-score {
-			color: #dc3232;
-		}
-		.yst-good-score {
-			color: #008a00;
-		}
-		.yst-ok-score {
-			color: #ee7c1b;
-		}
-		.yst-score-icon {
-			@apply yst-w-4 yst-h-4 yst-shrink-0;
-		}
+	.yst-bad-score {
+		color: #dc3232;
+	}
+	.yst-good-score {
+		color: #008a00;
+	}
+	.yst-ok-score {
+		color: #ee7c1b;
+	}
+	.yst-score-icon {
+		@apply yst-w-4 yst-h-4 yst-shrink-0;
+	}
 }

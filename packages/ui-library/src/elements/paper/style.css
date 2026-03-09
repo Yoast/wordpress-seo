@@ -1,14 +1,13 @@
 @layer components {
-	
-		.yst-paper {
-			@apply yst-flex yst-flex-col yst-rounded-lg yst-bg-white yst-shadow;
-		}
+	.yst-paper {
+		@apply yst-flex yst-flex-col yst-rounded-lg yst-bg-white yst-shadow;
+	}
 
-		.yst-paper__header {
-			@apply yst-p-8 yst-border-b;
-		}
+	.yst-paper__header {
+		@apply yst-p-8 yst-border-b;
+	}
 
-		.yst-paper__content {
-			@apply yst-flex-grow yst-p-8;
-		}
+	.yst-paper__content {
+		@apply yst-flex-grow yst-p-8;
+	}
 }

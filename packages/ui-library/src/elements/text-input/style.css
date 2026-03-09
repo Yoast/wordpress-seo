@@ -1,37 +1,36 @@
 @layer components {
-	
-		.yst-text-input {
-			@apply
-			yst-w-full
-			yst-py-2
-			yst-px-3
-			yst-border-0
-			yst-ring-1
-			yst-ring-inset
-			yst-ring-slate-300
-			yst-rounded-md
-			yst-shadow-sm
-			yst-text-sm
-			yst-text-slate-800
-			yst-bg-white
-			focus:yst-outline-none
-			focus:yst-ring-primary-500
-			focus:yst-ring-2;
-		}
+	.yst-text-input {
+		@apply
+		yst-w-full
+		yst-py-2
+		yst-px-3
+		yst-border-0
+		yst-ring-1
+		yst-ring-inset
+		yst-ring-slate-300
+		yst-rounded-md
+		yst-shadow-sm
+		yst-text-sm
+		yst-text-slate-800
+		yst-bg-white
+		focus:yst-outline-none
+		focus:yst-ring-primary-500
+		focus:yst-ring-2;
+	}
 
-		.yst-text-input--disabled {
-			@apply
-			yst-opacity-50
-			yst-cursor-not-allowed
-			focus:yst-ring-0;
-		}
+	.yst-text-input--disabled {
+		@apply
+		yst-opacity-50
+		yst-cursor-not-allowed
+		focus:yst-ring-0;
+	}
 
-		.yst-text-input--read-only {
-			@apply
-			yst-border-slate-200
-			yst-shadow-none
-			yst-text-slate-500
-			yst-bg-slate-50
-			yst-cursor-default;
-		}
+	.yst-text-input--read-only {
+		@apply
+		yst-border-slate-200
+		yst-shadow-none
+		yst-text-slate-500
+		yst-bg-slate-50
+		yst-cursor-default;
+	}
 }

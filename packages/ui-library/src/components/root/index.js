@@ -10,8 +10,9 @@ export const RootContext = createContext( defaultRootContext );
 
 /**
  * @param {JSX.node} children The React children.
- * @param {{ isRtl: boolean }} context The root context value.
- * @param {Object} props Additional HTML attributes to pass to the wrapper div (className, id, etc.).
+ * @param {{ isRtl: boolean }} [context] The root context value.
+ * @param {string} [className] Additional CSS class names for the wrapper div.
+ * @param {Object} [props] Additional HTML attributes to pass to the wrapper div (id, data-*, etc.).
  * @returns {JSX.Element} The Root component.
  */
 const Root = ( { children, context = {}, className, ...props } ) => {
@@ -29,6 +30,7 @@ Root.propTypes = {
 	context: PropTypes.shape( {
 		isRtl: PropTypes.bool,
 	} ),
+	className: PropTypes.string,
 };
 
 export default Root;
