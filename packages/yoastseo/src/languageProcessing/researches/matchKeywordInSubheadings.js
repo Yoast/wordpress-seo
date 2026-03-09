@@ -21,6 +21,12 @@ import isDoubleQuoted from "../helpers/match/isDoubleQuoted";
  */
 
 /**
+ * A Heading node that has been enriched with sentences by the language processor.
+ *
+ * @typedef {Heading & { sentences: Sentence[] }} HeadingWithSentences
+ */
+
+/**
  * @typedef {Object} SubheadingsWithTopicResult
  * @property {number} numberOfSubheadings The number of subheadings that reflect the topic.
  * @property {Mark[]} markings The markings of the matches in the subheadings that reflect the topic.
