@@ -42,20 +42,11 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		$pages = \get_posts(
-			[
-				'name'        => 'sample-page',
-				'post_type'   => 'page',
-				'post_status' => 'publish',
-				'numberposts' => 1,
-			],
-		);
+		$page = $this->get_sample_page();
 
-		if ( empty( $pages ) || $pages[0] instanceof WP_Post === false ) {
+		if ( $page === null ) {
 			return true;
 		}
-
-		$page = $pages[0];
 
 		return $page->post_date !== $page->post_modified;
 	}
@@ -77,6 +68,23 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 	 * @throws Complete_Sample_Page_Task_Exception If the Sample Page could not be deleted.
 	 */
 	public function complete_task(): void {
+		$page = $this->get_sample_page();
+
+		if ( $page !== null ) {
+			$result = \wp_delete_post( $page->ID );
+
+			if ( ! $result ) {
+				throw new Complete_Sample_Page_Task_Exception();
+			}
+		}
+	}
+
+	/**
+	 * Returns the sample page if it exists and is published.
+	 *
+	 * @return WP_Post|null The sample page or null if not found.
+	 */
+	private function get_sample_page(): ?WP_Post {
 		$pages = \get_posts(
 			[
 				'name'        => 'sample-page',
@@ -86,13 +94,11 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 			],
 		);
 
-		if ( ! empty( $pages ) ) {
-			$result = \wp_delete_post( $pages[0]->ID );
-
-			if ( ! $result ) {
-				throw new Complete_Sample_Page_Task_Exception();
-			}
+		if ( empty( $pages ) || $pages[0] instanceof WP_Post === false ) {
+			return null;
 		}
+
+		return $pages[0];
 	}
 
 	/**
