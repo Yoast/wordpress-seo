@@ -5,6 +5,10 @@ on:
     types: [ closed ]
     branches: [ trunk ]
 
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
 jobs:
   publish:
     name: Publish NPM packages
@@ -18,6 +22,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v4
@@ -35,13 +41,16 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
-          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[^:\s]+' | tr '\n' ' ')
+          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 
       - name: Publish packages in order
+        env:
+          PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
-          for PACKAGE in ${{ steps.packages.outputs.list }}; do
+          read -ra PACKAGES <<< "$PACKAGE_LIST"
+          for PACKAGE in "${PACKAGES[@]}"; do
             PKG_DIR="packages/${PACKAGE#@yoast/}"
 
             echo "::group::Publishing $PACKAGE"
