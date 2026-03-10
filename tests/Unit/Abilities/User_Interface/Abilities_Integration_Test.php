@@ -7,7 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
-use Yoast\WP\SEO\Conditionals\WordPress_Version_Conditional;
+use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -69,7 +69,7 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_conditionals returns the WordPress version conditional.
+	 * Tests that get_conditionals returns the Abilities API conditional.
 	 *
 	 * @covers ::get_conditionals
 	 *
@@ -77,7 +77,7 @@ final class Abilities_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertSame(
-			[ WordPress_Version_Conditional::class ],
+			[ Abilities_API_Conditional::class ],
 			Abilities_Integration::get_conditionals(),
 		);
 	}

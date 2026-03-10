@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface;
 
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
-use Yoast\WP\SEO\Conditionals\WordPress_Version_Conditional;
+use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -41,7 +41,7 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ WordPress_Version_Conditional::class ];
+		return [ Abilities_API_Conditional::class ];
 	}
 
 	/**

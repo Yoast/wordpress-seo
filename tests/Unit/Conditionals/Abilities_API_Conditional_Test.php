@@ -2,31 +2,23 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
-use Mockery;
-use Yoast\WP\SEO\Conditionals\WordPress_Version_Conditional;
-use Yoast\WP\SEO\Helpers\Wordpress_Helper;
+use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the WordPress_Version_Conditional class.
+ * Tests the Abilities_API_Conditional class.
  *
  * @group conditionals
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\WordPress_Version_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Abilities_API_Conditional
  */
-final class WordPress_Version_Conditional_Test extends TestCase {
-
-	/**
-	 * The WordPress helper mock.
-	 *
-	 * @var Mockery\MockInterface|Wordpress_Helper
-	 */
-	private $wordpress_helper;
+final class Abilities_API_Conditional_Test extends TestCase {
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var WordPress_Version_Conditional
+	 * @var Abilities_API_Conditional
 	 */
 	private $instance;
 
@@ -38,8 +30,7 @@ final class WordPress_Version_Conditional_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wordpress_helper = Mockery::mock( Wordpress_Helper::class );
-		$this->instance         = new WordPress_Version_Conditional( $this->wordpress_helper );
+		$this->instance = new Abilities_API_Conditional();
 	}
 
 	/**
@@ -50,8 +41,7 @@ final class WordPress_Version_Conditional_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_met_returns_true_for_6_9() {
-		$this->wordpress_helper
-			->expects( 'get_wordpress_version' )
+		Monkey\Functions\expect( 'wp_get_wp_version' )
 			->once()
 			->andReturn( '6.9' );
 
@@ -66,8 +56,7 @@ final class WordPress_Version_Conditional_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_met_returns_true_for_above_6_9() {
-		$this->wordpress_helper
-			->expects( 'get_wordpress_version' )
+		Monkey\Functions\expect( 'wp_get_wp_version' )
 			->once()
 			->andReturn( '7.0' );
 
@@ -82,8 +71,7 @@ final class WordPress_Version_Conditional_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_is_met_returns_false_for_below_6_9() {
-		$this->wordpress_helper
-			->expects( 'get_wordpress_version' )
+		Monkey\Functions\expect( 'wp_get_wp_version' )
 			->once()
 			->andReturn( '6.8.1' );
 
