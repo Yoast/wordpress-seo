@@ -111,7 +111,7 @@ class Delete_Sample_Page extends Abstract_Task implements Completeable_Task_Inte
 	/**
 	 * Returns the task's copy set.
 	 *
-	 * @return string|null
+	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
