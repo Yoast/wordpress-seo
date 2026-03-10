@@ -90,6 +90,40 @@ class Recent_Content_Indexable_Collector {
 	}
 
 	/**
+	 * Gets recent content items without a custom meta description for the given post type.
+	 *
+	 * @param string   $post_type  The post type to query.
+	 * @param string   $date_limit The date limit (content modified after this date).
+	 * @param int|null $limit      Optional. Maximum number of items to retrieve.
+	 *
+	 * @return Content_Item_Score_Data[] Array of content item score data value objects.
+	 */
+	public function get_recent_content_without_description( string $post_type, string $date_limit, ?int $limit = null ): array {
+		$raw_results = $this->indexable_repository->get_recent_posts_without_description_for_post_type(
+			$post_type,
+			$limit,
+			$date_limit,
+		);
+
+		if ( ! \is_array( $raw_results ) ) {
+			return [];
+		}
+
+		$content_items = [];
+
+		foreach ( $raw_results as $result ) {
+			$content_items[] = new Content_Item_Score_Data(
+				(int) $result['object_id'],
+				$result['breadcrumb_title'],
+				'',
+				$post_type,
+			);
+		}
+
+		return $content_items;
+	}
+
+	/**
 	 * Maps raw database results to Content_Item_Score_Data value objects for SEO scores.
 	 *
 	 * @param array<array<string, string>> $raw_results The raw results from the repository.

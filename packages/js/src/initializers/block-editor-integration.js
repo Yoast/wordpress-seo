@@ -1,5 +1,5 @@
 import { updateCategory } from "@wordpress/blocks";
-import { dispatch, select } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import { getQueryArg } from "@wordpress/url";
 import {
 	PluginDocumentSettingPanel,
@@ -212,5 +212,16 @@ export default function initBlockEditorIntegration( store ) {
 	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );
 	if ( yoastTab === "readability" || yoastTab === "seo" ) {
 		dispatch( "core/edit-post" ).openGeneralSidebar( "yoast-seo/seo-sidebar" );
+	}
+
+	const yoastScrollTo = getQueryArg( window.location.href, "yoast-scroll-to" );
+	if ( yoastScrollTo === "meta-description" ) {
+		const unsubscribe = subscribe( () => {
+			const metaDescField = document.getElementById( "yoast-google-preview-description-sidebar" );
+			if ( metaDescField ) {
+				unsubscribe();
+				metaDescField.focus();
+			}
+		} );
 	}
 }
