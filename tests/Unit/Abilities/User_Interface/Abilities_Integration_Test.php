@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,6 +28,13 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @var Mockery\MockInterface|Score_Retriever
 	 */
 	private $score_retriever;
+
+	/**
+	 * The capability helper mock.
+	 *
+	 * @var Mockery\MockInterface|Capability_Helper
+	 */
+	private $capability_helper;
 
 	/**
 	 * The options helper mock.
@@ -57,12 +65,14 @@ final class Abilities_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->score_retriever = Mockery::mock( Score_Retriever::class );
-		$this->options_helper  = Mockery::mock( Options_Helper::class );
-		$this->language_helper = Mockery::mock( Language_Helper::class );
+		$this->score_retriever  = Mockery::mock( Score_Retriever::class );
+		$this->capability_helper = Mockery::mock( Capability_Helper::class );
+		$this->options_helper   = Mockery::mock( Options_Helper::class );
+		$this->language_helper  = Mockery::mock( Language_Helper::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
+			$this->capability_helper,
 			$this->options_helper,
 			$this->language_helper,
 		);
@@ -102,32 +112,34 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_read_scores returns true for a user with edit_posts capability.
+	 * Tests that can_read_scores returns true for a user with wpseo_manage_options capability.
 	 *
 	 * @covers ::can_read_scores
 	 *
 	 * @return void
 	 */
-	public function test_can_read_scores_returns_true_for_user_with_edit_posts() {
-		Monkey\Functions\expect( 'current_user_can' )
+	public function test_can_read_scores_returns_true_for_user_with_manage_options() {
+		$this->capability_helper
+			->expects( 'current_user_can' )
 			->once()
-			->with( 'edit_posts' )
+			->with( 'wpseo_manage_options' )
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->can_read_scores() );
 	}
 
 	/**
-	 * Tests that can_read_scores returns false for a user without edit_posts capability.
+	 * Tests that can_read_scores returns false for a user without wpseo_manage_options capability.
 	 *
 	 * @covers ::can_read_scores
 	 *
 	 * @return void
 	 */
-	public function test_can_read_scores_returns_false_for_user_without_edit_posts() {
-		Monkey\Functions\expect( 'current_user_can' )
+	public function test_can_read_scores_returns_false_for_user_without_manage_options() {
+		$this->capability_helper
+			->expects( 'current_user_can' )
 			->once()
-			->with( 'edit_posts' )
+			->with( 'wpseo_manage_options' )
 			->andReturn( false );
 
 		$this->assertFalse( $this->instance->can_read_scores() );

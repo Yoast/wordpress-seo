@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface;
 
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -20,6 +21,13 @@ class Abilities_Integration implements Integration_Interface {
 	 * @var Score_Retriever
 	 */
 	private $score_retriever;
+
+	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	private $capability_helper;
 
 	/**
 	 * The options helper.
@@ -47,18 +55,21 @@ class Abilities_Integration implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Score_Retriever $score_retriever The score retriever.
-	 * @param Options_Helper  $options_helper  The options helper.
-	 * @param Language_Helper $language_helper The language helper.
+	 * @param Score_Retriever   $score_retriever   The score retriever.
+	 * @param Capability_Helper $capability_helper The capability helper.
+	 * @param Options_Helper    $options_helper    The options helper.
+	 * @param Language_Helper   $language_helper   The language helper.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
+		Capability_Helper $capability_helper,
 		Options_Helper $options_helper,
 		Language_Helper $language_helper
 	) {
-		$this->score_retriever = $score_retriever;
-		$this->options_helper  = $options_helper;
-		$this->language_helper = $language_helper;
+		$this->score_retriever   = $score_retriever;
+		$this->capability_helper = $capability_helper;
+		$this->options_helper    = $options_helper;
+		$this->language_helper   = $language_helper;
 	}
 
 	/**
@@ -220,7 +231,7 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return bool Whether the current user can read scores.
 	 */
 	public function can_read_scores(): bool {
-		return \current_user_can( 'edit_posts' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
