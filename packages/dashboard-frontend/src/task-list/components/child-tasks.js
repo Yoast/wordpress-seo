@@ -70,16 +70,17 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 				completedTasks={ completedTasks }
 				totalTasks={ totalTasks }
 				size="small"
+				className="yst-mb-4"
 			/>
 			{ currentPageTasks.map( ( task ) => (
 				<SingleTaskButton
 					key={ task.id }
 					{ ...task }
 					onClick={ singleTaskOnClick }
-					className="yst-rounded-md yst-p-3 yst-pe-5 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mt-3 yst-border hover:yst-bg-slate-50"
+					className="yst-rounded-md yst-p-3 yst-pe-5 yst-border-b yst-border-slate-300 yst-shadow-sm yst-mb-3 last:yst-mb-0 yst-border hover:yst-bg-slate-50"
 				/>
 			) ) }
-			<div className="yst-flex yst-justify-between yst-items-center yst-mt-3">
+			{ totalPages > 1 && <div className="yst-flex yst-justify-between yst-items-center yst-mt-3">
 				<div className="yst-text-slate-500 yst-text-xs">
 					{ sprintf(
 						/* translators: %1$d: current page number, %2$d: total number of pages */
@@ -112,7 +113,7 @@ export const ChildTasks = ( { tasks, singleTaskOnClick } ) => {
 							__( "Child tasks, current page %d", "wordpress-seo" ), currentPage ) }</span>
 					</Button>
 				</div>
-			</div>
+			</div> }
 		</div>
 	);
 };

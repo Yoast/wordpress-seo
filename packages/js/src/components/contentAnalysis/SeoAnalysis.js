@@ -128,6 +128,7 @@ class SeoAnalysis extends Component {
 												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
+												id={ `yoast-seo-analysis-results-${ location }` }
 												shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 												highlightingUpsellLink={ highlightingUpsellLink }
 												renderAIOptimizeButton={ this.renderAIOptimizeButton }

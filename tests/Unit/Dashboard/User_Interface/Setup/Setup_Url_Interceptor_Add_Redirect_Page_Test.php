@@ -25,7 +25,7 @@ final class Setup_Url_Interceptor_Add_Redirect_Page_Test extends Abstract_Setup_
 		Functions\expect( 'add_submenu_page' )
 			->once()
 			->with(
-				'',
+				'options.php',
 				'',
 				'',
 				'wpseo_manage_options',

@@ -48,10 +48,11 @@ class ReadabilityAnalysis extends Component {
 	 * Renders the Readability Analysis results.
 	 *
 	 * @param {Array} upsellResults The array of upsell results.
+	 * @param {string} location Where this component is rendered (metabox or sidebar).
 	 *
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
-	renderResults( upsellResults ) {
+	renderResults( upsellResults, location ) {
 		const highlightingUpsellLink = "shortlinks.upsell.sidebar.highlighting_readability_analysis";
 
 		return (
@@ -75,6 +76,8 @@ class ReadabilityAnalysis extends Component {
 					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
+					location={ location }
+					id={ location ? `yoast-readability-analysis-results-${ location }` : "" }
 					highlightingUpsellLink={ highlightingUpsellLink }
 					shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
 					renderAIOptimizeButton={ this.renderAIOptimizeButton }
@@ -193,7 +196,7 @@ class ReadabilityAnalysis extends Component {
 											id={ `yoast-readability-analysis-collapsible-${ location }` }
 											initialIsOpen={ initialIsOpen }
 										>
-											{ this.renderResults( upsellResults ) }
+											{ this.renderResults( upsellResults, location ) }
 										</Collapsible>
 									);
 								}
@@ -206,7 +209,7 @@ class ReadabilityAnalysis extends Component {
 													target="wpseo-readability-score-icon"
 													scoreIndicator={ score.className }
 												/>
-												{ this.renderResults( upsellResults ) }
+												{ this.renderResults( upsellResults, location ) }
 											</ReadabilityResultsTabContainer>
 										</ReadabilityResultsPortal>
 									);
