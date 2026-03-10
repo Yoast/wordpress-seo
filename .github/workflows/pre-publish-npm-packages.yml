@@ -1,18 +1,18 @@
-name: Publish NPM Packages
+name: Pre publish NPM Packages
 
 on:
   pull_request:
-    types: [ closed ]
+    types: [ labeled, synchronize ]
     branches: [ trunk ]
 
 jobs:
   publish:
-    name: Publish NPM packages
+    name: Publish NPM packages (dry-run)
     runs-on: ubuntu-latest
     environment: npm-publish
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version increase') && contains(github.event.pull_request.labels.*.name, 'npm-release')
+    if: contains(github.event.pull_request.labels.*.name, 'npm-release')
+
     permissions:
-      id-token: write
       contents: read
 
     steps:
@@ -23,7 +23,6 @@ jobs:
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v4
         with:
           node-version-file: './.nvmrc'
-          registry-url: 'https://registry.npmjs.org'
           cache: 'yarn'
 
       - name: Install dependencies
@@ -34,18 +33,20 @@ jobs:
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
           PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[^:\s]+' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 
-      - name: Publish packages in order
+      - name: Dry-run package (npm pack) in order
+        env:
+          PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
-          for PACKAGE in ${{ steps.packages.outputs.list }}; do
+          mkdir -p packed-tarballs
+          read -ra PACKAGES <<< "$PACKAGE_LIST"
+          for PACKAGE in "${PACKAGES[@]}"; do
             PKG_DIR="packages/${PACKAGE#@yoast/}"
 
-            echo "::group::Publishing $PACKAGE"
-
+            echo "::group::Packing $PACKAGE"
             if [ ! -d "$PKG_DIR" ]; then
               echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
               exit 1
@@ -54,29 +55,36 @@ jobs:
             pushd "$PKG_DIR"
 
             if node -e "process.exit(require('./package.json').scripts?.prepublishOnly ? 0 : 1)" 2>/dev/null; then
-              # Older packages: run prepublishOnly, then publish from dist/ if it exists.
               echo "Strategy: prepublishOnly"
               npm run-script prepublishOnly
               if [ -d "dist" ]; then
                 pushd dist
-                npm publish --provenance --ignore-scripts
+                TAR=$(npm pack --silent)
                 popd
+                mv "dist/$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
               else
-                npm publish --provenance --ignore-scripts
+                TAR=$(npm pack --silent)
+                mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
               fi
 
             elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
-              # Packages with a build step: build first, then publish.
               echo "Strategy: build"
               NODE_ENV=production npm run-script build
-              npm publish --provenance
+              TAR=$(npm pack --silent)
+              mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
 
             else
-              # No build step needed (e.g. config-only packages like tailwindcss-preset).
-              echo "Strategy: direct publish"
-              npm publish --provenance
+              echo "Strategy: direct pack"
+              TAR=$(npm pack --silent)
+              mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
             fi
 
             popd
             echo "::endgroup::"
           done
+
+      - name: Upload packed tarballs
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-pack-dry-run
+          path: packed-tarballs/*.tgz
