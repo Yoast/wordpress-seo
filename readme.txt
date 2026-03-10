@@ -320,6 +320,7 @@ Release date: 2026-03-17
 * Fixes a bug where structured data broke when `script` tag was used in the step description of the HowTo block.
 * Fixes a bug where the \"Additional CSS class(es)\" field was missing from the link popover when Yoast SEO was active. Props to [somecodeiwrote](https://github.com/somecodeiwrote).
 * Fixes a bug where the Schema aggregator could break if another plugin returns `null` from the `rest_pre_serve_request` filter.
+* Fixes a bug where the Schema aggregator response headers processor was called even when the feature was off.
 
 #### Other
 
