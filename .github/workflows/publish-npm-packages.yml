@@ -9,6 +9,7 @@ jobs:
   publish:
     name: Publish NPM packages
     runs-on: ubuntu-latest
+    environment: npm-publish
     if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version increase')
     permissions:
       id-token: write
