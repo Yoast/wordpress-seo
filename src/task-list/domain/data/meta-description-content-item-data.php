@@ -50,4 +50,3 @@ class Meta_Description_Content_Item_Data {
 		return $this->title;
 	}
 }
-

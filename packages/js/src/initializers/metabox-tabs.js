@@ -261,7 +261,11 @@ export default function initTabs( jQuery ) {
 			const metaDescField = document.getElementById( "yoast-google-preview-description-metabox" );
 			if ( metaDescField ) {
 				unsubscribe();
-				metaDescField.scrollIntoView( { behavior: "smooth", block: "center" } );
+				metaDescField.scrollIntoView( {
+					behavior: "auto",
+					block: "center",
+					inline: "center",
+				} );
 				metaDescField.focus();
 			}
 		} );
