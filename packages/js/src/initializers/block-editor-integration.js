@@ -217,9 +217,10 @@ export default function initBlockEditorIntegration( store ) {
 	const yoastScrollTo = getQueryArg( window.location.href, "yoast-scroll-to" );
 	if ( yoastScrollTo === "meta-description" ) {
 		const unsubscribe = subscribe( () => {
-			const metaDescField = document.getElementById( "yoast-google-preview-description-sidebar" );
+			const metaDescField = document.getElementById( "yoast-google-preview-description-metabox" );
 			if ( metaDescField ) {
 				unsubscribe();
+				metaDescField.scrollIntoView( { behavior: "smooth", block: "center" } );
 				metaDescField.focus();
 			}
 		} );

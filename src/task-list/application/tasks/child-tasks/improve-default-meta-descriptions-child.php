@@ -89,13 +89,7 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	public function get_call_to_action(): ?Call_To_Action_Entry {
 		$link = $this->get_link();
 		if ( $link !== null ) {
-			$link = \add_query_arg(
-				[
-					'yoast-tab'       => 'seo',
-					'yoast-scroll-to' => 'meta-description',
-				],
-				$link
-			);
+			$link = \add_query_arg( 'yoast-scroll-to', 'meta-description', $link);
 		}
 
 		return new Call_To_Action_Entry(
