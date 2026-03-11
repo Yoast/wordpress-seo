@@ -1,6 +1,8 @@
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Badge, Button } from "@yoast/ui-library";
-import { EyeIcon, LockClosedIcon } from "@heroicons/react/solid";
+import { EyeIcon } from "@heroicons/react/outline";
+import { LockClosedIcon } from "@heroicons/react/solid";
+import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { Component, Fragment } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
@@ -85,16 +87,17 @@ class Results extends Component {
 	} ) {
 		return <Fragment>
 			<Button
-				variant="secondary"
+				variant={ isPressed ? "primary" : "secondary" }
 				size="small"
-				icon={ EyeIcon }
-				className={ className }
+				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
 				onClick={ onClick }
 				id={ id }
 				disabled={ status === "disabled" }
 				aria-pressed={ isPressed }
 				aria-label={ ariaLabel }
-			/>
+			>
+				<EyeIcon className="yst-w-4 yst-h-4" />
+			</Button>
 			{ this.props.shouldUpsellHighlighting &&
 				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
 					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />

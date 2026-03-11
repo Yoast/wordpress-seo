@@ -33,7 +33,6 @@ export const classNameMap = {
  * @param {boolean} [isLoading=false] Whether to show a spinner.
  * @param {boolean} [disabled=false] Whether the button is disabled.
  * @param {string} [className=""] CSS class.
- * @param {JSX.elementType} [icon=null] Optional icon component rendered before children.
  * @returns {JSX.Element} Button component.
  */
 const Button = forwardRef( ( {
@@ -45,7 +44,6 @@ const Button = forwardRef( ( {
 	isLoading,
 	disabled,
 	className,
-	icon: Icon,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -67,14 +65,13 @@ const Button = forwardRef( ( {
 	>
 		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-button--loading"  { ...svgAriaProps } /> }
 		{ variant.startsWith( "ai-" ) && <SparklesIcon className="yst-button--sparkles-icon yst-shrink-0" { ...svgAriaProps } /> }
-		{ Icon && <Icon className={ size === "small" ? "yst-w-4 yst-h-4" : "yst-w-5 yst-h-5" } { ...svgAriaProps } /> }
 		{ children }
 	</Component>;
 } );
 
 Button.displayName = "Button";
 Button.propTypes = {
-	children: PropTypes.node,
+	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	type: PropTypes.oneOf( [ "button", "submit", "reset" ] ),
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
@@ -82,10 +79,8 @@ Button.propTypes = {
 	isLoading: PropTypes.bool,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
-	icon: PropTypes.elementType,
 };
 Button.defaultProps = {
-	children: null,
 	as: "button",
 	// eslint-disable-next-line no-undefined
 	type: undefined,
@@ -94,7 +89,6 @@ Button.defaultProps = {
 	isLoading: false,
 	disabled: false,
 	className: "",
-	icon: null,
 };
 
 export default Button;

@@ -1,7 +1,9 @@
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
 import { Button } from "@yoast/ui-library";
-import { EyeIcon, PencilIcon } from "@heroicons/react/solid";
+import classNames from "classnames";
+import { EyeIcon } from "@heroicons/react/outline";
+import { PencilIcon } from "@heroicons/react/solid";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
@@ -72,16 +74,17 @@ const createMarkButton = ( {
 	isPressed,
 } ) => {
 	return <Button
-		variant="secondary"
+		variant={ isPressed ? "primary" : "secondary" }
 		size="small"
-		icon={ EyeIcon }
-		className={ className }
+		className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
 		onClick={ onClick }
 		id={ id }
 		disabled={ status === "disabled" }
 		aria-pressed={ isPressed }
 		aria-label={ ariaLabel }
-	/>;
+	>
+		<EyeIcon className="yst-w-4 yst-h-4" />
+	</Button>;
 };
 
 /**
@@ -192,12 +195,13 @@ const AnalysisResult = ( {
 					<Button
 						variant="secondary"
 						size="small"
-						icon={ PencilIcon }
-						className={ editButtonClassName }
+						className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0" ) }
 						onClick={ onButtonClickEdit }
 						id={ buttonIdEdit }
 						aria-label={ ariaLabelEdit }
-					/>
+					>
+						<PencilIcon className="yst-w-4 yst-h-4" />
+					</Button>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
