@@ -2,21 +2,21 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Default_Meta_Descriptions;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Default_Meta_Descriptions_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 
 /**
- * Test class for the Default Meta Descriptions populate_child_tasks method.
+ * Test class for the Improve Default Meta Descriptions populate_child_tasks method.
  *
- * @group Default_Meta_Descriptions
+ * @group Improve_Default_Meta_Descriptions
  *
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Default_Meta_Descriptions::populate_child_tasks
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Default_Meta_Descriptions_Populate_Child_Tasks_Test extends Abstract_Default_Meta_Descriptions_Test {
+final class Improve_Default_Meta_Descriptions_Populate_Child_Tasks_Test extends Abstract_Improve_Default_Meta_Descriptions_Test {
 
 	/**
 	 * Tests populate_child_tasks returns empty array when post type is empty string.
@@ -64,7 +64,7 @@ final class Default_Meta_Descriptions_Populate_Child_Tasks_Test extends Abstract
 		$child_tasks = $this->instance->populate_child_tasks();
 
 		$this->assertCount( 2, $child_tasks );
-		$this->assertInstanceOf( Default_Meta_Descriptions_Child::class, $child_tasks[0] );
-		$this->assertInstanceOf( Default_Meta_Descriptions_Child::class, $child_tasks[1] );
+		$this->assertInstanceOf( Improve_Default_Meta_Descriptions_Child::class, $child_tasks[0] );
+		$this->assertInstanceOf( Improve_Default_Meta_Descriptions_Child::class, $child_tasks[1] );
 	}
 }

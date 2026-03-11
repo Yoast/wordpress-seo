@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Default_Meta_Descriptions;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Default_Meta_Descriptions;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Base class for the Default Meta Descriptions task tests.
+ * Base class for the Improve Default Meta Descriptions task tests.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Default_Meta_Descriptions_Test extends TestCase {
+abstract class Abstract_Improve_Default_Meta_Descriptions_Test extends TestCase {
 
 	/**
 	 * The recent content indexable collector mock.
@@ -43,7 +43,7 @@ abstract class Abstract_Default_Meta_Descriptions_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Default_Meta_Descriptions
+	 * @var Improve_Default_Meta_Descriptions
 	 */
 	protected $instance;
 
@@ -78,7 +78,7 @@ abstract class Abstract_Default_Meta_Descriptions_Test extends TestCase {
 			->andReturn( '' )
 			->byDefault();
 
-		$this->instance = new Default_Meta_Descriptions(
+		$this->instance = new Improve_Default_Meta_Descriptions(
 			$this->recent_content_indexable_collector,
 			$this->indexable_helper,
 			$this->options_helper,

@@ -2,18 +2,18 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Default_Meta_Descriptions;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
 /**
- * Test class for the Default Meta Descriptions is_valid method.
+ * Test class for the Improve Default Meta Descriptions is_valid method.
  *
- * @group Default_Meta_Descriptions
+ * @group Improve_Default_Meta_Descriptions
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Default_Meta_Descriptions::is_valid
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions::is_valid
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Default_Meta_Descriptions_Test {
+final class Improve_Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Improve_Default_Meta_Descriptions_Test {
 
 	/**
 	 * Tests that is_valid returns true when indexables are enabled and metadesc has no replacevars.
@@ -27,11 +27,12 @@ final class Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Default_Met
 	}
 
 	/**
-	 * Tests that is_valid returns true when the metadesc contains plain text (no replacevars).
+	 * Tests that is_valid returns false when the metadesc contains plain hardcoded text,
+	 * as this indicates descriptions are already customized and the task is unnecessary.
 	 *
 	 * @return void
 	 */
-	public function test_is_valid_returns_true_when_metadesc_is_hardcoded() {
+	public function test_is_valid_returns_false_when_metadesc_is_hardcoded() {
 		$this->instance->set_post_type( 'post' );
 
 		$this->options_helper
@@ -39,7 +40,7 @@ final class Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Default_Met
 			->with( 'metadesc-post' )
 			->andReturn( 'This is a hardcoded meta description.' );
 
-		$this->assertTrue( $this->instance->is_valid() );
+		$this->assertFalse( $this->instance->is_valid() );
 	}
 
 	/**

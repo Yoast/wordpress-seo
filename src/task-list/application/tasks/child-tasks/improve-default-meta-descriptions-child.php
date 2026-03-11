@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 /**
  * Represents a child task for a post or page missing a custom meta description.
  */
-class Default_Meta_Descriptions_Child extends Abstract_Child_Task {
+class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 
 	/**
 	 * Holds the duration.

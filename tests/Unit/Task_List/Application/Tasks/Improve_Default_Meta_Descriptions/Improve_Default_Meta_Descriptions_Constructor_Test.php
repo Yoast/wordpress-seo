@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Default_Meta_Descriptions;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
- * Test class for the Default Meta Descriptions constructor.
+ * Test class for the Improve Default Meta Descriptions constructor.
  *
- * @group Default_Meta_Descriptions
+ * @group Improve_Default_Meta_Descriptions
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Default_Meta_Descriptions::__construct
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Default_Meta_Descriptions_Constructor_Test extends Abstract_Default_Meta_Descriptions_Test {
+final class Improve_Default_Meta_Descriptions_Constructor_Test extends Abstract_Improve_Default_Meta_Descriptions_Test {
 
 	/**
 	 * Tests the constructor.

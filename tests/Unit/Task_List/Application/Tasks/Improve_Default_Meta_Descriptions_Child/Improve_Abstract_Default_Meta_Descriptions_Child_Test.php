@@ -2,20 +2,20 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Default_Meta_Descriptions_Child;
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions_Child;
 
 use Mockery;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Default_Meta_Descriptions_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Base class for the Default Meta Descriptions Child task tests.
+ * Base class for the Improve Default Meta Descriptions Child task tests.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Default_Meta_Descriptions_Child_Test extends TestCase {
+abstract class Improve_Abstract_Default_Meta_Descriptions_Child_Test extends TestCase {
 
 	/**
 	 * The parent task mock.
@@ -34,7 +34,7 @@ abstract class Abstract_Default_Meta_Descriptions_Child_Test extends TestCase {
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Default_Meta_Descriptions_Child
+	 * @var Improve_Default_Meta_Descriptions_Child
 	 */
 	protected $instance;
 
@@ -50,7 +50,7 @@ abstract class Abstract_Default_Meta_Descriptions_Child_Test extends TestCase {
 		$this->parent_task       = Mockery::mock( Parent_Task_Interface::class );
 		$this->content_item_data = new Content_Item_Score_Data( 123, 'Test Post Title', '', 'post' );
 
-		$this->instance = new Default_Meta_Descriptions_Child(
+		$this->instance = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,
 			$this->content_item_data,
 		);

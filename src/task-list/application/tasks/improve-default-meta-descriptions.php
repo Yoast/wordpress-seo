@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Default_Meta_Descriptions_Child;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Co
 /**
  * Represents the task for setting custom meta descriptions on recent content.
  */
-class Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
+class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 	/**
 	 * The default maximum number of content items to retrieve.
@@ -28,7 +28,7 @@ class Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * @var string
 	 */
-	protected $id = 'default-meta-descriptions';
+	protected $id = 'improve-default-meta-descriptions';
 
 	/**
 	 * Holds the priority.
@@ -141,7 +141,7 @@ class Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 		$child_tasks = [];
 		foreach ( $recent_content_items as $content_item_data ) {
-			$child_tasks[] = new Default_Meta_Descriptions_Child(
+			$child_tasks[] = new Improve_Default_Meta_Descriptions_Child(
 				$this,
 				$content_item_data,
 			);
@@ -155,8 +155,8 @@ class Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * The task is only shown when:
 	 * - Indexables are being indexed.
-	 * - The global meta description template for this post type does not contain replacevars (%%...%%).
-	 *   If it contains replacevars, descriptions will be auto-generated and the task is unnecessary.
+	 * - The global meta description template for this post type does not contain replacevars (%%...%%) or hardcoded text, as these indicate that the meta descriptions are already customized to some extent.
+	 *   If it contains replacevars or hardcoded text, descriptions will be auto-generated and the task is unnecessary.
 	 *
 	 * @return bool
 	 */
@@ -167,6 +167,6 @@ class Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 		$metadesc = $this->options_helper->get( 'metadesc-' . $this->get_post_type() );
 
-		return \strpos( $metadesc, '%%' ) === false;
+		return empty( $metadesc );
 	}
 }
