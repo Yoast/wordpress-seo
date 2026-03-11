@@ -26,7 +26,8 @@ const Mobile = ( {
 	const closeMobileMenu = useCallback( () => setMobileMenuOpen( false ), [ setMobileMenuOpen ] );
 
 	return <>
-		<Dialog open={ isMobileMenuOpen } onClose={ closeMobileMenu } aria-label={ ariaLabel }>
+		{ /* Using the `yst-root` class here to get our styling within the portal. */ }
+		<Dialog className="yst-root" open={ isMobileMenuOpen } onClose={ closeMobileMenu } aria-label={ ariaLabel }>
 			<div className="yst-mobile-navigation__dialog">
 				<div className="yst-fixed yst-inset-0 yst-bg-slate-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
 				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-slate-100">
