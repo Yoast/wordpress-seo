@@ -1,10 +1,10 @@
 import { ContentAnalysis } from "@yoast/analysis-report";
-import { Badge, Button } from "@yoast/ui-library";
+import { Badge, Button, Root, Tooltip } from "@yoast/ui-library";
 import { EyeIcon } from "@heroicons/react/outline";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 
 import { isUndefined } from "lodash";
@@ -13,6 +13,72 @@ import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
 import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
+
+/**
+ * Mark button with optional upsell badge and tooltip.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {JSX.Element} The mark button.
+ */
+const MarkButtonWithUpsell = ( {
+	ariaLabel,
+	id,
+	className,
+	status,
+	onClick,
+	isPressed,
+	shouldUpsellHighlighting,
+} ) => {
+	const [ isTooltipOpen, setIsTooltipOpen ] = useState( false );
+
+	return <Root>
+		<div className="yst-relative yst-inline-flex">
+			<Button
+				variant={ isPressed ? "primary" : "secondary" }
+				size="small"
+				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+				onClick={ onClick }
+				id={ id }
+				disabled={ status === "disabled" }
+				aria-pressed={ isPressed }
+				aria-label={ ariaLabel }
+				onPointerEnter={ () => setIsTooltipOpen( true ) }
+				onPointerLeave={ () => setIsTooltipOpen( false ) }
+			>
+				<EyeIcon className="yst-w-4 yst-h-4" />
+			</Button>
+			{ isTooltipOpen && ! isPressed && (
+				<Tooltip position="left">
+					{ ariaLabel }
+				</Tooltip>
+			) }
+		</div>
+		{ shouldUpsellHighlighting &&
+			<div>
+				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+				</Badge>
+			</div>
+		}
+	</Root>;
+};
+
+MarkButtonWithUpsell.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+	shouldUpsellHighlighting: PropTypes.bool,
+};
+
+MarkButtonWithUpsell.defaultProps = {
+	className: "",
+	status: "enabled",
+	shouldUpsellHighlighting: false,
+};
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -85,25 +151,15 @@ class Results extends Component {
 		onClick,
 		isPressed,
 	} ) {
-		return <Fragment>
-			<Button
-				variant={ isPressed ? "primary" : "secondary" }
-				size="small"
-				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
-				onClick={ onClick }
-				id={ id }
-				disabled={ status === "disabled" }
-				aria-pressed={ isPressed }
-				aria-label={ ariaLabel }
-			>
-				<EyeIcon className="yst-w-4 yst-h-4" />
-			</Button>
-			{ this.props.shouldUpsellHighlighting &&
-				<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-					<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
-				</Badge>
-			}
-		</Fragment>;
+		return <MarkButtonWithUpsell
+			ariaLabel={ ariaLabel }
+			id={ id }
+			className={ className }
+			status={ status }
+			onClick={ onClick }
+			isPressed={ isPressed }
+			shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+		/>;
 	}
 
 	/**
