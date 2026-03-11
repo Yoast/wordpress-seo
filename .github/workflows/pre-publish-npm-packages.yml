@@ -9,7 +9,6 @@ jobs:
   publish:
     name: Publish NPM packages (dry-run)
     runs-on: ubuntu-latest
-    environment: npm-publish-dry-run
     if: contains(github.event.pull_request.labels.*.name, 'npm-release') && github.event.pull_request.head.repo.full_name == github.repository
 
     permissions:
