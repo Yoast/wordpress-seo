@@ -1,9 +1,9 @@
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
-import { Button } from "@yoast/ui-library";
+import { Button, Root, Tooltip } from "@yoast/ui-library";
 import classNames from "classnames";
 import { EyeIcon } from "@heroicons/react/outline";
-import { PencilIcon } from "@heroicons/react/solid";
+import { PencilIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 };
 
 /**
- * Factory method which creates a new instance of the default mark button.
+ * The default mark button component.
  *
  * @param {string} ariaLabel 	The button aria-label.
  * @param {string} id 			The button id.
@@ -65,7 +65,7 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
  *
  * @returns {JSX.Element} A new mark button.
  */
-const createMarkButton = ( {
+const MarkButton = ( {
 	ariaLabel,
 	id,
 	className,
@@ -73,18 +73,56 @@ const createMarkButton = ( {
 	onClick,
 	isPressed,
 } ) => {
-	return <Button
-		variant={ isPressed ? "primary" : "secondary" }
-		size="small"
-		className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
-		onClick={ onClick }
-		id={ id }
-		disabled={ status === "disabled" }
-		aria-pressed={ isPressed }
-		aria-label={ ariaLabel }
-	>
-		<EyeIcon className="yst-w-4 yst-h-4" />
-	</Button>;
+	const [ isTooltipOpen, setIsTooltipOpen ] = useState( false );
+
+	return <Root>
+		<div className="yst-relative yst-inline-flex">
+			<Button
+				variant={ isPressed ? "primary" : "secondary" }
+				size="small"
+				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+				onClick={ onClick }
+				id={ id }
+				disabled={ status === "disabled" }
+				aria-pressed={ isPressed }
+				aria-label={ ariaLabel }
+				onPointerEnter={ () => setIsTooltipOpen( true ) }
+				onPointerLeave={ () => setIsTooltipOpen( false ) }
+			>
+				<EyeIcon className="yst-w-4 yst-h-4" />
+			</Button>
+			{ isTooltipOpen && ! isPressed && (
+				<Tooltip position="left">
+					{ ariaLabel }
+				</Tooltip>
+			) }
+		</div>
+	</Root>;
+};
+
+MarkButton.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+};
+
+MarkButton.defaultProps = {
+	className: "",
+	status: "enabled",
+};
+
+/**
+ * The default mark button factory wrapping the MarkButton component.
+ *
+ * @param {Object} props The mark button props.
+ *
+ * @returns {JSX.Element} A new mark button.
+ */
+const createMarkButton = ( props ) => {
+	return <MarkButton { ...props } />;
 };
 
 /**
@@ -146,6 +184,7 @@ const AnalysisResult = ( {
 	text,
 } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
+	const [ isEditTooltipOpen, setIsEditTooltipOpen ] = useState( false );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
@@ -192,16 +231,27 @@ const AnalysisResult = ( {
 				{ renderHighlightingUpsell( isOpen, closeModal ) }
 				{
 					hasEditButton && isPremium &&
-					<Button
-						variant="secondary"
-						size="small"
-						className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0" ) }
-						onClick={ onButtonClickEdit }
-						id={ buttonIdEdit }
-						aria-label={ ariaLabelEdit }
-					>
-						<PencilIcon className="yst-w-4 yst-h-4" />
-					</Button>
+					<Root>
+						<div className="yst-relative yst-inline-flex">
+							<Button
+								variant="secondary"
+								size="small"
+								className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0" ) }
+								onClick={ onButtonClickEdit }
+								id={ buttonIdEdit }
+								aria-label={ ariaLabelEdit }
+								onPointerEnter={ () => setIsEditTooltipOpen( true ) }
+								onPointerLeave={ () => setIsEditTooltipOpen( false ) }
+							>
+								<PencilIcon className="yst-w-4 yst-h-4" />
+							</Button>
+							{ isEditTooltipOpen && (
+								<Tooltip position="left">
+									{ ariaLabelEdit }
+								</Tooltip>
+							) }
+						</div>
+					</Root>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }
 			</ResultButtonsContainer>
