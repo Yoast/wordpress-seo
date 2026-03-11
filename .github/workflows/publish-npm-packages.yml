@@ -4,6 +4,12 @@ on:
   pull_request:
     types: [ closed ]
     branches: [ trunk ]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to read packages list from (e.g. 12345)."
+        required: true
+        type: number
 
 concurrency:
   group: npm-publish
@@ -14,10 +20,11 @@ jobs:
     name: Publish NPM packages
     runs-on: ubuntu-latest
     environment: npm-publish
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version increase') && contains(github.event.pull_request.labels.*.name, 'npm-release')
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version increase') && contains(github.event.pull_request.labels.*.name, 'npm-release'))
     permissions:
       id-token: write
       contents: read
+      pull-requests: read
 
     steps:
       - name: Checkout code
@@ -38,10 +45,16 @@ jobs:
       - name: Extract packages to release from PR body
         id: packages
         env:
+          GH_TOKEN: ${{ github.token }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BODY=$(gh pr view "${{ inputs.pr_number }}" --repo "${{ github.repository }}" --json body -q .body)
+          else
+            BODY="$PR_BODY"
+          fi
           # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
-          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 
