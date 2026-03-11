@@ -284,6 +284,27 @@ describe( "Matching keyphrase in subheadings: English", () => {
 		] );
 	} );
 
+	it( "does not overcount when the same keyphrase word matches in multiple sentences", () => {
+		// The 2-word keyphrase "cat fish" has only "cat" present in the heading; "fish" is absent.
+		// The heading contains two sentences, and "cat" appears in both.
+		// matchWordFormsInSentences tracks matched word-form indices via a Set, so "cat" (index 0)
+		// is only counted once across both sentences. matchCount = Set.size = 1 (only "cat"),
+		// giving percentWordMatches = round(1/2 * 100) = 50% — correctly below the >50% threshold.
+		// The heading should NOT be counted as reflecting the topic because "fish" is never present.
+		paper = new Paper(
+			"<h2>My cat is fluffy. The cat sat.</h2><p>Some body text here.</p>",
+			{ keyword: "cat fish", locale: "en_US" }
+		);
+		researcher.setPaper( paper );
+		buildTree( paper, researcher );
+		const result = matchKeywordInSubheadings( paper, researcher );
+
+		expect( result.count ).toBe( 1 );
+		// "cat" appears in two sentences but must only be counted once; "fish" is absent.
+		// So only 1 of 2 topic words is matched → 50% — not above the >50% threshold → 0 subheadings.
+		expect( result.matches.numberOfSubheadings ).toBe( 0 );
+	} );
+
 	it( "only marks matched topics within each sentence's position range when keyphrase words are in different sentences", () => {
 		// This test verifies that matched topics are filtered to only include those within each sentence's source code range.
 		// The subheading has two sentences: "Love your dog." and "Feed your cat!"

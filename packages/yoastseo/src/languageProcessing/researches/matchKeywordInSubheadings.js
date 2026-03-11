@@ -83,7 +83,13 @@ const getSentencesFromHeading = ( heading, tree ) => {
 const matchWordFormsInSentences = ( sentences, wordForms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper ) => {
 	/** @type {MatchResult[][]} */
 	const allMatches = [];
-	let totalMatchCount = 0;
+	/*
+	 * Track which word-form indices (i.e., positions in the `wordForms` array) have been matched
+	 * at least once across all sentences. Using a Set prevents the same keyphrase word from being
+	 * counted multiple times when it appears in more than one sentence, which would otherwise
+	 * inflate `percentWordMatches` and produce false positives.
+	 */
+	const matchedWordFormIndices = new Set();
 	/** @type {Sentence[]} */
 	const sentencesWithMatches = [];
 
@@ -93,17 +99,22 @@ const matchWordFormsInSentences = ( sentences, wordForms, locale, matchWordCusto
 			matchWordFormsWithSentence( sentenceToMatch, forms, locale, matchWordCustomHelper, isExactMatchRequested, customSplitIntoTokensHelper )
 		);
 
-		const foundWords = matchedForms.reduce( ( count, { count: matchCount } ) => matchCount > 0 ? count + 1 : count, 0 );
+		let foundWords = 0;
+		matchedForms.forEach( ( { count: matchCount }, index ) => {
+			if ( matchCount > 0 ) {
+				foundWords++;
+				matchedWordFormIndices.add( index );
+			}
+		} );
 
 		allMatches.push( matchedForms );
-		totalMatchCount += foundWords;
 
 		if ( foundWords > 0 ) {
 			sentencesWithMatches.push( sentence );
 		}
 	} );
 
-	return { matches: allMatches, matchCount: totalMatchCount, sentencesWithMatches };
+	return { matches: allMatches, matchCount: matchedWordFormIndices.size, sentencesWithMatches };
 };
 
 /**
