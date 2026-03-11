@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
@@ -22,21 +22,21 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	protected $duration = 5;
 
 	/**
-	 * The content item score data.
+	 * The content item data.
 	 *
-	 * @var Content_Item_Score_Data
+	 * @var Meta_Description_Content_Item_Data
 	 */
 	private $content_item_data;
 
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface   $parent_task       The parent task.
-	 * @param Content_Item_Score_Data $content_item_data The content item data.
+	 * @param Parent_Task_Interface              $parent_task       The parent task.
+	 * @param Meta_Description_Content_Item_Data $content_item_data The content item data.
 	 */
 	public function __construct(
 		Parent_Task_Interface $parent_task,
-		Content_Item_Score_Data $content_item_data
+		Meta_Description_Content_Item_Data $content_item_data
 	) {
 		$this->parent_task       = $parent_task;
 		$this->content_item_data = $content_item_data;

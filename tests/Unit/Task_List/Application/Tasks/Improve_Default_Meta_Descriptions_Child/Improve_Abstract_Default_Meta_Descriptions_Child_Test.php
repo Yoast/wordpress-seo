@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Me
 
 use Mockery;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -27,7 +27,7 @@ abstract class Improve_Abstract_Default_Meta_Descriptions_Child_Test extends Tes
 	/**
 	 * The content item score data.
 	 *
-	 * @var Content_Item_Score_Data
+	 * @var Meta_Description_Content_Item_Data
 	 */
 	protected $content_item_data;
 
@@ -48,7 +48,7 @@ abstract class Improve_Abstract_Default_Meta_Descriptions_Child_Test extends Tes
 		$this->stubTranslationFunctions();
 
 		$this->parent_task       = Mockery::mock( Parent_Task_Interface::class );
-		$this->content_item_data = new Content_Item_Score_Data( 123, 'Test Post Title', '', 'post' );
+		$this->content_item_data = new Meta_Description_Content_Item_Data( 123, 'Test Post Title' );
 
 		$this->instance = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,

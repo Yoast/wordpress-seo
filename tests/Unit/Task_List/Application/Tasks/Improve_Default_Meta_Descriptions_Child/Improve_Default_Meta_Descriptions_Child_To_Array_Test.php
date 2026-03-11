@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Me
 use Brain\Monkey;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 
 /**
  * Tests the to_array method of the Improve Default Meta Descriptions Child task.
@@ -34,7 +34,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	 * @return void
 	 */
 	public function test_to_array() {
-		$content_item = new Content_Item_Score_Data( 456, 'My Amazing Blog Post', '', 'post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post' );
 
 		$parent_copy_set = new Copy_Set(
 			'Improve default meta descriptions: Posts',

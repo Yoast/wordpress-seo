@@ -4,7 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions_Child;
 
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
@@ -29,7 +29,7 @@ final class Improve_Default_Meta_Descriptions_Child_Constructor_Test extends Imp
 			$this->getPropertyValue( $this->instance, 'parent_task' ),
 		);
 		$this->assertInstanceOf(
-			Content_Item_Score_Data::class,
+			Meta_Description_Content_Item_Data::class,
 			$this->getPropertyValue( $this->instance, 'content_item_data' ),
 		);
 	}

@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Dashboard\Application\Score_Groups\Readability_Score_Groups\Rea
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 
 /**
  * Collector that retrieves recent content items with their scores.
@@ -96,7 +97,7 @@ class Recent_Content_Indexable_Collector {
 	 * @param string   $date_limit The date limit (content modified after this date).
 	 * @param int|null $limit      Optional. Maximum number of items to retrieve.
 	 *
-	 * @return Content_Item_Score_Data[] Array of content item score data value objects.
+	 * @return Meta_Description_Content_Item_Data[] Array of content item data value objects.
 	 */
 	public function get_recent_content_without_description( string $post_type, string $date_limit, ?int $limit = null ): array {
 		$raw_results = $this->indexable_repository->get_recent_posts_without_description_for_post_type(
@@ -112,11 +113,9 @@ class Recent_Content_Indexable_Collector {
 		$content_items = [];
 
 		foreach ( $raw_results as $result ) {
-			$content_items[] = new Content_Item_Score_Data(
+			$content_items[] = new Meta_Description_Content_Item_Data(
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
-				'',
-				$post_type,
 			);
 		}
 

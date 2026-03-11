@@ -5,7 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions;
 
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
-use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
+use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 
 /**
  * Test class for the Improve Default Meta Descriptions populate_child_tasks method.
@@ -53,8 +53,8 @@ final class Improve_Default_Meta_Descriptions_Populate_Child_Tasks_Test extends 
 	public function test_populate_child_tasks_returns_child_tasks() {
 		$this->instance->set_post_type( 'post' );
 
-		$content_item_1 = new Content_Item_Score_Data( 1, 'Test Post 1', '', 'post' );
-		$content_item_2 = new Content_Item_Score_Data( 2, 'Test Post 2', '', 'post' );
+		$content_item_1 = new Meta_Description_Content_Item_Data( 1, 'Test Post 1' );
+		$content_item_2 = new Meta_Description_Content_Item_Data( 2, 'Test Post 2' );
 
 		$this->recent_content_indexable_collector
 			->expects( 'get_recent_content_without_description' )
