@@ -37,7 +37,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$content_item = new Content_Item_Score_Data( 456, 'My Amazing Blog Post', '', 'post' );
 
 		$parent_copy_set = new Copy_Set(
-			'Default meta descriptions: Posts',
+			'Improve default meta descriptions: Posts',
 			'<p>Parent about text.</p>',
 		);
 
