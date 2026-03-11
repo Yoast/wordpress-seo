@@ -49,6 +49,7 @@ jobs:
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
+          set -euo pipefail
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
             PKG_DIR="packages/${PACKAGE#@yoast/}"

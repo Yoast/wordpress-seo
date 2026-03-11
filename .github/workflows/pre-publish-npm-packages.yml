@@ -42,6 +42,7 @@ jobs:
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
+          set -euo pipefail
           mkdir -p packed-tarballs
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
