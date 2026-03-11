@@ -31,7 +31,7 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Parent_Task_Interface  $parent_task       The parent task.
+	 * @param Parent_Task_Interface   $parent_task       The parent task.
 	 * @param Content_Item_Score_Data $content_item_data The content item data.
 	 */
 	public function __construct(
@@ -89,7 +89,7 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	public function get_call_to_action(): ?Call_To_Action_Entry {
 		$link = $this->get_link();
 		if ( $link !== null ) {
-			$link = \add_query_arg( 'yoast-scroll-to', 'meta-description', $link);
+			$link = \add_query_arg( 'yoast-scroll-to', 'meta-description', $link );
 		}
 
 		return new Call_To_Action_Entry(

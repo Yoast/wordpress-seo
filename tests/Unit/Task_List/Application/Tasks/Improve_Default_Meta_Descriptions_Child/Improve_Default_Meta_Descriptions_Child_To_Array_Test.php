@@ -61,7 +61,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 					'yoast-tab'       => 'seo',
 					'yoast-scroll-to' => 'meta-description',
 				],
-				'https://example.com/wp-admin/post.php?post=456&action=edit'
+				'https://example.com/wp-admin/post.php?post=456&action=edit',
 			)
 			->andReturn( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-tab=seo&yoast-scroll-to=meta-description' );
 
