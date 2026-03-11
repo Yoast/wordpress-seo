@@ -57,13 +57,11 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		Monkey\Functions\expect( 'add_query_arg' )
 			->once()
 			->with(
-				[
-					'yoast-tab'       => 'seo',
-					'yoast-scroll-to' => 'meta-description',
-				],
+				'yoast-scroll-to',
+				'meta-description',
 				'https://example.com/wp-admin/post.php?post=456&action=edit',
 			)
-			->andReturn( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-tab=seo&yoast-scroll-to=meta-description' );
+			->andReturn( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-scroll-to=meta-description' );
 
 		$instance = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,
@@ -84,7 +82,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$this->assertNull( $result['analyzer'] );
 		$this->assertSame( 'Open social appearance', $result['callToAction']['label'] );
 		$this->assertSame( 'link', $result['callToAction']['type'] );
-		$this->assertSame( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-tab=seo&yoast-scroll-to=meta-description', $result['callToAction']['href'] );
+		$this->assertSame( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-scroll-to=meta-description', $result['callToAction']['href'] );
 	}
 
 	/**
