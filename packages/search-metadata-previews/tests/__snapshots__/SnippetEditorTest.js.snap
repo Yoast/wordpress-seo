@@ -276,7 +276,9 @@ exports[`SnippetEditor Desktop mode and should switch to mobile 1`] = `
     >
       Determine how your post should look in the search results.
     </legend>
-    <div>
+    <div
+      class="yst-root"
+    >
       <div
         class="yst-flex yst-justify-between yst-mb-4"
       >
@@ -768,7 +770,9 @@ exports[`SnippetEditor Mobile mode 1`] = `
     >
       Determine how your post should look in the search results.
     </legend>
-    <div>
+    <div
+      class="yst-root"
+    >
       <div
         class="yst-flex yst-justify-between yst-mb-4"
       >
