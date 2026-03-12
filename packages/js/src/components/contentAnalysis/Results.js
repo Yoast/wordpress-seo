@@ -21,6 +21,7 @@ import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
  *
  * @returns {JSX.Element} The mark button.
  */
+// eslint-disable-next-line complexity -- Component has straightforward branching for button variant, tooltip, and upsell badge.
 const MarkButtonWithUpsell = ( {
 	ariaLabel,
 	id,
