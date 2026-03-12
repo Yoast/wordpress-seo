@@ -81,7 +81,7 @@ const MarkButton = ( {
 			<Button
 				variant={ isPressed ? "primary" : "secondary" }
 				size="small"
-				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+				className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
 				onClick={ onClick }
 				id={ id }
 				disabled={ status === "disabled" }
@@ -234,7 +234,7 @@ const AnalysisResult = ( {
 							<Button
 								variant="secondary"
 								size="small"
-								className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0" ) }
+								className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0" ) }
 								onClick={ onButtonClickEdit }
 								id={ buttonIdEdit }
 								aria-label={ ariaLabelEdit }
