@@ -48,6 +48,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
+          set -euo pipefail
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             BODY=$(gh pr view "${{ inputs.pr_number }}" --repo "${{ github.repository }}" --json body -q .body)
           else
@@ -63,6 +64,10 @@ jobs:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
           set -euo pipefail
+          if [ -z "${PACKAGE_LIST// /}" ]; then
+            echo "::error::PACKAGE_LIST is empty; nothing to publish."
+            exit 1
+          fi
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
             PKG_DIR="packages/${PACKAGE#@yoast/}"

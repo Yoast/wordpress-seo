@@ -43,6 +43,10 @@ jobs:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
         run: |
           set -euo pipefail
+          if [ -z "${PACKAGE_LIST// /}" ]; then
+            echo "::error::PACKAGE_LIST is empty; nothing to pack."
+            exit 1
+          fi
           mkdir -p packed-tarballs
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
