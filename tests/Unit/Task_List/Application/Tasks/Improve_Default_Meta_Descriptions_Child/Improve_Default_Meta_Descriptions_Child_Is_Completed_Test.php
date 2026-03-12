@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Child_Is_Completed_Test extends Im
 		$this->assertFalse( $this->instance->get_is_completed() );
 	}
 }
-

@@ -79,4 +79,3 @@ final class Improve_Default_Meta_Descriptions_Generate_Child_Tasks_Test extends 
 		$this->assertSame( [], $this->instance->get_child_tasks() );
 	}
 }
-

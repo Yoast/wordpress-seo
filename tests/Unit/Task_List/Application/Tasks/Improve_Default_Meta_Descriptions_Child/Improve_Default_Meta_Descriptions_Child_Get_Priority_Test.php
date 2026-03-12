@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Priority_Test extends Im
 		$this->assertSame( 'medium', $this->instance->get_priority() );
 	}
 }
-

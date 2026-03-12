@@ -54,4 +54,3 @@ final class Improve_Default_Meta_Descriptions_Get_Copy_Set_Test extends Abstract
 		$this->assertStringContainsString( 'Posts', $array['title'] );
 	}
 }
-

@@ -104,4 +104,3 @@ final class Improve_Default_Meta_Descriptions_Get_Duration_Test extends Abstract
 		$this->assertSame( 15, $this->instance->get_duration() );
 	}
 }
-

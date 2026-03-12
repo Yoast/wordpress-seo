@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Get_Call_To_Action_Test extends Ab
 		$this->assertNull( $this->instance->get_call_to_action() );
 	}
 }
-

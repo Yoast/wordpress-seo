@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Duration_Test extends Im
 		$this->assertSame( 5, $this->instance->get_duration() );
 	}
 }
-

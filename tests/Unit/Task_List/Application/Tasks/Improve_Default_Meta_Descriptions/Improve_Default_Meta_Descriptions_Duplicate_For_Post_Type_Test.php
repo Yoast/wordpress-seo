@@ -45,4 +45,3 @@ final class Improve_Default_Meta_Descriptions_Duplicate_For_Post_Type_Test exten
 		$this->assertSame( 'post', $this->instance->get_post_type() );
 	}
 }
-

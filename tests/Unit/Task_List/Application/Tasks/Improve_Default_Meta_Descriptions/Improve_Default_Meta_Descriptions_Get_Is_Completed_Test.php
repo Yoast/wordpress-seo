@@ -90,4 +90,3 @@ final class Improve_Default_Meta_Descriptions_Get_Is_Completed_Test extends Abst
 		$this->assertFalse( $this->instance->get_is_completed() );
 	}
 }
-

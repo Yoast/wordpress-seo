@@ -140,4 +140,3 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 		$this->assertSame( 'A "Quoted" Title', $array['title'] );
 	}
 }
-

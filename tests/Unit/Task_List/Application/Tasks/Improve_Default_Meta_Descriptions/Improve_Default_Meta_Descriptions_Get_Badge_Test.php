@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Get_Badge_Test extends Abstract_Im
 		$this->assertNull( $this->instance->get_badge() );
 	}
 }
-

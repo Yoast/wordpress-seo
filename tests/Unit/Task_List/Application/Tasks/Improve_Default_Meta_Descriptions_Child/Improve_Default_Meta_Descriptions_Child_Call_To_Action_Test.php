@@ -70,4 +70,3 @@ final class Improve_Default_Meta_Descriptions_Child_Call_To_Action_Test extends 
 		$this->assertNull( $array['href'] );
 	}
 }
-

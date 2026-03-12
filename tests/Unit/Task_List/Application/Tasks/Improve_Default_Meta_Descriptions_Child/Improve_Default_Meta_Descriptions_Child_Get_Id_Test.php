@@ -52,4 +52,3 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Id_Test extends Improve_
 		$this->assertSame( 'improve-default-meta-descriptions-page-789', $instance->get_id() );
 	}
 }
-

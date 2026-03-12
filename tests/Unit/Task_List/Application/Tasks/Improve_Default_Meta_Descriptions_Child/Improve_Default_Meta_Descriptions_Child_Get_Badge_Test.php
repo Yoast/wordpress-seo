@@ -24,4 +24,3 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Badge_Test extends Impro
 		$this->assertNull( $this->instance->get_badge() );
 	}
 }
-

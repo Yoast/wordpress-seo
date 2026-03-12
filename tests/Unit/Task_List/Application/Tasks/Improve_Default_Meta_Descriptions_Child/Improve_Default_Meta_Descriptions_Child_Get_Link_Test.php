@@ -48,4 +48,3 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Link_Test extends Improv
 		$this->assertNull( $this->instance->get_link() );
 	}
 }
-
