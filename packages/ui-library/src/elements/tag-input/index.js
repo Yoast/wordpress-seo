@@ -135,7 +135,7 @@ const TagInput = forwardRef( ( {
 				ref={ ref }
 				type="text"
 				disabled={ disabled }
-				className="yst-tag-input__input"
+				className="yst-tag-input__input yst-border-0"
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }

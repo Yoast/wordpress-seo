@@ -54,7 +54,7 @@ const Radio = forwardRef( ( {
 					name={ name }
 					value={ value }
 					disabled={ disabled }
-					className="yst-radio__input"
+					className="yst-radio__input yst-border yst-border-slate-300"
 					aria-label={ screenReaderLabel }
 					{ ...props }
 				/>
@@ -86,7 +86,7 @@ const Radio = forwardRef( ( {
 				name={ name }
 				value={ value }
 				disabled={ disabled }
-				className="yst-radio__input"
+				className="yst-radio__input yst-border yst-border-slate-300"
 				{ ...props }
 			/>
 			<Label
