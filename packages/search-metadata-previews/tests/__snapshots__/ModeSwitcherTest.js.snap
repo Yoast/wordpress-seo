@@ -2,9 +2,7 @@
 
 exports[`ModeSwitcher Disabled state renders correctly when disabled 1`] = `
 <div>
-  <div
-    class="yst-root"
-  >
+  <div>
     <div
       class="yst-flex yst-justify-between yst-mb-4"
     >
@@ -98,9 +96,7 @@ exports[`ModeSwitcher Disabled state renders correctly when disabled 1`] = `
 
 exports[`ModeSwitcher Snapshot tests matches snapshot in desktop mode 1`] = `
 <div>
-  <div
-    class="yst-root"
-  >
+  <div>
     <div
       class="yst-flex yst-justify-between yst-mb-4"
     >
@@ -193,9 +189,7 @@ exports[`ModeSwitcher Snapshot tests matches snapshot in desktop mode 1`] = `
 
 exports[`ModeSwitcher Snapshot tests matches snapshot in mobile mode 1`] = `
 <div>
-  <div
-    class="yst-root"
-  >
+  <div>
     <div
       class="yst-flex yst-justify-between yst-mb-4"
     >
