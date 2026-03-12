@@ -8,6 +8,16 @@ namespace Yoast\WP\SEO\Task_List\Domain\Data;
 class Content_Item_OG_Image_Data {
 
 	/**
+	 * Image sources that count as having a valid OG image.
+	 *
+	 * @var string[]
+	 */
+	private const VALID_IMAGE_SOURCES = [
+		'set-by-user',
+		'featured-image',
+	];
+
+	/**
 	 * The content item ID.
 	 *
 	 * @var int
@@ -22,11 +32,11 @@ class Content_Item_OG_Image_Data {
 	private $title;
 
 	/**
-	 * The OpenGraph image URL.
+	 * The OpenGraph image source.
 	 *
 	 * @var string|null
 	 */
-	private $open_graph_image;
+	private $open_graph_image_source;
 
 	/**
 	 * The content type (post type).
@@ -38,16 +48,16 @@ class Content_Item_OG_Image_Data {
 	/**
 	 * Constructs the content item data.
 	 *
-	 * @param int         $content_id       The content item ID.
-	 * @param string      $title            The content item title.
-	 * @param string|null $open_graph_image The OpenGraph image URL.
-	 * @param string      $content_type     The content type.
+	 * @param int         $content_id              The content item ID.
+	 * @param string      $title                   The content item title.
+	 * @param string|null $open_graph_image_source The OpenGraph image source.
+	 * @param string      $content_type            The content type.
 	 */
-	public function __construct( int $content_id, string $title, ?string $open_graph_image, string $content_type ) {
-		$this->content_id       = $content_id;
-		$this->title            = $title;
-		$this->open_graph_image = $open_graph_image;
-		$this->content_type     = $content_type;
+	public function __construct( int $content_id, string $title, ?string $open_graph_image_source, string $content_type ) {
+		$this->content_id              = $content_id;
+		$this->title                   = $title;
+		$this->open_graph_image_source = $open_graph_image_source;
+		$this->content_type            = $content_type;
 	}
 
 	/**
@@ -69,12 +79,12 @@ class Content_Item_OG_Image_Data {
 	}
 
 	/**
-	 * Returns the OpenGraph image URL.
+	 * Returns the OpenGraph image source.
 	 *
 	 * @return string|null
 	 */
-	public function get_open_graph_image(): ?string {
-		return $this->open_graph_image;
+	public function get_open_graph_image_source(): ?string {
+		return $this->open_graph_image_source;
 	}
 
 	/**
@@ -87,11 +97,13 @@ class Content_Item_OG_Image_Data {
 	}
 
 	/**
-	 * Returns whether the content item has an OpenGraph image set.
+	 * Returns whether the content item has a valid OpenGraph image set.
+	 *
+	 * Only explicitly set images and featured images count as valid.
 	 *
 	 * @return bool
 	 */
 	public function has_og_image(): bool {
-		return $this->open_graph_image !== null && $this->open_graph_image !== '';
+		return \in_array( $this->open_graph_image_source, self::VALID_IMAGE_SOURCES, true );
 	}
 }

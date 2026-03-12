@@ -182,7 +182,7 @@ class Recent_Content_Indexable_Collector {
 			$content_items[] = new Content_Item_OG_Image_Data(
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
-				$result['open_graph_image'],
+				$result['open_graph_image_source'],
 				$post_type,
 			);
 		}

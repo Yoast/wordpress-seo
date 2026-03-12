@@ -615,7 +615,7 @@ class Indexable_Repository {
 	public function get_recent_posts_with_og_image_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
 		$query = $this->query()
 			->select( 'object_id' )
-			->select( 'open_graph_image' )
+			->select( 'open_graph_image_source' )
 			->select( 'breadcrumb_title' )
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )

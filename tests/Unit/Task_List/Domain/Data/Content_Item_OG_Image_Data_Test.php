@@ -27,60 +27,67 @@ final class Content_Item_OG_Image_Data_Test extends TestCase {
 		$instance = new Content_Item_OG_Image_Data(
 			123,
 			'Test Post',
-			'https://example.com/image.jpg',
+			'set-by-user',
 			'post',
 		);
 
 		$this->assertSame( 123, $instance->get_content_id() );
 		$this->assertSame( 'Test Post', $instance->get_title() );
-		$this->assertSame( 'https://example.com/image.jpg', $instance->get_open_graph_image() );
+		$this->assertSame( 'set-by-user', $instance->get_open_graph_image_source() );
 		$this->assertSame( 'post', $instance->get_content_type() );
 	}
 
 	/**
-	 * Tests has_og_image returns true when an image is set.
+	 * Tests has_og_image returns true when source is set-by-user.
 	 *
 	 * @return void
 	 */
-	public function test_has_og_image_returns_true_when_image_is_set() {
-		$instance = new Content_Item_OG_Image_Data(
-			123,
-			'Test Post',
-			'https://example.com/image.jpg',
-			'post',
-		);
+	public function test_has_og_image_returns_true_when_set_by_user() {
+		$instance = new Content_Item_OG_Image_Data( 123, 'Test Post', 'set-by-user', 'post' );
 
 		$this->assertTrue( $instance->has_og_image() );
 	}
 
 	/**
-	 * Tests has_og_image returns false when image is null.
+	 * Tests has_og_image returns true when source is featured-image.
 	 *
 	 * @return void
 	 */
-	public function test_has_og_image_returns_false_when_image_is_null() {
-		$instance = new Content_Item_OG_Image_Data(
-			123,
-			'Test Post',
-			null,
-			'post',
-		);
+	public function test_has_og_image_returns_true_when_featured_image() {
+		$instance = new Content_Item_OG_Image_Data( 123, 'Test Post', 'featured-image', 'post' );
+
+		$this->assertTrue( $instance->has_og_image() );
+	}
+
+	/**
+	 * Tests has_og_image returns false when source is null.
+	 *
+	 * @return void
+	 */
+	public function test_has_og_image_returns_false_when_source_is_null() {
+		$instance = new Content_Item_OG_Image_Data( 123, 'Test Post', null, 'post' );
 
 		$this->assertFalse( $instance->has_og_image() );
 	}
 
 	/**
-	 * Tests has_og_image returns false when image is empty string.
+	 * Tests has_og_image returns false when source is first-content-image.
 	 *
 	 * @return void
 	 */
-	public function test_has_og_image_returns_false_when_image_is_empty_string() {
-		$instance = new Content_Item_OG_Image_Data(
-			123,
-			'Test Post',
-			'',
-			'post',
-		);
+	public function test_has_og_image_returns_false_when_first_content_image() {
+		$instance = new Content_Item_OG_Image_Data( 123, 'Test Post', 'first-content-image', 'post' );
+
+		$this->assertFalse( $instance->has_og_image() );
+	}
+
+	/**
+	 * Tests has_og_image returns false when source is gallery-image.
+	 *
+	 * @return void
+	 */
+	public function test_has_og_image_returns_false_when_gallery_image() {
+		$instance = new Content_Item_OG_Image_Data( 123, 'Test Post', 'gallery-image', 'post' );
 
 		$this->assertFalse( $instance->has_og_image() );
 	}

@@ -21,17 +21,17 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 	/**
 	 * Creates a raw OG image result array as returned by the indexable repository.
 	 *
-	 * @param int         $object_id        The object ID.
-	 * @param string      $title            The breadcrumb title.
-	 * @param string|null $open_graph_image The OpenGraph image URL.
+	 * @param int         $object_id              The object ID.
+	 * @param string      $title                  The breadcrumb title.
+	 * @param string|null $open_graph_image_source The OpenGraph image source.
 	 *
 	 * @return array<string, int|string|null> The raw result.
 	 */
-	private function create_raw_og_image_result( int $object_id, string $title, ?string $open_graph_image ): array {
+	private function create_raw_og_image_result( int $object_id, string $title, ?string $open_graph_image_source ): array {
 		return [
-			'object_id'        => $object_id,
-			'breadcrumb_title' => $title,
-			'open_graph_image' => $open_graph_image,
+			'object_id'                => $object_id,
+			'breadcrumb_title'         => $title,
+			'open_graph_image_source' => $open_graph_image_source,
 		];
 	}
 
@@ -46,7 +46,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		$limit      = 10;
 
 		$raw_results = [
-			$this->create_raw_og_image_result( 1, 'First Post', 'https://example.com/image1.jpg' ),
+			$this->create_raw_og_image_result( 1, 'First Post', 'set-by-user' ),
 			$this->create_raw_og_image_result( 2, 'Second Post', null ),
 		];
 
@@ -72,7 +72,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		$date_limit = '2024-01-01';
 
 		$raw_results = [
-			$this->create_raw_og_image_result( 123, 'Test Title', 'https://example.com/image.jpg' ),
+			$this->create_raw_og_image_result( 123, 'Test Title', 'set-by-user' ),
 		];
 
 		$this->indexable_repository
@@ -88,7 +88,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		$content_item = $results[0];
 		$this->assertSame( 123, $content_item->get_content_id() );
 		$this->assertSame( 'Test Title', $content_item->get_title() );
-		$this->assertSame( 'https://example.com/image.jpg', $content_item->get_open_graph_image() );
+		$this->assertSame( 'set-by-user', $content_item->get_open_graph_image_source() );
 		$this->assertSame( 'post', $content_item->get_content_type() );
 		$this->assertTrue( $content_item->has_og_image() );
 	}
@@ -115,7 +115,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		$results = $this->instance->get_recent_content_with_og_image( $post_type, $date_limit );
 
 		$this->assertCount( 1, $results );
-		$this->assertNull( $results[0]->get_open_graph_image() );
+		$this->assertNull( $results[0]->get_open_graph_image_source() );
 		$this->assertFalse( $results[0]->has_og_image() );
 	}
 
@@ -168,9 +168,9 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		$date_limit = '2024-01-01';
 
 		$raw_results = [
-			$this->create_raw_og_image_result( 1, 'First', 'https://example.com/1.jpg' ),
+			$this->create_raw_og_image_result( 1, 'First', 'set-by-user' ),
 			$this->create_raw_og_image_result( 2, 'Second', null ),
-			$this->create_raw_og_image_result( 3, 'Third', 'https://example.com/3.jpg' ),
+			$this->create_raw_og_image_result( 3, 'Third', 'featured-image' ),
 		];
 
 		$this->indexable_repository
