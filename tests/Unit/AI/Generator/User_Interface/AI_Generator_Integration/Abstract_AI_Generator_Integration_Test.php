@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\AI_Generator_Integ
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration;
@@ -88,6 +89,13 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	protected $generator_endpoints_repository;
 
 	/**
+	 * Represents the consent endpoints repository.
+	 *
+	 * @var Mockery\MockInterface|Consent_Endpoints_Repository
+	 */
+	protected $consent_endpoints_repository;
+
+	/**
 	 * Represents the free sparks endpoints repository.
 	 *
 	 * @var Mockery\MockInterface|Free_Sparks_Endpoints_Repository
@@ -110,6 +118,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 		$this->user_helper                      = Mockery::mock( User_Helper::class );
 		$this->introductions_seen_repository    = Mockery::mock( Introductions_Seen_Repository::class );
 		$this->generator_endpoints_repository   = Mockery::mock( Generator_Endpoints_Repository::class );
+		$this->consent_endpoints_repository     = Mockery::mock( Consent_Endpoints_Repository::class );
 		$this->free_sparks_endpoints_repository = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
 
 		$this->instance = new Ai_Generator_Integration(
@@ -121,6 +130,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->user_helper,
 			$this->introductions_seen_repository,
 			$this->generator_endpoints_repository,
+			$this->consent_endpoints_repository,
 			$this->free_sparks_endpoints_repository,
 		);
 	}
