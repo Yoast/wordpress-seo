@@ -8,7 +8,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
  * @typedef {import("../../../values/").Paper } Paper
- * @typedef {import("../../../values/Mark") } Mark
+ * @typedef {import("../../../values/Mark").default } Mark
  * @typedef {import("../../../languageProcessing/researches/matchKeywordInSubheadings").KeyphraseInSubheadingsResult } KeyphraseInSubheadingsResult
  */
 
