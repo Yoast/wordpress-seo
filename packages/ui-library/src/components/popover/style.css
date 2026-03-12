@@ -19,6 +19,7 @@
 
 	.yst-popover__close-button {
 			@apply
+			yst-border-0
 			yst-bg-white
 			yst-rounded-md
 			yst-text-slate-400

@@ -1,6 +1,7 @@
 @layer components {
 	.yst-dropdown-menu__icon-trigger {
-		@apply 
+		@apply
+		yst-border-0
 		yst-text-slate-400
 		yst-rounded-full
 		focus:yst-text-slate-600
@@ -14,6 +15,7 @@
 		@apply
 		yst-items-center
 		yst-w-full
+		yst-border-0
 		yst-ring-0
 		yst-rounded-none
 		focus:yst-outline-none
