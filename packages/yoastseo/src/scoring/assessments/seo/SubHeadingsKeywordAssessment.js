@@ -284,8 +284,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					_n(
-						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
-						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
 						this._subHeadingsResearchResult.matches.numberOfSubheadings,
 						"wordpress-seo"
 					),
