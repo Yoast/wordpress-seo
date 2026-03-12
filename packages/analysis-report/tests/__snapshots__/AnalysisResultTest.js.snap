@@ -79,15 +79,19 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
       className="yst-root"
     >
       <div
-        className="yst-relative yst-inline-flex"
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
         <button
+          aria-describedby={null}
           aria-label="SEOResult"
           aria-pressed={true}
           className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={false}
           id="Result button"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
           type="button"
@@ -113,6 +117,14 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
             />
           </svg>
         </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
       </div>
     </div>
   </div>
@@ -203,14 +215,18 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
       className="yst-root"
     >
       <div
-        className="yst-relative yst-inline-flex"
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
         <button
+          aria-describedby="Result button edit-tooltip"
           aria-label="SEOResultEdit"
           className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
           disabled={false}
           id="Result button edit"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
           type="button"
@@ -231,6 +247,14 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
             />
           </svg>
         </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button edit-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResultEdit
+        </div>
       </div>
     </div>
   </div>
@@ -399,15 +423,19 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
       className="yst-root"
     >
       <div
-        className="yst-relative yst-inline-flex"
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
         <button
+          aria-describedby={null}
           aria-label="SEOResult"
           aria-pressed={true}
           className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={true}
           id="Result button"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
           type="button"
@@ -433,6 +461,14 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
             />
           </svg>
         </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
       </div>
     </div>
   </div>
@@ -596,15 +632,19 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
       className="yst-root"
     >
       <div
-        className="yst-relative yst-inline-flex"
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
         <button
+          aria-describedby={null}
           aria-label="SEOResult"
           aria-pressed={true}
           className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={false}
           id="Result button"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onPointerEnter={[Function]}
           onPointerLeave={[Function]}
           type="button"
@@ -630,6 +670,14 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
             />
           </svg>
         </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
       </div>
     </div>
   </div>
