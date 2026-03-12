@@ -27,7 +27,7 @@ MetaboxButtonText.propTypes = {
 /**
  * Lookalike for a simple (un-collapsible) version of the @yoast/components Collapsible in Tailwind style.
  *
- * Expects a `yst-root` parent and the Tailwind stylesheet loaded in.
+ * Self-contained: includes button resets so it works without a `yst-root` parent.
  *
  * @param {string} [className=""] Extra classes.
  * @param {...Object} [props] Extra props.
@@ -38,6 +38,7 @@ export const MetaboxButton = ( { className = "", ...props } ) => (
 	<button
 		type="button"
 		className={ classNames(
+			"yst-appearance-none yst-bg-transparent yst-border-0 yst-border-solid",
 			"yst-flex yst-items-center yst-w-full yst-pt-4 yst-pb-4 yst-pe-4 yst-ps-6 yst-space-x-2 rtl:yst-space-x-reverse",
 			"yst-border-t yst-border-t-[rgb(0,0,0,0.2)] yst-rounded-none yst-transition-all hover:yst-bg-[#f0f0f0]",
 			"focus:yst-outline focus:yst-outline-[1px] focus:yst-outline-[color:#0066cd] focus:-yst-outline-offset-1 focus:yst-shadow-[0_0_3px_rgba(8,74,103,0.8)]",
