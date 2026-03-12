@@ -21,8 +21,8 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 	/**
 	 * Creates a raw OG image result array as returned by the indexable repository.
 	 *
-	 * @param int         $object_id              The object ID.
-	 * @param string      $title                  The breadcrumb title.
+	 * @param int         $object_id               The object ID.
+	 * @param string      $title                   The breadcrumb title.
 	 * @param string|null $open_graph_image_source The OpenGraph image source.
 	 *
 	 * @return array<string, int|string|null> The raw result.
@@ -31,7 +31,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_With_OG_Image_
 		return [
 			'object_id'                => $object_id,
 			'breadcrumb_title'         => $title,
-			'open_graph_image_source' => $open_graph_image_source,
+			'open_graph_image_source'  => $open_graph_image_source,
 		];
 	}
 
