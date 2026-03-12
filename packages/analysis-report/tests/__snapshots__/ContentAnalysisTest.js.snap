@@ -430,7 +430,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
                 onClick={[Function]}
@@ -731,7 +731,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -1199,7 +1199,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
               <button
                 aria-label="Highlighting is currently disabled"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={true}
                 id="1Mark"
                 onClick={[Function]}
@@ -1500,7 +1500,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
               <button
                 aria-label="Highlighting is currently disabled"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={true}
                 id="3Mark"
                 onClick={[Function]}
@@ -2655,7 +2655,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
                 onClick={[Function]}
@@ -2956,7 +2956,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -3464,7 +3464,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
                 onClick={[Function]}
@@ -3765,7 +3765,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -4233,7 +4233,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
                 onClick={[Function]}
@@ -4534,7 +4534,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -5084,7 +5084,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -5634,7 +5634,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -6273,7 +6273,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}
@@ -6734,7 +6734,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
               <button
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
-                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
                 onClick={[Function]}

@@ -84,7 +84,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
         <button
           aria-label="SEOResult"
           aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={false}
           id="Result button"
           onClick={[Function]}
@@ -207,7 +207,7 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
       >
         <button
           aria-label="SEOResultEdit"
-          className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0"
+          className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
           disabled={false}
           id="Result button edit"
           onClick={[Function]}
@@ -404,7 +404,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
         <button
           aria-label="SEOResult"
           aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+          className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={true}
           id="Result button"
           onClick={[Function]}
@@ -601,7 +601,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
         <button
           aria-label="SEOResult"
           aria-pressed={true}
-          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
           disabled={false}
           id="Result button"
           onClick={[Function]}

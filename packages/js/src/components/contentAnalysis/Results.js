@@ -40,7 +40,7 @@ const MarkButtonWithUpsell = ( {
 			<Button
 				variant={ isPressed ? "primary" : "secondary" }
 				size="small"
-				className={ classNames( className, "yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+				className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
 				onClick={ onClick }
 				id={ id }
 				disabled={ status === "disabled" }
