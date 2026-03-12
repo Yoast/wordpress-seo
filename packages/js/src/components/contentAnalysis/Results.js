@@ -4,7 +4,7 @@ import { EyeIcon } from "@heroicons/react/outline";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
-import { Component, Fragment, useState } from "@wordpress/element";
+import { Component, Fragment, useCallback, useState } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
 
 import { isUndefined } from "lodash";
@@ -24,13 +24,15 @@ import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
 const MarkButtonWithUpsell = ( {
 	ariaLabel,
 	id,
-	className,
-	status,
+	className = "",
+	status = "enabled",
 	onClick,
 	isPressed,
-	shouldUpsellHighlighting,
+	shouldUpsellHighlighting = false,
 } ) => {
 	const [ isTooltipOpen, setIsTooltipOpen ] = useState( false );
+	const showTooltip = useCallback( () => setIsTooltipOpen( true ), [] );
+	const hideTooltip = useCallback( () => setIsTooltipOpen( false ), [] );
 
 	return <Root>
 		<div className="yst-relative yst-inline-flex">
@@ -43,8 +45,8 @@ const MarkButtonWithUpsell = ( {
 				disabled={ status === "disabled" }
 				aria-pressed={ isPressed }
 				aria-label={ ariaLabel }
-				onPointerEnter={ () => setIsTooltipOpen( true ) }
-				onPointerLeave={ () => setIsTooltipOpen( false ) }
+				onPointerEnter={ showTooltip }
+				onPointerLeave={ hideTooltip }
 			>
 				<EyeIcon className="yst-w-4 yst-h-4" />
 			</Button>
@@ -72,12 +74,6 @@ MarkButtonWithUpsell.propTypes = {
 	onClick: PropTypes.func.isRequired,
 	isPressed: PropTypes.bool.isRequired,
 	shouldUpsellHighlighting: PropTypes.bool,
-};
-
-MarkButtonWithUpsell.defaultProps = {
-	className: "",
-	status: "enabled",
-	shouldUpsellHighlighting: false,
 };
 
 /**
