@@ -2,8 +2,7 @@ import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
 import { Button, Root, Tooltip } from "@yoast/ui-library";
 import classNames from "classnames";
-import { EyeIcon } from "@heroicons/react/outline";
-import { PencilIcon } from "@heroicons/react/outline";
+import { EyeIcon, PencilIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
@@ -68,12 +67,14 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 const MarkButton = ( {
 	ariaLabel,
 	id,
-	className,
-	status,
+	className = "",
+	status = "enabled",
 	onClick,
 	isPressed,
 } ) => {
 	const [ isTooltipOpen, setIsTooltipOpen ] = useState( false );
+	const showTooltip = useCallback( () => setIsTooltipOpen( true ), [] );
+	const hideTooltip = useCallback( () => setIsTooltipOpen( false ), [] );
 
 	return <Root>
 		<div className="yst-relative yst-inline-flex">
@@ -86,8 +87,8 @@ const MarkButton = ( {
 				disabled={ status === "disabled" }
 				aria-pressed={ isPressed }
 				aria-label={ ariaLabel }
-				onPointerEnter={ () => setIsTooltipOpen( true ) }
-				onPointerLeave={ () => setIsTooltipOpen( false ) }
+				onPointerEnter={ showTooltip }
+				onPointerLeave={ hideTooltip }
 			>
 				<EyeIcon className="yst-w-4 yst-h-4" />
 			</Button>
@@ -107,11 +108,6 @@ MarkButton.propTypes = {
 	status: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	isPressed: PropTypes.bool.isRequired,
-};
-
-MarkButton.defaultProps = {
-	className: "",
-	status: "enabled",
 };
 
 /**
@@ -188,6 +184,8 @@ const AnalysisResult = ( {
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
+	const showEditTooltip = useCallback( () => setIsEditTooltipOpen( true ), [] );
+	const hideEditTooltip = useCallback( () => setIsEditTooltipOpen( false ), [] );
 
 	markButtonFactory = markButtonFactory || createMarkButton;
 
@@ -240,8 +238,8 @@ const AnalysisResult = ( {
 								onClick={ onButtonClickEdit }
 								id={ buttonIdEdit }
 								aria-label={ ariaLabelEdit }
-								onPointerEnter={ () => setIsEditTooltipOpen( true ) }
-								onPointerLeave={ () => setIsEditTooltipOpen( false ) }
+								onPointerEnter={ showEditTooltip }
+								onPointerLeave={ hideEditTooltip }
 							>
 								<PencilIcon className="yst-w-4 yst-h-4" />
 							</Button>

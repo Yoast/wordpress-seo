@@ -139,41 +139,6 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   margin-left: 8px;
 }
 
-.c22 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c22:hover {
-  border-color: #fff;
-}
-
-.c22:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -257,6 +222,19 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
   color: #1e1e1e;
 }
 
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
 .c23 {
   margin: 0 !important;
   padding: 0 !important;
@@ -279,19 +257,6 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
 }
 
 .c24 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c25 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c25 .c13 {
   font-weight: 500;
   color: #1e1e1e;
 }
@@ -456,30 +421,46 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="1Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="1Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -488,7 +469,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c23"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -564,7 +545,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c24"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -640,7 +621,7 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
     className="c1 c2"
   >
     <h4
-      className="c25"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -741,30 +722,46 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -911,41 +908,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   margin-left: 8px;
 }
 
-.c22 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c22:hover {
-  border-color: #fff;
-}
-
-.c22:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -1029,6 +991,19 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   color: #1e1e1e;
 }
 
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
 .c23 {
   margin: 0 !important;
   padding: 0 !important;
@@ -1051,19 +1026,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c24 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c25 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c25 .c13 {
   font-weight: 500;
   color: #1e1e1e;
 }
@@ -1228,30 +1190,46 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlighting is currently disabled"
-            aria-pressed={false}
-            className="c22"
-            disabled={true}
-            id="1Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#ddd"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlighting is currently disabled"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={true}
+                id="1Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -1260,7 +1238,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c23"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -1336,7 +1314,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c24"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -1412,7 +1390,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     className="c1 c2"
   >
     <h4
-      className="c25"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -1513,30 +1491,46 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlighting is currently disabled"
-            aria-pressed={false}
-            className="c22"
-            disabled={true}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#ddd"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlighting is currently disabled"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={true}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -2370,41 +2364,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   margin-left: 8px;
 }
 
-.c22 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c22:hover {
-  border-color: #fff;
-}
-
-.c22:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -2488,6 +2447,19 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   color: #1e1e1e;
 }
 
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
 .c23 {
   margin: 0 !important;
   padding: 0 !important;
@@ -2510,19 +2482,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c24 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c25 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c25 .c13 {
   font-weight: 500;
   color: #1e1e1e;
 }
@@ -2687,30 +2646,46 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="1Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="1Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -2719,7 +2694,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c23"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -2795,7 +2770,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c24"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -2871,7 +2846,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     className="c1 c2"
   >
     <h3
-      className="c25"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -2972,30 +2947,46 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -3142,41 +3133,6 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   margin-left: 8px;
 }
 
-.c23 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c23:hover {
-  border-color: #fff;
-}
-
-.c23:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -3268,6 +3224,19 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   color: #1e1e1e;
 }
 
+.c23 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c23 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
 .c24 {
   margin: 0 !important;
   padding: 0 !important;
@@ -3290,19 +3259,6 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
 }
 
 .c25 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c26 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c26 .c13 {
   font-weight: 500;
   color: #1e1e1e;
 }
@@ -3499,30 +3455,46 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c23"
-            disabled={false}
-            id="1Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="1Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -3531,7 +3503,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c24"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -3607,7 +3579,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c25"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -3683,7 +3655,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
     className="c1 c2"
   >
     <h4
-      className="c26"
+      className="c25"
     >
       <button
         aria-expanded={true}
@@ -3784,30 +3756,46 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c23"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -3954,41 +3942,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   margin-left: 8px;
 }
 
-.c22 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c22:hover {
-  border-color: #fff;
-}
-
-.c22:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -4072,6 +4025,19 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   color: #1e1e1e;
 }
 
+.c22 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1e1e1e !important;
+}
+
+.c22 .c13 {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
 .c23 {
   margin: 0 !important;
   padding: 0 !important;
@@ -4094,19 +4060,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c24 .c13 {
-  font-weight: 500;
-  color: #1e1e1e;
-}
-
-.c25 {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #1e1e1e !important;
-}
-
-.c25 .c13 {
   font-weight: 500;
   color: #1e1e1e;
 }
@@ -4271,30 +4224,46 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="1Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="1Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -4303,7 +4272,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c23"
+      className="c22"
     >
       <button
         aria-expanded={true}
@@ -4379,7 +4348,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c24"
+      className="c23"
     >
       <button
         aria-expanded={true}
@@ -4455,7 +4424,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     className="c1 c2"
   >
     <h4
-      className="c25"
+      className="c24"
     >
       <button
         aria-expanded={true}
@@ -4556,30 +4525,46 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -4726,41 +4711,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   margin-left: 8px;
 }
 
-.c23 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c23:hover {
-  border-color: #fff;
-}
-
-.c23:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c20 {
   display: grid;
   grid-template-rows: 1fr;
@@ -5125,30 +5075,46 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c23"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -5293,41 +5259,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c10 svg:last-child {
   margin-left: 8px;
-}
-
-.c23 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c23:hover {
-  border-color: #fff;
-}
-
-.c23:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
 }
 
 .c20 {
@@ -5694,30 +5625,46 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c23"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -5862,41 +5809,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c10 svg:last-child {
   margin-left: 8px;
-}
-
-.c24 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c24:hover {
-  border-color: #fff;
-}
-
-.c24:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
 }
 
 .c20 {
@@ -6352,30 +6264,46 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c24"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
@@ -6520,41 +6448,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c10 svg:last-child {
   margin-left: 8px;
-}
-
-.c22 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c22:hover {
-  border-color: #fff;
-}
-
-.c22:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
 }
 
 .c20 {
@@ -6832,30 +6725,46 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         <div
           className="c20"
         >
-          <button
-            aria-label="Highlight this result in the text"
-            aria-pressed={false}
-            className="c22"
-            disabled={false}
-            id="3Mark"
-            onClick={[Function]}
-            type="button"
+          <div
+            className="yst-root"
           >
-            <svg
-              aria-hidden={true}
-              className="c11 yoast-svg-icon yoast-svg-icon-eye"
-              fill="#555"
-              focusable="false"
-              role="img"
-              size="18px"
-              viewBox="0 0 1792 1792"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              className="yst-relative yst-inline-flex"
             >
-              <path
-                d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-              />
-            </svg>
-          </button>
+              <button
+                aria-label="Highlight this result in the text"
+                aria-pressed={false}
+                className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-lg yst-shadow-none yst-border-0 focus:yst-z-10"
+                disabled={false}
+                id="3Mark"
+                onClick={[Function]}
+                onPointerEnter={[Function]}
+                onPointerLeave={[Function]}
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="yst-w-4 yst-h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
