@@ -43,47 +43,45 @@ export const WooSeoAnalysisUpsellAd = ( { location } ) => {
 	const locationKey = getLocationKey( location, isElementorEditor );
 
 	return (
-		<div className="yst-root">
-			<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
-				<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
-					{ __( "Premium SEO Analysis", "wordpress-seo" ) }
-					<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
-				</Title>
-				<p>
-					{ __(
-						"Benefit from all premium SEO analyses, plus product-specific checks like:",
-						"wordpress-seo"
-					) }
-				</p>
-				<div className="yst-pt-2 yst-mb-1">
-					<ul className="yst-font-semibold">
-						{ list.map( ( item ) => (
-							<li key={ item.text } className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
-								<item.icon className="yst-w-4 yst-text-slate-400" />
-								{ item.text }
-							</li>
-						) ) }
+		<div id={ `woo-seo-analysis-upsell-ad-${ locationKey }` } className="yst-border yst-border-woo-light yst-rounded-lg yst-shadow-md yst-p-4 yst-mt-2 yst-border-opacity-30">
+			<Title as="h3" variant="h3" className="yst-text-woo-light yst-text-base yst-font-medium yst-mb-2 yst-flex yst-gap-2 yst-capitalize">
+				{ __( "Premium SEO Analysis", "wordpress-seo" ) }
+				<ShoppingCartIcon className="yst-w-5 yst-scale-x-[-1]" { ...svgAriaProps } />
+			</Title>
+			<p>
+				{ __(
+					"Benefit from all premium SEO analyses, plus product-specific checks like:",
+					"wordpress-seo"
+				) }
+			</p>
+			<div className="yst-pt-2 yst-mb-1">
+				<ul className="yst-font-semibold">
+					{ list.map( ( item ) => (
+						<li key={ item.text } className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
+							<item.icon className="yst-w-4 yst-text-slate-400" />
+							{ item.text }
+						</li>
+					) ) }
 
-					</ul>
-				</div>
-				<Button
-					variant="upsell"
-					as="a"
-					href={ upsellLinks[ locationKey ] }
-					target="_blank"
-					rel="noopener noreferrer"
-					className="yst-mt-2"
-					data-action="load-nfd-ctb"
-					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
-				>
-					<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
-					{ isWooSEOActive ? __( "Unlock with Premium", "wordpress-seo" )  : sprintf(
-						/* translators: WooCommerce SEO */
-						__( "Get %s", "wordpress-seo" ),
-						"WooCommerce SEO"
-					) }
-				</Button>
+				</ul>
 			</div>
+			<Button
+				variant="upsell"
+				as="a"
+				href={ upsellLinks[ locationKey ] }
+				target="_blank"
+				rel="noopener noreferrer"
+				className="yst-mt-2"
+				data-action="load-nfd-ctb"
+				data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+			>
+				<LockOpenIcon className="yst-w-4 yst-me-1.5" { ...svgAriaProps } />
+				{ isWooSEOActive ? __( "Unlock with Premium", "wordpress-seo" )  : sprintf(
+					/* translators: WooCommerce SEO */
+					__( "Get %s", "wordpress-seo" ),
+					"WooCommerce SEO"
+				) }
+			</Button>
 		</div>
 	);
 };
