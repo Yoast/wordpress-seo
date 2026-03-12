@@ -119,8 +119,6 @@ class SeoAnalysis extends Component {
 											</AnalysisHeader>
 											<Results
 												results={ this.props.results }
-												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-												editButtonClassName="yoast-tooltip yoast-tooltip-w"
 												marksButtonStatus={ this.props.marksButtonStatus }
 												location={ location }
 												id={ `yoast-seo-analysis-results-${ location }` }

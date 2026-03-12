@@ -9,49 +9,6 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   flex: none;
 }
 
-.c6 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c5:hover {
-  border-color: #fff;
-}
-
-.c5:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c4 {
   display: grid;
   grid-template-rows: 1fr;
@@ -118,30 +75,58 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <div
     className="c4"
   >
-    <button
-      aria-label="SEOResult"
-      aria-pressed={true}
-      className="c5"
-      disabled={false}
-      id="Result button"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="yst-root"
     >
-      <svg
-        aria-hidden={true}
-        className="c6 yoast-svg-icon yoast-svg-icon-eye"
-        fill="#fff"
-        focusable="false"
-        role="img"
-        size="18px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
-        <path
-          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-        />
-      </svg>
-    </button>
+        <button
+          aria-describedby={null}
+          aria-label="SEOResult"
+          aria-pressed={true}
+          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+          disabled={false}
+          id="Result button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="yst-w-4 yst-h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
+      </div>
+    </div>
   </div>
 </li>
 `;
@@ -153,42 +138,6 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
-}
-
-.c6 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: #ccc;
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c5:hover {
-  border-color: #fff;
 }
 
 .c4 {
@@ -262,28 +211,52 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
   <div
     className="c4"
   >
-    <button
-      aria-label="SEOResultEdit"
-      className="c5"
-      id="Result button edit"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="yst-root"
     >
-      <svg
-        aria-hidden={true}
-        className="c6 yoast-svg-icon yoast-svg-icon-edit"
-        fill="#555"
-        focusable="false"
-        role="img"
-        size="18px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
-        <path
-          d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
-        />
-      </svg>
-    </button>
+        <button
+          aria-describedby="Result button edit-tooltip"
+          aria-label="SEOResultEdit"
+          className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
+          disabled={false}
+          id="Result button edit"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="yst-w-4 yst-h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button edit-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResultEdit
+        </div>
+      </div>
+    </div>
   </div>
 </li>
 `;
@@ -380,49 +353,6 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   flex: none;
 }
 
-.c6 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c5:hover {
-  border-color: #fff;
-}
-
-.c5:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c4 {
   display: grid;
   grid-template-rows: 1fr;
@@ -489,30 +419,58 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <div
     className="c4"
   >
-    <button
-      aria-label="SEOResult"
-      aria-pressed={true}
-      className="c5"
-      disabled={true}
-      id="Result button"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="yst-root"
     >
-      <svg
-        aria-hidden={true}
-        className="c6 yoast-svg-icon yoast-svg-icon-eye"
-        fill="#ddd"
-        focusable="false"
-        role="img"
-        size="18px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
-        <path
-          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-        />
-      </svg>
-    </button>
+        <button
+          aria-describedby={null}
+          aria-label="SEOResult"
+          aria-pressed={true}
+          className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+          disabled={true}
+          id="Result button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="yst-w-4 yst-h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
+      </div>
+    </div>
   </div>
 </li>
 `;
@@ -604,49 +562,6 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   flex: none;
 }
 
-.c6 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c5 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 32px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  border: 1px solid #ccc;
-  background-color: #a4286a;
-  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c5:hover {
-  border-color: #fff;
-}
-
-.c5:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
 .c4 {
   display: grid;
   grid-template-rows: 1fr;
@@ -713,30 +628,58 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <div
     className="c4"
   >
-    <button
-      aria-label="SEOResult"
-      aria-pressed={true}
-      className="c5"
-      disabled={false}
-      id="Result button"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="yst-root"
     >
-      <svg
-        aria-hidden={true}
-        className="c6 yoast-svg-icon yoast-svg-icon-eye"
-        fill="#fff"
-        focusable="false"
-        role="img"
-        size="18px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        className="yst-tooltip-container yst-relative yst-inline-flex"
+        onKeyDown={[Function]}
       >
-        <path
-          d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
-        />
-      </svg>
-    </button>
+        <button
+          aria-describedby={null}
+          aria-label="SEOResult"
+          aria-pressed={true}
+          className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+          disabled={false}
+          id="Result button"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onPointerEnter={[Function]}
+          onPointerLeave={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            className="yst-w-4 yst-h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          className="yst-tooltip yst-tooltip--left yst-hidden"
+          id="Result button-tooltip"
+          role="tooltip"
+          variant="dark"
+        >
+          SEOResult
+        </div>
+      </div>
+    </div>
   </div>
 </li>
 `;
