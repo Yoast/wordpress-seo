@@ -2,9 +2,13 @@ import { isEmpty, sum } from "lodash";
 import matchTextWithArray from "./matchTextWithArray.js";
 
 /**
+ * @typedef {import("../../researches/getWordForms").TopicFormsResult} TopicFormsResult
+ */
+
+/**
  * Matches forms of words in the keyphrase against a given text.
  *
- * @param {Array}       keywordForms    The array with word forms of all (content) words from the keyphrase in a shape
+ * @param {string[][]}       keywordForms    The array with word forms of all (content) words from the keyphrase in a shape
  *                                      [ [ form1, form2, ... ], [ form1, form2, ... ] ].
  * @param {string}      text            The string to match the word forms against.
  * @param {string}      locale          The locale of the paper.
