@@ -1,0 +1,65 @@
+name: Generate Changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 27.2)'
+        required: true
+        type: string
+      previous-tag:
+        description: 'Previous tag to compare from (defaults to latest release tag, excluding RC/beta)'
+        required: false
+        type: string
+      release-date:
+        description: 'Release date in YYYY-MM-DD format (defaults to today for patches, next Tuesday ~2 weeks out for minor/major)'
+        required: false
+        type: string
+
+# Ensure only one changelog generation runs at a time per branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-changelog:
+    name: "Generate and commit changelog"
+    runs-on: ubuntu-latest
+
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          PREVIOUS_TAG: ${{ inputs.previous-tag }}
+          RELEASE_DATE: ${{ inputs.release-date }}
+        run: bash .github/scripts/generate-changelog.sh
+
+      - name: Show generated changelog
+        run: cat changelog.md
+
+      - name: Commit and push changelog
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "$ACTOR@users.noreply.github.com"
+          git add changelog.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: generate changelog for ${{ inputs.version }}"
+          git push
