@@ -26,6 +26,7 @@ import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { link } from "../inline-links/edit-link";
+import initNextPostBanner from "../ai-next-post/initialize";
 
 /**
  * Registers the Yoast inline link format.
@@ -207,4 +208,5 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+	initNextPostBanner();
 }

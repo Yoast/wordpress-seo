@@ -22,6 +22,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import { NextPostSidebarItem } from "../../ai-next-post/components/next-post-sidebar-item";
 
 /* eslint-disable complexity */
 /**
@@ -52,6 +53,10 @@ export default function SidebarFill( { settings } ) {
 					<div style={ { margin: "0 16px" } }>
 						{ FirstEligibleNotification && <FirstEligibleNotification /> }
 					</div>
+				</SidebarItem>
+
+				<SidebarItem key="next-post" renderPriority={ 2 }>
+					<NextPostSidebarItem />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput

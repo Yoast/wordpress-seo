@@ -69,16 +69,17 @@
 
 		.yst-button--ai-secondary {
 			@apply
-			yst-bg-transparent
-			yst-relative
 			yst-text-slate-800
 			yst-ps-2
 			yst-gap-1.5
 			hover:yst-bg-ai-100
 			focus:yst-text-slate-800;
+		}
 
+		.yst-ai-gradient-border {
+			@apply yst-bg-transparent
+			yst-relative;
 			border-image: linear-gradient(to bottom right, var(--yst-ai-color-pink-300), var(--yst-ai-color-purple-300)) 1;
-
 			&:before {
 				@apply
 				yst-absolute
@@ -98,6 +99,7 @@
 				mask-composite: exclude;
 
 			}
+
 			&:after {
 				@apply yst-absolute yst-inset-px yst-rounded-md yst-bg-white;
 				content: '';
