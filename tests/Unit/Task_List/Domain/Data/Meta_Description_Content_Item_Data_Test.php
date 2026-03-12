@@ -72,4 +72,3 @@ final class Meta_Description_Content_Item_Data_Test extends TestCase {
 		$this->assertSame( '', $instance->get_title() );
 	}
 }
-
