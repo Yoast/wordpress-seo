@@ -86,20 +86,115 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	}
 
 	/**
-	 * Tests that get_is_completed always returns false.
+	 * Tests the to_array method when enhanced call to action is not set (null callToAction).
 	 *
 	 * @return void
 	 */
-	public function test_get_is_completed_always_returns_false() {
-		$this->assertFalse( $this->instance->get_is_completed() );
+	public function test_to_array_without_enhanced_call_to_action() {
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post' );
+
+		$parent_copy_set = new Copy_Set(
+			'Improve default meta descriptions: Posts',
+			'<p>Parent about text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_id' )
+			->andReturn( 'improve-default-meta-descriptions-post' );
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->andReturn( $parent_copy_set );
+
+		$instance = new Improve_Default_Meta_Descriptions_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$result = $instance->to_array();
+
+		$this->assertSame( 'improve-default-meta-descriptions-post-456', $result['id'] );
+		$this->assertSame( 5, $result['duration'] );
+		$this->assertSame( 'medium', $result['priority'] );
+		$this->assertNull( $result['badge'] );
+		$this->assertFalse( $result['isCompleted'] );
+		$this->assertNull( $result['callToAction'] );
+		$this->assertSame( 'improve-default-meta-descriptions-post', $result['parentTaskId'] );
+		$this->assertSame( 'My Amazing Blog Post', $result['title'] );
+		$this->assertSame( '<p>Parent about text.</p>', $result['about'] );
+		$this->assertNull( $result['analyzer'] );
 	}
 
 	/**
-	 * Tests that get_analyzer returns null (no analyzer for this task).
+	 * Tests the to_array method when get_edit_post_link returns null.
 	 *
 	 * @return void
 	 */
-	public function test_get_analyzer_returns_null() {
-		$this->assertNull( $this->instance->get_analyzer() );
+	public function test_to_array_with_null_link() {
+		$content_item = new Meta_Description_Content_Item_Data( 999, 'Post With No Edit Link' );
+
+		$parent_copy_set = new Copy_Set(
+			'Improve default meta descriptions: Posts',
+			'<p>Parent about text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_id' )
+			->andReturn( 'improve-default-meta-descriptions-post' );
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->andReturn( $parent_copy_set );
+
+		Monkey\Functions\expect( 'get_edit_post_link' )
+			->once()
+			->with( 999, '&' )
+			->andReturn( null );
+
+		$instance = new Improve_Default_Meta_Descriptions_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$instance->set_enhanced_call_to_action( $instance->get_call_to_action() );
+		$result = $instance->to_array();
+
+		$this->assertSame( 'improve-default-meta-descriptions-post-999', $result['id'] );
+		$this->assertFalse( $result['isCompleted'] );
+		$this->assertSame( 'Post With No Edit Link', $result['title'] );
+		$this->assertSame( 'Open social appearance', $result['callToAction']['label'] );
+		$this->assertSame( 'link', $result['callToAction']['type'] );
+		$this->assertNull( $result['callToAction']['href'] );
+	}
+
+	/**
+	 * Tests the to_array method with HTML entities in the title.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_with_html_entities_in_title() {
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry&#8217;s Post' );
+
+		$parent_copy_set = new Copy_Set(
+			'Improve default meta descriptions: Posts',
+			'<p>Parent about text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_id' )
+			->andReturn( 'improve-default-meta-descriptions-post' );
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->andReturn( $parent_copy_set );
+
+		$instance = new Improve_Default_Meta_Descriptions_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$result = $instance->to_array();
+
+		$this->assertSame( 'Tom & Jerry' . "\u{2019}" . 's Post', $result['title'] );
 	}
 }

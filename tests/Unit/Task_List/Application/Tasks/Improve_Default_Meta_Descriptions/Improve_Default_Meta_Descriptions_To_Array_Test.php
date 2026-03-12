@@ -72,6 +72,63 @@ final class Improve_Default_Meta_Descriptions_To_Array_Test extends Abstract_Imp
 	}
 
 	/**
+	 * Tests the task's to_array when a completed child task exists.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_when_child_task_exists_and_is_completed() {
+		$this->instance->set_post_type( 'post' );
+
+		$child_task = Mockery::mock( Improve_Default_Meta_Descriptions_Child::class );
+		$child_task->shouldReceive( 'get_is_completed' )->andReturn( true );
+
+		$this->instance->set_child_tasks( [ $child_task ] );
+
+		$expected_result = [
+			'id'           => 'improve-default-meta-descriptions-post',
+			'duration'     => 0,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => true,
+			'callToAction' => null,
+			'title'        => 'Improve default meta descriptions: Posts',
+			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.</p><p>Short on time? In <strong>Yoast SEO Premium</strong>, use <strong>AI Generate</strong> to create tailored meta descriptions in seconds.</p>',
+			'isParentTask' => true,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array with multiple child tasks of mixed completion.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_with_mixed_child_tasks() {
+		$this->instance->set_post_type( 'post' );
+
+		$completed_task = Mockery::mock( Improve_Default_Meta_Descriptions_Child::class );
+		$completed_task->shouldReceive( 'get_is_completed' )->andReturn( true );
+
+		$incomplete_task_1 = Mockery::mock( Improve_Default_Meta_Descriptions_Child::class );
+		$incomplete_task_1->shouldReceive( 'get_is_completed' )->andReturn( false );
+		$incomplete_task_1->shouldReceive( 'get_duration' )->andReturn( 5 );
+
+		$incomplete_task_2 = Mockery::mock( Improve_Default_Meta_Descriptions_Child::class );
+		$incomplete_task_2->shouldReceive( 'get_is_completed' )->andReturn( false );
+		$incomplete_task_2->shouldReceive( 'get_duration' )->andReturn( 5 );
+
+		$this->instance->set_child_tasks( [ $completed_task, $incomplete_task_1, $incomplete_task_2 ] );
+
+		$result = $this->instance->to_array();
+
+		$this->assertSame( 'improve-default-meta-descriptions-post', $result['id'] );
+		$this->assertSame( 10, $result['duration'] );
+		$this->assertFalse( $result['isCompleted'] );
+		$this->assertTrue( $result['isParentTask'] );
+	}
+
+	/**
 	 * Tests that the task ID includes the post type.
 	 *
 	 * @return void
