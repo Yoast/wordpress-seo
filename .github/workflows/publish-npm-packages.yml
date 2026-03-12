@@ -54,8 +54,13 @@ jobs:
           else
             BODY="$PR_BODY"
           fi
+
           # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
           PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          if [ -z "${PACKAGES// /}" ]; then
+            echo "::error::No packages found in PR body before '## Context'."
+            exit 1
+          fi
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 

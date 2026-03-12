@@ -33,8 +33,13 @@ jobs:
         id: packages
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
+        run:
+          set -euo pipefail
           PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          if [ -z "${PACKAGES// /}" ]; then
+            echo "::error::No packages found in PR body before '## Context'."
+            exit 1
+          fi
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
 
