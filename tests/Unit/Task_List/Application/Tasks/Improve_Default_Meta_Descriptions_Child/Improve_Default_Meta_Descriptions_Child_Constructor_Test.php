@@ -10,9 +10,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 /**
  * Test class for the Improve Default Meta Descriptions Child constructor.
  *
- * @group Default_Meta_Descriptions_Child
+ * @group task-list
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Default_Meta_Descriptions_Child::__construct
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child::__construct
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

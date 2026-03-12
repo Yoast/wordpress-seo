@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
  *
  * @group Improve_Default_Meta_Descriptions
  *
- * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Default_Meta_Descriptions::populate_child_tasks
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Default_Meta_Descriptions::populate_child_tasks
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

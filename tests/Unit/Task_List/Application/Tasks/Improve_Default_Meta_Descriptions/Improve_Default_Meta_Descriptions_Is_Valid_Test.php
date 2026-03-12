@@ -27,12 +27,12 @@ final class Improve_Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Imp
 	}
 
 	/**
-	 * Tests that is_valid returns false when the metadesc contains plain hardcoded text,
-	 * as this indicates descriptions are already customized and the task is unnecessary.
+	 * Tests that is_valid returns true when the metadesc contains only hardcoded text without replacevars,
+	 * as descriptions are not auto-generated and the task is still useful.
 	 *
 	 * @return void
 	 */
-	public function test_is_valid_returns_false_when_metadesc_is_hardcoded() {
+	public function test_is_valid_returns_true_when_metadesc_is_hardcoded() {
 		$this->instance->set_post_type( 'post' );
 
 		$this->options_helper
@@ -40,7 +40,7 @@ final class Improve_Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Imp
 			->with( 'metadesc-post' )
 			->andReturn( 'This is a hardcoded meta description.' );
 
-		$this->assertFalse( $this->instance->is_valid() );
+		$this->assertTrue( $this->instance->is_valid() );
 	}
 
 	/**
@@ -55,6 +55,22 @@ final class Improve_Default_Meta_Descriptions_Is_Valid_Test extends Abstract_Imp
 			->shouldReceive( 'get' )
 			->with( 'metadesc-post' )
 			->andReturn( '%%excerpt%%' );
+
+		$this->assertFalse( $this->instance->is_valid() );
+	}
+
+	/**
+	 * Tests that is_valid returns false when the metadesc template contains a mix of hardcoded text and replacevars.
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_returns_false_when_metadesc_contains_replacevars_and_text() {
+		$this->instance->set_post_type( 'post' );
+
+		$this->options_helper
+			->shouldReceive( 'get' )
+			->with( 'metadesc-post' )
+			->andReturn( 'Read more about %%title%% on our site.' );
 
 		$this->assertFalse( $this->instance->is_valid() );
 	}

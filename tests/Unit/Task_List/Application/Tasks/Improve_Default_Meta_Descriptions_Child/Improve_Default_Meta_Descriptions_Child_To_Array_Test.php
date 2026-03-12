@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 /**
  * Tests the to_array method of the Improve Default Meta Descriptions Child task.
  *
- * @group Improve_Default_Meta_Descriptions_Child
+ * @group task-list
  *
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child::get_id
  * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child::get_is_completed

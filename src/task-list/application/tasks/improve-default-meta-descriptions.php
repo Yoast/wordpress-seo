@@ -155,8 +155,8 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * The task is only shown when:
 	 * - Indexables are being indexed.
-	 * - The global meta description template for this post type does not contain replacevars (%%...%%) or hardcoded text, as these indicate that the meta descriptions are already customized to some extent.
-	 *   If it contains replacevars or hardcoded text, descriptions will be auto-generated and the task is unnecessary.
+	 * - The global meta description template for this post type is empty or contains only hardcoded text without replacevars.
+	 *   If it contains even one replacevar (%%...%%), descriptions will be auto-generated and the task is unnecessary.
 	 *
 	 * @return bool
 	 */
@@ -167,6 +167,11 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 		$metadesc = $this->options_helper->get( 'metadesc-' . $this->get_post_type() );
 
-		return empty( $metadesc );
+		if ( empty( $metadesc ) ) {
+			return true;
+		}
+
+		// If the template contains at least one replacevar (%%...%%), the task is not valid.
+		return ! (bool) \preg_match( '/%%[^%]+%%/', $metadesc );
 	}
 }
