@@ -146,7 +146,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "mothers and fathers", "fathers and mothers" ],
 		inclusiveAlternatives: "<i>parents</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: orangeExclusionaryUnless
+		feedbackFormat: orangeExclusionaryUnless,
 	},
 	{
 		identifier: "manHours",
