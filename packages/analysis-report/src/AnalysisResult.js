@@ -1,6 +1,6 @@
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import { strings } from "@yoast/helpers";
-import { Button, Root, Tooltip } from "@yoast/ui-library";
+import { Button, Root, TooltipContainer, TooltipWithContext, useTooltipContext } from "@yoast/ui-library";
 import classNames from "classnames";
 import { EyeIcon, PencilIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
@@ -53,7 +53,7 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
 };
 
 /**
- * The default mark button component.
+ * Inner mark button that accesses the TooltipContainer context.
  *
  * @param {string} ariaLabel 	The button aria-label.
  * @param {string} id 			The button id.
@@ -62,42 +62,63 @@ const areMarkButtonsHidden = function( hasMarksButton, marksButtonStatus ) {
  * @param {function} onClick 	Onclick handler.
  * @param {boolean} isPressed 	Whether the button is in a pressed state.
  *
+ * @returns {JSX.Element} The inner mark button with tooltip context.
+ */
+const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", onClick, isPressed } ) => {
+	const { show, hide } = useTooltipContext();
+	const tooltipId = `${ id }-tooltip`;
+
+	const handleShow = useCallback( () => {
+		if ( ! isPressed ) {
+			show();
+		}
+	}, [ isPressed, show ] );
+
+	return <>
+		<Button
+			variant={ isPressed ? "primary" : "secondary" }
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
+			onClick={ onClick }
+			id={ id }
+			disabled={ status === "disabled" }
+			aria-pressed={ isPressed }
+			aria-label={ ariaLabel }
+			aria-describedby={ isPressed ? null : tooltipId }
+			onPointerEnter={ handleShow }
+			onPointerLeave={ hide }
+			onFocus={ handleShow }
+			onBlur={ hide }
+		>
+			<EyeIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext id={ tooltipId } position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</>;
+};
+
+MarkButtonInner.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	status: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	isPressed: PropTypes.bool.isRequired,
+};
+
+/**
+ * The default mark button component.
+ *
+ * @param {Object} props The mark button props.
+ *
  * @returns {JSX.Element} A new mark button.
  */
-const MarkButton = ( {
-	ariaLabel,
-	id,
-	className = "",
-	status = "enabled",
-	onClick,
-	isPressed,
-} ) => {
-	const [ isTooltipOpen, setIsTooltipOpen ] = useState( false );
-	const showTooltip = useCallback( () => setIsTooltipOpen( true ), [] );
-	const hideTooltip = useCallback( () => setIsTooltipOpen( false ), [] );
-
+const MarkButton = ( { className = "", status = "enabled", ...props } ) => {
 	return <Root>
-		<div className="yst-relative yst-inline-flex">
-			<Button
-				variant={ isPressed ? "primary" : "secondary" }
-				size="small"
-				className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10" ) }
-				onClick={ onClick }
-				id={ id }
-				disabled={ status === "disabled" }
-				aria-pressed={ isPressed }
-				aria-label={ ariaLabel }
-				onPointerEnter={ showTooltip }
-				onPointerLeave={ hideTooltip }
-			>
-				<EyeIcon className="yst-w-4 yst-h-4" />
-			</Button>
-			{ isTooltipOpen && ! isPressed && (
-				<Tooltip position="left">
-					{ ariaLabel }
-				</Tooltip>
-			) }
-		</div>
+		<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+			<MarkButtonInner className={ className } status={ status } { ...props } />
+		</TooltipContainer>
 	</Root>;
 };
 
@@ -108,6 +129,49 @@ MarkButton.propTypes = {
 	status: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	isPressed: PropTypes.bool.isRequired,
+};
+
+/**
+ * Inner edit button that accesses the TooltipContainer context.
+ *
+ * @param {string} ariaLabel 	The button aria-label.
+ * @param {string} id 			The button id.
+ * @param {string} className 	The button class name.
+ * @param {function} onClick 	Onclick handler.
+ *
+ * @returns {JSX.Element} The inner edit button with tooltip context.
+ */
+const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
+	const { show, hide } = useTooltipContext();
+	const tooltipId = `${ id }-tooltip`;
+
+	return <>
+		<Button
+			variant="secondary"
+			size="small"
+			className={ classNames( className, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0" ) }
+			onClick={ onClick }
+			id={ id }
+			aria-label={ ariaLabel }
+			aria-describedby={ tooltipId }
+			onPointerEnter={ show }
+			onPointerLeave={ hide }
+			onFocus={ show }
+			onBlur={ hide }
+		>
+			<PencilIcon className="yst-w-4 yst-h-4" />
+		</Button>
+		<TooltipWithContext id={ tooltipId } position="left">
+			{ ariaLabel }
+		</TooltipWithContext>
+	</>;
+};
+
+EditButtonInner.propTypes = {
+	ariaLabel: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
 };
 
 /**
@@ -180,12 +244,9 @@ const AnalysisResult = ( {
 	text,
 } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
-	const [ isEditTooltipOpen, setIsEditTooltipOpen ] = useState( false );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
-	const showEditTooltip = useCallback( () => setIsEditTooltipOpen( true ), [] );
-	const hideEditTooltip = useCallback( () => setIsEditTooltipOpen( false ), [] );
 
 	markButtonFactory = markButtonFactory || createMarkButton;
 
@@ -230,25 +291,14 @@ const AnalysisResult = ( {
 				{
 					hasEditButton && isPremium &&
 					<Root>
-						<div className="yst-relative yst-inline-flex">
-							<Button
-								variant="secondary"
-								size="small"
-								className={ classNames( editButtonClassName, "yst-px-2 yst-rounded-md yst-shadow-none yst-border-0" ) }
-								onClick={ onButtonClickEdit }
+						<TooltipContainer as="div" className="yst-relative yst-inline-flex">
+							<EditButtonInner
+								ariaLabel={ ariaLabelEdit }
 								id={ buttonIdEdit }
-								aria-label={ ariaLabelEdit }
-								onPointerEnter={ showEditTooltip }
-								onPointerLeave={ hideEditTooltip }
-							>
-								<PencilIcon className="yst-w-4 yst-h-4" />
-							</Button>
-							{ isEditTooltipOpen && (
-								<Tooltip position="left">
-									{ ariaLabelEdit }
-								</Tooltip>
-							) }
-						</div>
+								className={ editButtonClassName }
+								onClick={ onButtonClickEdit }
+							/>
+						</TooltipContainer>
 					</Root>
 				}
 				{ renderAIOptimizeButton( hasAIFixes, id ) }

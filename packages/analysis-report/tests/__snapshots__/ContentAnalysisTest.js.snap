@@ -425,15 +425,19 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="1Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -459,6 +463,14 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="1Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -726,15 +738,19 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -760,6 +776,14 @@ exports[`ContentAnalysis the ContentAnalysis component with custom result catego
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -1194,15 +1218,19 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="1Mark-tooltip"
                 aria-label="Highlighting is currently disabled"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={true}
                 id="1Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -1228,6 +1256,14 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="1Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlighting is currently disabled
+              </div>
             </div>
           </div>
         </div>
@@ -1495,15 +1531,19 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlighting is currently disabled"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={true}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -1529,6 +1569,14 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlighting is currently disabled
+              </div>
             </div>
           </div>
         </div>
@@ -2650,15 +2698,19 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="1Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -2684,6 +2736,14 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="1Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -2951,15 +3011,19 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -2985,6 +3049,14 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -3459,15 +3531,19 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="1Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -3493,6 +3569,14 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="1Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -3760,15 +3844,19 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -3794,6 +3882,14 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -4228,15 +4324,19 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="1Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="1Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -4262,6 +4362,14 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="1Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -4529,15 +4637,19 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -4563,6 +4675,14 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -5079,15 +5199,19 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -5113,6 +5237,14 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -5629,15 +5761,19 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -5663,6 +5799,14 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -6268,15 +6412,19 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -6302,6 +6450,14 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
@@ -6729,15 +6885,19 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
             className="yst-root"
           >
             <div
-              className="yst-relative yst-inline-flex"
+              className="yst-tooltip-container yst-relative yst-inline-flex"
+              onKeyDown={[Function]}
             >
               <button
+                aria-describedby="3Mark-tooltip"
                 aria-label="Highlight this result in the text"
                 aria-pressed={false}
                 className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
                 disabled={false}
                 id="3Mark"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onPointerEnter={[Function]}
                 onPointerLeave={[Function]}
                 type="button"
@@ -6763,6 +6923,14 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
                   />
                 </svg>
               </button>
+              <div
+                className="yst-tooltip yst-tooltip--left yst-hidden"
+                id="3Mark-tooltip"
+                role="tooltip"
+                variant="dark"
+              >
+                Highlight this result in the text
+              </div>
             </div>
           </div>
         </div>
