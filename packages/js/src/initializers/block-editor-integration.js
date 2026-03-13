@@ -1,5 +1,6 @@
 import { updateCategory } from "@wordpress/blocks";
 import { dispatch, select } from "@wordpress/data";
+import { getQueryArg } from "@wordpress/url";
 import {
 	PluginDocumentSettingPanel,
 	PluginPostPublishPanel,
@@ -207,4 +208,9 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+
+	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );
+	if ( yoastTab === "readability" || yoastTab === "seo" ) {
+		dispatch( "core/edit-post" ).openGeneralSidebar( "yoast-seo/seo-sidebar" );
+	}
 }
