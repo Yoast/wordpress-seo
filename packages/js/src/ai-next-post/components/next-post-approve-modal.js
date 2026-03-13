@@ -32,8 +32,11 @@ const getModalContent = ( isEmptyCanvas, isUpsell ) => {
 	}
 	if ( isUpsell ) {
 		modalContent.buttonVariant = "upsell";
-		/* translators: %s is the name of the premium product, Yoast SEO Premium. */
-		modalContent.buttonLabel = __( "Unlock with %s", "wordpress-seo" );
+		modalContent.buttonLabel = sprintf(
+			/* translators: %s is the name of the premium product, Yoast SEO Premium. */
+			__( "Unlock with %s", "wordpress-seo" ),
+			"Yoast SEO Premium"
+		);
 	}
 	return modalContent;
 };

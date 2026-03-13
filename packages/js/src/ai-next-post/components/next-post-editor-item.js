@@ -36,7 +36,7 @@ export const NextPostEditorItem = ( { location } ) => {
 			onClose={ closeModal }
 			isEmptyCanvas={ isEmptyCanvas }
 			isPremium={ isPremium }
-			isUpsell={ ! isPremium }
+			isUpsell={ false }
 		/>
 	</div>;
 };
