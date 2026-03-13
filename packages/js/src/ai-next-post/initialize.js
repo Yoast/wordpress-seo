@@ -1,30 +1,30 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
-import { useDispatch, register } from "@wordpress/data";
+import { register, useDispatch } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
-import { NEXT_POST_BANNER_BLOCK, STORE_NAME, store } from "./store";
+import { store, STORE_NAME, NEXT_POST_BANNER_BLOCK } from "./store";
 import { NextPostInlineBanner } from "./components/next-post-inline-banner";
-import { NextPostEditorPlugin } from "./components/next-post-editor-plugin";
+import { NextPostEditorPlugin } from "./next-post-editor-plugin";
+
+register( store );
 
 /**
- * The edit component for the inline banner block.
+ * The edit component for the Next Post banner block.
  *
  * @returns {JSX.Element} The block edit component.
  */
 const NextPostBannerBlockEdit = () => {
 	const blockProps = useBlockProps( { style: { border: "none", padding: 0, margin: 0 } } );
-	const dispatch = useDispatch( STORE_NAME );
-	const handleClose = useCallback( () => dispatch?.dismissBanner(), [ dispatch ] );
-	const handleClick = useCallback( () => dispatch?.openModal(), [ dispatch ] );
+	const storeDispatch = useDispatch( STORE_NAME );
+	const handleClose = useCallback( () => storeDispatch?.dismissBanner(), [ storeDispatch ] );
+	const handleClick = useCallback( () => storeDispatch?.openModal(), [ storeDispatch ] );
 	return (
 		<div { ...blockProps }>
 			<NextPostInlineBanner onClick={ handleClick } onClose={ handleClose } />
 		</div>
 	);
 };
-
-register( store );
 
 registerBlockType( NEXT_POST_BANNER_BLOCK, {
 	title: "Yoast Next Post Banner",
@@ -43,15 +43,12 @@ registerBlockType( NEXT_POST_BANNER_BLOCK, {
 /**
  * Initializes the Next Post feature.
  *
- * Registers a block type that renders the NextPostInlineBanner as a second
- * block after the first paragraph, and registers a plugin for the top bar
- * button and approve modal. The NextPostEditorPlugin handles inserting and
- * removing the banner block based on editor state.
+ * Registers an editor plugin (NextPostEditorPlugin) that handles inserting
+ * the paragraph + banner blocks when the canvas is empty, and removing the
+ * banner when the user starts writing or dismisses it.
  *
  * @returns {void}
  */
 export default function initNextPostBanner() {
-	registerPlugin( "yoast-next-post", {
-		render: NextPostEditorPlugin,
-	} );
+	registerPlugin( "yoast-next-post", { render: NextPostEditorPlugin } );
 }
