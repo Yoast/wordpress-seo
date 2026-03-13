@@ -7,8 +7,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
-use Yoast\WP\SEO\Helpers\Language_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -29,18 +28,11 @@ final class Score_Retriever_Test extends TestCase {
 	private $indexable_repository;
 
 	/**
-	 * The options helper mock.
+	 * The enabled analysis features checker mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Checker
 	 */
-	private $options_helper;
-
-	/**
-	 * The language helper mock.
-	 *
-	 * @var Mockery\MockInterface|Language_Helper
-	 */
-	private $language_helper;
+	private $enabled_analysis_features_checker;
 
 	/**
 	 * The instance under test.
@@ -59,14 +51,12 @@ final class Score_Retriever_Test extends TestCase {
 
 		Mockery::mock( WP_Error::class );
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->language_helper      = Mockery::mock( Language_Helper::class );
+		$this->indexable_repository              = Mockery::mock( Indexable_Repository::class );
+		$this->enabled_analysis_features_checker = Mockery::mock( Enabled_Analysis_Features_Checker::class );
 
 		$this->instance = new Score_Retriever(
 			$this->indexable_repository,
-			$this->options_helper,
-			$this->language_helper,
+			$this->enabled_analysis_features_checker,
 		);
 
 		Monkey\Functions\stubs(
@@ -76,6 +66,21 @@ final class Score_Retriever_Test extends TestCase {
 				},
 			],
 		);
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_keyword_analysis_enabled' )
+			->andReturn( true )
+			->byDefault();
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_content_analysis_enabled' )
+			->andReturn( true )
+			->byDefault();
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_inclusive_language_enabled' )
+			->andReturn( false )
+			->byDefault();
 	}
 
 	/**
@@ -87,6 +92,7 @@ final class Score_Retriever_Test extends TestCase {
 	 */
 	public function test_get_seo_score_with_keyphrase_and_good_score() {
 		$indexable                              = Mockery::mock();
+		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 78;
 		$indexable->primary_focus_keyword       = 'best hiking boots';
 
@@ -123,6 +129,7 @@ final class Score_Retriever_Test extends TestCase {
 	 */
 	public function test_get_seo_score_with_no_focus_keyphrase() {
 		$indexable                              = Mockery::mock();
+		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 0;
 		$indexable->primary_focus_keyword       = null;
 
@@ -195,6 +202,42 @@ final class Score_Retriever_Test extends TestCase {
 				'rating'          => 'na',
 				'label'           => 'Not available',
 				'focus_keyphrase' => null,
+			],
+			$result,
+		);
+	}
+
+	/**
+	 * Tests get_seo_score when the post is noindexed.
+	 *
+	 * @covers ::get_seo_score
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_score_noindexed() {
+		$indexable                        = Mockery::mock();
+		$indexable->is_robots_noindex     = 1;
+		$indexable->primary_focus_keyword = 'best hiking boots';
+
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 42 )
+			->andReturn( (object) [ 'ID' => 42 ] );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 42, 'post', false )
+			->andReturn( $indexable );
+
+		$result = $this->instance->get_seo_score( [ 'post_id' => 42 ] );
+
+		$this->assertSame(
+			[
+				'score'           => 0,
+				'rating'          => 'noindex',
+				'label'           => 'No index',
+				'focus_keyphrase' => 'best hiking boots',
 			],
 			$result,
 		);
@@ -279,20 +322,6 @@ final class Score_Retriever_Test extends TestCase {
 		$indexable                           = Mockery::mock();
 		$indexable->inclusive_language_score = 55;
 
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'inclusive_language_analysis_active', false )
-			->andReturn( true );
-
-		$this->language_helper
-			->expects( 'get_language' )
-			->andReturn( 'en' );
-
-		$this->language_helper
-			->expects( 'has_inclusive_language_support' )
-			->with( 'en' )
-			->andReturn( true );
-
 		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 42 )
@@ -317,17 +346,50 @@ final class Score_Retriever_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_inclusive_language_score when the feature is disabled.
+	 * Tests get_inclusive_language_score when no indexable exists.
 	 *
 	 * @covers ::get_inclusive_language_score
 	 *
 	 * @return void
 	 */
-	public function test_get_inclusive_language_score_feature_disabled() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'inclusive_language_analysis_active', false )
+	public function test_get_inclusive_language_score_no_indexable() {
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 42 )
+			->andReturn( (object) [ 'ID' => 42 ] );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 42, 'post', false )
 			->andReturn( false );
+
+		$result = $this->instance->get_inclusive_language_score( [ 'post_id' => 42 ] );
+
+		$this->assertInstanceOf( WP_Error::class, $result );
+	}
+
+	/**
+	 * Tests get_inclusive_language_score when the score has not been calculated yet.
+	 *
+	 * @covers ::get_inclusive_language_score
+	 *
+	 * @return void
+	 */
+	public function test_get_inclusive_language_score_not_yet_calculated() {
+		$indexable                           = Mockery::mock();
+		$indexable->inclusive_language_score = 0;
+
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 42 )
+			->andReturn( (object) [ 'ID' => 42 ] );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 42, 'post', false )
+			->andReturn( $indexable );
 
 		$result = $this->instance->get_inclusive_language_score( [ 'post_id' => 42 ] );
 
@@ -343,6 +405,7 @@ final class Score_Retriever_Test extends TestCase {
 	 */
 	public function test_get_all_scores_with_inclusive_language_enabled() {
 		$indexable                              = Mockery::mock();
+		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 78;
 		$indexable->primary_focus_keyword       = 'best hiking boots';
 		$indexable->readability_score           = 30;
@@ -359,21 +422,19 @@ final class Score_Retriever_Test extends TestCase {
 			->with( 42, 'post', false )
 			->andReturn( $indexable );
 
-		$this->options_helper
-			->expects( 'get' )
+		$this->enabled_analysis_features_checker
+			->expects( 'is_keyword_analysis_enabled' )
 			->zeroOrMoreTimes()
-			->with( 'inclusive_language_analysis_active', false )
 			->andReturn( true );
 
-		$this->language_helper
-			->expects( 'get_language' )
+		$this->enabled_analysis_features_checker
+			->expects( 'is_content_analysis_enabled' )
 			->zeroOrMoreTimes()
-			->andReturn( 'en' );
+			->andReturn( true );
 
-		$this->language_helper
-			->expects( 'has_inclusive_language_support' )
+		$this->enabled_analysis_features_checker
+			->expects( 'is_inclusive_language_enabled' )
 			->zeroOrMoreTimes()
-			->with( 'en' )
 			->andReturn( true );
 
 		$result = $this->instance->get_all_scores( [ 'post_id' => 42 ] );
@@ -410,6 +471,7 @@ final class Score_Retriever_Test extends TestCase {
 	 */
 	public function test_get_all_scores_with_inclusive_language_disabled() {
 		$indexable                              = Mockery::mock();
+		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 78;
 		$indexable->primary_focus_keyword       = 'best hiking boots';
 		$indexable->readability_score           = 30;
@@ -425,11 +487,15 @@ final class Score_Retriever_Test extends TestCase {
 			->with( 42, 'post', false )
 			->andReturn( $indexable );
 
-		$this->options_helper
-			->expects( 'get' )
+		$this->enabled_analysis_features_checker
+			->expects( 'is_keyword_analysis_enabled' )
 			->zeroOrMoreTimes()
-			->with( 'inclusive_language_analysis_active', false )
-			->andReturn( false );
+			->andReturn( true );
+
+		$this->enabled_analysis_features_checker
+			->expects( 'is_content_analysis_enabled' )
+			->zeroOrMoreTimes()
+			->andReturn( true );
 
 		$result = $this->instance->get_all_scores( [ 'post_id' => 42 ] );
 

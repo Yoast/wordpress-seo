@@ -6,11 +6,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
+use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Language_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -37,18 +36,11 @@ final class Abilities_Integration_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The options helper mock.
+	 * The enabled analysis features checker mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Checker
 	 */
-	private $options_helper;
-
-	/**
-	 * The language helper mock.
-	 *
-	 * @var Mockery\MockInterface|Language_Helper
-	 */
-	private $language_helper;
+	private $enabled_analysis_features_checker;
 
 	/**
 	 * The instance under test.
@@ -65,17 +57,32 @@ final class Abilities_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->score_retriever  = Mockery::mock( Score_Retriever::class );
-		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->options_helper   = Mockery::mock( Options_Helper::class );
-		$this->language_helper  = Mockery::mock( Language_Helper::class );
+		$this->stubTranslationFunctions();
+
+		$this->score_retriever                   = Mockery::mock( Score_Retriever::class );
+		$this->capability_helper                 = Mockery::mock( Capability_Helper::class );
+		$this->enabled_analysis_features_checker = Mockery::mock( Enabled_Analysis_Features_Checker::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
 			$this->capability_helper,
-			$this->options_helper,
-			$this->language_helper,
+			$this->enabled_analysis_features_checker,
 		);
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_keyword_analysis_enabled' )
+			->andReturn( true )
+			->byDefault();
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_content_analysis_enabled' )
+			->andReturn( true )
+			->byDefault();
+
+		$this->enabled_analysis_features_checker
+			->shouldReceive( 'is_inclusive_language_enabled' )
+			->andReturn( false )
+			->byDefault();
 	}
 
 	/**
@@ -143,5 +150,289 @@ final class Abilities_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertFalse( $this->instance->can_read_scores() );
+	}
+
+	/**
+	 * Tests that register_categories registers the Yoast SEO category.
+	 *
+	 * @covers ::register_categories
+	 *
+	 * @return void
+	 */
+	public function test_register_categories() {
+		Monkey\Functions\expect( 'wp_register_ability_category' )
+			->once()
+			->with(
+				'yoast-seo',
+				[
+					'label'       => 'Yoast SEO',
+					'description' => 'SEO analysis capabilities provided by Yoast SEO.',
+				],
+			);
+
+		$this->instance->register_categories();
+	}
+
+	/**
+	 * Tests that register_abilities registers all 4 abilities when inclusive language is enabled.
+	 *
+	 * @covers ::register_abilities
+	 *
+	 * @return void
+	 */
+	public function test_register_abilities_with_inclusive_language_enabled() {
+		$this->enabled_analysis_features_checker
+			->expects( 'is_inclusive_language_enabled' )
+			->once()
+			->andReturn( true );
+
+		$post_id_schema = [
+			'type'       => 'object',
+			'properties' => [
+				'post_id' => [
+					'type'        => 'integer',
+					'description' => 'The ID of the post to retrieve the score for.',
+					'minimum'     => 1,
+				],
+			],
+			'required'   => [ 'post_id' ],
+		];
+
+		$seo_score_schema                                  = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
+		$seo_score_schema['properties']['focus_keyphrase'] = [
+			'type'        => [ 'string', 'null' ],
+			'description' => 'The focus keyphrase for the post, or null if not set.',
+		];
+
+		$readability_score_schema        = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
+		$inclusive_language_score_schema = $this->get_expected_score_schema( [ 'bad', 'ok', 'good' ] );
+
+		$shared_meta = [
+			'show_in_rest' => true,
+			'annotations'  => [
+				'readonly'    => false,
+				'destructive' => false,
+				'idempotent'  => true,
+			],
+		];
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-seo-score',
+				[
+					'label'               => 'Get SEO Score',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the SEO score for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $seo_score_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_seo_score' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-readability-score',
+				[
+					'label'               => 'Get Readability Score',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the readability score for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $readability_score_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_readability_score' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-inclusive-language-score',
+				[
+					'label'               => 'Get Inclusive Language Score',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the inclusive language score for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $inclusive_language_score_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_inclusive_language_score' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		$nullable = static function ( array $schema ): array {
+			return [
+				'oneOf' => [
+					$schema,
+					[ 'type' => 'null' ],
+				],
+			];
+		};
+
+		$all_scores_output_schema = [
+			'type'       => 'object',
+			'properties' => [
+				'seo'                => $nullable( $seo_score_schema ),
+				'readability'        => $nullable( $readability_score_schema ),
+				'inclusive_language' => $nullable( $inclusive_language_score_schema ),
+			],
+		];
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-all-scores',
+				[
+					'label'               => 'Get All Analysis Scores',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get all analysis scores (SEO, readability, inclusive language) for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $all_scores_output_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_all_scores' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that register_abilities registers only 3 abilities when inclusive language is disabled.
+	 *
+	 * @covers ::register_abilities
+	 *
+	 * @return void
+	 */
+	public function test_register_abilities_with_inclusive_language_disabled() {
+		$post_id_schema = [
+			'type'       => 'object',
+			'properties' => [
+				'post_id' => [
+					'type'        => 'integer',
+					'description' => 'The ID of the post to retrieve the score for.',
+					'minimum'     => 1,
+				],
+			],
+			'required'   => [ 'post_id' ],
+		];
+
+		$seo_score_schema                                  = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
+		$seo_score_schema['properties']['focus_keyphrase'] = [
+			'type'        => [ 'string', 'null' ],
+			'description' => 'The focus keyphrase for the post, or null if not set.',
+		];
+
+		$readability_score_schema        = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
+		$inclusive_language_score_schema = $this->get_expected_score_schema( [ 'bad', 'ok', 'good' ] );
+
+		$shared_meta = [
+			'show_in_rest' => true,
+			'annotations'  => [
+				'readonly'    => false,
+				'destructive' => false,
+				'idempotent'  => true,
+			],
+		];
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-seo-score',
+				[
+					'label'               => 'Get SEO Score',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the SEO score for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $seo_score_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_seo_score' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-readability-score',
+				[
+					'label'               => 'Get Readability Score',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get the readability score for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $readability_score_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_readability_score' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		$nullable = static function ( array $schema ): array {
+			return [
+				'oneOf' => [
+					$schema,
+					[ 'type' => 'null' ],
+				],
+			];
+		};
+
+		$all_scores_output_schema = [
+			'type'       => 'object',
+			'properties' => [
+				'seo'                => $nullable( $seo_score_schema ),
+				'readability'        => $nullable( $readability_score_schema ),
+				'inclusive_language' => $nullable( $inclusive_language_score_schema ),
+			],
+		];
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once()
+			->with(
+				'yoast-seo/get-all-scores',
+				[
+					'label'               => 'Get All Analysis Scores',
+					'category'            => 'yoast-seo',
+					'description'         => 'Get all analysis scores (SEO, readability, inclusive language) for a post.',
+					'input_schema'        => $post_id_schema,
+					'output_schema'       => $all_scores_output_schema,
+					'permission_callback' => [ $this->instance, 'can_read_scores' ],
+					'execute_callback'    => [ $this->score_retriever, 'get_all_scores' ],
+					'meta'                => $shared_meta,
+				],
+			);
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Returns the expected score output schema for a given set of valid ratings.
+	 *
+	 * @param array<string> $ratings The valid rating slugs.
+	 *
+	 * @return array<string, mixed> The expected score output schema.
+	 */
+	private function get_expected_score_schema( array $ratings ): array {
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'score'  => [
+					'type'        => 'integer',
+					'description' => 'The numeric score from 0 to 100.',
+				],
+				'rating' => [
+					'type'        => 'string',
+					'enum'        => $ratings,
+					'description' => 'The rating slug.',
+				],
+				'label'  => [
+					'type'        => 'string',
+					'description' => 'A human-readable label for the rating.',
+				],
+			],
+		];
 	}
 }

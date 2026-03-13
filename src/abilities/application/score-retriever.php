@@ -6,8 +6,7 @@ namespace Yoast\WP\SEO\Abilities\Application;
 use WP_Error;
 use WPSEO_Rank;
 use Yoast\WP\SEO\Abilities\Domain\Score_Result;
-use Yoast\WP\SEO\Helpers\Language_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -23,34 +22,24 @@ class Score_Retriever {
 	private $indexable_repository;
 
 	/**
-	 * The options helper.
+	 * The enabled analysis features checker.
 	 *
-	 * @var Options_Helper
+	 * @var Enabled_Analysis_Features_Checker
 	 */
-	private $options_helper;
-
-	/**
-	 * The language helper.
-	 *
-	 * @var Language_Helper
-	 */
-	private $language_helper;
+	private $enabled_analysis_features_checker;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Options_Helper       $options_helper       The options helper.
-	 * @param Language_Helper      $language_helper      The language helper.
+	 * @param Indexable_Repository              $indexable_repository              The indexable repository.
+	 * @param Enabled_Analysis_Features_Checker $enabled_analysis_features_checker The enabled analysis features checker.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
-		Options_Helper $options_helper,
-		Language_Helper $language_helper
+		Enabled_Analysis_Features_Checker $enabled_analysis_features_checker
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->options_helper       = $options_helper;
-		$this->language_helper      = $language_helper;
+		$this->indexable_repository              = $indexable_repository;
+		$this->enabled_analysis_features_checker = $enabled_analysis_features_checker;
 	}
 
 	/**
@@ -73,6 +62,18 @@ class Score_Retriever {
 		if ( ! $indexable ) {
 			$result                    = ( new Score_Result( 0, 'na', \__( 'Not available', 'wordpress-seo' ) ) )->to_array();
 			$result['focus_keyphrase'] = null;
+			return $result;
+		}
+
+		if ( $indexable->is_robots_noindex ) {
+			$rank   = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
+			$result = ( new Score_Result(
+				0,
+				$rank->get_rank(),
+				$rank->get_label(),
+			) )->to_array();
+
+			$result['focus_keyphrase'] = $indexable->primary_focus_keyword;
 			return $result;
 		}
 
@@ -127,13 +128,6 @@ class Score_Retriever {
 	 * @return array<string, int|string>|WP_Error The inclusive language score data or a WP_Error.
 	 */
 	public function get_inclusive_language_score( array $input ) {
-		if ( ! $this->is_inclusive_language_enabled() ) {
-			return new WP_Error(
-				'feature_not_available',
-				\__( 'The inclusive language analysis feature is not enabled.', 'wordpress-seo' ),
-			);
-		}
-
 		$post_id = $input['post_id'];
 
 		$post = \get_post( $post_id );
@@ -144,11 +138,22 @@ class Score_Retriever {
 		$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post', false );
 
 		if ( ! $indexable ) {
-			return ( new Score_Result( 0, 'na', \__( 'Not available', 'wordpress-seo' ) ) )->to_array();
+			return new WP_Error(
+				'score_not_available',
+				\__( 'The inclusive language score is not available for this post.', 'wordpress-seo' ),
+			);
 		}
 
 		$score = (int) $indexable->inclusive_language_score;
-		$rank  = WPSEO_Rank::from_numeric_score( $score );
+
+		if ( $score === 0 ) {
+			return new WP_Error(
+				'score_not_available',
+				\__( 'The inclusive language score has not been calculated yet for this post.', 'wordpress-seo' ),
+			);
+		}
+
+		$rank = WPSEO_Rank::from_numeric_score( $score );
 
 		return ( new Score_Result(
 			$score,
@@ -165,21 +170,34 @@ class Score_Retriever {
 	 * @return array<string, array<string, int|string|null>|null>|WP_Error The combined score data or a WP_Error.
 	 */
 	public function get_all_scores( array $input ) {
-		$seo_score = $this->get_seo_score( $input );
-		if ( $seo_score instanceof WP_Error ) {
-			return $seo_score;
+		$post_id = $input['post_id'];
+
+		$post = \get_post( $post_id );
+		if ( $post === null ) {
+			return new WP_Error( 'post_not_found', \sprintf( 'Post with ID %d not found.', $post_id ) );
 		}
 
-		$readability_score = $this->get_readability_score( $input );
-		if ( $readability_score instanceof WP_Error ) {
-			return $readability_score;
+		$seo_score = null;
+		if ( $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
+			$result = $this->get_seo_score( $input );
+			if ( ! $result instanceof WP_Error ) {
+				$seo_score = $result;
+			}
+		}
+
+		$readability_score = null;
+		if ( $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
+			$result = $this->get_readability_score( $input );
+			if ( ! $result instanceof WP_Error ) {
+				$readability_score = $result;
+			}
 		}
 
 		$inclusive_language_score = null;
-		if ( $this->is_inclusive_language_enabled() ) {
-			$inclusive_language_result = $this->get_inclusive_language_score( $input );
-			if ( ! $inclusive_language_result instanceof WP_Error ) {
-				$inclusive_language_score = $inclusive_language_result;
+		if ( $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
+			$result = $this->get_inclusive_language_score( $input );
+			if ( ! $result instanceof WP_Error ) {
+				$inclusive_language_score = $result;
 			}
 		}
 
@@ -188,15 +206,5 @@ class Score_Retriever {
 			'readability'        => $readability_score,
 			'inclusive_language' => $inclusive_language_score,
 		];
-	}
-
-	/**
-	 * Checks if the inclusive language analysis feature is enabled.
-	 *
-	 * @return bool Whether the feature is enabled.
-	 */
-	private function is_inclusive_language_enabled(): bool {
-		return (bool) $this->options_helper->get( 'inclusive_language_analysis_active', false )
-			&& $this->language_helper->has_inclusive_language_support( $this->language_helper->get_language() );
 	}
 }
