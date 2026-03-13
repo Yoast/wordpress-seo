@@ -1,7 +1,6 @@
 import { createReduxStore } from "@wordpress/data";
 
 export const STORE_NAME = "yoast-seo/next-post";
-export const NEXT_POST_BANNER_BLOCK = "yoast-seo/next-post-inline-banner";
 
 const DEFAULT_STATE = {
 	isBannerDismissed: false,

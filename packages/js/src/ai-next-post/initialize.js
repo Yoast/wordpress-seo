@@ -1,71 +1,72 @@
-import { useBlockProps } from "@wordpress/block-editor";
-import { registerBlockType } from "@wordpress/blocks";
-import { register, useDispatch } from "@wordpress/data";
-import { useCallback, useEffect, useRef } from "@wordpress/element";
+import { createHigherOrderComponent } from "@wordpress/compose";
+import { register, useSelect, useDispatch } from "@wordpress/data";
+import { useCallback, useEffect, useRef, Fragment } from "@wordpress/element";
+import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
-import { store, STORE_NAME, NEXT_POST_BANNER_BLOCK } from "./store";
+import { store, STORE_NAME } from "./store";
 import { NextPostInlineBanner } from "./components/next-post-inline-banner";
 import { NextPostEditorPlugin } from "./next-post-editor-plugin";
 
 register( store );
 
-/**
- * The edit component for the Next Post banner block.
- *
- * @returns {JSX.Element} The block edit component.
- */
 const INJECTED_STYLE_ID = "yoast-next-post-tailwind";
 
-const NextPostBannerBlockEdit = () => {
-	const blockProps = useBlockProps( { style: { border: "none", padding: 0, margin: 0 } } );
-	const storeDispatch = useDispatch( STORE_NAME );
-	const handleClose = useCallback( () => storeDispatch?.dismissBanner(), [ storeDispatch ] );
-	const handleClick = useCallback( () => storeDispatch?.openModal(), [ storeDispatch ] );
-	const ref = useRef( null );
-
-	useEffect( () => {
-		const ownerDoc = ref.current?.ownerDocument ?? document;
-		if ( ownerDoc === window.document || ownerDoc.getElementById( INJECTED_STYLE_ID ) ) {
-			return;
+const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
+	// eslint-disable-next-line react/display-name
+	return ( props ) => {
+		if ( props.name !== "core/paragraph" ) {
+			return <BlockEdit { ...props } />;
 		}
-		const mainLink = window.document.querySelector( "link[href*='tailwind']" );
-		if ( ! mainLink ) {
-			return;
-		}
-		const link = ownerDoc.createElement( "link" );
-		link.id = INJECTED_STYLE_ID;
-		link.rel = "stylesheet";
-		link.href = mainLink.href;
-		ownerDoc.head.appendChild( link );
-	}, [] );
 
-	return (
-		<div { ...blockProps } ref={ ref }>
-			<NextPostInlineBanner onClick={ handleClick } onClose={ handleClose } />
-		</div>
-	);
-};
+		const storeDispatch = useDispatch( STORE_NAME );
+		const handleClose = useCallback( () => storeDispatch?.dismissBanner(), [ storeDispatch ] );
+		const handleClick = useCallback( () => storeDispatch?.openModal(), [ storeDispatch ] );
+		const ref = useRef( null );
 
-registerBlockType( NEXT_POST_BANNER_BLOCK, {
-	title: "Yoast Next Post Banner",
-	category: "text",
-	icon: "yes",
-	supports: {
-		inserter: false,
-		html: false,
-		reusable: false,
-		multiple: false,
-	},
-	edit: NextPostBannerBlockEdit,
-	save: () => null,
-} );
+		const showBanner = useSelect( ( select ) => {
+			const isBannerDismissed = select( STORE_NAME )?.getIsBannerDismissed?.() ?? false;
+			if ( isBannerDismissed ) {
+				return false;
+			}
+			const blocks = select( "core/block-editor" ).getBlocks();
+			const isFirstBlock = blocks[ 0 ]?.clientId === props.clientId;
+			const isEmpty = ! props.attributes?.content?.trim();
+			return isFirstBlock && isEmpty;
+		}, [ props.clientId, props.attributes?.content ] );
+
+		useEffect( () => {
+			const ownerDoc = ref.current?.ownerDocument ?? document;
+			if ( ownerDoc === window.document || ownerDoc.getElementById( INJECTED_STYLE_ID ) ) {
+				return;
+			}
+			const mainLink = window.document.querySelector( "link[href*='tailwind']" );
+			if ( ! mainLink ) {
+				return;
+			}
+			const link = ownerDoc.createElement( "link" );
+			link.id = INJECTED_STYLE_ID;
+			link.rel = "stylesheet";
+			link.href = mainLink.href;
+			ownerDoc.head.appendChild( link );
+		}, [] );
+
+		return (
+			<Fragment>
+				<span ref={ ref } style={ { display: "none" } } />
+				<BlockEdit { ...props } />
+				{ showBanner && <NextPostInlineBanner onClick={ handleClick } onClose={ handleClose } /> }
+			</Fragment>
+		);
+	};
+}, "withNextPostBanner" );
+
+addFilter( "editor.BlockEdit", "yoast-seo/next-post-banner", withNextPostBanner );
 
 /**
  * Initializes the Next Post feature.
  *
- * Registers an editor plugin (NextPostEditorPlugin) that handles inserting
- * the paragraph + banner blocks when the canvas is empty, and removing the
- * banner when the user starts writing or dismisses it.
+ * Registers an editor plugin (NextPostEditorPlugin) that ensures a paragraph
+ * block exists when the canvas is empty so the inline banner can be shown.
  *
  * @returns {void}
  */
