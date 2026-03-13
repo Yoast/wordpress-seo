@@ -1,15 +1,16 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, register } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
-import "./store";
-import { NEXT_POST_BANNER_BLOCK, STORE_NAME } from "./store";
+import { NEXT_POST_BANNER_BLOCK, STORE_NAME, store } from "./store";
 import { NextPostInlineBanner } from "./components/next-post-inline-banner";
 import { NextPostEditorPlugin } from "./components/next-post-editor-plugin";
 
 /**
  * The edit component for the inline banner block.
+ *
+ * @returns {JSX.Element} The block edit component.
  */
 const NextPostBannerBlockEdit = () => {
 	const blockProps = useBlockProps( { style: { border: "none", padding: 0, margin: 0 } } );
@@ -22,6 +23,8 @@ const NextPostBannerBlockEdit = () => {
 		</div>
 	);
 };
+
+register( store );
 
 registerBlockType( NEXT_POST_BANNER_BLOCK, {
 	title: "Yoast Next Post Banner",
