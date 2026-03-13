@@ -78,7 +78,7 @@ final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Imp
 		$copy_set = $instance->get_copy_set();
 		$array    = $copy_set->to_array();
 
-		$this->assertSame( 'Sarah\'s Blog Post', $array['title'] );
+		$this->assertSame( 'Sarah’s Blog Post', $array['title'] );
 	}
 
 	/**

@@ -78,7 +78,7 @@ final class Improve_Content_SEO_Child_Copy_Set_Test extends Abstract_Improve_Con
 		$copy_set = $instance->get_copy_set();
 		$array    = $copy_set->to_array();
 
-		$this->assertSame( 'Sarah\'s Blog Post', $array['title'] );
+		$this->assertSame( 'Sarah’s Blog Post', $array['title'] );
 	}
 
 	/**
