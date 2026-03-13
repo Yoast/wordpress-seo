@@ -89,6 +89,7 @@
 				content: '';
 				border-radius: inherit; /* Match the border radius of the container */
 				padding: 1px; /* Width of the gradient border */
+				pointer-events: none; /* Decorative overlay must not capture clicks */
 				-webkit-mask:
 				linear-gradient(white, white) content-box,
 				linear-gradient(white, white) border-box;
@@ -97,7 +98,6 @@
 				linear-gradient(white, white) border-box;
 				-webkit-mask-composite: destination-out;
 				mask-composite: exclude;
-
 			}
 
 			&:after {
