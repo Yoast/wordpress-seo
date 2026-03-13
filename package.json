@@ -49,9 +49,9 @@
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/grunt-plugin-tasks": "^2.5",
     "@yoast/postcss-preset": "^1.2.1",
-    "@yoast/related-keyphrase-suggestions": "^0.3.0",
-    "@yoast/tailwindcss-preset": "^2.5.0",
-    "@yoast/ui-library": "^4.4.0",
+    "@yoast/related-keyphrase-suggestions": "^0.4.0",
+    "@yoast/tailwindcss-preset": "^2.6.0",
+    "@yoast/ui-library": "^4.5.0",
     "colors": "1.4.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^2.6.12",
@@ -76,7 +76,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "yoast": {
-    "pluginVersion": "27.2-RC4"
+    "pluginVersion": "27.2-RC5"
   },
   "version": "0.0.0"
 }

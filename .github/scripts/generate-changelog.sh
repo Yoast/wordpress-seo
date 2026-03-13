@@ -8,7 +8,7 @@
 #
 # Optional environment variables:
 #   PREVIOUS_TAG  - Tag to compare from (defaults to latest tag on branch).
-#   RELEASE_DATE  - Release date in YYYY-MM-DD format (defaults to today).
+#   RELEASE_DATE  - Release date in YYYY-MM-DD format (defaults to existing value in changelog, then calculated).
 #   CHANGELOG_FILE - Path to the changelog file (defaults to changelog.md).
 
 set -euo pipefail
@@ -16,11 +16,38 @@ set -euo pipefail
 VERSION="${VERSION:?VERSION is required}"
 CHANGELOG_FILE="${CHANGELOG_FILE:-changelog.md}"
 
-# Calculate release date using the same logic as the Grunt task:
-#   - Patch releases (x.y.z where z > 0): today's date.
-#   - Minor/major releases: next Tuesday ~2 weeks out (today + 2 + 14 - dayOfWeek).
-#   - Beta releases: add an extra 7 days (~3 weeks out).
-if [ -z "${RELEASE_DATE:-}" ]; then
+# If the version section already exists in the changelog file, extract its release
+# date and any copy between the release date line and the first #### heading
+# (the "preamble"). These are preserved as-is when regenerating.
+EXISTING_RELEASE_DATE=""
+EXISTING_PREAMBLE=""
+if [ -f "$CHANGELOG_FILE" ]; then
+	# Extract the section for the requested version (between its ## header and the next ## header or footer).
+	VERSION_SECTION=$(sed -n "/^## ${VERSION}\$/,/^## [0-9]/{ /^## ${VERSION}\$/d; /^## [0-9]/d; p; }" "$CHANGELOG_FILE" \
+		| sed '/^### Earlier versions/,$ d' || true)
+
+	if [ -n "$VERSION_SECTION" ]; then
+		# Extract the existing release date.
+		EXISTING_RELEASE_DATE=$(echo "$VERSION_SECTION" | grep -oP '(?<=Release date: ).*' | head -1 || true)
+
+		# Extract preamble: lines after the release date line and before the first #### heading.
+		EXISTING_PREAMBLE=$(echo "$VERSION_SECTION" \
+			| sed -n '/^Release date:/,/^####/{/^Release date:/d; /^####/d; p;}' \
+			| sed -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba;}' || true)
+	fi
+fi
+
+# Use the provided RELEASE_DATE env var if set, otherwise preserve the existing
+# release date from the changelog, otherwise calculate a new one.
+if [ -n "${RELEASE_DATE:-}" ]; then
+	: # RELEASE_DATE already set via environment.
+elif [ -n "$EXISTING_RELEASE_DATE" ]; then
+	RELEASE_DATE="$EXISTING_RELEASE_DATE"
+else
+	# Calculate release date using the same logic as the Grunt task:
+	#   - Patch releases (x.y.z where z > 0): today's date.
+	#   - Minor/major releases: next Tuesday ~2 weeks out (today + 2 + 14 - dayOfWeek).
+	#   - Beta releases: add an extra 7 days (~3 weeks out).
 	BASE_VERSION=$(echo "$VERSION" | cut -d'-' -f1)
 	PATCH=$(echo "$BASE_VERSION" | awk -F. '{ print ($3 != "" ? $3 : 0) }')
 	SUFFIX=$(echo "$VERSION" | grep -oP '(?<=-).*' || true)
@@ -119,6 +146,13 @@ SECTION="## $VERSION
 
 Release date: $RELEASE_DATE
 "
+
+# Insert preserved preamble (copy between release date and first #### heading).
+if [ -n "$EXISTING_PREAMBLE" ]; then
+	SECTION+="
+$EXISTING_PREAMBLE
+"
+fi
 
 if [ -n "$ENHANCEMENTS" ]; then
 	SECTION+="
