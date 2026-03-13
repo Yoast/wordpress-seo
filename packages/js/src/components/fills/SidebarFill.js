@@ -4,6 +4,7 @@ import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -22,7 +23,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import { NextPostSidebarItem } from "../../ai-next-post/components/next-post-sidebar-item";
+import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
 
 /* eslint-disable complexity */
 /**
@@ -39,6 +40,7 @@ import { NextPostSidebarItem } from "../../ai-next-post/components/next-post-sid
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+	const isPost = useSelect( ( select ) => select( "yoast-seo/editor" ).getPostType() === "post", [] );
 
 	const isBlockEditorActive = isBlockEditor();
 	if ( isBlockEditorActive ) {
@@ -55,9 +57,9 @@ export default function SidebarFill( { settings } ) {
 					</div>
 				</SidebarItem>
 
-				<SidebarItem key="next-post" renderPriority={ 2 }>
-					<NextPostSidebarItem />
-				</SidebarItem>
+				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
+					<NextPostEditorItem location="sidebar" />
+				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }

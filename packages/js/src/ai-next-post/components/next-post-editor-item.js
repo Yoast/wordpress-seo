@@ -7,9 +7,10 @@ import { useSelect } from "@wordpress/data";
 /**
  * The section for the next post feature in the Yoast sidebar.
  *
+ * @param {string} location The location where the editor item is rendered. Can be "sidebar" or "metabox".
  * @returns {JSX.Element} The Next Post section in the sidebar.
  */
-export const NextPostSidebarItem = () => {
+export const NextPostEditorItem = ( { location } ) => {
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium() );
 
@@ -17,7 +18,7 @@ export const NextPostSidebarItem = () => {
 		<p className="yst-text-slate-600 yst-mn-3">
 			{ __( "Optimize your content’s SEO or start with new content suggestions.", "wordpress-seo" ) }
 		</p>
-		<NextPostButton onClick={ openModal } className="yst-w-full" />
+		<NextPostButton onClick={ openModal } className={ location === "sidebar" ? "yst-w-full" : "" } />
 		<NextPostApproveModal
 			isOpen={ isModalOpen }
 			onClose={ closeModal }

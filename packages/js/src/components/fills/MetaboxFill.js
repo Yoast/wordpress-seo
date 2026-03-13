@@ -24,6 +24,7 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -36,10 +37,9 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const { isTerm } = useSelect( ( select ) => ( {
+	const { isTerm, isPost } = useSelect( ( select ) => ( {
 		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
-		isProduct: select( "yoast-seo/editor" ).getIsProduct(),
-		isWooCommerceActive: select( "yoast-seo/editor" ).getIsWooCommerceActive(),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
 	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
@@ -57,6 +57,9 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<Warning />
 				</SidebarItem>
+				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
+					<NextPostEditorItem location="metabox" />
+				</SidebarItem> }
 				<SidebarItem
 					key="time-constrained-notification"
 					renderPriority={ 2 }
