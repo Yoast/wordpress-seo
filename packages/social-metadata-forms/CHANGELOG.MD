@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.0.0 March 9th, 2026
+## 2.0.0 March 17th, 2026
 ### Enhancements:
 * Updates the image select field style. [#22580](https://github.com/Yoast/wordpress-seo/pull/22580)
 * Adds X as allowed social medium name. [#21158](https://github.com/Yoast/wordpress-seo/pull/21158)
