@@ -11,7 +11,7 @@ import { XIcon } from "@heroicons/react/solid";
  * @returns {JSX.Element} The inline banner with the button.
  */
 export const NextPostInlineBanner = ( { onClick, onClose } ) => {
-	return <Root><div className="yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-border yst-border-indigo-300">
+	return <Root><div className="yst-p-4 yst-ai-gradient-border yst-rounded-lg">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 			<GradientSparklesIcon className="yst-h-4 yst-w-4" />
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>

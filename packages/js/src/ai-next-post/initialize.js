@@ -1,7 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { registerBlockType } from "@wordpress/blocks";
 import { register, useDispatch } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { store, STORE_NAME, NEXT_POST_BANNER_BLOCK } from "./store";
 import { NextPostInlineBanner } from "./components/next-post-inline-banner";
@@ -14,13 +14,33 @@ register( store );
  *
  * @returns {JSX.Element} The block edit component.
  */
+const INJECTED_STYLE_ID = "yoast-next-post-tailwind";
+
 const NextPostBannerBlockEdit = () => {
 	const blockProps = useBlockProps( { style: { border: "none", padding: 0, margin: 0 } } );
 	const storeDispatch = useDispatch( STORE_NAME );
 	const handleClose = useCallback( () => storeDispatch?.dismissBanner(), [ storeDispatch ] );
 	const handleClick = useCallback( () => storeDispatch?.openModal(), [ storeDispatch ] );
+	const ref = useRef( null );
+
+	useEffect( () => {
+		const ownerDoc = ref.current?.ownerDocument ?? document;
+		if ( ownerDoc === window.document || ownerDoc.getElementById( INJECTED_STYLE_ID ) ) {
+			return;
+		}
+		const mainLink = window.document.querySelector( "link[href*='tailwind']" );
+		if ( ! mainLink ) {
+			return;
+		}
+		const link = ownerDoc.createElement( "link" );
+		link.id = INJECTED_STYLE_ID;
+		link.rel = "stylesheet";
+		link.href = mainLink.href;
+		ownerDoc.head.appendChild( link );
+	}, [] );
+
 	return (
-		<div { ...blockProps }>
+		<div { ...blockProps } ref={ ref }>
 			<NextPostInlineBanner onClick={ handleClick } onClose={ handleClose } />
 		</div>
 	);
