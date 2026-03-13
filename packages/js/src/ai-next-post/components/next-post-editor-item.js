@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { NextPostButton } from "./next-post-button";
 import { NextPostApproveModal } from "./next-post-approve-modal";
 import { __ } from "@wordpress/i18n";
@@ -13,6 +14,17 @@ import { useSelect } from "@wordpress/data";
 export const NextPostEditorItem = ( { location } ) => {
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium() );
+	const blocks  = useSelect( select => select( "core/block-editor" ).getBlocks(), [] );
+
+	const isFirstBlockEmptyParagraph = blocks.length === 1 &&
+		blocks[ 0 ]?.name === "core/paragraph" &&
+		! blocks[ 0 ]?.attributes?.content?.trim();
+
+	const isBannerPresent = blocks.some( b => b.name === "yoast-seo/next-post-inline-banner" );
+
+	// The canvas is empty when there are no blocks, exactly one block that is
+	// an empty core/paragraph (the default new-post state), or a banner is present.
+	const isEmptyCanvas = blocks.length === 0 || isFirstBlockEmptyParagraph || isBannerPresent;
 
 	return <div className="yst-p-4">
 		<p className="yst-text-slate-600 yst-mn-3">
@@ -22,7 +34,7 @@ export const NextPostEditorItem = ( { location } ) => {
 		<NextPostApproveModal
 			isOpen={ isModalOpen }
 			onClose={ closeModal }
-			isEmptyCanvas={ true }
+			isEmptyCanvas={ isEmptyCanvas }
 			isPremium={ isPremium }
 			isUpsell={ ! isPremium }
 		/>

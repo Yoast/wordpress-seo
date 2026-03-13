@@ -1,5 +1,6 @@
 import { Button, Modal, GradientSparklesIcon, Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * Get the content of the modal based on the props.
@@ -17,12 +18,16 @@ const getModalContent = ( isEmptyCanvas, isUpsell ) => {
 	};
 	if ( ! isEmptyCanvas ) {
 		modalContent.title = __( "Get content suggestions", "wordpress-seo" );
-		modalContent.description = sprintf(
+		modalContent.description = safeCreateInterpolateElement(
+			sprintf(
 			/* translators: %1$s and %2$s are opening and closing italic HTML tags respectively. */
-			__( "Yoast will analyze your site and recommend topics. %1$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%2$s", "wordpress-seo" ),
-			"<i>",
-			"</i>"
-		);
+				__( "Yoast will analyze your site and recommend topics. %1$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%2$s", "wordpress-seo" ),
+				"<i>",
+				"</i>"
+			),
+			{
+				i: <i />,
+			} );
 		modalContent.buttonLabel = __( "Get content suggestions", "wordpress-seo" );
 	}
 	if ( isUpsell ) {
