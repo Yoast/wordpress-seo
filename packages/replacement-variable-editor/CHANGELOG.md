@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.0.0 March 17th, 2026
+## 2.0.0 March 16th, 2026
 ### Enhancements
 * Update styling to match settings styling. [#20905](https://github.com/Yoast/wordpress-seo/pull/20905)
 * Adds a button container around the buttons: insert, slot and filterable buttons. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
