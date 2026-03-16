@@ -5,7 +5,7 @@
   "main": "jest-preset.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoast/wordpress-seo",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
     "directory": "packages/jest-preset"
   },
   "author": "Team Yoast <support@yoast.com>",
