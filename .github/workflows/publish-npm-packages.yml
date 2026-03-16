@@ -42,6 +42,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      # Ensure npm 11.5.1 or later is installed - this is needed for OIDC support
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Extract packages to release from PR body
         id: packages
         env:
@@ -67,6 +71,7 @@ jobs:
       - name: Publish packages in order
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          NODE_AUTH_TOKEN: ''
         run: |
           set -euo pipefail
           if [ -z "${PACKAGE_LIST// /}" ]; then
@@ -92,22 +97,22 @@ jobs:
               npm run-script prepublishOnly
               if [ -d "dist" ]; then
                 pushd dist
-                npm publish --provenance --ignore-scripts
+                npm publish --provenance --access public --ignore-scripts
                 popd
               else
-                npm publish --provenance --ignore-scripts
+                npm publish --provenance --access public --ignore-scripts
               fi
 
             elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
               # Packages with a build step: build first, then publish.
               echo "Strategy: build"
               NODE_ENV=production npm run-script build
-              npm publish --provenance
+              npm publish --provenance --access public
 
             else
               # No build step needed (e.g. config-only packages like tailwindcss-preset).
               echo "Strategy: direct publish"
-              npm publish --provenance
+              npm publish --provenance --access public
             fi
 
             popd
