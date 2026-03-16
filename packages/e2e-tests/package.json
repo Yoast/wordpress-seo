@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "e2e-tests implementation for Yoast SEO plugin",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo",
+    "directory": "packages/e2e-tests"
+  },
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "private": false,
