@@ -604,7 +604,7 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Returns the most recently modified posts without a description for a post type.
+	 * Returns the most recently modified posts for a post type.
 	 *
 	 * @param string      $post_type  The post type.
 	 * @param int|null    $limit      The maximum number of posts to return.
@@ -612,13 +612,13 @@ class Indexable_Repository {
 	 *
 	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
 	 */
-	public function get_recent_posts_without_description_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'breadcrumb_title' )
+			->select( 'description' )
 			->where( 'object_type', 'post' )
 			->where( 'object_sub_type', $post_type )
-			->where_null( 'description' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
 			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
 			->order_by_desc( 'object_last_modified' );

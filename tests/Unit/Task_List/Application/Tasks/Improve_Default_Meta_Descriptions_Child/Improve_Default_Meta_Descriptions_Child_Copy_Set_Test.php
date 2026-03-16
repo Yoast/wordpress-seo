@@ -25,7 +25,7 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 	 * @return void
 	 */
 	public function test_get_copy_set() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
@@ -58,7 +58,7 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 	 * @return void
 	 */
 	public function test_get_copy_set_decodes_html_entities_in_title() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'Sarah&#8217;s Blog Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'Sarah&#8217;s Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
@@ -88,7 +88,7 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 	 * @return void
 	 */
 	public function test_get_copy_set_decodes_ampersands_in_title() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',
@@ -117,7 +117,7 @@ final class Improve_Default_Meta_Descriptions_Child_Copy_Set_Test extends Improv
 	 * @return void
 	 */
 	public function test_get_copy_set_decodes_quote_entities_in_title() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'A &quot;Quoted&quot; Title' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'A &quot;Quoted&quot; Title', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Parent Title',

@@ -48,7 +48,7 @@ abstract class Improve_Abstract_Default_Meta_Descriptions_Child_Test extends Tes
 		$this->stubTranslationFunctions();
 
 		$this->parent_task       = Mockery::mock( Parent_Task_Interface::class );
-		$this->content_item_data = new Meta_Description_Content_Item_Data( 123, 'Test Post Title' );
+		$this->content_item_data = new Meta_Description_Content_Item_Data( 123, 'Test Post Title', false );
 
 		$this->instance = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,

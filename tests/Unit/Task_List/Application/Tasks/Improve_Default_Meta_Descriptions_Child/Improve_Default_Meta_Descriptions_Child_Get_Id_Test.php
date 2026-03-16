@@ -38,7 +38,7 @@ final class Improve_Default_Meta_Descriptions_Child_Get_Id_Test extends Improve_
 	 * @return void
 	 */
 	public function test_get_id_with_different_content_id() {
-		$content_item = new Meta_Description_Content_Item_Data( 789, 'Another Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 789, 'Another Post', false );
 		$instance     = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,
 			$content_item,

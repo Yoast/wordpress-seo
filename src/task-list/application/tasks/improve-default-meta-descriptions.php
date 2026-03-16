@@ -120,7 +120,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	}
 
 	/**
-	 * Populates the child tasks by querying content modified in the last two months without a meta description.
+	 * Populates the child tasks by querying content modified in the last two months.
 	 *
 	 * @return Child_Task_Interface[]
 	 */
@@ -133,7 +133,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 		$two_months_ago = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 months' ) );
 
-		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_without_description(
+		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_for_meta_descriptions(
 			$post_type,
 			$two_months_ago,
 			self::DEFAULT_LIMIT,

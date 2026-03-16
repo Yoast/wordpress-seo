@@ -91,7 +91,7 @@ class Recent_Content_Indexable_Collector {
 	}
 
 	/**
-	 * Gets recent content items without a custom meta description for the given post type.
+	 * Gets recent content items for the meta descriptions task for the given post type.
 	 *
 	 * @param string   $post_type  The post type to query.
 	 * @param string   $date_limit The date limit (content modified after this date).
@@ -99,8 +99,8 @@ class Recent_Content_Indexable_Collector {
 	 *
 	 * @return Meta_Description_Content_Item_Data[] Array of content item data value objects.
 	 */
-	public function get_recent_content_without_description( string $post_type, string $date_limit, ?int $limit = null ): array {
-		$raw_results = $this->indexable_repository->get_recent_posts_without_description_for_post_type(
+	public function get_recent_content_for_meta_descriptions( string $post_type, string $date_limit, ?int $limit = null ): array {
+		$raw_results = $this->indexable_repository->get_recent_posts_for_post_type(
 			$post_type,
 			$limit,
 			$date_limit,
@@ -116,6 +116,7 @@ class Recent_Content_Indexable_Collector {
 			$content_items[] = new Meta_Description_Content_Item_Data(
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
+				! empty( $result['description'] ),
 			);
 		}
 

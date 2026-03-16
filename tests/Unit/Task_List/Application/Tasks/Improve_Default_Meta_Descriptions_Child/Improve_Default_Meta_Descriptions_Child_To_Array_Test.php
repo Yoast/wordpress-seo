@@ -34,7 +34,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	 * @return void
 	 */
 	public function test_to_array() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Improve default meta descriptions: Posts',
@@ -91,7 +91,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	 * @return void
 	 */
 	public function test_to_array_without_enhanced_call_to_action() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Improve default meta descriptions: Posts',
@@ -131,7 +131,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	 * @return void
 	 */
 	public function test_to_array_with_null_link() {
-		$content_item = new Meta_Description_Content_Item_Data( 999, 'Post With No Edit Link' );
+		$content_item = new Meta_Description_Content_Item_Data( 999, 'Post With No Edit Link', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Improve default meta descriptions: Posts',
@@ -173,7 +173,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 	 * @return void
 	 */
 	public function test_to_array_with_html_entities_in_title() {
-		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry&#8217;s Post' );
+		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry&#8217;s Post', false );
 
 		$parent_copy_set = new Copy_Set(
 			'Improve default meta descriptions: Posts',

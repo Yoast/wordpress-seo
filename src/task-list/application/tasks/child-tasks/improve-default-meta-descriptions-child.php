@@ -54,13 +54,12 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	/**
 	 * Returns whether this task is completed.
 	 *
-	 * Child tasks only exist for posts without a custom meta description, so they are always incomplete.
-	 * Once a post has a description, it will no longer appear in the query results on the next cache refresh.
+	 * A child task is completed when the post has a custom meta description.
 	 *
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		return false;
+		return $this->content_item_data->has_description();
 	}
 
 	/**

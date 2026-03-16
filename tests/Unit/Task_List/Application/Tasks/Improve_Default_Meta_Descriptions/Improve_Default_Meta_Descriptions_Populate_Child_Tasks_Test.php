@@ -38,7 +38,7 @@ final class Improve_Default_Meta_Descriptions_Populate_Child_Tasks_Test extends 
 		$this->instance->set_post_type( 'post' );
 
 		$this->recent_content_indexable_collector
-			->expects( 'get_recent_content_without_description' )
+			->expects( 'get_recent_content_for_meta_descriptions' )
 			->once()
 			->andReturn( [] );
 
@@ -53,11 +53,11 @@ final class Improve_Default_Meta_Descriptions_Populate_Child_Tasks_Test extends 
 	public function test_populate_child_tasks_returns_child_tasks() {
 		$this->instance->set_post_type( 'post' );
 
-		$content_item_1 = new Meta_Description_Content_Item_Data( 1, 'Test Post 1' );
-		$content_item_2 = new Meta_Description_Content_Item_Data( 2, 'Test Post 2' );
+		$content_item_1 = new Meta_Description_Content_Item_Data( 1, 'Test Post 1', false );
+		$content_item_2 = new Meta_Description_Content_Item_Data( 2, 'Test Post 2', false );
 
 		$this->recent_content_indexable_collector
-			->expects( 'get_recent_content_without_description' )
+			->expects( 'get_recent_content_for_meta_descriptions' )
 			->once()
 			->andReturn( [ $content_item_1, $content_item_2 ] );
 

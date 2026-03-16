@@ -8,12 +8,12 @@ use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 
 /**
- * Tests the get_recent_content_with_seo_scores and get_recent_content_without_description methods.
+ * Tests the get_recent_content_with_seo_scores and get_recent_content_for_meta_descriptions methods.
  *
  * @group task-list
  *
  * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::get_recent_content_with_seo_scores
- * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::get_recent_content_without_description
+ * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::get_recent_content_for_meta_descriptions
  * @covers \Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector::map_to_seo_score_data
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -202,7 +202,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	 *
 	 * @return void
 	 */
-	public function test_get_recent_content_without_description() {
+	public function test_get_recent_content_for_meta_descriptions() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 		$limit      = 10;
@@ -211,23 +211,27 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			[
 				'object_id'        => 1,
 				'breadcrumb_title' => 'First Post',
+				'description'      => null,
 			],
 			[
 				'object_id'        => 2,
 				'breadcrumb_title' => 'Second Post',
+				'description'      => 'A custom description',
 			],
 		];
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, $limit, $date_limit )
 			->andReturn( $raw_results );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit, $limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit, $limit );
 
 		$this->assertCount( 2, $results );
 		$this->assertContainsOnlyInstancesOf( Meta_Description_Content_Item_Data::class, $results );
+		$this->assertFalse( $results[0]->has_description() );
+		$this->assertTrue( $results[1]->has_description() );
 	}
 
 	/**
@@ -243,22 +247,24 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			[
 				'object_id'        => 123,
 				'breadcrumb_title' => 'Test Title',
+				'description'      => 'My custom description',
 			],
 		];
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( $raw_results );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertCount( 1, $results );
 
 		$content_item = $results[0];
 		$this->assertSame( 123, $content_item->get_content_id() );
 		$this->assertSame( 'Test Title', $content_item->get_title() );
+		$this->assertTrue( $content_item->has_description() );
 	}
 
 	/**
@@ -274,16 +280,17 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			[
 				'object_id'        => '456',
 				'breadcrumb_title' => 'String ID Post',
+				'description'      => null,
 			],
 		];
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( $raw_results );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertSame( 456, $results[0]->get_content_id() );
 	}
@@ -298,12 +305,12 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$date_limit = '2024-01-01';
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( [] );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertSame( [], $results );
 	}
@@ -318,12 +325,12 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$date_limit = '2024-01-01';
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( false );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertSame( [], $results );
 	}
@@ -338,12 +345,12 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$date_limit = '2024-01-01';
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( null );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertSame( [], $results );
 	}
@@ -359,12 +366,12 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$limit      = 5;
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, $limit, $date_limit )
 			->andReturn( [] );
 
-		$this->instance->get_recent_content_without_description( $post_type, $date_limit, $limit );
+		$this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit, $limit );
 	}
 
 	/**
@@ -377,12 +384,12 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 		$date_limit = '2024-01-01';
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( [] );
 
-		$this->instance->get_recent_content_without_description( $post_type, $date_limit, null );
+		$this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit, null );
 	}
 
 	/**
@@ -398,23 +405,26 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			[
 				'object_id'        => 1,
 				'breadcrumb_title' => 'First',
+				'description'      => null,
 			],
 			[
 				'object_id'        => 2,
 				'breadcrumb_title' => 'Second',
+				'description'      => null,
 			],
 			[
 				'object_id'        => 3,
 				'breadcrumb_title' => 'Third',
+				'description'      => null,
 			],
 		];
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->andReturn( $raw_results );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertSame( 1, $results[0]->get_content_id() );
 		$this->assertSame( 'First', $results[0]->get_title() );
@@ -437,16 +447,17 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 			[
 				'object_id'        => 456,
 				'breadcrumb_title' => 'About Us Page',
+				'description'      => null,
 			],
 		];
 
 		$this->indexable_repository
-			->expects( 'get_recent_posts_without_description_for_post_type' )
+			->expects( 'get_recent_posts_for_post_type' )
 			->once()
 			->with( $post_type, null, $date_limit )
 			->andReturn( $raw_results );
 
-		$results = $this->instance->get_recent_content_without_description( $post_type, $date_limit );
+		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
 
 		$this->assertCount( 1, $results );
 		$this->assertSame( 456, $results[0]->get_content_id() );

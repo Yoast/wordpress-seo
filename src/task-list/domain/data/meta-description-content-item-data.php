@@ -22,14 +22,23 @@ class Meta_Description_Content_Item_Data {
 	private $title;
 
 	/**
+	 * Whether the content item has a custom meta description.
+	 *
+	 * @var bool
+	 */
+	private $has_description;
+
+	/**
 	 * Constructs the content item data.
 	 *
-	 * @param int    $content_id The content item ID.
-	 * @param string $title      The content item title.
+	 * @param int    $content_id      The content item ID.
+	 * @param string $title           The content item title.
+	 * @param bool   $has_description Whether the content item has a custom meta description.
 	 */
-	public function __construct( int $content_id, string $title ) {
-		$this->content_id = $content_id;
-		$this->title      = $title;
+	public function __construct( int $content_id, string $title, bool $has_description ) {
+		$this->content_id      = $content_id;
+		$this->title           = $title;
+		$this->has_description = $has_description;
 	}
 
 	/**
@@ -48,5 +57,14 @@ class Meta_Description_Content_Item_Data {
 	 */
 	public function get_title(): string {
 		return $this->title;
+	}
+
+	/**
+	 * Returns whether the content item has a custom meta description.
+	 *
+	 * @return bool
+	 */
+	public function has_description(): bool {
+		return $this->has_description;
 	}
 }
