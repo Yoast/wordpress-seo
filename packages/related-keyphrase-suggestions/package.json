@@ -8,6 +8,11 @@
     "build",
     "!*.map"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/related-keyphrase-suggestions"
+  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
@@ -58,7 +63,7 @@
     "postcss": "^8.4.47",
     "postcss-loader": "^8.1.1",
     "puppeteer": "^23.6.0",
-    "storybook": "^8.6.12",
+    "storybook": "^7.6.21",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.16"
   },
