@@ -581,7 +581,6 @@ class Indexable_Repository {
 	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
 	 */
 	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
-		// @TODO: make sure the post status, noindex and readability score checks are exactly the same as they are and yield the same posts with the respective dashboard widget.
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'readability_score' )
