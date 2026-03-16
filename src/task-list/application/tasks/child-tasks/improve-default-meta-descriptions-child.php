@@ -4,15 +4,18 @@
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
-use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
- * Represents a child task for a post or page missing a custom meta description.
+ * Represents a child task for improving default meta descriptions.
  */
 class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
+
+	use Child_Task_Trait {
+		Child_Task_Trait::__construct as private base_construct;
+	}
 
 	/**
 	 * Holds the duration.
@@ -22,11 +25,11 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	protected $duration = 5;
 
 	/**
-	 * The content item data.
+	 * The meta description content item data.
 	 *
 	 * @var Meta_Description_Content_Item_Data
 	 */
-	private $content_item_data;
+	private $meta_description_data;
 
 	/**
 	 * Constructs the task.
@@ -38,17 +41,8 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 		Parent_Task_Interface $parent_task,
 		Meta_Description_Content_Item_Data $content_item_data
 	) {
-		$this->parent_task       = $parent_task;
-		$this->content_item_data = $content_item_data;
-	}
-
-	/**
-	 * Returns the task ID.
-	 *
-	 * @return string
-	 */
-	public function get_id(): string {
-		return $this->parent_task->get_id() . '-' . $this->content_item_data->get_content_id();
+		$this->base_construct( $parent_task, $content_item_data );
+		$this->meta_description_data = $content_item_data;
 	}
 
 	/**
@@ -59,7 +53,7 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	 * @return bool Whether this task is completed.
 	 */
 	public function get_is_completed(): bool {
-		return $this->content_item_data->has_description();
+		return $this->meta_description_data->has_description();
 	}
 
 	/**
@@ -69,15 +63,6 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	 */
 	public function get_priority(): string {
 		return 'medium';
-	}
-
-	/**
-	 * Returns the task's link.
-	 *
-	 * @return string|null
-	 */
-	public function get_link(): ?string {
-		return \get_edit_post_link( $this->content_item_data->get_content_id(), '&' );
 	}
 
 	/**
@@ -95,18 +80,6 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 			\__( 'Open social appearance', 'wordpress-seo' ),
 			'link',
 			$link,
-		);
-	}
-
-	/**
-	 * Returns the task's copy set.
-	 *
-	 * @return Copy_Set
-	 */
-	public function get_copy_set(): Copy_Set {
-		return new Copy_Set(
-			\html_entity_decode( $this->content_item_data->get_title(), \ENT_QUOTES, 'UTF-8' ),
-			$this->parent_task->get_copy_set()->get_about(),
 		);
 	}
 }

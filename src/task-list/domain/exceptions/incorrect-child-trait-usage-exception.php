@@ -14,6 +14,6 @@ class Incorrect_Child_Trait_Usage_Exception extends Exception {
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Content_Score_Child_Task_Trait can only be used in classes extending Abstract_Child_Task.', 400 );
+		parent::__construct( 'Child_Task_Trait can only be used in classes extending Abstract_Child_Task.', 400 );
 	}
 }
