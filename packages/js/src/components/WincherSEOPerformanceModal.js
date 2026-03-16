@@ -3,7 +3,7 @@
 import { ChartBarIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { useSvgAria } from "@yoast/ui-library/src";
+import { useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 

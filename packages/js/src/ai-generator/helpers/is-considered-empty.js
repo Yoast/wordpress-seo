@@ -1,4 +1,4 @@
-import { punctuationRegexString } from "yoastseo/src/languageProcessing/helpers/sanitize/removePunctuation";
+import { punctuationRegexString } from "yoastseo/build/languageProcessing/helpers/sanitize/removePunctuation";
 
 const symbols = "#$%&*+/=@^`{|}~\u00a0-\u00bf\u2013-\u204a\u2000-\u206f\u20a0-\u20c0";
 /**

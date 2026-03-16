@@ -82,5 +82,8 @@ jobs:
           yarn --version
           grunt --version
 
-      - name: Run Javascript lint
+      - name: Run plugin and tooling lint
         run: yarn lint
+
+      - name: Run package lint
+        run: npx lerna run lint

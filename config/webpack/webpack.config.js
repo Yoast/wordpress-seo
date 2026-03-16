@@ -12,7 +12,7 @@ const packageJson = require( root + "package.json" );
 const baseConfig = require( "./webpack.config.base" );
 const { yoastPackages, yoastExternals } = require( "./externals" );
 
-const languages = readdirSync( root + "node_modules/yoastseo/src/languageProcessing/languages" );
+const languages = readdirSync( root + "node_modules/yoastseo/build/languageProcessing/languages" );
 const pluginVersion = packageJson.yoast.pluginVersion;
 const pluginVersionSlug = paths.flattenVersionForFile( pluginVersion );
 const outputFilename = "[name].js";
@@ -63,7 +63,7 @@ module.exports = [
 	baseConfig( {
 		entry: languages.reduce( ( memo, language ) => {
 			const name = ( language === "_default" ) ? "default" : language;
-			memo[ name ] = "./node_modules/yoastseo/src/languageProcessing/languages/" + language + "/Researcher";
+			memo[ name ] = "./node_modules/yoastseo/build/languageProcessing/languages/" + language + "/Researcher";
 			return memo;
 		}, {} ),
 		output: {

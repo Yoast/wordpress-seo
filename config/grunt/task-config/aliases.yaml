@@ -13,18 +13,13 @@
 
 # Grunt command to only build CSS and JS
 'build:dev':
-  - 'build:packages'
   - 'build:js'
   - 'build:css'
-
-# Compile the JavaScript packages that need it.
-'build:packages':
-  - 'shell:yarn:build --ignore @yoast/wordpress-seo'
 
 # Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
-  - 'shell:yarn:build --scope @yoast/wordpress-seo'
+  - 'shell:yarn:build'
 
 # Build CSS for development
 'build:css':
@@ -62,7 +57,6 @@ clean:build-assets:
 
 # Get the project ready for beta
 'create-beta':
-  - 'ensure-monorepo-is-unlinked'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
@@ -102,14 +96,11 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'release:packages'
   - 'release:js'
   - 'release:css'
-# Compile the JavaScript packages that need it.
-'release:packages':
-  - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
+
 'release:js':
-  - 'shell:yarn-prod:build --scope @yoast/wordpress-seo'
+  - 'shell:yarn-prod:build'
 
 # Build CSS for production
 'release:css':

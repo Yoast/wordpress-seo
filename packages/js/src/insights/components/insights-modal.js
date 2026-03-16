@@ -2,7 +2,7 @@ import { LightBulbIcon } from "@heroicons/react/solid";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { isFeatureEnabled } from "@yoast/feature-flag";
-import { useSvgAria } from "@yoast/ui-library/src";
+import { useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import EditorModal from "../../containers/EditorModal";
