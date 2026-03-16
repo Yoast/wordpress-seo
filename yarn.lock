@@ -10702,23 +10702,6 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/social-metadata-previews@^2.0.0-alpha.0":
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-previews/-/social-metadata-previews-2.0.0-alpha.1.tgz#65000f050eec8f0bc3e55f4cd5e27ec0c9809270"
-  integrity sha512-w3OFAknCNHl8hivM0iAS9QImi6BbG156qhIrRgxqia89J1vSyc4Ho6xf9b+qUbv4auqmlnEkpftppsrdHLvX6Q==
-  dependencies:
-    "@wordpress/i18n" "^5.8.2"
-    "@yoast/components" "^3.0.0-alpha.3"
-    "@yoast/replacement-variable-editor" "^2.0.0-alpha.1"
-    "@yoast/social-metadata-forms" "^2.0.0-alpha.1"
-    "@yoast/style-guide" "^0.14.0-alpha.1"
-    lodash "^4.17.21"
-    prop-types "^15.6.0"
-    react "^18.3.1"
-    react-dom "^18.3.1"
-    redux "^3.7.2"
-    styled-components "^5.3.6"
-
 "@zkochan/js-yaml@0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@zkochan/js-yaml/-/js-yaml-0.0.6.tgz#975f0b306e705e28b8068a07737fa46d3fc04826"
@@ -19733,9 +19716,9 @@ homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
     parse-passwd "^1.0.0"
 
 hono@^4.11.4:
-  version "4.11.7"
-  resolved "https://registry.yarnpkg.com/hono/-/hono-4.11.7.tgz#f5b8d0b0b503ef0d913a246012dda52ea23dbe53"
-  integrity sha512-l7qMiNee7t82bH3SeyUCt9UF15EVmaBvsppY2zQtrbIhl/yzBTny+YUxsVjSjQ6gaqaeVtZmGocom8TzBlA4Yw==
+  version "4.12.8"
+  resolved "https://registry.yarnpkg.com/hono/-/hono-4.12.8.tgz#5f3a9c0d5339ff460b2c652a4c64dd79059930ad"
+  integrity sha512-VJCEvtrezO1IAR+kqEYnxUOoStaQPGrCmX3j4wDTNOcD1uRPFpGlwQUIW8niPuvHXaTUxeOUl5MMDGrl+tmO9A==
 
 hooker@^0.2.3, hooker@~0.2.3:
   version "0.2.3"
