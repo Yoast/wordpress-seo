@@ -121,6 +121,7 @@ const Notifications = ( {
 } ) => (
 	<NotificationsContext.Provider value={ { position } }>
 		<aside
+			aria-label="Notifications"
 			className={ classNames(
 				"yst-notifications",
 				notificationsClassNameMap.position[ position ],

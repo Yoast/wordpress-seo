@@ -110,7 +110,7 @@ class ContentAnalysis extends React.Component {
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
-			<ContentAnalysisContainer>
+			<ContentAnalysisContainer aria-live="polite">
 				{ errorsFound > 0 &&
 					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}

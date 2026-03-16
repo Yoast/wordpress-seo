@@ -1,5 +1,6 @@
 import SidebarCollapsible from "../../src/components/SidebarCollapsible";
 import { fireEvent, render, screen } from "../test-utils";
+import { axe } from "../a11y-test-utils";
 
 const defaultArgs = {
 	title: "Test title",
@@ -13,13 +14,16 @@ describe( "SidebarCollapsible", () => {
 		fireEvent.click( button );
 		const innerDiv = container.querySelector( "#inner-div" );
 		expect( innerDiv ).toBeInTheDocument();
+		expect( button ).toHaveAttribute( "aria-expanded", "true" );
 		expect( container ).toMatchSnapshot();
 	} );
 
 	it( "is closed", async() => {
 		const { container } = render( <SidebarCollapsible { ...defaultArgs } /> );
+		const button = screen.getByRole( "button" );
 		const innerDiv = container.querySelector( "#inner-div" );
 		expect( innerDiv ).not.toBeInTheDocument();
+		expect( button ).toHaveAttribute( "aria-expanded", "false" );
 		expect( container ).toMatchSnapshot();
 	} );
 
@@ -40,5 +44,10 @@ describe( "SidebarCollapsible", () => {
 		const { container } = render( <SidebarCollapsible buttonId="test-button-id" { ...defaultArgs } /> );
 		const button = container.querySelector( "#test-button-id" );
 		expect( button ).toBeInTheDocument();
+	} );
+
+	it( "has no accessibility violations", async() => {
+		const { container } = render( <SidebarCollapsible { ...defaultArgs } /> );
+		expect( await axe( container ) ).toHaveNoViolations();
 	} );
 } );
