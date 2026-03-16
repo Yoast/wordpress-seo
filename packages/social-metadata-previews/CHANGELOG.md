@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.0.0 March 9th, 2026
+## 2.0.0 March 16th, 2026
 ### Enhancements
 * The Facebook and Twitter Preview now uses image instead of a background image.
 * Export the variables TWITTER_IMAGE_SIZES, FACEBOOK_IMAGE_SIZES and determineFacebookImageMode.
