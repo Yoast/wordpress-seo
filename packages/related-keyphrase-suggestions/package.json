@@ -8,6 +8,11 @@
     "build",
     "!*.map"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo",
+    "directory": "packages/related-keyphrase-suggestions"
+  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
