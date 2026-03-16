@@ -88,9 +88,9 @@ class Create_New_Content extends Abstract_Task {
 	/**
 	 * Returns the task's call to action entry.
 	 *
-	 * @return string|null
+	 * @return Call_To_Action_Entry|null
 	 */
-	public function get_call_to_action(): Call_To_Action_Entry {
+	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
 			\__( 'Create new post', 'wordpress-seo' ),
 			'add',
@@ -106,8 +106,15 @@ class Create_New_Content extends Abstract_Task {
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
 			\__( 'Create new content', 'wordpress-seo' ),
-			\__( 'Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.', 'wordpress-seo' ),
-			\__( 'Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing.', 'wordpress-seo' ),
+			\sprintf(
+				/* translators: %1$s and %3$s expands to an opening p tag, %2$s and %5$s expand to a closing p tag and %4$s expands to Yoast */
+				\__( '%1$sLong gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return.%2$s%3$sPlan a topic, write your post, and use the %4$s SEO and Readability Analyses to refine it before publishing.%5$s', 'wordpress-seo' ),
+				'<p>',
+				'</p>',
+				'<p>',
+				'Yoast',
+				'</p>',
+			),
 		);
 	}
 }

@@ -187,7 +187,7 @@ class Person extends Abstract_Schema_Piece {
 
 		$data = $this->set_image_from_options( $data, $schema_id, $add_hash, $user_data );
 		if ( ! isset( $data['image'] ) ) {
-			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id, $add_hash );
+			$data = $this->set_image_from_avatar( $data, $user_data, $add_hash );
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
@@ -213,7 +213,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 		if ( \is_array( $this->context->person_logo_meta ) ) {
-			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'], $add_hash );
+			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $this->context->person_logo_meta['url'], $this->context->person_logo_meta, $data['name'], $add_hash );
 		}
 
 		return $data;
@@ -224,12 +224,11 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @param array<string|string[]> $data      The Person schema.
 	 * @param WP_User                $user_data User data.
-	 * @param string                 $schema_id The string used in the `@id` for the schema.
 	 * @param bool                   $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array<string|string[]> The Person schema.
 	 */
-	protected function set_image_from_avatar( $data, $user_data, $schema_id, $add_hash = false ) {
+	protected function set_image_from_avatar( $data, $user_data, $add_hash = false ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
 		$show_avatars = \get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
@@ -241,7 +240,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = $this->helpers->schema->image->simple_image_object( $schema_id, $url, $user_data->display_name, $add_hash );
+		$data['image'] = $this->helpers->schema->image->simple_image_object( $url, $url, $user_data->display_name, $add_hash );
 
 		return $data;
 	}

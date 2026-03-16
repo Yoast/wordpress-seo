@@ -1,0 +1,111 @@
+<?php
+
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Content_Readability;
+
+use Mockery;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
+
+/**
+ * Test class for the Improve Content Readability to_array method.
+ *
+ * @group Improve_Content_Readability
+ * @group task-list
+ *
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_id
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_duration
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_priority
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_link
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_call_to_action
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_copy_set
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::to_array
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::get_is_completed
+ * @covers Yoast\WP\SEO\Task_List\Application\Tasks\Improve_Content_Readability::is_valid
+ * @covers Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set::to_array
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ */
+final class Improve_Content_Readability_To_Array_Test extends Abstract_Improve_Content_Readability_Test {
+
+	/**
+	 * Tests the task's to_array method.
+	 *
+	 * @return void
+	 */
+	public function test_to_array() {
+		$this->instance->set_post_type( 'post' );
+
+		$expected_result = [
+			'id'           => 'improve-content-readability-post',
+			'duration'     => 0,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => true,
+			'callToAction' => null,
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array method when child task exists and is completed.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_when_child_task_exists_and_is_completed() {
+		$this->instance->set_post_type( 'post' );
+		$child_task = Mockery::mock( Improve_Content_Readability_Child::class );
+		$child_task->shouldReceive( 'get_is_completed' )
+			->andReturn( true );
+
+		$this->instance->set_child_tasks( [ $child_task ] );
+
+		$expected_result = [
+			'id'           => 'improve-content-readability-post',
+			'duration'     => 0,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => true,
+			'callToAction' => null,
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+
+	/**
+	 * Tests the task's to_array method when child task exists and is not completed.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_when_child_task_exists_and_is_not_completed() {
+		$this->instance->set_post_type( 'post' );
+		$child_task = Mockery::mock( Improve_Content_Readability_Child::class );
+		$child_task->shouldReceive( 'get_is_completed' )
+			->andReturn( false );
+		$child_task->shouldReceive( 'get_duration' )
+			->andReturn( 5 );
+
+		$this->instance->set_child_tasks( [ $child_task ] );
+
+		$expected_result = [
+			'id'           => 'improve-content-readability-post',
+			'duration'     => 5,
+			'priority'     => 'medium',
+			'badge'        => null,
+			'isCompleted'  => false,
+			'callToAction' => null,
+			'title'        => 'Improve the readability of your recent content: Posts',
+			'about'        => '<p>Checking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.</p><p><strong>Pro tip</strong>: Use <strong>AI Optimize</strong> to automatically simplify complex sentences and improve the flow of your writing.</p>',
+			'isParentTask' => true,
+		];
+
+		$this->assertSame( $expected_result, $this->instance->to_array() );
+	}
+}

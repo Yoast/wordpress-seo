@@ -6,7 +6,6 @@ use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -313,7 +312,7 @@ final class Author_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'simple_image_object' )
-			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name, false )
+			->with( $this->person_data['image']['url'], $this->person_data['image']['url'], $user_data->display_name, false )
 			->andReturn( $this->person_data['image'] );
 
 		$this->options->expects( 'get' )
@@ -457,7 +456,7 @@ final class Author_Test extends TestCase {
 		$this->schema_image
 			->expects( 'generate_from_attachment_meta' )
 			->with(
-				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+				$this->instance->context->person_logo_meta['url'],
 				[
 					'height' => 100,
 					'width'  => 100,

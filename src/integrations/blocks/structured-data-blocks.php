@@ -202,7 +202,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 
 		return \preg_replace(
 			'/(<p class="schema-how-to-total-time">)(<span class="schema-how-to-duration-time-text">.*<\/span>)(.[^\/p>]*)(<\/p>)/',
-			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . $duration_text . '&nbsp;</span>' . $duration . '</p>',
+			'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">' . \esc_html( $duration_text ) . '&nbsp;</span>' . $duration . '</p>',
 			$content,
 			1,
 		);

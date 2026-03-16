@@ -1,4 +1,6 @@
 import { TaskModal } from "../../../src/task-list/components/task-modal";
+import { ChildTasks } from "../../../src/task-list/components/child-tasks";
+import { TaskListProvider } from "../../../src/task-list/task-list-context";
 import { Button, useToggleState } from "@yoast/ui-library";
 import { noop } from "lodash";
 import documentation from "./documentation.md";
@@ -44,6 +46,10 @@ export default {
 		isCompleted: {
 			description: "Whether the task is completed. If true, the call to action button will be disabled.",
 		},
+		about: {
+			description: "HTML string describing the task. Can contain HTML tags like <strong> and <p>.",
+			control: "text",
+		},
 		errorMessage: {
 			description: "Error message to display in the modal.",
 			control: "text",
@@ -52,14 +58,55 @@ export default {
 			description: "Whether there was an error loading the task.",
 			control: "boolean",
 		},
+		taskId: {
+			description: "The ID of the task associated with the modal.",
+			control: "text",
+		},
+		isLoading: {
+			description: "Whether the modal content is loading.",
+			control: "boolean",
+		},
+		totalTasks: {
+			description: "Total number of child tasks.",
+			control: "number",
+			type: { name: "number" },
+		},
+		completedTasks: {
+			description: "Number of completed child tasks.",
+			control: "number",
+			type: { name: "number" },
+		},
+		parentTaskTitle: {
+			description: "Title of the parent task for child tasks progress badge.",
+			control: "text",
+			type: { name: "string" },
+		},
+		onProgressBadgeClick: {
+			description: "Function to call when clicking the progress badge.",
+			control: false,
+			type: { name: "function" },
+		},
+		parentTaskId: {
+			description: "ID of the parent task.",
+			control: "text",
+			type: { name: "string" },
+		},
+		children: {
+			description: "Additional child elements to render inside the modal.",
+			control: false,
+		},
+		analyzer: {
+			description: "Analyzer details for the task. An object containing type, title, result, resultLabel, and resultDescription.",
+			control: "object",
+			type: { name: "object" },
+		},
 	},
 	args: {
 		isOpen: false,
 		title: "Complete the First-time configuration",
 		duration: 15,
 		priority: "high",
-		why: "Helping us understand your site will enable us to provide better SEO suggestions tailored to your needs.",
-		how: "Answer a few questions about your website's type, audience, and content focus to set up the plugin effectively.",
+		about: "<p>Skipping setup limits how much Yoast SEO can help you. </p><p><strong>Pro tip:</strong> Completing it makes sure the core settings are working in your favor.</p>",
 		callToAction: {
 			label: "Start configuration",
 			href: null,
@@ -74,56 +121,90 @@ export default {
 	},
 };
 
-export const Factory = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
+const Template = ( args ) => {
+	const [ isOpen, toggle ] = useToggleState( false );
 
-		return <>
-			Click on the button to open the task modal
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-			/>
-		</>;
-	},
+	return <TaskListProvider locale="en-US">
+		Click on the button to open the task modal
+		<br /><br />
+		<Button onClick={ toggle }>Task button</Button>
+		<TaskModal
+			{ ...args }
+			isOpen={ isOpen }
+			onClose={ toggle }
+		/>
+	</TaskListProvider>;
+};
+
+export const Factory = {
+	render: ( args ) => <Template { ...args } />,
 };
 
 export const CompletedTask = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
-
-		return <>
-			Click on the button to open the completed task modal
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-				isCompleted={ true }
-			/>
-		</>;
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		isCompleted: true,
 	},
 };
 
 export const ErrorState = {
-	render: ( args ) => {
-		const [ isOpen, toggle ] = useToggleState( false );
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		isError: true,
+		errorMessage: "Failed to load task details.",
+	},
+};
 
-		return <>
-			Click on the button to open the task modal in error state
-			<br /><br />
-			<Button onClick={ toggle }>Task button</Button>
-			<TaskModal
-				{ ...args }
-				isOpen={ isOpen }
-				onClose={ toggle }
-				isError={ true }
-				errorMessage="Failed to load task details."
-			/>
-		</>;
+export const WithChildTasks = {
+	render: ( args ) => <Template { ...args }>
+		<ChildTasks tasks={ args.childTasks } />
+	</Template>,
+	args: {
+		childTasks: [
+			{ title: "Set up site type", duration: 5, priority: "medium", isCompleted: true, taskId: "child-task-1" },
+			{ title: "Configure audience", duration: 7, priority: "high", isCompleted: false, taskId: "child-task-2" },
+			{ title: "Define content focus", duration: 3, priority: "low", isCompleted: false, taskId: "child-task-3" },
+			{ title: "Review settings", duration: 4, priority: "medium", isCompleted: false, taskId: "child-task-4" },
+			{ title: "Finalize configuration", duration: 6, priority: "high", isCompleted: false, taskId: "child-task-5" },
+			{ title: "Complete tutorial", duration: 8, priority: "low", isCompleted: false, taskId: "child-task-6" },
+			{ title: "Optimize homepage", duration: 10, priority: "high", isCompleted: false, taskId: "child-task-7" },
+			{ title: "Set up blog", duration: 12, priority: "medium", isCompleted: false, taskId: "child-task-8" },
+		],
+		callToAction: {},
+		totalTasks: 3,
+		completedTasks: 1,
+	},
+};
+
+export const ParentTaskWithoutChildTasks = {
+	render: ( args ) => <Template { ...args }>
+		<ChildTasks tasks={ args.childTasks } />
+	</Template>,
+	args: {
+		isParentTask: true,
+		callToAction: {},
+		childTasks: [],
+	},
+};
+
+export const ChildTask = {
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		parentTaskTitle: "Complete the First-time configuration",
+		totalTasks: 5,
+		completedTasks: 2,
+	},
+};
+
+export const WithTaskAnalyzer = {
+	render: ( args ) => <Template { ...args } />,
+	args: {
+		analyzer: {
+			type: "score",
+			title: "Readability",
+			result: "bad",
+			resultLabel: "Needs improvement",
+			resultDescription: "This post's readability needs work. Consider simplifying sentences and using shorter paragraphs to make your content easier to read.",
+		},
 	},
 };

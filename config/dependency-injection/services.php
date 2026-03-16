@@ -68,6 +68,7 @@ $yoast_seo_excluded_directories = [
 	'wordpress',
 	'values/oauth',
 	'values/robots',
+	'task-list/application/tasks/child-tasks',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );

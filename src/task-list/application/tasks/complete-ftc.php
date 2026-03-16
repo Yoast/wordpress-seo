@@ -71,9 +71,9 @@ class Complete_FTC extends Abstract_Task {
 	/**
 	 * Returns the task's call to action entry.
 	 *
-	 * @return string|null
+	 * @return Call_To_Action_Entry|null
 	 */
-	public function get_call_to_action(): Call_To_Action_Entry {
+	public function get_call_to_action(): ?Call_To_Action_Entry {
 		return new Call_To_Action_Entry(
 			\__( 'Start configuration', 'wordpress-seo' ),
 			'link',
@@ -88,9 +88,12 @@ class Complete_FTC extends Abstract_Task {
 	 */
 	public function get_copy_set(): Copy_Set {
 		return new Copy_Set(
-			\__( 'Complete the First-time configuration', 'wordpress-seo' ),
-			/* translators: %1$s expands to Yoast SEO */
-			\sprintf( \__( 'Skipping setup limits how much %1$s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ), 'Yoast SEO' ),
+			\__( 'Complete the first time configuration', 'wordpress-seo' ),
+			'<p>' . \sprintf(
+				/* translators: %s expands to Yoast SEO */
+				\__( 'Skipping setup limits how much %s can help you. Completing it makes sure the core settings are working in your favor.', 'wordpress-seo' ),
+				'Yoast SEO',
+			) . '</p>',
 		);
 	}
 }

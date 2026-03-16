@@ -1,7 +1,10 @@
 import { TaskListOptInNotification } from "./task-list-opt-in-notification";
 import { useSelectGeneralPage } from "../hooks";
 import { useLocation } from "react-router-dom";
+import { useCallback } from "@wordpress/element";
+import { useDispatch } from "@wordpress/data";
 import { ROUTES } from "../routes";
+import { STORE_NAME } from "../constants";
 
 /**
  * The container for the opt-in notification.
@@ -12,14 +15,17 @@ import { ROUTES } from "../routes";
 export const OptInContainer = () => {
 	const taskListOptInNotificationSeen = useSelectGeneralPage( "selectIsOptInNotificationSeen", [], "task_list" );
 	const { pathname } = useLocation();
+	const { hideOptInNotification } = useDispatch( STORE_NAME );
 
-	if ( pathname === ROUTES.firstTimeConfiguration || taskListOptInNotificationSeen || pathname === ROUTES.taskList ) {
+	const isOpen = pathname !== ROUTES.firstTimeConfiguration && ! taskListOptInNotificationSeen && pathname !== ROUTES.taskList;
+
+	const onClose = useCallback( () => {
+		hideOptInNotification( "task_list" );
+	}, [ hideOptInNotification ] );
+
+	if ( ! isOpen ) {
 		return null;
 	}
 
-	return (
-		<div>
-			<TaskListOptInNotification />
-		</div>
-	);
+	return <TaskListOptInNotification isOpen={ isOpen } onClose={ onClose } />;
 };
