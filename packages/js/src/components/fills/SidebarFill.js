@@ -51,19 +51,18 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<SidebarItem
-					key="editor-intro"
-					renderPriority={ 0 }
-				>
-					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
-				</SidebarItem>
-				<SidebarItem key="warning" renderPriority={ 1 }>
+				<SidebarItem key="warning" renderPriority={ 0 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
 						{ FirstEligibleNotification && <FirstEligibleNotification /> }
 					</div>
 				</SidebarItem>
-
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 1 }
+				>
+					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+				</SidebarItem>
 				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
 					<NextPostEditorItem location="sidebar" />
 				</SidebarItem> }

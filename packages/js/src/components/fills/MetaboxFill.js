@@ -53,16 +53,16 @@ export default function MetaboxFill( { settings } ) {
 		<>
 			<Fill name="YoastMetabox">
 				<SidebarItem
-					key="editor-intro"
+					key="warning"
 					renderPriority={ 0 }
 				>
-					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+					<Warning />
 				</SidebarItem>
 				<SidebarItem
-					key="warning"
+					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<Warning />
+					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
 				</SidebarItem>
 				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
 					<NextPostEditorItem location="metabox" />
