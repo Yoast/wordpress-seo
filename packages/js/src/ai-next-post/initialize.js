@@ -9,7 +9,7 @@ import { NextPostEditorPlugin } from "./next-post-editor-plugin";
 
 register( store );
 
-const INJECTED_STYLE_ID = "yoast-next-post-tailwind";
+const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
 const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 	// eslint-disable-next-line react/display-name
@@ -39,7 +39,7 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 			if ( ownerDoc === window.document || ownerDoc.getElementById( INJECTED_STYLE_ID ) ) {
 				return;
 			}
-			const mainLink = window.document.querySelector( "link[href*='tailwind']" );
+			const mainLink = window.document.getElementById( INJECTED_STYLE_ID );
 			if ( ! mainLink ) {
 				return;
 			}
