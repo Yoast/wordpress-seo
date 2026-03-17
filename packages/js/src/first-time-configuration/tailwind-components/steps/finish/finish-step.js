@@ -52,7 +52,11 @@ export default function FinishStep( { state } ) {
 					target="_blank"
 					data-hiive-event-name="clicked_to_onboarding_page"
 				>
-					{ __( "Learn how to get the most out of your Yoast plugin", "wordpress-seo" ) }
+					{ sprintf(
+						/* translators: 1: Yoast SEO. */
+						__( "Learn how to get the most out of your %1$s plugin", "wordpress-seo" ),
+						"Yoast"
+					) }
 					<span className="yst-sr-only">
 						{
 							/* translators: Hidden accessibility text. */
