@@ -71,15 +71,10 @@ class Improve_Default_Meta_Descriptions_Child extends Abstract_Child_Task {
 	 * @return Call_To_Action_Entry|null
 	 */
 	public function get_call_to_action(): ?Call_To_Action_Entry {
-		$link = $this->get_link();
-		if ( $link !== null ) {
-			$link = \add_query_arg( 'yoast-scroll-to', 'meta-description', $link );
-		}
-
 		return new Call_To_Action_Entry(
-			\__( 'Open social appearance', 'wordpress-seo' ),
+			\__( 'Open editor', 'wordpress-seo' ),
 			'link',
-			$link,
+			$this->get_link(),
 		);
 	}
 }

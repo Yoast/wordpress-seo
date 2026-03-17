@@ -254,20 +254,4 @@ export default function initTabs( jQuery ) {
 			}
 		} );
 	}
-
-	const yoastScrollTo = new URLSearchParams( window.location.search ).get( "yoast-scroll-to" );
-	if ( yoastScrollTo === "meta-description" && ! isGutenberg ) {
-		const unsubscribe = subscribe( () => {
-			const metaDescField = document.getElementById( "yoast-google-preview-description-metabox" );
-			if ( metaDescField ) {
-				unsubscribe();
-				metaDescField.scrollIntoView( {
-					behavior: "auto",
-					block: "center",
-					inline: "center",
-				} );
-				metaDescField.focus();
-			}
-		} );
-	}
 }

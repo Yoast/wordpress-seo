@@ -25,24 +25,18 @@ final class Improve_Default_Meta_Descriptions_Child_Call_To_Action_Test extends 
 	 * @return void
 	 */
 	public function test_get_call_to_action_returns_entry_with_link() {
-		$base_link     = 'https://example.com/wp-admin/post.php?post=123&action=edit';
-		$expected_link = $base_link . '&yoast-scroll-to=meta-description';
+		$expected_link = 'https://example.com/wp-admin/post.php?post=123&action=edit';
 
 		Monkey\Functions\expect( 'get_edit_post_link' )
 			->once()
 			->with( 123, '&' )
-			->andReturn( $base_link );
-
-		Monkey\Functions\expect( 'add_query_arg' )
-			->once()
-			->with( 'yoast-scroll-to', 'meta-description', $base_link )
 			->andReturn( $expected_link );
 
 		$call_to_action = $this->instance->get_call_to_action();
 		$array          = $call_to_action->to_array();
 
 		$this->assertInstanceOf( Call_To_Action_Entry::class, $call_to_action );
-		$this->assertSame( 'Open social appearance', $array['label'] );
+		$this->assertSame( 'Open editor', $array['label'] );
 		$this->assertSame( 'link', $array['type'] );
 		$this->assertSame( $expected_link, $array['href'] );
 	}
@@ -58,14 +52,11 @@ final class Improve_Default_Meta_Descriptions_Child_Call_To_Action_Test extends 
 			->with( 123, '&' )
 			->andReturn( null );
 
-		Monkey\Functions\expect( 'add_query_arg' )
-			->never();
-
 		$call_to_action = $this->instance->get_call_to_action();
 		$array          = $call_to_action->to_array();
 
 		$this->assertInstanceOf( Call_To_Action_Entry::class, $call_to_action );
-		$this->assertSame( 'Open social appearance', $array['label'] );
+		$this->assertSame( 'Open editor', $array['label'] );
 		$this->assertSame( 'link', $array['type'] );
 		$this->assertNull( $array['href'] );
 	}

@@ -49,19 +49,12 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 			->shouldReceive( 'get_copy_set' )
 			->andReturn( $parent_copy_set );
 
+		$expected_link = 'https://example.com/wp-admin/post.php?post=456&action=edit';
+
 		Monkey\Functions\expect( 'get_edit_post_link' )
 			->once()
 			->with( 456, '&' )
-			->andReturn( 'https://example.com/wp-admin/post.php?post=456&action=edit' );
-
-		Monkey\Functions\expect( 'add_query_arg' )
-			->once()
-			->with(
-				'yoast-scroll-to',
-				'meta-description',
-				'https://example.com/wp-admin/post.php?post=456&action=edit',
-			)
-			->andReturn( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-scroll-to=meta-description' );
+			->andReturn( $expected_link );
 
 		$instance = new Improve_Default_Meta_Descriptions_Child(
 			$this->parent_task,
@@ -80,9 +73,9 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$this->assertSame( 'My Amazing Blog Post', $result['title'] );
 		$this->assertSame( '<p>Parent about text.</p>', $result['about'] );
 		$this->assertNull( $result['analyzer'] );
-		$this->assertSame( 'Open social appearance', $result['callToAction']['label'] );
+		$this->assertSame( 'Open editor', $result['callToAction']['label'] );
 		$this->assertSame( 'link', $result['callToAction']['type'] );
-		$this->assertSame( 'https://example.com/wp-admin/post.php?post=456&action=edit&yoast-scroll-to=meta-description', $result['callToAction']['href'] );
+		$this->assertSame( $expected_link, $result['callToAction']['href'] );
 	}
 
 	/**
@@ -162,7 +155,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$this->assertSame( 'improve-default-meta-descriptions-post-999', $result['id'] );
 		$this->assertFalse( $result['isCompleted'] );
 		$this->assertSame( 'Post With No Edit Link', $result['title'] );
-		$this->assertSame( 'Open social appearance', $result['callToAction']['label'] );
+		$this->assertSame( 'Open editor', $result['callToAction']['label'] );
 		$this->assertSame( 'link', $result['callToAction']['type'] );
 		$this->assertNull( $result['callToAction']['href'] );
 	}
