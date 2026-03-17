@@ -38,9 +38,10 @@ const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( B
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const { isTerm, isPost } = useSelect( ( select ) => ( {
+	const { isTerm, isPost, isAiFeatureActive } = useSelect( ( select ) => ( {
 		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
 		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
 	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
@@ -62,9 +63,9 @@ export default function MetaboxFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
 				</SidebarItem>
-				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="next-post" renderPriority={ 2 }>
 					<NextPostEditorItem location="metabox" />
 				</SidebarItem> }
 				<SidebarItem

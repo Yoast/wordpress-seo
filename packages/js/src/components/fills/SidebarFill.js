@@ -41,7 +41,10 @@ import { EditorIntro } from "../EditorIntro";
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
-	const isPost = useSelect( ( select ) => select( "yoast-seo/editor" ).getPostType() === "post", [] );
+	const { isAiFeatureActive, isPost } = useSelect( ( select ) => ( {
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
 	if ( isBlockEditorActive ) {
@@ -61,9 +64,9 @@ export default function SidebarFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
 				</SidebarItem>
-				{ isPost && isBlockEditorActive && <SidebarItem key="next-post" renderPriority={ 2 }>
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="next-post" renderPriority={ 2 }>
 					<NextPostEditorItem location="sidebar" />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>

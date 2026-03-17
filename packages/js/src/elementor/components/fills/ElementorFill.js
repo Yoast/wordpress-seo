@@ -56,7 +56,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro isBlockEditor={ false } isPost={ false } />
+					<EditorIntro withPromptForContentSuggestions={ false } />
 				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
