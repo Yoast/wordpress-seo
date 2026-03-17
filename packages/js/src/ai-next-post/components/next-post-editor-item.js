@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import { NextPostButton } from "./next-post-button";
 import { NextPostApproveModal } from "./next-post-approve-modal";
-import { __ } from "@wordpress/i18n";
 import { useToggleState } from "@yoast/ui-library";
 import { useSelect } from "@wordpress/data";
 

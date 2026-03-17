@@ -1,6 +1,7 @@
 import { Button, Modal, GradientSparklesIcon, Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { OneSparkNote } from "./one-spark-note";
 
 /**
  * Get the content of the modal based on the props.
@@ -67,9 +68,7 @@ export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremiu
 			<Button variant={ buttonVariant } onClick={ onClose } className="yst-w-full">
 				{ buttonLabel }
 			</Button>
-			{ ! isPremium && ! isUpsell && <span className="yst-text-sm yst-mt-2 yst-flex yst-items-center yst-gap-1 yst-justify-center yst-text-slate-500 yst-italic">
-				<GradientSparklesIcon className="yst-h-3 yst-w-3" />
-				{ __( "Using 1 spark.", "wordpress-seo" ) }</span> }
+			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
 		</Modal.Panel>
 	</Modal></Root>;
 };

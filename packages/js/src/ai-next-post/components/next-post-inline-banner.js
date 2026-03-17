@@ -1,6 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Root } from "@yoast/ui-library";
 import { XIcon } from "@heroicons/react/solid";
+import { OneSparkNote } from "./one-spark-note";
+import { useSelect } from "@wordpress/data";
 
 /**
  * The inline banner that is shown when the user has no content in a new post using the block editor.
@@ -11,7 +13,8 @@ import { XIcon } from "@heroicons/react/solid";
  * @returns {JSX.Element} The inline banner with the button.
  */
 export const NextPostInlineBanner = ( { onClick, onClose } ) => {
-	return <Root><div className="yst-p-4 yst-ai-gradient-border yst-rounded-lg">
+	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium() );
+	return <Root><div className="yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w-xl">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 			<GradientSparklesIcon className="yst-h-4 yst-w-4" />
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>
@@ -20,10 +23,14 @@ export const NextPostInlineBanner = ( { onClick, onClose } ) => {
 				<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 			</button>
 		</div>
-		<p>
+		<p className="yst-text-sm yst-text-slate-600">
 			{ __( "Let Yoast analyze your site and suggest high-impact topics that fill content gaps and strengthen your SEO strategy.", "wordpress-seo" ) }
 		</p>
-		<div className="yst-mt-1 yst-flex yst-justify-end">
+		<div className="yst-mt-1 yst-flex yst-justify-end yst-gap-2 yst-items-center">
+			{ ! isPremium && <>
+				<OneSparkNote />
+				<span aria-hidden="true">·</span>
+			</>  }
 			<Button variant="ai-primary" onClick={ onClick }>
 				{ __( "Get content suggestions", "wordpress-seo" ) }
 			</Button>
