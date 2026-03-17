@@ -92,8 +92,14 @@ trait Content_Score_Child_Task_Trait {
 	 * @return Copy_Set
 	 */
 	public function get_copy_set(): Copy_Set {
+		$title = \html_entity_decode( $this->content_item_score_data->get_title(), \ENT_QUOTES, 'UTF-8' );
+		if ( empty( $title ) ) {
+			// Default to "(no title)" if the title is empty after decoding.
+			$title = \__( '(no title)', 'wordpress-seo' );
+		}
+
 		return new Copy_Set(
-			\html_entity_decode( $this->content_item_score_data->get_title(), \ENT_QUOTES, 'UTF-8' ),
+			$title,
 			$this->parent_task->get_copy_set()->get_about(),
 		);
 	}

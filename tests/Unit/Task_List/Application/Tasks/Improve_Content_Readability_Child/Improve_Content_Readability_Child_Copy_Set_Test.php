@@ -80,4 +80,33 @@ final class Improve_Content_Readability_Child_Copy_Set_Test extends Abstract_Imp
 
 		$this->assertSame( 'Sarah’s Blog Post', $array['title'] );
 	}
+
+	/**
+	 * Tests that get_copy_set uses "(no title)" fallback when title is empty.
+	 *
+	 * @return void
+	 */
+	public function test_get_copy_set_uses_no_title_fallback_when_title_is_empty() {
+		$content_item = new Content_Item_Score_Data( 456, '', 'ok', 'post' );
+
+		$parent_copy_set = new Copy_Set(
+			'Parent Title',
+			'<p>About text.</p>',
+		);
+
+		$this->parent_task
+			->shouldReceive( 'get_copy_set' )
+			->once()
+			->andReturn( $parent_copy_set );
+
+		$instance = new Improve_Content_Readability_Child(
+			$this->parent_task,
+			$content_item,
+		);
+
+		$copy_set = $instance->get_copy_set();
+		$array    = $copy_set->to_array();
+
+		$this->assertSame( '(no title)', $array['title'] );
+	}
 }
