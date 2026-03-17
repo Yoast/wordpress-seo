@@ -156,7 +156,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 * The task is only shown when:
 	 * - Indexables are being indexed.
 	 * - The global meta description template for this post type is empty or contains only hardcoded text without replacevars.
-	 *   If it contains even one replacevar (%%...%%), descriptions will be auto-generated and the task is unnecessary.
+	 *   If it contains even one replacevar (%%...%%), descriptions can be considered customised in each post and the task is unnecessary.
 	 *
 	 * @return bool
 	 */
