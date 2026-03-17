@@ -1,37 +1,47 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { Table, useSvgAria, SkeletonLoader, useToggleState } from "@yoast/ui-library";
 import { Priority } from "./priority";
 import { Duration } from "./duration";
 import { TaskBadge } from "./task-badge";
-import { Ellipse } from "../../icons";
+import { TasksProgressBadge } from "./tasks-progress-badge";
+import { TaskStatusIcon } from "../../icons";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { useMemo } from "react";
+import { SingleTaskButton } from "./single-task-button";
 
 const badgeOptions = [ "premium", "woo", "ai" ];
 
 /**
  * The LoadingTaskRow component to display a loading state for a task row.
  *
- * @param {string} title Title of the task or a placeholder title.
+ * @param {string} titleClassName The class names of the task title skeleton.
  * @returns {JSX.Element} The LoadingTaskRow component.
  */
-const LoadingTaskRow = ( { title } ) => {
+const LoadingTaskRow = ( { titleClassName } ) => {
 	const svgAriaProps = useSvgAria();
 	return <Table.Row>
 		<Table.Cell className="yst-font-medium yst-text-slate-800">
 			<div className="yst-flex yst-items-center yst-gap-2">
-				<Ellipse className="yst-w-4 yst-text-slate-200" { ...svgAriaProps } />
-				<SkeletonLoader className="yst-h-[18px]">{ title }</SkeletonLoader>
+				<TaskStatusIcon isLoading={ true } />
+				<SkeletonLoader className={ classNames( "yst-h-[18px]", titleClassName ) } />
+			</div>
+			<div className="yst-mt-2 yst-gap-2 yst-flex sm:yst-hidden">
+				<TasksProgressBadge isLoading={ true } />
+				<span aria-hidden="true">·</span>
+				<Priority isLoading={ true } />
+				<span aria-hidden="true">·</span> <Duration isLoading={ true } />
 			</div>
 		</Table.Cell>
-		<Table.Cell>
+		<Table.Cell className="yst-hidden sm:yst-table-cell">
 			<Duration isLoading={ true } />
 		</Table.Cell>
-		<Table.Cell>
+		<Table.Cell className="yst-hidden sm:yst-table-cell">
+			<Priority isLoading={ true } />
+		</Table.Cell>
+		<Table.Cell className="yst-hidden sm:yst-table-cell">
 			<div className="yst-flex yst-justify-between">
-				<Priority isLoading={ true } />
+				<TasksProgressBadge isLoading={ true } />
 				<ChevronRightIcon
 					className="yst-w-4 yst-text-slate-600 rtl:yst-rotate-180"
 					{ ...svgAriaProps }
@@ -50,11 +60,12 @@ const LoadingTaskRow = ( { title } ) => {
  * @param {string} [badge] An optional badge to display next to the task title: `premium`, `woo`, `ai`.
  * @param {boolean} isCompleted Whether the task is completed.
  * @param {Function} onClick Function to call when the row is clicked.
- * @param {JSX.Element} [children] Optional children elements for the task modal.
+ * @param {number} [completedTasks] Number of completed child tasks.
+ * @param {number} [totalTasks] Total number of child tasks.
  *
  * @returns {JSX.Element} The TaskRow component.
  */
-export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, children } ) => {
+export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClick, completedTasks, totalTasks } ) => {
 	const svgAriaProps = useSvgAria();
 	const [ isButtonFocused, , ,handleButtonFocus, handleButtonBlur ] = useToggleState( false );
 
@@ -63,17 +74,26 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 	return (
 		<Table.Row className="yst-cursor-pointer yst-group" onClick={ onClick } aria-label={ __( "Open task modal", "wordpress-seo" ) }>
 			<Table.Cell className={ cellBackground }>
-				<div className="yst-flex yst-items-center yst-gap-2">
-					{ isCompleted
-						? <CheckCircleIcon className="yst-w-4 yst-text-green-500 yst-shrink-0" { ...svgAriaProps } />
-						: <Ellipse className="yst-w-4 yst-text-slate-200 yst-shrink-0" { ...svgAriaProps } /> }
+				<SingleTaskButton
+					title={ title }
+					duration={ duration }
+					priority={ priority }
+					isCompleted={ isCompleted }
+					onClick={ onClick }
+					completedTasks={ completedTasks }
+					totalTasks={ totalTasks }
+					className="sm:yst-hidden"
+				/>
+				<div className="sm:yst-flex yst-items-center yst-gap-2 yst-hidden">
+					<TaskStatusIcon isCompleted={ isCompleted } />
 					<button
 						aria-haspopup="dialog"
 						type="button"
 						className={ classNames(
-							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none yst-text-start",
-							isCompleted ? "yst-text-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900",
-							isButtonFocused ? "yst-underline" : "group-hover:yst-underline"
+							"yst-font-medium focus:yst-outline-none focus-visible:yst-outline-none yst-text-start yst-relative yst-leading-5",
+							"after:yst-content-[''] after:yst-absolute after:yst-left-0 after:yst-bottom-0 after:yst-h-[1px] after:yst-w-full after:yst-transition-opacity after:yst-duration-300 after:yst-ease-in-out",
+							isCompleted ? "yst-text-slate-500 after:yst-bg-slate-500" : "yst-text-slate-800 hover:yst-text-slate-900 after:yst-bg-slate-800 hover:after:yst-bg-slate-900",
+							isButtonFocused ? "after:yst-opacity-100" : "after:yst-opacity-0 group-hover:after:yst-opacity-100"
 						) }
 						onFocus={ handleButtonFocus }
 						onBlur={ handleButtonBlur }
@@ -86,25 +106,21 @@ export const TaskRow = ( { title, duration, priority, badge, isCompleted, onClic
 					{ badgeOptions.includes( badge ) && <TaskBadge type={ badge } /> }
 				</div>
 			</Table.Cell>
-			<Table.Cell
-				className={ classNames( cellBackground,
-					isCompleted ? "yst-opacity-50" : "" ) }
-			>
-				<Duration minutes={ duration } />
+			<Table.Cell className={ classNames( "yst-hidden sm:yst-table-cell", cellBackground ) }>
+				<Priority level={ priority } isCompleted={ isCompleted } />
 			</Table.Cell>
-			<Table.Cell
-				className={ classNames( "yst-pe-5",
-					cellBackground ) }
-			>
+			<Table.Cell className={ classNames( "yst-hidden sm:yst-table-cell", cellBackground ) }>
+				<Duration minutes={ duration } isCompleted={ isCompleted } />
+			</Table.Cell>
+			<Table.Cell className={ classNames( "yst-hidden sm:yst-table-cell yst-pe-5", cellBackground ) }>
 				<div className="yst-flex yst-justify-between">
-					<Priority level={ priority } className={ isCompleted ? "yst-opacity-50" : "" } />
+					{ totalTasks > 0 && <TasksProgressBadge completedTasks={ completedTasks } totalTasks={ totalTasks } /> }
 					<ChevronRightIcon
-						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0",
+						className={ classNames( "yst-w-4 yst-text-slate-600 rtl:yst-rotate-180 yst-transition yst-duration-300 yst-ease-in-out yst-shrink-0 yst-ms-auto",
 							isButtonFocused ? "yst-text-slate-800 yst-translate-x-2" : "group-hover:yst-text-slate-800 group-hover:yst-translate-x-2"
 						) } { ...svgAriaProps }
 					/>
 				</div>
-				{ children }
 			</Table.Cell>
 		</Table.Row>
 	);

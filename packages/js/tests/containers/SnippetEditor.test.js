@@ -23,6 +23,7 @@ describe( "SnippetEditor container", () => {
 					] ),
 					getShoppingData: jest.fn().mockReturnValue( {
 						rating: 1,
+						bestRating: 10,
 						reviewCount: 2,
 						avalability: "in stock",
 						price: "&euro; 123",
@@ -70,6 +71,7 @@ describe( "SnippetEditor container", () => {
 			],
 			shoppingData: {
 				rating: 1,
+				bestRating: 10,
 				reviewCount: 2,
 				avalability: "in stock",
 				price: "&euro; 123",

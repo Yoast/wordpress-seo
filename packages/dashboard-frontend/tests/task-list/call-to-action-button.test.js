@@ -39,7 +39,7 @@ describe( "CallToActionButton", () => {
 		[ "add", { label: "Create", type: "add", href: "https://example.com" } ],
 		[ "delete", { label: "Delete", type: "delete", onClick: onClickMock } ],
 		[ "link", { label: "Go", type: "link", href: "https://example.com" } ],
-		[ "default", { label: "Default", onClick: onClickMock } ],
+		[ "no type", { label: "No type", onClick: onClickMock } ],
 	] )( "matches snapshot for type '%s'", ( type, props ) => {
 		const { container } = render( <CallToActionButton { ...props } /> );
 		expect( container.firstChild ).toMatchSnapshot();
@@ -54,8 +54,8 @@ describe( "CallToActionButton", () => {
 			expect( screen.getByRole( "img", { hidden: true } ) ).toBeInTheDocument();
 		} );
 
-		it( "shows loading state for default type with correct text", () => {
-			render( <CallToActionButton label="Create Task" type="default" onClick={ onClickMock } isLoading={ true } /> );
+		it( "shows loading state for create type with correct text", () => {
+			render( <CallToActionButton label="Create Task" type="create" onClick={ onClickMock } isLoading={ true } /> );
 			const button = screen.getByRole( "button", { name: /generating…/i } );
 			expect( button ).toBeInTheDocument();
 		} );
@@ -75,7 +75,7 @@ describe( "CallToActionButton", () => {
 		} );
 
 		it( "shows loading spinner when isLoading is true", () => {
-			render( <CallToActionButton label="Save" type="default" onClick={ onClickMock } isLoading={ true } /> );
+			render( <CallToActionButton label="Save" type="create" onClick={ onClickMock } isLoading={ true } /> );
 			// Check for loading spinner by its role and class
 			const loadingSpinner = screen.getByRole( "img", { hidden: true } );
 			expect( loadingSpinner ).toBeInTheDocument();
@@ -84,14 +84,14 @@ describe( "CallToActionButton", () => {
 
 		it( "still allows clicks when loading (not disabled by default)", () => {
 			const handleClick = jest.fn();
-			render( <CallToActionButton label="Save" type="default" onClick={ handleClick } isLoading={ true } /> );
+			render( <CallToActionButton label="Save" type="create" onClick={ handleClick } isLoading={ true } /> );
 			const button = screen.getByRole( "button", { name: /generating…/i } );
 			fireEvent.click( button );
 			expect( handleClick ).toHaveBeenCalledTimes( 1 );
 		} );
 
 		it( "applies cursor-wait class when loading", () => {
-			render( <CallToActionButton label="Save" type="default" onClick={ onClickMock } isLoading={ true } /> );
+			render( <CallToActionButton label="Save" type="create" onClick={ onClickMock } isLoading={ true } /> );
 			const button = screen.getByRole( "button", { name: /generating…/i } );
 			expect( button ).toHaveClass( "yst-cursor-wait" );
 		} );
@@ -100,7 +100,7 @@ describe( "CallToActionButton", () => {
 			[ "add", { label: "Create", type: "add", onClick: onClickMock, isLoading: true } ],
 			[ "delete", { label: "Delete", type: "delete", onClick: onClickMock, isLoading: true } ],
 			[ "link", { label: "Go", type: "link", href: "https://example.com", isLoading: true } ],
-			[ "default", { label: "Default", onClick: onClickMock, isLoading: true } ],
+			[ "create", { label: "Create Task", type: "create", onClick: onClickMock, isLoading: true } ],
 		] )( "matches loading snapshot for type '%s'", ( type, props ) => {
 			const { container } = render( <CallToActionButton { ...props } /> );
 			expect( container.firstChild ).toMatchSnapshot();

@@ -8,7 +8,8 @@ We follow [Semantic Versioning](http://semver.org/).
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 * Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
 * Adds locale as one of the props in `SnippetEditor.js` to be used to determine which configuration to use in meta description length progress bar.
-* * Removes the breadcrumbs container from the Search snippet preview in Mobile mode. [#22027](https://github.com/Yoast/wordpress-seo/pull/22027)
+* Removes the breadcrumbs container from the Search snippet preview in Mobile mode. [#22027](https://github.com/Yoast/wordpress-seo/pull/22027)
+* Updates best product rating in snippet preview.
 
 ### Bugfixes
 * Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.

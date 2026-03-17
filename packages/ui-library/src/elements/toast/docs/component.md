@@ -1,1 +1,1 @@
-Toasts are versatile elements that can include multiple subcomponents for implementing custom notifications.
+Toasts are short, non-interruptive notifications versatile UI elements, that can include multiple subcomponents to create customized context messages.
