@@ -1,7 +1,5 @@
-import { useDispatch } from "@wordpress/data";
 import { Button, Root } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { STORE_NAME } from "../store";
 
 /**
  * The button to open the the NextPostApprovedModal in the top bar of the block editor.

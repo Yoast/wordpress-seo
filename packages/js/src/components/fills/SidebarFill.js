@@ -24,6 +24,7 @@ import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
+import { EditorIntro } from "../EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -50,6 +51,12 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 0 }
+				>
+					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+				</SidebarItem>
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>

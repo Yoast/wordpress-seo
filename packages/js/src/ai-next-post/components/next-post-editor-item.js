@@ -27,9 +27,6 @@ export const NextPostEditorItem = ( { location } ) => {
 	const isEmptyCanvas = blocks.length === 0 || isFirstBlockEmptyParagraph || isBannerPresent;
 
 	return <div className="yst-p-4">
-		<p className="yst-text-slate-600 yst-mn-3">
-			{ __( "Optimize your content’s SEO or start with new content suggestions.", "wordpress-seo" ) }
-		</p>
 		<NextPostButton onClick={ openModal } className={ location === "sidebar" ? "yst-w-full" : "" } />
 		<NextPostApproveModal
 			isOpen={ isModalOpen }

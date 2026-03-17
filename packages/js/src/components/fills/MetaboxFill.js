@@ -25,6 +25,7 @@ import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsChec
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
+import { EditorIntro } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
@@ -51,6 +52,12 @@ export default function MetaboxFill( { settings } ) {
 	return (
 		<>
 			<Fill name="YoastMetabox">
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 0 }
+				>
+					<EditorIntro isBlockEditor={ isBlockEditorActive } isPost={ isPost } />
+				</SidebarItem>
 				<SidebarItem
 					key="warning"
 					renderPriority={ 1 }
