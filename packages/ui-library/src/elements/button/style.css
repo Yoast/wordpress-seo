@@ -46,7 +46,7 @@
 			visited:hover:yst-text-white;
 		}
 
-		.yst-button--ai-primary {
+		button.yst-button--ai-primary {
 			@apply
 			yst-text-white
 			yst-ps-2
