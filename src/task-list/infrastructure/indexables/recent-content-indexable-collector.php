@@ -116,7 +116,7 @@ class Recent_Content_Indexable_Collector {
 			$content_items[] = new Meta_Description_Content_Item_Data(
 				(int) $result['object_id'],
 				$result['breadcrumb_title'],
-				! empty( $result['description'] ),
+				(string) $result['description'] !== '',
 			);
 		}
 
