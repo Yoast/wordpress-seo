@@ -21,6 +21,7 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const ref = useRef( null );
 
+		// eslint-disable-next-line complexity
 		const showBanner = useSelect( ( select ) => {
 			const isBannerDismissed = select( STORE_NAME )?.getIsBannerDismissed?.() ?? false;
 			if ( isBannerDismissed ) {
