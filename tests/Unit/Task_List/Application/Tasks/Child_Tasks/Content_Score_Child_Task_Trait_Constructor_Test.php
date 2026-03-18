@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Content_Score_Child_Task_Trait_Constructor_Test extends TestCase {
+final class Child_Task_Trait_Constructor_Test extends TestCase {
 
 	/**
 	 * Tests that the constructor throws when the trait is used in a class not extending Abstract_Child_Task.
