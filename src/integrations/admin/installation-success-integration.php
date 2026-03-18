@@ -70,7 +70,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_redirect() {
-		if ( \defined( 'DOING_AJAX' ) && \DOING_AJAX ) {
+		if ( \wp_doing_ajax() || \wp_doing_cron() || \wp_is_serving_rest_request() || \wp_is_json_request() ) {
 			return;
 		}
 
