@@ -95,7 +95,7 @@ final class Old_Configuration_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_submenu_page' )
 			->with(
-				'',
+				'options.php',
 				'Old Configuration Wizard',
 				'',
 				'manage_options',

@@ -112,7 +112,7 @@ const initializeAiGenerator = () => {
 };
 
 domReady( () => {
-	if ( ! window.wpseoScriptData.postType ) {
+	if ( ! window.wpseoScriptData?.postType ) {
 		return;
 	}
 

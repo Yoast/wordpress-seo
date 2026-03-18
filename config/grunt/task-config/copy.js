@@ -34,6 +34,7 @@ module.exports = {
 					"lib/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
+					"changelog.md",
 					"index.php",
 					"license.txt",
 					"readme.txt",

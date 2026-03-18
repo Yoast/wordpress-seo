@@ -48,6 +48,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 		parent::set_up();
 
 		$this->stubTranslationFunctions();
+		$this->stubEscapeFunctions();
 
 		$this->asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->image_helper  = Mockery::mock( Image_Helper::class );
@@ -146,6 +147,39 @@ final class Structured_Data_Blocks_Test extends TestCase {
 				],
 				'<p>The <b>Norwegian Forest cat</b> (Norwegian: <i lang="no"><b>Norsk skogskatt</b></i> and <b><span title="Norwegian-language text"><i lang="no">Norsk skaukatt</i></span></b>) is a breed of domestic cat originating in Northern Europe.',
 				'A test case for when the element with "schema-how-to-total-time" class name is not output in the content',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"><script>alert(1)</script>&nbsp;</span>2 hours</p>',
+				[
+					'durationText'        => '<script>alert(1)</script>',
+					'defaultDurationText' => 'Time needed:',
+					'hours'               => 2,
+					'minutes'             => 0,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 hours</p>',
+				'Regression test: script tags in durationText must be escaped',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"><img src=x onerror=alert(1)>&nbsp;</span>2 hours</p>',
+				[
+					'durationText'        => '<img src=x onerror=alert(1)>',
+					'defaultDurationText' => 'Time needed:',
+					'hours'               => 2,
+					'minutes'             => 0,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 hours</p>',
+				'Regression test: HTML event handlers in durationText must be escaped',
+			],
+			[
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text"><a href="https://evil.com">Click here</a>&nbsp;</span>2 hours</p>',
+				[
+					'durationText'        => '<a href="https://evil.com">Click here</a>',
+					'defaultDurationText' => 'Time needed:',
+					'hours'               => 2,
+					'minutes'             => 0,
+				],
+				'<p class="schema-how-to-total-time"><span class="schema-how-to-duration-time-text">Time needed:&nbsp;</span>2 hours</p>',
+				'Regression test: HTML links in durationText must be escaped to prevent content injection',
 			],
 		];
 	}

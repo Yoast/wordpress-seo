@@ -156,12 +156,9 @@ describe( "ChildTasks", () => {
 	it( "renders correctly with exactly 4 tasks (single page)", () => {
 		const fourTasks = mockTasks.slice( 0, 4 );
 		render( <ChildTasks tasks={ fourTasks } singleTaskOnClick={ mockOnClick } /> );
-
-		expect( screen.getByText( "Page 1 out of 1" ) ).toBeInTheDocument();
-		const nextButton = screen.getByText( "Next" ).closest( "button" );
-		const previousButton = screen.getByText( "Previous" ).closest( "button" );
-		expect( nextButton ).toBeDisabled();
-		expect( previousButton ).toBeDisabled();
+		expect( screen.queryByText( "Page 1 out of 1" ) ).not.toBeInTheDocument();
+		expect( screen.queryByText( "Next" ) ).not.toBeInTheDocument();
+		expect( screen.queryByText( "Previous" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "renders correctly with only 1 task", () => {
@@ -169,7 +166,7 @@ describe( "ChildTasks", () => {
 		render( <ChildTasks tasks={ singleTask } singleTaskOnClick={ mockOnClick } /> );
 
 		expect( screen.getByText( "First child task" ) ).toBeInTheDocument();
-		expect( screen.getByText( "Page 1 out of 1" ) ).toBeInTheDocument();
+		expect( screen.queryByText( "Page 1 out of 1" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( ( content, element ) => element.textContent === "1/1" ) ).toBeInTheDocument();
 	} );
 
@@ -184,16 +181,28 @@ describe( "ChildTasks", () => {
 		render( <ChildTasks tasks={ nineTasks } singleTaskOnClick={ mockOnClick } /> );
 
 		expect( screen.getByText( "Page 1 out of 3" ) ).toBeInTheDocument();
+		// Check previous button is disabled on first page and next button is enabled
+		const previousButton = screen.getByText( "Previous" ).closest( "button" );
+		expect( previousButton ).toBeDisabled();
+		const nextButton = screen.getByText( "Next" ).closest( "button" );
+		expect( nextButton ).not.toBeDisabled();
 
 		// Navigate to page 2
-		const nextButton = screen.getByText( "Next" ).closest( "button" );
 		fireEvent.click( nextButton );
 		expect( screen.getByText( "Page 2 out of 3" ) ).toBeInTheDocument();
+
+		// Check previous button is enabled and next button is not disabled on page 2
+		expect( previousButton ).not.toBeDisabled();
+		expect( nextButton ).not.toBeDisabled();
 
 		// Navigate to page 3
 		fireEvent.click( nextButton );
 		expect( screen.getByText( "Page 3 out of 3" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Ninth task" ) ).toBeInTheDocument();
+
+		// Check next button is disabled on last page and previous button is enabled
+		expect( previousButton ).not.toBeDisabled();
+		expect( nextButton ).toBeDisabled();
 	} );
 
 	it( "resets to page 1 when parentTaskId changes", () => {
