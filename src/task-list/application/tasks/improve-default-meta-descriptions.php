@@ -105,7 +105,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 		return new Copy_Set(
 			/* translators: %1$s expands to the post type label this task is about */
-			\sprintf( \__( 'Improve default meta descriptions: %1$s', 'wordpress-seo' ), $post_type->label ),
+			\sprintf( \__( 'Improve default meta descriptions of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
 				/* translators: %1$s expands to <p>, %2$s expands to </p>, %3$s expands to <p>, %4$s expands to </p>, %5$s expands to <strong>, %6$s expands to </strong>, %7$s expands to <strong> and %8$s expands to </strong>. */
 				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.%2$s%3$sShort on time? In %5$sYoast SEO Premium%6$s, use %7$sAI Generate%8$s to create tailored meta descriptions in seconds.%4$s', 'wordpress-seo' ),

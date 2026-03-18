@@ -41,7 +41,7 @@ final class Improve_Default_Meta_Descriptions_To_Array_Test extends Abstract_Imp
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve default meta descriptions: Posts',
+			'title'        => 'Improve default meta descriptions of your recent content: Posts',
 			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.</p><p>Short on time? In <strong>Yoast SEO Premium</strong>, use <strong>AI Generate</strong> to create tailored meta descriptions in seconds.</p>',
 			'isParentTask' => true,
 		];
@@ -91,7 +91,7 @@ final class Improve_Default_Meta_Descriptions_To_Array_Test extends Abstract_Imp
 			'badge'        => null,
 			'isCompleted'  => true,
 			'callToAction' => null,
-			'title'        => 'Improve default meta descriptions: Posts',
+			'title'        => 'Improve default meta descriptions of your recent content: Posts',
 			'about'        => '<p>Default meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.</p><p>Short on time? In <strong>Yoast SEO Premium</strong>, use <strong>AI Generate</strong> to create tailored meta descriptions in seconds.</p>',
 			'isParentTask' => true,
 		];

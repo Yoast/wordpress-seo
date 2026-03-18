@@ -37,7 +37,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
-			'Improve default meta descriptions: Posts',
+			'Improve default meta descriptions of your recent content: Posts',
 			'<p>Parent about text.</p>',
 		);
 
@@ -87,7 +87,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$content_item = new Meta_Description_Content_Item_Data( 456, 'My Amazing Blog Post', false );
 
 		$parent_copy_set = new Copy_Set(
-			'Improve default meta descriptions: Posts',
+			'Improve default meta descriptions of your recent content: Posts',
 			'<p>Parent about text.</p>',
 		);
 
@@ -127,7 +127,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$content_item = new Meta_Description_Content_Item_Data( 999, 'Post With No Edit Link', false );
 
 		$parent_copy_set = new Copy_Set(
-			'Improve default meta descriptions: Posts',
+			'Improve default meta descriptions of your recent content: Posts',
 			'<p>Parent about text.</p>',
 		);
 
@@ -169,7 +169,7 @@ final class Improve_Default_Meta_Descriptions_Child_To_Array_Test extends Improv
 		$content_item = new Meta_Description_Content_Item_Data( 456, 'Tom &amp; Jerry&#8217;s Post', false );
 
 		$parent_copy_set = new Copy_Set(
-			'Improve default meta descriptions: Posts',
+			'Improve default meta descriptions of your recent content: Posts',
 			'<p>Parent about text.</p>',
 		);
 

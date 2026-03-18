@@ -31,7 +31,7 @@ final class Improve_Default_Meta_Descriptions_Get_Copy_Set_Test extends Abstract
 
 		$array = $copy_set->to_array();
 
-		$this->assertSame( 'Improve default meta descriptions: Posts', $array['title'] );
+		$this->assertSame( 'Improve default meta descriptions of your recent content: Posts', $array['title'] );
 		$this->assertStringContainsString(
 			'Default meta descriptions don\'t always highlight what makes your page unique.',
 			$array['about'],
