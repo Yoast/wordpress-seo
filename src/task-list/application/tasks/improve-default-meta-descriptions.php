@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Co
  */
 class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
+	use Recent_Content_Task_Trait;
+
 	/**
 	 * The default maximum number of content items to retrieve.
 	 *
@@ -131,7 +133,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 			return [];
 		}
 
-		$two_months_ago = \gmdate( 'Y-m-d H:i:s', \strtotime( '-2 months' ) );
+		$two_months_ago = $this->get_recency_timestamp();
 
 		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_for_meta_descriptions(
 			$post_type,
