@@ -235,44 +235,11 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	}
 
 	/**
-	 * Tests that the returned Meta_Description_Content_Item_Data objects have correct data.
-	 *
-	 * @return void
-	 */
-	public function test_without_description_content_items_have_correct_data() {
-		$post_type  = 'post';
-		$date_limit = '2024-01-01';
-
-		$raw_results = [
-			[
-				'object_id'        => 123,
-				'breadcrumb_title' => 'Test Title',
-				'description'      => 'My custom description',
-			],
-		];
-
-		$this->indexable_repository
-			->expects( 'get_recent_posts_for_post_type' )
-			->once()
-			->with( $post_type, null, $date_limit )
-			->andReturn( $raw_results );
-
-		$results = $this->instance->get_recent_content_for_meta_descriptions( $post_type, $date_limit );
-
-		$this->assertCount( 1, $results );
-
-		$content_item = $results[0];
-		$this->assertSame( 123, $content_item->get_content_id() );
-		$this->assertSame( 'Test Title', $content_item->get_title() );
-		$this->assertTrue( $content_item->has_description() );
-	}
-
-	/**
 	 * Tests that object_id is cast to int.
 	 *
 	 * @return void
 	 */
-	public function test_without_description_object_id_is_cast_to_int() {
+	public function test_object_id_is_cast_to_int() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 
@@ -296,11 +263,11 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	}
 
 	/**
-	 * Tests getting recent content without description when no results are found.
+	 * Tests getting recent content when no results are found.
 	 *
 	 * @return void
 	 */
-	public function test_without_description_returns_empty_array_when_no_results() {
+	public function test_returns_empty_array_when_no_results() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 
@@ -320,7 +287,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	 *
 	 * @return void
 	 */
-	public function test_without_description_returns_empty_array_when_repository_returns_non_array() {
+	public function test_returns_empty_array_when_repository_returns_non_array() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 
@@ -340,7 +307,7 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	 *
 	 * @return void
 	 */
-	public function test_without_description_returns_empty_array_when_repository_returns_null() {
+	public function test_returns_empty_array_when_repository_returns_null() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 
@@ -356,11 +323,11 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	}
 
 	/**
-	 * Tests getting recent content without description with a limit.
+	 * Tests getting recent content with a limit.
 	 *
 	 * @return void
 	 */
-	public function test_without_description_passes_limit_to_repository() {
+	public function test_passes_limit_to_repository() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 		$limit      = 5;
@@ -375,11 +342,11 @@ final class Recent_Content_Indexable_Collector_Get_Recent_Content_Test extends A
 	}
 
 	/**
-	 * Tests getting recent content without description with null limit.
+	 * Tests getting recent content with null limit.
 	 *
 	 * @return void
 	 */
-	public function test_without_description_with_null_limit() {
+	public function test_with_null_limit() {
 		$post_type  = 'post';
 		$date_limit = '2024-01-01';
 
