@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.9
-Stable tag: 27.1.1
+Stable tag: 27.2
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,9 +303,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 27.3 =
+
+Release date: 2026-03-31
+
+#### Enhancements
+
+* Adds the highlighting feature to _keyphrase in subheadings_ assessment. Now users can highlight the headings that include the keyphrase or synonyms.
+* Introduces a more robust HTML processing approach for the _keyphrase in subheadings_ assessment.
+
+#### Bugfixes
+
+* Fixes a bug where `Deprecated: strip_tags(): Passing null to parameter #1 ($string) of type string is deprecated` notices appeared on certain actions, like when activating the plugin, or saving a Yoast setting. Props to @sabernhardt.
+* Fixes a console error in the editor related to AI Generate feature that occurred when the “Enable SEO controls and assessments” option was disabled for a content type.
+
+#### Other
+
+* Improves security of format_json_encode() by removing JSON_UNESCAPED_SLASHES, which could allow a user to control tags in the schema JSON-LD output. Props to @rob006.
+* Updates the completion message and changes the call-to-action button text of the First-time configuration.
+
 = 27.2 =
 
 Release date: 2026-03-17
+
+Yoast SEO 27.2 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
@@ -325,30 +346,6 @@ Release date: 2026-03-17
 #### Other
 
 * Adds more loading tasks to the tasks list on the general page.
-
-= 27.1.1 =
-
-Release date: 2026-03-03
-
-#### Bugfixes
-
-* Fixes a bug where Schema aggregator endpoints were returning a fatal error when trying to access response pages other than the first one by using slash syntax.
-
-= 27.1 =
-
-Release date: 2026-03-03
-
-New: Introducing the Schema Aggregation feature. Futureproof your website for an agentic future. [Read the full release post here](https://yoa.st/55i).
-
-#### Enhancements
-
-* Introduces the Schema aggregation feature. Thanks to Syde for helping us with testing it!
-* Introduces a more robust HTML processing and highlighting approach for the *transition words* assessment.
-
-#### Bugfixes
-
-* Fixes a bug where sentences containing transition words failed to be highlighted in _transition words_ assessment when they contained elements excluded from the analysis such as `<code>`.
-* Fixes a bug where Slovak two-part transition words weren't recognized when running the readability analysis.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
