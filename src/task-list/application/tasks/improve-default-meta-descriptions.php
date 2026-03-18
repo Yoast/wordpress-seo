@@ -127,6 +127,7 @@ class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 	 * @return Child_Task_Interface[]
 	 */
 	public function populate_child_tasks(): array {
+		// @TODO: There's a lot of code duplication that can be abstracted in all the parent tasks so far.
 		$post_type = $this->get_post_type();
 
 		if ( empty( $post_type ) ) {
