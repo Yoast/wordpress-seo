@@ -577,7 +577,7 @@ class Indexable_Repository {
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
 	 *
-	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
 	 */
 	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
 		$query = $this->query()
@@ -608,7 +608,7 @@ class Indexable_Repository {
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
 	 *
-	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
 	 */
 	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
 		$query = $this->query()
