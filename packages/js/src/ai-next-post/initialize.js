@@ -1,11 +1,12 @@
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { register, useSelect, useDispatch } from "@wordpress/data";
-import { useCallback, useEffect, useRef, Fragment } from "@wordpress/element";
+import { register, useSelect } from "@wordpress/data";
+import {  useEffect, useRef, Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
 import { store, STORE_NAME } from "./store";
 import { NextPostInlineBanner } from "./components/next-post-inline-banner";
 import { NextPostEditorPlugin } from "./next-post-editor-plugin";
+import { noop } from "lodash";
 
 register( store );
 
@@ -18,9 +19,6 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 			return <BlockEdit { ...props } />;
 		}
 
-		const storeDispatch = useDispatch( STORE_NAME );
-		const handleClose = useCallback( () => storeDispatch?.dismissBanner(), [ storeDispatch ] );
-		const handleClick = useCallback( () => storeDispatch?.openModal(), [ storeDispatch ] );
 		const ref = useRef( null );
 
 		const showBanner = useSelect( ( select ) => {
@@ -35,6 +33,8 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 		}, [ props.clientId, props.attributes?.content ] );
 
 		useEffect( () => {
+			// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
+			// This ensures the banner is styled correctly in both the main editor and any iframes (like the mobile preview).
 			const ownerDoc = ref.current?.ownerDocument ?? document;
 			if ( ownerDoc === window.document || ownerDoc.getElementById( INJECTED_STYLE_ID ) ) {
 				return;
@@ -54,7 +54,7 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 			<Fragment>
 				<span ref={ ref } style={ { display: "none" } } />
 				<BlockEdit { ...props } />
-				{ showBanner && <NextPostInlineBanner onClick={ handleClick } onClose={ handleClose } /> }
+				{ showBanner && <NextPostInlineBanner onClick={ noop } /> }
 			</Fragment>
 		);
 	};
