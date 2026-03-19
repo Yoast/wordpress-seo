@@ -2,10 +2,9 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 
-use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
-use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_Readability_Child;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Default_Meta_Descriptions_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
@@ -13,9 +12,9 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
- * Represents the task for improving content readability.
+ * Represents the task for setting custom meta descriptions on recent content.
  */
-class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
+class Improve_Default_Meta_Descriptions extends Abstract_Post_Type_Parent_Task {
 
 	use Recent_Content_Task_Trait;
 
@@ -31,7 +30,7 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 	 *
 	 * @var string
 	 */
-	protected $id = 'improve-content-readability';
+	protected $id = 'improve-default-meta-descriptions';
 
 	/**
 	 * Holds the priority.
@@ -55,27 +54,27 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 	private $indexable_helper;
 
 	/**
-	 * Holds the enabled analysis features repository.
+	 * Holds the options helper.
 	 *
-	 * @var Enabled_Analysis_Features_Repository
+	 * @var Options_Helper
 	 */
-	private $enabled_analysis_features_repository;
+	private $options_helper;
 
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Recent_Content_Indexable_Collector   $recent_content_indexable_collector   The recent content indexable collector.
-	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper.
-	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
+	 * @param Recent_Content_Indexable_Collector $recent_content_indexable_collector The recent content indexable collector.
+	 * @param Indexable_Helper                   $indexable_helper                   The indexable helper.
+	 * @param Options_Helper                     $options_helper                     The options helper.
 	 */
 	public function __construct(
 		Recent_Content_Indexable_Collector $recent_content_indexable_collector,
 		Indexable_Helper $indexable_helper,
-		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
+		Options_Helper $options_helper
 	) {
-		$this->recent_content_indexable_collector   = $recent_content_indexable_collector;
-		$this->indexable_helper                     = $indexable_helper;
-		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
+		$this->recent_content_indexable_collector = $recent_content_indexable_collector;
+		$this->indexable_helper                   = $indexable_helper;
+		$this->options_helper                     = $options_helper;
 	}
 
 	/**
@@ -106,14 +105,15 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 
 		return new Copy_Set(
 			/* translators: %1$s expands to the post type label this task is about */
-			\sprintf( \__( 'Improve the readability of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
+			\sprintf( \__( 'Improve default meta descriptions of your recent content: %1$s', 'wordpress-seo' ), $post_type->label ),
 			\sprintf(
-				/* translators: %1$s expands to an opening p tag, %2$s and %4$s expand to a closing p tag, %3$s expands to an opening p tag and opening strong tag, %5$s expands to a closing strong tag, %6$s expands to an opening strong tag, %7$s expands to a closing strong tag and closing p tag */
-				\__( '%1$sChecking your recent content\'s readability ensures it stays clear and easy to follow, improving your user experience. Follow the feedback to refine your sentence structure and word choice and maintain a high standard of engagement and comprehension.%2$s%3$sPro tip%5$s: Use %6$sAI Optimize%7$s to automatically simplify complex sentences and improve the flow of your writing.%4$s', 'wordpress-seo' ),
+				/* translators: %1$s expands to <p>, %2$s expands to </p>, %3$s expands to <p>, %4$s expands to </p>, %5$s expands to <strong>, %6$s expands to </strong>, %7$s expands to <strong> and %8$s expands to </strong>. */
+				\__( '%1$sDefault meta descriptions don\'t always highlight what makes your page unique. Write your own to improve clarity and drive more clicks.%2$s%3$sShort on time? In %5$sYoast SEO Premium%6$s, use %7$sAI Generate%8$s to create tailored meta descriptions in seconds.%4$s', 'wordpress-seo' ),
 				'<p>',
 				'</p>',
-				'<p><strong>',
+				'<p>',
 				'</p>',
+				'<strong>',
 				'</strong>',
 				'<strong>',
 				'</strong>',
@@ -127,6 +127,7 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 	 * @return Child_Task_Interface[]
 	 */
 	public function populate_child_tasks(): array {
+		// @TODO: There's a lot of code duplication that can be abstracted in all the parent tasks so far.
 		$post_type = $this->get_post_type();
 
 		if ( empty( $post_type ) ) {
@@ -135,17 +136,17 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 
 		$two_months_ago = $this->get_recency_timestamp();
 
-		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_with_readability_scores(
+		$recent_content_items = $this->recent_content_indexable_collector->get_recent_content_for_meta_descriptions(
 			$post_type,
 			$two_months_ago,
 			self::DEFAULT_LIMIT,
 		);
 
 		$child_tasks = [];
-		foreach ( $recent_content_items as $content_item_score_data ) {
-			$child_tasks[] = new Improve_Content_Readability_Child(
+		foreach ( $recent_content_items as $content_item_data ) {
+			$child_tasks[] = new Improve_Default_Meta_Descriptions_Child(
 				$this,
-				$content_item_score_data,
+				$content_item_data,
 			);
 		}
 
@@ -155,6 +156,11 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Returns whether the task is valid.
 	 *
+	 * The task is only shown when:
+	 * - Indexables are being indexed.
+	 * - The global meta description template for this post type is empty or contains only hardcoded text without replacevars.
+	 *   If it contains even one replacevar (%%...%%), descriptions can be considered customised in each post and the task is unnecessary.
+	 *
 	 * @return bool
 	 */
 	public function is_valid(): bool {
@@ -162,11 +168,13 @@ class Improve_Content_Readability extends Abstract_Post_Type_Parent_Task {
 			return false;
 		}
 
-		$enabled_features = $this->enabled_analysis_features_repository->get_enabled_features()->to_array();
-		if ( ! isset( $enabled_features[ Readability_Analysis::NAME ] ) || $enabled_features[ Readability_Analysis::NAME ] === false ) {
-			return false;
+		$metadesc = $this->options_helper->get( 'metadesc-' . $this->get_post_type() );
+
+		if ( empty( $metadesc ) ) {
+			return true;
 		}
 
-		return true;
+		// If the template contains at least one replacevar (%%...%%), the task is not valid.
+		return ! (bool) \preg_match( '/%%[^%]+%%/', $metadesc );
 	}
 }
