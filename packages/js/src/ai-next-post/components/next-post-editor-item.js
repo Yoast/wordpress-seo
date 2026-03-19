@@ -1,8 +1,8 @@
-/* eslint-disable complexity */
-import { NextPostButton } from "./next-post-button";
+
 import { NextPostApproveModal } from "./next-post-approve-modal";
-import { useToggleState } from "@yoast/ui-library";
+import { Button, Root, useToggleState } from "@yoast/ui-library";
 import { useSelect } from "@wordpress/data";
+import { __ } from "@wordpress/i18n";
 
 /**
  * The section for the next post feature in the Yoast sidebar.
@@ -12,21 +12,20 @@ import { useSelect } from "@wordpress/data";
  */
 export const NextPostEditorItem = ( { location } ) => {
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
-	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium() );
-	const blocks  = useSelect( select => select( "core/block-editor" ).getBlocks(), [] );
+	const { isPremium, textLength } = useSelect( select => {
+		return {
+			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
+			textLength: select( "yoast-seo/editor" ).getTextLength(),
+		};
+	}, [] );
 
-	const isFirstBlockEmptyParagraph = blocks.length === 1 &&
-		blocks[ 0 ]?.name === "core/paragraph" &&
-		! blocks[ 0 ]?.attributes?.content?.trim();
+	// The canvas is empty when the word count is zero.
+	const isEmptyCanvas = textLength.count === 0;
 
-	const isBannerPresent = blocks.some( b => b.name === "yoast-seo/next-post-inline-banner" );
-
-	// The canvas is empty when there are no blocks, exactly one block that is
-	// an empty core/paragraph (the default new-post state), or a banner is present.
-	const isEmptyCanvas = blocks.length === 0 || isFirstBlockEmptyParagraph || isBannerPresent;
-
-	return <div className="yst-p-4">
-		<NextPostButton onClick={ openModal } className={ location === "sidebar" ? "yst-w-full" : "" } />
+	return <Root><div className="yst-p-4">
+		<Button variant="ai-secondary" onClick={ openModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
+			{ __( "Get content suggestions", "wordpress-seo" ) }
+		</Button>
 		<NextPostApproveModal
 			isOpen={ isModalOpen }
 			onClose={ closeModal }
@@ -34,5 +33,6 @@ export const NextPostEditorItem = ( { location } ) => {
 			isPremium={ isPremium }
 			isUpsell={ false }
 		/>
-	</div>;
+	</div>
+	</Root>;
 };
