@@ -21,17 +21,18 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const ref = useRef( null );
 
-		// eslint-disable-next-line complexity
-		const showBanner = useSelect( ( select ) => {
-			const isBannerDismissed = select( STORE_NAME )?.getIsBannerDismissed?.() ?? false;
-			if ( isBannerDismissed ) {
-				return false;
-			}
-			const blocks = select( "core/block-editor" ).getBlocks();
-			const isFirstBlock = blocks[ 0 ]?.clientId === props.clientId;
-			const isEmpty = ! props.attributes?.content?.trim();
-			return isFirstBlock && isEmpty;
-		}, [ props.clientId, props.attributes?.content ] );
+		const { isBannerDismissed } = useSelect( select => ( {
+			isBannerDismissed: select( STORE_NAME )?.getIsBannerDismissed?.(),
+		} ), [] );
+
+		const isNewPost = useSelect( select => select( "core/editor"
+		).isEditedPostNew(), [] );
+
+		const isFirstParagraph = useSelect( select => {
+			const blocks = select( "core/block-editor" )?.getBlocks?.() ?? [];
+			const firstParagraph = blocks.find( block => block.name === "core/paragraph" );
+			return firstParagraph?.clientId === props.clientId;
+		}, [ props.clientId ] );
 
 		useEffect( () => {
 			// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
@@ -55,7 +56,7 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 			<Fragment>
 				<span ref={ ref } style={ { display: "none" } } />
 				<BlockEdit { ...props } />
-				{ showBanner && <NextPostInlineBanner onClick={ noop } /> }
+				{ ! isBannerDismissed && isFirstParagraph && isNewPost && <NextPostInlineBanner onClick={ noop } /> }
 			</Fragment>
 		);
 	};
