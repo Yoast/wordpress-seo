@@ -3,13 +3,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Infrastructure\Endpoints;
 
-use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Task_List\User_Interface\Tasks\Complete_Task_Route;
 
 /**
  * Represents the complete task endpoint.
  */
-class Complete_Task_Endpoint implements Endpoint_Interface {
+class Complete_Task_Endpoint implements Task_List_Endpoint_Interface {
 
 	/**
 	 * Gets the name.

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\AI_Consent\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -35,6 +36,13 @@ class Ai_Consent_Integration implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
+	 * The endpoints repository.
+	 *
+	 * @var Consent_Endpoints_Repository
+	 */
+	protected $endpoints_repository;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
@@ -46,18 +54,21 @@ class Ai_Consent_Integration implements Integration_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager     The admin asset manager.
-	 * @param User_Helper               $user_helper       The user helper.
-	 * @param Short_Link_Helper         $short_link_helper The short link helper.
+	 * @param WPSEO_Admin_Asset_Manager    $asset_manager        The admin asset manager.
+	 * @param User_Helper                  $user_helper          The user helper.
+	 * @param Short_Link_Helper            $short_link_helper    The short link helper.
+	 * @param Consent_Endpoints_Repository $endpoints_repository The endpoints repository.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		User_Helper $user_helper,
-		Short_Link_Helper $short_link_helper
+		Short_Link_Helper $short_link_helper,
+		Consent_Endpoints_Repository $endpoints_repository
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->user_helper       = $user_helper;
-		$this->short_link_helper = $short_link_helper;
+		$this->asset_manager        = $asset_manager;
+		$this->user_helper          = $user_helper;
+		$this->short_link_helper    = $short_link_helper;
+		$this->endpoints_repository = $endpoints_repository;
 	}
 
 	/**
@@ -85,6 +96,7 @@ class Ai_Consent_Integration implements Integration_Interface {
 			'hasConsent' => $this->user_helper->get_meta( $this->user_helper->get_current_user_id(), '_yoast_wpseo_ai_consent', true ),
 			'pluginUrl'  => \plugins_url( '', \WPSEO_FILE ),
 			'linkParams' => $this->short_link_helper->get_query_params(),
+			'endpoints'  => $this->endpoints_repository->get_all_endpoints()->to_paths_array(),
 		];
 	}
 

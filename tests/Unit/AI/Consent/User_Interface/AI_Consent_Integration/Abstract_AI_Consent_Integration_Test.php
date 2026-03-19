@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\AI_Consent_Integrati
 
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Consent\User_Interface\Ai_Consent_Integration;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -47,6 +48,13 @@ abstract class Abstract_AI_Consent_Integration_Test extends TestCase {
 	protected $short_link_helper;
 
 	/**
+	 * The endpoints repository.
+	 *
+	 * @var Mockery\MockInterface|Consent_Endpoints_Repository
+	 */
+	protected $endpoints_repository;
+
+	/**
 	 * Sets an instance for test purposes.
 	 *
 	 * @return void
@@ -54,10 +62,11 @@ abstract class Abstract_AI_Consent_Integration_Test extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->user_helper       = Mockery::mock( User_Helper::class );
-		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
+		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->user_helper          = Mockery::mock( User_Helper::class );
+		$this->short_link_helper    = Mockery::mock( Short_Link_Helper::class );
+		$this->endpoints_repository = Mockery::mock( Consent_Endpoints_Repository::class );
 
-		$this->instance = new Ai_Consent_Integration( $this->asset_manager, $this->user_helper, $this->short_link_helper );
+		$this->instance = new Ai_Consent_Integration( $this->asset_manager, $this->user_helper, $this->short_link_helper, $this->endpoints_repository );
 	}
 }

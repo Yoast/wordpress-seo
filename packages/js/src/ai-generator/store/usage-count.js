@@ -26,7 +26,7 @@ const slice = createSlice( {
 		status: ASYNC_ACTION_STATUS.idle,
 		count: 0,
 		limit: 10,
-		endpoint: "yoast/v1/ai_generator/get_usage",
+		endpoint: "",
 		error: ERROR_DEFAULT,
 	},
 	reducers: {
