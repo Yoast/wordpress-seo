@@ -4,7 +4,7 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OneSparkNote } from "./one-spark-note";
 
 /**
- * Get the content of the modal based on the props.
+ * Get the content of the modal based on whether the canvas is empty or not.
  *
  * @param {boolean} isEmptyCanvas Whether the post has content or not.
  * @returns {object} The content of the modal.
@@ -32,7 +32,6 @@ const getModalContent = ( isEmptyCanvas ) => {
 	};
 };
 
-
 /**
  * The modal that is shown when the user clicks the "Get content suggestions" button in the NextPostTopBarButton or the NextPostInlineOptIn.
  *
@@ -42,9 +41,10 @@ const getModalContent = ( isEmptyCanvas ) => {
  * @param {boolean} isPremium Whether the user has a premium subscription or not.
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
  * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button in the modal.
+ * @param {string} upsellLink The link to the upsell page.
  * @returns {JSX.Element} The Next Post Approved Modal.
  */
-export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick } ) => {
+export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
 	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
 	return <Root><Modal
 		isOpen={ isOpen }
@@ -57,7 +57,7 @@ export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremiu
 			<h3 className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</h3>
 			<p className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</p>
 			{ isUpsell ? <Button
-				variant="upsell" as="a" href="https://yoast.com/seo-blog/introducing-yoast-seo-premium-content-suggestions/" target="_blank" className="yst-w-full"
+				variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full"
 			>
 				{ sprintf(
 					/* translators: %s is the name of the premium product, Yoast SEO Premium. */

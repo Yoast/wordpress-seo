@@ -11,7 +11,7 @@ import { __ } from "@wordpress/i18n";
  * @param {boolean} props.isEmptyCanvas Whether the editor canvas has no content.
  * @returns {JSX.Element} The Next Post section in the sidebar.
  */
-export const NextPostEditorItem = ( { location, isPremium, isEmptyCanvas } ) => {
+export const NextPostEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
 
 	return <Root><div className="yst-p-4">
@@ -25,6 +25,7 @@ export const NextPostEditorItem = ( { location, isPremium, isEmptyCanvas } ) => 
 			isPremium={ isPremium }
 			// Will be addressed in future iterations.
 			isUpsell={ false }
+			upsellLink={ upsellLink }
 		/>
 	</div>
 	</Root>;

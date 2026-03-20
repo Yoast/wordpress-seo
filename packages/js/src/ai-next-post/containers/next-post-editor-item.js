@@ -10,6 +10,7 @@ export default compose( [
 		return {
 			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 			isEmptyCanvas: count( content, "words", {} ) === 0,
+			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/next-post-approve-modal" ),
 		};
 	} ),
 ] )( NextPostEditorItem );
