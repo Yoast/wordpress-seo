@@ -273,4 +273,243 @@ final class Structured_Data_Blocks_Test extends TestCase {
 			$message,
 		);
 	}
+
+	/**
+	 * Tests that custom inline alt text is preserved.
+	 *
+	 * @covers ::optimize_how_to_images
+	 *
+	 * @return void
+	 */
+	public function test_optimize_how_to_images_preserves_custom_inline_alt_text() {
+		global $post;
+		$post = (object) [ 'ID' => 42 ];
+
+		$src     = 'https://example.com/image.jpg';
+		$content = '<p><img src="' . $src . '" alt="Custom inline alt text" /></p>';
+
+		Monkey\Functions\expect( 'register_shutdown_function' )
+			->once()
+			->withAnyArgs()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_structured_data_blocks_image_size', 'full', 123, $src )
+			->andReturn( 'full' );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image' )
+			->once()
+			->with(
+				123,
+				'full',
+				false,
+				[
+					'style' => 'max-width: 100%; height: auto;',
+					'alt'   => 'Custom inline alt text',
+				],
+			)
+			->andReturn( '<img src="' . $src . '" alt="Custom inline alt text" />' );
+
+		$attributes = [
+			'steps' => [
+				[
+					'images' => [
+						[
+							'type'  => 'img',
+							'key'   => 123,
+							'props' => [
+								'src' => $src,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertSame(
+			'<p><img src="' . $src . '" alt="Custom inline alt text" /></p>',
+			$this->instance->optimize_how_to_images( $attributes, $content ),
+		);
+	}
+
+	/**
+	 * Tests that entities in alt text are decoded before image generation and re-encoded in output.
+	 *
+	 * @covers ::optimize_how_to_images
+	 *
+	 * @return void
+	 */
+	public function test_optimize_how_to_images_decodes_and_reencodes_alt_entities() {
+		global $post;
+		$post = (object) [ 'ID' => 43 ];
+
+		$src            = 'https://example.com/image.jpg';
+		$encoded_alt    = 'Tom &amp; Jerry&#039;s &quot;Guide&quot;';
+		$decoded_alt    = 'Tom & Jerry\'s "Guide"';
+		$re_encoded_alt = \htmlspecialchars( $decoded_alt, ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' );
+		$content        = '<p><img src="' . $src . '" alt="' . $encoded_alt . '" /></p>';
+
+		Monkey\Functions\expect( 'register_shutdown_function' )
+			->once()
+			->withAnyArgs()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_structured_data_blocks_image_size', 'full', 123, $src )
+			->andReturn( 'full' );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image' )
+			->once()
+			->with(
+				123,
+				'full',
+				false,
+				[
+					'style' => 'max-width: 100%; height: auto;',
+					'alt'   => $decoded_alt,
+				],
+			)
+			->andReturn( '<img src="' . $src . '" alt="' . $re_encoded_alt . '" />' );
+
+		$attributes = [
+			'steps' => [
+				[
+					'images' => [
+						[
+							'type'  => 'img',
+							'key'   => 123,
+							'props' => [
+								'src' => $src,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertSame(
+			'<p><img src="' . $src . '" alt="' . $re_encoded_alt . '" /></p>',
+			$this->instance->optimize_how_to_images( $attributes, $content ),
+		);
+	}
+
+	/**
+	 * Tests that an empty alt attribute is preserved.
+	 *
+	 * @covers ::optimize_how_to_images
+	 *
+	 * @return void
+	 */
+	public function test_optimize_how_to_images_preserves_empty_alt_attribute() {
+		global $post;
+		$post = (object) [ 'ID' => 44 ];
+
+		$src     = 'https://example.com/image.jpg';
+		$content = '<p><img src="' . $src . '" alt="" /></p>';
+
+		Monkey\Functions\expect( 'register_shutdown_function' )
+			->once()
+			->withAnyArgs()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_structured_data_blocks_image_size', 'full', 123, $src )
+			->andReturn( 'full' );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image' )
+			->once()
+			->with(
+				123,
+				'full',
+				false,
+				[
+					'style' => 'max-width: 100%; height: auto;',
+					'alt'   => '',
+				],
+			)
+			->andReturn( '<img src="' . $src . '" alt="" />' );
+
+		$attributes = [
+			'steps' => [
+				[
+					'images' => [
+						[
+							'type'  => 'img',
+							'key'   => 123,
+							'props' => [
+								'src' => $src,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertSame(
+			'<p><img src="' . $src . '" alt="" /></p>',
+			$this->instance->optimize_how_to_images( $attributes, $content ),
+		);
+	}
+
+	/**
+	 * Tests that no alt attribute defaults to an empty string.
+	 *
+	 * @covers ::optimize_how_to_images
+	 *
+	 * @return void
+	 */
+	public function test_optimize_how_to_images_defaults_missing_alt_to_empty_string() {
+		global $post;
+		$post = (object) [ 'ID' => 45 ];
+
+		$src     = 'https://example.com/image.jpg';
+		$content = '<p><img src="' . $src . '" /></p>';
+
+		Monkey\Functions\expect( 'register_shutdown_function' )
+			->once()
+			->withAnyArgs()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_structured_data_blocks_image_size', 'full', 123, $src )
+			->andReturn( 'full' );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image' )
+			->once()
+			->with(
+				123,
+				'full',
+				false,
+				[
+					'style' => 'max-width: 100%; height: auto;',
+					'alt'   => '',
+				],
+			)
+			->andReturn( '<img src="' . $src . '" alt="" />' );
+
+		$attributes = [
+			'steps' => [
+				[
+					'images' => [
+						[
+							'type'  => 'img',
+							'key'   => 123,
+							'props' => [
+								'src' => $src,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertSame(
+			'<p><img src="' . $src . '" alt="" /></p>',
+			$this->instance->optimize_how_to_images( $attributes, $content ),
+		);
+	}
 }

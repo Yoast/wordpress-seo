@@ -261,7 +261,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Replaces an image tag with an optimized version while preserving inline alt text.
 	 *
-	 * @param array $matches The regex matches from preg_replace_callback.
+	 * @param string[] $matches The regex matches from preg_replace_callback.
 	 *
 	 * @return string The optimized image HTML or original if optimization fails.
 	 */
