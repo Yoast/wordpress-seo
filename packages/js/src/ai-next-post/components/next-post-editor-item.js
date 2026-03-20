@@ -1,6 +1,7 @@
 
 import { NextPostApproveModal } from "./next-post-approve-modal";
 import { Button, Root, useToggleState } from "@yoast/ui-library";
+import { count } from "@wordpress/wordcount";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 
@@ -12,15 +13,15 @@ import { __ } from "@wordpress/i18n";
  */
 export const NextPostEditorItem = ( { location } ) => {
 	const [ isModalOpen, , , openModal, closeModal ] = useToggleState( false );
-	const { isPremium, textLength } = useSelect( select => {
-		return {
-			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
-			textLength: select( "yoast-seo/editor" ).getTextLength(),
-		};
+	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
+
+	const wordCount = useSelect( select => {
+		const content = select( "core/editor" ).getEditedPostContent();
+		return count( content, "words", {} );
 	}, [] );
 
 	// The canvas is empty when the word count is zero.
-	const isEmptyCanvas = textLength.count === 0;
+	const isEmptyCanvas = wordCount === 0;
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
@@ -31,6 +32,7 @@ export const NextPostEditorItem = ( { location } ) => {
 			onClose={ closeModal }
 			isEmptyCanvas={ isEmptyCanvas }
 			isPremium={ isPremium }
+			// Will be addressed in future iterations.
 			isUpsell={ false }
 		/>
 	</div>

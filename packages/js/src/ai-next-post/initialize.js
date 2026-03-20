@@ -1,6 +1,6 @@
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { register, useSelect } from "@wordpress/data";
-import {  useEffect, useRef, Fragment } from "@wordpress/element";
+import { register, useSelect, useDispatch } from "@wordpress/data";
+import { useEffect, useRef, Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
 import { store, STORE_NAME } from "./store";
@@ -21,18 +21,27 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const ref = useRef( null );
 
-		const { isBannerDismissed } = useSelect( select => ( {
+		const { isBannerDismissed, shouldShowBanner } = useSelect( select => ( {
 			isBannerDismissed: select( STORE_NAME )?.getIsBannerDismissed?.(),
+			shouldShowBanner: select( STORE_NAME )?.getShouldShowBanner?.(),
 		} ), [] );
 
 		const isNewPost = useSelect( select => select( "core/editor"
 		).isEditedPostNew(), [] );
+
+		const { showBanner } = useDispatch( STORE_NAME );
 
 		const isFirstParagraph = useSelect( select => {
 			const blocks = select( "core/block-editor" )?.getBlocks?.() ?? [];
 			const firstParagraph = blocks.find( block => block.name === "core/paragraph" );
 			return firstParagraph?.clientId === props.clientId;
 		}, [ props.clientId ] );
+
+		useEffect( () => {
+			if ( isNewPost ) {
+				showBanner();
+			}
+		}, [ isNewPost ] );
 
 		useEffect( () => {
 			// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
@@ -56,7 +65,7 @@ const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
 			<Fragment>
 				<span ref={ ref } style={ { display: "none" } } />
 				<BlockEdit { ...props } />
-				{ ! isBannerDismissed && isFirstParagraph && isNewPost && <NextPostInlineBanner onClick={ noop } /> }
+				{ ! isBannerDismissed && isFirstParagraph && shouldShowBanner && <NextPostInlineBanner onClick={ noop } /> }
 			</Fragment>
 		);
 	};
