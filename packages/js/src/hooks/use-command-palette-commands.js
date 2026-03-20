@@ -38,7 +38,7 @@ function focusElementWithRetry( elementId, retries = 5 ) {
  * @returns {void}
  */
 const useCommandPaletteCommands = ( { isKeywordAnalysisActive, useOpenGraphData } ) => {
-	const openGeneralSidebar = useDispatch( "core/edit-post" )?.openGeneralSidebar;
+	const { openGeneralSidebar } = useDispatch( "core/edit-post" );
 	const { openEditorModal } = useDispatch( "yoast-seo/editor" );
 
 	const focusKeyphraseCallback = useCallback( ( { close } ) => {
