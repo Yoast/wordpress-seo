@@ -7,19 +7,19 @@ import { OneSparkNote } from "./one-spark-note";
  * Get the content of the modal based on the props.
  *
  * @param {boolean} isEmptyCanvas Whether the post has content or not.
- * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
  * @returns {object} The content of the modal.
  */
-const getModalContent = ( isEmptyCanvas, isUpsell ) => {
-	const modalContent = {
-		title: __( "Looking for inspiration?", "wordpress-seo" ),
-		description: __( "Yoast identifies content gaps in your site structure and recommends topics that strengthen your topical authority.", "wordpress-seo" ),
-		buttonLabel: __( "Get content suggestions", "wordpress-seo" ),
-		buttonVariant: "ai-primary",
-	};
-	if ( ! isEmptyCanvas ) {
-		modalContent.title = __( "Get content suggestions", "wordpress-seo" );
-		modalContent.description = safeCreateInterpolateElement(
+const getModalContent = ( isEmptyCanvas ) => {
+	if ( isEmptyCanvas ) {
+		return {
+			title: __( "Looking for inspiration?", "wordpress-seo" ),
+			description: __( "Yoast identifies content gaps in your site structure and recommends topics that strengthen your topical authority.", "wordpress-seo" ),
+		};
+	}
+
+	return {
+		title: __( "Get content suggestions", "wordpress-seo" ),
+		description: safeCreateInterpolateElement(
 			sprintf(
 			/* translators: %1$s and %2$s are opening and closing italic HTML tags respectively. */
 				__( "Yoast will analyze your site and recommend topics. %1$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%2$s", "wordpress-seo" ),
@@ -28,18 +28,8 @@ const getModalContent = ( isEmptyCanvas, isUpsell ) => {
 			),
 			{
 				i: <i />,
-			} );
-		modalContent.buttonLabel = __( "Get content suggestions", "wordpress-seo" );
-	}
-	if ( isUpsell ) {
-		modalContent.buttonVariant = "upsell";
-		modalContent.buttonLabel = sprintf(
-			/* translators: %s is the name of the premium product, Yoast SEO Premium. */
-			__( "Unlock with %s", "wordpress-seo" ),
-			"Yoast SEO Premium"
-		);
-	}
-	return modalContent;
+			} ),
+	};
 };
 
 
@@ -51,10 +41,11 @@ const getModalContent = ( isEmptyCanvas, isUpsell ) => {
  * @param {boolean} isEmptyCanvas Whether the post has content or not.
  * @param {boolean} isPremium Whether the user has a premium subscription or not.
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
+ * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button in the modal.
  * @returns {JSX.Element} The Next Post Approved Modal.
  */
-export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell } ) => {
-	const { title, description, buttonLabel, buttonVariant } = getModalContent( isEmptyCanvas, isUpsell );
+export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick } ) => {
+	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
 	return <Root><Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
@@ -65,9 +56,16 @@ export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremiu
 			</div>
 			<h3 className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</h3>
 			<p className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</p>
-			<Button variant={ buttonVariant } onClick={ onClose } className="yst-w-full">
-				{ buttonLabel }
+			{ isUpsell ? <Button
+				variant="upsell" as="a" href="https://yoast.com/seo-blog/introducing-yoast-seo-premium-content-suggestions/" target="_blank" className="yst-w-full"
+			>
+				{ sprintf(
+					/* translators: %s is the name of the premium product, Yoast SEO Premium. */
+					__( "Unlock with %s", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				) }
 			</Button>
+				: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
 		</Modal.Panel>
 	</Modal></Root>;
