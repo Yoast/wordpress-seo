@@ -24,7 +24,7 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
+import NextPostEditorItem from "../../ai-next-post/containers/next-post-editor-item";
 import { EditorIntro } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );

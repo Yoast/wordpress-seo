@@ -23,7 +23,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import { NextPostEditorItem } from "../../ai-next-post/components/next-post-editor-item";
+import NextPostEditorItem from "../../ai-next-post/containers/next-post-editor-item";
 import { EditorIntro } from "../EditorIntro";
 
 /* eslint-disable complexity */

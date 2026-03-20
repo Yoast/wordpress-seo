@@ -2,25 +2,21 @@ import { __ } from "@wordpress/i18n";
 import { Button, GradientSparklesIcon, Root } from "@yoast/ui-library";
 import { XIcon } from "@heroicons/react/solid";
 import { OneSparkNote } from "./one-spark-note";
-import { useSelect, useDispatch } from "@wordpress/data";
-import { STORE_NAME } from "../store";
 
 /**
  * The inline banner that is shown when the user has no content in a new post using the block editor.
  * This inline banner will be under the first paragraph block and will have a button to open the ContentSuggestions modal.
  *
- * @param {function} onClick The function to call when the button is clicked.
+ * @param {boolean}  isPremium Whether the user has a premium subscription.
+ * @param {Function} onDismiss The function to call when the banner is dismissed.
  * @returns {JSX.Element} The inline banner with the button.
  */
-export const NextPostInlineBanner = ( { onClick } ) => {
-	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium() );
-	const { dismissBanner } = useDispatch( STORE_NAME );
-
+export const NextPostInlineBanner = ( { isPremium, onDismiss } ) => {
 	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w-xl">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 			<GradientSparklesIcon className="yst-h-4 yst-w-4" />
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>
-			<button onClick={ dismissBanner }>
+			<button type="button" onClick={ onDismiss }>
 				<XIcon className="yst-h-6 yst-w-6 yst-text-slate-400" />
 				<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 			</button>
@@ -33,7 +29,7 @@ export const NextPostInlineBanner = ( { onClick } ) => {
 				<OneSparkNote />
 				<span aria-hidden="true">·</span>
 			</>  }
-			<Button variant="ai-primary" onClick={ onClick }>
+			<Button variant="ai-primary">
 				{ __( "Get content suggestions", "wordpress-seo" ) }
 			</Button>
 		</div>
