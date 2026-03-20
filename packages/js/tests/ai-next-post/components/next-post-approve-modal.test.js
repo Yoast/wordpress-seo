@@ -24,7 +24,7 @@ describe( "NextPostApproveModal", () => {
 			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "calls onClose when the button is clicked", () => {
+		it( "calls onClick when the button is clicked", () => {
 			const onClick = jest.fn();
 			renderModal( { onClick } );
 			fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
