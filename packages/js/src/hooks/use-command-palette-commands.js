@@ -75,6 +75,13 @@ const useCommandPaletteCommands = ( { isKeywordAnalysisActive, useOpenGraphData 
 		focusElementWithRetry( "social-description-input-modal" );
 	}, [ openGeneralSidebar, openEditorModal ] );
 
+	const slugCallback = useCallback( ( { close } ) => {
+		openGeneralSidebar( "yoast-seo/seo-sidebar" );
+		close();
+		openEditorModal( "yoast-search-appearance-modal" );
+		focusElementWithRetry( "yoast-google-preview-slug-modal" );
+	}, [ openGeneralSidebar, openEditorModal ] );
+
 	useCommand( {
 		name: "yoast-seo/set-focus-keyphrase",
 		label: __( "Yoast SEO: Set focus keyphrase", "wordpress-seo" ),
@@ -108,6 +115,12 @@ const useCommandPaletteCommands = ( { isKeywordAnalysisActive, useOpenGraphData 
 		label: __( "Yoast SEO: Edit social description", "wordpress-seo" ),
 		callback: socialDescriptionCallback,
 		enabled: useOpenGraphData,
+	} );
+
+	useCommand( {
+		name: "yoast-seo/edit-slug",
+		label: __( "Yoast SEO: Edit slug", "wordpress-seo" ),
+		callback: slugCallback,
 	} );
 };
 

@@ -39,10 +39,10 @@ describe( "useCommandPaletteCommands", () => {
 		jest.clearAllMocks();
 	} );
 
-	it( "registers all 5 commands with the correct names and labels", () => {
+	it( "registers all 6 commands with the correct names and labels", () => {
 		renderHook( () => useCommandPaletteCommands( defaultConfig ) );
 
-		expect( mockUseCommand ).toHaveBeenCalledTimes( 5 );
+		expect( mockUseCommand ).toHaveBeenCalledTimes( 6 );
 
 		expect( mockUseCommand ).toHaveBeenCalledWith(
 			expect.objectContaining( {
@@ -72,6 +72,12 @@ describe( "useCommandPaletteCommands", () => {
 			expect.objectContaining( {
 				name: "yoast-seo/edit-social-description",
 				label: "Yoast SEO: Edit social description",
+			} )
+		);
+		expect( mockUseCommand ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				name: "yoast-seo/edit-slug",
+				label: "Yoast SEO: Edit slug",
 			} )
 		);
 	} );
@@ -186,6 +192,33 @@ describe( "useCommandPaletteCommands", () => {
 
 		window.requestAnimationFrame.mockRestore();
 		document.getElementById.mockRestore();
+	} );
+
+	it( "opens the search appearance modal and focuses the slug input for the slug command", () => {
+		const mockInput = { focus: jest.fn() };
+		jest.spyOn( document, "getElementById" ).mockReturnValue( mockInput );
+		jest.spyOn( window, "requestAnimationFrame" ).mockImplementation( ( cb ) => cb() );
+
+		renderHook( () => useCommandPaletteCommands( defaultConfig ) );
+
+		const call = mockUseCommand.mock.calls.find( ( [ arg ] ) => arg.name === "yoast-seo/edit-slug" );
+		call[ 0 ].callback( { close: jest.fn() } );
+
+		expect( mockOpenGeneralSidebar ).toHaveBeenCalledWith( "yoast-seo/seo-sidebar" );
+		expect( mockOpenEditorModal ).toHaveBeenCalledWith( "yoast-search-appearance-modal" );
+		expect( document.getElementById ).toHaveBeenCalledWith( "yoast-google-preview-slug-modal" );
+		expect( mockInput.focus ).toHaveBeenCalledTimes( 1 );
+
+		window.requestAnimationFrame.mockRestore();
+		document.getElementById.mockRestore();
+	} );
+
+	it( "registers the slug command as always enabled", () => {
+		renderHook( () => useCommandPaletteCommands( { isKeywordAnalysisActive: false, useOpenGraphData: false } ) );
+
+		const slugCall = mockUseCommand.mock.calls.find( ( [ arg ] ) => arg.name === "yoast-seo/edit-slug" );
+
+		expect( slugCall[ 0 ] ).not.toHaveProperty( "enabled" );
 	} );
 
 	it( "disables keyword-analysis commands when isKeywordAnalysisActive is false", () => {
