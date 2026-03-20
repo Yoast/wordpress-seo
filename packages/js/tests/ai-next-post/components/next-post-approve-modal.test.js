@@ -25,10 +25,10 @@ describe( "NextPostApproveModal", () => {
 		} );
 
 		it( "calls onClose when the button is clicked", () => {
-			const onClose = jest.fn();
-			renderModal( { onClose } );
+			const onClick = jest.fn();
+			renderModal( { onClick } );
 			fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-			expect( onClose ).toHaveBeenCalledTimes( 1 );
+			expect( onClick ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 
