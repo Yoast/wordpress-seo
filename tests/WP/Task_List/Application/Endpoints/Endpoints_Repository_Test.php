@@ -4,9 +4,9 @@
 namespace Yoast\WP\SEO\Tests\WP\Task_List\Application\Endpoints;
 
 use Yoast\WP\SEO\Task_List\Application\Endpoints\Endpoints_Repository;
-use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Task_List\Infrastructure\Endpoints\Complete_Task_Endpoint;
 use Yoast\WP\SEO\Task_List\Infrastructure\Endpoints\Get_Tasks_Endpoint;
+use Yoast\WP\SEO\Task_List\Infrastructure\Endpoints\Task_List_Endpoint_Interface;
 use Yoast\WP\SEO\Tests\WP\TestCase;
 
 /**
@@ -34,8 +34,8 @@ final class Endpoints_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider data_get_all_endpoints
 	 *
-	 * @param Endpoint_Interface[] $endpoints     List of possible endpoints.
-	 * @param array<string>        $expected_list Expected endpoint list.
+	 * @param Task_List_Endpoint_Interface[] $endpoints     List of possible endpoints.
+	 * @param array<string>                  $expected_list Expected endpoint list.
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ final class Endpoints_Repository_Test extends TestCase {
 	/**
 	 * Data provider for test_get_all_endpoints.
 	 *
-	 * @return array<string, array<string, Endpoint_Interface[]|array<string, string>>>
+	 * @return array<string, array<string, array|array<string, string>>>
 	 */
 	public static function data_get_all_endpoints() {
 		$complete_task_endpoint = new Complete_Task_Endpoint();

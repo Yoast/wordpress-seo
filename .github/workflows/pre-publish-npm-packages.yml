@@ -1,0 +1,101 @@
+name: Pre publish NPM Packages
+
+on:
+  pull_request:
+    types: [ labeled, synchronize ]
+    branches: [ trunk ]
+
+jobs:
+  publish:
+    name: Publish NPM packages (dry-run)
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'npm-release') && github.event.pull_request.head.repo.full_name == github.repository
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v4
+        with:
+          node-version-file: './.nvmrc'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Extract packages to release from PR body
+        id: packages
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          if [ -z "${PACKAGES// /}" ]; then
+            echo "::error::No packages found in PR body before '## Context'."
+            exit 1
+          fi
+          echo "Packages to release: $PACKAGES"
+          echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+
+      - name: Dry-run package (npm pack) in order
+        env:
+          PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+        run: |
+          set -euo pipefail
+          if [ -z "${PACKAGE_LIST// /}" ]; then
+            echo "::error::PACKAGE_LIST is empty; nothing to pack."
+            exit 1
+          fi
+          mkdir -p packed-tarballs
+          read -ra PACKAGES <<< "$PACKAGE_LIST"
+          for PACKAGE in "${PACKAGES[@]}"; do
+            PKG_DIR="packages/${PACKAGE#@yoast/}"
+
+            echo "::group::Packing $PACKAGE"
+            if [ ! -d "$PKG_DIR" ]; then
+              echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
+              exit 1
+            fi
+
+            pushd "$PKG_DIR"
+
+            if node -e "process.exit(require('./package.json').scripts?.prepublishOnly ? 0 : 1)" 2>/dev/null; then
+              echo "Strategy: prepublishOnly"
+              npm run-script prepublishOnly
+              if [ -d "dist" ]; then
+                pushd dist
+                TAR=$(npm pack --silent)
+                popd
+                mv "dist/$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
+              else
+                TAR=$(npm pack --silent)
+                mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
+              fi
+
+            elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
+              echo "Strategy: build"
+              NODE_ENV=production npm run-script build
+              TAR=$(npm pack --silent)
+              mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
+
+            else
+              echo "Strategy: direct pack"
+              TAR=$(npm pack --silent)
+              mv "$TAR" "$GITHUB_WORKSPACE/packed-tarballs/${PACKAGE#@yoast/}-$TAR"
+            fi
+
+            popd
+            echo "::endgroup::"
+          done
+
+      - name: Upload packed tarballs
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-pack-dry-run
+          path: packed-tarballs/*.tgz
