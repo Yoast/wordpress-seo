@@ -4,13 +4,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
-use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route;
 
 /**
  * Represents the time based SEO metrics endpoint.
  */
-class Time_Based_SEO_Metrics_Endpoint implements Endpoint_Interface {
+class Time_Based_SEO_Metrics_Endpoint implements Dashboard_Endpoint_Interface {
 
 	/**
 	 * Gets the name.

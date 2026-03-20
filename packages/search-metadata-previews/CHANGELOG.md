@@ -3,17 +3,31 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
-## Future Release
+## 3.0.0 March 16th, 2026
 ### Enhancements
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 * Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
 * Adds locale as one of the props in `SnippetEditor.js` to be used to determine which configuration to use in meta description length progress bar.
 * Removes the breadcrumbs container from the Search snippet preview in Mobile mode. [#22027](https://github.com/Yoast/wordpress-seo/pull/22027)
 * Updates best product rating in snippet preview.
+* Updates the design for the mode switcher, adds support for disabled state and exposes it. [#22890](https://github.com/Yoast/wordpress-seo/pull/22890)
+* Support new `bestRating` value on the `shoppingData` input. [#22954](https://github.com/Yoast/wordpress-seo/pull/22954)
+* Change default visual presentation to a rating out of 5, without showing the best rating.  [#22954](https://github.com/Yoast/wordpress-seo/pull/22954)
+* Fixes a bug where the analysis data would not be updated if the data was changed from outside the editor and the replacement variable data did not also change. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
+* Exposes length helpers for title and description: `getTitleProgress` and `getDescriptionProgress`. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
+* Exposes the SnippetPreview component. [#20546](https://github.com/Yoast/wordpress-seo/pull/20546)
+* Updates the design for the mode switcher and adds support for disabled state. [#22890](https://github.com/Yoast/wordpress-seo/pull/22890)
+* Support new `bestRating` value on the `shoppingData` input. [#22954](https://github.com/Yoast/wordpress-seo/pull/22954)
+* Change default visual presentation to a rating out of 5, without showing the best rating.  [#22954](https://github.com/Yoast/wordpress-seo/pull/22954)
+* Removes the breadcrumbs container from the Search snippet preview in Mobile mode. [#22027](https://github.com/Yoast/wordpress-seo/pull/22027)
+* Handles long breadcrumbs and site name to accomodate the vertical dots in Google Snippets previews. [#20088](https://github.com/Yoast/wordpress-seo/pull/20088)
+* Adds mark above translations that are used only for screen readers. [#20689](https://github.com/Yoast/wordpress-seo/pull/20689)
+* Adds a prop to the `SnippetEditor` for overriding default replacement variable application. [#18480](https://github.com/Yoast/wordpress-seo/pull/18480)
 
 ### Bugfixes
 * Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.
 * Fixes a bug where the icon on search appearance would not be aligned when on a right-to-left locale. [#22322](https://github.com/Yoast/wordpress-seo/pull/22322)
+* Improves the parsing of the SnippetPreview's breadcrumbs. [#20037](https://github.com/Yoast/wordpress-seo/pull/20037)
 
 ### Other:
 * Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
@@ -23,6 +37,20 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Non user facing
 * Now published as a transpiled package.
 * Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`. [#22256](https://github.com/Yoast/wordpress-seo/pull/22256)
+* Updates Jest config to use the correct `Parse5` version in tests. [#22898](https://github.com/Yoast/wordpress-seo/pull/22898)
+* Bumps `@yoast/ui-library` to version `4.5.0` from `4.4.0` and `@yoast/replacement-variable-editor` to version `2.0.0` from `2.0.0-alpha.3`. [#23045](https://github.com/Yoast/wordpress-seo/pull/23045)
+* Decodes the `shoppingData.price` instead of allowing HTML. [#20086](https://github.com/Yoast/wordpress-seo/pull/20086)
+* Improves internal imports and exports. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+* Adds missing development dependencies: `enzyme`, `enzyme-adapter-react-16`, `jest-styled-components` and `react-test-renderer`. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+* Adds missing peer dependencies: `react` and `react-dom`. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)
+* Upgrades ESLint and plugins (`import`, `jsx-a11y` and `react`) to the latest versions. [#21315](https://github.com/Yoast/wordpress-seo/pull/21315)
+* Upgrades `styled-components` to `5.3.6` to fix compatibility with React 18. [#19857](https://github.com/Yoast/wordpress-seo/pull/19857)
+* Migrate `Snippet editor` and `Snippet preview` tests from `enzyme` to `react testing library`. [#20709](https://github.com/Yoast/wordpress-seo/pull/20709)
+* Removes re-exports of `@yoast/replacement-variable-editor`: `ReplacementVariableEditor`, `replacementVariablesShape`, `recommendedReplacementVariablesShape` and `SettingsSnippetEditor`. [#20795](https://github.com/Yoast/wordpress-seo/pull/20795)
+* Upgrades react to 18.2.0, Upgrade react test renderer. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Migrates enzyme tests to use react testing library. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Adds eslint configuration. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
+* Refactors deprecated react life cycle method. [#20653](https://github.com/Yoast/wordpress-seo/pull/20653)
 
 ## 2.24.1 March 2nd, 2023
 ### Bugfixes

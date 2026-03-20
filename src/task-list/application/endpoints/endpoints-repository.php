@@ -3,41 +3,20 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Task_List\Application\Endpoints;
 
-use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_Interface;
-use Yoast\WP\SEO\Task_List\Domain\Endpoint\Endpoint_List;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoints_Repository as Base_Endpoints_Repository;
+use Yoast\WP\SEO\Task_List\Infrastructure\Endpoints\Task_List_Endpoint_Interface;
 
 /**
  * Repository for endpoints.
  */
-class Endpoints_Repository {
-
-	/**
-	 * Holds the endpoints.
-	 *
-	 * @var array<Endpoint_Interface>
-	 */
-	private $endpoints;
+class Endpoints_Repository extends Base_Endpoints_Repository {
 
 	/**
 	 * Constructs the repository.
 	 *
-	 * @param Endpoint_Interface ...$endpoints The endpoints to add to the repository.
+	 * @param Task_List_Endpoint_Interface ...$endpoints The endpoints to add to the repository.
 	 */
-	public function __construct( Endpoint_Interface ...$endpoints ) {
-		$this->endpoints = $endpoints;
-	}
-
-	/**
-	 * Creates a list with all endpoints.
-	 *
-	 * @return Endpoint_List The list with all endpoints.
-	 */
-	public function get_all_endpoints(): Endpoint_List {
-		$list = new Endpoint_List();
-		foreach ( $this->endpoints as $endpoint ) {
-			$list->add_endpoint( $endpoint );
-		}
-
-		return $list;
+	public function __construct( Task_List_Endpoint_Interface ...$endpoints ) {
+		parent::__construct( ...$endpoints );
 	}
 }

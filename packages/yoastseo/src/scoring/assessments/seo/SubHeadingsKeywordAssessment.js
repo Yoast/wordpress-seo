@@ -1,6 +1,5 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
-import { getSubheadingsTopLevel } from "../../../languageProcessing/helpers/html/getSubheadings";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
@@ -9,17 +8,24 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
  * @typedef {import("../../../values/").Paper } Paper
+ * @typedef {import("../../../values/Mark").default } Mark
+ * @typedef {import("../../../languageProcessing/researches/matchKeywordInSubheadings").KeyphraseInSubheadingsResult } KeyphraseInSubheadingsResult
  */
 
 /**
- * Represents the assessment that checks if the keyphrase is present in one of the subheadings.
+ * Assessment to check whether the keyphrase or synonyms are included in a good number of top-level subheadings (H2 and H3).
+ *
+ * The assessment checks the number of top-level subheadings that include the keyphrase or synonyms and compares this to the total
+ * number of subheadings. The score is based on whether the number of matches is within a recommended range, which is
+ * determined by the lower and upper boundaries. If there are no matches, but the text is short enough, this will not
+ * lead to a bad score, as it is not always necessary to include the keyphrase in subheadings in short texts.
  */
 export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
-	 * Sets the identifier and the config.
+	 * Creates an instance of SubHeadingsKeywordAssessment.
 	 *
-	 * @param {object} config The configuration to use.
-	 *
+	 * @param {Object} config The configuration to use.
+	 * @constructor
 	 */
 	constructor( config = {} ) {
 		super();
@@ -63,6 +69,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			this._config = this.getLanguageSpecificConfig( researcher, languageSpecificConfig );
 		}
 
+		/* @type {KeyphraseInSubheadingsResult} */
 		this._subHeadingsResearchResult = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
@@ -73,8 +80,17 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setHasMarks( this._subHeadingsResearchResult.matches.numberOfSubheadings > 0  );
 
 		return assessmentResult;
+	}
+
+	/**
+	 * Returns the Mark objects of the matched keyphrase in the top-level subheadings.
+	 * @returns {Mark[]} The Mark objects of the matched keyphrase in the top-level subheadings.
+	 */
+	getMarks() {
+		return this._subHeadingsResearchResult.matches.markings;
 	}
 
 	/**
@@ -97,18 +113,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has subheadings.
-	 *
-	 * @param {Paper} paper The paper to use for the check.
-	 *
-	 * @returns {boolean} True when there is at least one subheading.
-	 */
-	hasSubheadings( paper ) {
-		const subheadings =  getSubheadingsTopLevel( paper.getText() );
-		return subheadings.length > 0;
-	}
-
-	/**
 	 * Checks whether there are too few subheadings with the keyphrase.
 	 *
 	 * This is the case if the number of subheadings with the keyphrase is more than 0 but less than the specified
@@ -117,7 +121,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase is included in too few subheadings.
 	 */
 	hasTooFewMatches() {
-		return this._subHeadingsResearchResult.matches > 0 && this._subHeadingsResearchResult.matches < this._minNumberOfSubheadings;
+		return this._subHeadingsResearchResult.matches.numberOfSubheadings > 0 &&
+			this._subHeadingsResearchResult.matches.numberOfSubheadings < this._minNumberOfSubheadings;
 	}
 
 	/**
@@ -130,7 +135,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
-		return this._subHeadingsResearchResult.count > 1 && this._subHeadingsResearchResult.matches > this._maxNumberOfSubheadings;
+		return this._subHeadingsResearchResult.count > 1 &&
+			this._subHeadingsResearchResult.matches.numberOfSubheadings > this._maxNumberOfSubheadings;
 	}
 
 	/**
@@ -140,7 +146,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * subheading has a keyphrase match.
 	 */
 	isOneOfOne() {
-		return this._subHeadingsResearchResult.count === 1 && this._subHeadingsResearchResult.matches === 1;
+		return this._subHeadingsResearchResult.count === 1 && this._subHeadingsResearchResult.matches.numberOfSubheadings === 1;
 	}
 
 	/**
@@ -153,14 +159,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
-			this._subHeadingsResearchResult.matches,
+			this._subHeadingsResearchResult.matches.numberOfSubheadings,
 			this._minNumberOfSubheadings,
 			this._maxNumberOfSubheadings
 		);
 	}
 
 	/**
-	 * Determines the score and the Result text for the case there are no subheadings.
+	 * Determines the score and the result text for when there are no subheadings.
 	 *
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
@@ -199,7 +205,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines the score and the Result text for the subheadings.
+	 * Determines the score and the result text for the subheadings.
 	 * @param {Paper} paper to use for the check.
 	 * @returns {{score: number, resultText: string}} The object with the calculated score and the result text.
 	 */
@@ -220,7 +226,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			};
 		}
 
-		if ( ! this.hasSubheadings( paper ) ) {
+		if ( ! this._subHeadingsResearchResult.count ) {
 			return this.getResultForNoSubheadings();
 		}
 
@@ -260,15 +266,13 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: sprintf(
-					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					%3$d expands to the number of subheadings containing the keyphrase. */
+					/* translators: %1$s expands to a link on yoast.com and %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					"</a>",
-					this._subHeadingsResearchResult.matches
+					"</a>"
 				),
 			};
 		}
@@ -280,14 +284,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					/* translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
 					_n(
-						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
-						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
-						this._subHeadingsResearchResult.matches,
+						"%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
+						this._subHeadingsResearchResult.matches.numberOfSubheadings,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._subHeadingsResearchResult.matches
+					this._subHeadingsResearchResult.matches.numberOfSubheadings
 				),
 			};
 		}

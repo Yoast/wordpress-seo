@@ -125,7 +125,7 @@ const matchWordFormInTokens = ( tokens, wordForm, locale ) => {
  *
  * @returns {MatchResult} Object containing the number of the matches and the matched tokens.
  */
-const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomHelper ) => {
+export const matchWordFormsInSentence = ( sentence, wordForms, locale, matchWordCustomHelper ) => {
 	const result = {
 		count: 0,
 		matches: [],
