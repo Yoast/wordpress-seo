@@ -2,6 +2,7 @@ import { ReactComponent as YoastIcon } from "../../images/yoast.svg";
 import { __ } from "@wordpress/i18n";
 
 /**
+ * The introduction component for the editor.
  *
  * @param {boolean} withPromptForContentSuggestions Whether to show the prompt for content suggestions.
  * @returns {JSX.Element} The editor introduction component.
