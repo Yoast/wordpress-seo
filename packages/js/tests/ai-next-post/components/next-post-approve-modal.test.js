@@ -61,6 +61,16 @@ describe( "NextPostApproveModal", () => {
 			renderModal( { isUpsell: true } );
 			expect( screen.getByText( "Unlock with Yoast SEO Premium" ) ).toBeInTheDocument();
 		} );
+
+		it( "renders the upsell button with the correct href when isUpsell is true", () => {
+			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/next-post-approve-modal" } );
+			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "href", "https://yoa.st/next-post-approve-modal" );
+		} );
+
+		it( "opens the upsell link in a new tab", () => {
+			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/next-post-approve-modal" } );
+			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "target", "_blank" );
+		} );
 	} );
 
 	describe( "OneSparkNote visibility", () => {
