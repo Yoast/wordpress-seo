@@ -455,13 +455,13 @@ final class Structured_Data_Blocks_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that no alt attribute defaults to an empty string.
+	 * Tests that missing alt attribute falls back to media library alt text.
 	 *
 	 * @covers ::optimize_how_to_images
 	 *
 	 * @return void
 	 */
-	public function test_optimize_how_to_images_defaults_missing_alt_to_empty_string() {
+	public function test_optimize_how_to_images_missing_alt_falls_back_to_media_library() {
 		global $post;
 		$post = (object) [ 'ID' => 45 ];
 
@@ -486,10 +486,9 @@ final class Structured_Data_Blocks_Test extends TestCase {
 				false,
 				[
 					'style' => 'max-width: 100%; height: auto;',
-					'alt'   => '',
 				],
 			)
-			->andReturn( '<img src="' . $src . '" alt="" />' );
+			->andReturn( '<img src="' . $src . '" alt="Media library alt" />' );
 
 		$attributes = [
 			'steps' => [
@@ -508,7 +507,7 @@ final class Structured_Data_Blocks_Test extends TestCase {
 		];
 
 		$this->assertSame(
-			'<p><img src="' . $src . '" alt="" /></p>',
+			'<p><img src="' . $src . '" alt="Media library alt" /></p>',
 			$this->instance->optimize_how_to_images( $attributes, $content ),
 		);
 	}

@@ -275,16 +275,20 @@ class Structured_Data_Blocks implements Integration_Interface {
 			return $matches[0];
 		}
 
-		// Extract the alt text from the original image HTML.
-		\preg_match( '/alt="([^"]*)"/', $matches[0], $alt_matches );
-		// Decode HTML entities since wp_get_attachment_image() will encode them again.
-		$alt_text = isset( $alt_matches[1] ) ? \html_entity_decode( $alt_matches[1], ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' ) : '';
+		// Extract the alt text from the original image HTML, only if an alt attribute is present.
+		$has_alt = (bool) \preg_match( '/alt="([^"]*)"/', $matches[0], $alt_matches );
 
 		$image_size  = 'full';
 		$image_attrs = [
 			'style' => 'max-width: 100%; height: auto;',
-			'alt'   => $alt_text,
 		];
+
+		// Only override alt when the original image had an explicit alt attribute.
+		if ( $has_alt ) {
+			// Decode HTML entities since wp_get_attachment_image() will encode them again.
+			$image_attrs['alt'] = \html_entity_decode( $alt_matches[1], ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' );
+		}
+
 		\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
 		if ( $style_matches && isset( $style_matches[1] ) ) {
 			$width     = (int) $style_matches[1];
@@ -295,7 +299,10 @@ class Structured_Data_Blocks implements Integration_Interface {
 				$image_size   = [ $width, $height ];
 			}
 			// When using a specific image size, don't include the style attribute.
-			$image_attrs = [ 'alt' => $alt_text ];
+			$image_attrs = [];
+			if ( $has_alt ) {
+				$image_attrs['alt'] = \html_entity_decode( $alt_matches[1], ( \ENT_QUOTES | \ENT_HTML5 ), 'UTF-8' );
+			}
 		}
 
 		/**
