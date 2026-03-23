@@ -1,7 +1,7 @@
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
 import { count } from "@wordpress/wordcount";
-import { NextPostEditorItem } from "../components/next-post-editor-item";
+import { ContentPlannerEditorItem } from "../components/content-planner-editor-item";
 
 export default compose( [
 	withSelect( select => {
@@ -10,7 +10,7 @@ export default compose( [
 		return {
 			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 			isEmptyCanvas: count( content, "words", {} ) === 0,
-			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/next-post-approve-modal" ),
+			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/content-planner-approve-modal" ),
 		};
 	} ),
-] )( NextPostEditorItem );
+] )( ContentPlannerEditorItem );

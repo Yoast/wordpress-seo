@@ -11,7 +11,7 @@ import { OneSparkNote } from "./one-spark-note";
  * @param {Function} onDismiss The function to call when the banner is dismissed.
  * @returns {JSX.Element} The inline banner with the button.
  */
-export const NextPostInlineBanner = ( { isPremium, onDismiss } ) => {
+export const InlineBanner = ( { isPremium, onDismiss } ) => {
 	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w-xl">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 			<GradientSparklesIcon className="yst-h-4 yst-w-4" />

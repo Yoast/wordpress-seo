@@ -4,14 +4,14 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "./store";
 
 /**
- * The editor plugin component for the Next Post feature.
+ * The editor plugin component for the Content Planner feature.
  *
  * Ensures a paragraph block exists when the canvas is empty so the inline
  * banner (rendered via a block filter) has a block to attach to.
  *
  * @returns {null} Renders nothing.
  */
-export const NextPostEditorPlugin = () => {
+export const PostPlannerEditorPlugin = () => {
 	const hasInsertedParagraph = useRef( false );
 
 	const { isBannerDismissed, blocks } = useSelect( select => ( {

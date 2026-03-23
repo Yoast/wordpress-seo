@@ -26,7 +26,7 @@ import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { link } from "../inline-links/edit-link";
-import initNextPostBanner from "../ai-next-post/initialize";
+import initNextPostBanner from "../ai-content-planner/initialize";
 
 /**
  * Registers the Yoast inline link format.

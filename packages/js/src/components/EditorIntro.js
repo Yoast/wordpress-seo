@@ -1,4 +1,4 @@
-import { ReactComponent as YoastIcon } from "../../images/yoast.svg";
+import { ReactComponent as Yoast } from "../../images/yoast.svg";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
  */
 export const EditorIntro = ( { withPromptForContentSuggestions } ) => {
 	return <div className="yst-px-4 yst-pt-4">
-		<YoastIcon />
+		<Yoast className="yst-w-14" />
 		<p className="yst-text-slate-600 yst-mb-0 yst-mt-3">
 			{ withPromptForContentSuggestions ? __( "Optimize your content for discovery or get new content suggestions.", "wordpress-seo" )
 				: __( "Optimize your content for discovery.", "wordpress-seo" ) }

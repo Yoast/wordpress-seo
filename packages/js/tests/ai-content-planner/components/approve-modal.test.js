@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { NextPostApproveModal } from "../../../src/ai-next-post/components/next-post-approve-modal";
+import { ApproveModal } from "../../../src/ai-content-planner/components/approve-modal";
 
 const renderModal = ( props ) => render(
-	<NextPostApproveModal
+	<ApproveModal
 		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyCanvas={ true }
@@ -63,12 +63,12 @@ describe( "NextPostApproveModal", () => {
 		} );
 
 		it( "renders the upsell button with the correct href when isUpsell is true", () => {
-			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/next-post-approve-modal" } );
-			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "href", "https://yoa.st/next-post-approve-modal" );
+			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/content-planner-approve-modal" } );
+			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-approve-modal" );
 		} );
 
 		it( "opens the upsell link in a new tab", () => {
-			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/next-post-approve-modal" } );
+			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/content-planner-approve-modal" } );
 			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "target", "_blank" );
 		} );
 	} );

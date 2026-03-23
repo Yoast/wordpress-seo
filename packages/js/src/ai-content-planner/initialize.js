@@ -4,8 +4,8 @@ import { useEffect, useRef, Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
 import { store, STORE_NAME } from "./store";
-import NextPostInlineBanner from "./containers/next-post-inline-banner";
-import { NextPostEditorPlugin } from "./next-post-editor-plugin";
+import InlineBanner from "./containers/inline-banner";
+import { PostPlannerEditorPlugin } from "./post-planner-editor-plugin";
 
 register( store );
 
@@ -22,7 +22,7 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
  * @param {Object}   props     The block props passed by Gutenberg.
  * @returns {JSX.Element} The block edit with the inline banner conditionally appended.
  */
-const NextPostBannerContainer = ( { BlockEdit, props } ) => {
+const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
 	const ref = useRef( null );
 
 	const { isBannerDismissed, shouldShowBanner } = useSelect( select => ( {
@@ -68,31 +68,31 @@ const NextPostBannerContainer = ( { BlockEdit, props } ) => {
 		<Fragment>
 			<span ref={ ref } style={ { display: "none" } } />
 			<BlockEdit { ...props } />
-			{ ! isBannerDismissed && isFirstParagraph && shouldShowBanner && <NextPostInlineBanner /> }
+			{ ! isBannerDismissed && isFirstParagraph && shouldShowBanner && <InlineBanner /> }
 		</Fragment>
 	);
 };
 
-const withNextPostBanner = createHigherOrderComponent( ( BlockEdit ) => {
+const withPostPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
 	// eslint-disable-next-line react/display-name
 	return ( props ) => {
 		if ( props.name !== "core/paragraph" ) {
 			return <BlockEdit { ...props } />;
 		}
-		return <NextPostBannerContainer BlockEdit={ BlockEdit } props={ props } />;
+		return <PostPlannerBannerContainer BlockEdit={ BlockEdit } props={ props } />;
 	};
-}, "withNextPostBanner" );
+}, "withPostPlannerBanner" );
 
-addFilter( "editor.BlockEdit", "yoast-seo/next-post-banner", withNextPostBanner );
+addFilter( "editor.BlockEdit", "yoast-seo/post-planner-banner", withPostPlannerBanner );
 
 /**
- * Initializes the Next Post feature.
+ * Initializes the Content Planner feature.
  *
- * Registers an editor plugin (NextPostEditorPlugin) that ensures a paragraph
+ * Registers an editor plugin (PostPlannerEditorPlugin) that ensures a paragraph
  * block exists when the canvas is empty so the inline banner can be shown.
  *
  * @returns {void}
  */
-export default function initNextPostBanner() {
-	registerPlugin( "yoast-next-post", { render: NextPostEditorPlugin } );
+export default function initPostPlanner() {
+	registerPlugin( "yoast-post-planner", { render: PostPlannerEditorPlugin } );
 }

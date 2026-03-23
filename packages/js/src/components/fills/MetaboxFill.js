@@ -24,7 +24,7 @@ import { BlackFridayPromotion } from "../BlackFridayPromotion";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import NextPostEditorItem from "../../ai-next-post/containers/next-post-editor-item";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
 import { EditorIntro } from "../EditorIntro";
 
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
@@ -65,8 +65,8 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
 				</SidebarItem>
-				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="next-post" renderPriority={ 2 }>
-					<NextPostEditorItem location="metabox" />
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
+					<ContentPlannerEditorItem location="metabox" />
 				</SidebarItem> }
 				<SidebarItem
 					key="time-constrained-notification"

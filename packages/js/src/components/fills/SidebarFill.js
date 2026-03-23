@@ -23,7 +23,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import NextPostEditorItem from "../../ai-next-post/containers/next-post-editor-item";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
 import { EditorIntro } from "../EditorIntro";
 
 /* eslint-disable complexity */
@@ -66,8 +66,8 @@ export default function SidebarFill( { settings } ) {
 				>
 					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
 				</SidebarItem>
-				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="next-post" renderPriority={ 2 }>
-					<NextPostEditorItem location="sidebar" />
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
+					<ContentPlannerEditorItem location="sidebar" />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput

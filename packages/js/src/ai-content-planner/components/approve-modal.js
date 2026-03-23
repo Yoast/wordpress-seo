@@ -2,6 +2,7 @@ import { Button, Modal, GradientSparklesIcon, Root } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OneSparkNote } from "./one-spark-note";
+import { useCallback } from "@wordpress/element";
 
 /**
  * Get the content of the modal based on whether the canvas is empty or not.
@@ -33,7 +34,7 @@ const getModalContent = ( isEmptyCanvas ) => {
 };
 
 /**
- * The modal that is shown when the user clicks the "Get content suggestions" button in the NextPostTopBarButton or the NextPostInlineOptIn.
+ * The modal that is shown when the user clicks the "Get content suggestions" button.
  *
  * @param {boolean} isOpen Whether the modal is open or not.
  * @param {function} onClose The function to call when the modal is closed.
@@ -42,10 +43,15 @@ const getModalContent = ( isEmptyCanvas ) => {
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
  * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button in the modal.
  * @param {string} upsellLink The link to the upsell page.
- * @returns {JSX.Element} The Next Post Approved Modal.
+ * @returns {JSX.Element} The Content Planner Approved Modal.
  */
-export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
+export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
 	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
+	const handleOnClick = useCallback( () => {
+		onClick();
+		onClose();
+	}, [ onClick, onClose ] );
+
 	return <Root><Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
@@ -65,7 +71,7 @@ export const NextPostApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremiu
 					"Yoast SEO Premium"
 				) }
 			</Button>
-				: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
+				: <Button onClick={ handleOnClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
 		</Modal.Panel>
 	</Modal></Root>;
