@@ -116,7 +116,7 @@ const LoadingModalContent = () => {
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
+export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium, onSuggestionClick = noop } ) => {
 	const suggestions = [
 		{
 			intent: "informational",
@@ -202,7 +202,7 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
 										<SuggestionButton
 											key={ index }
 											{ ...suggestion }
-											onClick={ noop }
+											onClick={ onSuggestionClick.bind( null, suggestion ) }
 										/>
 									) ) }
 								</>
