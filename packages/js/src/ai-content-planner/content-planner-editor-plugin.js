@@ -11,7 +11,7 @@ import { STORE_NAME } from "./store";
  *
  * @returns {null} Renders nothing.
  */
-export const PostPlannerEditorPlugin = () => {
+export const ContentPlannerEditorPlugin = () => {
 	const hasInsertedParagraph = useRef( false );
 
 	const { isBannerDismissed, blocks } = useSelect( select => ( {
