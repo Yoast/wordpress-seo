@@ -4,7 +4,8 @@ import { __ } from "@wordpress/i18n";
 /**
  * The introduction component for the editor.
  *
- * @param {boolean} withPromptForContentSuggestions Whether to show the prompt for content suggestions.
+ * @param {Object} props The component props.
+ * @param {boolean} props.withPromptForContentSuggestions Whether to show the prompt for content suggestions.
  * @returns {JSX.Element} The editor introduction component.
  */
 export const EditorIntro = ( { withPromptForContentSuggestions } ) => {
