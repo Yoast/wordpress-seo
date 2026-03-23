@@ -54,7 +54,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem
 					key="editor-intro"
-					renderPriority={ 1 }
+					renderPriority={ 0 }
 				>
 					<EditorIntro withPromptForContentSuggestions={ false } />
 				</SidebarItem>
