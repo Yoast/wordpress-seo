@@ -13,7 +13,7 @@ import { ApproveModal } from "./approve-modal";
  */
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {
 	const [ isApproveModalOpen, , , openApproveModal, closeApproveModal ] = useToggleState( false );
-	const [ isContentSuggestionModalOpen, , , openContentSuggestionModal, closeContentSuggestionModal ] = useToggleState( false );
+	const [ , , , openContentSuggestionModal ] = useToggleState( false );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openApproveModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
