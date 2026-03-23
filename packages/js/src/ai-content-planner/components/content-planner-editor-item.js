@@ -16,8 +16,6 @@ import { get } from "lodash";
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {
 	const [ isApproveModalOpen, , , openApproveModal, closeApproveModal ] = useToggleState( false );
 	const [ isContentSuggestionModalOpen, , , openContentSuggestionModal, closeContentSuggestionModal ] = useToggleState( false );
-	// For testing purposes.
-	const isLoading = get( window, "contentPlanner.isLoading", false );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openApproveModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
