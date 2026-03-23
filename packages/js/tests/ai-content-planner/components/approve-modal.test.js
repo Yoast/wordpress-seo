@@ -12,7 +12,7 @@ const renderModal = ( props ) => render(
 	/>
 );
 
-describe( "NextPostApproveModal", () => {
+describe( "ApproveModal", () => {
 	describe( "visibility", () => {
 		it( "renders the modal when isOpen is true", () => {
 			renderModal( { isOpen: true } );
