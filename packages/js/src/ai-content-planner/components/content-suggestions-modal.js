@@ -77,8 +77,7 @@ const LoadingModalContent = () => (
 		</div>
 		<div className="yst-reltive">
 			{ [ ...Array( 5 ) ].map( ( _, index ) => <SuggestionButtonSkeleton key={ index } /> ) }
-			{ // gradient overlay to create a fade effect at the bottom of the modal content
-			}
+			{/* gradient overlay to create a fade effect at the bottom of the modal content */}
 			<div
 				className="yst-absolute yst-inset-0 yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
 				aria-hidden="true"
