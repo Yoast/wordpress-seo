@@ -74,6 +74,10 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
+		if ( ! \current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( ! $this->options_helper->get( 'should_redirect_after_install_free', false ) ) {
 			return;
 		}

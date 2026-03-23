@@ -158,6 +158,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -215,6 +216,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -239,6 +241,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -272,6 +275,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -313,6 +317,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -352,6 +357,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -398,6 +404,7 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
 
 		$this->options_helper
 			->expects( 'get' )
@@ -498,6 +505,26 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( true );
+
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->never();
+
+		$this->instance->maybe_redirect();
+	}
+
+	/**
+	 * Tests that the redirection does not occur when the user is not authenticated.
+	 *
+	 * @covers ::maybe_redirect
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_unauthenticated_user() {
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();
