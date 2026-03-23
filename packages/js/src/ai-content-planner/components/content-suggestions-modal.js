@@ -32,13 +32,14 @@ const intentBadge = {
  * @param {string} intent The intent of the suggestion.
  * @param {string} title The title of the suggestion.
  * @param {string} description The description of the suggestion.
+ * @param {Function} onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
 const SuggestionButton = ( { intent, title, description, onClick } ) => {
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	return (
-		<button onClick={ onClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm">
+		<button type="button" onClick={ onClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm">
 			{ intentBadge[ intent ] ? (
 				<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", intentBadge[ intent ].classes ) }>
 					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } /> { intentBadge[ intent ].label }
@@ -75,9 +76,9 @@ const LoadingModalContent = () => (
 			<Yoast className="yst-w-24 yst-text-primary-300 yst-mb-2" />
 			<div className="yst-italic yst-text-slate-500">{ __( "Analyzing your site content…", "wordpress-seo" ) }</div>
 		</div>
-		<div className="yst-reltive">
+		<div className="yst-relative">
 			{ [ ...Array( 5 ) ].map( ( _, index ) => <SuggestionButtonSkeleton key={ index } /> ) }
-			{/* gradient overlay to create a fade effect at the bottom of the modal content */}
+			{ /* gradient overlay to create a fade effect at the bottom of the modal content */ }
 			<div
 				className="yst-absolute yst-inset-0 yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
 				aria-hidden="true"
@@ -114,7 +115,7 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestio
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 						<YoastIcon className="yst-fill-primary-500 yst-w-4" />
-						<Title size="2" className="yst-flex-grow"> { __( "Content suggestions", "wordpress-seo" ) } </Title>
+						<Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) } </Title>
 						<Badge size="small"> { __( "Beta", "wordpress-seo" ) } </Badge>
 						<UsageCounter
 							limit={ 10 }
