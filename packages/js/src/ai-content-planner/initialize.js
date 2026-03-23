@@ -44,7 +44,7 @@ const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
 		if ( isNewPost ) {
 			showBanner();
 		}
-	}, [ isNewPost ] );
+	}, [ isNewPost, showBanner ] );
 
 	useEffect( () => {
 		// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
