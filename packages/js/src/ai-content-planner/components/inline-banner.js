@@ -7,8 +7,9 @@ import { OneSparkNote } from "./one-spark-note";
  * The inline banner that is shown when the user has no content in a new post using the block editor.
  * This inline banner will be under the first paragraph block and will have a button to open the ContentSuggestions modal.
  *
- * @param {boolean}  isPremium Whether the user has a premium subscription.
- * @param {Function} onDismiss The function to call when the banner is dismissed.
+ * @param {object}    props     The block props passed by Gutenberg.
+ * @param {boolean}  props.isPremium Whether the user has a premium add-on activated.
+ * @param {Function} props.onDismiss The function to call when the banner is dismissed.
  * @returns {JSX.Element} The inline banner with the button.
  */
 export const InlineBanner = ( { isPremium, onDismiss } ) => {
