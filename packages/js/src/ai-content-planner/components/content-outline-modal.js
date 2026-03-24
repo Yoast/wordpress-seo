@@ -4,7 +4,7 @@ import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.sv
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { BookOpenIcon, StarIcon, MapIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 
@@ -81,15 +81,35 @@ const FormField = ( { label, value, multiline = false } ) => (
 );
 
 /**
- * A single row in the blog post structure list.
+ * A single draggable row in the blog post structure list.
  *
- * @param {string} level The heading level (e.g. "H2") or type indicator.
- * @param {string} title The section title.
+ * @param {string}   level       The heading level (e.g. "H2") or type indicator.
+ * @param {string}   title       The section title.
+ * @param {number}   index       The index of the row in the list.
+ * @param {number}   dragOverIndex The index of the row currently being dragged over.
+ * @param {Function} onDragStart  Callback when drag starts.
+ * @param {Function} onDragOver   Callback when dragging over this row.
+ * @param {Function} onDrop       Callback when dropped.
+ * @param {Function} onDragEnd    Callback when drag ends.
  *
  * @returns {JSX.Element} The StructureRow component.
  */
-const StructureRow = ( { level, title } ) => (
-	<div className="yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2">
+const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd } ) => {
+	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
+	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
+	const handleDrop = useCallback( ( e ) => onDrop( e, index ), [ onDrop, index ] );
+
+	return ( <div
+		className={ classNames(
+			"yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-cursor-grab yst-select-none yst-transition-all",
+			dragOverIndex === index && "yst-border-primary-500 yst-border-2"
+		) }
+		draggable="true"
+		onDragStart={ handleDragStart }
+		onDragOver={ handleDragOver }
+		onDrop={ handleDrop }
+		onDragEnd={ onDragEnd }
+	>
 		{ /* Drag handle icon (6-dot grip) */ }
 		<svg className="yst-w-2.5 yst-h-4 yst-text-slate-400 yst-shrink-0" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true">
 			<circle cx="2" cy="2" r="1.5" />
@@ -99,10 +119,12 @@ const StructureRow = ( { level, title } ) => (
 			<circle cx="2" cy="14" r="1.5" />
 			<circle cx="8" cy="14" r="1.5" />
 		</svg>
-		<span className="yst-font-medium yst-text-sm yst-text-slate-500 yst-shrink-0">{ level }</span>
-		<span className="yst-text-sm yst-text-slate-600 yst-flex-1 yst-min-w-0">{ title }</span>
-	</div>
-);
+		<div className="yst-flex yst-items-center yst-gap-3 yst-flex-1 yst-min-w-0 yst-text-sm">
+			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ level }</span>
+			<span className="yst-text-slate-600">{ title }</span>
+		</div>
+	</div> );
+};
 
 /**
  * Loading skeleton for the content outline modal.
@@ -183,9 +205,49 @@ const LoadingOutlineContent = () => (
 export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
+	const [ structure, setStructure ] = useState( suggestion.structure );
+	const [ dragOverIndex, setDragOverIndex ] = useState( null );
+	const dragIndexRef = useRef( null );
+
+	useEffect( () => {
+		setStructure( suggestion.structure );
+	}, [ suggestion.structure ] );
 
 	const handleCategoryToggle = useCallback( () => {
 		setIsCategoryEnabled( ( prev ) => ! prev );
+	}, [] );
+
+	const handleDragStart = useCallback( ( e, index ) => {
+		dragIndexRef.current = index;
+		e.dataTransfer.effectAllowed = "move";
+	}, [] );
+
+	const handleDragOver = useCallback( ( e, index ) => {
+		e.preventDefault();
+		e.dataTransfer.dropEffect = "move";
+		setDragOverIndex( index );
+	}, [] );
+
+	const handleDrop = useCallback( ( e, dropIndex ) => {
+		e.preventDefault();
+		const dragIndex = dragIndexRef.current;
+		if ( dragIndex === null || dragIndex === dropIndex ) {
+			setDragOverIndex( null );
+			return;
+		}
+		setStructure( ( prev ) => {
+			const updated = [ ...prev ];
+			const [ moved ] = updated.splice( dragIndex, 1 );
+			updated.splice( dropIndex, 0, moved );
+			return updated;
+		} );
+		setDragOverIndex( null );
+		dragIndexRef.current = null;
+	}, [] );
+
+	const handleDragEnd = useCallback( () => {
+		setDragOverIndex( null );
+		dragIndexRef.current = null;
 	}, [] );
 
 	return (
@@ -275,11 +337,17 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 											{ __( "Drag to reorder", "wordpress-seo" ) }
 										</span>
 									</div>
-									{ suggestion.structure.map( ( item, index ) => (
+									{ structure.map( ( item, index ) => (
 										<StructureRow
-											key={ index }
+											key={ `${ item.level }-${ item.title }` }
+											index={ index }
 											level={ item.level }
 											title={ item.title }
+											dragOverIndex={ dragOverIndex }
+											onDragStart={ handleDragStart }
+											onDragOver={ handleDragOver }
+											onDrop={ handleDrop }
+											onDragEnd={ handleDragEnd }
 										/>
 									) ) }
 								</div>
