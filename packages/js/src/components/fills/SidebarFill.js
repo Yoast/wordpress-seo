@@ -56,15 +56,14 @@ export default function SidebarFill( { settings } ) {
 			<Fill name="YoastSidebar">
 				<SidebarItem key="warning" renderPriority={ 0 }>
 					<Warning />
-					<div style={ { margin: "0 16px" } }>
-						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-					</div>
 				</SidebarItem>
 				<SidebarItem
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } />
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+					</EditorIntro>
 				</SidebarItem>
 				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
 					<ContentPlannerEditorItem location="sidebar" />

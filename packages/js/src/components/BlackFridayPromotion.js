@@ -49,8 +49,7 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						location === "sidebar" && ! isElementorEditor  ? "yst-mx-0" : "yst-mx-4",
-						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-6 yst-relative yst-shadow-sm",
+						"yst-mx-0 yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-3 yst-relative yst-shadow-sm",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
 				<Badge size="small"className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
