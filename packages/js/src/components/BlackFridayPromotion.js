@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-
 import { useSelect, dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
