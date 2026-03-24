@@ -3,7 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { useSelect } from "@wordpress/data";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
@@ -100,12 +99,12 @@ const LoadingModalContent = () => (
  * @param {boolean} isOpen Whether the modal is open or not.
  * @param {Function} onClose The function to call when the modal should be closed.
  * @param {boolean} isLoading Whether the content suggestions are being generated.
+ * @param {boolean} isPremium Whether the user has a premium add-on is activated or not.
  * @param {Suggestion[]} suggestions The content suggestions to display in the modal.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestions } ) => {
-	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
+export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestions, isPremium } ) => {
 	return (
 		<Modal
 			isOpen={ isOpen }

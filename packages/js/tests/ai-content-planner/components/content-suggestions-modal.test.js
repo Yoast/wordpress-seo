@@ -1,13 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { useSelect } from "@wordpress/data";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
-jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn(),
-} ) );
-
+const mockUsageCounter = jest.fn( () => null );
 jest.mock( "@yoast/ai-frontend", () => ( {
-	UsageCounter: () => null,
+	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
 const defaultSuggestions = [
@@ -22,19 +18,16 @@ const renderModal = ( props ) => render(
 		onClose={ jest.fn() }
 		isLoading={ false }
 		suggestions={ defaultSuggestions }
+		isPremium={ false }
 		{ ...props }
 	/>
 );
 
-beforeEach( () => {
-	useSelect.mockImplementation( ( fn ) => fn( () => ( { getIsPremium: () => false } ) ) );
-} );
-
-afterEach( () => {
-	jest.clearAllMocks();
-} );
-
 describe( "ContentSuggestionsModal", () => {
+	beforeEach( () => {
+		mockUsageCounter.mockClear();
+	} );
+
 	describe( "visibility", () => {
 		it( "renders the modal when isOpen is true", () => {
 			renderModal( { isOpen: true } );

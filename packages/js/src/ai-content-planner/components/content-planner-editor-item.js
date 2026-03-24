@@ -35,6 +35,7 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 			isOpen={ isContentSuggestionModalOpen }
 			onClose={ closeContentSuggestionModal }
 			isLoading={ isLoading }
+			isPremium={ isPremium }
 			suggestions={ [
 				{
 					intent: "informational",
