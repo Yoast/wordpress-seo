@@ -28,7 +28,6 @@ export const BlackFridayPromotion = ( {
 	const promotionActive = useSelect( select => select( store ).isPromotionActive( alertKey ), [ store ] );
 	const isWooCommerceActive = useSelect( select => select( store ).getIsWooCommerceActive(), [ store ] );
 	const isAlertDismissed = useSelect( select => select( store ).isAlertDismissed( alertKey ), [ store ] );
-	const isElementorEditor = useSelect( select => select( store ).getIsElementorEditor(), [ store ] );
 
 	const onDismiss = useCallback( () => {
 		dispatch( store ).dismissAlert( alertKey );
