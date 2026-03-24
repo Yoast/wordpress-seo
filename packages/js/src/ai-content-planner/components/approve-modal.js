@@ -1,4 +1,4 @@
-import { Button, Modal, GradientSparklesIcon, Root } from "@yoast/ui-library";
+import { Button, Modal, GradientSparklesIcon } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OneSparkNote } from "./one-spark-note";
@@ -52,7 +52,7 @@ export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		onClose();
 	}, [ onClick, onClose ] );
 
-	return <Root><Modal
+	return <Modal
 		isOpen={ isOpen }
 		onClose={ onClose }
 	>
@@ -78,5 +78,5 @@ export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				: <Button onClick={ handleOnClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
 		</Modal.Panel>
-	</Modal></Root>;
+	</Modal>;
 };
