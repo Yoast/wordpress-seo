@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-
 import { useSelect, dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -28,7 +27,6 @@ export const BlackFridayPromotion = ( {
 	const promotionActive = useSelect( select => select( store ).isPromotionActive( alertKey ), [ store ] );
 	const isWooCommerceActive = useSelect( select => select( store ).getIsWooCommerceActive(), [ store ] );
 	const isAlertDismissed = useSelect( select => select( store ).isAlertDismissed( alertKey ), [ store ] );
-	const isElementorEditor = useSelect( select => select( store ).getIsElementorEditor(), [ store ] );
 
 	const onDismiss = useCallback( () => {
 		dispatch( store ).dismissAlert( alertKey );
@@ -49,8 +47,7 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						location === "sidebar" && ! isElementorEditor  ? "yst-mx-0" : "yst-mx-4",
-						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-6 yst-relative yst-shadow-sm",
+						"yst-mx-0 yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-3 yst-relative yst-shadow-sm",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
 				<Badge size="small"className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">

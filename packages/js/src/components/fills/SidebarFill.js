@@ -4,6 +4,7 @@ import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
+import { useSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -22,6 +23,8 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
+import { EditorIntro } from "../EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -38,6 +41,10 @@ import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
 export default function SidebarFill( { settings } ) {
 	const webinarIntroUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
 	const FirstEligibleNotification = useFirstEligibleNotification( { webinarIntroUrl } );
+	const { isAiFeatureActive, isPost } = useSelect( ( select ) => ( {
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+	} ), [] );
 
 	const isBlockEditorActive = isBlockEditor();
 	if ( isBlockEditorActive ) {
@@ -47,12 +54,20 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<SidebarItem key="warning" renderPriority={ 1 }>
+				<SidebarItem key="warning" renderPriority={ 0 }>
 					<Warning />
-					<div style={ { margin: "0 16px" } }>
-						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-					</div>
 				</SidebarItem>
+				<SidebarItem
+					key="editor-intro"
+					renderPriority={ 1 }
+				>
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+					</EditorIntro>
+				</SidebarItem>
+				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
+					<ContentPlannerEditorItem location="sidebar" />
+				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
