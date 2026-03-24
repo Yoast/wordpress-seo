@@ -101,6 +101,15 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
+		/**
+		 * Filter: 'wpseo_should_redirect_after_install' - Allows skipping the redirect to the installation success page.
+		 *
+		 * @param bool $should_redirect Whether to redirect. Default true.
+		 */
+		if ( ! \apply_filters( 'wpseo_should_redirect_after_install', true ) ) {
+			return;
+		}
+
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
 		$this->terminate_execution();
 	}

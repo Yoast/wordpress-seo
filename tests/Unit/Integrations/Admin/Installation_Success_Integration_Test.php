@@ -188,6 +188,10 @@ final class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'is_plugin_active_for_network' )
 			->andReturn( false );
 
+		Monkey\Filters\expectApplied( 'wpseo_should_redirect_after_install' )
+			->with( true )
+			->andReturn( true );
+
 		$redirect_url = 'http://basic.wordpress.test/wp-admin/admin.php?page=wpseo_installation_successful_free';
 
 		Monkey\Functions\expect( 'admin_url' )
@@ -435,6 +439,58 @@ final class Installation_Success_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'is_plugin_active_for_network' )
 			->andReturn( true );
+
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->never();
+
+		$this->instance->maybe_redirect();
+	}
+
+	/**
+	 * Tests that the redirection does not occur when the wpseo_should_redirect_after_install filter returns false.
+	 *
+	 * @covers ::maybe_redirect
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_filter_prevents_redirect() {
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_doing_cron' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_serving_rest_request' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_json_request' )->andReturn( false );
+		Monkey\Functions\expect( 'current_user_can' )->with( 'manage_options' )->andReturn( true );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'should_redirect_after_install_free', false )
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'should_redirect_after_install_free', false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'activation_redirect_timestamp_free', 0 )
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'set' )
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
+
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_network_admin' )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_plugin_active_for_network' )
+			->andReturn( false );
+
+		Monkey\Filters\expectApplied( 'wpseo_should_redirect_after_install' )
+			->with( true )
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();
