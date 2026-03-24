@@ -28,10 +28,11 @@ const intentBadge = {
 /**
  * Suggestion button component.
  *
- * @param {string} intent The intent of the suggestion.
- * @param {string} title The title of the suggestion.
- * @param {string} description The description of the suggestion.
- * @param {Function} onClick The function to call when the suggestion button is clicked.
+ * @param {object} props The component props.
+ * @param {string} props.intent The intent of the suggestion.
+ * @param {string} props.title The title of the suggestion.
+ * @param {string} props.description The description of the suggestion.
+ * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
@@ -69,6 +70,11 @@ const SuggestionButtonSkeleton = () => (
 	</div>
 );
 
+/**
+ * The loading content for the ContentSuggestionsModal.
+ *
+ * @returns {JSX.Element} The loading content for the ContentSuggestionsModal.
+ */
 const LoadingModalContent = () => (
 	<>
 		<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
@@ -96,11 +102,12 @@ const LoadingModalContent = () => (
 /**
  * ContentSuggestionsModal component.
  *
- * @param {boolean} isOpen Whether the modal is open or not.
- * @param {Function} onClose The function to call when the modal should be closed.
- * @param {boolean} isLoading Whether the content suggestions are being generated.
- * @param {boolean} isPremium Whether the user has a premium add-on is activated or not.
- * @param {Suggestion[]} suggestions The content suggestions to display in the modal.
+ * @param {Object} props The component props.
+ * @param {boolean} props.isOpen Whether the modal is open or not.
+ * @param {Function} props.onClose The function to call when the modal should be closed.
+ * @param {boolean} props.isLoading Whether the content suggestions are being generated.
+ * @param {boolean} props.isPremium Whether the user has a premium add-on is activated or not.
+ * @param {Suggestion[]} props.suggestions The content suggestions to display in the modal.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
