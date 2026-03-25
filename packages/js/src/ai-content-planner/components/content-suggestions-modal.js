@@ -130,20 +130,22 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestio
 							mentionResetInTooltip={ isPremium }
 						/>
 					</Modal.Container.Header>
-					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0" aria-live="polite">
-						{ isLoading ? (
-							<LoadingModalContent />
-						) : (
-							<>
-								<p className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</p>
-								{ suggestions.map( ( suggestion, index ) => (
-									<SuggestionButton
-										key={ index }
-										{ ...suggestion }
-										onClick={ noop }
-									/>
-								) ) }
-							</> ) }
+					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
+						<div aria-live="polite">
+							{ isLoading ? (
+								<LoadingModalContent />
+							) : (
+								<>
+									<p className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</p>
+									{ suggestions.map( ( suggestion, index ) => (
+										<SuggestionButton
+											key={ index }
+											{ ...suggestion }
+											onClick={ noop }
+										/>
+									) ) }
+								</> ) }
+						</div>
 					</Modal.Container.Content>
 				</Modal.Container>
 			</Modal.Panel>

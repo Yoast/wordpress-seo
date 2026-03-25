@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
 const mockUsageCounter = jest.fn( () => null );
@@ -56,6 +56,28 @@ describe( "ContentSuggestionsModal", () => {
 		it( "shows the 'Beta' badge", () => {
 			renderModal();
 			expect( screen.getByText( "Beta" ) ).toBeInTheDocument();
+		} );
+	} );
+
+	describe( "accessibility", () => {
+		it( "announces content changes to screen readers when loading completes", () => {
+			const { rerender } = renderModal( { isLoading: true } );
+
+			const liveRegion = screen.getByText( "Analyzing your site content…" ).closest( "[aria-live='polite']" );
+			expect( liveRegion ).toBeInTheDocument();
+			expect( within( liveRegion ).getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
+
+			rerender(
+				<ContentSuggestionsModal
+					isOpen={ true }
+					onClose={ jest.fn() }
+					isLoading={ false }
+					suggestions={ defaultSuggestions }
+					isPremium={ false }
+				/>
+			);
+
+			expect( within( liveRegion ).getByText( "Select a suggestion to generate a structured outline for your post." ) ).toBeInTheDocument();
 		} );
 	} );
 
