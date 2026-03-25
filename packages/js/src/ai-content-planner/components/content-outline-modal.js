@@ -1,7 +1,6 @@
 import { Badge, Button, Modal, Title, SkeletonLoader, Toggle } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
-import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
@@ -127,48 +126,33 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 };
 
 /**
- * Loading skeleton for the content outline modal.
+ * Skeleton form field with a real label and a skeleton value.
  *
- * @returns {JSX.Element} The LoadingOutlineContent component.
+ * @param {string}  label     The field label.
+ * @param {boolean} multiline Whether to render a taller skeleton area.
+ *
+ * @returns {JSX.Element} The SkeletonFormField component.
  */
-const LoadingOutlineContent = () => (
-	<>
-		<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
-			<Yoast className="yst-w-24 yst-text-primary-300 yst-mb-2" />
-			<div className="yst-italic yst-text-slate-500">{ __( "Generating your content outline…", "wordpress-seo" ) }</div>
+const SkeletonFormField = ( { label, multiline = false } ) => (
+	<div className="yst-flex yst-flex-col yst-gap-2">
+		<span className="yst-font-medium yst-text-sm yst-text-slate-800">{ label }</span>
+		<div
+			className={ classNames(
+				"yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2",
+				multiline ? "yst-min-h-20 yst-flex yst-flex-col yst-gap-1" : "yst-h-10 yst-flex yst-items-center"
+			) }
+		>
+			{ multiline ? (
+				<>
+					<SkeletonLoader className="yst-w-full yst-h-4 yst-rounded" />
+					<SkeletonLoader className="yst-w-full yst-h-4 yst-rounded" />
+					<SkeletonLoader className="yst-w-1/2 yst-h-4 yst-rounded" />
+				</>
+			) : (
+				<SkeletonLoader className="yst-w-1/3 yst-h-4 yst-rounded" />
+			) }
 		</div>
-		<div className="yst-relative">
-			{ /* Skeleton for IntentCallout */ }
-			<div className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-mb-4">
-				<div className="yst-flex yst-items-center yst-gap-2 yst-mb-2">
-					<SkeletonLoader className="yst-w-24 yst-h-5 yst-rounded-full" />
-					<SkeletonLoader className="yst-w-28 yst-h-4 yst-rounded" />
-				</div>
-				<SkeletonLoader className="yst-w-full yst-h-4 yst-rounded yst-mb-1" />
-				<SkeletonLoader className="yst-w-3/4 yst-h-4 yst-rounded" />
-			</div>
-			{ /* Skeleton for form fields */ }
-			<SkeletonLoader className="yst-w-48 yst-h-4 yst-rounded yst-mb-4" />
-			<div className="yst-h-px yst-bg-slate-200 yst-mb-6" />
-			{ [ ...Array( 3 ) ].map( ( _, index ) => (
-				<div key={ index } className="yst-mb-4">
-					<SkeletonLoader className="yst-w-24 yst-h-4 yst-rounded yst-mb-2" />
-					<SkeletonLoader className="yst-w-full yst-h-10 yst-rounded" />
-				</div>
-			) ) }
-			{ /* Skeleton for structure rows */ }
-			<div className="yst-h-px yst-bg-slate-200 yst-my-6" />
-			<SkeletonLoader className="yst-w-32 yst-h-4 yst-rounded yst-mb-2" />
-			{ [ ...Array( 5 ) ].map( ( _, index ) => (
-				<SkeletonLoader key={ `structure-${ index }` } className="yst-w-full yst-h-10 yst-rounded yst-mb-2" />
-			) ) }
-			{ /* Gradient overlay for fade effect */ }
-			<div
-				className="yst-absolute yst-inset-0 yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
-				aria-hidden="true"
-			/>
-		</div>
-	</>
+	</div>
 );
 
 /**
@@ -271,104 +255,110 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 						) }
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative">
-						{ isLoading ? (
-							<LoadingOutlineContent />
-						) : (
-							<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-6">
-								<IntentCallout
-									intent={ suggestion.intent }
-									description={ suggestion.description }
-								/>
+						<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-6">
+							<IntentCallout
+								intent={ suggestion.intent }
+								description={ suggestion.description }
+							/>
 
-								<p className="yst-text-sm yst-text-slate-600">
-									{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
-								</p>
+							<p className="yst-text-sm yst-text-slate-600">
+								{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
+							</p>
 
-								<hr className="yst-border-slate-200" />
+							<hr className="yst-border-slate-200" />
 
-								{ category && (
-									<div className="yst-flex yst-flex-col yst-gap-3">
-										<div className="yst-flex yst-flex-col yst-gap-1.5">
-											<div className="yst-flex yst-items-center yst-gap-6">
-												<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-													{ __( "Suggest category", "wordpress-seo" ) }
-												</span>
-												<Toggle
-													id="suggest-category-toggle"
-													checked={ isCategoryEnabled }
-													onChange={ handleCategoryToggle }
-													screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
-												/>
-											</div>
-											<p className="yst-text-sm yst-text-slate-600">
-												{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
-											</p>
+							{ category && (
+								<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
+									<div className="yst-flex yst-flex-col yst-gap-1.5">
+										<div className="yst-flex yst-items-center yst-justify-between">
+											<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+												{ __( "Suggest category", "wordpress-seo" ) }
+											</span>
+											<Toggle
+												id="suggest-category-toggle"
+												checked={ isCategoryEnabled }
+												onChange={ handleCategoryToggle }
+												screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
+											/>
 										</div>
-										{ isCategoryEnabled && (
-											<Badge variant="plain" className="yst-w-fit">{ category }</Badge>
-										) }
+										<p className="yst-text-sm yst-text-slate-600">
+											{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
+										</p>
 									</div>
-								) }
+									{ isCategoryEnabled && (
+										isLoading
+											? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
+											: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
+									) }
+								</div>
+							) }
 
+							{ isLoading ? (
 								<div className="yst-flex yst-flex-col yst-gap-4">
-									<FormField
-										label={ __( "Focus Keyphrase", "wordpress-seo" ) }
-										value={ suggestion.focusKeyphrase }
-									/>
-									<FormField
-										label={ __( "Title", "wordpress-seo" ) }
-										value={ suggestion.title }
-									/>
-									<FormField
-										label={ __( "Meta description", "wordpress-seo" ) }
-										value={ suggestion.metaDescription }
-										multiline={ true }
-									/>
+									<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+									<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+									<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 								</div>
-
-								<hr className="yst-border-slate-200" />
-
-								<div className="yst-flex yst-flex-col yst-gap-2">
-									<div className="yst-flex yst-items-end yst-justify-between">
-										<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-											{ __( "Blog post structure", "wordpress-seo" ) }
-										</span>
-										<span className="yst-text-xs yst-text-slate-500">
-											{ __( "Drag to reorder", "wordpress-seo" ) }
-										</span>
-									</div>
-									{ structure.map( ( item, index ) => (
-										<StructureRow
-											key={ `${ item.level }-${ item.title }` }
-											index={ index }
-											level={ item.level }
-											title={ item.title }
-											dragOverIndex={ dragOverIndex }
-											onDragStart={ handleDragStart }
-											onDragOver={ handleDragOver }
-											onDrop={ handleDrop }
-											onDragEnd={ handleDragEnd }
+							) : (
+								<>
+									<div className="yst-flex yst-flex-col yst-gap-4">
+										<FormField
+											label={ __( "Focus Keyphrase", "wordpress-seo" ) }
+											value={ suggestion.focusKeyphrase }
 										/>
-									) ) }
-								</div>
-							</div>
-						) }
+										<FormField
+											label={ __( "Title", "wordpress-seo" ) }
+											value={ suggestion.title }
+										/>
+										<FormField
+											label={ __( "Meta description", "wordpress-seo" ) }
+											value={ suggestion.metaDescription }
+											multiline={ true }
+										/>
+									</div>
+
+									<hr className="yst-border-slate-200" />
+
+									<div className="yst-flex yst-flex-col yst-gap-2">
+										<div className="yst-flex yst-items-end yst-justify-between">
+											<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+												{ __( "Blog post structure", "wordpress-seo" ) }
+											</span>
+											<span className="yst-text-xs yst-text-slate-500">
+												{ __( "Drag to reorder", "wordpress-seo" ) }
+											</span>
+										</div>
+										{ structure.map( ( item, index ) => (
+											<StructureRow
+												key={ `${ item.level }-${ item.title }` }
+												index={ index }
+												level={ item.level }
+												title={ item.title }
+												dragOverIndex={ dragOverIndex }
+												onDragStart={ handleDragStart }
+												onDragOver={ handleDragOver }
+												onDrop={ handleDrop }
+												onDragEnd={ handleDragEnd }
+											/>
+										) ) }
+									</div>
+								</>
+							) }
+						</div>
 						<div
 							className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
 							aria-hidden="true"
 						/>
 					</Modal.Container.Content>
-					{ ! isLoading && (
-						<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
-							<Button variant="secondary" onClick={ onBack } className="yst-flex yst-items-center yst-gap-1.5">
-								<ArrowLeftIcon className="yst-w-4 yst-h-4" />
-								{ __( "Content suggestions", "wordpress-seo" ) }
-							</Button>
-							<Button variant="ai-primary" onClick={ onAddOutline }>
-								{ __( "Add outline to post", "wordpress-seo" ) }
-							</Button>
-						</Modal.Container.Footer>
-					) }
+					<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
+						<Button variant="secondary" onClick={ onBack } className="yst-flex yst-items-center yst-gap-1.5">
+							<ArrowLeftIcon className="yst-w-4 yst-h-4" />
+							{ __( "Content suggestions", "wordpress-seo" ) }
+						</Button>
+						<Button variant="ai-primary" onClick={ onAddOutline }>
+							{ __( "Add outline to post", "wordpress-seo" ) }
+						</Button>
+					</Modal.Container.Footer>
 				</Modal.Container>
 			</Modal.Panel>
 		</Modal>
