@@ -130,7 +130,7 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestio
 							mentionResetInTooltip={ isPremium }
 						/>
 					</Modal.Container.Header>
-					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
+					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0 aria-live="polite">
 						{ isLoading ? (
 							<LoadingModalContent />
 						) : (
