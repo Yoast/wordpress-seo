@@ -1,4 +1,4 @@
-import { Badge, Modal, Title, SkeletonLoader } from "@yoast/ui-library";
+import { Badge, Modal, SkeletonLoader, useToggleState, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -6,6 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
+import { useEffect } from "@wordpress/element";
 
 const intentBadge = {
 	informational: {
@@ -37,12 +38,13 @@ const intentBadge = {
  * @returns {JSX.Element} The SuggestionButton component.
  */
 const SuggestionButton = ( { intent, title, description, onClick } ) => {
+	const svgAriaProps = useSvgAria();
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	return (
 		<button type="button" onClick={ onClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm">
 			{ intentBadge[ intent ] ? (
 				<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", intentBadge[ intent ].classes ) }>
-					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } /> { intentBadge[ intent ].label }
+					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } { ...svgAriaProps } /> { intentBadge[ intent ].label }
 				</Badge>
 			) : (
 				<Badge>{ intent }</Badge>
@@ -75,22 +77,27 @@ const SuggestionButtonSkeleton = () => (
  *
  * @returns {JSX.Element} The loading content for the ContentSuggestionsModal.
  */
-const LoadingModalContent = () => (
-	<>
-		<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
-			<Yoast className="yst-w-24 yst-text-primary-300 yst-mb-2" />
-			<div className="yst-italic yst-text-slate-500">{ __( "Analyzing your site content…", "wordpress-seo" ) }</div>
-		</div>
-		<div className="yst-relative">
-			{ [ ...Array( 5 ) ].map( ( _, index ) => <SuggestionButtonSkeleton key={ index } /> ) }
-			{ /* gradient overlay to create a fade effect at the bottom of the modal content */ }
-			<div
-				className="yst-absolute yst-inset-0 yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
-				aria-hidden="true"
-			/>
-		</div>
-	</>
-);
+const LoadingModalContent = () => {
+	const svgAriaProps = useSvgAria();
+	return (
+		<>
+			<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
+				<Yoast className="yst-w-24 yst-text-primary-300 yst-mb-2" { ...svgAriaProps } />
+				<Modal.Description className="yst-italic yst-text-slate-500">
+					<span className="yst-sr-only"> Yoast </span>
+					{ __( "Analyzing your site content…", "wordpress-seo" ) }</Modal.Description>
+			</div>
+			<div className="yst-relative">
+				{ [ ...Array( 5 ) ].map( ( _, index ) => <SuggestionButtonSkeleton key={ index } /> ) }
+				{ /* gradient overlay to create a fade effect at the bottom of the modal content */ }
+				<div
+					className="yst-absolute yst-inset-0 yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					aria-hidden="true"
+				/>
+			</div>
+		</>
+	);
+};
 
 /**
  * @typedef {Object} Suggestion
@@ -105,23 +112,78 @@ const LoadingModalContent = () => (
  * @param {Object} props The component props.
  * @param {boolean} props.isOpen Whether the modal is open or not.
  * @param {Function} props.onClose The function to call when the modal should be closed.
- * @param {boolean} props.isLoading Whether the content suggestions are being generated.
  * @param {boolean} props.isPremium Whether the user has a premium add-on is activated or not.
- * @param {Suggestion[]} props.suggestions The content suggestions to display in the modal.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestions, isPremium } ) => {
+export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
+	const suggestions = [
+		{
+			intent: "informational",
+			title: "How to train your dog",
+			description: "Tips and tricks on how to train your dog effectively.",
+		},
+		{
+			intent: "navigational",
+			title: "Best dog training schools in New York",
+			description: "A list of the best dog training schools in New York.",
+		},
+		{
+			intent: "commercial",
+			title: "Top 10 dog training tools",
+			description: "A review of the top 10 dog training tools on the market.",
+		},
+		{
+			intent: "informational",
+			title: "How to groom your dog",
+			description: "Step-by-step guide on how to groom your dog at home.",
+		},
+		{
+			intent: "navigational",
+			title: "Dog parks in Los Angeles",
+			description: "Find the best dog parks in Los Angeles for your furry friend.",
+		},
+		{
+			intent: "commercial",
+			title: "Best dog food brands",
+			description: "An overview of the best dog food brands for a healthy diet.",
+		},
+	];
+
+	const [ status, , setStatus ] = useToggleState( "idle" );
+
+	// Simulate loading state when the content suggestions modal is opened.
+	useEffect( () => {
+		if ( isOpen ) {
+			const loadingTimer = setTimeout( () => {
+				setStatus( "loading" );
+			}, 100 );
+
+			const timer = setTimeout( () => {
+				setStatus( "success" );
+			}, 5000 );
+			return () => {
+				clearTimeout( loadingTimer );
+				clearTimeout( timer );
+			};
+		}
+		return () => {
+			setStatus( "idle" );
+		};
+	}, [ isOpen ] );
+
 	return (
 		<Modal
 			isOpen={ isOpen }
 			onClose={ onClose }
 		>
-			<Modal.Panel className="yst-p-0 yst-max-w-2xl">
+			<Modal.Panel
+				className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) }
+			>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 						<YoastIcon className="yst-fill-primary-500 yst-w-4" />
-						<Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Title>
+						<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 						<Badge size="small"> { __( "Beta", "wordpress-seo" ) }</Badge>
 						<UsageCounter
 							limit={ 10 }
@@ -131,12 +193,11 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestio
 						/>
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-						<div aria-live="polite">
-							{ isLoading ? (
-								<LoadingModalContent />
-							) : (
+						<div aria-live="polite" aria-atomic="true">
+							{ status === "loading" && <LoadingModalContent /> }
+							{ status === "success" && (
 								<>
-									<p className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</p>
+									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
 									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
 											key={ index }
@@ -144,7 +205,8 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isLoading, suggestio
 											onClick={ noop }
 										/>
 									) ) }
-								</> ) }
+								</>
+							) }
 						</div>
 					</Modal.Container.Content>
 				</Modal.Container>
