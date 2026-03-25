@@ -207,15 +207,23 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
+/**
+ * Assigns stable unique IDs to structure items for use as React keys.
+ *
+ * @param {StructureItem[]} items The structure items.
+ * @returns {Array} Items with `id` property added.
+ */
+const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
+
 export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
-	const [ structure, setStructure ] = useState( suggestion.structure );
+	const [ structure, setStructure ] = useState( () => withIds( suggestion.structure ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );
 
 	useEffect( () => {
-		setStructure( suggestion.structure );
+		setStructure( withIds( suggestion.structure ) );
 	}, [ suggestion.structure ] );
 
 	const handleCategoryToggle = useCallback( () => {
@@ -371,7 +379,7 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 										<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) }>
 											{ structure.map( ( item, index ) => (
 												<StructureRow
-													key={ `${ index }-${ item.level }-${ item.title }` }
+													key={ item.id }
 													index={ index }
 													level={ item.level }
 													title={ item.title }
