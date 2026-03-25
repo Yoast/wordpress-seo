@@ -33,11 +33,12 @@ const WebinarPromoNotification = ( {
 		>
 			{ safeCreateInterpolateElement(
 				sprintf(
-					/* translators: 1: bold open tag; 2: "FREE"; 3: bold close tag. */
-					__( "Access our %1$s%2$s%3$s webinars and podcasts to get started with Yoast SEO and build the foundational skills and confidence needed for sustainable success.", "wordpress-seo" ),
+					/* translators: 1: bold open tag; 2: "FREE"; 3: bold close tag; 4: "Yoast SEO". */
+					__( "Access our %1$s%2$s%3$s webinars and podcasts to get started with %4$s and build the foundational skills and confidence needed for sustainable success.", "wordpress-seo" ),
 					"<strong>",
 					"FREE",
-					"</strong>"
+					"</strong>",
+					"Yoast SEO"
 				), {
 					strong: <strong />,
 				}
