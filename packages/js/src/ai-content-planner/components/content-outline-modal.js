@@ -38,7 +38,7 @@ const IntentCallout = ( { intent, description } ) => {
 	const Icon = badge ? badge.Icon : BookOpenIcon;
 
 	return (
-		<div className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2">
+		<div role="note" className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2">
 			<div className="yst-flex yst-items-center yst-gap-2">
 				{ badge ? (
 					<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-text-xs", badge.classes ) }>
@@ -93,12 +93,30 @@ const FormField = ( { label, value, multiline = false } ) => (
  *
  * @returns {JSX.Element} The StructureRow component.
  */
-const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd } ) => {
+const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
 	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
 	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
 	const handleDrop = useCallback( ( e ) => onDrop( e, index ), [ onDrop, index ] );
+	const handleKeyDown = useCallback( ( e ) => {
+		if ( ! e.altKey ) {
+			return;
+		}
+		if ( e.key === "ArrowUp" && index > 0 ) {
+			e.preventDefault();
+			onMoveUp( index );
+		}
+		if ( e.key === "ArrowDown" && index < totalItems - 1 ) {
+			e.preventDefault();
+			onMoveDown( index );
+		}
+	}, [ index, totalItems, onMoveUp, onMoveDown ] );
 
 	return ( <div
+		role="option"
+		aria-selected="false"
+		aria-label={ `${ level } ${ title }` }
+		aria-roledescription={ __( "Draggable section", "wordpress-seo" ) }
+		tabIndex="0"
 		className={ classNames(
 			"yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-cursor-grab yst-select-none yst-transition-all",
 			dragOverIndex === index && "yst-border-primary-500 yst-border-2"
@@ -108,6 +126,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 		onDragOver={ handleDragOver }
 		onDrop={ handleDrop }
 		onDragEnd={ onDragEnd }
+		onKeyDown={ handleKeyDown }
 	>
 		{ /* Drag handle icon (6-dot grip) */ }
 		<svg className="yst-w-2.5 yst-h-4 yst-text-slate-400 yst-shrink-0" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true">
@@ -222,7 +241,8 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 		setStructure( ( prev ) => {
 			const updated = [ ...prev ];
 			const [ moved ] = updated.splice( dragIndex, 1 );
-			updated.splice( dropIndex, 0, moved );
+			const destinationIndex = dragIndex < dropIndex ? dropIndex - 1 : dropIndex;
+			updated.splice( destinationIndex, 0, moved );
 			return updated;
 		} );
 		setDragOverIndex( null );
@@ -232,6 +252,24 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 	const handleDragEnd = useCallback( () => {
 		setDragOverIndex( null );
 		dragIndexRef.current = null;
+	}, [] );
+
+	const handleMoveUp = useCallback( ( index ) => {
+		setStructure( ( prev ) => {
+			const updated = [ ...prev ];
+			const [ moved ] = updated.splice( index, 1 );
+			updated.splice( index - 1, 0, moved );
+			return updated;
+		} );
+	}, [] );
+
+	const handleMoveDown = useCallback( ( index ) => {
+		setStructure( ( prev ) => {
+			const updated = [ ...prev ];
+			const [ moved ] = updated.splice( index, 1 );
+			updated.splice( index + 1, 0, moved );
+			return updated;
+		} );
 	}, [] );
 
 	return (
@@ -254,7 +292,7 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 							/>
 						) }
 					</Modal.Container.Header>
-					<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative">
+					<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
 						<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-6">
 							<IntentCallout
 								intent={ suggestion.intent }
@@ -328,19 +366,24 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 												{ __( "Drag to reorder", "wordpress-seo" ) }
 											</span>
 										</div>
-										{ structure.map( ( item, index ) => (
-											<StructureRow
-												key={ `${ item.level }-${ item.title }` }
-												index={ index }
-												level={ item.level }
-												title={ item.title }
-												dragOverIndex={ dragOverIndex }
-												onDragStart={ handleDragStart }
-												onDragOver={ handleDragOver }
-												onDrop={ handleDrop }
-												onDragEnd={ handleDragEnd }
-											/>
-										) ) }
+										<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) }>
+											{ structure.map( ( item, index ) => (
+												<StructureRow
+													key={ `${ index }-${ item.level }-${ item.title }` }
+													index={ index }
+													level={ item.level }
+													title={ item.title }
+													dragOverIndex={ dragOverIndex }
+													onDragStart={ handleDragStart }
+													onDragOver={ handleDragOver }
+													onDrop={ handleDrop }
+													onDragEnd={ handleDragEnd }
+													onMoveUp={ handleMoveUp }
+													onMoveDown={ handleMoveDown }
+													totalItems={ structure.length }
+												/>
+											) ) }
+										</div>
 									</div>
 								</>
 							) }
