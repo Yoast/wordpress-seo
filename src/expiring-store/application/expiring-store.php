@@ -127,6 +127,50 @@ class Expiring_Store {
 	}
 
 	/**
+	 * Persists a value scoped to the current blog, only if the key does not already exist.
+	 *
+	 * @param string                                                          $key            The key.
+	 * @param scalar|array<string|int|float|bool|array|null>|JsonSerializable $value          The value to store.
+	 * @param int                                                             $ttl_in_seconds The time-to-live in seconds.
+	 *
+	 * @return bool True if the value was inserted, false if the key already exists.
+	 * @throws InvalidArgumentException When the value is not JSON-encodable.
+	 */
+	public function persist_if_absent( string $key, $value, int $ttl_in_seconds ): bool {
+		return $this->do_persist_if_absent( $this->prefix_for_blog( $key ), $value, $ttl_in_seconds );
+	}
+
+	/**
+	 * Persists a value scoped to a user, only if the key does not already exist.
+	 *
+	 * @param string                                                          $key            The key.
+	 * @param scalar|array<string|int|float|bool|array|null>|JsonSerializable $value          The value to store.
+	 * @param int                                                             $ttl_in_seconds The time-to-live in seconds.
+	 * @param int                                                             $user_id        The user ID. Defaults to the current user.
+	 *
+	 * @return bool True if the value was inserted, false if the key already exists.
+	 * @throws InvalidArgumentException  When the value is not JSON-encodable.
+	 * @throws No_Current_User_Exception When no user ID is given and no user is logged in.
+	 */
+	public function persist_if_absent_for_user( string $key, $value, int $ttl_in_seconds, int $user_id = 0 ): bool {
+		return $this->do_persist_if_absent( $this->prefix_for_user( $key, $user_id ), $value, $ttl_in_seconds );
+	}
+
+	/**
+	 * Persists a value shared across the entire multisite network, only if the key does not already exist.
+	 *
+	 * @param string                                                          $key            The key.
+	 * @param scalar|array<string|int|float|bool|array|null>|JsonSerializable $value          The value to store.
+	 * @param int                                                             $ttl_in_seconds The time-to-live in seconds.
+	 *
+	 * @return bool True if the value was inserted, false if the key already exists.
+	 * @throws InvalidArgumentException When the value is not JSON-encodable.
+	 */
+	public function persist_if_absent_for_multisite( string $key, $value, int $ttl_in_seconds ): bool {
+		return $this->do_persist_if_absent( $key, $value, $ttl_in_seconds );
+	}
+
+	/**
 	 * Gets a value scoped to the current blog.
 	 *
 	 * @param string $key The key.
@@ -264,6 +308,24 @@ class Expiring_Store {
 	}
 
 	/**
+	 * Persists a value only if the prefixed key does not already exist.
+	 *
+	 * @param string                                                                         $prefixed_key   The prefixed key.
+	 * @param string|int|float|bool|array<string|int|float|bool|array|null>|JsonSerializable $value          The value to store.
+	 * @param int                                                                            $ttl_in_seconds The time-to-live in seconds.
+	 *
+	 * @return bool True if the value was inserted, false if the key already exists.
+	 * @throws InvalidArgumentException When the value is not JSON-encodable.
+	 */
+	private function do_persist_if_absent( string $prefixed_key, $value, int $ttl_in_seconds ): bool {
+		$json = $this->json_encode_value( $value );
+		$now  = $this->date_helper->current_time();
+		$exp  = \gmdate( 'Y-m-d H:i:s', ( $now + $ttl_in_seconds ) );
+
+		return $this->repository->insert_if_absent( $prefixed_key, $json, $exp, \gmdate( 'Y-m-d H:i:s', $now ) );
+	}
+
+	/**
 	 * Gets and decodes a value by prefixed key.
 	 *
 	 * @param string $prefixed_key The prefixed key.
@@ -276,6 +338,7 @@ class Expiring_Store {
 		$json = $this->repository->find( $prefixed_key, $this->current_datetime() );
 
 		if ( $json === null ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Key_Not_Found_Exception( "Key '{$prefixed_key}' not found or expired." );
 		}
 

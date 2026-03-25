@@ -30,6 +30,18 @@ interface Expiring_Store_Repository_Interface {
 	public function find( string $key, string $current_datetime ): ?string;
 
 	/**
+	 * Inserts a value only if the key does not already exist or has expired.
+	 *
+	 * @param string $key                 The key to store.
+	 * @param string $json_value          The JSON-encoded value.
+	 * @param string $expiration_datetime The expiration datetime in 'Y-m-d H:i:s' format.
+	 * @param string $current_datetime    The current datetime in 'Y-m-d H:i:s' format.
+	 *
+	 * @return bool True if the value was inserted or an expired row was replaced, false if the key already exists and is not expired.
+	 */
+	public function insert_if_absent( string $key, string $json_value, string $expiration_datetime, string $current_datetime ): bool;
+
+	/**
 	 * Deletes a value by key.
 	 *
 	 * @param string $key The key to delete.

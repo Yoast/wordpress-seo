@@ -36,6 +36,53 @@ class Expiring_Store_Repository implements Expiring_Store_Repository_Interface {
 	}
 
 	/**
+	 * Inserts a value only if the key does not already exist or has expired.
+	 *
+	 * First removes any expired row for this key, then attempts an INSERT IGNORE.
+	 * The primary key constraint ensures that only one concurrent caller can win the insert.
+	 * Both queries use standard SQL compatible with MySQL and SQLite (via the WP SQLite plugin).
+	 *
+	 * @param string $key                 The key to store.
+	 * @param string $json_value          The JSON-encoded value.
+	 * @param string $expiration_datetime The expiration datetime in 'Y-m-d H:i:s' format.
+	 * @param string $current_datetime    The current datetime in 'Y-m-d H:i:s' format.
+	 *
+	 * @return bool True if the value was inserted, false if the key already exists and is not expired.
+	 */
+	public function insert_if_absent( string $key, string $json_value, string $expiration_datetime, string $current_datetime ): bool {
+		global $wpdb;
+
+		$table = $this->get_table_name();
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table with no caching layer.
+
+		// Remove the row only if it has expired. Non-expired rows are left untouched.
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM %i WHERE `key_name` = %s AND `exp` <= %s',
+				$table,
+				$key,
+				$current_datetime,
+			),
+		);
+
+		// Attempt to insert. INSERT IGNORE silently skips on duplicate key without triggering wpdb errors.
+		$wpdb->query(
+			$wpdb->prepare(
+				'INSERT IGNORE INTO %i (`key_name`, `value`, `exp`) VALUES (%s, %s, %s)',
+				$table,
+				$key,
+				$json_value,
+				$expiration_datetime,
+			),
+		);
+
+		// phpcs:enable
+
+		return $wpdb->rows_affected === 1;
+	}
+
+	/**
 	 * Finds a non-expired value by key.
 	 *
 	 * @param string $key              The key to find.
