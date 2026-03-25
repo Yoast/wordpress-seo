@@ -1,4 +1,4 @@
-import { Badge, Button, Modal, Title, SkeletonLoader, Toggle } from "@yoast/ui-library";
+import { Badge, Button, Modal, SkeletonLoader, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
@@ -36,13 +36,14 @@ const intentBadge = {
 const IntentCallout = ( { intent, description } ) => {
 	const badge = intentBadge[ intent ];
 	const Icon = badge ? badge.Icon : BookOpenIcon;
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<div role="note" className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2">
 			<div className="yst-flex yst-items-center yst-gap-2">
 				{ badge ? (
 					<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-text-xs", badge.classes ) }>
-						<Icon className={ classNames( "yst-w-3", badge.classes ) } /> { badge.label }
+						<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
 					</Badge>
 				) : (
 					<Badge>{ intent }</Badge>
@@ -94,6 +95,7 @@ const FormField = ( { label, value, multiline = false } ) => (
  * @returns {JSX.Element} The StructureRow component.
  */
 const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
+	const svgAriaProps = useSvgAria();
 	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
 	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
 	const handleDrop = useCallback( ( e ) => onDrop( e, index ), [ onDrop, index ] );
@@ -129,7 +131,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 		onKeyDown={ handleKeyDown }
 	>
 		{ /* Drag handle icon (6-dot grip) */ }
-		<svg className="yst-w-2.5 yst-h-4 yst-text-slate-400 yst-shrink-0" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true">
+		<svg className="yst-w-2.5 yst-h-4 yst-text-slate-400 yst-shrink-0" viewBox="0 0 10 16" fill="currentColor" { ...svgAriaProps }>
 			<circle cx="2" cy="2" r="1.5" />
 			<circle cx="8" cy="2" r="1.5" />
 			<circle cx="2" cy="8" r="1.5" />
@@ -277,11 +279,11 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 			isOpen={ isOpen }
 			onClose={ onClose }
 		>
-			<Modal.Panel className="yst-p-0 yst-max-w-2xl">
+			<Modal.Panel className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content outline", "wordpress-seo" ) }>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 						<YoastIcon className="yst-fill-primary-500 yst-w-4" />
-						<Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Title>
+						<Modal.Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
 						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 						{ sparksLimit && (
 							<UsageCounter
@@ -299,9 +301,9 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 								description={ suggestion.description }
 							/>
 
-							<p className="yst-text-sm yst-text-slate-600">
+							<Modal.Description className="yst-text-sm yst-text-slate-600">
 								{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
-							</p>
+							</Modal.Description>
 
 							<hr className="yst-border-slate-200" />
 
