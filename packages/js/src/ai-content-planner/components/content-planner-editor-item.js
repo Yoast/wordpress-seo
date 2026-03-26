@@ -3,7 +3,7 @@ import { Button, Root, useToggleState } from "@yoast/ui-library";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
-import { noop } from "lodash";
+import { ReplaceContentModal } from "./replace-content-modal";
 import { useCallback, useState } from "@wordpress/element";
 
 /**
@@ -20,6 +20,7 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 	const [ isApproveModalOpen, , , openApproveModal, closeApproveModal ] = useToggleState( false );
 	const [ isContentSuggestionModalOpen, , , openContentSuggestionModal, closeContentSuggestionModal ] = useToggleState( false );
 	const [ isContentOutlineModalOpen, , , openContentOutlineModal, closeContentOutlineModal ] = useToggleState( false );
+	const [ isReplaceContentModalOpen, , , openReplaceContentModal, closeReplaceContentModal ] = useToggleState( false );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
@@ -32,6 +33,16 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 		closeContentOutlineModal();
 		setTimeout( openContentSuggestionModal, 200 );
 	}, [ closeContentOutlineModal, openContentSuggestionModal ] );
+
+	const handleAddOutline = useCallback( () => {
+		openReplaceContentModal();
+	}, [ openReplaceContentModal ] );
+
+	const handleReplaceContent = useCallback( () => {
+		closeReplaceContentModal();
+		closeContentOutlineModal();
+		// Will be addressed in future iterations — actual content replacement logic.
+	}, [ closeReplaceContentModal, closeContentOutlineModal ] );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openApproveModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
@@ -57,7 +68,7 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 			isOpen={ isContentOutlineModalOpen }
 			onClose={ closeContentOutlineModal }
 			onBack={ handleBackToSuggestions }
-			onAddOutline={ noop }
+			onAddOutline={ handleAddOutline }
 			sparksLimit={ 10 }
 			sparksUsage={ 1 }
 			category="WordPress"
@@ -77,6 +88,11 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 					{ level: "FAQ", title: "FAQ" },
 				],
 			} }
+		/>
+		<ReplaceContentModal
+			isOpen={ isReplaceContentModalOpen }
+			onClose={ closeReplaceContentModal }
+			onConfirm={ handleReplaceContent }
 		/>
 	</div>
 	</Root>;
