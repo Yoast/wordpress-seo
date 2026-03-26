@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
+import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fields";
 
 export const BANNER_NAME = "banner";
 
@@ -7,16 +8,14 @@ const slice = createSlice( {
 	name: BANNER_NAME,
 	initialState: {
 		isBannerDismissed: false,
-		shouldShowBanner: false,
+		isBannerRendered: false,
 	},
 	reducers: {
-		// This should be persisted in post meta, will be addressed in future iterations.
-		dismissBanner: ( state ) => {
-			state.isBannerDismissed = true;
+		setBannerRendered: ( state ) => {
+			state.isBannerRendered = true;
 		},
-		// This should be persisted in post meta, will be addressed in future iterations.
-		showBanner: ( state ) => {
-			state.shouldShowBanner = true;
+		setBannerDismissed: ( state ) => {
+			state.isBannerDismissed = true;
 		},
 	},
 } );
@@ -25,11 +24,18 @@ export const getInitialBannerState = slice.getInitialState;
 
 export const bannerSelectors = {
 	getIsBannerDismissed: ( state ) => get( state, [ BANNER_NAME, "isBannerDismissed" ], slice.getInitialState().isBannerDismissed ),
-	getShouldShowBanner: ( state ) => get( state, [ BANNER_NAME, "shouldShowBanner" ], slice.getInitialState().shouldShowBanner ),
+	getIsBannerRendered: ( state ) => get( state, [ BANNER_NAME, "isBannerRendered" ], slice.getInitialState().isBannerRendered ),
 };
 
 export const bannerActions = {
-	...slice.actions,
+	setBannerRendered: () => {
+		setBannerRenderedInput();
+		return slice.actions.setBannerRendered();
+	},
+	setBannerDismissed: () => {
+		setBannerDismissedInput();
+		return slice.actions.setBannerDismissed();
+	},
 };
 
 export const bannerReducer = slice.reducer;
