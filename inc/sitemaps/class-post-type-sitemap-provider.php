@@ -231,7 +231,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			unset( $post, $url );
 		}
 
-		return $links;
+		return apply_filters( 'wpseo_sitemap_links', $links );
 	}
 
 	/**
