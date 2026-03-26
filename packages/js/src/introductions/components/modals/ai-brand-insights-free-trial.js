@@ -31,7 +31,7 @@ const AiBrandInsightsFreeTrialContent = ( {
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
 						<span className="yst-ai-insights-icon" { ...svgAriaProps } />
-						{ "Yoast AI Brand Insights" }
+						{ __( "Yoast AI Brand Insights", "wordpress-seo" ) }
 					</span>
 				</div>
 			</div>
@@ -64,6 +64,7 @@ const AiBrandInsightsFreeTrialContent = ( {
 						variant="ai-primary"
 						href={ buttonLink }
 						target="_blank"
+						rel="noopener noreferrer"
 						ref={ initialFocus }
 					>
 						{ __( "Start your free trial", "wordpress-seo" ) }
