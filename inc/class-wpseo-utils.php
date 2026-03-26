@@ -183,6 +183,15 @@ class WPSEO_Utils {
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 
+		// Encode non-ASCII bytes before parsing to prevent wp_parse_url() from corrupting multibyte characters.
+		$value = preg_replace_callback(
+			'/[\x80-\xff]/',
+			static function ( $matches ) {
+				return rawurlencode( $matches[0] );
+			},
+			$value,
+		);
+
 		$url   = '';
 		$parts = wp_parse_url( $value );
 
