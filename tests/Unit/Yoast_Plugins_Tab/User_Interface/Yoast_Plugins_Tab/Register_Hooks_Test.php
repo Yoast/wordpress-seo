@@ -35,13 +35,33 @@ final class Register_Hooks_Test extends Abstract_Yoast_Plugins_Tab_Integration_T
 	}
 
 	/**
+	 * Tests that hooks are registered on WP 7.0 beta.
+	 *
+	 * @return void
+	 */
+	public function test_register_hooks_on_wp_70_beta() {
+		global $wp_version;
+		$wp_version = '7.0-beta6';
+
+		Monkey\Filters\expectAdded( 'plugins_list' )
+			->once()
+			->with( [ $this->handler, 'filter_plugins_list' ] );
+
+		Monkey\Filters\expectAdded( 'plugins_list_status_text' )
+			->once()
+			->with( [ $this->handler, 'get_status_text' ], 10, 3 );
+
+		$this->instance->register_hooks();
+	}
+
+	/**
 	 * Tests that hooks are not registered on WP below 7.0.
 	 *
 	 * @return void
 	 */
 	public function test_register_hooks_on_wp_below_70() {
 		global $wp_version;
-		$wp_version = '6.9';
+		$wp_version = '6.9.1';
 
 		Monkey\Filters\expectAdded( 'plugins_list' )
 			->never();

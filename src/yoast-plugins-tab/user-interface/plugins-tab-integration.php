@@ -49,7 +49,7 @@ class Yoast_Plugins_Tab_Integration implements Integration_Interface {
 	public function register_hooks(): void {
 		global $wp_version;
 
-		if ( \version_compare( $wp_version, '7.0', '<' ) ) {
+		if ( \version_compare( $wp_version, '7.0-alpha0', '<' ) ) {
 			return;
 		}
 
