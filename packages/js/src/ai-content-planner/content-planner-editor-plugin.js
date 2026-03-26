@@ -15,7 +15,7 @@ export const ContentPlannerEditorPlugin = () => {
 	const hasInsertedParagraph = useRef( false );
 
 	const { isBannerDismissed, blocks } = useSelect( select => ( {
-		isBannerDismissed: select( STORE_NAME )?.getIsBannerDismissed?.() ?? false,
+		isBannerDismissed: select( STORE_NAME ).getIsBannerDismissed(),
 		blocks: select( "core/block-editor" ).getBlocks(),
 	} ), [] );
 
