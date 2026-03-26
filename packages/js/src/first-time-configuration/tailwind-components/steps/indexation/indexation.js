@@ -266,19 +266,6 @@ class Indexation extends Component {
 	}
 
 	/**
-	 * Renders a notice if it is the first time the indexation is performed.
-	 *
-	 * @returns {JSX.Element} The rendered component.
-	 */
-	renderFirstIndexationNotice() {
-		return (
-			<Alert type={ "info" } className="yst-mt-6">
-				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
-			</Alert>
-		);
-	}
-
-	/**
 	 * Renders the start button.
 	 *
 	 * @returns {JSX.Element|null} The start button.
@@ -416,7 +403,6 @@ class Indexation extends Component {
 						: this.renderStartButton()
 					}
 					{ this.renderCaption() }
-					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 				</Transition>
 			</div>
 		);
