@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ContentOutlineModal } from "../../../src/ai-content-planner/components/content-outline-modal";
 
 const mockUsageCounter = jest.fn( () => null );
@@ -28,7 +28,6 @@ const renderModal = ( props ) => render(
 	<ContentOutlineModal
 		isOpen={ true }
 		onClose={ jest.fn() }
-		isLoading={ false }
 		onBack={ jest.fn() }
 		onAddOutline={ jest.fn() }
 		suggestion={ defaultSuggestion }
@@ -36,9 +35,28 @@ const renderModal = ( props ) => render(
 	/>
 );
 
+/**
+ * Renders the modal and advances timers so the loading simulation completes.
+ *
+ * @param {Object} props Optional props to override defaults.
+ * @returns {Object} The render result.
+ */
+const renderLoadedModal = ( props ) => {
+	const result = renderModal( props );
+	act( () => {
+		jest.advanceTimersByTime( 5000 );
+	} );
+	return result;
+};
+
 describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
+		jest.useFakeTimers();
+	} );
+
+	afterEach( () => {
+		jest.useRealTimers();
 	} );
 
 	describe( "visibility", () => {
@@ -102,7 +120,10 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "does not show the structure section when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.queryByRole( "listbox" ) ).not.toBeInTheDocument();
 		} );
 
@@ -111,13 +132,13 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.getByRole( "note" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders the structure list as a listbox", () => {
-			renderModal();
+		it( "renders the structure list as a listbox after loading", () => {
+			renderLoadedModal();
 			expect( screen.getByRole( "listbox", { name: "Blog post structure" } ) ).toBeInTheDocument();
 		} );
 
 		it( "renders structure rows as options with accessible labels", () => {
-			renderModal();
+			renderLoadedModal();
 			expect( screen.getByRole( "option", { name: "H2 Introduction" } ) ).toBeInTheDocument();
 			expect( screen.getByRole( "option", { name: "H2 Conclusion" } ) ).toBeInTheDocument();
 		} );
@@ -156,28 +177,28 @@ describe( "ContentOutlineModal", () => {
 	} );
 
 	describe( "content state", () => {
-		it( "shows the form field labels", () => {
-			renderModal();
+		it( "shows the form field labels after loading", () => {
+			renderLoadedModal();
 			expect( screen.getByText( "Focus Keyphrase" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Title" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Meta description" ) ).toBeInTheDocument();
 		} );
 
-		it( "shows the form field values", () => {
-			renderModal();
+		it( "shows the form field values after loading", () => {
+			renderLoadedModal();
 			expect( screen.getByText( defaultSuggestion.focusKeyphrase ) ).toBeInTheDocument();
 			expect( screen.getByText( defaultSuggestion.title ) ).toBeInTheDocument();
 			expect( screen.getByText( defaultSuggestion.metaDescription ) ).toBeInTheDocument();
 		} );
 
-		it( "shows the blog post structure section", () => {
-			renderModal();
+		it( "shows the blog post structure section after loading", () => {
+			renderLoadedModal();
 			expect( screen.getByText( "Blog post structure" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Drag to reorder" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders all structure rows", () => {
-			renderModal();
+		it( "renders all structure rows after loading", () => {
+			renderLoadedModal();
 			expect( screen.getByText( "Introduction" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Why This Matters" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Step-by-Step Guide" ) ).toBeInTheDocument();
@@ -187,37 +208,55 @@ describe( "ContentOutlineModal", () => {
 
 	describe( "loading state", () => {
 		it( "shows the form field labels when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.getByText( "Focus Keyphrase" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Title" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Meta description" ) ).toBeInTheDocument();
 		} );
 
 		it( "does not show the form field values when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.queryByText( defaultSuggestion.focusKeyphrase ) ).not.toBeInTheDocument();
 			expect( screen.queryByText( defaultSuggestion.metaDescription ) ).not.toBeInTheDocument();
 		} );
 
 		it( "does not show the blog post structure section when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.queryByText( "Blog post structure" ) ).not.toBeInTheDocument();
 			expect( screen.queryByText( "Drag to reorder" ) ).not.toBeInTheDocument();
 		} );
 
 		it( "still shows the intent callout when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.getByText( "Why this content?" ) ).toBeInTheDocument();
 			expect( screen.getByText( defaultSuggestion.description ) ).toBeInTheDocument();
 		} );
 
 		it( "still shows the instruction text when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.getByText( "Review and customize your content outline before adding it to your post" ) ).toBeInTheDocument();
 		} );
 
 		it( "shows the footer buttons when loading", () => {
-			renderModal( { isLoading: true } );
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.getByRole( "button", { name: /Content suggestions/i } ) ).toBeInTheDocument();
 			expect( screen.getByRole( "button", { name: /Add outline to post/i } ) ).toBeInTheDocument();
 		} );
@@ -228,7 +267,6 @@ describe( "ContentOutlineModal", () => {
 			renderModal( { category: "WordPress" } );
 			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeInTheDocument();
 			expect( screen.getByText( "Adds post to an existing category, when applicable." ) ).toBeInTheDocument();
-			expect( screen.getByText( "WordPress" ) ).toBeInTheDocument();
 		} );
 
 		it( "does not show the suggest category section when category is not provided", () => {
@@ -237,14 +275,17 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "hides the category badge when the toggle is turned off", () => {
-			renderModal( { category: "WordPress" } );
+			renderLoadedModal( { category: "WordPress" } );
 			expect( screen.getByText( "WordPress" ) ).toBeInTheDocument();
 			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
 			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
 
 		it( "does not show the category badge value when loading", () => {
-			renderModal( { category: "WordPress", isLoading: true } );
+			renderModal( { category: "WordPress" } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
 	} );
@@ -267,9 +308,8 @@ describe( "ContentOutlineModal", () => {
 
 	describe( "keyboard reordering", () => {
 		it( "moves a row up with Alt+ArrowUp", () => {
-			renderModal();
+			renderLoadedModal();
 			const options = screen.getAllByRole( "option" );
-			// "Why This Matters" is at index 1
 			fireEvent.keyDown( options[ 1 ], { key: "ArrowUp", altKey: true } );
 			const updatedOptions = screen.getAllByRole( "option" );
 			expect( updatedOptions[ 0 ] ).toHaveAttribute( "aria-label", "H2 Why This Matters" );
@@ -277,9 +317,8 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "moves a row down with Alt+ArrowDown", () => {
-			renderModal();
+			renderLoadedModal();
 			const options = screen.getAllByRole( "option" );
-			// "Introduction" is at index 0
 			fireEvent.keyDown( options[ 0 ], { key: "ArrowDown", altKey: true } );
 			const updatedOptions = screen.getAllByRole( "option" );
 			expect( updatedOptions[ 0 ] ).toHaveAttribute( "aria-label", "H2 Why This Matters" );
@@ -287,7 +326,7 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "does not move the first row up", () => {
-			renderModal();
+			renderLoadedModal();
 			const options = screen.getAllByRole( "option" );
 			fireEvent.keyDown( options[ 0 ], { key: "ArrowUp", altKey: true } );
 			const updatedOptions = screen.getAllByRole( "option" );
@@ -295,7 +334,7 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "does not move the last row down", () => {
-			renderModal();
+			renderLoadedModal();
 			const options = screen.getAllByRole( "option" );
 			fireEvent.keyDown( options[ 3 ], { key: "ArrowDown", altKey: true } );
 			const updatedOptions = screen.getAllByRole( "option" );
@@ -303,7 +342,7 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "does not move without the Alt key", () => {
-			renderModal();
+			renderLoadedModal();
 			const options = screen.getAllByRole( "option" );
 			fireEvent.keyDown( options[ 1 ], { key: "ArrowUp", altKey: false } );
 			const updatedOptions = screen.getAllByRole( "option" );

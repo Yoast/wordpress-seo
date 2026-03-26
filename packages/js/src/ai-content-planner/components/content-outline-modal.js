@@ -1,4 +1,5 @@
 import { Badge, Button, Modal, SkeletonLoader, Toggle, useSvgAria } from "@yoast/ui-library";
+import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
@@ -197,7 +198,6 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  *
  * @param {boolean}            isOpen      Whether the modal is open or not.
  * @param {Function}           onClose     The function to call when the modal should be closed.
- * @param {boolean}            isLoading   Whether the content outline is being generated.
  * @param {Function}           onBack      The function to call to go back to content suggestions.
  * @param {Function}           onAddOutline The function to call to add the outline to the post.
  * @param {OutlineSuggestion}  suggestion  The content outline suggestion to display.
@@ -215,12 +215,35 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  */
 const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
 
-export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
+export const ContentOutlineModal = ( { isOpen, onClose, onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
+	const svgAriaProps = useSvgAria();
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
+	const [ status, setStatus ] = useState( "idle" );
 	const [ structure, setStructure ] = useState( () => withIds( suggestion.structure ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );
+	const isLoading = status === "loading" || status === "idle";
+
+	// Simulate loading state when the outline modal is opened.
+	useEffect( () => {
+		if ( isOpen ) {
+			const loadingTimer = setTimeout( () => {
+				setStatus( "loading" );
+			}, 100 );
+
+			const timer = setTimeout( () => {
+				setStatus( "success" );
+			}, 3000 );
+			return () => {
+				clearTimeout( loadingTimer );
+				clearTimeout( timer );
+			};
+		}
+		return () => {
+			setStatus( "idle" );
+		};
+	}, [ isOpen ] );
 
 	useEffect( () => {
 		setStructure( withIds( suggestion.structure ) );
@@ -290,7 +313,7 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 			<Modal.Panel className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content outline", "wordpress-seo" ) }>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-						<YoastIcon className="yst-fill-primary-500 yst-w-4" />
+						<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
 						<Modal.Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
 						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 						{ sparksLimit && (
@@ -341,14 +364,31 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 								</div>
 							) }
 
-							{ isLoading ? (
+							<Transition
+								show={ isLoading }
+								enter="yst-transition-all yst-duration-300 yst-ease-out"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-all yst-duration-200 yst-ease-in"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
 								<div className="yst-flex yst-flex-col yst-gap-4">
 									<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
 									<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
 									<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 								</div>
-							) : (
-								<>
+							</Transition>
+							<Transition
+								show={ ! isLoading }
+								enter="yst-transition-all yst-duration-300 yst-ease-out"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-all yst-duration-200 yst-ease-in"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div className="yst-flex yst-flex-col yst-gap-6">
 									<div className="yst-flex yst-flex-col yst-gap-4">
 										<FormField
 											label={ __( "Focus Keyphrase", "wordpress-seo" ) }
@@ -367,36 +407,34 @@ export const ContentOutlineModal = ( { isOpen, onClose, isLoading, onBack, onAdd
 
 									<hr className="yst-border-slate-200" />
 
-									<div className="yst-flex yst-flex-col yst-gap-2">
-										<div className="yst-flex yst-items-end yst-justify-between">
-											<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-												{ __( "Blog post structure", "wordpress-seo" ) }
-											</span>
-											<span className="yst-text-xs yst-text-slate-500">
-												{ __( "Drag to reorder", "wordpress-seo" ) }
-											</span>
-										</div>
-										<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) }>
-											{ structure.map( ( item, index ) => (
-												<StructureRow
-													key={ item.id }
-													index={ index }
-													level={ item.level }
-													title={ item.title }
-													dragOverIndex={ dragOverIndex }
-													onDragStart={ handleDragStart }
-													onDragOver={ handleDragOver }
-													onDrop={ handleDrop }
-													onDragEnd={ handleDragEnd }
-													onMoveUp={ handleMoveUp }
-													onMoveDown={ handleMoveDown }
-													totalItems={ structure.length }
-												/>
-											) ) }
-										</div>
+									<div className="yst-flex yst-items-end yst-justify-between">
+										<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+											{ __( "Blog post structure", "wordpress-seo" ) }
+										</span>
+										<span className="yst-text-xs yst-text-slate-500">
+											{ __( "Drag to reorder", "wordpress-seo" ) }
+										</span>
 									</div>
-								</>
-							) }
+									<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
+										{ structure.map( ( item, index ) => (
+											<StructureRow
+												key={ item.id }
+												index={ index }
+												level={ item.level }
+												title={ item.title }
+												dragOverIndex={ dragOverIndex }
+												onDragStart={ handleDragStart }
+												onDragOver={ handleDragOver }
+												onDrop={ handleDrop }
+												onDragEnd={ handleDragEnd }
+												onMoveUp={ handleMoveUp }
+												onMoveDown={ handleMoveDown }
+												totalItems={ structure.length }
+											/>
+										) ) }
+									</div>
+								</div>
+							</Transition>
 						</div>
 						<div
 							className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"

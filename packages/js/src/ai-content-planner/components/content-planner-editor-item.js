@@ -3,7 +3,7 @@ import { Button, Root, useToggleState } from "@yoast/ui-library";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
-import { get, noop } from "lodash";
+import { noop } from "lodash";
 import { useCallback, useState } from "@wordpress/element";
 
 /**
@@ -21,9 +21,6 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 	const [ isContentSuggestionModalOpen, , , openContentSuggestionModal, closeContentSuggestionModal ] = useToggleState( false );
 	const [ isContentOutlineModalOpen, , , openContentOutlineModal, closeContentOutlineModal ] = useToggleState( false );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
-
-	// Used for testing only, will be addressed in future iterations.
-	const isOutlineLoading = get( window, "contentPlanner.isOutlineLoading", false );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setSelectedSuggestion( suggestion );
@@ -59,7 +56,6 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 		<ContentOutlineModal
 			isOpen={ isContentOutlineModalOpen }
 			onClose={ closeContentOutlineModal }
-			isLoading={ isOutlineLoading }
 			onBack={ handleBackToSuggestions }
 			onAddOutline={ noop }
 			sparksLimit={ 10 }
