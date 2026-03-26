@@ -25,6 +25,7 @@ import PrePublish from "../containers/PrePublish";
 import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
+import useCommandPaletteCommands from "../hooks/use-command-palette-commands";
 import { link } from "../inline-links/edit-link";
 
 /**
@@ -119,6 +120,19 @@ function registerFills( store ) {
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
+	/**
+	 * Registers Yoast SEO commands in the WordPress command palette.
+	 *
+	 * @returns {null} Renders nothing.
+	 */
+	const CommandPaletteCommands = () => {
+		useCommandPaletteCommands( {
+			isKeywordAnalysisActive: preferences.isKeywordAnalysisActive,
+			useOpenGraphData: preferences.useOpenGraphData,
+		} );
+		return null;
+	};
+
 	const blockSidebarContext = { locationContext: "block-sidebar" };
 	const blockMetaboxContext = { locationContext: "block-metabox" };
 
@@ -129,6 +143,7 @@ function registerFills( store ) {
 	 */
 	const EditorFills = () => (
 		<Fragment>
+			<CommandPaletteCommands />
 			<PluginSidebarMoreMenuItem
 				target="seo-sidebar"
 				icon={ <PluginIcon /> }
