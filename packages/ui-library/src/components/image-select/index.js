@@ -7,7 +7,7 @@ import { Button, Link, useSvgAria } from "../../index";
 
 /**
  * @param {JSX.node} children The children components.
- * @param {string} [className] Additional class names.
+ * @param {string} [className=""] Additional class names.
  * @param {string} label The label that is displayed above the selection button.
  * @param {string} imageUrl The URL of the selected image.
  * @param {string} selectButtonLabel The label for the select image button.

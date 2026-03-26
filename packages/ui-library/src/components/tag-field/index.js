@@ -10,7 +10,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {string} id The ID of the input.
  * @param {string} label The label.
  * @param {JSX.node} [labelSuffix] Extra elements after the label.
- * @param {string} [className] The HTML class.
+ * @param {string} [className=""] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
  * @param {Object} [validation] The validation state.

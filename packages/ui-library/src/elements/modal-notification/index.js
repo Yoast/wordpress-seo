@@ -62,7 +62,7 @@ Close.propTypes = {
 
 /**
  * @param {React.ReactNode} [message=null] The message.
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @returns {JSX.Element} The message.
  */
 const Message = ( {
@@ -87,7 +87,7 @@ Message.propTypes = {
 
 /**
  * @param {string} title The title.
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @param {string} [as="h2"] The HTML element to render the title as.
  * @returns {JSX.Element} The title.
  */
@@ -109,7 +109,7 @@ Title.propTypes = {
 
 /**
  * @param {React.ReactNode} children The panel content.
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @param {Object} ref The forwarded ref.
  * @returns {JSX.Element} The panel.
  */
@@ -134,7 +134,7 @@ Panel.propTypes = {
 /**
  * @param {Object} props The props object.
  * @param {React.ReactNode} [children=null] The children.
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @param {string} [position="bottom-left"] The position.
  * @param {boolean} isOpen Whether the modal notification is open.
  * @param {Function} onClose Function to call when the modal notification should close.

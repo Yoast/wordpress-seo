@@ -71,7 +71,7 @@ CloseButton.propTypes = {
 };
 
 /**
- * @param {string} [className] The additional class name.
+ * @param {string} [className=""] The additional class name.
  * @param {React.ReactNode} [children=null] The title content.
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The title.
