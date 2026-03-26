@@ -99,7 +99,7 @@ class WPSEO_Meta {
 	 *                                                     Currently only used by add-on plugins.
 	 */
 	public static $meta_fields = [
-		'general'  => [
+		'general'         => [
 			'focuskw' => [
 				'type'  => 'hidden',
 				'title' => '',
@@ -131,7 +131,7 @@ class WPSEO_Meta {
 				'default_value' => 'false',
 			],
 		],
-		'advanced' => [
+		'advanced'        => [
 			'meta-robots-noindex'  => [
 				'type'          => 'hidden',
 				'default_value' => '0', // = post-type default.
@@ -171,8 +171,8 @@ class WPSEO_Meta {
 				'default_value' => '',
 			],
 		],
-		'social'   => [],
-		'schema'   => [
+		'social'          => [],
+		'schema'          => [
 			'schema_page_type'    => [
 				'type'    => 'hidden',
 				'options' => Schema_Types::PAGE_TYPES,
@@ -184,9 +184,19 @@ class WPSEO_Meta {
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
-		'non_form' => [
+		'non_form'        => [
 			'linkdex' => [
 				'type'          => null,
+				'default_value' => '0',
+			],
+		],
+		'content_planner' => [
+			'is_content_planner_banner_rendered' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'is_content_planner_banner_dismissed' => [
+				'type'          => 'hidden',
 				'default_value' => '0',
 			],
 		],

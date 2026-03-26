@@ -1,19 +1,45 @@
-import { combineReducers, createReduxStore } from "@wordpress/data";
+import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { merge } from "lodash";
 import { BANNER_NAME, bannerActions, bannerReducer, bannerSelectors, getInitialBannerState } from "./banner";
+import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fields";
 
-export const STORE_NAME = "yoast-seo/post-planner";
+export const STORE_NAME = "yoast-seo/content-planner";
 
-export const store = createReduxStore( STORE_NAME, {
+const persistBannerMiddleware = () => ( next ) => ( action ) => {
+	if ( action.type === `${ BANNER_NAME }/setBannerRendered` ) {
+		setBannerRenderedInput();
+	} else if ( action.type === `${ BANNER_NAME }/setBannerDismissed` ) {
+		setBannerDismissedInput();
+	}
+	return next( action );
+};
+
+const createStore = ( initialState ) => createReduxStore( STORE_NAME, {
 	actions: {
 		...bannerActions,
 	},
 	selectors: {
 		...bannerSelectors,
 	},
-	initialState: {
-		[ BANNER_NAME ]: getInitialBannerState(),
-	},
+	initialState: merge(
+		{},
+		{ [ BANNER_NAME ]: getInitialBannerState() },
+		initialState
+	),
 	reducer: combineReducers( {
 		[ BANNER_NAME ]: bannerReducer,
 	} ),
+	middleware: ( getDefaultMiddleware ) => [
+		...getDefaultMiddleware(),
+		persistBannerMiddleware,
+	],
 } );
+
+/**
+ * Registers the store to WP data's default registry.
+ * @param {Object} [initialState] Initial state.
+ * @returns {void}
+ */
+export const registerStore = ( initialState = {} ) => {
+	register( createStore( initialState ) );
+};

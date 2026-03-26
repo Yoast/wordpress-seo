@@ -1,13 +1,24 @@
+
+
+import domReady from "@wordpress/dom-ready";
 import { createHigherOrderComponent } from "@wordpress/compose";
-import { register, useSelect, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef, Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
-import { store, STORE_NAME } from "./store";
+import { STORE_NAME, registerStore } from "./store";
 import InlineBanner from "./containers/inline-banner";
 import { ContentPlannerEditorPlugin } from "./content-planner-editor-plugin";
+import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
 
-register( store );
+domReady( () => {
+	registerStore( {
+		banner: {
+			isBannerDismissed: getIsBannerDismissedFromInput(),
+			isBannerRendered: getIsBannerRenderedFromInput(),
+		},
+	} );
+} );
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -22,29 +33,28 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
  * @param {Object}   props     The block props passed by Gutenberg.
  * @returns {JSX.Element} The block edit with the inline banner conditionally appended.
  */
-const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
+const ContentPlannerBannerContainer = ( { BlockEdit, props } ) => {
 	const ref = useRef( null );
 
-	const { isBannerDismissed, shouldShowBanner } = useSelect( select => ( {
-		isBannerDismissed: select( STORE_NAME )?.getIsBannerDismissed?.(),
-		shouldShowBanner: select( STORE_NAME )?.getShouldShowBanner?.(),
+	const { isBannerDismissed, isBannerRendered } = useSelect( select => ( {
+		isBannerDismissed: select( STORE_NAME ).getIsBannerDismissed(),
+		isBannerRendered: select( STORE_NAME ).getIsBannerRendered(),
 	} ), [] );
 
 	const isNewPost = useSelect( select => select( "core/editor" ).isEditedPostNew(), [] );
-
-	const { showBanner } = useDispatch( STORE_NAME );
+	const { setBannerRendered } = useDispatch( STORE_NAME );
 
 	const isFirstParagraph = useSelect( select => {
-		const blocks = select( "core/block-editor" )?.getBlocks?.() ?? [];
+		const blocks = select( "core/block-editor" ).getBlocks();
 		const firstParagraph = blocks.find( block => block.name === "core/paragraph" );
 		return firstParagraph?.clientId === props.clientId;
 	}, [ props.clientId ] );
 
 	useEffect( () => {
 		if ( isNewPost ) {
-			showBanner();
+			setBannerRendered();
 		}
-	}, [ isNewPost, showBanner ] );
+	}, [ isNewPost, setBannerRendered ] );
 
 	useEffect( () => {
 		// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
@@ -68,7 +78,7 @@ const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
 		<Fragment>
 			<span ref={ ref } style={ { display: "none" } } />
 			<BlockEdit { ...props } />
-			{ ! isBannerDismissed && isFirstParagraph && shouldShowBanner && <InlineBanner /> }
+			{ ! isBannerDismissed && isFirstParagraph && ( isNewPost || isBannerRendered ) && <InlineBanner /> }
 		</Fragment>
 	);
 };
@@ -79,7 +89,7 @@ const withContentPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
 		if ( props.name !== "core/paragraph" ) {
 			return <BlockEdit { ...props } />;
 		}
-		return <PostPlannerBannerContainer BlockEdit={ BlockEdit } props={ props } />;
+		return <ContentPlannerBannerContainer BlockEdit={ BlockEdit } props={ props } />;
 	};
 }, "withContentPlannerBanner" );
 

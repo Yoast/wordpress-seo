@@ -1,4 +1,4 @@
-import { GradientSparklesIcon } from "@yoast/ui-library";
+import { GradientSparklesIcon, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 
@@ -9,9 +9,12 @@ import classNames from "classnames";
  *
  * @returns {JSX.Element} The spark note component.
  */
-export const OneSparkNote = ( { className } ) => (
-	<span className={ classNames( "yst-text-sm yst-flex yst-items-center yst-gap-1 yst-justify-center yst-text-slate-500 yst-italic", className ) }>
-		<GradientSparklesIcon className="yst-h-3 yst-w-3" />
-		{ __( "Using 1 spark", "wordpress-seo" ) }
-	</span>
-);
+export const OneSparkNote = ( { className } ) => {
+	const ariaProps = useSvgAria();
+	return (
+		<span className={ classNames( "yst-text-sm yst-flex yst-items-center yst-gap-1 yst-justify-center yst-text-slate-500 yst-italic", className ) }>
+			<GradientSparklesIcon className="yst-h-3 yst-w-3" { ...ariaProps } />
+			{ __( "Using 1 spark", "wordpress-seo" ) }
+		</span>
+	);
+};
