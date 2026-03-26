@@ -229,7 +229,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				identifier: "ladiesAndGentleman",
 				text: "This sentence contains the phrase ladies and gentlemen followed by something else.",
 				expectedFeedback: "Be careful when using <i>ladies and gentlemen</i> as it can be exclusionary. " +
-					"Unless you are sure that the group you refer to only consists of men and women, " +
+					"Unless you are sure that the group you refer to only consists of ladies and gentlemen, " +
 					"use an alternative, such as <i>everyone, folks, honored guests</i>." +
 					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -238,7 +238,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				identifier: "mothersAndFathers",
 				text: "This sentence contains the phrase mothers and fathers followed by something else.",
 				expectedFeedback: "Be careful when using <i>mothers and fathers</i> as it can be exclusionary. " +
-					"Unless you are sure that the group you refer to only consists of people who use this term, " +
+					"Unless you are sure that the group you refer to only consists of mothers and fathers, " +
 					"use an alternative, such as <i>parents</i>." +
 					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -247,7 +247,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				identifier: "mothersAndFathers",
 				text: "This sentence contains the phrase fathers and mothers followed by something else.",
 				expectedFeedback: "Be careful when using <i>fathers and mothers</i> as it can be exclusionary. " +
-					"Unless you are sure that the group you refer to only consists of people who use this term, " +
+					"Unless you are sure that the group you refer to only consists of fathers and mothers, " +
 					"use an alternative, such as <i>parents</i>." +
 					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -261,7 +261,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				identifier: "firemen",
 				text: "Look at those firemen! They're putting out the fire.",
 				expectedFeedback: "Be careful when using <i>firemen</i> as it can be exclusionary. " +
-					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
+					"Unless you are sure that the group you refer to only consists of firemen, use an alternative, " +
 					"such as <i>firefighters</i>. " +
 					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -270,7 +270,7 @@ describe( "Tests for phrases that are exclusionary UNLESS there is a condition w
 				identifier: "policemen",
 				text: "Look at those policemen! They're doing something over there.",
 				expectedFeedback: "Be careful when using <i>policemen</i> as it can be exclusionary. " +
-					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
+					"Unless you are sure that the group you refer to only consists of policemen, use an alternative, " +
 					"such as <i>police officers</i>. " +
 					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
