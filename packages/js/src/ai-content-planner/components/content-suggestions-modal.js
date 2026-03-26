@@ -117,6 +117,7 @@ const LoadingModalContent = () => {
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
 export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
+	const svgAriaProps = useSvgAria();
 	const suggestions = [
 		{
 			intent: "informational",
@@ -182,7 +183,7 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
 			>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-						<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps }/>
+						<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
 						<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 						<Badge size="small"> { __( "Beta", "wordpress-seo" ) }</Badge>
 						<UsageCounter
