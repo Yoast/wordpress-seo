@@ -59,6 +59,7 @@ temp/
 .Trashes
 .env
 .svn
+.wp-env.override.json
 .tmp
 
 ############
