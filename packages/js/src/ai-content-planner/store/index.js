@@ -6,12 +6,13 @@ import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fiel
 export const STORE_NAME = "yoast-seo/content-planner";
 
 const persistBannerMiddleware = () => ( next ) => ( action ) => {
+	const result = next( action );
 	if ( action.type === `${ BANNER_NAME }/setBannerRendered` ) {
 		setBannerRenderedInput();
 	} else if ( action.type === `${ BANNER_NAME }/setBannerDismissed` ) {
 		setBannerDismissedInput();
 	}
-	return next( action );
+	return result;
 };
 
 const createStore = ( initialState ) => createReduxStore( STORE_NAME, {

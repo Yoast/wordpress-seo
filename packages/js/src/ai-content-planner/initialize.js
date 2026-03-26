@@ -1,5 +1,3 @@
-
-
 import domReady from "@wordpress/dom-ready";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";

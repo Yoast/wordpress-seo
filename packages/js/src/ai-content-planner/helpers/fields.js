@@ -12,7 +12,7 @@ const updateInput = ( id ) => {
 };
 
 /**
- * A Helper function to get the value of the hidden fields of the post meta.
+ * A helper function to get the value of the hidden fields of the post meta.
  *
  * @param {string} id The ID of the input element to get the value from.
  * @returns {string|undefined} The value of the input element.
@@ -30,6 +30,7 @@ export const getIsBannerDismissedFromInput = () => getInputValue( "yoast_wpseo_i
 
 /**
  * Helper function to get the value of whether the banner is rendered.
+ *
  * @returns {boolean} True if the banner is rendered, false otherwise.
  */
 export const getIsBannerRenderedFromInput = () => getInputValue( "yoast_wpseo_is_content_planner_banner_rendered" ) === "1";
