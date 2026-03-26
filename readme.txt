@@ -320,6 +320,7 @@ Release date: 2026-03-31
 
 #### Other
 
+* Sets the _WordPress tested up to_ version to 7.0.
 * Improves security of format_json_encode() by removing JSON_UNESCAPED_SLASHES, which could allow a user to control tags in the schema JSON-LD output. Props to @rob006.
 * Updates the completion message and changes the call-to-action button text of the First-time configuration.
 
