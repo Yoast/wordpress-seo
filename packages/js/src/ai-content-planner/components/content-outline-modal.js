@@ -6,6 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { BookOpenIcon, StarIcon, MapIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { get } from "lodash";
 import classNames from "classnames";
 
 const intentBadge = {
@@ -194,6 +195,39 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  */
 
 /**
+ * Hook that simulates loading state with timers.
+ * Set window.contentPlanner.isOutlineLoading = true to force loading state for testing.
+ *
+ * @param {boolean} isOpen Whether the modal is currently open.
+ * @returns {boolean} Whether the modal content is in a loading state.
+ */
+const useSimulatedLoading = ( isOpen ) => {
+	const [ status, setStatus ] = useState( "idle" );
+	const forceLoading = get( window, "contentPlanner.isOutlineLoading", false );
+
+	useEffect( () => {
+		if ( isOpen && ! forceLoading ) {
+			const loadingTimer = setTimeout( () => {
+				setStatus( "loading" );
+			}, 100 );
+
+			const timer = setTimeout( () => {
+				setStatus( "success" );
+			}, 3000 );
+			return () => {
+				clearTimeout( loadingTimer );
+				clearTimeout( timer );
+			};
+		}
+		return () => {
+			setStatus( "idle" );
+		};
+	}, [ isOpen, forceLoading ] );
+
+	return forceLoading || status === "loading" || status === "idle";
+};
+
+/**
  * Content Outline Modal component.
  *
  * @param {boolean}            isOpen      Whether the modal is open or not.
@@ -219,31 +253,10 @@ export const ContentOutlineModal = ( { isOpen, onClose, onBack, onAddOutline, su
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
-	const [ status, setStatus ] = useState( "idle" );
+	const isLoading = useSimulatedLoading( isOpen );
 	const [ structure, setStructure ] = useState( () => withIds( suggestion.structure ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );
-	const isLoading = status === "loading" || status === "idle";
-
-	// Simulate loading state when the outline modal is opened.
-	useEffect( () => {
-		if ( isOpen ) {
-			const loadingTimer = setTimeout( () => {
-				setStatus( "loading" );
-			}, 100 );
-
-			const timer = setTimeout( () => {
-				setStatus( "success" );
-			}, 3000 );
-			return () => {
-				clearTimeout( loadingTimer );
-				clearTimeout( timer );
-			};
-		}
-		return () => {
-			setStatus( "idle" );
-		};
-	}, [ isOpen ] );
 
 	useEffect( () => {
 		setStructure( withIds( suggestion.structure ) );
