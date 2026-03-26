@@ -7,13 +7,13 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 
 /**
- * Represents the introduction for the AI Brand Insights post-launch.
+ * Represents the introduction for the AI Brand Insights free trial.
  */
-class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
+class AI_Brand_Insights_Free_Trial implements Introduction_Interface {
 
 	use User_Allowed_Trait;
 
-	public const ID = 'ai-brand-insights-post-launch';
+	public const ID = 'ai-brand-insights-free-trial';
 
 	/**
 	 * Holds the current page helper.
@@ -67,6 +67,6 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page() && ! $this->product_helper->is_premium();
+		return $this->current_page_helper->is_yoast_seo_page() && $this->product_helper->is_premium();
 	}
 }

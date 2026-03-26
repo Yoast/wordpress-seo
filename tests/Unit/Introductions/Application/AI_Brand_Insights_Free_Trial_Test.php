@@ -5,24 +5,24 @@ namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Post_Launch;
+use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Free_Trial;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the AI Brand Insights post-launch.
+ * Tests the AI Brand Insights free trial.
  *
  * @group introductions
  *
- * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Post_Launch
+ * @coversDefaultClass \Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Free_Trial
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
+final class AI_Brand_Insights_Free_Trial_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var AI_Brand_Insights_Post_Launch
+	 * @var AI_Brand_Insights_Free_Trial
 	 */
 	private $instance;
 
@@ -51,7 +51,7 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
 
-		$this->instance = new AI_Brand_Insights_Post_Launch(
+		$this->instance = new AI_Brand_Insights_Free_Trial(
 			$this->current_page_helper,
 			$this->product_helper,
 		);
@@ -83,7 +83,7 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'ai-brand-insights-post-launch', $this->instance->get_id() );
+		$this->assertSame( 'ai-brand-insights-free-trial', $this->instance->get_id() );
 	}
 
 	/**
@@ -136,27 +136,27 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	 */
 	public static function should_show_data() {
 		return [
-			'on a Yoast admin page, with Premium disabled' => [
-				'is_yoast_seo_page' => true,
-				'is_premium'        => false,
-				'is_premium_times'  => 1,
-				'expected'          => true,
-			],
 			'on a Yoast admin page, with Premium enabled' => [
 				'is_yoast_seo_page' => true,
 				'is_premium'        => true,
 				'is_premium_times'  => 1,
-				'expected'          => false,
+				'expected'          => true,
 			],
-			'not on a Yoast admin page, with Premium disabled' => [
-				'is_yoast_seo_page' => false,
+			'on a Yoast admin page, with Premium disabled' => [
+				'is_yoast_seo_page' => true,
 				'is_premium'        => false,
-				'is_premium_times'  => 0,
+				'is_premium_times'  => 1,
 				'expected'          => false,
 			],
 			'not on a Yoast admin page, with Premium enabled' => [
 				'is_yoast_seo_page' => false,
 				'is_premium'        => true,
+				'is_premium_times'  => 0,
+				'expected'          => false,
+			],
+			'not on a Yoast admin page, with Premium disabled' => [
+				'is_yoast_seo_page' => false,
+				'is_premium'        => false,
 				'is_premium_times'  => 0,
 				'expected'          => false,
 			],
