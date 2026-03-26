@@ -9,6 +9,6 @@ export default compose( [
 	} ) ),
 
 	withDispatch( dispatch => ( {
-		onDismiss: dispatch( STORE_NAME ).dismissBanner,
+		onDismiss: dispatch( STORE_NAME ).setBannerDismissed,
 	} ) ),
 ] )( InlineBanner );
