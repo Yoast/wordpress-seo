@@ -1,15 +1,16 @@
 <?php
 
-// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 
-use Exception;
-use Yoast\WP\SEO\Dashboard\User_Interface\Configuration\Site_Kit_Configuration_Dismissal_Route;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\AI\Generator\Infrastructure\Endpoints;
+
+use Yoast\WP\SEO\AI\Generator\User_Interface\Bust_Subscription_Cache_Route;
 
 /**
- * Represents the readability scores endpoint.
+ * Represents the bust subscription cache endpoint.
  */
-class Site_Kit_Configuration_Dismissal_Endpoint implements Dashboard_Endpoint_Interface {
+class Bust_Subscription_Cache_Endpoint implements Generator_Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -17,7 +18,7 @@ class Site_Kit_Configuration_Dismissal_Endpoint implements Dashboard_Endpoint_In
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'siteKitConfigurationDismissal';
+		return 'bustSubscriptionCache';
 	}
 
 	/**
@@ -26,18 +27,16 @@ class Site_Kit_Configuration_Dismissal_Endpoint implements Dashboard_Endpoint_In
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Site_Kit_Configuration_Dismissal_Route::ROUTE_NAMESPACE;
+		return Bust_Subscription_Cache_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
 	 * Gets the route.
 	 *
 	 * @return string
-	 *
-	 * @throws Exception If the route prefix is not overwritten this throws.
 	 */
 	public function get_route(): string {
-		return Site_Kit_Configuration_Dismissal_Route::ROUTE_PREFIX;
+		return Bust_Subscription_Cache_Route::ROUTE_PREFIX;
 	}
 
 	/**
