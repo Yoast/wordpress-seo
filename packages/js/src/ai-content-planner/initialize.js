@@ -45,7 +45,7 @@ const ContentPlannerBannerContainer = ( { BlockEdit, props } ) => {
 	const { setBannerRendered } = useDispatch( STORE_NAME );
 
 	const isFirstParagraph = useSelect( select => {
-		const blocks = select( "core/block-editor" ).getBlocks() ?? [];
+		const blocks = select( "core/block-editor" ).getBlocks();
 		const firstParagraph = blocks.find( block => block.name === "core/paragraph" );
 		return firstParagraph?.clientId === props.clientId;
 	}, [ props.clientId ] );
