@@ -131,6 +131,17 @@ npx wp-env run tests-cli -- bash -c "\
   sed -i \"s/define( 'WP_ENVIRONMENT_TYPE', 'local' )/define( 'WP_ENVIRONMENT_TYPE', 'production' )/\" $WP_TESTS_CONFIG \
 " > /dev/null 2>&1
 
+# Install PCOV coverage driver if --coverage was requested and it's not already installed.
+if [ "$COVERAGE" = true ]; then
+  if ! npx wp-env run tests-cli -- php -m 2>/dev/null | grep -q pcov; then
+    echo "Installing PCOV coverage driver..."
+    npx wp-env run tests-cli -- sudo bash -c "\
+      pecl install pcov > /dev/null 2>&1 && \
+      echo 'extension=pcov.so' > /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini \
+    " > /dev/null 2>&1
+  fi
+fi
+
 # Build the environment variables prefix for the command.
 ENV_PREFIX="WP_TESTS_DIR=/wordpress-phpunit/"
 
