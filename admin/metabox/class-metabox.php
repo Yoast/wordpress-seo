@@ -732,7 +732,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'content_planner' ),
 		);
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
