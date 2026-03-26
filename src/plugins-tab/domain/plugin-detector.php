@@ -1,12 +1,12 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Yoast_Plugins_Tab\Domain;
+namespace Yoast\WP\SEO\Plugins_Tab\Domain;
 
 /**
  * Detects whether a plugin is a Yoast plugin by checking its author information.
  */
-class Yoast_Plugin_Detector {
+class Plugin_Detector {
 
 	/**
 	 * The string to look for in the plugin's AuthorName field.

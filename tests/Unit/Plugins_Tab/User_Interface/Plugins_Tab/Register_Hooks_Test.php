@@ -1,18 +1,18 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\User_Interface\Yoast_Plugins_Tab;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\User_Interface\Plugins_Tab;
 
 use Brain\Monkey;
 
 /**
- * Tests the Yoast_Plugins_Tab_Integration register_hooks method.
+ * Tests the Plugins_Tab_Integration register_hooks method.
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  *
- * @covers Yoast\WP\SEO\Yoast_Plugins_Tab\User_Interface\Yoast_Plugins_Tab_Integration::register_hooks
+ * @covers Yoast\WP\SEO\Plugins_Tab\User_Interface\Plugins_Tab_Integration::register_hooks
  */
-final class Register_Hooks_Test extends Abstract_Yoast_Plugins_Tab_Integration_Test {
+final class Register_Hooks_Test extends Abstract_Plugins_Tab_Integration_Test {
 
 	/**
 	 * Tests that hooks are registered on WP 7.0+.

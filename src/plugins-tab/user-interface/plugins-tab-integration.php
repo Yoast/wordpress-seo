@@ -1,32 +1,32 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Yoast_Plugins_Tab\User_Interface;
+namespace Yoast\WP\SEO\Plugins_Tab\User_Interface;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Yoast_Plugins_Tab\Application\Yoast_Plugins_List_Handler;
+use Yoast\WP\SEO\Plugins_Tab\Application\Plugins_List_Handler;
 
 /**
  * Registers the Yoast tab on the WordPress Plugins screen.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Yoast_Plugins_Tab_Integration implements Integration_Interface {
+class Plugins_Tab_Integration implements Integration_Interface {
 
 	/**
 	 * The plugins list handler.
 	 *
-	 * @var Yoast_Plugins_List_Handler
+	 * @var Plugins_List_Handler
 	 */
 	private $handler;
 
 	/**
 	 * Constructs the integration.
 	 *
-	 * @param Yoast_Plugins_List_Handler $handler The plugins list handler.
+	 * @param Plugins_List_Handler $handler The plugins list handler.
 	 */
-	public function __construct( Yoast_Plugins_List_Handler $handler ) {
+	public function __construct( Plugins_List_Handler $handler ) {
 		$this->handler = $handler;
 	}
 

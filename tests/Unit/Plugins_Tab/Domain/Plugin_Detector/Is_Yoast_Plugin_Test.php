@@ -1,16 +1,16 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\Domain\Yoast_Plugin_Detector;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\Domain\Plugin_Detector;
 
 /**
- * Tests the Yoast_Plugin_Detector is_yoast_plugin method.
+ * Tests the Plugin_Detector is_yoast_plugin method.
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  *
- * @covers Yoast\WP\SEO\Yoast_Plugins_Tab\Domain\Yoast_Plugin_Detector::is_yoast_plugin
+ * @covers Yoast\WP\SEO\Plugins_Tab\Domain\Plugin_Detector::is_yoast_plugin
  */
-final class Is_Yoast_Plugin_Test extends Abstract_Yoast_Plugin_Detector_Test {
+final class Is_Yoast_Plugin_Test extends Abstract_Plugin_Detector_Test {
 
 	/**
 	 * Tests that a plugin authored solely by Team Yoast is detected.

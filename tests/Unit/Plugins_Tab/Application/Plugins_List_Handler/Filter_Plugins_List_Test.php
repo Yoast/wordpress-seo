@@ -1,16 +1,16 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\Application\Yoast_Plugins_List_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\Application\Plugins_List_Handler;
 
 /**
- * Tests the Yoast_Plugins_List_Handler filter_plugins_list method.
+ * Tests the Plugins_List_Handler filter_plugins_list method.
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  *
- * @covers Yoast\WP\SEO\Yoast_Plugins_Tab\Application\Yoast_Plugins_List_Handler::filter_plugins_list
+ * @covers Yoast\WP\SEO\Plugins_Tab\Application\Plugins_List_Handler::filter_plugins_list
  */
-final class Filter_Plugins_List_Test extends Abstract_Yoast_Plugins_List_Handler_Test {
+final class Filter_Plugins_List_Test extends Abstract_Plugins_List_Handler_Test {
 
 	/**
 	 * Tests that the yoast key is added when 2+ Yoast plugins are installed.

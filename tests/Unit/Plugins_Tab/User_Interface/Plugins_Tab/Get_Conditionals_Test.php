@@ -1,18 +1,18 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\User_Interface\Yoast_Plugins_Tab;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\User_Interface\Plugins_Tab;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 
 /**
- * Tests the Yoast_Plugins_Tab_Integration get_conditionals method.
+ * Tests the Plugins_Tab_Integration get_conditionals method.
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  *
- * @covers Yoast\WP\SEO\Yoast_Plugins_Tab\User_Interface\Yoast_Plugins_Tab_Integration::get_conditionals
+ * @covers Yoast\WP\SEO\Plugins_Tab\User_Interface\Plugins_Tab_Integration::get_conditionals
  */
-final class Get_Conditionals_Test extends Abstract_Yoast_Plugins_Tab_Integration_Test {
+final class Get_Conditionals_Test extends Abstract_Plugins_Tab_Integration_Test {
 
 	/**
 	 * Tests the get_conditionals method.

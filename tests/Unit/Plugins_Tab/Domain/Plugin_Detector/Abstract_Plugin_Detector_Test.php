@@ -1,24 +1,24 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\Domain\Yoast_Plugin_Detector;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\Domain\Plugin_Detector;
 
+use Yoast\WP\SEO\Plugins_Tab\Domain\Plugin_Detector;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Yoast_Plugins_Tab\Domain\Yoast_Plugin_Detector;
 
 /**
- * Abstract class for the Yoast_Plugin_Detector tests.
+ * Abstract class for the Plugin_Detector tests.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  */
-abstract class Abstract_Yoast_Plugin_Detector_Test extends TestCase {
+abstract class Abstract_Plugin_Detector_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Yoast_Plugin_Detector
+	 * @var Plugin_Detector
 	 */
 	protected $instance;
 
@@ -30,6 +30,6 @@ abstract class Abstract_Yoast_Plugin_Detector_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Yoast_Plugin_Detector();
+		$this->instance = new Plugin_Detector();
 	}
 }

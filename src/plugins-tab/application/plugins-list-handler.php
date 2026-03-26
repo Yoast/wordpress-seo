@@ -1,28 +1,28 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Yoast_Plugins_Tab\Application;
+namespace Yoast\WP\SEO\Plugins_Tab\Application;
 
-use Yoast\WP\SEO\Yoast_Plugins_Tab\Domain\Yoast_Plugin_Detector;
+use Yoast\WP\SEO\Plugins_Tab\Domain\Plugin_Detector;
 
 /**
  * Handles the filtering logic for the Yoast plugins tab on the Plugins screen.
  */
-class Yoast_Plugins_List_Handler {
+class Plugins_List_Handler {
 
 	/**
-	 * The Yoast plugin detector.
+	 * The plugin detector.
 	 *
-	 * @var Yoast_Plugin_Detector
+	 * @var Plugin_Detector
 	 */
 	private $detector;
 
 	/**
 	 * Constructs the handler.
 	 *
-	 * @param Yoast_Plugin_Detector $detector The Yoast plugin detector.
+	 * @param Plugin_Detector $detector The plugin detector.
 	 */
-	public function __construct( Yoast_Plugin_Detector $detector ) {
+	public function __construct( Plugin_Detector $detector ) {
 		$this->detector = $detector;
 	}
 
@@ -33,8 +33,8 @@ class Yoast_Plugins_List_Handler {
 	 *
 	 * @return array<string, array<string, array<string, string>>> The filtered plugins list.
 	 */
-	public function filter_plugins_list( array $plugins ): array {
-		if ( ! isset( $plugins['all'] ) ) {
+	public function filter_plugins_list( $plugins ) {
+		if ( ! \is_array( $plugins ) || ! isset( $plugins['all'] ) ) {
 			return $plugins;
 		}
 
@@ -45,7 +45,7 @@ class Yoast_Plugins_List_Handler {
 			}
 		}
 
-		if ( \count( $yoast_plugins ) < Yoast_Plugin_Detector::MINIMUM_FOR_TAB ) {
+		if ( \count( $yoast_plugins ) < Plugin_Detector::MINIMUM_FOR_TAB ) {
 			return $plugins;
 		}
 
@@ -63,7 +63,7 @@ class Yoast_Plugins_List_Handler {
 	 *
 	 * @return string The status text.
 	 */
-	public function get_status_text( string $text, int $count, string $type ): string {
+	public function get_status_text( $text, $count, $type ) {
 		if ( $type !== 'yoast' ) {
 			return $text;
 		}

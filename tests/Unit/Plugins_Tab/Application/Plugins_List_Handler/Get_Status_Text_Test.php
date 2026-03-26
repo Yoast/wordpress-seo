@@ -1,18 +1,18 @@
 <?php
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Tests\Unit\Yoast_Plugins_Tab\Application\Yoast_Plugins_List_Handler;
+namespace Yoast\WP\SEO\Tests\Unit\Plugins_Tab\Application\Plugins_List_Handler;
 
 use Brain\Monkey;
 
 /**
- * Tests the Yoast_Plugins_List_Handler get_status_text method.
+ * Tests the Plugins_List_Handler get_status_text method.
  *
- * @group yoast-plugins-tab
+ * @group plugins-tab
  *
- * @covers Yoast\WP\SEO\Yoast_Plugins_Tab\Application\Yoast_Plugins_List_Handler::get_status_text
+ * @covers Yoast\WP\SEO\Plugins_Tab\Application\Plugins_List_Handler::get_status_text
  */
-final class Get_Status_Text_Test extends Abstract_Yoast_Plugins_List_Handler_Test {
+final class Get_Status_Text_Test extends Abstract_Plugins_List_Handler_Test {
 
 	/**
 	 * Tests that the Yoast label is returned for the yoast type.
