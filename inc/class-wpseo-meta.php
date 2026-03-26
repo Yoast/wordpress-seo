@@ -190,6 +190,16 @@ class WPSEO_Meta {
 				'default_value' => '0',
 			],
 		],
+		'content_planner' => [
+			'is_content_planner_banner_rendered' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'is_content_planner_banner_dismissed' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+		]
 	];
 
 	/**

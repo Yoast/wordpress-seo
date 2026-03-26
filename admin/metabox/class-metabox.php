@@ -358,6 +358,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
+		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'content_planner' );
+		}
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
@@ -727,7 +732,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'content_planner' ),
 		);
+
+		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		if ( $post->post_type === 'post' && $is_block_editor ) {
+			$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'content_planner' ) );
+		}
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 
