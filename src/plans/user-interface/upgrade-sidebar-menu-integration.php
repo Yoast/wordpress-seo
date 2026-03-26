@@ -134,7 +134,7 @@ class Upgrade_Sidebar_Menu_Integration implements Integration_Interface {
 			General_Page_Integration::PAGE,
 			'',
 			'<span class="yst-root"><span class="yst-button yst-w-full yst-whitespace-nowrap yst-button--upsell yst-button--small">' . $button_content . ' </span></span>',
-			'wpseo_manage_options',
+			'edit_posts',
 			self::PAGE,
 			static function () {
 				echo 'redirecting...';
