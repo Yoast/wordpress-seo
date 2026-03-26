@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 
 import PropTypes from "prop-types";
@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
  * @param {boolean} [hasNewBadgeLabel=false] Whether to show the new badge.
  * @param {?string} [buttonId=null] The button id.
  * @param {Function} [renderNewBadgeLabel] Function to render a "New" badge label.
+ * @param {boolean} [initialIsOpen=false] Whether the collapsible should be initially open.
  *
  * @returns {JSX.Element} The element.
  */
@@ -27,8 +28,16 @@ const SidebarCollapsible = ( {
 	hasNewBadgeLabel = false,
 	buttonId = null,
 	renderNewBadgeLabel = () => {},
+	initialIsOpen = false,
 } ) => {
-	const [ isOpen, toggleOpen ] = useState( false );
+	const [ isOpen, toggleOpen ] = useState( initialIsOpen );
+	const buttonRef = useRef( null );
+
+	useEffect( () => {
+		if ( initialIsOpen && buttonRef.current ) {
+			buttonRef.current.focus();
+		}
+	}, [] );
 
 	/**
 	 * Toggles the SidebarCollapsible open and closed state.
@@ -42,6 +51,7 @@ const SidebarCollapsible = ( {
 	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
+				ref={ buttonRef }
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
 				type="button"
@@ -98,4 +108,5 @@ SidebarCollapsible.propTypes = {
 	hasNewBadgeLabel: PropTypes.bool,
 	buttonId: PropTypes.string,
 	renderNewBadgeLabel: PropTypes.func,
+	initialIsOpen: PropTypes.bool,
 };
