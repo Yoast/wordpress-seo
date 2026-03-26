@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fields";
 
 export const BANNER_NAME = "banner";
 
@@ -28,14 +27,7 @@ export const bannerSelectors = {
 };
 
 export const bannerActions = {
-	setBannerRendered: () => {
-		setBannerRenderedInput();
-		return slice.actions.setBannerRendered();
-	},
-	setBannerDismissed: () => {
-		setBannerDismissedInput();
-		return slice.actions.setBannerDismissed();
-	},
+	...slice.actions,
 };
 
 export const bannerReducer = slice.reducer;

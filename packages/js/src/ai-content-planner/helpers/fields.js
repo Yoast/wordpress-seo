@@ -1,8 +1,8 @@
 /**
- *  Helper function to update the hidden fields of the post meta.
+ * Helper function to update the hidden fields of the post meta.
  *
  * @param {string} id The ID of the input element to update.
- * @
+ * @returns {void}
  */
 const updateInput = ( id ) => {
 	const input = document.getElementById( id );
@@ -22,8 +22,9 @@ const getInputValue = ( id ) => {
 };
 
 /**
- * Helper functions to get the value of whether the banner is dismissed or rendered.
- * @returns {boolean} True if the banner is dismissed or rendered, false otherwise.
+ * Helper function to get whether the banner is dismissed from the hidden input.
+ *
+ * @returns {boolean} True if the banner is dismissed, false otherwise.
  */
 export const getIsBannerDismissedFromInput = () => getInputValue( "yoast_wpseo_is_content_planner_banner_dismissed" ) === "1";
 
@@ -34,16 +35,18 @@ export const getIsBannerDismissedFromInput = () => getInputValue( "yoast_wpseo_i
 export const getIsBannerRenderedFromInput = () => getInputValue( "yoast_wpseo_is_content_planner_banner_rendered" ) === "1";
 
 /**
- * Helper functions to set the value of whether the banner is rendered.
- * @returns {void} Updates the value of the input element to "1".
+ * Helper function to mark the banner as rendered in the hidden input.
+ *
+ * @returns {void}
  */
 export const setBannerRenderedInput = () => {
 	updateInput( "yoast_wpseo_is_content_planner_banner_rendered" );
 };
 
 /**
- * Helper functions to set the value of whether the banner is dismissed.
- * @returns {void} Updates the value of the input element to "1".
+ * Helper function to mark the banner as dismissed in the hidden input.
+ *
+ * @returns {void}
  */
 export const setBannerDismissedInput = () => {
 	updateInput( "yoast_wpseo_is_content_planner_banner_dismissed" );

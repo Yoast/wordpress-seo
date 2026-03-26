@@ -1,8 +1,18 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { BANNER_NAME, bannerActions, bannerReducer, bannerSelectors, getInitialBannerState } from "./banner";
+import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fields";
 
 export const STORE_NAME = "yoast-seo/content-planner";
+
+const persistBannerMiddleware = () => ( next ) => ( action ) => {
+	if ( action.type === `${ BANNER_NAME }/setBannerRendered` ) {
+		setBannerRenderedInput();
+	} else if ( action.type === `${ BANNER_NAME }/setBannerDismissed` ) {
+		setBannerDismissedInput();
+	}
+	return next( action );
+};
 
 const createStore = ( initialState ) => createReduxStore( STORE_NAME, {
 	actions: {
@@ -19,6 +29,10 @@ const createStore = ( initialState ) => createReduxStore( STORE_NAME, {
 	reducer: combineReducers( {
 		[ BANNER_NAME ]: bannerReducer,
 	} ),
+	middleware: ( getDefaultMiddleware ) => [
+		...getDefaultMiddleware(),
+		persistBannerMiddleware,
+	],
 } );
 
 /**
