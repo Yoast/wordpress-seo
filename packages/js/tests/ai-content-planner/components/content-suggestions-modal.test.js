@@ -1,44 +1,31 @@
-import { render, screen, fireEvent, within, act } from "@testing-library/react";
-import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
+import { render, screen, fireEvent, within } from "@testing-library/react";
+import { Modal } from "@yoast/ui-library";
+import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
 const mockUsageCounter = jest.fn( () => null );
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
-const renderModal = ( props ) => render(
-	<FeatureModal
-		isOpen={ true }
-		onClose={ jest.fn() }
-		isPremium={ false }
-		isEmptyCanvas={ false }
-		isUpsell={ false }
-		{ ...props }
-	/>
+const renderLoadingModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } { ...props } />
+		</div>
+	</Modal>
 );
 
-const renderLoadingModal = ( props ) => {
-	const result = renderModal( props );
-	fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-	return result;
-};
-
-const renderSuccessModal = ( props ) => {
-	const result = renderLoadingModal( props );
-	act( () => {
-		jest.advanceTimersByTime( 5000 );
-	} );
-	return result;
-};
+const renderSuccessModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } { ...props } />
+		</div>
+	</Modal>
+);
 
 describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
-		jest.useFakeTimers();
-	} );
-
-	afterEach( () => {
-		jest.useRealTimers();
 	} );
 
 	describe( "header", () => {
@@ -74,6 +61,7 @@ describe( "ContentSuggestionsModal", () => {
 		it( "announces content via the aria-live region when status is success", () => {
 			renderSuccessModal();
 			const liveRegion = document.querySelector( "[aria-live='polite']" );
+			expect( liveRegion ).not.toBeNull();
 			expect( within( liveRegion ).getByText( "Select a suggestion to generate a structured outline for your post." ) ).toBeInTheDocument();
 		} );
 	} );
@@ -118,17 +106,17 @@ describe( "ContentSuggestionsModal", () => {
 
 		it( "renders informational intent badges", () => {
 			renderSuccessModal();
-			expect( screen.getAllByText( "Informational" ).length ).toBeGreaterThan( 0 );
+			expect( screen.getAllByText( "Informational" ) ).toHaveLength( 2 );
 		} );
 
 		it( "renders navigational intent badges", () => {
 			renderSuccessModal();
-			expect( screen.getAllByText( "Navigational" ).length ).toBeGreaterThan( 0 );
+			expect( screen.getAllByText( "Navigational" ) ).toHaveLength( 2 );
 		} );
 
 		it( "renders commercial intent badges", () => {
 			renderSuccessModal();
-			expect( screen.getAllByText( "Commercial" ).length ).toBeGreaterThan( 0 );
+			expect( screen.getAllByText( "Commercial" ) ).toHaveLength( 2 );
 		} );
 	} );
 

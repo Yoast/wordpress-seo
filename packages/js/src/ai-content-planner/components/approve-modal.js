@@ -42,7 +42,7 @@ const getModalContent = ( isEmptyCanvas ) => {
  * @returns {JSX.Element} The ApproveModal content.
  */
 export const ApproveModal = ( { isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
-	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
+	const { title, description } = getModalContent( isEmptyCanvas );
 	const svgAriaProps = useSvgAria();
 
 	return (

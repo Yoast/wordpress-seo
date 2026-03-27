@@ -180,7 +180,7 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
-					<div className="yst-relative" aria-live="polite" aria-atomic="true">
+					<div className="yst-relative" aria-live="polite">
 						<Transition
 							as={ Fragment }
 							show={ status === "content-suggestions-loading" }
