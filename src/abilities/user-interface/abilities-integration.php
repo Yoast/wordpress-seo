@@ -213,7 +213,7 @@ class Abilities_Integration implements Integration_Interface {
 				'meta'                => [
 					'show_in_rest' => true,
 					'annotations'  => [
-						'readonly'    => false,
+						'readonly'    => true,
 						'destructive' => false,
 						'idempotent'  => true,
 					],

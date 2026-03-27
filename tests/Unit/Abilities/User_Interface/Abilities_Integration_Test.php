@@ -448,7 +448,7 @@ final class Abilities_Integration_Test extends TestCase {
 		return [
 			'show_in_rest' => true,
 			'annotations'  => [
-				'readonly'    => false,
+				'readonly'    => true,
 				'destructive' => false,
 				'idempotent'  => true,
 			],
