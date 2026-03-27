@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render, screen, fireEvent, within, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
@@ -26,6 +26,11 @@ const renderSuccessModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
 describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
+		jest.useFakeTimers();
+	} );
+
+	afterEach( () => {
+		jest.useRealTimers();
 	} );
 
 	describe( "header", () => {
@@ -58,6 +63,14 @@ describe( "ContentSuggestionsModal", () => {
 			expect( onClose ).toHaveBeenCalledTimes( 1 );
 		} );
 
+		it( "announces the loading message via the aria-live region after 100ms", () => {
+			renderLoadingModal();
+			const liveRegion = document.querySelector( "[aria-live='polite']" );
+			expect( liveRegion ).not.toBeNull();
+			act( () => { jest.advanceTimersByTime( 100 ); } );
+			expect( within( liveRegion ).getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
+		} );
+
 		it( "announces content via the aria-live region when status is success", () => {
 			renderSuccessModal();
 			const liveRegion = document.querySelector( "[aria-live='polite']" );
@@ -67,13 +80,20 @@ describe( "ContentSuggestionsModal", () => {
 	} );
 
 	describe( "loading state", () => {
-		it( "shows the loading message when loading", () => {
+		it( "does not show the loading message before 100ms have passed", () => {
 			renderLoadingModal();
+			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "shows the loading message after 100ms", () => {
+			renderLoadingModal();
+			act( () => { jest.advanceTimersByTime( 100 ); } );
 			expect( screen.getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
 		} );
 
 		it( "does not show the intro text while loading", () => {
 			renderLoadingModal();
+			act( () => { jest.advanceTimersByTime( 100 ); } );
 			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
 		} );
 	} );
