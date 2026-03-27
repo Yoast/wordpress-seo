@@ -6,7 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useRef, useEffect } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 
 const intentBadge = {
@@ -118,6 +118,13 @@ const LoadingModalContent = () => {
  */
 export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 	const svgAriaProps = useSvgAria();
+	const closeButtonRef = useRef( null );
+
+	useEffect( () => {
+		if ( status === "content-suggestions-loading" ) {
+			closeButtonRef.current?.focus();
+		}
+	}, [ status ] );
 	const suggestions = [
 		{
 			intent: "informational",
@@ -153,8 +160,10 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 
 	return (
 		<Modal.Panel
-			className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) }
+			className="yst-p-0 yst-max-w-2xl"
+			hasCloseButton={ false }
 		>
+			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
