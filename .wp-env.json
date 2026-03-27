@@ -4,16 +4,9 @@
 	"plugins": [
 		"."
 	],
+	"testsEnvironment": false,
 	"config": {
 		"WP_DEBUG": true,
 		"SCRIPT_DEBUG": true
-	},
-	"env": {
-		"tests": {
-			"config": {
-				"WP_DEBUG": true,
-				"SCRIPT_DEBUG": true
-			}
-		}
 	}
 }

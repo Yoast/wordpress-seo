@@ -114,7 +114,7 @@ fi
 if [ "$NEEDS_RESTART" = true ]; then
   echo "Configuration changed. (Re)starting wp-env..."
   npx wp-env start --update
-elif ! npx wp-env run tests-cli -- wp --info > /dev/null 2>&1; then
+elif ! npx wp-env run cli -- wp --info > /dev/null 2>&1; then
   echo "Starting wp-env..."
   npx wp-env start
 fi
@@ -125,7 +125,7 @@ fi
 # - WP_TESTS_DOMAIN set to localhost:port (should be example.org like standard setup).
 # - WP_ENVIRONMENT_TYPE set to 'local' (Yoast skips indexable creation on non-production).
 WP_TESTS_CONFIG="/wordpress-phpunit/wp-tests-config.php"
-npx wp-env run tests-cli -- bash -c "\
+npx wp-env run cli -- bash -c "\
   sed -i '/define.*WP_SITEURL/d; /define.*WP_HOME/d' $WP_TESTS_CONFIG && \
   sed -i \"s/define( 'WP_TESTS_DOMAIN', 'localhost:[0-9]*' )/define( 'WP_TESTS_DOMAIN', 'example.org' )/\" $WP_TESTS_CONFIG && \
   sed -i \"s/define( 'WP_ENVIRONMENT_TYPE', 'local' )/define( 'WP_ENVIRONMENT_TYPE', 'production' )/\" $WP_TESTS_CONFIG \
@@ -133,9 +133,9 @@ npx wp-env run tests-cli -- bash -c "\
 
 # Install PCOV coverage driver if --coverage was requested and it's not already installed.
 if [ "$COVERAGE" = true ]; then
-  if ! npx wp-env run tests-cli -- php -m 2>/dev/null | grep -q pcov; then
+  if ! npx wp-env run cli -- php -m 2>/dev/null | grep -q pcov; then
     echo "Installing PCOV coverage driver..."
-    npx wp-env run tests-cli -- sudo bash -c "\
+    npx wp-env run cli -- sudo bash -c "\
       pecl install pcov > /dev/null 2>&1 && \
       echo 'extension=pcov.so' > /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini \
     " > /dev/null 2>&1
@@ -150,7 +150,7 @@ if [ "$MULTISITE" = true ]; then
 fi
 
 echo "Running integration tests..."
-npx wp-env run tests-cli \
+npx wp-env run cli \
   --env-cwd="$PLUGIN_PATH" \
   -- env $ENV_PREFIX \
   php vendor/phpunit/phpunit/phpunit \
