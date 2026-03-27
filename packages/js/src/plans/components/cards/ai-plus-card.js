@@ -129,7 +129,7 @@ export const AiPlusCard = () => {
 		return {
 			isPremiumActive: plansSelect.selectAddOnIsActive( ADD_ONS.premium ),
 			learnMoreLink: plansSelect.selectLink( "https://yoa.st/plans-ai-plus-learn-more" ),
-			freeTrialLink: plansSelect.selectLink( "https://yoa.st/plans-ai-plus-free-trial/" ),
+			freeTrialLink: plansSelect.selectLink( "https://yoa.st/aibi-plans-free-trial" ),
 		};
 	}, [] );
 

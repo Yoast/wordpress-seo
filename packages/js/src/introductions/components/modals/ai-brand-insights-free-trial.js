@@ -31,7 +31,7 @@ const AiBrandInsightsFreeTrialContent = ( {
 				<div className="yst-mt-6 yst-text-xs yst-font-medium yst-flex yst-flex-col yst-items-center">
 					<span className="yst-introduction-modal-uppercase yst-flex yst-gap-2 yst-items-center">
 						<span className="yst-ai-insights-icon" { ...svgAriaProps } />
-						{ __( "Yoast AI Brand Insights", "wordpress-seo" ) }
+						{ "Yoast AI Brand Insights" }
 					</span>
 				</div>
 			</div>
@@ -95,7 +95,7 @@ const AiBrandInsightsFreeTrialContent = ( {
 export const AiBrandInsightsFreeTrial = () => {
 	const imageLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS ).selectImageLink( "ai-brand-insights-pre-launch.png" ), [] );
 	const buttonLink = useSelect( select => select( STORE_NAME_INTRODUCTIONS )
-		.selectLink( "https://yoa.st/ai-free-trial-modal/" ), [] );
+		.selectLink( "https://yoa.st/aibi-introduction-free-trial" ), [] );
 	const thumbnail = useMemo( () => ( {
 		src: imageLink,
 		width: "432",
