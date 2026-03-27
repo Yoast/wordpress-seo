@@ -1,9 +1,7 @@
-import { Button, Modal, GradientSparklesIcon, Root, useSvgAria } from "@yoast/ui-library";
+import { Button, Modal, GradientSparklesIcon, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OneSparkNote } from "./one-spark-note";
-import { useCallback } from "@wordpress/element";
-
 /**
  * Get the content of the modal based on whether the canvas is empty or not.
  *
@@ -36,28 +34,19 @@ const getModalContent = ( isEmptyCanvas ) => {
 /**
  * The modal that is shown when the user clicks the "Get content suggestions" button.
  *
- * @param {boolean} isOpen Whether the modal is open or not.
- * @param {function} onClose The function to call when the modal is closed.
  * @param {boolean} isEmptyCanvas Whether the post has content or not.
  * @param {boolean} isPremium Whether the user has a premium subscription or not.
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
- * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button in the modal.
+ * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button.
  * @param {string} upsellLink The link to the upsell page.
- * @returns {JSX.Element} The Content Planner Approved Modal.
+ * @returns {JSX.Element} The ApproveModal content.
  */
-export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
+export const ApproveModal = ( { isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
 	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
 	const svgAriaProps = useSvgAria();
-	const handleOnClick = useCallback( () => {
-		onClick();
-		onClose();
-	}, [ onClick, onClose ] );
 
-	return <Root><Modal
-		isOpen={ isOpen }
-		onClose={ onClose }
-	>
-		<Modal.Panel className="yst-text-center yst-w-96">
+	return (
+		<Modal.Panel className="yst-text-center yst-w-96" closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }>
 			<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
 				<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 			</div>
@@ -72,8 +61,8 @@ export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					"Yoast SEO Premium"
 				) }
 			</Button>
-				: <Button onClick={ handleOnClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
+				: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
 		</Modal.Panel>
-	</Modal></Root>;
+	);
 };

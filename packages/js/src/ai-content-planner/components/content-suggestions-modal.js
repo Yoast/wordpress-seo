@@ -1,4 +1,4 @@
-import { Badge, Modal, SkeletonLoader, useToggleState, useSvgAria } from "@yoast/ui-library";
+import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -6,7 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment, useEffect } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 
 const intentBadge = {
@@ -112,12 +112,11 @@ const LoadingModalContent = () => {
  *
  * @param {Object} props The component props.
  * @param {boolean} props.isOpen Whether the modal is open or not.
- * @param {Function} props.onClose The function to call when the modal should be closed.
  * @param {boolean} props.isPremium Whether the user has a premium add-on is activated or not.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
+export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 	const svgAriaProps = useSvgAria();
 	const suggestions = [
 		{
@@ -152,88 +151,61 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
 		},
 	];
 
-	const [ status, , setStatus ] = useToggleState( "idle" );
-
-	// Simulate loading state when the content suggestions modal is opened.
-	useEffect( () => {
-		if ( isOpen ) {
-			const loadingTimer = setTimeout( () => {
-				setStatus( "loading" );
-			}, 100 );
-
-			const timer = setTimeout( () => {
-				setStatus( "success" );
-			}, 5000 );
-			return () => {
-				clearTimeout( loadingTimer );
-				clearTimeout( timer );
-			};
-		}
-		return () => {
-			setStatus( "idle" );
-		};
-	}, [ isOpen ] );
-
 	return (
-		<Modal
-			isOpen={ isOpen }
-			onClose={ onClose }
+		<Modal.Panel
+			className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) }
 		>
-			<Modal.Panel
-				className="yst-p-0 yst-max-w-2xl" closeButtonScreenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) }
-			>
-				<Modal.Container>
-					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-						<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
-						<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
-						<Badge size="small"> { __( "Beta", "wordpress-seo" ) }</Badge>
-						<UsageCounter
-							limit={ 10 }
-							requests={ 1 }
-							mentionBetaInTooltip={ isPremium }
-							mentionResetInTooltip={ isPremium }
-						/>
-					</Modal.Container.Header>
-					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-						{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
-						<div className="yst-relative" aria-live="polite" aria-atomic="true">
-							<Transition
-								as={ Fragment }
-								show={ status === "loading" }
-								enter="yst-transition-opacity yst-duration-300"
-								enterFrom="yst-opacity-0"
-								enterTo="yst-opacity-100"
-								leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
-								leaveFrom="yst-opacity-100"
-								leaveTo="yst-opacity-0"
-							>
-								<div><LoadingModalContent /></div>
-							</Transition>
-							<Transition
-								as={ Fragment }
-								show={ status === "success" }
-								enter="yst-transition-opacity yst-duration-300"
-								enterFrom="yst-opacity-0"
-								enterTo="yst-opacity-100"
-								leave="yst-transition-opacity yst-duration-300"
-								leaveFrom="yst-opacity-100"
-								leaveTo="yst-opacity-0"
-							>
-								<div>
-									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion, index ) => (
-										<SuggestionButton
-											key={ index }
-											{ ...suggestion }
-											onClick={ noop }
-										/>
-									) ) }
-								</div>
-							</Transition>
-						</div>
-					</Modal.Container.Content>
-				</Modal.Container>
-			</Modal.Panel>
-		</Modal>
+			<Modal.Container>
+				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
+					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
+					<Badge size="small"> { __( "Beta", "wordpress-seo" ) }</Badge>
+					<UsageCounter
+						limit={ 10 }
+						requests={ 1 }
+						mentionBetaInTooltip={ isPremium }
+						mentionResetInTooltip={ isPremium }
+					/>
+				</Modal.Container.Header>
+				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
+					{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
+					<div className="yst-relative" aria-live="polite" aria-atomic="true">
+						<Transition
+							as={ Fragment }
+							show={ status === "content-suggestions-loading" }
+							enter="yst-transition-opacity yst-duration-300"
+							enterFrom="yst-opacity-0"
+							enterTo="yst-opacity-100"
+							leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
+							leaveFrom="yst-opacity-100"
+							leaveTo="yst-opacity-0"
+						>
+							<div><LoadingModalContent /></div>
+						</Transition>
+						<Transition
+							as={ Fragment }
+							show={ status === "content-suggestions-success" }
+							enter="yst-transition-opacity yst-duration-300"
+							enterFrom="yst-opacity-0"
+							enterTo="yst-opacity-100"
+							leave="yst-transition-opacity yst-duration-300"
+							leaveFrom="yst-opacity-100"
+							leaveTo="yst-opacity-0"
+						>
+							<div>
+								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+								{ suggestions.map( ( suggestion, index ) => (
+									<SuggestionButton
+										key={ index }
+										{ ...suggestion }
+										onClick={ noop }
+									/>
+								) ) }
+							</div>
+						</Transition>
+					</div>
+				</Modal.Container.Content>
+			</Modal.Container>
+		</Modal.Panel>
 	);
 };

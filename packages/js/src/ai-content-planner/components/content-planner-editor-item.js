@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { Button, Root, useToggleState } from "@yoast/ui-library";
-import { ApproveModal } from "./approve-modal";
-import { ContentSuggestionsModal } from "./content-suggestions-modal";
+import { FeatureModal } from "./feature-modal";
 
 /**
  * The section for the content planner feature in the Yoast sidebar.
@@ -13,28 +12,18 @@ import { ContentSuggestionsModal } from "./content-suggestions-modal";
  * @returns {JSX.Element} The Content Planner section in the sidebar.
  */
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {
-	const [ isApproveModalOpen, , , openApproveModal, closeApproveModal ] = useToggleState( false );
-	const [ isContentSuggestionModalOpen, , , openContentSuggestionModal, closeContentSuggestionModal ] = useToggleState( false );
+	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
 
 	return <Root><div className="yst-p-4">
-		<Button variant="ai-secondary" onClick={ openApproveModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
+		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
 		</Button>
-		<ApproveModal
-			isOpen={ isApproveModalOpen }
-			onClose={ closeApproveModal }
+		<FeatureModal
+			isOpen={ isFeatureModalOpen }
+			onClose={ closeFeatureModal }
 			isEmptyCanvas={ isEmptyCanvas }
 			isPremium={ isPremium }
-			onClick={ openContentSuggestionModal }
-			// Will be addressed in future iterations.
-			isUpsell={ false }
 			upsellLink={ upsellLink }
 		/>
-		<ContentSuggestionsModal
-			isOpen={ isContentSuggestionModalOpen }
-			onClose={ closeContentSuggestionModal }
-			isPremium={ isPremium }
-		/>
-	</div>
-	</Root>;
+	</div></Root>;
 };
