@@ -6,7 +6,8 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { useEffect } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
+import { Transition } from "@headlessui/react";
 
 const intentBadge = {
 	informational: {
@@ -194,10 +195,31 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
 						/>
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-						<div aria-live="polite" aria-atomic="true">
-							{ status === "loading" && <LoadingModalContent /> }
-							{ status === "success" && (
-								<>
+						{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
+						<div className="yst-relative" aria-live="polite" aria-atomic="true">
+							<Transition
+								as={ Fragment }
+								show={ status === "loading" }
+								enter="yst-transition-opacity yst-duration-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div><LoadingModalContent /></div>
+							</Transition>
+							<Transition
+								as={ Fragment }
+								show={ status === "success" }
+								enter="yst-transition-opacity yst-duration-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div>
 									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
 									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
@@ -206,8 +228,8 @@ export const ContentSuggestionsModal = ( { isOpen, onClose, isPremium } ) => {
 											onClick={ noop }
 										/>
 									) ) }
-								</>
-							) }
+								</div>
+							</Transition>
 						</div>
 					</Modal.Container.Content>
 				</Modal.Container>
