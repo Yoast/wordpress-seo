@@ -59,28 +59,86 @@ const IntentCallout = ( { intent, description } ) => {
 	);
 };
 
+const META_DESCRIPTION_MAX_LENGTH = 156;
+const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
+
 /**
- * Read-only form field displaying a label and value.
+ * Returns the progress bar color based on the meta description length.
+ * Matches the scoring logic and colors from the Yoast snippet editor ProgressBar:
+ * - 0 chars: red / $color_bad (#dc3232)
+ * - 1–120 chars: orange / $color_ok (#ee7c1b)
+ * - 121–156 chars: green / $color_good (#7ad03a)
+ * - >156 chars: orange / $color_ok (#ee7c1b)
  *
- * @param {string}  label     The field label.
- * @param {string}  value     The field value.
- * @param {boolean} multiline Whether to render as a taller textarea-like area.
+ * @param {number} length The current character count.
+ * @returns {string} The hex color for the progress bar.
+ */
+const getProgressColor = ( length ) => {
+	if ( length === 0 ) {
+		return "#dc3232";
+	}
+	if ( length > META_DESCRIPTION_RECOMMENDED_MIN_LENGTH && length <= META_DESCRIPTION_MAX_LENGTH ) {
+		return "#7ad03a";
+	}
+	return "#ee7c1b";
+};
+
+/**
+ * Progress bar indicating the meta description character length.
+ *
+ * @param {string} value The meta description text.
+ *
+ * @returns {JSX.Element} The MetaDescriptionProgressBar component.
+ */
+const MetaDescriptionProgressBar = ( { value } ) => {
+	const length = value ? value.length : 0;
+	const percentage = Math.min( ( length / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
+
+	return (
+		<div className="yst-w-full yst-h-2 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
+			<div
+				className="yst-h-full yst-rounded-full yst-transition-all yst-duration-300"
+				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( length ) } }
+			/>
+		</div>
+	);
+};
+
+/**
+ * Editable form field displaying a label and an input or textarea.
+ *
+ * @param {string}   label            The field label.
+ * @param {string}   value            The field value.
+ * @param {Function} onChange         Callback when the value changes.
+ * @param {boolean}  multiline        Whether to render as a textarea.
+ * @param {boolean}  showProgressBar  Whether to show a character length progress bar.
  *
  * @returns {JSX.Element} The FormField component.
  */
-const FormField = ( { label, value, multiline = false } ) => (
-	<div className="yst-flex yst-flex-col yst-gap-2">
-		<span className="yst-font-medium yst-text-sm yst-text-slate-800">{ label }</span>
-		<div
-			className={ classNames(
-				"yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-text-sm yst-text-slate-600",
-				multiline && "yst-min-h-20"
+const FormField = ( { label, value, onChange, multiline = false, showProgressBar = false } ) => {
+	const fieldClasses = "yst-w-full yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-text-sm yst-text-slate-600 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500";
+
+	return (
+		<div className="yst-flex yst-flex-col yst-gap-2">
+			<span className="yst-font-medium yst-text-sm yst-text-slate-800">{ label }</span>
+			{ multiline ? (
+				<textarea
+					className={ classNames( fieldClasses, "yst-min-h-20 yst-resize-y" ) }
+					value={ value }
+					onChange={ onChange }
+				/>
+			) : (
+				<input
+					type="text"
+					className={ fieldClasses }
+					value={ value }
+					onChange={ onChange }
+				/>
 			) }
-		>
-			{ value }
+			{ showProgressBar && <MetaDescriptionProgressBar value={ value } /> }
 		</div>
-	</div>
-);
+	);
+};
 
 /**
  * A single draggable row in the blog post structure list.
@@ -254,13 +312,23 @@ export const ContentOutlineModal = ( { isOpen, onClose, onBack, onAddOutline, su
 	const svgAriaProps = useSvgAria();
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = useSimulatedLoading( isOpen );
+	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.focusKeyphrase );
+	const [ title, setTitle ] = useState( suggestion.title );
+	const [ metaDescription, setMetaDescription ] = useState( suggestion.metaDescription );
 	const [ structure, setStructure ] = useState( () => withIds( suggestion.structure ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );
 
 	useEffect( () => {
+		setFocusKeyphrase( suggestion.focusKeyphrase );
+		setTitle( suggestion.title );
+		setMetaDescription( suggestion.metaDescription );
 		setStructure( withIds( suggestion.structure ) );
-	}, [ suggestion.structure ] );
+	}, [ suggestion ] );
+
+	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
+	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
+	const handleMetaDescriptionChange = useCallback( ( e ) => setMetaDescription( e.target.value ), [] );
 
 	const handleCategoryToggle = useCallback( () => {
 		setIsCategoryEnabled( ( prev ) => ! prev );
@@ -339,7 +407,7 @@ export const ContentOutlineModal = ( { isOpen, onClose, onBack, onAddOutline, su
 						) }
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
-						<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-6">
+						<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
 							<IntentCallout
 								intent={ suggestion.intent }
 								description={ suggestion.description }
@@ -405,22 +473,26 @@ export const ContentOutlineModal = ( { isOpen, onClose, onBack, onAddOutline, su
 									<div className="yst-flex yst-flex-col yst-gap-4">
 										<FormField
 											label={ __( "Focus Keyphrase", "wordpress-seo" ) }
-											value={ suggestion.focusKeyphrase }
+											value={ focusKeyphrase }
+											onChange={ handleFocusKeyphraseChange }
 										/>
 										<FormField
 											label={ __( "Title", "wordpress-seo" ) }
-											value={ suggestion.title }
+											value={ title }
+											onChange={ handleTitleChange }
 										/>
 										<FormField
 											label={ __( "Meta description", "wordpress-seo" ) }
-											value={ suggestion.metaDescription }
+											value={ metaDescription }
+											onChange={ handleMetaDescriptionChange }
 											multiline={ true }
+											showProgressBar={ true }
 										/>
 									</div>
 
 									<hr className="yst-border-slate-200" />
 
-									<div className="yst-flex yst-items-end yst-justify-between">
+									<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
 										<span className="yst-font-medium yst-text-sm yst-text-slate-800">
 											{ __( "Blog post structure", "wordpress-seo" ) }
 										</span>

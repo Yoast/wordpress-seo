@@ -186,9 +186,9 @@ describe( "ContentOutlineModal", () => {
 
 		it( "shows the form field values after loading", () => {
 			renderLoadedModal();
-			expect( screen.getByText( defaultSuggestion.focusKeyphrase ) ).toBeInTheDocument();
-			expect( screen.getByText( defaultSuggestion.title ) ).toBeInTheDocument();
-			expect( screen.getByText( defaultSuggestion.metaDescription ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.focusKeyphrase ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.title ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.metaDescription ) ).toBeInTheDocument();
 		} );
 
 		it( "shows the blog post structure section after loading", () => {
@@ -222,8 +222,8 @@ describe( "ContentOutlineModal", () => {
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByText( defaultSuggestion.focusKeyphrase ) ).not.toBeInTheDocument();
-			expect( screen.queryByText( defaultSuggestion.metaDescription ) ).not.toBeInTheDocument();
+			expect( screen.queryByDisplayValue( defaultSuggestion.focusKeyphrase ) ).not.toBeInTheDocument();
+			expect( screen.queryByDisplayValue( defaultSuggestion.metaDescription ) ).not.toBeInTheDocument();
 		} );
 
 		it( "does not show the blog post structure section when loading", () => {
