@@ -64,12 +64,12 @@ describe( "ApproveModal", () => {
 
 		it( "renders the upsell button with the correct href when isUpsell is true", () => {
 			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/content-planner-approve-modal" } );
-			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-approve-modal" );
+			expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-approve-modal" );
 		} );
 
 		it( "opens the upsell link in a new tab", () => {
 			renderModal( { isUpsell: true, upsellLink: "https://yoa.st/content-planner-approve-modal" } );
-			expect( screen.getByRole( "link", { name: "Unlock with Yoast SEO Premium" } ) ).toHaveAttribute( "target", "_blank" );
+			expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "target", "_blank" );
 		} );
 	} );
 

@@ -5,7 +5,7 @@ import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
 import { store, STORE_NAME } from "./store";
 import InlineBanner from "./containers/inline-banner";
-import { PostPlannerEditorPlugin } from "./post-planner-editor-plugin";
+import { ContentPlannerEditorPlugin } from "./content-planner-editor-plugin";
 
 register( store );
 
@@ -44,7 +44,7 @@ const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
 		if ( isNewPost ) {
 			showBanner();
 		}
-	}, [ isNewPost ] );
+	}, [ isNewPost, showBanner ] );
 
 	useEffect( () => {
 		// Inject the stylesheet for the banner into the editor's iframe if it exists, otherwise into the main document.
@@ -73,7 +73,7 @@ const PostPlannerBannerContainer = ( { BlockEdit, props } ) => {
 	);
 };
 
-const withPostPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
+const withContentPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
 	// eslint-disable-next-line react/display-name
 	return ( props ) => {
 		if ( props.name !== "core/paragraph" ) {
@@ -81,18 +81,18 @@ const withPostPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 		return <PostPlannerBannerContainer BlockEdit={ BlockEdit } props={ props } />;
 	};
-}, "withPostPlannerBanner" );
+}, "withContentPlannerBanner" );
 
-addFilter( "editor.BlockEdit", "yoast-seo/post-planner-banner", withPostPlannerBanner );
+addFilter( "editor.BlockEdit", "yoast-seo/content-planner-banner", withContentPlannerBanner );
 
 /**
  * Initializes the Content Planner feature.
  *
- * Registers an editor plugin (PostPlannerEditorPlugin) that ensures a paragraph
+ * Registers an editor plugin (ContentPlannerEditorPlugin) that ensures a paragraph
  * block exists when the canvas is empty so the inline banner can be shown.
  *
  * @returns {void}
  */
-export default function initPostPlanner() {
-	registerPlugin( "yoast-post-planner", { render: PostPlannerEditorPlugin } );
+export default function initContentPlanner() {
+	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }

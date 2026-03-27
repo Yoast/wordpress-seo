@@ -7,8 +7,9 @@ import { FeatureModal } from "./feature-modal";
  *
  * @param {Object}  props               The component props.
  * @param {string}  props.location      The location where the editor item is rendered. Can be "sidebar" or "metabox".
- * @param {boolean} props.isPremium     Whether the user has a premium subscription.
+ * @param {boolean} props.isPremium     Whether the user has a premium add-on activated.
  * @param {boolean} props.isEmptyCanvas Whether the editor canvas has no content.
+ * @param {string}  props.upsellLink   The link to the upsell page for the content planner feature.
  * @returns {JSX.Element} The Content Planner section in the sidebar.
  */
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {

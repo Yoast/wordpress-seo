@@ -53,13 +53,17 @@ export const ApproveModal = ( { isEmptyCanvas, isPremium, isUpsell, onClick, ups
 			<h3 className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</h3>
 			<p className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</p>
 			{ isUpsell ? <Button
-				variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full"
+				variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
 			>
 				{ sprintf(
 					/* translators: %s is the name of the premium product, Yoast SEO Premium. */
 					__( "Unlock with %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
+				<span className="yst-sr-only">{
+					/* translators: Hidden accessibility text. */
+					__( "(Opens in a new browser tab)", "wordpress-seo" ) }
+				</span>
 			</Button>
 				: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
