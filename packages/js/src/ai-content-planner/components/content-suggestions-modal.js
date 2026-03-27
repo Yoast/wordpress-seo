@@ -27,6 +27,40 @@ const intentBadge = {
 	},
 };
 
+// Placeholder suggestions — will be replaced with real API data in a future iteration.
+const suggestions = [
+	{
+		intent: "informational",
+		title: "How to train your dog",
+		description: "Tips and tricks on how to train your dog effectively.",
+	},
+	{
+		intent: "navigational",
+		title: "Best dog training schools in New York",
+		description: "A list of the best dog training schools in New York.",
+	},
+	{
+		intent: "commercial",
+		title: "Top 10 dog training tools",
+		description: "A review of the top 10 dog training tools on the market.",
+	},
+	{
+		intent: "informational",
+		title: "How to groom your dog",
+		description: "Step-by-step guide on how to groom your dog at home.",
+	},
+	{
+		intent: "navigational",
+		title: "Dog parks in Los Angeles",
+		description: "Find the best dog parks in Los Angeles for your furry friend.",
+	},
+	{
+		intent: "commercial",
+		title: "Best dog food brands",
+		description: "An overview of the best dog food brands for a healthy diet.",
+	},
+];
+
 /**
  * Suggestion button component.
  *
@@ -111,8 +145,8 @@ const LoadingModalContent = () => {
  * ContentSuggestionsModal component.
  *
  * @param {Object} props The component props.
- * @param {boolean} props.isOpen Whether the modal is open or not.
- * @param {boolean} props.isPremium Whether the user has a premium add-on is activated or not.
+ * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
+ * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
@@ -125,38 +159,6 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 			closeButtonRef.current?.focus();
 		}
 	}, [ status ] );
-	const suggestions = [
-		{
-			intent: "informational",
-			title: "How to train your dog",
-			description: "Tips and tricks on how to train your dog effectively.",
-		},
-		{
-			intent: "navigational",
-			title: "Best dog training schools in New York",
-			description: "A list of the best dog training schools in New York.",
-		},
-		{
-			intent: "commercial",
-			title: "Top 10 dog training tools",
-			description: "A review of the top 10 dog training tools on the market.",
-		},
-		{
-			intent: "informational",
-			title: "How to groom your dog",
-			description: "Step-by-step guide on how to groom your dog at home.",
-		},
-		{
-			intent: "navigational",
-			title: "Dog parks in Los Angeles",
-			description: "Find the best dog parks in Los Angeles for your furry friend.",
-		},
-		{
-			intent: "commercial",
-			title: "Best dog food brands",
-			description: "An overview of the best dog food brands for a healthy diet.",
-		},
-	];
 
 	return (
 		<Modal.Panel
@@ -168,7 +170,7 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
 					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
-					<Badge size="small"> { __( "Beta", "wordpress-seo" ) }</Badge>
+					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<UsageCounter
 						limit={ 10 }
 						requests={ 1 }
@@ -191,6 +193,10 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 						>
 							<div><LoadingModalContent /></div>
 						</Transition>
+						{ /*
+						 * yst-delay-300 matches the approve modal's leave duration (yst-duration-300)
+						 * so the suggestions only fade in after the approve panel has faded out.
+						 */ }
 						<Transition
 							as={ Fragment }
 							show={ status === "content-suggestions-success" }
@@ -203,9 +209,10 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 						>
 							<div>
 								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-								{ suggestions.map( ( suggestion, index ) => (
+								{ /* onClick is a placeholder — will be wired to real handler in a future iteration. */ }
+								{ suggestions.map( ( suggestion ) => (
 									<SuggestionButton
-										key={ index }
+										key={ suggestion.title }
 										{ ...suggestion }
 										onClick={ noop }
 									/>
