@@ -185,7 +185,7 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 						<Transition
 							as={ Fragment }
 							show={ status === "content-suggestions-success" }
-							enter="yst-transition-opacity yst-duration-300"
+							enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 							enterFrom="yst-opacity-0"
 							enterTo="yst-opacity-100"
 							leave="yst-transition-opacity yst-duration-300"
