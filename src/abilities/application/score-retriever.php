@@ -3,16 +3,23 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Application;
 
-use WP_Error;
 use WPSEO_Rank;
 use Yoast\WP\SEO\Abilities\Domain\Score_Result;
 use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Application service that retrieves SEO, readability, and inclusive language scores.
+ * Application service that retrieves SEO, readability, and inclusive language scores
+ * for the most recently modified posts.
  */
 class Score_Retriever {
+
+	/**
+	 * The default number of posts to retrieve.
+	 *
+	 * @var int
+	 */
+	private const DEFAULT_NUMBER_OF_POSTS = 10;
 
 	/**
 	 * The indexable repository.
@@ -43,31 +50,101 @@ class Score_Retriever {
 	}
 
 	/**
-	 * Retrieves the SEO score for a post.
+	 * Retrieves the SEO scores for the most recently modified posts.
 	 *
-	 * @param array<string, int> $input The input containing 'post_id'.
+	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
 	 *
-	 * @return array<string, int|string|null>|WP_Error The SEO score data or a WP_Error.
+	 * @return array<int, array<string, int|string|null>> The SEO score data for each post.
 	 */
-	public function get_seo_score( array $input ) {
-		$post_id = $input['post_id'];
+	public function get_seo_scores( array $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
 
-		$post = \get_post( $post_id );
-		if ( $post === null ) {
-			return new WP_Error( 'post_not_found', \sprintf( 'Post with ID %d not found.', $post_id ) );
+		return \array_map( [ $this, 'build_seo_score_for_indexable' ], $indexables );
+	}
+
+	/**
+	 * Retrieves the readability scores for the most recently modified posts.
+	 *
+	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 *
+	 * @return array<int, array<string, int|string>> The readability score data for each post.
+	 */
+	public function get_readability_scores( array $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+
+		return \array_map( [ $this, 'build_readability_score_for_indexable' ], $indexables );
+	}
+
+	/**
+	 * Retrieves the inclusive language scores for the most recently modified posts.
+	 *
+	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 *
+	 * @return array<int, array<string, int|string>> The inclusive language score data for each post.
+	 */
+	public function get_inclusive_language_scores( array $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+
+		return \array_map( [ $this, 'build_inclusive_language_score_for_indexable' ], $indexables );
+	}
+
+	/**
+	 * Retrieves all scores for the most recently modified posts.
+	 *
+	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 *
+	 * @return array<int, array<string, array<string, int|string|null>|string|null>> The combined score data for each post.
+	 */
+	public function get_all_scores( array $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+		$results    = [];
+
+		foreach ( $indexables as $indexable ) {
+			$title = $this->get_indexable_title( $indexable );
+
+			$seo_score = null;
+			if ( $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
+				$seo_score = $this->build_seo_score_for_indexable( $indexable );
+				unset( $seo_score['title'] );
+			}
+
+			$readability_score = null;
+			if ( $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
+				$readability_score = $this->build_readability_score_for_indexable( $indexable );
+				unset( $readability_score['title'] );
+			}
+
+			$inclusive_language_score = null;
+			if ( $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
+				$inclusive_language_score = $this->build_inclusive_language_score_for_indexable( $indexable );
+				unset( $inclusive_language_score['title'] );
+			}
+
+			$results[] = [
+				'title'              => $title,
+				'seo'                => $seo_score,
+				'readability'        => $readability_score,
+				'inclusive_language' => $inclusive_language_score,
+			];
 		}
 
-		$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post', false );
+		return $results;
+	}
 
-		if ( ! $indexable ) {
-			$result                    = ( new Score_Result( 0, 'na', \__( 'Not available', 'wordpress-seo' ) ) )->to_array();
-			$result['focus_keyphrase'] = null;
-			return $result;
-		}
+	/**
+	 * Builds the SEO score result for a single indexable.
+	 *
+	 * @param object $indexable The indexable object.
+	 *
+	 * @return array<string, int|string|null> The SEO score data.
+	 */
+	private function build_seo_score_for_indexable( $indexable ): array {
+		$title = $this->get_indexable_title( $indexable );
 
 		if ( $indexable->is_robots_noindex ) {
 			$rank   = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$result = ( new Score_Result(
+				$title,
 				0,
 				$rank->get_rank(),
 				$rank->get_label(),
@@ -80,6 +157,7 @@ class Score_Retriever {
 		$score  = (int) $indexable->primary_focus_keyword_score;
 		$rank   = WPSEO_Rank::from_numeric_score( $score );
 		$result = ( new Score_Result(
+			$title,
 			$score,
 			$rank->get_rank(),
 			$rank->get_label(),
@@ -90,30 +168,19 @@ class Score_Retriever {
 	}
 
 	/**
-	 * Retrieves the readability score for a post.
+	 * Builds the readability score result for a single indexable.
 	 *
-	 * @param array<string, int> $input The input containing 'post_id'.
+	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, int|string>|WP_Error The readability score data or a WP_Error.
+	 * @return array<string, int|string> The readability score data.
 	 */
-	public function get_readability_score( array $input ) {
-		$post_id = $input['post_id'];
-
-		$post = \get_post( $post_id );
-		if ( $post === null ) {
-			return new WP_Error( 'post_not_found', \sprintf( 'Post with ID %d not found.', $post_id ) );
-		}
-
-		$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post', false );
-
-		if ( ! $indexable ) {
-			return ( new Score_Result( 0, 'na', \__( 'Not available', 'wordpress-seo' ) ) )->to_array();
-		}
-
+	private function build_readability_score_for_indexable( $indexable ): array {
+		$title = $this->get_indexable_title( $indexable );
 		$score = (int) $indexable->readability_score;
 		$rank  = WPSEO_Rank::from_numeric_score( $score );
 
 		return ( new Score_Result(
+			$title,
 			$score,
 			$rank->get_rank(),
 			$rank->get_label(),
@@ -121,41 +188,29 @@ class Score_Retriever {
 	}
 
 	/**
-	 * Retrieves the inclusive language score for a post.
+	 * Builds the inclusive language score result for a single indexable.
 	 *
-	 * @param array<string, int> $input The input containing 'post_id'.
+	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, int|string>|WP_Error The inclusive language score data or a WP_Error.
+	 * @return array<string, int|string> The inclusive language score data.
 	 */
-	public function get_inclusive_language_score( array $input ) {
-		$post_id = $input['post_id'];
-
-		$post = \get_post( $post_id );
-		if ( $post === null ) {
-			return new WP_Error( 'post_not_found', \sprintf( 'Post with ID %d not found.', $post_id ) );
-		}
-
-		$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post', false );
-
-		if ( ! $indexable ) {
-			return new WP_Error(
-				'score_not_available',
-				\__( 'The inclusive language score is not available for this post.', 'wordpress-seo' ),
-			);
-		}
-
+	private function build_inclusive_language_score_for_indexable( $indexable ): array {
+		$title = $this->get_indexable_title( $indexable );
 		$score = (int) $indexable->inclusive_language_score;
 
 		if ( $score === 0 ) {
-			return new WP_Error(
-				'score_not_available',
-				\__( 'The inclusive language score has not been calculated yet for this post.', 'wordpress-seo' ),
-			);
+			return ( new Score_Result(
+				$title,
+				0,
+				'na',
+				\__( 'Not available', 'wordpress-seo' ),
+			) )->to_array();
 		}
 
 		$rank = WPSEO_Rank::from_numeric_score( $score );
 
 		return ( new Score_Result(
+			$title,
 			$score,
 			$rank->get_rank(),
 			$rank->get_inclusive_language_label(),
@@ -163,48 +218,41 @@ class Score_Retriever {
 	}
 
 	/**
-	 * Retrieves all scores for a post.
+	 * Returns the title for an indexable, with a fallback.
 	 *
-	 * @param array<string, int> $input The input containing 'post_id'.
+	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, array<string, int|string|null>|null>|WP_Error The combined score data or a WP_Error.
+	 * @return string The post title.
 	 */
-	public function get_all_scores( array $input ) {
-		$post_id = $input['post_id'];
-
-		$post = \get_post( $post_id );
-		if ( $post === null ) {
-			return new WP_Error( 'post_not_found', \sprintf( 'Post with ID %d not found.', $post_id ) );
+	private function get_indexable_title( $indexable ): string {
+		if ( ! empty( $indexable->breadcrumb_title ) ) {
+			return $indexable->breadcrumb_title;
 		}
 
-		$seo_score = null;
-		if ( $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
-			$result = $this->get_seo_score( $input );
-			if ( ! $result instanceof WP_Error ) {
-				$seo_score = $result;
-			}
-		}
+		return \__( '(no title)', 'wordpress-seo' );
+	}
 
-		$readability_score = null;
-		if ( $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
-			$result = $this->get_readability_score( $input );
-			if ( ! $result instanceof WP_Error ) {
-				$readability_score = $result;
-			}
-		}
+	/**
+	 * Retrieves the most recently modified post indexables.
+	 *
+	 * @param int $number_of_posts The number of posts to retrieve.
+	 *
+	 * @return array<object> The indexable objects.
+	 */
+	private function get_recent_indexables( int $number_of_posts ): array {
+		return $this->indexable_repository->get_recently_modified_posts( 'post', $number_of_posts, false );
+	}
 
-		$inclusive_language_score = null;
-		if ( $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
-			$result = $this->get_inclusive_language_score( $input );
-			if ( ! $result instanceof WP_Error ) {
-				$inclusive_language_score = $result;
-			}
-		}
+	/**
+	 * Extracts and clamps the number of posts from the input.
+	 *
+	 * @param array<string, int> $input The input array.
+	 *
+	 * @return int The clamped number of posts.
+	 */
+	private function get_number_of_posts( array $input ): int {
+		$number = ( $input['number_of_posts'] ?? self::DEFAULT_NUMBER_OF_POSTS );
 
-		return [
-			'seo'                => $seo_score,
-			'readability'        => $readability_score,
-			'inclusive_language' => $inclusive_language_score,
-		];
+		return \max( 1, (int) $number );
 	}
 }

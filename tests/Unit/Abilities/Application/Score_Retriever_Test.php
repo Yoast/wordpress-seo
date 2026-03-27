@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Brain\Monkey;
 use Mockery;
-use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -49,8 +48,6 @@ final class Score_Retriever_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		Mockery::mock( WP_Error::class );
-
 		$this->indexable_repository              = Mockery::mock( Indexable_Repository::class );
 		$this->enabled_analysis_features_checker = Mockery::mock( Enabled_Analysis_Features_Checker::class );
 
@@ -84,343 +81,314 @@ final class Score_Retriever_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_seo_score with a post that has a keyphrase and good score.
+	 * Tests get_seo_scores returns results for multiple posts.
 	 *
-	 * @covers ::get_seo_score
+	 * @covers ::get_seo_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_seo_score_with_keyphrase_and_good_score() {
-		$indexable                              = Mockery::mock();
-		$indexable->is_robots_noindex           = 0;
-		$indexable->primary_focus_keyword_score = 78;
-		$indexable->primary_focus_keyword       = 'best hiking boots';
+	public function test_get_seo_scores_returns_array_of_results() {
+		$indexable1                              = Mockery::mock();
+		$indexable1->breadcrumb_title            = 'Best Hiking Boots';
+		$indexable1->is_robots_noindex           = 0;
+		$indexable1->primary_focus_keyword_score = 78;
+		$indexable1->primary_focus_keyword       = 'hiking boots';
 
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
+		$indexable2                              = Mockery::mock();
+		$indexable2->breadcrumb_title            = 'Trail Running Guide';
+		$indexable2->is_robots_noindex           = 0;
+		$indexable2->primary_focus_keyword_score = 30;
+		$indexable2->primary_focus_keyword       = null;
 
 		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
+			->expects( 'get_recently_modified_posts' )
 			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable1, $indexable2 ] );
 
-		$result = $this->instance->get_seo_score( [ 'post_id' => 42 ] );
+		$result = $this->instance->get_seo_scores( [] );
 
 		$this->assertSame(
 			[
-				'score'           => 78,
-				'rating'          => 'good',
-				'label'           => 'Good',
-				'focus_keyphrase' => 'best hiking boots',
+				[
+					'title'           => 'Best Hiking Boots',
+					'score'           => 78,
+					'rating'          => 'good',
+					'label'           => 'Good',
+					'focus_keyphrase' => 'hiking boots',
+				],
+				[
+					'title'           => 'Trail Running Guide',
+					'score'           => 30,
+					'rating'          => 'bad',
+					'label'           => 'Needs improvement',
+					'focus_keyphrase' => null,
+				],
 			],
 			$result,
 		);
 	}
 
 	/**
-	 * Tests get_seo_score with a post that has no focus keyphrase.
+	 * Tests get_seo_scores with a noindexed post.
 	 *
-	 * @covers ::get_seo_score
+	 * @covers ::get_seo_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_seo_score_with_no_focus_keyphrase() {
+	public function test_get_seo_scores_with_noindex_post() {
+		$indexable                        = Mockery::mock();
+		$indexable->breadcrumb_title      = 'Draft Post';
+		$indexable->is_robots_noindex     = 1;
+		$indexable->primary_focus_keyword = 'some keyword';
+
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
+
+		$result = $this->instance->get_seo_scores( [] );
+
+		$this->assertSame(
+			[
+				[
+					'title'           => 'Draft Post',
+					'score'           => 0,
+					'rating'          => 'noindex',
+					'label'           => 'No index',
+					'focus_keyphrase' => 'some keyword',
+				],
+			],
+			$result,
+		);
+	}
+
+	/**
+	 * Tests get_seo_scores returns empty array when no posts exist.
+	 *
+	 * @covers ::get_seo_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_empty_result() {
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [] );
+
+		$result = $this->instance->get_seo_scores( [] );
+
+		$this->assertSame( [], $result );
+	}
+
+	/**
+	 * Tests get_seo_scores uses default number of posts when not specified.
+	 *
+	 * @covers ::get_seo_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_default_number_of_posts() {
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [] );
+
+		$this->instance->get_seo_scores( [] );
+	}
+
+	/**
+	 * Tests get_seo_scores respects custom number of posts.
+	 *
+	 * @covers ::get_seo_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_custom_number_of_posts() {
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 5, false )
+			->andReturn( [] );
+
+		$this->instance->get_seo_scores( [ 'number_of_posts' => 5 ] );
+	}
+
+	/**
+	 * Tests get_seo_scores passes through a large number of posts without capping.
+	 *
+	 * @covers ::get_seo_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_large_number_of_posts() {
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 999, false )
+			->andReturn( [] );
+
+		$this->instance->get_seo_scores( [ 'number_of_posts' => 999 ] );
+	}
+
+	/**
+	 * Tests get_seo_scores uses fallback title when breadcrumb_title is empty.
+	 *
+	 * @covers ::get_seo_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_seo_scores_fallback_title() {
 		$indexable                              = Mockery::mock();
+		$indexable->breadcrumb_title            = '';
 		$indexable->is_robots_noindex           = 0;
-		$indexable->primary_focus_keyword_score = 0;
+		$indexable->primary_focus_keyword_score = 50;
 		$indexable->primary_focus_keyword       = null;
 
-		Monkey\Functions\expect( 'get_post' )
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
 			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
+
+		$result = $this->instance->get_seo_scores( [] );
+
+		$this->assertSame( '(no title)', $result[0]['title'] );
+	}
+
+	/**
+	 * Tests get_readability_scores returns results for multiple posts.
+	 *
+	 * @covers ::get_readability_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_readability_scores_returns_array() {
+		$indexable1                    = Mockery::mock();
+		$indexable1->breadcrumb_title  = 'Post One';
+		$indexable1->readability_score = 45;
+
+		$indexable2                    = Mockery::mock();
+		$indexable2->breadcrumb_title  = 'Post Two';
+		$indexable2->readability_score = 30;
 
 		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
+			->expects( 'get_recently_modified_posts' )
 			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable1, $indexable2 ] );
 
-		$result = $this->instance->get_seo_score( [ 'post_id' => 42 ] );
+		$result = $this->instance->get_readability_scores( [] );
 
 		$this->assertSame(
 			[
-				'score'           => 0,
-				'rating'          => 'na',
-				'label'           => 'Not available',
-				'focus_keyphrase' => null,
+				[
+					'title'  => 'Post One',
+					'score'  => 45,
+					'rating' => 'ok',
+					'label'  => 'OK',
+				],
+				[
+					'title'  => 'Post Two',
+					'score'  => 30,
+					'rating' => 'bad',
+					'label'  => 'Needs improvement',
+				],
 			],
 			$result,
 		);
 	}
 
 	/**
-	 * Tests get_seo_score when the post is not found.
+	 * Tests get_inclusive_language_scores returns na for score of zero.
 	 *
-	 * @covers ::get_seo_score
-	 *
-	 * @return void
-	 */
-	public function test_get_seo_score_post_not_found() {
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 99_999 )
-			->andReturn( null );
-
-		$result = $this->instance->get_seo_score( [ 'post_id' => 99_999 ] );
-
-		$this->assertInstanceOf( WP_Error::class, $result );
-	}
-
-	/**
-	 * Tests get_seo_score when no indexable exists.
-	 *
-	 * @covers ::get_seo_score
+	 * @covers ::get_inclusive_language_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_seo_score_no_indexable() {
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( false );
-
-		$result = $this->instance->get_seo_score( [ 'post_id' => 42 ] );
-
-		$this->assertSame(
-			[
-				'score'           => 0,
-				'rating'          => 'na',
-				'label'           => 'Not available',
-				'focus_keyphrase' => null,
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_seo_score when the post is noindexed.
-	 *
-	 * @covers ::get_seo_score
-	 *
-	 * @return void
-	 */
-	public function test_get_seo_score_noindexed() {
-		$indexable                        = Mockery::mock();
-		$indexable->is_robots_noindex     = 1;
-		$indexable->primary_focus_keyword = 'best hiking boots';
-
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
-
-		$result = $this->instance->get_seo_score( [ 'post_id' => 42 ] );
-
-		$this->assertSame(
-			[
-				'score'           => 0,
-				'rating'          => 'noindex',
-				'label'           => 'No index',
-				'focus_keyphrase' => 'best hiking boots',
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_readability_score with an ok score.
-	 *
-	 * @covers ::get_readability_score
-	 *
-	 * @return void
-	 */
-	public function test_get_readability_score_ok() {
-		$indexable                    = Mockery::mock();
-		$indexable->readability_score = 45;
-
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
-
-		$result = $this->instance->get_readability_score( [ 'post_id' => 42 ] );
-
-		$this->assertSame(
-			[
-				'score'  => 45,
-				'rating' => 'ok',
-				'label'  => 'OK',
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_readability_score with a bad score.
-	 *
-	 * @covers ::get_readability_score
-	 *
-	 * @return void
-	 */
-	public function test_get_readability_score_bad() {
-		$indexable                    = Mockery::mock();
-		$indexable->readability_score = 30;
-
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
-
-		$result = $this->instance->get_readability_score( [ 'post_id' => 42 ] );
-
-		$this->assertSame(
-			[
-				'score'  => 30,
-				'rating' => 'bad',
-				'label'  => 'Needs improvement',
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_inclusive_language_score with an ok score.
-	 *
-	 * @covers ::get_inclusive_language_score
-	 *
-	 * @return void
-	 */
-	public function test_get_inclusive_language_score_ok() {
+	public function test_get_inclusive_language_scores_not_calculated() {
 		$indexable                           = Mockery::mock();
-		$indexable->inclusive_language_score = 55;
-
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
-
-		$result = $this->instance->get_inclusive_language_score( [ 'post_id' => 42 ] );
-
-		$this->assertSame(
-			[
-				'score'  => 55,
-				'rating' => 'ok',
-				'label'  => 'Potentially non-inclusive',
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_inclusive_language_score when no indexable exists.
-	 *
-	 * @covers ::get_inclusive_language_score
-	 *
-	 * @return void
-	 */
-	public function test_get_inclusive_language_score_no_indexable() {
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 42, 'post', false )
-			->andReturn( false );
-
-		$result = $this->instance->get_inclusive_language_score( [ 'post_id' => 42 ] );
-
-		$this->assertInstanceOf( WP_Error::class, $result );
-	}
-
-	/**
-	 * Tests get_inclusive_language_score when the score has not been calculated yet.
-	 *
-	 * @covers ::get_inclusive_language_score
-	 *
-	 * @return void
-	 */
-	public function test_get_inclusive_language_score_not_yet_calculated() {
-		$indexable                           = Mockery::mock();
+		$indexable->breadcrumb_title         = 'Some Post';
 		$indexable->inclusive_language_score = 0;
 
-		Monkey\Functions\expect( 'get_post' )
-			->once()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
 		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
+			->expects( 'get_recently_modified_posts' )
 			->once()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
 
-		$result = $this->instance->get_inclusive_language_score( [ 'post_id' => 42 ] );
+		$result = $this->instance->get_inclusive_language_scores( [] );
 
-		$this->assertInstanceOf( WP_Error::class, $result );
+		$this->assertSame(
+			[
+				[
+					'title'  => 'Some Post',
+					'score'  => 0,
+					'rating' => 'na',
+					'label'  => 'Not available',
+				],
+			],
+			$result,
+		);
 	}
 
 	/**
-	 * Tests get_all_scores with inclusive language enabled.
+	 * Tests get_inclusive_language_scores with an ok score.
+	 *
+	 * @covers ::get_inclusive_language_scores
+	 *
+	 * @return void
+	 */
+	public function test_get_inclusive_language_scores_ok() {
+		$indexable                           = Mockery::mock();
+		$indexable->breadcrumb_title         = 'Some Post';
+		$indexable->inclusive_language_score = 55;
+
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
+
+		$result = $this->instance->get_inclusive_language_scores( [] );
+
+		$this->assertSame(
+			[
+				[
+					'title'  => 'Some Post',
+					'score'  => 55,
+					'rating' => 'ok',
+					'label'  => 'Potentially non-inclusive',
+				],
+			],
+			$result,
+		);
+	}
+
+	/**
+	 * Tests get_all_scores with all features enabled.
 	 *
 	 * @covers ::get_all_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_all_scores_with_inclusive_language_enabled() {
+	public function test_get_all_scores_with_all_features_enabled() {
 		$indexable                              = Mockery::mock();
+		$indexable->breadcrumb_title            = 'My Post';
 		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 78;
 		$indexable->primary_focus_keyword       = 'best hiking boots';
 		$indexable->readability_score           = 30;
 		$indexable->inclusive_language_score    = 85;
 
-		Monkey\Functions\expect( 'get_post' )
-			->zeroOrMoreTimes()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
 		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->zeroOrMoreTimes()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
 
 		$this->enabled_analysis_features_checker
 			->expects( 'is_keyword_analysis_enabled' )
@@ -437,25 +405,28 @@ final class Score_Retriever_Test extends TestCase {
 			->zeroOrMoreTimes()
 			->andReturn( true );
 
-		$result = $this->instance->get_all_scores( [ 'post_id' => 42 ] );
+		$result = $this->instance->get_all_scores( [] );
 
 		$this->assertSame(
 			[
-				'seo'                => [
-					'score'           => 78,
-					'rating'          => 'good',
-					'label'           => 'Good',
-					'focus_keyphrase' => 'best hiking boots',
-				],
-				'readability'        => [
-					'score'  => 30,
-					'rating' => 'bad',
-					'label'  => 'Needs improvement',
-				],
-				'inclusive_language' => [
-					'score'  => 85,
-					'rating' => 'good',
-					'label'  => 'Good',
+				[
+					'title'              => 'My Post',
+					'seo'                => [
+						'score'           => 78,
+						'rating'          => 'good',
+						'label'           => 'Good',
+						'focus_keyphrase' => 'best hiking boots',
+					],
+					'readability'        => [
+						'score'  => 30,
+						'rating' => 'bad',
+						'label'  => 'Needs improvement',
+					],
+					'inclusive_language' => [
+						'score'  => 85,
+						'rating' => 'good',
+						'label'  => 'Good',
+					],
 				],
 			],
 			$result,
@@ -463,29 +434,25 @@ final class Score_Retriever_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_all_scores with inclusive language disabled.
+	 * Tests get_all_scores with disabled features returns null sub-scores.
 	 *
 	 * @covers ::get_all_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_all_scores_with_inclusive_language_disabled() {
+	public function test_get_all_scores_with_disabled_features() {
 		$indexable                              = Mockery::mock();
+		$indexable->breadcrumb_title            = 'My Post';
 		$indexable->is_robots_noindex           = 0;
 		$indexable->primary_focus_keyword_score = 78;
-		$indexable->primary_focus_keyword       = 'best hiking boots';
+		$indexable->primary_focus_keyword       = 'hiking';
 		$indexable->readability_score           = 30;
 
-		Monkey\Functions\expect( 'get_post' )
-			->zeroOrMoreTimes()
-			->with( 42 )
-			->andReturn( (object) [ 'ID' => 42 ] );
-
 		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->zeroOrMoreTimes()
-			->with( 42, 'post', false )
-			->andReturn( $indexable );
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [ $indexable ] );
 
 		$this->enabled_analysis_features_checker
 			->expects( 'is_keyword_analysis_enabled' )
@@ -497,22 +464,25 @@ final class Score_Retriever_Test extends TestCase {
 			->zeroOrMoreTimes()
 			->andReturn( true );
 
-		$result = $this->instance->get_all_scores( [ 'post_id' => 42 ] );
+		$result = $this->instance->get_all_scores( [] );
 
 		$this->assertSame(
 			[
-				'seo'                => [
-					'score'           => 78,
-					'rating'          => 'good',
-					'label'           => 'Good',
-					'focus_keyphrase' => 'best hiking boots',
+				[
+					'title'              => 'My Post',
+					'seo'                => [
+						'score'           => 78,
+						'rating'          => 'good',
+						'label'           => 'Good',
+						'focus_keyphrase' => 'hiking',
+					],
+					'readability'        => [
+						'score'  => 30,
+						'rating' => 'bad',
+						'label'  => 'Needs improvement',
+					],
+					'inclusive_language' => null,
 				],
-				'readability'        => [
-					'score'  => 30,
-					'rating' => 'bad',
-					'label'  => 'Needs improvement',
-				],
-				'inclusive_language' => null,
 			],
 			$result,
 		);

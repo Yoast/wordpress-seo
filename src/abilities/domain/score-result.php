@@ -9,6 +9,13 @@ namespace Yoast\WP\SEO\Abilities\Domain;
 class Score_Result {
 
 	/**
+	 * The post title.
+	 *
+	 * @var string
+	 */
+	private $title;
+
+	/**
 	 * The numeric score (0-100).
 	 *
 	 * @var int
@@ -39,12 +46,14 @@ class Score_Result {
 	/**
 	 * Constructor.
 	 *
+	 * @param string      $title           The post title.
 	 * @param int         $score           The numeric score (0-100).
 	 * @param string      $rating          The rank slug.
 	 * @param string      $label           The translated human-readable label.
 	 * @param string|null $focus_keyphrase The focus keyphrase, or null.
 	 */
-	public function __construct( int $score, string $rating, string $label, ?string $focus_keyphrase = null ) {
+	public function __construct( string $title, int $score, string $rating, string $label, ?string $focus_keyphrase = null ) {
+		$this->title           = $title;
 		$this->score           = $score;
 		$this->rating          = $rating;
 		$this->label           = $label;
@@ -67,6 +76,7 @@ class Score_Result {
 	 */
 	public function to_array(): array {
 		return [
+			'title'  => $this->title,
 			'score'  => $this->score,
 			'rating' => $this->rating,
 			'label'  => $this->label,
