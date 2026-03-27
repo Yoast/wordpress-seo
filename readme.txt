@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-03-31
 
+Yoast SEO 27.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+
 #### Enhancements
 
 * Adds the highlighting feature to _keyphrase in subheadings_ assessment. Now users can highlight the headings that include the keyphrase or synonyms.
