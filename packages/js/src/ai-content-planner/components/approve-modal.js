@@ -1,4 +1,4 @@
-import { Button, Modal, GradientSparklesIcon, Root } from "@yoast/ui-library";
+import { Button, Modal, GradientSparklesIcon, Root, useSvgAria } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { OneSparkNote } from "./one-spark-note";
@@ -47,6 +47,7 @@ const getModalContent = ( isEmptyCanvas ) => {
  */
 export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, onClick, upsellLink } ) => {
 	const { title, description } = getModalContent( isEmptyCanvas, isUpsell );
+	const svgAriaProps = useSvgAria();
 	const handleOnClick = useCallback( () => {
 		onClick();
 		onClose();
@@ -58,7 +59,7 @@ export const ApproveModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	>
 		<Modal.Panel className="yst-text-center yst-w-96">
 			<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
-				<GradientSparklesIcon className="yst-h-6 yst-w-6" />
+				<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 			</div>
 			<h3 className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</h3>
 			<p className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</p>
