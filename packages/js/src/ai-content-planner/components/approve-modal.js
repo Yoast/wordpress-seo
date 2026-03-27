@@ -50,8 +50,8 @@ export const ApproveModal = ( { isEmptyCanvas, isPremium, isUpsell, onClick, ups
 			<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
 				<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 			</div>
-			<h3 className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</h3>
-			<p className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</p>
+			<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
+			<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</Modal.Description>
 			{ isUpsell ? <Button
 				variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
 			>
