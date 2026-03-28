@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { Button, Root, useToggleState } from "@yoast/ui-library";
-import { ApproveModal } from "./approve-modal";
+import { FeatureModal } from "./feature-modal";
 
 /**
  * The section for the content planner feature in the Yoast sidebar.
@@ -9,27 +9,24 @@ import { ApproveModal } from "./approve-modal";
  * @param {string}  props.location      The location where the editor item is rendered. Can be "sidebar" or "metabox".
  * @param {boolean} props.isPremium     Whether the user has a premium add-on activated.
  * @param {boolean} props.isEmptyCanvas Whether the editor canvas has no content.
+ * @param {boolean} props.isUpsell     Whether to show the upsell variant of the modal.
  * @param {string}  props.upsellLink   The link to the upsell page for the content planner feature.
  * @returns {JSX.Element} The Content Planner section in the sidebar.
  */
-export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, upsellLink } ) => {
-	const [ isApproveModalOpen, , , openApproveModal, closeApproveModal ] = useToggleState( false );
-	const [ , , , openContentSuggestionModal ] = useToggleState( false );
+export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, isUpsell, upsellLink } ) => {
+	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
 
 	return <Root><div className="yst-p-4">
-		<Button variant="ai-secondary" onClick={ openApproveModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
+		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
 		</Button>
-		<ApproveModal
-			isOpen={ isApproveModalOpen }
-			onClose={ closeApproveModal }
+		<FeatureModal
+			isOpen={ isFeatureModalOpen }
+			onClose={ closeFeatureModal }
 			isEmptyCanvas={ isEmptyCanvas }
 			isPremium={ isPremium }
-			onClick={ openContentSuggestionModal }
-			// Will be addressed in future iterations.
-			isUpsell={ false }
+			isUpsell={ isUpsell }
 			upsellLink={ upsellLink }
 		/>
-	</div>
-	</Root>;
+	</div></Root>;
 };
