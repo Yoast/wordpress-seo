@@ -67,7 +67,9 @@ describe( "ContentSuggestionsModal", () => {
 			renderLoadingModal();
 			const liveRegion = document.querySelector( "[aria-live='polite']" );
 			expect( liveRegion ).not.toBeNull();
-			act( () => { jest.advanceTimersByTime( 100 ); } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( within( liveRegion ).getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
 		} );
 
@@ -87,13 +89,17 @@ describe( "ContentSuggestionsModal", () => {
 
 		it( "shows the loading message after 100ms", () => {
 			renderLoadingModal();
-			act( () => { jest.advanceTimersByTime( 100 ); } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
 		} );
 
 		it( "does not show the intro text while loading", () => {
 			renderLoadingModal();
-			act( () => { jest.advanceTimersByTime( 100 ); } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
 			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
 		} );
 	} );
