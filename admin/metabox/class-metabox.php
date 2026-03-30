@@ -754,7 +754,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
 		);
 
-		if ( $post->post_type === 'post' && $this->is_block_editor ) {
+		if ( $post->post_type === 'post' ) {
 			$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'content_planner' ) );
 		}
 
