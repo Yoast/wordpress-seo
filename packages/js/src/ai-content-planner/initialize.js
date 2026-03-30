@@ -34,9 +34,10 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 const ContentPlannerBannerContainer = ( { BlockEdit, props } ) => {
 	const ref = useRef( null );
 
-	const { isBannerDismissed, isBannerRendered } = useSelect( select => ( {
+	const { isBannerDismissed, isBannerRendered, postType } = useSelect( select => ( {
 		isBannerDismissed: select( STORE_NAME ).getIsBannerDismissed(),
 		isBannerRendered: select( STORE_NAME ).getIsBannerRendered(),
+		postType: select( "core/editor" ).getCurrentPostType(),
 	} ), [] );
 
 	const isNewPost = useSelect( select => select( "core/editor" ).isEditedPostNew(), [] );
@@ -76,7 +77,7 @@ const ContentPlannerBannerContainer = ( { BlockEdit, props } ) => {
 		<Fragment>
 			<span ref={ ref } style={ { display: "none" } } />
 			<BlockEdit { ...props } />
-			{ ! isBannerDismissed && isFirstParagraph && ( isNewPost || isBannerRendered ) && <InlineBanner /> }
+			{ postType === "post" && ! isBannerDismissed && isFirstParagraph && ( isNewPost || isBannerRendered ) && <InlineBanner /> }
 		</Fragment>
 	);
 };
