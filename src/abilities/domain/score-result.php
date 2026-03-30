@@ -37,36 +37,18 @@ class Score_Result {
 	private $label;
 
 	/**
-	 * The focus keyphrase (only for SEO score, null otherwise).
-	 *
-	 * @var string|null
-	 */
-	private $focus_keyphrase;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param string      $title           The post title.
-	 * @param int         $score           The numeric score (0-100).
-	 * @param string      $rating          The rank slug.
-	 * @param string      $label           The translated human-readable label.
-	 * @param string|null $focus_keyphrase The focus keyphrase, or null.
+	 * @param string $title  The post title.
+	 * @param int    $score  The numeric score (0-100).
+	 * @param string $rating The rank slug.
+	 * @param string $label  The translated human-readable label.
 	 */
-	public function __construct( string $title, int $score, string $rating, string $label, ?string $focus_keyphrase = null ) {
-		$this->title           = $title;
-		$this->score           = $score;
-		$this->rating          = $rating;
-		$this->label           = $label;
-		$this->focus_keyphrase = $focus_keyphrase;
-	}
-
-	/**
-	 * Returns the focus keyphrase.
-	 *
-	 * @return string|null The focus keyphrase, or null.
-	 */
-	public function get_focus_keyphrase(): ?string {
-		return $this->focus_keyphrase;
+	public function __construct( string $title, int $score, string $rating, string $label ) {
+		$this->title  = $title;
+		$this->score  = $score;
+		$this->rating = $rating;
+		$this->label  = $label;
 	}
 
 	/**

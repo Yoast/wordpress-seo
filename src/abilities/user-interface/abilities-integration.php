@@ -15,6 +15,20 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Abilities_Integration implements Integration_Interface {
 
 	/**
+	 * Valid ratings for SEO scores.
+	 *
+	 * @var array<string>
+	 */
+	private const SEO_RATINGS = [ 'na', 'bad', 'ok', 'good', 'noindex' ];
+
+	/**
+	 * Valid ratings for content analysis scores (readability and inclusive language).
+	 *
+	 * @var array<string>
+	 */
+	private const CONTENT_ANALYSIS_RATINGS = [ 'na', 'bad', 'ok', 'good' ];
+
+	/**
 	 * The score retriever.
 	 *
 	 * @var Score_Retriever
@@ -92,100 +106,9 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_abilities() {
-		$seo_score_item_schema                                  = $this->get_score_output_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
-		$seo_score_item_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => \__( 'The focus keyphrase for the post, or null if not set.', 'wordpress-seo' ),
-		];
-
-		$readability_score_item_schema        = $this->get_score_output_schema( [ 'na', 'bad', 'ok', 'good' ] );
-		$inclusive_language_score_item_schema = $this->get_score_output_schema( [ 'na', 'bad', 'ok', 'good' ] );
-
-		if ( $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
-			\wp_register_ability(
-				'yoast-seo/get-seo-scores',
-				$this->get_shared_ability_args(
-					[
-						'label'            => \__( 'Get SEO Scores', 'wordpress-seo' ),
-						'description'      => \__( 'Get the SEO scores for the most recently modified posts.', 'wordpress-seo' ),
-						'output_schema'    => $this->wrap_in_array_schema( $seo_score_item_schema ),
-						'execute_callback' => [ $this->score_retriever, 'get_seo_scores' ],
-					],
-				),
-			);
-		}
-
-		if ( $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
-			\wp_register_ability(
-				'yoast-seo/get-readability-scores',
-				$this->get_shared_ability_args(
-					[
-						'label'            => \__( 'Get Readability Scores', 'wordpress-seo' ),
-						'description'      => \__( 'Get the readability scores for the most recently modified posts.', 'wordpress-seo' ),
-						'output_schema'    => $this->wrap_in_array_schema( $readability_score_item_schema ),
-						'execute_callback' => [ $this->score_retriever, 'get_readability_scores' ],
-					],
-				),
-			);
-		}
-
-		if ( $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
-			\wp_register_ability(
-				'yoast-seo/get-inclusive-language-scores',
-				$this->get_shared_ability_args(
-					[
-						'label'            => \__( 'Get Inclusive Language Scores', 'wordpress-seo' ),
-						'description'      => \__( 'Get the inclusive language scores for the most recently modified posts.', 'wordpress-seo' ),
-						'output_schema'    => $this->wrap_in_array_schema( $inclusive_language_score_item_schema ),
-						'execute_callback' => [ $this->score_retriever, 'get_inclusive_language_scores' ],
-					],
-				),
-			);
-		}
-
-		$nullable_schema = static function ( array $schema ): array {
-			return [
-				'oneOf' => [
-					$schema,
-					[ 'type' => 'null' ],
-				],
-			];
-		};
-
-		// For sub-scores inside get-all-scores, use schemas without the title property.
-		$seo_sub_schema                                  = $this->get_score_sub_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
-		$seo_sub_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => \__( 'The focus keyphrase for the post, or null if not set.', 'wordpress-seo' ),
-		];
-
-		$readability_sub_schema        = $this->get_score_sub_schema( [ 'na', 'bad', 'ok', 'good' ] );
-		$inclusive_language_sub_schema = $this->get_score_sub_schema( [ 'na', 'bad', 'ok', 'good' ] );
-
-		$all_scores_item_schema = [
-			'type'       => 'object',
-			'properties' => [
-				'title'              => [
-					'type'        => 'string',
-					'description' => \__( 'The post title.', 'wordpress-seo' ),
-				],
-				'seo'                => $nullable_schema( $seo_sub_schema ),
-				'readability'        => $nullable_schema( $readability_sub_schema ),
-				'inclusive_language' => $nullable_schema( $inclusive_language_sub_schema ),
-			],
-		];
-
-		\wp_register_ability(
-			'yoast-seo/get-all-scores',
-			$this->get_shared_ability_args(
-				[
-					'label'            => \__( 'Get All Analysis Scores', 'wordpress-seo' ),
-					'description'      => \__( 'Get all analysis scores (SEO, readability, inclusive language) for the most recently modified posts.', 'wordpress-seo' ),
-					'output_schema'    => $this->wrap_in_array_schema( $all_scores_item_schema ),
-					'execute_callback' => [ $this->score_retriever, 'get_all_scores' ],
-				],
-			),
-		);
+		$this->register_seo_scores_ability();
+		$this->register_readability_scores_ability();
+		$this->register_inclusive_language_scores_ability();
 	}
 
 	/**
@@ -195,6 +118,81 @@ class Abilities_Integration implements Integration_Interface {
 	 */
 	public function can_read_scores(): bool {
 		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Registers the SEO scores ability if keyword analysis is enabled.
+	 *
+	 * @return void
+	 */
+	private function register_seo_scores_ability(): void {
+		if ( ! $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
+			return;
+		}
+
+		$output_schema                                  = $this->get_score_output_schema( self::SEO_RATINGS );
+		$output_schema['properties']['focus_keyphrase'] = [
+			'type'        => [ 'string', 'null' ],
+			'description' => \__( 'The focus keyphrase for the post, or null if not set.', 'wordpress-seo' ),
+		];
+
+		\wp_register_ability(
+			'yoast-seo/get-seo-scores',
+			$this->get_shared_ability_args(
+				[
+					'label'            => \__( 'Get SEO Scores', 'wordpress-seo' ),
+					'description'      => \__( 'Get the SEO scores for the most recently modified posts.', 'wordpress-seo' ),
+					'output_schema'    => $this->wrap_in_array_schema( $output_schema ),
+					'execute_callback' => [ $this->score_retriever, 'get_seo_scores' ],
+				],
+			),
+		);
+	}
+
+	/**
+	 * Registers the readability scores ability if content analysis is enabled.
+	 *
+	 * @return void
+	 */
+	private function register_readability_scores_ability(): void {
+		if ( ! $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
+			return;
+		}
+
+		\wp_register_ability(
+			'yoast-seo/get-readability-scores',
+			$this->get_shared_ability_args(
+				[
+					'label'            => \__( 'Get Readability Scores', 'wordpress-seo' ),
+					'description'      => \__( 'Get the readability scores for the most recently modified posts.', 'wordpress-seo' ),
+					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema( self::CONTENT_ANALYSIS_RATINGS ) ),
+					'execute_callback' => [ $this->score_retriever, 'get_readability_scores' ],
+				],
+			),
+		);
+	}
+
+	/**
+	 * Registers the inclusive language scores ability if inclusive language analysis is enabled.
+	 *
+	 * @return void
+	 */
+	private function register_inclusive_language_scores_ability(): void {
+		if ( ! $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
+			return;
+		}
+
+		\wp_register_ability(
+			'yoast-seo/get-inclusive-language-scores',
+			$this->get_shared_ability_args(
+				[
+					'label'            => \__( 'Get Inclusive Language Scores', 'wordpress-seo' ),
+					'description'      => \__( 'Get the inclusive language scores for the most recently modified posts.', 'wordpress-seo' ),
+					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema( self::CONTENT_ANALYSIS_RATINGS ) ),
+					'execute_callback' => [ $this->score_retriever, 'get_inclusive_language_scores' ],
+				],
+			),
+		);
 	}
 
 	/**
@@ -208,7 +206,17 @@ class Abilities_Integration implements Integration_Interface {
 		return \array_merge(
 			[
 				'category'            => 'yoast-seo',
-				'input_schema'        => $this->get_number_of_posts_schema(),
+				'input_schema'        => [
+					'type'       => 'object',
+					'properties' => [
+						'number_of_posts' => [
+							'type'        => 'integer',
+							'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
+							'minimum'     => 1,
+							'default'     => 10,
+						],
+					],
+				],
 				'permission_callback' => [ $this, 'can_read_scores' ],
 				'meta'                => [
 					'show_in_rest' => true,
@@ -274,34 +282,6 @@ class Abilities_Integration implements Integration_Interface {
 					'type'        => 'string',
 					'description' => \__( 'The post title.', 'wordpress-seo' ),
 				],
-				'score'  => [
-					'type'        => 'integer',
-					'description' => \__( 'The numeric score from 0 to 100.', 'wordpress-seo' ),
-				],
-				'rating' => [
-					'type'        => 'string',
-					'enum'        => $ratings,
-					'description' => \__( 'The rating slug.', 'wordpress-seo' ),
-				],
-				'label'  => [
-					'type'        => 'string',
-					'description' => \__( 'A human-readable label for the rating.', 'wordpress-seo' ),
-				],
-			],
-		];
-	}
-
-	/**
-	 * Returns the score sub-schema (without title) for use inside the all-scores ability.
-	 *
-	 * @param array<string> $ratings The valid rating slugs for this score type.
-	 *
-	 * @return array<string, array<string, string>> The score sub-schema.
-	 */
-	private function get_score_sub_schema( array $ratings ): array {
-		return [
-			'type'       => 'object',
-			'properties' => [
 				'score'  => [
 					'type'        => 'integer',
 					'description' => \__( 'The numeric score from 0 to 100.', 'wordpress-seo' ),

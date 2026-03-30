@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Abilities\Application;
 
 use WPSEO_Rank;
 use Yoast\WP\SEO\Abilities\Domain\Score_Result;
-use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -29,24 +28,14 @@ class Score_Retriever {
 	private $indexable_repository;
 
 	/**
-	 * The enabled analysis features checker.
-	 *
-	 * @var Enabled_Analysis_Features_Checker
-	 */
-	private $enabled_analysis_features_checker;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param Indexable_Repository              $indexable_repository              The indexable repository.
-	 * @param Enabled_Analysis_Features_Checker $enabled_analysis_features_checker The enabled analysis features checker.
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository,
-		Enabled_Analysis_Features_Checker $enabled_analysis_features_checker
+		Indexable_Repository $indexable_repository
 	) {
-		$this->indexable_repository              = $indexable_repository;
-		$this->enabled_analysis_features_checker = $enabled_analysis_features_checker;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -86,49 +75,6 @@ class Score_Retriever {
 		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
 
 		return \array_map( [ $this, 'build_inclusive_language_score_for_indexable' ], $indexables );
-	}
-
-	/**
-	 * Retrieves all scores for the most recently modified posts.
-	 *
-	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
-	 *
-	 * @return array<int, array<string, array<string, int|string|null>|string|null>> The combined score data for each post.
-	 */
-	public function get_all_scores( array $input ): array {
-		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
-		$results    = [];
-
-		foreach ( $indexables as $indexable ) {
-			$title = $this->get_indexable_title( $indexable );
-
-			$seo_score = null;
-			if ( $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
-				$seo_score = $this->build_seo_score_for_indexable( $indexable );
-				unset( $seo_score['title'] );
-			}
-
-			$readability_score = null;
-			if ( $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
-				$readability_score = $this->build_readability_score_for_indexable( $indexable );
-				unset( $readability_score['title'] );
-			}
-
-			$inclusive_language_score = null;
-			if ( $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
-				$inclusive_language_score = $this->build_inclusive_language_score_for_indexable( $indexable );
-				unset( $inclusive_language_score['title'] );
-			}
-
-			$results[] = [
-				'title'              => $title,
-				'seo'                => $seo_score,
-				'readability'        => $readability_score,
-				'inclusive_language' => $inclusive_language_score,
-			];
-		}
-
-		return $results;
 	}
 
 	/**

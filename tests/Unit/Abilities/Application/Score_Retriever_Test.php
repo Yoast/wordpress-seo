@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
-use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -27,13 +26,6 @@ final class Score_Retriever_Test extends TestCase {
 	private $indexable_repository;
 
 	/**
-	 * The enabled analysis features checker mock.
-	 *
-	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Checker
-	 */
-	private $enabled_analysis_features_checker;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var Score_Retriever
@@ -48,12 +40,10 @@ final class Score_Retriever_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository              = Mockery::mock( Indexable_Repository::class );
-		$this->enabled_analysis_features_checker = Mockery::mock( Enabled_Analysis_Features_Checker::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Score_Retriever(
 			$this->indexable_repository,
-			$this->enabled_analysis_features_checker,
 		);
 
 		Monkey\Functions\stubs(
@@ -63,21 +53,6 @@ final class Score_Retriever_Test extends TestCase {
 				},
 			],
 		);
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_keyword_analysis_enabled' )
-			->andReturn( true )
-			->byDefault();
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_content_analysis_enabled' )
-			->andReturn( true )
-			->byDefault();
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_inclusive_language_enabled' )
-			->andReturn( false )
-			->byDefault();
 	}
 
 	/**
@@ -362,126 +337,6 @@ final class Score_Retriever_Test extends TestCase {
 					'score'  => 55,
 					'rating' => 'ok',
 					'label'  => 'Potentially non-inclusive',
-				],
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_all_scores with all features enabled.
-	 *
-	 * @covers ::get_all_scores
-	 *
-	 * @return void
-	 */
-	public function test_get_all_scores_with_all_features_enabled() {
-		$indexable                              = Mockery::mock();
-		$indexable->breadcrumb_title            = 'My Post';
-		$indexable->is_robots_noindex           = 0;
-		$indexable->primary_focus_keyword_score = 78;
-		$indexable->primary_focus_keyword       = 'best hiking boots';
-		$indexable->readability_score           = 30;
-		$indexable->inclusive_language_score    = 85;
-
-		$this->indexable_repository
-			->expects( 'get_recently_modified_posts' )
-			->once()
-			->with( 'post', 10, false )
-			->andReturn( [ $indexable ] );
-
-		$this->enabled_analysis_features_checker
-			->expects( 'is_keyword_analysis_enabled' )
-			->zeroOrMoreTimes()
-			->andReturn( true );
-
-		$this->enabled_analysis_features_checker
-			->expects( 'is_content_analysis_enabled' )
-			->zeroOrMoreTimes()
-			->andReturn( true );
-
-		$this->enabled_analysis_features_checker
-			->expects( 'is_inclusive_language_enabled' )
-			->zeroOrMoreTimes()
-			->andReturn( true );
-
-		$result = $this->instance->get_all_scores( [] );
-
-		$this->assertSame(
-			[
-				[
-					'title'              => 'My Post',
-					'seo'                => [
-						'score'           => 78,
-						'rating'          => 'good',
-						'label'           => 'Good',
-						'focus_keyphrase' => 'best hiking boots',
-					],
-					'readability'        => [
-						'score'  => 30,
-						'rating' => 'bad',
-						'label'  => 'Needs improvement',
-					],
-					'inclusive_language' => [
-						'score'  => 85,
-						'rating' => 'good',
-						'label'  => 'Good',
-					],
-				],
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_all_scores with disabled features returns null sub-scores.
-	 *
-	 * @covers ::get_all_scores
-	 *
-	 * @return void
-	 */
-	public function test_get_all_scores_with_disabled_features() {
-		$indexable                              = Mockery::mock();
-		$indexable->breadcrumb_title            = 'My Post';
-		$indexable->is_robots_noindex           = 0;
-		$indexable->primary_focus_keyword_score = 78;
-		$indexable->primary_focus_keyword       = 'hiking';
-		$indexable->readability_score           = 30;
-
-		$this->indexable_repository
-			->expects( 'get_recently_modified_posts' )
-			->once()
-			->with( 'post', 10, false )
-			->andReturn( [ $indexable ] );
-
-		$this->enabled_analysis_features_checker
-			->expects( 'is_keyword_analysis_enabled' )
-			->zeroOrMoreTimes()
-			->andReturn( true );
-
-		$this->enabled_analysis_features_checker
-			->expects( 'is_content_analysis_enabled' )
-			->zeroOrMoreTimes()
-			->andReturn( true );
-
-		$result = $this->instance->get_all_scores( [] );
-
-		$this->assertSame(
-			[
-				[
-					'title'              => 'My Post',
-					'seo'                => [
-						'score'           => 78,
-						'rating'          => 'good',
-						'label'           => 'Good',
-						'focus_keyphrase' => 'hiking',
-					],
-					'readability'        => [
-						'score'  => 30,
-						'rating' => 'bad',
-						'label'  => 'Needs improvement',
-					],
-					'inclusive_language' => null,
 				],
 			],
 			$result,

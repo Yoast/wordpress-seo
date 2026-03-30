@@ -174,7 +174,7 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that register_abilities registers all 4 abilities when inclusive language is enabled.
+	 * Tests that register_abilities registers all 3 abilities when inclusive language is enabled.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -256,61 +256,11 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 			);
 
-		$nullable = static function ( array $schema ): array {
-			return [
-				'oneOf' => [
-					$schema,
-					[ 'type' => 'null' ],
-				],
-			];
-		};
-
-		$seo_sub_schema                                  = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
-		$seo_sub_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => 'The focus keyphrase for the post, or null if not set.',
-		];
-
-		$readability_sub_schema        = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
-		$inclusive_language_sub_schema = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
-
-		$all_scores_item_schema = [
-			'type'       => 'object',
-			'properties' => [
-				'title'              => [
-					'type'        => 'string',
-					'description' => 'The post title.',
-				],
-				'seo'                => $nullable( $seo_sub_schema ),
-				'readability'        => $nullable( $readability_sub_schema ),
-				'inclusive_language' => $nullable( $inclusive_language_sub_schema ),
-			],
-		];
-
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once()
-			->with(
-				'yoast-seo/get-all-scores',
-				[
-					'label'               => 'Get All Analysis Scores',
-					'category'            => 'yoast-seo',
-					'description'         => 'Get all analysis scores (SEO, readability, inclusive language) for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $all_scores_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_all_scores' ],
-					'meta'                => $shared_meta,
-				],
-			);
-
 		$this->instance->register_abilities();
 	}
 
 	/**
-	 * Tests that register_abilities registers only 3 abilities when inclusive language is disabled.
+	 * Tests that register_abilities registers only 2 abilities when inclusive language is disabled.
 	 *
 	 * @covers ::register_abilities
 	 *
@@ -363,56 +313,6 @@ final class Abilities_Integration_Test extends TestCase {
 					],
 					'permission_callback' => [ $this->instance, 'can_read_scores' ],
 					'execute_callback'    => [ $this->score_retriever, 'get_readability_scores' ],
-					'meta'                => $shared_meta,
-				],
-			);
-
-		$nullable = static function ( array $schema ): array {
-			return [
-				'oneOf' => [
-					$schema,
-					[ 'type' => 'null' ],
-				],
-			];
-		};
-
-		$seo_sub_schema                                  = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
-		$seo_sub_schema['properties']['focus_keyphrase'] = [
-			'type'        => [ 'string', 'null' ],
-			'description' => 'The focus keyphrase for the post, or null if not set.',
-		];
-
-		$readability_sub_schema        = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
-		$inclusive_language_sub_schema = $this->get_expected_sub_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
-
-		$all_scores_item_schema = [
-			'type'       => 'object',
-			'properties' => [
-				'title'              => [
-					'type'        => 'string',
-					'description' => 'The post title.',
-				],
-				'seo'                => $nullable( $seo_sub_schema ),
-				'readability'        => $nullable( $readability_sub_schema ),
-				'inclusive_language' => $nullable( $inclusive_language_sub_schema ),
-			],
-		];
-
-		Monkey\Functions\expect( 'wp_register_ability' )
-			->once()
-			->with(
-				'yoast-seo/get-all-scores',
-				[
-					'label'               => 'Get All Analysis Scores',
-					'category'            => 'yoast-seo',
-					'description'         => 'Get all analysis scores (SEO, readability, inclusive language) for the most recently modified posts.',
-					'input_schema'        => $number_of_posts_schema,
-					'output_schema'       => [
-						'type'  => 'array',
-						'items' => $all_scores_item_schema,
-					],
-					'permission_callback' => [ $this->instance, 'can_read_scores' ],
-					'execute_callback'    => [ $this->score_retriever, 'get_all_scores' ],
 					'meta'                => $shared_meta,
 				],
 			);
@@ -473,34 +373,6 @@ final class Abilities_Integration_Test extends TestCase {
 					'type'        => 'string',
 					'description' => 'The post title.',
 				],
-				'score'  => [
-					'type'        => 'integer',
-					'description' => 'The numeric score from 0 to 100.',
-				],
-				'rating' => [
-					'type'        => 'string',
-					'enum'        => $ratings,
-					'description' => 'The rating slug.',
-				],
-				'label'  => [
-					'type'        => 'string',
-					'description' => 'A human-readable label for the rating.',
-				],
-			],
-		];
-	}
-
-	/**
-	 * Returns the expected sub-score schema (without title) for use inside the all-scores ability.
-	 *
-	 * @param array<string> $ratings The valid rating slugs.
-	 *
-	 * @return array<string, mixed> The expected sub-score schema.
-	 */
-	private function get_expected_sub_score_schema( array $ratings ): array {
-		return [
-			'type'       => 'object',
-			'properties' => [
 				'score'  => [
 					'type'        => 'integer',
 					'description' => 'The numeric score from 0 to 100.',
