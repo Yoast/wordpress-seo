@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { Modal } from "@yoast/ui-library";
 import { ContentOutlineModal } from "../../../src/ai-content-planner/components/content-outline-modal";
 
 const mockUsageCounter = jest.fn( () => null );
@@ -24,15 +25,17 @@ const defaultSuggestion = {
 	],
 };
 
-const renderModal = ( props ) => render(
-	<ContentOutlineModal
-		isOpen={ true }
-		onClose={ jest.fn() }
-		onBack={ jest.fn() }
-		onAddOutline={ jest.fn() }
-		suggestion={ defaultSuggestion }
-		{ ...props }
-	/>
+const renderModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentOutlineModal
+				onBack={ jest.fn() }
+				onAddOutline={ jest.fn() }
+				suggestion={ defaultSuggestion }
+				{ ...props }
+			/>
+		</div>
+	</Modal>
 );
 
 /**
@@ -59,18 +62,8 @@ describe( "ContentOutlineModal", () => {
 		jest.useRealTimers();
 	} );
 
-	describe( "visibility", () => {
-		it( "renders the modal when isOpen is true", () => {
-			renderModal( { isOpen: true } );
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-		} );
-
-		it( "does not render the modal when isOpen is false", () => {
-			renderModal( { isOpen: false } );
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-		} );
-
-		it( "calls onClose when the modal close button is clicked", () => {
+	describe( "close button", () => {
+		it( "calls onClose when the close button is clicked", () => {
 			const onClose = jest.fn();
 			renderModal( { onClose } );
 			fireEvent.click( screen.getByRole( "button", { name: /close/i } ) );
