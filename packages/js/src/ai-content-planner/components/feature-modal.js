@@ -1,11 +1,12 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
-import { useDispatch } from "@wordpress/data";
-import { createBlock } from "@wordpress/blocks";
-import { __ } from "@wordpress/i18n";
+import { useDispatch, select } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { Transition } from "@headlessui/react";
+import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
+import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
+import { STORE_NAME } from "../store";
 
 /**
  * The modal that is shown when the user clicks the "Get content suggestions" button.
@@ -21,23 +22,19 @@ import { Transition } from "@headlessui/react";
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink } ) => {
 	const [ status, setStatus ] = useState( null );
 	const { resetBlocks } = useDispatch( "core/block-editor" );
+	const { getContentOutline } = useDispatch( STORE_NAME );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setStatus( "content-suggestions-loading" );
 	}, [] );
 
-	const handleSuggestionSelect = useCallback( () => {
-		const block = createBlock( "yoast-seo/content-suggestion", {
-			title: __( "Dummy suggestion title", "wordpress-seo" ),
-			suggestions: [
-				__( "Dummy suggestion 1", "wordpress-seo" ),
-				__( "Dummy suggestion 2", "wordpress-seo" ),
-				__( "Dummy suggestion 3", "wordpress-seo" ),
-			],
-		} );
-		resetBlocks( [ block ] );
+	const handleApplyOutline = useCallback( async( suggestion ) => {
+		await getContentOutline( suggestion );
+		const outline = select( STORE_NAME ).selectContentOutline();
+		applyPostMetaFromOutline( outline );
+		resetBlocks( buildBlocksFromOutline( outline ) );
 		onClose();
-	}, [ resetBlocks, onClose ] );
+	}, [ getContentOutline, resetBlocks, onClose ] );
 
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
@@ -91,7 +88,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					leaveTo="yst-opacity-0"
 				>
 					<div>
-						<ContentSuggestionsModal status={ status } isPremium={ isPremium } onSuggestionSelect={ handleSuggestionSelect } />
+						<ContentSuggestionsModal status={ status } isPremium={ isPremium } onSuggestionSelect={ handleApplyOutline } />
 					</div>
 				</Transition>
 			</div>

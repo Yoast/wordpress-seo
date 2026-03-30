@@ -113,7 +113,7 @@ registerBlockType( "yoast-seo/content-suggestion", {
 		const blockProps = useBlockProps();
 		return (
 			<div { ...blockProps }>
-				<ContentSuggestionBlock title={ attributes.title } suggestions={ attributes.suggestions } />
+				<ContentSuggestionBlock contentNotes={ attributes.suggestions } />
 			</div>
 		);
 	},
