@@ -117,18 +117,21 @@ const MetaDescriptionProgressBar = ( { value } ) => {
  */
 const FormField = ( { label, value, onChange, multiline = false, showProgressBar = false } ) => {
 	const fieldClasses = "yst-w-full yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-text-sm yst-text-slate-600 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500";
+	const inputId = `form-field-${ String( label ).toLowerCase().replace( /\s+/g, "-" ) }`;
 
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-2">
-			<span className="yst-font-medium yst-text-sm yst-text-slate-800">{ label }</span>
+			<label className="yst-font-medium yst-text-sm yst-text-slate-800" htmlFor={ inputId }>{ label }</label>
 			{ multiline ? (
 				<textarea
+					id={ inputId }
 					className={ classNames( fieldClasses, "yst-min-h-20 yst-resize-y" ) }
 					value={ value }
 					onChange={ onChange }
 				/>
 			) : (
 				<input
+					id={ inputId }
 					type="text"
 					className={ fieldClasses }
 					value={ value }
