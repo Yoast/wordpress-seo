@@ -4,7 +4,6 @@ import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.sv
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
-import { noop } from "lodash";
 import classNames from "classnames";
 import { Fragment, useRef, useEffect, useState } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
@@ -144,13 +143,14 @@ const LoadingModalContent = () => {
 /**
  * ContentSuggestionsModal component.
  *
- * @param {Object} props The component props.
- * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
- * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
+ * @param {Object}   props                   The component props.
+ * @param {string}   props.status            The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
+ * @param {boolean}  props.isPremium         Whether the user has a premium add-on activated or not.
+ * @param {Function} props.onSuggestionSelect The function to call when a suggestion is selected.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium } ) => {
+export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionSelect } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 	const [ announceLoading, setAnnounceLoading ] = useState( false );
@@ -213,12 +213,11 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 						>
 							<div>
 								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-								{ /* onClick is a placeholder — will be wired to real handler in a future iteration. */ }
 								{ suggestions.map( ( suggestion ) => (
 									<SuggestionButton
 										key={ suggestion.title }
 										{ ...suggestion }
-										onClick={ noop }
+										onClick={ () => onSuggestionSelect( suggestion ) }
 									/>
 								) ) }
 							</div>

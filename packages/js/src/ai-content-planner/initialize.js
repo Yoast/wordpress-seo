@@ -3,9 +3,13 @@ import { register, useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef, Fragment } from "@wordpress/element";
 import { addFilter } from "@wordpress/hooks";
 import { registerPlugin } from "@wordpress/plugins";
+import { registerBlockType, createBlock } from "@wordpress/blocks";
+import { useBlockProps } from "@wordpress/block-editor";
+import { __ } from "@wordpress/i18n";
 import { store, STORE_NAME } from "./store";
 import InlineBanner from "./containers/inline-banner";
 import { ContentPlannerEditorPlugin } from "./content-planner-editor-plugin";
+import { ContentSuggestionBlock } from "./components/content-suggestion-block";
 
 register( store );
 
@@ -84,6 +88,37 @@ const withContentPlannerBanner = createHigherOrderComponent( ( BlockEdit ) => {
 }, "withContentPlannerBanner" );
 
 addFilter( "editor.BlockEdit", "yoast-seo/content-planner-banner", withContentPlannerBanner );
+
+registerBlockType( "yoast-seo/content-suggestion", {
+	title: __( "Content Suggestion", "wordpress-seo" ),
+	category: "text",
+	supports: { inserter: false },
+	transforms: {
+		to: [
+			{
+				type: "block",
+				blocks: [ "core/paragraph" ],
+				transform: ( { title, suggestions } ) => [
+					createBlock( "core/paragraph", { content: title } ),
+					...suggestions.map( ( suggestion ) => createBlock( "core/paragraph", { content: suggestion } ) ),
+				],
+			},
+		],
+	},
+	attributes: {
+		title: { type: "string", "default": "" },
+		suggestions: { type: "array", items: { type: "string" }, "default": [] },
+	},
+	edit: ( { attributes } ) => {
+		const blockProps = useBlockProps();
+		return (
+			<div { ...blockProps }>
+				<ContentSuggestionBlock title={ attributes.title } suggestions={ attributes.suggestions } />
+			</div>
+		);
+	},
+	save: () => null,
+} );
 
 /**
  * Initializes the Content Planner feature.
