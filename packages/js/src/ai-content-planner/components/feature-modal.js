@@ -16,13 +16,17 @@ import { Transition } from "@headlessui/react";
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink } ) => {
-	const [ status, setStatus ] = useState( "idle" );
+	const [ status, setStatus ] = useState( null );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setStatus( "content-suggestions-loading" );
 	}, [] );
 
 	useEffect( () => {
+		if ( status === null ) {
+			const timer = setTimeout( () => setStatus( "idle" ), 300 );
+			return () => clearTimeout( timer );
+		}
 		if ( status === "content-suggestions-loading" ) {
 			const timer = setTimeout( () => setStatus( "content-suggestions-success" ), 5000 );
 			return () => clearTimeout( timer );
