@@ -92,7 +92,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->is_block_editor             = WP_Screen::get()->is_block_editor();
+
+		add_action( 'current_screen', [ $this, 'set_is_block_editor' ] );
+	}
+
+	/**
+	 * Sets whether the current editor is a block editor based on the current screen.
+	 *
+	 * @param WP_Screen $screen The current screen object.
+	 *
+	 * @return void
+	 */
+	public function set_is_block_editor( $screen ) {
+		$this->is_block_editor = $screen->is_block_editor();
 	}
 
 	/**
