@@ -235,25 +235,6 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the number of posts input schema.
-	 *
-	 * @return array<string, array<string, string>> The number of posts schema.
-	 */
-	private function get_number_of_posts_schema(): array {
-		return [
-			'type'       => 'object',
-			'properties' => [
-				'number_of_posts' => [
-					'type'        => 'integer',
-					'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
-					'minimum'     => 1,
-					'default'     => 10,
-				],
-			],
-		];
-	}
-
-	/**
 	 * Wraps an item schema in an array schema.
 	 *
 	 * @param array<string, array<string, string>> $item_schema The item schema.
