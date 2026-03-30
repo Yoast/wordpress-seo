@@ -1,9 +1,48 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
+
+jest.mock( "@wordpress/data", () => ( {
+	useDispatch: jest.fn(),
+	select: jest.fn(),
+	dispatch: jest.fn(),
+	resolveSelect: jest.fn(),
+	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
+		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
+		{}
+	),
+	createReduxStore: jest.fn(),
+	register: jest.fn(),
+} ) );
+
+jest.mock( "@wordpress/blocks", () => ( {
+	createBlock: jest.fn(),
+} ) );
+
+jest.mock( "../../../src/ai-content-planner/helpers/build-blocks-from-outline", () => ( {
+	buildBlocksFromOutline: jest.fn().mockReturnValue( [] ),
+} ) );
+
+jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline", () => ( {
+	applyPostMetaFromOutline: jest.fn().mockResolvedValue( undefined ),
+} ) );
+
+const mockResetBlocks = jest.fn();
+const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
+
+const setupMocks = () => {
+	useDispatch.mockImplementation( ( store ) => {
+		if ( store === "core/block-editor" ) {
+			return { resetBlocks: mockResetBlocks };
+		}
+		return { getContentOutline: mockGetContentOutline };
+	} );
+	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( {} ) } );
+};
 
 const renderModal = ( props ) => render(
 	<FeatureModal
@@ -19,10 +58,12 @@ const renderModal = ( props ) => render(
 describe( "FeatureModal", () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
+		setupMocks();
 	} );
 
 	afterEach( () => {
 		jest.useRealTimers();
+		jest.clearAllMocks();
 	} );
 
 	it( "does not render the dialog when isOpen is false", () => {
