@@ -23,6 +23,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	}, [] );
 
 	useEffect( () => {
+		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
 		if ( status === null ) {
 			const timer = setTimeout( () => setStatus( "idle" ), 300 );
 			return () => clearTimeout( timer );
