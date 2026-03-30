@@ -10,6 +10,7 @@ const INITIAL_OUTLINE = {
 	title: "",
 	metaDescription: "",
 	focusKeyphrase: "",
+	category: "",
 	heading1: "",
 	paragraph1ContentNotes: [],
 	heading2: "",
@@ -97,6 +98,7 @@ export const contentOutlineControls = {
 		title: "The complete guide to sourdough bread",
 		metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
 		focusKeyphrase: "sourdough bread",
+		category: "Baking",
 		heading1: "What is sourdough bread?",
 		paragraph1ContentNotes: [
 			"Explain how sourdough differs from other breads by using wild yeast fermentation.",
