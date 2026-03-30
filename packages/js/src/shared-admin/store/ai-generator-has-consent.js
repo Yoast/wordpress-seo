@@ -31,7 +31,7 @@ const slice = createSlice( {
 	name: HAS_AI_GENERATOR_CONSENT_NAME,
 	initialState: {
 		hasConsent: false,
-		endpoint: "yoast/v1/ai_generator/consent",
+		endpoint: "",
 	},
 	reducers: {
 		giveAiGeneratorConsent: ( state, { payload } ) => {

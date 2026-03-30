@@ -9,6 +9,7 @@ import { PREVIEW_TYPE, STORE_NAME_EDITOR } from "./constants";
 import { filterFocusKeyphraseErrors, initializePromptContent, updateInteractedWithFeature } from "./initialize/index";
 import { registerStore } from "./store";
 import { PRODUCT_SUBSCRIPTIONS_NAME } from "./store/product-subscriptions";
+import { ENDPOINTS_NAME } from "./store/endpoints";
 import { USAGE_COUNT_NAME } from "./store/usage-count";
 import { FREE_SPARKS_NAME } from "./store/free-sparks";
 import domReady from "@wordpress/dom-ready";
@@ -79,15 +80,19 @@ const initializeAiGenerator = () => {
 	registerStore( {
 		[ HAS_AI_GENERATOR_CONSENT_NAME ]: {
 			hasConsent: get( window, "wpseoAiGenerator.hasConsent", false ) === "1",
-			endpoint: "yoast/v1/ai_generator/consent",
+			endpoint: get( window, "wpseoAiGenerator.endpoints.consent", "" ),
 		},
 		[ USAGE_COUNT_NAME ]: {
-			endpoint: "yoast/v1/ai_generator/get_usage",
+			endpoint: get( window, "wpseoAiGenerator.endpoints.getUsage", "" ),
 		},
 		[ PRODUCT_SUBSCRIPTIONS_NAME ]: get( window, "wpseoAiGenerator.productSubscriptions", {} ),
 		[ FREE_SPARKS_NAME ]: {
 			isFreeSparksActive: get( window, "wpseoAiGenerator.isFreeSparks", false ) === "1",
-			endpoint: "yoast/v1/ai/free_sparks",
+			endpoint: get( window, "wpseoAiGenerator.endpoints.freeSparks", "" ),
+		},
+		[ ENDPOINTS_NAME ]: {
+			getSuggestions: get( window, "wpseoAiGenerator.endpoints.getSuggestions", "" ),
+			bustSubscriptionCache: get( window, "wpseoAiGenerator.endpoints.bustSubscriptionCache", "" ),
 		},
 	} );
 

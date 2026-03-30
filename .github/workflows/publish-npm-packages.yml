@@ -1,0 +1,120 @@
+name: Publish NPM Packages
+
+on:
+  pull_request:
+    types: [ closed ]
+    branches: [ trunk ]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to read packages list from (e.g. 12345)."
+        required: true
+        type: number
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish NPM packages
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Version increase') && contains(github.event.pull_request.labels.*.name, 'npm-release'))
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      # Ensure npm 11.5.1 or later is installed - this is needed for OIDC support
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Extract packages to release from PR body
+        id: packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BODY=$(gh pr view "${{ inputs.pr_number }}" --repo "${{ github.repository }}" --json body -q .body)
+          else
+            BODY="$PR_BODY"
+          fi
+
+          # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
+          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          if [ -z "${PACKAGES// /}" ]; then
+            echo "::error::No packages found in PR body before '## Context'."
+            exit 1
+          fi
+          echo "Packages to release: $PACKAGES"
+          echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+
+      - name: Publish packages in order
+        env:
+          PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          NODE_AUTH_TOKEN: ''
+        run: |
+          set -euo pipefail
+          if [ -z "${PACKAGE_LIST// /}" ]; then
+            echo "::error::PACKAGE_LIST is empty; nothing to publish."
+            exit 1
+          fi
+          read -ra PACKAGES <<< "$PACKAGE_LIST"
+          for PACKAGE in "${PACKAGES[@]}"; do
+            PKG_DIR="packages/${PACKAGE#@yoast/}"
+
+            echo "::group::Publishing $PACKAGE"
+
+            if [ ! -d "$PKG_DIR" ]; then
+              echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
+              exit 1
+            fi
+
+            pushd "$PKG_DIR"
+
+            if node -e "process.exit(require('./package.json').scripts?.prepublishOnly ? 0 : 1)" 2>/dev/null; then
+              # Older packages: run prepublishOnly, then publish from dist/ if it exists.
+              echo "Strategy: prepublishOnly"
+              npm run-script prepublishOnly
+              if [ -d "dist" ]; then
+                pushd dist
+                npm publish --provenance --access public --ignore-scripts
+                popd
+              else
+                npm publish --provenance --access public --ignore-scripts
+              fi
+
+            elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
+              # Packages with a build step: build first, then publish.
+              echo "Strategy: build"
+              NODE_ENV=production npm run-script build
+              npm publish --provenance --access public
+
+            else
+              # No build step needed (e.g. config-only packages like tailwindcss-preset).
+              echo "Strategy: direct publish"
+              npm publish --provenance --access public
+            fi
+
+            popd
+            echo "::endgroup::"
+          done
