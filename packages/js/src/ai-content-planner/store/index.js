@@ -5,20 +5,19 @@ import { setBannerDismissedInput, setBannerRenderedInput } from "../helpers/fiel
 
 export const STORE_NAME = "yoast-seo/content-planner";
 
-const thunkActions = {
-	setBannerRendered: () => ( { dispatch } ) => {
-		dispatch( bannerActions.setBannerRendered() );
+const persistBannerMiddleware = () => next => action => {
+	const result = next( action );
+	if ( action.type === `${ BANNER_NAME }/setBannerRendered` ) {
 		setBannerRenderedInput();
-	},
-	setBannerDismissed: () => ( { dispatch } ) => {
-		dispatch( bannerActions.setBannerDismissed() );
+	} else if ( action.type === `${ BANNER_NAME }/setBannerDismissed` ) {
 		setBannerDismissedInput();
-	},
+	}
+	return result;
 };
 
 const createStore = ( initialState ) => createReduxStore( STORE_NAME, {
 	actions: {
-		...thunkActions,
+		...bannerActions,
 	},
 	selectors: {
 		...bannerSelectors,
@@ -31,6 +30,7 @@ const createStore = ( initialState ) => createReduxStore( STORE_NAME, {
 	reducer: combineReducers( {
 		[ BANNER_NAME ]: bannerReducer,
 	} ),
+	middleware: ( getDefault ) => [ ...getDefault(), persistBannerMiddleware ],
 } );
 
 /**
