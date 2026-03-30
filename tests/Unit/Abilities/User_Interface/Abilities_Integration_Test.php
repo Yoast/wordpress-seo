@@ -260,6 +260,44 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that register_abilities does not register SEO scores when keyword analysis is disabled.
+	 *
+	 * @covers ::register_abilities
+	 *
+	 * @return void
+	 */
+	public function test_register_abilities_with_keyword_analysis_disabled() {
+		$this->enabled_analysis_features_checker
+			->expects( 'is_keyword_analysis_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once();
+
+		$this->instance->register_abilities();
+	}
+
+	/**
+	 * Tests that register_abilities does not register readability scores when content analysis is disabled.
+	 *
+	 * @covers ::register_abilities
+	 *
+	 * @return void
+	 */
+	public function test_register_abilities_with_content_analysis_disabled() {
+		$this->enabled_analysis_features_checker
+			->expects( 'is_content_analysis_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_register_ability' )
+			->once();
+
+		$this->instance->register_abilities();
+	}
+
+	/**
 	 * Tests that register_abilities registers only 2 abilities when inclusive language is disabled.
 	 *
 	 * @covers ::register_abilities

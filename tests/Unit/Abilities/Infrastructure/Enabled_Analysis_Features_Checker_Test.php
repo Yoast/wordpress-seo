@@ -126,6 +126,19 @@ final class Enabled_Analysis_Features_Checker_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that is_content_analysis_enabled returns false when the feature is not present.
+	 *
+	 * @covers ::is_content_analysis_enabled
+	 *
+	 * @return void
+	 */
+	public function test_is_content_analysis_enabled_returns_false_when_not_present() {
+		$this->mock_enabled_features( [] );
+
+		$this->assertFalse( $this->instance->is_content_analysis_enabled() );
+	}
+
+	/**
 	 * Tests that is_inclusive_language_enabled returns true when the feature is enabled and language is supported.
 	 *
 	 * @covers ::is_inclusive_language_enabled
