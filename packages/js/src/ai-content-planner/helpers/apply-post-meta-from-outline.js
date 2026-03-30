@@ -14,6 +14,7 @@ export const applyPostMetaFromOutline = async( outline ) => {
 	dispatch( "yoast-seo/editor" ).setFocusKeyword( outline.focusKeyphrase );
 
 	if ( outline.category ) {
+		// eslint-disable-next-line camelcase
 		const categories = await resolveSelect( "core" ).getEntityRecords( "taxonomy", "category", { search: outline.category, per_page: 1 } );
 		if ( categories?.length > 0 ) {
 			dispatch( "core/editor" ).editPost( { categories: [ categories[ 0 ].id ] } );

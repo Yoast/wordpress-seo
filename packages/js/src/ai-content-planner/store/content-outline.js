@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+// eslint-disable-next-line no-unused-vars
 import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";

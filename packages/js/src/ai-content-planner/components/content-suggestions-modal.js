@@ -217,7 +217,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionSelect
 									<SuggestionButton
 										key={ suggestion.title }
 										{ ...suggestion }
-										onClick={ () => onSuggestionSelect( suggestion ) }
+										onClick={ onSuggestionSelect }
 									/>
 								) ) }
 							</div>
