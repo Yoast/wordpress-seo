@@ -15,20 +15,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Abilities_Integration implements Integration_Interface {
 
 	/**
-	 * Valid ratings for SEO scores.
-	 *
-	 * @var array<string>
-	 */
-	private const SEO_RATINGS = [ 'na', 'bad', 'ok', 'good', 'noindex' ];
-
-	/**
-	 * Valid ratings for content analysis scores (readability and inclusive language).
-	 *
-	 * @var array<string>
-	 */
-	private const CONTENT_ANALYSIS_RATINGS = [ 'na', 'bad', 'ok', 'good' ];
-
-	/**
 	 * The score retriever.
 	 *
 	 * @var Score_Retriever
@@ -130,7 +116,7 @@ class Abilities_Integration implements Integration_Interface {
 			return;
 		}
 
-		$output_schema                                  = $this->get_score_output_schema( self::SEO_RATINGS );
+		$output_schema                                  = $this->get_score_output_schema();
 		$output_schema['properties']['focus_keyphrase'] = [
 			'type'        => [ 'string', 'null' ],
 			'description' => \__( 'The focus keyphrase for the post, or null if not set.', 'wordpress-seo' ),
@@ -165,7 +151,7 @@ class Abilities_Integration implements Integration_Interface {
 				[
 					'label'            => \__( 'Get Readability Scores', 'wordpress-seo' ),
 					'description'      => \__( 'Get the readability scores for the most recently modified posts.', 'wordpress-seo' ),
-					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema( self::CONTENT_ANALYSIS_RATINGS ) ),
+					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema() ),
 					'execute_callback' => [ $this->score_retriever, 'get_readability_scores' ],
 				],
 			),
@@ -188,7 +174,7 @@ class Abilities_Integration implements Integration_Interface {
 				[
 					'label'            => \__( 'Get Inclusive Language Scores', 'wordpress-seo' ),
 					'description'      => \__( 'Get the inclusive language scores for the most recently modified posts.', 'wordpress-seo' ),
-					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema( self::CONTENT_ANALYSIS_RATINGS ) ),
+					'output_schema'    => $this->wrap_in_array_schema( $this->get_score_output_schema() ),
 					'execute_callback' => [ $this->score_retriever, 'get_inclusive_language_scores' ],
 				],
 			),
@@ -250,13 +236,11 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the score output schema for a specific set of valid ratings, including the title property.
-	 *
-	 * @param array<string> $ratings The valid rating slugs for this score type.
+	 * Returns the score output schema, including the title property.
 	 *
 	 * @return array<string, array<string, string>> The score output schema.
 	 */
-	private function get_score_output_schema( array $ratings ): array {
+	private function get_score_output_schema(): array {
 		return [
 			'type'       => 'object',
 			'properties' => [
@@ -270,7 +254,7 @@ class Abilities_Integration implements Integration_Interface {
 				],
 				'rating' => [
 					'type'        => 'string',
-					'enum'        => $ratings,
+					'enum'        => [ 'na', 'bad', 'ok', 'good' ],
 					'description' => \__( 'The rating slug.', 'wordpress-seo' ),
 				],
 				'label'  => [

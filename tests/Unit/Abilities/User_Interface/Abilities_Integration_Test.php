@@ -188,14 +188,14 @@ final class Abilities_Integration_Test extends TestCase {
 
 		$number_of_posts_schema = $this->get_number_of_posts_schema();
 
-		$seo_score_item_schema                                  = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
+		$seo_score_item_schema                                  = $this->get_expected_score_schema();
 		$seo_score_item_schema['properties']['focus_keyphrase'] = [
 			'type'        => [ 'string', 'null' ],
 			'description' => 'The focus keyphrase for the post, or null if not set.',
 		];
 
-		$readability_score_item_schema        = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
-		$inclusive_language_score_item_schema = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
+		$readability_score_item_schema        = $this->get_expected_score_schema();
+		$inclusive_language_score_item_schema = $this->get_expected_score_schema();
 
 		$shared_meta = $this->get_shared_meta();
 
@@ -307,13 +307,13 @@ final class Abilities_Integration_Test extends TestCase {
 	public function test_register_abilities_with_inclusive_language_disabled() {
 		$number_of_posts_schema = $this->get_number_of_posts_schema();
 
-		$seo_score_item_schema                                  = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good', 'noindex' ] );
+		$seo_score_item_schema                                  = $this->get_expected_score_schema();
 		$seo_score_item_schema['properties']['focus_keyphrase'] = [
 			'type'        => [ 'string', 'null' ],
 			'description' => 'The focus keyphrase for the post, or null if not set.',
 		];
 
-		$readability_score_item_schema = $this->get_expected_score_schema( [ 'na', 'bad', 'ok', 'good' ] );
+		$readability_score_item_schema = $this->get_expected_score_schema();
 
 		$shared_meta = $this->get_shared_meta();
 
@@ -398,13 +398,11 @@ final class Abilities_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Returns the expected score output schema (with title) for a given set of valid ratings.
-	 *
-	 * @param array<string> $ratings The valid rating slugs.
+	 * Returns the expected score output schema (with title).
 	 *
 	 * @return array<string, mixed> The expected score output schema.
 	 */
-	private function get_expected_score_schema( array $ratings ): array {
+	private function get_expected_score_schema(): array {
 		return [
 			'type'       => 'object',
 			'properties' => [
@@ -418,7 +416,7 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 				'rating' => [
 					'type'        => 'string',
-					'enum'        => $ratings,
+					'enum'        => [ 'na', 'bad', 'ok', 'good' ],
 					'description' => 'The rating slug.',
 				],
 				'label'  => [

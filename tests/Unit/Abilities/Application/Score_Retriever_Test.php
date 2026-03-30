@@ -63,15 +63,15 @@ final class Score_Retriever_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_seo_scores_returns_array_of_results() {
-		$indexable1                              = Mockery::mock();
-		$indexable1->breadcrumb_title            = 'Best Hiking Boots';
-		$indexable1->is_robots_noindex           = 0;
+		$indexable1                   = Mockery::mock();
+		$indexable1->breadcrumb_title = 'Best Hiking Boots';
+
 		$indexable1->primary_focus_keyword_score = 78;
 		$indexable1->primary_focus_keyword       = 'hiking boots';
 
-		$indexable2                              = Mockery::mock();
-		$indexable2->breadcrumb_title            = 'Trail Running Guide';
-		$indexable2->is_robots_noindex           = 0;
+		$indexable2                   = Mockery::mock();
+		$indexable2->breadcrumb_title = 'Trail Running Guide';
+
 		$indexable2->primary_focus_keyword_score = 30;
 		$indexable2->primary_focus_keyword       = null;
 
@@ -98,41 +98,6 @@ final class Score_Retriever_Test extends TestCase {
 					'rating'          => 'bad',
 					'label'           => 'Needs improvement',
 					'focus_keyphrase' => null,
-				],
-			],
-			$result,
-		);
-	}
-
-	/**
-	 * Tests get_seo_scores with a noindexed post.
-	 *
-	 * @covers ::get_seo_scores
-	 *
-	 * @return void
-	 */
-	public function test_get_seo_scores_with_noindex_post() {
-		$indexable                        = Mockery::mock();
-		$indexable->breadcrumb_title      = 'Draft Post';
-		$indexable->is_robots_noindex     = 1;
-		$indexable->primary_focus_keyword = 'some keyword';
-
-		$this->indexable_repository
-			->expects( 'get_recently_modified_posts' )
-			->once()
-			->with( 'post', 10, false )
-			->andReturn( [ $indexable ] );
-
-		$result = $this->instance->get_seo_scores( [] );
-
-		$this->assertSame(
-			[
-				[
-					'title'           => 'Draft Post',
-					'score'           => 0,
-					'rating'          => 'noindex',
-					'label'           => 'No index',
-					'focus_keyphrase' => 'some keyword',
 				],
 			],
 			$result,
@@ -217,9 +182,9 @@ final class Score_Retriever_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_seo_scores_fallback_title() {
-		$indexable                              = Mockery::mock();
-		$indexable->breadcrumb_title            = '';
-		$indexable->is_robots_noindex           = 0;
+		$indexable                   = Mockery::mock();
+		$indexable->breadcrumb_title = '';
+
 		$indexable->primary_focus_keyword_score = 50;
 		$indexable->primary_focus_keyword       = null;
 

@@ -92,21 +92,7 @@ class Score_Retriever {
 	 * @return array<string, int|string|null> The SEO score data.
 	 */
 	private function build_seo_score_for_indexable( $indexable ): array {
-		$title = $this->get_indexable_title( $indexable );
-
-		if ( $indexable->is_robots_noindex ) {
-			$rank   = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
-			$result = ( new Score_Result(
-				$title,
-				0,
-				$rank->get_rank(),
-				$rank->get_label(),
-			) )->to_array();
-
-			$result['focus_keyphrase'] = $indexable->primary_focus_keyword;
-			return $result;
-		}
-
+		$title  = $this->get_indexable_title( $indexable );
 		$score  = (int) $indexable->primary_focus_keyword_score;
 		$rank   = WPSEO_Rank::from_numeric_score( $score );
 		$result = ( new Score_Result(
