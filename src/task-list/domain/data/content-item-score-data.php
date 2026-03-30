@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Task_List\Domain\Data;
 /**
  * Value object representing content item data for score-based improvement tasks.
  */
-class Content_Item_Score_Data {
+class Content_Item_Score_Data implements Content_Item_Data_Interface {
 
 	/**
 	 * The content item ID.

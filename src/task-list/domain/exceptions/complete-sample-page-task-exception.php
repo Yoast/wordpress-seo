@@ -6,14 +6,14 @@ namespace Yoast\WP\SEO\Task_List\Domain\Exceptions;
 use Exception;
 
 /**
- * Exception for incorrect child task trait usage.
+ * Exception for when we can't complete the sample page task.
  */
-class Incorrect_Child_Trait_Usage_Exception extends Exception {
+class Complete_Sample_Page_Task_Exception extends Exception {
 
 	/**
 	 * Constructor of the exception.
 	 */
 	public function __construct() {
-		parent::__construct( 'Child_Task_Trait can only be used in classes extending Abstract_Child_Task.', 400 );
+		parent::__construct( \esc_html__( 'Failed to delete the Sample Page.', 'wordpress-seo' ), 400 );
 	}
 }
