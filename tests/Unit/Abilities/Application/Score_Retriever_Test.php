@@ -193,17 +193,17 @@ final class Score_Retriever_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_seo_scores passes through a large number of posts without capping.
+	 * Tests get_seo_scores caps the number of posts at 100.
 	 *
 	 * @covers ::get_seo_scores
 	 *
 	 * @return void
 	 */
-	public function test_get_seo_scores_large_number_of_posts() {
+	public function test_get_seo_scores_caps_at_maximum() {
 		$this->indexable_repository
 			->expects( 'get_recently_modified_posts' )
 			->once()
-			->with( 'post', 999, false )
+			->with( 'post', 100, false )
 			->andReturn( [] );
 
 		$this->instance->get_seo_scores( [ 'number_of_posts' => 999 ] );

@@ -213,6 +213,7 @@ class Abilities_Integration implements Integration_Interface {
 							'type'        => 'integer',
 							'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
 							'minimum'     => 1,
+							'maximum'     => 100,
 							'default'     => 10,
 						],
 					],

@@ -21,6 +21,13 @@ class Score_Retriever {
 	private const DEFAULT_NUMBER_OF_POSTS = 10;
 
 	/**
+	 * The maximum number of posts to retrieve.
+	 *
+	 * @var int
+	 */
+	private const MAX_NUMBER_OF_POSTS = 100;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -199,6 +206,6 @@ class Score_Retriever {
 	private function get_number_of_posts( array $input ): int {
 		$number = ( $input['number_of_posts'] ?? self::DEFAULT_NUMBER_OF_POSTS );
 
-		return \max( 1, (int) $number );
+		return \min( self::MAX_NUMBER_OF_POSTS, \max( 1, (int) $number ) );
 	}
 }

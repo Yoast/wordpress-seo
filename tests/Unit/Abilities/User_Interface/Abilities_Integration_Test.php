@@ -333,6 +333,7 @@ final class Abilities_Integration_Test extends TestCase {
 					'type'        => 'integer',
 					'description' => 'The number of recently modified posts to retrieve scores for. Defaults to 10.',
 					'minimum'     => 1,
+					'maximum'     => 100,
 					'default'     => 10,
 				],
 			],
