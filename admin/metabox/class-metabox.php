@@ -57,6 +57,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $post = null;
 
 	/**
+	 * Is the current editor is block editor.
+	 *
+	 * @var bool
+	 */
+	protected $is_block_editor = false;
+
+	/**
 	 * Whether the advanced metadata is enabled.
 	 *
 	 * @var bool
@@ -85,6 +92,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->is_block_editor             = WP_Screen::get()->is_block_editor();
 	}
 
 	/**
@@ -358,8 +366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		$is_block_editor = WP_Screen::get()->is_block_editor();
-		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
+		if ( $this->is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'content_planner' );
 		}
@@ -735,8 +742,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
 		);
 
-		$is_block_editor = WP_Screen::get()->is_block_editor();
-		if ( $post->post_type === 'post' && $is_block_editor ) {
+		if ( $post->post_type === 'post' && $this->is_block_editor ) {
 			$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'content_planner' ) );
 		}
 
@@ -852,9 +858,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'ai-generator' );
 		$asset_manager->enqueue_style( 'ai-fix-assessments' );
 
-		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
-		if ( ! $is_block_editor ) {
+		if ( ! $this->is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
@@ -896,7 +901,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$script_data = [
 			'metabox'                    => $this->get_metabox_script_data(),
 			'isPost'                     => true,
-			'isBlockEditor'              => $is_block_editor,
+			'isBlockEditor'              => $this->is_block_editor,
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
@@ -919,7 +924,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$site_information->set_permalink( $this->get_permalink() );
 		$script_data = array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		if ( ! $is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
+		if ( ! $this->is_block_editor && post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 		}
 
