@@ -54,17 +54,14 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem
 					key="editor-intro"
-					renderPriority={ 1 }
+					renderPriority={ 0 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ false } />
+					<EditorIntro withPromptForContentSuggestions={ false }>
+						{ FirstEligibleNotification && <FirstEligibleNotification /> }
+					</EditorIntro>
 				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					{ FirstEligibleNotification && (
-						<div className="yst-inline-block yst-px-1.5">
-							<FirstEligibleNotification />
-						</div>
-					) }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput

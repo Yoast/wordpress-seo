@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, within, act } from "@testing-library/react";
+import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
 const mockUsageCounter = jest.fn( () => null );
@@ -6,22 +7,21 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
-const renderModal = ( props ) => render(
-	<ContentSuggestionsModal
-		isOpen={ true }
-		onClose={ jest.fn() }
-		isPremium={ false }
-		{ ...props }
-	/>
+const renderLoadingModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } { ...props } />
+		</div>
+	</Modal>
 );
 
-const renderLoadedModal = ( props ) => {
-	const result = renderModal( props );
-	act( () => {
-		jest.advanceTimersByTime( 5000 );
-	} );
-	return result;
-};
+const renderSuccessModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } { ...props } />
+		</div>
+	</Modal>
+);
 
 describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
@@ -33,62 +33,62 @@ describe( "ContentSuggestionsModal", () => {
 		jest.useRealTimers();
 	} );
 
-	describe( "visibility", () => {
-		it( "renders the modal when isOpen is true", () => {
-			renderModal( { isOpen: true } );
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-		} );
-
-		it( "does not render the modal when isOpen is false", () => {
-			renderModal( { isOpen: false } );
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-		} );
-
-		it( "calls onClose when the modal close button is clicked", () => {
-			const onClose = jest.fn();
-			renderModal( { onClose } );
-			fireEvent.click( screen.getByRole( "button", { name: /close/i } ) );
-			expect( onClose ).toHaveBeenCalledTimes( 1 );
-		} );
-	} );
-
 	describe( "header", () => {
 		it( "shows the 'Content suggestions' title", () => {
-			renderModal();
+			renderLoadingModal();
 			expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 		} );
 
 		it( "shows the 'Beta' badge", () => {
-			renderModal();
+			renderLoadingModal();
 			expect( screen.getByText( "Beta" ) ).toBeInTheDocument();
 		} );
 	} );
 
 	describe( "accessibility", () => {
-		it( "announces the loading-to-loaded transition via the aria-live region", () => {
-			renderModal();
-			const liveRegion = document.querySelector( "[aria-live='polite']" );
-			act( () => {
-				jest.advanceTimersByTime( 5000 );
-			} );
-			expect( within( liveRegion ).getByText( "Select a suggestion to generate a structured outline for your post." ) ).toBeInTheDocument();
-		} );
-
 		it( "has a descriptive close button label", () => {
-			renderModal();
+			renderLoadingModal();
 			expect( screen.getByRole( "button", { name: "Close content suggestions modal" } ) ).toBeInTheDocument();
 		} );
 
 		it( "has an accessible dialog name from the title", () => {
-			renderModal();
+			renderLoadingModal();
 			expect( screen.getByRole( "dialog", { name: "Content suggestions" } ) ).toBeInTheDocument();
+		} );
+
+		it( "calls onClose when the close button is clicked", () => {
+			const onClose = jest.fn();
+			renderLoadingModal( { onClose } );
+			fireEvent.click( screen.getByRole( "button", { name: "Close content suggestions modal" } ) );
+			expect( onClose ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "announces the loading message via the aria-live region after 100ms", () => {
+			renderLoadingModal();
+			const liveRegion = document.querySelector( "[aria-live='polite']" );
+			expect( liveRegion ).not.toBeNull();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
+			expect( within( liveRegion ).getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
+		} );
+
+		it( "announces content via the aria-live region when status is success", () => {
+			renderSuccessModal();
+			const liveRegion = document.querySelector( "[aria-live='polite']" );
+			expect( liveRegion ).not.toBeNull();
+			expect( within( liveRegion ).getByText( "Select a suggestion to generate a structured outline for your post." ) ).toBeInTheDocument();
 		} );
 	} );
 
 	describe( "loading state", () => {
-		it( "shows the loading message on open", () => {
-			renderModal();
-			// wait 100ms for the loading state to be set
+		it( "does not show the loading message before 100ms have passed", () => {
+			renderLoadingModal();
+			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "shows the loading message after 100ms", () => {
+			renderLoadingModal();
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
@@ -96,27 +96,27 @@ describe( "ContentSuggestionsModal", () => {
 		} );
 
 		it( "does not show the intro text while loading", () => {
-			renderModal();
-			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
-		} );
-
-		it( "does not show the loading message after loading completes", () => {
-			renderModal();
+			renderLoadingModal();
 			act( () => {
-				jest.advanceTimersByTime( 5000 );
+				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
+			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
 		} );
 	} );
 
 	describe( "suggestions list", () => {
-		it( "shows the intro text when not loading", () => {
-			renderLoadedModal();
+		it( "shows the intro text when success", () => {
+			renderSuccessModal();
 			expect( screen.getByText( "Select a suggestion to generate a structured outline for your post." ) ).toBeInTheDocument();
 		} );
 
+		it( "does not show the loading message when success", () => {
+			renderSuccessModal();
+			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
+		} );
+
 		it( "renders all suggestions", () => {
-			renderLoadedModal();
+			renderSuccessModal();
 			expect( screen.getByText( "How to train your dog" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Best dog training schools in New York" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Top 10 dog training tools" ) ).toBeInTheDocument();
@@ -126,23 +126,41 @@ describe( "ContentSuggestionsModal", () => {
 		} );
 
 		it( "renders suggestion descriptions", () => {
-			renderLoadedModal();
+			renderSuccessModal();
 			expect( screen.getByText( "Tips and tricks on how to train your dog effectively." ) ).toBeInTheDocument();
 		} );
 
 		it( "renders informational intent badges", () => {
-			renderLoadedModal();
-			expect( screen.getAllByText( "Informational" ).length ).toBeGreaterThan( 0 );
+			renderSuccessModal();
+			expect( screen.getAllByText( "Informational" ) ).toHaveLength( 2 );
 		} );
 
 		it( "renders navigational intent badges", () => {
-			renderLoadedModal();
-			expect( screen.getAllByText( "Navigational" ).length ).toBeGreaterThan( 0 );
+			renderSuccessModal();
+			expect( screen.getAllByText( "Navigational" ) ).toHaveLength( 2 );
 		} );
 
 		it( "renders commercial intent badges", () => {
-			renderLoadedModal();
-			expect( screen.getAllByText( "Commercial" ).length ).toBeGreaterThan( 0 );
+			renderSuccessModal();
+			expect( screen.getAllByText( "Commercial" ) ).toHaveLength( 2 );
+		} );
+	} );
+
+	describe( "UsageCounter", () => {
+		it( "passes mentionBetaInTooltip and mentionResetInTooltip as false when not premium", () => {
+			renderLoadingModal( { isPremium: false } );
+			expect( mockUsageCounter ).toHaveBeenCalledWith( expect.objectContaining( {
+				mentionBetaInTooltip: false,
+				mentionResetInTooltip: false,
+			} ) );
+		} );
+
+		it( "passes mentionBetaInTooltip and mentionResetInTooltip as true when premium", () => {
+			renderLoadingModal( { isPremium: true } );
+			expect( mockUsageCounter ).toHaveBeenCalledWith( expect.objectContaining( {
+				mentionBetaInTooltip: true,
+				mentionResetInTooltip: true,
+			} ) );
 		} );
 	} );
 } );

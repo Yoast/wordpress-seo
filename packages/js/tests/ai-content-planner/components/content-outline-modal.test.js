@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { Modal } from "@yoast/ui-library";
 import { ContentOutlineModal } from "../../../src/ai-content-planner/components/content-outline-modal";
 
 const mockUsageCounter = jest.fn( () => null );
@@ -24,15 +25,17 @@ const defaultSuggestion = {
 	],
 };
 
-const renderModal = ( props ) => render(
-	<ContentOutlineModal
-		isOpen={ true }
-		onClose={ jest.fn() }
-		onBack={ jest.fn() }
-		onAddOutline={ jest.fn() }
-		suggestion={ defaultSuggestion }
-		{ ...props }
-	/>
+const renderModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentOutlineModal
+				onBack={ jest.fn() }
+				onAddOutline={ jest.fn() }
+				suggestion={ defaultSuggestion }
+				{ ...props }
+			/>
+		</div>
+	</Modal>
 );
 
 /**
@@ -59,18 +62,8 @@ describe( "ContentOutlineModal", () => {
 		jest.useRealTimers();
 	} );
 
-	describe( "visibility", () => {
-		it( "renders the modal when isOpen is true", () => {
-			renderModal( { isOpen: true } );
-			expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-		} );
-
-		it( "does not render the modal when isOpen is false", () => {
-			renderModal( { isOpen: false } );
-			expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-		} );
-
-		it( "calls onClose when the modal close button is clicked", () => {
+	describe( "close button", () => {
+		it( "calls onClose when the close button is clicked", () => {
 			const onClose = jest.fn();
 			renderModal( { onClose } );
 			fireEvent.click( screen.getByRole( "button", { name: /close/i } ) );
@@ -186,9 +179,9 @@ describe( "ContentOutlineModal", () => {
 
 		it( "shows the form field values after loading", () => {
 			renderLoadedModal();
-			expect( screen.getByText( defaultSuggestion.focusKeyphrase ) ).toBeInTheDocument();
-			expect( screen.getByText( defaultSuggestion.title ) ).toBeInTheDocument();
-			expect( screen.getByText( defaultSuggestion.metaDescription ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.focusKeyphrase ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.title ) ).toBeInTheDocument();
+			expect( screen.getByDisplayValue( defaultSuggestion.metaDescription ) ).toBeInTheDocument();
 		} );
 
 		it( "shows the blog post structure section after loading", () => {
@@ -222,8 +215,8 @@ describe( "ContentOutlineModal", () => {
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByText( defaultSuggestion.focusKeyphrase ) ).not.toBeInTheDocument();
-			expect( screen.queryByText( defaultSuggestion.metaDescription ) ).not.toBeInTheDocument();
+			expect( screen.queryByDisplayValue( defaultSuggestion.focusKeyphrase ) ).not.toBeInTheDocument();
+			expect( screen.queryByDisplayValue( defaultSuggestion.metaDescription ) ).not.toBeInTheDocument();
 		} );
 
 		it( "does not show the blog post structure section when loading", () => {
