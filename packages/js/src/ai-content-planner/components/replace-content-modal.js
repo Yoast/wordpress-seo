@@ -30,12 +30,12 @@ export const ReplaceContentModal = ( { isOpen, onClose, onConfirm } ) => {
 						</Modal.Description>
 					</div>
 				</div>
-				<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
-					<Button type="button" variant="error" onClick={ onConfirm }>
-						{ __( "Replace content", "wordpress-seo" ) }
-					</Button>
+				<div className="yst-flex yst-flex-row yst-justify-end yst-gap-3 yst-mt-6">
 					<Button type="button" variant="secondary" onClick={ onClose }>
 						{ __( "Cancel", "wordpress-seo" ) }
+					</Button>
+					<Button type="button" variant="error" onClick={ onConfirm }>
+						{ __( "Replace content", "wordpress-seo" ) }
 					</Button>
 				</div>
 			</Modal.Panel>
