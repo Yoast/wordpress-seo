@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
+import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
 
@@ -35,6 +36,19 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const handleBackToSuggestions = useCallback( () => {
 		setStatus( "content-suggestions-success" );
 	}, [] );
+
+	const handleRequestAddOutline = useCallback( () => {
+		setStatus( "replace-content" );
+	}, [] );
+
+	const handleCancelReplace = useCallback( () => {
+		setStatus( "content-outline" );
+	}, [] );
+
+	const handleConfirmReplace = useCallback( () => {
+		onAddOutline();
+		onClose();
+	}, [ onAddOutline, onClose ] );
 
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
@@ -116,7 +130,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					<div>
 						<ContentOutlineModal
 							onBack={ handleBackToSuggestions }
-							onAddOutline={ onAddOutline }
+							onAddOutline={ handleRequestAddOutline }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
 							category="WordPress"
@@ -138,6 +152,23 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 									{ level: "FAQ", title: "FAQ" },
 								],
 							} }
+						/>
+					</div>
+				</Transition>
+				<Transition
+					as={ Fragment }
+					show={ status === "replace-content" }
+					enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+					enterFrom="yst-opacity-0"
+					enterTo="yst-opacity-100"
+					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0"
+				>
+					<div className="yst-flex yst-items-center yst-justify-center">
+						<ReplaceContentModal
+							onClose={ handleCancelReplace }
+							onConfirm={ handleConfirmReplace }
 						/>
 					</div>
 				</Transition>

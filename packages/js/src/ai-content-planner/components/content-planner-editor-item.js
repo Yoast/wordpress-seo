@@ -2,7 +2,6 @@ import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import { Button, Root, useToggleState } from "@yoast/ui-library";
 import { FeatureModal } from "./feature-modal";
-import { ReplaceContentModal } from "./replace-content-modal";
 
 /**
  * The section for the content planner feature in the Yoast sidebar.
@@ -17,16 +16,10 @@ import { ReplaceContentModal } from "./replace-content-modal";
  */
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, isUpsell, upsellLink } ) => {
 	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
-	const [ isReplaceContentModalOpen, , , openReplaceContentModal, closeReplaceContentModal ] = useToggleState( false );
 
 	const handleAddOutline = useCallback( () => {
-		openReplaceContentModal();
-	}, [ openReplaceContentModal ] );
-
-	const handleReplaceContent = useCallback( () => {
-		closeReplaceContentModal();
 		closeFeatureModal();
-	}, [ closeReplaceContentModal, closeFeatureModal ] );
+	}, [ closeFeatureModal ] );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
@@ -40,11 +33,6 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 			isUpsell={ isUpsell }
 			upsellLink={ upsellLink }
 			onAddOutline={ handleAddOutline }
-		/>
-		<ReplaceContentModal
-			isOpen={ isReplaceContentModalOpen }
-			onClose={ closeReplaceContentModal }
-			onConfirm={ handleReplaceContent }
 		/>
 	</div>
 	</Root>;
