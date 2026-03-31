@@ -8,6 +8,11 @@
     "build",
     "!*.map"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo.git",
+    "directory": "packages/dashboard-frontend"
+  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
@@ -49,7 +54,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@yoast/eslint-config": "^8.1.0",
     "@yoast/postcss-preset": "^1.2.1",
-    "@yoast/tailwindcss-preset": "^2.5.0",
+    "@yoast/tailwindcss-preset": "^2.6.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.23.0",
     "eslint-plugin-storybook": "^0.12.0",
@@ -59,7 +64,7 @@
     "postcss-loader": "^8.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "storybook": "^8.6.12",
+    "storybook": "^7.6.21",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.16"
   },
@@ -73,7 +78,7 @@
   },
   "peerDependencies": {
     "@wordpress/element": "^6.0.1",
-    "@yoast/ui-library": "^4.4.0",
+    "@yoast/ui-library": "^4.5.0",
     "chart.js": "^4.2.1",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",

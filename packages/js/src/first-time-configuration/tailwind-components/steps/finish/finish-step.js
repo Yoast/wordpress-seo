@@ -39,16 +39,10 @@ export default function FinishStep( { state } ) {
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst-mt-4">
 			<div>
 				<p className="yst-text-sm yst-mb-4">
-					{
-						sprintf(
-							/* translators: 1: Yoast. */
-							__( "Great work! Thanks to the details you've provided, %1$s has enhanced your site for search engines, giving them a clearer picture of what your site is all about.", "wordpress-seo" ),
-							"Yoast"
-						)
-					}
+					{ __( "Setup complete! Your site is now ready for discovery.", "wordpress-seo" ) }
 				</p>
 				<p className="yst-text-sm yst-mb-6">
-					{ __( "If your goal is to increase your rankings, you need to work on your SEO regularly. That can be overwhelming, so let's tackle it one step at a time!", "wordpress-seo" ) }
+					{ __( "Turning that visibility into sustainable organic growth is a journey, but you don't have to do it alone. Let's take it one step at a time to ensure your content is always understood, properly represented, and engaged with.", "wordpress-seo" ) }
 				</p>
 				<Button
 					as="a"
@@ -60,8 +54,8 @@ export default function FinishStep( { state } ) {
 				>
 					{ sprintf(
 						/* translators: 1: Yoast SEO. */
-						__( "Learn how to increase your rankings with %1$s", "wordpress-seo" ),
-						"Yoast SEO"
+						__( "Learn how to get the most out of your %1$s plugin", "wordpress-seo" ),
+						"Yoast"
 					) }
 					<span className="yst-sr-only">
 						{

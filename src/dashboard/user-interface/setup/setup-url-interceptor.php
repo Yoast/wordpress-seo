@@ -89,7 +89,7 @@ class Setup_Url_Interceptor implements Integration_Interface {
 	 */
 	public function add_redirect_page( $pages ) {
 		\add_submenu_page(
-			'',
+			'options.php',
 			'',
 			'',
 			'wpseo_manage_options',
