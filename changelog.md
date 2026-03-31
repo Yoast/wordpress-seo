@@ -9,7 +9,9 @@ Changelog
 
 ## 27.3
 
-Release date: 2026-04-07
+Release date: 2026-03-31
+
+Yoast SEO 27.3 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
