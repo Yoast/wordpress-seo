@@ -46,6 +46,14 @@ class Internal_Linking_Category implements Integration_Interface {
 				'Yoast',
 			),
 		];
+		$categories[] = [
+			'slug'  => 'yoast-ai-blocks',
+			'title' => \sprintf(
+				/* translators: %1$s expands to Yoast. */
+				\__( '%1$s AI Blocks', 'wordpress-seo' ),
+				'Yoast',
+			),
+		];
 
 		return $categories;
 	}
