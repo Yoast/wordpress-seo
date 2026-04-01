@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 
 /**
@@ -8,9 +8,11 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 class Post_List {
 
 	/**
-	 * @var array<Post> The posts.
+	 * The posts.
+	 *
+	 * @var array<Post>
 	 */
-	private array $posts = [];
+	private $posts = [];
 
 	/**
 	 * Adds a post to the list.

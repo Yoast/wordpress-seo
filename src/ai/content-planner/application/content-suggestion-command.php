@@ -11,24 +11,32 @@ use WP_User;
 class Content_Suggestion_Command {
 
 	/**
-	 * @var WP_User The user.
+	 * The user.
+	 *
+	 * @var WP_User
 	 */
-	private WP_User $user;
+	private $user;
 
 	/**
-	 * @var string The post type.
+	 * The post type.
+	 *
+	 * @var string
 	 */
-	private string $post_type;
+	private $post_type;
 
 	/**
-	 * @var string The language.
+	 * The language.
+	 *
+	 * @var string
 	 */
-	private string $language;
+	private $language;
 
 	/**
-	 * @var string The editor.
+	 * The editor.
+	 *
+	 * @var string
 	 */
-	private string $editor;
+	private $editor;
 
 	/**
 	 * The constructor.

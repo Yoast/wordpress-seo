@@ -1,6 +1,5 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
-
 namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 
 /**
@@ -9,39 +8,53 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 class Post {
 
 	/**
-	 * @var string The title.
+	 * The title.
+	 *
+	 * @var string
 	 */
-	private string $title;
+	private $title;
 
 	/**
-	 * @var string The description.
+	 * The description.
+	 *
+	 * @var string
 	 */
-	private string $description;
+	private $description;
 
 	/**
-	 * @var Category The category.
+	 * The category.
+	 *
+	 * @var Category
 	 */
-	private Category $category;
+	private $category;
 
 	/**
-	 * @var string The primary focus keyword.
+	 * The primary focus keyword.
+	 *
+	 * @var string
 	 */
-	private string $primary_focus_keyword;
+	private $primary_focus_keyword;
 
 	/**
-	 * @var bool Whether the post is cornerstone content.
+	 * Whether the post is cornerstone content.
+	 *
+	 * @var bool
 	 */
-	private bool $is_cornerstone;
+	private $is_cornerstone;
 
 	/**
-	 * @var string The last modified date.
+	 * The last modified date.
+	 *
+	 * @var string
 	 */
-	private string $last_modified;
+	private $last_modified;
 
 	/**
-	 * @var string The schema article type.
+	 * The schema article type.
+	 *
+	 * @var string
 	 */
-	private string $schema_article_type;
+	private $schema_article_type;
 
 	/**
 	 * The constructor.

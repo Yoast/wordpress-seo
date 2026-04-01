@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 
 /**
@@ -8,9 +8,11 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 class Content_Suggestion_List {
 
 	/**
-	 * @var array<Content_Suggestion> The suggestions.
+	 * The suggestions.
+	 *
+	 * @var array<Content_Suggestion>
 	 */
-	private array $content_suggestions = [];
+	private $content_suggestions = [];
 
 	/**
 	 * Adds a content suggestion to the list.

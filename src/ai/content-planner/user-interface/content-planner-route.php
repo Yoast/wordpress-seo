@@ -148,7 +148,6 @@ class Content_Planner_Route implements Route_Interface {
 	 * @return bool Whether the user is logged in and can edit posts.
 	 */
 	public function check_permissions(): bool {
-		return true;
 		$user = \wp_get_current_user();
 		if ( $user === null || $user->ID < 1 ) {
 			return false;

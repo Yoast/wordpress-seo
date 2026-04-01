@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 
 /**
@@ -8,24 +8,28 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 class Category {
 
 	/**
-	 * @var string The title.
+	 * The name.
+	 *
+	 * @var string
 	 */
-	private string $title;
+	private $name;
 
 	/**
-	 * @var string The ID.
+	 * The ID.
+	 *
+	 * @var string
 	 */
-	private string $id;
+	private $id;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param string $title The category title.
-	 * @param string $id    The category ID.
+	 * @param string $name The category title.
+	 * @param string $id   The category ID.
 	 */
-	public function __construct( string $title, string $id ) {
-		$this->title = $title;
-		$this->id    = $id;
+	public function __construct( string $name, string $id ) {
+		$this->name = $name;
+		$this->id   = $id;
 	}
 
 	/**
@@ -35,8 +39,8 @@ class Category {
 	 */
 	public function to_array(): array {
 		return [
-			'title' => $this->title,
-			'id'    => $this->id,
+			'name' => $this->name,
+			'id'   => $this->id,
 		];
 	}
 }

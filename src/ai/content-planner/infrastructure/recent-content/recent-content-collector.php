@@ -1,5 +1,6 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 
 namespace Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content;
 
@@ -20,9 +21,11 @@ class Recent_Content_Collector {
 	private const LIMIT = 100;
 
 	/**
-	 * @var Indexable_Repository The indexable repository.
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
 	 */
-	private Indexable_Repository $indexable_repository;
+	private $indexable_repository;
 
 	/**
 	 * The constructor.
