@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Introductions\Application\AI_Brand_Insights_Post_Launch;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -33,6 +34,13 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	private $current_page_helper;
 
 	/**
+	 * Holds the product helper.
+	 *
+	 * @var Mockery\MockInterface|Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -41,8 +49,12 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 		parent::set_up();
 
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
 
-		$this->instance = new AI_Brand_Insights_Post_Launch( $this->current_page_helper );
+		$this->instance = new AI_Brand_Insights_Post_Launch(
+			$this->current_page_helper,
+			$this->product_helper,
+		);
 	}
 
 	/**
@@ -56,6 +68,10 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 		$this->assertInstanceOf(
 			Current_Page_Helper::class,
 			$this->getPropertyValue( $this->instance, 'current_page_helper' ),
+		);
+		$this->assertInstanceOf(
+			Product_Helper::class,
+			$this->getPropertyValue( $this->instance, 'product_helper' ),
 		);
 	}
 
@@ -89,14 +105,26 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	 * @dataProvider should_show_data
 	 *
 	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
+	 * @param bool $is_premium        Whether Premium is installed.
+	 * @param int  $is_premium_times  How many times the `is_premium` method is expected to be called.
 	 * @param bool $expected          The expected result.
 	 *
 	 * @return void
 	 */
-	public function test_should_show( $is_yoast_seo_page, $expected ) {
+	public function test_should_show(
+		$is_yoast_seo_page,
+		$is_premium,
+		$is_premium_times,
+		$expected
+	) {
 		$this->current_page_helper->expects( 'is_yoast_seo_page' )
+			->once()
 			->withNoArgs()
 			->andReturn( $is_yoast_seo_page );
+		$this->product_helper->expects( 'is_premium' )
+			->times( $is_premium_times )
+			->withNoArgs()
+			->andReturn( $is_premium );
 
 		$this->assertSame( $expected, $this->instance->should_show() );
 	}
@@ -104,16 +132,32 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	/**
 	 * Provides the data for `test_should_show`.
 	 *
-	 * @return array<string, array<string, bool>>
+	 * @return array<string, array<string, bool|int>>
 	 */
 	public static function should_show_data() {
 		return [
-			'on a Yoast admin page'     => [
+			'on a Yoast admin page, with Premium disabled' => [
 				'is_yoast_seo_page' => true,
+				'is_premium'        => false,
+				'is_premium_times'  => 1,
 				'expected'          => true,
 			],
-			'not on a Yoast admin page' => [
+			'on a Yoast admin page, with Premium enabled' => [
+				'is_yoast_seo_page' => true,
+				'is_premium'        => true,
+				'is_premium_times'  => 1,
+				'expected'          => false,
+			],
+			'not on a Yoast admin page, with Premium disabled' => [
 				'is_yoast_seo_page' => false,
+				'is_premium'        => false,
+				'is_premium_times'  => 0,
+				'expected'          => false,
+			],
+			'not on a Yoast admin page, with Premium enabled' => [
+				'is_yoast_seo_page' => false,
+				'is_premium'        => true,
+				'is_premium_times'  => 0,
 				'expected'          => false,
 			],
 		];
