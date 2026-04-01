@@ -5,7 +5,8 @@ import { useSvgAria } from "@yoast/ui-library";
 /**
  * ContentSuggestionBlock component.
  *
- * @param {string[]} contentNotes The content notes to display.
+ * @param {Object}   props              The component props.
+ * @param {string[]} props.contentNotes The content notes to display.
  *
  * @returns {JSX.Element} The content suggestion block component.
  */
@@ -14,7 +15,7 @@ export const ContentSuggestionBlock = ( { contentNotes } ) => {
 	return (
 		<div className="yst-bg-slate-50 yst-font-sans yst-rounded-sm yst-shadow-sm yst-border yst-border-solid yst-border-slate-200 yst-p-4">
 			<div className="yst-text-slate-500 yst-text-xs yst-flex yst-items-center yst-mb-4">
-				<EyeIcon className="yst-inline-block yst-w-3 yst-h-3 yst-mr-1 yst-shrink-0" { ...svgAriaProps } />
+				<EyeIcon className="yst-inline-block yst-w-3 yst-h-3 yst-me-1 yst-shrink-0" { ...svgAriaProps } />
 				<span className="yst-text-xs yst-leading-3">{ __( "Only visible to you", "wordpress-seo" ) }</span>
 			</div>
 			<div>

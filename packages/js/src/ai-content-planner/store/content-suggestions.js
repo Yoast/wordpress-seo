@@ -46,9 +46,9 @@ export function* getContentSuggestions( { endpoint } ) {
 	yield{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		const payload = yield{ type: FETCH_CONTENT_SUGGESTIONS_ACTION_NAME, payload: { endpoint } };
-		return { type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
+		yield{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
 	} catch ( error ) {
-		return { type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
+		yield{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
 

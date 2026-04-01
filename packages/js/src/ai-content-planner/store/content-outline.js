@@ -59,9 +59,9 @@ export function* getContentOutline( { endpoint, title, description, intent } ) {
 	yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		const payload = yield{ type: FETCH_CONTENT_OUTLINE_ACTION_NAME, payload: { endpoint, title, description, intent } };
-		return { type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
+		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
 	} catch ( error ) {
-		return { type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
+		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
 

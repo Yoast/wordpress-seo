@@ -31,7 +31,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const handleApplyOutline = useCallback( async( suggestion ) => {
 		await getContentOutline( suggestion );
 		const outline = select( STORE_NAME ).selectContentOutline();
-		applyPostMetaFromOutline( outline );
+		await applyPostMetaFromOutline( outline );
 		resetBlocks( buildBlocksFromOutline( outline ) );
 		onClose();
 	}, [ getContentOutline, resetBlocks, onClose ] );
