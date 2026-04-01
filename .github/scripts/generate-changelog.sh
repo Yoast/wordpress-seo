@@ -112,33 +112,34 @@ for PR_NUM in $PR_NUMBERS; do
 	ENTRIES=$(echo "$BODY" | sed -n '/[Cc]hangelog entry/,/^##/p' | grep '^\*' | grep -v '^\* *$' || true)
 
 	# Process each entry line.
-	FILTERED=""
 	while IFS= read -r line; do
 		[ -z "$line" ] && continue
 
 		# Skip entries scoped to other repos (e.g., [wordpress-seo-premium], [shopify-seo]).
-		if echo "$line" | grep -qP '^\* *\[(?!wordpress-seo\])'; then
+		if echo "$line" | grep -qP '^\* *\[(?!wordpress-seo[ \]])'; then
 			echo "  Skipping scoped entry: $line"
 			continue
 		fi
 
-		# Remove [wordpress-seo] scope prefix if present.
-		line=$(echo "$line" | sed 's/^\(\* *\)\[wordpress-seo\] */\1/')
+		# Extract per-line label override from bracket prefix (e.g., [wordpress-seo bugfix]).
+		LINE_LABEL="$LABEL"
+		BRACKET_EXTRA=$(echo "$line" | grep -oP '^\* *\[wordpress-seo \K[^]]+' || true)
+		if [ -n "$BRACKET_EXTRA" ]; then
+			case "$BRACKET_EXTRA" in
+				bugfix|enhancement|other) LINE_LABEL="$BRACKET_EXTRA" ;;
+			esac
+		fi
 
-		FILTERED+="$line"$'\n'
+		# Remove [wordpress-seo ...] scope prefix if present.
+		line=$(echo "$line" | sed 's/^\(\* *\)\[wordpress-seo[^]]*\] */\1/')
+
+		case "$LINE_LABEL" in
+			enhancement) ENHANCEMENTS+="$line"$'\n' ;;
+			bugfix)      BUGFIXES+="$line"$'\n' ;;
+			other)       OTHER+="$line"$'\n' ;;
+			*)           echo "  Unknown label: $LINE_LABEL, treating as other"; OTHER+="$line"$'\n' ;;
+		esac
 	done <<< "$ENTRIES"
-
-	if [ -z "$FILTERED" ]; then
-		echo "  No changelog entry found"
-		continue
-	fi
-
-	case "$LABEL" in
-		enhancement) ENHANCEMENTS+="$FILTERED" ;;
-		bugfix)      BUGFIXES+="$FILTERED" ;;
-		other)       OTHER+="$FILTERED" ;;
-		*)           echo "  Unknown label: $LABEL, treating as other"; OTHER+="$FILTERED" ;;
-	esac
 done
 
 # Build the new version section.

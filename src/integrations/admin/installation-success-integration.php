@@ -70,7 +70,11 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_redirect() {
-		if ( \defined( 'DOING_AJAX' ) && \DOING_AJAX ) {
+		if ( \wp_doing_ajax() || \wp_doing_cron() || \wp_is_serving_rest_request() || \wp_is_json_request() ) {
+			return;
+		}
+
+		if ( ! \current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -94,6 +98,15 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 
 		if ( \is_network_admin() || \is_plugin_active_for_network( \WPSEO_BASENAME ) ) {
+			return;
+		}
+
+		/**
+		 * Filter: 'wpseo_should_redirect_after_install' - Allows skipping the redirect to the installation success page.
+		 *
+		 * @param bool $should_redirect Whether to redirect. Default true.
+		 */
+		if ( ! \apply_filters( 'wpseo_should_redirect_after_install', true ) ) {
 			return;
 		}
 
