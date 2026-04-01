@@ -19,7 +19,7 @@ export const ContentSuggestionBlock = ( { contentNotes } ) => {
 				<span className="yst-text-xs yst-leading-3">{ __( "Only visible to you", "wordpress-seo" ) }</span>
 			</div>
 			<div>
-				<div className="yst-flex yst-justify-start yst-items-center yst-gap-2 yst-mb-1">
+				<div className="yst-flex yst-justify-start yst-items-center yst-gap-2 yst-mb-1 yst-ps-4">
 					<div className="yst-flex yst-items-center yst-justify-center yst-w-4 yst-h-4 yst-bg-ai-500 yst-rounded-[1.5px]">
 						<DocumentIcon className="yst-w-3 yst-h-3 yst-shrink-0 yst-text-white yst-flex yst-items-center yst-justify-center" { ...svgAriaProps } />
 					</div>
