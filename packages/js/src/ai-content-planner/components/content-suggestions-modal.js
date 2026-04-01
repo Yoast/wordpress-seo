@@ -3,29 +3,12 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
+import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
 import { Fragment, useRef, useEffect, useState, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
-
-const intentBadge = {
-	informational: {
-		classes: "yst-bg-blue-200 yst-text-blue-900",
-		Icon: BookOpenIcon,
-		label: __( "Informational", "wordpress-seo" ),
-	},
-	navigational: {
-		classes: "yst-bg-violet-200 yst-text-violet-900",
-		Icon: MapIcon,
-		label: __( "Navigational", "wordpress-seo" ),
-	},
-	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		Icon: StarIcon,
-		label: __( "Commercial", "wordpress-seo" ),
-	},
-};
+import { intentBadge } from "./intent-badge";
 
 // Placeholder suggestions — will be replaced with real API data in a future iteration.
 const suggestions = [

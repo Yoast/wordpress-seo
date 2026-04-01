@@ -114,6 +114,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					leaveTo="yst-opacity-0"
 				>
 					<div>
+						{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
 						<ContentOutlineModal
 							onBack={ handleBackToSuggestions }
 							onAddOutline={ onAddOutline }

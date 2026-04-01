@@ -1,31 +1,14 @@
-import { Badge, Button, Modal, SkeletonLoader, Toggle, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
-import { BookOpenIcon, StarIcon, MapIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
 import { get } from "lodash";
 import classNames from "classnames";
-
-const intentBadge = {
-	informational: {
-		classes: "yst-bg-blue-200 yst-text-blue-900",
-		Icon: BookOpenIcon,
-		label: __( "Informational", "wordpress-seo" ),
-	},
-	navigational: {
-		classes: "yst-bg-violet-200 yst-text-violet-900",
-		Icon: MapIcon,
-		label: __( "Navigational", "wordpress-seo" ),
-	},
-	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		Icon: StarIcon,
-		label: __( "Commercial", "wordpress-seo" ),
-	},
-};
+import { intentBadge } from "./intent-badge";
 
 /**
  * Blue callout box showing the intent badge and reasoning for the suggestion.
@@ -65,7 +48,6 @@ const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
 /**
  * Returns the progress bar color based on the meta description length.
  * Matches the scoring logic and colors from the Yoast snippet editor ProgressBar:
- * - 0 chars: red / $color_bad (#dc3232)
  * - 1–120 chars: orange / $color_ok (#ee7c1b)
  * - 121–156 chars: green / $color_good (#7ad03a)
  * - >156 chars: orange / $color_ok (#ee7c1b)
@@ -74,9 +56,6 @@ const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
  * @returns {string} The hex color for the progress bar.
  */
 const getProgressColor = ( length ) => {
-	if ( length === 0 ) {
-		return "#dc3232";
-	}
 	if ( length > META_DESCRIPTION_RECOMMENDED_MIN_LENGTH && length <= META_DESCRIPTION_MAX_LENGTH ) {
 		return "#7ad03a";
 	}
@@ -104,44 +83,6 @@ const MetaDescriptionProgressBar = ( { value } ) => {
 	);
 };
 
-/**
- * Editable form field displaying a label and an input or textarea.
- *
- * @param {string}   label            The field label.
- * @param {string}   value            The field value.
- * @param {Function} onChange         Callback when the value changes.
- * @param {boolean}  multiline        Whether to render as a textarea.
- * @param {boolean}  showProgressBar  Whether to show a character length progress bar.
- *
- * @returns {JSX.Element} The FormField component.
- */
-const FormField = ( { label, value, onChange, multiline = false, showProgressBar = false } ) => {
-	const fieldClasses = "yst-w-full yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-text-sm yst-text-slate-600 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500";
-	const inputId = `form-field-${ String( label ).toLowerCase().replace( /\s+/g, "-" ) }`;
-
-	return (
-		<div className="yst-flex yst-flex-col yst-gap-2">
-			<label className="yst-font-medium yst-text-sm yst-text-slate-800" htmlFor={ inputId }>{ label }</label>
-			{ multiline ? (
-				<textarea
-					id={ inputId }
-					className={ classNames( fieldClasses, "yst-min-h-20 yst-resize-y" ) }
-					value={ value }
-					onChange={ onChange }
-				/>
-			) : (
-				<input
-					id={ inputId }
-					type="text"
-					className={ fieldClasses }
-					value={ value }
-					onChange={ onChange }
-				/>
-			) }
-			{ showProgressBar && <MetaDescriptionProgressBar value={ value } /> }
-		</div>
-	);
-};
 
 /**
  * A single draggable row in the blog post structure list.
@@ -259,6 +200,9 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  * Hook that simulates loading state with timers.
  * Set window.contentPlanner.isOutlineLoading = true to force loading state for testing.
  * Starts loading automatically on mount (the Transition unmounts this component when hidden).
+ *
+ * Temporary: replace with real API loading state when the outline endpoint is available.
+ * Remove the forceLoading / window.contentPlanner.isOutlineLoading mechanism and the setTimeout logic.
  *
  * @returns {boolean} Whether the modal content is in a loading state.
  */
@@ -473,23 +417,28 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						>
 							<div className="yst-flex yst-flex-col yst-gap-6">
 								<div className="yst-flex yst-flex-col yst-gap-4">
-									<FormField
+									<TextField
+										id="content-outline-focus-keyphrase"
 										label={ __( "Focus Keyphrase", "wordpress-seo" ) }
 										value={ focusKeyphrase }
 										onChange={ handleFocusKeyphraseChange }
 									/>
-									<FormField
+									<TextField
+										id="content-outline-title"
 										label={ __( "Title", "wordpress-seo" ) }
 										value={ title }
 										onChange={ handleTitleChange }
 									/>
-									<FormField
-										label={ __( "Meta description", "wordpress-seo" ) }
-										value={ metaDescription }
-										onChange={ handleMetaDescriptionChange }
-										multiline={ true }
-										showProgressBar={ true }
-									/>
+									<div>
+										<TextareaField
+											id="content-outline-meta-description"
+											label={ __( "Meta description", "wordpress-seo" ) }
+											value={ metaDescription }
+											onChange={ handleMetaDescriptionChange }
+											className="yst-mb-2"
+										/>
+										<MetaDescriptionProgressBar value={ metaDescription } />
+									</div>
 								</div>
 
 								<hr className="yst-border-slate-200" />
@@ -533,6 +482,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
+					{ /* Temporary: wire onAddOutline to pass the edited outline state to the parent for post insertion. */ }
 					<Button variant="ai-primary" onClick={ onAddOutline }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
