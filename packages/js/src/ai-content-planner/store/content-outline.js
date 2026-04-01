@@ -12,18 +12,7 @@ const INITIAL_OUTLINE = {
 	metaDescription: "",
 	focusKeyphrase: "",
 	category: "",
-	heading1: "",
-	paragraph1ContentNotes: [],
-	heading2: "",
-	paragraph2ContentNotes: [],
-	heading3: "",
-	paragraph3ContentNotes: [],
-	heading4: "",
-	paragraph4ContentNotes: [],
-	heading5: "",
-	paragraph5ContentNotes: [],
-	heading6: "",
-	paragraph6ContentNotes: [],
+	sections: [],
 	faqContentNotes: [],
 };
 
@@ -100,35 +89,49 @@ export const contentOutlineControls = {
 		metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
 		focusKeyphrase: "sourdough bread",
 		category: "Baking",
-		heading1: "What is sourdough bread?",
-		paragraph1ContentNotes: [
-			"Explain how sourdough differs from other breads by using wild yeast fermentation.",
-			"Mention the long fermentation process and how it develops flavour and texture.",
-		],
-		heading2: "How to make a sourdough starter",
-		paragraph2ContentNotes: [
-			"Describe the flour and water ratio needed to create a starter from scratch.",
-			"Explain how to feed and maintain the starter over several days until it is active.",
-		],
-		heading3: "Choosing the right flour",
-		paragraph3ContentNotes: [
-			"Compare bread flour, whole wheat, and rye and their effect on the final loaf.",
-			"Advise on why higher protein flour produces better structure and rise.",
-		],
-		heading4: "Mixing and shaping the dough",
-		paragraph4ContentNotes: [
-			"Walk through the stretch-and-fold technique used instead of traditional kneading.",
-			"Explain how to shape a boule or batard and build surface tension.",
-		],
-		heading5: "Bulk fermentation and proofing",
-		paragraph5ContentNotes: [
-			"Describe what to look for to know when bulk fermentation is complete.",
-			"Explain the cold proof in the fridge and how it improves flavour and scoring.",
-		],
-		heading6: "Baking your sourdough loaf",
-		paragraph6ContentNotes: [
-			"Explain the importance of baking in a Dutch oven to trap steam for a crispy crust.",
-			"Give temperature and timing guidance for the covered and uncovered baking stages.",
+		sections: [
+			{
+				heading: "What is sourdough bread?",
+				contentNotes: [
+					"Explain how sourdough differs from other breads by using wild yeast fermentation.",
+					"Mention the long fermentation process and how it develops flavour and texture.",
+				],
+			},
+			{
+				heading: "How to make a sourdough starter",
+				contentNotes: [
+					"Describe the flour and water ratio needed to create a starter from scratch.",
+					"Explain how to feed and maintain the starter over several days until it is active.",
+				],
+			},
+			{
+				heading: "Choosing the right flour",
+				contentNotes: [
+					"Compare bread flour, whole wheat, and rye and their effect on the final loaf.",
+					"Advise on why higher protein flour produces better structure and rise.",
+				],
+			},
+			{
+				heading: "Mixing and shaping the dough",
+				contentNotes: [
+					"Walk through the stretch-and-fold technique used instead of traditional kneading.",
+					"Explain how to shape a boule or batard and build surface tension.",
+				],
+			},
+			{
+				heading: "Bulk fermentation and proofing",
+				contentNotes: [
+					"Describe what to look for to know when bulk fermentation is complete.",
+					"Explain the cold proof in the fridge and how it improves flavour and scoring.",
+				],
+			},
+			{
+				heading: "Baking your sourdough loaf",
+				contentNotes: [
+					"Explain the importance of baking in a Dutch oven to trap steam for a crispy crust.",
+					"Give temperature and timing guidance for the covered and uncovered baking stages.",
+				],
+			},
 		],
 		faqContentNotes: [
 			"Include common questions such as why the bread is dense or why the crust is too thick.",
