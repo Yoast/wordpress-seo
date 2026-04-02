@@ -142,8 +142,8 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 	const [ announceLoading, setAnnounceLoading ] = useState( false );
 
 	useEffect( () => {
+		closeButtonRef.current?.focus();
 		if ( status === "content-suggestions-loading" ) {
-			closeButtonRef.current?.focus();
 			const timer = setTimeout( () => setAnnounceLoading( true ), 100 );
 			return () => clearTimeout( timer );
 		}
