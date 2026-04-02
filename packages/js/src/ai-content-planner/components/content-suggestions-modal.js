@@ -136,7 +136,7 @@ const LoadingModalContent = () => {
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop } ) => {
+export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, skipTransitions = false } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
@@ -163,47 +163,66 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 					/>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-					{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
-					<div className="yst-relative" aria-live="polite">
-						<Transition
-							as={ Fragment }
-							show={ status === "content-suggestions-loading" }
-							enter="yst-transition-opacity yst-duration-300"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
-							<div><LoadingModalContent /></div>
-						</Transition>
-						{ /*
-						 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
-						 * so the suggestions only fade in after the loading content has faded out.
-						 */ }
-						<Transition
-							as={ Fragment }
-							show={ status === "content-suggestions-success" }
-							enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-opacity yst-duration-300"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
-							<div>
-								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-								{ suggestions.map( ( suggestion ) => (
-									<SuggestionButton
-										key={ suggestion.title }
-										{ ...suggestion }
-										suggestion={ suggestion }
-										onClick={ onSuggestionClick }
-									/>
-								) ) }
-							</div>
-						</Transition>
-					</div>
+					{ skipTransitions ? (
+						<div aria-live="polite">
+							{ status === "content-suggestions-loading" && <LoadingModalContent /> }
+							{ status === "content-suggestions-success" && (
+								<div>
+									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+									{ suggestions.map( ( suggestion ) => (
+										<SuggestionButton
+											key={ suggestion.title }
+											{ ...suggestion }
+											suggestion={ suggestion }
+											onClick={ onSuggestionClick }
+										/>
+									) ) }
+								</div>
+							) }
+						</div>
+					) : (
+						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
+						<div className="yst-relative" aria-live="polite">
+							<Transition
+								as={ Fragment }
+								show={ status === "content-suggestions-loading" }
+								enter="yst-transition-opacity yst-duration-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div><LoadingModalContent /></div>
+							</Transition>
+							{ /*
+							 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
+							 * so the suggestions only fade in after the loading content has faded out.
+							 */ }
+							<Transition
+								as={ Fragment }
+								show={ status === "content-suggestions-success" }
+								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div>
+									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+									{ suggestions.map( ( suggestion ) => (
+										<SuggestionButton
+											key={ suggestion.title }
+											{ ...suggestion }
+											suggestion={ suggestion }
+											onClick={ onSuggestionClick }
+										/>
+									) ) }
+								</div>
+							</Transition>
+						</div>
+					) }
 				</Modal.Container.Content>
 			</Modal.Container>
 		</Modal.Panel>

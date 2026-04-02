@@ -28,16 +28,15 @@ const getSuggestionsEnterTransition = ( fromApproveModal ) => {
  * Renders the suggestions modal, with a cross-fade transition when coming from
  * the approve modal and an instant render otherwise.
  *
- * @param {boolean}  isVisible        Whether the suggestions should be shown.
- * @param {boolean}  cameFromApproveModal  Whether transitioning from the approve modal.
- * @param {Function} onTransitioned   Callback after the enter transition completes.
+ * @param {boolean}  isVisible            Whether the suggestions should be shown.
+ * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
  * @param {string}   status           The current modal status.
  * @param {boolean}  isPremium        Whether the user has a premium subscription.
  * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onTransitioned, status, isPremium, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
 		const transition = getSuggestionsEnterTransition( true );
 		return (
@@ -47,7 +46,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onTransitioned, st
 				enter={ transition.enter }
 				enterFrom={ transition.enterFrom }
 				enterTo={ transition.enterTo }
-				afterEnter={ onTransitioned }
 			>
 				<div>
 					<ContentSuggestionsModal
@@ -67,30 +65,9 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onTransitioned, st
 			status={ status }
 			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
+			skipTransitions={ true }
 		/>
 	);
-};
-
-/**
- * Returns the visibility state for each modal panel based on the current status.
- *
- * @param {string}  status             The current modal status.
- * @param {Object}  selectedSuggestion The currently selected suggestion, or null.
- * @returns {Object} Panel visibility flags and styles.
- */
-const HIDDEN_STYLE = { display: "none" };
-
-const getPanelVisibility = ( status, selectedSuggestion ) => {
-	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
-	const isOutlineVisible = status === "content-outline";
-	const hasVisitedOutline = isOutlineVisible || selectedSuggestion !== null;
-	return {
-		isSuggestionsVisible,
-		isOutlineVisible,
-		hasVisitedOutline,
-		suggestionsStyle: isOutlineVisible ? HIDDEN_STYLE : null,
-		outlineStyle: isOutlineVisible ? null : HIDDEN_STYLE,
-	};
 };
 
 /**
@@ -116,11 +93,8 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		setStatus( "content-suggestions-loading" );
 	}, [] );
 
-	const handleSuggestionsEntered = useCallback( () => {
-		setCameFromApproveModal( false );
-	}, [] );
-
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
+		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
 		setStatus( "content-outline" );
 	}, [] );
@@ -144,11 +118,12 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	useEffect( () => {
 		if ( ! isOpen ) {
 			setStatus( "idle" );
+			setCameFromApproveModal( false );
+			setSelectedSuggestion( null );
 		}
 	}, [ isOpen ] );
 
-	const panelVisibility = getPanelVisibility( status, selectedSuggestion );
-	const { isSuggestionsVisible, isOutlineVisible, hasVisitedOutline, suggestionsStyle, outlineStyle } = panelVisibility;
+	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -173,50 +148,38 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 						/>
 					</div>
 				</Transition>
-				{ /*
-				 * Once suggestions or outline modal have been shown, keep both mounted and toggle
-				 * via display:none to avoid a one-frame empty container between panel swaps.
-				 */ }
-				<div style={ suggestionsStyle }>
-					<SuggestionsPanel
-						isVisible={ isSuggestionsVisible }
-						cameFromApproveModal={ cameFromApproveModal }
-						onTransitioned={ handleSuggestionsEntered }
-						status={ status }
-						isPremium={ isPremium }
-						onSuggestionClick={ handleSuggestionClick }
-					/>
-				</div>
+				<SuggestionsPanel
+					isVisible={ isSuggestionsVisible }
+					cameFromApproveModal={ cameFromApproveModal }
+					status={ status }
+					isPremium={ isPremium }
+					onSuggestionClick={ handleSuggestionClick }
+				/>
 				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
-				{ hasVisitedOutline && (
-					<div style={ outlineStyle }>
-						<ContentOutlineModal
-							isActive={ isOutlineVisible }
-							onBack={ handleBackToSuggestions }
-							onAddOutline={ onAddOutline }
-							sparksLimit={ 10 }
-							sparksUsage={ 1 }
-							category="WordPress"
-							suggestion={ {
-								intent: selectedSuggestion ? selectedSuggestion.intent : "informational",
-								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-								description: selectedSuggestion
-									? selectedSuggestion.description
-									: "This content is suggested because it addresses a common entry point for new users.",
-								focusKeyphrase: "Guide to set up WordPress blog",
-								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-								structure: [
-									{ level: "H2", title: "Introduction" },
-									{ level: "H2", title: "Why This Matters" },
-									{ level: "H2", title: "Step-by-Step Guide" },
-									{ level: "H2", title: "Common Mistakes to Avoid" },
-									{ level: "H2", title: "Best Practices" },
-									{ level: "H2", title: "Conclusion" },
-									{ level: "FAQ", title: "FAQ" },
-								],
-							} }
-						/>
-					</div>
+				{ status === "content-outline" && (
+					<ContentOutlineModal
+						onBack={ handleBackToSuggestions }
+						onAddOutline={ onAddOutline }
+						sparksLimit={ 10 }
+						sparksUsage={ 1 }
+						category="WordPress"
+						suggestion={ {
+							intent: selectedSuggestion.intent,
+							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+							description: selectedSuggestion.description,
+							focusKeyphrase: "Guide to set up WordPress blog",
+							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+							structure: [
+								{ level: "H2", title: "Introduction" },
+								{ level: "H2", title: "Why This Matters" },
+								{ level: "H2", title: "Step-by-Step Guide" },
+								{ level: "H2", title: "Common Mistakes to Avoid" },
+								{ level: "H2", title: "Best Practices" },
+								{ level: "H2", title: "Conclusion" },
+								{ level: "FAQ", title: "FAQ" },
+							],
+						} }
+					/>
 				) }
 			</div>
 		</Modal>

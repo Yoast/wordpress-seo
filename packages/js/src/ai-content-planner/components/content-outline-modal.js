@@ -281,11 +281,10 @@ const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
  * @param {string}             category    Optional. If provided, show the suggest category section.
- * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive } ) => {
+export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -305,12 +304,10 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 		setStructure( withIds( suggestion.structure ) );
 	}, [ suggestion ] );
 
-	// Focus the close button when the panel becomes active so screen readers announce the dialog context.
+	// Focus the close button on mount so screen readers announce the dialog context.
 	useEffect( () => {
-		if ( isActive ) {
-			closeButtonRef.current?.focus();
-		}
-	}, [ isActive ] );
+		closeButtonRef.current?.focus();
+	}, [] );
 
 	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
 	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
