@@ -19,6 +19,18 @@ class Recent_Content_Collector {
 	 * The maximum number of posts to collect.
 	 */
 	private const LIMIT = 100;
+	/**
+	 * The valid schema types that we want to send to the API. Otherwise this field is omitted.
+	 */
+	public const         VALID_SCHEMA_TYPES = [
+		'SocialMediaPosting',
+		'NewsArticle',
+		'AdvertiserContentArticle',
+		'SatiricalArticle',
+		'ScholarlyArticle',
+		'TechArticle',
+		'Report',
+	];
 
 	/**
 	 * The indexable repository.
@@ -50,6 +62,26 @@ class Recent_Content_Collector {
 	}
 
 	/**
+	 * Collects the most recent indexed about page.
+	 *
+	 * @param string $post_type The post type to collect.
+	 *
+	 * @return array<string>|false The about page needed information.
+	 */
+	public function collect_about_page( string $post_type ) {
+		$indexable = $this->indexable_repository->get_most_recent_about_page( $post_type );
+
+		if ( $indexable ) {
+			return [
+				'title'       => ( $indexable->breadcrumb_title ?? '' ),
+				'description' => ( $indexable->description ?? '' ),
+			];
+		}
+
+		return false;
+	}
+
+	/**
 	 * Maps indexable results to a Post_List.
 	 *
 	 * @param Indexable[] $indexables The indexable results.
@@ -64,11 +96,11 @@ class Recent_Content_Collector {
 				new Post(
 					( $indexable->breadcrumb_title ?? '' ),
 					( $indexable->description ?? '' ),
-					new Category( '', '' ),
+					new Category( 'My placeholder', '1' ),
 					( $indexable->primary_focus_keyword ?? '' ),
 					( $indexable->is_cornerstone ?? false ),
 					( $indexable->object_last_modified ?? '' ),
-					( $indexable->schema_article_type ?? '' ),
+					( \in_array( $indexable->schema_article_type, self::VALID_SCHEMA_TYPES, true ) ? $indexable->schema_article_type : null ),
 				),
 			);
 		}

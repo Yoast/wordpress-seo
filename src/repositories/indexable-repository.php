@@ -538,6 +538,24 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns the most recently modified about page based on schema_page_type.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return Indexable|false The about page if its there.
+	 */
+	public function get_most_recent_about_page( $post_type ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where( 'schema_page_type', 'AboutPage' )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		return $query->find_one();
+	}
+
+	/**
 	 * Returns the most recently modified posts with keywords of a post type.
 	 *
 	 * @param string      $post_type  The post type.

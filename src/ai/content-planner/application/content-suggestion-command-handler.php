@@ -3,7 +3,6 @@
 
 namespace Yoast\WP\SEO\AI\Content_Planner\Application;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
@@ -11,16 +10,8 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Bad_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Internal_Server_Error_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Not_Found_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Request_Timeout_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Service_Unavailable_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
-use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -31,29 +22,39 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 class Content_Suggestion_Command_Handler {
 
 	/**
-	 * @var Recent_Content_Collector The recent content collector.
+	 * The recent content collector.
+	 *
+	 * @var Recent_Content_Collector
 	 */
-	private Recent_Content_Collector $recent_content_collector;
+	private $recent_content_collector;
 
 	/**
-	 * @var Token_Manager The token manager.
+	 * The token manager.
+	 *
+	 * @var Token_Manager
 	 */
-	private Token_Manager $token_manager;
+	private $token_manager;
 
 	/**
-	 * @var Request_Handler The request handler.
+	 * The request handler.
+	 *
+	 * @var Request_Handler
 	 */
-	private Request_Handler $request_handler;
+	private $request_handler;
 
 	/**
-	 * @var User_Helper The user helper.
+	 * The user helper.
+	 *
+	 * @var User_Helper
 	 */
-	private User_Helper $user_helper;
+	private $user_helper;
 
 	/**
-	 * @var Consent_Handler The consent handler.
+	 * The consent handler.
+	 *
+	 * @var Consent_Handler
 	 */
-	private Consent_Handler $consent_handler;
+	private $consent_handler;
 
 	/**
 	 * The constructor.
@@ -79,31 +80,38 @@ class Content_Suggestion_Command_Handler {
 	}
 
 	/**
+	 * Handles the content suggestion command by collecting recent content and requesting suggestions from the AI API.
 	 *
-	 * @throws Bad_Request_Exception
-	 * @throws Forbidden_Exception
-	 * @throws Internal_Server_Error_Exception
-	 * @throws Not_Found_Exception
-	 * @throws Payment_Required_Exception
-	 * @throws Request_Timeout_Exception
-	 * @throws Service_Unavailable_Exception
-	 * @throws Too_Many_Requests_Exception
-	 * @throws Unauthorized_Exception
-	 * @throws WP_Request_Exception
-	 * @return Content_Suggestion_List A list of content suggestions
+	 * @param Content_Suggestion_Command $command               The content suggestion command.
+	 * @param bool                       $retry_on_unauthorized Whether to retry on unauthorized response.
+	 *
+	 * @throws Unauthorized_Exception When the API returns an unauthorized response and retry is exhausted.
+	 * @throws Forbidden_Exception    When consent has been revoked.
+	 *
+	 * @return Content_Suggestion_List A list of content suggestions.
 	 */
 	public function handle(
 		Content_Suggestion_Command $command,
 		bool $retry_on_unauthorized = true
 	): Content_Suggestion_List {
 		$recent_content = $this->recent_content_collector->collect( $command->get_post_type() );
+		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
 		$token          = $this->token_manager->get_or_request_access_token( $command->get_user() );
-		// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.Found -- Reason: We don't want the debug/pretty possibility.
-		$recent_content  = WPSEO_Utils::format_json_encode( $recent_content->to_array() );
-		$request_body    = [
-			'language' => $command->get_language(),
-			'content'  => $recent_content,
+		$recent_content = $recent_content->to_array();
+
+		$content = [
+			'posts' => $recent_content,
 		];
+		if ( $about_page ) {
+			$content['about_page'] = $about_page;
+		}
+		$request_body = [
+			'subject' => [
+				'language' => $command->get_language(),
+				'content'  => $content,
+			],
+		];
+
 		$request_headers = [
 			'Authorization' => "Bearer $token",
 			'X-Yst-Cohort'  => $command->get_editor(),
@@ -134,6 +142,13 @@ class Content_Suggestion_Command_Handler {
 		return $this->build_suggestions_array( $response );
 	}
 
+	/**
+	 * Builds a list of content suggestions from the API response.
+	 *
+	 * @param Response $response The API response.
+	 *
+	 * @return Content_Suggestion_List The list of content suggestions.
+	 */
 	public function build_suggestions_array( Response $response ): Content_Suggestion_List {
 		$content_suggestion_list = new Content_Suggestion_List();
 		$json                    = \json_decode( $response->get_body() );

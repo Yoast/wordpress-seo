@@ -17,7 +17,7 @@ class Category {
 	/**
 	 * The ID.
 	 *
-	 * @var string
+	 * @var int
 	 */
 	private $id;
 
@@ -25,9 +25,9 @@ class Category {
 	 * The constructor.
 	 *
 	 * @param string $name The category title.
-	 * @param string $id   The category ID.
+	 * @param int    $id   The category ID.
 	 */
-	public function __construct( string $name, string $id ) {
+	public function __construct( string $name, int $id ) {
 		$this->name = $name;
 		$this->id   = $id;
 	}

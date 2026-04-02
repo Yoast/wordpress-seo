@@ -63,18 +63,18 @@ class Post {
 	 * @param string   $description           The description.
 	 * @param Category $category              The category.
 	 * @param string   $primary_focus_keyword The primary focus keyword.
-	 * @param bool     $is_cornerstone        Whether the post is cornerstone content.
+	 * @param int      $is_cornerstone        Whether the post is cornerstone content.
 	 * @param string   $last_modified         The last modified date.
-	 * @param string   $schema_article_type   The schema article type.
+	 * @param ?string  $schema_article_type   The schema article type.
 	 */
 	public function __construct(
 		string $title,
 		string $description,
 		Category $category,
 		string $primary_focus_keyword,
-		bool $is_cornerstone,
+		int $is_cornerstone,
 		string $last_modified,
-		string $schema_article_type
+		?string $schema_article_type
 	) {
 		$this->title                 = $title;
 		$this->description           = $description;
@@ -91,14 +91,18 @@ class Post {
 	 * @return array<string, string|bool|array<string, int>> The post as an array.
 	 */
 	public function to_array(): array {
-		return [
+		$data = [
 			'title'                 => $this->title,
 			'description'           => $this->description,
 			'category'              => $this->category->to_array(),
 			'primary_focus_keyword' => $this->primary_focus_keyword,
 			'is_cornerstone'        => $this->is_cornerstone,
 			'last_modified'         => $this->last_modified,
-			'schema_article_type'   => $this->schema_article_type,
 		];
+		if ( isset( $this->schema_article_type ) ) {
+			$data['schema_article_type'] = $this->schema_article_type;
+		}
+
+		return $data;
 	}
 }
