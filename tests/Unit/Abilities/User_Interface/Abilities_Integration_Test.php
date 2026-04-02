@@ -6,9 +6,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
-use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities_Integration;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
+use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Features_List;
+use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
+use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -36,11 +40,11 @@ final class Abilities_Integration_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The enabled analysis features checker mock.
+	 * The enabled analysis features repository mock.
 	 *
-	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Checker
+	 * @var Mockery\MockInterface|Enabled_Analysis_Features_Repository
 	 */
-	private $enabled_analysis_features_checker;
+	private $enabled_analysis_features_repository;
 
 	/**
 	 * The instance under test.
@@ -59,30 +63,15 @@ final class Abilities_Integration_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->score_retriever                   = Mockery::mock( Score_Retriever::class );
-		$this->capability_helper                 = Mockery::mock( Capability_Helper::class );
-		$this->enabled_analysis_features_checker = Mockery::mock( Enabled_Analysis_Features_Checker::class );
+		$this->score_retriever                      = Mockery::mock( Score_Retriever::class );
+		$this->capability_helper                    = Mockery::mock( Capability_Helper::class );
+		$this->enabled_analysis_features_repository = Mockery::mock( Enabled_Analysis_Features_Repository::class );
 
 		$this->instance = new Abilities_Integration(
 			$this->score_retriever,
 			$this->capability_helper,
-			$this->enabled_analysis_features_checker,
+			$this->enabled_analysis_features_repository,
 		);
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_keyword_analysis_enabled' )
-			->andReturn( true )
-			->byDefault();
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_content_analysis_enabled' )
-			->andReturn( true )
-			->byDefault();
-
-		$this->enabled_analysis_features_checker
-			->shouldReceive( 'is_inclusive_language_enabled' )
-			->andReturn( false )
-			->byDefault();
 	}
 
 	/**
@@ -181,10 +170,13 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_abilities_with_inclusive_language_enabled() {
-		$this->enabled_analysis_features_checker
-			->expects( 'is_inclusive_language_enabled' )
-			->once()
-			->andReturn( true );
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME           => true,
+				Readability_Analysis::NAME         => true,
+				Inclusive_Language_Analysis::NAME  => true,
+			],
+		);
 
 		$number_of_posts_schema = $this->get_number_of_posts_schema();
 
@@ -267,10 +259,13 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_abilities_with_keyword_analysis_disabled() {
-		$this->enabled_analysis_features_checker
-			->expects( 'is_keyword_analysis_enabled' )
-			->once()
-			->andReturn( false );
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME           => false,
+				Readability_Analysis::NAME         => true,
+				Inclusive_Language_Analysis::NAME  => false,
+			],
+		);
 
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once();
@@ -286,10 +281,13 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_abilities_with_content_analysis_disabled() {
-		$this->enabled_analysis_features_checker
-			->expects( 'is_content_analysis_enabled' )
-			->once()
-			->andReturn( false );
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME           => true,
+				Readability_Analysis::NAME         => false,
+				Inclusive_Language_Analysis::NAME  => false,
+			],
+		);
 
 		Monkey\Functions\expect( 'wp_register_ability' )
 			->once();
@@ -305,6 +303,14 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_abilities_with_inclusive_language_disabled() {
+		$this->mock_enabled_features(
+			[
+				Keyphrase_Analysis::NAME           => true,
+				Readability_Analysis::NAME         => true,
+				Inclusive_Language_Analysis::NAME  => false,
+			],
+		);
+
 		$number_of_posts_schema = $this->get_number_of_posts_schema();
 
 		$seo_score_item_schema                                  = $this->get_expected_score_schema();
@@ -421,5 +427,33 @@ final class Abilities_Integration_Test extends TestCase {
 				],
 			],
 		];
+	}
+
+	/**
+	 * Mocks the enabled features repository to return the given features array.
+	 *
+	 * @param array<string, bool> $features The features array.
+	 *
+	 * @return void
+	 */
+	private function mock_enabled_features( array $features ): void {
+		$features_list = Mockery::mock( Analysis_Features_List::class );
+
+		$features_list
+			->expects( 'to_array' )
+			->once()
+			->andReturn( $features );
+
+		$this->enabled_analysis_features_repository
+			->expects( 'get_features_by_keys' )
+			->once()
+			->with(
+				[
+					Keyphrase_Analysis::NAME,
+					Readability_Analysis::NAME,
+					Inclusive_Language_Analysis::NAME,
+				],
+			)
+			->andReturn( $features_list );
 	}
 }

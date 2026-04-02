@@ -4,8 +4,11 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface;
 
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
-use Yoast\WP\SEO\Abilities\Infrastructure\Enabled_Analysis_Features_Checker;
 use Yoast\WP\SEO\Conditionals\Abilities_API_Conditional;
+use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
+use Yoast\WP\SEO\Editors\Framework\Inclusive_Language_Analysis;
+use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
+use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -29,11 +32,11 @@ class Abilities_Integration implements Integration_Interface {
 	private $capability_helper;
 
 	/**
-	 * The enabled analysis features checker.
+	 * The enabled analysis features repository.
 	 *
-	 * @var Enabled_Analysis_Features_Checker
+	 * @var Enabled_Analysis_Features_Repository
 	 */
-	private $enabled_analysis_features_checker;
+	private $enabled_analysis_features_repository;
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
@@ -47,18 +50,18 @@ class Abilities_Integration implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param Score_Retriever                   $score_retriever                   The score retriever.
-	 * @param Capability_Helper                 $capability_helper                 The capability helper.
-	 * @param Enabled_Analysis_Features_Checker $enabled_analysis_features_checker The enabled analysis features checker.
+	 * @param Score_Retriever                      $score_retriever                      The score retriever.
+	 * @param Capability_Helper                    $capability_helper                    The capability helper.
+	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 */
 	public function __construct(
 		Score_Retriever $score_retriever,
 		Capability_Helper $capability_helper,
-		Enabled_Analysis_Features_Checker $enabled_analysis_features_checker
+		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
 	) {
-		$this->score_retriever                   = $score_retriever;
-		$this->capability_helper                 = $capability_helper;
-		$this->enabled_analysis_features_checker = $enabled_analysis_features_checker;
+		$this->score_retriever                      = $score_retriever;
+		$this->capability_helper                    = $capability_helper;
+		$this->enabled_analysis_features_repository = $enabled_analysis_features_repository;
 	}
 
 	/**
@@ -92,9 +95,25 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_abilities() {
-		$this->register_seo_scores_ability();
-		$this->register_readability_scores_ability();
-		$this->register_inclusive_language_scores_ability();
+		$enabled_features = $this->enabled_analysis_features_repository->get_features_by_keys(
+			[
+				Keyphrase_Analysis::NAME,
+				Readability_Analysis::NAME,
+				Inclusive_Language_Analysis::NAME,
+			],
+		)->to_array();
+
+		if ( $enabled_features[ Keyphrase_Analysis::NAME ] === true ) {
+			$this->register_seo_scores_ability();
+		}
+
+		if ( $enabled_features[ Readability_Analysis::NAME ] === true ) {
+			$this->register_readability_scores_ability();
+		}
+
+		if ( $enabled_features[ Inclusive_Language_Analysis::NAME ] === true ) {
+			$this->register_inclusive_language_scores_ability();
+		}
 	}
 
 	/**
@@ -107,15 +126,11 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the SEO scores ability if keyword analysis is enabled.
+	 * Registers the SEO scores ability.
 	 *
 	 * @return void
 	 */
 	private function register_seo_scores_ability(): void {
-		if ( ! $this->enabled_analysis_features_checker->is_keyword_analysis_enabled() ) {
-			return;
-		}
-
 		$output_schema                                  = $this->get_score_output_schema();
 		$output_schema['properties']['focus_keyphrase'] = [
 			'type'        => [ 'string', 'null' ],
@@ -136,15 +151,11 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the readability scores ability if content analysis is enabled.
+	 * Registers the readability scores ability.
 	 *
 	 * @return void
 	 */
 	private function register_readability_scores_ability(): void {
-		if ( ! $this->enabled_analysis_features_checker->is_content_analysis_enabled() ) {
-			return;
-		}
-
 		\wp_register_ability(
 			'yoast-seo/get-readability-scores',
 			$this->get_shared_ability_args(
@@ -159,15 +170,11 @@ class Abilities_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the inclusive language scores ability if inclusive language analysis is enabled.
+	 * Registers the inclusive language scores ability.
 	 *
 	 * @return void
 	 */
 	private function register_inclusive_language_scores_ability(): void {
-		if ( ! $this->enabled_analysis_features_checker->is_inclusive_language_enabled() ) {
-			return;
-		}
-
 		\wp_register_ability(
 			'yoast-seo/get-inclusive-language-scores',
 			$this->get_shared_ability_args(
