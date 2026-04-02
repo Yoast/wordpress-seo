@@ -96,10 +96,6 @@ final class Abilities_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'wp_abilities_api_categories_init' )
-			->once()
-			->with( [ $this->instance, 'register_categories' ] );
-
 		Monkey\Actions\expectAdded( 'wp_abilities_api_init' )
 			->once()
 			->with( [ $this->instance, 'register_abilities' ] );
@@ -139,27 +135,6 @@ final class Abilities_Integration_Test extends TestCase {
 			->andReturn( false );
 
 		$this->assertFalse( $this->instance->can_read_scores() );
-	}
-
-	/**
-	 * Tests that register_categories registers the Yoast SEO category.
-	 *
-	 * @covers ::register_categories
-	 *
-	 * @return void
-	 */
-	public function test_register_categories() {
-		Monkey\Functions\expect( 'wp_register_ability_category' )
-			->once()
-			->with(
-				'yoast-seo',
-				[
-					'label'       => 'Yoast SEO',
-					'description' => 'SEO analysis capabilities provided by Yoast SEO.',
-				],
-			);
-
-		$this->instance->register_categories();
 	}
 
 	/**

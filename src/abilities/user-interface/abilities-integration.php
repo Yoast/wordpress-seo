@@ -70,23 +70,7 @@ class Abilities_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_abilities_api_categories_init', [ $this, 'register_categories' ] );
 		\add_action( 'wp_abilities_api_init', [ $this, 'register_abilities' ] );
-	}
-
-	/**
-	 * Registers the Yoast SEO ability category.
-	 *
-	 * @return void
-	 */
-	public function register_categories() {
-		\wp_register_ability_category(
-			'yoast-seo',
-			[
-				'label'       => \__( 'Yoast SEO', 'wordpress-seo' ),
-				'description' => \__( 'SEO analysis capabilities provided by Yoast SEO.', 'wordpress-seo' ),
-			],
-		);
 	}
 
 	/**
@@ -138,7 +122,7 @@ class Abilities_Integration implements Integration_Interface {
 		];
 
 		\wp_register_ability(
-			'yoast-seo/get-seo-scores',
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-seo-scores',
 			$this->get_shared_ability_args(
 				[
 					'label'            => \__( 'Get SEO Scores', 'wordpress-seo' ),
@@ -157,7 +141,7 @@ class Abilities_Integration implements Integration_Interface {
 	 */
 	private function register_readability_scores_ability(): void {
 		\wp_register_ability(
-			'yoast-seo/get-readability-scores',
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-readability-scores',
 			$this->get_shared_ability_args(
 				[
 					'label'            => \__( 'Get Readability Scores', 'wordpress-seo' ),
@@ -176,7 +160,7 @@ class Abilities_Integration implements Integration_Interface {
 	 */
 	private function register_inclusive_language_scores_ability(): void {
 		\wp_register_ability(
-			'yoast-seo/get-inclusive-language-scores',
+			Ability_Categories_Integration::CATEGORY_SLUG . '/get-inclusive-language-scores',
 			$this->get_shared_ability_args(
 				[
 					'label'            => \__( 'Get Inclusive Language Scores', 'wordpress-seo' ),
@@ -201,7 +185,7 @@ class Abilities_Integration implements Integration_Interface {
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 		return \array_merge(
 			[
-				'category'            => 'yoast-seo',
+				'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 				'input_schema'        => [
 					'type'       => 'object',
 					'properties' => [
