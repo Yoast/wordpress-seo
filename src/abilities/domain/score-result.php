@@ -16,7 +16,7 @@ class Score_Result {
 	private $title;
 
 	/**
-	 * The score slug (na, bad, ok, good, noindex).
+	 * The score slug (na, bad, ok, good).
 	 *
 	 * @var string
 	 */
