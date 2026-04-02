@@ -82,7 +82,6 @@ const MetaDescriptionProgressBar = ( { value } ) => {
 	);
 };
 
-
 /**
  * A single draggable row in the blog post structure list.
  *
@@ -265,6 +264,14 @@ const useSimulatedLoading = () => {
 };
 
 /**
+ * Assigns stable unique IDs to structure items for use as React keys.
+ *
+ * @param {StructureItem[]} items The structure items.
+ * @returns {Array} Items with `id` property added.
+ */
+const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
+
+/**
  * Content Outline Modal panel component.
  * Renders inside a parent Modal (managed by FeatureModal).
  *
@@ -277,14 +284,6 @@ const useSimulatedLoading = () => {
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-/**
- * Assigns stable unique IDs to structure items for use as React keys.
- *
- * @param {StructureItem[]} items The structure items.
- * @returns {Array} Items with `id` property added.
- */
-const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
-
 export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
