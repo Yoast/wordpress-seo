@@ -181,14 +181,17 @@ class Abilities_Integration implements Integration_Interface {
 		);
 	}
 
+	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- Too complicated of a param declaration for this case.
+
 	/**
 	 * Returns the shared ability arguments merged with ability-specific arguments.
 	 *
-	 * @param array<string, array<string, string>> $ability_specific_args The ability-specific arguments.
+	 * @param array<string, mixed> $ability_specific_args The ability-specific arguments.
 	 *
-	 * @return array<string, array<string, string>> The merged ability arguments.
+	 * @return array<string, mixed> The merged ability arguments.
 	 */
 	private function get_shared_ability_args( array $ability_specific_args ): array {
+	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 		return \array_merge(
 			[
 				'category'            => 'yoast-seo',
