@@ -6,7 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment, useRef, useEffect, useState, useCallback } from "@wordpress/element";
+import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { intentBadge } from "./intent-badge";
 
@@ -139,15 +139,9 @@ const LoadingModalContent = () => {
 export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
-	const [ announceLoading, setAnnounceLoading ] = useState( false );
 
 	useEffect( () => {
 		closeButtonRef.current?.focus();
-		if ( status === "content-suggestions-loading" ) {
-			const timer = setTimeout( () => setAnnounceLoading( true ), 100 );
-			return () => clearTimeout( timer );
-		}
-		setAnnounceLoading( false );
 	}, [ status ] );
 
 	return (
@@ -173,7 +167,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 					<div className="yst-relative" aria-live="polite">
 						<Transition
 							as={ Fragment }
-							show={ announceLoading }
+							show={ status === "content-suggestions-loading" }
 							enter="yst-transition-opacity yst-duration-300"
 							enterFrom="yst-opacity-0"
 							enterTo="yst-opacity-100"

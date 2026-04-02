@@ -72,6 +72,28 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onTransitioned, st
 };
 
 /**
+ * Returns the visibility state for each modal panel based on the current status.
+ *
+ * @param {string}  status             The current modal status.
+ * @param {Object}  selectedSuggestion The currently selected suggestion, or null.
+ * @returns {Object} Panel visibility flags and styles.
+ */
+const HIDDEN_STYLE = { display: "none" };
+
+const getPanelVisibility = ( status, selectedSuggestion ) => {
+	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	const isOutlineVisible = status === "content-outline";
+	const hasVisitedOutline = isOutlineVisible || selectedSuggestion !== null;
+	return {
+		isSuggestionsVisible,
+		isOutlineVisible,
+		hasVisitedOutline,
+		suggestionsStyle: isOutlineVisible ? HIDDEN_STYLE : null,
+		outlineStyle: isOutlineVisible ? null : HIDDEN_STYLE,
+	};
+};
+
+/**
  * The modal that orchestrates the flow between the approve, content suggestions,
  * and content outline views.
  *
@@ -125,7 +147,8 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		}
 	}, [ isOpen ] );
 
-	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	const panelVisibility = getPanelVisibility( status, selectedSuggestion );
+	const { isSuggestionsVisible, isOutlineVisible, hasVisitedOutline, suggestionsStyle, outlineStyle } = panelVisibility;
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -150,41 +173,50 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 						/>
 					</div>
 				</Transition>
-				<SuggestionsPanel
-					isVisible={ isSuggestionsVisible }
-					cameFromApproveModal={ cameFromApproveModal }
-					onTransitioned={ handleSuggestionsEntered }
-					status={ status }
-					isPremium={ isPremium }
-					onSuggestionClick={ handleSuggestionClick }
-				/>
-				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
-				{ status === "content-outline" && (
-					<ContentOutlineModal
-						onBack={ handleBackToSuggestions }
-						onAddOutline={ onAddOutline }
-						sparksLimit={ 10 }
-						sparksUsage={ 1 }
-						category="WordPress"
-						suggestion={ {
-							intent: selectedSuggestion ? selectedSuggestion.intent : "informational",
-							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-							description: selectedSuggestion
-								? selectedSuggestion.description
-								: "This content is suggested because it addresses a common entry point for new users.",
-							focusKeyphrase: "Guide to set up WordPress blog",
-							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-							structure: [
-								{ level: "H2", title: "Introduction" },
-								{ level: "H2", title: "Why This Matters" },
-								{ level: "H2", title: "Step-by-Step Guide" },
-								{ level: "H2", title: "Common Mistakes to Avoid" },
-								{ level: "H2", title: "Best Practices" },
-								{ level: "H2", title: "Conclusion" },
-								{ level: "FAQ", title: "FAQ" },
-							],
-						} }
+				{ /*
+				 * Once suggestions or outline modal have been shown, keep both mounted and toggle
+				 * via display:none to avoid a one-frame empty container between panel swaps.
+				 */ }
+				<div style={ suggestionsStyle }>
+					<SuggestionsPanel
+						isVisible={ isSuggestionsVisible }
+						cameFromApproveModal={ cameFromApproveModal }
+						onTransitioned={ handleSuggestionsEntered }
+						status={ status }
+						isPremium={ isPremium }
+						onSuggestionClick={ handleSuggestionClick }
 					/>
+				</div>
+				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
+				{ hasVisitedOutline && (
+					<div style={ outlineStyle }>
+						<ContentOutlineModal
+							isActive={ isOutlineVisible }
+							onBack={ handleBackToSuggestions }
+							onAddOutline={ onAddOutline }
+							sparksLimit={ 10 }
+							sparksUsage={ 1 }
+							category="WordPress"
+							suggestion={ {
+								intent: selectedSuggestion ? selectedSuggestion.intent : "informational",
+								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+								description: selectedSuggestion
+									? selectedSuggestion.description
+									: "This content is suggested because it addresses a common entry point for new users.",
+								focusKeyphrase: "Guide to set up WordPress blog",
+								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+								structure: [
+									{ level: "H2", title: "Introduction" },
+									{ level: "H2", title: "Why This Matters" },
+									{ level: "H2", title: "Step-by-Step Guide" },
+									{ level: "H2", title: "Common Mistakes to Avoid" },
+									{ level: "H2", title: "Best Practices" },
+									{ level: "H2", title: "Conclusion" },
+									{ level: "FAQ", title: "FAQ" },
+								],
+							} }
+						/>
+					</div>
 				) }
 			</div>
 		</Modal>
