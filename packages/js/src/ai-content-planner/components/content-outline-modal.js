@@ -1,5 +1,4 @@
 import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
-import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
@@ -177,6 +176,42 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
 				<SkeletonLoader className="yst-w-1/3 yst-h-4 yst-rounded" />
 			) }
 		</div>
+	</div>
+);
+
+/**
+ * Category toggle section with optional loading skeleton.
+ *
+ * @param {string}   category    The category name.
+ * @param {boolean}  isEnabled   Whether the category toggle is on.
+ * @param {Function} onToggle    Callback when the toggle changes.
+ * @param {boolean}  isLoading   Whether content is still loading.
+ *
+ * @returns {JSX.Element} The CategorySection component.
+ */
+const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
+	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
+		<div className="yst-flex yst-flex-col yst-gap-1.5">
+			<div className="yst-flex yst-items-center yst-justify-between">
+				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+					{ __( "Suggest category", "wordpress-seo" ) }
+				</span>
+				<Toggle
+					id="suggest-category-toggle"
+					checked={ isEnabled }
+					onChange={ onToggle }
+					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
+				/>
+			</div>
+			<p className="yst-text-sm yst-text-slate-600">
+				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
+			</p>
+		</div>
+		{ isEnabled && (
+			isLoading
+				? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
+				: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
+		) }
 	</div>
 );
 
@@ -366,55 +401,22 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<hr className="yst-border-slate-200" />
 
 						{ category && (
-							<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
-								<div className="yst-flex yst-flex-col yst-gap-1.5">
-									<div className="yst-flex yst-items-center yst-justify-between">
-										<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-											{ __( "Suggest category", "wordpress-seo" ) }
-										</span>
-										<Toggle
-											id="suggest-category-toggle"
-											checked={ isCategoryEnabled }
-											onChange={ handleCategoryToggle }
-											screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
-										/>
-									</div>
-									<p className="yst-text-sm yst-text-slate-600">
-										{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
-									</p>
-								</div>
-								{ isCategoryEnabled && (
-									isLoading
-										? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
-										: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
-								) }
-							</div>
+							<CategorySection
+								category={ category }
+								isEnabled={ isCategoryEnabled }
+								onToggle={ handleCategoryToggle }
+								isLoading={ isLoading }
+							/>
 						) }
 
-						<Transition
-							show={ isLoading }
-							enter="yst-transition-all yst-duration-300 yst-ease-out"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-all yst-duration-200 yst-ease-in"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
+						{ isLoading && (
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
 								<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
 								<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 							</div>
-						</Transition>
-						<Transition
-							show={ ! isLoading }
-							enter="yst-transition-all yst-duration-300 yst-ease-out"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-all yst-duration-200 yst-ease-in"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
+						) }
+						{ ! isLoading && (
 							<div className="yst-flex yst-flex-col yst-gap-6">
 								<div className="yst-flex yst-flex-col yst-gap-4">
 									<TextField
@@ -470,7 +472,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 									) ) }
 								</div>
 							</div>
-						</Transition>
+						) }
 					</div>
 					<div
 						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
