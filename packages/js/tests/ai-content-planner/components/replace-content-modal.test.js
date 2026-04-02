@@ -33,8 +33,8 @@ describe( "ReplaceContentModal", () => {
 			) ).toBeInTheDocument();
 		} );
 
-		it( "focuses the close button on mount for screen reader announcement", () => {
-			renderModal();
+		it( "focuses the close button when isActive is true", () => {
+			renderModal( { isActive: true } );
 			expect( screen.getByRole( "button", { name: "Close replace content confirmation" } ) ).toHaveFocus();
 		} );
 	} );

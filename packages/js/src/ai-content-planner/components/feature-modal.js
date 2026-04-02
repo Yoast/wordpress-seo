@@ -7,9 +7,23 @@ import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
 
+const HIDDEN_STYLE = { display: "none" };
+
+/**
+ * Returns the display styles for the outline and confirmation panels.
+ * Both are kept mounted and toggled via display:none to avoid layout flash.
+ *
+ * @param {string} status The current modal status.
+ * @returns {Object} Styles for each panel.
+ */
+const getPanelStyles = ( status ) => ( {
+	outlineStyle: status === "content-outline" ? null : HIDDEN_STYLE,
+	replaceStyle: status === "replace-content" ? null : HIDDEN_STYLE,
+} );
+
 /**
  * The modal that orchestrates transitions between the approve, content suggestions,
- * and content outline views.
+ * content outline, and replace content confirmation views.
  *
  * @param {boolean}  isOpen        Whether the modal is open or not.
  * @param {function} onClose       The function to call when the modal is closed.
@@ -20,9 +34,11 @@ import { noop } from "lodash";
  * @param {function} onAddOutline  The function to call when the user adds the outline to the post.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
+
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink, onAddOutline = noop } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
+	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setStatus( "content-suggestions-loading" );
@@ -38,6 +54,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	}, [] );
 
 	const handleRequestAddOutline = useCallback( () => {
+		setHasVisitedReplace( true );
 		setStatus( "replace-content" );
 	}, [] );
 
@@ -67,6 +84,8 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 			setStatus( "idle" );
 		}
 	}, [ isOpen ] );
+
+	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -114,32 +133,23 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					</div>
 				</Transition>
 				{ /*
-				 * yst-delay-300 matches the suggestions modal's leave duration (yst-duration-300)
-				 * so the outline only fades in after the suggestions panel has faded out.
+				 * Once the outline has been visited, keep both outline and confirmation panels
+				 * mounted and toggle via display:none to avoid a one-frame empty container
+				 * between panel swaps.
 				 */ }
-				<Transition
-					as={ Fragment }
-					show={ status === "content-outline" }
-					enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					<div>
+				{ selectedSuggestion && (
+					<div style={ outlineStyle }>
 						<ContentOutlineModal
+							isActive={ status === "content-outline" }
 							onBack={ handleBackToSuggestions }
 							onAddOutline={ handleRequestAddOutline }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
 							category="WordPress"
 							suggestion={ {
-								intent: selectedSuggestion ? selectedSuggestion.intent : "informational",
+								intent: selectedSuggestion.intent,
 								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-								description: selectedSuggestion
-									? selectedSuggestion.description
-									: "This content is suggested because it addresses a common entry point for new users.",
+								description: selectedSuggestion.description,
 								focusKeyphrase: "Guide to set up WordPress blog",
 								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
 								structure: [
@@ -154,24 +164,18 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 							} }
 						/>
 					</div>
-				</Transition>
-				<Transition
-					as={ Fragment }
-					show={ status === "replace-content" }
-					enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					<div className="yst-flex yst-items-center yst-justify-center">
-						<ReplaceContentModal
-							onClose={ handleCancelReplace }
-							onConfirm={ handleConfirmReplace }
-						/>
+				) }
+				{ hasVisitedReplace && (
+					<div style={ replaceStyle }>
+						<div className="yst-flex yst-items-center yst-justify-center">
+							<ReplaceContentModal
+								isActive={ status === "replace-content" }
+								onClose={ handleCancelReplace }
+								onConfirm={ handleConfirmReplace }
+							/>
+						</div>
 					</div>
-				</Transition>
+				) }
 			</div>
 		</Modal>
 	);

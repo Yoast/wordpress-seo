@@ -9,17 +9,20 @@ import { Button, Modal, useSvgAria } from "@yoast/ui-library";
  *
  * @param {Function} onClose    The function to call when the user cancels (goes back to the outline).
  * @param {Function} onConfirm  The function to call when the user confirms replacing content.
+ * @param {boolean}  isActive   Whether this panel is currently visible (used for focus management).
  *
  * @returns {JSX.Element} The ReplaceContentModal component.
  */
-export const ReplaceContentModal = ( { onClose, onConfirm } ) => {
+export const ReplaceContentModal = ( { onClose, onConfirm, isActive } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
-	// Focus the close button on mount so screen readers announce the dialog context.
+	// Focus the close button when the panel becomes active so screen readers announce the dialog context.
 	useEffect( () => {
-		closeButtonRef.current?.focus();
-	}, [] );
+		if ( isActive ) {
+			closeButtonRef.current?.focus();
+		}
+	}, [ isActive ] );
 
 	return (
 		<Modal.Panel hasCloseButton={ false }>

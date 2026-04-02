@@ -306,7 +306,7 @@ const useSimulatedLoading = () => {
  */
 const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
 
-export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category } ) => {
+export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -326,10 +326,12 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 		setStructure( withIds( suggestion.structure ) );
 	}, [ suggestion ] );
 
-	// Focus the close button on mount so screen readers announce the dialog context.
+	// Focus the close button when the panel becomes active so screen readers announce the dialog context.
 	useEffect( () => {
-		closeButtonRef.current?.focus();
-	}, [] );
+		if ( isActive ) {
+			closeButtonRef.current?.focus();
+		}
+	}, [ isActive ] );
 
 	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
 	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
