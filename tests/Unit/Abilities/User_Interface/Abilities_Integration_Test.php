@@ -406,22 +406,18 @@ final class Abilities_Integration_Test extends TestCase {
 		return [
 			'type'       => 'object',
 			'properties' => [
-				'title'  => [
+				'title' => [
 					'type'        => 'string',
 					'description' => 'The post title.',
 				],
-				'score'  => [
-					'type'        => 'integer',
-					'description' => 'The numeric score from 0 to 100.',
-				],
-				'rating' => [
+				'score' => [
 					'type'        => 'string',
 					'enum'        => [ 'na', 'bad', 'ok', 'good' ],
-					'description' => 'The rating slug.',
+					'description' => 'The score slug.',
 				],
-				'label'  => [
+				'label' => [
 					'type'        => 'string',
-					'description' => 'A human-readable label for the rating.',
+					'description' => 'A human-readable label for the score.',
 				],
 			],
 		];

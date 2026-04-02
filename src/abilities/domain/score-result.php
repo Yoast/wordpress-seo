@@ -16,18 +16,11 @@ class Score_Result {
 	private $title;
 
 	/**
-	 * The numeric score (0-100).
-	 *
-	 * @var int
-	 */
-	private $score;
-
-	/**
-	 * The rank slug (na, bad, ok, good, noindex).
+	 * The score slug (na, bad, ok, good, noindex).
 	 *
 	 * @var string
 	 */
-	private $rating;
+	private $score;
 
 	/**
 	 * The translated human-readable label.
@@ -39,29 +32,26 @@ class Score_Result {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $title  The post title.
-	 * @param int    $score  The numeric score (0-100).
-	 * @param string $rating The rank slug.
-	 * @param string $label  The translated human-readable label.
+	 * @param string $title The post title.
+	 * @param string $score The score slug.
+	 * @param string $label The translated human-readable label.
 	 */
-	public function __construct( string $title, int $score, string $rating, string $label ) {
-		$this->title  = $title;
-		$this->score  = $score;
-		$this->rating = $rating;
-		$this->label  = $label;
+	public function __construct( string $title, string $score, string $label ) {
+		$this->title = $title;
+		$this->score = $score;
+		$this->label = $label;
 	}
 
 	/**
 	 * Serializes the score result to an array for ability output.
 	 *
-	 * @return array<string, int|string> The serialized score result.
+	 * @return array<string, string> The serialized score result.
 	 */
 	public function to_array(): array {
 		return [
-			'title'  => $this->title,
-			'score'  => $this->score,
-			'rating' => $this->rating,
-			'label'  => $this->label,
+			'title' => $this->title,
+			'score' => $this->score,
+			'label' => $this->label,
 		];
 	}
 }

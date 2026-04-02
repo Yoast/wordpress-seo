@@ -244,22 +244,18 @@ class Abilities_Integration implements Integration_Interface {
 		return [
 			'type'       => 'object',
 			'properties' => [
-				'title'  => [
+				'title' => [
 					'type'        => 'string',
 					'description' => \__( 'The post title.', 'wordpress-seo' ),
 				],
-				'score'  => [
-					'type'        => 'integer',
-					'description' => \__( 'The numeric score from 0 to 100.', 'wordpress-seo' ),
-				],
-				'rating' => [
+				'score' => [
 					'type'        => 'string',
 					'enum'        => [ 'na', 'bad', 'ok', 'good' ],
-					'description' => \__( 'The rating slug.', 'wordpress-seo' ),
+					'description' => \__( 'The score slug.', 'wordpress-seo' ),
 				],
-				'label'  => [
+				'label' => [
 					'type'        => 'string',
-					'description' => \__( 'A human-readable label for the rating.', 'wordpress-seo' ),
+					'description' => \__( 'A human-readable label for the score.', 'wordpress-seo' ),
 				],
 			],
 		];

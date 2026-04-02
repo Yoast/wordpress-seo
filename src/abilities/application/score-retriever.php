@@ -50,7 +50,7 @@ class Score_Retriever {
 	 *
 	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
 	 *
-	 * @return array<int, array<string, int|string|null>> The SEO score data for each post.
+	 * @return array<int, array<string, string|null>> The SEO score data for each post.
 	 */
 	public function get_seo_scores( array $input ): array {
 		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
@@ -63,7 +63,7 @@ class Score_Retriever {
 	 *
 	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
 	 *
-	 * @return array<int, array<string, int|string>> The readability score data for each post.
+	 * @return array<int, array<string, string>> The readability score data for each post.
 	 */
 	public function get_readability_scores( array $input ): array {
 		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
@@ -76,7 +76,7 @@ class Score_Retriever {
 	 *
 	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
 	 *
-	 * @return array<int, array<string, int|string>> The inclusive language score data for each post.
+	 * @return array<int, array<string, string>> The inclusive language score data for each post.
 	 */
 	public function get_inclusive_language_scores( array $input ): array {
 		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
@@ -89,15 +89,13 @@ class Score_Retriever {
 	 *
 	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, int|string|null> The SEO score data.
+	 * @return array<string, string|null> The SEO score data.
 	 */
 	private function build_seo_score_for_indexable( $indexable ): array {
 		$title  = $this->get_indexable_title( $indexable );
-		$score  = (int) $indexable->primary_focus_keyword_score;
-		$rank   = WPSEO_Rank::from_numeric_score( $score );
+		$rank   = WPSEO_Rank::from_numeric_score( (int) $indexable->primary_focus_keyword_score );
 		$result = ( new Score_Result(
 			$title,
-			$score,
 			$rank->get_rank(),
 			$rank->get_label(),
 		) )->to_array();
@@ -111,16 +109,14 @@ class Score_Retriever {
 	 *
 	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, int|string> The readability score data.
+	 * @return array<string, string> The readability score data.
 	 */
 	private function build_readability_score_for_indexable( $indexable ): array {
 		$title = $this->get_indexable_title( $indexable );
-		$score = (int) $indexable->readability_score;
-		$rank  = WPSEO_Rank::from_numeric_score( $score );
+		$rank  = WPSEO_Rank::from_numeric_score( (int) $indexable->readability_score );
 
 		return ( new Score_Result(
 			$title,
-			$score,
 			$rank->get_rank(),
 			$rank->get_label(),
 		) )->to_array();
@@ -131,7 +127,7 @@ class Score_Retriever {
 	 *
 	 * @param object $indexable The indexable object.
 	 *
-	 * @return array<string, int|string> The inclusive language score data.
+	 * @return array<string, string> The inclusive language score data.
 	 */
 	private function build_inclusive_language_score_for_indexable( $indexable ): array {
 		$title = $this->get_indexable_title( $indexable );
@@ -140,7 +136,6 @@ class Score_Retriever {
 		if ( $score === 0 ) {
 			return ( new Score_Result(
 				$title,
-				0,
 				'na',
 				\__( 'Not available', 'wordpress-seo' ),
 			) )->to_array();
@@ -150,7 +145,6 @@ class Score_Retriever {
 
 		return ( new Score_Result(
 			$title,
-			$score,
 			$rank->get_rank(),
 			$rank->get_inclusive_language_label(),
 		) )->to_array();

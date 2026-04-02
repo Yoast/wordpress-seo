@@ -87,15 +87,13 @@ final class Score_Retriever_Test extends TestCase {
 			[
 				[
 					'title'           => 'Best Hiking Boots',
-					'score'           => 78,
-					'rating'          => 'good',
+					'score'           => 'good',
 					'label'           => 'Good',
 					'focus_keyphrase' => 'hiking boots',
 				],
 				[
 					'title'           => 'Trail Running Guide',
-					'score'           => 30,
-					'rating'          => 'bad',
+					'score'           => 'bad',
 					'label'           => 'Needs improvement',
 					'focus_keyphrase' => null,
 				],
@@ -226,16 +224,14 @@ final class Score_Retriever_Test extends TestCase {
 		$this->assertSame(
 			[
 				[
-					'title'  => 'Post One',
-					'score'  => 45,
-					'rating' => 'ok',
-					'label'  => 'OK',
+					'title' => 'Post One',
+					'score' => 'ok',
+					'label' => 'OK',
 				],
 				[
-					'title'  => 'Post Two',
-					'score'  => 30,
-					'rating' => 'bad',
-					'label'  => 'Needs improvement',
+					'title' => 'Post Two',
+					'score' => 'bad',
+					'label' => 'Needs improvement',
 				],
 			],
 			$result,
@@ -265,10 +261,9 @@ final class Score_Retriever_Test extends TestCase {
 		$this->assertSame(
 			[
 				[
-					'title'  => 'Some Post',
-					'score'  => 0,
-					'rating' => 'na',
-					'label'  => 'Not available',
+					'title' => 'Some Post',
+					'score' => 'na',
+					'label' => 'Not available',
 				],
 			],
 			$result,
@@ -298,10 +293,9 @@ final class Score_Retriever_Test extends TestCase {
 		$this->assertSame(
 			[
 				[
-					'title'  => 'Some Post',
-					'score'  => 55,
-					'rating' => 'ok',
-					'label'  => 'Potentially non-inclusive',
+					'title' => 'Some Post',
+					'score' => 'ok',
+					'label' => 'Potentially non-inclusive',
 				],
 			],
 			$result,
