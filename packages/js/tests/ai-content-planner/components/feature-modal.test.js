@@ -5,6 +5,10 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn( () => false ),
+} ) );
+
 const renderModal = ( props ) => render(
 	<FeatureModal
 		isOpen={ true }
