@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\MyYoast_Client\Application;
 
+use SensitiveParameter;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Authorization_Flow_Exception;
@@ -55,6 +56,13 @@ class MyYoast_Client implements LoggerAwareInterface {
 	private $grant_handler;
 
 	/**
+	 * The token revocation handler.
+	 *
+	 * @var Token_Revocation_Handler
+	 */
+	private $revocation_handler;
+
+	/**
 	 * The OAuth server client port.
 	 *
 	 * @var OAuth_Server_Client_Interface
@@ -95,6 +103,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @param Client_Registration_Interface $client_registration The client registration port.
 	 * @param Authorization_Code_Handler    $auth_code_handler   The authorization code handler.
 	 * @param OAuth_Grant_Handler           $grant_handler       The OAuth grant handler.
+	 * @param Token_Revocation_Handler      $revocation_handler  The token revocation handler.
 	 * @param OAuth_Server_Client_Interface $http_client         The OAuth server client port.
 	 * @param Lock_Helper                   $lock_helper         The lock helper.
 	 * @param Token_Storage_Interface       $token_storage       The site-level token storage port.
@@ -105,6 +114,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 		Client_Registration_Interface $client_registration,
 		Authorization_Code_Handler $auth_code_handler,
 		OAuth_Grant_Handler $grant_handler,
+		Token_Revocation_Handler $revocation_handler,
 		OAuth_Server_Client_Interface $http_client,
 		Lock_Helper $lock_helper,
 		Token_Storage_Interface $token_storage,
@@ -114,6 +124,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 		$this->client_registration = $client_registration;
 		$this->auth_code_handler   = $auth_code_handler;
 		$this->grant_handler       = $grant_handler;
+		$this->revocation_handler  = $revocation_handler;
 		$this->http_client         = $http_client;
 		$this->lock_helper         = $lock_helper;
 		$this->token_storage       = $token_storage;
@@ -323,6 +334,44 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 */
 	public function has_user_token( int $user_id ): bool {
 		return $this->user_token_storage->get( $user_id ) !== null;
+	}
+
+	/**
+	 * Revokes the user's tokens and clears storage.
+	 *
+	 * @param int $user_id The WordPress user ID.
+	 *
+	 * @return void
+	 */
+	public function revoke_user_token( int $user_id ): void {
+		$token_set = $this->user_token_storage->get( $user_id );
+		if ( $token_set === null ) {
+			return;
+		}
+		// Assume tokens are opaque for forwards compatibility. This operation is noop for JWTs, as they are only revoked upon expiration.
+		$this->revocation_handler->revoke( $token_set->get_access_token(), 'access_token' );
+		if ( $token_set->get_refresh_token() !== null ) {
+			$this->revocation_handler->revoke( $token_set->get_refresh_token(), 'refresh_token' );
+		}
+
+		$this->user_token_storage->delete( $user_id );
+	}
+
+	/**
+	 * Revokes a token at the authorization server.
+	 *
+	 * @param string $token           The token to revoke.
+	 * @param string $token_type_hint The token type hint ("refresh_token" or "access_token").
+	 *
+	 * @return bool True if the revocation request was sent.
+	 */
+	public function revoke_token(
+		// phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPNativeAttributeFound -- No-op on PHP < 8.2; redacts parameter from stack traces on PHP 8.2+.
+		#[SensitiveParameter]
+		string $token,
+		string $token_type_hint = 'refresh_token'
+	): bool {
+		return $this->revocation_handler->revoke( $token, $token_type_hint );
 	}
 
 	/**

@@ -15,6 +15,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Token_Revocation_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -55,6 +56,13 @@ final class MyYoast_Client_Test extends TestCase {
 	private $token_storage;
 
 	/**
+	 * The token revocation handler mock.
+	 *
+	 * @var Token_Revocation_Handler|Mockery\MockInterface
+	 */
+	private $revocation_handler;
+
+	/**
 	 * The OAuth grant handler mock.
 	 *
 	 * @var OAuth_Grant_Handler|Mockery\MockInterface
@@ -93,6 +101,7 @@ final class MyYoast_Client_Test extends TestCase {
 		$this->client_registration = Mockery::mock( Client_Registration_Interface::class );
 		$this->user_token_storage  = Mockery::mock( User_Token_Storage_Interface::class );
 		$this->token_storage       = Mockery::mock( Token_Storage_Interface::class );
+		$this->revocation_handler  = Mockery::mock( Token_Revocation_Handler::class );
 		$this->grant_handler       = Mockery::mock( OAuth_Grant_Handler::class );
 		$this->lock_helper         = Mockery::mock( Lock_Helper::class );
 		$this->auth_code_handler   = Mockery::mock( Authorization_Code_Handler::class );
@@ -105,6 +114,7 @@ final class MyYoast_Client_Test extends TestCase {
 			$this->client_registration,
 			$this->auth_code_handler,
 			$this->grant_handler,
+			$this->revocation_handler,
 			$this->http_client,
 			$this->lock_helper,
 			$this->token_storage,
@@ -127,26 +137,6 @@ final class MyYoast_Client_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertTrue( $this->instance->is_registered() );
-	}
-
-	/**
-	 * Tests that ensure_registered delegates to client_registration.
-	 *
-	 * @covers ::ensure_registered
-	 *
-	 * @return void
-	 */
-	public function test_ensure_registered_delegates() {
-		$registered = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
-
-		$this->client_registration
-			->expects( 'ensure_registered' )
-			->once()
-			->andReturn( $registered );
-
-		$result = $this->instance->ensure_registered();
-
-		$this->assertSame( 'cid', $result->get_client_id() );
 	}
 
 	/**
@@ -285,6 +275,41 @@ final class MyYoast_Client_Test extends TestCase {
 			->andThrow( new Lock_Timeout_Exception( 'lock-key', 30 ) );
 
 		$this->assertNull( $this->instance->get_user_token( 42 ) );
+	}
+
+	/**
+	 * Tests that revoke_user_token revokes and deletes.
+	 *
+	 * @covers ::revoke_user_token
+	 *
+	 * @return void
+	 */
+	public function test_revoke_user_token() {
+		$token_set = new Token_Set( 'access', ( \time() + 3600 ), 'DPoP', 'refresh-to-revoke' );
+
+		$this->user_token_storage
+			->expects( 'get' )
+			->with( 42 )
+			->andReturn( $token_set );
+
+		$this->revocation_handler
+			->expects( 'revoke' )
+			->with( 'access', 'access_token' )
+			->once()
+			->andReturn( true );
+
+		$this->revocation_handler
+			->expects( 'revoke' )
+			->with( 'refresh-to-revoke', 'refresh_token' )
+			->once()
+			->andReturn( true );
+
+		$this->user_token_storage
+			->expects( 'delete' )
+			->with( 42 )
+			->once();
+
+		$this->instance->revoke_user_token( 42 );
 	}
 
 	/**
@@ -495,6 +520,54 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that revoke_user_token skips refresh token revocation when absent.
+	 *
+	 * @covers ::revoke_user_token
+	 *
+	 * @return void
+	 */
+	public function test_revoke_user_token_without_refresh_token() {
+		$token_set = new Token_Set( 'access-only', ( \time() + 3600 ) );
+
+		$this->user_token_storage
+			->expects( 'get' )
+			->with( 42 )
+			->andReturn( $token_set );
+
+		$this->revocation_handler
+			->expects( 'revoke' )
+			->with( 'access-only', 'access_token' )
+			->once()
+			->andReturn( true );
+
+		$this->user_token_storage
+			->expects( 'delete' )
+			->with( 42 )
+			->once();
+
+		$this->instance->revoke_user_token( 42 );
+	}
+
+	/**
+	 * Tests that revoke_user_token does nothing when no token exists.
+	 *
+	 * @covers ::revoke_user_token
+	 *
+	 * @return void
+	 */
+	public function test_revoke_user_token_noop_when_no_token() {
+		$this->user_token_storage
+			->expects( 'get' )
+			->with( 42 )
+			->andReturn( null );
+
+		$this->revocation_handler->expects( 'revoke' )->never();
+		$this->user_token_storage->expects( 'delete' )->never();
+
+		$this->instance->revoke_user_token( 42 );
+	}
+
+	/**
 	 * Tests that the first invalid_grant increments error count instead of clearing.
 	 *
 	 * @covers ::get_user_token
@@ -539,32 +612,6 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that exchange_authorization_code exchanges code and stores the token.
-	 *
-	 * @covers ::exchange_authorization_code
-	 *
-	 * @return void
-	 */
-	public function test_exchange_authorization_code() {
-		$token_set = new Token_Set( 'new-access', ( \time() + 3600 ), 'DPoP', 'new-refresh' );
-
-		$this->auth_code_handler
-			->expects( 'exchange_code' )
-			->with( 42, 'auth-code', 'state-param' )
-			->once()
-			->andReturn( $token_set );
-
-		$this->user_token_storage
-			->expects( 'store' )
-			->with( 42, $token_set )
-			->once();
-
-		$result = $this->instance->exchange_authorization_code( 42, 'auth-code', 'state-param' );
-
-		$this->assertSame( 'new-access', $result->get_access_token() );
-	}
-
-	/**
 	 * Tests that authenticated_request delegates to the HTTP client.
 	 *
 	 * @covers ::authenticated_request
@@ -593,6 +640,52 @@ final class MyYoast_Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that ensure_registered delegates to client_registration.
+	 *
+	 * @covers ::ensure_registered
+	 *
+	 * @return void
+	 */
+	public function test_ensure_registered_delegates() {
+		$registered = new Registered_Client( 'cid', 'rat', 'https://my.yoast.com/reg/cid' );
+
+		$this->client_registration
+			->expects( 'ensure_registered' )
+			->once()
+			->andReturn( $registered );
+
+		$result = $this->instance->ensure_registered();
+
+		$this->assertSame( 'cid', $result->get_client_id() );
+	}
+
+	/**
+	 * Tests that exchange_authorization_code exchanges code and stores the token.
+	 *
+	 * @covers ::exchange_authorization_code
+	 *
+	 * @return void
+	 */
+	public function test_exchange_authorization_code() {
+		$token_set = new Token_Set( 'new-access', ( \time() + 3600 ), 'DPoP', 'new-refresh' );
+
+		$this->auth_code_handler
+			->expects( 'exchange_code' )
+			->with( 42, 'auth-code', 'state-param' )
+			->once()
+			->andReturn( $token_set );
+
+		$this->user_token_storage
+			->expects( 'store' )
+			->with( 42, $token_set )
+			->once();
+
+		$result = $this->instance->exchange_authorization_code( 42, 'auth-code', 'state-param' );
+
+		$this->assertSame( 'new-access', $result->get_access_token() );
+	}
+
+	/**
 	 * Tests that clear_site_token delegates to token_storage.
 	 *
 	 * @covers ::clear_site_token
@@ -605,5 +698,22 @@ final class MyYoast_Client_Test extends TestCase {
 			->once();
 
 		$this->instance->clear_site_token();
+	}
+
+	/**
+	 * Tests that revoke_token delegates to revocation_handler.
+	 *
+	 * @covers ::revoke_token
+	 *
+	 * @return void
+	 */
+	public function test_revoke_token() {
+		$this->revocation_handler
+			->expects( 'revoke' )
+			->with( 'some-token', 'access_token' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->revoke_token( 'some-token', 'access_token' ) );
 	}
 }
