@@ -1,6 +1,11 @@
 <?php
 namespace GEO\API;
 
+use GEO\Engine\GEO_Engine;
+use GEO\Engine\Entity_Extractor;
+use GEO\Engine\Scoring;
+use GEO\Engine\Suggestions;
+
 class Rest_Routes {
     public function register() {
         register_rest_route('geo/v1', '/analyze', [
@@ -15,13 +20,13 @@ class Rest_Routes {
     public function analyze_post(\WP_REST_Request $request) {
         $content = $request->get_param('content');
 
-        // Pseudo code for dependency injection
-        // $engine = new \GEO\Engine\GEO_Engine(...);
-        // $result = $engine->analyze($content);
+        $extractor = new Entity_Extractor();
+        $scorer = new Scoring();
+        $suggester = new Suggestions();
 
-        return rest_ensure_response([
-            'score' => 85,
-            'suggestions' => ['Add FAQ schema', 'Use shorter paragraphs']
-        ]);
+        $engine = new GEO_Engine($extractor, $scorer, $suggester);
+        $result = $engine->analyze($content);
+
+        return rest_ensure_response($result);
     }
 }
