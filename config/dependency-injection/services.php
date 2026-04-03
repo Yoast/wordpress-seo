@@ -71,6 +71,8 @@ $yoast_seo_excluded_directories = [
 	'values/oauth',
 	'values/robots',
 	'task-list/application/tasks/child-tasks',
+	'myyoast-client/domain',
+	'myyoast-client/application/exceptions',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
