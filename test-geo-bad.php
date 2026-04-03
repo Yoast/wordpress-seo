@@ -4,9 +4,12 @@ require_once 'geo/scoring.php';
 require_once 'geo/suggestions.php';
 require_once 'geo/geo-engine.php';
 
+require_once 'geo/summarizer.php';
+
 use GEO\Engine\Entity_Extractor;
 use GEO\Engine\Scoring;
 use GEO\Engine\Suggestions;
+use GEO\Engine\Summarizer;
 use GEO\Engine\GEO_Engine;
 
 $html_bad = <<<HTML
@@ -17,8 +20,9 @@ HTML;
 $extractor = new Entity_Extractor();
 $scorer = new Scoring();
 $suggester = new Suggestions();
+$summarizer = new Summarizer();
 
-$engine = new GEO_Engine($extractor, $scorer, $suggester);
+$engine = new GEO_Engine($extractor, $scorer, $suggester, $summarizer);
 
 $start = microtime(true);
 $result = $engine->analyze($html_bad);
