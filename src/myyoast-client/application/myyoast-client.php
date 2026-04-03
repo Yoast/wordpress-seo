@@ -3,16 +3,24 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\MyYoast_Client\Application;
 
+use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
+use Yoast\WP\SEO\Helpers\Lock_Helper;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Authorization_Flow_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Storage_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Client_Credentials_Grant;
+use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Refresh_Token_Grant;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Primary facade for the MyYoast OAuth client.
@@ -20,7 +28,10 @@ use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
  * Orchestrates registration, token lifecycle, and authenticated requests.
  * This is the main entry point for consuming code.
  */
-class MyYoast_Client {
+class MyYoast_Client implements LoggerAwareInterface {
+	use LoggerAwareTrait;
+
+	private const REFRESH_LOCK_TTL_IN_SECONDS = 30;
 
 	/**
 	 * The client registration port.
@@ -28,6 +39,13 @@ class MyYoast_Client {
 	 * @var Client_Registration_Interface
 	 */
 	private $client_registration;
+
+	/**
+	 * The authorization code handler.
+	 *
+	 * @var Authorization_Code_Handler
+	 */
+	private $auth_code_handler;
 
 	/**
 	 * The OAuth grant handler.
@@ -44,11 +62,25 @@ class MyYoast_Client {
 	private $http_client;
 
 	/**
+	 * The lock helper.
+	 *
+	 * @var Lock_Helper
+	 */
+	private $lock_helper;
+
+	/**
 	 * The site-level token storage port.
 	 *
 	 * @var Token_Storage_Interface
 	 */
 	private $token_storage;
+
+	/**
+	 * The user-level token storage port.
+	 *
+	 * @var User_Token_Storage_Interface
+	 */
+	private $user_token_storage;
 
 	/**
 	 * The site URL provider port.
@@ -61,23 +93,33 @@ class MyYoast_Client {
 	 * MyYoast_Client constructor.
 	 *
 	 * @param Client_Registration_Interface $client_registration The client registration port.
+	 * @param Authorization_Code_Handler    $auth_code_handler   The authorization code handler.
 	 * @param OAuth_Grant_Handler           $grant_handler       The OAuth grant handler.
 	 * @param OAuth_Server_Client_Interface $http_client         The OAuth server client port.
+	 * @param Lock_Helper                   $lock_helper         The lock helper.
 	 * @param Token_Storage_Interface       $token_storage       The site-level token storage port.
+	 * @param User_Token_Storage_Interface  $user_token_storage  The user-level token storage port.
 	 * @param Site_URL_Provider_Interface   $site_url_provider   The site URL provider port.
 	 */
 	public function __construct(
 		Client_Registration_Interface $client_registration,
+		Authorization_Code_Handler $auth_code_handler,
 		OAuth_Grant_Handler $grant_handler,
 		OAuth_Server_Client_Interface $http_client,
+		Lock_Helper $lock_helper,
 		Token_Storage_Interface $token_storage,
+		User_Token_Storage_Interface $user_token_storage,
 		Site_URL_Provider_Interface $site_url_provider
 	) {
 		$this->client_registration = $client_registration;
+		$this->auth_code_handler   = $auth_code_handler;
 		$this->grant_handler       = $grant_handler;
 		$this->http_client         = $http_client;
+		$this->lock_helper         = $lock_helper;
 		$this->token_storage       = $token_storage;
+		$this->user_token_storage  = $user_token_storage;
 		$this->site_url_provider   = $site_url_provider;
+		$this->logger              = new NullLogger();
 	}
 
 	/**
@@ -145,6 +187,40 @@ class MyYoast_Client {
 	}
 
 	/**
+	 * Builds the authorization URL for the user authorization flow.
+	 *
+	 * @param int         $user_id      The WordPress user ID.
+	 * @param string      $redirect_uri The callback redirect URI.
+	 * @param string[]    $scopes       The scopes to request.
+	 * @param string|null $return_url   The URL to return the user to after authorization completes.
+	 *
+	 * @return string The authorization URL.
+	 *
+	 * @throws Authorization_Flow_Exception If registration, discovery, or parameter validation fails.
+	 */
+	public function get_authorization_url( int $user_id, string $redirect_uri, array $scopes = [], ?string $return_url = null ): string {
+		return $this->auth_code_handler->get_authorization_url( $user_id, $redirect_uri, $scopes, $return_url );
+	}
+
+	/**
+	 * Exchanges an authorization code for tokens and stores them for the user.
+	 *
+	 * @param int    $user_id The WordPress user ID.
+	 * @param string $code    The authorization code.
+	 * @param string $state   The state parameter from the callback.
+	 *
+	 * @return Token_Set The obtained tokens.
+	 *
+	 * @throws Token_Request_Failed_Exception If the exchange fails.
+	 * @throws Token_Storage_Exception        If encrypting the token set for storage fails.
+	 */
+	public function exchange_authorization_code( int $user_id, string $code, string $state ): Token_Set {
+		$token_set = $this->auth_code_handler->exchange_code( $user_id, $code, $state );
+		$this->user_token_storage->store( $user_id, $token_set );
+		return $token_set;
+	}
+
+	/**
 	 * Returns a valid site-level access token (client_credentials).
 	 *
 	 * @param string[] $scopes The service:* scopes to request.
@@ -165,6 +241,88 @@ class MyYoast_Client {
 		$this->token_storage->store( $token_set );
 
 		return $token_set;
+	}
+
+	/**
+	 * Returns a valid user-level access token, auto-refreshing if expired.
+	 *
+	 * @param int      $user_id         The WordPress user ID.
+	 * @param string[] $required_scopes Optional scopes required for the token; if provided, no token will be returned unless it has at least these scopes.
+	 *                                  This is to avoid refreshing a token that would trigger an immediate re-authorization due to missing scopes.
+	 *
+	 * @return Token_Set|null The user token set, or null if the user hasn't authorized.
+	 */
+	public function get_user_token( int $user_id, array $required_scopes = [] ): ?Token_Set {
+		$token_set = $this->user_token_storage->get( $user_id );
+		if ( $token_set === null ) {
+			return null;
+		}
+
+		if ( ! $token_set->has_scopes( $required_scopes ) ) {
+			// Required scopes are missing, treat as if no token is available.
+			return null;
+		}
+
+		if ( ! $token_set->is_expired() ) {
+			return $token_set;
+		}
+
+		$refresh_token = $token_set->get_refresh_token();
+		if ( $refresh_token === null ) {
+			return null;
+		}
+
+		try {
+			// If the client was just re-registered, this refresh will fail with invalid_grant.
+			// error_count is 0 on first attempt; after one invalid_grant it becomes 1.
+			// On the second consecutive invalid_grant (error_count >= 1), clear and give up.
+			$grant         = new Refresh_Token_Grant( $refresh_token );
+			$lock_key      = 'wpseo_myyoast_refresh:' . \hash( 'sha256', $refresh_token );
+			$new_token_set = $this->lock_helper->execute(
+				$lock_key,
+				function () use ( $grant ) {
+					return $this->grant_handler->request_token( $grant );
+				},
+				self::REFRESH_LOCK_TTL_IN_SECONDS,
+			);
+			try {
+				$this->user_token_storage->store( $user_id, $new_token_set );
+			} catch ( Token_Storage_Exception $e ) {
+				// Next request will re-refresh from the old stored token.
+				$this->logger->warning( 'Failed to persist refreshed token: ' . $e->getMessage() );
+			}
+			return $new_token_set;
+		} catch ( Lock_Timeout_Exception $e ) {
+			// Concurrent refresh in progress, treat as transient failure.
+			return null;
+		} catch ( Token_Request_Failed_Exception $e ) {
+			if ( $e->get_error_code() === 'invalid_grant' ) {
+				if ( $token_set->get_error_count() >= 1 ) {
+					$this->user_token_storage->delete( $user_id );
+					return null;
+				}
+
+				try {
+					$this->user_token_storage->store( $user_id, $token_set->with_incremented_error_count() );
+				} catch ( Token_Storage_Exception $e ) {
+					// Failure to persist error count is non-critical; token will be retried next request.
+					$this->logger->warning( 'Failed to persist token error count: ' . $e->getMessage() );
+				}
+			}
+
+			return null;
+		}
+	}
+
+	/**
+	 * Whether the given user has authorized with MyYoast.
+	 *
+	 * @param int $user_id The WordPress user ID.
+	 *
+	 * @return bool
+	 */
+	public function has_user_token( int $user_id ): bool {
+		return $this->user_token_storage->get( $user_id ) !== null;
 	}
 
 	/**
