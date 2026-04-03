@@ -18,7 +18,10 @@ class GEO_Engine {
         // Run full GEO analysis
         $entities = $this->extractor->extract($content);
         $scoring_result = $this->scorer->calculate($content, $entities);
-        $suggestions = $this->suggester->generate($scoring_result['breakdown']);
+
+        $main_topic = !empty($entities) ? $entities[0] : 'your main topic';
+
+        $suggestions = $this->suggester->generate($scoring_result['breakdown'], $content, $entities, $main_topic);
         $ai_answer = $this->summarizer->generate($content, $entities);
 
         return [
