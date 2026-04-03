@@ -11,7 +11,7 @@ class Editor_Panel {
     public function add_geo_meta_box() {
         add_meta_box(
             'geo_editor_panel_box',
-            'GEO Analysis',
+            esc_html__('GEO Analysis', 'geo-plugin'),
             [$this, 'render'],
             ['post', 'page'],
             'side',
@@ -24,6 +24,9 @@ class Editor_Panel {
             return;
         }
 
+        global $post;
+        $post_id = $post ? $post->ID : 0;
+
         wp_enqueue_script(
             'geo-editor-js',
             plugins_url('geo-editor.js', __FILE__), // Assuming this file resides in the same directory for MVP
@@ -33,15 +36,16 @@ class Editor_Panel {
         );
 
         wp_localize_script('geo-editor-js', 'geoData', [
-            'apiUrl' => rest_url('geo/v1/analyze'),
-            'nonce'  => wp_create_nonce('wp_rest')
+            'apiUrl' => esc_url_raw(rest_url('geo/v1/analyze')),
+            'nonce'  => wp_create_nonce('wp_rest'),
+            'postId' => absint($post_id)
         ]);
     }
 
     public function render() {
         // Minimal HTML entry point.
         // 1 screen per post, no tabs.
-        // The Javascript (geo-editor.js) will inject the UI inside this div.
+        // The Javascript (geo-editor.js) will inject the UI inside this div safely.
         echo '<div id="geo-editor-panel"></div>';
     }
 }

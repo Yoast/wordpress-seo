@@ -1,14 +1,9 @@
 /**
  * GEO Editor Integration
- * Lightweight Vanilla JS UI for real-time GEO scoring in Gutenberg
+ * Lightweight Vanilla JS UI for real-time GEO scoring in Gutenberg and Classic Editor
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Only run if wp.data is available (Gutenberg editor)
-    if (typeof wp === 'undefined' || !wp.data) {
-        return;
-    }
-
     let timeoutId;
     let lastContent = '';
     let cachedResult = null;
@@ -16,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelContainer = document.getElementById('geo-editor-panel');
     if (!panelContainer) return;
 
-    // Build UI layout
+    // Build UI layout safely without innerHTML for dynamic user content
     panelContainer.innerHTML = `
         <div class="geo-panel-inner" style="padding: 15px; border: 1px solid #ddd; background: #fff;">
             <h2 style="margin-top: 0;">GEO Engine Optimization</h2>
@@ -79,16 +74,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce': geoData.nonce
             },
-            body: JSON.stringify({ content: content })
+            body: JSON.stringify({
+                content: content,
+                post_id: parseInt(geoData.postId, 10)
+            })
         })
         .then(response => response.json())
         .then(data => {
+            if (data.code && data.message) {
+                // Handle WP_Error response
+                throw new Error(data.message);
+            }
             cachedResult = data;
             updateUI(data);
         })
         .catch(err => {
             console.error('GEO Engine Error:', err);
-            suggestionsList.innerHTML = '<li>Error loading analysis.</li>';
+            suggestionsList.innerHTML = '<li>Error loading analysis. Check console for details.</li>';
         })
         .finally(() => {
             loadingIndicator.style.display = 'none';
@@ -100,10 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
         scoreValue.innerText = data.score;
         scoreValue.style.color = data.score >= 80 ? '#00a32a' : (data.score >= 50 ? '#dba617' : '#d63638');
 
-        // Update Suggestions (Top 3 max)
+        // Update Suggestions (Top 3 max) safely
+        suggestionsList.innerHTML = '';
         if (data.suggestions && data.suggestions.length > 0) {
             const top3 = data.suggestions.slice(0, 3);
-            suggestionsList.innerHTML = top3.map(s => `<li>${s}</li>`).join('');
+            top3.forEach(s => {
+                const li = document.createElement('li');
+                li.innerText = s; // Use innerText to prevent XSS
+                suggestionsList.appendChild(li);
+            });
             suggestionsList.style.color = '#d63638';
         } else {
             suggestionsList.innerHTML = '<li>Looking good! No suggestions right now.</li>';
@@ -112,31 +119,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update AI Answer
         if (data.ai_answer) {
-            aiPreview.innerText = data.ai_answer;
+            aiPreview.innerText = data.ai_answer; // Use innerText to prevent XSS
         } else {
             aiPreview.innerText = 'Not enough content to generate preview.';
         }
     };
 
-    // Subscribe to editor changes
-    wp.data.subscribe(() => {
-        const isSavingPost = wp.data.select('core/editor').isSavingPost();
-        const isAutosavingPost = wp.data.select('core/editor').isAutosavingPost();
-
-        // Skip analysis while saving
-        if (isSavingPost || isAutosavingPost) return;
-
-        const currentContent = wp.data.select('core/editor').getEditedPostContent();
-
+    const triggerDebouncedAnalysis = (content) => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
-            analyzeContent(currentContent);
+            analyzeContent(content);
         }, 2000); // 2 second debounce
-    });
+    };
 
-    // Initial analysis
-    setTimeout(() => {
-        const initialContent = wp.data.select('core/editor').getEditedPostContent();
-        analyzeContent(initialContent);
-    }, 1000);
+    // --- Editor Compatibility Hooks ---
+
+    if (typeof wp !== 'undefined' && wp.data && wp.data.select('core/editor')) {
+        // Gutenberg Integration
+        wp.data.subscribe(() => {
+            const editor = wp.data.select('core/editor');
+            const isSavingPost = editor.isSavingPost();
+            const isAutosavingPost = editor.isAutosavingPost();
+
+            // Skip analysis while saving
+            if (isSavingPost || isAutosavingPost) return;
+
+            triggerDebouncedAnalysis(editor.getEditedPostContent());
+        });
+
+        // Initial analysis
+        setTimeout(() => {
+            triggerDebouncedAnalysis(wp.data.select('core/editor').getEditedPostContent());
+        }, 1000);
+
+    } else {
+        // Classic Editor Integration Fallback
+
+        // Try TinyMCE first
+        if (typeof tinymce !== 'undefined') {
+            tinymce.on('AddEditor', function(e) {
+                e.editor.on('change keyup', function() {
+                    triggerDebouncedAnalysis(e.editor.getContent());
+                });
+            });
+
+            setTimeout(() => {
+                const activeEditor = tinymce.activeEditor;
+                if (activeEditor && !activeEditor.isHidden()) {
+                    triggerDebouncedAnalysis(activeEditor.getContent());
+                }
+            }, 1000);
+        }
+
+        // Fallback to raw textarea (Text mode)
+        const contentTextArea = document.getElementById('content');
+        if (contentTextArea) {
+            contentTextArea.addEventListener('input', (e) => {
+                triggerDebouncedAnalysis(e.target.value);
+            });
+
+            // Initial analysis if no tinymce
+            if (typeof tinymce === 'undefined' || (tinymce.activeEditor && tinymce.activeEditor.isHidden())) {
+                setTimeout(() => {
+                    triggerDebouncedAnalysis(contentTextArea.value);
+                }, 1000);
+            }
+        }
+    }
 });
