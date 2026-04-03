@@ -72,6 +72,7 @@ $yoast_seo_excluded_directories = [
 	'values/robots',
 	'task-list/application/tasks/child-tasks',
 	'myyoast-client/domain',
+	'myyoast-client/application/grants',
 	'myyoast-client/application/exceptions',
 ];
 
