@@ -113,6 +113,15 @@ abstract class Abstract_Token_Manager_Test extends TestCase {
 		$this->urls                     = Mockery::mock( WordPress_URLs::class );
 		$this->url_helper               = Mockery::mock( Url_Helper::class );
 
+		// Default: have_callback_urls_changed() returns false by providing a matching hash.
+		$default_callback_url = 'https://example.com/wp-json/yoast/v1/ai_generator/callback';
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'yoast_ai_generator_callback_url_hash', '' )
+			->andReturn( \md5( $default_callback_url ) )
+			->byDefault();
+		Monkey\Functions\expect( 'update_option' )->byDefault();
+		$this->urls->shouldReceive( 'get_callback_url' )->andReturn( $default_callback_url )->byDefault();
+
 		$this->instance = new Token_Manager( $this->access_token_repository, $this->code_verifier, $this->consent_handler, $this->refresh_token_repository, $this->user_helper, $this->request_handler, $this->code_verifier_repository, $this->urls );
 	}
 
