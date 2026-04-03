@@ -152,10 +152,12 @@ class Content_Suggestion_Command_Handler {
 	public function build_suggestions_array( Response $response ): Content_Suggestion_List {
 		$content_suggestion_list = new Content_Suggestion_List();
 		$json                    = \json_decode( $response->get_body() );
+
 		if ( $json === null || ! isset( $json->choices ) ) {
 			return $content_suggestion_list;
 		}
 		foreach ( $json->choices as $suggestion ) {
+
 			$content_suggestion_list->add_suggestion(
 				new Content_Suggestion(
 					$suggestion->title,
@@ -163,7 +165,7 @@ class Content_Suggestion_Command_Handler {
 					$suggestion->explanation,
 					$suggestion->keyphrase,
 					$suggestion->meta_description,
-					new Category( $suggestion->category->title, $suggestion->category->id ),
+					( isset( $suggestion->category->title ) ? new Category( $suggestion->category->title, $suggestion->category->id ) : null ),
 				),
 			);
 		}

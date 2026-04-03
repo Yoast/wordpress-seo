@@ -5,6 +5,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Domain\Content_Suggestion;
 
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
 
 /**
  * Tests the Content_Suggestion constructor.
@@ -27,5 +28,23 @@ final class Constructor_Test extends Abstract_Content_Suggestion {
 		$this->assertSame( 'AI usage', $this->getPropertyValue( $this->instance, 'keyphrase' ) );
 		$this->assertSame( 'Learn how to use AI effectively.', $this->getPropertyValue( $this->instance, 'meta_description' ) );
 		$this->assertInstanceOf( Category::class, $this->getPropertyValue( $this->instance, 'category' ) );
+	}
+
+	/**
+	 * Tests the constructor without a category.
+	 *
+	 * @return void
+	 */
+	public function test_constructor_without_category() {
+		$instance = new Content_Suggestion(
+			'How to use AI',
+			'informational',
+			'This article explains AI usage.',
+			'AI usage',
+			'Learn how to use AI effectively.',
+			null,
+		);
+
+		$this->assertNull( $this->getPropertyValue( $instance, 'category' ) );
 	}
 }

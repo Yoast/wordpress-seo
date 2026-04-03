@@ -22,7 +22,7 @@ final class To_Array_Test extends Abstract_Content_Suggestion_List {
 	 * @return void
 	 */
 	public function test_to_array_empty() {
-		$this->assertSame( [], $this->instance->to_array() );
+		$this->assertSame( [ 'suggestions' => [] ], $this->instance->to_array() );
 	}
 
 	/**
@@ -44,15 +44,17 @@ final class To_Array_Test extends Abstract_Content_Suggestion_List {
 		$this->instance->add_suggestion( $suggestion );
 
 		$expected = [
-			[
-				'title'            => 'How to use AI',
-				'intent'           => 'informational',
-				'explanation'      => 'This article explains AI usage.',
-				'keyphrase'        => 'AI usage',
-				'meta_description' => 'Learn how to use AI effectively.',
-				'category'         => [
-					'name' => 'Tech',
-					'id'   => 5,
+			'suggestions' => [
+				[
+					'title'            => 'How to use AI',
+					'intent'           => 'informational',
+					'explanation'      => 'This article explains AI usage.',
+					'keyphrase'        => 'AI usage',
+					'meta_description' => 'Learn how to use AI effectively.',
+					'category'         => [
+						'name' => 'Tech',
+						'id'   => 5,
+					],
 				],
 			],
 		];

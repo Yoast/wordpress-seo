@@ -65,7 +65,7 @@ class Content_Suggestion {
 		string $explanation,
 		string $keyphrase,
 		string $meta_description,
-		Category $category
+		?Category $category
 	) {
 		$this->title            = $title;
 		$this->intent           = $intent;
@@ -81,13 +81,17 @@ class Content_Suggestion {
 	 * @return array<string, string|array<string, int>> The content suggestion as an array.
 	 */
 	public function to_array(): array {
-		return [
+		$data = [
 			'title'            => $this->title,
 			'intent'           => $this->intent,
 			'explanation'      => $this->explanation,
 			'keyphrase'        => $this->keyphrase,
 			'meta_description' => $this->meta_description,
-			'category'         => $this->category->to_array(),
 		];
+		if ( isset( $this->category ) ) {
+			$data['category'] = $this->category->to_array();
+		}
+
+		return $data;
 	}
 }

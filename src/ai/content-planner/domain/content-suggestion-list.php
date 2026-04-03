@@ -36,6 +36,6 @@ class Content_Suggestion_List {
 			$result[] = $suggestion->to_array();
 		}
 
-		return $result;
+		return [ 'suggestions' => $result ];
 	}
 }
