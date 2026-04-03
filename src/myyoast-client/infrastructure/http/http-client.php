@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Expiring_Store\Domain\Key_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * HTTP client wrapping WordPress HTTP API with DPoP header injection.
@@ -19,7 +22,8 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
  * Provides automatic DPoP proof generation for all requests and handles
  * `use_dpop_nonce` errors by retrying once with the new nonce.
  */
-class HTTP_Client implements OAuth_Server_Client_Interface {
+class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const RATE_LIMIT_KEY_PREFIX   = 'myyoast_rate_limit:';
 	private const DEFAULT_BACKOFF_SECONDS = \MINUTE_IN_SECONDS;
@@ -47,6 +51,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface {
 	public function __construct( DPoP_Handler $dpop_handler, Expiring_Store $expiring_store ) {
 		$this->dpop_handler   = $dpop_handler;
 		$this->expiring_store = $expiring_store;
+		$this->logger         = new NullLogger();
 	}
 
 	/**
@@ -72,6 +77,13 @@ class HTTP_Client implements OAuth_Server_Client_Interface {
 
 			// Retry once on use_dpop_nonce error with the fresh nonce.
 			if ( $this->is_dpop_nonce_error( $result ) ) {
+				$this->logger->debug(
+					'Retrying request with fresh DPoP nonce for {method} {url}.',
+					[
+						'method' => $method,
+						'url'    => $url,
+					],
+				);
 				$result = $this->do_request( $method, $url, $options );
 				$this->dpop_handler->handle_nonce_response( $result['headers'] );
 			}
@@ -153,6 +165,14 @@ class HTTP_Client implements OAuth_Server_Client_Interface {
 			try {
 				$headers['DPoP'] = $this->dpop_handler->create_proof( $method, $url, $access_token );
 			} catch ( DPoP_Proof_Exception $e ) {
+				$this->logger->error(
+					'DPoP proof generation failed for {method} {url}: {error}',
+					[
+						'method'                       => $method,
+						'url'                          => $url,
+						'error'                        => $e->getMessage(),
+					],
+				);
 				return [
 					'status'  => 0,
 					'headers' => [],
@@ -189,6 +209,13 @@ class HTTP_Client implements OAuth_Server_Client_Interface {
 	 */
 	private function parse_response( $response, string $url ): array {
 		if ( \is_wp_error( $response ) ) {
+			$this->logger->warning(
+				'Network error for {url}: {error}',
+				[
+					'url'   => $url,
+					'error' => $response->get_error_message(),
+				],
+			);
 			return [
 				'status'  => 0,
 				'headers' => [],
@@ -220,6 +247,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface {
 		];
 
 		if ( (int) $status === 429 ) {
+			$this->logger->warning( 'Rate limited (429) by {url}.', [ 'url' => $url ] );
 			$this->store_rate_limit_response( $url, $parsed );
 		}
 

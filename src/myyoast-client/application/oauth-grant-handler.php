@@ -14,6 +14,9 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Central handler for OAuth token endpoint requests.
@@ -22,7 +25,8 @@ use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
  * parameters to the provided Grant_Strategy_Interface. Executes the token request via
  * the token endpoint client and handles error responses.
  */
-class OAuth_Grant_Handler {
+class OAuth_Grant_Handler implements LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	/**
 	 * The discovery port.
@@ -70,6 +74,7 @@ class OAuth_Grant_Handler {
 		$this->client_registration  = $client_registration;
 		$this->client_authenticator = $client_authenticator;
 		$this->oauth_server_client  = $oauth_server_client;
+		$this->logger               = new NullLogger();
 	}
 
 	/**
@@ -124,6 +129,18 @@ class OAuth_Grant_Handler {
 		);
 
 		if ( $result['status'] < 200 || $result['status'] >= 300 ) {
+			$error       = \is_array( $result['body'] ) ? ( $result['body']['error'] ?? 'unknown' ) : 'unknown';
+			$description = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? '' ) : '';
+			$this->logger->warning(
+				'Token request failed for grant {grant_type}: HTTP {status}, error={error} {description}',
+				[
+					'grant_type'  => $grant->get_grant_type(),
+					'status'      => $result['status'],
+					'error'       => $error,
+					'description' => $description,
+				],
+			);
+
 			if ( \is_array( $result['body'] ) && isset( $result['body']['error'] ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 				throw Token_Request_Failed_Exception::from_response( $result['body'], $result['status'] );

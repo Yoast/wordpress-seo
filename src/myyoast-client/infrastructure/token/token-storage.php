@@ -21,7 +21,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * The option key is scoped by issuer so that switching issuers
  * isolates all stored data.
  */
-class Token_Storage implements Token_Storage_Interface {
+class Token_Storage implements Token_Storage_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const OPTION_KEY_PREFIX  = 'wpseo_myyoast_site_tokens_';
 	private const ENCRYPTION_CONTEXT = 'yoast-myyoast-site-tokens';
@@ -101,6 +102,7 @@ class Token_Storage implements Token_Storage_Interface {
 			return Token_Set::from_array( $data );
 		}
 		catch ( Exception $e ) {
+			$this->logger->error( 'Failed to decrypt stored site token: {error}', [ 'error' => $e->getMessage() ] );
 			return null;
 		}
 	}

@@ -17,6 +17,9 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair_Manager;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Discovery_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Manages the full OAuth client registration lifecycle (RFC 7591 + RFC 7592).
@@ -26,7 +29,8 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
  * in multisite) registers its own client_id. Uses lazy registration with a
  * database-backed exclusive lock.
  */
-class Client_Registration implements Client_Registration_Interface {
+class Client_Registration implements Client_Registration_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const OPTION_KEY_PREFIX       = 'wpseo_myyoast_client_registration_';
 	private const ENCRYPTION_CONTEXT      = 'yoast-myyoast-registration-credentials';
@@ -108,6 +112,7 @@ class Client_Registration implements Client_Registration_Interface {
 		$this->issuer_config    = $issuer_config;
 		$this->lock_helper      = $lock_helper;
 		$this->http_client      = $http_client;
+		$this->logger           = new NullLogger();
 	}
 
 	/**
@@ -132,6 +137,7 @@ class Client_Registration implements Client_Registration_Interface {
 				self::DCR_LOCK_TTL_IN_SECONDS,
 			);
 		} catch ( Lock_Timeout_Exception $e ) {
+			$this->logger->warning( 'DCR lock contention: another registration is already in progress.' );
 			throw new Registration_Failed_Exception( 'Another registration is already in progress.' );
 		}
 	}
@@ -157,6 +163,7 @@ class Client_Registration implements Client_Registration_Interface {
 		try {
 			$rat = $this->encryption->decrypt( $stored['encrypted_rat'], self::ENCRYPTION_CONTEXT );
 		} catch ( Encryption_Exception $e ) {
+			$this->logger->error( 'Failed to decrypt registration access token, clearing registration: {error}', [ 'error' => $e->getMessage() ] );
 			$this->forget_registration();
 			return null;
 		}
@@ -169,6 +176,7 @@ class Client_Registration implements Client_Registration_Interface {
 				( $stored['metadata'] ?? [] ),
 			);
 		} catch ( InvalidArgumentException $e ) {
+			$this->logger->error( 'Stored registration data is invalid, clearing registration: {error}', [ 'error' => $e->getMessage() ] );
 			$this->forget_registration();
 			return null;
 		}
@@ -258,6 +266,7 @@ class Client_Registration implements Client_Registration_Interface {
 		}
 
 		if ( $result['status'] === 401 || $result['status'] === 404 ) {
+			$this->logger->warning( 'Registration is no longer valid (HTTP {status}), clearing local registration.', [ 'status' => $result['status'] ] );
 			$this->forget_registration();
 			throw new Registration_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.

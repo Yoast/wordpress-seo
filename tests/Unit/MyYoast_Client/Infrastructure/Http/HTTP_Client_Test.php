@@ -94,7 +94,7 @@ final class HTTP_Client_Test extends TestCase {
 		$this->expiring_store->expects( 'get' )->andThrow( new Key_Not_Found_Exception() );
 
 		$wp_error = Mockery::mock( WP_Error::class );
-		$wp_error->expects( 'get_error_message' )->andReturn( 'Connection failed' );
+		$wp_error->expects( 'get_error_message' )->twice()->andReturn( 'Connection failed' );
 
 		Functions\expect( 'wp_parse_url' )->andReturn(
 			[

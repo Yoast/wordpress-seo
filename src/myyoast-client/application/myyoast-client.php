@@ -300,15 +300,17 @@ class MyYoast_Client implements LoggerAwareInterface {
 				$this->user_token_storage->store( $user_id, $new_token_set );
 			} catch ( Token_Storage_Exception $e ) {
 				// Next request will re-refresh from the old stored token.
-				$this->logger->warning( 'Failed to persist refreshed token: ' . $e->getMessage() );
+				$this->logger->warning( 'Failed to persist refreshed token: {error}', [ 'error' => $e->getMessage() ] );
 			}
 			return $new_token_set;
 		} catch ( Lock_Timeout_Exception $e ) {
 			// Concurrent refresh in progress, treat as transient failure.
+			$this->logger->debug( 'Skipping token refresh for user {user_id}: concurrent refresh in progress.', [ 'user_id' => $user_id ] );
 			return null;
 		} catch ( Token_Request_Failed_Exception $e ) {
 			if ( $e->get_error_code() === 'invalid_grant' ) {
 				if ( $token_set->get_error_count() >= 1 ) {
+					$this->logger->warning( 'Repeated invalid_grant for user {user_id}, clearing stored tokens.', [ 'user_id' => $user_id ] );
 					$this->user_token_storage->delete( $user_id );
 					return null;
 				}
@@ -317,7 +319,7 @@ class MyYoast_Client implements LoggerAwareInterface {
 					$this->user_token_storage->store( $user_id, $token_set->with_incremented_error_count() );
 				} catch ( Token_Storage_Exception $e ) {
 					// Failure to persist error count is non-critical; token will be retried next request.
-					$this->logger->warning( 'Failed to persist token error count: ' . $e->getMessage() );
+					$this->logger->warning( 'Failed to persist token error count: {error}', [ 'error' => $e->getMessage() ] );
 				}
 			}
 

@@ -8,6 +8,9 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Excepti
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Fetches and caches the OpenID Connect discovery document.
@@ -15,7 +18,8 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
  * Discovers all endpoint URLs dynamically from `{issuer}/.well-known/openid-configuration`.
  * Caches the document as a WordPress transient for 24 hours.
  */
-class Discovery_Client implements Discovery_Interface {
+class Discovery_Client implements Discovery_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const CACHE_TRANSIENT_PREFIX = 'wpseo_myyoast_oidc_';
 	private const CACHE_TTL              = \DAY_IN_SECONDS; // 24 hours.
@@ -50,6 +54,7 @@ class Discovery_Client implements Discovery_Interface {
 	public function __construct( Issuer_Config $issuer_config, HTTP_Client $http_client ) {
 		$this->issuer_config = $issuer_config;
 		$this->http_client   = $http_client;
+		$this->logger        = new NullLogger();
 	}
 
 	/**
@@ -76,6 +81,7 @@ class Discovery_Client implements Discovery_Interface {
 				return $this->cached_document;
 			} catch ( Discovery_Failed_Exception | Server_Capability_Exception $e ) {
 				// Cached data is corrupted or no longer compatible — fetch fresh.
+				$this->logger->info( 'Invalidating cached discovery document: {error}', [ 'error' => $e->getMessage() ] );
 				\delete_transient( $this->get_cache_key() );
 			}
 		}

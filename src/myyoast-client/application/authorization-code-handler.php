@@ -21,6 +21,9 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\ID_Token_Validator_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Flow_State;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Manages the Authorization Code + PKCE flow.
@@ -28,7 +31,9 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
  * Builds the authorization URL, stores PKCE/state/nonce in the expiring store,
  * and exchanges the authorization code for tokens via OAuth_Grant_Handler.
  */
-class Authorization_Code_Handler {
+class Authorization_Code_Handler implements LoggerAwareInterface {
+	use LoggerAwareTrait;
+
 	private const CURRENT_AUTH_FLOW_STATE_KEY = 'myyoast_current_authorization_state';
 	private const PKCE_TTL                    = ( \MINUTE_IN_SECONDS * 10 ); // 10 minutes.
 
@@ -88,6 +93,7 @@ class Authorization_Code_Handler {
 		$this->grant_handler       = $grant_handler;
 		$this->id_token_validator  = $id_token_validator;
 		$this->expiring_store      = $expiring_store;
+		$this->logger              = new NullLogger();
 	}
 
 	/**
@@ -194,6 +200,7 @@ class Authorization_Code_Handler {
 
 		// Validate state (CSRF protection).
 		if ( ! \hash_equals( $flow_state->get_state(), $state ) ) {
+			$this->logger->warning( 'Authorization code exchange failed: state parameter mismatch for user {user_id} (potential CSRF).', [ 'user_id' => $user_id ] );
 			$this->expiring_store->delete_for_user( self::CURRENT_AUTH_FLOW_STATE_KEY, $user_id );
 			throw new Token_Request_Failed_Exception( 'invalid_request', 'State parameter mismatch.' );
 		}
@@ -276,16 +283,25 @@ class Authorization_Code_Handler {
 		try {
 			$stored = $this->expiring_store->get_for_user( self::CURRENT_AUTH_FLOW_STATE_KEY, $user_id );
 		} catch ( Key_Not_Found_Exception | Corrupted_Value_Exception $e ) {
+			$this->logger->warning( 'No pending authorization flow state found for user {user_id}.', [ 'user_id' => $user_id ] );
 			throw new Token_Request_Failed_Exception( 'invalid_request', 'No pending authorization found for this user.' );
 		}
 
 		if ( ! \is_array( $stored ) ) {
+			$this->logger->warning( 'Stored authorization flow state is not an array for user {user_id}.', [ 'user_id' => $user_id ] );
 			throw new Token_Request_Failed_Exception( 'invalid_request', 'No pending authorization found for this user.' );
 		}
 
 		try {
 			return Auth_Flow_State::from_array( $stored );
 		} catch ( InvalidArgumentException $e ) {
+			$this->logger->error(
+				'Stored authorization state is invalid for user {user_id}: {error}',
+				[
+					'user_id' => $user_id,
+					'error'   => $e->getMessage(),
+				],
+			);
 			throw new Token_Request_Failed_Exception( 'invalid_request', 'Stored authorization state is invalid.' );
 		}
 	}

@@ -8,7 +8,6 @@ use Mockery;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
-use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair_Manager;

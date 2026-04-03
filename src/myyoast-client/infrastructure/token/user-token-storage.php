@@ -11,6 +11,8 @@ use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
@@ -18,7 +20,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  *
  * Used for authorization code flow tokens (user-specific).
  */
-class User_Token_Storage implements User_Token_Storage_Interface {
+class User_Token_Storage implements User_Token_Storage_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const META_KEY_PREFIX    = '_wpseo_myyoast_user_tokens_';
 	private const ENCRYPTION_CONTEXT = 'yoast-myyoast-user-tokens';
@@ -119,6 +122,13 @@ class User_Token_Storage implements User_Token_Storage_Interface {
 			return Token_Set::from_array( $data );
 		}
 		catch ( Exception $e ) {
+			$this->logger->error(
+				'Failed to decrypt stored user token for user {user_id}: {error}',
+				[
+					'user_id' => $user_id,
+					'error'   => $e->getMessage(),
+				],
+			);
 			return null;
 		}
 	}

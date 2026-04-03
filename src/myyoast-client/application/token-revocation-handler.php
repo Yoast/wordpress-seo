@@ -9,13 +9,17 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Authenticator_Interface
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Revokes tokens at the authorization server (RFC 7009).
  *
  * Token revocation is best-effort — failures are silently ignored.
  */
-class Token_Revocation_Handler {
+class Token_Revocation_Handler implements LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	/**
 	 * The discovery port.
@@ -63,6 +67,7 @@ class Token_Revocation_Handler {
 		$this->client_registration  = $client_registration;
 		$this->client_authenticator = $client_authenticator;
 		$this->oauth_server_client  = $oauth_server_client;
+		$this->logger               = new NullLogger();
 	}
 
 	/**
@@ -112,6 +117,13 @@ class Token_Revocation_Handler {
 			return true;
 		}
 		catch ( Exception $e ) {
+			$this->logger->warning(
+				'Token revocation failed ({token_type_hint}): {error}',
+				[
+					'token_type_hint' => $token_type_hint,
+					'error'           => $e->getMessage(),
+				],
+			);
 			return false;
 		}
 	}

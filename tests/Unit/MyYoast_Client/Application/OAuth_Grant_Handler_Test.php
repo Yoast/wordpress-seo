@@ -3,15 +3,15 @@
 namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\Application;
 
 use Mockery;
+use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Grant_Strategy_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\OAuth_Grant_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Authenticator_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
-use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
-use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -153,7 +153,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 			->andReturn( 'client-assertion-jwt' );
 
 		$grant = Mockery::mock( Grant_Strategy_Interface::class );
-		$grant->expects( 'get_grant_type' )->andReturn( 'client_credentials' );
+		$grant->expects( 'get_grant_type' )->twice()->andReturn( 'client_credentials' );
 		$grant->expects( 'get_grant_params' )->andReturn( [] );
 
 		$this->token_endpoint_client
@@ -189,7 +189,7 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 			->andReturn( 'client-assertion-jwt' );
 
 		$grant = Mockery::mock( Grant_Strategy_Interface::class );
-		$grant->expects( 'get_grant_type' )->andReturn( 'client_credentials' );
+		$grant->expects( 'get_grant_type' )->twice()->andReturn( 'client_credentials' );
 		$grant->expects( 'get_grant_params' )->andReturn( [] );
 
 		$this->token_endpoint_client

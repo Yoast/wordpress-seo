@@ -86,7 +86,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 		}
 		catch ( Exception $e ) {
 			// Best-effort — log but don't crash cron.
-			$this->logger->warning( 'Yoast MyYoast key rotation failed: ' . $e->getMessage() );
+			$this->logger->warning( 'Yoast MyYoast key rotation failed: {error}', [ 'error' => $e->getMessage() ] );
 		}
 	}
 }

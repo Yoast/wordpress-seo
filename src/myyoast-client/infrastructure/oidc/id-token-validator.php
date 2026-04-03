@@ -7,9 +7,14 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exceptio
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\ID_Token_Validation_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\ID_Token_Validator_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signature_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signer;
+use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Validation_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Validates OIDC ID tokens.
@@ -17,7 +22,8 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
  * Fetches the server's JWKS, verifies the EdDSA signature, and validates
  * required claims (iss, aud, exp, nonce).
  */
-class ID_Token_Validator implements ID_Token_Validator_Interface {
+class ID_Token_Validator implements ID_Token_Validator_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	private const JWKS_TRANSIENT_PREFIX = 'wpseo_myyoast_jwks_';
 	private const JWKS_TTL              = \MONTH_IN_SECONDS;
@@ -105,10 +111,15 @@ class ID_Token_Validator implements ID_Token_Validator_Interface {
 			throw new ID_Token_Validation_Exception( 'No matching key found in JWKS for kid: ' . ( $header['kid'] ?? 'none' ) );
 		}
 
-		// Verify signature.
-		$result = $this->jwt_signer->verify( $id_token, $public_key );
-		if ( $result === false ) {
-			throw new ID_Token_Validation_Exception( 'ID token signature verification failed.' );
+		// Verify signature and time-based claims (exp, nbf, iat).
+		try {
+			$result = $this->jwt_signer->verify( $id_token, $public_key );
+		} catch ( JWT_Signature_Exception $e ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new ID_Token_Validation_Exception( 'ID token signature verification failed: ' . $e->getMessage(), 0, $e );
+		} catch ( JWT_Validation_Exception $e ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+			throw new ID_Token_Validation_Exception( 'ID token rejected: ' . $e->getMessage(), 0, $e );
 		}
 
 		$payload = $result['payload'];
@@ -143,17 +154,6 @@ class ID_Token_Validator implements ID_Token_Validator_Interface {
 			throw new ID_Token_Validation_Exception( 'ID token audience mismatch.' );
 		}
 
-		// Validate expiration (with 60s clock-skew tolerance for server clock being slightly ahead).
-		if ( ( ( $payload['exp'] ?? 0 ) + \MINUTE_IN_SECONDS ) < \time() ) {
-			throw new ID_Token_Validation_Exception( 'ID token has expired.' );
-		}
-
-		// Validate issued-at (must not be unreasonably far in the past).
-		$iat = ( $payload['iat'] ?? 0 );
-		if ( $iat === 0 || $iat < ( \time() - \HOUR_IN_SECONDS ) ) {
-			throw new ID_Token_Validation_Exception( 'ID token iat claim is missing or too old.' );
-		}
-
 		// Validate nonce.
 		if ( ! \hash_equals( $expected_nonce, ( $payload['nonce'] ?? '' ) ) ) {
 			throw new ID_Token_Validation_Exception( 'ID token nonce mismatch.' );
@@ -186,7 +186,7 @@ class ID_Token_Validator implements ID_Token_Validator_Interface {
 		}
 
 		// Kid not found in cache — try refreshing JWKS.
-		$this->logger->debug( 'Key kid=' . $kid . ' not found in cached JWKS, refreshing.' );
+		$this->logger->debug( 'Key kid={kid} not found in cached JWKS, refreshing.', [ 'kid' => $kid ] );
 		\delete_transient( $this->get_jwks_transient_key() );
 		$jwks = $this->fetch_jwks();
 
@@ -228,6 +228,7 @@ class ID_Token_Validator implements ID_Token_Validator_Interface {
 		try {
 			$jwks_uri = $this->discovery_client->get_document()->get_jwks_uri();
 		} catch ( Discovery_Failed_Exception | Server_Capability_Exception $e ) {
+			$this->logger->warning( 'Cannot fetch JWKS: discovery failed: {error}', [ 'error' => $e->getMessage() ] );
 			return null;
 		}
 
@@ -241,11 +242,19 @@ class ID_Token_Validator implements ID_Token_Validator_Interface {
 		);
 
 		if ( $result['status'] !== 200 ) {
+			$this->logger->warning(
+				'JWKS fetch returned HTTP {status} from {url}.',
+				[
+					'status' => $result['status'],
+					'url'    => $jwks_uri,
+				],
+			);
 			return null;
 		}
 
 		$body = $result['body'];
 		if ( ! \is_array( $body ) || empty( $body['keys'] ) ) {
+			$this->logger->warning( 'JWKS response from {url} has no keys.', [ 'url' => $jwks_uri ] );
 			return null;
 		}
 

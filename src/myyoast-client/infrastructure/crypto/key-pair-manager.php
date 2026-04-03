@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto;
 use SodiumException;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
@@ -16,7 +18,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * - 'registration': for private_key_jwt client_assertion signing
  * - 'dpop': for DPoP proof signing
  */
-class Key_Pair_Manager {
+class Key_Pair_Manager implements LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	public const PURPOSE_REGISTRATION = 'registration';
 	public const PURPOSE_DPOP         = 'dpop';
@@ -76,6 +79,13 @@ class Key_Pair_Manager {
 		try {
 			$stored = $this->get_stored_key_pair( $purpose );
 		} catch ( Encryption_Exception $e ) {
+			$this->logger->warning(
+				'Failed to decrypt {purpose} key pair, auto-rotating: {error}',
+				[
+					'purpose' => $purpose,
+					'error'   => $e->getMessage(),
+				],
+			);
 			return $this->rotate_key_pair( $purpose );
 		}
 
@@ -268,6 +278,7 @@ class Key_Pair_Manager {
 	private function generate_and_store_key_pair( string $purpose ): Key_Pair {
 		$key_pair = $this->generate_key_pair();
 		$this->store_key_pair( $purpose, $key_pair );
+		$this->logger->info( 'Generated and stored new {purpose} key pair.', [ 'purpose' => $purpose ] );
 
 		return $key_pair;
 	}

@@ -70,7 +70,7 @@ class MyYoast_Client_Cleanup implements LoggerAwareInterface {
 			$this->client_registration->deregister();
 		}
 		catch ( Exception $e ) {
-			$this->logger->warning( 'MyYoast client deregistration failed during cleanup: ' . $e->getMessage() );
+			$this->logger->warning( 'MyYoast client deregistration failed during cleanup: {error}', [ 'error' => $e->getMessage() ] );
 		}
 
 		$this->user_token_storage->delete_all();

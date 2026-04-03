@@ -144,7 +144,7 @@ final class ID_Token_Validator_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_validate_expired_token() {
+	public function test_validate_expired_token_surfaces_expiry_reason() {
 		$public_key  = \sodium_crypto_sign_publickey( $this->keypair );
 		$private_key = \sodium_crypto_sign_secretkey( $this->keypair );
 		$kid         = 'test-kid';
@@ -625,7 +625,7 @@ final class ID_Token_Validator_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_validate_iat_too_old() {
+	public function test_validate_iat_too_old_surfaces_reason() {
 		$public_key  = \sodium_crypto_sign_publickey( $this->keypair );
 		$private_key = \sodium_crypto_sign_secretkey( $this->keypair );
 		$kid         = 'test-kid';
@@ -664,7 +664,7 @@ final class ID_Token_Validator_Test extends TestCase {
 			->andReturn( $document );
 
 		$this->expectException( ID_Token_Validation_Exception::class );
-		$this->expectExceptionMessage( 'iat claim is missing or too old' );
+		$this->expectExceptionMessage( 'iat claim is too old' );
 		$this->instance->validate( $id_token, 'client-123', 'test-nonce' );
 	}
 
