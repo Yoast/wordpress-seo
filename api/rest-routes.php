@@ -70,14 +70,7 @@ class Rest_Routes {
         $cached_result = get_transient($cache_key);
 
         if (false !== $cached_result) {
-            if (defined('GEO_DEBUG') && GEO_DEBUG) {
-                error_log("GEO Engine: Cache hit for post $post_id");
-            }
             return rest_ensure_response($cached_result);
-        }
-
-        if (defined('GEO_DEBUG') && GEO_DEBUG) {
-            error_log("GEO Engine: Analyzing content for post $post_id");
         }
 
         try {
@@ -98,9 +91,6 @@ class Rest_Routes {
 
             return rest_ensure_response($result);
         } catch (\Exception $e) {
-            if (defined('GEO_DEBUG') && GEO_DEBUG) {
-                error_log("GEO Engine Error: " . $e->getMessage());
-            }
             return new \WP_Error('geo_engine_error', esc_html__('Failed to analyze content.', 'geo-plugin'), ['status' => 500]);
         }
     }

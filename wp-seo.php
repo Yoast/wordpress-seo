@@ -24,8 +24,8 @@ if ( ! defined( 'GEO_PLUGIN_FILE' ) ) {
 	define( 'GEO_PLUGIN_FILE', __FILE__ );
 }
 
-if ( ! defined( 'GEO_DEBUG' ) ) {
-    define( 'GEO_DEBUG', false );
+if ( ! defined( 'GEO_VERSION' ) ) {
+    define( 'GEO_VERSION', '1.0.0' );
 }
 
 // Feature Flags

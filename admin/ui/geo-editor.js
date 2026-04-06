@@ -217,13 +217,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let abortController = new AbortController();
 
     // --- Analysis Logic ---
+    const MAX_CONTENT_LENGTH = 60000;
+
     const analyzeContent = (content) => {
-        if (content === lastContent && cachedResult) {
+        const cleanContent = content.trim();
+
+        if (cleanContent === lastContent && cachedResult) {
             updateUI(cachedResult);
             return;
         }
 
-        lastContent = content;
+        if (cleanContent.length > MAX_CONTENT_LENGTH) {
+            // Prevent huge payloads from crashing the server/browser
+            if (!cachedResult) {
+                suggestionsList.innerHTML = '<li>Content is too long for real-time analysis. Max limit is 60,000 characters.</li>';
+            }
+            return;
+        }
+
+        lastContent = cleanContent;
         loadingIndicator.style.display = 'inline';
 
         // Abort any ongoing request
@@ -238,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'X-WP-Nonce': geoData.nonce
             },
             body: JSON.stringify({
-                content: content,
+                content: cleanContent,
                 post_id: parseInt(geoData.postId, 10)
             }),
             signal: signal
@@ -255,9 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (err.name === 'AbortError') {
                 return; // Ignore aborted requests
             }
-            console.error('GEO Engine Error:', err);
             if (cachedResult) {
-                // Fallback to last known if timeout or API fails, but warn user
+                // Fallback to last known if timeout or API fails to prevent flicker
                 updateUI(cachedResult);
             } else {
                 suggestionsList.innerHTML = '<li>Analysis failed, try again.</li>';
@@ -332,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
             analyzeContent(content);
-        }, 1500);
+        }, 2000); // Strict 2s debounce to prevent multiple calls
     };
 
     // --- Editor Hooks ---
