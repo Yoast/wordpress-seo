@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 Estimated AI Visibility: <strong id="geo-visibility-level">--</strong>
             </div>
 
+            <div id="geo-pro-upsell" style="display: none; font-size: 13px; text-align: center; margin-bottom: 20px;">
+                <a href="https://example.com/upgrade" target="_blank" style="color: #8e24aa; font-weight: 600; text-decoration: none;">Unlock deeper AI optimization with Pro &rarr;</a>
+            </div>
+
             <div class="geo-suggestions-header">Priority Suggestions</div>
             <ul class="geo-suggestions-list" id="geo-suggestions-list">
                 <li>Waiting for content...</li>
@@ -154,6 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
         rewritten += `<h3>Why is ${mainTopic} important?</h3>\n`;
         rewritten += `<p>It provides significant value and structure to the overall concept, allowing engines to parse it efficiently.</p>\n`;
 
+        if (cachedResult && !cachedResult.is_pro) {
+            rewritten += `\n<hr>\n<p><em><a href="https://example.com/upgrade" target="_blank" style="color: #8e24aa;">Upgrade to Pro to rewrite full article.</a></em></p>`;
+        }
+
         return rewritten;
     };
 
@@ -206,6 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    let abortController = new AbortController();
+
     // --- Analysis Logic ---
     const analyzeContent = (content) => {
         if (content === lastContent && cachedResult) {
@@ -216,6 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
         lastContent = content;
         loadingIndicator.style.display = 'inline';
 
+        // Abort any ongoing request
+        abortController.abort();
+        abortController = new AbortController();
+        const signal = abortController.signal;
+
         fetch(geoData.apiUrl, {
             method: 'POST',
             headers: {
@@ -225,7 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({
                 content: content,
                 post_id: parseInt(geoData.postId, 10)
-            })
+            }),
+            signal: signal
         })
         .then(response => response.json())
         .then(data => {
@@ -236,8 +252,16 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUI(data);
         })
         .catch(err => {
+            if (err.name === 'AbortError') {
+                return; // Ignore aborted requests
+            }
             console.error('GEO Engine Error:', err);
-            suggestionsList.innerHTML = '<li>Error loading analysis. Check console for details.</li>';
+            if (cachedResult) {
+                // Fallback to last known if timeout or API fails, but warn user
+                updateUI(cachedResult);
+            } else {
+                suggestionsList.innerHTML = '<li>Analysis failed, try again.</li>';
+            }
         })
         .finally(() => {
             loadingIndicator.style.display = 'none';
@@ -286,6 +310,14 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'geo-perfect';
             li.innerText = "Content structure is optimized!";
             suggestionsList.appendChild(li);
+        }
+
+        // Show Pro Upsell if free
+        const proUpsell = document.getElementById('geo-pro-upsell');
+        if (data.hasOwnProperty('is_pro') && !data.is_pro) {
+            proUpsell.style.display = 'block';
+        } else {
+            proUpsell.style.display = 'none';
         }
 
         // Update AI Answer Preview

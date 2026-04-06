@@ -6,6 +6,7 @@ use GEO\Engine\Entity_Extractor;
 use GEO\Engine\Scoring;
 use GEO\Engine\Suggestions;
 use GEO\Engine\Summarizer;
+use GEO\Services\License_Manager;
 
 class Rest_Routes {
     public function register() {
@@ -80,13 +81,17 @@ class Rest_Routes {
         }
 
         try {
+            $license_manager = new License_Manager();
+            $is_pro = $license_manager->is_pro_active();
+
             $extractor = new Entity_Extractor();
             $scorer = new Scoring();
             $suggester = new Suggestions();
             $summarizer = new Summarizer();
 
-            $engine = new GEO_Engine($extractor, $scorer, $suggester, $summarizer);
+            $engine = new GEO_Engine($extractor, $scorer, $suggester, $summarizer, $is_pro);
             $result = $engine->analyze($content);
+            $result['is_pro'] = $is_pro; // Return license state for frontend handling
 
             // Set transient for 60 seconds
             set_transient($cache_key, $result, 60);

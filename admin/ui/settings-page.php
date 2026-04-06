@@ -63,8 +63,15 @@ class Settings_Page {
 
     public function render_mode_field() {
         $value = get_option('geo_engine_mode', 'local');
-        echo '<label><input type="radio" name="geo_engine_mode" value="local" ' . checked('local', $value, false) . ' /> ' . esc_html__('Local MVP (Fast, no API)', 'geo-plugin') . '</label><br>';
-        echo '<label><input type="radio" name="geo_engine_mode" value="api" ' . checked('api', $value, false) . ' /> ' . esc_html__('SaaS API (Future)', 'geo-plugin') . '</label>';
+        $is_pro = defined('GEO_PRO') && GEO_PRO === true;
+
+        echo '<label><input type="radio" name="geo_engine_mode" value="local" ' . checked('local', $value, false) . ' /> ' . esc_html__('Local Engine (Fast, Free)', 'geo-plugin') . '</label><br>';
+
+        if ($is_pro) {
+            echo '<label><input type="radio" name="geo_engine_mode" value="api" ' . checked('api', $value, false) . ' /> ' . esc_html__('Cloud SaaS API', 'geo-plugin') . '</label>';
+        } else {
+            echo '<label style="color: #8c8f94;"><input type="radio" name="geo_engine_mode" value="api" disabled /> ' . esc_html__('Cloud SaaS API (Pro feature)', 'geo-plugin') . '</label>';
+        }
     }
 
     public function render_api_key_field() {
@@ -102,7 +109,12 @@ class Settings_Page {
         }
         ?>
         <div class="wrap" style="max-width: 600px; background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 20px;">
-            <h1><?php esc_html_e('AI Search Optimization (GEO)', 'geo-plugin'); ?></h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1><?php esc_html_e('AI Search Optimization (GEO)', 'geo-plugin'); ?></h1>
+                <?php if (!defined('GEO_PRO') || GEO_PRO === false) : ?>
+                    <a href="https://example.com/upgrade" target="_blank" class="button button-primary" style="background: #8e24aa; border-color: #8e24aa;"><?php esc_html_e('Upgrade to Pro', 'geo-plugin'); ?></a>
+                <?php endif; ?>
+            </div>
             <p><?php esc_html_e('Prepare your content to rank in AI generated answers like ChatGPT and Google SGE.', 'geo-plugin'); ?></p>
             <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
             <form action="options.php" method="post">

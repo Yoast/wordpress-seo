@@ -28,6 +28,14 @@ if ( ! defined( 'GEO_DEBUG' ) ) {
     define( 'GEO_DEBUG', false );
 }
 
+// Feature Flags
+if ( ! defined( 'GEO_FREE' ) ) {
+    define( 'GEO_FREE', true );
+}
+if ( ! defined( 'GEO_PRO' ) ) {
+    define( 'GEO_PRO', false );
+}
+
 // Load Core Files
 require_once __DIR__ . '/core/seo-engine.php';
 require_once __DIR__ . '/core/schema.php';
@@ -44,6 +52,7 @@ require_once __DIR__ . '/geo/geo-engine.php';
 require_once __DIR__ . '/admin/ui/editor-panel.php';
 require_once __DIR__ . '/admin/ui/settings-page.php';
 require_once __DIR__ . '/api/rest-routes.php';
+require_once __DIR__ . '/services/license-manager.php';
 
 // Boot the plugin
 add_action( 'plugins_loaded', function() {
