@@ -544,7 +544,18 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return void
 	 */
 	private static function save_tax_meta( $tax_meta ) {
-		update_option( self::$name, $tax_meta );
+		/**
+		 * Filter to control the autoload behavior of the wpseo_taxonomy_meta option.
+		 *
+		 * Sites with many taxonomy terms may have a large wpseo_taxonomy_meta option
+		 * that can negatively impact performance when autoloaded on every request.
+		 * Return false to disable autoloading.
+		 *
+		 * @param bool $autoload Whether to autoload the option. Default true.
+		 */
+		$autoload = (bool) apply_filters( 'Yoast\WP\SEO\taxonomy_meta_option_autoload', true );
+
+		update_option( self::$name, $tax_meta, $autoload );
 	}
 
 	/**
