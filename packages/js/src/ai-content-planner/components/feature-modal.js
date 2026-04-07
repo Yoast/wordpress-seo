@@ -1,5 +1,6 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
+import { Transition } from "@headlessui/react";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
@@ -22,8 +23,72 @@ const getPanelStyles = ( status ) => ( {
 } );
 
 /**
- * The modal that orchestrates transitions between the approve, content suggestions,
- * content outline, and replace content confirmation views.
+ * Returns the enter transition props for the suggestions panel.
+ * Applies a cross-fade when coming from the approve modal, instant otherwise.
+ *
+ * @param {boolean} fromApproveModal Whether the suggestions are entering from the approve modal.
+ * @returns {Object} The enter, enterFrom, and enterTo transition class strings.
+ */
+const getSuggestionsEnterTransition = ( fromApproveModal ) => {
+	if ( fromApproveModal ) {
+		return {
+			enter: "yst-transition-opacity yst-duration-300 yst-delay-300",
+			enterFrom: "yst-opacity-0",
+			enterTo: "yst-opacity-100",
+		};
+	}
+	return { enter: "", enterFrom: "", enterTo: "" };
+};
+
+/**
+ * Renders the suggestions modal, with a cross-fade transition when coming from
+ * the approve modal and an instant render otherwise.
+ *
+ * @param {boolean}  isVisible            Whether the suggestions should be shown.
+ * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
+ * @param {string}   status           The current modal status.
+ * @param {boolean}  isPremium        Whether the user has a premium subscription.
+ * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
+ *
+ * @returns {JSX.Element|null} The suggestions panel.
+ */
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
+	if ( cameFromApproveModal ) {
+		const transition = getSuggestionsEnterTransition( true );
+		return (
+			<Transition
+				as={ Fragment }
+				show={ isVisible }
+				enter={ transition.enter }
+				enterFrom={ transition.enterFrom }
+				enterTo={ transition.enterTo }
+			>
+				<div>
+					<ContentSuggestionsModal
+						status={ status }
+						isPremium={ isPremium }
+						onSuggestionClick={ onSuggestionClick }
+					/>
+				</div>
+			</Transition>
+		);
+	}
+	if ( ! isVisible ) {
+		return null;
+	}
+	return (
+		<ContentSuggestionsModal
+			status={ status }
+			isPremium={ isPremium }
+			onSuggestionClick={ onSuggestionClick }
+			skipTransitions={ true }
+		/>
+	);
+};
+
+/**
+ * The modal that orchestrates the flow between the approve, content suggestions,
+ * and content outline views.
  *
  * @param {boolean}  isOpen        Whether the modal is open or not.
  * @param {function} onClose       The function to call when the modal is closed.
@@ -38,13 +103,15 @@ const getPanelStyles = ( status ) => ( {
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink, onAddOutline = noop } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
-	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
+	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 
 	const handleGetSuggestionsClick = useCallback( () => {
+		setCameFromApproveModal( true );
 		setStatus( "content-suggestions-loading" );
 	}, [] );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
+		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
 		setStatus( "content-outline" );
 	}, [] );
@@ -82,10 +149,12 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	useEffect( () => {
 		if ( ! isOpen ) {
 			setStatus( "idle" );
+			setCameFromApproveModal( false );
+			setSelectedSuggestion( null );
 		}
 	}, [ isOpen ] );
 
-	const { outlineStyle, replaceStyle } = getPanelStyles( status );
+	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -110,71 +179,38 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 						/>
 					</div>
 				</Transition>
-				{ /*
-				 * yst-delay-300 matches the approve modal's leave duration (yst-duration-300)
-				 * so the suggestions only fade in after the approve panel has faded out.
-				 */ }
-				<Transition
-					as={ Fragment }
-					show={ status === "content-suggestions-success" || status === "content-suggestions-loading" }
-					enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					<div>
-						<ContentSuggestionsModal
-							status={ status }
-							isPremium={ isPremium }
-							onSuggestionClick={ handleSuggestionClick }
-						/>
-					</div>
-				</Transition>
-				{ /*
-				 * Once the outline has been visited, keep both outline and confirmation panels
-				 * mounted and toggle via display:none to avoid a one-frame empty container
-				 * between panel swaps.
-				 */ }
-				{ selectedSuggestion && (
-					<div style={ outlineStyle }>
-						<ContentOutlineModal
-							isActive={ status === "content-outline" }
-							onBack={ handleBackToSuggestions }
-							onAddOutline={ handleRequestAddOutline }
-							sparksLimit={ 10 }
-							sparksUsage={ 1 }
-							category="WordPress"
-							suggestion={ {
-								intent: selectedSuggestion.intent,
-								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-								description: selectedSuggestion.description,
-								focusKeyphrase: "Guide to set up WordPress blog",
-								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-								structure: [
-									{ level: "H2", title: "Introduction" },
-									{ level: "H2", title: "Why This Matters" },
-									{ level: "H2", title: "Step-by-Step Guide" },
-									{ level: "H2", title: "Common Mistakes to Avoid" },
-									{ level: "H2", title: "Best Practices" },
-									{ level: "H2", title: "Conclusion" },
-									{ level: "FAQ", title: "FAQ" },
-								],
-							} }
-						/>
-					</div>
-				) }
-				{ hasVisitedReplace && (
-					<div style={ replaceStyle }>
-						<div className="yst-flex yst-items-center yst-justify-center">
-							<ReplaceContentModal
-								isActive={ status === "replace-content" }
-								onClose={ handleCancelReplace }
-								onConfirm={ handleConfirmReplace }
-							/>
-						</div>
-					</div>
+				<SuggestionsPanel
+					isVisible={ isSuggestionsVisible }
+					cameFromApproveModal={ cameFromApproveModal }
+					status={ status }
+					isPremium={ isPremium }
+					onSuggestionClick={ handleSuggestionClick }
+				/>
+				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
+				{ status === "content-outline" && (
+					<ContentOutlineModal
+						onBack={ handleBackToSuggestions }
+						onAddOutline={ onAddOutline }
+						sparksLimit={ 10 }
+						sparksUsage={ 1 }
+						category="WordPress"
+						suggestion={ {
+							intent: selectedSuggestion.intent,
+							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+							description: selectedSuggestion.description,
+							focusKeyphrase: "Guide to set up WordPress blog",
+							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+							structure: [
+								{ level: "H2", title: "Introduction" },
+								{ level: "H2", title: "Why This Matters" },
+								{ level: "H2", title: "Step-by-Step Guide" },
+								{ level: "H2", title: "Common Mistakes to Avoid" },
+								{ level: "H2", title: "Best Practices" },
+								{ level: "H2", title: "Conclusion" },
+								{ level: "FAQ", title: "FAQ" },
+							],
+						} }
+					/>
 				) }
 			</div>
 		</Modal>

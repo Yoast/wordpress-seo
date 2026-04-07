@@ -1,31 +1,13 @@
-import { Badge, Button, Modal, SkeletonLoader, Toggle, useSvgAria } from "@yoast/ui-library";
-import { Transition } from "@headlessui/react";
+import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
-import { BookOpenIcon, StarIcon, MapIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
 import { get } from "lodash";
 import classNames from "classnames";
-
-const intentBadge = {
-	informational: {
-		classes: "yst-bg-blue-200 yst-text-blue-900",
-		Icon: BookOpenIcon,
-		label: __( "Informational", "wordpress-seo" ),
-	},
-	navigational: {
-		classes: "yst-bg-violet-200 yst-text-violet-900",
-		Icon: MapIcon,
-		label: __( "Navigational", "wordpress-seo" ),
-	},
-	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		Icon: StarIcon,
-		label: __( "Commercial", "wordpress-seo" ),
-	},
-};
+import { intentBadge } from "./intent-badge";
 
 /**
  * Blue callout box showing the intent badge and reasoning for the suggestion.
@@ -65,7 +47,6 @@ const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
 /**
  * Returns the progress bar color based on the meta description length.
  * Matches the scoring logic and colors from the Yoast snippet editor ProgressBar:
- * - 0 chars: red / $color_bad (#dc3232)
  * - 1–120 chars: orange / $color_ok (#ee7c1b)
  * - 121–156 chars: green / $color_good (#7ad03a)
  * - >156 chars: orange / $color_ok (#ee7c1b)
@@ -74,9 +55,6 @@ const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
  * @returns {string} The hex color for the progress bar.
  */
 const getProgressColor = ( length ) => {
-	if ( length === 0 ) {
-		return "#dc3232";
-	}
 	if ( length > META_DESCRIPTION_RECOMMENDED_MIN_LENGTH && length <= META_DESCRIPTION_MAX_LENGTH ) {
 		return "#7ad03a";
 	}
@@ -100,45 +78,6 @@ const MetaDescriptionProgressBar = ( { value } ) => {
 				className="yst-h-full yst-rounded-full yst-transition-all yst-duration-300"
 				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( length ) } }
 			/>
-		</div>
-	);
-};
-
-/**
- * Editable form field displaying a label and an input or textarea.
- *
- * @param {string}   label            The field label.
- * @param {string}   value            The field value.
- * @param {Function} onChange         Callback when the value changes.
- * @param {boolean}  multiline        Whether to render as a textarea.
- * @param {boolean}  showProgressBar  Whether to show a character length progress bar.
- *
- * @returns {JSX.Element} The FormField component.
- */
-const FormField = ( { label, value, onChange, multiline = false, showProgressBar = false } ) => {
-	const fieldClasses = "yst-w-full yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-px-3 yst-py-2 yst-text-sm yst-text-slate-600 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500";
-	const inputId = `form-field-${ String( label ).toLowerCase().replace( /\s+/g, "-" ) }`;
-
-	return (
-		<div className="yst-flex yst-flex-col yst-gap-2">
-			<label className="yst-font-medium yst-text-sm yst-text-slate-800" htmlFor={ inputId }>{ label }</label>
-			{ multiline ? (
-				<textarea
-					id={ inputId }
-					className={ classNames( fieldClasses, "yst-min-h-20 yst-resize-y" ) }
-					value={ value }
-					onChange={ onChange }
-				/>
-			) : (
-				<input
-					id={ inputId }
-					type="text"
-					className={ fieldClasses }
-					value={ value }
-					onChange={ onChange }
-				/>
-			) }
-			{ showProgressBar && <MetaDescriptionProgressBar value={ value } /> }
 		</div>
 	);
 };
@@ -240,6 +179,42 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
 );
 
 /**
+ * Category toggle section with optional loading skeleton.
+ *
+ * @param {string}   category    The category name.
+ * @param {boolean}  isEnabled   Whether the category toggle is on.
+ * @param {Function} onToggle    Callback when the toggle changes.
+ * @param {boolean}  isLoading   Whether content is still loading.
+ *
+ * @returns {JSX.Element} The CategorySection component.
+ */
+const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
+	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
+		<div className="yst-flex yst-flex-col yst-gap-1.5">
+			<div className="yst-flex yst-items-center yst-justify-between">
+				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+					{ __( "Suggest category", "wordpress-seo" ) }
+				</span>
+				<Toggle
+					id="suggest-category-toggle"
+					checked={ isEnabled }
+					onChange={ onToggle }
+					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
+				/>
+			</div>
+			<p className="yst-text-sm yst-text-slate-600">
+				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
+			</p>
+		</div>
+		{ isEnabled && (
+			isLoading
+				? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
+				: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
+		) }
+	</div>
+);
+
+/**
  * @typedef {Object} StructureItem
  * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
  * @property {string} title The section title.
@@ -259,6 +234,9 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  * Hook that simulates loading state with timers.
  * Set window.contentPlanner.isOutlineLoading = true to force loading state for testing.
  * Starts loading automatically on mount (the Transition unmounts this component when hidden).
+ *
+ * Temporary: replace with real API loading state when the outline endpoint is available.
+ * Remove the forceLoading / window.contentPlanner.isOutlineLoading mechanism and the setTimeout logic.
  *
  * @returns {boolean} Whether the modal content is in a loading state.
  */
@@ -284,6 +262,14 @@ const useSimulatedLoading = () => {
 
 	return forceLoading || status === "loading" || status === "idle";
 };
+
+/**
+ * Assigns stable unique IDs to structure items for use as React keys.
+ *
+ * @param {StructureItem[]} items The structure items.
+ * @returns {Array} Items with `id` property added.
+ */
+const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
 
 /**
  * Content Outline Modal panel component.
@@ -424,74 +410,46 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<hr className="yst-border-slate-200" />
 
 						{ category && (
-							<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
-								<div className="yst-flex yst-flex-col yst-gap-1.5">
-									<div className="yst-flex yst-items-center yst-justify-between">
-										<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-											{ __( "Suggest category", "wordpress-seo" ) }
-										</span>
-										<Toggle
-											id="suggest-category-toggle"
-											checked={ isCategoryEnabled }
-											onChange={ handleCategoryToggle }
-											screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
-										/>
-									</div>
-									<p className="yst-text-sm yst-text-slate-600">
-										{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
-									</p>
-								</div>
-								{ isCategoryEnabled && (
-									isLoading
-										? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
-										: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
-								) }
-							</div>
+							<CategorySection
+								category={ category }
+								isEnabled={ isCategoryEnabled }
+								onToggle={ handleCategoryToggle }
+								isLoading={ isLoading }
+							/>
 						) }
 
-						<Transition
-							show={ isLoading }
-							enter="yst-transition-all yst-duration-300 yst-ease-out"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-all yst-duration-200 yst-ease-in"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
+						{ isLoading && (
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
 								<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
 								<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 							</div>
-						</Transition>
-						<Transition
-							show={ ! isLoading }
-							enter="yst-transition-all yst-duration-300 yst-ease-out"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-all yst-duration-200 yst-ease-in"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
+						) }
+						{ ! isLoading && (
 							<div className="yst-flex yst-flex-col yst-gap-6">
 								<div className="yst-flex yst-flex-col yst-gap-4">
-									<FormField
+									<TextField
+										id="content-outline-focus-keyphrase"
 										label={ __( "Focus Keyphrase", "wordpress-seo" ) }
 										value={ focusKeyphrase }
 										onChange={ handleFocusKeyphraseChange }
 									/>
-									<FormField
+									<TextField
+										id="content-outline-title"
 										label={ __( "Title", "wordpress-seo" ) }
 										value={ title }
 										onChange={ handleTitleChange }
 									/>
-									<FormField
-										label={ __( "Meta description", "wordpress-seo" ) }
-										value={ metaDescription }
-										onChange={ handleMetaDescriptionChange }
-										multiline={ true }
-										showProgressBar={ true }
-									/>
+									<div>
+										<TextareaField
+											id="content-outline-meta-description"
+											label={ __( "Meta description", "wordpress-seo" ) }
+											value={ metaDescription }
+											onChange={ handleMetaDescriptionChange }
+											className="yst-mb-2"
+										/>
+										<MetaDescriptionProgressBar value={ metaDescription } />
+									</div>
 								</div>
 
 								<hr className="yst-border-slate-200" />
@@ -523,7 +481,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 									) ) }
 								</div>
 							</div>
-						</Transition>
+						) }
 					</div>
 					<div
 						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
@@ -535,6 +493,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
+					{ /* Temporary: wire onAddOutline to pass the edited outline state to the parent for post insertion. */ }
 					<Button variant="ai-primary" onClick={ onAddOutline }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
