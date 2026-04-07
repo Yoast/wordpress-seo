@@ -218,8 +218,8 @@ class Token_Manager implements Token_Manager_Interface {
 
 		$this->request_handler->handle( new Request( '/token/request', $request_body ) );
 
-		// Store a hash of the callback URL to detect future site URL changes.
-		\update_option( 'yoast_ai_generator_callback_url_hash', \md5( $callback_url ), true );
+		// Store a per-user hash of the callback URL to detect future site URL changes.
+		$this->user_helper->update_meta( $user->ID, '_yoast_wpseo_ai_generator_callback_url_hash', \md5( $callback_url ) );
 
 		// The callback saves the metadata. Because that is in another session, we need to delete the current cache here. Or we may get the old token.
 		\wp_cache_delete( $user->ID, 'user_meta' );
@@ -315,7 +315,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
 		// If the site URL has changed since callback URLs were registered, delete stale tokens.
-		if ( $this->have_callback_urls_changed() ) {
+		if ( $this->have_callback_urls_changed( $user ) ) {
 			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
 			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
 		}
@@ -350,18 +350,21 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * Detects site URL changes (e.g., migrating from a staging URL to a production domain)
 	 * that would leave stale callback URLs registered with the Yoast AI service.
-	 * Uses a hash so the stored value is immune to wp search-replace operations.
+	 * Uses a per-user hash so each user independently detects the change and re-registers.
+	 * The hash is immune to wp search-replace operations.
 	 *
 	 * When no hash is stored (first run after upgrade), returns true to force a fresh
 	 * token_request(). This ensures existing sites with stale callback URLs self-heal
 	 * without manual intervention.
 	 *
+	 * @param WP_User $user The current user.
+	 *
 	 * @return bool Whether the callback URLs may have changed.
 	 */
-	private function have_callback_urls_changed(): bool {
-		$registered_hash = \get_option( 'yoast_ai_generator_callback_url_hash', '' );
+	private function have_callback_urls_changed( WP_User $user ): bool {
+		$registered_hash = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_callback_url_hash', true );
 
-		if ( $registered_hash === '' ) {
+		if ( ! \is_string( $registered_hash ) || $registered_hash === '' ) {
 			return true;
 		}
 

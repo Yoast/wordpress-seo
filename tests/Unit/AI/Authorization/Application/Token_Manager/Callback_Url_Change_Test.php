@@ -40,10 +40,10 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$code              = 'test-code-verifier';
 		$created_at        = 1_640_995_200;
 
-		// The stored hash differs from the current callback URL hash.
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'yoast_ai_generator_callback_url_hash', '' )
-			->once()
+		// The stored per-user hash differs from the current callback URL hash.
+		$this->user_helper
+			->shouldReceive( 'get_meta' )
+			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', true )
 			->andReturn( $old_callback_hash );
 
 		$this->urls
@@ -108,13 +108,11 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// Capture the update_option call to verify the hash is stored.
-		$stored_option = [];
-		Monkey\Functions\when( 'update_option' )->alias(
-			static function () use ( &$stored_option ) {
-				$stored_option = \func_get_args();
-			},
-		);
+		// The new callback URL hash should be stored per-user.
+		$this->user_helper
+			->expects( 'update_meta' )
+			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', \md5( $new_callback_url ) )
+			->once();
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
@@ -129,8 +127,6 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$result = $this->instance->get_or_request_access_token( $user );
 
 		$this->assertEquals( $new_access_jwt, $result );
-		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
-		$this->assertEquals( \md5( $new_callback_url ), $stored_option[1] );
 	}
 
 	/**
@@ -184,10 +180,10 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$code             = 'test-code-verifier';
 		$created_at       = 1_640_995_200;
 
-		// No stored hash — return empty to trigger re-request.
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'yoast_ai_generator_callback_url_hash', '' )
-			->once()
+		// No stored per-user hash — return empty to trigger re-request.
+		$this->user_helper
+			->shouldReceive( 'get_meta' )
+			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', true )
 			->andReturn( '' );
 
 		// Stale tokens should be deleted.
@@ -252,13 +248,11 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// Capture the update_option call to verify the hash is stored.
-		$stored_option = [];
-		Monkey\Functions\when( 'update_option' )->alias(
-			static function () use ( &$stored_option ) {
-				$stored_option = \func_get_args();
-			},
-		);
+		// The new callback URL hash should be stored per-user.
+		$this->user_helper
+			->expects( 'update_meta' )
+			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', \md5( $new_callback_url ) )
+			->once();
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
@@ -273,12 +267,10 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$result = $this->instance->get_or_request_access_token( $user );
 
 		$this->assertEquals( $new_access_jwt, $result );
-		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
-		$this->assertEquals( \md5( $new_callback_url ), $stored_option[1] );
 	}
 
 	/**
-	 * Tests that token_request stores the callback URL hash.
+	 * Tests that token_request stores the callback URL hash per-user.
 	 *
 	 * @return void
 	 */
@@ -336,21 +328,16 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// Capture the update_option call to verify the hash is stored.
-		$stored_option = [];
-		Monkey\Functions\when( 'update_option' )->alias(
-			static function () use ( &$stored_option ) {
-				$stored_option = \func_get_args();
-			},
-		);
+		// Verify the per-user hash is stored after successful token request.
+		$this->user_helper
+			->expects( 'update_meta' )
+			->with( 123, '_yoast_wpseo_ai_generator_callback_url_hash', \md5( $callback_url ) )
+			->once();
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
 			->once();
 
 		$this->instance->token_request( $user );
-
-		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
-		$this->assertEquals( \md5( $callback_url ), $stored_option[1] );
 	}
 }
