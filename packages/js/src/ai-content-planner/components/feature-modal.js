@@ -1,6 +1,5 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
-import { Transition } from "@headlessui/react";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
@@ -88,7 +87,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
- * and content outline views.
+ * content outline, and replace content confirmation views.
  *
  * @param {boolean}  isOpen        Whether the modal is open or not.
  * @param {function} onClose       The function to call when the modal is closed.
@@ -104,6 +103,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
+	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
@@ -151,10 +151,12 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 			setStatus( "idle" );
 			setCameFromApproveModal( false );
 			setSelectedSuggestion( null );
+			setHasVisitedReplace( false );
 		}
 	}, [ isOpen ] );
 
 	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -186,31 +188,50 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
+				{ /*
+				 * Once the outline has been visited, keep both outline and confirmation panels
+				 * mounted and toggle via display:none to avoid a one-frame empty container
+				 * between panel swaps.
+				 */ }
 				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
-				{ status === "content-outline" && (
-					<ContentOutlineModal
-						onBack={ handleBackToSuggestions }
-						onAddOutline={ onAddOutline }
-						sparksLimit={ 10 }
-						sparksUsage={ 1 }
-						category="WordPress"
-						suggestion={ {
-							intent: selectedSuggestion.intent,
-							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-							description: selectedSuggestion.description,
-							focusKeyphrase: "Guide to set up WordPress blog",
-							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-							structure: [
-								{ level: "H2", title: "Introduction" },
-								{ level: "H2", title: "Why This Matters" },
-								{ level: "H2", title: "Step-by-Step Guide" },
-								{ level: "H2", title: "Common Mistakes to Avoid" },
-								{ level: "H2", title: "Best Practices" },
-								{ level: "H2", title: "Conclusion" },
-								{ level: "FAQ", title: "FAQ" },
-							],
-						} }
-					/>
+				{ selectedSuggestion && (
+					<div style={ outlineStyle }>
+						<ContentOutlineModal
+							isActive={ status === "content-outline" }
+							onBack={ handleBackToSuggestions }
+							onAddOutline={ handleRequestAddOutline }
+							sparksLimit={ 10 }
+							sparksUsage={ 1 }
+							category="WordPress"
+							suggestion={ {
+								intent: selectedSuggestion.intent,
+								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+								description: selectedSuggestion.description,
+								focusKeyphrase: "Guide to set up WordPress blog",
+								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+								structure: [
+									{ level: "H2", title: "Introduction" },
+									{ level: "H2", title: "Why This Matters" },
+									{ level: "H2", title: "Step-by-Step Guide" },
+									{ level: "H2", title: "Common Mistakes to Avoid" },
+									{ level: "H2", title: "Best Practices" },
+									{ level: "H2", title: "Conclusion" },
+									{ level: "FAQ", title: "FAQ" },
+								],
+							} }
+						/>
+					</div>
+				) }
+				{ hasVisitedReplace && (
+					<div style={ replaceStyle }>
+						<div className="yst-flex yst-items-center yst-justify-center">
+							<ReplaceContentModal
+								isActive={ status === "replace-content" }
+								onClose={ handleCancelReplace }
+								onConfirm={ handleConfirmReplace }
+							/>
+						</div>
+					</div>
 				) }
 			</div>
 		</Modal>

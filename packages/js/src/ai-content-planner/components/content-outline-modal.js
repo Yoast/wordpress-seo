@@ -284,14 +284,6 @@ const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-/**
- * Assigns stable unique IDs to structure items for use as React keys.
- *
- * @param {StructureItem[]} items The structure items.
- * @returns {Array} Items with `id` property added.
- */
-const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
-
 export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive } ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
