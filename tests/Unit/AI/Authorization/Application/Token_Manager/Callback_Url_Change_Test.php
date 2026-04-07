@@ -33,12 +33,12 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$user->ID         = 123;
 		$user->user_email = 'test@example.com';
 
-		$new_access_jwt       = 'new-access-token';
-		$new_callback_url     = 'https://example.com/wp-json/yoast/v1/ai_generator/callback';
-		$old_callback_hash    = \md5( 'https://old-staging.example.com/wp-json/yoast/v1/ai_generator/callback' );
-		$code_verifier        = Mockery::mock( Code_Verifier::class );
-		$code                 = 'test-code-verifier';
-		$created_at           = 1_640_995_200;
+		$new_access_jwt    = 'new-access-token';
+		$new_callback_url  = 'https://example.com/wp-json/yoast/v1/ai_generator/callback';
+		$old_callback_hash = \md5( 'https://old-staging.example.com/wp-json/yoast/v1/ai_generator/callback' );
+		$code_verifier     = Mockery::mock( Code_Verifier::class );
+		$code              = 'test-code-verifier';
+		$created_at        = 1_640_995_200;
 
 		// The stored hash differs from the current callback URL hash.
 		Monkey\Functions\expect( 'get_option' )
