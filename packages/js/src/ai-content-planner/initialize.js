@@ -14,7 +14,7 @@ import "./block";
  * @param {Function} insertBlock The block editor insertBlock dispatch function.
  * @returns {boolean} Whether the banner insertion is complete.
  */
-function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
+export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 	const hasBanner = blocks.some( b => b.name === "yoast/content-planner-banner" );
 	if ( hasBanner ) {
 		return true;
@@ -46,7 +46,7 @@ function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
  *
  * @returns {null} Renders nothing.
  */
-const ContentPlannerEditorPlugin = () => {
+export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
 	const { isNewPost, postType, blocks } = useSelect( select => ( {
