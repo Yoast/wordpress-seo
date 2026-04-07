@@ -113,7 +113,7 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		Monkey\Functions\when( 'update_option' )->alias(
 			static function () use ( &$stored_option ) {
 				$stored_option = \func_get_args();
-			}
+			},
 		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
@@ -257,7 +257,7 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		Monkey\Functions\when( 'update_option' )->alias(
 			static function () use ( &$stored_option ) {
 				$stored_option = \func_get_args();
-			}
+			},
 		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
@@ -341,7 +341,7 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		Monkey\Functions\when( 'update_option' )->alias(
 			static function () use ( &$stored_option ) {
 				$stored_option = \func_get_args();
-			}
+			},
 		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
