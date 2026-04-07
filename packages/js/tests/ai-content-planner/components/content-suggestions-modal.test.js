@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, within, act } from "@testing-library/react";
+import { useSelect } from "@wordpress/data";
 import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
@@ -6,6 +7,71 @@ const mockUsageCounter = jest.fn( () => null );
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
+
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn(),
+	useDispatch: jest.fn(),
+	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
+		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
+		{}
+	),
+	createReduxStore: jest.fn(),
+	register: jest.fn(),
+} ) );
+
+const mockSuggestions = [
+	{
+		intent: "informational",
+		title: "How to train your dog",
+		description: "Tips and tricks on how to train your dog effectively.",
+	},
+	{
+		intent: "navigational",
+		title: "Best dog training schools in New York",
+		description: "A list of the best dog training schools in New York.",
+	},
+	{
+		intent: "commercial",
+		title: "Top 10 dog training tools",
+		description: "A review of the top 10 dog training tools on the market.",
+	},
+	{
+		intent: "informational",
+		title: "How to groom your dog",
+		description: "Step-by-step guide on how to groom your dog at home.",
+	},
+	{
+		intent: "navigational",
+		title: "Dog parks in Los Angeles",
+		description: "Find the best dog parks in Los Angeles for your furry friend.",
+	},
+	{
+		intent: "commercial",
+		title: "Best dog food brands",
+		description: "An overview of the best dog food brands for a healthy diet.",
+	},
+];
+
+const setupMocks = ( { suggestions = mockSuggestions } = {} ) => {
+	useSelect.mockImplementation( ( selector ) => {
+		if ( typeof selector !== "function" ) {
+			return {};
+		}
+
+		const postPlannerStore = {
+			selectSuggestions: () => suggestions,
+		};
+
+		const select = ( storeName ) => {
+			if ( storeName === "yoast-seo/post-planner" ) {
+				return postPlannerStore;
+			}
+			return {};
+		};
+
+		return selector( select );
+	} );
+};
 
 const renderLoadingModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
@@ -27,6 +93,7 @@ describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
 		jest.useFakeTimers();
+		setupMocks();
 	} );
 
 	afterEach( () => {
@@ -115,7 +182,7 @@ describe( "ContentSuggestionsModal", () => {
 			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "renders all suggestions", () => {
+		it( "renders all suggestions from the store", () => {
 			renderSuccessModal();
 			expect( screen.getByText( "How to train your dog" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Best dog training schools in New York" ) ).toBeInTheDocument();
@@ -143,6 +210,12 @@ describe( "ContentSuggestionsModal", () => {
 		it( "renders commercial intent badges", () => {
 			renderSuccessModal();
 			expect( screen.getAllByText( "Commercial" ) ).toHaveLength( 2 );
+		} );
+
+		it( "renders no suggestion buttons when store has no suggestions", () => {
+			setupMocks( { suggestions: [] } );
+			renderSuccessModal();
+			expect( screen.queryByText( "How to train your dog" ) ).not.toBeInTheDocument();
 		} );
 	} );
 

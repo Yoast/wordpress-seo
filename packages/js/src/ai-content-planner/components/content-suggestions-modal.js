@@ -7,7 +7,9 @@ import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
 import { Fragment, useRef, useEffect, useState } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { Transition } from "@headlessui/react";
+import { STORE_NAME } from "../store";
 
 const intentBadge = {
 	informational: {
@@ -27,39 +29,6 @@ const intentBadge = {
 	},
 };
 
-// Placeholder suggestions — will be replaced with real API data in a future iteration.
-const suggestions = [
-	{
-		intent: "informational",
-		title: "How to train your dog",
-		description: "Tips and tricks on how to train your dog effectively.",
-	},
-	{
-		intent: "navigational",
-		title: "Best dog training schools in New York",
-		description: "A list of the best dog training schools in New York.",
-	},
-	{
-		intent: "commercial",
-		title: "Top 10 dog training tools",
-		description: "A review of the top 10 dog training tools on the market.",
-	},
-	{
-		intent: "informational",
-		title: "How to groom your dog",
-		description: "Step-by-step guide on how to groom your dog at home.",
-	},
-	{
-		intent: "navigational",
-		title: "Dog parks in Los Angeles",
-		description: "Find the best dog parks in Los Angeles for your furry friend.",
-	},
-	{
-		intent: "commercial",
-		title: "Best dog food brands",
-		description: "An overview of the best dog food brands for a healthy diet.",
-	},
-];
 
 /**
  * Suggestion button component.
@@ -155,6 +124,8 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 	const closeButtonRef = useRef( null );
 	const [ announceLoading, setAnnounceLoading ] = useState( false );
 
+	const suggestions = useSelect( ( select ) => select( STORE_NAME ).selectSuggestions(), [] );
+
 	useEffect( () => {
 		if ( status === "content-suggestions-loading" ) {
 			closeButtonRef.current?.focus();
@@ -214,9 +185,9 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 							<div>
 								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
 								{ /* onClick is a placeholder — will be wired to real handler in a future iteration. */ }
-								{ suggestions.map( ( suggestion ) => (
+								{ suggestions.map( ( suggestion, index ) => (
 									<SuggestionButton
-										key={ suggestion.title }
+										key={ index }
 										{ ...suggestion }
 										onClick={ noop }
 									/>

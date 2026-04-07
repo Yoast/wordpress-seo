@@ -1,8 +1,12 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
+import { useSelect, useDispatch } from "@wordpress/data";
+import { get } from "lodash";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { Transition } from "@headlessui/react";
+import { STORE_NAME } from "../store";
+import { removesLocaleVariantSuffixes } from "../../ai-generator/helpers/fetch-suggestions";
 
 /**
  * The modal that is shown when the user clicks the "Get content suggestions" button.
@@ -16,27 +20,59 @@ import { Transition } from "@headlessui/react";
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink } ) => {
-	const [ status, setStatus ] = useState( null );
+	const [ uiStatus, setUiStatus ] = useState( null );
+
+	const { fetchContentPlannerSuggestions } = useDispatch( STORE_NAME );
+
+	const suggestionsStatus = useSelect( ( select ) => select( STORE_NAME ).selectSuggestionsStatus(), [] );
+
+	const { postType, contentLocale, isBlockEditor, isElementorEditor } = useSelect( ( select ) => ( {
+		postType: select( "yoast-seo/editor" ).getPostType(),
+		contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
+		isBlockEditor: select( "yoast-seo/editor" ).getIsBlockEditor(),
+		isElementorEditor: select( "yoast-seo/editor" ).getIsElementorEditor(),
+	} ), [] );
 
 	const handleGetSuggestionsClick = useCallback( () => {
-		setStatus( "content-suggestions-loading" );
-	}, [] );
+		// Determine the current editor type.
+		let editor;
+		if ( isElementorEditor ) {
+			editor = "elementor";
+		} else if ( isBlockEditor ) {
+			editor = "gutenberg";
+		} else {
+			editor = "classic";
+		}
 
+		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
+
+		// Read the endpoint lazily from the window global. The ai-generator script localizes
+		// wpseoAiGenerator independently, so it may not be available at store creation time.
+		const endpoint = get( window, "wpseoAiGenerator.endpoints.contentPlanner", "" );
+
+		fetchContentPlannerSuggestions( { endpoint, postType, language, editor } );
+	}, [ postType, contentLocale, isBlockEditor, isElementorEditor, fetchContentPlannerSuggestions ] );
+
+	// Map store status to UI status for transitions.
 	useEffect( () => {
-		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
-		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( "idle" ), 300 );
+		if ( suggestionsStatus === "loading" ) {
+			setUiStatus( "content-suggestions-loading" );
+		} else if ( suggestionsStatus === "success" ) {
+			setUiStatus( "content-suggestions-success" );
+		}
+	}, [ suggestionsStatus ] );
+
+	// Delay setting the status to "idle" to allow assistive technology to announce the changes.
+	useEffect( () => {
+		if ( uiStatus === null ) {
+			const timer = setTimeout( () => setUiStatus( "idle" ), 300 );
 			return () => clearTimeout( timer );
 		}
-		if ( status === "content-suggestions-loading" ) {
-			const timer = setTimeout( () => setStatus( "content-suggestions-success" ), 5000 );
-			return () => clearTimeout( timer );
-		}
-	}, [ status ] );
+	}, [ uiStatus ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( "idle" );
+			setUiStatus( "idle" );
 		}
 	}, [ isOpen ] );
 
@@ -45,7 +81,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
 					as={ Fragment }
-					show={ status === "idle" }
+					show={ uiStatus === "idle" }
 					enter="yst-transition-opacity yst-duration-300"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
@@ -65,7 +101,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				</Transition>
 				<Transition
 					as={ Fragment }
-					show={ status === "content-suggestions-success" || status === "content-suggestions-loading" }
+					show={ uiStatus === "content-suggestions-success" || uiStatus === "content-suggestions-loading" }
 					enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
@@ -74,7 +110,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					leaveTo="yst-opacity-0"
 				>
 					<div>
-						<ContentSuggestionsModal status={ status } isPremium={ isPremium } />
+						<ContentSuggestionsModal status={ uiStatus } isPremium={ isPremium } />
 					</div>
 				</Transition>
 			</div>

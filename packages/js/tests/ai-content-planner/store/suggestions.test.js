@@ -1,0 +1,263 @@
+import { describe, expect, it } from "@jest/globals";
+import {
+	SUGGESTIONS_NAME,
+	FETCH_SUGGESTIONS_ACTION_NAME,
+	getInitialSuggestionsState,
+	suggestionsSelectors,
+	suggestionsReducer,
+	fetchContentPlannerSuggestions,
+} from "../../../src/ai-content-planner/store/suggestions";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
+
+const ERROR_DEFAULT = {
+	errorCode: null,
+	errorIdentifier: null,
+	errorMessage: null,
+};
+
+// eslint-disable-next-line camelcase -- API field names use snake_case.
+const mockApiSuggestions = [
+	{
+		intent: "informational",
+		title: "How to train your dog",
+		explanation: "A guide to dog training basics.",
+		keyphrase: "dog training",
+		meta_description: "Learn how to train your dog.",
+		category: "pets",
+	},
+	{
+		intent: "commercial",
+		title: "Best dog food brands",
+		explanation: "Top picks for dog food.",
+		keyphrase: "best dog food",
+		meta_description: "Find the best dog food brands.",
+		category: "pets",
+	},
+];
+
+const transformedSuggestions = [
+	{
+		intent: "informational",
+		title: "How to train your dog",
+		description: "A guide to dog training basics.",
+		keyphrase: "dog training",
+		metaDescription: "Learn how to train your dog.",
+		category: "pets",
+	},
+	{
+		intent: "commercial",
+		title: "Best dog food brands",
+		description: "Top picks for dog food.",
+		keyphrase: "best dog food",
+		metaDescription: "Find the best dog food brands.",
+		category: "pets",
+	},
+];
+
+describe( "suggestions store", () => {
+	describe( "getInitialSuggestionsState", () => {
+		it( "should return the initial state", () => {
+			expect( getInitialSuggestionsState() ).toEqual( {
+				status: ASYNC_ACTION_STATUS.idle,
+				suggestions: [],
+				error: ERROR_DEFAULT,
+			} );
+		} );
+	} );
+
+	describe( "reducer", () => {
+		it( "should set status to loading and clear suggestions on request", () => {
+			const previousState = {
+				status: ASYNC_ACTION_STATUS.success,
+				suggestions: transformedSuggestions,
+				error: ERROR_DEFAULT,
+			};
+
+			const result = suggestionsReducer(
+				previousState,
+				{ type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` }
+			);
+
+			expect( result ).toEqual( {
+				status: ASYNC_ACTION_STATUS.loading,
+				suggestions: [],
+				error: ERROR_DEFAULT,
+			} );
+		} );
+
+		it( "should set suggestions and status to success on success", () => {
+			const result = suggestionsReducer(
+				getInitialSuggestionsState(),
+				{
+					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
+					payload: transformedSuggestions,
+				}
+			);
+
+			expect( result ).toEqual( {
+				status: ASYNC_ACTION_STATUS.success,
+				suggestions: transformedSuggestions,
+				error: ERROR_DEFAULT,
+			} );
+		} );
+
+		it( "should set error and status to error on error", () => {
+			const error = {
+				errorCode: 403,
+				errorIdentifier: "forbidden",
+				errorMessage: "Access denied.",
+			};
+
+			const result = suggestionsReducer(
+				getInitialSuggestionsState(),
+				{
+					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+					payload: error,
+				}
+			);
+
+			expect( result ).toEqual( {
+				status: ASYNC_ACTION_STATUS.error,
+				suggestions: [],
+				error: {
+					errorCode: 403,
+					errorIdentifier: "forbidden",
+					errorMessage: "Access denied.",
+				},
+			} );
+		} );
+
+		it( "should default to errorCode 502 when the error payload has no errorCode", () => {
+			const result = suggestionsReducer(
+				getInitialSuggestionsState(),
+				{
+					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+					payload: { errorMessage: "Bad gateway." },
+				}
+			);
+
+			expect( result.error.errorCode ).toBe( 502 );
+		} );
+	} );
+
+	describe( "selectors", () => {
+		it( "should return the suggestions status from state", () => {
+			const state = {
+				[ SUGGESTIONS_NAME ]: {
+					status: ASYNC_ACTION_STATUS.loading,
+					suggestions: [],
+					error: ERROR_DEFAULT,
+				},
+			};
+
+			expect( suggestionsSelectors.selectSuggestionsStatus( state ) ).toBe( ASYNC_ACTION_STATUS.loading );
+		} );
+
+		it( "should return the default status when state is missing", () => {
+			expect( suggestionsSelectors.selectSuggestionsStatus( {} ) ).toBe( ASYNC_ACTION_STATUS.idle );
+		} );
+
+		it( "should return suggestions from state", () => {
+			const state = {
+				[ SUGGESTIONS_NAME ]: {
+					status: ASYNC_ACTION_STATUS.success,
+					suggestions: transformedSuggestions,
+					error: ERROR_DEFAULT,
+				},
+			};
+
+			expect( suggestionsSelectors.selectSuggestions( state ) ).toEqual( transformedSuggestions );
+		} );
+
+		it( "should return the default suggestions when state is missing", () => {
+			expect( suggestionsSelectors.selectSuggestions( {} ) ).toEqual( [] );
+		} );
+
+		it( "should return the error from state", () => {
+			const error = { errorCode: 500, errorIdentifier: null, errorMessage: "Server error." };
+			const state = {
+				[ SUGGESTIONS_NAME ]: {
+					status: ASYNC_ACTION_STATUS.error,
+					suggestions: [],
+					error,
+				},
+			};
+
+			expect( suggestionsSelectors.selectSuggestionsError( state ) ).toEqual( error );
+		} );
+
+		it( "should return the default error when state is missing", () => {
+			expect( suggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
+		} );
+	} );
+
+	describe( "fetchContentPlannerSuggestions", () => {
+		const params = {
+			endpoint: "yoast/v1/ai_content_planner/get_suggestions",
+			postType: "post",
+			language: "en",
+			editor: "gutenberg",
+		};
+
+		it( "should yield a request action, then return a success action with transformed suggestions", () => {
+			const generator = fetchContentPlannerSuggestions( params );
+
+			// First yield: request action.
+			const requestAction = generator.next();
+			expect( requestAction.value ).toEqual( {
+				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`,
+			} );
+
+			// Second yield: control action (triggers apiFetch). Simulate API returning raw data.
+			const controlAction = generator.next( requestAction.value );
+			expect( controlAction.value ).toEqual( {
+				type: FETCH_SUGGESTIONS_ACTION_NAME,
+				payload: params,
+			} );
+
+			// Simulate the API response being returned from the control.
+			const result = generator.next( { suggestions: mockApiSuggestions } );
+			expect( result.value ).toEqual( {
+				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
+				payload: transformedSuggestions,
+			} );
+			expect( result.done ).toBe( true );
+		} );
+
+		it( "should return an error action when the API call throws", () => {
+			const generator = fetchContentPlannerSuggestions( params );
+
+			// First yield: request action.
+			generator.next();
+			// Second yield: control action.
+			generator.next();
+
+			// Simulate the API throwing an error.
+			const error = new Error( "Network error" );
+			error.code = 500;
+			const result = generator.throw( error );
+
+			expect( result.value ).toEqual( {
+				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+				payload: error,
+			} );
+			expect( result.done ).toBe( true );
+		} );
+
+		it( "should return an error action when the response has no suggestions array", () => {
+			const generator = fetchContentPlannerSuggestions( params );
+
+			// First yield: request action.
+			generator.next();
+			// Second yield: control action.
+			generator.next();
+
+			// Simulate API returning an invalid response.
+			const result = generator.next( { data: "not an array" } );
+			expect( result.value.type ).toBe( `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }` );
+			expect( result.value.payload ).toBeInstanceOf( Error );
+			expect( result.value.payload.message ).toBe( "Invalid suggestions response: expected an array of suggestions." );
+			expect( result.done ).toBe( true );
+		} );
+	} );
+} );
