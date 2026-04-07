@@ -108,10 +108,13 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// The new callback URL hash should be stored.
-		Monkey\Functions\expect( 'update_option' )
-			->with( 'yoast_ai_generator_callback_url_hash', \md5( $new_callback_url ), true )
-			->once();
+		// Capture the update_option call to verify the hash is stored.
+		$stored_option = [];
+		Monkey\Functions\when( 'update_option' )->alias(
+			static function () use ( &$stored_option ) {
+				$stored_option = \func_get_args();
+			}
+		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
@@ -126,6 +129,8 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$result = $this->instance->get_or_request_access_token( $user );
 
 		$this->assertEquals( $new_access_jwt, $result );
+		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
+		$this->assertEquals( \md5( $new_callback_url ), $stored_option[1] );
 	}
 
 	/**
@@ -136,9 +141,6 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 	public function test_matching_callback_url_hash_does_not_invalidate_tokens() {
 		$user     = Mockery::mock( WP_User::class );
 		$user->ID = 123;
-
-		$callback_url  = 'https://example.com/wp-json/yoast/v1/ai_generator/callback';
-		$callback_hash = \md5( $callback_url );
 
 		// Create a non-expired JWT token.
 		$future_exp = ( \time() + 3600 );
@@ -250,10 +252,13 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// The new callback URL hash should be stored.
-		Monkey\Functions\expect( 'update_option' )
-			->with( 'yoast_ai_generator_callback_url_hash', \md5( $new_callback_url ), true )
-			->once();
+		// Capture the update_option call to verify the hash is stored.
+		$stored_option = [];
+		Monkey\Functions\when( 'update_option' )->alias(
+			static function () use ( &$stored_option ) {
+				$stored_option = \func_get_args();
+			}
+		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
@@ -268,6 +273,8 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 		$result = $this->instance->get_or_request_access_token( $user );
 
 		$this->assertEquals( $new_access_jwt, $result );
+		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
+		$this->assertEquals( \md5( $new_callback_url ), $stored_option[1] );
 	}
 
 	/**
@@ -329,15 +336,21 @@ final class Callback_Url_Change_Test extends Abstract_Token_Manager_Test {
 			->expects( 'handle' )
 			->once();
 
-		// Verify the hash is stored after successful token request.
-		Monkey\Functions\expect( 'update_option' )
-			->with( 'yoast_ai_generator_callback_url_hash', \md5( $callback_url ), true )
-			->once();
+		// Capture the update_option call to verify the hash is stored.
+		$stored_option = [];
+		Monkey\Functions\when( 'update_option' )->alias(
+			static function () use ( &$stored_option ) {
+				$stored_option = \func_get_args();
+			}
+		);
 
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->with( 123, 'user_meta' )
 			->once();
 
 		$this->instance->token_request( $user );
+
+		$this->assertEquals( 'yoast_ai_generator_callback_url_hash', $stored_option[0] );
+		$this->assertEquals( \md5( $callback_url ), $stored_option[1] );
 	}
 }

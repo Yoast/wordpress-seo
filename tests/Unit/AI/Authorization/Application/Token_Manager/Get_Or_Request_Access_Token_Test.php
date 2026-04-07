@@ -101,16 +101,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, $code, $created_at )
 			->once();
 
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
-
 		$this->request_handler
 			->expects( 'handle' )
 			->once();
@@ -181,17 +171,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, $code, $created_at )
 			->once();
 
-		// Mock URLs.
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
-
 		$this->request_handler
 			->expects( 'handle' )
 			->once();
@@ -261,16 +240,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->expects( 'store_code_verifier' )
 			->with( 123, $code, $created_at )
 			->once();
-
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
 
 		$this->request_handler
 			->expects( 'handle' )
@@ -450,16 +419,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, $code, $created_at )
 			->once();
 
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
-
 		$this->request_handler
 			->expects( 'handle' )
 			->once();
@@ -597,16 +556,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->with( 123, $code, $created_at )
 			->once();
 
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
-
 		$this->request_handler
 			->expects( 'handle' )
 			->once()
@@ -668,16 +617,6 @@ final class Get_Or_Request_Access_Token_Test extends Abstract_Token_Manager_Test
 			->expects( 'store_code_verifier' )
 			->with( 123, $code, $created_at )
 			->once();
-
-		$this->urls
-			->expects( 'get_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/callback' );
-
-		$this->urls
-			->expects( 'get_refresh_callback_url' )
-			->once()
-			->andReturn( 'https://example.com/refresh-callback' );
 
 		$this->request_handler
 			->expects( 'handle' )
