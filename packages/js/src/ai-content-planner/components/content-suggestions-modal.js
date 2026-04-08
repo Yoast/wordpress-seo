@@ -1,4 +1,4 @@
-import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+import { Badge, Modal, SkeletonLoader, Tooltip, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -6,7 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
+import { Fragment, useState, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { intentBadge } from "./intent-badge";
 
@@ -42,6 +42,11 @@ const suggestions = [
 		title: "Best dog food brands",
 		description: "An overview of the best dog food brands for a healthy diet.",
 	},
+	{
+		intent: "transactional",
+		title: "Buy dog training courses online",
+		description: "Compare and purchase the best online dog training courses.",
+	},
 ];
 
 /**
@@ -58,13 +63,25 @@ const suggestions = [
  */
 const SuggestionButton = ( { intent, title, description, suggestion, onClick } ) => {
 	const svgAriaProps = useSvgAria();
-	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
+	const badge = intentBadge[ intent ];
+	const Icon = badge ? badge.Icon : BookOpenIcon;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
+	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
+	const handleMouseEnter = useCallback( () => setIsTooltipVisible( true ), [] );
+	const handleMouseLeave = useCallback( () => setIsTooltipVisible( false ), [] );
+	const tooltipId = `suggestion-intent-tooltip-${ intent }-${ title }`;
+
 	return (
 		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
-			{ intentBadge[ intent ] ? (
-				<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", intentBadge[ intent ].classes ) }>
-					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } { ...svgAriaProps } /> { intentBadge[ intent ].label }
+			{ badge ? (
+				<Badge
+					className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", badge.classes ) }
+					aria-describedby={ tooltipId }
+					onMouseEnter={ handleMouseEnter }
+					onMouseLeave={ handleMouseLeave }
+				>
+					<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
+					{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-z-50" position="top-right">{ badge.tooltip }</Tooltip> }
 				</Badge>
 			) : (
 				<Badge>{ intent }</Badge>

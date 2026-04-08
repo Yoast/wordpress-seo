@@ -1,16 +1,50 @@
-import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, Tooltip, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
-import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon } from "@heroicons/react/outline";
 import { get } from "lodash";
 import classNames from "classnames";
 import { intentBadge } from "./intent-badge";
 
 /**
- * Blue callout box showing the intent badge and reasoning for the suggestion.
+ * Intent badge with a hover tooltip describing the intent type.
+ *
+ * @param {Object} badge The badge config from intentBadge mapping.
+ * @param {string} intent The raw intent string (fallback when badge is undefined).
+ *
+ * @returns {JSX.Element} The IntentBadgeWithTooltip component.
+ */
+const IntentBadgeWithTooltip = ( { badge, intent } ) => {
+	const svgAriaProps = useSvgAria();
+	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
+	const handleMouseEnter = useCallback( () => setIsTooltipVisible( true ), [] );
+	const handleMouseLeave = useCallback( () => setIsTooltipVisible( false ), [] );
+	const tooltipId = `intent-tooltip-${ intent }`;
+
+	if ( ! badge ) {
+		return <Badge>{ intent }</Badge>;
+	}
+
+	const { Icon } = badge;
+	return (
+		<Badge
+			className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-text-xs yst-cursor-default", badge.classes ) }
+			aria-describedby={ tooltipId }
+			onMouseEnter={ handleMouseEnter }
+			onMouseLeave={ handleMouseLeave }
+		>
+			<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
+			{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-z-50" position="top-right">{ badge.tooltip }</Tooltip> }
+		</Badge>
+	);
+};
+
+/**
+ * Callout box showing the intent badge and reasoning for the suggestion.
+ * Background and border colors adapt to the intent type.
  *
  * @param {string} intent The intent type (e.g. "informational").
  * @param {string} description The reason for the suggestion.
@@ -19,24 +53,21 @@ import { intentBadge } from "./intent-badge";
  */
 const IntentCallout = ( { intent, description } ) => {
 	const badge = intentBadge[ intent ];
-	const Icon = badge ? badge.Icon : BookOpenIcon;
-	const svgAriaProps = useSvgAria();
+	const calloutClasses = badge ? badge.calloutClasses : "yst-bg-slate-50 yst-border-slate-200";
+	const textClasses = badge ? badge.calloutTextClasses : "yst-text-slate-900";
 
 	return (
-		<div role="note" className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2">
+		<div
+			role="note"
+			className={ classNames( "yst-border yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2", calloutClasses ) }
+		>
 			<div className="yst-flex yst-items-center yst-gap-2">
-				{ badge ? (
-					<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-text-xs", badge.classes ) }>
-						<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
-					</Badge>
-				) : (
-					<Badge>{ intent }</Badge>
-				) }
-				<span className="yst-font-medium yst-text-sm yst-text-blue-900">
+				<IntentBadgeWithTooltip badge={ badge } intent={ intent } />
+				<span className={ classNames( "yst-font-medium yst-text-sm", textClasses ) }>
 					{ __( "Why this content?", "wordpress-seo" ) }
 				</span>
 			</div>
-			<p className="yst-text-sm yst-text-blue-900">{ description }</p>
+			<p className={ classNames( "yst-text-sm", textClasses ) }>{ description }</p>
 		</div>
 	);
 };
@@ -386,13 +417,14 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						/>
 					) }
 				</Modal.Container.Header>
+				<div className="yst-px-6 yst-pt-6">
+					<IntentCallout
+						intent={ suggestion.intent }
+						description={ suggestion.description }
+					/>
+				</div>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
-						<IntentCallout
-							intent={ suggestion.intent }
-							description={ suggestion.description }
-						/>
-
 						<Modal.Description className="yst-text-sm yst-text-slate-600">
 							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 						</Modal.Description>
