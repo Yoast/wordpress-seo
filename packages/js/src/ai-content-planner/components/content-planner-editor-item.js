@@ -17,9 +17,8 @@ import { FeatureModal } from "./feature-modal";
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, isUpsell, upsellLink } ) => {
 	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
 
-	const handleAddOutline = useCallback( () => {
-		closeFeatureModal();
-	}, [ closeFeatureModal ] );
+	// Temporary: will be wired to handleApplyOutline (store-based outline application) once the blocks PR is merged.
+	const handleAddOutline = useCallback( () => {}, [] );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>

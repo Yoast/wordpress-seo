@@ -281,6 +281,7 @@ const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
  * @param {string}             category    Optional. If provided, show the suggest category section.
+ * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */

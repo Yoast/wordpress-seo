@@ -7,13 +7,13 @@ import { Button, Modal, useSvgAria } from "@yoast/ui-library";
  * Confirmation panel shown before replacing post content with the generated outline.
  * Renders inside a parent Modal (managed by FeatureModal).
  *
- * @param {Function} onClose    The function to call when the user cancels (goes back to the outline).
+ * @param {Function} onCancel   The function to call when the user cancels (goes back to the outline).
  * @param {Function} onConfirm  The function to call when the user confirms replacing content.
  * @param {boolean}  isActive   Whether this panel is currently visible (used for focus management).
  *
  * @returns {JSX.Element} The ReplaceContentModal component.
  */
-export const ReplaceContentModal = ( { onClose, onConfirm, isActive } ) => {
+export const ReplaceContentModal = ( { onCancel, onConfirm, isActive } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
@@ -41,7 +41,7 @@ export const ReplaceContentModal = ( { onClose, onConfirm, isActive } ) => {
 				</div>
 			</div>
 			<div className="yst-flex yst-flex-row yst-justify-end yst-gap-3 yst-mt-6">
-				<Button type="button" variant="secondary" onClick={ onClose }>
+				<Button type="button" variant="secondary" onClick={ onCancel }>
 					{ __( "Cancel", "wordpress-seo" ) }
 				</Button>
 				<Button type="button" variant="error" onClick={ onConfirm }>

@@ -192,9 +192,9 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					onSuggestionClick={ handleSuggestionClick }
 				/>
 				{ /*
-				 * Once the outline has been visited, keep both outline and confirmation panels
-				 * mounted and toggle via display:none to avoid a one-frame empty container
-				 * between panel swaps.
+				 * Once the replace confirmation has been visited, keep both outline and
+				 * confirmation panels mounted and toggle via display:none to avoid a
+				 * one-frame empty container between panel swaps.
 				 */ }
 				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
 				{ selectedSuggestion && (
@@ -230,7 +230,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 						<div className="yst-flex yst-items-center yst-justify-center">
 							<ReplaceContentModal
 								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
-								onClose={ handleCancelReplace }
+								onCancel={ handleCancelReplace }
 								onConfirm={ handleConfirmReplace }
 							/>
 						</div>
