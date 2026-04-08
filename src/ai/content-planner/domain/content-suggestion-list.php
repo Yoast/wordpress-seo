@@ -21,7 +21,7 @@ class Content_Suggestion_List {
 	 *
 	 * @return void
 	 */
-	public function add_suggestion( Content_Suggestion $content_suggestion ): void {
+	public function add( Content_Suggestion $content_suggestion ): void {
 		$this->content_suggestions[] = $content_suggestion;
 	}
 

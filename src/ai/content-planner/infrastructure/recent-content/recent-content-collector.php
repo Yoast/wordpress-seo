@@ -92,7 +92,7 @@ class Recent_Content_Collector {
 		$post_list = new Post_List();
 
 		foreach ( $indexables as $indexable ) {
-			$post_list->add_post(
+			$post_list->add(
 				new Post(
 					( $indexable->breadcrumb_title ?? '' ),
 					( $indexable->description ?? '' ),

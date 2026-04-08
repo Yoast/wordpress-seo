@@ -158,7 +158,7 @@ class Content_Suggestion_Command_Handler {
 		}
 		foreach ( $json->choices as $suggestion ) {
 
-			$content_suggestion_list->add_suggestion(
+			$content_suggestion_list->add(
 				new Content_Suggestion(
 					$suggestion->title,
 					$suggestion->intent,
