@@ -6,6 +6,7 @@ import { ContentOutlineModal } from "./content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
+import { FEATURE_MODAL_STATUS } from "../constants";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -17,8 +18,8 @@ const HIDDEN_STYLE = { display: "none" };
  * @returns {Object} Styles for each panel.
  */
 const getPanelStyles = ( status ) => ( {
-	outlineStyle: status === "content-outline" ? null : HIDDEN_STYLE,
-	replaceStyle: status === "replace-content" ? null : HIDDEN_STYLE,
+	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
+	replaceStyle: status === FEATURE_MODAL_STATUS.replaceContent ? null : HIDDEN_STYLE,
 } );
 
 /**
@@ -107,26 +108,26 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( "content-suggestions-loading" );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
 	}, [] );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
-		setStatus( "content-outline" );
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 	}, [] );
 
 	const handleBackToSuggestions = useCallback( () => {
-		setStatus( "content-suggestions-success" );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
 	}, [] );
 
 	const handleRequestAddOutline = useCallback( () => {
 		setHasVisitedReplace( true );
-		setStatus( "replace-content" );
+		setStatus( FEATURE_MODAL_STATUS.replaceContent );
 	}, [] );
 
 	const handleCancelReplace = useCallback( () => {
-		setStatus( "content-outline" );
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 	}, [] );
 
 	const handleConfirmReplace = useCallback( () => {
@@ -137,25 +138,27 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
 		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( "idle" ), 300 );
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
 			return () => clearTimeout( timer );
 		}
-		if ( status === "content-suggestions-loading" ) {
-			const timer = setTimeout( () => setStatus( "content-suggestions-success" ), 5000 );
+		if ( status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ) {
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
 			return () => clearTimeout( timer );
 		}
 	}, [ status ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( "idle" );
+			setStatus( FEATURE_MODAL_STATUS.idle );
 			setCameFromApproveModal( false );
 			setSelectedSuggestion( null );
 			setHasVisitedReplace( false );
 		}
 	}, [ isOpen ] );
 
-	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	const isSuggestionsVisible =
+		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
+		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading;
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
@@ -163,7 +166,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
 					as={ Fragment }
-					show={ status === "idle" }
+					show={ status === FEATURE_MODAL_STATUS.idle }
 					enter="yst-transition-opacity yst-duration-300"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
@@ -197,7 +200,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				{ selectedSuggestion && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
-							isActive={ status === "content-outline" }
+							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
 							onBack={ handleBackToSuggestions }
 							onAddOutline={ handleRequestAddOutline }
 							sparksLimit={ 10 }
@@ -226,7 +229,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					<div style={ replaceStyle }>
 						<div className="yst-flex yst-items-center yst-justify-center">
 							<ReplaceContentModal
-								isActive={ status === "replace-content" }
+								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
 								onClose={ handleCancelReplace }
 								onConfirm={ handleConfirmReplace }
 							/>
