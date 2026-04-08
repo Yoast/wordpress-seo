@@ -42,7 +42,7 @@ final class To_Array_Test extends Abstract_Post_List {
 			'BlogPosting',
 		);
 
-		$this->instance->add_post( $post );
+		$this->instance->add( $post );
 
 		$expected = [
 			[

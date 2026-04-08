@@ -41,7 +41,7 @@ final class To_Array_Test extends Abstract_Content_Suggestion_List {
 			$category,
 		);
 
-		$this->instance->add_suggestion( $suggestion );
+		$this->instance->add( $suggestion );
 
 		$expected = [
 			'suggestions' => [

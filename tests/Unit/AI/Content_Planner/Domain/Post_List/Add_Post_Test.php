@@ -12,7 +12,7 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Post;
  *
  * @group ai-content-planner
  *
- * @covers \Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List::add_post
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List::add
  */
 final class Add_Post_Test extends Abstract_Post_List {
 
@@ -33,7 +33,7 @@ final class Add_Post_Test extends Abstract_Post_List {
 			'BlogPosting',
 		);
 
-		$this->instance->add_post( $post );
+		$this->instance->add( $post );
 
 		$posts = $this->getPropertyValue( $this->instance, 'posts' );
 
