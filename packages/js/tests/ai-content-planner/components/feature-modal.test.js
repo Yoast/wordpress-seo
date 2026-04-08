@@ -8,6 +8,7 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 
 jest.mock( "@wordpress/data", () => ( {
 	useDispatch: jest.fn(),
+	useSelect: jest.fn( () => false ),
 	select: jest.fn(),
 	dispatch: jest.fn(),
 	resolveSelect: jest.fn(),

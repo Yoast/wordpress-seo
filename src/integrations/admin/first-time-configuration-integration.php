@@ -13,7 +13,6 @@ use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
-use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -72,13 +71,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	private $meta_tags_context;
 
 	/**
-	 * The WooCommerce helper.
-	 *
-	 * @var Woocommerce_Helper
-	 */
-	private $woocommerce_helper;
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -95,7 +87,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 * @param Meta_Tags_Context         $meta_tags_context      The meta tags context helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper     The WooCommerce helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -104,8 +95,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper,
-		Meta_Tags_Context $meta_tags_context,
-		Woocommerce_Helper $woocommerce_helper
+		Meta_Tags_Context $meta_tags_context
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
@@ -114,7 +104,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->product_helper         = $product_helper;
 		$this->meta_tags_context      = $meta_tags_context;
-		$this->woocommerce_helper     = $woocommerce_helper;
 	}
 
 	/**
@@ -223,8 +212,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				'otherSocialUrls' => $social_profiles['other_social_urls'],
 			],
 			'isPremium'                  => $this->product_helper->is_premium(),
-			'isWooCommerceActive'        => $this->woocommerce_helper->is_active(),
-			'isWooCommerceSeoActive'     => $this->is_wooseo_active(),
 			'tracking'                   => $this->has_tracking_enabled(),
 			'isTrackingAllowedMultisite' => $this->is_tracking_enabled_multisite(),
 			'isMainSite'                 => $this->is_main_site(),
@@ -235,10 +222,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				'gdpr'                     => $this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				'configIndexables'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
 				'configIndexablesBenefits' => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
-				'indexationLearnMore'      => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-indexation-premium-learn-more' ),
-				'reprWoocommerceLearnMore' => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-representation-wooseo-learn-more' ),
-				'reprLocalLearnMore'       => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-representation-local-learn-more' ),
-				'finishLearnMore'          => $this->shortlinker->build_shortlink( 'https://yoa.st/ftc-finish-premium-learn-more' ),
 			],
 		];
 
@@ -535,15 +518,5 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function can_edit_profile( $person_id ) {
 		return \current_user_can( 'edit_user', $person_id );
-	}
-
-	/**
-	 * Checks if Yoast WooCommerce SEO is active.
-	 *
-	 * @return bool
-	 */
-	private function is_wooseo_active() {
-		$addon_manager = new WPSEO_Addon_Manager();
-		return $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG );
 	}
 }

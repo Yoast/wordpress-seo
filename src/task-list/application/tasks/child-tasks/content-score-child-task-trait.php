@@ -4,10 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks;
 
-use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
-use Yoast\WP\SEO\Task_List\Domain\Exceptions\Incorrect_Child_Trait_Usage_Exception;
-use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Child_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
 
 /**
@@ -15,6 +12,10 @@ use Yoast\WP\SEO\Task_List\Domain\Tasks\Parent_Task_Interface;
  * Provides shared implementations for child tasks that use Content_Item_Score_Data.
  */
 trait Content_Score_Child_Task_Trait {
+
+	use Child_Task_Trait {
+		Child_Task_Trait::__construct as private base_construct;
+	}
 
 	/**
 	 * The content item score data.
@@ -28,28 +29,13 @@ trait Content_Score_Child_Task_Trait {
 	 *
 	 * @param Parent_Task_Interface   $parent_task             The parent task.
 	 * @param Content_Item_Score_Data $content_item_score_data The content item score data.
-	 *
-	 * @throws Incorrect_Child_Trait_Usage_Exception If the class using this trait is not an Abstract_Child_Task.
 	 */
 	public function __construct(
 		Parent_Task_Interface $parent_task,
 		Content_Item_Score_Data $content_item_score_data
 	) {
-		if ( ! $this instanceof Abstract_Child_Task ) {
-			throw new Incorrect_Child_Trait_Usage_Exception();
-		}
-
-		$this->parent_task             = $parent_task;
+		$this->base_construct( $parent_task, $content_item_score_data );
 		$this->content_item_score_data = $content_item_score_data;
-	}
-
-	/**
-	 * Returns the task ID.
-	 *
-	 * @return string
-	 */
-	public function get_id(): string {
-		return $this->parent_task->get_id() . '-' . $this->content_item_score_data->get_content_id();
 	}
 
 	/**
@@ -75,26 +61,5 @@ trait Content_Score_Child_Task_Trait {
 		}
 
 		return 'medium';
-	}
-
-	/**
-	 * Returns the task's link.
-	 *
-	 * @return string|null
-	 */
-	public function get_link(): ?string {
-		return \get_edit_post_link( $this->content_item_score_data->get_content_id(), '&' );
-	}
-
-	/**
-	 * Returns the task's copy set.
-	 *
-	 * @return Copy_Set
-	 */
-	public function get_copy_set(): Copy_Set {
-		return new Copy_Set(
-			\html_entity_decode( $this->content_item_score_data->get_title(), \ENT_QUOTES, 'UTF-8' ),
-			$this->parent_task->get_copy_set()->get_about(),
-		);
 	}
 }

@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { Button, GradientSparklesIcon, Root } from "@yoast/ui-library";
+import { Button, GradientSparklesIcon, Root, useSvgAria } from "@yoast/ui-library";
 import { XIcon } from "@heroicons/react/solid";
 import { OneSparkNote } from "./one-spark-note";
 
@@ -13,12 +13,13 @@ import { OneSparkNote } from "./one-spark-note";
  * @returns {JSX.Element} The inline banner with the button.
  */
 export const InlineBanner = ( { isPremium, onDismiss } ) => {
-	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w-xl">
+	const ariaProps = useSvgAria();
+	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
-			<GradientSparklesIcon className="yst-h-4 yst-w-4" />
+			<GradientSparklesIcon className="yst-h-4 yst-w-4" { ...ariaProps } />
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>
-			<button type="button" onClick={ onDismiss }>
-				<XIcon className="yst-h-6 yst-w-6 yst-text-slate-400" />
+			<button type="button" onClick={ onDismiss } className="yst-modal__close-button">
+				<XIcon className="yst-h-6 yst-w-6 yst-text-slate-400" { ...ariaProps } />
 				<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
 			</button>
 		</div>
