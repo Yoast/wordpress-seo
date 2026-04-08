@@ -128,8 +128,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param string $user_id The user ID.
 	 *
-	 * @return void
-	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
 	 * @throws Not_Found_Exception Not_Found_Exception.
@@ -138,6 +136,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws RuntimeException Unable to retrieve the access token.
+	 * @return void
 	 */
 	public function token_invalidate( string $user_id ): void {
 		try {
@@ -165,9 +164,19 @@ class Token_Manager implements Token_Manager_Interface {
 			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side.
 		}
 
-		// Delete the stored JWT tokens.
-		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_generator_access_jwt' );
-		$this->user_helper->delete_meta( $user_id, '_yoast_wpseo_ai_generator_refresh_jwt' );
+		$this->clear_tokens( $user_id );
+	}
+
+	/**
+	 * Clears the user meta tokens for a specific user.
+	 *
+	 * @param string $user_id The user id to delete this for.
+	 *
+	 * @return void
+	 */
+	public function clear_tokens( string $user_id ): void {
+		$this->access_token_repository->delete_token( $user_id );
+		$this->refresh_token_repository->delete_token( $user_id );
 	}
 
 	/**
@@ -178,8 +187,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
-	 * @return void
-	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -189,6 +196,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Service_Unavailable_Exception Service_Unavailable_Exception.
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
+	 * @return void
 	 */
 	public function token_request( WP_User $user ): void {
 		// Ensure the user has given consent.
@@ -227,8 +235,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
-	 * @return void
-	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -239,6 +245,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the refresh token.
+	 * @return void
 	 */
 	public function token_refresh( WP_User $user ): void {
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
@@ -294,8 +301,6 @@ class Token_Manager implements Token_Manager_Interface {
 	 *
 	 * @param WP_User $user The WP user.
 	 *
-	 * @return string The access token.
-	 *
 	 * @throws Bad_Request_Exception Bad_Request_Exception.
 	 * @throws Forbidden_Exception Forbidden_Exception.
 	 * @throws Internal_Server_Error_Exception Internal_Server_Error_Exception.
@@ -306,6 +311,7 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Too_Many_Requests_Exception Too_Many_Requests_Exception.
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
+	 * @return string The access token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
