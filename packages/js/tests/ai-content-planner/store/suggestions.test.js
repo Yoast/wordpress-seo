@@ -15,7 +15,7 @@ const ERROR_DEFAULT = {
 	errorMessage: null,
 };
 
-// eslint-disable-next-line camelcase -- API field names use snake_case.
+/* eslint-disable camelcase -- API field names use snake_case. */
 const mockApiSuggestions = [
 	{
 		intent: "informational",
@@ -34,6 +34,7 @@ const mockApiSuggestions = [
 		category: "pets",
 	},
 ];
+/* eslint-enable camelcase */
 
 const transformedSuggestions = [
 	{

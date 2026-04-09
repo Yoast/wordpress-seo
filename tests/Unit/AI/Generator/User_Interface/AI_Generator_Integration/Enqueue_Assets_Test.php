@@ -59,14 +59,17 @@ final class Enqueue_Assets_Test extends Abstract_AI_Generator_Integration_Test {
 			->with( 'ai_free_sparks_started_on', null )
 			->andReturn( \time() );
 
-		$generator_endpoint_list   = Mockery::mock( Endpoint_List::class );
-		$consent_endpoint_list     = Mockery::mock( Endpoint_List::class );
-		$free_sparks_endpoint_list = Mockery::mock( Endpoint_List::class );
+		$generator_endpoint_list       = Mockery::mock( Endpoint_List::class );
+		$consent_endpoint_list         = Mockery::mock( Endpoint_List::class );
+		$free_sparks_endpoint_list     = Mockery::mock( Endpoint_List::class );
+		$content_planner_endpoint_list = Mockery::mock( Endpoint_List::class );
 		$this->generator_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $generator_endpoint_list );
 		$this->consent_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $consent_endpoint_list );
 		$this->free_sparks_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $free_sparks_endpoint_list );
+		$this->content_planner_endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $content_planner_endpoint_list );
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $consent_endpoint_list )->andReturnSelf();
 		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $free_sparks_endpoint_list )->andReturnSelf();
+		$generator_endpoint_list->expects( 'merge_with' )->once()->with( $content_planner_endpoint_list )->andReturnSelf();
 		$generator_endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
 
 		// Enqueueing.

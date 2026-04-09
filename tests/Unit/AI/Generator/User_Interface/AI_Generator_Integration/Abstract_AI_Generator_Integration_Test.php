@@ -8,6 +8,7 @@ use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
+use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Planner_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\User_Interface\Ai_Generator_Integration;
@@ -103,6 +104,13 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	protected $free_sparks_endpoints_repository;
 
 	/**
+	 * Represents the content planner endpoints repository.
+	 *
+	 * @var Mockery\MockInterface|Content_Planner_Endpoints_Repository
+	 */
+	protected $content_planner_endpoints_repository;
+
+	/**
 	 * Sets an instance for test purposes.
 	 *
 	 * @return void
@@ -110,16 +118,17 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->asset_manager                    = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->addon_manager                    = Mockery::mock( WPSEO_Addon_Manager::class );
-		$this->api_client                       = Mockery::mock( API_Client::class );
-		$this->current_page_helper              = Mockery::mock( Current_Page_Helper::class );
-		$this->options_helper                   = Mockery::mock( Options_Helper::class );
-		$this->user_helper                      = Mockery::mock( User_Helper::class );
-		$this->introductions_seen_repository    = Mockery::mock( Introductions_Seen_Repository::class );
-		$this->generator_endpoints_repository   = Mockery::mock( Generator_Endpoints_Repository::class );
-		$this->consent_endpoints_repository     = Mockery::mock( Consent_Endpoints_Repository::class );
-		$this->free_sparks_endpoints_repository = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
+		$this->asset_manager                        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->addon_manager                        = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->api_client                           = Mockery::mock( API_Client::class );
+		$this->current_page_helper                  = Mockery::mock( Current_Page_Helper::class );
+		$this->options_helper                       = Mockery::mock( Options_Helper::class );
+		$this->user_helper                          = Mockery::mock( User_Helper::class );
+		$this->introductions_seen_repository        = Mockery::mock( Introductions_Seen_Repository::class );
+		$this->generator_endpoints_repository       = Mockery::mock( Generator_Endpoints_Repository::class );
+		$this->consent_endpoints_repository         = Mockery::mock( Consent_Endpoints_Repository::class );
+		$this->free_sparks_endpoints_repository     = Mockery::mock( Free_Sparks_Endpoints_Repository::class );
+		$this->content_planner_endpoints_repository = Mockery::mock( Content_Planner_Endpoints_Repository::class );
 
 		$this->instance = new Ai_Generator_Integration(
 			$this->asset_manager,
@@ -132,6 +141,7 @@ abstract class Abstract_AI_Generator_Integration_Test extends TestCase {
 			$this->generator_endpoints_repository,
 			$this->consent_endpoints_repository,
 			$this->free_sparks_endpoints_repository,
+			$this->content_planner_endpoints_repository,
 		);
 	}
 }
