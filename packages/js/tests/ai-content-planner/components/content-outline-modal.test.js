@@ -274,6 +274,19 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
 
+		it( "disables the toggle when loading", () => {
+			renderModal( { category: "WordPress" } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
+			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeDisabled();
+		} );
+
+		it( "enables the toggle after loading completes", () => {
+			renderLoadedModal( { category: "WordPress" } );
+			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeEnabled();
+		} );
+
 		it( "does not show the category badge value when loading", () => {
 			renderModal( { category: "WordPress" } );
 			act( () => {

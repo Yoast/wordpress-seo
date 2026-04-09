@@ -199,6 +199,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 					id="suggest-category-toggle"
 					checked={ isEnabled }
 					onChange={ onToggle }
+					disabled={ isLoading }
 					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
 				/>
 			</div>
