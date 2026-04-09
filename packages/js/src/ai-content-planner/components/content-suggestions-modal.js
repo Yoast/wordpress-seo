@@ -120,6 +120,28 @@ const LoadingModalContent = () => {
 };
 
 /**
+ * The list of content suggestions with a description.
+ *
+ * @param {Object} props The component props.
+ * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
+ *
+ * @returns {JSX.Element} The SuggestionsList component.
+ */
+const SuggestionsList = ( { onSuggestionClick } ) => (
+	<div>
+		<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+		{ suggestions.map( ( suggestion ) => (
+			<SuggestionButton
+				key={ suggestion.title }
+				{ ...suggestion }
+				suggestion={ suggestion }
+				onClick={ onSuggestionClick }
+			/>
+		) ) }
+	</div>
+);
+
+/**
  * @typedef {Object} Suggestion
  * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
  * @property {string} title The title of the suggestion.
@@ -166,19 +188,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 					{ skipTransitions ? (
 						<div aria-live="polite">
 							{ status === "content-suggestions-loading" && <LoadingModalContent /> }
-							{ status === "content-suggestions-success" && (
-								<div>
-									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion ) => (
-										<SuggestionButton
-											key={ suggestion.title }
-											{ ...suggestion }
-											suggestion={ suggestion }
-											onClick={ onSuggestionClick }
-										/>
-									) ) }
-								</div>
-							) }
+							{ status === "content-suggestions-success" && <SuggestionsList onSuggestionClick={ onSuggestionClick } /> }
 						</div>
 					) : (
 						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
@@ -209,17 +219,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 								leaveFrom="yst-opacity-100"
 								leaveTo="yst-opacity-0"
 							>
-								<div>
-									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion ) => (
-										<SuggestionButton
-											key={ suggestion.title }
-											{ ...suggestion }
-											suggestion={ suggestion }
-											onClick={ onSuggestionClick }
-										/>
-									) ) }
-								</div>
+								<div><SuggestionsList onSuggestionClick={ onSuggestionClick } /></div>
 							</Transition>
 						</div>
 					) }
