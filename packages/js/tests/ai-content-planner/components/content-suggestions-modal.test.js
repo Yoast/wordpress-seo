@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, within, act } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import { useSelect } from "@wordpress/data";
 import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
@@ -130,13 +130,10 @@ describe( "ContentSuggestionsModal", () => {
 			expect( onClose ).toHaveBeenCalledTimes( 1 );
 		} );
 
-		it( "announces the loading message via the aria-live region after 100ms", () => {
+		it( "announces the loading message via the aria-live region", () => {
 			renderLoadingModal();
 			const liveRegion = document.querySelector( "[aria-live='polite']" );
 			expect( liveRegion ).not.toBeNull();
-			act( () => {
-				jest.advanceTimersByTime( 100 );
-			} );
 			expect( within( liveRegion ).getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
 		} );
 
@@ -149,24 +146,13 @@ describe( "ContentSuggestionsModal", () => {
 	} );
 
 	describe( "loading state", () => {
-		it( "does not show the loading message before 100ms have passed", () => {
+		it( "shows the loading message immediately", () => {
 			renderLoadingModal();
-			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
-		} );
-
-		it( "shows the loading message after 100ms", () => {
-			renderLoadingModal();
-			act( () => {
-				jest.advanceTimersByTime( 100 );
-			} );
 			expect( screen.getByText( "Analyzing your site content…" ) ).toBeInTheDocument();
 		} );
 
 		it( "does not show the intro text while loading", () => {
 			renderLoadingModal();
-			act( () => {
-				jest.advanceTimersByTime( 100 );
-			} );
 			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
 		} );
 	} );

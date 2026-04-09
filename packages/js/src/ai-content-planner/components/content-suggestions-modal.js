@@ -3,32 +3,14 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { BookOpenIcon, StarIcon, MapIcon } from "@heroicons/react/outline";
+import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment, useRef, useEffect, useState } from "@wordpress/element";
+import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { Transition } from "@headlessui/react";
 import { STORE_NAME } from "../store";
-
-const intentBadge = {
-	informational: {
-		classes: "yst-bg-blue-200 yst-text-blue-900",
-		Icon: BookOpenIcon,
-		label: __( "Informational", "wordpress-seo" ),
-	},
-	navigational: {
-		classes: "yst-bg-violet-200 yst-text-violet-900",
-		Icon: MapIcon,
-		label: __( "Navigational", "wordpress-seo" ),
-	},
-	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		Icon: StarIcon,
-		label: __( "Commercial", "wordpress-seo" ),
-	},
-};
-
+import { intentBadge } from "./intent-badge";
 
 /**
  * Suggestion button component.
@@ -37,15 +19,17 @@ const intentBadge = {
  * @param {string} props.intent The intent of the suggestion.
  * @param {string} props.title The title of the suggestion.
  * @param {string} props.description The description of the suggestion.
+ * @param {object} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
-const SuggestionButton = ( { intent, title, description, onClick } ) => {
+const SuggestionButton = ( { intent, title, description, suggestion, onClick } ) => {
 	const svgAriaProps = useSvgAria();
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
+	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
 	return (
-		<button type="button" onClick={ onClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
+		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
 			{ intentBadge[ intent ] ? (
 				<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", intentBadge[ intent ].classes ) }>
 					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } { ...svgAriaProps } /> { intentBadge[ intent ].label }
@@ -116,23 +100,18 @@ const LoadingModalContent = () => {
  * @param {Object} props The component props.
  * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
+ * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium } ) => {
+export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, skipTransitions = false } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
-	const [ announceLoading, setAnnounceLoading ] = useState( false );
 
 	const suggestions = useSelect( ( select ) => select( STORE_NAME ).selectSuggestions(), [] );
 
 	useEffect( () => {
-		if ( status === "content-suggestions-loading" ) {
-			closeButtonRef.current?.focus();
-			const timer = setTimeout( () => setAnnounceLoading( true ), 100 );
-			return () => clearTimeout( timer );
-		}
-		setAnnounceLoading( false );
+		closeButtonRef.current?.focus();
 	}, [ status ] );
 
 	return (
@@ -154,47 +133,66 @@ export const ContentSuggestionsModal = ( { status, isPremium } ) => {
 					/>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-					{ /* yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade. */ }
-					<div className="yst-relative" aria-live="polite">
-						<Transition
-							as={ Fragment }
-							show={ announceLoading }
-							enter="yst-transition-opacity yst-duration-300"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
-							<div><LoadingModalContent /></div>
-						</Transition>
-						{ /*
-						 * yst-delay-300 matches the approve modal's leave duration (yst-duration-300)
-						 * so the suggestions only fade in after the approve panel has faded out.
-						 */ }
-						<Transition
-							as={ Fragment }
-							show={ status === "content-suggestions-success" }
-							enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-							enterFrom="yst-opacity-0"
-							enterTo="yst-opacity-100"
-							leave="yst-transition-opacity yst-duration-300"
-							leaveFrom="yst-opacity-100"
-							leaveTo="yst-opacity-0"
-						>
-							<div>
-								<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-								{ /* onClick is a placeholder — will be wired to real handler in a future iteration. */ }
-								{ suggestions.map( ( suggestion, index ) => (
-									<SuggestionButton
-										key={ index }
-										{ ...suggestion }
-										onClick={ noop }
-									/>
-								) ) }
-							</div>
-						</Transition>
-					</div>
+					{ skipTransitions ? (
+						<div aria-live="polite">
+							{ status === "content-suggestions-loading" && <LoadingModalContent /> }
+							{ status === "content-suggestions-success" && (
+								<div>
+									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+									{ suggestions.map( ( suggestion ) => (
+										<SuggestionButton
+											key={ suggestion.title }
+											{ ...suggestion }
+											suggestion={ suggestion }
+											onClick={ onSuggestionClick }
+										/>
+									) ) }
+								</div>
+							) }
+						</div>
+					) : (
+						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
+						<div className="yst-relative" aria-live="polite">
+							<Transition
+								as={ Fragment }
+								show={ status === "content-suggestions-loading" }
+								enter="yst-transition-opacity yst-duration-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div><LoadingModalContent /></div>
+							</Transition>
+							{ /*
+							 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
+							 * so the suggestions only fade in after the loading content has faded out.
+							 */ }
+							<Transition
+								as={ Fragment }
+								show={ status === "content-suggestions-success" }
+								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+								enterFrom="yst-opacity-0"
+								enterTo="yst-opacity-100"
+								leave="yst-transition-opacity yst-duration-300"
+								leaveFrom="yst-opacity-100"
+								leaveTo="yst-opacity-0"
+							>
+								<div>
+									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
+									{ suggestions.map( ( suggestion, index ) => (
+										<SuggestionButton
+											key={ index }
+											{ ...suggestion }
+											suggestion={ suggestion }
+											onClick={ onSuggestionClick }
+										/>
+									) ) }
+								</div>
+							</Transition>
+						</div>
+					) }
 				</Modal.Container.Content>
 			</Modal.Container>
 		</Modal.Panel>

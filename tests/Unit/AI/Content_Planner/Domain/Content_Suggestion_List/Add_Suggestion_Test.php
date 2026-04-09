@@ -12,7 +12,7 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
  *
  * @group ai-content-planner
  *
- * @covers \Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List::add_suggestion
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List::add
  */
 final class Add_Suggestion_Test extends Abstract_Content_Suggestion_List {
 
@@ -32,7 +32,7 @@ final class Add_Suggestion_Test extends Abstract_Content_Suggestion_List {
 			$category,
 		);
 
-		$this->instance->add_suggestion( $suggestion );
+		$this->instance->add( $suggestion );
 
 		$suggestions = $this->getPropertyValue( $this->instance, 'content_suggestions' );
 

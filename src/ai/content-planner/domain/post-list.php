@@ -21,7 +21,7 @@ class Post_List {
 	 *
 	 * @return void
 	 */
-	public function add_post( Post $post ): void {
+	public function add( Post $post ): void {
 		$this->posts[] = $post;
 	}
 

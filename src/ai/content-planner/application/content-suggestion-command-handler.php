@@ -14,7 +14,6 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
-use Yoast\WP\SEO\Helpers\User_Helper;
 
 /**
  * Handles the content suggestion command.
@@ -43,13 +42,6 @@ class Content_Suggestion_Command_Handler {
 	private $request_handler;
 
 	/**
-	 * The user helper.
-	 *
-	 * @var User_Helper
-	 */
-	private $user_helper;
-
-	/**
 	 * The consent handler.
 	 *
 	 * @var Consent_Handler
@@ -62,20 +54,17 @@ class Content_Suggestion_Command_Handler {
 	 * @param Recent_Content_Collector $recent_content_collector The recent content collector.
 	 * @param Token_Manager            $token_manager            The token manager.
 	 * @param Request_Handler          $request_handler          The request handler.
-	 * @param User_Helper              $user_helper              The user helper.
 	 * @param Consent_Handler          $consent_handler          The consent handler.
 	 */
 	public function __construct(
 		Recent_Content_Collector $recent_content_collector,
 		Token_Manager $token_manager,
 		Request_Handler $request_handler,
-		User_Helper $user_helper,
 		Consent_Handler $consent_handler
 	) {
 		$this->recent_content_collector = $recent_content_collector;
 		$this->token_manager            = $token_manager;
 		$this->request_handler          = $request_handler;
-		$this->user_helper              = $user_helper;
 		$this->consent_handler          = $consent_handler;
 	}
 
@@ -122,8 +111,7 @@ class Content_Suggestion_Command_Handler {
 			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-suggestions', $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
 			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->user_helper->delete_meta( $command->get_user()->ID, '_yoast_wpseo_ai_generator_access_jwt' );
-			$this->user_helper->delete_meta( $command->get_user()->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
+			$this->token_manager->clear_tokens( $command->get_user() );
 
 			if ( ! $retry_on_unauthorized ) {
 				throw $exception;
@@ -158,7 +146,7 @@ class Content_Suggestion_Command_Handler {
 		}
 		foreach ( $json->choices as $suggestion ) {
 
-			$content_suggestion_list->add_suggestion(
+			$content_suggestion_list->add(
 				new Content_Suggestion(
 					$suggestion->title,
 					$suggestion->intent,
