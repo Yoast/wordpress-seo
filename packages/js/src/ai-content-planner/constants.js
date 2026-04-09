@@ -1,0 +1,12 @@
+/**
+ * The possible statuses for the FeatureModal flow.
+ *
+ * @type {Object<string, string>}
+ */
+export const FEATURE_MODAL_STATUS = {
+	idle: "idle",
+	contentSuggestionsLoading: "content-suggestions-loading",
+	contentSuggestionsSuccess: "content-suggestions-success",
+	contentOutline: "content-outline",
+	replaceContent: "replace-content",
+};

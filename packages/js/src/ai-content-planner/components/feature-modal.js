@@ -1,14 +1,30 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import { useDispatch, select } from "@wordpress/data";
-import { Transition } from "@headlessui/react";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
+import { ReplaceContentModal } from "./replace-content-modal";
+import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { STORE_NAME } from "../store";
+import { FEATURE_MODAL_STATUS } from "../constants";
+
+const HIDDEN_STYLE = { display: "none" };
+
+/**
+ * Returns the display styles for the outline and confirmation panels.
+ * Both are kept mounted and toggled via display:none to avoid layout flash.
+ *
+ * @param {string} status The current modal status.
+ * @returns {Object} Styles for each panel.
+ */
+const getPanelStyles = ( status ) => ( {
+	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
+	replaceStyle: status === FEATURE_MODAL_STATUS.replaceContent ? null : HIDDEN_STYLE,
+} );
 
 /**
  * Returns the enter transition props for the suggestions panel.
@@ -76,7 +92,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
- * and content outline views.
+ * content outline, and replace content confirmation views.
  *
  * @param {boolean}  isOpen        Whether the modal is open or not.
  * @param {function} onClose       The function to call when the modal is closed.
@@ -87,26 +103,28 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  * @param {function} onAddOutline  The function to call when the user adds the outline to the post.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
+
 export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink, onAddOutline = noop } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
+	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const { resetBlocks } = useDispatch( "core/block-editor" );
 	const { getContentOutline } = useDispatch( STORE_NAME );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( "content-suggestions-loading" );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
 	}, [] );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
-		setStatus( "content-outline" );
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 	}, [] );
 
 	const handleBackToSuggestions = useCallback( () => {
-		setStatus( "content-suggestions-success" );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
 	}, [] );
 
 	const handleApplyOutline = useCallback( async() => {
@@ -118,34 +136,55 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		onClose();
 	}, [ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ] );
 
+	const handleRequestAddOutline = useCallback( () => {
+		if ( isEmptyCanvas ) {
+			handleApplyOutline();
+			return;
+		}
+		setHasVisitedReplace( true );
+		setStatus( FEATURE_MODAL_STATUS.replaceContent );
+	}, [ isEmptyCanvas, handleApplyOutline ] );
+
+	const handleCancelReplace = useCallback( () => {
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
+	}, [] );
+
+	const handleConfirmReplace = useCallback( () => {
+		handleApplyOutline();
+	}, [ handleApplyOutline ] );
+
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
 		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( "idle" ), 300 );
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
 			return () => clearTimeout( timer );
 		}
-		if ( status === "content-suggestions-loading" ) {
-			const timer = setTimeout( () => setStatus( "content-suggestions-success" ), 5000 );
+		if ( status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ) {
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
 			return () => clearTimeout( timer );
 		}
 	}, [ status ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( "idle" );
+			setStatus( FEATURE_MODAL_STATUS.idle );
 			setCameFromApproveModal( false );
 			setSelectedSuggestion( null );
+			setHasVisitedReplace( false );
 		}
 	}, [ isOpen ] );
 
-	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	const isSuggestionsVisible =
+		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
+		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading;
+	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
 					as={ Fragment }
-					show={ status === "idle" }
+					show={ status === FEATURE_MODAL_STATUS.idle }
 					enter="yst-transition-opacity yst-duration-300"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
@@ -170,31 +209,50 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
+				{ /*
+				 * Once the replace confirmation has been visited, keep both outline and
+				 * confirmation panels mounted and toggle via display:none to avoid a
+				 * one-frame empty container between panel swaps.
+				 */ }
 				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
-				{ status === "content-outline" && (
-					<ContentOutlineModal
-						onBack={ handleBackToSuggestions }
-						onAddOutline={ handleApplyOutline }
-						sparksLimit={ 10 }
-						sparksUsage={ 1 }
-						category="WordPress"
-						suggestion={ {
-							intent: selectedSuggestion.intent,
-							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-							description: selectedSuggestion.description,
-							focusKeyphrase: "Guide to set up WordPress blog",
-							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-							structure: [
-								{ level: "H2", title: "Introduction" },
-								{ level: "H2", title: "Why This Matters" },
-								{ level: "H2", title: "Step-by-Step Guide" },
-								{ level: "H2", title: "Common Mistakes to Avoid" },
-								{ level: "H2", title: "Best Practices" },
-								{ level: "H2", title: "Conclusion" },
-								{ level: "FAQ", title: "FAQ" },
-							],
-						} }
-					/>
+				{ selectedSuggestion && (
+					<div style={ outlineStyle }>
+						<ContentOutlineModal
+							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
+							onBack={ handleBackToSuggestions }
+							onAddOutline={ handleRequestAddOutline }
+							sparksLimit={ 10 }
+							sparksUsage={ 1 }
+							category="WordPress"
+							suggestion={ {
+								intent: selectedSuggestion.intent,
+								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+								description: selectedSuggestion.description,
+								focusKeyphrase: "Guide to set up WordPress blog",
+								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+								structure: [
+									{ level: "H2", title: "Introduction" },
+									{ level: "H2", title: "Why This Matters" },
+									{ level: "H2", title: "Step-by-Step Guide" },
+									{ level: "H2", title: "Common Mistakes to Avoid" },
+									{ level: "H2", title: "Best Practices" },
+									{ level: "H2", title: "Conclusion" },
+									{ level: "FAQ", title: "FAQ" },
+								],
+							} }
+						/>
+					</div>
+				) }
+				{ hasVisitedReplace && (
+					<div style={ replaceStyle }>
+						<div className="yst-flex yst-items-center yst-justify-center">
+							<ReplaceContentModal
+								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
+								onCancel={ handleCancelReplace }
+								onConfirm={ handleConfirmReplace }
+							/>
+						</div>
+					</div>
 				) }
 			</div>
 		</Modal>
