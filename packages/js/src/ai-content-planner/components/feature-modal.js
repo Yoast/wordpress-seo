@@ -37,36 +37,28 @@ const getSuggestionsEnterTransition = ( fromApproveModal ) => {
  * @returns {JSX.Element|null} The suggestions panel.
  */
 const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
-	if ( cameFromApproveModal ) {
-		const transition = getSuggestionsEnterTransition( true );
-		return (
-			<Transition
-				as={ Fragment }
-				show={ isVisible }
-				enter={ transition.enter }
-				enterFrom={ transition.enterFrom }
-				enterTo={ transition.enterTo }
-			>
-				<div>
-					<ContentSuggestionsModal
-						status={ status }
-						isPremium={ isPremium }
-						onSuggestionClick={ onSuggestionClick }
-					/>
-				</div>
-			</Transition>
-		);
-	}
 	if ( ! isVisible ) {
 		return null;
 	}
+	const transition = getSuggestionsEnterTransition( cameFromApproveModal );
 	return (
-		<ContentSuggestionsModal
-			status={ status }
-			isPremium={ isPremium }
-			onSuggestionClick={ onSuggestionClick }
-			skipTransitions={ true }
-		/>
+		<Transition
+			as={ Fragment }
+			appear={ true }
+			show={ true }
+			enter={ transition.enter }
+			enterFrom={ transition.enterFrom }
+			enterTo={ transition.enterTo }
+		>
+			<div>
+				<ContentSuggestionsModal
+					status={ status }
+					isPremium={ isPremium }
+					onSuggestionClick={ onSuggestionClick }
+					skipTransitions={ ! cameFromApproveModal }
+				/>
+			</div>
+		</Transition>
 	);
 };
 
@@ -100,6 +92,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	}, [] );
 
 	const handleBackToSuggestions = useCallback( () => {
+		setCameFromApproveModal( false );
 		setStatus( "content-suggestions-success" );
 	}, [] );
 
