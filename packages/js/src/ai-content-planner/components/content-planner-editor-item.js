@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { useCallback } from "@wordpress/element";
 import { Button, Root, useToggleState } from "@yoast/ui-library";
 import { FeatureModal } from "./feature-modal";
 
@@ -16,6 +17,9 @@ import { FeatureModal } from "./feature-modal";
 export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, isUpsell, upsellLink } ) => {
 	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
 
+	// Temporary: will be wired to handleApplyOutline (store-based outline application) once the blocks PR is merged.
+	const handleAddOutline = useCallback( () => {}, [] );
+
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
@@ -27,6 +31,8 @@ export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, 
 			isPremium={ isPremium }
 			isUpsell={ isUpsell }
 			upsellLink={ upsellLink }
+			onAddOutline={ handleAddOutline }
 		/>
-	</div></Root>;
+	</div>
+	</Root>;
 };
