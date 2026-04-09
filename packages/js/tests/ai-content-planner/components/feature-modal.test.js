@@ -100,8 +100,8 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
-	it( "transitions to the replace content confirmation when 'Add outline to post' is clicked", () => {
-		renderModal();
+	it( "shows the replace content confirmation when 'Add outline to post' is clicked and canvas is not empty", () => {
+		renderModal( { isEmptyCanvas: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -121,8 +121,33 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
 	} );
 
+	it( "directly applies the outline when 'Add outline to post' is clicked and canvas is empty", async() => {
+		const onAddOutline = jest.fn();
+		const onClose = jest.fn();
+		renderModal( { isEmptyCanvas: true, onAddOutline, onClose } );
+		act( () => {
+			jest.advanceTimersByTime( 300 );
+		} );
+		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		fireEvent.click( screen.getByText( "How to train your dog" ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		await act( async() => {
+			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		} );
+		expect( mockGetContentOutline ).toHaveBeenCalledTimes( 1 );
+		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
+		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
+		expect( onClose ).toHaveBeenCalledTimes( 1 );
+		expect( screen.queryByText( "Replace existing content with this outline?" ) ).not.toBeInTheDocument();
+	} );
+
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal();
+		renderModal( { isEmptyCanvas: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -145,10 +170,10 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
-	it( "calls onAddOutline and onClose when replace is confirmed", () => {
+	it( "applies the outline when replace is confirmed on non-empty canvas", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { onAddOutline, onClose } );
+		renderModal( { isEmptyCanvas: false, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -164,7 +189,11 @@ describe( "FeatureModal", () => {
 		act( () => {
 			jest.advanceTimersByTime( 600 );
 		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Replace content" } ) );
+		await act( async() => {
+			fireEvent.click( screen.getByRole( "button", { name: "Replace content" } ) );
+		} );
+		expect( mockGetContentOutline ).toHaveBeenCalledTimes( 1 );
+		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
 		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
 	} );
