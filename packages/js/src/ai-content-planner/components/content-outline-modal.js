@@ -209,7 +209,9 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 		</div>
 		{ isEnabled && (
 			isLoading
-				? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
+				? <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+					<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
+				</div>
 				: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
 		) }
 	</div>
