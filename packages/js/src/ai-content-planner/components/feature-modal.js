@@ -11,6 +11,17 @@ import { FEATURE_MODAL_STATUS } from "../constants";
 const HIDDEN_STYLE = { display: "none" };
 
 /**
+ * Returns the appropriate handler for adding an outline to the post.
+ * When the canvas is empty, skips the replace confirmation and applies directly.
+ *
+ * @param {boolean}  isEmptyCanvas Whether the post has content or not.
+ * @param {Function} onConfirm     The handler that applies the outline directly.
+ * @param {Function} onRequest     The handler that shows the replace confirmation first.
+ * @returns {Function} The appropriate outline handler.
+ */
+const getOutlineHandler = ( isEmptyCanvas, onConfirm, onRequest ) => isEmptyCanvas ? onConfirm : onRequest;
+
+/**
  * Returns the display styles for the outline and confirmation panels.
  * Both are kept mounted and toggled via display:none to avoid layout flash.
  *
@@ -90,17 +101,27 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  * The modal that orchestrates the flow between the approve, content suggestions,
  * content outline, and replace content confirmation views.
  *
- * @param {boolean}  isOpen        Whether the modal is open or not.
- * @param {function} onClose       The function to call when the modal is closed.
- * @param {boolean}  isEmptyCanvas Whether the post has content or not.
- * @param {boolean}  isPremium     Whether the user has a premium subscription or not.
- * @param {boolean}  isUpsell      Whether the modal is shown as an upsell or not.
- * @param {string}   upsellLink    The link to the upsell page.
- * @param {function} onAddOutline  The function to call when the user adds the outline to the post.
+ * @param {boolean}       isOpen                    Whether the modal is open or not.
+ * @param {function}      onClose                   The function to call when the modal is closed.
+ * @param {boolean}       isEmptyCanvas             Whether the post has content or not.
+ * @param {boolean}       isPremium                 Whether the user has a premium subscription or not.
+ * @param {boolean}       isUpsell                  Whether the modal is shown as an upsell or not.
+ * @param {string}        upsellLink                The link to the upsell page.
+ * @param {function}      onAddOutline              The function to call when the user adds the outline to the post.
+ * @param {string|null}   initialStatus             The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
-export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink, onAddOutline = noop } ) => {
+export const FeatureModal = ( {
+	isOpen,
+	onClose,
+	isEmptyCanvas,
+	isPremium,
+	isUpsell,
+	upsellLink,
+	onAddOutline = noop,
+	initialStatus = null,
+} ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
@@ -149,12 +170,15 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( FEATURE_MODAL_STATUS.idle );
+			setStatus( null );
 			setCameFromApproveModal( false );
 			setSelectedSuggestion( null );
 			setHasVisitedReplace( false );
+			return;
 		}
-	}, [ isOpen ] );
+		setCameFromApproveModal( initialStatus === FEATURE_MODAL_STATUS.contentSuggestionsLoading );
+		setStatus( initialStatus );
+	}, [ isOpen, initialStatus ] );
 
 	const isSuggestionsVisible =
 		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
@@ -202,7 +226,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 						<ContentOutlineModal
 							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
 							onBack={ handleBackToSuggestions }
-							onAddOutline={ handleRequestAddOutline }
+							onAddOutline={ getOutlineHandler( isEmptyCanvas, handleConfirmReplace, handleRequestAddOutline ) }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
 							category="WordPress"
