@@ -1,8 +1,11 @@
 import { createBlock } from "@wordpress/blocks";
-import { useSelect, useDispatch } from "@wordpress/data";
-import { useEffect, useRef } from "@wordpress/element";
+import { useSelect, useDispatch, select as wpSelect } from "@wordpress/data";
+import { useEffect, useRef, useCallback } from "@wordpress/element";
+import { count } from "@wordpress/wordcount";
 import { registerPlugin } from "@wordpress/plugins";
 import { registerStore } from "./store";
+import { FeatureModal } from "./components/feature-modal";
+import { FEATURE_MODAL_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import "./block";
 
 /**
@@ -39,24 +42,45 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 }
 
 /**
+ * Removes the Content Planner Banner block from the editor if present.
+ *
+ * @param {Function} removeBlock The block editor removeBlock dispatch function.
+ * @returns {void}
+ */
+function removeBannerBlock( removeBlock ) {
+	const blocks = wpSelect( "core/block-editor" ).getBlocks();
+	const banner = blocks.find( b => b.name === "yoast/content-planner-banner" );
+	if ( banner ) {
+		removeBlock( banner.clientId );
+	}
+}
+
+/**
  * Editor plugin that auto-inserts the Content Planner Banner block
- * after the first paragraph on new posts.
+ * after the first paragraph on new posts and renders the shared
+ * FeatureModal controlled by the content planner store.
  *
- * Also ensures a paragraph block exists when the canvas is empty,
- * so the banner has a block to follow.
- *
- * @returns {null} Renders nothing.
+ * @returns {JSX.Element|null} The FeatureModal when open, otherwise null.
  */
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks } = useSelect( select => ( {
-		isNewPost: select( "core/editor" ).isEditedPostNew(),
-		postType: select( "core/editor" ).getCurrentPostType(),
-		blocks: select( "core/block-editor" ).getBlocks(),
-	} ), [] );
+	const { isNewPost, postType, blocks, isModalOpen, skipApprove, isPremium, isEmptyCanvas, upsellLink } = useSelect( select => {
+		const content = select( "core/editor" ).getEditedPostContent();
+		return {
+			isNewPost: select( "core/editor" ).isEditedPostNew(),
+			postType: select( "core/editor" ).getCurrentPostType(),
+			blocks: select( "core/block-editor" ).getBlocks(),
+			isModalOpen: select( FEATURE_MODAL_STORE ).selectIsModalOpen(),
+			skipApprove: select( FEATURE_MODAL_STORE ).selectShouldSkipApprove(),
+			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
+			isEmptyCanvas: count( content, "words", {} ) === 0,
+			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/content-planner-approve-modal" ),
+		};
+	}, [] );
 
-	const { insertBlock } = useDispatch( "core/block-editor" );
+	const { insertBlock, removeBlock } = useDispatch( "core/block-editor" );
+	const { closeModal } = useDispatch( FEATURE_MODAL_STORE );
 
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" ) {
@@ -66,7 +90,26 @@ export const ContentPlannerEditorPlugin = () => {
 		hasInserted.current = insertBannerAfterFirstParagraph( blocks, insertBlock );
 	}, [ blocks, isNewPost, postType, insertBlock ] );
 
-	return null;
+	const handleClose = useCallback( () => {
+		closeModal();
+	}, [ closeModal ] );
+
+	// Temporary: will be wired to handleApplyOutline (store-based outline application) once the blocks PR is merged.
+	const handleAddOutline = useCallback( () => {
+		removeBannerBlock( removeBlock );
+	}, [ removeBlock ] );
+
+	return (
+		<FeatureModal
+			isOpen={ isModalOpen }
+			onClose={ handleClose }
+			isEmptyCanvas={ isEmptyCanvas }
+			isPremium={ isPremium }
+			upsellLink={ upsellLink }
+			onAddOutline={ handleAddOutline }
+			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestionsLoading : null }
+		/>
+	);
 };
 
 /**
