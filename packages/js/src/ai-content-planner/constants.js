@@ -1,4 +1,11 @@
 /**
+ * The store name for the content planner UI state.
+ *
+ * @type {string}
+ */
+export const STORE_NAME = "yoast-seo/content-planner";
+
+/**
  * The possible statuses for the FeatureModal flow.
  *
  * @type {Object<string, string>}
