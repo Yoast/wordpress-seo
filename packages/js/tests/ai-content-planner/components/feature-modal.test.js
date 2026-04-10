@@ -6,7 +6,8 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 } ) );
 
 jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn( () => false ),
+	useSelect: jest.fn( () => true ),
+	useDispatch: jest.fn( () => ( {} ) ),
 } ) );
 
 const renderModal = ( props ) => render(

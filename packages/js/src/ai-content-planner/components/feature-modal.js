@@ -1,6 +1,9 @@
 import { Modal } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { ApproveModal } from "./approve-modal";
+import { AiGrantConsent } from "../../shared-admin/components";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
@@ -105,10 +108,30 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
+	const [ isConsentModalOpen, setIsConsentModalOpen ] = useState( false );
+
+	const hasConsent = useSelect(
+		select => select( "yoast-seo/ai-generator" )?.selectHasAiGeneratorConsent() ?? true,
+		[]
+	);
 
 	const handleGetSuggestionsClick = useCallback( () => {
+		if ( ! hasConsent ) {
+			setIsConsentModalOpen( true );
+			return;
+		}
 		setCameFromApproveModal( true );
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
+	}, [ hasConsent ] );
+
+	const handleConsentGranted = useCallback( () => {
+		setIsConsentModalOpen( false );
+		setCameFromApproveModal( true );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
+	}, [] );
+
+	const handleConsentModalClose = useCallback( () => {
+		setIsConsentModalOpen( false );
 	}, [] );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
@@ -153,6 +176,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 			setCameFromApproveModal( false );
 			setSelectedSuggestion( null );
 			setHasVisitedReplace( false );
+			setIsConsentModalOpen( false );
 		}
 	}, [ isOpen ] );
 
@@ -162,6 +186,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
+		<>
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
@@ -238,5 +263,18 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				) }
 			</div>
 		</Modal>
+		<Modal isOpen={ isConsentModalOpen } onClose={ handleConsentModalClose } className="yst-introduction-modal">
+			<Modal.Panel
+				className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
+				closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
+			>
+				<AiGrantConsent
+					storeName="yoast-seo/ai-generator"
+					linkStoreName="yoast-seo/editor"
+					onConsentGranted={ handleConsentGranted }
+				/>
+			</Modal.Panel>
+		</Modal>
+		</>
 	);
 };
