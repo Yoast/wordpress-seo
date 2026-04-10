@@ -63,7 +63,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "transitions to the replace content confirmation when 'Add outline to post' is clicked", () => {
-		renderModal();
+		renderModal( { isEmptyCanvas: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -84,7 +84,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal();
+		renderModal( { isEmptyCanvas: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -110,7 +110,7 @@ describe( "FeatureModal", () => {
 	it( "calls onAddOutline and onClose when replace is confirmed", () => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { onAddOutline, onClose } );
+		renderModal( { onAddOutline, onClose, isEmptyCanvas: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -129,5 +129,54 @@ describe( "FeatureModal", () => {
 		fireEvent.click( screen.getByRole( "button", { name: "Replace content" } ) );
 		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "skips the approve modal when initialStatus is content-suggestions-loading", () => {
+		renderModal( { initialStatus: "content-suggestions-loading" } );
+		// Should go straight to content suggestions, no approve modal.
+		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
+		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "skips replace confirmation and applies outline directly when isEmptyCanvas is true", () => {
+		const onAddOutline = jest.fn();
+		const onClose = jest.fn();
+		renderModal( { onAddOutline, onClose, isEmptyCanvas: true } );
+		act( () => {
+			jest.advanceTimersByTime( 300 );
+		} );
+		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		fireEvent.click( screen.getByText( "How to train your dog" ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		// Should directly apply without showing replace confirmation.
+		expect( screen.queryByText( "Replace existing content with this outline?" ) ).not.toBeInTheDocument();
+		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
+		expect( onClose ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "shows replace confirmation when isEmptyCanvas is false", () => {
+		renderModal( { isEmptyCanvas: false } );
+		act( () => {
+			jest.advanceTimersByTime( 300 );
+		} );
+		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		fireEvent.click( screen.getByText( "How to train your dog" ) );
+		act( () => {
+			jest.advanceTimersByTime( 5000 );
+		} );
+		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		act( () => {
+			jest.advanceTimersByTime( 600 );
+		} );
+		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
 	} );
 } );

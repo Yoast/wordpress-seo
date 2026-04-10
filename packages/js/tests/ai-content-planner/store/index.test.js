@@ -1,0 +1,66 @@
+import { createReduxStore, createRegistry } from "@wordpress/data";
+import { FEATURE_MODAL_STORE } from "../../../src/ai-content-planner/constants";
+
+describe( "content planner store", () => {
+	let registry;
+
+	beforeEach( () => {
+		registry = createRegistry();
+		const store = createReduxStore( FEATURE_MODAL_STORE, {
+			reducer( state = { isOpen: false, skipApprove: false }, action ) {
+				switch ( action.type ) {
+					case "OPEN_MODAL":
+						return { ...state, isOpen: true, skipApprove: Boolean( action.skipApprove ) };
+					case "CLOSE_MODAL":
+						return { isOpen: false, skipApprove: false };
+					default:
+						return state;
+				}
+			},
+			actions: {
+				openModal( skipApprove = false ) {
+					return { type: "OPEN_MODAL", skipApprove };
+				},
+				closeModal() {
+					return { type: "CLOSE_MODAL" };
+				},
+			},
+			selectors: {
+				selectIsModalOpen( state ) {
+					return state.isOpen;
+				},
+				selectShouldSkipApprove( state ) {
+					return state.skipApprove;
+				},
+			},
+		} );
+		registry.register( store );
+	} );
+
+	it( "has modal closed by default", () => {
+		expect( registry.select( FEATURE_MODAL_STORE ).selectIsModalOpen() ).toBe( false );
+	} );
+
+	it( "has skipApprove false by default", () => {
+		expect( registry.select( FEATURE_MODAL_STORE ).selectShouldSkipApprove() ).toBe( false );
+	} );
+
+	it( "opens the modal without skipping approve", () => {
+		registry.dispatch( FEATURE_MODAL_STORE ).openModal( false );
+		expect( registry.select( FEATURE_MODAL_STORE ).selectIsModalOpen() ).toBe( true );
+		expect( registry.select( FEATURE_MODAL_STORE ).selectShouldSkipApprove() ).toBe( false );
+	} );
+
+	it( "opens the modal with skipApprove true", () => {
+		registry.dispatch( FEATURE_MODAL_STORE ).openModal( true );
+		expect( registry.select( FEATURE_MODAL_STORE ).selectIsModalOpen() ).toBe( true );
+		expect( registry.select( FEATURE_MODAL_STORE ).selectShouldSkipApprove() ).toBe( true );
+	} );
+
+	it( "closes the modal and resets state", () => {
+		registry.dispatch( FEATURE_MODAL_STORE ).openModal( true );
+		registry.dispatch( FEATURE_MODAL_STORE ).closeModal();
+		expect( registry.select( FEATURE_MODAL_STORE ).selectIsModalOpen() ).toBe( false );
+		expect( registry.select( FEATURE_MODAL_STORE ).selectShouldSkipApprove() ).toBe( false );
+	} );
+} );
