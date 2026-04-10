@@ -306,7 +306,7 @@ describe( "ContentOutlineModal", () => {
 
 		it( "calls onAddOutline when the add button is clicked", () => {
 			const onAddOutline = jest.fn();
-			renderModal( { onAddOutline } );
+			renderLoadedModal( { onAddOutline } );
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 			expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
 		} );
