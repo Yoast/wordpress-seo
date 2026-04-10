@@ -37,7 +37,7 @@ const IntentBadgeWithTooltip = ( { badge, intent } ) => {
 			onMouseLeave={ handleMouseLeave }
 		>
 			<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
-			{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-z-50" position="top-right">{ badge.tooltip }</Tooltip> }
+			{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-text-center" position="bottom-right">{ badge.tooltip }</Tooltip> }
 		</Badge>
 	);
 };
@@ -417,14 +417,13 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						/>
 					) }
 				</Modal.Container.Header>
-				<div className="yst-px-6 yst-pt-6">
-					<IntentCallout
-						intent={ suggestion.intent }
-						description={ suggestion.description }
-					/>
-				</div>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
+						<IntentCallout
+							intent={ suggestion.intent }
+							description={ suggestion.description }
+						/>
+
 						<Modal.Description className="yst-text-sm yst-text-slate-600">
 							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 						</Modal.Description>
