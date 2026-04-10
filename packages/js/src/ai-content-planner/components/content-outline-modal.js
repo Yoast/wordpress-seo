@@ -490,7 +490,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
 					{ /* Temporary: wire onAddOutline to pass the edited outline state to the parent for post insertion. */ }
-					<Button variant="ai-primary" onClick={ onAddOutline }>
+					<Button variant="ai-primary" onClick={ onAddOutline } disabled={ isLoading }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>
