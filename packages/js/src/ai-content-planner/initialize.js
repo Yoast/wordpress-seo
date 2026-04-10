@@ -2,6 +2,7 @@ import { createBlock } from "@wordpress/blocks";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
+import { registerStore } from "./store";
 import "./block";
 
 /**
@@ -77,5 +78,6 @@ export const ContentPlannerEditorPlugin = () => {
  * @returns {void}
  */
 export default function initContentPlanner() {
+	registerStore();
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }
