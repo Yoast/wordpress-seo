@@ -42,7 +42,7 @@ const setupMocks = () => {
 		}
 		return { getContentOutline: mockGetContentOutline };
 	} );
-	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( {} ) } );
+	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
 
 const renderModal = ( props ) => render(
