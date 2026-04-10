@@ -6,6 +6,12 @@ import { insertBannerAfterFirstParagraph, ContentPlannerEditorPlugin } from "../
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
 	useDispatch: jest.fn(),
+	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
+		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
+		{}
+	),
+	createReduxStore: jest.fn(),
+	register: jest.fn(),
 } ) );
 
 jest.mock( "@wordpress/blocks", () => ( {
