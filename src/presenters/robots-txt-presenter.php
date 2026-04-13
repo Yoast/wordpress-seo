@@ -151,6 +151,8 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	/**
 	 * Handles adding schema map content to the robots txt content.
 	 *
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	 *
 	 * @deprecated 27.5
 	 * @codeCoverageIgnore
 	 *

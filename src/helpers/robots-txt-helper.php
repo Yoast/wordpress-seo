@@ -73,7 +73,9 @@ class Robots_Txt_Helper {
 	/**
 	 * Add schema to robots.txt if it does not exist yet.
 	 *
-	 * @deprecated 27.5
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	 *
+     * @deprecated 27.5
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $absolute_path The absolute path to the sitemap to add.
