@@ -9,7 +9,9 @@ Changelog
 
 ## 27.4
 
-Release date: 2026-04-28
+Release date: 2026-04-14
+
+Yoast SEO 27.4 adds new tasks to the Task List, improves navigation within the editor, and fixes a bug where tasks were displaying in the wrong language. [Read the full release post here.](https://yoa.st/task-list)  
 
 #### Enhancements
 
@@ -20,12 +22,8 @@ Release date: 2026-04-28
 
 #### Bugfixes
 
-* Fixes a bug where the task list copies were displayed in the site language instead of the user language
-* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to @param-chandarana.
-
-#### Other
-
-* Updates the webinar promotion banner copy on admin pages.
+* Fixes a bug where the task list copies were displayed in the site language instead of the user language.
+* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to [@param-chandarana](https://github.com/param-chandarana).
 
 ## 27.3
 
