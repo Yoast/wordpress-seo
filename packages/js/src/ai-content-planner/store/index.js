@@ -70,7 +70,7 @@ const selectors = {
 	},
 };
 
-const store = createReduxStore( FEATURE_MODAL_STORE, {
+export const store = createReduxStore( FEATURE_MODAL_STORE, {
 	reducer,
 	actions,
 	selectors,

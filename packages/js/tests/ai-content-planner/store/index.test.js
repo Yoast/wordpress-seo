@@ -1,4 +1,5 @@
-import { createReduxStore, createRegistry } from "@wordpress/data";
+import { createRegistry } from "@wordpress/data";
+import { store } from "../../../src/ai-content-planner/store";
 import { FEATURE_MODAL_STORE } from "../../../src/ai-content-planner/constants";
 
 describe( "content planner store", () => {
@@ -6,34 +7,6 @@ describe( "content planner store", () => {
 
 	beforeEach( () => {
 		registry = createRegistry();
-		const store = createReduxStore( FEATURE_MODAL_STORE, {
-			reducer( state = { isOpen: false, skipApprove: false }, action ) {
-				switch ( action.type ) {
-					case "OPEN_MODAL":
-						return { ...state, isOpen: true, skipApprove: Boolean( action.skipApprove ) };
-					case "CLOSE_MODAL":
-						return { isOpen: false, skipApprove: false };
-					default:
-						return state;
-				}
-			},
-			actions: {
-				openModal( skipApprove = false ) {
-					return { type: "OPEN_MODAL", skipApprove };
-				},
-				closeModal() {
-					return { type: "CLOSE_MODAL" };
-				},
-			},
-			selectors: {
-				selectIsModalOpen( state ) {
-					return state.isOpen;
-				},
-				selectShouldSkipApprove( state ) {
-					return state.skipApprove;
-				},
-			},
-		} );
 		registry.register( store );
 	} );
 
