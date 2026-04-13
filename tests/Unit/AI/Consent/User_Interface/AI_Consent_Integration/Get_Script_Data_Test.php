@@ -5,6 +5,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\AI\Consent\User_Interface\AI_Consent_Integration;
 
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Routes\Endpoint\Endpoint_List;
 
 /**
  * Tests the AI_Consent_Integration's get_script_data method.
@@ -35,6 +37,10 @@ final class Get_Script_Data_Test extends Abstract_AI_Consent_Integration_Test {
 			->andReturn( 'https://example.com/wp-content/plugins/wordpress-seo' );
 
 		$this->short_link_helper->expects( 'get_query_params' )->andReturn( [] );
+
+		$endpoint_list = Mockery::mock( Endpoint_List::class );
+		$endpoint_list->expects( 'to_paths_array' )->once()->andReturn( [] );
+		$this->endpoints_repository->expects( 'get_all_endpoints' )->once()->andReturn( $endpoint_list );
 
 		$this->instance->get_script_data();
 	}
