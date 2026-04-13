@@ -499,7 +499,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
-					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>svg]:yst-hidden yst-ps-3">
+					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading } isLoading={ isLoading }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>
