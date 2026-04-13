@@ -1,11 +1,15 @@
 import { Modal } from "@yoast/ui-library";
-import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
+import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
+import { useDispatch, select } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
+import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
+import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
+import { STORE_NAME } from "../store";
 import { FEATURE_MODAL_STATUS } from "../constants";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -105,6 +109,9 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
+	const editedOutlineRef = useRef( null );
+	const { resetBlocks } = useDispatch( "core/block-editor" );
+	const { getContentOutline } = useDispatch( STORE_NAME );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
@@ -121,19 +128,62 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
 	}, [] );
 
-	const handleRequestAddOutline = useCallback( () => {
+	const handleApplyOutline = useCallback( async() => {
+		const editedOutline = editedOutlineRef.current;
+		// Temporary: once the real API endpoint is available, getContentOutline should
+		// receive the edited outline so the API can return content notes that match
+		// the user's edits. At that point the notesByHeading lookup below can be removed.
+		await getContentOutline( selectedSuggestion );
+		const apiOutline = select( STORE_NAME ).selectContentOutline();
+
+		// Build metadata from the user's edits in the modal.
+		const metaOutline = editedOutline
+			? {
+				title: editedOutline.title,
+				metaDescription: editedOutline.metaDescription,
+				focusKeyphrase: editedOutline.focusKeyphrase,
+				category: editedOutline.category,
+			}
+			: apiOutline;
+
+		// Build blocks using the user's heading order and the API's content notes.
+		let blocksOutline = apiOutline;
+		if ( editedOutline ) {
+			const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
+				map[ section.heading ] = section.contentNotes;
+				return map;
+			}, {} );
+			blocksOutline = {
+				sections: editedOutline.structure
+					.filter( ( item ) => item.level !== "FAQ" )
+					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
+				faqContentNotes: apiOutline.faqContentNotes,
+			};
+		}
+
+		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
+		await applyPostMetaFromOutline( metaOutline );
+		onAddOutline();
+		onClose();
+	}, [ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ] );
+
+	const handleRequestAddOutline = useCallback( ( editedOutline ) => {
+		editedOutlineRef.current = editedOutline;
+		if ( isEmptyCanvas ) {
+			handleApplyOutline();
+			return;
+		}
 		setHasVisitedReplace( true );
 		setStatus( FEATURE_MODAL_STATUS.replaceContent );
-	}, [] );
+	}, [ isEmptyCanvas, handleApplyOutline ] );
 
 	const handleCancelReplace = useCallback( () => {
 		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 	}, [] );
 
 	const handleConfirmReplace = useCallback( () => {
-		onAddOutline();
-		onClose();
-	}, [ onAddOutline, onClose ] );
+		handleApplyOutline();
+	}, [ handleApplyOutline ] );
 
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
@@ -205,20 +255,20 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 							onAddOutline={ handleRequestAddOutline }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
-							category="WordPress"
+							category="Baking"
 							suggestion={ {
 								intent: selectedSuggestion.intent,
-								title: "The Ultimate Guide to Setting Up Your WordPress Blog",
+								title: "The complete guide to sourdough bread",
 								description: selectedSuggestion.description,
-								focusKeyphrase: "Guide to set up WordPress blog",
-								metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
+								focusKeyphrase: "sourdough bread",
+								metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
 								structure: [
-									{ level: "H2", title: "Introduction" },
-									{ level: "H2", title: "Why This Matters" },
-									{ level: "H2", title: "Step-by-Step Guide" },
-									{ level: "H2", title: "Common Mistakes to Avoid" },
-									{ level: "H2", title: "Best Practices" },
-									{ level: "H2", title: "Conclusion" },
+									{ level: "H2", title: "What is sourdough bread?" },
+									{ level: "H2", title: "How to make a sourdough starter" },
+									{ level: "H2", title: "Choosing the right flour" },
+									{ level: "H2", title: "Mixing and shaping the dough" },
+									{ level: "H2", title: "Bulk fermentation and proofing" },
+									{ level: "H2", title: "Baking your sourdough loaf" },
 									{ level: "FAQ", title: "FAQ" },
 								],
 							} }
