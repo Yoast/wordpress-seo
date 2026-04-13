@@ -323,6 +323,16 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 		setIsCategoryEnabled( ( prev ) => ! prev );
 	}, [] );
 
+	const handleAddOutline = useCallback( () => {
+		onAddOutline( {
+			title,
+			metaDescription,
+			focusKeyphrase,
+			category: isCategoryEnabled ? category : "",
+			structure,
+		} );
+	}, [ onAddOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
+
 	const handleDragStart = useCallback( ( e, index ) => {
 		dragIndexRef.current = index;
 		e.dataTransfer.effectAllowed = "move";
@@ -489,8 +499,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
-					{ /* Temporary: wire onAddOutline to pass the edited outline state to the parent for post insertion. */ }
-					<Button variant="ai-primary" onClick={ onAddOutline } disabled={ isLoading }>
+					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>svg]:yst-hidden yst-ps-3">
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>
