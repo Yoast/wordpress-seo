@@ -5,6 +5,10 @@ import { dispatch, resolveSelect } from "@wordpress/data";
  *
  * Sets the post title, SEO title, meta description, focus keyphrase, and category.
  *
+ * Note: each dispatch creates a separate undo entry in the Gutenberg editor.
+ * WordPress does not expose a public API to group multiple edits into a single
+ * undo step. This is tracked as a known limitation.
+ *
  * @param {Object} outline The content outline from the store.
  * @returns {Promise<void>}
  */

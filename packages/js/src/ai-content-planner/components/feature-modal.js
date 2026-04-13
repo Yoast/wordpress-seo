@@ -145,7 +145,6 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				category: editedOutline.category,
 			}
 			: apiOutline;
-		await applyPostMetaFromOutline( metaOutline );
 
 		// Build blocks using the user's heading order and the API's content notes.
 		let blocksOutline = apiOutline;
@@ -161,7 +160,9 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				faqContentNotes: apiOutline.faqContentNotes,
 			};
 		}
+
 		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
+		await applyPostMetaFromOutline( metaOutline );
 		onAddOutline();
 		onClose();
 	}, [ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ] );
