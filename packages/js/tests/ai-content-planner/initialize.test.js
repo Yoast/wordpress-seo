@@ -15,7 +15,7 @@ jest.mock( "@wordpress/data", () => ( {
 } ) );
 
 jest.mock( "@wordpress/blocks", () => ( {
-	createBlock: jest.fn( ( name ) => ( { name } ) ),
+	createBlock: jest.fn( ( name, attributes, innerBlocks ) => ( { name, attributes, innerBlocks } ) ),
 	registerBlockType: jest.fn(),
 } ) );
 
@@ -53,7 +53,7 @@ describe( "insertBannerAfterFirstParagraph", () => {
 		const result = insertBannerAfterFirstParagraph( [], mockInsertBlock );
 		expect( result ).toBe( false );
 		expect( createBlock ).toHaveBeenCalledWith( "core/paragraph" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "core/paragraph" }, 0, undefined, false );
+		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "core/paragraph" } ), 0, undefined, false );
 	} );
 
 	test( "should return false when there is no paragraph block to insert after", () => {
@@ -68,14 +68,14 @@ describe( "insertBannerAfterFirstParagraph", () => {
 		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
 		expect( result ).toBe( true );
 		expect( createBlock ).toHaveBeenCalledWith( "yoast/content-planner-banner" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "yoast/content-planner-banner" }, 1, undefined, false );
+		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 1, undefined, false );
 	} );
 
 	test( "should insert the banner after the first paragraph even when it is not the first block", () => {
 		const blocks = [ { name: "core/heading" }, { name: "core/paragraph" }, { name: "core/image" } ];
 		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
 		expect( result ).toBe( true );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "yoast/content-planner-banner" }, 2, undefined, false );
+		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 2, undefined, false );
 	} );
 } );
 
@@ -122,14 +122,14 @@ describe( "ContentPlannerEditorPlugin", () => {
 		mockSelect( { isNewPost: true, postType: "post", blocks: [] } );
 		render( <ContentPlannerEditorPlugin /> );
 		expect( createBlock ).toHaveBeenCalledWith( "core/paragraph" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "core/paragraph" }, 0, undefined, false );
+		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "core/paragraph" } ), 0, undefined, false );
 	} );
 
 	test( "should insert the banner after the first paragraph on a new post", () => {
 		mockSelect( { isNewPost: true, postType: "post", blocks: [ { name: "core/paragraph" } ] } );
 		render( <ContentPlannerEditorPlugin /> );
 		expect( createBlock ).toHaveBeenCalledWith( "yoast/content-planner-banner" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( { name: "yoast/content-planner-banner" }, 1, undefined, false );
+		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 1, undefined, false );
 	} );
 
 	test( "should not insert a block when the post is not new", () => {
@@ -161,5 +161,35 @@ describe( "ContentPlannerEditorPlugin", () => {
 
 		rerender( <ContentPlannerEditorPlugin /> );
 		expect( mockInsertBlock ).toHaveBeenCalledTimes( 1 );
+	} );
+} );
+
+describe( "content-suggestion block transform", () => {
+	const { registerBlockType: mockRegisterBlockType } = require( "@wordpress/blocks" );
+	const registrationCall = mockRegisterBlockType.mock.calls.find( ( [ name ] ) => name === "yoast-seo/content-suggestion" );
+	const transform = registrationCall[ 1 ].transforms.to[ 0 ].transform;
+
+	test( "should transform suggestions into a list block with list-item children", () => {
+		const result = transform( {
+			suggestions: [ "First suggestion", "Second suggestion" ],
+		} );
+
+		expect( result.name ).toBe( "core/list" );
+		expect( result.innerBlocks ).toHaveLength( 2 );
+		expect( result.innerBlocks[ 0 ] ).toEqual( expect.objectContaining( {
+			name: "core/list-item",
+			attributes: { content: "First suggestion" },
+		} ) );
+		expect( result.innerBlocks[ 1 ] ).toEqual( expect.objectContaining( {
+			name: "core/list-item",
+			attributes: { content: "Second suggestion" },
+		} ) );
+	} );
+
+	test( "should return an empty list block when there are no suggestions", () => {
+		const result = transform( { suggestions: [] } );
+
+		expect( result.name ).toBe( "core/list" );
+		expect( result.innerBlocks ).toHaveLength( 0 );
 	} );
 } );

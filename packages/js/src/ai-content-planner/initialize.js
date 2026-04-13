@@ -82,11 +82,13 @@ registerBlockType( "yoast-seo/content-suggestion", {
 		to: [
 			{
 				type: "block",
-				blocks: [ "core/paragraph" ],
-				transform: ( { title, suggestions } ) => [
-					createBlock( "core/paragraph", { content: title } ),
-					...suggestions.map( ( suggestion ) => createBlock( "core/paragraph", { content: suggestion } ) ),
-				],
+				blocks: [ "core/list" ],
+				transform: ( { suggestions } ) =>
+					createBlock(
+						"core/list",
+						{},
+						suggestions.map( ( suggestion ) => createBlock( "core/list-item", { content: suggestion } ) )
+					),
 			},
 		],
 	},
