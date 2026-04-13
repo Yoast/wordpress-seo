@@ -6,7 +6,7 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
-import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
+import { useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { intentBadge } from "./intent-badge";
 
@@ -194,7 +194,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
 						<div className="yst-relative" aria-live="polite">
 							<Transition
-								as={ Fragment }
+								as="div"
 								show={ status === "content-suggestions-loading" }
 								enter="yst-transition-opacity yst-duration-300"
 								enterFrom="yst-opacity-0"
@@ -203,14 +203,14 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 								leaveFrom="yst-opacity-100"
 								leaveTo="yst-opacity-0"
 							>
-								<div><LoadingModalContent /></div>
+								<LoadingModalContent />
 							</Transition>
 							{ /*
 							 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
 							 * so the suggestions only fade in after the loading content has faded out.
 							 */ }
 							<Transition
-								as={ Fragment }
+								as="div"
 								show={ status === "content-suggestions-success" }
 								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 								enterFrom="yst-opacity-0"
@@ -219,7 +219,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 								leaveFrom="yst-opacity-100"
 								leaveTo="yst-opacity-0"
 							>
-								<div><SuggestionsList onSuggestionClick={ onSuggestionClick } /></div>
+								<SuggestionsList onSuggestionClick={ onSuggestionClick } />
 							</Transition>
 						</div>
 					) }
