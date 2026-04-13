@@ -215,7 +215,7 @@ export const FeatureModal = ( {
 			setHasVisitedReplace( false );
 			return;
 		}
-		setCameFromApproveModal( initialStatus === FEATURE_MODAL_STATUS.contentSuggestionsLoading );
+		setCameFromApproveModal( false );
 		setStatus( initialStatus );
 	}, [ isOpen, initialStatus ] );
 
