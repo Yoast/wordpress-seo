@@ -7,13 +7,11 @@ import { useBlockProps } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
 import { FeatureModal } from "./components/feature-modal";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
-import { modalStore } from "./store/modal";
 import "./block";
 import { store } from "./store";
 import { ContentSuggestionBlock } from "./components/content-suggestion-block";
 
 register( store );
-register( modalStore );
 
 /**
  * Inserts a Content Planner Banner block after the first paragraph in the editor.

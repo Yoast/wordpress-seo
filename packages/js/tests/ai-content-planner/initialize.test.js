@@ -42,10 +42,6 @@ jest.mock( "../../src/ai-content-planner/components/feature-modal", () => ( {
 	FeatureModal: ( props ) => props.isOpen ? <div data-testid="feature-modal" /> : null,
 } ) );
 
-jest.mock( "../../src/ai-content-planner/store/modal", () => ( {
-	modalStore: {},
-} ) );
-
 jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
 	ContentSuggestionBlock: () => null,
 } ) );

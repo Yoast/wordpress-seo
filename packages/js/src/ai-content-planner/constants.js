@@ -1,5 +1,5 @@
 /**
- * The store name for the content planner UI state.
+ * The store name for the content planner feature.
  *
  * @type {string}
  */
