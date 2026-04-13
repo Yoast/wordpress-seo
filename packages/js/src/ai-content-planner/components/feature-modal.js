@@ -14,12 +14,12 @@ const HIDDEN_STYLE = { display: "none" };
  * Returns the appropriate handler for adding an outline to the post.
  * When the canvas is empty, skips the replace confirmation and applies directly.
  *
- * @param {boolean}  isEmptyCanvas Whether the post has content or not.
+ * @param {boolean}  isEmptyPost Whether the post is empty or not.
  * @param {Function} onConfirm     The handler that applies the outline directly.
  * @param {Function} onRequest     The handler that shows the replace confirmation first.
  * @returns {Function} The appropriate outline handler.
  */
-const getOutlineHandler = ( isEmptyCanvas, onConfirm, onRequest ) => isEmptyCanvas ? onConfirm : onRequest;
+const getOutlineHandler = ( isEmptyPost, onConfirm, onRequest ) => isEmptyPost ? onConfirm : onRequest;
 
 /**
  * Returns the display styles for the outline and confirmation panels.
@@ -103,7 +103,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  *
  * @param {boolean}       isOpen                    Whether the modal is open or not.
  * @param {function}      onClose                   The function to call when the modal is closed.
- * @param {boolean}       isEmptyCanvas             Whether the post has content or not.
+ * @param {boolean}       isEmptyPost             Whether the post has content or not.
  * @param {boolean}       isPremium                 Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                  Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                The link to the upsell page.
@@ -115,7 +115,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 export const FeatureModal = ( {
 	isOpen,
 	onClose,
-	isEmptyCanvas,
+	isEmptyPost,
 	isPremium,
 	isUpsell,
 	upsellLink,
@@ -200,7 +200,7 @@ export const FeatureModal = ( {
 				>
 					<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
 						<ApproveModal
-							isEmptyCanvas={ isEmptyCanvas }
+							isEmptyPost={ isEmptyPost }
 							isPremium={ isPremium }
 							isUpsell={ isUpsell }
 							onClick={ handleGetSuggestionsClick }
@@ -226,7 +226,7 @@ export const FeatureModal = ( {
 						<ContentOutlineModal
 							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
 							onBack={ handleBackToSuggestions }
-							onAddOutline={ getOutlineHandler( isEmptyCanvas, handleConfirmReplace, handleRequestAddOutline ) }
+							onAddOutline={ getOutlineHandler( isEmptyPost, handleConfirmReplace, handleRequestAddOutline ) }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
 							category="WordPress"

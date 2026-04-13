@@ -13,7 +13,7 @@ const renderModal = ( props ) => render(
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
-		isEmptyCanvas={ true }
+		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
 		{ ...props }
@@ -63,7 +63,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "transitions to the replace content confirmation when 'Add outline to post' is clicked", () => {
-		renderModal( { isEmptyCanvas: false } );
+		renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -84,7 +84,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal( { isEmptyCanvas: false } );
+		renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -110,7 +110,7 @@ describe( "FeatureModal", () => {
 	it( "calls onAddOutline and onClose when replace is confirmed", () => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { onAddOutline, onClose, isEmptyCanvas: false } );
+		renderModal( { onAddOutline, onClose, isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -138,10 +138,10 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
-	it( "skips replace confirmation and applies outline directly when isEmptyCanvas is true", () => {
+	it( "skips replace confirmation and applies outline directly when isEmptyPost is true", () => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { onAddOutline, onClose, isEmptyCanvas: true } );
+		renderModal( { onAddOutline, onClose, isEmptyPost: true } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -160,8 +160,8 @@ describe( "FeatureModal", () => {
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "shows replace confirmation when isEmptyCanvas is false", () => {
-		renderModal( { isEmptyCanvas: false } );
+	it( "shows replace confirmation when isEmptyPost is false", () => {
+		renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );

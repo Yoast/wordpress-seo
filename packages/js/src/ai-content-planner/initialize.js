@@ -65,7 +65,7 @@ function removeBannerBlock( removeBlock ) {
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, isModalOpen, skipApprove, isPremium, isEmptyCanvas, upsellLink } = useSelect( select => {
+	const { isNewPost, postType, blocks, isModalOpen, skipApprove, isPremium, isEmptyPost, upsellLink } = useSelect( select => {
 		const content = select( "core/editor" ).getEditedPostContent();
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
@@ -74,7 +74,7 @@ export const ContentPlannerEditorPlugin = () => {
 			isModalOpen: select( FEATURE_MODAL_STORE ).selectIsModalOpen(),
 			skipApprove: select( FEATURE_MODAL_STORE ).selectShouldSkipApprove(),
 			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
-			isEmptyCanvas: count( content, "words", {} ) === 0,
+			isEmptyPost: count( content, "words", {} ) === 0,
 			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/content-planner-approve-modal" ),
 		};
 	}, [] );
@@ -103,7 +103,7 @@ export const ContentPlannerEditorPlugin = () => {
 		<FeatureModal
 			isOpen={ isModalOpen }
 			onClose={ handleClose }
-			isEmptyCanvas={ isEmptyCanvas }
+			isEmptyPost={ isEmptyPost }
 			isPremium={ isPremium }
 			upsellLink={ upsellLink }
 			onAddOutline={ handleAddOutline }
