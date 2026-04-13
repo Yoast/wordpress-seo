@@ -1,5 +1,5 @@
 import { createRegistry } from "@wordpress/data";
-import { store } from "../../../src/ai-content-planner/store";
+import { modalStore as store } from "../../../src/ai-content-planner/store/modal";
 import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
 describe( "content planner store", () => {
