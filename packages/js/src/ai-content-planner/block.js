@@ -4,7 +4,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
 import block from "./block.json";
 import { InlineBanner } from "./components/inline-banner";
-import { FEATURE_MODAL_STORE } from "./constants";
+import { CONTENT_PLANNER_STORE } from "./constants";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -23,7 +23,7 @@ const Edit = ( { clientId } ) => {
 	const ref = useRef( null );
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
-	const { openModal } = useDispatch( FEATURE_MODAL_STORE );
+	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
 
 	const handleDismiss = useCallback( () => {
 		removeBlock( clientId );

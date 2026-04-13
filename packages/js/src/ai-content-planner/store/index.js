@@ -1,5 +1,5 @@
 import { createReduxStore, register } from "@wordpress/data";
-import { FEATURE_MODAL_STORE } from "../constants";
+import { CONTENT_PLANNER_STORE } from "../constants";
 
 const OPEN_MODAL = "OPEN_MODAL";
 const CLOSE_MODAL = "CLOSE_MODAL";
@@ -70,7 +70,7 @@ const selectors = {
 	},
 };
 
-export const store = createReduxStore( FEATURE_MODAL_STORE, {
+export const store = createReduxStore( CONTENT_PLANNER_STORE, {
 	reducer,
 	actions,
 	selectors,

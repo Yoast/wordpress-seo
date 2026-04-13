@@ -5,7 +5,7 @@ import { count } from "@wordpress/wordcount";
 import { registerPlugin } from "@wordpress/plugins";
 import { registerStore } from "./store";
 import { FeatureModal } from "./components/feature-modal";
-import { FEATURE_MODAL_STORE, FEATURE_MODAL_STATUS } from "./constants";
+import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import "./block";
 
 /**
@@ -71,8 +71,8 @@ export const ContentPlannerEditorPlugin = () => {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			postType: select( "core/editor" ).getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
-			isModalOpen: select( FEATURE_MODAL_STORE ).selectIsModalOpen(),
-			skipApprove: select( FEATURE_MODAL_STORE ).selectShouldSkipApprove(),
+			isModalOpen: select( CONTENT_PLANNER_STORE ).selectIsModalOpen(),
+			skipApprove: select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove(),
 			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 			isEmptyPost: count( content, "words", {} ) === 0,
 			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/content-planner-approve-modal" ),
@@ -80,7 +80,7 @@ export const ContentPlannerEditorPlugin = () => {
 	}, [] );
 
 	const { insertBlock, removeBlock } = useDispatch( "core/block-editor" );
-	const { closeModal } = useDispatch( FEATURE_MODAL_STORE );
+	const { closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" ) {

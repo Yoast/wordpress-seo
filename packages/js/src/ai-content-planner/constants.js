@@ -3,7 +3,7 @@
  *
  * @type {string}
  */
-export const FEATURE_MODAL_STORE = "yoast-seo/content-planner";
+export const CONTENT_PLANNER_STORE = "yoast-seo/content-planner";
 
 /**
  * The possible statuses for the FeatureModal flow.
