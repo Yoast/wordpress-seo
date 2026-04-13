@@ -75,6 +75,7 @@ export const ContentPlannerEditorPlugin = () => {
 };
 
 registerBlockType( "yoast-seo/content-suggestion", {
+	apiVersion: 3,
 	title: __( "Content Suggestion", "wordpress-seo" ),
 	category: "text",
 	supports: { inserter: false },
