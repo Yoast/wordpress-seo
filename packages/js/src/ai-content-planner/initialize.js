@@ -99,8 +99,26 @@ registerBlockType( "yoast-seo/content-suggestion", {
 	},
 	edit: ( { attributes } ) => {
 		const blockProps = useBlockProps();
+		const ref = useRef( null );
+
+		useEffect( () => {
+			const ownerDoc = ref.current?.ownerDocument ?? document;
+			if ( ownerDoc === window.document || ownerDoc.getElementById( "yoast-seo-tailwind-css" ) ) {
+				return;
+			}
+			const mainLink = window.document.getElementById( "yoast-seo-tailwind-css" );
+			if ( ! mainLink ) {
+				return;
+			}
+			const link = ownerDoc.createElement( "link" );
+			link.id = "yoast-seo-tailwind-css";
+			link.rel = "stylesheet";
+			link.href = mainLink.href;
+			ownerDoc.head.appendChild( link );
+		}, [] );
+
 		return (
-			<div { ...blockProps }>
+			<div { ...blockProps } ref={ ref }>
 				<ContentSuggestionBlock contentNotes={ attributes.suggestions } />
 			</div>
 		);
