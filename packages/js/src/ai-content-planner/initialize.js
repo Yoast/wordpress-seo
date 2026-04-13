@@ -98,8 +98,8 @@ registerBlockType( "yoast-seo/content-suggestion", {
 		suggestions: { type: "array", items: { type: "string" }, "default": [] },
 	},
 	edit: ( { attributes } ) => {
-		const blockProps = useBlockProps();
 		const ref = useRef( null );
+		const blockProps = useBlockProps( { ref } );
 
 		useEffect( () => {
 			const ownerDoc = ref.current?.ownerDocument ?? document;
@@ -118,7 +118,7 @@ registerBlockType( "yoast-seo/content-suggestion", {
 		}, [] );
 
 		return (
-			<div { ...blockProps } ref={ ref }>
+			<div { ...blockProps }>
 				<ContentSuggestionBlock contentNotes={ attributes.suggestions } />
 			</div>
 		);
