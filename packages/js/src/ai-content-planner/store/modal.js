@@ -1,4 +1,4 @@
-import { createReduxStore, register } from "@wordpress/data";
+import { createReduxStore } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 const OPEN_MODAL = "OPEN_MODAL";
@@ -75,12 +75,3 @@ export const modalStore = createReduxStore( CONTENT_PLANNER_STORE, {
 	actions,
 	selectors,
 } );
-
-/**
- * Registers the content planner modal store to WP data's default registry.
- *
- * @returns {void}
- */
-export const registerModalStore = () => {
-	register( modalStore );
-};

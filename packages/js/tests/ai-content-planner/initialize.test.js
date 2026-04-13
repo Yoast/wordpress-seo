@@ -43,7 +43,7 @@ jest.mock( "../../src/ai-content-planner/components/feature-modal", () => ( {
 } ) );
 
 jest.mock( "../../src/ai-content-planner/store/modal", () => ( {
-	registerModalStore: jest.fn(),
+	modalStore: {},
 } ) );
 
 jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
