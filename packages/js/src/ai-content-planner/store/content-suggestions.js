@@ -42,7 +42,7 @@ export const contentSuggestionsSelectors = {
  * @param {string} endpoint The endpoint to fetch content suggestions from.
  * @returns {Object} Success or error action object.
  */
-export function* getContentSuggestions( { endpoint } ) {
+export function* getContentSuggestions( endpoint ) {
 	yield{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		const payload = yield{ type: FETCH_CONTENT_SUGGESTIONS_ACTION_NAME, payload: { endpoint } };
