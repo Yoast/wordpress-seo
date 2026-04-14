@@ -1,5 +1,5 @@
 import { Modal } from "@yoast/ui-library";
-import { useSelect, useDispatch,select } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
 import { get, noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
@@ -163,7 +163,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 		// receive the edited outline so the API can return content notes that match
 		// the user's edits. At that point the notesByHeading lookup below can be removed.
 		await getContentOutline( selectedSuggestion );
-		const apiOutline = select( STORE_NAME ).selectContentOutline();
+		const apiOutline = useSelect( ( select ) => select( STORE_NAME ).selectContentOutline(), [] );
 
 		// Build metadata from the user's edits in the modal.
 		const metaOutline = editedOutline

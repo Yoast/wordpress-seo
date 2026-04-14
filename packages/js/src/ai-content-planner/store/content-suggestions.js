@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
-import { get } from "lodash";
+import { get, isArray } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 export const CONTENT_SUGGESTIONS_NAME = "contentSuggestions";
@@ -73,10 +73,17 @@ const validateSuggestionsResponse = ( result ) => {
 	} ) );
 };
 /**
- * @param {string} endpoint The endpoint to fetch content suggestions from.
+ * Generator action to fetch content planner suggestions from the REST API.
+ *
+ * @param {Object} params The parameters for the fetch.
+ * @param {string} params.endpoint The REST API endpoint path.
+ * @param {string} params.postType The post type to get suggestions for.
+ * @param {string} params.language The language the content is written in.
+ * @param {string} params.editor The current editor (classic, elementor, or gutenberg).
+ *
  * @returns {Object} Success or error action object.
  */
-export function* fetchContentPlannerSuggestions( endpoint ) {
+export function* fetchContentPlannerSuggestions( { endpoint, postType, language, editor } ) {
 	yield{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		// Throws an error if the response structure is invalid.

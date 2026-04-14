@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, useDispatch, select } from "@wordpress/data";
+import { useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
@@ -9,7 +9,6 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 jest.mock( "@wordpress/data", () => ( {
 	useDispatch: jest.fn(),
 	useSelect: jest.fn(),
-	useDispatch: jest.fn(),
 	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
 		{}
@@ -19,12 +18,6 @@ jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
 	dispatch: jest.fn(),
 	resolveSelect: jest.fn(),
-	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
-		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
-		{}
-	),
-	createReduxStore: jest.fn(),
-	register: jest.fn(),
 } ) );
 
 jest.mock( "@wordpress/blocks", () => ( {
@@ -41,13 +34,14 @@ jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline
 
 const mockResetBlocks = jest.fn();
 const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
+const mockFetchContentPlannerSuggestions = jest.fn();
 
 const setupMocks = () => {
 	useDispatch.mockImplementation( ( store ) => {
 		if ( store === "core/block-editor" ) {
 			return { resetBlocks: mockResetBlocks };
 		}
-		return { getContentOutline: mockGetContentOutline };
+		return { getContentOutline: mockGetContentOutline, fetchContentPlannerSuggestions: mockFetchContentPlannerSuggestions };
 	} );
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };

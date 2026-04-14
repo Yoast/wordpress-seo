@@ -1,12 +1,12 @@
 import { describe, expect, it } from "@jest/globals";
 import {
-	SUGGESTIONS_NAME,
-	FETCH_SUGGESTIONS_ACTION_NAME,
-	getInitialSuggestionsState,
-	suggestionsSelectors,
-	suggestionsReducer,
+	CONTENT_SUGGESTIONS_NAME,
+	FETCH_CONTENT_SUGGESTIONS_ACTION_NAME,
+	getInitialContentSuggestionsState,
+	contentSuggestionsSelectors,
+	contentSuggestionsReducer,
 	fetchContentPlannerSuggestions,
-} from "../../../src/ai-content-planner/store/suggestions";
+} from "../../../src/ai-content-planner/store/content-suggestions";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 const ERROR_DEFAULT = {
@@ -56,9 +56,9 @@ const transformedSuggestions = [
 ];
 
 describe( "suggestions store", () => {
-	describe( "getInitialSuggestionsState", () => {
+	describe( "getInitialContentSuggestionsState", () => {
 		it( "should return the initial state", () => {
-			expect( getInitialSuggestionsState() ).toEqual( {
+			expect( getInitialContentSuggestionsState() ).toEqual( {
 				status: ASYNC_ACTION_STATUS.idle,
 				suggestions: [],
 				error: ERROR_DEFAULT,
@@ -74,9 +74,9 @@ describe( "suggestions store", () => {
 				error: ERROR_DEFAULT,
 			};
 
-			const result = suggestionsReducer(
+			const result = contentSuggestionsReducer(
 				previousState,
-				{ type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` }
+				{ type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` }
 			);
 
 			expect( result ).toEqual( {
@@ -87,10 +87,10 @@ describe( "suggestions store", () => {
 		} );
 
 		it( "should set suggestions and status to success on success", () => {
-			const result = suggestionsReducer(
-				getInitialSuggestionsState(),
+			const result = contentSuggestionsReducer(
+				getInitialContentSuggestionsState(),
 				{
-					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
+					type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
 					payload: transformedSuggestions,
 				}
 			);
@@ -109,10 +109,10 @@ describe( "suggestions store", () => {
 				errorMessage: "Access denied.",
 			};
 
-			const result = suggestionsReducer(
-				getInitialSuggestionsState(),
+			const result = contentSuggestionsReducer(
+				getInitialContentSuggestionsState(),
 				{
-					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+					type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
 					payload: error,
 				}
 			);
@@ -129,10 +129,10 @@ describe( "suggestions store", () => {
 		} );
 
 		it( "should default to errorCode 502 when the error payload has no errorCode", () => {
-			const result = suggestionsReducer(
-				getInitialSuggestionsState(),
+			const result = contentSuggestionsReducer(
+				getInitialContentSuggestionsState(),
 				{
-					type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+					type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
 					payload: { errorMessage: "Bad gateway." },
 				}
 			);
@@ -144,51 +144,51 @@ describe( "suggestions store", () => {
 	describe( "selectors", () => {
 		it( "should return the suggestions status from state", () => {
 			const state = {
-				[ SUGGESTIONS_NAME ]: {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
 					status: ASYNC_ACTION_STATUS.loading,
 					suggestions: [],
 					error: ERROR_DEFAULT,
 				},
 			};
 
-			expect( suggestionsSelectors.selectSuggestionsStatus( state ) ).toBe( ASYNC_ACTION_STATUS.loading );
+			expect( contentSuggestionsSelectors.selectSuggestionsStatus( state ) ).toBe( ASYNC_ACTION_STATUS.loading );
 		} );
 
 		it( "should return the default status when state is missing", () => {
-			expect( suggestionsSelectors.selectSuggestionsStatus( {} ) ).toBe( ASYNC_ACTION_STATUS.idle );
+			expect( contentSuggestionsSelectors.selectSuggestionsStatus( {} ) ).toBe( ASYNC_ACTION_STATUS.idle );
 		} );
 
 		it( "should return suggestions from state", () => {
 			const state = {
-				[ SUGGESTIONS_NAME ]: {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
 					status: ASYNC_ACTION_STATUS.success,
 					suggestions: transformedSuggestions,
 					error: ERROR_DEFAULT,
 				},
 			};
 
-			expect( suggestionsSelectors.selectSuggestions( state ) ).toEqual( transformedSuggestions );
+			expect( contentSuggestionsSelectors.selectSuggestions( state ) ).toEqual( transformedSuggestions );
 		} );
 
 		it( "should return the default suggestions when state is missing", () => {
-			expect( suggestionsSelectors.selectSuggestions( {} ) ).toEqual( [] );
+			expect( contentSuggestionsSelectors.selectSuggestions( {} ) ).toEqual( [] );
 		} );
 
 		it( "should return the error from state", () => {
 			const error = { errorCode: 500, errorIdentifier: null, errorMessage: "Server error." };
 			const state = {
-				[ SUGGESTIONS_NAME ]: {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
 					status: ASYNC_ACTION_STATUS.error,
 					suggestions: [],
 					error,
 				},
 			};
 
-			expect( suggestionsSelectors.selectSuggestionsError( state ) ).toEqual( error );
+			expect( contentSuggestionsSelectors.selectSuggestionsError( state ) ).toEqual( error );
 		} );
 
 		it( "should return the default error when state is missing", () => {
-			expect( suggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
+			expect( contentSuggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
 		} );
 	} );
 
@@ -206,20 +206,20 @@ describe( "suggestions store", () => {
 			// First yield: request action.
 			const requestAction = generator.next();
 			expect( requestAction.value ).toEqual( {
-				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`,
+				type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`,
 			} );
 
 			// Second yield: control action (triggers apiFetch). Simulate API returning raw data.
 			const controlAction = generator.next( requestAction.value );
 			expect( controlAction.value ).toEqual( {
-				type: FETCH_SUGGESTIONS_ACTION_NAME,
+				type: FETCH_CONTENT_SUGGESTIONS_ACTION_NAME,
 				payload: params,
 			} );
 
 			// Simulate the API response being returned from the control.
 			const result = generator.next( { suggestions: mockApiSuggestions } );
 			expect( result.value ).toEqual( {
-				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
+				type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`,
 				payload: transformedSuggestions,
 			} );
 			expect( result.done ).toBe( true );
@@ -239,7 +239,7 @@ describe( "suggestions store", () => {
 			const result = generator.throw( error );
 
 			expect( result.value ).toEqual( {
-				type: `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
+				type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`,
 				payload: error,
 			} );
 			expect( result.done ).toBe( true );
@@ -255,7 +255,7 @@ describe( "suggestions store", () => {
 
 			// Simulate API returning an invalid response.
 			const result = generator.next( { data: "not an array" } );
-			expect( result.value.type ).toBe( `${ FETCH_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }` );
+			expect( result.value.type ).toBe( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }` );
 			expect( result.value.payload ).toBeInstanceOf( Error );
 			expect( result.value.payload.message ).toBe( "Invalid suggestions response: expected an array of suggestions." );
 			expect( result.done ).toBe( true );
