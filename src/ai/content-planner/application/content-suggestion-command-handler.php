@@ -111,7 +111,7 @@ class Content_Suggestion_Command_Handler {
 			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-suggestions', $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
 			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->token_manager->clear_tokens( $command->get_user()->ID );
+			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
 
 			if ( ! $retry_on_unauthorized ) {
 				throw $exception;
