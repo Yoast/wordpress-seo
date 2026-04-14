@@ -49,7 +49,7 @@ const renderModal = ( props ) => render(
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
-		isEmptyCanvas={ true }
+		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
 		{ ...props }
@@ -100,8 +100,8 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
-	it( "shows the replace content confirmation when 'Add outline to post' is clicked and canvas is not empty", () => {
-		renderModal( { isEmptyCanvas: false } );
+	it( "shows the replace content confirmation when 'Add outline to post' is clicked and post is not empty", () => {
+		renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -121,10 +121,10 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
 	} );
 
-	it( "directly applies the outline when 'Add outline to post' is clicked and canvas is empty", async() => {
+	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyCanvas: true, onAddOutline, onClose } );
+		renderModal( { isEmptyPost: true, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -147,7 +147,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal( { isEmptyCanvas: false } );
+		renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -170,10 +170,10 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
-	it( "applies the outline when replace is confirmed on non-empty canvas", async() => {
+	it( "applies the outline when replace is confirmed on non-empty post", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyCanvas: false, onAddOutline, onClose } );
+		renderModal( { isEmptyPost: false, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
@@ -196,5 +196,12 @@ describe( "FeatureModal", () => {
 		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
 		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "skips the approve modal when initialStatus is content-suggestions-loading", () => {
+		renderModal( { initialStatus: "content-suggestions-loading" } );
+		// Should go straight to content suggestions, no approve modal.
+		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
+		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 } );

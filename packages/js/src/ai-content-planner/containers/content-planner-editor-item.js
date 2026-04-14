@@ -1,16 +1,13 @@
 import { compose } from "@wordpress/compose";
-import { withSelect } from "@wordpress/data";
-import { count } from "@wordpress/wordcount";
+import { withDispatch } from "@wordpress/data";
 import { ContentPlannerEditorItem } from "../components/content-planner-editor-item";
+import { CONTENT_PLANNER_STORE } from "../constants";
 
 export default compose( [
-	withSelect( select => {
-		const content = select( "core/editor" ).getEditedPostContent();
-
+	withDispatch( ( dispatch ) => {
+		const { openModal } = dispatch( CONTENT_PLANNER_STORE );
 		return {
-			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
-			isEmptyCanvas: count( content, "words", {} ) === 0,
-			upsellLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/content-planner-approve-modal" ),
+			openModal,
 		};
 	} ),
 ] )( ContentPlannerEditorItem );

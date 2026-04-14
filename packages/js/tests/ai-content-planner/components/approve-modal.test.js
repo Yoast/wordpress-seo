@@ -6,7 +6,7 @@ const renderApproveModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
 			<ApproveModal
-				isEmptyCanvas={ true }
+				isEmptyPost={ true }
 				isPremium={ false }
 				isUpsell={ false }
 				onClick={ jest.fn() }
@@ -28,24 +28,24 @@ describe( "ApproveModal", () => {
 
 	describe( "empty canvas content", () => {
 		it( "shows the inspiration title when the canvas is empty", () => {
-			renderApproveModal( { isEmptyCanvas: true } );
+			renderApproveModal( { isEmptyPost: true } );
 			expect( screen.getByText( "Looking for inspiration?" ) ).toBeInTheDocument();
 		} );
 
 		it( "shows the ai-primary button variant when the canvas is empty and not an upsell", () => {
-			renderApproveModal( { isEmptyCanvas: true, isUpsell: false } );
+			renderApproveModal( { isEmptyPost: true, isUpsell: false } );
 			expect( screen.getByRole( "button", { name: "Get content suggestions" } ) ).toHaveClass( "yst-button--ai-primary" );
 		} );
 	} );
 
 	describe( "non-empty canvas content", () => {
 		it( "shows the 'Get content suggestions' title when the canvas has content", () => {
-			renderApproveModal( { isEmptyCanvas: false } );
+			renderApproveModal( { isEmptyPost: false } );
 			expect( screen.getByRole( "heading", { name: "Get content suggestions" } ) ).toBeInTheDocument();
 		} );
 
 		it( "shows a note that content will be replaced when the canvas has content", () => {
-			renderApproveModal( { isEmptyCanvas: false } );
+			renderApproveModal( { isEmptyPost: false } );
 			expect( screen.getByText( /Note: Applying a content suggestion will replace/ ) ).toBeInTheDocument();
 		} );
 	} );

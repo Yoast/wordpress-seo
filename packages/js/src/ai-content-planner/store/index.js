@@ -1,4 +1,5 @@
 import { combineReducers, createReduxStore } from "@wordpress/data";
+import { CONTENT_PLANNER_STORE } from "../constants";
 import {
 	CONTENT_SUGGESTIONS_NAME,
 	contentSuggestionsActions,
@@ -15,17 +16,24 @@ import {
 	contentOutlineSelectors,
 	getInitialContentOutlineState,
 } from "./content-outline";
+import {
+	MODAL_NAME,
+	modalActions,
+	modalReducer,
+	modalSelectors,
+	getInitialModalState,
+} from "./modal";
 
-export const STORE_NAME = "yoast-seo/post-planner";
-
-export const store = createReduxStore( STORE_NAME, {
+export const store = createReduxStore( CONTENT_PLANNER_STORE, {
 	actions: {
 		...contentSuggestionsActions,
 		...contentOutlineActions,
+		...modalActions,
 	},
 	selectors: {
 		...contentSuggestionsSelectors,
 		...contentOutlineSelectors,
+		...modalSelectors,
 	},
 	controls: {
 		...contentSuggestionsControls,
@@ -34,9 +42,11 @@ export const store = createReduxStore( STORE_NAME, {
 	initialState: {
 		[ CONTENT_SUGGESTIONS_NAME ]: getInitialContentSuggestionsState(),
 		[ CONTENT_OUTLINE_NAME ]: getInitialContentOutlineState(),
+		[ MODAL_NAME ]: getInitialModalState(),
 	},
 	reducer: combineReducers( {
 		[ CONTENT_SUGGESTIONS_NAME ]: contentSuggestionsReducer,
 		[ CONTENT_OUTLINE_NAME ]: contentOutlineReducer,
+		[ MODAL_NAME ]: modalReducer,
 	} ),
 } );

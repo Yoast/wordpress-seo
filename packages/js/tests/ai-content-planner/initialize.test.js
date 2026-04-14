@@ -6,6 +6,9 @@ import { insertBannerAfterFirstParagraph, ContentPlannerEditorPlugin } from "../
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
 	useDispatch: jest.fn(),
+	select: jest.fn( () => ( {
+		getBlocks: () => [],
+	} ) ),
 	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
 		{}
@@ -27,8 +30,20 @@ jest.mock( "@wordpress/plugins", () => ( {
 	registerPlugin: jest.fn(),
 } ) );
 
+jest.mock( "@wordpress/wordcount", () => ( {
+	count: jest.fn( () => 0 ),
+} ) );
+
 jest.mock( "../../src/ai-content-planner/components/inline-banner", () => ( {
 	InlineBanner: () => null,
+} ) );
+
+jest.mock( "../../src/ai-content-planner/components/feature-modal", () => ( {
+	FeatureModal: ( props ) => props.isOpen ? <div data-testid="feature-modal" /> : null,
+} ) );
+
+jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
+	ContentSuggestionBlock: () => null,
 } ) );
 
 describe( "insertBannerAfterFirstParagraph", () => {
@@ -81,23 +96,42 @@ describe( "insertBannerAfterFirstParagraph", () => {
 
 describe( "ContentPlannerEditorPlugin", () => {
 	let mockInsertBlock;
+	let mockRemoveBlock;
+	let mockCloseModal;
+
+	const defaultSelectOptions = {
+		isNewPost: true,
+		postType: "post",
+		blocks: [],
+		isModalOpen: false,
+		skipApprove: false,
+		isPremium: false,
+	};
 
 	/**
 	 * Mocks the useSelect hook with store-based selectors.
-	 * @param {Object} options The mock options.
-	 * @param {boolean} [options.isNewPost=true] Whether the post is new.
-	 * @param {string} [options.postType="post"] The post type.
-	 * @param {Array} [options.blocks=[]] The editor blocks.
+	 *
+	 * @param {Object} options The mock options, merged with defaults.
 	 * @returns {void}
 	 */
-	const mockSelect = ( { isNewPost = true, postType = "post", blocks = [] } = {} ) => {
+	const mockSelect = ( options = {} ) => {
+		const opts = { ...defaultSelectOptions, ...options };
 		const stores = {
 			"core/editor": {
-				isEditedPostNew: () => isNewPost,
-				getCurrentPostType: () => postType,
+				isEditedPostNew: () => opts.isNewPost,
+				getCurrentPostType: () => opts.postType,
+				getEditedPostContent: () => "",
 			},
 			"core/block-editor": {
-				getBlocks: () => blocks,
+				getBlocks: () => opts.blocks,
+			},
+			"yoast-seo/content-planner": {
+				selectIsModalOpen: () => opts.isModalOpen,
+				selectShouldSkipApprove: () => opts.skipApprove,
+			},
+			"yoast-seo/editor": {
+				getIsPremium: () => opts.isPremium,
+				selectLink: () => "https://example.com/upsell",
 			},
 		};
 		useSelect.mockImplementation( ( selector ) => selector( ( storeName ) => stores[ storeName ] ) );
@@ -105,17 +139,33 @@ describe( "ContentPlannerEditorPlugin", () => {
 
 	beforeEach( () => {
 		mockInsertBlock = jest.fn();
-		useDispatch.mockImplementation( () => ( { insertBlock: mockInsertBlock } ) );
+		mockRemoveBlock = jest.fn();
+		mockCloseModal = jest.fn();
+		useDispatch.mockImplementation( ( storeName ) => {
+			if ( storeName === "core/block-editor" ) {
+				return { insertBlock: mockInsertBlock, removeBlock: mockRemoveBlock };
+			}
+			if ( storeName === "yoast-seo/content-planner" ) {
+				return { closeModal: mockCloseModal };
+			}
+			return {};
+		} );
 	} );
 
 	afterEach( () => {
 		jest.clearAllMocks();
 	} );
 
-	test( "should render nothing", () => {
-		mockSelect();
-		const { container } = render( <ContentPlannerEditorPlugin /> );
-		expect( container.innerHTML ).toBe( "" );
+	test( "should not render the feature modal when the store says it is closed", () => {
+		mockSelect( { isModalOpen: false } );
+		const { queryByTestId } = render( <ContentPlannerEditorPlugin /> );
+		expect( queryByTestId( "feature-modal" ) ).not.toBeInTheDocument();
+	} );
+
+	test( "should render the feature modal when the store says it is open", () => {
+		mockSelect( { isModalOpen: true } );
+		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
+		expect( getByTestId( "feature-modal" ) ).toBeInTheDocument();
 	} );
 
 	test( "should insert a paragraph block when canvas is empty on a new post", () => {
