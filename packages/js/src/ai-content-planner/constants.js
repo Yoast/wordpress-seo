@@ -14,6 +14,8 @@ export const FEATURE_MODAL_STATUS = {
 	idle: "idle",
 	contentSuggestionsLoading: "content-suggestions-loading",
 	contentSuggestionsSuccess: "content-suggestions-success",
+	contentSuggestionsError: "content-suggestions-error",
 	contentOutline: "content-outline",
+	contentOutlineError: "content-outline-error",
 	replaceContent: "replace-content",
 };
