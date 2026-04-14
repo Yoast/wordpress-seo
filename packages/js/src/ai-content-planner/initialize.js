@@ -1,5 +1,5 @@
 import { createBlock, registerBlockType } from "@wordpress/blocks";
-import { register, useSelect, useDispatch, register } from "@wordpress/data";
+import { register, useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { useBlockProps } from "@wordpress/block-editor";
