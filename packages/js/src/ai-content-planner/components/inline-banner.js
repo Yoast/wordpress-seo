@@ -10,9 +10,10 @@ import { OneSparkNote } from "./one-spark-note";
  * @param {object}    props     The block props passed by Gutenberg.
  * @param {boolean}  props.isPremium Whether the user has a premium add-on activated.
  * @param {Function} props.onDismiss The function to call when the banner is dismissed.
+ * @param {Function} props.onClick   The function to call when the "Get content suggestions" button is clicked.
  * @returns {JSX.Element} The inline banner with the button.
  */
-export const InlineBanner = ( { isPremium, onDismiss } ) => {
+export const InlineBanner = ( { isPremium, onDismiss, onClick } ) => {
 	const ariaProps = useSvgAria();
 	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
@@ -31,7 +32,7 @@ export const InlineBanner = ( { isPremium, onDismiss } ) => {
 				<OneSparkNote />
 				<span aria-hidden="true">·</span>
 			</>  }
-			<Button variant="ai-primary">
+			<Button variant="ai-primary" onClick={ onClick }>
 				{ __( "Get content suggestions", "wordpress-seo" ) }
 			</Button>
 		</div>
