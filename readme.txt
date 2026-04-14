@@ -318,7 +318,7 @@ Release date: 2026-04-28
 
 #### Other
 
-* Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props: @adconecto
+* Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props to [@adconecto](https://github.com/adconecto).
 * Removes the schemamap line from the `robots.txt` file.
 
 = 27.4 =
