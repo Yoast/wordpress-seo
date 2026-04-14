@@ -1,29 +1,42 @@
 import { combineReducers, createReduxStore } from "@wordpress/data";
 import {
-	SUGGESTIONS_NAME,
-	getInitialSuggestionsState,
-	suggestionsActions,
-	suggestionsControls,
-	suggestionsReducer,
-	suggestionsSelectors,
-} from "./suggestions";
+	CONTENT_SUGGESTIONS_NAME,
+	contentSuggestionsActions,
+	contentSuggestionsControls,
+	contentSuggestionsReducer,
+	contentSuggestionsSelectors,
+	getInitialContentSuggestionsState,
+} from "./content-suggestions";
+import {
+	CONTENT_OUTLINE_NAME,
+	contentOutlineActions,
+	contentOutlineControls,
+	contentOutlineReducer,
+	contentOutlineSelectors,
+	getInitialContentOutlineState,
+} from "./content-outline";
 
 export const STORE_NAME = "yoast-seo/content-planner";
 
 export const store = createReduxStore( STORE_NAME, {
 	actions: {
-		...suggestionsActions,
+		...contentSuggestionsActions,
+		...contentOutlineActions,
 	},
 	selectors: {
-		...suggestionsSelectors,
+		...contentSuggestionsSelectors,
+		...contentOutlineSelectors,
+	},
+	controls: {
+		...contentSuggestionsControls,
+		...contentOutlineControls,
 	},
 	initialState: {
-		[ SUGGESTIONS_NAME ]: getInitialSuggestionsState(),
+		[ CONTENT_SUGGESTIONS_NAME ]: getInitialContentSuggestionsState(),
+		[ CONTENT_OUTLINE_NAME ]: getInitialContentOutlineState(),
 	},
 	reducer: combineReducers( {
-		[ SUGGESTIONS_NAME ]: suggestionsReducer,
+		[ CONTENT_SUGGESTIONS_NAME ]: contentSuggestionsReducer,
+		[ CONTENT_OUTLINE_NAME ]: contentOutlineReducer,
 	} ),
-	controls: {
-		...suggestionsControls,
-	},
 } );
