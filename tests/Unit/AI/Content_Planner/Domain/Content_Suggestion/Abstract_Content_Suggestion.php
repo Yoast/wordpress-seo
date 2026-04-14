@@ -34,8 +34,8 @@ abstract class Abstract_Content_Suggestion extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->category = new Category( 'Tech', 5 );
 		$this->instance = new Content_Suggestion(

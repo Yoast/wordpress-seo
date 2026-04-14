@@ -26,8 +26,8 @@ abstract class Abstract_Category extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->instance = new Category( 'Tech', 5 );
 	}
