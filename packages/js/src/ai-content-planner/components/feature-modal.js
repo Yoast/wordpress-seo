@@ -1,16 +1,16 @@
 import { Modal } from "@yoast/ui-library";
 import { useSelect, useDispatch } from "@wordpress/data";
-import { get, noop } from "lodash";
+import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
-import { ContentSuggestionsModal } from "./content-suggestions-modal";
+import { ContentSuggestionsModalContainer } from "./content-suggestions-modal-container";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
-import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
-import { removesLocaleVariantSuffixes } from "../../ai-generator/helpers/fetch-suggestions";
+import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE, EDITOR_TYPE_TO_API_VALUE } from "../constants";
+import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -49,7 +49,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 				enterTo="yst-opacity-100"
 			>
 				<div>
-					<ContentSuggestionsModal
+					<ContentSuggestionsModalContainer
 						status={ status }
 						isPremium={ isPremium }
 						onSuggestionClick={ onSuggestionClick }
@@ -62,7 +62,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 		return null;
 	}
 	return (
-		<ContentSuggestionsModal
+		<ContentSuggestionsModalContainer
 			status={ status }
 			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
@@ -106,37 +106,23 @@ export const FeatureModal = ( {
 
 	const { fetchContentPlannerSuggestions } = useDispatch( CONTENT_PLANNER_STORE );
 
-	const suggestionsStatus = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestionsStatus(), [] );
-
-	const { postType, contentLocale, isBlockEditor, isElementorEditor } = useSelect( ( select ) => ( {
+	const { suggestionsStatus, endpoint, postType, contentLocale, editorType } = useSelect( ( select ) => ( {
+		suggestionsStatus: select( CONTENT_PLANNER_STORE ).selectSuggestionsStatus(),
+		endpoint: select( CONTENT_PLANNER_STORE ).selectContentPlannerEndpoint(),
 		postType: select( "yoast-seo/editor" ).getPostType(),
 		contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
-		isBlockEditor: select( "yoast-seo/editor" ).getIsBlockEditor(),
-		isElementorEditor: select( "yoast-seo/editor" ).getIsElementorEditor(),
+		editorType: select( "yoast-seo/editor" ).getEditorType(),
 	} ), [] );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
 
-		// Determine the current editor type.
-		let editor;
-		if ( isElementorEditor ) {
-			editor = "elementor";
-		} else if ( isBlockEditor ) {
-			editor = "gutenberg";
-		} else {
-			editor = "classic";
-		}
-
+		const editor = EDITOR_TYPE_TO_API_VALUE[ editorType ] || "classic";
 		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
 
-		// Read the endpoint lazily from the window global. The content planner integration localizes
-		// wpseoContentPlanner independently, so it may not be available at store creation time.
-		const endpoint = get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" );
-
 		fetchContentPlannerSuggestions( { endpoint, postType, language, editor } );
-	}, [ postType, contentLocale, isBlockEditor, isElementorEditor, fetchContentPlannerSuggestions ] );
+	}, [ endpoint, postType, contentLocale, editorType, fetchContentPlannerSuggestions ] );
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );

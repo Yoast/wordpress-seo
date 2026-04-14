@@ -62,14 +62,14 @@ const setupMocks = ( { suggestionsStatus } = {} ) => {
 						{ intent: "informational", title: "How to train your dog", description: "Tips on dog training." },
 					],
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
+					selectContentPlannerEndpoint: () => "yoast/v1/ai_content_planner/get_suggestions",
 				};
 			}
 			if ( storeName === "yoast-seo/editor" ) {
 				return {
 					getPostType: () => "post",
 					getContentLocale: () => "en_US",
-					getIsBlockEditor: () => true,
-					getIsElementorEditor: () => false,
+					getEditorType: () => "blockEditor",
 					getIsPremium: () => false,
 				};
 			}
@@ -95,13 +95,11 @@ describe( "FeatureModal", () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
 		setupMocks();
-		window.wpseoContentPlanner = { endpoints: { contentPlanner: "yoast/v1/ai_content_planner/get_suggestions" } };
 	} );
 
 	afterEach( () => {
 		jest.useRealTimers();
 		jest.clearAllMocks();
-		delete window.wpseoContentPlanner;
 	} );
 
 	it( "does not render the dialog when isOpen is false", () => {

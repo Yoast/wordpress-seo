@@ -48,6 +48,9 @@ export const contentSuggestionsSelectors = {
 	selectSuggestionsStatus: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "status" ], slice.getInitialState().status ),
 	selectSuggestions: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "suggestions" ], slice.getInitialState().suggestions ),
 	selectSuggestionsError: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "error" ], slice.getInitialState().error ),
+	// Reads the endpoint lazily from the window global. The content planner integration localizes
+	// wpseoContentPlanner independently, so it may not be available at store creation time.
+	selectContentPlannerEndpoint: () => get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
 };
 /**
  * Validates and transforms the API response into the expected suggestions shape.

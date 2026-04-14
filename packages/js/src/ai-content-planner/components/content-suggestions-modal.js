@@ -7,9 +7,7 @@ import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
 import classNames from "classnames";
 import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
 import { Transition } from "@headlessui/react";
-import { CONTENT_PLANNER_STORE } from "../constants";
 import { intentBadge } from "./intent-badge";
 
 /**
@@ -101,14 +99,14 @@ const LoadingModalContent = () => {
  * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
+ * @param {Array} props.suggestions The list of content suggestions to display.
+ * @param {boolean} props.skipTransitions Whether to skip transition animations.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, skipTransitions = false } ) => {
+export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, suggestions, skipTransitions = false } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
-
-	const suggestions = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestions(), [] );
 
 	useEffect( () => {
 		closeButtonRef.current?.focus();

@@ -190,6 +190,18 @@ describe( "suggestions store", () => {
 		it( "should return the default error when state is missing", () => {
 			expect( contentSuggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
 		} );
+
+		it( "should return the endpoint from the window global", () => {
+			window.wpseoContentPlanner = { endpoints: { contentPlanner: "yoast/v1/ai_content_planner/get_suggestions" } };
+			expect( contentSuggestionsSelectors.selectContentPlannerEndpoint() )
+				.toBe( "yoast/v1/ai_content_planner/get_suggestions" );
+			delete window.wpseoContentPlanner;
+		} );
+
+		it( "should return an empty string when the window global is not set", () => {
+			delete window.wpseoContentPlanner;
+			expect( contentSuggestionsSelectors.selectContentPlannerEndpoint() ).toBe( "" );
+		} );
 	} );
 
 	describe( "fetchContentPlannerSuggestions", () => {

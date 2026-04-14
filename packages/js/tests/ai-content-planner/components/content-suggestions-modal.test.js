@@ -1,22 +1,10 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
-import { useSelect } from "@wordpress/data";
 import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
 const mockUsageCounter = jest.fn( () => null );
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
-} ) );
-
-jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn(),
-	useDispatch: jest.fn(),
-	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
-		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
-		{}
-	),
-	createReduxStore: jest.fn(),
-	register: jest.fn(),
 } ) );
 
 const mockSuggestions = [
@@ -52,39 +40,18 @@ const mockSuggestions = [
 	},
 ];
 
-const setupMocks = ( { suggestions = mockSuggestions } = {} ) => {
-	useSelect.mockImplementation( ( selector ) => {
-		if ( typeof selector !== "function" ) {
-			return {};
-		}
-
-		const postPlannerStore = {
-			selectSuggestions: () => suggestions,
-		};
-
-		const select = ( storeName ) => {
-			if ( storeName === "yoast-seo/content-planner" ) {
-				return postPlannerStore;
-			}
-			return {};
-		};
-
-		return selector( select );
-	} );
-};
-
-const renderLoadingModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } { ...props } />
+			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } suggestions={ suggestions } { ...props } />
 		</div>
 	</Modal>
 );
 
-const renderSuccessModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } { ...props } />
+			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } suggestions={ suggestions } { ...props } />
 		</div>
 	</Modal>
 );
@@ -93,7 +60,6 @@ describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
 		jest.useFakeTimers();
-		setupMocks();
 	} );
 
 	afterEach( () => {
@@ -198,9 +164,8 @@ describe( "ContentSuggestionsModal", () => {
 			expect( screen.getAllByText( "Commercial" ) ).toHaveLength( 2 );
 		} );
 
-		it( "renders no suggestion buttons when store has no suggestions", () => {
-			setupMocks( { suggestions: [] } );
-			renderSuccessModal();
+		it( "renders no suggestion buttons when suggestions is empty", () => {
+			renderSuccessModal( { suggestions: [] } );
 			expect( screen.queryByText( "How to train your dog" ) ).not.toBeInTheDocument();
 		} );
 	} );
