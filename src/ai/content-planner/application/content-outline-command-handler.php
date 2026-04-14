@@ -128,7 +128,7 @@ class Content_Outline_Command_Handler {
 			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-outline', $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
 			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->token_manager->clear_tokens( $command->get_user()->ID );
+			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
 
 			if ( ! $retry_on_unauthorized ) {
 				throw $exception;
@@ -154,7 +154,7 @@ class Content_Outline_Command_Handler {
 	 *
 	 * @return Section_List The list of outline sections.
 	 */
-	public function build_outline( Response $response ): Section_List {
+	private function build_outline( Response $response ): Section_List {
 		$section_list = new Section_List();
 		$json         = \json_decode( $response->get_body() );
 
