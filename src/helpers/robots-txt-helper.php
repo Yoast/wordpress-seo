@@ -82,7 +82,7 @@ class Robots_Txt_Helper {
 	 *
 	 * @return void
 	 */
-	public function add_schemamap( $absolute_path ) {
+	public function add_schemamap( $absolute_path ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 		\_deprecated_function( __METHOD__, 'Yoast SEO 27.5' );
 	}
 
