@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { Transition } from "@headlessui/react";
-import { STORE_NAME } from "../store";
+import { CONTENT_PLANNER_STORE } from "../constants";
 import { intentBadge } from "./intent-badge";
 
 /**
@@ -108,7 +108,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
-	const suggestions = useSelect( ( select ) => select( STORE_NAME ).selectSuggestions(), [] );
+	const suggestions = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestions(), [] );
 
 	useEffect( () => {
 		closeButtonRef.current?.focus();

@@ -104,9 +104,9 @@ export const FeatureModal = ( {
 	const { resetBlocks } = useDispatch( "core/block-editor" );
 	const { getContentOutline } = useDispatch( CONTENT_PLANNER_STORE );
 
-	const { fetchContentPlannerSuggestions } = useDispatch( STORE_NAME );
+	const { fetchContentPlannerSuggestions } = useDispatch( CONTENT_PLANNER_STORE );
 
-	const suggestionsStatus = useSelect( ( select ) => select( STORE_NAME ).selectSuggestionsStatus(), [] );
+	const suggestionsStatus = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestionsStatus(), [] );
 
 	const { postType, contentLocale, isBlockEditor, isElementorEditor } = useSelect( ( select ) => ( {
 		postType: select( "yoast-seo/editor" ).getPostType(),
