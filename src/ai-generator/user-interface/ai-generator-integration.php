@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\AI_Generator\User_Interface;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Endpoints_Repository;
-use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Planner_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Free_Sparks\Application\Free_Sparks_Endpoints_Repository;
 use Yoast\WP\SEO\AI\Generator\Application\Generator_Endpoints_Repository;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
@@ -94,13 +93,6 @@ class Ai_Generator_Integration implements Integration_Interface {
 	private $free_sparks_endpoints_repository;
 
 	/**
-	 * Represents the content planner endpoints repository.
-	 *
-	 * @var Content_Planner_Endpoints_Repository
-	 */
-	private $content_planner_endpoints_repository;
-
-	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array<string>
@@ -112,17 +104,16 @@ class Ai_Generator_Integration implements Integration_Interface {
 	/**
 	 * Constructs the class.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager            $asset_manager                        The admin asset manager.
-	 * @param WPSEO_Addon_Manager                  $addon_manager                        The addon manager.
-	 * @param API_Client                           $api_client                           The API client.
-	 * @param Current_Page_Helper                  $current_page_helper                  The current page helper.
-	 * @param Options_Helper                       $options_helper                       The options helper.
-	 * @param User_Helper                          $user_helper                          The user helper.
-	 * @param Introductions_Seen_Repository        $introductions_seen_repository        The introductions seen repository.
-	 * @param Generator_Endpoints_Repository       $generator_endpoints_repository       The Generator endpoints repository.
-	 * @param Consent_Endpoints_Repository         $consent_endpoints_repository         The Consent endpoints repository.
-	 * @param Free_Sparks_Endpoints_Repository     $free_sparks_endpoints_repository     The Free Sparks endpoints repository.
-	 * @param Content_Planner_Endpoints_Repository $content_planner_endpoints_repository The Content Planner endpoints repository.
+	 * @param WPSEO_Admin_Asset_Manager        $asset_manager                    The admin asset manager.
+	 * @param WPSEO_Addon_Manager              $addon_manager                    The addon manager.
+	 * @param API_Client                       $api_client                       The API client.
+	 * @param Current_Page_Helper              $current_page_helper              The current page helper.
+	 * @param Options_Helper                   $options_helper                   The options helper.
+	 * @param User_Helper                      $user_helper                      The user helper.
+	 * @param Introductions_Seen_Repository    $introductions_seen_repository    The introductions seen repository.
+	 * @param Generator_Endpoints_Repository   $generator_endpoints_repository   The Generator endpoints repository.
+	 * @param Consent_Endpoints_Repository     $consent_endpoints_repository     The Consent endpoints repository.
+	 * @param Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository The Free Sparks endpoints repository.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -134,20 +125,18 @@ class Ai_Generator_Integration implements Integration_Interface {
 		Introductions_Seen_Repository $introductions_seen_repository,
 		Generator_Endpoints_Repository $generator_endpoints_repository,
 		Consent_Endpoints_Repository $consent_endpoints_repository,
-		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository,
-		Content_Planner_Endpoints_Repository $content_planner_endpoints_repository
+		Free_Sparks_Endpoints_Repository $free_sparks_endpoints_repository
 	) {
-		$this->asset_manager                        = $asset_manager;
-		$this->addon_manager                        = $addon_manager;
-		$this->api_client                           = $api_client;
-		$this->current_page_helper                  = $current_page_helper;
-		$this->options_helper                       = $options_helper;
-		$this->user_helper                          = $user_helper;
-		$this->introductions_seen_repository        = $introductions_seen_repository;
-		$this->generator_endpoints_repository       = $generator_endpoints_repository;
-		$this->consent_endpoints_repository         = $consent_endpoints_repository;
-		$this->free_sparks_endpoints_repository     = $free_sparks_endpoints_repository;
-		$this->content_planner_endpoints_repository = $content_planner_endpoints_repository;
+		$this->asset_manager                    = $asset_manager;
+		$this->addon_manager                    = $addon_manager;
+		$this->api_client                       = $api_client;
+		$this->current_page_helper              = $current_page_helper;
+		$this->options_helper                   = $options_helper;
+		$this->user_helper                      = $user_helper;
+		$this->introductions_seen_repository    = $introductions_seen_repository;
+		$this->generator_endpoints_repository   = $generator_endpoints_repository;
+		$this->consent_endpoints_repository     = $consent_endpoints_repository;
+		$this->free_sparks_endpoints_repository = $free_sparks_endpoints_repository;
 	}
 
 	/**
@@ -188,8 +177,6 @@ class Ai_Generator_Integration implements Integration_Interface {
 				$this->consent_endpoints_repository->get_all_endpoints(),
 			)->merge_with(
 				$this->free_sparks_endpoints_repository->get_all_endpoints(),
-			)->merge_with(
-				$this->content_planner_endpoints_repository->get_all_endpoints(),
 			)->to_paths_array();
 
 		return [

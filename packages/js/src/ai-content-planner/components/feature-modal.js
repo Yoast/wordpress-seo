@@ -141,9 +141,9 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 
 		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
 
-		// Read the endpoint lazily from the window global. The ai-generator script localizes
-		// wpseoAiGenerator independently, so it may not be available at store creation time.
-		const endpoint = get( window, "wpseoAiGenerator.endpoints.contentPlanner", "" );
+		// Read the endpoint lazily from the window global. The content planner integration localizes
+		// wpseoContentPlanner independently, so it may not be available at store creation time.
+		const endpoint = get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" );
 
 		fetchContentPlannerSuggestions( { endpoint, postType, language, editor } );
 	}, [ postType, contentLocale, isBlockEditor, isElementorEditor, fetchContentPlannerSuggestions ] );

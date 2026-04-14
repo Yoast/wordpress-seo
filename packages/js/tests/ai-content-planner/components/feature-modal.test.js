@@ -61,11 +61,13 @@ describe( "FeatureModal", () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
 		setupMocks();
+		window.wpseoContentPlanner = { endpoints: { contentPlanner: "yoast/v1/ai_content_planner/get_suggestions" } };
 	} );
 
 	afterEach( () => {
 		jest.useRealTimers();
 		jest.clearAllMocks();
+		delete window.wpseoContentPlanner;
 	} );
 
 	it( "does not render the dialog when isOpen is false", () => {
