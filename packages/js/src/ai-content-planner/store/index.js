@@ -24,8 +24,6 @@ import {
 	getInitialModalState,
 } from "./modal";
 
-export { CONTENT_PLANNER_STORE as STORE_NAME };
-
 export const store = createReduxStore( CONTENT_PLANNER_STORE, {
 	actions: {
 		...contentSuggestionsActions,

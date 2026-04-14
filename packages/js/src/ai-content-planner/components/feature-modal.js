@@ -9,8 +9,7 @@ import { Transition } from "@headlessui/react";
 import { noop } from "lodash";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
-import { STORE_NAME } from "../store";
-import { FEATURE_MODAL_STATUS } from "../constants";
+import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -121,7 +120,7 @@ export const FeatureModal = ( {
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
 	const { resetBlocks } = useDispatch( "core/block-editor" );
-	const { getContentOutline } = useDispatch( STORE_NAME );
+	const { getContentOutline } = useDispatch( CONTENT_PLANNER_STORE );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
@@ -144,7 +143,7 @@ export const FeatureModal = ( {
 		// receive the edited outline so the API can return content notes that match
 		// the user's edits. At that point the notesByHeading lookup below can be removed.
 		await getContentOutline( selectedSuggestion );
-		const apiOutline = select( STORE_NAME ).selectContentOutline();
+		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
 
 		// Build metadata from the user's edits in the modal.
 		const metaOutline = editedOutline
