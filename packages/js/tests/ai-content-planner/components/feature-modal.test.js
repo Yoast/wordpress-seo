@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useDispatch, select } from "@wordpress/data";
+import { useDispatch, useSelect, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
@@ -34,14 +34,48 @@ jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline
 
 const mockResetBlocks = jest.fn();
 const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
-const mockFetchContentPlannerSuggestions = jest.fn();
 
-const setupMocks = () => {
+// Mutable status that fetchContentPlannerSuggestions can update to simulate
+// the store transitioning from loading → success after a fetch.
+let currentSuggestionsStatus;
+const mockFetchContentPlannerSuggestions = jest.fn().mockImplementation( () => {
+	currentSuggestionsStatus = "success";
+} );
+
+const setupMocks = ( { suggestionsStatus } = {} ) => {
+	currentSuggestionsStatus = suggestionsStatus;
 	useDispatch.mockImplementation( ( store ) => {
 		if ( store === "core/block-editor" ) {
 			return { resetBlocks: mockResetBlocks };
 		}
 		return { getContentOutline: mockGetContentOutline, fetchContentPlannerSuggestions: mockFetchContentPlannerSuggestions };
+	} );
+	useSelect.mockImplementation( ( selector ) => {
+		if ( typeof selector !== "function" ) {
+			return {};
+		}
+		const mockSelect = ( storeName ) => {
+			if ( storeName === "yoast-seo/content-planner" ) {
+				return {
+					selectSuggestionsStatus: () => currentSuggestionsStatus,
+					selectSuggestions: () => [
+						{ intent: "informational", title: "How to train your dog", description: "Tips on dog training." },
+					],
+					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
+				};
+			}
+			if ( storeName === "yoast-seo/editor" ) {
+				return {
+					getPostType: () => "post",
+					getContentLocale: () => "en_US",
+					getIsBlockEditor: () => true,
+					getIsElementorEditor: () => false,
+					getIsPremium: () => false,
+				};
+			}
+			return {};
+		};
+		return selector( mockSelect );
 	} );
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
@@ -110,7 +144,7 @@ describe( "FeatureModal", () => {
 
 	it( "transitions to the content suggestions view when the store status changes to loading", () => {
 		setupMocks( { suggestionsStatus: "loading" } );
-		renderModal();
+		renderModal( { initialStatus: "content-suggestions-loading" } );
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 

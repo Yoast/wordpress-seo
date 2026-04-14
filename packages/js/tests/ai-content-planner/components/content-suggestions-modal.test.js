@@ -63,7 +63,7 @@ const setupMocks = ( { suggestions = mockSuggestions } = {} ) => {
 		};
 
 		const select = ( storeName ) => {
-			if ( storeName === "yoast-seo/post-planner" ) {
+			if ( storeName === "yoast-seo/content-planner" ) {
 				return postPlannerStore;
 			}
 			return {};
