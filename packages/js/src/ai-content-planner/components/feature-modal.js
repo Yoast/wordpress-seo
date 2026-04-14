@@ -26,24 +26,6 @@ const getPanelStyles = ( status ) => ( {
 } );
 
 /**
- * Returns the enter transition props for the suggestions panel.
- * Applies a cross-fade when coming from the approve modal, instant otherwise.
- *
- * @param {boolean} fromApproveModal Whether the suggestions are entering from the approve modal.
- * @returns {Object} The enter, enterFrom, and enterTo transition class strings.
- */
-const getSuggestionsEnterTransition = ( fromApproveModal ) => {
-	if ( fromApproveModal ) {
-		return {
-			enter: "yst-transition-opacity yst-duration-300 yst-delay-300",
-			enterFrom: "yst-opacity-0",
-			enterTo: "yst-opacity-100",
-		};
-	}
-	return { enter: "", enterFrom: "", enterTo: "" };
-};
-
-/**
  * Renders the suggestions modal, with a cross-fade transition when coming from
  * the approve modal and an instant render otherwise.
  *
@@ -57,14 +39,13 @@ const getSuggestionsEnterTransition = ( fromApproveModal ) => {
  */
 const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
-		const transition = getSuggestionsEnterTransition( true );
 		return (
 			<Transition
 				as={ Fragment }
 				show={ isVisible }
-				enter={ transition.enter }
-				enterFrom={ transition.enterFrom }
-				enterTo={ transition.enterTo }
+				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
 			>
 				<div>
 					<ContentSuggestionsModal
