@@ -21,6 +21,7 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
  * @group ai-content-planner
  *
  * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler::handle
+ * @covers \Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler::build_outline
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -232,6 +233,86 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 		$this->expectExceptionMessage( 'CONSENT_REVOKED' );
 
 		$this->instance->handle( $command );
+	}
+
+	/**
+	 * Tests that handle() returns an empty Section_List when the response body is invalid JSON.
+	 *
+	 * @return void
+	 */
+	public function test_handle_returns_empty_section_list_on_invalid_json() {
+		$command = $this->build_command();
+
+		$post_list = Mockery::mock( Post_List::class );
+		$post_list->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
+		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
+		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
+		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( 'not json', 200, '' ) );
+
+		$result = $this->instance->handle( $command );
+
+		$this->assertSame( [ 'outline' => [] ], $result->to_array() );
+	}
+
+	/**
+	 * Tests that handle() returns an empty Section_List when the response JSON has no choices key.
+	 *
+	 * @return void
+	 */
+	public function test_handle_returns_empty_section_list_on_missing_choices_key() {
+		$command = $this->build_command();
+
+		$post_list = Mockery::mock( Post_List::class );
+		$post_list->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
+		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
+		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
+		$this->request_handler->expects( 'handle' )->once()->andReturn( new Response( '{"something_else":[]}', 200, '' ) );
+
+		$result = $this->instance->handle( $command );
+
+		$this->assertSame( [ 'outline' => [] ], $result->to_array() );
+	}
+
+	/**
+	 * Tests that handle() falls back to null/empty array when a choice is missing fields.
+	 *
+	 * @return void
+	 */
+	public function test_handle_falls_back_gracefully_on_partial_choice_fields() {
+		$command = $this->build_command();
+
+		$post_list = Mockery::mock( Post_List::class );
+		$post_list->expects( 'to_array' )->once()->andReturn( [] );
+
+		$this->recent_content_collector->expects( 'collect' )->once()->andReturn( $post_list );
+		$this->recent_content_collector->expects( 'collect_about_page' )->once()->andReturn( false );
+		$this->token_manager->expects( 'get_or_request_access_token' )->once()->andReturn( 'JWT' );
+		$this->request_handler
+			->expects( 'handle' )
+			->once()
+			->andReturn( new Response( '{"choices":[{"subheading_text":"Only heading"},{"content_notes":["only notes"]}]}', 200, '' ) );
+
+		$result = $this->instance->handle( $command );
+
+		$this->assertSame(
+			[
+				'outline' => [
+					[
+						'subheading_text' => 'Only heading',
+						'content_notes'   => [],
+					],
+					[
+						'subheading_text' => null,
+						'content_notes'   => [ 'only notes' ],
+					],
+				],
+			],
+			$result->to_array(),
+		);
 	}
 
 	/**
