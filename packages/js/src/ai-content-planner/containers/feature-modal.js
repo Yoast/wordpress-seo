@@ -1,16 +1,32 @@
 import { compose } from "@wordpress/compose";
-import { withDispatch } from "@wordpress/data";
+import { withDispatch, withSelect } from "@wordpress/data";
+import { count } from "@wordpress/wordcount";
 import { FeatureModal } from "../components/feature-modal";
 import { CONTENT_PLANNER_STORE } from "../constants";
+import { STORE_NAME_AI } from "../../ai-generator/constants";
 
 export default compose( [
-	withDispatch( ( dispatch ) => {
-		const { resetBlocks } = dispatch( "core/block-editor" );
-		const { getContentOutline } = dispatch( CONTENT_PLANNER_STORE );
+	withSelect( ( select ) => {
+		const { selectFeatureModalStatus, selectIsModalOpen } = select( CONTENT_PLANNER_STORE );
+		const content = select( "core/editor" ).getEditedPostContent();
+		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
+		const { isUsageCountLimitReached } = select( STORE_NAME_AI );
 
 		return {
-			resetBlocks,
-			getContentOutline,
+			isOpen: selectIsModalOpen(),
+			isEmptyPost: count( content, "words", {} ) === 0,
+			isPremium: getIsPremium(),
+			status: selectFeatureModalStatus(),
+			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
+			isUpsell: isUsageCountLimitReached(),
+		};
+	} ),
+	withDispatch( ( dispatch ) => {
+		const { closeModal, setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+
+		return {
+			onClose: closeModal,
+			setStatus: setFeatureModalStatus,
 		};
 	} ),
 ] )( FeatureModal );

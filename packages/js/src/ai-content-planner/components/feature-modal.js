@@ -1,16 +1,13 @@
 import { Modal } from "@yoast/ui-library";
-import { select } from "@wordpress/data";
-import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
-import { ContentOutlineModal } from "./content-outline-modal";
 import ContentSuggestionsModal from "../containers/content-suggestions-modal";
+import ContentOutlineModal  from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
-import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
-import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
-import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
+import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -79,10 +76,7 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
- * @param {function}      onAddOutline                    The function to call when the user adds the outline to the post.
  * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
- * @param {function}      resetBlocks                     Dispatch to reset editor blocks.
- * @param {function}      getContentOutline               Dispatch to fetch the content outline.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
@@ -93,72 +87,46 @@ export const FeatureModal = ( {
 	isPremium,
 	isUpsell,
 	upsellLink,
-	onAddOutline = noop,
 	initialStatus = null,
-	resetBlocks,
-	getContentOutline,
+	status,
+	setStatus,
 } ) => {
-	const [ status, setStatus ] = useState( null );
-	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
+	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
 
 	const fetchContentSuggestions = useFetchContentSuggestions();
+	const fetchContentOutline = useFetchContentOutline();
 
+	/**
+	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
+	 * Sets the flag to indicate the transition is coming from the ApproveModal, then fetches content suggestions.
+	 * The flag is used to determine whether to apply a cross-fade transition when showing the SuggestionsPanel.
+	 * Updates the modal status to "content-suggestions" once suggestions are requested.
+	 *
+	 * @returns {void}
+	 */
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 		fetchContentSuggestions();
 	}, [ fetchContentSuggestions ] );
+
+
+	/**
+	 * Handles the click on a content suggestion.
+	 * Sets the selected suggestion, updates the modal status to show the outline, and fetches the content outline for the selected suggestion.
+	 *
+	 * @param {Object} suggestion The selected content suggestion.
+	 * @returns {void}
+	 */
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
-		setSelectedSuggestion( suggestion );
 		setStatus( FEATURE_MODAL_STATUS.contentOutline );
-	}, [] );
+		fetchContentOutline( suggestion );
+	}, [ fetchContentOutline ] );
 
-	const handleBackToSuggestions = useCallback( () => {
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
-	}, [] );
-
-	const handleApplyOutline = useCallback( async() => {
-		const editedOutline = editedOutlineRef.current;
-		// Temporary: once the real API endpoint is available, getContentOutline should
-		// receive the edited outline so the API can return content notes that match
-		// the user's edits. At that point the notesByHeading lookup below can be removed.
-		await getContentOutline( selectedSuggestion );
-		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
-
-		// Build metadata from the user's edits in the modal.
-		const metaOutline = editedOutline
-			? {
-				title: editedOutline.title,
-				metaDescription: editedOutline.metaDescription,
-				focusKeyphrase: editedOutline.focusKeyphrase,
-				category: editedOutline.category,
-			}
-			: apiOutline;
-
-		// Build blocks using the user's heading order and the API's content notes.
-		let blocksOutline = apiOutline;
-		if ( editedOutline ) {
-			const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
-				map[ section.heading ] = section.contentNotes;
-				return map;
-			}, {} );
-			blocksOutline = {
-				sections: editedOutline.structure
-					.filter( ( item ) => item.level !== "FAQ" )
-					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
-				faqContentNotes: apiOutline.faqContentNotes,
-			};
-		}
-
-		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
-		await applyPostMetaFromOutline( metaOutline );
-		onAddOutline();
-		onClose();
-	}, [ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ] );
+	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
 
 	const handleRequestAddOutline = useCallback( ( editedOutline ) => {
 		editedOutlineRef.current = editedOutline;
@@ -190,7 +158,6 @@ export const FeatureModal = ( {
 		if ( ! isOpen ) {
 			setStatus( null );
 			setCameFromApproveModal( false );
-			setSelectedSuggestion( null );
 			setHasVisitedReplace( false );
 			return;
 		}
@@ -233,32 +200,10 @@ export const FeatureModal = ( {
 				 * confirmation panels mounted and toggle via display:none to avoid a
 				 * one-frame empty container between panel swaps.
 				 */ }
-				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
 				{ selectedSuggestion && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
-							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
-							onBack={ handleBackToSuggestions }
 							onAddOutline={ handleRequestAddOutline }
-							sparksLimit={ 10 }
-							sparksUsage={ 1 }
-							category="Baking"
-							suggestion={ {
-								intent: selectedSuggestion.intent,
-								title: "The complete guide to sourdough bread",
-								explanation: selectedSuggestion.explanation,
-								focusKeyphrase: "sourdough bread",
-								metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
-								structure: [
-									{ level: "H2", title: "What is sourdough bread?" },
-									{ level: "H2", title: "How to make a sourdough starter" },
-									{ level: "H2", title: "Choosing the right flour" },
-									{ level: "H2", title: "Mixing and shaping the dough" },
-									{ level: "H2", title: "Bulk fermentation and proofing" },
-									{ level: "H2", title: "Baking your sourdough loaf" },
-									{ level: "FAQ", title: "FAQ" },
-								],
-							} }
 						/>
 					</div>
 				) }

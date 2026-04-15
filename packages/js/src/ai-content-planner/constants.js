@@ -15,4 +15,24 @@ export const FEATURE_MODAL_STATUS = {
 	contentSuggestions: "content-suggestions",
 	contentOutline: "content-outline",
 	replaceContent: "replace-content",
+	error: "error",
 };
+
+export const META_DESCRIPTION_MAX_LENGTH = 156;
+export const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
+
+export const ERROR_DEFAULT = {
+	errorCode: null,
+	errorIdentifier: null,
+	errorMessage: null,
+};
+
+/**
+ * @typedef {Object} Suggestion
+ * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
+ * @property {string} title The title of the suggestion.
+ * @property {string} explanation The explanation of the suggestion.
+ * @property {string} keyphrase The keyphrase associated with the suggestion.
+ * @property {string} metaDescription The meta description associated with the suggestion.
+ * @property {string|undefined} category The category of the suggestion (optional).
+ */
