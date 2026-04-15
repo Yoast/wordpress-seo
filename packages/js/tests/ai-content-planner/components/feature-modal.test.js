@@ -14,10 +14,12 @@ jest.mock( "@wordpress/data", () => {
 		useSelect: useSelectMock,
 		withSelect: ( mapSelectToProps ) => ( Component ) => {
 			const React = require( "react" );
-			return ( ownProps ) => {
-				const selectProps = useSelectMock( ( select ) => mapSelectToProps( select, ownProps ) );
+			const WithSelectComponent = ( ownProps ) => {
+				const selectProps = useSelectMock( ( selectFn ) => mapSelectToProps( selectFn, ownProps ) );
 				return React.createElement( Component, Object.assign( {}, ownProps, selectProps ) );
 			};
+			WithSelectComponent.displayName = `WithSelect(${ Component.displayName || Component.name || "Component" })`;
+			return WithSelectComponent;
 		},
 		combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 			( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
