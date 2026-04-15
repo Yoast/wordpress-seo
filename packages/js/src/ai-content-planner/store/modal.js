@@ -39,9 +39,11 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.error;
+			state.isOpen = false;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.error;
+			state.isOpen = false;
 		} );
 	},
 } );
