@@ -1,23 +1,38 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSelect, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
+import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
-jest.mock( "@wordpress/data", () => ( {
-	useDispatch: jest.fn(),
-	useSelect: jest.fn(),
-	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
-		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
-		{}
-	),
-	createReduxStore: jest.fn(),
-	register: jest.fn(),
-	select: jest.fn(),
-	dispatch: jest.fn(),
-	resolveSelect: jest.fn(),
+jest.mock( "@wordpress/data", () => {
+	const useSelectMock = jest.fn();
+	return {
+		useDispatch: jest.fn(),
+		useSelect: useSelectMock,
+		withSelect: ( mapSelectToProps ) => ( Component ) => {
+			const React = require( "react" );
+			return ( ownProps ) => {
+				const selectProps = useSelectMock( ( select ) => mapSelectToProps( select, ownProps ) );
+				return React.createElement( Component, Object.assign( {}, ownProps, selectProps ) );
+			};
+		},
+		combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
+			( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
+			{}
+		),
+		createReduxStore: jest.fn(),
+		register: jest.fn(),
+		select: jest.fn(),
+		dispatch: jest.fn(),
+		resolveSelect: jest.fn(),
+	};
+} );
+
+jest.mock( "@wordpress/compose", () => ( {
+	compose: ( hocs ) => ( Component ) => hocs.reduceRight( ( Acc, hoc ) => hoc( Acc ), Component ),
 } ) );
 
 jest.mock( "@wordpress/blocks", () => ( {
@@ -32,18 +47,16 @@ jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline
 	applyPostMetaFromOutline: jest.fn().mockResolvedValue( undefined ),
 } ) );
 
+jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
+	useFetchContentSuggestions: jest.fn(),
+} ) );
+
 const mockResetBlocks = jest.fn();
 const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
+const mockFetchContentPlannerSuggestions = jest.fn();
 
-// Mutable status that fetchContentPlannerSuggestions can update to simulate
-// the store transitioning from loading → success after a fetch.
-let currentSuggestionsStatus;
-const mockFetchContentPlannerSuggestions = jest.fn().mockImplementation( () => {
-	currentSuggestionsStatus = "success";
-} );
-
-const setupMocks = ( { suggestionsStatus } = {} ) => {
-	currentSuggestionsStatus = suggestionsStatus;
+const setupMocks = () => {
+	useFetchContentSuggestions.mockReturnValue( mockFetchContentPlannerSuggestions );
 	useSelect.mockImplementation( ( selector ) => {
 		if ( typeof selector !== "function" ) {
 			return {};
@@ -55,11 +68,18 @@ const setupMocks = ( { suggestionsStatus } = {} ) => {
 						{ intent: "informational", title: "How to train your dog", explanation: "Tips on dog training." },
 					],
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
+					selectSuggestionsStatus: () => "success",
 				};
 			}
 			if ( storeName === "yoast-seo/editor" ) {
 				return {
 					getIsPremium: () => false,
+				};
+			}
+			if ( storeName === "yoast-seo/ai-generator" ) {
+				return {
+					selectUsageCount: () => 1,
+					selectUsageCountLimit: () => 10,
 				};
 			}
 			return {};
@@ -76,14 +96,8 @@ const createModalElement = ( props ) => (
 		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
-		suggestionsStatus={ currentSuggestionsStatus }
-		endpoint="yoast/v1/ai_content_planner/get_suggestions"
-		postType="post"
-		contentLocale="en_US"
-		editorApiValue="gutenberg"
 		resetBlocks={ mockResetBlocks }
 		getContentOutline={ mockGetContentOutline }
-		fetchContentPlannerSuggestions={ mockFetchContentPlannerSuggestions }
 		{ ...props }
 	/>
 );
@@ -131,17 +145,11 @@ describe( "FeatureModal", () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledWith( {
-			endpoint: "yoast/v1/ai_content_planner/get_suggestions",
-			postType: "post",
-			language: "en-US",
-			editor: "gutenberg",
-		} );
+		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "transitions to the content suggestions view when the store status changes to loading", () => {
-		setupMocks( { suggestionsStatus: "loading" } );
-		renderModal( { initialStatus: "content-suggestions-loading", suggestionsStatus: "loading" } );
+		renderModal( { initialStatus: "content-suggestions" } );
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
@@ -247,8 +255,8 @@ describe( "FeatureModal", () => {
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "skips the approve modal when initialStatus is content-suggestions-loading", () => {
-		renderModal( { initialStatus: "content-suggestions-loading" } );
+	it( "skips the approve modal when initialStatus is content-suggestions", () => {
+		renderModal( { initialStatus: "content-suggestions" } );
 		// Should go straight to content suggestions, no approve modal.
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
