@@ -122,13 +122,18 @@ export const FeatureModal = ( {
 
 	const handleConsentGranted = useCallback( () => {
 		setIsConsentModalOpen( false );
-		setCameFromApproveModal( true );
+		// Only cross-fade from the approve modal when that was the origin (sidebar path).
+		setCameFromApproveModal( initialStatus === null );
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
-	}, [] );
+	}, [ initialStatus ] );
 
 	const handleConsentModalClose = useCallback( () => {
 		setIsConsentModalOpen( false );
-	}, [] );
+		// Banner path: the FeatureModal has no content to fall back to, so close it entirely.
+		if ( initialStatus !== null ) {
+			onClose();
+		}
+	}, [ initialStatus, onClose ] );
 
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
@@ -199,7 +204,7 @@ export const FeatureModal = ( {
 
 	useEffect( () => {
 		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
-		if ( status === null ) {
+		if ( status === null && ! isConsentModalOpen ) {
 			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
 			return () => clearTimeout( timer );
 		}
@@ -207,7 +212,7 @@ export const FeatureModal = ( {
 			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
 			return () => clearTimeout( timer );
 		}
-	}, [ status ] );
+	}, [ status, isConsentModalOpen ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
@@ -219,8 +224,13 @@ export const FeatureModal = ( {
 			return;
 		}
 		setCameFromApproveModal( false );
+		if ( initialStatus !== null && ! hasConsent ) {
+			// Inline banner path without consent — show consent modal; keep status null.
+			setIsConsentModalOpen( true );
+			return;
+		}
 		setStatus( initialStatus );
-	}, [ isOpen, initialStatus ] );
+	}, [ isOpen, initialStatus, hasConsent ] );
 
 	const isSuggestionsVisible =
 		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
