@@ -112,7 +112,7 @@ export const ContentPlannerEditorPlugin = () => {
 			isPremium={ isPremium }
 			upsellLink={ upsellLink }
 			onAddOutline={ handleAddOutline }
-			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestionsLoading : null }
+			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestions : null }
 		/>
 	);
 };
