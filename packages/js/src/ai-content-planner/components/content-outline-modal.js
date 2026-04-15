@@ -163,7 +163,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 		{ isEnabled && (
 			isLoading
 				? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
-				: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
+				: <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge>
 		) }
 	</div>
 );
@@ -173,14 +173,6 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
  * @property {string} title The section title.
  */
-
-/**
- * @typedef {Omit<Suggestion, "keyphrase"> & {
- *   focusKeyphrase: string,
- *   structure: StructureItem[]
- * }} OutlineSuggestion
- */
-
 
 /**
  * Content Outline Modal panel component.
@@ -197,7 +189,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, onAddOutline, suggestion, sparksLimit, sparksUsage, isActive } ) => {
+export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive } ) => {
 	const { category } = suggestion;
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -237,15 +229,15 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 		setIsCategoryEnabled( ( prev ) => ! prev );
 	}, [] );
 
-	const handleAddOutline = useCallback( () => {
-		onAddOutline( {
+	const handleApplyOutline = useCallback( () => {
+		onApplyOutline( {
 			title,
 			metaDescription,
 			focusKeyphrase,
 			category: isCategoryEnabled ? category : "",
 			structure,
 		} );
-	}, [ onAddOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
+	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
 
 
 	return (
@@ -362,7 +354,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
-					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>svg]:yst-hidden yst-ps-3">
+					<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>svg]:yst-hidden yst-ps-3">
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>

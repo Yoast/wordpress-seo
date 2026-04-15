@@ -128,7 +128,7 @@ export const FeatureModal = ( {
 
 	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
 
-	const handleRequestAddOutline = useCallback( ( editedOutline ) => {
+	const handleOnApplyOutline = useCallback( ( editedOutline ) => {
 		editedOutlineRef.current = editedOutline;
 		if ( isEmptyPost ) {
 			handleApplyOutline();
@@ -203,7 +203,7 @@ export const FeatureModal = ( {
 				{ selectedSuggestion && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
-							onAddOutline={ handleRequestAddOutline }
+							onApplyOutline={ handleOnApplyOutline }
 						/>
 					</div>
 				) }
