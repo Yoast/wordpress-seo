@@ -43,7 +43,7 @@ const mockSuggestions = [
 const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } suggestions={ suggestions } { ...props } />
+			<ContentSuggestionsModal status="loading" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
@@ -51,7 +51,7 @@ const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestion
 const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } suggestions={ suggestions } { ...props } />
+			<ContentSuggestionsModal status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
