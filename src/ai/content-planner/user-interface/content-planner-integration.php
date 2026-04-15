@@ -82,6 +82,6 @@ class Content_Planner_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		$this->asset_manager->localize_script( 'ai-generator', 'wpseoContentPlanner', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'ai-content-planner', 'wpseoContentPlanner', $this->get_script_data() );
 	}
 }

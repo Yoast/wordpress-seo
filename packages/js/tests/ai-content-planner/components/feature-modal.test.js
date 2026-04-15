@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useDispatch, useSelect, select } from "@wordpress/data";
+import { useSelect, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
@@ -44,38 +44,22 @@ const mockFetchContentPlannerSuggestions = jest.fn().mockImplementation( () => {
 
 const setupMocks = ( { suggestionsStatus } = {} ) => {
 	currentSuggestionsStatus = suggestionsStatus;
-	useDispatch.mockImplementation( ( store ) => {
-		if ( store === "core/block-editor" ) {
-			return { resetBlocks: mockResetBlocks };
-		}
-		return { getContentOutline: mockGetContentOutline, fetchContentPlannerSuggestions: mockFetchContentPlannerSuggestions };
-	} );
 	useSelect.mockImplementation( ( selector ) => {
 		if ( typeof selector !== "function" ) {
 			return {};
 		}
-		const mockSelect = ( storeName ) => {
+		const mockSelectFn = ( storeName ) => {
 			if ( storeName === "yoast-seo/content-planner" ) {
 				return {
-					selectSuggestionsStatus: () => currentSuggestionsStatus,
 					selectSuggestions: () => [
 						{ intent: "informational", title: "How to train your dog", description: "Tips on dog training." },
 					],
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
-					selectContentPlannerEndpoint: () => "yoast/v1/ai_content_planner/get_suggestions",
-				};
-			}
-			if ( storeName === "yoast-seo/editor" ) {
-				return {
-					getPostType: () => "post",
-					getContentLocale: () => "en_US",
-					getEditorType: () => "blockEditor",
-					getIsPremium: () => false,
 				};
 			}
 			return {};
 		};
-		return selector( mockSelect );
+		return selector( mockSelectFn );
 	} );
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
@@ -87,6 +71,14 @@ const renderModal = ( props ) => render(
 		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
+		suggestionsStatus={ currentSuggestionsStatus }
+		endpoint="yoast/v1/ai_content_planner/get_suggestions"
+		postType="post"
+		contentLocale="en_US"
+		editorApiValue="gutenberg"
+		resetBlocks={ mockResetBlocks }
+		getContentOutline={ mockGetContentOutline }
+		fetchContentPlannerSuggestions={ mockFetchContentPlannerSuggestions }
 		{ ...props }
 	/>
 );
@@ -142,7 +134,7 @@ describe( "FeatureModal", () => {
 
 	it( "transitions to the content suggestions view when the store status changes to loading", () => {
 		setupMocks( { suggestionsStatus: "loading" } );
-		renderModal( { initialStatus: "content-suggestions-loading" } );
+		renderModal( { initialStatus: "content-suggestions-loading", suggestionsStatus: "loading" } );
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 

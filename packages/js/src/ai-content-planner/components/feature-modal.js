@@ -1,5 +1,5 @@
 import { Modal } from "@yoast/ui-library";
-import { useSelect, useDispatch } from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
@@ -9,7 +9,7 @@ import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
-import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE, EDITOR_TYPE_TO_API_VALUE } from "../constants";
+import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
 import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -75,14 +75,22 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  * The modal that orchestrates the flow between the approve, content suggestions,
  * content outline, and replace content confirmation views.
  *
- * @param {boolean}       isOpen                    Whether the modal is open or not.
- * @param {function}      onClose                   The function to call when the modal is closed.
- * @param {boolean}       isEmptyPost             Whether the post has content or not.
- * @param {boolean}       isPremium                 Whether the user has a premium subscription or not.
- * @param {boolean}       isUpsell                  Whether the modal is shown as an upsell or not.
- * @param {string}        upsellLink                The link to the upsell page.
- * @param {function}      onAddOutline              The function to call when the user adds the outline to the post.
- * @param {string|null}   initialStatus             The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
+ * @param {boolean}       isOpen                          Whether the modal is open or not.
+ * @param {function}      onClose                         The function to call when the modal is closed.
+ * @param {boolean}       isEmptyPost                     Whether the post has content or not.
+ * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
+ * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
+ * @param {string}        upsellLink                      The link to the upsell page.
+ * @param {function}      onAddOutline                    The function to call when the user adds the outline to the post.
+ * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
+ * @param {string}        suggestionsStatus               The current status of the suggestions fetch.
+ * @param {string}        endpoint                        The REST API endpoint path.
+ * @param {string}        postType                        The current post type.
+ * @param {string}        contentLocale                   The content language/locale.
+ * @param {string}        editorApiValue                  The editor type as API-expected value.
+ * @param {function}      resetBlocks                     Dispatch to reset editor blocks.
+ * @param {function}      getContentOutline               Dispatch to fetch the content outline.
+ * @param {function}      fetchContentPlannerSuggestions   Dispatch to fetch content planner suggestions.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
@@ -95,34 +103,29 @@ export const FeatureModal = ( {
 	upsellLink,
 	onAddOutline = noop,
 	initialStatus = null,
+	suggestionsStatus,
+	endpoint,
+	postType,
+	contentLocale,
+	editorApiValue,
+	resetBlocks,
+	getContentOutline,
+	fetchContentPlannerSuggestions,
 } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
-	const { resetBlocks } = useDispatch( "core/block-editor" );
-	const { getContentOutline } = useDispatch( CONTENT_PLANNER_STORE );
-
-	const { fetchContentPlannerSuggestions } = useDispatch( CONTENT_PLANNER_STORE );
-
-	const { suggestionsStatus, endpoint, postType, contentLocale, editorType } = useSelect( ( select ) => ( {
-		suggestionsStatus: select( CONTENT_PLANNER_STORE ).selectSuggestionsStatus(),
-		endpoint: select( CONTENT_PLANNER_STORE ).selectContentPlannerEndpoint(),
-		postType: select( "yoast-seo/editor" ).getPostType(),
-		contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
-		editorType: select( "yoast-seo/editor" ).getEditorType(),
-	} ), [] );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
 
-		const editor = EDITOR_TYPE_TO_API_VALUE[ editorType ] || "classic";
 		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
 
-		fetchContentPlannerSuggestions( { endpoint, postType, language, editor } );
-	}, [ endpoint, postType, contentLocale, editorType, fetchContentPlannerSuggestions ] );
+		fetchContentPlannerSuggestions( { endpoint, postType, language, editor: editorApiValue } );
+	}, [ endpoint, postType, contentLocale, editorApiValue, fetchContentPlannerSuggestions ] );
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
@@ -139,7 +142,7 @@ export const FeatureModal = ( {
 		// receive the edited outline so the API can return content notes that match
 		// the user's edits. At that point the notesByHeading lookup below can be removed.
 		await getContentOutline( selectedSuggestion );
-		const apiOutline = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutline(), [] );
+		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
 
 		// Build metadata from the user's edits in the modal.
 		const metaOutline = editedOutline

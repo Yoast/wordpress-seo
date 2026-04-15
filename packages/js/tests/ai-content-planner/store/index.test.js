@@ -1,5 +1,5 @@
 import { createRegistry } from "@wordpress/data";
-import { store } from "../../../src/ai-content-planner/store";
+import { createStore } from "../../../src/ai-content-planner/store";
 import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
 describe( "content planner store", () => {
@@ -7,7 +7,7 @@ describe( "content planner store", () => {
 
 	beforeEach( () => {
 		registry = createRegistry();
-		registry.register( store );
+		registry.register( createStore() );
 	} );
 
 	it( "has modal closed by default", () => {
