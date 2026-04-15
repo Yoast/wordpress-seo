@@ -155,4 +155,4 @@ npx wp-env run cli \
   -- env $ENV_PREFIX \
   php vendor/phpunit/phpunit/phpunit \
   -c phpunit-wp.xml.dist \
-  "${PHPUNIT_ARGS[@]}"
+  ${PHPUNIT_ARGS[@]+"${PHPUNIT_ARGS[@]}"}
