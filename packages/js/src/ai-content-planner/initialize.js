@@ -1,17 +1,17 @@
 import { createBlock, registerBlockType } from "@wordpress/blocks";
-import { useSelect, useDispatch, register, select as wpSelect } from "@wordpress/data";
+import { useSelect, useDispatch, select as wpSelect } from "@wordpress/data";
 import { useEffect, useRef, useCallback } from "@wordpress/element";
 import { count } from "@wordpress/wordcount";
 import { registerPlugin } from "@wordpress/plugins";
 import { useBlockProps } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
-import { FeatureModal } from "./components/feature-modal";
+import { get } from "lodash";
+import FeatureModal from "./containers/feature-modal";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import "./block";
-import { store } from "./store";
+import { registerStore } from "./store";
+import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { ContentSuggestionBlock } from "./components/content-suggestion-block";
-
-register( store );
 
 /**
  * Inserts a Content Planner Banner block after the first paragraph in the editor.
@@ -111,7 +111,7 @@ export const ContentPlannerEditorPlugin = () => {
 			isPremium={ isPremium }
 			upsellLink={ upsellLink }
 			onAddOutline={ handleAddOutline }
-			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestionsLoading : null }
+			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestions : null }
 		/>
 	);
 };
@@ -177,5 +177,10 @@ registerBlockType( "yoast-seo/content-suggestion", {
  * @returns {void}
  */
 export default function initContentPlanner() {
+	registerStore( {
+		[ CONTENT_SUGGESTIONS_NAME ]: {
+			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
+		},
+	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }
