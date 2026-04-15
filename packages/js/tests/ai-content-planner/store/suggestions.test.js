@@ -214,7 +214,6 @@ describe( "suggestions store", () => {
 		it( "should return the default error when state is missing", () => {
 			expect( contentSuggestionsSelectors.selectSuggestionsError( {} ) ).toEqual( ERROR_DEFAULT );
 		} );
-
 	} );
 
 	describe( "fetchContentPlannerSuggestions", () => {

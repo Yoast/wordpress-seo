@@ -57,6 +57,11 @@ const setupMocks = ( { suggestionsStatus } = {} ) => {
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
 				};
 			}
+			if ( storeName === "yoast-seo/editor" ) {
+				return {
+					getIsPremium: () => false,
+				};
+			}
 			return {};
 		};
 		return selector( mockSelectFn );
@@ -64,7 +69,7 @@ const setupMocks = ( { suggestionsStatus } = {} ) => {
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
 
-const renderModal = ( props ) => render(
+const createModalElement = ( props ) => (
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
@@ -82,6 +87,8 @@ const renderModal = ( props ) => render(
 		{ ...props }
 	/>
 );
+
+const renderModal = ( props ) => render( createModalElement( props ) );
 
 describe( "FeatureModal", () => {
 	beforeEach( () => {
@@ -139,12 +146,13 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "shows the replace content confirmation when 'Add outline to post' is clicked and post is not empty", () => {
-		renderModal( { isEmptyPost: false } );
+		const { rerender } = renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		// Navigate through: approve → suggestions → outline → replace content.
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -162,11 +170,12 @@ describe( "FeatureModal", () => {
 	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyPost: true, onAddOutline, onClose } );
+		const { rerender } = renderModal( { isEmptyPost: true, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: true, onAddOutline, onClose } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -185,11 +194,12 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal( { isEmptyPost: false } );
+		const { rerender } = renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -211,11 +221,12 @@ describe( "FeatureModal", () => {
 	it( "applies the outline when replace is confirmed on non-empty post", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyPost: false, onAddOutline, onClose } );
+		const { rerender } = renderModal( { isEmptyPost: false, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false, onAddOutline, onClose } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
