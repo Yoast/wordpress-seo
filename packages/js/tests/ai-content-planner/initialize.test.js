@@ -38,9 +38,11 @@ jest.mock( "../../src/ai-content-planner/components/inline-banner", () => ( {
 	InlineBanner: () => null,
 } ) );
 
-jest.mock( "../../src/ai-content-planner/components/feature-modal", () => ( {
-	FeatureModal: ( props ) => props.isOpen ? <div data-testid="feature-modal" /> : null,
-} ) );
+jest.mock( "../../src/ai-content-planner/containers/feature-modal", () => {
+	const MockFeatureModal = ( props ) => props.isOpen ? <div data-testid="feature-modal" /> : null;
+	MockFeatureModal.displayName = "MockFeatureModal";
+	return { __esModule: true, "default": MockFeatureModal };
+} );
 
 jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
 	ContentSuggestionBlock: () => null,
