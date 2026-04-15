@@ -4,13 +4,13 @@ import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
-import { ContentSuggestionsModalContainer } from "../containers/content-suggestions-modal-container";
+import ContentSuggestionsModal from "../containers/content-suggestions-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
-import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
+import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -38,7 +38,7 @@ const getPanelStyles = ( status ) => ( {
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
 		return (
 			<Transition
@@ -49,9 +49,8 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 				enterTo="yst-opacity-100"
 			>
 				<div>
-					<ContentSuggestionsModalContainer
+					<ContentSuggestionsModal
 						status={ status }
-						isPremium={ isPremium }
 						onSuggestionClick={ onSuggestionClick }
 					/>
 				</div>
@@ -62,9 +61,8 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 		return null;
 	}
 	return (
-		<ContentSuggestionsModalContainer
+		<ContentSuggestionsModal
 			status={ status }
-			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
 		/>
@@ -83,14 +81,8 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  * @param {string}        upsellLink                      The link to the upsell page.
  * @param {function}      onAddOutline                    The function to call when the user adds the outline to the post.
  * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
- * @param {string}        suggestionsStatus               The current status of the suggestions fetch.
- * @param {string}        endpoint                        The REST API endpoint path.
- * @param {string}        postType                        The current post type.
- * @param {string}        contentLocale                   The content language/locale.
- * @param {string}        editorApiValue                  The editor type as API-expected value.
  * @param {function}      resetBlocks                     Dispatch to reset editor blocks.
  * @param {function}      getContentOutline               Dispatch to fetch the content outline.
- * @param {function}      fetchContentPlannerSuggestions   Dispatch to fetch content planner suggestions.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
@@ -103,14 +95,8 @@ export const FeatureModal = ( {
 	upsellLink,
 	onAddOutline = noop,
 	initialStatus = null,
-	suggestionsStatus,
-	endpoint,
-	postType,
-	contentLocale,
-	editorApiValue,
 	resetBlocks,
 	getContentOutline,
-	fetchContentPlannerSuggestions,
 } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
@@ -118,14 +104,13 @@ export const FeatureModal = ( {
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
 
+	const fetchContentSuggestions = useFetchContentSuggestions();
+
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
-
-		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
-
-		fetchContentPlannerSuggestions( { endpoint, postType, language, editor: editorApiValue } );
-	}, [ endpoint, postType, contentLocale, editorApiValue, fetchContentPlannerSuggestions ] );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
+		fetchContentSuggestions();
+	}, [ fetchContentSuggestions ] );
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
@@ -133,7 +118,7 @@ export const FeatureModal = ( {
 	}, [] );
 
 	const handleBackToSuggestions = useCallback( () => {
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 	}, [] );
 
 	const handleApplyOutline = useCallback( async() => {
@@ -193,15 +178,6 @@ export const FeatureModal = ( {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
 
-	// Map store status to UI status for transitions.
-	useEffect( () => {
-		if ( suggestionsStatus === "loading" ) {
-			setStatus( "content-suggestions-loading" );
-		} else if ( suggestionsStatus === "success" ) {
-			setStatus( "content-suggestions-success" );
-		}
-	}, [ suggestionsStatus ] );
-
 	// Delay setting the status to "idle" to allow assistive technology to announce the changes.
 	useEffect( () => {
 		if ( status === null ) {
@@ -222,9 +198,6 @@ export const FeatureModal = ( {
 		setStatus( initialStatus );
 	}, [ isOpen, initialStatus ] );
 
-	const isSuggestionsVisible =
-		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
-		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading;
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
@@ -251,10 +224,8 @@ export const FeatureModal = ( {
 					</div>
 				</Transition>
 				<SuggestionsPanel
-					isVisible={ isSuggestionsVisible }
+					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
 					cameFromApproveModal={ cameFromApproveModal }
-					status={ status }
-					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
 				{ /*
