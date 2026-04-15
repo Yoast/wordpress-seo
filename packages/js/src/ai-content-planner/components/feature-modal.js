@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { ApproveModal } from "./approve-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
-import { ContentSuggestionsModalContainer } from "./content-suggestions-modal-container";
+import { ContentSuggestionsModalContainer } from "../containers/content-suggestions-modal-container";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
@@ -275,7 +275,7 @@ export const FeatureModal = ( {
 							suggestion={ {
 								intent: selectedSuggestion.intent,
 								title: "The complete guide to sourdough bread",
-								description: selectedSuggestion.description,
+								explanation: selectedSuggestion.explanation,
 								focusKeyphrase: "sourdough bread",
 								metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
 								structure: [

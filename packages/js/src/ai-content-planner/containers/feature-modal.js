@@ -7,7 +7,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			selectSuggestionsStatus,
-			selectContentPlannerEndpoint,
+			selectContentSuggestionsEndpoint,
 		} = select( CONTENT_PLANNER_STORE );
 		const {
 			getPostType,
@@ -17,7 +17,7 @@ export default compose( [
 
 		return {
 			suggestionsStatus: selectSuggestionsStatus(),
-			endpoint: selectContentPlannerEndpoint(),
+			endpoint: selectContentSuggestionsEndpoint(),
 			postType: getPostType(),
 			contentLocale: getContentLocale(),
 			editorApiValue: getEditorTypeApiValue(),

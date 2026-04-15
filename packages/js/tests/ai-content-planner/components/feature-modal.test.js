@@ -52,7 +52,7 @@ const setupMocks = ( { suggestionsStatus } = {} ) => {
 			if ( storeName === "yoast-seo/content-planner" ) {
 				return {
 					selectSuggestions: () => [
-						{ intent: "informational", title: "How to train your dog", description: "Tips on dog training." },
+						{ intent: "informational", title: "How to train your dog", explanation: "Tips on dog training." },
 					],
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
 				};

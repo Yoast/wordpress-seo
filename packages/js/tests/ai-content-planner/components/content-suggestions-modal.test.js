@@ -11,32 +11,32 @@ const mockSuggestions = [
 	{
 		intent: "informational",
 		title: "How to train your dog",
-		description: "Tips and tricks on how to train your dog effectively.",
+		explanation: "Tips and tricks on how to train your dog effectively.",
 	},
 	{
 		intent: "navigational",
 		title: "Best dog training schools in New York",
-		description: "A list of the best dog training schools in New York.",
+		explanation: "A list of the best dog training schools in New York.",
 	},
 	{
 		intent: "commercial",
 		title: "Top 10 dog training tools",
-		description: "A review of the top 10 dog training tools on the market.",
+		explanation: "A review of the top 10 dog training tools on the market.",
 	},
 	{
 		intent: "informational",
 		title: "How to groom your dog",
-		description: "Step-by-step guide on how to groom your dog at home.",
+		explanation: "Step-by-step guide on how to groom your dog at home.",
 	},
 	{
 		intent: "navigational",
 		title: "Dog parks in Los Angeles",
-		description: "Find the best dog parks in Los Angeles for your furry friend.",
+		explanation: "Find the best dog parks in Los Angeles for your furry friend.",
 	},
 	{
 		intent: "commercial",
 		title: "Best dog food brands",
-		description: "An overview of the best dog food brands for a healthy diet.",
+		explanation: "An overview of the best dog food brands for a healthy diet.",
 	},
 ];
 
@@ -144,7 +144,7 @@ describe( "ContentSuggestionsModal", () => {
 			expect( screen.getByText( "Best dog food brands" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders suggestion descriptions", () => {
+		it( "renders suggestion explanations", () => {
 			renderSuccessModal();
 			expect( screen.getByText( "Tips and tricks on how to train your dog effectively." ) ).toBeInTheDocument();
 		} );

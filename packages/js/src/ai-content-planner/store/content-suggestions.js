@@ -16,6 +16,7 @@ const ERROR_DEFAULT = {
 const slice = createSlice( {
 	name: CONTENT_SUGGESTIONS_NAME,
 	initialState: {
+		endpoint: "",
 		status: ASYNC_ACTION_STATUS.idle,
 		suggestions: [],
 		error: ERROR_DEFAULT,
@@ -45,6 +46,7 @@ const slice = createSlice( {
 export const getInitialContentSuggestionsState = slice.getInitialState;
 
 export const contentSuggestionsSelectors = {
+	selectContentSuggestionsEndpoint: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 	selectSuggestionsStatus: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "status" ], slice.getInitialState().status ),
 	selectSuggestions: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "suggestions" ], slice.getInitialState().suggestions ),
 	selectSuggestionsError: ( state ) => get( state, [ CONTENT_SUGGESTIONS_NAME, "error" ], slice.getInitialState().error ),
@@ -66,7 +68,7 @@ const validateSuggestionsResponse = ( result ) => {
 	return suggestions.map( ( suggestion ) => ( {
 		intent: suggestion.intent,
 		title: suggestion.title,
-		description: suggestion.explanation,
+		explanation: suggestion.explanation,
 		keyphrase: suggestion.keyphrase,
 		metaDescription: suggestion.meta_description,
 		category: suggestion.category,

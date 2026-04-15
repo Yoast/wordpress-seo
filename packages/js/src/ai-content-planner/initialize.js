@@ -5,19 +5,15 @@ import { count } from "@wordpress/wordcount";
 import { registerPlugin } from "@wordpress/plugins";
 import { useBlockProps } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
+import domReady from "@wordpress/dom-ready";
 import { get } from "lodash";
 import FeatureModal from "./containers/feature-modal";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import "./block";
 import { registerStore } from "./store";
-import { ENDPOINTS_NAME } from "./store/endpoints";
+import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { ContentSuggestionBlock } from "./components/content-suggestion-block";
 
-registerStore( {
-	[ ENDPOINTS_NAME ]: {
-		contentPlanner: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
-	},
-} );
 /**
  * Inserts a Content Planner Banner block after the first paragraph in the editor.
  *
@@ -184,3 +180,11 @@ registerBlockType( "yoast-seo/content-suggestion", {
 export default function initContentPlanner() {
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }
+
+domReady( () => {
+	registerStore( {
+		[ CONTENT_SUGGESTIONS_NAME ]: {
+			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
+		},
+	} );
+} );

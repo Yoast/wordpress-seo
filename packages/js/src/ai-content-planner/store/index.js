@@ -24,13 +24,6 @@ import {
 	modalSelectors,
 	getInitialModalState,
 } from "./modal";
-import {
-	ENDPOINTS_NAME,
-	endpointsActions,
-	endpointsReducer,
-	endpointsSelectors,
-	getInitialEndpointsState,
-} from "./endpoints";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -44,13 +37,11 @@ export const createStore = ( initialState ) => {
 			...contentSuggestionsActions,
 			...contentOutlineActions,
 			...modalActions,
-			...endpointsActions,
 		},
 		selectors: {
 			...contentSuggestionsSelectors,
 			...contentOutlineSelectors,
 			...modalSelectors,
-			...endpointsSelectors,
 		},
 		controls: {
 			...contentSuggestionsControls,
@@ -62,7 +53,6 @@ export const createStore = ( initialState ) => {
 				[ CONTENT_SUGGESTIONS_NAME ]: getInitialContentSuggestionsState(),
 				[ CONTENT_OUTLINE_NAME ]: getInitialContentOutlineState(),
 				[ MODAL_NAME ]: getInitialModalState(),
-				[ ENDPOINTS_NAME ]: getInitialEndpointsState(),
 			},
 			initialState
 		),
@@ -70,7 +60,6 @@ export const createStore = ( initialState ) => {
 			[ CONTENT_SUGGESTIONS_NAME ]: contentSuggestionsReducer,
 			[ CONTENT_OUTLINE_NAME ]: contentOutlineReducer,
 			[ MODAL_NAME ]: modalReducer,
-			[ ENDPOINTS_NAME ]: endpointsReducer,
 		} ),
 	} );
 };

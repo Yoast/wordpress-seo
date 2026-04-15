@@ -16,13 +16,13 @@ import { intentBadge } from "./intent-badge";
  * @param {object} props The component props.
  * @param {string} props.intent The intent of the suggestion.
  * @param {string} props.title The title of the suggestion.
- * @param {string} props.description The description of the suggestion.
+ * @param {string} props.explanation The explanation of the suggestion.
  * @param {object} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
-const SuggestionButton = ( { intent, title, description, suggestion, onClick } ) => {
+const SuggestionButton = ( { intent, title, explanation, suggestion, onClick } ) => {
 	const svgAriaProps = useSvgAria();
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
@@ -36,7 +36,7 @@ const SuggestionButton = ( { intent, title, description, suggestion, onClick } )
 				<Badge>{ intent }</Badge>
 			) }
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800">{ title }</div>
-			<p className="yst-text-slate-600">{ description }</p>
+			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
 	);
 };
@@ -89,7 +89,7 @@ const LoadingModalContent = () => {
  * @typedef {Object} Suggestion
  * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
  * @property {string} title The title of the suggestion.
- * @property {string} description The description of the suggestion.
+ * @property {string} explanation The explanation of the suggestion.
  */
 
 /**

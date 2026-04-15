@@ -7,6 +7,7 @@ import {
 	contentSuggestionsReducer,
 	fetchContentPlannerSuggestions,
 } from "../../../src/ai-content-planner/store/content-suggestions";
+
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 const ERROR_DEFAULT = {
@@ -40,7 +41,7 @@ const transformedSuggestions = [
 	{
 		intent: "informational",
 		title: "How to train your dog",
-		description: "A guide to dog training basics.",
+		explanation: "A guide to dog training basics.",
 		keyphrase: "dog training",
 		metaDescription: "Learn how to train your dog.",
 		category: "pets",
@@ -48,7 +49,7 @@ const transformedSuggestions = [
 	{
 		intent: "commercial",
 		title: "Best dog food brands",
-		description: "Top picks for dog food.",
+		explanation: "Top picks for dog food.",
 		keyphrase: "best dog food",
 		metaDescription: "Find the best dog food brands.",
 		category: "pets",
@@ -59,6 +60,7 @@ describe( "suggestions store", () => {
 	describe( "getInitialContentSuggestionsState", () => {
 		it( "should return the initial state", () => {
 			expect( getInitialContentSuggestionsState() ).toEqual( {
+				endpoint: "",
 				status: ASYNC_ACTION_STATUS.idle,
 				suggestions: [],
 				error: ERROR_DEFAULT,
@@ -69,6 +71,7 @@ describe( "suggestions store", () => {
 	describe( "reducer", () => {
 		it( "should set status to loading and clear suggestions on request", () => {
 			const previousState = {
+				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
 				error: ERROR_DEFAULT,
@@ -80,6 +83,7 @@ describe( "suggestions store", () => {
 			);
 
 			expect( result ).toEqual( {
+				endpoint: "",
 				status: ASYNC_ACTION_STATUS.loading,
 				suggestions: [],
 				error: ERROR_DEFAULT,
@@ -96,6 +100,7 @@ describe( "suggestions store", () => {
 			);
 
 			expect( result ).toEqual( {
+				endpoint: "",
 				status: ASYNC_ACTION_STATUS.success,
 				suggestions: transformedSuggestions,
 				error: ERROR_DEFAULT,
@@ -118,6 +123,7 @@ describe( "suggestions store", () => {
 			);
 
 			expect( result ).toEqual( {
+				endpoint: "",
 				status: ASYNC_ACTION_STATUS.error,
 				suggestions: [],
 				error: {
@@ -142,6 +148,24 @@ describe( "suggestions store", () => {
 	} );
 
 	describe( "selectors", () => {
+		it( "should return the endpoint from state", () => {
+			const state = {
+				[ CONTENT_SUGGESTIONS_NAME ]: {
+					endpoint: "yoast/v1/ai_content_planner/get_suggestions",
+					status: ASYNC_ACTION_STATUS.idle,
+					suggestions: [],
+					error: ERROR_DEFAULT,
+				},
+			};
+
+			expect( contentSuggestionsSelectors.selectContentSuggestionsEndpoint( state ) )
+				.toBe( "yoast/v1/ai_content_planner/get_suggestions" );
+		} );
+
+		it( "should return an empty string when endpoint state is missing", () => {
+			expect( contentSuggestionsSelectors.selectContentSuggestionsEndpoint( {} ) ).toBe( "" );
+		} );
+
 		it( "should return the suggestions status from state", () => {
 			const state = {
 				[ CONTENT_SUGGESTIONS_NAME ]: {

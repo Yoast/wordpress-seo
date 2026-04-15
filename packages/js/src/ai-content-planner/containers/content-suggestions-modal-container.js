@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE } from "../constants";
-import { ContentSuggestionsModal } from "./content-suggestions-modal";
+import { ContentSuggestionsModal } from "../components/content-suggestions-modal";
 
 /**
  * Container component that connects the ContentSuggestionsModal to the store.
