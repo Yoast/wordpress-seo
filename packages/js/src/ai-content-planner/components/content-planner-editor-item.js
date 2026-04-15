@@ -1,38 +1,24 @@
 import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
-import { Button, Root, useToggleState } from "@yoast/ui-library";
-import { FeatureModal } from "./feature-modal";
+import { Button, Root } from "@yoast/ui-library";
 
 /**
  * The section for the content planner feature in the Yoast sidebar.
  *
- * @param {Object}  props               The component props.
- * @param {string}  props.location      The location where the editor item is rendered. Can be "sidebar" or "metabox".
- * @param {boolean} props.isPremium     Whether the user has a premium add-on activated.
- * @param {boolean} props.isEmptyCanvas Whether the editor canvas has no content.
- * @param {boolean} props.isUpsell     Whether to show the upsell variant of the modal.
- * @param {string}  props.upsellLink   The link to the upsell page for the content planner feature.
+ * @param {Object}   props           The component props.
+ * @param {string}   props.location  The location where the editor item is rendered. Can be "sidebar" or "metabox".
+ * @param {Function} props.openModal The function to open the content planner modal.
  * @returns {JSX.Element} The Content Planner section in the sidebar.
  */
-export const ContentPlannerEditorItem = ( { location, isPremium, isEmptyCanvas, isUpsell, upsellLink } ) => {
-	const [ isFeatureModalOpen, , , openFeatureModal, closeFeatureModal ] = useToggleState( false );
-
-	// Temporary: will be wired to handleApplyOutline (store-based outline application) once the blocks PR is merged.
-	const handleAddOutline = useCallback( () => {}, [] );
+export const ContentPlannerEditorItem = ( { location, openModal } ) => {
+	const handleClick = useCallback( () => {
+		openModal( false );
+	}, [ openModal ] );
 
 	return <Root><div className="yst-p-4">
-		<Button variant="ai-secondary" onClick={ openFeatureModal } className={ location === "sidebar" ? "yst-w-full" : "" }>
+		<Button variant="ai-secondary" onClick={ handleClick } className={ location === "sidebar" ? "yst-w-full" : "" }>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
 		</Button>
-		<FeatureModal
-			isOpen={ isFeatureModalOpen }
-			onClose={ closeFeatureModal }
-			isEmptyCanvas={ isEmptyCanvas }
-			isPremium={ isPremium }
-			isUpsell={ isUpsell }
-			upsellLink={ upsellLink }
-			onAddOutline={ handleAddOutline }
-		/>
 	</div>
 	</Root>;
 };
