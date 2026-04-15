@@ -34,7 +34,13 @@ export const useFetchContentOutline = () => {
 			postType,
 			language,
 			editor: editorApiValue,
-			suggestion: contentSuggestion,
+			suggestion: {
+				category: {
+					name: "Uncategorized",
+					id: 1,
+				},
+				...contentSuggestion,
+			},
 		} );
 	}, [ endpoint, postType, contentLocale, editorApiValue, fetchContentOutline ] );
 };
