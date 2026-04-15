@@ -5,7 +5,6 @@ import { count } from "@wordpress/wordcount";
 import { registerPlugin } from "@wordpress/plugins";
 import { useBlockProps } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
-import domReady from "@wordpress/dom-ready";
 import { get } from "lodash";
 import FeatureModal from "./containers/feature-modal";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
@@ -178,13 +177,10 @@ registerBlockType( "yoast-seo/content-suggestion", {
  * @returns {void}
  */
 export default function initContentPlanner() {
-	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
-}
-
-domReady( () => {
 	registerStore( {
 		[ CONTENT_SUGGESTIONS_NAME ]: {
 			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
 		},
 	} );
-} );
+	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
+}
