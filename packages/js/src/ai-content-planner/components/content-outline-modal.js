@@ -1,11 +1,12 @@
-import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Link, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
-import { get, noop } from "lodash";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import { get } from "lodash";
 import classNames from "classnames";
 import { ContentPlannerError } from "./content-planner-error";
 import { intentBadge } from "./intent-badge";
@@ -292,7 +293,10 @@ export const ContentOutlineModal = ( {
 	onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive,
 	error, onRetry,
 } ) => {
-	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
+	const { isPremium, aiHelpLink } = useSelect( ( select ) => ( {
+		isPremium: select( "yoast-seo/editor" ).getIsPremium(),
+		aiHelpLink: select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
+	} ), [] );
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
@@ -515,9 +519,20 @@ export const ContentOutlineModal = ( {
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
-					<Modal.Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
+					<Modal.Title size="2"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
+					<Link
+						href={ aiHelpLink }
+						variant="primary"
+						className="yst-no-underline"
+						target="_blank"
+						rel="noopener"
+						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+					>
+						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+					</Link>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					{ sparksLimit && (
+					<span className="yst-flex-grow" />
+					{ ! error && sparksLimit && (
 						<UsageCounter
 							limit={ sparksLimit }
 							requests={ sparksUsage }

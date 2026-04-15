@@ -1,6 +1,6 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
-import { useDispatch, select } from "@wordpress/data";
+import { useDispatch, useSelect, select } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
 import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
@@ -10,6 +10,7 @@ import { noop } from "lodash";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -20,8 +21,18 @@ const HIDDEN_STYLE = { display: "none" };
  * @param {string} status The current modal status.
  * @returns {Object} Styles for each panel.
  */
-const getPanelStyles = ( status ) => ( {
-	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
+/**
+ * Returns visibility and display styles for modal panels based on the current status.
+ *
+ * @param {string} status The current modal status.
+ * @returns {Object} Panel visibility flags and styles.
+ */
+const getPanelVisibility = ( status ) => ( {
+	isSuggestionsVisible:
+		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
+		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ||
+		status === FEATURE_MODAL_STATUS.contentSuggestionsError,
+	outlineStyle: ( status === FEATURE_MODAL_STATUS.contentOutline || status === FEATURE_MODAL_STATUS.contentOutlineError ) ? null : HIDDEN_STYLE,
 	replaceStyle: status === FEATURE_MODAL_STATUS.replaceContent ? null : HIDDEN_STYLE,
 } );
 
@@ -37,7 +48,7 @@ const getPanelStyles = ( status ) => ( {
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick, error, onRetry } ) => {
 	if ( cameFromApproveModal ) {
 		return (
 			<Transition
@@ -52,6 +63,8 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 						status={ status }
 						isPremium={ isPremium }
 						onSuggestionClick={ onSuggestionClick }
+						error={ error }
+						onRetry={ onRetry }
 					/>
 				</div>
 			</Transition>
@@ -66,8 +79,147 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
+			error={ error }
+			onRetry={ onRetry }
 		/>
 	);
+};
+
+/**
+ * Applies the content outline to the post editor.
+ *
+ * @param {Object}   editedOutlineRef    Ref holding the user's edited outline, if any.
+ * @param {Function} getContentOutline   Store action to fetch a content outline.
+ * @param {Object}   selectedSuggestion  The selected suggestion to fetch an outline for.
+ * @param {Function} resetBlocks         Block editor action to replace all blocks.
+ * @param {Function} onAddOutline        Callback after the outline is added.
+ * @param {Function} onClose             Callback to close the modal.
+ * @returns {Promise<void>} Resolves when the outline has been applied.
+ */
+const applyOutline = async( editedOutlineRef, getContentOutline, selectedSuggestion, resetBlocks, onAddOutline, onClose ) => {
+	const editedOutline = editedOutlineRef.current;
+	// Temporary: once the real API endpoint is available, getContentOutline should
+	// receive the edited outline so the API can return content notes that match
+	// the user's edits. At that point the notesByHeading lookup below can be removed.
+	await getContentOutline( selectedSuggestion );
+	const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
+
+	// Build metadata from the user's edits in the modal.
+	const metaOutline = editedOutline
+		? {
+			title: editedOutline.title,
+			metaDescription: editedOutline.metaDescription,
+			focusKeyphrase: editedOutline.focusKeyphrase,
+			category: editedOutline.category,
+		}
+		: apiOutline;
+
+	// Build blocks using the user's heading order and the API's content notes.
+	let blocksOutline = apiOutline;
+	if ( editedOutline ) {
+		const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
+			map[ section.heading ] = section.contentNotes;
+			return map;
+		}, {} );
+		blocksOutline = {
+			sections: editedOutline.structure
+				.filter( ( item ) => item.level !== "FAQ" )
+				.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
+			faqContentNotes: apiOutline.faqContentNotes,
+		};
+	}
+
+	resetBlocks( buildBlocksFromOutline( blocksOutline ) );
+	await applyPostMetaFromOutline( metaOutline );
+	onAddOutline();
+	onClose();
+};
+
+/**
+ * Hook that manages error state from the content planner store
+ * and provides retry callbacks for suggestions and outline fetches.
+ *
+ * @param {Function} setStatus              Setter for the modal status state.
+ * @param {Function} getContentSuggestions  Store action to fetch content suggestions.
+ * @param {Function} getContentOutline      Store action to fetch a content outline.
+ * @param {Object|null} selectedSuggestion  The currently selected suggestion (for outline retry).
+ * @returns {Object} Error state and retry handlers.
+ */
+const useErrorHandling = ( setStatus, getContentSuggestions, getContentOutline, selectedSuggestion ) => {
+	const {
+		suggestionsError,
+		suggestionsStoreStatus,
+		outlineError,
+		outlineStoreStatus,
+	} = useSelect( ( storeSelect ) => ( {
+		suggestionsError: storeSelect( CONTENT_PLANNER_STORE ).selectContentSuggestionsError(),
+		suggestionsStoreStatus: storeSelect( CONTENT_PLANNER_STORE ).selectContentSuggestionsStatus(),
+		outlineError: storeSelect( CONTENT_PLANNER_STORE ).selectContentOutlineError(),
+		outlineStoreStatus: storeSelect( CONTENT_PLANNER_STORE ).selectContentOutlineStatus(),
+	} ), [] );
+
+	useEffect( () => {
+		if ( suggestionsStoreStatus === ASYNC_ACTION_STATUS.error ) {
+			setStatus( FEATURE_MODAL_STATUS.contentSuggestionsError );
+		}
+	}, [ suggestionsStoreStatus, setStatus ] );
+
+	useEffect( () => {
+		if ( outlineStoreStatus === ASYNC_ACTION_STATUS.error ) {
+			setStatus( FEATURE_MODAL_STATUS.contentOutlineError );
+		}
+	}, [ outlineStoreStatus, setStatus ] );
+
+	const handleRetrySuggestions = useCallback( () => {
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
+		getContentSuggestions();
+	}, [ setStatus, getContentSuggestions ] );
+
+	const handleRetryOutline = useCallback( () => {
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
+		getContentOutline( selectedSuggestion );
+	}, [ setStatus, getContentOutline, selectedSuggestion ] );
+
+	return { suggestionsError, outlineError, handleRetrySuggestions, handleRetryOutline };
+};
+
+/**
+ * Handles the request to add an outline to the post.
+ * If the post is empty, applies the outline immediately. Otherwise, prompts for confirmation.
+ *
+ * @param {boolean}  isEmptyPost         Whether the post is empty.
+ * @param {Function} applyOutlineFn      Callback to apply the outline.
+ * @param {Function} setHasVisitedReplace Setter for the replace confirmation state.
+ * @param {Function} setStatus           Setter for the modal status.
+ */
+const requestAddOutline = ( isEmptyPost, applyOutlineFn, setHasVisitedReplace, setStatus ) => {
+	if ( isEmptyPost ) {
+		applyOutlineFn();
+		return;
+	}
+	setHasVisitedReplace( true );
+	setStatus( FEATURE_MODAL_STATUS.replaceContent );
+};
+
+/**
+ * Delays status transitions to allow assistive technology to announce changes.
+ * Temporary: the loading → success timer simulates the API call and should be
+ * replaced with real store status observation once the endpoint is available.
+ *
+ * @param {string|null} status    The current modal status.
+ * @param {Function}    setStatus Setter for the modal status.
+ */
+const useStatusTimers = ( status, setStatus ) => {
+	useEffect( () => {
+		if ( status === null ) {
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
+			return () => clearTimeout( timer );
+		}
+		if ( status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ) {
+			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
+			return () => clearTimeout( timer );
+		}
+	}, [ status, setStatus ] );
 };
 
 /**
@@ -101,7 +253,10 @@ export const FeatureModal = ( {
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
 	const { resetBlocks } = useDispatch( "core/block-editor" );
-	const { getContentOutline } = useDispatch( CONTENT_PLANNER_STORE );
+	const { getContentOutline, getContentSuggestions } = useDispatch( CONTENT_PLANNER_STORE );
+	const {
+		suggestionsError, outlineError, handleRetrySuggestions, handleRetryOutline,
+	} = useErrorHandling( setStatus, getContentSuggestions, getContentOutline, selectedSuggestion );
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
@@ -118,53 +273,14 @@ export const FeatureModal = ( {
 		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
 	}, [] );
 
-	const handleApplyOutline = useCallback( async() => {
-		const editedOutline = editedOutlineRef.current;
-		// Temporary: once the real API endpoint is available, getContentOutline should
-		// receive the edited outline so the API can return content notes that match
-		// the user's edits. At that point the notesByHeading lookup below can be removed.
-		await getContentOutline( selectedSuggestion );
-		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
-
-		// Build metadata from the user's edits in the modal.
-		const metaOutline = editedOutline
-			? {
-				title: editedOutline.title,
-				metaDescription: editedOutline.metaDescription,
-				focusKeyphrase: editedOutline.focusKeyphrase,
-				category: editedOutline.category,
-			}
-			: apiOutline;
-
-		// Build blocks using the user's heading order and the API's content notes.
-		let blocksOutline = apiOutline;
-		if ( editedOutline ) {
-			const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
-				map[ section.heading ] = section.contentNotes;
-				return map;
-			}, {} );
-			blocksOutline = {
-				sections: editedOutline.structure
-					.filter( ( item ) => item.level !== "FAQ" )
-					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
-				faqContentNotes: apiOutline.faqContentNotes,
-			};
-		}
-
-		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
-		await applyPostMetaFromOutline( metaOutline );
-		onAddOutline();
-		onClose();
-	}, [ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ] );
+	const handleApplyOutline = useCallback(
+		() => applyOutline( editedOutlineRef, getContentOutline, selectedSuggestion, resetBlocks, onAddOutline, onClose ),
+		[ getContentOutline, resetBlocks, onClose, onAddOutline, selectedSuggestion ]
+	);
 
 	const handleRequestAddOutline = useCallback( ( editedOutline ) => {
 		editedOutlineRef.current = editedOutline;
-		if ( isEmptyPost ) {
-			handleApplyOutline();
-			return;
-		}
-		setHasVisitedReplace( true );
-		setStatus( FEATURE_MODAL_STATUS.replaceContent );
+		requestAddOutline( isEmptyPost, handleApplyOutline, setHasVisitedReplace, setStatus );
 	}, [ isEmptyPost, handleApplyOutline ] );
 
 	const handleCancelReplace = useCallback( () => {
@@ -175,17 +291,7 @@ export const FeatureModal = ( {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
 
-	useEffect( () => {
-		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
-		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
-			return () => clearTimeout( timer );
-		}
-		if ( status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ) {
-			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
-			return () => clearTimeout( timer );
-		}
-	}, [ status ] );
+	useStatusTimers( status, setStatus );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
@@ -199,10 +305,7 @@ export const FeatureModal = ( {
 		setStatus( initialStatus );
 	}, [ isOpen, initialStatus ] );
 
-	const isSuggestionsVisible =
-		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
-		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading;
-	const { outlineStyle, replaceStyle } = getPanelStyles( status );
+	const { isSuggestionsVisible, outlineStyle, replaceStyle } = getPanelVisibility( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -233,6 +336,8 @@ export const FeatureModal = ( {
 					status={ status }
 					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
+					error={ suggestionsError }
+					onRetry={ handleRetrySuggestions }
 				/>
 				{ /*
 				 * Once the replace confirmation has been visited, keep both outline and
@@ -243,12 +348,14 @@ export const FeatureModal = ( {
 				{ selectedSuggestion && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
-							isActive={ status === FEATURE_MODAL_STATUS.contentOutline }
+							isActive={ status === FEATURE_MODAL_STATUS.contentOutline || status === FEATURE_MODAL_STATUS.contentOutlineError }
 							onBack={ handleBackToSuggestions }
 							onAddOutline={ handleRequestAddOutline }
 							sparksLimit={ 10 }
 							sparksUsage={ 1 }
 							category="Baking"
+							error={ outlineError }
+							onRetry={ handleRetryOutline }
 							suggestion={ {
 								intent: selectedSuggestion.intent,
 								title: "The complete guide to sourdough bread",

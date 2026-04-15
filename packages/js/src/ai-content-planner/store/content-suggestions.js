@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { contentPlannerFetch } from "../helpers/fetch";
 
 export const CONTENT_SUGGESTIONS_NAME = "contentSuggestions";
 export const FETCH_CONTENT_SUGGESTIONS_ACTION_NAME = "fetchContentSuggestions";
@@ -58,8 +58,7 @@ export const contentSuggestionsActions = {
 };
 
 export const contentSuggestionsControls = {
-	[ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-		method: "GET",
+	[ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME ]: async( { payload } ) => contentPlannerFetch( {
 		path: payload.endpoint,
 	} ),
 };

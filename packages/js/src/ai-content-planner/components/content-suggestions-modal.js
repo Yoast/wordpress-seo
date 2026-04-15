@@ -1,9 +1,11 @@
-import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+import { Badge, Link, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { BookOpenIcon } from "@heroicons/react/outline";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { noop } from "lodash";
 import classNames from "classnames";
 import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
@@ -266,6 +268,7 @@ export const ContentSuggestionsModal = ( {
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
+	const aiHelpLink = useSelect( ( select ) => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ), [] );
 
 	useEffect( () => {
 		closeButtonRef.current?.focus();
@@ -280,14 +283,27 @@ export const ContentSuggestionsModal = ( {
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
-					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
+					<Modal.Title size="2">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
+					<Link
+						href={ aiHelpLink }
+						variant="primary"
+						className="yst-no-underline"
+						target="_blank"
+						rel="noopener"
+						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+					>
+						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+					</Link>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					<UsageCounter
-						limit={ 10 }
-						requests={ 1 }
-						mentionBetaInTooltip={ isPremium }
-						mentionResetInTooltip={ isPremium }
-					/>
+					<span className="yst-flex-grow" />
+					{ status !== "content-suggestions-error" && (
+						<UsageCounter
+							limit={ 10 }
+							requests={ 1 }
+							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
+						/>
+					) }
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ModalBodyContent

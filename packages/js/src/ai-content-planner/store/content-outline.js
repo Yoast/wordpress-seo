@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-// eslint-disable-next-line no-unused-vars
-import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+// eslint-disable-next-line no-unused-vars
+import { contentPlannerFetch } from "../helpers/fetch";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
@@ -71,11 +71,11 @@ export const contentOutlineActions = {
 };
 
 // eslint-disable-next-line no-warning-comments
-// TODO: Replace with real apiFetch call once endpoint is available.
+// TODO: Replace with real contentPlannerFetch call once endpoint is available.
 // export const contentOutlineControls = {
-// 	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-// 		method: "POST",
+// 	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => contentPlannerFetch( {
 // 		path: payload.endpoint,
+// 		method: "POST",
 // 		data: {
 // 			title: payload.title,
 // 			description: payload.description,
