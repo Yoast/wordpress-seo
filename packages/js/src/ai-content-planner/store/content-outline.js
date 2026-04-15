@@ -19,6 +19,7 @@ const INITIAL_OUTLINE = {
 const slice = createSlice( {
 	name: CONTENT_OUTLINE_NAME,
 	initialState: {
+		endpoint: "",
 		status: ASYNC_ACTION_STATUS.idle,
 		outline: INITIAL_OUTLINE,
 		error: null,
@@ -43,6 +44,7 @@ const slice = createSlice( {
 export const getInitialContentOutlineState = slice.getInitialState;
 
 export const contentOutlineSelectors = {
+	selectContentOutlineEndpoint: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "endpoint" ], slice.getInitialState().endpoint ),
 	selectContentOutlineStatus: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "status" ], slice.getInitialState().status ),
 	selectContentOutline: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "outline" ], slice.getInitialState().outline ),
 	selectContentOutlineError: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "error" ], slice.getInitialState().error ),
@@ -51,14 +53,14 @@ export const contentOutlineSelectors = {
 /**
  * @param {string} endpoint The endpoint to fetch the content outline from.
  * @param {string} title The title of the selected suggestion.
- * @param {string} description The description of the selected suggestion.
+ * @param {string} explanation The explanation of the selected suggestion.
  * @param {string} intent The intent of the selected suggestion.
  * @returns {Object} Success or error action object.
  */
-export function* getContentOutline( { endpoint, title, description, intent } ) {
+export function* getContentOutline( { endpoint, title, explanation, intent } ) {
 	yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
-		const payload = yield{ type: FETCH_CONTENT_OUTLINE_ACTION_NAME, payload: { endpoint, title, description, intent } };
+		const payload = yield{ type: FETCH_CONTENT_OUTLINE_ACTION_NAME, payload: { endpoint, title, explanation, intent } };
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
 	} catch ( error ) {
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
@@ -78,7 +80,7 @@ export const contentOutlineActions = {
 // 		path: payload.endpoint,
 // 		data: {
 // 			title: payload.title,
-// 			description: payload.description,
+// 			explanation: payload.explanation,
 // 			intent: payload.intent,
 // 		},
 // 	} ),
