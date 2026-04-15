@@ -9,20 +9,26 @@ import classNames from "classnames";
 import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { intentBadge } from "./intent-badge";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+
+/**
+ * @typedef {Object} Suggestion
+ * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
+ * @property {string} title The title of the suggestion.
+ * @property {string} explanation The explanation of the suggestion.
+ */
 
 /**
  * Suggestion button component.
  *
  * @param {object} props The component props.
- * @param {string} props.intent The intent of the suggestion.
- * @param {string} props.title The title of the suggestion.
- * @param {string} props.explanation The explanation of the suggestion.
- * @param {object} props.suggestion The full suggestion object.
+ * @param {Suggestion} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
-const SuggestionButton = ( { intent, title, explanation, suggestion, onClick } ) => {
+const SuggestionButton = ( { suggestion, onClick } ) => {
+	const { intent, title, explanation } = suggestion;
 	const svgAriaProps = useSvgAria();
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
@@ -86,25 +92,28 @@ const LoadingModalContent = () => {
 };
 
 /**
- * @typedef {Object} Suggestion
- * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
- * @property {string} title The title of the suggestion.
- * @property {string} explanation The explanation of the suggestion.
- */
-
-/**
  * ContentSuggestionsModal component.
  *
  * @param {Object} props The component props.
  * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
- * @param {Array} props.suggestions The list of content suggestions to display.
+ * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
  * @param {boolean} props.skipTransitions Whether to skip transition animations.
+ * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
+ * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature before hitting a limit.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, suggestions, skipTransitions = false } ) => {
+export const ContentSuggestionsModal = ( {
+	status,
+	isPremium,
+	onSuggestionClick = noop,
+	suggestions,
+	skipTransitions = false,
+	usageCount,
+	usageCountLimit,
+} ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
@@ -124,8 +133,8 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<UsageCounter
-						limit={ 10 }
-						requests={ 1 }
+						limit={ usageCountLimit }
+						requests={ usageCount }
 						mentionBetaInTooltip={ isPremium }
 						mentionResetInTooltip={ isPremium }
 					/>
@@ -133,14 +142,13 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					{ skipTransitions ? (
 						<div aria-live="polite">
-							{ status === "content-suggestions-loading" && <LoadingModalContent /> }
-							{ status === "content-suggestions-success" && (
+							{ status === ASYNC_ACTION_STATUS.loading && <LoadingModalContent /> }
+							{ status === ASYNC_ACTION_STATUS.success && (
 								<div>
 									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion ) => (
+									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
-											key={ suggestion.title }
-											{ ...suggestion }
+											key={ `suggestion-${index}` }
 											suggestion={ suggestion }
 											onClick={ onSuggestionClick }
 										/>
@@ -153,7 +161,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 						<div className="yst-relative" aria-live="polite">
 							<Transition
 								as={ Fragment }
-								show={ status === "content-suggestions-loading" }
+								show={ status === ASYNC_ACTION_STATUS.loading }
 								enter="yst-transition-opacity yst-duration-300"
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
@@ -169,7 +177,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 							 */ }
 							<Transition
 								as={ Fragment }
-								show={ status === "content-suggestions-success" }
+								show={ status === ASYNC_ACTION_STATUS.success }
 								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
@@ -181,8 +189,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
 									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
-											key={ index }
-											{ ...suggestion }
+											key={ `suggestion-${index}` }
 											suggestion={ suggestion }
 											onClick={ onSuggestionClick }
 										/>
