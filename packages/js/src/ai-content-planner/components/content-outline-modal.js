@@ -5,8 +5,9 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
-import { get } from "lodash";
+import { get, noop } from "lodash";
 import classNames from "classnames";
+import { ContentPlannerError } from "./content-planner-error";
 import { intentBadge } from "./intent-badge";
 
 /**
@@ -282,10 +283,15 @@ const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-
  * @param {number}             sparksUsage Optional. Current sparks usage count.
  * @param {string}             category    Optional. If provided, show the suggest category section.
  * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
+ * @param {Object|null}        error       The error object when the outline fetch fails.
+ * @param {Function}           onRetry     The function to call when the user clicks "Try again".
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive } ) => {
+export const ContentOutlineModal = ( {
+	onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive,
+	error, onRetry,
+} ) => {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -382,6 +388,127 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 		} );
 	}, [] );
 
+	const renderContent = () => {
+		if ( error ) {
+			return (
+				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative">
+					<ContentPlannerError
+						errorCode={ error.errorCode }
+						errorIdentifier={ error.errorIdentifier }
+						errorMessage={ error.errorMessage }
+						onRetry={ onRetry }
+					/>
+				</Modal.Container.Content>
+			);
+		}
+
+		return (
+			<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
+				<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
+					<IntentCallout
+						intent={ suggestion.intent }
+						description={ suggestion.description }
+					/>
+					<Modal.Description className="yst-text-sm yst-text-slate-600">
+						{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
+					</Modal.Description>
+					<hr className="yst-border-slate-200" />
+					{ category && (
+						<CategorySection
+							category={ category }
+							isEnabled={ isCategoryEnabled }
+							onToggle={ handleCategoryToggle }
+							isLoading={ isLoading }
+						/>
+					) }
+					{ isLoading && (
+						<div className="yst-flex yst-flex-col yst-gap-4">
+							<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+							<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+							<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+						</div>
+					) }
+					{ ! isLoading && (
+						<div className="yst-flex yst-flex-col yst-gap-6">
+							<div className="yst-flex yst-flex-col yst-gap-4">
+								<TextField
+									id="content-outline-focus-keyphrase"
+									label={ __( "Focus Keyphrase", "wordpress-seo" ) }
+									value={ focusKeyphrase }
+									onChange={ handleFocusKeyphraseChange }
+								/>
+								<TextField
+									id="content-outline-title"
+									label={ __( "Title", "wordpress-seo" ) }
+									value={ title }
+									onChange={ handleTitleChange }
+								/>
+								<div>
+									<TextareaField
+										id="content-outline-meta-description"
+										label={ __( "Meta description", "wordpress-seo" ) }
+										value={ metaDescription }
+										onChange={ handleMetaDescriptionChange }
+										className="yst-mb-2"
+									/>
+									<MetaDescriptionProgressBar value={ metaDescription } />
+								</div>
+							</div>
+							<hr className="yst-border-slate-200" />
+							<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
+								<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+									{ __( "Blog post structure", "wordpress-seo" ) }
+								</span>
+								<span className="yst-text-xs yst-text-slate-500">
+									{ __( "Drag to reorder", "wordpress-seo" ) }
+								</span>
+							</div>
+							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
+								{ structure.map( ( item, index ) => (
+									<StructureRow
+										key={ item.id }
+										index={ index }
+										level={ item.level }
+										title={ item.title }
+										dragOverIndex={ dragOverIndex }
+										onDragStart={ handleDragStart }
+										onDragOver={ handleDragOver }
+										onDrop={ handleDrop }
+										onDragEnd={ handleDragEnd }
+										onMoveUp={ handleMoveUp }
+										onMoveDown={ handleMoveDown }
+										totalItems={ structure.length }
+									/>
+								) ) }
+							</div>
+						</div>
+					) }
+				</div>
+				<div
+					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					aria-hidden="true"
+				/>
+			</Modal.Container.Content>
+		);
+	};
+
+	const renderFooter = () => {
+		if ( error ) {
+			return null;
+		}
+		return (
+			<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
+				<Button variant="secondary" onClick={ onBack } className="yst-flex yst-items-center yst-gap-1.5">
+					<ArrowLeftIcon className="yst-w-4 yst-h-4" />
+					{ __( "Content suggestions", "wordpress-seo" ) }
+				</Button>
+				<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>svg]:yst-hidden yst-ps-3">
+					{ __( "Add outline to post", "wordpress-seo" ) }
+				</Button>
+			</Modal.Container.Footer>
+		);
+	};
+
 	return (
 		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
@@ -399,107 +526,8 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 						/>
 					) }
 				</Modal.Container.Header>
-				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
-					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
-						<IntentCallout
-							intent={ suggestion.intent }
-							description={ suggestion.description }
-						/>
-
-						<Modal.Description className="yst-text-sm yst-text-slate-600">
-							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
-						</Modal.Description>
-
-						<hr className="yst-border-slate-200" />
-
-						{ category && (
-							<CategorySection
-								category={ category }
-								isEnabled={ isCategoryEnabled }
-								onToggle={ handleCategoryToggle }
-								isLoading={ isLoading }
-							/>
-						) }
-
-						{ isLoading && (
-							<div className="yst-flex yst-flex-col yst-gap-4">
-								<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-								<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-								<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
-							</div>
-						) }
-						{ ! isLoading && (
-							<div className="yst-flex yst-flex-col yst-gap-6">
-								<div className="yst-flex yst-flex-col yst-gap-4">
-									<TextField
-										id="content-outline-focus-keyphrase"
-										label={ __( "Focus Keyphrase", "wordpress-seo" ) }
-										value={ focusKeyphrase }
-										onChange={ handleFocusKeyphraseChange }
-									/>
-									<TextField
-										id="content-outline-title"
-										label={ __( "Title", "wordpress-seo" ) }
-										value={ title }
-										onChange={ handleTitleChange }
-									/>
-									<div>
-										<TextareaField
-											id="content-outline-meta-description"
-											label={ __( "Meta description", "wordpress-seo" ) }
-											value={ metaDescription }
-											onChange={ handleMetaDescriptionChange }
-											className="yst-mb-2"
-										/>
-										<MetaDescriptionProgressBar value={ metaDescription } />
-									</div>
-								</div>
-
-								<hr className="yst-border-slate-200" />
-
-								<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
-									<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-										{ __( "Blog post structure", "wordpress-seo" ) }
-									</span>
-									<span className="yst-text-xs yst-text-slate-500">
-										{ __( "Drag to reorder", "wordpress-seo" ) }
-									</span>
-								</div>
-								<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
-									{ structure.map( ( item, index ) => (
-										<StructureRow
-											key={ item.id }
-											index={ index }
-											level={ item.level }
-											title={ item.title }
-											dragOverIndex={ dragOverIndex }
-											onDragStart={ handleDragStart }
-											onDragOver={ handleDragOver }
-											onDrop={ handleDrop }
-											onDragEnd={ handleDragEnd }
-											onMoveUp={ handleMoveUp }
-											onMoveDown={ handleMoveDown }
-											totalItems={ structure.length }
-										/>
-									) ) }
-								</div>
-							</div>
-						) }
-					</div>
-					<div
-						className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
-						aria-hidden="true"
-					/>
-				</Modal.Container.Content>
-				<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
-					<Button variant="secondary" onClick={ onBack } className="yst-flex yst-items-center yst-gap-1.5">
-						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
-						{ __( "Content suggestions", "wordpress-seo" ) }
-					</Button>
-					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>svg]:yst-hidden yst-ps-3">
-						{ __( "Add outline to post", "wordpress-seo" ) }
-					</Button>
-				</Modal.Container.Footer>
+				{ renderContent() }
+				{ renderFooter() }
 			</Modal.Container>
 		</Modal.Panel>
 	);

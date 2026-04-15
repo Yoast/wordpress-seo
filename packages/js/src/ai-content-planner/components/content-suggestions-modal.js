@@ -261,8 +261,8 @@ export const ContentSuggestionsModal = ( {
 	isPremium,
 	onSuggestionClick = noop,
 	skipTransitions = false,
-	error = null,
-	onRetry = noop,
+	error,
+	onRetry,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
