@@ -1,0 +1,107 @@
+import apiFetch from "@wordpress/api-fetch";
+import { get } from "lodash";
+
+const DEFAULT_TIMEOUT_SECONDS = 30;
+
+/**
+ * Reads and parses the JSON body from a Response object.
+ *
+ * @param {Response} response The fetch Response.
+ * @returns {Promise<Object>} The parsed JSON body, or an empty object on failure.
+ */
+async function readJsonBody( response ) {
+	try {
+		const reader = response.body.getReader();
+		const { value } = await reader.read();
+		const decoded = new TextDecoder( "utf-8" ).decode( value );
+		return JSON.parse( decoded );
+	} catch ( e ) {
+		return {};
+	}
+}
+
+/**
+ * Handles abort errors, distinguishing between timeout and user-initiated cancellation.
+ *
+ * @param {boolean} isTimeout Whether the abort was caused by a timeout.
+ * @throws {{ errorCode: number, errorIdentifier: string, errorMessage: string }} On timeout.
+ */
+function handleAbortError( isTimeout ) {
+	if ( isTimeout ) {
+		throw { errorCode: 408, errorIdentifier: "", errorMessage: "timeout" };
+	}
+}
+
+/**
+ * Builds a structured error object from a failed HTTP response.
+ *
+ * @param {Response} error The error response.
+ * @returns {Promise<Object>} The structured error with errorCode, errorIdentifier, and errorMessage.
+ */
+async function buildHttpError( error ) {
+	const body = await readJsonBody( error );
+	return {
+		errorCode: error.status || 500,
+		errorIdentifier: body.errorIdentifier || body.code || "",
+		errorMessage: body.message || "",
+	};
+}
+
+/**
+ * Builds the apiFetch options object.
+ *
+ * @param {string}          path       The REST API path.
+ * @param {string}          method     The HTTP method.
+ * @param {Object}          data       The request body data.
+ * @param {AbortController} controller The AbortController for the request.
+ * @returns {Object} The fetch options.
+ */
+function buildFetchOptions( path, method, data, controller ) {
+	const options = { path, method, parse: false, signal: controller.signal };
+	if ( data ) {
+		options.data = data;
+	}
+	return options;
+}
+
+/**
+ * Performs an API fetch with timeout and abort handling.
+ * Uses `parse: false` for full control over response and error parsing.
+ *
+ * On success, returns the parsed JSON payload.
+ * On failure, throws a structured error: `{ errorCode, errorIdentifier, errorMessage }`.
+ * On abort (non-timeout), returns null so the caller can silently ignore cancelled requests.
+ *
+ * @param {Object} options The fetch options.
+ * @param {string} options.path The REST API path.
+ * @param {string} [options.method="GET"] The HTTP method.
+ * @param {Object} [options.data] The request body data (for POST requests).
+ * @param {AbortController} [options.abortController] Optional AbortController for external cancellation.
+ *
+ * @returns {Promise<Object|null>} The parsed response payload, or null if aborted.
+ * @throws {{ errorCode: number, errorIdentifier: string, errorMessage: string }} On fetch errors.
+ */
+export async function contentPlannerFetch( { path, method = "GET", data, abortController } ) {
+	const controller = abortController || new AbortController();
+	let isTimeout = false;
+	const timeoutMs = get( window, "wpseoContentPlanner.requestTimeout", DEFAULT_TIMEOUT_SECONDS ) * 1000;
+
+	const timerId = setTimeout( () => {
+		isTimeout = true;
+		controller.abort();
+	}, timeoutMs );
+
+	try {
+		const response = await apiFetch( buildFetchOptions( path, method, data, controller ) );
+		return await response.json();
+	} catch ( error ) {
+		if ( error instanceof DOMException && error.name === "AbortError" ) {
+			handleAbortError( isTimeout );
+			return null;
+		}
+
+		throw await buildHttpError( error );
+	} finally {
+		clearTimeout( timerId );
+	}
+}
