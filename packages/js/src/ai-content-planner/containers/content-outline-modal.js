@@ -8,7 +8,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			selectSuggestion,
-			selectOutline,
+			selectContentOutline,
 			selectContentOutlineStatus,
 			selectFeatureModalStatus,
 		} = select( CONTENT_PLANNER_STORE );
@@ -22,7 +22,7 @@ export default compose( [
 
 		return {
 			suggestion: selectSuggestion(),
-			outline: selectOutline(),
+			outline: selectContentOutline(),
 			sparksLimit: selectUsageCountLimit(),
 			sparksUsage: selectUsageCount(),
 			status: selectContentOutlineStatus(),

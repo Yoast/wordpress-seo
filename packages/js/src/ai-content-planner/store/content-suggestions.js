@@ -69,7 +69,8 @@ const validateSuggestionsResponse = ( result ) => {
 		title: suggestion.title,
 		explanation: suggestion.explanation,
 		keyphrase: suggestion.keyphrase,
-		metaDescription: suggestion.meta_description,
+		// eslint-disable-next-line camelcase
+		meta_description: suggestion.meta_description,
 		category: suggestion.category,
 	} ) );
 };

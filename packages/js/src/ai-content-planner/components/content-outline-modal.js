@@ -195,9 +195,9 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
-	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.focusKeyphrase );
+	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.keyphrase );
 	const [ title, setTitle ] = useState( suggestion.title );
-	const [ metaDescription, setMetaDescription ] = useState( suggestion.metaDescription );
+	const [ metaDescription, setMetaDescription ] = useState( suggestion.meta_description );
 
 	const { structure,
 		dragOverIndex,
