@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef } from "@wordpress/element";
 import block from "./block.json";
 import { InlineBanner } from "./components/inline-banner";
 import { CONTENT_PLANNER_STORE } from "./constants";
+import { useFetchContentSuggestions } from "./hooks/use-fetch-content-suggestions";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -24,6 +25,7 @@ const Edit = ( { clientId } ) => {
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
 	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
+	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleDismiss = useCallback( () => {
 		removeBlock( clientId );
@@ -31,7 +33,8 @@ const Edit = ( { clientId } ) => {
 
 	const handleClick = useCallback( () => {
 		openModal( true );
-	}, [ openModal ] );
+		fetchContentSuggestions();
+	}, [ openModal, fetchContentSuggestions ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.
