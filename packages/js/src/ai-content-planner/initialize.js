@@ -93,11 +93,10 @@ export const ContentPlannerEditorPlugin = () => {
 export default function initContentPlanner() {
 	registerStore( {
 		[ CONTENT_SUGGESTIONS_NAME ]: {
-			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
+			endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
 		},
 		[ CONTENT_OUTLINE_NAME ]: {
 			endpoint: "yoast/v1/ai_content_planner/get_outline",
-			// endpoint: get( window, "wpseoContentPlanner.endpoints.contentOutline", "" ),
 		},
 	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );

@@ -3,7 +3,6 @@ import { useDispatch, select } from "@wordpress/data";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
-import { useFetchContentOutline } from "./use-fetch-content-outline";
 
 /**
  * Returns a callback that applies the content outline to the post.
@@ -17,13 +16,11 @@ import { useFetchContentOutline } from "./use-fetch-content-outline";
  * @returns {Function} Async callback to apply the outline.
  */
 export const useApplyOutline = ( { editedOutlineRef } ) => {
-	const fetchContentOutline = useFetchContentOutline();
 	const { resetBlocks, removeBlock } = useDispatch( "core/block-editor" );
 	const { closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( async() => {
 		const editedOutline = editedOutlineRef.current;
-		await fetchContentOutline();
 		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
 
 		// Build metadata from the user's edits in the modal.
@@ -39,20 +36,20 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		// Build blocks using the user's heading order and the API's content notes.
 		let blocksOutline = apiOutline;
 		if ( editedOutline ) {
-			const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
-				map[ section.heading ] = section.contentNotes;
+			const notesByHeading = apiOutline.reduce( ( map, section ) => {
+				map[ section.subheading_text ] = section.content_notes;
 				return map;
 			}, {} );
-			blocksOutline = {
-				sections: editedOutline.structure
-					.filter( ( item ) => item.level !== "FAQ" )
-					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
-				faqContentNotes: apiOutline.faqContentNotes,
-			};
+			blocksOutline = editedOutline.structure.map( ( item ) => ( {
+				// eslint-disable-next-line camelcase
+				subheading_text: item.title,
+				// eslint-disable-next-line camelcase
+				content_notes: notesByHeading[ item.title ] || [],
+			} ) );
 		}
 
 		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
-		await applyPostMetaFromOutline( metaOutline );
+		applyPostMetaFromOutline( metaOutline );
 
 		const banner = select( "core/block-editor" ).getBlocks().find( ( b ) => b.name === "yoast/content-planner-banner" );
 		if ( banner ) {
@@ -60,5 +57,5 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		}
 
 		closeModal();
-	}, [ fetchContentOutline, resetBlocks, removeBlock, closeModal ] );
+	}, [ resetBlocks, removeBlock, closeModal ] );
 };

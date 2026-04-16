@@ -107,6 +107,7 @@ export const FeatureModal = ( {
 
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
 
+
 	/**
 	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
 	 * Sets the flag to indicate the transition is coming from the ApproveModal, then fetches content suggestions.
@@ -139,6 +140,7 @@ export const FeatureModal = ( {
 		setStatus( FEATURE_MODAL_STATUS.idle );
 	}, [ initialStatus, onClose, setStatus ] );
 
+
 	/**
 	 * Handles the click on a content suggestion.
 	 * Sets the selected suggestion, updates the modal status to show the outline, and fetches the content outline for the selected suggestion.
@@ -148,7 +150,6 @@ export const FeatureModal = ( {
 	 */
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
-		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 		fetchContentOutline( suggestion );
 	}, [ fetchContentOutline ] );
 
@@ -172,14 +173,6 @@ export const FeatureModal = ( {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
 
-	// Delay setting the status to "idle" to allow assistive technology to announce the changes.
-	useEffect( () => {
-		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
-			return () => clearTimeout( timer );
-		}
-	}, [ status ] );
-
 	useEffect( () => {
 		if ( ! isOpen ) {
 			setStatus( null );
@@ -193,7 +186,7 @@ export const FeatureModal = ( {
 			setStatus( FEATURE_MODAL_STATUS.consent );
 			return;
 		}
-		setStatus( initialStatus );
+		setStatus( initialStatus ?? FEATURE_MODAL_STATUS.idle );
 	}, [ isOpen, initialStatus, hasConsent ] );
 
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
