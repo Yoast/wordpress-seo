@@ -1,9 +1,12 @@
-import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Link, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
+import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
 import { getProgressColor } from "../helpers/get-progress-color";
@@ -189,9 +192,15 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive } ) => {
+export const ContentOutlineModal = ( {
+	status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive,
+	error, onRetry,
+} ) => {
 	const { category } = suggestion;
 	const svgAriaProps = useSvgAria();
+	const aiHelpLink = useSelect(
+		( select ) => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ), []
+	);
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
@@ -239,37 +248,32 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 		} );
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
 
+	const renderBody = () => {
+		if ( error ) {
+			return (
+				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative">
+					<ContentPlannerError
+						errorCode={ error.errorCode }
+						errorIdentifier={ error.errorIdentifier }
+						errorMessage={ error.errorMessage }
+						onRetry={ onRetry }
+					/>
+				</Modal.Container.Content>
+			);
+		}
 
-	return (
-		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
-			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
-			<Modal.Container>
-				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
-					<Modal.Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
-					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					{ sparksLimit && (
-						<UsageCounter
-							limit={ sparksLimit }
-							requests={ sparksUsage }
-							mentionBetaInTooltip={ isPremium }
-							mentionResetInTooltip={ isPremium }
-						/>
-					) }
-				</Modal.Container.Header>
+		return (
+			<>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
 						<IntentCallout
 							intent={ suggestion.intent }
 							explanation={ suggestion.explanation }
 						/>
-
 						<Modal.Description className="yst-text-sm yst-text-slate-600">
 							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 						</Modal.Description>
-
 						<hr className="yst-border-slate-200" />
-
 						{ category && (
 							<CategorySection
 								category={ category }
@@ -278,7 +282,6 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 								isLoading={ isLoading }
 							/>
 						) }
-
 						{ isLoading && (
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
@@ -312,9 +315,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 										<MetaDescriptionProgressBar value={ metaDescription } />
 									</div>
 								</div>
-
 								<hr className="yst-border-slate-200" />
-
 								<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
 									<span className="yst-font-medium yst-text-sm yst-text-slate-800">
 										{ __( "Blog post structure", "wordpress-seo" ) }
@@ -358,6 +359,39 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>
+			</>
+		);
+	};
+
+	return (
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
+			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
+			<Modal.Container>
+				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
+					<Modal.Title size="2"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
+					<Link
+						href={ aiHelpLink }
+						variant="primary"
+						className="yst-no-underline"
+						target="_blank"
+						rel="noopener"
+						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+					>
+						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+					</Link>
+					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					<span className="yst-flex-grow" />
+					{ ! error && sparksLimit && (
+						<UsageCounter
+							limit={ sparksLimit }
+							requests={ sparksUsage }
+							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
+						/>
+					) }
+				</Modal.Container.Header>
+				{ renderBody() }
 			</Modal.Container>
 		</Modal.Panel>
 	);
