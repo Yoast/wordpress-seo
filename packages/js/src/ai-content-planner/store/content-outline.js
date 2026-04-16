@@ -13,28 +13,31 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
  */
 
 /**
+ * Type of on section in the outline structure.
+ * @typedef {Object} OutlineSection
+ * @property {string} subheading_text The title of the section.
+ * @property {string[]} content_notes The depth of the section in the outline hierarchy.
+ */
+
+/**
  * Initial state for the content outline slice.
  *
  * @type {Object}
  * @property {Suggestion|null} suggestion The content suggestion for which the outline is generated.
- * @property {Array} outline The generated content outline.
+ * @property {OutlineSection[]} outline The generated content outline.
  * @property {string} endpoint The API endpoint for fetching the content outline.
  */
 const INITIAL_OUTLINE = {
 	suggestion: null,
 	outline: [],
 	endpoint: "",
+	status: ASYNC_ACTION_STATUS.idle,
+	error: ERROR_DEFAULT,
 };
 
 const slice = createSlice( {
 	name: CONTENT_OUTLINE_NAME,
-	initialState: {
-		endpoint: "",
-		status: ASYNC_ACTION_STATUS.idle,
-		suggestion: null,
-		outline: INITIAL_OUTLINE,
-		error: ERROR_DEFAULT,
-	},
+	initialState: INITIAL_OUTLINE,
 	reducers: {
 		setSuggestionForOutline: ( state, { payload } ) => {
 			state.suggestion = payload;
@@ -48,7 +51,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.outline = payload;
+			state.outline = payload.outline;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
