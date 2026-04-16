@@ -55,12 +55,11 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, skipApprove } = useSelect( select => {
+	const { isNewPost, postType, blocks } = useSelect( select => {
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			postType: select( "core/editor" ).getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
-			skipApprove: select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove(),
 		};
 	}, [] );
 
@@ -75,9 +74,7 @@ export const ContentPlannerEditorPlugin = () => {
 	}, [ blocks, isNewPost, postType, insertBlock ] );
 
 	return (
-		<FeatureModal
-			initialStatus={ skipApprove ? FEATURE_MODAL_STATUS.contentSuggestions : null }
-		/>
+		<FeatureModal />
 	);
 };
 

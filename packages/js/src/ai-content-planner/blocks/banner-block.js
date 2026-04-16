@@ -32,7 +32,7 @@ const Edit = ( { clientId } ) => {
 	}, [ removeBlock, clientId ] );
 
 	const handleClick = useCallback( () => {
-		openModal( true );
+		openModal();
 		fetchContentSuggestions();
 	}, [ openModal, fetchContentSuggestions ] );
 
