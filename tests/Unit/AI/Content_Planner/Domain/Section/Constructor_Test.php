@@ -40,7 +40,7 @@ final class Constructor_Test extends Abstract_Section {
 	 * @return void
 	 */
 	public function test_constructor_with_null_subheading_text() {
-		$instance = new Section( null, [] );
+		$instance = new Section( [], null );
 
 		$this->assertNull( $this->getPropertyValue( $instance, 'subheading_text' ) );
 		$this->assertSame( [], $this->getPropertyValue( $instance, 'content_notes' ) );

@@ -38,7 +38,7 @@ final class To_Array_Test extends Abstract_Section {
 	 * @return void
 	 */
 	public function test_to_array_with_null_subheading_text() {
-		$instance = new Section( null, [] );
+		$instance = new Section( [], null );
 
 		$expected = [
 			'subheading_text' => null,

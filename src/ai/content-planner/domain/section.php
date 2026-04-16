@@ -24,10 +24,10 @@ class Section {
 	/**
 	 * The constructor.
 	 *
-	 * @param string|null   $subheading_text The subheading text.
 	 * @param array<string> $content_notes   The content notes.
+	 * @param string|null   $subheading_text The subheading text.
 	 */
-	public function __construct( ?string $subheading_text, array $content_notes ) {
+	public function __construct( array $content_notes, ?string $subheading_text ) {
 		$this->subheading_text = $subheading_text;
 		$this->content_notes   = $content_notes;
 	}
