@@ -262,7 +262,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
 						<IntentCallout
 							intent={ suggestion.intent }
-							explanation={ suggestion.explanation }
+							description={ suggestion.explanation }
 						/>
 
 						<Modal.Description className="yst-text-sm yst-text-slate-600">
