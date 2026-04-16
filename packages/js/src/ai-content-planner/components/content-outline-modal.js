@@ -15,11 +15,11 @@ import { intentBadge } from "./intent-badge";
  * Blue callout box showing the intent badge and reasoning for the suggestion.
  *
  * @param {string} intent The intent type (e.g. "informational").
- * @param {string} description The reason for the suggestion.
+ * @param {string} explanation The reason for the suggestion.
  *
  * @returns {JSX.Element} The IntentCallout component.
  */
-const IntentCallout = ( { intent, description } ) => {
+const IntentCallout = ( { intent, explanation } ) => {
 	const badge = intentBadge[ intent ];
 	const Icon = badge ? badge.Icon : BookOpenIcon;
 	const svgAriaProps = useSvgAria();
@@ -38,7 +38,7 @@ const IntentCallout = ( { intent, description } ) => {
 					{ __( "Why this content?", "wordpress-seo" ) }
 				</span>
 			</div>
-			<p className="yst-text-sm yst-text-blue-900">{ description }</p>
+			<p className="yst-text-sm yst-text-blue-900">{ explanation }</p>
 		</div>
 	);
 };
@@ -226,7 +226,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @typedef {Object} OutlineSuggestion
  * @property {string}          intent          The intent type (e.g. "informational", "navigational", "commercial").
  * @property {string}          title           The suggested post title.
- * @property {string}          description     The reasoning behind the suggestion.
+ * @property {string}          explanation     The reasoning behind the suggestion.
  * @property {string}          focusKeyphrase  The suggested focus keyphrase.
  * @property {string}          metaDescription The suggested meta description.
  * @property {StructureItem[]} structure       The suggested blog post structure.

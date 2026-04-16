@@ -12,54 +12,26 @@ import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { ContentPlannerError } from "./content-planner-error";
 import { intentBadge } from "./intent-badge";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
-// Placeholder suggestions — will be replaced with real API data in a future iteration.
-const suggestions = [
-	{
-		intent: "informational",
-		title: "How to train your dog",
-		description: "Tips and tricks on how to train your dog effectively.",
-	},
-	{
-		intent: "navigational",
-		title: "Best dog training schools in New York",
-		description: "A list of the best dog training schools in New York.",
-	},
-	{
-		intent: "commercial",
-		title: "Top 10 dog training tools",
-		description: "A review of the top 10 dog training tools on the market.",
-	},
-	{
-		intent: "informational",
-		title: "How to groom your dog",
-		description: "Step-by-step guide on how to groom your dog at home.",
-	},
-	{
-		intent: "navigational",
-		title: "Dog parks in Los Angeles",
-		description: "Find the best dog parks in Los Angeles for your furry friend.",
-	},
-	{
-		intent: "commercial",
-		title: "Best dog food brands",
-		description: "An overview of the best dog food brands for a healthy diet.",
-	},
-];
+/**
+ * @typedef {Object} Suggestion
+ * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
+ * @property {string} title The title of the suggestion.
+ * @property {string} explanation The explanation of the suggestion.
+ */
 
 /**
  * Suggestion button component.
  *
  * @param {object} props The component props.
- * @param {string} props.intent The intent of the suggestion.
- * @param {string} props.title The title of the suggestion.
- * @param {string} props.description The description of the suggestion.
- * @param {object} props.suggestion The full suggestion object.
+ * @param {Suggestion} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
-const SuggestionButton = ( { intent, title, description, suggestion, onClick } ) => {
+const SuggestionButton = ( { suggestion, onClick } ) => {
+	const { intent, title, explanation } = suggestion;
 	const svgAriaProps = useSvgAria();
 	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
@@ -73,7 +45,7 @@ const SuggestionButton = ( { intent, title, description, suggestion, onClick } )
 				<Badge>{ intent }</Badge>
 			) }
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800">{ title }</div>
-			<p className="yst-text-slate-600">{ description }</p>
+			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
 	);
 };
@@ -123,13 +95,6 @@ const LoadingModalContent = () => {
 };
 
 /**
- * @typedef {Object} Suggestion
- * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
- * @property {string} title The title of the suggestion.
- * @property {string} description The description of the suggestion.
- */
-
-/**
  * Renders the error content for the ContentSuggestionsModal.
  *
  * @param {Object} props The component props.
@@ -156,19 +121,19 @@ const ErrorModalContent = ( { error, onRetry } ) => {
  * Renders the success content with suggestion buttons.
  *
  * @param {Object} props The component props.
+ * @param {Suggestion[]} props.suggestions The list of suggestions to display.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  *
  * @returns {JSX.Element} The success content.
  */
-const SuccessModalContent = ( { onSuggestionClick } ) => (
+const SuccessModalContent = ( { suggestions, onSuggestionClick } ) => (
 	<div>
 		<Modal.Description className="yst-mb-4">
 			{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }
 		</Modal.Description>
-		{ suggestions.map( ( suggestion ) => (
+		{ suggestions.map( ( suggestion, index ) => (
 			<SuggestionButton
-				key={ suggestion.title }
-				{ ...suggestion }
+				key={ `suggestion-${ index }` }
 				suggestion={ suggestion }
 				onClick={ onSuggestionClick }
 			/>
@@ -181,6 +146,7 @@ const SuccessModalContent = ( { onSuggestionClick } ) => (
  *
  * @param {Object} props The component props.
  * @param {string} props.status The current modal status.
+ * @param {Suggestion[]} props.suggestions The list of suggestions to display.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  * @param {Object|null} props.error The error object.
  * @param {Function} props.onRetry The function to call when the user clicks "Try again".
@@ -188,13 +154,15 @@ const SuccessModalContent = ( { onSuggestionClick } ) => (
  *
  * @returns {JSX.Element} The body content.
  */
-const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTransitions } ) => {
+const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRetry, skipTransitions } ) => {
 	if ( skipTransitions ) {
 		return (
 			<div aria-live="polite">
-				{ status === "content-suggestions-loading" && <LoadingModalContent /> }
-				{ status === "content-suggestions-error" && <ErrorModalContent error={ error } onRetry={ onRetry } /> }
-				{ status === "content-suggestions-success" && <SuccessModalContent onSuggestionClick={ onSuggestionClick } /> }
+				{ status === ASYNC_ACTION_STATUS.loading && <LoadingModalContent /> }
+				{ status === ASYNC_ACTION_STATUS.error && <ErrorModalContent error={ error } onRetry={ onRetry } /> }
+				{ status === ASYNC_ACTION_STATUS.success && (
+					<SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } />
+				) }
 			</div>
 		);
 	}
@@ -204,7 +172,7 @@ const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTran
 		<div className="yst-relative" aria-live="polite">
 			<Transition
 				as={ Fragment }
-				show={ status === "content-suggestions-loading" }
+				show={ status === ASYNC_ACTION_STATUS.loading }
 				enter="yst-transition-opacity yst-duration-300"
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
@@ -216,7 +184,7 @@ const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTran
 			</Transition>
 			<Transition
 				as={ Fragment }
-				show={ status === "content-suggestions-error" }
+				show={ status === ASYNC_ACTION_STATUS.error }
 				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
@@ -232,7 +200,7 @@ const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTran
 			 */ }
 			<Transition
 				as={ Fragment }
-				show={ status === "content-suggestions-success" }
+				show={ status === ASYNC_ACTION_STATUS.success }
 				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
@@ -240,7 +208,7 @@ const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTran
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
-				<div><SuccessModalContent onSuggestionClick={ onSuggestionClick } /></div>
+				<div><SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } /></div>
 			</Transition>
 		</div>
 	);
@@ -253,7 +221,11 @@ const ModalBodyContent = ( { status, onSuggestionClick, error, onRetry, skipTran
  * @param {string} props.status The current modal status.
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
- * @param {Object|null} props.error The error object when status is "content-suggestions-error".
+ * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
+ * @param {boolean} props.skipTransitions Whether to skip transition animations.
+ * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
+ * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature.
+ * @param {Object|null} props.error The error object when status is error.
  * @param {Function} props.onRetry The function to call when the user clicks "Try again".
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
@@ -262,7 +234,10 @@ export const ContentSuggestionsModal = ( {
 	status,
 	isPremium,
 	onSuggestionClick = noop,
+	suggestions,
 	skipTransitions = false,
+	usageCount,
+	usageCountLimit,
 	error,
 	onRetry,
 } ) => {
@@ -296,10 +271,10 @@ export const ContentSuggestionsModal = ( {
 					</Link>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<span className="yst-flex-grow" />
-					{ status !== "content-suggestions-error" && (
+					{ status !== ASYNC_ACTION_STATUS.error && (
 						<UsageCounter
-							limit={ 10 }
-							requests={ 1 }
+							limit={ usageCountLimit }
+							requests={ usageCount }
 							mentionBetaInTooltip={ isPremium }
 							mentionResetInTooltip={ isPremium }
 						/>
@@ -308,6 +283,7 @@ export const ContentSuggestionsModal = ( {
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ModalBodyContent
 						status={ status }
+						suggestions={ suggestions }
 						onSuggestionClick={ onSuggestionClick }
 						error={ error }
 						onRetry={ onRetry }
