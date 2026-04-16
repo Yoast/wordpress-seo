@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Application;
 
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Section;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
 use Yoast\WP\SEO\AI\HTTP_Request\Application\Request_Handler;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
@@ -15,9 +15,9 @@ use Yoast\WP\SEO\AI\HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Response;
 
 /**
- * Handles the content suggestion command.
+ * Handles the content outline command.
  */
-class Content_Suggestion_Command_Handler {
+class Content_Outline_Command_Handler {
 
 	/**
 	 * The recent content collector.
@@ -48,61 +48,70 @@ class Content_Suggestion_Command_Handler {
 	private $consent_handler;
 
 	/**
-	 * The category repository.
-	 *
-	 * @var Category_Repository_Interface
-	 */
-	private $category_repository;
-
-	/**
 	 * The constructor.
 	 *
-	 * @param Recent_Content_Collector      $recent_content_collector The recent content collector.
-	 * @param Token_Manager                 $token_manager            The token manager.
-	 * @param Request_Handler               $request_handler          The request handler.
-	 * @param Consent_Handler               $consent_handler          The consent handler.
-	 * @param Category_Repository_Interface $category_repository      The category repository.
+	 * @param Recent_Content_Collector $recent_content_collector The recent content collector.
+	 * @param Token_Manager            $token_manager            The token manager.
+	 * @param Request_Handler          $request_handler          The request handler.
+	 * @param Consent_Handler          $consent_handler          The consent handler.
 	 */
 	public function __construct(
 		Recent_Content_Collector $recent_content_collector,
 		Token_Manager $token_manager,
 		Request_Handler $request_handler,
-		Consent_Handler $consent_handler,
-		Category_Repository_Interface $category_repository
+		Consent_Handler $consent_handler
 	) {
 		$this->recent_content_collector = $recent_content_collector;
 		$this->token_manager            = $token_manager;
 		$this->request_handler          = $request_handler;
 		$this->consent_handler          = $consent_handler;
-		$this->category_repository      = $category_repository;
 	}
 
 	/**
-	 * Handles the content suggestion command by collecting recent content and requesting suggestions from the AI API.
+	 * Handles the content outline command by collecting recent content and requesting an outline from the AI API.
 	 *
-	 * @param Content_Suggestion_Command $command               The content suggestion command.
-	 * @param bool                       $retry_on_unauthorized Whether to retry on unauthorized response.
+	 * @param Content_Outline_Command $command               The content outline command.
+	 * @param bool                    $retry_on_unauthorized Whether to retry on unauthorized response.
 	 *
 	 * @throws Unauthorized_Exception When the API returns an unauthorized response and retry is exhausted.
 	 * @throws Forbidden_Exception    When consent has been revoked.
 	 *
-	 * @return Content_Suggestion_List A list of content suggestions.
+	 * @return Section_List A list of outline sections.
 	 */
 	public function handle(
-		Content_Suggestion_Command $command,
+		Content_Outline_Command $command,
 		bool $retry_on_unauthorized = true
-	): Content_Suggestion_List {
+	): Section_List {
 		$recent_content = $this->recent_content_collector->collect( $command->get_post_type() );
 		$about_page     = $this->recent_content_collector->collect_about_page( $command->get_post_type() );
 		$token          = $this->token_manager->get_or_request_access_token( $command->get_user() );
 		$recent_content = $recent_content->to_array();
 
+		$existing_posts = \array_map(
+			static function ( $post ) {
+				return [
+					'title'       => $post['title'],
+					'description' => $post['description'],
+				];
+			},
+			$recent_content,
+		);
+
 		$content = [
-			'posts' => $recent_content,
+			'new_post_metadata' => [
+				'title'            => $command->get_title(),
+				'intent'           => $command->get_intent(),
+				'explanation'      => $command->get_explanation(),
+				'keyphrase'        => $command->get_keyphrase(),
+				'meta_description' => $command->get_meta_description(),
+				'category'         => $command->get_category()->to_array(),
+			],
+			'existing_posts'    => $existing_posts,
 		];
 		if ( $about_page ) {
 			$content['about_page'] = $about_page;
 		}
+
 		$request_body = [
 			'subject' => [
 				'language' => $command->get_language(),
@@ -116,8 +125,7 @@ class Content_Suggestion_Command_Handler {
 		];
 
 		try {
-
-			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-suggestions', $request_body, $request_headers ) );
+			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-outline', $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
 			// Delete the stored JWT tokens, as they appear to be no longer valid.
 			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
@@ -126,7 +134,7 @@ class Content_Suggestion_Command_Handler {
 				throw $exception;
 			}
 
-			// Try again once more by fetching a new set of tokens and trying the suggestions endpoint again.
+			// Try again once more by fetching a new set of tokens and trying the outline endpoint again.
 			return $this->handle( $command, false );
 		} catch ( Forbidden_Exception $exception ) {
 			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
@@ -136,38 +144,32 @@ class Content_Suggestion_Command_Handler {
 			// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
-		return $this->build_suggestions_array( $response );
+		return $this->build_outline( $response );
 	}
 
 	/**
-	 * Builds a list of content suggestions from the API response.
+	 * Builds a list of outline sections from the API response.
 	 *
 	 * @param Response $response The API response.
 	 *
-	 * @return Content_Suggestion_List The list of content suggestions.
+	 * @return Section_List The list of outline sections.
 	 */
-	public function build_suggestions_array( Response $response ): Content_Suggestion_List {
-		$content_suggestion_list = new Content_Suggestion_List();
-		$json                    = \json_decode( $response->get_body() );
+	private function build_outline( Response $response ): Section_List {
+		$section_list = new Section_List();
+		$json         = \json_decode( $response->get_body() );
 
 		if ( $json === null || ! isset( $json->choices ) ) {
-			return $content_suggestion_list;
+			return $section_list;
 		}
-		foreach ( $json->choices as $suggestion ) {
-			$category = isset( $suggestion->category->title ) ? $this->category_repository->find_by_name( $suggestion->category->title ) : null;
-
-			$content_suggestion_list->add(
-				new Content_Suggestion(
-					$suggestion->title,
-					$suggestion->intent,
-					$suggestion->explanation,
-					$suggestion->keyphrase,
-					$suggestion->meta_description,
-					$category,
+		foreach ( $json->choices as $choice ) {
+			$section_list->add(
+				new Section(
+					( $choice->subheading_text ?? null ),
+					( $choice->content_notes ?? [] ),
 				),
 			);
 		}
 
-		return $content_suggestion_list;
+		return $section_list;
 	}
 }

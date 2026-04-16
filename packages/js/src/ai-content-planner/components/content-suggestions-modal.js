@@ -3,19 +3,14 @@ import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
-import classNames from "classnames";
 import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
-import { intentBadge } from "./intent-badge";
+import { IntentBadge } from "./intent-badge";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 /**
- * @typedef {Object} Suggestion
- * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
- * @property {string} title The title of the suggestion.
- * @property {string} explanation The explanation of the suggestion.
+ * @typedef {import( "../constants" ).Suggestion} Suggestion
  */
 
 /**
@@ -29,18 +24,10 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  */
 const SuggestionButton = ( { suggestion, onClick } ) => {
 	const { intent, title, explanation } = suggestion;
-	const svgAriaProps = useSvgAria();
-	const Icon = intentBadge[ intent ] ? intentBadge[ intent ].Icon : BookOpenIcon;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
 	return (
 		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
-			{ intentBadge[ intent ] ? (
-				<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", intentBadge[ intent ].classes ) }>
-					<Icon className={ classNames( "yst-w-3 ", intentBadge[ intent ].classes ) } { ...svgAriaProps } /> { intentBadge[ intent ].label }
-				</Badge>
-			) : (
-				<Badge>{ intent }</Badge>
-			) }
+			<IntentBadge intent={ intent } />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800">{ title }</div>
 			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>

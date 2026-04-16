@@ -3,15 +3,14 @@ import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import { get, isArray } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ERROR_DEFAULT } from "../constants";
+
+/**
+ * @typedef {import( "../constants" ).Suggestion} Suggestion
+ */
 
 export const CONTENT_SUGGESTIONS_NAME = "contentSuggestions";
 export const FETCH_CONTENT_SUGGESTIONS_ACTION_NAME = "fetchContentPlannerSuggestions";
-
-const ERROR_DEFAULT = {
-	errorCode: null,
-	errorIdentifier: null,
-	errorMessage: null,
-};
 
 const slice = createSlice( {
 	name: CONTENT_SUGGESTIONS_NAME,
@@ -56,7 +55,7 @@ export const contentSuggestionsSelectors = {
  *
  * @param {Object} result The raw API response.
  *
- * @returns {Array} The validated and transformed suggestions array.
+ * @returns {Suggestion[]} The validated and transformed suggestions array.
  */
 const validateSuggestionsResponse = ( result ) => {
 	const suggestions = get( result, "suggestions", null );
@@ -70,7 +69,8 @@ const validateSuggestionsResponse = ( result ) => {
 		title: suggestion.title,
 		explanation: suggestion.explanation,
 		keyphrase: suggestion.keyphrase,
-		metaDescription: suggestion.meta_description,
+		// eslint-disable-next-line camelcase
+		meta_description: suggestion.meta_description,
 		category: suggestion.category,
 	} ) );
 };
