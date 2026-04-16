@@ -3,7 +3,6 @@ import { useDispatch, select } from "@wordpress/data";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
-import { useFetchContentOutline } from "./use-fetch-content-outline";
 
 /**
  * Returns a callback that applies the content outline to the post.
@@ -17,13 +16,11 @@ import { useFetchContentOutline } from "./use-fetch-content-outline";
  * @returns {Function} Async callback to apply the outline.
  */
 export const useApplyOutline = ( { editedOutlineRef } ) => {
-	const fetchContentOutline = useFetchContentOutline();
 	const { resetBlocks, removeBlock } = useDispatch( "core/block-editor" );
 	const { closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( async() => {
 		const editedOutline = editedOutlineRef.current;
-		await fetchContentOutline();
 		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
 
 		// Build metadata from the user's edits in the modal.
@@ -60,5 +57,5 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		}
 
 		closeModal();
-	}, [ fetchContentOutline, resetBlocks, removeBlock, closeModal ] );
+	}, [ resetBlocks, removeBlock, closeModal ] );
 };
