@@ -18,7 +18,7 @@ class Content_Planner_Endpoint implements Content_Planner_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return 'contentPlanner';
+		return 'getSuggestions';
 	}
 
 	/**
