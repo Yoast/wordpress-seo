@@ -27,7 +27,8 @@ export default compose( [
 			sparksUsage: selectUsageCount(),
 			status: selectContentOutlineStatus(),
 			isPremium: getIsPremium(),
-			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
+			isActive: [ FEATURE_MODAL_STATUS.contentOutline, FEATURE_MODAL_STATUS.contentOutlineError ]
+				.includes( selectFeatureModalStatus() ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
