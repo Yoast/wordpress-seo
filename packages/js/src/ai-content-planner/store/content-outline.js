@@ -24,7 +24,13 @@ const slice = createSlice( {
 		outline: INITIAL_OUTLINE,
 		error: null,
 	},
-	reducers: {},
+	reducers: {
+		resetOutlineState: ( state ) => {
+			state.status = ASYNC_ACTION_STATUS.idle;
+			state.outline = INITIAL_OUTLINE;
+			state.error = null;
+		},
+	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
