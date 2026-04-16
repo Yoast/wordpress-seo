@@ -16,7 +16,7 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
  * Type of on section in the outline structure.
  * @typedef {Object} OutlineSection
  * @property {string} subheading_text The title of the section.
- * @property {string[]} content_notes The depth of the section in the outline hierarchy.
+ * @property {string[]} content_notes Content notes for the section.
  */
 
 /**
@@ -47,7 +47,7 @@ const slice = createSlice( {
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
 			state.suggestion = payload.suggestion;
-			state.error = null;
+			state.error = ERROR_DEFAULT;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;

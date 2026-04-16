@@ -235,7 +235,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 			title,
 			metaDescription,
 			focusKeyphrase,
-			category: isCategoryEnabled ? category : "",
+			category: isCategoryEnabled ? category : null,
 			structure,
 		} );
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
