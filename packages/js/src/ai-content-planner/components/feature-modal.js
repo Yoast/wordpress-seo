@@ -18,8 +18,17 @@ const HIDDEN_STYLE = { display: "none" };
  * @param {string} status The current modal status.
  * @returns {Object} Styles for each panel.
  */
-const getPanelStyles = ( status ) => ( {
-	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
+/**
+ * Returns visibility and display styles for modal panels based on the current status.
+ *
+ * @param {string} status The current modal status.
+ * @returns {Object} Panel visibility flags and styles.
+ */
+const getPanelVisibility = ( status ) => ( {
+	isSuggestionsVisible:
+		status === FEATURE_MODAL_STATUS.contentSuggestions ||
+		status === FEATURE_MODAL_STATUS.contentSuggestionsError,
+	outlineStyle: ( status === FEATURE_MODAL_STATUS.contentOutline || status === FEATURE_MODAL_STATUS.contentOutlineError ) ? null : HIDDEN_STYLE,
 	replaceStyle: status === FEATURE_MODAL_STATUS.replaceContent ? null : HIDDEN_STYLE,
 } );
 
@@ -35,7 +44,7 @@ const getPanelStyles = ( status ) => ( {
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onSuggestionClick, error, onRetry } ) => {
 	if ( cameFromApproveModal ) {
 		return (
 			<Transition
@@ -47,8 +56,9 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
 			>
 				<div>
 					<ContentSuggestionsModal
-						status={ status }
 						onSuggestionClick={ onSuggestionClick }
+						error={ error }
+						onRetry={ onRetry }
 					/>
 				</div>
 			</Transition>
@@ -59,9 +69,10 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
 	}
 	return (
 		<ContentSuggestionsModal
-			status={ status }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
+			error={ error }
+			onRetry={ onRetry }
 		/>
 	);
 };
@@ -90,6 +101,7 @@ export const FeatureModal = ( {
 	initialStatus = null,
 	status,
 	setStatus,
+	error,
 } ) => {
 	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
@@ -98,6 +110,14 @@ export const FeatureModal = ( {
 
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const fetchContentOutline = useFetchContentOutline();
+
+	const handleRetrySuggestions = useCallback( () => {
+		fetchContentSuggestions();
+	}, [ fetchContentSuggestions ] );
+
+	const handleRetryOutline = useCallback( () => {
+		fetchContentOutline( selectedSuggestion );
+	}, [ fetchContentOutline, selectedSuggestion ] );
 
 	/**
 	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
@@ -165,7 +185,7 @@ export const FeatureModal = ( {
 		setStatus( initialStatus );
 	}, [ isOpen, initialStatus ] );
 
-	const { outlineStyle, replaceStyle } = getPanelStyles( status );
+	const { isSuggestionsVisible, outlineStyle, replaceStyle } = getPanelVisibility( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -191,9 +211,11 @@ export const FeatureModal = ( {
 					</div>
 				</Transition>
 				<SuggestionsPanel
-					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
+					isVisible={ isSuggestionsVisible }
 					cameFromApproveModal={ cameFromApproveModal }
 					onSuggestionClick={ handleSuggestionClick }
+					error={ error }
+					onRetry={ handleRetrySuggestions }
 				/>
 				{ /*
 				 * Once the replace confirmation has been visited, keep both outline and
@@ -204,6 +226,8 @@ export const FeatureModal = ( {
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
 							onApplyOutline={ handleOnApplyOutline }
+							error={ error }
+							onRetry={ handleRetryOutline }
 						/>
 					</div>
 				) }
