@@ -26,8 +26,8 @@ abstract class Abstract_Content_Suggestion_List extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
-		parent::setUp();
+	protected function set_up(): void {
+		parent::set_up();
 
 		$this->instance = new Content_Suggestion_List();
 	}

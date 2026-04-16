@@ -2,22 +2,22 @@
 
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Domain\Post_List;
+namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Domain\Section_List;
 
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Abstract class for Post_List tests.
+ * Abstract class for Section_List tests.
  *
  * @group ai-content-planner
  */
-abstract class Abstract_Post_List extends TestCase {
+abstract class Abstract_Section_List extends TestCase {
 
 	/**
 	 * The instance to test.
 	 *
-	 * @var Post_List
+	 * @var Section_List
 	 */
 	protected $instance;
 
@@ -29,6 +29,6 @@ abstract class Abstract_Post_List extends TestCase {
 	protected function set_up(): void {
 		parent::set_up();
 
-		$this->instance = new Post_List();
+		$this->instance = new Section_List();
 	}
 }
