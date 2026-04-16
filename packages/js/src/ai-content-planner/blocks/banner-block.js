@@ -23,6 +23,10 @@ const Edit = ( { clientId } ) => {
 	const blockProps = useBlockProps();
 	const ref = useRef( null );
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
+	const hasConsent = useSelect(
+		select => select( "yoast-seo/ai-generator" )?.selectHasAiGeneratorConsent?.() ?? true,
+		[]
+	);
 	const { removeBlock } = useDispatch( "core/block-editor" );
 	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
@@ -33,8 +37,10 @@ const Edit = ( { clientId } ) => {
 
 	const handleClick = useCallback( () => {
 		openModal( true );
-		fetchContentSuggestions();
-	}, [ openModal, fetchContentSuggestions ] );
+		if ( hasConsent ) {
+			fetchContentSuggestions();
+		}
+	}, [ openModal, hasConsent, fetchContentSuggestions ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.
