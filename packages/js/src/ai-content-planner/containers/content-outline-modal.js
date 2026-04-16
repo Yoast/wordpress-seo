@@ -31,13 +31,9 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { resetBlocks } = dispatch( "core/block-editor" );
-		const { getContentOutline, fetchContentPlannerSuggestions, setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+		const { setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
 
 		return {
-			resetBlocks,
-			getContentOutline,
-			fetchContentPlannerSuggestions,
 			onBackToSuggestions: () => {
 				setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 			},
