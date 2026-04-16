@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import { get, isArray } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { contentPlannerFetch } from "../helpers/fetch";
 import { ERROR_DEFAULT } from "../constants";
 
 /**
@@ -116,7 +116,7 @@ export const contentSuggestionsControls = {
 			language: payload.language,
 			editor: payload.editor,
 		} );
-		return apiFetch( { path } );
+		return contentPlannerFetch( { path } );
 	},
 };
 

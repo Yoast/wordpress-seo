@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { ERROR_DEFAULT } from "../constants";
+import { contentPlannerFetch } from "../helpers/fetch";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
@@ -103,7 +102,7 @@ export const contentOutlineActions = {
 };
 
 export const contentOutlineControls = {
-	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => apiFetch( {
+	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => contentPlannerFetch( {
 		method: "POST",
 		path: payload.endpoint,
 		data: {
