@@ -22,11 +22,11 @@ final class Add_Test extends Abstract_Section_List {
 	 */
 	public function test_add() {
 		$section = new Section(
-			'Understanding Your Child\'s Needs',
 			[
 				'Assess your child\'s developmental stage.',
 				'Consider any specific requirements.',
 			],
+			'Understanding Your Child\'s Needs',
 		);
 
 		$this->instance->add( $section );

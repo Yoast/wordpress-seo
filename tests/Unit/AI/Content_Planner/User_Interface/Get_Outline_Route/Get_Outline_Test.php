@@ -76,7 +76,7 @@ final class Get_Outline_Test extends Abstract_Get_Outline_Route_Test {
 		$request = $this->build_request_mock();
 
 		$section_list = new Section_List();
-		$section_list->add( new Section( 'Section A', [ 'note 1' ] ) );
+		$section_list->add( new Section( [ 'note 1' ], 'Section A' ) );
 
 		$this->command_handler
 			->expects( 'handle' )

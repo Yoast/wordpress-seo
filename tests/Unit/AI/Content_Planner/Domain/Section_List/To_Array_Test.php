@@ -32,19 +32,19 @@ final class To_Array_Test extends Abstract_Section_List {
 	public function test_to_array_with_sections() {
 		$this->instance->add(
 			new Section(
-				'Understanding Your Child\'s Needs',
 				[
 					'Assess your child\'s developmental stage.',
 					'Consider any specific requirements.',
 				],
+				'Understanding Your Child\'s Needs',
 			),
 		);
 		$this->instance->add(
 			new Section(
-				'Choosing the Right Approach',
 				[
 					'Evaluate available options.',
 				],
+				'Choosing the Right Approach',
 			),
 		);
 

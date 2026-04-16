@@ -7,7 +7,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Application\Content_Outline
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Section_List;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Forbidden_Exception;
@@ -42,7 +41,6 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 	private function build_command(): Content_Outline_Command {
 		$user     = Mockery::mock( WP_User::class );
 		$user->ID = 1;
-		$category = new Category( 'Tech', 5 );
 
 		return new Content_Outline_Command(
 			$user,
@@ -54,7 +52,8 @@ final class Handle_Test extends Abstract_Content_Outline_Command_Handler_Test {
 			'This article explains AI usage.',
 			'AI usage',
 			'Learn how to use AI effectively.',
-			$category,
+			'Tech',
+			5,
 		);
 	}
 

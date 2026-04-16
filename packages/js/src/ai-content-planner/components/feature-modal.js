@@ -87,7 +87,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onSuggestionClick,
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
- * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
@@ -98,7 +97,6 @@ export const FeatureModal = ( {
 	isPremium,
 	isUpsell,
 	upsellLink,
-	initialStatus = null,
 	status,
 	setStatus,
 	error,
@@ -142,7 +140,6 @@ export const FeatureModal = ( {
 	 */
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
-		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 		fetchContentOutline( suggestion );
 	}, [ fetchContentOutline ] );
 
@@ -166,24 +163,20 @@ export const FeatureModal = ( {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
 
-	// Delay setting the status to "idle" to allow assistive technology to announce the changes.
-	useEffect( () => {
-		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
-			return () => clearTimeout( timer );
-		}
-	}, [ status ] );
-
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( null );
-			setCameFromApproveModal( false );
+			setCameFromApproveModal( true );
 			setHasVisitedReplace( false );
 			return;
 		}
-		setCameFromApproveModal( false );
-		setStatus( initialStatus );
-	}, [ isOpen, initialStatus ] );
+	}, [ isOpen ] );
+
+	useEffect( () => {
+		if ( status === FEATURE_MODAL_STATUS.idle ) {
+			setCameFromApproveModal( true );
+			return;
+		}
+	}, [ status ] );
 
 	const { isSuggestionsVisible, outlineStyle, replaceStyle } = getPanelVisibility( status );
 

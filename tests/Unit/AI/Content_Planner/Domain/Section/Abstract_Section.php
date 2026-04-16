@@ -30,11 +30,11 @@ abstract class Abstract_Section extends TestCase {
 		parent::set_up();
 
 		$this->instance = new Section(
-			'Understanding Your Child\'s Needs',
 			[
 				'Assess your child\'s developmental stage.',
 				'Consider any specific requirements.',
 			],
+			'Understanding Your Child\'s Needs',
 		);
 	}
 }

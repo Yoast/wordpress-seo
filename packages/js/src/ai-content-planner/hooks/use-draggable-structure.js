@@ -8,7 +8,10 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * @param {Array} items The structure items.
  * @returns {Array} Items with `id` property added.
  */
-const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
+const withIds = ( items ) => items.map( ( item, i ) => {
+	const title = item.subheading_text ?? "";
+	return { title, id: `${ i }-H2-${ title }` };
+} );
 
 /**
  * Manages the draggable structure list state and all related drag-and-drop
@@ -19,7 +22,6 @@ const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-
  */
 export const useDraggableStructure = () => {
 	const outline = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutline(), [] );
-
 	const [ structure, setStructure ] = useState( () => withIds( outline ?? [] ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );

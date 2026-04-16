@@ -84,16 +84,17 @@ class Content_Outline_Command {
 	/**
 	 * The constructor.
 	 *
-	 * @param WP_User  $user             The user.
-	 * @param string   $post_type        The post type.
-	 * @param string   $language         The language.
-	 * @param string   $editor           The editor.
-	 * @param string   $title            The title.
-	 * @param string   $intent           The intent.
-	 * @param string   $explanation      The explanation.
-	 * @param string   $keyphrase        The keyphrase.
-	 * @param string   $meta_description The meta description.
-	 * @param Category $category         The category.
+	 * @param WP_User $user             The user.
+	 * @param string  $post_type        The post type.
+	 * @param string  $language         The language.
+	 * @param string  $editor           The editor.
+	 * @param string  $title            The title.
+	 * @param string  $intent           The intent.
+	 * @param string  $explanation      The explanation.
+	 * @param string  $keyphrase        The keyphrase.
+	 * @param string  $meta_description The meta description.
+	 * @param string  $category_name    The category name.
+	 * @param int     $category_id      The category ID.
 	 */
 	public function __construct(
 		WP_User $user,
@@ -105,7 +106,8 @@ class Content_Outline_Command {
 		string $explanation,
 		string $keyphrase,
 		string $meta_description,
-		Category $category
+		string $category_name,
+		int $category_id
 	) {
 		$this->user             = $user;
 		$this->post_type        = $post_type;
@@ -116,7 +118,7 @@ class Content_Outline_Command {
 		$this->explanation      = $explanation;
 		$this->keyphrase        = $keyphrase;
 		$this->meta_description = $meta_description;
-		$this->category         = $category;
+		$this->category         = new Category( $category_name, $category_id );
 	}
 
 	/**
