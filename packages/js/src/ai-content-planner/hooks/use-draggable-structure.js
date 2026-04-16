@@ -10,7 +10,7 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  */
 const withIds = ( items ) => items.map( ( item, i ) => {
 	const title = item.subheading_text ?? "";
-	return { ...item, title, id: `${ i }-H2-${ title }` };
+	return { title, id: `${ i }-H2-${ title }` };
 } );
 
 /**

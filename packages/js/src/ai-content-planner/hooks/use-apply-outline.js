@@ -36,20 +36,21 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		// Build blocks using the user's heading order and the API's content notes.
 		let blocksOutline = apiOutline;
 		if ( editedOutline ) {
-			const notesByHeading = apiOutline.sections.reduce( ( map, section ) => {
-				map[ section.heading ] = section.contentNotes;
+			const notesByHeading = apiOutline.reduce( ( map, section ) => {
+				map[ section.subheading_text ] = section.content_notes;
 				return map;
 			}, {} );
-			blocksOutline = {
-				sections: editedOutline.structure
-					.filter( ( item ) => item.level !== "FAQ" )
-					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
-				faqContentNotes: apiOutline.faqContentNotes,
-			};
+			blocksOutline = editedOutline.structure.map( ( item ) => ( {
+				// eslint-disable-next-line camelcase
+				subheading_text: item.title,
+				// eslint-disable-next-line camelcase
+				content_notes: notesByHeading[ item.title ] || [],
+			} ) );
 		}
 
 		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
-		await applyPostMetaFromOutline( metaOutline );
+
+		applyPostMetaFromOutline( metaOutline );
 
 		const banner = select( "core/block-editor" ).getBlocks().find( ( b ) => b.name === "yoast/content-planner-banner" );
 		if ( banner ) {
