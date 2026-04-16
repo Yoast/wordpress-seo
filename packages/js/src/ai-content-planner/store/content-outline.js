@@ -11,27 +11,13 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
  * @typedef {import( "../constants" ).Suggestion} Suggestion
  */
 
-/**
- * Initial state for the content outline slice.
- *
- * @type {Object}
- * @property {Suggestion|null} suggestion The content suggestion for which the outline is generated.
- * @property {Array} outline The generated content outline.
- * @property {string} endpoint The API endpoint for fetching the content outline.
- */
-const INITIAL_OUTLINE = {
-	suggestion: null,
-	outline: [],
-	endpoint: "",
-};
-
 const slice = createSlice( {
 	name: CONTENT_OUTLINE_NAME,
 	initialState: {
 		endpoint: "",
 		status: ASYNC_ACTION_STATUS.idle,
 		suggestion: null,
-		outline: INITIAL_OUTLINE,
+		outline: [],
 		error: ERROR_DEFAULT,
 	},
 	reducers: {
