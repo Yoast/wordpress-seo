@@ -13,6 +13,7 @@ const slice = createSlice( {
 		isOpen: false,
 		skipApprove: false,
 		featureModalStatus: null,
+		error: null,
 	},
 	reducers: {
 		openModal: ( state, { payload } ) => {
@@ -27,23 +28,25 @@ const slice = createSlice( {
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentOutline;
+			state.error = null;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentOutline;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentSuggestions;
+			state.error = null;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentSuggestions;
 		} );
-		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state ) => {
-			state.featureModalStatus = FEATURE_MODAL_STATUS.error;
-			state.isOpen = false;
+		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
+			state.featureModalStatus = FEATURE_MODAL_STATUS.contentSuggestionsError;
+			state.error = payload;
 		} );
-		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state ) => {
-			state.featureModalStatus = FEATURE_MODAL_STATUS.error;
-			state.isOpen = false;
+		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
+			state.featureModalStatus = FEATURE_MODAL_STATUS.contentOutlineError;
+			state.error = payload;
 		} );
 	},
 } );
@@ -60,4 +63,5 @@ export const modalSelectors = {
 	selectIsModalOpen: ( state ) => get( state, [ MODAL_NAME, "isOpen" ], slice.getInitialState().isOpen ),
 	selectShouldSkipApprove: ( state ) => get( state, [ MODAL_NAME, "skipApprove" ], slice.getInitialState().skipApprove ),
 	selectFeatureModalStatus: ( state ) => get( state, [ MODAL_NAME, "featureModalStatus" ], slice.getInitialState().featureModalStatus ),
+	selectModalError: ( state ) => get( state, [ MODAL_NAME, "error" ], slice.getInitialState().error ),
 };

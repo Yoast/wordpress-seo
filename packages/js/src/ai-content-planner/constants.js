@@ -13,9 +13,10 @@ export const CONTENT_PLANNER_STORE = "yoast-seo/content-planner";
 export const FEATURE_MODAL_STATUS = {
 	idle: "idle",
 	contentSuggestions: "content-suggestions",
+	contentSuggestionsError: "content-suggestions-error",
 	contentOutline: "content-outline",
+	contentOutlineError: "content-outline-error",
 	replaceContent: "replace-content",
-	error: "error",
 };
 
 export const META_DESCRIPTION_MAX_LENGTH = 156;
