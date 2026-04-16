@@ -50,7 +50,7 @@ const MetaDescriptionProgressBar = ( { value } ) => {
  *
  * @returns {JSX.Element} The StructureRow component.
  */
-const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
+const StructureRow = ( { title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
 	const svgAriaProps = useSvgAria();
 	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
 	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
@@ -72,7 +72,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 	return ( <div
 		role="option"
 		aria-selected="false"
-		aria-label={ `${ level } ${ title }` }
+		aria-label={ `H2 ${ title }` }
 		aria-roledescription={ __( "Draggable section", "wordpress-seo" ) }
 		tabIndex="0"
 		className={ classNames(
@@ -96,7 +96,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 			<circle cx="8" cy="14" r="1.5" />
 		</svg>
 		<div className="yst-flex yst-items-center yst-gap-3 yst-flex-1 yst-min-w-0 yst-text-sm">
-			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ level }</span>
+			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ "H2" }</span>
 			<span className="yst-text-slate-600">{ title }</span>
 		</div>
 	</div> );
@@ -190,14 +190,15 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
 export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive } ) => {
-	const { category } = suggestion;
+	// eslint-disable-next-line camelcase
+	const { category, keyphrase, meta_description } = suggestion;
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
-	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.keyphrase );
+	const [ focusKeyphrase, setFocusKeyphrase ] = useState( keyphrase );
 	const [ title, setTitle ] = useState( suggestion.title );
-	const [ metaDescription, setMetaDescription ] = useState( suggestion.meta_description );
+	const [ metaDescription, setMetaDescription ] = useState( meta_description );
 
 	const { structure,
 		dragOverIndex,
@@ -209,9 +210,9 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 		handleMoveDown } = useDraggableStructure();
 
 	useEffect( () => {
-		setFocusKeyphrase( suggestion.focusKeyphrase );
+		setFocusKeyphrase( suggestion.keyphrase );
 		setTitle( suggestion.title );
-		setMetaDescription( suggestion.metaDescription );
+		setMetaDescription( suggestion.meta_description );
 	}, [ suggestion ] );
 
 	// Focus the close button when the panel becomes active so screen readers announce the dialog context.
@@ -328,7 +329,6 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 										<StructureRow
 											key={ item.id }
 											index={ index }
-											level={ item.level }
 											title={ item.title }
 											dragOverIndex={ dragOverIndex }
 											onDragStart={ handleDragStart }
