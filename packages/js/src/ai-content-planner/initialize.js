@@ -4,7 +4,6 @@ import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
 import FeatureModal from "./containers/feature-modal";
-import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import "./blocks/banner-block";
 import "./blocks/content-suggestion-block";
 import { registerStore } from "./store";
@@ -90,10 +89,10 @@ export const ContentPlannerEditorPlugin = () => {
 export default function initContentPlanner() {
 	registerStore( {
 		[ CONTENT_SUGGESTIONS_NAME ]: {
-			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
+			endpoint: get( window, "wpseoContentPlanner.endpoints.get_suggestions", "" ),
 		},
 		[ CONTENT_OUTLINE_NAME ]: {
-			endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
+			endpoint: "yoast/v1/ai_content_planner/get_outline",
 		},
 	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
