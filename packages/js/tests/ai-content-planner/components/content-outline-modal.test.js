@@ -14,7 +14,7 @@ jest.mock( "@wordpress/data", () => ( {
 const defaultSuggestion = {
 	intent: "informational",
 	title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-	description: "This content is suggested because it addresses a common entry point for new users.",
+	explanation: "This content is suggested because it addresses a common entry point for new users.",
 	focusKeyphrase: "Guide to set up WordPress blog",
 	metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins.",
 	structure: [
@@ -150,7 +150,7 @@ describe( "ContentOutlineModal", () => {
 
 		it( "shows the suggestion description", () => {
 			renderModal();
-			expect( screen.getByText( defaultSuggestion.description ) ).toBeInTheDocument();
+			expect( screen.getByText( defaultSuggestion.explanation ) ).toBeInTheDocument();
 		} );
 
 		it( "renders the correct badge for navigational intent", () => {
@@ -234,7 +234,7 @@ describe( "ContentOutlineModal", () => {
 				jest.advanceTimersByTime( 100 );
 			} );
 			expect( screen.getByText( "Why this content?" ) ).toBeInTheDocument();
-			expect( screen.getByText( defaultSuggestion.description ) ).toBeInTheDocument();
+			expect( screen.getByText( defaultSuggestion.explanation ) ).toBeInTheDocument();
 		} );
 
 		it( "still shows the instruction text when loading", () => {

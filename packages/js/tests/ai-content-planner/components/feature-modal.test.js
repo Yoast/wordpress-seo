@@ -1,23 +1,40 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useDispatch, select } from "@wordpress/data";
+import { useSelect, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
+import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
-jest.mock( "@wordpress/data", () => ( {
-	useDispatch: jest.fn(),
-	useSelect: jest.fn( () => false ),
-	select: jest.fn(),
-	dispatch: jest.fn(),
-	resolveSelect: jest.fn(),
-	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
-		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
-		{}
-	),
-	createReduxStore: jest.fn(),
-	register: jest.fn(),
+jest.mock( "@wordpress/data", () => {
+	const useSelectMock = jest.fn();
+	return {
+		useDispatch: jest.fn(),
+		useSelect: useSelectMock,
+		withSelect: ( mapSelectToProps ) => ( Component ) => {
+			const React = require( "react" );
+			const WithSelectComponent = ( ownProps ) => {
+				const selectProps = useSelectMock( ( selectFn ) => mapSelectToProps( selectFn, ownProps ) );
+				return React.createElement( Component, Object.assign( {}, ownProps, selectProps ) );
+			};
+			WithSelectComponent.displayName = `WithSelect(${ Component.displayName || Component.name || "Component" })`;
+			return WithSelectComponent;
+		},
+		combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
+			( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
+			{}
+		),
+		createReduxStore: jest.fn(),
+		register: jest.fn(),
+		select: jest.fn(),
+		dispatch: jest.fn(),
+		resolveSelect: jest.fn(),
+	};
+} );
+
+jest.mock( "@wordpress/compose", () => ( {
+	compose: ( hocs ) => ( Component ) => hocs.reduceRight( ( Acc, hoc ) => hoc( Acc ), Component ),
 } ) );
 
 jest.mock( "@wordpress/blocks", () => ( {
@@ -32,29 +49,62 @@ jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline
 	applyPostMetaFromOutline: jest.fn().mockResolvedValue( undefined ),
 } ) );
 
+jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
+	useFetchContentSuggestions: jest.fn(),
+} ) );
+
 const mockResetBlocks = jest.fn();
 const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
+const mockFetchContentPlannerSuggestions = jest.fn();
 
 const setupMocks = () => {
-	useDispatch.mockImplementation( ( store ) => {
-		if ( store === "core/block-editor" ) {
-			return { resetBlocks: mockResetBlocks };
+	useFetchContentSuggestions.mockReturnValue( mockFetchContentPlannerSuggestions );
+	useSelect.mockImplementation( ( selector ) => {
+		if ( typeof selector !== "function" ) {
+			return {};
 		}
-		return { getContentOutline: mockGetContentOutline };
+		const mockSelectFn = ( storeName ) => {
+			if ( storeName === "yoast-seo/content-planner" ) {
+				return {
+					selectSuggestions: () => [
+						{ intent: "informational", title: "How to train your dog", explanation: "Tips on dog training." },
+					],
+					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
+					selectSuggestionsStatus: () => "success",
+				};
+			}
+			if ( storeName === "yoast-seo/editor" ) {
+				return {
+					getIsPremium: () => false,
+				};
+			}
+			if ( storeName === "yoast-seo/ai-generator" ) {
+				return {
+					selectUsageCount: () => 1,
+					selectUsageCountLimit: () => 10,
+				};
+			}
+			return {};
+		};
+		return selector( mockSelectFn );
 	} );
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
 
-const renderModal = ( props ) => render(
+const createModalElement = ( props ) => (
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
+		resetBlocks={ mockResetBlocks }
+		getContentOutline={ mockGetContentOutline }
 		{ ...props }
 	/>
 );
+
+const renderModal = ( props ) => render( createModalElement( props ) );
 
 describe( "FeatureModal", () => {
 	beforeEach( () => {
@@ -91,22 +141,28 @@ describe( "FeatureModal", () => {
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "transitions to the content suggestions view when the 'Get content suggestions' button is clicked", () => {
+	it( "dispatches fetchContentPlannerSuggestions when the 'Get content suggestions' button is clicked", () => {
 		renderModal();
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "transitions to the content suggestions view when the store status changes to loading", () => {
+		renderModal( { initialStatus: "content-suggestions" } );
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
 	it( "shows the replace content confirmation when 'Add outline to post' is clicked and post is not empty", () => {
-		renderModal( { isEmptyPost: false } );
+		const { rerender } = renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		// Navigate through: approve → suggestions → outline → replace content.
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -124,11 +180,12 @@ describe( "FeatureModal", () => {
 	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyPost: true, onAddOutline, onClose } );
+		const { rerender } = renderModal( { isEmptyPost: true, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: true, onAddOutline, onClose } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -147,11 +204,12 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		renderModal( { isEmptyPost: false } );
+		const { rerender } = renderModal( { isEmptyPost: false } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -173,11 +231,12 @@ describe( "FeatureModal", () => {
 	it( "applies the outline when replace is confirmed on non-empty post", async() => {
 		const onAddOutline = jest.fn();
 		const onClose = jest.fn();
-		renderModal( { isEmptyPost: false, onAddOutline, onClose } );
+		const { rerender } = renderModal( { isEmptyPost: false, onAddOutline, onClose } );
 		act( () => {
 			jest.advanceTimersByTime( 300 );
 		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		rerender( createModalElement( { isEmptyPost: false, onAddOutline, onClose } ) );
 		act( () => {
 			jest.advanceTimersByTime( 5000 );
 		} );
@@ -198,8 +257,8 @@ describe( "FeatureModal", () => {
 		expect( onClose ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "skips the approve modal when initialStatus is content-suggestions-loading", () => {
-		renderModal( { initialStatus: "content-suggestions-loading" } );
+	it( "skips the approve modal when initialStatus is content-suggestions", () => {
+		renderModal( { initialStatus: "content-suggestions" } );
 		// Should go straight to content suggestions, no approve modal.
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();

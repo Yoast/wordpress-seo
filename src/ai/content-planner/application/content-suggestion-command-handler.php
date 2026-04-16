@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Application;
 
 use Yoast\WP\SEO\AI\Authorization\Application\Token_Manager;
 use Yoast\WP\SEO\AI\Consent\Application\Consent_Handler;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion_List;
 use Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content\Recent_Content_Collector;
@@ -49,23 +48,33 @@ class Content_Suggestion_Command_Handler {
 	private $consent_handler;
 
 	/**
+	 * The category repository.
+	 *
+	 * @var Category_Repository_Interface
+	 */
+	private $category_repository;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Recent_Content_Collector $recent_content_collector The recent content collector.
-	 * @param Token_Manager            $token_manager            The token manager.
-	 * @param Request_Handler          $request_handler          The request handler.
-	 * @param Consent_Handler          $consent_handler          The consent handler.
+	 * @param Recent_Content_Collector      $recent_content_collector The recent content collector.
+	 * @param Token_Manager                 $token_manager            The token manager.
+	 * @param Request_Handler               $request_handler          The request handler.
+	 * @param Consent_Handler               $consent_handler          The consent handler.
+	 * @param Category_Repository_Interface $category_repository      The category repository.
 	 */
 	public function __construct(
 		Recent_Content_Collector $recent_content_collector,
 		Token_Manager $token_manager,
 		Request_Handler $request_handler,
-		Consent_Handler $consent_handler
+		Consent_Handler $consent_handler,
+		Category_Repository_Interface $category_repository
 	) {
 		$this->recent_content_collector = $recent_content_collector;
 		$this->token_manager            = $token_manager;
 		$this->request_handler          = $request_handler;
 		$this->consent_handler          = $consent_handler;
+		$this->category_repository      = $category_repository;
 	}
 
 	/**
@@ -111,7 +120,7 @@ class Content_Suggestion_Command_Handler {
 			$response = $this->request_handler->handle( new Request( '/content-planner/next-post-suggestions', $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
 			// Delete the stored JWT tokens, as they appear to be no longer valid.
-			$this->token_manager->clear_tokens( $command->get_user() );
+			$this->token_manager->clear_tokens( (string) $command->get_user()->ID );
 
 			if ( ! $retry_on_unauthorized ) {
 				throw $exception;
@@ -145,6 +154,7 @@ class Content_Suggestion_Command_Handler {
 			return $content_suggestion_list;
 		}
 		foreach ( $json->choices as $suggestion ) {
+			$category = isset( $suggestion->category->title ) ? $this->category_repository->find_by_name( $suggestion->category->title ) : null;
 
 			$content_suggestion_list->add(
 				new Content_Suggestion(
@@ -153,7 +163,7 @@ class Content_Suggestion_Command_Handler {
 					$suggestion->explanation,
 					$suggestion->keyphrase,
 					$suggestion->meta_description,
-					( isset( $suggestion->category->title ) ? new Category( $suggestion->category->title, $suggestion->category->id ) : null ),
+					$category,
 				),
 			);
 		}

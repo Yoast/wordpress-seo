@@ -1,15 +1,16 @@
 import { Modal } from "@yoast/ui-library";
+import { select } from "@wordpress/data";
+import { noop } from "lodash";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
-import { useDispatch, select } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
-import { ContentSuggestionsModal } from "./content-suggestions-modal";
 import { ContentOutlineModal } from "./content-outline-modal";
+import ContentSuggestionsModal from "../containers/content-suggestions-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
-import { noop } from "lodash";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -37,7 +38,7 @@ const getPanelStyles = ( status ) => ( {
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
 		return (
 			<Transition
@@ -50,7 +51,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 				<div>
 					<ContentSuggestionsModal
 						status={ status }
-						isPremium={ isPremium }
 						onSuggestionClick={ onSuggestionClick }
 					/>
 				</div>
@@ -63,7 +63,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 	return (
 		<ContentSuggestionsModal
 			status={ status }
-			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
 		/>
@@ -74,14 +73,16 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
  * The modal that orchestrates the flow between the approve, content suggestions,
  * content outline, and replace content confirmation views.
  *
- * @param {boolean}       isOpen                    Whether the modal is open or not.
- * @param {function}      onClose                   The function to call when the modal is closed.
- * @param {boolean}       isEmptyPost             Whether the post has content or not.
- * @param {boolean}       isPremium                 Whether the user has a premium subscription or not.
- * @param {boolean}       isUpsell                  Whether the modal is shown as an upsell or not.
- * @param {string}        upsellLink                The link to the upsell page.
- * @param {function}      onAddOutline              The function to call when the user adds the outline to the post.
- * @param {string|null}   initialStatus             The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
+ * @param {boolean}       isOpen                          Whether the modal is open or not.
+ * @param {function}      onClose                         The function to call when the modal is closed.
+ * @param {boolean}       isEmptyPost                     Whether the post has content or not.
+ * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
+ * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
+ * @param {string}        upsellLink                      The link to the upsell page.
+ * @param {function}      onAddOutline                    The function to call when the user adds the outline to the post.
+ * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
+ * @param {function}      resetBlocks                     Dispatch to reset editor blocks.
+ * @param {function}      getContentOutline               Dispatch to fetch the content outline.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -93,20 +94,22 @@ export const FeatureModal = ( {
 	upsellLink,
 	onAddOutline = noop,
 	initialStatus = null,
+	resetBlocks,
+	getContentOutline,
 } ) => {
 	const [ status, setStatus ] = useState( null );
 	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
-	const { resetBlocks } = useDispatch( "core/block-editor" );
-	const { getContentOutline } = useDispatch( CONTENT_PLANNER_STORE );
+
+	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsLoading );
-	}, [] );
-
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
+		fetchContentSuggestions();
+	}, [ fetchContentSuggestions ] );
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
 		setSelectedSuggestion( suggestion );
@@ -114,8 +117,7 @@ export const FeatureModal = ( {
 	}, [] );
 
 	const handleBackToSuggestions = useCallback( () => {
-		setCameFromApproveModal( false );
-		setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess );
+		setStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 	}, [] );
 
 	const handleApplyOutline = useCallback( async() => {
@@ -177,14 +179,10 @@ export const FeatureModal = ( {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
 
+	// Delay setting the status to "idle" to allow assistive technology to announce the changes.
 	useEffect( () => {
-		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
 		if ( status === null ) {
 			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.idle ), 300 );
-			return () => clearTimeout( timer );
-		}
-		if ( status === FEATURE_MODAL_STATUS.contentSuggestionsLoading ) {
-			const timer = setTimeout( () => setStatus( FEATURE_MODAL_STATUS.contentSuggestionsSuccess ), 5000 );
 			return () => clearTimeout( timer );
 		}
 	}, [ status ] );
@@ -201,9 +199,6 @@ export const FeatureModal = ( {
 		setStatus( initialStatus );
 	}, [ isOpen, initialStatus ] );
 
-	const isSuggestionsVisible =
-		status === FEATURE_MODAL_STATUS.contentSuggestionsSuccess ||
-		status === FEATURE_MODAL_STATUS.contentSuggestionsLoading;
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
@@ -230,10 +225,8 @@ export const FeatureModal = ( {
 					</div>
 				</Transition>
 				<SuggestionsPanel
-					isVisible={ isSuggestionsVisible }
+					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
 					cameFromApproveModal={ cameFromApproveModal }
-					status={ status }
-					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
 				{ /*
@@ -254,7 +247,7 @@ export const FeatureModal = ( {
 							suggestion={ {
 								intent: selectedSuggestion.intent,
 								title: "The complete guide to sourdough bread",
-								description: selectedSuggestion.description,
+								explanation: selectedSuggestion.explanation,
 								focusKeyphrase: "sourdough bread",
 								metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
 								structure: [
