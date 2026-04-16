@@ -93,8 +93,7 @@ export default function initContentPlanner() {
 			endpoint: get( window, "wpseoContentPlanner.endpoints.contentPlanner", "" ),
 		},
 		[ CONTENT_OUTLINE_NAME ]: {
-			endpoint: "yoast/v1/ai_content_planner/get_outline",
-			// endpoint: get( window, "wpseoContentPlanner.endpoints.contentOutline", "" ),
+			endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
 		},
 	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
