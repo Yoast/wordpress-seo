@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, select } from "@wordpress/data";
+import { useSelect, useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
 
@@ -9,8 +9,9 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 
 jest.mock( "@wordpress/data", () => {
 	const useSelectMock = jest.fn();
+	const useDispatchMock = jest.fn();
 	return {
-		useDispatch: jest.fn(),
+		useDispatch: useDispatchMock,
 		useSelect: useSelectMock,
 		withSelect: ( mapSelectToProps ) => ( Component ) => {
 			const React = require( "react" );
@@ -20,6 +21,28 @@ jest.mock( "@wordpress/data", () => {
 			};
 			WithSelectComponent.displayName = `WithSelect(${ Component.displayName || Component.name || "Component" })`;
 			return WithSelectComponent;
+		},
+		withDispatch: ( mapDispatchToProps ) => ( Component ) => {
+			const React = require( "react" );
+			const WithDispatchComponent = ( ownProps ) => {
+				const dispatchFn = ( storeName ) => {
+					if ( storeName === "core/block-editor" ) {
+						return { resetBlocks: jest.fn() };
+					}
+					if ( storeName === "yoast-seo/content-planner" ) {
+						return {
+							getContentOutline: jest.fn().mockResolvedValue( undefined ),
+							fetchContentPlannerSuggestions: jest.fn(),
+							setFeatureModalStatus: jest.fn(),
+						};
+					}
+					return {};
+				};
+				const dispatchProps = mapDispatchToProps( dispatchFn );
+				return React.createElement( Component, Object.assign( {}, ownProps, dispatchProps ) );
+			};
+			WithDispatchComponent.displayName = `WithDispatch(${ Component.displayName || Component.name || "Component" })`;
+			return WithDispatchComponent;
 		},
 		combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 			( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
@@ -56,9 +79,27 @@ jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions"
 const mockResetBlocks = jest.fn();
 const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
 const mockFetchContentPlannerSuggestions = jest.fn();
+const mockFetchUsageCount = jest.fn().mockResolvedValue( {} );
+const mockAddUsageCount = jest.fn();
 
 const setupMocks = () => {
 	useFetchContentSuggestions.mockReturnValue( mockFetchContentPlannerSuggestions );
+	useDispatch.mockImplementation( ( storeName ) => {
+		if ( storeName === "yoast-seo/ai-generator" ) {
+			return {
+				fetchUsageCount: mockFetchUsageCount,
+				addUsageCount: mockAddUsageCount,
+			};
+		}
+		if ( storeName === "yoast-seo/content-planner" ) {
+			return {
+				fetchContentPlannerSuggestions: jest.fn(),
+				fetchContentOutline: jest.fn(),
+				setFeatureModalStatus: jest.fn(),
+			};
+		}
+		return {};
+	} );
 	useSelect.mockImplementation( ( selector ) => {
 		if ( typeof selector !== "function" ) {
 			return {};
@@ -66,22 +107,31 @@ const setupMocks = () => {
 		const mockSelectFn = ( storeName ) => {
 			if ( storeName === "yoast-seo/content-planner" ) {
 				return {
+					selectSuggestion: () => null,
 					selectSuggestions: () => [
 						{ intent: "informational", title: "How to train your dog", explanation: "Tips on dog training." },
 					],
 					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
 					selectSuggestionsStatus: () => "success",
+					selectContentOutlineStatus: () => "idle",
+					selectContentSuggestionsEndpoint: () => "/yoast/v1/content_planner/suggestions",
+					selectContentOutlineEndpoint: () => "/yoast/v1/content_planner/outline",
 				};
 			}
 			if ( storeName === "yoast-seo/editor" ) {
 				return {
 					getIsPremium: () => false,
+					getPostType: () => "post",
+					getContentLocale: () => "en_US",
+					getEditorTypeApiValue: () => "gutenberg",
 				};
 			}
 			if ( storeName === "yoast-seo/ai-generator" ) {
 				return {
 					selectUsageCount: () => 1,
 					selectUsageCountLimit: () => 10,
+					selectUsageCountEndpoint: () => "/yoast/v1/ai_generator/get_usage",
+					isUsageCountLimitReached: () => false,
 				};
 			}
 			return {};
@@ -91,13 +141,15 @@ const setupMocks = () => {
 	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
 };
 
-const createModalElement = ( props ) => (
+const createModalElement = ( { initialStatus = "idle", ...props } = {} ) => (
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
+		status={ initialStatus }
+		setStatus={ jest.fn() }
 		resetBlocks={ mockResetBlocks }
 		getContentOutline={ mockGetContentOutline }
 		{ ...props }
@@ -262,5 +314,75 @@ describe( "FeatureModal", () => {
 		// Should go straight to content suggestions, no approve modal.
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "fetches usage count when the modal opens", () => {
+		renderModal( { isOpen: true } );
+		expect( mockFetchUsageCount ).toHaveBeenCalledWith( {
+			endpoint: "/yoast/v1/ai_generator/get_usage",
+			isWooProductEntity: false,
+		} );
+	} );
+
+	it( "does not fetch usage count when the modal is closed", () => {
+		renderModal( { isOpen: false } );
+		expect( mockFetchUsageCount ).not.toHaveBeenCalled();
+	} );
+
+	it( "calls addUsageCount when suggestions status transitions to success", () => {
+		// Start with suggestionsStatus as "idle" so the ref initializes to "idle".
+		const mockSelectWithIdle = ( selector ) => {
+			if ( typeof selector !== "function" ) {
+				return {};
+			}
+			return selector( ( storeName ) => {
+				if ( storeName === "yoast-seo/content-planner" ) {
+					return {
+						selectSuggestion: () => null,
+						selectSuggestions: () => [],
+						selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
+						selectSuggestionsStatus: () => "idle",
+						selectContentOutlineStatus: () => "idle",
+						selectContentSuggestionsEndpoint: () => "",
+						selectContentOutlineEndpoint: () => "",
+					};
+				}
+				if ( storeName === "yoast-seo/editor" ) {
+					return {
+						getIsPremium: () => false,
+						getPostType: () => "post",
+						getContentLocale: () => "en_US",
+						getEditorTypeApiValue: () => "gutenberg",
+					};
+				}
+				if ( storeName === "yoast-seo/ai-generator" ) {
+					return {
+						selectUsageCount: () => 0,
+						selectUsageCountLimit: () => 10,
+						selectUsageCountEndpoint: () => "/yoast/v1/ai_generator/get_usage",
+						isUsageCountLimitReached: () => false,
+					};
+				}
+				return {};
+			} );
+		};
+
+		// Render with suggestions status "idle".
+		useSelect.mockImplementation( mockSelectWithIdle );
+		const { rerender } = renderModal();
+		expect( mockAddUsageCount ).not.toHaveBeenCalled();
+
+		// Now transition suggestions status to "success".
+		setupMocks();
+		rerender( createModalElement() );
+
+		expect( mockAddUsageCount ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "does not call addUsageCount when suggestions status is already success on mount", () => {
+		// Default setupMocks returns suggestionsStatus "success", so the ref initializes to "success".
+		renderModal();
+		// addUsageCount should NOT be called because there was no transition.
+		expect( mockAddUsageCount ).not.toHaveBeenCalled();
 	} );
 } );

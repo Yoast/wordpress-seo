@@ -110,7 +110,7 @@ export const ContentSuggestionsModal = ( {
 
 	return (
 		<Modal.Panel
-			className="yst-p-0 yst-max-w-2xl"
+			className="yst-p-0 yst-max-w-2xl yst-overflow-visible yst-relative"
 			hasCloseButton={ false }
 		>
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
