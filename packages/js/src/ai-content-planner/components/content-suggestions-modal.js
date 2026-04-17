@@ -251,7 +251,7 @@ export const ContentSuggestionsModal = ( {
 						variant="primary"
 						className="yst-no-underline"
 						target="_blank"
-						rel="noopener"
+						rel="noopener noreferrer"
 						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
 					>
 						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
