@@ -1,42 +1,65 @@
 import { createSlice } from "@reduxjs/toolkit";
-// eslint-disable-next-line no-unused-vars
+
 import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { ERROR_DEFAULT } from "../constants";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
 
+/**
+ * @typedef {import( "../constants" ).Suggestion} Suggestion
+ */
+
+/**
+ * Type of on section in the outline structure.
+ * @typedef {Object} OutlineSection
+ * @property {string} subheading_text The title of the section.
+ * @property {string[]} content_notes Content notes for the section.
+ */
+
+/**
+ * Initial state for the content outline slice.
+ *
+ * @type {Object}
+ * @property {Suggestion|null} suggestion The content suggestion for which the outline is generated.
+ * @property {OutlineSection[]} outline The generated content outline.
+ * @property {string} endpoint The API endpoint for fetching the content outline.
+ */
 const INITIAL_OUTLINE = {
-	title: "",
-	metaDescription: "",
-	focusKeyphrase: "",
-	category: "",
-	sections: [],
-	faqContentNotes: [],
+	suggestion: null,
+	outline: [],
+	endpoint: "",
+	status: ASYNC_ACTION_STATUS.idle,
+	error: ERROR_DEFAULT,
 };
 
 const slice = createSlice( {
 	name: CONTENT_OUTLINE_NAME,
-	initialState: {
-		endpoint: "",
-		status: ASYNC_ACTION_STATUS.idle,
-		outline: INITIAL_OUTLINE,
-		error: null,
+	initialState: INITIAL_OUTLINE,
+	reducers: {
+		setSuggestionForOutline: ( state, { payload } ) => {
+			state.suggestion = payload;
+		},
 	},
-	reducers: {},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
+		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
-			state.error = null;
+			state.suggestion = payload.suggestion;
+			state.error = ERROR_DEFAULT;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.outline = payload;
+			state.outline = payload.outline;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			state.error = payload;
+			// Bad gateway error will not have a payload, so we set a default error.
+			state.error = {
+				errorCode: 502,
+				...payload,
+			};
 		} );
 	},
 } );
@@ -48,19 +71,29 @@ export const contentOutlineSelectors = {
 	selectContentOutlineStatus: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "status" ], slice.getInitialState().status ),
 	selectContentOutline: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "outline" ], slice.getInitialState().outline ),
 	selectContentOutlineError: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "error" ], slice.getInitialState().error ),
+	selectSuggestion: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "suggestion" ], slice.getInitialState().suggestion ),
 };
 
 /**
  * @param {string} endpoint The endpoint to fetch the content outline from.
- * @param {string} title The title of the selected suggestion.
- * @param {string} explanation The explanation of the selected suggestion.
- * @param {string} intent The intent of the selected suggestion.
+ * @param {string} postType The type of the post.
+ * @param {string} language The language of the post.
+ * @param {string} editor The editor instance.
+ * @param {Suggestion} suggestion The suggestion object containing details for the content outline.
  * @returns {Object} Success or error action object.
  */
-export function* getContentOutline( { endpoint, title, explanation, intent } ) {
-	yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
+export function* fetchContentOutline( {
+	endpoint, postType, language, editor, suggestion,
+} ) {
+	yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, payload: { suggestion } };
 	try {
-		const payload = yield{ type: FETCH_CONTENT_OUTLINE_ACTION_NAME, payload: { endpoint, title, explanation, intent } };
+		const payload = yield{ type: FETCH_CONTENT_OUTLINE_ACTION_NAME, payload: {
+			endpoint,
+			postType,
+			language,
+			editor,
+			...suggestion,
+		} };
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
 	} catch ( error ) {
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
@@ -69,76 +102,29 @@ export function* getContentOutline( { endpoint, title, explanation, intent } ) {
 
 export const contentOutlineActions = {
 	...slice.actions,
-	getContentOutline,
+	fetchContentOutline,
 };
 
-// eslint-disable-next-line no-warning-comments
-// TODO: Replace with real apiFetch call once endpoint is available.
-// export const contentOutlineControls = {
-// 	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => apiFetch( {
-// 		method: "POST",
-// 		path: payload.endpoint,
-// 		data: {
-// 			title: payload.title,
-// 			explanation: payload.explanation,
-// 			intent: payload.intent,
-// 		},
-// 	} ),
-// };
 export const contentOutlineControls = {
-	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async() => ( {
-		title: "The complete guide to sourdough bread",
-		metaDescription: "Learn how to bake sourdough bread at home, from making your starter to baking your first loaf.",
-		focusKeyphrase: "sourdough bread",
-		category: "Baking",
-		sections: [
-			{
-				heading: "What is sourdough bread?",
-				contentNotes: [
-					"Explain how sourdough differs from other breads by using wild yeast fermentation.",
-					"Mention the long fermentation process and how it develops flavour and texture.",
-				],
+	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => apiFetch( {
+		method: "POST",
+		path: payload.endpoint,
+		data: {
+			// eslint-disable-next-line camelcase
+			post_type: payload.postType,
+			language: payload.language,
+			editor: payload.editor,
+			title: payload.title,
+			intent: payload.intent,
+			explanation: payload.explanation,
+			keyphrase: payload.keyphrase,
+			// eslint-disable-next-line camelcase
+			meta_description: payload.meta_description,
+			category: payload?.category ?? {
+				name: "Uncategorized",
+				id: 1,
 			},
-			{
-				heading: "How to make a sourdough starter",
-				contentNotes: [
-					"Describe the flour and water ratio needed to create a starter from scratch.",
-					"Explain how to feed and maintain the starter over several days until it is active.",
-				],
-			},
-			{
-				heading: "Choosing the right flour",
-				contentNotes: [
-					"Compare bread flour, whole wheat, and rye and their effect on the final loaf.",
-					"Advise on why higher protein flour produces better structure and rise.",
-				],
-			},
-			{
-				heading: "Mixing and shaping the dough",
-				contentNotes: [
-					"Walk through the stretch-and-fold technique used instead of traditional kneading.",
-					"Explain how to shape a boule or batard and build surface tension.",
-				],
-			},
-			{
-				heading: "Bulk fermentation and proofing",
-				contentNotes: [
-					"Describe what to look for to know when bulk fermentation is complete.",
-					"Explain the cold proof in the fridge and how it improves flavour and scoring.",
-				],
-			},
-			{
-				heading: "Baking your sourdough loaf",
-				contentNotes: [
-					"Explain the importance of baking in a Dutch oven to trap steam for a crispy crust.",
-					"Give temperature and timing guidance for the covered and uncovered baking stages.",
-				],
-			},
-		],
-		faqContentNotes: [
-			"Include common questions such as why the bread is dense or why the crust is too thick.",
-			"Address questions about storing sourdough and how long it keeps fresh.",
-		],
+		},
 	} ),
 };
 
