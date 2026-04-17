@@ -99,7 +99,7 @@ const StructureRow = ( { title, index, dragOverIndex, onDragStart, onDragOver, o
 			<circle cx="8" cy="14" r="1.5" />
 		</svg>
 		<div className="yst-flex yst-items-center yst-gap-3 yst-flex-1 yst-min-w-0 yst-text-sm">
-			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ "H2" }</span>
+			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">H2</span>
 			<span className="yst-text-slate-600">{ title }</span>
 		</div>
 	</div> );
@@ -156,6 +156,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 					id="suggest-category-toggle"
 					checked={ isEnabled }
 					onChange={ onToggle }
+					disabled={ isLoading }
 					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
 				/>
 			</div>
@@ -163,11 +164,10 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
 			</p>
 		</div>
-		{ isEnabled && (
-			isLoading
-				? <SkeletonLoader className="yst-w-20 yst-h-6 yst-rounded-full" />
-				: <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge>
-		) }
+		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
+		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+			<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
+		</div> }
 	</div>
 );
 
@@ -184,7 +184,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @param {string}             status      The loading status of the content outline suggestion.
  * @param {boolean}            isPremium   Whether the user has a premium subscription (used for usage counter tooltip messaging).
  * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
- * @param {Function}           onAddOutline The function to call to add the outline to the post.
+ * @param {Function}           onApplyOutline The function to call to add the outline to the post.
  * @param {OutlineSuggestion}  suggestion  The content outline suggestion to display.
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
@@ -275,7 +275,7 @@ export const ContentOutlineModal = ( {
 							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 						</Modal.Description>
 						<hr className="yst-border-slate-200" />
-						{ category && (
+						{ ( category || isLoading ) && (
 							<CategorySection
 								category={ category }
 								isEnabled={ isCategoryEnabled }
@@ -355,7 +355,7 @@ export const ContentOutlineModal = ( {
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
-					<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>svg]:yst-hidden yst-ps-3">
+					<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading } isLoading={ isLoading }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>
