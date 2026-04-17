@@ -123,10 +123,6 @@ export const FeatureModal = ( {
 		fetchContentSuggestions();
 	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
 
-	const handleConsentGranted = useCallback( () => {
-		fetchContentSuggestions();
-	}, [ fetchContentSuggestions ] );
-
 	/**
 	 * Handles the click on a content suggestion.
 	 * Sets the selected suggestion, updates the modal status to show the outline, and fetches the content outline for the selected suggestion.
@@ -238,7 +234,7 @@ export const FeatureModal = ( {
 					<AiGrantConsent
 						storeName="yoast-seo/ai-generator"
 						linkStoreName="yoast-seo/editor"
-						onConsentGranted={ handleConsentGranted }
+						onConsentGranted={ fetchContentSuggestions }
 					/>
 				</Modal.Panel>
 			</Modal>
