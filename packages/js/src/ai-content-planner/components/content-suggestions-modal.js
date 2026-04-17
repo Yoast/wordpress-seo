@@ -147,7 +147,7 @@ export const ContentSuggestionsModal = ( {
 						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
 						<div className="yst-relative" aria-live="polite">
 							<Transition
-								as={ Fragment }
+								as="div"
 								show={ status === ASYNC_ACTION_STATUS.loading }
 								enter="yst-transition-opacity yst-duration-300"
 								enterFrom="yst-opacity-0"
@@ -156,7 +156,7 @@ export const ContentSuggestionsModal = ( {
 								leaveFrom="yst-opacity-100"
 								leaveTo="yst-opacity-0"
 							>
-								<div><LoadingModalContent /></div>
+								<LoadingModalContent />
 							</Transition>
 							{ /*
 							 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)

@@ -78,7 +78,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {string}        upsellLink                      The link to the upsell page.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
-
 export const FeatureModal = ( {
 	isOpen,
 	onClose,

@@ -37,12 +37,6 @@ const defaultSuggestion = {
 	keyphrase: "Guide to set up WordPress blog",
 	// eslint-disable-next-line camelcase
 	meta_description: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins.",
-	structure: [
-		{ level: "H2", title: "Introduction" },
-		{ level: "H2", title: "Why This Matters" },
-		{ level: "H2", title: "Step-by-Step Guide" },
-		{ level: "H2", title: "Conclusion" },
-	],
 };
 
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
@@ -282,21 +276,33 @@ describe( "ContentOutlineModal", () => {
 
 	describe( "category section", () => {
 		it( "shows the suggest category section when category is provided", () => {
-			renderModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
+			renderModal( { status: ASYNC_ACTION_STATUS.success, suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
 			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeInTheDocument();
 			expect( screen.getByText( "Adds post to an existing category, when applicable." ) ).toBeInTheDocument();
 		} );
 
-		it( "does not show the suggest category section when category is not provided", () => {
+		it( "shows the suggest category section when loading", () => {
 			renderModal();
+			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeInTheDocument();
+			expect( screen.getByText( "Adds post to an existing category, when applicable." ) ).toBeInTheDocument();
+		} );
+
+		it( "does not show the suggest category section when category is not provided and not loading", () => {
+			renderModal( { status: ASYNC_ACTION_STATUS.success } );
 			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "hides the category badge when the toggle is turned off", () => {
+		it( "disables the toggle when loading", () => {
+			renderModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
+			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeDisabled();
+		} );
+
+		it( "enables the toggle after loading completes", () => {
 			renderLoadedModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
-			expect( screen.getByText( "WordPress" ) ).toBeInTheDocument();
-			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
-			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
+			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeEnabled();
 		} );
 
 		it( "does not show the category badge value when loading", () => {
@@ -318,7 +324,7 @@ describe( "ContentOutlineModal", () => {
 
 		it( "calls onApplyOutline when the add button is clicked", () => {
 			const onApplyOutline = jest.fn();
-			renderModal( { onApplyOutline } );
+			renderLoadedModal( { onApplyOutline } );
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 			expect( onApplyOutline ).toHaveBeenCalled();
 		} );
