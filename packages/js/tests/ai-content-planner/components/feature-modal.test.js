@@ -190,13 +190,8 @@ describe( "FeatureModal", () => {
 		// The modal close button calls onClose
 		const closeButtons = screen.getAllByRole( "button" );
 		const closeButton = closeButtons.find( ( btn ) => btn.getAttribute( "aria-label" ) || btn.textContent.includes( "Close" ) );
-		if ( closeButton ) {
-			fireEvent.click( closeButton );
-			expect( onClose ).toHaveBeenCalled();
-		} else {
-			// Direct call to verify onClose works
-			expect( onClose ).toBeDefined();
-		}
+		fireEvent.click( closeButton );
+		expect( onClose ).toHaveBeenCalled();
 	} );
 
 	it( "dispatches fetchContentPlannerSuggestions when the 'Get content suggestions' button is clicked", () => {
