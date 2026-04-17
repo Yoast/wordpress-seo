@@ -1,30 +1,6 @@
 import { createBlock } from "@wordpress/blocks";
 
 /**
- * Appends blocks for a content section: heading, content suggestion, empty paragraph.
- *
- * @param {Array}  blocks      The blocks array to push to.
- * @param {string} heading     The section heading text.
- * @param {Array}  contentNotes The content suggestion notes.
- */
-const pushSectionBlocks = ( blocks, heading, contentNotes ) => {
-	blocks.push( createBlock( "core/heading", { content: heading, level: 2 } ) );
-	blocks.push( createBlock( "yoast-seo/content-suggestion", { suggestions: contentNotes } ) );
-	blocks.push( createBlock( "core/paragraph" ) );
-};
-
-/**
- * Appends blocks for the FAQ section: content suggestion, FAQ block.
- *
- * @param {Array} blocks       The blocks array to push to.
- * @param {Array} contentNotes The FAQ content suggestion notes.
- */
-const pushFaqBlocks = ( blocks, contentNotes ) => {
-	blocks.push( createBlock( "yoast-seo/content-suggestion", { suggestions: contentNotes } ) );
-	blocks.push( createBlock( "yoast/faq-block" ) );
-};
-
-/**
  * Builds the list of blocks from a content outline.
  *
  * For each section: heading block, content suggestion block, empty paragraph block.
