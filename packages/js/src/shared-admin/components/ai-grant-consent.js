@@ -14,12 +14,12 @@ const DEFAULT_LINKS = {
  *
  * @param {string}   storeName        The store providing consent endpoint and dispatch.
  * @param {Function} onConsentGranted Callback fired after consent is successfully stored.
- * @param {string}   [linkStoreName]  The store providing selectLink/selectImageLink. Defaults to storeName.
+ * @param {string}   linkStoreName    The store providing selectLink/selectImageLink.
  * @param {Object}   [links]          Override tracking URLs (termsOfService, privacyPolicy, learnMore).
  *
  * @returns {JSX.Element} The element.
  */
-export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, links } ) => {
+export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, links = null } ) => {
 	const resolvedLinks = useMemo( () => ( { ...DEFAULT_LINKS, ...links } ), [ links ] );
 
 	const { termsOfServiceLink, privacyPolicyLink, learnMoreLink, imageLink, endpoint } = useSelect(
@@ -56,7 +56,7 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 AiGrantConsent.propTypes = {
 	storeName: PropTypes.string.isRequired,
 	onConsentGranted: PropTypes.func.isRequired,
-	linkStoreName: PropTypes.string,
+	linkStoreName: PropTypes.string.isRequired,
 	links: PropTypes.shape( {
 		termsOfService: PropTypes.string,
 		privacyPolicy: PropTypes.string,

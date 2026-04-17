@@ -176,70 +176,70 @@ export const FeatureModal = ( {
 
 	return (
 		<>
-		<Modal isOpen={ isOpen && ! isConsentModalOpen } onClose={ onClose }>
-			<div className="yst-relative yst-w-full yst-max-w-2xl">
-				<Transition
-					as={ Fragment }
-					show={ status === FEATURE_MODAL_STATUS.idle }
-					enter="yst-transition-opacity yst-duration-300"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0 yst-m-auto"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
-						<ApproveModal
-							isEmptyPost={ isEmptyPost }
-							isPremium={ isPremium }
-							isUpsell={ isUpsell }
-							onClick={ handleGetSuggestionsClick }
-							upsellLink={ upsellLink }
-						/>
-					</div>
-				</Transition>
-				<SuggestionsPanel
-					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
-					cameFromApproveModal={ cameFromApproveModal }
-					onSuggestionClick={ handleSuggestionClick }
-				/>
-				{ /*
-				 * Once the replace confirmation has been visited, keep both outline and
-				 * confirmation panels mounted and toggle via display:none to avoid a
-				 * one-frame empty container between panel swaps.
-				 */ }
-				{ selectedSuggestion && (
-					<div style={ outlineStyle }>
-						<ContentOutlineModal
-							onApplyOutline={ handleOnApplyOutline }
-						/>
-					</div>
-				) }
-				{ hasVisitedReplace && (
-					<div style={ replaceStyle }>
-						<div className="yst-flex yst-items-center yst-justify-center">
-							<ReplaceContentModal
-								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
-								onCancel={ handleCancelReplace }
-								onConfirm={ handleConfirmReplace }
+			<Modal isOpen={ isOpen && ! isConsentModalOpen } onClose={ onClose }>
+				<div className="yst-relative yst-w-full yst-max-w-2xl">
+					<Transition
+						as={ Fragment }
+						show={ status === FEATURE_MODAL_STATUS.idle }
+						enter="yst-transition-opacity yst-duration-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0 yst-m-auto"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
+							<ApproveModal
+								isEmptyPost={ isEmptyPost }
+								isPremium={ isPremium }
+								isUpsell={ isUpsell }
+								onClick={ handleGetSuggestionsClick }
+								upsellLink={ upsellLink }
 							/>
 						</div>
-					</div>
-				) }
-			</div>
-		</Modal>
-		<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ onClose } className="yst-introduction-modal">
-			<Modal.Panel
-				className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
-				closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
-			>
-				<AiGrantConsent
-					storeName="yoast-seo/ai-generator"
-					linkStoreName="yoast-seo/editor"
-					onConsentGranted={ handleConsentGranted }
-				/>
-			</Modal.Panel>
-		</Modal>
+					</Transition>
+					<SuggestionsPanel
+						isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
+						cameFromApproveModal={ cameFromApproveModal }
+						onSuggestionClick={ handleSuggestionClick }
+					/>
+					{ /*
+					 * Once the replace confirmation has been visited, keep both outline and
+					 * confirmation panels mounted and toggle via display:none to avoid a
+					 * one-frame empty container between panel swaps.
+					 */ }
+					{ selectedSuggestion && (
+						<div style={ outlineStyle }>
+							<ContentOutlineModal
+								onApplyOutline={ handleOnApplyOutline }
+							/>
+						</div>
+					) }
+					{ hasVisitedReplace && (
+						<div style={ replaceStyle }>
+							<div className="yst-flex yst-items-center yst-justify-center">
+								<ReplaceContentModal
+									isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
+									onCancel={ handleCancelReplace }
+									onConfirm={ handleConfirmReplace }
+								/>
+							</div>
+						</div>
+					) }
+				</div>
+			</Modal>
+			<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ onClose } className="yst-introduction-modal">
+				<Modal.Panel
+					className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
+					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
+				>
+					<AiGrantConsent
+						storeName="yoast-seo/ai-generator"
+						linkStoreName="yoast-seo/editor"
+						onConsentGranted={ handleConsentGranted }
+					/>
+				</Modal.Panel>
+			</Modal>
 		</>
 	);
 };
