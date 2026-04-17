@@ -161,13 +161,10 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
 			</p>
 		</div>
-		{ isEnabled && (
-			isLoading
-				? <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
-					<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
-				</div>
-				: <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge>
-		) }
+		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
+		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+			<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
+		</div> }
 	</div>
 );
 
@@ -274,7 +271,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 
 						<hr className="yst-border-slate-200" />
 
-						{ category && (
+						{ ( category || isLoading ) && (
 							<CategorySection
 								category={ category }
 								isEnabled={ isCategoryEnabled }
