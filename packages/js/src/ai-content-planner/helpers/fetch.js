@@ -4,6 +4,15 @@ import { get } from "lodash";
 const DEFAULT_TIMEOUT_SECONDS = 30;
 
 /**
+ * Marker object thrown when a fetch is cancelled by the caller (not by the timeout).
+ * Callers can inspect `error.aborted` to distinguish a cancellation from a real failure
+ * and skip dispatching a success or error action.
+ *
+ * @type {{ aborted: true }}
+ */
+export const ABORTED_ERROR = { aborted: true };
+
+/**
  * Reads and parses the JSON body from a Response object.
  *
  * @param {Response} response The fetch Response.
@@ -70,7 +79,7 @@ function buildFetchOptions( path, method, data, controller ) {
  *
  * On success, returns the parsed JSON payload.
  * On failure, throws a structured error: `{ errorCode, errorIdentifier, errorMessage }`.
- * On abort (non-timeout), returns null so the caller can silently ignore cancelled requests.
+ * On abort (non-timeout), throws `ABORTED_ERROR` so callers can silently ignore cancelled requests.
  *
  * @param {Object} options The fetch options.
  * @param {string} options.path The REST API path.
@@ -78,8 +87,8 @@ function buildFetchOptions( path, method, data, controller ) {
  * @param {Object} [options.data] The request body data (for POST requests).
  * @param {AbortController} [options.abortController] Optional AbortController for external cancellation.
  *
- * @returns {Promise<Object|null>} The parsed response payload, or null if aborted.
- * @throws {{ errorCode: number, errorIdentifier: string, errorMessage: string }} On fetch errors.
+ * @returns {Promise<Object>} The parsed response payload.
+ * @throws {{ errorCode: number, errorIdentifier: string, errorMessage: string }|{ aborted: true }} On fetch errors or user abort.
  */
 export async function contentPlannerFetch( { path, method = "GET", data, abortController } ) {
 	const controller = abortController || new AbortController();
@@ -97,7 +106,7 @@ export async function contentPlannerFetch( { path, method = "GET", data, abortCo
 	} catch ( error ) {
 		if ( error instanceof DOMException && error.name === "AbortError" ) {
 			handleAbortError( isTimeout );
-			return null;
+			throw ABORTED_ERROR;
 		}
 
 		throw await buildHttpError( error );

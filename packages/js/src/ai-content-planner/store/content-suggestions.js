@@ -99,6 +99,9 @@ export function* fetchContentPlannerSuggestions( { endpoint, postType, language,
 			payload,
 		};
 	} catch ( error ) {
+		if ( error?.aborted ) {
+			return;
+		}
 		return { type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
