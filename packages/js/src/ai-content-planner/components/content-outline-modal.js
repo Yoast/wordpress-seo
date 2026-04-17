@@ -2,64 +2,18 @@ import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle,
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { useSelect } from "@wordpress/data";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
-import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/outline";
-import { get } from "lodash";
+import { ArrowLeftIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { intentBadge } from "./intent-badge";
+import { IntentCallout } from "./intent-callout";
+import { getProgressColor } from "../helpers/get-progress-color";
+import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { useDraggableStructure } from "../hooks";
 
 /**
- * Blue callout box showing the intent badge and reasoning for the suggestion.
- *
- * @param {string} intent The intent type (e.g. "informational").
- * @param {string} explanation The reason for the suggestion.
- *
- * @returns {JSX.Element} The IntentCallout component.
+ * @typedef {import( "../constants" ).Suggestion} Suggestion
  */
-const IntentCallout = ( { intent, explanation } ) => {
-	const badge = intentBadge[ intent ];
-	const Icon = badge ? badge.Icon : BookOpenIcon;
-	const svgAriaProps = useSvgAria();
-
-	return (
-		<div role="note" className="yst-bg-blue-50 yst-border yst-border-blue-200 yst-rounded-md yst-p-4 yst-flex yst-flex-col yst-gap-2">
-			<div className="yst-flex yst-items-center yst-gap-2">
-				{ badge ? (
-					<Badge className={ classNames( "yst-flex yst-items-center yst-gap-1 yst-w-fit yst-text-xs", badge.classes ) }>
-						<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
-					</Badge>
-				) : (
-					<Badge>{ intent }</Badge>
-				) }
-				<span className="yst-font-medium yst-text-sm yst-text-blue-900">
-					{ __( "Why this content?", "wordpress-seo" ) }
-				</span>
-			</div>
-			<p className="yst-text-sm yst-text-blue-900">{ explanation }</p>
-		</div>
-	);
-};
-
-const META_DESCRIPTION_MAX_LENGTH = 156;
-const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
-
-/**
- * Returns the progress bar color based on the meta description length.
- * Matches the scoring logic and colors from the Yoast snippet editor ProgressBar:
- * - 1–120 chars: orange / $color_ok (#ee7c1b)
- * - 121–156 chars: green / $color_good (#7ad03a)
- * - >156 chars: orange / $color_ok (#ee7c1b)
- *
- * @param {number} length The current character count.
- * @returns {string} The hex color for the progress bar.
- */
-const getProgressColor = ( length ) => {
-	if ( length > META_DESCRIPTION_RECOMMENDED_MIN_LENGTH && length <= META_DESCRIPTION_MAX_LENGTH ) {
-		return "#7ad03a";
-	}
-	return "#ee7c1b";
-};
 
 /**
  * Progress bar indicating the meta description character length.
@@ -96,7 +50,7 @@ const MetaDescriptionProgressBar = ( { value } ) => {
  *
  * @returns {JSX.Element} The StructureRow component.
  */
-const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
+const StructureRow = ( { title, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
 	const svgAriaProps = useSvgAria();
 	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
 	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
@@ -118,7 +72,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 	return ( <div
 		role="option"
 		aria-selected="false"
-		aria-label={ `${ level } ${ title }` }
+		aria-label={ `H2 ${ title }` }
 		aria-roledescription={ __( "Draggable section", "wordpress-seo" ) }
 		tabIndex="0"
 		className={ classNames(
@@ -142,7 +96,7 @@ const StructureRow = ( { level, title, index, dragOverIndex, onDragStart, onDrag
 			<circle cx="8" cy="14" r="1.5" />
 		</svg>
 		<div className="yst-flex yst-items-center yst-gap-3 yst-flex-1 yst-min-w-0 yst-text-sm">
-			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ level }</span>
+			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ "H2" }</span>
 			<span className="yst-text-slate-600">{ title }</span>
 		</div>
 	</div> );
@@ -212,7 +166,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 				? <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
 					<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
 				</div>
-				: <Badge variant="plain" className="yst-w-fit">{ category }</Badge>
+				: <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge>
 		) }
 	</div>
 );
@@ -224,88 +178,44 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  */
 
 /**
- * @typedef {Object} OutlineSuggestion
- * @property {string}          intent          The intent type (e.g. "informational", "navigational", "commercial").
- * @property {string}          title           The suggested post title.
- * @property {string}          explanation     The reasoning behind the suggestion.
- * @property {string}          focusKeyphrase  The suggested focus keyphrase.
- * @property {string}          metaDescription The suggested meta description.
- * @property {StructureItem[]} structure       The suggested blog post structure.
- */
-
-/**
- * Hook that simulates loading state with timers.
- * Set window.contentPlanner.isOutlineLoading = true to force loading state for testing.
- * Starts loading automatically on mount (the Transition unmounts this component when hidden).
- *
- * Temporary: replace with real API loading state when the outline endpoint is available.
- * Remove the forceLoading / window.contentPlanner.isOutlineLoading mechanism and the setTimeout logic.
- *
- * @returns {boolean} Whether the modal content is in a loading state.
- */
-const useSimulatedLoading = () => {
-	const [ status, setStatus ] = useState( "idle" );
-	const forceLoading = get( window, "contentPlanner.isOutlineLoading", false );
-
-	useEffect( () => {
-		if ( ! forceLoading ) {
-			const loadingTimer = setTimeout( () => {
-				setStatus( "loading" );
-			}, 100 );
-
-			const timer = setTimeout( () => {
-				setStatus( "success" );
-			}, 3000 );
-			return () => {
-				clearTimeout( loadingTimer );
-				clearTimeout( timer );
-			};
-		}
-	}, [ forceLoading ] );
-
-	return forceLoading || status === "loading" || status === "idle";
-};
-
-/**
- * Assigns stable unique IDs to structure items for use as React keys.
- *
- * @param {StructureItem[]} items The structure items.
- * @returns {Array} Items with `id` property added.
- */
-const withIds = ( items ) => items.map( ( item, i ) => ( { ...item, id: `${ i }-${ item.level }-${ item.title }` } ) );
-
-/**
  * Content Outline Modal panel component.
  * Renders inside a parent Modal (managed by FeatureModal).
  *
- * @param {Function}           onBack      The function to call to go back to content suggestions.
+ * @param {string}             status      The loading status of the content outline suggestion.
+ * @param {boolean}            isPremium   Whether the user has a premium subscription (used for usage counter tooltip messaging).
+ * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
  * @param {Function}           onAddOutline The function to call to add the outline to the post.
  * @param {OutlineSuggestion}  suggestion  The content outline suggestion to display.
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
- * @param {string}             category    Optional. If provided, show the suggest category section.
  * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksLimit, sparksUsage, category, isActive } ) => {
-	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
+export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive } ) => {
+	// eslint-disable-next-line camelcase
+	const { category, keyphrase, meta_description } = suggestion;
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
-	const isLoading = useSimulatedLoading();
-	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.focusKeyphrase );
+	const isLoading = status === ASYNC_ACTION_STATUS.loading;
+	const [ focusKeyphrase, setFocusKeyphrase ] = useState( keyphrase );
 	const [ title, setTitle ] = useState( suggestion.title );
-	const [ metaDescription, setMetaDescription ] = useState( suggestion.metaDescription );
-	const [ structure, setStructure ] = useState( () => withIds( suggestion.structure ) );
-	const [ dragOverIndex, setDragOverIndex ] = useState( null );
-	const dragIndexRef = useRef( null );
+	const [ metaDescription, setMetaDescription ] = useState( meta_description );
+
+	const { structure,
+		dragOverIndex,
+		handleDragStart,
+		handleDragOver,
+		handleDrop,
+		handleDragEnd,
+		handleMoveUp,
+		handleMoveDown } = useDraggableStructure();
 
 	useEffect( () => {
-		setFocusKeyphrase( suggestion.focusKeyphrase );
+		setFocusKeyphrase( suggestion.keyphrase );
 		setTitle( suggestion.title );
-		setMetaDescription( suggestion.metaDescription );
-		setStructure( withIds( suggestion.structure ) );
+		setMetaDescription( suggestion.meta_description );
 	}, [ suggestion ] );
 
 	// Focus the close button when the panel becomes active so screen readers announce the dialog context.
@@ -323,67 +233,16 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 		setIsCategoryEnabled( ( prev ) => ! prev );
 	}, [] );
 
-	const handleAddOutline = useCallback( () => {
-		onAddOutline( {
+	const handleApplyOutline = useCallback( () => {
+		onApplyOutline( {
 			title,
 			metaDescription,
 			focusKeyphrase,
-			category: isCategoryEnabled ? category : "",
+			category: isCategoryEnabled ? category : null,
 			structure,
 		} );
-	}, [ onAddOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
+	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
 
-	const handleDragStart = useCallback( ( e, index ) => {
-		dragIndexRef.current = index;
-		e.dataTransfer.effectAllowed = "move";
-	}, [] );
-
-	const handleDragOver = useCallback( ( e, index ) => {
-		e.preventDefault();
-		e.dataTransfer.dropEffect = "move";
-		setDragOverIndex( index );
-	}, [] );
-
-	const handleDrop = useCallback( ( e, dropIndex ) => {
-		e.preventDefault();
-		const dragIndex = dragIndexRef.current;
-		if ( dragIndex === null || dragIndex === dropIndex ) {
-			setDragOverIndex( null );
-			return;
-		}
-		setStructure( ( prev ) => {
-			const updated = [ ...prev ];
-			const [ moved ] = updated.splice( dragIndex, 1 );
-			const destinationIndex = dragIndex < dropIndex ? dropIndex - 1 : dropIndex;
-			updated.splice( destinationIndex, 0, moved );
-			return updated;
-		} );
-		setDragOverIndex( null );
-		dragIndexRef.current = null;
-	}, [] );
-
-	const handleDragEnd = useCallback( () => {
-		setDragOverIndex( null );
-		dragIndexRef.current = null;
-	}, [] );
-
-	const handleMoveUp = useCallback( ( index ) => {
-		setStructure( ( prev ) => {
-			const updated = [ ...prev ];
-			const [ moved ] = updated.splice( index, 1 );
-			updated.splice( index - 1, 0, moved );
-			return updated;
-		} );
-	}, [] );
-
-	const handleMoveDown = useCallback( ( index ) => {
-		setStructure( ( prev ) => {
-			const updated = [ ...prev ];
-			const [ moved ] = updated.splice( index, 1 );
-			updated.splice( index + 1, 0, moved );
-			return updated;
-		} );
-	}, [] );
 
 	return (
 		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
@@ -406,7 +265,7 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
 						<IntentCallout
 							intent={ suggestion.intent }
-							explanation={ suggestion.explanation }
+							description={ suggestion.explanation }
 						/>
 
 						<Modal.Description className="yst-text-sm yst-text-slate-600">
@@ -473,7 +332,6 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 										<StructureRow
 											key={ item.id }
 											index={ index }
-											level={ item.level }
 											title={ item.title }
 											dragOverIndex={ dragOverIndex }
 											onDragStart={ handleDragStart }
@@ -495,11 +353,11 @@ export const ContentOutlineModal = ( { onBack, onAddOutline, suggestion, sparksL
 					/>
 				</Modal.Container.Content>
 				<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
-					<Button variant="secondary" onClick={ onBack } className="yst-flex yst-items-center yst-gap-1.5">
+					<Button variant="secondary" onClick={ onBackToSuggestions } className="yst-flex yst-items-center yst-gap-1.5">
 						<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 						{ __( "Content suggestions", "wordpress-seo" ) }
 					</Button>
-					<Button variant="ai-primary" onClick={ handleAddOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading } isLoading={ isLoading }>
+					<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading } isLoading={ isLoading }>
 						{ __( "Add outline to post", "wordpress-seo" ) }
 					</Button>
 				</Modal.Container.Footer>

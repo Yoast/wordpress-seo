@@ -2,10 +2,10 @@ import { registerBlockType } from "@wordpress/blocks";
 import { useBlockProps } from "@wordpress/block-editor";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
-import block from "./block.json";
-import { InlineBanner } from "./components/inline-banner";
-import { CONTENT_PLANNER_STORE } from "./constants";
-import { useFetchContentSuggestions } from "./hooks/use-fetch-content-suggestions";
+import block from "../block.json";
+import { InlineBanner } from "../components/inline-banner";
+import { CONTENT_PLANNER_STORE } from "../constants";
+import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -32,7 +32,7 @@ const Edit = ( { clientId } ) => {
 	}, [ removeBlock, clientId ] );
 
 	const handleClick = useCallback( () => {
-		openModal( true );
+		openModal();
 		fetchContentSuggestions();
 	}, [ openModal, fetchContentSuggestions ] );
 

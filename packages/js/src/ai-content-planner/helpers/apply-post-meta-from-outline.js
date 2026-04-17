@@ -1,4 +1,17 @@
-import { dispatch, resolveSelect } from "@wordpress/data";
+import { dispatch } from "@wordpress/data";
+
+const applyYoastMetaFromOutline = ( { title, metaDescription, focusKeyphrase } ) => {
+	const yoastEditor = dispatch( "yoast-seo/editor" );
+	yoastEditor?.updateData?.( { title, description: metaDescription } );
+	yoastEditor?.setFocusKeyword?.( focusKeyphrase );
+};
+
+const applyCategoryFromOutline = ( category ) => {
+	if ( category?.id ) {
+		dispatch( "core/editor" ).editPost( { categories: [ category.id ] } );
+	}
+};
+
 
 /**
  * Applies the SEO metadata from a content outline to the post and Yoast SEO stores.
@@ -9,19 +22,16 @@ import { dispatch, resolveSelect } from "@wordpress/data";
  * WordPress does not expose a public API to group multiple edits into a single
  * undo step. This is tracked as a known limitation.
  *
- * @param {Object} outline The content outline from the store.
- * @returns {Promise<void>}
+ * @param {object} outline The content outline from the store.
+ * @param {string} outline.title The title of the post.
+ * @param {string} outline.metaDescription The meta description for the post.
+ * @param {string} outline.focusKeyphrase The focus keyphrase for the post.
+ * @param {object} outline.category The category for the post.
+ * @param {number} outline.category.id The ID of the category to set for the post.
+ * @returns {void}
  */
-export const applyPostMetaFromOutline = async( outline ) => {
-	dispatch( "core/editor" ).editPost( { title: outline.title } );
-	dispatch( "yoast-seo/editor" ).updateData( { title: outline.title, description: outline.metaDescription } );
-	dispatch( "yoast-seo/editor" ).setFocusKeyword( outline.focusKeyphrase );
-
-	if ( outline.category ) {
-		// eslint-disable-next-line camelcase
-		const categories = await resolveSelect( "core" ).getEntityRecords( "taxonomy", "category", { search: outline.category, per_page: 1 } );
-		if ( categories?.length > 0 ) {
-			dispatch( "core/editor" ).editPost( { categories: [ categories[ 0 ].id ] } );
-		}
-	}
+export const applyPostMetaFromOutline = ( { title, metaDescription, focusKeyphrase, category } ) => {
+	dispatch( "core/editor" ).editPost( { title } );
+	applyYoastMetaFromOutline( { title, metaDescription, focusKeyphrase } );
+	applyCategoryFromOutline( category );
 };

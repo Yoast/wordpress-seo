@@ -14,26 +14,25 @@ describe( "content planner store", () => {
 		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( false );
 	} );
 
-	it( "has skipApprove false by default", () => {
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove() ).toBe( false );
+	it( "has no modal status by default", () => {
+		expect( registry.select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus() ).toBeNull();
 	} );
 
-	it( "opens the modal without skipping approve", () => {
-		registry.dispatch( CONTENT_PLANNER_STORE ).openModal( false );
+	it( "opens the modal", () => {
+		registry.dispatch( CONTENT_PLANNER_STORE ).openModal();
 		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( true );
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove() ).toBe( false );
 	} );
 
-	it( "opens the modal with skipApprove true", () => {
-		registry.dispatch( CONTENT_PLANNER_STORE ).openModal( true );
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( true );
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove() ).toBe( true );
+	it( "sets feature modal status", () => {
+		registry.dispatch( CONTENT_PLANNER_STORE ).setFeatureModalStatus( "content-suggestions" );
+		expect( registry.select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus() ).toBe( "content-suggestions" );
 	} );
 
 	it( "closes the modal and resets state", () => {
-		registry.dispatch( CONTENT_PLANNER_STORE ).openModal( true );
+		registry.dispatch( CONTENT_PLANNER_STORE ).openModal();
+		registry.dispatch( CONTENT_PLANNER_STORE ).setFeatureModalStatus( "content-outline" );
 		registry.dispatch( CONTENT_PLANNER_STORE ).closeModal();
 		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( false );
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectShouldSkipApprove() ).toBe( false );
+		expect( registry.select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus() ).toBeNull();
 	} );
 } );
