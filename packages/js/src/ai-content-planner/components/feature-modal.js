@@ -1,28 +1,27 @@
 import { Modal } from "@yoast/ui-library";
-import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
-import { Transition } from "@headlessui/react";
+import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
-import { ContentSuggestionsModal } from "./content-suggestions-modal";
-import { ContentOutlineModal } from "./content-outline-modal";
-import { noop } from "lodash";
+import ContentSuggestionsModal from "../containers/content-suggestions-modal";
+import ContentOutlineModal  from "../containers/content-outline-modal";
+import { ReplaceContentModal } from "./replace-content-modal";
+import { Transition } from "@headlessui/react";
+import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
+
+const HIDDEN_STYLE = { display: "none" };
 
 /**
- * Returns the enter transition props for the suggestions panel.
- * Applies a cross-fade when coming from the approve modal, instant otherwise.
+ * Returns the display styles for the outline and confirmation panels.
+ * Both are kept mounted and toggled via display:none to avoid layout flash.
  *
- * @param {boolean} fromApproveModal Whether the suggestions are entering from the approve modal.
- * @returns {Object} The enter, enterFrom, and enterTo transition class strings.
+ * @param {string} status The current modal status.
+ * @returns {Object} Styles for each panel.
  */
-const getSuggestionsEnterTransition = ( fromApproveModal ) => {
-	if ( fromApproveModal ) {
-		return {
-			enter: "yst-transition-opacity yst-duration-300 yst-delay-300",
-			enterFrom: "yst-opacity-0",
-			enterTo: "yst-opacity-100",
-		};
-	}
-	return { enter: "", enterFrom: "", enterTo: "" };
-};
+const getPanelStyles = ( status ) => ( {
+	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
+	replaceStyle: status === FEATURE_MODAL_STATUS.replaceContent ? null : HIDDEN_STYLE,
+} );
 
 /**
  * Renders the suggestions modal, with a cross-fade transition when coming from
@@ -36,21 +35,19 @@ const getSuggestionsEnterTransition = ( fromApproveModal ) => {
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
-		const transition = getSuggestionsEnterTransition( true );
 		return (
 			<Transition
 				as={ Fragment }
 				show={ isVisible }
-				enter={ transition.enter }
-				enterFrom={ transition.enterFrom }
-				enterTo={ transition.enterTo }
+				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
 			>
 				<div>
 					<ContentSuggestionsModal
 						status={ status }
-						isPremium={ isPremium }
 						onSuggestionClick={ onSuggestionClick }
 					/>
 				</div>
@@ -63,7 +60,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 	return (
 		<ContentSuggestionsModal
 			status={ status }
-			isPremium={ isPremium }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
 		/>
@@ -72,65 +68,104 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, isPremium,
 
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
- * and content outline views.
+ * content outline, and replace content confirmation views.
  *
- * @param {boolean}  isOpen        Whether the modal is open or not.
- * @param {function} onClose       The function to call when the modal is closed.
- * @param {boolean}  isEmptyCanvas Whether the post has content or not.
- * @param {boolean}  isPremium     Whether the user has a premium subscription or not.
- * @param {boolean}  isUpsell      Whether the modal is shown as an upsell or not.
- * @param {string}   upsellLink    The link to the upsell page.
- * @param {function} onAddOutline  The function to call when the user adds the outline to the post.
+ * @param {boolean}       isOpen                          Whether the modal is open or not.
+ * @param {function}      onClose                         The function to call when the modal is closed.
+ * @param {boolean}       isEmptyPost                     Whether the post has content or not.
+ * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
+ * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
+ * @param {string}        upsellLink                      The link to the upsell page.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
-export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUpsell, upsellLink, onAddOutline = noop } ) => {
-	const [ status, setStatus ] = useState( null );
-	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
-	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 
+export const FeatureModal = ( {
+	isOpen,
+	onClose,
+	isEmptyPost,
+	isPremium,
+	isUpsell,
+	upsellLink,
+	status,
+	setStatus,
+} ) => {
+	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
+	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
+	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
+	const editedOutlineRef = useRef( null );
+
+	const fetchContentSuggestions = useFetchContentSuggestions();
+	const fetchContentOutline = useFetchContentOutline();
+
+	/**
+	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
+	 * Sets the flag to indicate the transition is coming from the ApproveModal, then fetches content suggestions.
+	 * The flag is used to determine whether to apply a cross-fade transition when showing the SuggestionsPanel.
+	 * Updates the modal status to "content-suggestions" once suggestions are requested.
+	 *
+	 * @returns {void}
+	 */
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
-		setStatus( "content-suggestions-loading" );
-	}, [] );
+		fetchContentSuggestions();
+	}, [ fetchContentSuggestions ] );
 
+
+	/**
+	 * Handles the click on a content suggestion.
+	 * Sets the selected suggestion, updates the modal status to show the outline, and fetches the content outline for the selected suggestion.
+	 *
+	 * @param {Object} suggestion The selected content suggestion.
+	 * @returns {void}
+	 */
 	const handleSuggestionClick = useCallback( ( suggestion ) => {
 		setCameFromApproveModal( false );
-		setSelectedSuggestion( suggestion );
-		setStatus( "content-outline" );
+		fetchContentOutline( suggestion );
+	}, [ fetchContentOutline ] );
+
+	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
+
+	const handleOnApplyOutline = useCallback( ( editedOutline ) => {
+		editedOutlineRef.current = editedOutline;
+		if ( isEmptyPost ) {
+			handleApplyOutline();
+			return;
+		}
+		setHasVisitedReplace( true );
+		setStatus( FEATURE_MODAL_STATUS.replaceContent );
+	}, [ isEmptyPost, handleApplyOutline ] );
+
+	const handleCancelReplace = useCallback( () => {
+		setStatus( FEATURE_MODAL_STATUS.contentOutline );
 	}, [] );
 
-	const handleBackToSuggestions = useCallback( () => {
-		setStatus( "content-suggestions-success" );
-	}, [] );
-
-	useEffect( () => {
-		// Delay setting the status to "idle" and "content-suggestions-success" to allow the assistive technology to announce the changes.
-		if ( status === null ) {
-			const timer = setTimeout( () => setStatus( "idle" ), 300 );
-			return () => clearTimeout( timer );
-		}
-		if ( status === "content-suggestions-loading" ) {
-			const timer = setTimeout( () => setStatus( "content-suggestions-success" ), 5000 );
-			return () => clearTimeout( timer );
-		}
-	}, [ status ] );
+	const handleConfirmReplace = useCallback( () => {
+		handleApplyOutline();
+	}, [ handleApplyOutline ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( "idle" );
-			setCameFromApproveModal( false );
-			setSelectedSuggestion( null );
+			setCameFromApproveModal( true );
+			setHasVisitedReplace( false );
+			return;
 		}
 	}, [ isOpen ] );
 
-	const isSuggestionsVisible = status === "content-suggestions-success" || status === "content-suggestions-loading";
+	useEffect( () => {
+		if ( status === FEATURE_MODAL_STATUS.idle ) {
+			setCameFromApproveModal( true );
+			return;
+		}
+	}, [ status ] );
+
+	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
 					as={ Fragment }
-					show={ status === "idle" }
+					show={ status === FEATURE_MODAL_STATUS.idle }
 					enter="yst-transition-opacity yst-duration-300"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
@@ -140,7 +175,7 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 				>
 					<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
 						<ApproveModal
-							isEmptyCanvas={ isEmptyCanvas }
+							isEmptyPost={ isEmptyPost }
 							isPremium={ isPremium }
 							isUpsell={ isUpsell }
 							onClick={ handleGetSuggestionsClick }
@@ -149,37 +184,32 @@ export const FeatureModal = ( { isOpen, onClose, isEmptyCanvas, isPremium, isUps
 					</div>
 				</Transition>
 				<SuggestionsPanel
-					isVisible={ isSuggestionsVisible }
+					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
 					cameFromApproveModal={ cameFromApproveModal }
-					status={ status }
-					isPremium={ isPremium }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
-				{ /* Temporary: replace hardcoded outline data with real API response based on selectedSuggestion. */ }
-				{ status === "content-outline" && (
-					<ContentOutlineModal
-						onBack={ handleBackToSuggestions }
-						onAddOutline={ onAddOutline }
-						sparksLimit={ 10 }
-						sparksUsage={ 1 }
-						category="WordPress"
-						suggestion={ {
-							intent: selectedSuggestion.intent,
-							title: "The Ultimate Guide to Setting Up Your WordPress Blog",
-							description: selectedSuggestion.description,
-							focusKeyphrase: "Guide to set up WordPress blog",
-							metaDescription: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins. In this article, we'll explore everything you need to know to get started and achieve success.",
-							structure: [
-								{ level: "H2", title: "Introduction" },
-								{ level: "H2", title: "Why This Matters" },
-								{ level: "H2", title: "Step-by-Step Guide" },
-								{ level: "H2", title: "Common Mistakes to Avoid" },
-								{ level: "H2", title: "Best Practices" },
-								{ level: "H2", title: "Conclusion" },
-								{ level: "FAQ", title: "FAQ" },
-							],
-						} }
-					/>
+				{ /*
+				 * Once the replace confirmation has been visited, keep both outline and
+				 * confirmation panels mounted and toggle via display:none to avoid a
+				 * one-frame empty container between panel swaps.
+				 */ }
+				{ selectedSuggestion && (
+					<div style={ outlineStyle }>
+						<ContentOutlineModal
+							onApplyOutline={ handleOnApplyOutline }
+						/>
+					</div>
+				) }
+				{ hasVisitedReplace && (
+					<div style={ replaceStyle }>
+						<div className="yst-flex yst-items-center yst-justify-center">
+							<ReplaceContentModal
+								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
+								onCancel={ handleCancelReplace }
+								onConfirm={ handleConfirmReplace }
+							/>
+						</div>
+					</div>
 				) }
 			</div>
 		</Modal>

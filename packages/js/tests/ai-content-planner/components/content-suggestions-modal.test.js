@@ -7,18 +7,51 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
-const renderLoadingModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+const mockSuggestions = [
+	{
+		intent: "informational",
+		title: "How to train your dog",
+		explanation: "Tips and tricks on how to train your dog effectively.",
+	},
+	{
+		intent: "navigational",
+		title: "Best dog training schools in New York",
+		explanation: "A list of the best dog training schools in New York.",
+	},
+	{
+		intent: "commercial",
+		title: "Top 10 dog training tools",
+		explanation: "A review of the top 10 dog training tools on the market.",
+	},
+	{
+		intent: "informational",
+		title: "How to groom your dog",
+		explanation: "Step-by-step guide on how to groom your dog at home.",
+	},
+	{
+		intent: "navigational",
+		title: "Dog parks in Los Angeles",
+		explanation: "Find the best dog parks in Los Angeles for your furry friend.",
+	},
+	{
+		intent: "commercial",
+		title: "Best dog food brands",
+		explanation: "An overview of the best dog food brands for a healthy diet.",
+	},
+];
+
+const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-loading" isPremium={ false } { ...props } />
+			<ContentSuggestionsModal status="loading" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
 
-const renderSuccessModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="content-suggestions-success" isPremium={ false } { ...props } />
+			<ContentSuggestionsModal status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
@@ -101,7 +134,7 @@ describe( "ContentSuggestionsModal", () => {
 			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
 		} );
 
-		it( "renders all suggestions", () => {
+		it( "renders all suggestions from the store", () => {
 			renderSuccessModal();
 			expect( screen.getByText( "How to train your dog" ) ).toBeInTheDocument();
 			expect( screen.getByText( "Best dog training schools in New York" ) ).toBeInTheDocument();
@@ -111,7 +144,7 @@ describe( "ContentSuggestionsModal", () => {
 			expect( screen.getByText( "Best dog food brands" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders suggestion descriptions", () => {
+		it( "renders suggestion explanations", () => {
 			renderSuccessModal();
 			expect( screen.getByText( "Tips and tricks on how to train your dog effectively." ) ).toBeInTheDocument();
 		} );
@@ -129,6 +162,11 @@ describe( "ContentSuggestionsModal", () => {
 		it( "renders commercial intent badges", () => {
 			renderSuccessModal();
 			expect( screen.getAllByText( "Commercial" ) ).toHaveLength( 2 );
+		} );
+
+		it( "renders no suggestion buttons when suggestions is empty", () => {
+			renderSuccessModal( { suggestions: [] } );
+			expect( screen.queryByText( "How to train your dog" ) ).not.toBeInTheDocument();
 		} );
 	} );
 

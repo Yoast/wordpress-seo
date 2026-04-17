@@ -2,8 +2,10 @@ import { registerBlockType } from "@wordpress/blocks";
 import { useBlockProps } from "@wordpress/block-editor";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
-import block from "./block.json";
-import { InlineBanner } from "./components/inline-banner";
+import block from "../block.json";
+import { InlineBanner } from "../components/inline-banner";
+import { CONTENT_PLANNER_STORE } from "../constants";
+import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -22,10 +24,17 @@ const Edit = ( { clientId } ) => {
 	const ref = useRef( null );
 	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
+	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
+	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleDismiss = useCallback( () => {
 		removeBlock( clientId );
 	}, [ removeBlock, clientId ] );
+
+	const handleClick = useCallback( () => {
+		openModal();
+		fetchContentSuggestions();
+	}, [ openModal, fetchContentSuggestions ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.
@@ -49,6 +58,7 @@ const Edit = ( { clientId } ) => {
 			<InlineBanner
 				isPremium={ isPremium }
 				onDismiss={ handleDismiss }
+				onClick={ handleClick }
 			/>
 		</div>
 	);

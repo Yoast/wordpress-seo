@@ -2,7 +2,13 @@ import { createBlock } from "@wordpress/blocks";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
-import "./block";
+import { get } from "lodash";
+import FeatureModal from "./containers/feature-modal";
+import "./blocks/banner-block";
+import "./blocks/content-suggestion-block";
+import { registerStore } from "./store";
+import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
+import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 
 /**
  * Inserts a Content Planner Banner block after the first paragraph in the editor.
@@ -37,23 +43,24 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 	return true;
 }
 
+
 /**
  * Editor plugin that auto-inserts the Content Planner Banner block
- * after the first paragraph on new posts.
+ * after the first paragraph on new posts and renders the shared
+ * FeatureModal controlled by the content planner store.
  *
- * Also ensures a paragraph block exists when the canvas is empty,
- * so the banner has a block to follow.
- *
- * @returns {null} Renders nothing.
+ * @returns {JSX.Element} The FeatureModal element, with visibility controlled by the isOpen prop.
  */
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks } = useSelect( select => ( {
-		isNewPost: select( "core/editor" ).isEditedPostNew(),
-		postType: select( "core/editor" ).getCurrentPostType(),
-		blocks: select( "core/block-editor" ).getBlocks(),
-	} ), [] );
+	const { isNewPost, postType, blocks } = useSelect( select => {
+		return {
+			isNewPost: select( "core/editor" ).isEditedPostNew(),
+			postType: select( "core/editor" ).getCurrentPostType(),
+			blocks: select( "core/block-editor" ).getBlocks(),
+		};
+	}, [] );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
 
@@ -65,8 +72,11 @@ export const ContentPlannerEditorPlugin = () => {
 		hasInserted.current = insertBannerAfterFirstParagraph( blocks, insertBlock );
 	}, [ blocks, isNewPost, postType, insertBlock ] );
 
-	return null;
+	return (
+		<FeatureModal />
+	);
 };
+
 
 /**
  * Initializes the Content Planner feature.
@@ -77,5 +87,13 @@ export const ContentPlannerEditorPlugin = () => {
  * @returns {void}
  */
 export default function initContentPlanner() {
+	registerStore( {
+		[ CONTENT_SUGGESTIONS_NAME ]: {
+			endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
+		},
+		[ CONTENT_OUTLINE_NAME ]: {
+			endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
+		},
+	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }

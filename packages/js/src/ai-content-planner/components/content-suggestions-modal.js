@@ -1,93 +1,35 @@
-import { Badge, Modal, SkeletonLoader, Tooltip, useSvgAria } from "@yoast/ui-library";
+import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
-import { BookOpenIcon } from "@heroicons/react/outline";
 import { noop } from "lodash";
-import classNames from "classnames";
-import { Fragment, useState, useRef, useEffect, useCallback } from "@wordpress/element";
+import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
-import { intentBadge } from "./intent-badge";
+import { IntentBadge } from "./intent-badge";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
-// Placeholder suggestions — will be replaced with real API data in a future iteration.
-const suggestions = [
-	{
-		intent: "informational",
-		title: "How to train your dog",
-		description: "Tips and tricks on how to train your dog effectively.",
-	},
-	{
-		intent: "navigational",
-		title: "Best dog training schools in New York",
-		description: "A list of the best dog training schools in New York.",
-	},
-	{
-		intent: "commercial",
-		title: "Top 10 dog training tools",
-		description: "A review of the top 10 dog training tools on the market.",
-	},
-	{
-		intent: "informational",
-		title: "How to groom your dog",
-		description: "Step-by-step guide on how to groom your dog at home.",
-	},
-	{
-		intent: "navigational",
-		title: "Dog parks in Los Angeles",
-		description: "Find the best dog parks in Los Angeles for your furry friend.",
-	},
-	{
-		intent: "commercial",
-		title: "Best dog food brands",
-		description: "An overview of the best dog food brands for a healthy diet.",
-	},
-	{
-		intent: "transactional",
-		title: "Buy dog training courses online",
-		description: "Compare and purchase the best online dog training courses.",
-	},
-];
+/**
+ * @typedef {import( "../constants" ).Suggestion} Suggestion
+ */
 
 /**
  * Suggestion button component.
  *
  * @param {object} props The component props.
- * @param {string} props.intent The intent of the suggestion.
- * @param {string} props.title The title of the suggestion.
- * @param {string} props.description The description of the suggestion.
- * @param {object} props.suggestion The full suggestion object.
+ * @param {Suggestion} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *
  * @returns {JSX.Element} The SuggestionButton component.
  */
-const SuggestionButton = ( { intent, title, description, suggestion, onClick } ) => {
-	const svgAriaProps = useSvgAria();
-	const badge = intentBadge[ intent ];
-	const Icon = badge ? badge.Icon : BookOpenIcon;
+const SuggestionButton = ( { suggestion, onClick } ) => {
+	const { intent, title, explanation } = suggestion;
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
-	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
-	const handleMouseEnter = useCallback( () => setIsTooltipVisible( true ), [] );
-	const handleMouseLeave = useCallback( () => setIsTooltipVisible( false ), [] );
-	const tooltipId = `suggestion-intent-tooltip-${ intent }-${ title }`;
-
 	return (
 		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm yst-transition-colors hover:yst-bg-slate-50 hover:yst-border-slate-300 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
-			{ badge ? (
-				<Badge
-					className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", badge.classes ) }
-					aria-describedby={ tooltipId }
-					onMouseEnter={ handleMouseEnter }
-					onMouseLeave={ handleMouseLeave }
-				>
-					<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
-					{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-z-50" position="top-right">{ badge.tooltip }</Tooltip> }
-				</Badge>
-			) : (
-				<Badge>{ intent }</Badge>
-			) }
+			<IntentBadge intent={ intent } className="yst-mb-2 yst-text-xs" />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800">{ title }</div>
-			<p className="yst-text-slate-600">{ description }</p>
+			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
 	);
 };
@@ -137,23 +79,28 @@ const LoadingModalContent = () => {
 };
 
 /**
- * @typedef {Object} Suggestion
- * @property {string} intent The intent of the suggestion (e.g. "informational", "navigational", "commercial").
- * @property {string} title The title of the suggestion.
- * @property {string} description The description of the suggestion.
- */
-
-/**
  * ContentSuggestionsModal component.
  *
  * @param {Object} props The component props.
  * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
+ * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
+ * @param {boolean} props.skipTransitions Whether to skip transition animations.
+ * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
+ * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature before hitting a limit.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
-export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick = noop, skipTransitions = false } ) => {
+export const ContentSuggestionsModal = ( {
+	status,
+	isPremium,
+	onSuggestionClick = noop,
+	suggestions,
+	skipTransitions = false,
+	usageCount,
+	usageCountLimit,
+} ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 
@@ -173,8 +120,8 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<UsageCounter
-						limit={ 10 }
-						requests={ 1 }
+						limit={ usageCountLimit }
+						requests={ usageCount }
 						mentionBetaInTooltip={ isPremium }
 						mentionResetInTooltip={ isPremium }
 					/>
@@ -182,14 +129,13 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					{ skipTransitions ? (
 						<div aria-live="polite">
-							{ status === "content-suggestions-loading" && <LoadingModalContent /> }
-							{ status === "content-suggestions-success" && (
+							{ status === ASYNC_ACTION_STATUS.loading && <LoadingModalContent /> }
+							{ status === ASYNC_ACTION_STATUS.success && (
 								<div>
 									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion ) => (
+									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
-											key={ suggestion.title }
-											{ ...suggestion }
+											key={ `suggestion-${index}` }
 											suggestion={ suggestion }
 											onClick={ onSuggestionClick }
 										/>
@@ -202,7 +148,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 						<div className="yst-relative" aria-live="polite">
 							<Transition
 								as={ Fragment }
-								show={ status === "content-suggestions-loading" }
+								show={ status === ASYNC_ACTION_STATUS.loading }
 								enter="yst-transition-opacity yst-duration-300"
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
@@ -218,7 +164,7 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 							 */ }
 							<Transition
 								as={ Fragment }
-								show={ status === "content-suggestions-success" }
+								show={ status === ASYNC_ACTION_STATUS.success }
 								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 								enterFrom="yst-opacity-0"
 								enterTo="yst-opacity-100"
@@ -228,10 +174,9 @@ export const ContentSuggestionsModal = ( { status, isPremium, onSuggestionClick 
 							>
 								<div>
 									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion ) => (
+									{ suggestions.map( ( suggestion, index ) => (
 										<SuggestionButton
-											key={ suggestion.title }
-											{ ...suggestion }
+											key={ `suggestion-${index}` }
 											suggestion={ suggestion }
 											onClick={ onSuggestionClick }
 										/>
