@@ -78,7 +78,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {function}      setStatus                       Dispatch function to update the modal status.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
-
 export const FeatureModal = ( {
 	isOpen,
 	onClose,

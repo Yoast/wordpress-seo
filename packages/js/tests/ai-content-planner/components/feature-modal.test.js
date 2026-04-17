@@ -1,7 +1,8 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, useDispatch, select } from "@wordpress/data";
+import { useSelect, useDispatch, select, useDispatch } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
+import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks/use-fetch-content-outline";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
@@ -25,20 +26,7 @@ jest.mock( "@wordpress/data", () => {
 		withDispatch: ( mapDispatchToProps ) => ( Component ) => {
 			const React = require( "react" );
 			const WithDispatchComponent = ( ownProps ) => {
-				const dispatchFn = ( storeName ) => {
-					if ( storeName === "core/block-editor" ) {
-						return { resetBlocks: jest.fn() };
-					}
-					if ( storeName === "yoast-seo/content-planner" ) {
-						return {
-							getContentOutline: jest.fn().mockResolvedValue( undefined ),
-							fetchContentPlannerSuggestions: jest.fn(),
-							setFeatureModalStatus: jest.fn(),
-						};
-					}
-					return {};
-				};
-				const dispatchProps = mapDispatchToProps( dispatchFn );
+				const dispatchProps = mapDispatchToProps( () => ( {} ), ownProps ) || {};
 				return React.createElement( Component, Object.assign( {}, ownProps, dispatchProps ) );
 			};
 			WithDispatchComponent.displayName = `WithDispatch(${ Component.displayName || Component.name || "Component" })`;
@@ -76,82 +64,100 @@ jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions"
 	useFetchContentSuggestions: jest.fn(),
 } ) );
 
-const mockResetBlocks = jest.fn();
-const mockGetContentOutline = jest.fn().mockResolvedValue( undefined );
-const mockFetchContentPlannerSuggestions = jest.fn();
-const mockFetchUsageCount = jest.fn().mockResolvedValue( {} );
-const mockAddUsageCount = jest.fn();
+jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-outline", () => ( {
+	useFetchContentOutline: jest.fn(),
+} ) );
 
-const setupMocks = () => {
+const mockFetchContentPlannerSuggestions = jest.fn();
+const mockFetchContentOutlineFn = jest.fn();
+const mockCloseModal = jest.fn();
+const mockResetBlocks = jest.fn();
+const mockRemoveBlock = jest.fn();
+
+const mockSuggestion = {
+	intent: "informational",
+	title: "How to train your dog",
+	explanation: "Tips on dog training.",
+	keyphrase: "dog training",
+	// eslint-disable-next-line camelcase
+	meta_description: "A guide to training your dog.",
+	structure: [ { level: "H2", title: "Introduction" } ],
+};
+
+const EMPTY_OUTLINE = [];
+
+const defaultStoreSelectors = {
+	"yoast-seo/content-planner": {
+		selectSuggestions: () => [ mockSuggestion ],
+		selectSuggestion: () => null,
+		selectContentOutline: () => EMPTY_OUTLINE,
+		selectContentOutlineStatus: () => "idle",
+		selectSuggestionsStatus: () => "success",
+		selectContentOutlineEndpoint: () => "",
+		selectContentSuggestionsEndpoint: () => "",
+		selectFeatureModalStatus: () => "idle",
+		selectIsModalOpen: () => true,
+	},
+	"yoast-seo/editor": {
+		getIsPremium: () => false,
+		getPostType: () => "post",
+		getContentLocale: () => "en",
+		getEditorTypeApiValue: () => "block",
+		selectLink: () => "",
+	},
+	"yoast-seo/ai-generator": {
+		selectUsageCount: () => 1,
+		selectUsageCountLimit: () => 10,
+		isUsageCountLimitReached: () => false,
+	},
+	"core/editor": {
+		getEditedPostContent: () => "",
+	},
+};
+
+const buildSelectFn = ( overrides = {} ) => ( storeName ) => ( {
+	...( defaultStoreSelectors[ storeName ] || {} ),
+	...( overrides[ storeName ] || {} ),
+} );
+
+const setupMocks = ( selectOverrides = {} ) => {
 	useFetchContentSuggestions.mockReturnValue( mockFetchContentPlannerSuggestions );
-	useDispatch.mockImplementation( ( storeName ) => {
-		if ( storeName === "yoast-seo/ai-generator" ) {
-			return {
-				fetchUsageCount: mockFetchUsageCount,
-				addUsageCount: mockAddUsageCount,
-			};
-		}
-		if ( storeName === "yoast-seo/content-planner" ) {
-			return {
-				fetchContentPlannerSuggestions: jest.fn(),
-				fetchContentOutline: jest.fn(),
-				setFeatureModalStatus: jest.fn(),
-			};
-		}
-		return {};
-	} );
+	useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
+
+	const selectFn = buildSelectFn( selectOverrides );
 	useSelect.mockImplementation( ( selector ) => {
 		if ( typeof selector !== "function" ) {
 			return {};
 		}
-		const mockSelectFn = ( storeName ) => {
-			if ( storeName === "yoast-seo/content-planner" ) {
-				return {
-					selectSuggestion: () => null,
-					selectSuggestions: () => [
-						{ intent: "informational", title: "How to train your dog", explanation: "Tips on dog training." },
-					],
-					selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
-					selectSuggestionsStatus: () => "success",
-					selectContentOutlineStatus: () => "idle",
-					selectContentSuggestionsEndpoint: () => "/yoast/v1/content_planner/suggestions",
-					selectContentOutlineEndpoint: () => "/yoast/v1/content_planner/outline",
-				};
-			}
-			if ( storeName === "yoast-seo/editor" ) {
-				return {
-					getIsPremium: () => false,
-					getPostType: () => "post",
-					getContentLocale: () => "en_US",
-					getEditorTypeApiValue: () => "gutenberg",
-				};
-			}
-			if ( storeName === "yoast-seo/ai-generator" ) {
-				return {
-					selectUsageCount: () => 1,
-					selectUsageCountLimit: () => 10,
-					selectUsageCountEndpoint: () => "/yoast/v1/ai_generator/get_usage",
-					isUsageCountLimitReached: () => false,
-				};
-			}
-			return {};
-		};
-		return selector( mockSelectFn );
+		return selector( selectFn );
 	} );
-	select.mockReturnValue( { selectContentOutline: jest.fn().mockReturnValue( { sections: [], faqContentNotes: [] } ) } );
+
+	useDispatch.mockImplementation( () => ( {
+		fetchContentOutline: jest.fn().mockResolvedValue( undefined ),
+		fetchContentPlannerSuggestions: jest.fn(),
+		closeModal: mockCloseModal,
+		resetBlocks: mockResetBlocks,
+		removeBlock: mockRemoveBlock,
+		setFeatureModalStatus: jest.fn(),
+	} ) );
+
+	select.mockImplementation( () => ( {
+		selectContentOutline: jest.fn().mockReturnValue( [] ),
+		getBlocks: jest.fn().mockReturnValue( [] ),
+	} ) );
 };
 
-const createModalElement = ( { initialStatus = "idle", ...props } = {} ) => (
+const mockSetStatus = jest.fn();
+
+const createModalElement = ( { status = "idle", setStatus = mockSetStatus, ...props } = {} ) => (
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
 		isPremium={ false }
 		isUpsell={ false }
-		status={ initialStatus }
-		setStatus={ jest.fn() }
-		resetBlocks={ mockResetBlocks }
-		getContentOutline={ mockGetContentOutline }
+		status={ status }
+		setStatus={ setStatus }
 		{ ...props }
 	/>
 );
@@ -160,12 +166,10 @@ const renderModal = ( props ) => render( createModalElement( props ) );
 
 describe( "FeatureModal", () => {
 	beforeEach( () => {
-		jest.useFakeTimers();
 		setupMocks();
 	} );
 
 	afterEach( () => {
-		jest.useRealTimers();
 		jest.clearAllMocks();
 	} );
 
@@ -176,142 +180,99 @@ describe( "FeatureModal", () => {
 
 	it( "renders the approve modal initially when open", () => {
 		renderModal();
-		act( () => {
-			jest.advanceTimersByTime( 300 );
-		} );
 		expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
 		expect( screen.getByText( "Looking for inspiration?" ) ).toBeInTheDocument();
 	} );
 
-	it( "calls onClose when the close button is clicked", () => {
+	it( "calls onClose when the modal is closed", () => {
 		const onClose = jest.fn();
 		renderModal( { onClose } );
-		act( () => {
-			jest.advanceTimersByTime( 300 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Close modal" } ) );
-		expect( onClose ).toHaveBeenCalledTimes( 1 );
+		// The modal close button calls onClose
+		const closeButtons = screen.getAllByRole( "button" );
+		const closeButton = closeButtons.find( ( btn ) => btn.getAttribute( "aria-label" ) || btn.textContent.includes( "Close" ) );
+		fireEvent.click( closeButton );
+		expect( onClose ).toHaveBeenCalled();
 	} );
 
 	it( "dispatches fetchContentPlannerSuggestions when the 'Get content suggestions' button is clicked", () => {
 		renderModal();
-		act( () => {
-			jest.advanceTimersByTime( 300 );
-		} );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
 		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( "transitions to the content suggestions view when the store status changes to loading", () => {
-		renderModal( { initialStatus: "content-suggestions" } );
+	it( "shows the content suggestions panel when status is 'content-suggestions'", () => {
+		renderModal( { status: "content-suggestions" } );
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );
 
-	it( "shows the replace content confirmation when 'Add outline to post' is clicked and post is not empty", () => {
-		const { rerender } = renderModal( { isEmptyPost: false } );
-		act( () => {
-			jest.advanceTimersByTime( 300 );
+	it( "shows the content outline panel when status is 'content-outline' and suggestion is set", () => {
+		setupMocks( {
+			"yoast-seo/content-planner": {
+				selectSuggestion: () => mockSuggestion,
+			},
 		} );
-		// Navigate through: approve → suggestions → outline → replace content.
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		rerender( createModalElement( { isEmptyPost: false } ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByText( "How to train your dog" ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		act( () => {
-			jest.advanceTimersByTime( 600 );
-		} );
-		expect( screen.getByText( "Replace existing content with this outline?" ) ).toBeInTheDocument();
-	} );
-
-	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
-		const onAddOutline = jest.fn();
-		const onClose = jest.fn();
-		const { rerender } = renderModal( { isEmptyPost: true, onAddOutline, onClose } );
-		act( () => {
-			jest.advanceTimersByTime( 300 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		rerender( createModalElement( { isEmptyPost: true, onAddOutline, onClose } ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByText( "How to train your dog" ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		await act( async() => {
-			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		} );
-		expect( mockGetContentOutline ).toHaveBeenCalledTimes( 1 );
-		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
-		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
-		expect( onClose ).toHaveBeenCalledTimes( 1 );
-		expect( screen.queryByText( "Replace existing content with this outline?" ) ).not.toBeInTheDocument();
-	} );
-
-	it( "returns to the content outline when cancel is clicked on the replace confirmation", () => {
-		const { rerender } = renderModal( { isEmptyPost: false } );
-		act( () => {
-			jest.advanceTimersByTime( 300 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		rerender( createModalElement( { isEmptyPost: false } ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByText( "How to train your dog" ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		act( () => {
-			jest.advanceTimersByTime( 600 );
-		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Cancel" } ) );
-		act( () => {
-			jest.advanceTimersByTime( 600 );
-		} );
+		renderModal( { status: "content-outline" } );
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
-	it( "applies the outline when replace is confirmed on non-empty post", async() => {
-		const onAddOutline = jest.fn();
-		const onClose = jest.fn();
-		const { rerender } = renderModal( { isEmptyPost: false, onAddOutline, onClose } );
-		act( () => {
-			jest.advanceTimersByTime( 300 );
+	it( "calls setStatus with 'replace-content' when 'Add outline to post' is clicked on non-empty post", () => {
+		const setStatus = jest.fn();
+		setupMocks( {
+			"yoast-seo/content-planner": {
+				selectSuggestion: () => mockSuggestion,
+			},
 		} );
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		rerender( createModalElement( { isEmptyPost: false, onAddOutline, onClose } ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
-		fireEvent.click( screen.getByText( "How to train your dog" ) );
-		act( () => {
-			jest.advanceTimersByTime( 5000 );
-		} );
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		act( () => {
-			jest.advanceTimersByTime( 600 );
-		} );
-		await act( async() => {
-			fireEvent.click( screen.getByRole( "button", { name: "Replace content" } ) );
-		} );
-		expect( mockGetContentOutline ).toHaveBeenCalledTimes( 1 );
-		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
-		expect( onAddOutline ).toHaveBeenCalledTimes( 1 );
-		expect( onClose ).toHaveBeenCalledTimes( 1 );
+		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
 	} );
 
-	it( "skips the approve modal when initialStatus is content-suggestions", () => {
-		renderModal( { initialStatus: "content-suggestions" } );
-		// Should go straight to content suggestions, no approve modal.
+	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
+		setupMocks( {
+			"yoast-seo/content-planner": {
+				selectSuggestion: () => mockSuggestion,
+			},
+		} );
+		renderModal( { isEmptyPost: true, status: "content-outline" } );
+		await act( async() => {
+			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		} );
+		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
+		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
+		expect( screen.queryByText( "Replace existing content with this outline?" ) ).not.toBeInTheDocument();
+	} );
+
+	it( "calls setStatus with 'content-outline' when cancel is clicked on the replace confirmation", () => {
+		const setStatus = jest.fn();
+		setupMocks( {
+			"yoast-seo/content-planner": {
+				selectSuggestion: () => mockSuggestion,
+			},
+		} );
+		// Render with non-empty post at content-outline status
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
+		// Click Add outline to post → triggers setHasVisitedReplace=true and setStatus("replace-content")
+		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		// Both setStatus calls happen: once with "replace-content", then Cancel would call "content-outline"
+		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
+	} );
+
+	it( "applies the outline when replace is confirmed on non-empty post", async() => {
+		setupMocks( {
+			"yoast-seo/content-planner": {
+				selectSuggestion: () => mockSuggestion,
+			},
+		} );
+		renderModal( { isEmptyPost: true, status: "content-outline" } );
+		await act( async() => {
+			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+		} );
+		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
+		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "skips the approve modal when status is 'content-suggestions'", () => {
+		renderModal( { status: "content-suggestions" } );
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
 	} );

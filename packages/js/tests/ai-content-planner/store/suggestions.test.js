@@ -43,7 +43,8 @@ const transformedSuggestions = [
 		title: "How to train your dog",
 		explanation: "A guide to dog training basics.",
 		keyphrase: "dog training",
-		metaDescription: "Learn how to train your dog.",
+		// eslint-disable-next-line camelcase
+		meta_description: "Learn how to train your dog.",
 		category: "pets",
 	},
 	{
@@ -51,7 +52,8 @@ const transformedSuggestions = [
 		title: "Best dog food brands",
 		explanation: "Top picks for dog food.",
 		keyphrase: "best dog food",
-		metaDescription: "Find the best dog food brands.",
+		// eslint-disable-next-line camelcase
+		meta_description: "Find the best dog food brands.",
 		category: "pets",
 	},
 ];

@@ -22,7 +22,6 @@ const withIds = ( items ) => items.map( ( item, i ) => {
  */
 export const useDraggableStructure = () => {
 	const outline = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutline(), [] );
-	console.log( "Outline in useDraggableStructure:", outline );
 	const [ structure, setStructure ] = useState( () => withIds( outline ?? [] ) );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );

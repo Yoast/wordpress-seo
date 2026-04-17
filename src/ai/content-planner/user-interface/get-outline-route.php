@@ -8,7 +8,6 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command_Handler;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Payment_Required_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Remote_Request_Exception;
 use Yoast\WP\SEO\AI\HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
@@ -122,7 +121,7 @@ class Get_Outline_Route implements Route_Interface {
 						'description' => 'The meta description of the chosen content suggestion.',
 					],
 					'category'         => [
-						'required'    => true,
+						'required'    => false,
 						'type'        => 'object',
 						'properties'  => [
 							'name' => [
@@ -155,7 +154,6 @@ class Get_Outline_Route implements Route_Interface {
 			$user = \wp_get_current_user();
 
 			$category_param = $request->get_param( 'category' );
-			$category       = new Category( $category_param['name'], (int) $category_param['id'] );
 
 			$command = new Content_Outline_Command(
 				$user,
@@ -167,7 +165,8 @@ class Get_Outline_Route implements Route_Interface {
 				$request->get_param( 'explanation' ),
 				$request->get_param( 'keyphrase' ),
 				$request->get_param( 'meta_description' ),
-				$category,
+				$category_param['name'],
+				(int) $category_param['id'],
 			);
 			$data    = $this->command_handler->handle( $command );
 		} catch ( Remote_Request_Exception $e ) {

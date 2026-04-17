@@ -8,7 +8,6 @@ use Generator;
 use Mockery;
 use WP_User;
 use Yoast\WP\SEO\AI\Content_Planner\Application\Content_Outline_Command;
-use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -36,8 +35,7 @@ final class Content_Outline_Command_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor_populates_all_fields() {
-		$user     = Mockery::mock( WP_User::class );
-		$category = new Category( 'Tech', 5 );
+		$user = Mockery::mock( WP_User::class );
 
 		$command = new Content_Outline_Command(
 			$user,
@@ -49,7 +47,8 @@ final class Content_Outline_Command_Test extends TestCase {
 			'This article explains AI usage.',
 			'AI usage',
 			'Learn how to use AI effectively.',
-			$category,
+			'Tech',
+			5,
 		);
 
 		$this->assertSame( $user, $command->get_user() );
@@ -61,7 +60,13 @@ final class Content_Outline_Command_Test extends TestCase {
 		$this->assertSame( 'This article explains AI usage.', $command->get_explanation() );
 		$this->assertSame( 'AI usage', $command->get_keyphrase() );
 		$this->assertSame( 'Learn how to use AI effectively.', $command->get_meta_description() );
-		$this->assertSame( $category, $command->get_category() );
+		$this->assertSame(
+			[
+				'name' => 'Tech',
+				'id'   => 5,
+			],
+			$command->get_category()->to_array(),
+		);
 	}
 
 	/**
@@ -76,8 +81,7 @@ final class Content_Outline_Command_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_constructor_with_various_parameters( string $post_type, string $language, string $editor ) {
-		$user     = Mockery::mock( WP_User::class );
-		$category = new Category( 'Tech', 5 );
+		$user = Mockery::mock( WP_User::class );
 
 		$command = new Content_Outline_Command(
 			$user,
@@ -89,7 +93,8 @@ final class Content_Outline_Command_Test extends TestCase {
 			'Explanation',
 			'Keyphrase',
 			'Meta description',
-			$category,
+			'Tech',
+			5,
 		);
 
 		$this->assertSame( $post_type, $command->get_post_type() );

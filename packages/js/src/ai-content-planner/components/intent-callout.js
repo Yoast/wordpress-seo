@@ -4,8 +4,9 @@ import { IntentBadge } from "./intent-badge";
 /**
  * Blue callout box showing the intent badge and reasoning for the suggestion.
  *
- * @param {string} intent The intent type (e.g. "informational").
- * @param {string} description The reason for the suggestion.
+ * @param {object} props The component props.
+ * @param {string} props.intent The intent type (e.g. "informational").
+ * @param {string} props.description The reason for the suggestion.
  *
  * @returns {JSX.Element} The IntentCallout component.
  */

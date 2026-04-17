@@ -164,8 +164,8 @@ class Content_Outline_Command_Handler {
 		foreach ( $json->choices as $choice ) {
 			$section_list->add(
 				new Section(
-					( $choice->subheading_text ?? null ),
 					( $choice->content_notes ?? [] ),
+					( $choice->subheading_text ?? null ),
 				),
 			);
 		}
