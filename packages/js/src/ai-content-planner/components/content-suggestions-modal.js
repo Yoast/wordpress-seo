@@ -1,5 +1,4 @@
 import { Badge, Link, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
-import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -214,6 +213,7 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
  * @param {number} props.usageCountLimit The maximum usage count.
  * @param {Object|null} props.error The error object when in error state.
  * @param {Function} props.onRetry The function to call when the user clicks "Try again".
+ * @param {string} props.modalHelpLink The URL for the AI help link in the modal header.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
@@ -227,13 +227,10 @@ export const ContentSuggestionsModal = ( {
 	usageCountLimit,
 	error,
 	onRetry,
+	modalHelpLink,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
-	const aiHelpLink = useSelect(
-	// Temporary link to the AI Generator help button modal until the Content Planner help shortlink is created.
-		( select ) => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ), []
-	);
 
 	useEffect( () => {
 		closeButtonRef.current?.focus();
@@ -250,7 +247,7 @@ export const ContentSuggestionsModal = ( {
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
 					<Modal.Title size="2">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 					<Link
-						href={ aiHelpLink }
+						href={ modalHelpLink }
 						variant="primary"
 						className="yst-no-underline"
 						target="_blank"

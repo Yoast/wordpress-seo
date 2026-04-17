@@ -1,5 +1,4 @@
 import { Badge, Button, Link, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
-import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
@@ -189,19 +188,17 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
  * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
+ * @param {string}             modalHelpLink  The URL for the AI help link in the modal header.
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
 export const ContentOutlineModal = ( {
 	status, isPremium, onBackToSuggestions, onApplyOutline, suggestion, sparksLimit, sparksUsage, isActive,
-	error, onRetry,
+	error, onRetry, modalHelpLink,
 } ) => {
 	// eslint-disable-next-line camelcase
 	const { category, keyphrase, meta_description } = suggestion;
 	const svgAriaProps = useSvgAria();
-	const aiHelpLink = useSelect(
-		( select ) => select( "yoast-seo/editor" ).selectLink( "https://yoa.st/ai-generator-help-button-modal" ), []
-	);
 	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
@@ -371,7 +368,7 @@ export const ContentOutlineModal = ( {
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
 					<Modal.Title size="2"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
 					<Link
-						href={ aiHelpLink }
+						href={ modalHelpLink }
 						variant="primary"
 						className="yst-no-underline"
 						target="_blank"
