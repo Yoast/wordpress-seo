@@ -11,11 +11,13 @@ const slice = createSlice( {
 	name: MODAL_NAME,
 	initialState: {
 		isOpen: false,
+		skipApprove: false,
 		featureModalStatus: null,
 	},
 	reducers: {
-		openModal: ( state ) => {
+		openModal: ( state, { payload } ) => {
 			state.isOpen = true;
+			state.skipApprove = Boolean( payload );
 		},
 		closeModal: () => slice.getInitialState(),
 		setFeatureModalStatus: ( state, { payload } ) => {
@@ -56,5 +58,6 @@ export const modalActions = {
 
 export const modalSelectors = {
 	selectIsModalOpen: ( state ) => get( state, [ MODAL_NAME, "isOpen" ], slice.getInitialState().isOpen ),
+	selectShouldSkipApprove: ( state ) => get( state, [ MODAL_NAME, "skipApprove" ], slice.getInitialState().skipApprove ),
 	selectFeatureModalStatus: ( state ) => get( state, [ MODAL_NAME, "featureModalStatus" ], slice.getInitialState().featureModalStatus ),
 };

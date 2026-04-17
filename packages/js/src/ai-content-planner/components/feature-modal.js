@@ -1,9 +1,11 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
+import { __ } from "@wordpress/i18n";
 import { ApproveModal } from "./approve-modal";
+import { AiGrantConsent } from "../../shared-admin/components";
 import ContentSuggestionsModal from "../containers/content-suggestions-modal";
-import ContentOutlineModal  from "../containers/content-outline-modal";
+import ContentOutlineModal from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
@@ -76,6 +78,10 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
+ * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
+ * @param {string|null}   status                          The current feature modal status from the store.
+ * @param {function}      setStatus                       Dispatch to update the feature modal status in the store.
+ * @param {boolean}       hasConsent                      Whether the user has granted AI consent.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 
@@ -86,8 +92,10 @@ export const FeatureModal = ( {
 	isPremium,
 	isUpsell,
 	upsellLink,
+	initialStatus = null,
 	status,
 	setStatus,
+	hasConsent,
 } ) => {
 	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
@@ -96,6 +104,9 @@ export const FeatureModal = ( {
 
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const fetchContentOutline = useFetchContentOutline();
+
+	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
+
 
 	/**
 	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
@@ -106,9 +117,28 @@ export const FeatureModal = ( {
 	 * @returns {void}
 	 */
 	const handleGetSuggestionsClick = useCallback( () => {
+		if ( ! hasConsent ) {
+			setStatus( FEATURE_MODAL_STATUS.consent );
+			return;
+		}
 		setCameFromApproveModal( true );
 		fetchContentSuggestions();
-	}, [ fetchContentSuggestions ] );
+	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
+
+	const handleConsentGranted = useCallback( () => {
+		// Only cross-fade from the approve modal when that was the origin (sidebar path).
+		setCameFromApproveModal( initialStatus === null );
+		fetchContentSuggestions();
+	}, [ initialStatus, fetchContentSuggestions ] );
+
+	const handleConsentModalClose = useCallback( () => {
+		// Banner path: the FeatureModal has no content to fall back to, so close it entirely.
+		if ( initialStatus !== null ) {
+			onClose();
+			return;
+		}
+		setStatus( FEATURE_MODAL_STATUS.idle );
+	}, [ initialStatus, onClose, setStatus ] );
 
 
 	/**
@@ -145,23 +175,25 @@ export const FeatureModal = ( {
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setCameFromApproveModal( true );
+			setStatus( null );
+			setCameFromApproveModal( false );
 			setHasVisitedReplace( false );
 			return;
 		}
-	}, [ isOpen ] );
-
-	useEffect( () => {
-		if ( status === FEATURE_MODAL_STATUS.idle ) {
-			setCameFromApproveModal( true );
+		setCameFromApproveModal( false );
+		if ( initialStatus !== null && ! hasConsent ) {
+			// Inline banner path without consent — show consent modal instead.
+			setStatus( FEATURE_MODAL_STATUS.consent );
 			return;
 		}
-	}, [ status ] );
+		setStatus( initialStatus ?? FEATURE_MODAL_STATUS.idle );
+	}, [ isOpen, initialStatus, hasConsent ] );
 
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
-		<Modal isOpen={ isOpen } onClose={ onClose }>
+		<>
+		<Modal isOpen={ isOpen && ! isConsentModalOpen } onClose={ onClose }>
 			<div className="yst-relative yst-w-full yst-max-w-2xl">
 				<Transition
 					as={ Fragment }
@@ -213,5 +245,18 @@ export const FeatureModal = ( {
 				) }
 			</div>
 		</Modal>
+		<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ handleConsentModalClose } className="yst-introduction-modal">
+			<Modal.Panel
+				className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
+				closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
+			>
+				<AiGrantConsent
+					storeName="yoast-seo/ai-generator"
+					linkStoreName="yoast-seo/editor"
+					onConsentGranted={ handleConsentGranted }
+				/>
+			</Modal.Panel>
+		</Modal>
+		</>
 	);
 };

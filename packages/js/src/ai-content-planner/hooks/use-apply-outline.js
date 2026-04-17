@@ -49,7 +49,6 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		}
 
 		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
-
 		applyPostMetaFromOutline( metaOutline );
 
 		const banner = select( "core/block-editor" ).getBlocks().find( ( b ) => b.name === "yoast/content-planner-banner" );
