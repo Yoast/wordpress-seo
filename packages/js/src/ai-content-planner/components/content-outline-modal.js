@@ -249,7 +249,7 @@ export const ContentOutlineModal = ( {
 	const renderBody = () => {
 		if ( error ) {
 			return (
-				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative">
+				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ContentPlannerError
 						errorCode={ error.errorCode }
 						errorIdentifier={ error.errorIdentifier }
