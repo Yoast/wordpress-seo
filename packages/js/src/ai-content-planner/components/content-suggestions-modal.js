@@ -110,7 +110,7 @@ export const ContentSuggestionsModal = ( {
 
 	return (
 		<Modal.Panel
-			className="yst-p-0 yst-max-w-2xl yst-overflow-visible yst-relative"
+			className="yst-p-0 yst-max-w-2xl yst-overflow-visible"
 			hasCloseButton={ false }
 		>
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
@@ -120,6 +120,7 @@ export const ContentSuggestionsModal = ( {
 					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<UsageCounter
+						className="yst-relative"
 						limit={ usageCountLimit }
 						requests={ usageCount }
 						mentionBetaInTooltip={ isPremium }
