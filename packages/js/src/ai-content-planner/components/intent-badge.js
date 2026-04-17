@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { BookOpenIcon, StarIcon, MapIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Badge, Tooltip, useSvgAria } from "@yoast/ui-library";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useId, useState } from "@wordpress/element";
 
 /**
  * Mapping from intent type to badge styling, icon, tooltip and callout colors.
@@ -60,7 +60,8 @@ export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" 
 	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
 	const handleMouseEnter = useCallback( () => setIsTooltipVisible( true ), [] );
 	const handleMouseLeave = useCallback( () => setIsTooltipVisible( false ), [] );
-	const tooltipId = `intent-tooltip-${ intent }`;
+	const uniqueId = useId();
+	const tooltipId = `intent-tooltip-${ intent }-${ uniqueId }`;
 
 	if ( ! badge ) {
 		return <Badge>{ intent }</Badge>;
@@ -70,7 +71,7 @@ export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" 
 	return (
 		<Badge
 			className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-cursor-default", badge.classes, className ) }
-			aria-describedby={ tooltipId }
+			aria-describedby={ isTooltipVisible ? tooltipId : null }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
 		>
