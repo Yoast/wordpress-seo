@@ -8,6 +8,10 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
+jest.mock( "../../../src/ai-generator/components/sparks-limit-notification", () => ( {
+	SparksLimitNotification: () => null,
+} ) );
+
 jest.mock( "@wordpress/data", () => {
 	const useSelectMock = jest.fn();
 	const useDispatchMock = jest.fn();
