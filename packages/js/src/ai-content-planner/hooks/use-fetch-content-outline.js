@@ -35,10 +35,6 @@ export const useFetchContentOutline = () => {
 			language,
 			editor: editorApiValue,
 			suggestion: {
-				category: {
-					name: "Uncategorized",
-					id: 1,
-				},
 				...contentSuggestion,
 			},
 		} );

@@ -96,7 +96,7 @@ const StructureRow = ( { title, index, dragOverIndex, onDragStart, onDragOver, o
 			<circle cx="8" cy="14" r="1.5" />
 		</svg>
 		<div className="yst-flex yst-items-center yst-gap-3 yst-flex-1 yst-min-w-0 yst-text-sm">
-			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">{ "H2" }</span>
+			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">H2</span>
 			<span className="yst-text-slate-600">{ title }</span>
 		</div>
 	</div> );
