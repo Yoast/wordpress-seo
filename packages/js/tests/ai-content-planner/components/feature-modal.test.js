@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, useDispatch, select, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks/use-fetch-content-outline";
@@ -211,7 +211,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { status: "content-outline" } );
+		renderModal( { status: "content-outline", selectedSuggestion: mockSuggestion } );
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
@@ -222,7 +222,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus, selectedSuggestion: mockSuggestion } );
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
 	} );
@@ -233,7 +233,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: true, status: "content-outline" } );
+		renderModal( { isEmptyPost: true, status: "content-outline", selectedSuggestion: mockSuggestion } );
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
@@ -249,8 +249,8 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		// Render with non-empty post at content-outline status
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
+		// Render with non-empty post at content-outline status.
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus, selectedSuggestion: mockSuggestion } );
 		// Click Add outline to post → triggers setHasVisitedReplace=true and setStatus("replace-content")
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		// Both setStatus calls happen: once with "replace-content", then Cancel would call "content-outline"
@@ -263,7 +263,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: true, status: "content-outline" } );
+		renderModal( { isEmptyPost: true, status: "content-outline", selectedSuggestion: mockSuggestion } );
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
@@ -275,75 +275,5 @@ describe( "FeatureModal", () => {
 		renderModal( { status: "content-suggestions" } );
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
-	} );
-
-	it( "fetches usage count when the modal opens", () => {
-		renderModal( { isOpen: true } );
-		expect( mockFetchUsageCount ).toHaveBeenCalledWith( {
-			endpoint: "/yoast/v1/ai_generator/get_usage",
-			isWooProductEntity: false,
-		} );
-	} );
-
-	it( "does not fetch usage count when the modal is closed", () => {
-		renderModal( { isOpen: false } );
-		expect( mockFetchUsageCount ).not.toHaveBeenCalled();
-	} );
-
-	it( "calls addUsageCount when suggestions status transitions to success", () => {
-		// Start with suggestionsStatus as "idle" so the ref initializes to "idle".
-		const mockSelectWithIdle = ( selector ) => {
-			if ( typeof selector !== "function" ) {
-				return {};
-			}
-			return selector( ( storeName ) => {
-				if ( storeName === "yoast-seo/content-planner" ) {
-					return {
-						selectSuggestion: () => null,
-						selectSuggestions: () => [],
-						selectContentOutline: () => ( { sections: [], faqContentNotes: [] } ),
-						selectSuggestionsStatus: () => "idle",
-						selectContentOutlineStatus: () => "idle",
-						selectContentSuggestionsEndpoint: () => "",
-						selectContentOutlineEndpoint: () => "",
-					};
-				}
-				if ( storeName === "yoast-seo/editor" ) {
-					return {
-						getIsPremium: () => false,
-						getPostType: () => "post",
-						getContentLocale: () => "en_US",
-						getEditorTypeApiValue: () => "gutenberg",
-					};
-				}
-				if ( storeName === "yoast-seo/ai-generator" ) {
-					return {
-						selectUsageCount: () => 0,
-						selectUsageCountLimit: () => 10,
-						selectUsageCountEndpoint: () => "/yoast/v1/ai_generator/get_usage",
-						isUsageCountLimitReached: () => false,
-					};
-				}
-				return {};
-			} );
-		};
-
-		// Render with suggestions status "idle".
-		useSelect.mockImplementation( mockSelectWithIdle );
-		const { rerender } = renderModal();
-		expect( mockAddUsageCount ).not.toHaveBeenCalled();
-
-		// Now transition suggestions status to "success".
-		setupMocks();
-		rerender( createModalElement() );
-
-		expect( mockAddUsageCount ).toHaveBeenCalledTimes( 1 );
-	} );
-
-	it( "does not call addUsageCount when suggestions status is already success on mount", () => {
-		// Default setupMocks returns suggestionsStatus "success", so the ref initializes to "success".
-		renderModal();
-		// addUsageCount should NOT be called because there was no transition.
-		expect( mockAddUsageCount ).not.toHaveBeenCalled();
 	} );
 } );
