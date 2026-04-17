@@ -146,12 +146,10 @@ export const FeatureModal = ( {
 				return map;
 			}, {} );
 			blocksOutline = {
-				items: editedOutline.structure.map( ( item ) => {
-					if ( item.level === "FAQ" ) {
-						return { type: "faq", contentNotes: apiOutline.faqContentNotes };
-					}
-					return { type: "section", heading: item.title, contentNotes: notesByHeading[ item.title ] || [] };
-				} ),
+				sections: editedOutline.structure
+					.filter( ( item ) => item.level !== "FAQ" )
+					.map( ( item ) => ( { heading: item.title, contentNotes: notesByHeading[ item.title ] || [] } ) ),
+				faqContentNotes: apiOutline.faqContentNotes,
 			};
 		}
 

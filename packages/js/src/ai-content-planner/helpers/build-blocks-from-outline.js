@@ -27,11 +27,8 @@ const pushFaqBlocks = ( blocks, contentNotes ) => {
 /**
  * Builds the list of blocks from a content outline.
  *
- * Supports two formats:
- * - `items` array: each item has a `type` ("section" or "faq") and renders in order.
- *   Used when the user has edited/reordered the outline in the modal.
- * - `sections` + `faqContentNotes`: sections render first, FAQ always at the end.
- *   Used when applying the API response directly without user edits.
+ * For each section: heading block, content suggestion block, empty paragraph block.
+ * At the end: FAQ content suggestion block, empty FAQ block.
  *
  * @param {Object} outline The content outline from the store.
  * @returns {Array} The list of blocks to insert into the editor.
@@ -39,20 +36,14 @@ const pushFaqBlocks = ( blocks, contentNotes ) => {
 export const buildBlocksFromOutline = ( outline ) => {
 	const blocks = [];
 
-	if ( outline.items ) {
-		for ( const item of outline.items ) {
-			if ( item.type === "faq" ) {
-				pushFaqBlocks( blocks, item.contentNotes );
-			} else {
-				pushSectionBlocks( blocks, item.heading, item.contentNotes );
-			}
-		}
-	} else {
-		for ( const { heading, contentNotes } of outline.sections ) {
-			pushSectionBlocks( blocks, heading, contentNotes );
-		}
-		pushFaqBlocks( blocks, outline.faqContentNotes );
+	for ( const { heading, contentNotes } of outline.sections ) {
+		blocks.push( createBlock( "core/heading", { content: heading, level: 2 } ) );
+		blocks.push( createBlock( "yoast-seo/content-suggestion", { suggestions: contentNotes } ) );
+		blocks.push( createBlock( "core/paragraph" ) );
 	}
+
+	blocks.push( createBlock( "yoast-seo/content-suggestion", { suggestions: outline.faqContentNotes } ) );
+	blocks.push( createBlock( "yoast/faq-block" ) );
 
 	return blocks;
 };
