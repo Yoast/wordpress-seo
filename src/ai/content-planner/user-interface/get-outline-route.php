@@ -121,7 +121,7 @@ class Get_Outline_Route implements Route_Interface {
 						'description' => 'The meta description of the chosen content suggestion.',
 					],
 					'category'         => [
-						'required'    => true,
+						'required'    => false,
 						'type'        => 'object',
 						'properties'  => [
 							'name' => [
