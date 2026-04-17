@@ -7,6 +7,10 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
+jest.mock( "../../../src/ai-generator/components/sparks-limit-notification", () => ( {
+	SparksLimitNotification: () => null,
+} ) );
+
 const mockSuggestions = [
 	{
 		intent: "informational",
