@@ -78,7 +78,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
- * @param {string|null}   initialStatus                   The status to start at when the modal opens. Defaults to null (starts at idle/ApproveModal).
  * @param {string|null}   status                          The current feature modal status from the store.
  * @param {function}      setStatus                       Dispatch to update the feature modal status in the store.
  * @param {boolean}       hasConsent                      Whether the user has granted AI consent.
@@ -92,7 +91,6 @@ export const FeatureModal = ( {
 	isPremium,
 	isUpsell,
 	upsellLink,
-	initialStatus = null,
 	status,
 	setStatus,
 	hasConsent,
@@ -117,29 +115,17 @@ export const FeatureModal = ( {
 	 * @returns {void}
 	 */
 	const handleGetSuggestionsClick = useCallback( () => {
+		setCameFromApproveModal( true );
 		if ( ! hasConsent ) {
 			setStatus( FEATURE_MODAL_STATUS.consent );
 			return;
 		}
-		setCameFromApproveModal( true );
 		fetchContentSuggestions();
 	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
 
 	const handleConsentGranted = useCallback( () => {
-		// Only cross-fade from the approve modal when that was the origin (sidebar path).
-		setCameFromApproveModal( initialStatus === null );
 		fetchContentSuggestions();
-	}, [ initialStatus, fetchContentSuggestions ] );
-
-	const handleConsentModalClose = useCallback( () => {
-		// Banner path: the FeatureModal has no content to fall back to, so close it entirely.
-		if ( initialStatus !== null ) {
-			onClose();
-			return;
-		}
-		setStatus( FEATURE_MODAL_STATUS.idle );
-	}, [ initialStatus, onClose, setStatus ] );
-
+	}, [ fetchContentSuggestions ] );
 
 	/**
 	 * Handles the click on a content suggestion.
@@ -176,18 +162,15 @@ export const FeatureModal = ( {
 	useEffect( () => {
 		if ( ! isOpen ) {
 			setStatus( null );
-			setCameFromApproveModal( false );
+			setCameFromApproveModal( true );
 			setHasVisitedReplace( false );
 			return;
 		}
-		setCameFromApproveModal( false );
-		if ( initialStatus !== null && ! hasConsent ) {
-			// Inline banner path without consent — show consent modal instead.
-			setStatus( FEATURE_MODAL_STATUS.consent );
-			return;
+		// Default to idle if no status was pre-set by the opener (e.g. banner-block).
+		if ( status === null ) {
+			setStatus( FEATURE_MODAL_STATUS.idle );
 		}
-		setStatus( initialStatus ?? FEATURE_MODAL_STATUS.idle );
-	}, [ isOpen, initialStatus, hasConsent ] );
+	}, [ isOpen ] );
 
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
@@ -245,7 +228,7 @@ export const FeatureModal = ( {
 				) }
 			</div>
 		</Modal>
-		<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ handleConsentModalClose } className="yst-introduction-modal">
+		<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ onClose } className="yst-introduction-modal">
 			<Modal.Panel
 				className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 				closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
