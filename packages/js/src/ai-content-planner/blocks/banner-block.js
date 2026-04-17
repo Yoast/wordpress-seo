@@ -22,11 +22,12 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 const Edit = ( { clientId } ) => {
 	const blockProps = useBlockProps();
 	const ref = useRef( null );
-	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
-	const hasConsent = useSelect(
-		select => select( "yoast-seo/ai-generator" )?.selectHasAiGeneratorConsent?.() ?? true,
-		[]
-	);
+	const { isPremium, hasConsent } = useSelect( select => {
+		return {
+			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
+			hasConsent: select( "yoast-seo/ai-generator" ).selectHasAiGeneratorConsent(),
+		};
+	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
 	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
