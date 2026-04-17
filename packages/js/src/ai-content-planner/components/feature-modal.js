@@ -1,14 +1,11 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
-import { useSelect, useDispatch } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
 import ContentSuggestionsModal from "../containers/content-suggestions-modal";
 import ContentOutlineModal  from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
-import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
-import { STORE_NAME_AI } from "../../ai-generator/constants";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { FEATURE_MODAL_STATUS } from "../constants";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -91,23 +88,11 @@ export const FeatureModal = ( {
 	upsellLink,
 	status,
 	setStatus,
+	selectedSuggestion,
 } ) => {
-	const { selectedSuggestion, suggestionsStatus } = useSelect( ( select ) => {
-		const store = select( CONTENT_PLANNER_STORE );
-		return {
-			selectedSuggestion: store.selectSuggestion(),
-			suggestionsStatus: store.selectSuggestionsStatus(),
-		};
-	}, [] );
-
-	const usageCountEndpoint = useSelect( ( select ) => select( STORE_NAME_AI ).selectUsageCountEndpoint(), [] );
-
-	const { fetchUsageCount, addUsageCount } = useDispatch( STORE_NAME_AI );
-
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
-	const prevSuggestionsStatus = useRef( suggestionsStatus );
 
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const fetchContentOutline = useFetchContentOutline();
@@ -157,20 +142,6 @@ export const FeatureModal = ( {
 	const handleConfirmReplace = useCallback( () => {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
-
-	useEffect( () => {
-		if ( isOpen && usageCountEndpoint ) {
-			fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity: false } );
-		}
-	}, [ isOpen, usageCountEndpoint, fetchUsageCount ] );
-
-	useEffect( () => {
-		if ( prevSuggestionsStatus.current !== ASYNC_ACTION_STATUS.success &&
-			suggestionsStatus === ASYNC_ACTION_STATUS.success ) {
-			addUsageCount();
-		}
-		prevSuggestionsStatus.current = suggestionsStatus;
-	}, [ suggestionsStatus, addUsageCount ] );
 
 	useEffect( () => {
 		if ( ! isOpen ) {
