@@ -36,11 +36,11 @@ const getPanelVisibility = ( status ) => ( {
  * Renders the suggestions modal, with a cross-fade transition when coming from
  * the approve modal and an instant render otherwise.
  *
- * @param {boolean}  isVisible            Whether the suggestions should be shown.
- * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
- * @param {string}   status           The current modal status.
- * @param {boolean}  isPremium        Whether the user has a premium subscription.
- * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
+ * @param {boolean}     isVisible            Whether the suggestions should be shown.
+ * @param {boolean}     cameFromApproveModal Whether transitioning from the approve modal.
+ * @param {Function}    onSuggestionClick    Callback when a suggestion is clicked.
+ * @param {Object|null} error                The error object when in error state.
+ * @param {Function}    onRetry              Callback when the user clicks "Try again".
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
