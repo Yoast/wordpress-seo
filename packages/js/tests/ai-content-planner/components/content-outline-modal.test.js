@@ -287,7 +287,7 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.getByText( "Adds post to an existing category, when applicable." ) ).toBeInTheDocument();
 		} );
 
-		it( "does not show the suggest category section when category is not provided", () => {
+		it( "does not show the suggest category section when category is not provided and not loading", () => {
 			renderModal( { status: ASYNC_ACTION_STATUS.success } );
 			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
 		} );
