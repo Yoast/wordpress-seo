@@ -72,7 +72,7 @@ const SuggestionButton = ( { intent, title, description, suggestion, onClick } )
 	const tooltipId = `suggestion-intent-tooltip-${ intent }-${ title }`;
 
 	return (
-		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
+		<button type="button" onClick={ handleClick } className="yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm yst-transition-colors hover:yst-bg-slate-50 hover:yst-border-slate-300 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
 			{ badge ? (
 				<Badge
 					className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-mb-2 yst-text-xs", badge.classes ) }
