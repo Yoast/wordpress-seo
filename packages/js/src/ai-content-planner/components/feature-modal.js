@@ -12,14 +12,8 @@ import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } f
 const HIDDEN_STYLE = { display: "none" };
 
 /**
- * Returns the display styles for the outline and confirmation panels.
- * Both are kept mounted and toggled via display:none to avoid layout flash.
- *
- * @param {string} status The current modal status.
- * @returns {Object} Styles for each panel.
- */
-/**
  * Returns visibility and display styles for modal panels based on the current status.
+ * The outline and replace panels are kept mounted and toggled via display:none to avoid layout flash.
  *
  * @param {string} status The current modal status.
  * @returns {Object} Panel visibility flags and styles.

@@ -7,6 +7,17 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
+jest.mock( "../../../src/ai-content-planner/components/content-planner-error", () => ( {
+	ContentPlannerError: ( { errorCode, errorIdentifier, errorMessage, onRetry } ) => (
+		<div data-testid="content-planner-error">
+			<span data-testid="error-code">{ errorCode }</span>
+			<span data-testid="error-identifier">{ errorIdentifier }</span>
+			<span data-testid="error-message">{ errorMessage }</span>
+			<button type="button" onClick={ onRetry }>Mock retry</button>
+		</div>
+	),
+} ) );
+
 const mockSuggestions = [
 	{
 		intent: "informational",
@@ -52,6 +63,21 @@ const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestion
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
 			<ContentSuggestionsModal status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
+		</div>
+	</Modal>
+);
+
+const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ...props } = {} ) => render(
+	<Modal isOpen={ true } onClose={ onClose }>
+		<div>
+			<ContentSuggestionsModal
+				status="error"
+				isPremium={ false }
+				suggestions={ [] }
+				skipTransitions={ true }
+				error={ error }
+				{ ...props }
+			/>
 		</div>
 	</Modal>
 );
@@ -185,6 +211,39 @@ describe( "ContentSuggestionsModal", () => {
 				mentionBetaInTooltip: true,
 				mentionResetInTooltip: true,
 			} ) );
+		} );
+
+		it( "is not rendered when status is error", () => {
+			renderErrorModal();
+			expect( mockUsageCounter ).not.toHaveBeenCalled();
+		} );
+	} );
+
+	describe( "error state", () => {
+		it( "renders the ContentPlannerError with the error code, identifier, and message", () => {
+			renderErrorModal( {
+				error: { errorCode: 429, errorIdentifier: "", errorMessage: "Rate limited" },
+			} );
+			expect( screen.getByTestId( "content-planner-error" ) ).toBeInTheDocument();
+			expect( screen.getByTestId( "error-code" ) ).toHaveTextContent( "429" );
+			expect( screen.getByTestId( "error-message" ) ).toHaveTextContent( "Rate limited" );
+		} );
+
+		it( "does not render the loading message while in error", () => {
+			renderErrorModal();
+			expect( screen.queryByText( "Analyzing your site content…" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "does not render the success intro while in error", () => {
+			renderErrorModal();
+			expect( screen.queryByText( /Select a suggestion/ ) ).not.toBeInTheDocument();
+		} );
+
+		it( "calls onRetry when the retry button is clicked", () => {
+			const onRetry = jest.fn();
+			renderErrorModal( { onRetry } );
+			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
+			expect( onRetry ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );
