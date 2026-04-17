@@ -19,6 +19,7 @@ export const GrantConsent = ( { onStartGenerating } ) => (
 	<AiGrantConsent
 		storeName={ STORE_NAME_AI_CONSENT }
 		onConsentGranted={ onStartGenerating }
+		linkStoreName={ STORE_NAME_AI_CONSENT }
 		links={ LINKS }
 	/>
 );

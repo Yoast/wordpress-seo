@@ -21,11 +21,10 @@ const DEFAULT_LINKS = {
  */
 export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, links } ) => {
 	const resolvedLinks = useMemo( () => ( { ...DEFAULT_LINKS, ...links } ), [ links ] );
-	const resolvedLinkStore = linkStoreName || storeName;
 
 	const { termsOfServiceLink, privacyPolicyLink, learnMoreLink, imageLink, endpoint } = useSelect(
 		select => {
-			const linkStore = select( resolvedLinkStore );
+			const linkStore = select( linkStoreName );
 			const consentStore = select( storeName );
 			return {
 				termsOfServiceLink: linkStore.selectLink( resolvedLinks.termsOfService ),
@@ -35,7 +34,7 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 				endpoint: consentStore.selectAiGeneratorConsentEndpoint(),
 			};
 		},
-		[ resolvedLinkStore, storeName, resolvedLinks ]
+		[ linkStoreName, storeName, resolvedLinks ]
 	);
 
 	const { storeAiGeneratorConsent } = useDispatch( storeName );
