@@ -20,10 +20,7 @@ export const ABORTED_ERROR = { aborted: true };
  */
 async function readJsonBody( response ) {
 	try {
-		const reader = response.body.getReader();
-		const { value } = await reader.read();
-		const decoded = new TextDecoder( "utf-8" ).decode( value );
-		return JSON.parse( decoded );
+		return await response.json();
 	} catch ( e ) {
 		return {};
 	}

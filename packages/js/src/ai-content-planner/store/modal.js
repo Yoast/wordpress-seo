@@ -7,6 +7,22 @@ import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
 
 export const MODAL_NAME = "modal";
 
+/**
+ * Normalizes an error payload to the structured shape expected by `ContentPlannerError`.
+ * Handles plain `Error` instances, raw strings, and partial error objects by filling in defaults.
+ *
+ * @param {*} payload The raw error payload from the fetch generator.
+ * @returns {{ errorCode: number, errorIdentifier: string, errorMessage: string }} The structured error.
+ */
+const normalizeError = ( payload ) => {
+	const source = payload || {};
+	return {
+		errorCode: source.errorCode || 500,
+		errorIdentifier: source.errorIdentifier || "",
+		errorMessage: source.errorMessage || source.message || "",
+	};
+};
+
 const slice = createSlice( {
 	name: MODAL_NAME,
 	initialState: {
@@ -40,11 +56,11 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentSuggestionsError;
-			state.error = payload;
+			state.error = normalizeError( payload );
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.featureModalStatus = FEATURE_MODAL_STATUS.contentOutlineError;
-			state.error = payload;
+			state.error = normalizeError( payload );
 		} );
 	},
 } );
