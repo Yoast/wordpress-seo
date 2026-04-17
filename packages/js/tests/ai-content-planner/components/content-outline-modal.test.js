@@ -300,7 +300,7 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "disables the toggle when loading", () => {
-			renderModal( { category: "WordPress" } );
+			renderModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
@@ -308,7 +308,7 @@ describe( "ContentOutlineModal", () => {
 		} );
 
 		it( "enables the toggle after loading completes", () => {
-			renderLoadedModal( { category: "WordPress" } );
+			renderLoadedModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
 			expect( screen.getByRole( "switch", { name: "Suggest category" } ) ).toBeEnabled();
 		} );
 
@@ -331,7 +331,7 @@ describe( "ContentOutlineModal", () => {
 
 		it( "calls onApplyOutline when the add button is clicked", () => {
 			const onApplyOutline = jest.fn();
-			renderModal( { onApplyOutline } );
+			renderLoadedModal( { onApplyOutline } );
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 			expect( onApplyOutline ).toHaveBeenCalled();
 		} );

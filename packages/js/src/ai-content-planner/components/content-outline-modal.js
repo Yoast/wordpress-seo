@@ -184,7 +184,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @param {string}             status      The loading status of the content outline suggestion.
  * @param {boolean}            isPremium   Whether the user has a premium subscription (used for usage counter tooltip messaging).
  * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
- * @param {Function}           onAddOutline The function to call to add the outline to the post.
+ * @param {Function}           onApplyOutline The function to call to add the outline to the post.
  * @param {OutlineSuggestion}  suggestion  The content outline suggestion to display.
  * @param {number}             sparksLimit Optional. If provided, show the UsageCounter.
  * @param {number}             sparksUsage Optional. Current sparks usage count.
