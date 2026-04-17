@@ -161,16 +161,18 @@ export const FeatureModal = ( {
 
 	useEffect( () => {
 		if ( ! isOpen ) {
-			setStatus( null );
 			setCameFromApproveModal( true );
 			setHasVisitedReplace( false );
 			return;
 		}
-		// Default to idle if no status was pre-set by the opener (e.g. banner-block).
-		if ( status === null ) {
-			setStatus( FEATURE_MODAL_STATUS.idle );
-		}
 	}, [ isOpen ] );
+
+	useEffect( () => {
+		if ( status === FEATURE_MODAL_STATUS.idle ) {
+			setCameFromApproveModal( true );
+			return;
+		}
+	}, [ status ] );
 
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
