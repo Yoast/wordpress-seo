@@ -6,7 +6,7 @@ import { noop } from "lodash";
 import { useRef, useEffect } from "@wordpress/element";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
-import { SuggestionsModalContent } from "./suggestions-modal-content";
+import { ContentSuggestionsModalContent } from "./content-suggestions-modal-content";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -62,7 +62,7 @@ export const ContentSuggestionsModal = ( {
 						/>
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-						<SuggestionsModalContent
+						<ContentSuggestionsModalContent
 							status={ status }
 							suggestions={ suggestions }
 							onSuggestionClick={ onSuggestionClick }

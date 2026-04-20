@@ -1,4 +1,3 @@
-import { Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { Modal, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
@@ -49,7 +48,7 @@ const LoadingSuggestionsModalContent = () => {
  *
  * @returns {JSX.Element} The ModalContent component.
  */
-export const SuggestionsModalContent = ( { status, suggestions, onSuggestionClick, skipTransitions } ) => {
+export const ContentSuggestionsModalContent = ( { status, suggestions, onSuggestionClick, skipTransitions } ) => {
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
 	const isSuccess = status === ASYNC_ACTION_STATUS.success;
 
@@ -75,14 +74,14 @@ export const SuggestionsModalContent = ( { status, suggestions, onSuggestionClic
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
-				<div><LoadingSuggestionsModalContent /></div>
+				<LoadingSuggestionsModalContent />
 			</Transition>
 			{ /*
 			 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
 			 * so the suggestions only fade in after the loading content has faded out.
 			 */ }
 			<Transition
-				as={ Fragment }
+				as="div"
 				show={ isSuccess }
 				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 				enterFrom="yst-opacity-0"
