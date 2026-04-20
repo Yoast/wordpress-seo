@@ -4,7 +4,8 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
 import block from "../block.json";
 import { InlineBanner } from "../components/inline-banner";
-import { CONTENT_PLANNER_STORE } from "../constants";
+import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
@@ -22,9 +23,14 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 const Edit = ( { clientId } ) => {
 	const blockProps = useBlockProps();
 	const ref = useRef( null );
-	const isPremium = useSelect( select => select( "yoast-seo/editor" ).getIsPremium(), [] );
+	const { isPremium, hasConsent } = useSelect( select => {
+		return {
+			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
+			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
+		};
+	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
-	const { openModal } = useDispatch( CONTENT_PLANNER_STORE );
+	const { openModal, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleDismiss = useCallback( () => {
@@ -33,8 +39,12 @@ const Edit = ( { clientId } ) => {
 
 	const handleClick = useCallback( () => {
 		openModal();
-		fetchContentSuggestions();
-	}, [ openModal, fetchContentSuggestions ] );
+		if ( hasConsent ) {
+			fetchContentSuggestions();
+		} else {
+			setFeatureModalStatus( FEATURE_MODAL_STATUS.consent );
+		}
+	}, [ openModal, hasConsent, fetchContentSuggestions, setFeatureModalStatus ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.

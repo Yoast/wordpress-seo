@@ -26,7 +26,7 @@ export default compose( [
 			usageCount: selectUsageCount(),
 			usageCountLimit: selectUsageCountLimit(),
 			status: selectSuggestionsStatus(),
-			isUsageCountLoading: selectUsageCountStatus(),
+			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 ] )( ContentSuggestionsModal );

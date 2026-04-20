@@ -209,9 +209,17 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "dispatches fetchContentPlannerSuggestions when the 'Get content suggestions' button is clicked", () => {
-		renderModal();
+		renderModal( { hasConsent: true } );
 		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
 		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( "shows consent modal instead of fetching suggestions when user has not granted consent", () => {
+		const setStatus = jest.fn();
+		renderModal( { hasConsent: false, setStatus } );
+		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
+		expect( mockFetchContentPlannerSuggestions ).not.toHaveBeenCalled();
+		expect( setStatus ).toHaveBeenCalledWith( "consent" );
 	} );
 
 	it( "shows the content suggestions panel when status is 'content-suggestions'", () => {
