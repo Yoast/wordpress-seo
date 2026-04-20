@@ -81,7 +81,6 @@ const mockSuggestion = {
 	keyphrase: "dog training",
 	// eslint-disable-next-line camelcase
 	meta_description: "A guide to training your dog.",
-	structure: [ { level: "H2", title: "Introduction" } ],
 };
 
 const EMPTY_OUTLINE = [];
@@ -166,6 +165,20 @@ const createModalElement = ( { status = "idle", setStatus = mockSetStatus, ...pr
 const renderModal = ( props ) => render( createModalElement( props ) );
 
 describe( "FeatureModal", () => {
+	beforeAll( () => {
+		// Suppress the @testing-library/react v14 warning about the deprecated ReactDOMTestUtils.act.
+		jest.spyOn( console, "error" ).mockImplementation( ( message, ...args ) => {
+			if ( typeof message === "string" && message.includes( "ReactDOMTestUtils.act" ) ) {
+				return;
+			}
+			process.stderr.write( [ message, ...args ].join( " " ) + "\n" );
+		} );
+	} );
+
+	afterAll( () => {
+		console.error.mockRestore();
+	} );
+
 	beforeEach( () => {
 		setupMocks();
 	} );
@@ -212,7 +225,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { status: "content-outline", selectedSuggestion: mockSuggestion } );
+		renderModal( { status: "content-outline" } );
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
@@ -223,7 +236,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus, selectedSuggestion: mockSuggestion } );
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
 	} );
@@ -234,7 +247,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: true, status: "content-outline", selectedSuggestion: mockSuggestion } );
+		renderModal( { isEmptyPost: true, status: "content-outline" } );
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
@@ -251,7 +264,7 @@ describe( "FeatureModal", () => {
 			},
 		} );
 		// Render with non-empty post at content-outline status.
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus, selectedSuggestion: mockSuggestion } );
+		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
 		// Click Add outline to post → triggers setHasVisitedReplace=true and setStatus("replace-content")
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		// Both setStatus calls happen: once with "replace-content", then Cancel would call "content-outline"
