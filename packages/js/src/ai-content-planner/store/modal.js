@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { FEATURE_MODAL_STATUS } from "../constants";
 import { FETCH_CONTENT_OUTLINE_ACTION_NAME } from "./content-outline";
-import { FETCH_CONTENT_SUGGESTIONS_ACTION_NAME } from "./content-suggestions";
 import { ASYNC_ACTION_NAMES } from "../../shared-admin/constants";
 
 export const MODAL_NAME = "modal";
