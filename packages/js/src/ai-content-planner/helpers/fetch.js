@@ -46,8 +46,9 @@ function handleAbortError( isTimeout ) {
  */
 async function buildHttpError( error ) {
 	const body = await readJsonBody( error );
+	// Bad gateway error will not have a payload, so we set a default error.
 	return {
-		errorCode: error.status || 500,
+		errorCode: error.status || 502,
 		errorIdentifier: body.errorIdentifier || body.code || "",
 		errorMessage: body.message || "",
 	};
