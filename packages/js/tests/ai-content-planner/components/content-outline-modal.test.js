@@ -12,6 +12,17 @@ jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => false ),
 } ) );
 
+jest.mock( "../../../src/ai-content-planner/components/content-planner-error", () => ( {
+	ContentPlannerError: ( { errorCode, errorIdentifier, errorMessage, onRetry } ) => (
+		<div data-testid="content-planner-error">
+			<span data-testid="error-code">{ errorCode }</span>
+			<span data-testid="error-identifier">{ errorIdentifier }</span>
+			<span data-testid="error-message">{ errorMessage }</span>
+			<button type="button" onClick={ onRetry }>Mock retry</button>
+		</div>
+	),
+} ) );
+
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useDraggableStructure: () => ( {
 		structure: [
@@ -379,6 +390,47 @@ describe( "ContentOutlineModal", () => {
 			expect( () => {
 				fireEvent.keyDown( options[ 1 ], { key: "ArrowUp", altKey: false } );
 			} ).not.toThrow();
+		} );
+	} );
+
+	describe( "error state", () => {
+		const renderErrorModal = ( props = {} ) => renderModal( {
+			status: ASYNC_ACTION_STATUS.error,
+			error: { errorCode: 500 },
+			...props,
+		} );
+
+		it( "renders the ContentPlannerError with the error code, identifier, and message", () => {
+			renderErrorModal( {
+				error: { errorCode: 408, errorIdentifier: "", errorMessage: "timeout" },
+			} );
+			expect( screen.getByTestId( "content-planner-error" ) ).toBeInTheDocument();
+			expect( screen.getByTestId( "error-code" ) ).toHaveTextContent( "408" );
+			expect( screen.getByTestId( "error-message" ) ).toHaveTextContent( "timeout" );
+		} );
+
+		it( "does not render the outline form fields while in error", () => {
+			renderErrorModal();
+			expect( screen.queryByLabelText( "Focus Keyphrase" ) ).not.toBeInTheDocument();
+			expect( screen.queryByLabelText( "Title" ) ).not.toBeInTheDocument();
+			expect( screen.queryByLabelText( "Meta description" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "does not render the Add outline to post footer button while in error", () => {
+			renderErrorModal();
+			expect( screen.queryByRole( "button", { name: "Add outline to post" } ) ).not.toBeInTheDocument();
+		} );
+
+		it( "does not render the UsageCounter while in error", () => {
+			renderErrorModal( { sparksLimit: 10, sparksUsage: 2 } );
+			expect( mockUsageCounter ).not.toHaveBeenCalled();
+		} );
+
+		it( "calls onRetry when the retry button is clicked", () => {
+			const onRetry = jest.fn();
+			renderErrorModal( { onRetry } );
+			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
+			expect( onRetry ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );

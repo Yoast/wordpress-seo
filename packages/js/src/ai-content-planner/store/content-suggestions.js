@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import { get, isArray } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { contentPlannerFetch } from "../helpers/fetch";
 import { ERROR_DEFAULT } from "../constants";
+import { normalizeError } from "../helpers/normalize-error";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -20,6 +21,11 @@ const slice = createSlice( {
 		suggestions: [],
 		error: ERROR_DEFAULT,
 	},
+	reducers: {
+		setContentSuggestionsStatus: ( state, { payload } ) => {
+			state.status = payload;
+		},
+	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
@@ -33,11 +39,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			// Bad gateway error will not have a payload, so we set a default error.
-			state.error = {
-				errorCode: 502,
-				...payload,
-			};
+			state.error = normalizeError( payload );
 		} );
 	},
 } );
@@ -99,6 +101,9 @@ export function* fetchContentPlannerSuggestions( { endpoint, postType, language,
 			payload,
 		};
 	} catch ( error ) {
+		if ( error?.aborted ) {
+			return;
+		}
 		return { type: `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
@@ -116,7 +121,7 @@ export const contentSuggestionsControls = {
 			language: payload.language,
 			editor: payload.editor,
 		} );
-		return apiFetch( { path } );
+		return contentPlannerFetch( { path } );
 	},
 };
 

@@ -31,12 +31,11 @@ const getPanelStyles = ( status ) => ( {
  *
  * @param {boolean}  isVisible            Whether the suggestions should be shown.
  * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
- * @param {string}   status               The current modal status.
- * @param {Function} onSuggestionClick    Callback when a suggestion is clicked.
+ * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
-const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggestionClick } ) => {
+const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onSuggestionClick } ) => {
 	if ( cameFromApproveModal ) {
 		return (
 			<Transition
@@ -48,7 +47,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
 			>
 				<div>
 					<ContentSuggestionsModal
-						status={ status }
 						onSuggestionClick={ onSuggestionClick }
 					/>
 				</div>
@@ -60,7 +58,6 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
 	}
 	return (
 		<ContentSuggestionsModal
-			status={ status }
 			onSuggestionClick={ onSuggestionClick }
 			skipTransitions={ true }
 		/>

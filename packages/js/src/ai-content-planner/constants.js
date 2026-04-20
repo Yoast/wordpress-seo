@@ -16,7 +16,6 @@ export const FEATURE_MODAL_STATUS = {
 	contentSuggestions: "content-suggestions",
 	contentOutline: "content-outline",
 	replaceContent: "replace-content",
-	error: "error",
 };
 
 export const META_DESCRIPTION_MAX_LENGTH = 156;

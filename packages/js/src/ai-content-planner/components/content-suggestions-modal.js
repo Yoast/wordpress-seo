@@ -1,14 +1,16 @@
-/* eslint-disable complexity */
-import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+import { Badge, Link, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { noop } from "lodash";
-import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
+import { useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
+import { ContentPlannerError } from "./content-planner-error";
 import { IntentBadge } from "./intent-badge";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { useFetchContentSuggestions } from "../hooks";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -80,10 +82,130 @@ const LoadingModalContent = () => {
 };
 
 /**
+ * Renders the error content for the ContentSuggestionsModal.
+ *
+ * @param {Object}   props         The component props.
+ * @param {Object}   props.error   The error object.
+ * @param {Function} props.onRetry The function to call when the user clicks "Try again".
+ *
+ * @returns {JSX.Element|null} The error content.
+ */
+const ErrorModalContent = ( { error, onRetry } ) => {
+	if ( ! error ) {
+		return null;
+	}
+	return (
+		<ContentPlannerError
+			errorCode={ error.errorCode }
+			errorIdentifier={ error.errorIdentifier }
+			errorMessage={ error.errorMessage }
+			onRetry={ onRetry }
+		/>
+	);
+};
+
+/**
+ * Renders the success content with suggestion buttons.
+ *
+ * @param {Object}       props                    The component props.
+ * @param {Suggestion[]} props.suggestions         The list of suggestions.
+ * @param {Function}     props.onSuggestionClick   Callback when a suggestion is clicked.
+ *
+ * @returns {JSX.Element} The success content.
+ */
+const SuccessModalContent = ( { suggestions, onSuggestionClick } ) => (
+	<div>
+		<Modal.Description className="yst-mb-4">
+			{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }
+		</Modal.Description>
+		{ suggestions.map( ( suggestion, index ) => (
+			<SuggestionButton
+				key={ `suggestion-${ index }` }
+				suggestion={ suggestion }
+				onClick={ onSuggestionClick }
+			/>
+		) ) }
+	</div>
+);
+
+/**
+ * The body content for the ContentSuggestionsModal, with optional cross-fade transitions.
+ *
+ * @param {Object}       props                    The component props.
+ * @param {string}       props.status             The current modal status.
+ * @param {Suggestion[]} props.suggestions         The list of suggestions.
+ * @param {Function}     props.onSuggestionClick   Callback when a suggestion is clicked.
+ * @param {Object|null}  props.error              The error object.
+ * @param {Function}     props.onRetry            Callback when the user clicks "Try again".
+ * @param {boolean}      props.skipTransitions    Whether to skip transitions.
+ *
+ * @returns {JSX.Element} The body content.
+ */
+const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRetry, skipTransitions } ) => {
+	if ( skipTransitions ) {
+		return (
+			<div aria-live="polite">
+				{ status === ASYNC_ACTION_STATUS.loading && <LoadingModalContent /> }
+				{ status === ASYNC_ACTION_STATUS.error && <ErrorModalContent error={ error } onRetry={ onRetry } /> }
+				{ status === ASYNC_ACTION_STATUS.success && (
+					<SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } />
+				) }
+			</div>
+		);
+	}
+
+	return (
+		// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
+		<div className="yst-relative" aria-live="polite">
+			<Transition
+				as="div"
+				show={ status === ASYNC_ACTION_STATUS.loading }
+				enter="yst-transition-opacity yst-duration-300"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
+				leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
+				leaveFrom="yst-opacity-100"
+				leaveTo="yst-opacity-0"
+			>
+				<LoadingModalContent />
+			</Transition>
+			<Transition
+				as="div"
+				show={ status === ASYNC_ACTION_STATUS.error }
+				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
+				leave="yst-transition-opacity yst-duration-300"
+				leaveFrom="yst-opacity-100"
+				leaveTo="yst-opacity-0"
+			>
+				<ErrorModalContent error={ error } onRetry={ onRetry } />
+			</Transition>
+			{ /*
+			 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
+			 * so the suggestions only fade in after the loading content has faded out.
+			 */ }
+			<Transition
+				as="div"
+				show={ status === ASYNC_ACTION_STATUS.success }
+				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
+				leave="yst-transition-opacity yst-duration-300"
+				leaveFrom="yst-opacity-100"
+				leaveTo="yst-opacity-0"
+			>
+				<SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } />
+			</Transition>
+		</div>
+	);
+};
+
+/**
  * ContentSuggestionsModal component.
  *
  * @param {Object} props The component props.
- * @param {string} props.status The current status of the modal ("content-suggestions-loading" or "content-suggestions-success").
+ * @param {string} props.status The current modal status.
  * @param {boolean} props.isPremium Whether the user has a premium add-on activated or not.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
@@ -103,6 +225,8 @@ export const ContentSuggestionsModal = ( {
 	usageCount,
 	usageCountLimit,
 	usageCountStatus,
+	error,
+	modalHelpLink,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -110,6 +234,8 @@ export const ContentSuggestionsModal = ( {
 	useEffect( () => {
 		closeButtonRef.current?.focus();
 	}, [ status ] );
+
+	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	return (
 		<Modal.Panel
@@ -120,76 +246,40 @@ export const ContentSuggestionsModal = ( {
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
-					<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
-					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					<UsageCounter
-						className="yst-relative"
-						limit={ usageCountLimit }
-						requests={ usageCount }
-						mentionBetaInTooltip={ isPremium }
-						mentionResetInTooltip={ isPremium }
-						isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
-					/>
+					<Modal.Title size="2">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
+					<Link
+						href={ modalHelpLink }
+						variant="primary"
+						className="yst-no-underline"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+					>
+						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+					</Link>
+					<div className="yst-flex yst-flex-grow yst-justify-end yst-gap-2 yst-items-center">
+						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+						{ status !== ASYNC_ACTION_STATUS.error && (
+							<UsageCounter
+								className="yst-relative"
+								limit={ usageCountLimit }
+								requests={ usageCount }
+								mentionBetaInTooltip={ isPremium }
+								mentionResetInTooltip={ isPremium }
+								isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
+							/>
+						) }
+					</div>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-					{ skipTransitions ? (
-						<div aria-live="polite">
-							{ status === ASYNC_ACTION_STATUS.loading && <LoadingModalContent /> }
-							{ status === ASYNC_ACTION_STATUS.success && (
-								<div>
-									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion, index ) => (
-										<SuggestionButton
-											key={ `suggestion-${index}` }
-											suggestion={ suggestion }
-											onClick={ onSuggestionClick }
-										/>
-									) ) }
-								</div>
-							) }
-						</div>
-					) : (
-						// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
-						<div className="yst-relative" aria-live="polite">
-							<Transition
-								as="div"
-								show={ status === ASYNC_ACTION_STATUS.loading }
-								enter="yst-transition-opacity yst-duration-300"
-								enterFrom="yst-opacity-0"
-								enterTo="yst-opacity-100"
-								leave="yst-transition-opacity yst-duration-300 yst-absolute yst-top-0 yst-left-0 yst-right-0"
-								leaveFrom="yst-opacity-100"
-								leaveTo="yst-opacity-0"
-							>
-								<LoadingModalContent />
-							</Transition>
-							{ /*
-							 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
-							 * so the suggestions only fade in after the loading content has faded out.
-							 */ }
-							<Transition
-								as={ Fragment }
-								show={ status === ASYNC_ACTION_STATUS.success }
-								enter="yst-transition-opacity yst-duration-300 yst-delay-300"
-								enterFrom="yst-opacity-0"
-								enterTo="yst-opacity-100"
-								leave="yst-transition-opacity yst-duration-300"
-								leaveFrom="yst-opacity-100"
-								leaveTo="yst-opacity-0"
-							>
-								<div>
-									<Modal.Description className="yst-mb-4">{ __( "Select a suggestion to generate a structured outline for your post.", "wordpress-seo" ) }</Modal.Description>
-									{ suggestions.map( ( suggestion, index ) => (
-										<SuggestionButton
-											key={ `suggestion-${index}` }
-											suggestion={ suggestion }
-											onClick={ onSuggestionClick }
-										/>
-									) ) }
-								</div>
-							</Transition>
-						</div>
-					) }
+					<ModalBodyContent
+						status={ status }
+						suggestions={ suggestions }
+						onSuggestionClick={ onSuggestionClick }
+						error={ error }
+						onRetry={ fetchContentSuggestions }
+						skipTransitions={ skipTransitions }
+					/>
 				</Modal.Container.Content>
 			</Modal.Container>
 		</Modal.Panel>
