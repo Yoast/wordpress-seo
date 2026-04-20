@@ -1,12 +1,14 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
+import { __ } from "@wordpress/i18n";
 import { ApproveModal } from "./approve-modal";
+import { AiGrantConsent } from "../../shared-admin/components";
 import ContentSuggestionsModal from "../containers/content-suggestions-modal";
-import ContentOutlineModal  from "../containers/content-outline-modal";
+import ContentOutlineModal from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
-import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { FEATURE_MODAL_STATUS } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -72,6 +74,9 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onSuggestionClick 
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
+ * @param {string|null}   status                          The current feature modal status from the store.
+ * @param {function}      setStatus                       Dispatch to update the feature modal status in the store.
+ * @param {boolean}       hasConsent                      Whether the user has granted AI consent.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -83,14 +88,16 @@ export const FeatureModal = ( {
 	upsellLink,
 	status,
 	setStatus,
+	hasConsent,
 } ) => {
-	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
 
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const fetchContentOutline = useFetchContentOutline();
+
+	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
 
 	/**
 	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
@@ -102,9 +109,12 @@ export const FeatureModal = ( {
 	 */
 	const handleGetSuggestionsClick = useCallback( () => {
 		setCameFromApproveModal( true );
+		if ( ! hasConsent ) {
+			setStatus( FEATURE_MODAL_STATUS.consent );
+			return;
+		}
 		fetchContentSuggestions();
-	}, [ fetchContentSuggestions ] );
-
+	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
 
 	/**
 	 * Handles the click on a content suggestion.
@@ -142,71 +152,78 @@ export const FeatureModal = ( {
 		if ( ! isOpen ) {
 			setCameFromApproveModal( true );
 			setHasVisitedReplace( false );
-			return;
 		}
 	}, [ isOpen ] );
 
 	useEffect( () => {
 		if ( status === FEATURE_MODAL_STATUS.idle ) {
 			setCameFromApproveModal( true );
-			return;
 		}
 	}, [ status ] );
 
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
 
 	return (
-		<Modal isOpen={ isOpen } onClose={ onClose }>
-			<div className="yst-relative yst-w-full yst-max-w-2xl">
-				<Transition
-					as={ Fragment }
-					show={ status === FEATURE_MODAL_STATUS.idle }
-					enter="yst-transition-opacity yst-duration-300"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-					leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0 yst-m-auto"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
-						<ApproveModal
-							isEmptyPost={ isEmptyPost }
-							isPremium={ isPremium }
-							isUpsell={ isUpsell }
-							onClick={ handleGetSuggestionsClick }
-							upsellLink={ upsellLink }
-						/>
-					</div>
-				</Transition>
-				<SuggestionsPanel
-					isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
-					cameFromApproveModal={ cameFromApproveModal }
-					onSuggestionClick={ handleSuggestionClick }
-				/>
-				{ /*
-				 * Once the replace confirmation has been visited, keep both outline and
-				 * confirmation panels mounted and toggle via display:none to avoid a
-				 * one-frame empty container between panel swaps.
-				 */ }
-				{ selectedSuggestion && (
-					<div style={ outlineStyle }>
-						<ContentOutlineModal
-							onApplyOutline={ handleOnApplyOutline }
-						/>
-					</div>
-				) }
-				{ hasVisitedReplace && (
-					<div style={ replaceStyle }>
-						<div className="yst-flex yst-items-center yst-justify-center">
-							<ReplaceContentModal
-								isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
-								onCancel={ handleCancelReplace }
-								onConfirm={ handleConfirmReplace }
+		<>
+			<Modal isOpen={ isOpen && ! isConsentModalOpen } onClose={ onClose }>
+				<div className="yst-relative yst-w-full yst-max-w-2xl">
+					<Transition
+						as={ Fragment }
+						show={ status === FEATURE_MODAL_STATUS.idle }
+						enter="yst-transition-opacity yst-duration-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300 yst-absolute yst-inset-0 yst-m-auto"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						<div className="yst-w-96 yst-flex yst-items-center yst-justify-center yst-mx-auto">
+							<ApproveModal
+								isEmptyPost={ isEmptyPost }
+								isPremium={ isPremium }
+								isUpsell={ isUpsell }
+								onClick={ handleGetSuggestionsClick }
+								upsellLink={ upsellLink }
 							/>
 						</div>
-					</div>
-				) }
-			</div>
-		</Modal>
+					</Transition>
+					<SuggestionsPanel
+						isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
+						cameFromApproveModal={ cameFromApproveModal }
+						onSuggestionClick={ handleSuggestionClick }
+					/>
+					{ status === FEATURE_MODAL_STATUS.contentOutline && (
+						<div style={ outlineStyle }>
+							<ContentOutlineModal
+								onApplyOutline={ handleOnApplyOutline }
+							/>
+						</div>
+					) }
+					{ hasVisitedReplace && (
+						<div style={ replaceStyle }>
+							<div className="yst-flex yst-items-center yst-justify-center">
+								<ReplaceContentModal
+									isActive={ status === FEATURE_MODAL_STATUS.replaceContent }
+									onCancel={ handleCancelReplace }
+									onConfirm={ handleConfirmReplace }
+								/>
+							</div>
+						</div>
+					) }
+				</div>
+			</Modal>
+			<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ onClose } className="yst-introduction-modal">
+				<Modal.Panel
+					className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
+					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
+				>
+					<AiGrantConsent
+						storeName={ STORE_NAME_AI }
+						linkStoreName={ STORE_NAME_EDITOR }
+						onConsentGranted={ fetchContentSuggestions }
+					/>
+				</Modal.Panel>
+			</Modal>
+		</>
 	);
 };

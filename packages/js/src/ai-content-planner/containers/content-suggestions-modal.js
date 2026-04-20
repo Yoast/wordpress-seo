@@ -19,6 +19,7 @@ export default compose( [
 		const {
 			selectUsageCount,
 			selectUsageCountLimit,
+			selectUsageCountStatus,
 		} = select( STORE_NAME_AI );
 
 		return {
@@ -29,6 +30,7 @@ export default compose( [
 			status: selectSuggestionsStatus(),
 			error: selectSuggestionsError(),
 			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
+			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 ] )( ContentSuggestionsModal );

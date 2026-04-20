@@ -1,4 +1,5 @@
-import { Badge, Link, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+/* eslint-disable complexity */
+import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -210,10 +211,9 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
  * @param {boolean} props.skipTransitions Whether to skip transition animations.
- * @param {number} props.usageCount The usage count for the content suggestions feature.
- * @param {number} props.usageCountLimit The maximum usage count.
- * @param {Object|null} props.error The error object when in error state.
- * @param {string} props.modalHelpLink The URL for the AI help link in the modal header.
+ * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
+ * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature before hitting a limit.
+ * @param {string} props.usageCountStatus The status of the usage count (e.g. "approaching", "reached").
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
@@ -225,8 +225,7 @@ export const ContentSuggestionsModal = ( {
 	skipTransitions = false,
 	usageCount,
 	usageCountLimit,
-	error,
-	modalHelpLink,
+	usageCountStatus,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -239,7 +238,7 @@ export const ContentSuggestionsModal = ( {
 
 	return (
 		<Modal.Panel
-			className="yst-p-0 yst-max-w-2xl"
+			className="yst-p-0 yst-max-w-2xl yst-overflow-visible"
 			hasCloseButton={ false }
 		>
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
@@ -258,15 +257,14 @@ export const ContentSuggestionsModal = ( {
 						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
 					</Link>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					<span className="yst-flex-grow" />
-					{ status !== ASYNC_ACTION_STATUS.error && (
-						<UsageCounter
-							limit={ usageCountLimit }
-							requests={ usageCount }
-							mentionBetaInTooltip={ isPremium }
-							mentionResetInTooltip={ isPremium }
-						/>
-					) }
+					<UsageCounter
+						className="yst-relative"
+						limit={ usageCountLimit }
+						requests={ usageCount }
+						mentionBetaInTooltip={ isPremium }
+						mentionResetInTooltip={ isPremium }
+						isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
+					/>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ModalBodyContent

@@ -12,6 +12,7 @@ export const CONTENT_PLANNER_STORE = "yoast-seo/content-planner";
  */
 export const FEATURE_MODAL_STATUS = {
 	idle: "idle",
+	consent: "consent",
 	contentSuggestions: "content-suggestions",
 	contentOutline: "content-outline",
 	replaceContent: "replace-content",

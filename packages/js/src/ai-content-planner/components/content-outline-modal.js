@@ -260,8 +260,24 @@ export const ContentOutlineModal = ( {
 			);
 		}
 
-		return (
-			<>
+	return (
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
+			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
+			<Modal.Container>
+				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
+					<Modal.Title size="2" className="yst-flex-grow"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
+					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					{ sparksLimit && (
+						<UsageCounter
+							className="yst-relative"
+							limit={ sparksLimit }
+							requests={ sparksUsage }
+							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
+						/>
+					) }
+				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
 					<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
 						<IntentCallout
