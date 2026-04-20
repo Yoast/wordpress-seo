@@ -242,7 +242,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 
 
 	return (
-		<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
+		<Modal.Panel className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
@@ -251,6 +251,7 @@ export const ContentOutlineModal = ( { status, isPremium, onBackToSuggestions, o
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					{ sparksLimit && (
 						<UsageCounter
+							className="yst-relative"
 							limit={ sparksLimit }
 							requests={ sparksUsage }
 							mentionBetaInTooltip={ isPremium }

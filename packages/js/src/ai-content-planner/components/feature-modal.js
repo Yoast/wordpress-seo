@@ -1,12 +1,11 @@
 import { Modal } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
 import { ApproveModal } from "./approve-modal";
 import ContentSuggestionsModal from "../containers/content-suggestions-modal";
 import ContentOutlineModal  from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
-import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { FEATURE_MODAL_STATUS } from "../constants";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -29,9 +28,8 @@ const getPanelStyles = ( status ) => ( {
  *
  * @param {boolean}  isVisible            Whether the suggestions should be shown.
  * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
- * @param {string}   status           The current modal status.
- * @param {boolean}  isPremium        Whether the user has a premium subscription.
- * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
+ * @param {string}   status               The current modal status.
+ * @param {Function} onSuggestionClick    Callback when a suggestion is clicked.
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
@@ -76,6 +74,8 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, status, onSuggesti
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {boolean}       isUpsell                        Whether the modal is shown as an upsell or not.
  * @param {string}        upsellLink                      The link to the upsell page.
+ * @param {string}        status                          The current modal status from the store.
+ * @param {function}      setStatus                       Dispatch function to update the modal status.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -88,7 +88,6 @@ export const FeatureModal = ( {
 	status,
 	setStatus,
 } ) => {
-	const selectedSuggestion = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectSuggestion(), [] );
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const editedOutlineRef = useRef( null );
@@ -146,14 +145,12 @@ export const FeatureModal = ( {
 		if ( ! isOpen ) {
 			setCameFromApproveModal( true );
 			setHasVisitedReplace( false );
-			return;
 		}
 	}, [ isOpen ] );
 
 	useEffect( () => {
 		if ( status === FEATURE_MODAL_STATUS.idle ) {
 			setCameFromApproveModal( true );
-			return;
 		}
 	}, [ status ] );
 
@@ -187,12 +184,7 @@ export const FeatureModal = ( {
 					cameFromApproveModal={ cameFromApproveModal }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
-				{ /*
-				 * Once the replace confirmation has been visited, keep both outline and
-				 * confirmation panels mounted and toggle via display:none to avoid a
-				 * one-frame empty container between panel swaps.
-				 */ }
-				{ selectedSuggestion && (
+				{ status === FEATURE_MODAL_STATUS.contentOutline && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
 							onApplyOutline={ handleOnApplyOutline }

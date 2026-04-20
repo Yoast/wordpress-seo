@@ -23,6 +23,7 @@ import { ContentSuggestionsModalContent } from "./content-suggestions-modal-cont
  * @param {boolean} props.skipTransitions Whether to skip transition animations.
  * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
  * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature before hitting a limit.
+ * @param {string} props.usageCountStatus The status of the usage count (e.g. "approaching", "reached").
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
@@ -34,6 +35,7 @@ export const ContentSuggestionsModal = ( {
 	skipTransitions = false,
 	usageCount,
 	usageCountLimit,
+	usageCountStatus,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -45,7 +47,7 @@ export const ContentSuggestionsModal = ( {
 	return (
 		<>
 			<Modal.Panel
-				className="yst-p-0 yst-max-w-2xl"
+				className="yst-p-0 yst-max-w-2xl yst-overflow-visible"
 				hasCloseButton={ false }
 			>
 				<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
@@ -55,10 +57,12 @@ export const ContentSuggestionsModal = ( {
 						<Modal.Title size="2" className="yst-flex-grow">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
 						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 						<UsageCounter
+							className="yst-relative"
 							limit={ usageCountLimit }
 							requests={ usageCount }
 							mentionBetaInTooltip={ isPremium }
 							mentionResetInTooltip={ isPremium }
+							isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
 						/>
 					</Modal.Container.Header>
 					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">

@@ -17,6 +17,7 @@ export default compose( [
 		const {
 			selectUsageCount,
 			selectUsageCountLimit,
+			selectUsageCountStatus,
 		} = select( STORE_NAME_AI );
 
 		return {
@@ -25,6 +26,7 @@ export default compose( [
 			usageCount: selectUsageCount(),
 			usageCountLimit: selectUsageCountLimit(),
 			status: selectSuggestionsStatus(),
+			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 ] )( ContentSuggestionsModal );

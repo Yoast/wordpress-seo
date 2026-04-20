@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, select, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks/use-fetch-content-outline";
@@ -85,7 +85,6 @@ const mockSuggestion = {
 	keyphrase: "dog training",
 	// eslint-disable-next-line camelcase
 	meta_description: "A guide to training your dog.",
-	structure: [ { level: "H2", title: "Introduction" } ],
 };
 
 const EMPTY_OUTLINE = [];
@@ -113,6 +112,7 @@ const defaultStoreSelectors = {
 		selectUsageCount: () => 1,
 		selectUsageCountLimit: () => 10,
 		isUsageCountLimitReached: () => false,
+		selectUsageCountStatus: () => "idle",
 	},
 	"core/editor": {
 		getEditedPostContent: () => "",
@@ -169,6 +169,20 @@ const createModalElement = ( { status = "idle", setStatus = mockSetStatus, ...pr
 const renderModal = ( props ) => render( createModalElement( props ) );
 
 describe( "FeatureModal", () => {
+	beforeAll( () => {
+		// Suppress the @testing-library/react v14 warning about the deprecated ReactDOMTestUtils.act.
+		jest.spyOn( console, "error" ).mockImplementation( ( message, ...args ) => {
+			if ( typeof message === "string" && message.includes( "ReactDOMTestUtils.act" ) ) {
+				return;
+			}
+			process.stderr.write( [ message, ...args ].join( " " ) + "\n" );
+		} );
+	} );
+
+	afterAll( () => {
+		console.error.mockRestore();
+	} );
+
 	beforeEach( () => {
 		setupMocks();
 	} );
@@ -253,7 +267,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		// Render with non-empty post at content-outline status
+		// Render with non-empty post at content-outline status.
 		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
 		// Click Add outline to post → triggers setHasVisitedReplace=true and setStatus("replace-content")
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
@@ -267,7 +281,7 @@ describe( "FeatureModal", () => {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: true, status: "content-outline" } );
+		renderModal( { isEmptyPost: true, status: "content-outline", selectedSuggestion: mockSuggestion } );
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
