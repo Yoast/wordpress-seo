@@ -19,7 +19,7 @@ const DEFAULT_LINKS = {
  *
  * @returns {JSX.Element} The element.
  */
-export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, links = null } ) => {
+export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, links = {} } ) => {
 	const resolvedLinks = useMemo( () => ( { ...DEFAULT_LINKS, ...links } ), [ links ] );
 
 	const { termsOfServiceLink, privacyPolicyLink, learnMoreLink, imageLink, endpoint } = useSelect(
