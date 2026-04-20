@@ -13,7 +13,7 @@ const DEFAULT_LINKS = {
  * Connected wrapper for AiConsent that reads link/consent data from WordPress data stores.
  *
  * @param {string}   storeName        The store providing consent endpoint and dispatch.
- * @param {Function} onConsentGranted Callback fired after consent is successfully stored.
+ * @param {Function} onConsentGranted Callback to signal actions after consent was granted.
  * @param {string}   linkStoreName    The store providing selectLink/selectImageLink.
  * @param {Object}   [links]          Override tracking URLs (termsOfService, privacyPolicy, learnMore).
  *
