@@ -1,5 +1,4 @@
-/* eslint-disable complexity */
-import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
+import { Badge, Link, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -226,6 +225,8 @@ export const ContentSuggestionsModal = ( {
 	usageCount,
 	usageCountLimit,
 	usageCountStatus,
+	error,
+	modalHelpLink,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -257,14 +258,16 @@ export const ContentSuggestionsModal = ( {
 						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
 					</Link>
 					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					<UsageCounter
-						className="yst-relative"
-						limit={ usageCountLimit }
-						requests={ usageCount }
-						mentionBetaInTooltip={ isPremium }
-						mentionResetInTooltip={ isPremium }
-						isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
-					/>
+					{ status !== ASYNC_ACTION_STATUS.error && (
+						<UsageCounter
+							className="yst-relative"
+							limit={ usageCountLimit }
+							requests={ usageCount }
+							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
+							isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
+						/>
+					) }
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ModalBodyContent
