@@ -21,6 +21,11 @@ const slice = createSlice( {
 		suggestions: [],
 		error: ERROR_DEFAULT,
 	},
+	reducers: {
+		setContentSuggestionsStatus: ( state, { payload } ) => {
+			state.status = payload;
+		},
+	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;

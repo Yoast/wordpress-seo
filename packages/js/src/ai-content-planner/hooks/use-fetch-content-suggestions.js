@@ -3,6 +3,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
 import { STORE_NAME_AI } from "../../ai-generator/constants";
 import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 
 /**
  * Returns a callback that fetches content planner suggestions.
@@ -25,7 +26,7 @@ export const useFetchContentSuggestions = () => {
 		};
 	}, [] );
 
-	const { fetchContentPlannerSuggestions, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
+	const { fetchContentPlannerSuggestions, setFeatureModalStatus, setContentSuggestionsStatus } = useDispatch( CONTENT_PLANNER_STORE );
 	const { fetchUsageCount, addUsageCount } = useDispatch( STORE_NAME_AI );
 
 	// eslint-disable-next-line complexity
@@ -35,12 +36,15 @@ export const useFetchContentSuggestions = () => {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 			return;
 		}
+		setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
+		setContentSuggestionsStatus( ASYNC_ACTION_STATUS.loading );
 		// Getting the usage count.
 		const { payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity: false } );
 		const sparksLimitReached = ( payload?.errorCode === 429 && payload?.errorIdentifier === "USAGE_LIMIT_REACHED" ) || payload.count >= payload.limit;
 
 		if ( sparksLimitReached ) {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
+			setContentSuggestionsStatus( ASYNC_ACTION_STATUS.idle );
 			return;
 		}
 		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
