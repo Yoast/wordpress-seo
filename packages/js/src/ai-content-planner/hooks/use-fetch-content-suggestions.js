@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
-import { CONTENT_PLANNER_STORE } from "../constants";
+import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
 import { STORE_NAME_AI } from "../../ai-generator/constants";
-import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
 /**
@@ -15,35 +14,46 @@ import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
  * @returns {Function} Callback to trigger the content suggestions fetch.
  */
 export const useFetchContentSuggestions = () => {
-	const { endpoint, postType, contentLocale, editorApiValue, usageCountEndpoint, suggestionsStatus } = useSelect( ( select ) => {
+	const { endpoint, postType, contentLocale, editorApiValue, isUsageCountLimitReached, usageCountEndpoint } = useSelect( ( select ) => {
 		return {
 			endpoint: select( CONTENT_PLANNER_STORE ).selectContentSuggestionsEndpoint(),
 			postType: select( "yoast-seo/editor" ).getPostType(),
 			contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
 			editorApiValue: select( "yoast-seo/editor" ).getEditorTypeApiValue(),
 			usageCountEndpoint: select( STORE_NAME_AI ).selectUsageCountEndpoint(),
-			suggestionsStatus: select( CONTENT_PLANNER_STORE ).selectSuggestionsStatus(),
+			isUsageCountLimitReached: select( STORE_NAME_AI ).isUsageCountLimitReached(),
 		};
 	}, [] );
 
-	const { fetchContentPlannerSuggestions } = useDispatch( CONTENT_PLANNER_STORE );
+	const { fetchContentPlannerSuggestions, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 	const { fetchUsageCount, addUsageCount } = useDispatch( STORE_NAME_AI );
 
-	const prevSuggestionsStatus = useRef( suggestionsStatus );
-
-	useEffect( () => {
-		if ( prevSuggestionsStatus.current !== ASYNC_ACTION_STATUS.success &&
-			suggestionsStatus === ASYNC_ACTION_STATUS.success ) {
-			addUsageCount();
+	// eslint-disable-next-line complexity
+	return useCallback( async() => {
+		// Before fetching usgage count, check if it's already known that the limit has been reached to avoid unnecessary API calls.
+		if ( isUsageCountLimitReached ) {
+			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
+			return;
 		}
-		prevSuggestionsStatus.current = suggestionsStatus;
-	}, [ suggestionsStatus, addUsageCount ] );
+		// Getting the usage count.
+		const { payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity: false } );
+		const sparksLimitReached = ( payload?.errorCode === 429 && payload?.errorIdentifier === "USAGE_LIMIT_REACHED" ) || payload.count >= payload.limit;
 
-	return useCallback( () => {
+		if ( sparksLimitReached ) {
+			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
+			return;
+		}
 		const language = removesLocaleVariantSuffixes( contentLocale ).replace( "_", "-" );
 		fetchContentPlannerSuggestions( { endpoint, postType, language, editor: editorApiValue } );
-		if ( usageCountEndpoint ) {
-			fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity: false } );
-		}
-	}, [ endpoint, postType, contentLocale, editorApiValue, fetchContentPlannerSuggestions, usageCountEndpoint, fetchUsageCount ] );
+		addUsageCount();
+	}, [ endpoint,
+		postType,
+		contentLocale,
+		editorApiValue,
+		isUsageCountLimitReached,
+		usageCountEndpoint,
+		fetchContentPlannerSuggestions,
+		addUsageCount,
+		fetchUsageCount,
+		setFeatureModalStatus ] );
 };

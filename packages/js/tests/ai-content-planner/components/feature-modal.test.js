@@ -109,6 +109,7 @@ const defaultStoreSelectors = {
 		selectUsageCount: () => 1,
 		selectUsageCountLimit: () => 10,
 		isUsageCountLimitReached: () => false,
+		selectUsageCountStatus: () => "idle",
 	},
 	"core/editor": {
 		getEditedPostContent: () => "",
