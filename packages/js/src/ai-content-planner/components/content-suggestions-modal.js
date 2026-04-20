@@ -5,7 +5,7 @@ import { ReactComponent as Yoast } from "../../../images/yoast.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { noop } from "lodash";
-import { Fragment, useRef, useEffect, useCallback } from "@wordpress/element";
+import { useRef, useEffect, useCallback } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { ContentPlannerError } from "./content-planner-error";
 import { IntentBadge } from "./intent-badge";
@@ -158,7 +158,7 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
 		// yst-relative enables absolute positioning of the leaving element to prevent layout stacking during cross-fade.
 		<div className="yst-relative" aria-live="polite">
 			<Transition
-				as={ Fragment }
+				as="div"
 				show={ status === ASYNC_ACTION_STATUS.loading }
 				enter="yst-transition-opacity yst-duration-300"
 				enterFrom="yst-opacity-0"
@@ -167,10 +167,10 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
-				<div><LoadingModalContent /></div>
+				<LoadingModalContent />
 			</Transition>
 			<Transition
-				as={ Fragment }
+				as="div"
 				show={ status === ASYNC_ACTION_STATUS.error }
 				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 				enterFrom="yst-opacity-0"
@@ -179,14 +179,14 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
-				<div><ErrorModalContent error={ error } onRetry={ onRetry } /></div>
+				<ErrorModalContent error={ error } onRetry={ onRetry } />
 			</Transition>
 			{ /*
 			 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
 			 * so the suggestions only fade in after the loading content has faded out.
 			 */ }
 			<Transition
-				as={ Fragment }
+				as="div"
 				show={ status === ASYNC_ACTION_STATUS.success }
 				enter="yst-transition-opacity yst-duration-300 yst-delay-300"
 				enterFrom="yst-opacity-0"
@@ -195,7 +195,7 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
-				<div><SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } /></div>
+				<SuccessModalContent suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } />
 			</Transition>
 		</div>
 	);

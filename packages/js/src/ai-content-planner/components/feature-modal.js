@@ -12,11 +12,11 @@ import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } f
 const HIDDEN_STYLE = { display: "none" };
 
 /**
- * Returns visibility and display styles for modal panels based on the current status.
- * The outline and replace panels are kept mounted and toggled via display:none to avoid layout flash.
+ * Returns the display styles for the outline and confirmation panels.
+ * Both are kept mounted and toggled via display:none to avoid layout flash.
  *
  * @param {string} status The current modal status.
- * @returns {Object} Panel visibility flags and styles.
+ * @returns {Object} Styles for each panel.
  */
 const getPanelStyles = ( status ) => ( {
 	outlineStyle: status === FEATURE_MODAL_STATUS.contentOutline ? null : HIDDEN_STYLE,
@@ -27,9 +27,9 @@ const getPanelStyles = ( status ) => ( {
  * Renders the suggestions modal, with a cross-fade transition when coming from
  * the approve modal and an instant render otherwise.
  *
- * @param {boolean}     isVisible            Whether the suggestions should be shown.
- * @param {boolean}     cameFromApproveModal Whether transitioning from the approve modal.
- * @param {Function}    onSuggestionClick    Callback when a suggestion is clicked.
+ * @param {boolean}  isVisible            Whether the suggestions should be shown.
+ * @param {boolean}  cameFromApproveModal Whether transitioning from the approve modal.
+ * @param {Function} onSuggestionClick Callback when a suggestion is clicked.
  *
  * @returns {JSX.Element|null} The suggestions panel.
  */
