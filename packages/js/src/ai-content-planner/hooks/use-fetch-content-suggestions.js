@@ -30,7 +30,7 @@ export const useFetchContentSuggestions = () => {
 
 	// eslint-disable-next-line complexity
 	return useCallback( async() => {
-		// Before fetching usgage count, check if it's already known that the limit has been reached to avoid unnecessary API calls.
+		// Before fetching usage count, check if it's already known that the limit has been reached to avoid unnecessary API calls.
 		if ( isUsageCountLimitReached ) {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 			return;
