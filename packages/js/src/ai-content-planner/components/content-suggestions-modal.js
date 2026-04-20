@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Badge, Modal, SkeletonLoader, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
@@ -89,6 +90,7 @@ const LoadingModalContent = () => {
  * @param {boolean} props.skipTransitions Whether to skip transition animations.
  * @param {number} props.usageCount The number of times the user has used the content suggestions feature.
  * @param {number} props.usageCountLimit The maximum number of times the user can use the content suggestions feature before hitting a limit.
+ * @param {string} props.usageCountStatus The status of the usage count (e.g. "approaching", "reached").
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
@@ -100,6 +102,7 @@ export const ContentSuggestionsModal = ( {
 	skipTransitions = false,
 	usageCount,
 	usageCountLimit,
+	usageCountStatus,
 } ) => {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
@@ -125,6 +128,7 @@ export const ContentSuggestionsModal = ( {
 						requests={ usageCount }
 						mentionBetaInTooltip={ isPremium }
 						mentionResetInTooltip={ isPremium }
+						isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
 					/>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
