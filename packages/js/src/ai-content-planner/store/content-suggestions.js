@@ -4,6 +4,7 @@ import { get, isArray } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { contentPlannerFetch } from "../helpers/fetch";
 import { ERROR_DEFAULT } from "../constants";
+import { normalizeError } from "../helpers/normalize-error";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -33,11 +34,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			// Bad gateway error will not have a payload, so we set a default error.
-			state.error = {
-				errorCode: 502,
-				...payload,
-			};
+			state.error = normalizeError( payload );
 		} );
 	},
 } );

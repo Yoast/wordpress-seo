@@ -7,6 +7,11 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
+const mockFetchContentSuggestions = jest.fn();
+jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
+	useFetchContentSuggestions: () => mockFetchContentSuggestions,
+} ) );
+
 jest.mock( "../../../src/ai-content-planner/components/content-planner-error", () => ( {
 	ContentPlannerError: ( { errorCode, errorIdentifier, errorMessage, onRetry } ) => (
 		<div data-testid="content-planner-error">
@@ -85,6 +90,7 @@ const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ..
 describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
 		mockUsageCounter.mockClear();
+		mockFetchContentSuggestions.mockClear();
 		jest.useFakeTimers();
 	} );
 
@@ -240,10 +246,9 @@ describe( "ContentSuggestionsModal", () => {
 		} );
 
 		it( "calls onRetry when the retry button is clicked", () => {
-			const onRetry = jest.fn();
-			renderErrorModal( { onRetry } );
+			renderErrorModal();
 			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
-			expect( onRetry ).toHaveBeenCalledTimes( 1 );
+			expect( mockFetchContentSuggestions ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );

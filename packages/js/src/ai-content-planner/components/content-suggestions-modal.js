@@ -10,6 +10,7 @@ import { Transition } from "@headlessui/react";
 import { ContentPlannerError } from "./content-planner-error";
 import { IntentBadge } from "./intent-badge";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { useFetchContentSuggestions } from "../hooks";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -212,7 +213,6 @@ const ModalBodyContent = ( { status, suggestions, onSuggestionClick, error, onRe
  * @param {number} props.usageCount The usage count for the content suggestions feature.
  * @param {number} props.usageCountLimit The maximum usage count.
  * @param {Object|null} props.error The error object when in error state.
- * @param {Function} props.onRetry The function to call when the user clicks "Try again".
  * @param {string} props.modalHelpLink The URL for the AI help link in the modal header.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
@@ -226,7 +226,6 @@ export const ContentSuggestionsModal = ( {
 	usageCount,
 	usageCountLimit,
 	error,
-	onRetry,
 	modalHelpLink,
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -235,6 +234,8 @@ export const ContentSuggestionsModal = ( {
 	useEffect( () => {
 		closeButtonRef.current?.focus();
 	}, [ status ] );
+
+	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	return (
 		<Modal.Panel
@@ -273,7 +274,7 @@ export const ContentSuggestionsModal = ( {
 						suggestions={ suggestions }
 						onSuggestionClick={ onSuggestionClick }
 						error={ error }
-						onRetry={ onRetry }
+						onRetry={ fetchContentSuggestions }
 						skipTransitions={ skipTransitions }
 					/>
 				</Modal.Container.Content>

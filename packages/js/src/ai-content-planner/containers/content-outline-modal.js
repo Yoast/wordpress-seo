@@ -11,6 +11,7 @@ export default compose( [
 			selectContentOutline,
 			selectContentOutlineStatus,
 			selectFeatureModalStatus,
+			selectContentOutlineError,
 		} = select( CONTENT_PLANNER_STORE );
 
 		const {
@@ -26,11 +27,10 @@ export default compose( [
 			sparksLimit: selectUsageCountLimit(),
 			sparksUsage: selectUsageCount(),
 			status: selectContentOutlineStatus(),
+			error: selectContentOutlineError(),
 			isPremium: getIsPremium(),
-			isActive: [ FEATURE_MODAL_STATUS.contentOutline, FEATURE_MODAL_STATUS.contentOutlineError ]
-				.includes( selectFeatureModalStatus() ),
-			// Temporary link to the AI Generator help button modal until the Content Planner help shortlink is created.
-			modalHelpLink: selectLink( "https://yoa.st/ai-generator-help-button-modal" ),
+			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
+			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
