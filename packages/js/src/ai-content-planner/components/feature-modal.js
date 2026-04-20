@@ -105,7 +105,6 @@ export const FeatureModal = ( {
 
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
 
-
 	/**
 	 * Handles the click on the "Get content suggestions" button in the ApproveModal.
 	 * Sets the flag to indicate the transition is coming from the ApproveModal, then fetches content suggestions.
