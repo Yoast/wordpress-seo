@@ -257,17 +257,19 @@ export const ContentSuggestionsModal = ( {
 					>
 						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
 					</Link>
-					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					{ status !== ASYNC_ACTION_STATUS.error && (
-						<UsageCounter
-							className="yst-relative"
-							limit={ usageCountLimit }
-							requests={ usageCount }
-							mentionBetaInTooltip={ isPremium }
-							mentionResetInTooltip={ isPremium }
-							isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
-						/>
-					) }
+					<div className="yst-flex yst-flex-grow yst-justify-end yst-gap-2 yst-items-center">
+						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+						{ status !== ASYNC_ACTION_STATUS.error && (
+							<UsageCounter
+								className="yst-relative"
+								limit={ usageCountLimit }
+								requests={ usageCount }
+								mentionBetaInTooltip={ isPremium }
+								mentionResetInTooltip={ isPremium }
+								isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
+							/>
+						) }
+					</div>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ModalBodyContent
