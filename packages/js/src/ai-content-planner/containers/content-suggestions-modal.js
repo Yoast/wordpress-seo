@@ -9,9 +9,11 @@ export default compose( [
 		const {
 			selectSuggestions,
 			selectSuggestionsStatus,
+			selectSuggestionsError,
 		} = select( CONTENT_PLANNER_STORE );
 		const {
 			getIsPremium,
+			selectLink,
 		} = select( "yoast-seo/editor" );
 
 		const {
@@ -26,6 +28,8 @@ export default compose( [
 			usageCount: selectUsageCount(),
 			usageCountLimit: selectUsageCountLimit(),
 			status: selectSuggestionsStatus(),
+			error: selectSuggestionsError(),
+			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
 			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),

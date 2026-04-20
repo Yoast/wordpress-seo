@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import apiFetch from "@wordpress/api-fetch";
 import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { ERROR_DEFAULT } from "../constants";
+import { contentPlannerFetch } from "../helpers/fetch";
+import { normalizeError } from "../helpers/normalize-error";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
@@ -55,11 +55,7 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
-			// Bad gateway error will not have a payload, so we set a default error.
-			state.error = {
-				errorCode: 502,
-				...payload,
-			};
+			state.error = normalizeError( payload );
 		} );
 	},
 } );
@@ -96,6 +92,9 @@ export function* fetchContentOutline( {
 		} };
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload };
 	} catch ( error ) {
+		if ( error?.aborted ) {
+			return;
+		}
 		yield{ type: `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
@@ -106,7 +105,7 @@ export const contentOutlineActions = {
 };
 
 export const contentOutlineControls = {
-	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => apiFetch( {
+	[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]: async( { payload } ) => contentPlannerFetch( {
 		method: "POST",
 		path: payload.endpoint,
 		data: {

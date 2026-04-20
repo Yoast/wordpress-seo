@@ -11,6 +11,7 @@ export default compose( [
 			selectContentOutline,
 			selectContentOutlineStatus,
 			selectFeatureModalStatus,
+			selectContentOutlineError,
 		} = select( CONTENT_PLANNER_STORE );
 
 		const {
@@ -18,7 +19,7 @@ export default compose( [
 			selectUsageCount,
 		} = select( STORE_NAME_AI );
 
-		const { getIsPremium } = select( "yoast-seo/editor" );
+		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
 
 		return {
 			suggestion: selectSuggestion(),
@@ -26,8 +27,10 @@ export default compose( [
 			sparksLimit: selectUsageCountLimit(),
 			sparksUsage: selectUsageCount(),
 			status: selectContentOutlineStatus(),
+			error: selectContentOutlineError(),
 			isPremium: getIsPremium(),
 			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
+			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

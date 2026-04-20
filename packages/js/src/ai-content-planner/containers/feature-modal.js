@@ -10,7 +10,7 @@ export default compose( [
 		const { selectFeatureModalStatus, selectIsModalOpen } = select( CONTENT_PLANNER_STORE );
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
-		const { isUsageCountLimitReached } = select( STORE_NAME_AI );
+		const { isUsageCountLimitReached, selectHasAiGeneratorConsent } = select( STORE_NAME_AI );
 
 		return {
 			isOpen: selectIsModalOpen(),
@@ -19,6 +19,7 @@ export default compose( [
 			status: selectFeatureModalStatus(),
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			isUpsell: isUsageCountLimitReached(),
+			hasConsent: selectHasAiGeneratorConsent(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
