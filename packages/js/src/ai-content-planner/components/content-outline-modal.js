@@ -258,7 +258,7 @@ export const ContentOutlineModal = ( {
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
 
 	const renderBody = () => {
-		if ( error ) {
+		if ( status === ASYNC_ACTION_STATUS.error ) {
 			return (
 				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
 					<ContentPlannerError
