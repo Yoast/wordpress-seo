@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef } from "@wordpress/element";
 import block from "../block.json";
 import { InlineBanner } from "../components/inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
@@ -24,8 +25,8 @@ const Edit = ( { clientId } ) => {
 	const ref = useRef( null );
 	const { isPremium, hasConsent } = useSelect( select => {
 		return {
-			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
-			hasConsent: select( "yoast-seo/ai-generator" ).selectHasAiGeneratorConsent(),
+			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
+			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 		};
 	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );

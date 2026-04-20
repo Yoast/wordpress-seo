@@ -9,6 +9,7 @@ import ContentOutlineModal from "../containers/content-outline-modal";
 import { ReplaceContentModal } from "./replace-content-modal";
 import { Transition } from "@headlessui/react";
 import { FEATURE_MODAL_STATUS, CONTENT_PLANNER_STORE } from "../constants";
+import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
 
 const HIDDEN_STYLE = { display: "none" };
@@ -231,8 +232,8 @@ export const FeatureModal = ( {
 					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
 				>
 					<AiGrantConsent
-						storeName="yoast-seo/ai-generator"
-						linkStoreName="yoast-seo/editor"
+						storeName={ STORE_NAME_AI }
+						linkStoreName={ STORE_NAME_EDITOR }
 						onConsentGranted={ fetchContentSuggestions }
 					/>
 				</Modal.Panel>
