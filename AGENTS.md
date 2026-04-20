@@ -125,7 +125,7 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 ## Commits, branches, and pull requests
 
 - **Conventional Commits** (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `perf:`, `ci:`, `style:`). Include a scope when useful: `feat(dashboard): ...`.
-- Small, atomic commits are preferred over a single squash commit that mixes concerns.
+- **Prefer atomic commits whenever practical.** Each commit should represent a single logical change that compiles, passes tests on its own, and can be reviewed (or reverted) in isolation. If a PR mixes unrelated changes — e.g. a bug fix plus a refactor plus a tooling tweak — split them into separate commits (or, ideally, separate PRs). It's fine to combine closely coupled changes into one commit when splitting would be artificial.
 - Branch names: `<issue-number>-<short-description>` when the work tracks a GitHub issue (e.g. `2056-paid-upgrades`).
 - Target `trunk`. Use the PR template at `.github/PULL_REQUEST_TEMPLATE.md` — every section is there for a reason; fill it in even for small changes.
 - Apply a changelog label: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, or `changelog: non-user-facing`.

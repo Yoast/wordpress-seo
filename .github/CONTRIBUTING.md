@@ -52,7 +52,7 @@ Community patches, localizations, bug reports, and contributions are very welcom
 3. Follow the [Yoast Coding Standards](https://github.com/Yoast/yoastcs) (a superset of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)).
 4. Document any new functions, actions, and filters following the [PHP inline-documentation standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
 5. Write tests. We expect every PR that changes PHP behaviour to ship unit tests — see the commands in the checklist below.
-6. Use the [Conventional Commits](https://www.conventionalcommits.org/) format for commit messages (e.g. `fix: …`, `feat(dashboard): …`). Small, atomic commits are preferred.
+6. Use the [Conventional Commits](https://www.conventionalcommits.org/) format for commit messages (e.g. `fix: …`, `feat(dashboard): …`). **Prefer atomic commits whenever practical** — each commit should represent a single logical change that can be reviewed or reverted on its own. If your PR mixes unrelated changes (e.g. a bugfix plus a refactor plus a tooling tweak), split them into separate commits or ideally separate PRs. Combining closely coupled changes into one commit is fine when splitting would be artificial.
 7. Push your branch and open a pull request against `trunk`. **Use the pull request template** at [`.github/PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) and fill in every section — even for small changes.
 
 #### Before you push or open/update a PR

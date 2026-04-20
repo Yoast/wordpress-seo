@@ -14,6 +14,7 @@ The authoritative guidance lives in [`AGENTS.md`](../AGENTS.md), [`CONTRIBUTING.
 - Bugfix entries follow `Fixes a bug where … (was …) when …` with past-tense inner verbs.
 - Multiple changelog bullets only when (a) the PR has two logically distinct changes, (b) types differ — then use `[repo type]` override on the divergent bullets, or (c) the change must land in multiple repos/packages, in which case each extra bullet is prefixed with `[<repo-or-package>]`.
 - Title under ~70 characters; Conventional Commits prefix where natural.
+- Prefer atomic commits: if the PR mixes unrelated changes in a single commit (e.g. bugfix + refactor + tooling), suggest splitting into separate commits (or separate PRs) when practical.
 - Release-branch PRs (`release/*`): unreleased-bug fixes use `changelog: non-user-facing` and `Fixes an unreleased bug where …`.
 
 ### Tests and coverage
