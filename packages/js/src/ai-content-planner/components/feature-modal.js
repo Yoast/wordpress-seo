@@ -87,7 +87,6 @@ export const FeatureModal = ( {
 	upsellLink,
 	status,
 	setStatus,
-	selectedSuggestion,
 } ) => {
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
@@ -185,12 +184,7 @@ export const FeatureModal = ( {
 					cameFromApproveModal={ cameFromApproveModal }
 					onSuggestionClick={ handleSuggestionClick }
 				/>
-				{ /*
-				 * Once the replace confirmation has been visited, keep both outline and
-				 * confirmation panels mounted and toggle via display:none to avoid a
-				 * one-frame empty container between panel swaps.
-				 */ }
-				{ selectedSuggestion && (
+				{ status === FEATURE_MODAL_STATUS.contentOutline && (
 					<div style={ outlineStyle }>
 						<ContentOutlineModal
 							onApplyOutline={ handleOnApplyOutline }
