@@ -81,6 +81,7 @@ const mockSuggestion = {
 	keyphrase: "dog training",
 	// eslint-disable-next-line camelcase
 	meta_description: "A guide to training your dog.",
+	index: 0,
 };
 
 const EMPTY_OUTLINE = [];

@@ -8,9 +8,24 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: ( props ) => mockUsageCounter( props ),
 } ) );
 
-jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn( () => false ),
-} ) );
+const mockFetchContentOutline = jest.fn();
+jest.mock( "@wordpress/data", () => {
+	const mockStoreSelectors = {
+		selectContentOutlineEndpoint: () => "",
+		selectContentOutlineCache: () => null,
+		getPostType: () => "post",
+		getContentLocale: () => "en_US",
+		getEditorTypeApiValue: () => "block",
+	};
+	return {
+		useSelect: jest.fn( ( callback ) => callback( () => mockStoreSelectors ) ),
+		useDispatch: jest.fn( () => ( {
+			fetchContentOutline: mockFetchContentOutline,
+			restoreContentOutlineFromCache: jest.fn(),
+			setFeatureModalStatus: jest.fn(),
+		} ) ),
+	};
+} );
 
 jest.mock( "../../../src/ai-content-planner/components/content-planner-error", () => ( {
 	ContentPlannerError: ( { errorCode, errorIdentifier, errorMessage, onRetry } ) => (
@@ -26,10 +41,10 @@ jest.mock( "../../../src/ai-content-planner/components/content-planner-error", (
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useDraggableStructure: () => ( {
 		structure: [
-			{ id: "1", title: "Introduction" },
-			{ id: "2", title: "Why This Matters" },
-			{ id: "3", title: "Step-by-Step Guide" },
-			{ id: "4", title: "Conclusion" },
+			{ id: "1", heading: "Introduction" },
+			{ id: "2", heading: "Why This Matters" },
+			{ id: "3", heading: "Step-by-Step Guide" },
+			{ id: "4", heading: "Conclusion" },
 		],
 		dragOverIndex: null,
 		handleDragStart: jest.fn(),
@@ -48,6 +63,7 @@ const defaultSuggestion = {
 	keyphrase: "Guide to set up WordPress blog",
 	// eslint-disable-next-line camelcase
 	meta_description: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins.",
+	index: 2,
 };
 
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
@@ -431,11 +447,11 @@ describe( "ContentOutlineModal", () => {
 			expect( mockUsageCounter ).not.toHaveBeenCalled();
 		} );
 
-		it( "calls onRetry when the retry button is clicked", () => {
-			const onRetry = jest.fn();
-			renderErrorModal( { onRetry } );
+		it( "calls fetchContentOutline when the retry button is clicked", () => {
+			mockFetchContentOutline.mockClear();
+			renderErrorModal();
 			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
-			expect( onRetry ).toHaveBeenCalledTimes( 1 );
+			expect( mockFetchContentOutline ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );
