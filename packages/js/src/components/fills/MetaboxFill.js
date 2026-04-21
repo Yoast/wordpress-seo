@@ -59,14 +59,23 @@ export default function MetaboxFill( { settings } ) {
 				>
 					<Warning />
 				</SidebarItem>
-				<SidebarItem
-					key="editor-intro"
-					renderPriority={ 1 }
-				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+				{ isBlockEditorActive ? (
+					<SidebarItem
+						key="editor-intro"
+						renderPriority={ 1 }
+					>
+						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+							<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
+						</EditorIntro>
+					</SidebarItem>
+				) : (
+					<SidebarItem
+						key="time-constrained-notification"
+						renderPriority={ 1 }
+					>
 						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
-					</EditorIntro>
-				</SidebarItem>
+					</SidebarItem>
+				) }
 				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
 					<ContentPlannerEditorItem location="metabox" />
 				</SidebarItem> }
