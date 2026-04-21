@@ -376,7 +376,7 @@ export const ContentOutlineModal = ( {
 			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content outline", "wordpress-seo" ) } />
 			<Modal.Container>
 				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-					<YoastIcon className="yst-fill-primary-500 yst-w-4" { ...svgAriaProps } />
+					<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
 					<Modal.Title size="2"> { __( "Content outline", "wordpress-seo" ) } </Modal.Title>
 					<Link
 						href={ modalHelpLink }
@@ -388,9 +388,9 @@ export const ContentOutlineModal = ( {
 					>
 						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
 					</Link>
-					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
 					<span className="yst-flex-grow" />
-					{ ! error && sparksLimit && (
+					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					{ status !== ASYNC_ACTION_STATUS.error && (
 						<UsageCounter
 							limit={ sparksLimit }
 							requests={ sparksUsage }
@@ -398,6 +398,7 @@ export const ContentOutlineModal = ( {
 							mentionResetInTooltip={ isPremium }
 						/>
 					) }
+
 				</Modal.Container.Header>
 				{ renderBody() }
 			</Modal.Container>
