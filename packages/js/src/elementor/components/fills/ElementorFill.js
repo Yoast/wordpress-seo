@@ -21,7 +21,6 @@ import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import KeywordUpsell from "../../../components/modals/KeywordUpsell";
-import { EditorIntro } from "../../../components/EditorIntro";
 
 /* eslint-disable complexity */
 /**
@@ -52,16 +51,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	return (
 		<>
 			<Fill name="YoastElementor">
-				<SidebarItem
-					key="editor-intro"
-					renderPriority={ 0 }
-				>
-					<EditorIntro withPromptForContentSuggestions={ false }>
-						{ FirstEligibleNotification && <FirstEligibleNotification /> }
-					</EditorIntro>
-				</SidebarItem>
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
+					{ FirstEligibleNotification && (
+						<div className="yst-inline-block yst-px-1.5">
+							<FirstEligibleNotification />
+						</div>
+					) }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput
