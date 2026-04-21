@@ -27,9 +27,9 @@ export const intentBadgeProps = {
 		tooltip: __( "The user wants to find a specific page or site.", "wordpress-seo" ),
 	},
 	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		calloutClasses: "yst-bg-yellow-50 yst-border-yellow-200",
-		calloutTextClasses: "yst-text-yellow-900",
+		classes: "yst-bg-amber-200 yst-text-amber-900",
+		calloutClasses: "yst-bg-amber-50 yst-border-amber-200",
+		calloutTextClasses: "yst-text-amber-900",
 		Icon: StarIcon,
 		label: __( "Commercial", "wordpress-seo" ),
 		tooltip: __( "The user wants to investigate brands or services.", "wordpress-seo" ),
