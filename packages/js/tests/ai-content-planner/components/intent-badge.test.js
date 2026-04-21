@@ -81,4 +81,20 @@ describe( "IntentBadge", () => {
 			expect( firstId ).not.toEqual( secondId );
 		} );
 	} );
+
+	describe( "cursor", () => {
+		it( "applies the default cursor class when no cursor prop is provided", () => {
+			render( <IntentBadge intent="informational" /> );
+			const badge = getBadge( "Informational" );
+			expect( badge ).toHaveClass( "yst-cursor-default" );
+			expect( badge ).not.toHaveClass( "yst-cursor-pointer" );
+		} );
+
+		it( "applies the pointer cursor class when cursor=\"pointer\" is provided", () => {
+			render( <IntentBadge intent="informational" cursor="pointer" /> );
+			const badge = getBadge( "Informational" );
+			expect( badge ).toHaveClass( "yst-cursor-pointer" );
+			expect( badge ).not.toHaveClass( "yst-cursor-default" );
+		} );
+	} );
 } );

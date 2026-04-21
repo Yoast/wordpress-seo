@@ -51,10 +51,11 @@ export const intentBadgeProps = {
  * @param {string} props.intent The intent type (e.g. "informational").
  * @param {string} [props.className] Additional class names to apply to the badge.
  * @param {string} [props.tooltipPosition] Position of the tooltip. Defaults to "top-right".
+ * @param {"default"|"pointer"} [props.cursor] Cursor style for the badge. Defaults to "default"; use "pointer" when the badge sits inside a clickable parent.
  *
  * @returns {JSX.Element|null} The IntentBadge component.
  */
-export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" } ) => {
+export const IntentBadge = ( { intent, className, tooltipPosition = "top-right", cursor = "default" } ) => {
 	const badge = intentBadgeProps[ intent ];
 	const svgAriaProps = useSvgAria();
 	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
@@ -68,9 +69,10 @@ export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" 
 	}
 
 	const { Icon } = badge;
+	const cursorClass = cursor === "pointer" ? "yst-cursor-pointer" : "yst-cursor-default";
 	return (
 		<Badge
-			className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-cursor-default", badge.classes, className ) }
+			className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit", cursorClass, badge.classes, className ) }
 			aria-describedby={ isTooltipVisible ? tooltipId : null }
 			onMouseEnter={ handleMouseEnter }
 			onMouseLeave={ handleMouseLeave }
