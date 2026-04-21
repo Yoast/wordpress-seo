@@ -42,4 +42,5 @@ export const ERROR_DEFAULT = {
  * @property {string} keyphrase The keyphrase associated with the suggestion.
  * @property {string} meta_description The meta description associated with the suggestion.
  * @property {Category} category The category of the suggestion (optional).
+ * @property {number} index The index of the suggestion in the list (used for caching outlines).
  */

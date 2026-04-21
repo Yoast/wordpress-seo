@@ -66,7 +66,7 @@ const validateSuggestionsResponse = ( result ) => {
 		throw new Error( "Invalid suggestions response: expected an array of suggestions." );
 	}
 
-	return suggestions.map( ( suggestion ) => ( {
+	return suggestions.map( ( suggestion, index ) => ( {
 		intent: suggestion.intent,
 		title: suggestion.title,
 		explanation: suggestion.explanation,
@@ -74,6 +74,7 @@ const validateSuggestionsResponse = ( result ) => {
 		// eslint-disable-next-line camelcase
 		meta_description: suggestion.meta_description,
 		category: suggestion.category,
+		index,
 	} ) );
 };
 /**

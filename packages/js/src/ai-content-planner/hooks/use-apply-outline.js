@@ -33,22 +33,7 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 			}
 			: apiOutline;
 
-		// Build blocks using the user's heading order and the API's content notes.
-		let blocksOutline = apiOutline;
-		if ( editedOutline ) {
-			const notesByHeading = apiOutline.reduce( ( map, section ) => {
-				map[ section.subheading_text ] = section.content_notes;
-				return map;
-			}, {} );
-			blocksOutline = editedOutline.structure.map( ( item ) => ( {
-				// eslint-disable-next-line camelcase
-				subheading_text: item.title,
-				// eslint-disable-next-line camelcase
-				content_notes: notesByHeading[ item.title ] || [],
-			} ) );
-		}
-
-		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
+		resetBlocks( buildBlocksFromOutline( editedOutline.structure ) );
 
 		applyPostMetaFromOutline( metaOutline );
 

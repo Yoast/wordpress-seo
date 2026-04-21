@@ -4,6 +4,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/cons
 import { ERROR_DEFAULT } from "../constants";
 import { contentPlannerFetch } from "../helpers/fetch";
 import { normalizeError } from "../helpers/normalize-error";
+import { FETCH_CONTENT_SUGGESTIONS_ACTION_NAME } from "./content-suggestions";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
@@ -30,6 +31,7 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
 const INITIAL_OUTLINE = {
 	suggestion: null,
 	outline: [],
+	cache: [],
 	endpoint: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: ERROR_DEFAULT,
@@ -42,6 +44,27 @@ const slice = createSlice( {
 		setSuggestionForOutline: ( state, { payload } ) => {
 			state.suggestion = payload;
 		},
+		setContentOutline: ( state, { payload } ) => {
+			state.outline = payload;
+		},
+		restoreContentOutlineFromCache: ( state, { payload } ) => {
+			const cachedEntry = payload;
+			state.suggestion = cachedEntry.suggestion;
+			state.outline = cachedEntry.outline;
+			state.status = ASYNC_ACTION_STATUS.success;
+			state.error = ERROR_DEFAULT;
+		},
+		saveOutlineEditsToCache: ( state, { payload } ) => {
+			const { suggestion, structure } = payload;
+			if ( state.cache[ suggestion.index ] ) {
+				state.cache[ suggestion.index ].outline = structure;
+				state.cache[ suggestion.index ].suggestion = suggestion;
+				state.suggestion = null;
+				state.outline = [];
+				state.status = ASYNC_ACTION_STATUS.idle;
+				state.error = ERROR_DEFAULT;
+			}
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload } ) => {
@@ -51,11 +74,29 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.outline = payload.outline;
+			const outlineData = payload.outline.map( ( section, i ) => {
+				const heading = section.subheading_text ?? "";
+				return {
+					heading,
+					id: `${ i }-H2-${ heading }`,
+					contentNotes: section.content_notes ?? "",
+				};
+			} );
+			state.outline = outlineData;
+			state.cache[ state.suggestion.index ] = {
+				suggestion: state.suggestion,
+				outline: outlineData,
+			};
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
 			state.error = normalizeError( payload );
+		} );
+		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
+			state.suggestion = null;
+			state.outline = [];
+			state.status = ASYNC_ACTION_STATUS.idle;
+			state.error = ERROR_DEFAULT;
 		} );
 	},
 } );
@@ -68,6 +109,7 @@ export const contentOutlineSelectors = {
 	selectContentOutline: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "outline" ], slice.getInitialState().outline ),
 	selectContentOutlineError: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "error" ], slice.getInitialState().error ),
 	selectSuggestion: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "suggestion" ], slice.getInitialState().suggestion ),
+	selectContentOutlineCache: ( state, index ) => get( state, [ CONTENT_OUTLINE_NAME, "cache", index ], null ),
 };
 
 /**

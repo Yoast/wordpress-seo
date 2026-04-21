@@ -34,10 +34,11 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+		const { setFeatureModalStatus, saveOutlineEditsToCache } = dispatch( CONTENT_PLANNER_STORE );
 
 		return {
-			onBackToSuggestions: () => {
+			onBackToSuggestions: ( suggestion, structure ) => {
+				saveOutlineEditsToCache( { suggestion, structure } );
 				setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 			},
 		};
