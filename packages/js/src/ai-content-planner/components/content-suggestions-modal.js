@@ -13,7 +13,6 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useFetchContentSuggestions } from "../hooks";
 import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
 
-
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
  */

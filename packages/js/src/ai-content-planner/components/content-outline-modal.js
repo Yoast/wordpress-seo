@@ -398,7 +398,6 @@ export const ContentOutlineModal = ( {
 							mentionResetInTooltip={ isPremium }
 						/>
 					) }
-
 				</Modal.Container.Header>
 				{ renderBody() }
 			</Modal.Container>
