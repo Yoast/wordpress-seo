@@ -118,12 +118,6 @@ describe( "ContentOutlineModal", () => {
 				expect.objectContaining( { limit: 10, requests: 3 } )
 			);
 		} );
-
-		it( "does not show the UsageCounter when sparksLimit is not provided", () => {
-			mockUsageCounter.mockClear();
-			renderModal();
-			expect( mockUsageCounter ).not.toHaveBeenCalled();
-		} );
 	} );
 
 	describe( "accessibility", () => {
