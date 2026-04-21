@@ -120,9 +120,11 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
 
+	const remainingSparks = usageCountLimit - usageCount;
+
 	useEffect( () => {
 		const showNotificationPremium = hasUnlimitedSparks && usageCount === usageCountLimit;
-		const showNotificationFree = ! hasUnlimitedSparks && usageCount > 4;
+		const showNotificationFree = ! hasUnlimitedSparks && remainingSparks <= 5;
 		setShowNotification( showNotificationPremium || showNotificationFree );
 	}, [ usageCount, usageCountLimit, hasUnlimitedSparks, isUsageCountLimitReached ] );
 
@@ -144,9 +146,8 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 				usageCountLimit
 			);
 		}
-		const remainingSparks = usageCountLimit - usageCount;
 
-		if ( usageCount >= 5 && usageCount !== usageCountLimit ) {
+		if ( remainingSparks <= 5 && usageCount !== usageCountLimit ) {
 			return sprintf(
 				/* translators: %s is the number of the sparks. */
 				_n(
