@@ -30,7 +30,7 @@ const SuggestionButton = ( { suggestion, onClick } ) => {
 	const handleClick = useCallback( () => onClick( suggestion ), [ onClick, suggestion ] );
 	return (
 		<button type="button" onClick={ handleClick } className="yst-group yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm yst-transition-colors hover:yst-bg-slate-50 hover:yst-border-slate-300 focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500">
-			<IntentBadge intent={ intent } className="yst-mb-2 yst-text-xs" />
+			<IntentBadge intent={ intent } className="yst-mb-2 yst-text-xs" cursor="pointer" />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800 group-hover:yst-underline">{ title }</div>
 			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
