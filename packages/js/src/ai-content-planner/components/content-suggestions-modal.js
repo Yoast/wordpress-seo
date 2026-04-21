@@ -240,53 +240,51 @@ export const ContentSuggestionsModal = ( {
 	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	return (
-		<>
-			<Modal.Panel
-				className="yst-p-0 yst-max-w-2xl yst-overflow-visible"
-				hasCloseButton={ false }
-			>
-				<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
-				<Modal.Container>
-					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
-						<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
-						<Modal.Title size="2">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
-						<Link
-							href={ modalHelpLink }
-							variant="primary"
-							className="yst-no-underline"
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
-						>
-							<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
-						</Link>
-						<span className="yst-flex-grow" />
-						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-						{ status !== ASYNC_ACTION_STATUS.error && (
-							<UsageCounter
-								limit={ usageCountLimit }
-								requests={ usageCount }
-								mentionBetaInTooltip={ isPremium }
-								mentionResetInTooltip={ isPremium }
-								isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
-							/>
-						) }
-					</Modal.Container.Header>
-					<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
-						<ModalBodyContent
-							status={ status }
-							suggestions={ suggestions }
-							onSuggestionClick={ onSuggestionClick }
-							error={ error }
-							onRetry={ fetchContentSuggestions }
-							skipTransitions={ skipTransitions }
+		<Modal.Panel
+			className="yst-p-0 yst-max-w-2xl yst-overflow-visible"
+			hasCloseButton={ false }
+		>
+			<Modal.CloseButton ref={ closeButtonRef } screenReaderText={ __( "Close content suggestions modal", "wordpress-seo" ) } />
+			<Modal.Container>
+				<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+					<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
+					<Modal.Title size="2">{ __( "Content suggestions", "wordpress-seo" ) }</Modal.Title>
+					<Link
+						href={ modalHelpLink }
+						variant="primary"
+						className="yst-no-underline"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+					>
+						<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+					</Link>
+					<span className="yst-flex-grow" />
+					<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					{ status !== ASYNC_ACTION_STATUS.error && (
+						<UsageCounter
+							limit={ usageCountLimit }
+							requests={ usageCount }
+							mentionBetaInTooltip={ isPremium }
+							mentionResetInTooltip={ isPremium }
+							isSkeleton={ status === ASYNC_ACTION_STATUS.loading || usageCountStatus === ASYNC_ACTION_STATUS.loading }
 						/>
-					</Modal.Container.Content>
-				</Modal.Container>
-			</Modal.Panel>
+					) }
+				</Modal.Container.Header>
+				<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
+					<ModalBodyContent
+						status={ status }
+						suggestions={ suggestions }
+						onSuggestionClick={ onSuggestionClick }
+						error={ error }
+						onRetry={ fetchContentSuggestions }
+						skipTransitions={ skipTransitions }
+					/>
+				</Modal.Container.Content>
+			</Modal.Container>
 			<Notifications
 				className={
-				// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
+					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
 				position="bottom-left"
@@ -295,6 +293,6 @@ export const ContentSuggestionsModal = ( {
 					<SparksLimitNotification className="yst-mx-[calc(50%-50vw)] yst-transition-all" />
 				) }
 			</Notifications>
-		</>
+		</Modal.Panel>
 	);
 };
