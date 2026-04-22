@@ -124,9 +124,11 @@ final class WebPage_Test extends TestCase {
 	 *
 	 * @param bool   $is_front_page                          Whether the current page is a front page.
 	 * @param string $schema_page_type                       The Schema page type.
-	 * @param int    $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
+	 * @param int    $calls_to_format_with_post_date_gmt     The number of function calls to
+	 *                                                       'format_with_site_timezone' with
 	 *                                                       'post_date_gmt' as argument.
-	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
+	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to
+	 *                                                       'format_with_site_timezone' with
 	 *                                                       'post_modified_gmt' as argument.
 	 * @param int    $calls_to_filter                        The number of calls to the
 	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
@@ -153,13 +155,13 @@ final class WebPage_Test extends TestCase {
 			->andReturn( $is_front_page );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->with( $this->meta_tags_context->post->post_date_gmt )
 			->times( $calls_to_format_with_post_date_gmt )
 			->andReturn( $this->meta_tags_context->post->post_date_gmt );
 
 		$this->date
-			->expects( 'format' )
+			->expects( 'format_with_site_timezone' )
 			->with( $this->meta_tags_context->post->post_modified_gmt )
 			->times( $calls_to_format_with_post_modified_gmt )
 			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
