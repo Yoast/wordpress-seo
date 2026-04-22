@@ -35,7 +35,7 @@ class WordPress_Category_Repository implements Category_Repository_Interface {
 	 * @return Category The default category.
 	 */
 	private function get_default_category(): Category {
-		$default_id   = (int) get_option( 'default_category' );
+		$default_id   = (int) \get_option( 'default_category' );
 		$default_term = \get_term( $default_id, 'category' );
 
 		return new Category( $default_term->name, $default_term->term_id );
