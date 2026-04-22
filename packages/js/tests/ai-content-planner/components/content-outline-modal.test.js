@@ -308,6 +308,14 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
 		} );
 
+		it( "does not show the suggest category section for the empty-category sentinel when not loading", () => {
+			renderModal( {
+				status: ASYNC_ACTION_STATUS.success,
+				suggestion: { ...defaultSuggestion, category: { name: "", id: -1 } },
+			} );
+			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
+		} );
+
 		it( "disables the toggle when loading", () => {
 			renderModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
 			act( () => {

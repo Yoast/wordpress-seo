@@ -31,20 +31,21 @@ final class Constructor_Test extends Abstract_Content_Suggestion {
 	}
 
 	/**
-	 * Tests the constructor without a category.
+	 * Tests the constructor with the empty-category sentinel.
 	 *
 	 * @return void
 	 */
-	public function test_constructor_without_category() {
-		$instance = new Content_Suggestion(
+	public function test_constructor_with_empty_category_sentinel() {
+		$empty_category = new Category( '', -1 );
+		$instance       = new Content_Suggestion(
 			'How to use AI',
 			'informational',
 			'This article explains AI usage.',
 			'AI usage',
 			'Learn how to use AI effectively.',
-			null,
+			$empty_category,
 		);
 
-		$this->assertNull( $this->getPropertyValue( $instance, 'category' ) );
+		$this->assertSame( $empty_category, $this->getPropertyValue( $instance, 'category' ) );
 	}
 }

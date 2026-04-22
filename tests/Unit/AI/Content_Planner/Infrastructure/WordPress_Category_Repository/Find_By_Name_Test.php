@@ -18,36 +18,6 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Test {
 
 	/**
-	 * Tests that null is returned when the category is not found.
-	 *
-	 * @dataProvider data_provider_not_found
-	 *
-	 * @param mixed $return_value The value returned by get_term_by.
-	 *
-	 * @return void
-	 */
-	public function test_returns_null_when_category_not_found( $return_value ) {
-		Functions\expect( 'get_term_by' )
-			->once()
-			->with( 'name', 'Non Existent', 'category' )
-			->andReturn( $return_value );
-
-		$this->assertNull( $this->instance->find_by_name( 'Non Existent' ) );
-	}
-
-	/**
-	 * Data provider for test_returns_null_when_category_not_found.
-	 *
-	 * @return array<mixed>
-	 */
-	public function data_provider_not_found(): array {
-		return [
-			'get_term_by returns false'  => [ 'return_value' => false ],
-			'get_term_by returns null'   => [ 'return_value' => null ],
-		];
-	}
-
-	/**
 	 * Tests that a Category is returned with the correct data when the term exists.
 	 *
 	 * @return void
@@ -72,5 +42,58 @@ final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Tes
 			],
 			$result->to_array(),
 		);
+	}
+
+	/**
+	 * Tests that the blog's default category is returned when the named term does not exist.
+	 *
+	 * @dataProvider data_provider_not_found
+	 *
+	 * @param mixed $return_value The value returned by get_term_by.
+	 *
+	 * @return void
+	 */
+	public function test_returns_default_category_when_term_not_found( $return_value ) {
+		$default_term          = Mockery::mock( WP_Term::class );
+		$default_term->name    = 'Uncategorized';
+		$default_term->term_id = 1;
+
+		Functions\expect( 'get_term_by' )
+			->once()
+			->with( 'name', 'Non Existent', 'category' )
+			->andReturn( $return_value );
+
+		Functions\expect( 'get_option' )
+			->once()
+			->with( 'default_category' )
+			->andReturn( '1' );
+
+		Functions\expect( 'get_term' )
+			->once()
+			->with( 1, 'category' )
+			->andReturn( $default_term );
+
+		$result = $this->instance->find_by_name( 'Non Existent' );
+
+		$this->assertInstanceOf( Category::class, $result );
+		$this->assertSame(
+			[
+				'name' => 'Uncategorized',
+				'id'   => 1,
+			],
+			$result->to_array(),
+		);
+	}
+
+	/**
+	 * Data provider for test_returns_default_category_when_term_not_found.
+	 *
+	 * @return array<mixed>
+	 */
+	public function data_provider_not_found(): array {
+		return [
+			'get_term_by returns false' => [ 'return_value' => false ],
+			'get_term_by returns null'  => [ 'return_value' => null ],
+		];
 	}
 }
