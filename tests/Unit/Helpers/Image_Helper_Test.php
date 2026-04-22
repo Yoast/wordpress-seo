@@ -621,4 +621,117 @@ final class Image_Helper_Test extends TestCase {
 			->with( 'attachment_seo_link_object_' . $url, $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
 		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
 	}
+
+	/**
+	 * Builds a partial mock of `Image_Helper` with real constructor arguments,
+	 * so that the options helper dependency is wired up while
+	 * `get_best_attachment_variation` can still be stubbed.
+	 *
+	 * @return Image_Helper|Mockery\MockInterface
+	 */
+	private function create_instance_with_dependencies() {
+		return Mockery::mock(
+			Image_Helper::class,
+			[
+				$this->indexable_repository,
+				$this->indexable_seo_links_repository,
+				$this->options_helper,
+				$this->url_helper,
+			],
+		)->makePartial()->shouldAllowMockingProtectedMethods();
+	}
+
+	/**
+	 * Tests that `get_attachment_meta_from_settings` returns the cached value
+	 * without recomputing or writing to the options store.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_returns_cached_value() {
+		$cached   = [
+			'url'    => 'https://example.test/logo.png',
+			'width'  => 200,
+			'height' => 200,
+		];
+		$instance = $this->create_instance_with_dependencies();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'company_logo_meta', false )
+			->andReturn( $cached );
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$instance->shouldNotReceive( 'get_best_attachment_variation' );
+
+		$this->assertSame( $cached, $instance->get_attachment_meta_from_settings( 'company_logo' ) );
+	}
+
+	/**
+	 * Tests the compute-on-miss fallback: when the cache is empty but an
+	 * attachment id is stored, the helper derives the variation without
+	 * persisting it back to the options store.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_computes_without_writing() {
+		$computed = [
+			'url'    => 'https://example.test/logo.png',
+			'width'  => 200,
+			'height' => 200,
+		];
+		$instance = $this->create_instance_with_dependencies();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'company_logo_meta', false )
+			->andReturnFalse();
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'company_logo_id', false )
+			->andReturn( 42 );
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$instance
+			->expects( 'get_best_attachment_variation' )
+			->once()
+			->with( 42 )
+			->andReturn( $computed );
+
+		$this->assertSame( $computed, $instance->get_attachment_meta_from_settings( 'company_logo' ) );
+	}
+
+	/**
+	 * Tests that the helper returns false when neither cached meta nor an
+	 * attachment id are available, and never touches the options store.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_returns_false_when_nothing_stored() {
+		$instance = $this->create_instance_with_dependencies();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'company_logo_meta', false )
+			->andReturnFalse();
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'company_logo_id', false )
+			->andReturnFalse();
+		$this->options_helper->shouldNotReceive( 'set' );
+
+		$instance->shouldNotReceive( 'get_best_attachment_variation' );
+
+		$this->assertFalse( $instance->get_attachment_meta_from_settings( 'company_logo' ) );
+	}
 }
