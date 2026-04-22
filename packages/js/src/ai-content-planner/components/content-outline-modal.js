@@ -28,6 +28,7 @@ import { useDraggableStructure } from "../hooks";
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
 const MetaDescriptionProgressBar = ( { value, date, locale, isCornerstone } ) => {
+	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
 	const { actual, score } = getDescriptionProgress( value, date, isCornerstone, false, locale );
 	const percentage = Math.min( ( actual / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
 
