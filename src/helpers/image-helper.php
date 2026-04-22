@@ -373,7 +373,7 @@ class Image_Helper {
 	 * is not (yet) populated it falls back to a live compute, but the result
 	 * is not persisted.
 	 *
-	 * @param string $setting The setting name. Should be company or person.
+	 * @param string $setting The setting name. Should be company_logo or person_logo.
 	 *
 	 * @return array<string, string|int>|bool Array with image details when the image is found, boolean when it's not found.
 	 */
