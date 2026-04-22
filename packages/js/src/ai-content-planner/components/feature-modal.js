@@ -1,4 +1,6 @@
-import { Modal } from "@yoast/ui-library";
+/* eslint-disable complexity */
+import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
+import { Badge, Modal, Notifications, useSvgAria, Link } from "@yoast/ui-library";
 import { Fragment, useState, useEffect, useCallback, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { ApproveModal } from "./approve-modal";
@@ -10,6 +12,10 @@ import { Transition } from "@headlessui/react";
 import { FEATURE_MODAL_STATUS } from "../constants";
 import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../../ai-generator/constants";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../hooks";
+import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
+import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
+import { UsageCounter } from "@yoast/ai-frontend";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 
 const HIDDEN_STYLE = { display: "none" };
 
@@ -77,6 +83,12 @@ const SuggestionsPanel = ( { isVisible, cameFromApproveModal, onSuggestionClick 
  * @param {string|null}   status                          The current feature modal status from the store.
  * @param {function}      setStatus                       Dispatch to update the feature modal status in the store.
  * @param {boolean}       hasConsent                      Whether the user has granted AI consent.
+ * @param {string}        modalHelpLink                  The link to the help center article about the content planner feature.
+ * @param {number}        usageCount                     The current usage count of the AI features.
+ * @param {number}        usageCountLimit                The usage count limit of the AI features.
+ * @param {string}        contentSuggestionsStatus       The status of the content suggestions request.
+ * @param {string}        contentOutlineStatus           The status of the content outline request.
+ * @param {string}        usageCountStatus              The status of the usage count request.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -89,6 +101,12 @@ export const FeatureModal = ( {
 	status,
 	setStatus,
 	hasConsent,
+	modalHelpLink,
+	usageCount,
+	usageCountLimit,
+	contentSuggestionsStatus,
+	contentOutlineStatus,
+	usageCountStatus,
 } ) => {
 	const [ cameFromApproveModal, setCameFromApproveModal ] = useState( false );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
@@ -161,7 +179,17 @@ export const FeatureModal = ( {
 		}
 	}, [ status ] );
 
+	const svgAriaProps = useSvgAria();
+
 	const { outlineStyle, replaceStyle } = getPanelStyles( status );
+
+	const closeButtonRef = useRef( null );
+
+	useEffect( () => {
+		if ( status === FEATURE_MODAL_STATUS.contentSuggestions ) {
+			closeButtonRef.current?.focus();
+		}
+	}, [ status ] );
 
 	return (
 		<>
@@ -187,18 +215,67 @@ export const FeatureModal = ( {
 							/>
 						</div>
 					</Transition>
-					<SuggestionsPanel
-						isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
-						cameFromApproveModal={ cameFromApproveModal }
-						onSuggestionClick={ handleSuggestionClick }
-					/>
-					{ status === FEATURE_MODAL_STATUS.contentOutline && (
-						<div style={ outlineStyle }>
-							<ContentOutlineModal
-								onApplyOutline={ handleOnApplyOutline }
+
+					<Modal.Panel className="yst-p-0 yst-max-w-2xl" hasCloseButton={ false }>
+						<Modal.CloseButton
+							ref={ closeButtonRef } screenReaderText={ status === FEATURE_MODAL_STATUS.contentSuggestions
+								? __( "Close content suggestions modal", "wordpress-seo" ) : __( "Close content outline modal", "wordpress-seo" ) }
+						/>
+						<Modal.Container>
+							<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
+								<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
+								<Modal.Title size="2">{ status === FEATURE_MODAL_STATUS.contentSuggestions
+									? __( "Content suggestions", "wordpress-seo" ) : __( "Content outline", "wordpress-seo" ) }</Modal.Title>
+								<Link
+									href={ modalHelpLink }
+									variant="primary"
+									className="yst-no-underline"
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+								>
+									<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
+								</Link>
+								<span className="yst-flex-grow" />
+								<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
+								{ ( contentSuggestionsStatus !== ASYNC_ACTION_STATUS.error &&  contentOutlineStatus !== ASYNC_ACTION_STATUS.error ) &&
+								(
+									<UsageCounter
+										className="yst-relative"
+										limit={ usageCountLimit }
+										requests={ usageCount }
+										mentionBetaInTooltip={ isPremium }
+										mentionResetInTooltip={ isPremium }
+										isSkeleton={
+											contentSuggestionsStatus === ASYNC_ACTION_STATUS.loading ||
+											usageCountStatus === ASYNC_ACTION_STATUS.loading }
+									/>
+								) }
+							</Modal.Container.Header>
+							<SuggestionsPanel
+								isVisible={ status === FEATURE_MODAL_STATUS.contentSuggestions }
+								cameFromApproveModal={ cameFromApproveModal }
+								onSuggestionClick={ handleSuggestionClick }
 							/>
-						</div>
-					) }
+							{ status === FEATURE_MODAL_STATUS.contentOutline && (
+								<div style={ outlineStyle }>
+									<ContentOutlineModal
+										onApplyOutline={ handleOnApplyOutline }
+									/>
+								</div>
+							) }
+							<Notifications
+								className={
+								// Margin tricks to break out of the container.
+								// Transition to prevent sudden location jumps when loading new suggestions.
+									"yst-mx-[calc(50%-50vw)] yst-transition-all"
+								}
+								position="bottom-left"
+							>
+								{ contentSuggestionsStatus !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification className="yst-mx-[calc(50%-50vw)] yst-transition-all" /> }
+							</Notifications>
+						</Modal.Container>
+					</Modal.Panel>
 					{ hasVisitedReplace && (
 						<div style={ replaceStyle }>
 							<div className="yst-flex yst-items-center yst-justify-center">

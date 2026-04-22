@@ -2,15 +2,6 @@ import { render, screen, fireEvent, within } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
 
-const mockUsageCounter = jest.fn( () => null );
-jest.mock( "@yoast/ai-frontend", () => ( {
-	UsageCounter: ( props ) => mockUsageCounter( props ),
-} ) );
-
-jest.mock( "../../../src/ai-generator/components/sparks-limit-notification", () => ( {
-	SparksLimitNotification: () => null,
-} ) );
-
 const mockFetchContentSuggestions = jest.fn();
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentSuggestions: () => mockFetchContentSuggestions,
@@ -93,7 +84,6 @@ const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ..
 
 describe( "ContentSuggestionsModal", () => {
 	beforeEach( () => {
-		mockUsageCounter.mockClear();
 		mockFetchContentSuggestions.mockClear();
 		jest.useFakeTimers();
 	} );
@@ -101,37 +91,7 @@ describe( "ContentSuggestionsModal", () => {
 	afterEach( () => {
 		jest.useRealTimers();
 	} );
-
-	describe( "header", () => {
-		it( "shows the 'Content suggestions' title", () => {
-			renderLoadingModal();
-			expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
-		} );
-
-		it( "shows the 'Beta' badge", () => {
-			renderLoadingModal();
-			expect( screen.getByText( "Beta" ) ).toBeInTheDocument();
-		} );
-	} );
-
 	describe( "accessibility", () => {
-		it( "has a descriptive close button label", () => {
-			renderLoadingModal();
-			expect( screen.getByRole( "button", { name: "Close content suggestions modal" } ) ).toBeInTheDocument();
-		} );
-
-		it( "has an accessible dialog name from the title", () => {
-			renderLoadingModal();
-			expect( screen.getByRole( "dialog", { name: "Content suggestions" } ) ).toBeInTheDocument();
-		} );
-
-		it( "calls onClose when the close button is clicked", () => {
-			const onClose = jest.fn();
-			renderLoadingModal( { onClose } );
-			fireEvent.click( screen.getByRole( "button", { name: "Close content suggestions modal" } ) );
-			expect( onClose ).toHaveBeenCalledTimes( 1 );
-		} );
-
 		it( "announces the loading message via the aria-live region", () => {
 			renderLoadingModal();
 			const liveRegion = document.querySelector( "[aria-live='polite']" );
@@ -203,29 +163,6 @@ describe( "ContentSuggestionsModal", () => {
 		it( "renders no suggestion buttons when suggestions is empty", () => {
 			renderSuccessModal( { suggestions: [] } );
 			expect( screen.queryByText( "How to train your dog" ) ).not.toBeInTheDocument();
-		} );
-	} );
-
-	describe( "UsageCounter", () => {
-		it( "passes mentionBetaInTooltip and mentionResetInTooltip as false when not premium", () => {
-			renderLoadingModal( { isPremium: false } );
-			expect( mockUsageCounter ).toHaveBeenCalledWith( expect.objectContaining( {
-				mentionBetaInTooltip: false,
-				mentionResetInTooltip: false,
-			} ) );
-		} );
-
-		it( "passes mentionBetaInTooltip and mentionResetInTooltip as true when premium", () => {
-			renderLoadingModal( { isPremium: true } );
-			expect( mockUsageCounter ).toHaveBeenCalledWith( expect.objectContaining( {
-				mentionBetaInTooltip: true,
-				mentionResetInTooltip: true,
-			} ) );
-		} );
-
-		it( "is not rendered when status is error", () => {
-			renderErrorModal();
-			expect( mockUsageCounter ).not.toHaveBeenCalled();
 		} );
 	} );
 

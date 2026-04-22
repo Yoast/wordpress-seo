@@ -7,10 +7,16 @@ import { STORE_NAME_AI } from "../../ai-generator/constants";
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { selectFeatureModalStatus, selectIsModalOpen } = select( CONTENT_PLANNER_STORE );
+		const { selectFeatureModalStatus, selectIsModalOpen, selectSuggestionsStatus, selectContentOutlineStatus } = select( CONTENT_PLANNER_STORE );
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
-		const { isUsageCountLimitReached, selectHasAiGeneratorConsent } = select( STORE_NAME_AI );
+
+		const { isUsageCountLimitReached,
+			selectHasAiGeneratorConsent,
+			selectUsageCount,
+			selectUsageCountLimit,
+			selectUsageCountStatus,
+		} = select( STORE_NAME_AI );
 
 		return {
 			isOpen: selectIsModalOpen(),
@@ -20,6 +26,12 @@ export default compose( [
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			isUpsell: isUsageCountLimitReached(),
 			hasConsent: selectHasAiGeneratorConsent(),
+			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
+			usageCount: selectUsageCount(),
+			usageCountLimit: selectUsageCountLimit(),
+			contentSuggestionsStatus: selectSuggestionsStatus(),
+			contentOutlineError: selectContentOutlineStatus(),
+			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
