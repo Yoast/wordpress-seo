@@ -369,7 +369,7 @@ class Image_Helper {
 	 * Retrieves the best variation of the image stored in a settings field.
 	 *
 	 * The cached variation is populated at save time by Logo_Meta_Watcher, so
-	 * this method mostly just reads it. On the narrow window where the cache
+	 * this method mostly just reads it. In the narrow window where the cache
 	 * is not (yet) populated it falls back to a live compute, but the result
 	 * is not persisted.
 	 *
