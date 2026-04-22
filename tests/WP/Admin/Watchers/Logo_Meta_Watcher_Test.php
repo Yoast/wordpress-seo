@@ -21,6 +21,13 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 final class Logo_Meta_Watcher_Test extends TestCase {
 
 	/**
+	 * The watcher instance whose hook we attach and later detach.
+	 *
+	 * @var Logo_Meta_Watcher
+	 */
+	private $watcher;
+
+	/**
 	 * Ensures the watcher's filter is attached before each test even if the
 	 * plugin bootstrap has not wired it up for this test case. The DI
 	 * container keeps a single instance, so attaching the hook more than once
@@ -31,18 +38,18 @@ final class Logo_Meta_Watcher_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$watcher = \YoastSEO()->classes->get( Logo_Meta_Watcher::class );
-		$watcher->register_hooks();
+		$this->watcher = \YoastSEO()->classes->get( Logo_Meta_Watcher::class );
+		$this->watcher->register_hooks();
 	}
 
 	/**
-	 * Removes the filter so it does not leak into unrelated tests running in
-	 * the same process.
+	 * Detaches only the watcher's own callback so unrelated listeners on the
+	 * same hook are left alone.
 	 *
 	 * @return void
 	 */
 	public function tear_down() {
-		\remove_all_filters( 'pre_update_option_wpseo_titles' );
+		\remove_filter( 'pre_update_option_wpseo_titles', [ $this->watcher, 'ensure_logo_meta' ] );
 		\delete_option( 'wpseo_titles' );
 
 		parent::tear_down();
