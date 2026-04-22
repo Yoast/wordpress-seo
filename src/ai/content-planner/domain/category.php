@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 /**
  * Value object for a Post Category.
  */
-class Category {
+class 	Category {
 
 	/**
 	 * The name.

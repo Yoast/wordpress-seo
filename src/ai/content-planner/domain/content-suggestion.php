@@ -57,7 +57,7 @@ class Content_Suggestion {
 	 * @param string   $explanation      The explanation.
 	 * @param string   $keyphrase        The keyphrase.
 	 * @param string   $meta_description The meta description.
-	 * @param Category $category         The category.
+	 * @param Category $category         The category. Use a Category with name "" and id -1 to represent "no category".
 	 */
 	public function __construct(
 		string $title,
@@ -65,7 +65,7 @@ class Content_Suggestion {
 		string $explanation,
 		string $keyphrase,
 		string $meta_description,
-		?Category $category
+		Category $category
 	) {
 		$this->title            = $title;
 		$this->intent           = $intent;
@@ -81,17 +81,13 @@ class Content_Suggestion {
 	 * @return array<string, string|array<string, int>> The content suggestion as an array.
 	 */
 	public function to_array(): array {
-		$data = [
+		return [
 			'title'            => $this->title,
 			'intent'           => $this->intent,
 			'explanation'      => $this->explanation,
 			'keyphrase'        => $this->keyphrase,
 			'meta_description' => $this->meta_description,
+			'category'         => $this->category->to_array(),
 		];
-		if ( isset( $this->category ) ) {
-			$data['category'] = $this->category->to_array();
-		}
-
-		return $data;
 	}
 }

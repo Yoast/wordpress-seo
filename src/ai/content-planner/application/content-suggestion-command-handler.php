@@ -154,7 +154,7 @@ class Content_Suggestion_Command_Handler {
 			return $content_suggestion_list;
 		}
 		foreach ( $json->choices as $suggestion ) {
-			$category = isset( $suggestion->category->title ) ? $this->category_repository->find_by_name( $suggestion->category->title ) : null;
+			$category = $this->category_repository->find_by_name( $suggestion->category->title );
 
 			$content_suggestion_list->add(
 				new Content_Suggestion(
