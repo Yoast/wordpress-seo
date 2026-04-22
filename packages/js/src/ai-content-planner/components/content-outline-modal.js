@@ -252,10 +252,12 @@ export const ContentOutlineModal = ( {
 			title,
 			metaDescription,
 			focusKeyphrase,
-			category: isCategoryEnabled ? category : null,
+			category: isCategoryEnabled ? category : { name: "", id: -1 },
 			structure,
 		} );
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
+
+	const hasCategory = Boolean( category && category.id !== -1 );
 
 	const renderBody = () => {
 		if ( status === ASYNC_ACTION_STATUS.error ) {
@@ -283,7 +285,7 @@ export const ContentOutlineModal = ( {
 							{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 						</Modal.Description>
 						<hr className="yst-border-slate-200" />
-						{ ( category || isLoading ) && (
+						{ ( hasCategory || isLoading ) && (
 							<CategorySection
 								category={ category }
 								isEnabled={ isCategoryEnabled }

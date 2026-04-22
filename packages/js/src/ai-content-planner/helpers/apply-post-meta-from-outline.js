@@ -7,7 +7,7 @@ const applyYoastMetaFromOutline = ( { title, metaDescription, focusKeyphrase } )
 };
 
 const applyCategoryFromOutline = ( category ) => {
-	if ( category?.id ) {
+	if ( category?.id && category.id !== -1 ) {
 		dispatch( "core/editor" ).editPost( { categories: [ category.id ] } );
 	}
 };
