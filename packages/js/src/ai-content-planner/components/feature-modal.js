@@ -142,7 +142,7 @@ export const FeatureModal = ( {
 					}
 					position="bottom-left"
 				>
-					{ contentSuggestionsStatus !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification className="yst-mx-[calc(50%-50vw)] yst-transition-all" /> }
+					{ contentSuggestionsStatus !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification /> }
 				</Notifications>
 			</Modal.Panel>
 		</Modal>
