@@ -11,8 +11,7 @@ export default compose( [
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
 
-		const { isUsageCountLimitReached,
-			selectHasAiGeneratorConsent,
+		const {
 			selectUsageCount,
 			selectUsageCountLimit,
 			selectUsageCountStatus,
@@ -23,23 +22,19 @@ export default compose( [
 			isEmptyPost: count( content, "words", {} ) === 0,
 			isPremium: getIsPremium(),
 			status: selectFeatureModalStatus(),
-			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
-			isUpsell: isUsageCountLimitReached(),
-			hasConsent: selectHasAiGeneratorConsent(),
 			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
 			usageCount: selectUsageCount(),
 			usageCountLimit: selectUsageCountLimit(),
 			contentSuggestionsStatus: selectSuggestionsStatus(),
-			contentOutlineError: selectContentOutlineStatus(),
+			contentOutlineStatus: selectContentOutlineStatus(),
 			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { closeModal, setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+		const { closeModal } = dispatch( CONTENT_PLANNER_STORE );
 
 		return {
 			onClose: closeModal,
-			setStatus: setFeatureModalStatus,
 		};
 	} ),
 ] )( FeatureModal );
