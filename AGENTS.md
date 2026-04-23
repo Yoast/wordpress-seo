@@ -132,6 +132,10 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 - External contributors do **not** need to apply any special label — the `community-patch` label is applied automatically on GitHub.
 - Never commit generated artifacts by hand; let the tooling regenerate them (DI container, i18n files, built JS/CSS, prefixed vendors).
 
+## License and copyright
+
+Yoast SEO is licensed under [GPL-2.0-or-later](./license.txt). By contributing, you agree that your code is offered under the same license. Do not include code copied from incompatible sources (proprietary, GPL-3.0-only, CC restrictions) or code whose licensing status is unclear — including AI-generated code whose terms you have not verified. See [`.github/CONTRIBUTING.md` → "License and copyright"](./.github/CONTRIBUTING.md) for the full guidance.
+
 ## Security
 
 Do **not** file security issues in public GitHub. Email `security@yoast.com` — see `.github/CONTRIBUTING.md` for details. Never commit credentials, API keys, or test fixtures that contain sensitive data.

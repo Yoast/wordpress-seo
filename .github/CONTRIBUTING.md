@@ -40,6 +40,17 @@ Before opening a new issue:
 
 Community patches, localizations, bug reports, and contributions are very welcome — they help Yoast SEO remain the #1 SEO plugin for WordPress.
 
+### License and copyright
+
+Yoast SEO is licensed under [GPL-2.0-or-later](../license.txt). By opening a pull request you confirm that your contribution is offered under the same license. Before contributing code, make sure that:
+
+- You wrote the code yourself, or you have the right to relicense it under GPL-2.0-or-later.
+- You have not copied code from sources whose license is incompatible with GPL-2.0-or-later (for example proprietary code, CC-licensed snippets that restrict commercial use, or GPL-3.0-only code).
+- If you have reused code from a GPL-2.0-compatible source (MIT, BSD, public domain, Apache-2.0 where compatible, etc.), you have preserved the original copyright notice and license header, and noted the provenance in the commit message.
+- You have not included code whose licensing status is unclear — including AI-generated code whose training or output terms you have not verified as compatible.
+
+If you are unsure whether a piece of code is safe to include, ask in the issue or PR before opening it for review.
+
 ### Supported environment
 
 * PHP 7.4 or newer (8.x is supported too).
