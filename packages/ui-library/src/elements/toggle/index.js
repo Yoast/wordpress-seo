@@ -15,7 +15,7 @@ import { useSvgAria } from "../../hooks";
  * @param {Function} onChange Change callback.
  * @param {boolean} [disabled] Disabled flag.
  * @param {string} [type] Type.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {JSX.Element} [checkedIcon] Icon to show when checked.
  * @param {JSX.Element} [unCheckedIcon] Icon to show when unchecked.
  * @returns {JSX.Element} Toggle component.

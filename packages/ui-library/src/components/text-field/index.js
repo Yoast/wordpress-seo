@@ -11,7 +11,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {function} onChange The input change handler.
  * @param {string} label The label.
  * @param {JSX.node} [labelSuffix] Extra elements after the label.
- * @param {string} [className] The HTML class.
+ * @param {string} [className=""] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
  * @param {boolean} [readOnly] The read-only state.

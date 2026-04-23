@@ -4,7 +4,7 @@ import React, { forwardRef } from "react";
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @returns {JSX.Element} The element.
  */
 const Header = forwardRef( ( { children, className }, ref ) => (
@@ -23,7 +23,7 @@ Header.defaultProps = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @returns {JSX.Element} The element.
  */
 const Content = forwardRef( ( { children, className }, ref ) => (
@@ -42,7 +42,7 @@ Content.defaultProps = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @returns {JSX.Element} The element.
  */
 const Footer = forwardRef( ( { children, className }, ref ) => (
@@ -61,7 +61,7 @@ Footer.defaultProps = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @returns {JSX.Element} The element.
  */
 export const Container = forwardRef( ( { children, className }, ref ) => (
