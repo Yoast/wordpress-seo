@@ -79,7 +79,7 @@ export const FeatureModal = ( {
 		if ( ! isOpen ) {
 			setHasVisitedReplace( false );
 		}
-	}, [ isOpen ] );
+	}, [ isOpen, setHasVisitedReplace ] );
 
 	return (
 
