@@ -99,8 +99,8 @@ const slice = createSlice( {
 			state.status = ASYNC_ACTION_STATUS.error;
 			state.error = normalizeError( payload );
 		} );
-		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, () => {
-			return INITIAL_OUTLINE;
+		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
+			return { ...INITIAL_OUTLINE, endpoint: state.endpoint };
 		} );
 	},
 } );
