@@ -10,11 +10,9 @@ export default compose( [
 			selectSuggestionsStatus,
 			selectSuggestionsError,
 		} = select( CONTENT_PLANNER_STORE );
-		const { getIsPremium } = select( "yoast-seo/editor" );
 
 		return {
 			suggestions: selectSuggestions(),
-			isPremium: getIsPremium(),
 			status: selectSuggestionsStatus(),
 			error: selectSuggestionsError(),
 		};
