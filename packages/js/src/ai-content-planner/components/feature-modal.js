@@ -142,7 +142,8 @@ export const FeatureModal = ( {
 					}
 					position="bottom-left"
 				>
-					{ contentSuggestionsStatus !== ASYNC_ACTION_STATUS.loading && <SparksLimitNotification /> }
+					{ contentSuggestionsStatus === ASYNC_ACTION_STATUS.success &&
+					contentOutlineStatus !== ASYNC_ACTION_STATUS.error && <SparksLimitNotification /> }
 				</Notifications>
 			</Modal.Panel>
 		</Modal>
