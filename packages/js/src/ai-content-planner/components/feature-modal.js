@@ -17,7 +17,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
  * content outline, and replace content confirmation views.
  *
  * @param {boolean}       isOpen                          Whether the modal is open or not.
- * @param {function}      onClose                         The function to call when the modal is closed.
+ * @param {Function}      onClose                         The function to call when the modal is closed.
  * @param {boolean}       isEmptyPost                     Whether the post has content or not.
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {string|null}   status                          The current feature modal status from the store.
@@ -27,8 +27,8 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
  * @param {string}        contentSuggestionsStatus       The status of the content suggestions request.
  * @param {string}        contentOutlineStatus           The status of the content outline request.
  * @param {string}        usageCountStatus              The status of the usage count request.
- * @param {function}      openReplaceContentModal       Function to open the replace content confirmation modal.
- * @param {function}      setHasVisitedReplace          Function to set whether the user has visited the replace content confirmation modal.
+ * @param {Function}      openReplaceContentModal       Function to open the replace content confirmation modal.
+ * @param {Function}      setHasVisitedReplace          Function to set whether the user has visited the replace content confirmation modal.
  * @param {Object}        editedOutlineRef              Ref object to store the edited content outline.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */

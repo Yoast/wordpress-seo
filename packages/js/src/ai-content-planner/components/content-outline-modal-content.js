@@ -38,14 +38,16 @@ const MetaDescriptionProgressBar = ( { value } ) => {
 /**
  * A single draggable row in the blog post structure list.
  *
- * @param {string}   level       The heading level (e.g. "H2") or type indicator.
- * @param {string}   title       The section title.
- * @param {number}   index       The index of the row in the list.
+ * @param {string}   title         The section title.
+ * @param {number}   index         The index of the row in the list.
  * @param {number}   dragOverIndex The index of the row currently being dragged over.
- * @param {Function} onDragStart  Callback when drag starts.
- * @param {Function} onDragOver   Callback when dragging over this row.
- * @param {Function} onDrop       Callback when dropped.
- * @param {Function} onDragEnd    Callback when drag ends.
+ * @param {Function} onDragStart   Callback when drag starts.
+ * @param {Function} onDragOver    Callback when dragging over this row.
+ * @param {Function} onDrop        Callback when dropped.
+ * @param {Function} onDragEnd     Callback when drag ends.
+ * @param {Function} onMoveUp      Callback to move the row up.
+ * @param {Function} onMoveDown    Callback to move the row down.
+ * @param {number}   totalItems    Total number of items in the list.
  *
  * @returns {JSX.Element} The StructureRow component.
  */
@@ -177,14 +179,14 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * Content Outline Modal panel component.
  * Renders inside a parent Modal (managed by FeatureModal).
  *
- * @param {string}             status      The loading status of the content outline suggestion.
- * @param {boolean}            isPremium   Whether the user has a premium subscription (used for usage counter tooltip messaging).
+ * @param {string}             status              The loading status of the content outline suggestion.
  * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
- * @param {Function}           onApplyOutline The function to call to add the outline to the post.
- * @param {OutlineSuggestion}  suggestion  The content outline suggestion to display.
- * @param {boolean}            isActive    Whether this panel is currently visible (used for focus management).
- * @param {Object|null}        error       The error object if the content outline failed to load, or null if there is no error.
- * @param {Function}           onRetry     The function to call to retry fetching the content outline.
+ * @param {Function}           onApplyOutline      The function to call to add the outline to the post.
+ * @param {OutlineSuggestion}  suggestion          The content outline suggestion to display.
+ * @param {boolean}            isActive            Whether this panel is currently visible (used for focus management).
+ * @param {Object|null}        error               The error object if the content outline failed to load, or null if there is no error.
+ * @param {Function}           onRetry             The function to call to retry fetching the content outline.
+ * @param {Object}             closeButtonRef      Ref object for the modal close button, used to manage focus.
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */

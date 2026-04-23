@@ -6,7 +6,7 @@ import { OneSparkNote } from "./one-spark-note";
  * Get the content of the modal based on whether the canvas is empty or not.
  *
  * @param {boolean} isEmptyPost Whether the post has content or not.
- * @returns {object} The content of the modal.
+ * @returns {Object} The content of the modal.
  */
 const getModalContent = ( isEmptyPost ) => {
 	if ( isEmptyPost ) {
@@ -37,10 +37,10 @@ const getModalContent = ( isEmptyPost ) => {
  * @param {boolean} isEmptyPost Whether the post has content or not.
  * @param {boolean} isPremium Whether the user has a premium subscription or not.
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
- * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button.
+ * @param {Function} onClick The function to call when the user clicks the "Get content suggestions" button.
  * @param {string} upsellLink The link to the upsell page.
  * @param {boolean} isOpen Whether the modal is open or not.
- * @param {function} onClose The function to call when the modal is closed.
+ * @param {Function} onClose The function to call when the modal is closed.
  * @returns {JSX.Element} The ApproveModal content.
  */
 export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsellLink, isOpen, onClose } ) => {

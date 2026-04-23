@@ -9,7 +9,7 @@ import { SkeletonLoader } from "@yoast/ui-library";
 /**
  * Suggestion button component.
  *
- * @param {object} props The component props.
+ * @param {Object} props The component props.
  * @param {Suggestion} props.suggestion The full suggestion object.
  * @param {Function} props.onClick The function to call when the suggestion button is clicked.
  *

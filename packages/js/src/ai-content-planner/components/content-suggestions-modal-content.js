@@ -78,7 +78,7 @@ const LoadingSuggestionsModalContent = () => {
  * @param {string} props.status The current modal status.
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
- * @param {boolean} props.skipTransitions Whether to skip transition animations.
+ * @param {Object|null} props.error The error object if the request failed, or null if there is no error.
  *
  * @returns {JSX.Element} The ContentSuggestionsModal component.
  */
