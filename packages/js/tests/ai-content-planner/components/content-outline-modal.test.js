@@ -453,12 +453,12 @@ describe( "ContentOutlineModal", () => {
 	describe( "MetaDescriptionProgressBar", () => {
 		it( "renders the progress bar container after loading", () => {
 			renderLoadedModal();
-			expect( document.body.querySelector( ".yst-h-2.yst-bg-slate-200" ) ).not.toBeNull();
+			expect( document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200" ) ).not.toBeNull();
 		} );
 
 		it( "does not render the progress bar when loading", () => {
 			renderModal();
-			expect( document.body.querySelector( ".yst-h-2.yst-bg-slate-200" ) ).toBeNull();
+			expect( document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200" ) ).toBeNull();
 		} );
 
 		it( "calls getDescriptionProgress with the meta description value, date, and locale after loading", () => {
@@ -505,7 +505,7 @@ describe( "ContentOutlineModal", () => {
 		it( "caps the progress bar width at 100% when description is very long", () => {
 			getDescriptionProgress.mockReturnValueOnce( { actual: 99999, score: 3 } );
 			renderLoadedModal();
-			const innerBar = document.body.querySelector( ".yst-h-2.yst-bg-slate-200 > div" );
+			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
 			expect( innerBar ).toHaveStyle( "width: 100%" );
 		} );
 
@@ -513,7 +513,7 @@ describe( "ContentOutlineModal", () => {
 			getDescriptionProgress.mockReturnValueOnce( { actual: 10, score: 3 } );
 			getProgressColor.mockReturnValueOnce( "#e63946" );
 			renderLoadedModal();
-			const innerBar = document.body.querySelector( ".yst-h-2.yst-bg-slate-200 > div" );
+			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
 			expect( innerBar ).toHaveStyle( "background-color: #e63946" );
 		} );
 	} );
