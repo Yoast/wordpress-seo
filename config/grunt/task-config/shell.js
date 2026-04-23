@@ -69,5 +69,9 @@ module.exports = function( grunt ) {
 		"yarn-prod": {
 			command: ( ...args ) =>  `cross-env NODE_ENV=production yarn ${ args.join( ":" ) }`,
 		},
+
+		"install-npm-builds": {
+			command: "node config/scripts/install-npm-builds.js",
+		},
 	};
 };
