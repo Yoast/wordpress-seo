@@ -58,7 +58,7 @@ jobs:
             core.setOutput('ref', pr.head.ref);
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ steps.pr.outputs.ref || '' }}
 
