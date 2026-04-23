@@ -28,11 +28,10 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 - New self-contained features go under `src/<feature>/{domain,application,infrastructure,user-interface}/`. Dependencies point inward only — domain must not reference WP functions or infrastructure.
 - Concept-based folders (`src/integrations/`, `src/generators/`, `src/presenters/`, …) are still valid when extending existing features.
 - `admin/` and `inc/` are **maintenance-only** — flag new features placed there.
-- New classes or changed constructors require `composer compile-di` and a committed `src/generated/container.php`.
 
 ### Safety
 
-- Never hand-edited: `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, `node_modules/`.
+- Flag any file under `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, or `node_modules/` appearing in the diff — these paths are generated or vendored and gitignored; they must not be committed.
 - Flag any committed secrets, credentials, or API keys.
 - Flag disabled CS checks, skipped tests, or bypassed CI gates without explanation.
 - Breaking changes to public extension points (filters, actions, surfaces, REST routes) must be called out in the PR body.

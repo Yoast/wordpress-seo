@@ -98,7 +98,7 @@ The top-level folders you will touch (or explicitly avoid):
 | `docs/` | Repo-local developer notes. | Yes |
 | `admin/`, `inc/` | Legacy non-namespaced PHP. | **Maintenance only** — see below |
 | `lib/` | Low-level utilities (ORM, migrations). Touch only when needed. | Maintenance |
-| `src/generated/` | Compiled Symfony DI container. | **Never hand-edit** — regenerate via `composer compile-di` |
+| `src/generated/` | Compiled Symfony DI container. **Gitignored, not committed**; the release-build pipeline bundles it into the shipped artifact. | **Never hand-edit** — regenerate via `composer compile-di` |
 | `vendor/`, `vendor_prefixed/` | Composer dependencies (prefixed copies are scoped with `YoastSEO_Vendor`). | Never hand-edit |
 | `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, `node_modules/` | Generated or distribution artifacts. | Never hand-edit |
 | `wp-seo.php`, `wp-seo-main.php`, `index.php` | Plugin bootstrap. Change only when the bootstrap itself needs to change. | With care |
@@ -140,8 +140,8 @@ The plugin uses a compiled Symfony DI container. Services are auto-wired from `s
   - You added a new class under `src/`.
   - You changed a constructor signature of an existing class.
   - You added/removed a service definition or tag in `config/dependency-injection/` (if applicable).
-- Commit the regenerated `src/generated/container.php` and `src/generated/container.php.meta`. The `post-autoload-dump` hook also runs this, so it usually happens automatically on `composer install` / `composer update`.
-- If CI complains about the container being out of sync, re-run `composer compile-di` and commit the result.
+- The regenerated files under `src/generated/` (`container.php`, `container.php.meta`) are **gitignored — do not commit them**. Every environment rebuilds its own container: `composer install` and `composer update` re-run `compile-di` via the `post-autoload-dump` hook, so local dev, CI, and the release build each regenerate it fresh. The compiled container *is* included in the shipped release artifact; it is just never part of the Git history.
+- If CI fails during DI compilation after your changes, check that your new or modified classes resolve correctly via auto-wiring (type-hinted constructor arguments, correct namespaces, etc.).
 
 ### PHP workflow
 
