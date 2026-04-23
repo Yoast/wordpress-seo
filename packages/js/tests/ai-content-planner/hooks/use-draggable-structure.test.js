@@ -157,7 +157,7 @@ describe( "useDraggableStructure", () => {
 
 		it( "does not reorder when dropping onto the same index", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
-			const originalheadings = result.current.structure.map( ( i ) => i.heading );
+			const originalHeadings = result.current.structure.map( ( i ) => i.heading );
 
 			act( () => {
 				result.current.handleDragStart( mockEvent(), 1 );
@@ -166,7 +166,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleDrop( mockEvent(), 1 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( originalheadings );
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( originalHeadings );
 		} );
 
 		it( "resets dragOverIndex to null after a successful drop", () => {
