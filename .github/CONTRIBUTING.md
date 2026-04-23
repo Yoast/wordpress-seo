@@ -27,7 +27,7 @@ Before opening a new issue, please:
 * pick the matching GitHub issue form (Bug report, Feature request, Design implementation, etc.) and fill in every section.
 * check for [plugin and theme conflicts](https://yoa.st/1y2) and include your findings.
 * check for [JavaScript errors in your browser's console](https://yoa.st/1y3) and include any output.
-* include as much information as possible — screenshots, relevant links, step-by-step reproductions, plugin/theme versions.
+* include everything needed to understand and reproduce the problem — screenshots, clear reproduction steps, plugin and theme versions, and any relevant logs — but stay focused. A tight, reproducible report is easier to triage than a long narrative with unrelated context or commentary.
 
 ## I have a feature request
 
@@ -65,6 +65,7 @@ If you are unsure whether a piece of code is safe to include, ask in the issue o
 5. Write tests. We expect every PR that changes PHP behaviour to ship unit tests — see the commands in the checklist below.
 6. Use the [Conventional Commits](https://www.conventionalcommits.org/) format for commit messages (e.g. `fix: …`, `feat(dashboard): …`). **Prefer atomic commits whenever practical** — each commit should represent a single logical change that can be reviewed or reverted on its own. If your PR mixes unrelated changes (e.g. a bugfix plus a refactor plus a tooling tweak), split them into separate commits or ideally separate PRs. Combining closely coupled changes into one commit is fine when splitting would be artificial.
 7. Push your branch and open a pull request against `trunk`. **Use the pull request template** at [`.github/PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) and fill in every section — even for small changes.
+8. **Keep the PR description focused.** Fill every required section of the template with what the reviewer actually needs — no more. *Context* and *Relevant technical choices* are usually one or two clear sentences; *Test instructions* are concrete steps, not essays. Don't pad sections to look thorough; reviewers read every line, and padding makes the substance harder to find. Summarise — link to the epic, issue, or design doc instead of restating them.
 
 #### Before you push or open/update a PR
 

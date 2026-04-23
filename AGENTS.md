@@ -128,6 +128,7 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 - **Prefer atomic commits whenever practical.** Each commit should represent a single logical change that compiles, passes tests on its own, and can be reviewed (or reverted) in isolation. If a PR mixes unrelated changes — e.g. a bug fix plus a refactor plus a tooling tweak — split them into separate commits (or, ideally, separate PRs). It's fine to combine closely coupled changes into one commit when splitting would be artificial.
 - Branch names: `<issue-number>-<short-description>` when the work tracks a GitHub issue (e.g. `2056-paid-upgrades`).
 - Target `trunk`. Use the PR template at `.github/PULL_REQUEST_TEMPLATE.md` — every section is there for a reason; fill it in even for small changes.
+- **Keep PR and issue descriptions focused.** Fill each template section with what's actually needed — one or two clear sentences in *Context* / *Relevant technical choices* is usually enough. Don't pad or restate the linked issue/epic. Reviewers read every line, and padding hides the substance.
 - Apply a changelog label: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, or `changelog: non-user-facing`.
 - External contributors do **not** need to apply any special label — the `community-patch` label is applied automatically on GitHub.
 - Never commit generated artifacts by hand; let the tooling regenerate them (DI container, i18n files, built JS/CSS, prefixed vendors).

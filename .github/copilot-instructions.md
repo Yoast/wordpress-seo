@@ -1,8 +1,6 @@
 # GitHub Copilot review instructions
 
-Copilot is used in this repository primarily for **pull request reviews**.
-
-The authoritative guidance lives in [`AGENTS.md`](../AGENTS.md), [`CONTRIBUTING.md`](./CONTRIBUTING.md), and [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md). If anything below contradicts those, prefer them.
+Copilot is used here primarily for **pull request reviews**. Authoritative rules live in [`AGENTS.md`](../AGENTS.md), [`CONTRIBUTING.md`](./CONTRIBUTING.md), and [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md); if anything below contradicts them, prefer those.
 
 ## Review priorities
 
@@ -15,6 +13,7 @@ The authoritative guidance lives in [`AGENTS.md`](../AGENTS.md), [`CONTRIBUTING.
 - Multiple changelog bullets only when (a) the PR has two logically distinct changes, (b) types differ — then use `[repo type]` override on the divergent bullets, or (c) the change must land in multiple repos/packages, in which case each extra bullet is prefixed with `[<repo-or-package>]`.
 - Title under ~70 characters; Conventional Commits prefix where natural.
 - Prefer atomic commits: if the PR mixes unrelated changes in a single commit (e.g. bugfix + refactor + tooling), suggest splitting into separate commits (or separate PRs) when practical.
+- Flag padded PR descriptions. *Context* and *Relevant technical choices* should be one or two sentences; *Test instructions* should be concrete steps, not prose. Replace restatements of linked issues/epics with the link itself.
 - Release-branch PRs (`release/*`): unreleased-bug fixes use `changelog: non-user-facing` and `Fixes an unreleased bug where …`.
 
 ### Tests and coverage
