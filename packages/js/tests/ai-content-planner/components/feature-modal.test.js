@@ -1,8 +1,7 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSelect, useDispatch, select } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
-import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
-import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks/use-fetch-content-outline";
+import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../../../src/ai-content-planner/hooks";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
@@ -72,6 +71,10 @@ jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-outline", ()
 	useFetchContentOutline: jest.fn(),
 } ) );
 
+jest.mock( "../../../src/ai-content-planner/hooks/use-apply-outline", () => ( {
+	useApplyOutline: jest.fn(),
+} ) );
+
 const mockFetchContentPlannerSuggestions = jest.fn();
 const mockFetchContentOutlineFn = jest.fn();
 const mockCloseModal = jest.fn();
@@ -79,6 +82,7 @@ const mockResetBlocks = jest.fn();
 const mockRemoveBlock = jest.fn();
 const mockOpenReplaceContentModal = jest.fn();
 const mockSetHasVisitedReplace = jest.fn();
+const mockApplyOutline = jest.fn();
 
 const mockSuggestion = {
 	intent: "informational",
@@ -225,6 +229,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
+		useApplyOutline.mockReturnValue( mockApplyOutline );
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
@@ -234,12 +239,12 @@ describe( "FeatureModal", () => {
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
-		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
-		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
+		expect( mockApplyOutline ).toHaveBeenCalled();
 		expect( mockOpenReplaceContentModal ).not.toHaveBeenCalled();
 	} );
 
 	it( "calls openReplaceContentModal and setHasVisitedReplace when 'Add outline to post' is clicked and post is not empty", () => {
+		useApplyOutline.mockReturnValue( mockApplyOutline );
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
@@ -249,10 +254,11 @@ describe( "FeatureModal", () => {
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		expect( mockOpenReplaceContentModal ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetHasVisitedReplace ).toHaveBeenCalledWith( true );
-		expect( mockResetBlocks ).not.toHaveBeenCalled();
+		expect( mockApplyOutline ).not.toHaveBeenCalled();
 	} );
 
 	it( "applies the outline when 'Add outline to post' is clicked on an empty post", async() => {
+		useApplyOutline.mockReturnValue( mockApplyOutline );
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
@@ -262,8 +268,7 @@ describe( "FeatureModal", () => {
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
-		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
-		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
+		expect( mockApplyOutline ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( "skips the approve modal when status is 'content-suggestions'", () => {
