@@ -4,7 +4,7 @@ import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
 import FeatureModal from "./containers/feature-modal";
-import "./blocks/banner-block";
+import { registerBannerBlock } from "./blocks/banner-block";
 import "./blocks/content-suggestion-block";
 import { registerStore } from "./store";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
@@ -87,6 +87,7 @@ export const ContentPlannerEditorPlugin = () => {
  * @returns {void}
  */
 export default function initContentPlanner() {
+	registerBannerBlock();
 	registerStore( {
 		[ CONTENT_SUGGESTIONS_NAME ]: {
 			endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
