@@ -1,6 +1,6 @@
 # GitHub Copilot review instructions
 
-Copilot is used here primarily for **pull request reviews**. Authoritative rules live in [`AGENTS.md`](../AGENTS.md), [`CONTRIBUTING.md`](./CONTRIBUTING.md), and [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md); if anything below contradicts them, prefer those.
+Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md). [`AGENTS.md`](../AGENTS.md) adds agent-behaviour guidance. If anything below contradicts these, prefer them.
 
 ## Review priorities
 

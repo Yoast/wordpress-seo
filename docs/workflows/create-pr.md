@@ -5,8 +5,8 @@ This is the canonical workflow for opening a pull request on this repository. It
 Rules and templates live elsewhere — this file is the **procedure**:
 
 - **Changelog grammar, label rules, bracket-prefix rules, release-branch rules** → [`.github/PULL_REQUEST_TEMPLATE.md`](../../.github/PULL_REQUEST_TEMPLATE.md)
-- **Pre-push checks, coverage policy, Yoast CS ruleset, test commands** → [`.github/CONTRIBUTING.md`](../../.github/CONTRIBUTING.md)
-- **Branching model, commit style, architecture, placement rules** → [`AGENTS.md`](../../AGENTS.md)
+- **Architecture, repository layout, placement rules, dependency injection, build/test commands, Yoast CS ruleset, testing policy, coverage policy, commit style, branching, pre-push checks** → [`.github/CONTRIBUTING.md`](../../.github/CONTRIBUTING.md)
+- **Agent-specific behaviours (delegate long-running commands, verify before recommending, ask don't guess)** → [`AGENTS.md`](../../AGENTS.md)
 
 If anything here contradicts those files, prefer them. Edits to rules belong there, not in this file.
 
