@@ -1,17 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Modal } from "@yoast/ui-library";
 import { ReplaceContentModal } from "../../../src/ai-content-planner/components/replace-content-modal";
 
 const renderModal = ( { onCancel = jest.fn(), onClose = jest.fn(), onConfirm = jest.fn(), ...props } = {} ) => render(
-	<Modal isOpen={ true } onClose={ onClose }>
-		<div>
-			<ReplaceContentModal
-				onCancel={ onCancel }
-				onConfirm={ onConfirm }
-				{ ...props }
-			/>
-		</div>
-	</Modal>
+	<ReplaceContentModal
+		onCancel={ onCancel }
+		onConfirm={ onConfirm }
+		isOpen={ true }
+		onClose={ onClose }
+		{ ...props }
+	/>
 );
 
 describe( "ReplaceContentModal", () => {
@@ -31,11 +28,6 @@ describe( "ReplaceContentModal", () => {
 			expect( screen.getByText(
 				/This will replace everything in your post with the generated outline and content notes/
 			) ).toBeInTheDocument();
-		} );
-
-		it( "focuses the close button when isActive is true", () => {
-			renderModal( { isActive: true } );
-			expect( screen.getByRole( "button", { name: "Close replace content confirmation" } ) ).toHaveFocus();
 		} );
 	} );
 

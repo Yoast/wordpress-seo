@@ -1,8 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import { BookOpenIcon, StarIcon, MapIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { Badge, Tooltip, useSvgAria } from "@yoast/ui-library";
-import { useCallback, useId, useState } from "@wordpress/element";
+import { Badge, TooltipContainer, TooltipTrigger, TooltipWithContext, useSvgAria } from "@yoast/ui-library";
+import { useId } from "@wordpress/element";
 
 /**
  * Mapping from intent type to badge styling, icon, tooltip and callout colors.
@@ -27,9 +27,9 @@ export const intentBadgeProps = {
 		tooltip: __( "The user wants to find a specific page or site.", "wordpress-seo" ),
 	},
 	commercial: {
-		classes: "yst-bg-yellow-200 yst-text-yellow-900",
-		calloutClasses: "yst-bg-yellow-50 yst-border-yellow-200",
-		calloutTextClasses: "yst-text-yellow-900",
+		classes: "yst-bg-amber-200 yst-text-amber-900",
+		calloutClasses: "yst-bg-amber-50 yst-border-amber-200",
+		calloutTextClasses: "yst-text-amber-900",
 		Icon: StarIcon,
 		label: __( "Commercial", "wordpress-seo" ),
 		tooltip: __( "The user wants to investigate brands or services.", "wordpress-seo" ),
@@ -51,15 +51,14 @@ export const intentBadgeProps = {
  * @param {string} props.intent The intent type (e.g. "informational").
  * @param {string} [props.className] Additional class names to apply to the badge.
  * @param {string} [props.tooltipPosition] Position of the tooltip. Defaults to "top-right".
+ * @param {"default"|"pointer"} [props.cursor] Cursor style for the badge. Defaults to "default";
+ *     use "pointer" when the badge sits inside a clickable parent.
  *
  * @returns {JSX.Element|null} The IntentBadge component.
  */
-export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" } ) => {
+export const IntentBadge = ( { intent, className, tooltipPosition = "top-right", cursor = "default" } ) => {
 	const badge = intentBadgeProps[ intent ];
 	const svgAriaProps = useSvgAria();
-	const [ isTooltipVisible, setIsTooltipVisible ] = useState( false );
-	const handleMouseEnter = useCallback( () => setIsTooltipVisible( true ), [] );
-	const handleMouseLeave = useCallback( () => setIsTooltipVisible( false ), [] );
 	const uniqueId = useId();
 	const tooltipId = `intent-tooltip-${ intent }-${ uniqueId }`;
 
@@ -68,15 +67,17 @@ export const IntentBadge = ( { intent, className, tooltipPosition = "top-right" 
 	}
 
 	const { Icon } = badge;
+	const cursorClass = cursor === "pointer" ? "yst-cursor-pointer" : "yst-cursor-default";
 	return (
-		<Badge
-			className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit yst-cursor-default", badge.classes, className ) }
-			aria-describedby={ isTooltipVisible ? tooltipId : null }
-			onMouseEnter={ handleMouseEnter }
-			onMouseLeave={ handleMouseLeave }
-		>
-			<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
-			{ isTooltipVisible && <Tooltip id={ tooltipId } className="yst-max-w-48 yst-z-50 yst-text-center" position={ tooltipPosition }>{ badge.tooltip }</Tooltip> }
-		</Badge>
+		<TooltipContainer>
+			<TooltipTrigger as="span" ariaDescribedby={ tooltipId } className="yst-inline-flex yst-w-fit">
+				<Badge className={ classNames( "yst-relative yst-flex yst-items-center yst-gap-1 yst-w-fit", cursorClass, badge.classes, className ) }>
+					<Icon className={ classNames( "yst-w-3", badge.classes ) } { ...svgAriaProps } /> { badge.label }
+				</Badge>
+			</TooltipTrigger>
+			<TooltipWithContext id={ tooltipId } className="yst-max-w-48 yst-z-50 yst-text-center" position={ tooltipPosition }>
+				{ badge.tooltip }
+			</TooltipWithContext>
+		</TooltipContainer>
 	);
 };

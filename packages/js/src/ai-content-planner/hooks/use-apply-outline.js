@@ -22,6 +22,7 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 	return useCallback( async() => {
 		const editedOutline = editedOutlineRef.current;
 		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
+		const apiSuggestion = select( CONTENT_PLANNER_STORE ).selectSuggestion();
 
 		// Build metadata from the user's edits in the modal.
 		const metaOutline = editedOutline
@@ -31,9 +32,11 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 				focusKeyphrase: editedOutline.focusKeyphrase,
 				category: editedOutline.category,
 			}
-			: apiOutline;
+			: apiSuggestion;
 
-		resetBlocks( buildBlocksFromOutline( editedOutline.structure ) );
+		const structure = editedOutline ? editedOutline.structure : apiOutline;
+
+		resetBlocks( buildBlocksFromOutline( structure ) );
 
 		applyPostMetaFromOutline( metaOutline );
 

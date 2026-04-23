@@ -1,19 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Modal } from "@yoast/ui-library";
 import { ApproveModal } from "../../../src/ai-content-planner/components/approve-modal";
 
 const renderApproveModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
-	<Modal isOpen={ true } onClose={ onClose }>
-		<div>
-			<ApproveModal
-				isEmptyPost={ true }
-				isPremium={ false }
-				isUpsell={ false }
-				onClick={ jest.fn() }
-				{ ...props }
-			/>
-		</div>
-	</Modal>
+	<ApproveModal
+		isEmptyPost={ true }
+		isPremium={ false }
+		isUpsell={ false }
+		onClick={ jest.fn() }
+		isOpen={ true }
+		onClose={ onClose }
+		{ ...props }
+	/>
 );
 
 describe( "ApproveModal", () => {

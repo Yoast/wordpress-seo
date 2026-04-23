@@ -7,27 +7,34 @@ import { STORE_NAME_AI } from "../../ai-generator/constants";
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { selectFeatureModalStatus, selectIsModalOpen } = select( CONTENT_PLANNER_STORE );
+		const { selectFeatureModalStatus, selectIsModalOpen, selectSuggestionsStatus, selectContentOutlineStatus } = select( CONTENT_PLANNER_STORE );
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
-		const { isUsageCountLimitReached, selectHasAiGeneratorConsent } = select( STORE_NAME_AI );
+
+		const {
+			selectUsageCount,
+			selectUsageCountLimit,
+			selectUsageCountStatus,
+		} = select( STORE_NAME_AI );
 
 		return {
 			isOpen: selectIsModalOpen(),
 			isEmptyPost: count( content, "words", {} ) === 0,
 			isPremium: getIsPremium(),
 			status: selectFeatureModalStatus(),
-			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
-			isUpsell: isUsageCountLimitReached(),
-			hasConsent: selectHasAiGeneratorConsent(),
+			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
+			usageCount: selectUsageCount(),
+			usageCountLimit: selectUsageCountLimit(),
+			contentSuggestionsStatus: selectSuggestionsStatus(),
+			contentOutlineStatus: selectContentOutlineStatus(),
+			usageCountStatus: selectUsageCountStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { closeModal, setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+		const { closeModal } = dispatch( CONTENT_PLANNER_STORE );
 
 		return {
 			onClose: closeModal,
-			setStatus: setFeatureModalStatus,
 		};
 	} ),
 ] )( FeatureModal );

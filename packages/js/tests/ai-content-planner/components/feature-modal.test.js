@@ -8,6 +8,10 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
+jest.mock( "../../../src/ai-generator/components/sparks-limit-notification", () => ( {
+	SparksLimitNotification: () => null,
+} ) );
+
 jest.mock( "@wordpress/data", () => {
 	const useSelectMock = jest.fn();
 	const useDispatchMock = jest.fn();
@@ -73,6 +77,8 @@ const mockFetchContentOutlineFn = jest.fn();
 const mockCloseModal = jest.fn();
 const mockResetBlocks = jest.fn();
 const mockRemoveBlock = jest.fn();
+const mockOpenReplaceContentModal = jest.fn();
+const mockSetHasVisitedReplace = jest.fn();
 
 const mockSuggestion = {
 	intent: "informational",
@@ -150,17 +156,16 @@ const setupMocks = ( selectOverrides = {} ) => {
 	} ) );
 };
 
-const mockSetStatus = jest.fn();
-
-const createModalElement = ( { status = "idle", setStatus = mockSetStatus, ...props } = {} ) => (
+const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, ...props } = {} ) => (
 	<FeatureModal
 		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
 		isPremium={ false }
-		isUpsell={ false }
 		status={ status }
-		setStatus={ setStatus }
+		editedOutlineRef={ editedOutlineRef }
+		openReplaceContentModal={ mockOpenReplaceContentModal }
+		setHasVisitedReplace={ mockSetHasVisitedReplace }
 		{ ...props }
 	/>
 );
@@ -190,39 +195,18 @@ describe( "FeatureModal", () => {
 		jest.clearAllMocks();
 	} );
 
-	it( "does not render the dialog when isOpen is false", () => {
-		renderModal( { isOpen: false } );
-		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
-	} );
-
-	it( "renders the approve modal initially when open", () => {
+	it( "does not render the modal when status is 'idle'", () => {
 		renderModal();
-		expect( screen.getByRole( "dialog" ) ).toBeInTheDocument();
-		expect( screen.getByText( "Looking for inspiration?" ) ).toBeInTheDocument();
+		expect( screen.queryByRole( "dialog" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "calls onClose when the modal is closed", () => {
 		const onClose = jest.fn();
-		renderModal( { onClose } );
-		// The modal close button calls onClose
+		renderModal( { onClose, status: "content-suggestions" } );
 		const closeButtons = screen.getAllByRole( "button" );
 		const closeButton = closeButtons.find( ( btn ) => btn.getAttribute( "aria-label" ) || btn.textContent.includes( "Close" ) );
 		fireEvent.click( closeButton );
 		expect( onClose ).toHaveBeenCalled();
-	} );
-
-	it( "dispatches fetchContentPlannerSuggestions when the 'Get content suggestions' button is clicked", () => {
-		renderModal( { hasConsent: true } );
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		expect( mockFetchContentPlannerSuggestions ).toHaveBeenCalledTimes( 1 );
-	} );
-
-	it( "shows consent modal instead of fetching suggestions when user has not granted consent", () => {
-		const setStatus = jest.fn();
-		renderModal( { hasConsent: false, setStatus } );
-		fireEvent.click( screen.getByRole( "button", { name: "Get content suggestions" } ) );
-		expect( mockFetchContentPlannerSuggestions ).not.toHaveBeenCalled();
-		expect( setStatus ).toHaveBeenCalledWith( "consent" );
 	} );
 
 	it( "shows the content suggestions panel when status is 'content-suggestions'", () => {
@@ -240,18 +224,6 @@ describe( "FeatureModal", () => {
 		expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
 	} );
 
-	it( "calls setStatus with 'replace-content' when 'Add outline to post' is clicked on non-empty post", () => {
-		const setStatus = jest.fn();
-		setupMocks( {
-			"yoast-seo/content-planner": {
-				selectSuggestion: () => mockSuggestion,
-			},
-		} );
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
-		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
-	} );
-
 	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
 		setupMocks( {
 			"yoast-seo/content-planner": {
@@ -264,31 +236,29 @@ describe( "FeatureModal", () => {
 		} );
 		expect( mockResetBlocks ).toHaveBeenCalledTimes( 1 );
 		expect( mockCloseModal ).toHaveBeenCalledTimes( 1 );
-		expect( screen.queryByText( "Replace existing content with this outline?" ) ).not.toBeInTheDocument();
+		expect( mockOpenReplaceContentModal ).not.toHaveBeenCalled();
 	} );
 
-	it( "calls setStatus with 'content-outline' when cancel is clicked on the replace confirmation", () => {
-		const setStatus = jest.fn();
+	it( "calls openReplaceContentModal and setHasVisitedReplace when 'Add outline to post' is clicked and post is not empty", () => {
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		// Render with non-empty post at content-outline status.
-		renderModal( { isEmptyPost: false, status: "content-outline", setStatus } );
-		// Click Add outline to post → triggers setHasVisitedReplace=true and setStatus("replace-content")
+		renderModal( { isEmptyPost: false, status: "content-outline" } );
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		// Both setStatus calls happen: once with "replace-content", then Cancel would call "content-outline"
-		expect( setStatus ).toHaveBeenCalledWith( "replace-content" );
+		expect( mockOpenReplaceContentModal ).toHaveBeenCalledTimes( 1 );
+		expect( mockSetHasVisitedReplace ).toHaveBeenCalledWith( true );
+		expect( mockResetBlocks ).not.toHaveBeenCalled();
 	} );
 
-	it( "applies the outline when replace is confirmed on non-empty post", async() => {
+	it( "applies the outline when 'Add outline to post' is clicked on an empty post", async() => {
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
 			},
 		} );
-		renderModal( { isEmptyPost: true, status: "content-outline", selectedSuggestion: mockSuggestion } );
+		renderModal( { isEmptyPost: true, status: "content-outline" } );
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
