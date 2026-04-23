@@ -131,8 +131,15 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 			$context_array = $this->adapter->meta_tags_context_to_array( $context );
 			$pieces_data   = $context_array['@graph'];
 
-			// Collect external schema pieces from all supporting repositories.
-			$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
+			// Make for_current_page() resolve to the indexable being processed, so
+			// external schema generators (e.g. WPSEO_WooCommerce_Schema) read the
+			// correct per-product canonical / main_schema_id instead of a stale one.
+			$previous_current_page = $this->memoizer->swap_current_page( $context );
+			try {
+				$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
+			} finally {
+				$this->memoizer->swap_current_page( $previous_current_page );
+			}
 
 			foreach ( $pieces_data as $piece_data ) {
 				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
