@@ -11,17 +11,10 @@ import { CategorySection } from "./category-section";
 import { getProgressColor } from "../helpers/get-progress-color";
 import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
-import { useDraggableStructure } from "../hooks";
-import { useFetchContentOutline } from "../hooks/use-fetch-content-outline";
+import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
- */
-
-/**
- * @typedef {Object} StructureItem
- * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
- * @property {string} title The section title.
  */
 
 /**
@@ -49,7 +42,7 @@ const MetaDescriptionProgressBar = ( { value } ) => {
  * Skeleton form field with a real label and a skeleton value.
  *
  * @param {string}  label     The field label.
- * @param {boolean} multiline Whether to render a taller skeleton area.
+ * @param {boolean} [multiline=false] Whether to render a taller skeleton area.
  *
  * @returns {JSX.Element} The SkeletonFormField component.
  */
