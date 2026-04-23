@@ -34,7 +34,7 @@ const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerst
 	const percentage = Math.min( ( actual / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
 
 	return (
-		<div className="yst-w-full yst-h-2 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
 			<div
 				className="yst-h-full yst-rounded-full yst-transition-all yst-duration-300"
 				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( score ) } }
