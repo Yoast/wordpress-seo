@@ -2,6 +2,7 @@ import { render } from "../test-utils";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { createBlock } from "@wordpress/blocks";
 import { insertBannerAfterFirstParagraph, ContentPlannerEditorPlugin } from "../../src/ai-content-planner/initialize";
+import { registerContentSuggestionBlock } from "../../src/ai-content-planner/blocks/content-suggestion-block";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn(),
@@ -212,6 +213,7 @@ describe( "ContentPlannerEditorPlugin", () => {
 
 describe( "content-suggestion block transform", () => {
 	const { registerBlockType: mockRegisterBlockType } = require( "@wordpress/blocks" );
+	registerContentSuggestionBlock();
 	const registrationCall = mockRegisterBlockType.mock.calls.find( ( [ name ] ) => name === "yoast-seo/content-suggestion" );
 	const transform = registrationCall[ 1 ].transforms.to[ 0 ].transform;
 

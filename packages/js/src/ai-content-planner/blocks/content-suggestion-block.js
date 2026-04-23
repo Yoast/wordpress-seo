@@ -4,54 +4,64 @@ import { useEffect, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { ContentSuggestionBlock } from "../components/content-suggestion-block";
 
-registerBlockType( "yoast-seo/content-suggestion", {
-	apiVersion: 3,
-	title: __( "Content Suggestion", "wordpress-seo" ),
-	category: "text",
-	supports: { inserter: false },
-	transforms: {
-		to: [
-			{
-				type: "block",
-				blocks: [ "core/list" ],
-				transform: ( { suggestions } ) =>
-					createBlock(
-						"core/list",
-						{},
-						suggestions.map( ( suggestion ) => createBlock( "core/list-item", { content: suggestion } ) )
-					),
-			},
-		],
-	},
-	attributes: {
-		title: { type: "string", "default": "" },
-		suggestions: { type: "array", items: { type: "string" }, "default": [] },
-	},
-	edit: ( { attributes } ) => {
-		const ref = useRef( null );
-		const blockProps = useBlockProps( { ref } );
+/**
+ * Registers the Content Suggestion block.
+ *
+ * Deferred behind a function so registration only happens when the Content
+ * Planner feature initializes, not at module import time.
+ *
+ * @returns {void}
+ */
+export function registerContentSuggestionBlock() {
+	registerBlockType( "yoast-seo/content-suggestion", {
+		apiVersion: 3,
+		title: __( "Content Suggestion", "wordpress-seo" ),
+		category: "text",
+		supports: { inserter: false },
+		transforms: {
+			to: [
+				{
+					type: "block",
+					blocks: [ "core/list" ],
+					transform: ( { suggestions } ) =>
+						createBlock(
+							"core/list",
+							{},
+							suggestions.map( ( suggestion ) => createBlock( "core/list-item", { content: suggestion } ) )
+						),
+				},
+			],
+		},
+		attributes: {
+			title: { type: "string", "default": "" },
+			suggestions: { type: "array", items: { type: "string" }, "default": [] },
+		},
+		edit: ( { attributes } ) => {
+			const ref = useRef( null );
+			const blockProps = useBlockProps( { ref } );
 
-		useEffect( () => {
-			const ownerDoc = ref.current?.ownerDocument ?? document;
-			if ( ownerDoc === window.document || ownerDoc.getElementById( "yoast-seo-tailwind-css" ) ) {
-				return;
-			}
-			const mainLink = window.document.getElementById( "yoast-seo-tailwind-css" );
-			if ( ! mainLink ) {
-				return;
-			}
-			const link = ownerDoc.createElement( "link" );
-			link.id = "yoast-seo-tailwind-css";
-			link.rel = "stylesheet";
-			link.href = mainLink.href;
-			ownerDoc.head.appendChild( link );
-		}, [] );
+			useEffect( () => {
+				const ownerDoc = ref.current?.ownerDocument ?? document;
+				if ( ownerDoc === window.document || ownerDoc.getElementById( "yoast-seo-tailwind-css" ) ) {
+					return;
+				}
+				const mainLink = window.document.getElementById( "yoast-seo-tailwind-css" );
+				if ( ! mainLink ) {
+					return;
+				}
+				const link = ownerDoc.createElement( "link" );
+				link.id = "yoast-seo-tailwind-css";
+				link.rel = "stylesheet";
+				link.href = mainLink.href;
+				ownerDoc.head.appendChild( link );
+			}, [] );
 
-		return (
-			<div { ...blockProps }>
-				<ContentSuggestionBlock contentNotes={ attributes.suggestions } />
-			</div>
-		);
-	},
-	save: () => null,
-} );
+			return (
+				<div { ...blockProps }>
+					<ContentSuggestionBlock contentNotes={ attributes.suggestions } />
+				</div>
+			);
+		},
+		save: () => null,
+	} );
+}
