@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
-import { ContentSuggestionsModal } from "../../../src/ai-content-planner/components/content-suggestions-modal";
+import { ContentSuggestionsModalContent } from "../../../src/ai-content-planner/components/content-suggestions-modal-content";
 
 const mockFetchContentSuggestions = jest.fn();
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
@@ -54,7 +54,7 @@ const mockSuggestions = [
 const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="loading" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
+			<ContentSuggestionsModalContent status="loading" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
@@ -62,7 +62,7 @@ const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestion
 const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
+			<ContentSuggestionsModalContent status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
 		</div>
 	</Modal>
 );
@@ -70,7 +70,7 @@ const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestion
 const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentSuggestionsModal
+			<ContentSuggestionsModalContent
 				status="error"
 				isPremium={ false }
 				suggestions={ [] }

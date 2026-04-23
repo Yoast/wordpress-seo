@@ -39,34 +39,38 @@ const getModalContent = ( isEmptyPost ) => {
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
  * @param {function} onClick The function to call when the user clicks the "Get content suggestions" button.
  * @param {string} upsellLink The link to the upsell page.
+ * @param {boolean} isOpen Whether the modal is open or not.
+ * @param {function} onClose The function to call when the modal is closed.
  * @returns {JSX.Element} The ApproveModal content.
  */
-export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsellLink } ) => {
+export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsellLink, isOpen, onClose } ) => {
 	const { title, description } = getModalContent( isEmptyPost );
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<Modal.Panel className="yst-text-center yst-w-96" closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }>
-			<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
-				<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
-			</div>
-			<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
-			<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</Modal.Description>
-			{ isUpsell ? <Button
-				variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
-			>
-				{ sprintf(
+		<Modal isOpen={ isOpen } onClose={ onClose }>
+			<Modal.Panel className="yst-text-center yst-w-96" closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }>
+				<div className="yst-w-12 yst-h-12 yst-rounded-full yst-bg-ai-100 yst-flex yst-items-center yst-justify-center yst-mx-auto yst-mb-4">
+					<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
+				</div>
+				<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
+				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</Modal.Description>
+				{ isUpsell ? <Button
+					variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
+				>
+					{ sprintf(
 					/* translators: %s is the name of the premium product, Yoast SEO Premium. */
-					__( "Unlock with %s", "wordpress-seo" ),
-					"Yoast SEO Premium"
-				) }
-				<span className="yst-sr-only">{
+						__( "Unlock with %s", "wordpress-seo" ),
+						"Yoast SEO Premium"
+					) }
+					<span className="yst-sr-only">{
 					/* translators: Hidden accessibility text. */
-					__( "(Opens in a new browser tab)", "wordpress-seo" ) }
-				</span>
-			</Button>
-				: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
-			{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
-		</Modal.Panel>
+						__( "(Opens in a new browser tab)", "wordpress-seo" ) }
+					</span>
+				</Button>
+					: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
+				{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
+			</Modal.Panel>
+		</Modal>
 	);
 };

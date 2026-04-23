@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
-import { ContentOutlineModal } from "../../../src/ai-content-planner/components/content-outline-modal";
+import { ContentOutlineModalContent } from "../../../src/ai-content-planner/components/content-outline-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -48,7 +48,7 @@ const defaultSuggestion = {
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentOutlineModal
+			<ContentOutlineModalContent
 				onBackToSuggestions={ jest.fn() }
 				onApplyOutline={ jest.fn() }
 				suggestion={ defaultSuggestion }

@@ -1,6 +1,6 @@
 import { Badge, Button, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
+import { useState, useCallback, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
@@ -188,7 +188,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  *
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
-export const ContentOutlineModal = ( {
+export const ContentOutlineModalContent = ( {
 	status,
 	onBackToSuggestions,
 	onApplyOutline,
@@ -196,10 +196,10 @@ export const ContentOutlineModal = ( {
 	isActive,
 	error,
 	onRetry,
+	closeButtonRef,
 } ) => {
 	// eslint-disable-next-line camelcase
 	const { category, keyphrase, meta_description } = suggestion;
-	const closeButtonRef = useRef( null );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
 	const [ focusKeyphrase, setFocusKeyphrase ] = useState( keyphrase );
