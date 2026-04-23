@@ -14,12 +14,14 @@ import classNames from "classnames";
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
+ * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Tightens margins.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
 export const BlackFridayPromotion = ( {
 	store = "yoast-seo/editor",
 	location = "sidebar",
+	inEditorIntro = false,
 } ) => {
 	const alertKey = "black-friday-promotion";
 	const isPremium = useSelect( select => select( store ).getIsPremium(), [ store ] );
@@ -27,6 +29,7 @@ export const BlackFridayPromotion = ( {
 	const promotionActive = useSelect( select => select( store ).isPromotionActive( alertKey ), [ store ] );
 	const isWooCommerceActive = useSelect( select => select( store ).getIsWooCommerceActive(), [ store ] );
 	const isAlertDismissed = useSelect( select => select( store ).isAlertDismissed( alertKey ), [ store ] );
+	const isElementorEditor = useSelect( select => select( store ).getIsElementorEditor(), [ store ] );
 
 	const onDismiss = useCallback( () => {
 		dispatch( store ).dismissAlert( alertKey );
@@ -47,7 +50,13 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						"yst-mx-0 yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-3 yst-relative yst-shadow-sm",
+						inEditorIntro
+							? "yst-mx-0 yst-mt-3"
+							: [
+								location === "sidebar" && ! isElementorEditor ? "yst-mx-0" : "yst-mx-4",
+								"yst-mt-6",
+							],
+						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
 				<Badge size="small"className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
@@ -94,4 +103,5 @@ export const BlackFridayPromotion = ( {
 BlackFridayPromotion.propTypes = {
 	store: PropTypes.string,
 	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ),
+	inEditorIntro: PropTypes.bool,
 };
