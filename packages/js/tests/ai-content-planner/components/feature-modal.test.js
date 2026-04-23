@@ -8,6 +8,11 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
+jest.mock( "@yoast/search-metadata-previews", () => ( {
+	getDescriptionProgress: () => ( { actual: 0, score: 0 } ),
+	getProgressColor: () => "transparent",
+} ) );
+
 jest.mock( "@wordpress/data", () => {
 	const useSelectMock = jest.fn();
 	const useDispatchMock = jest.fn();
@@ -105,6 +110,8 @@ const defaultStoreSelectors = {
 		getContentLocale: () => "en",
 		getEditorTypeApiValue: () => "block",
 		selectLink: () => "",
+		getPreferences: () => ( { isCornerstoneActive: false } ),
+		getDateFromSettings: () => null,
 	},
 	"yoast-seo/ai-generator": {
 		selectUsageCount: () => 1,
