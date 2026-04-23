@@ -14,7 +14,7 @@ import classNames from "classnames";
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
- * @param {boolean} inEditorIntro Whether rendered inside EditorIntro. Tightens margins.
+ * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Tightens margins.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
