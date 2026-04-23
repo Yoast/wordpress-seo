@@ -5,7 +5,7 @@ import { noop } from "lodash";
 import PropTypes from "prop-types";
 
 /**
- * The unsaved changes modal.
+ * The confirm action modal.
  *
  * @param {boolean} isOpen Whether the modal is open.
  * @param {function} [onClose] The function to call when the modal is closed.
@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
  *
  * @returns {JSX.Element} The unsaved changes modal.
  */
-export const UnsavedChangesModal = ( { isOpen, onClose = noop, onDiscard = noop, title, description, dismissLabel, discardLabel } ) => {
+export const ConfirmActionModal = ( { isOpen, onClose = noop, onDiscard = noop, title, description, dismissLabel, discardLabel } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return <Modal isOpen={ isOpen } onClose={ onClose }>
@@ -49,7 +49,7 @@ export const UnsavedChangesModal = ( { isOpen, onClose = noop, onDiscard = noop,
 	</Modal>;
 };
 
-UnsavedChangesModal.propTypes = {
+ConfirmActionModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func,
 	onDiscard: PropTypes.func,
