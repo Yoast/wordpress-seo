@@ -30,9 +30,8 @@ export const App = () => {
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const [ replaceContentModalIsOpen, toggleReplaceContentModal, , openReplaceContentModal  ] = useToggleState( false );
 	const editedOutlineRef = useRef( null );
-
+	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
 	const fetchContentSuggestions = useFetchContentSuggestions();
-
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
 
 	/**
@@ -51,12 +50,9 @@ export const App = () => {
 		fetchContentSuggestions();
 	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
 
-	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
-
-
 	const handleCancelReplace = useCallback( () => {
 		setStatus( FEATURE_MODAL_STATUS.contentOutline );
-	}, [] );
+	}, [ setStatus ] );
 
 	const handleConfirmReplace = useCallback( () => {
 		handleApplyOutline();
