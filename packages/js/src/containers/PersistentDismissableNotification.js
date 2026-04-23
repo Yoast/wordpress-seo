@@ -10,7 +10,7 @@ import withPersistentDismiss from "./withPersistentDismiss";
  * @param {JSX.Element|null} image The image or null if no image.
  * @param {boolean} isAlertDismissed Whether or not the notification is dismissed.
  * @param {Function} onDismissed The dismissal prop to be renamed for Notification component.
- * @param {boolean} inEditorIntro Whether rendered inside EditorIntro. Adds a small top margin under the logo.
+ * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Adds a small top margin under the logo.
  *
  * @returns {Component} The composed Notification component.
  */
