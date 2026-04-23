@@ -96,4 +96,41 @@ final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Tes
 			'get_term_by returns null'  => [ 'return_value' => null ],
 		];
 	}
+
+	/**
+	 * Tests that the empty-category sentinel name resolves to the blog's default category.
+	 *
+	 * @return void
+	 */
+	public function test_returns_default_category_for_empty_sentinel_name() {
+		$default_term          = Mockery::mock( WP_Term::class );
+		$default_term->name    = 'Uncategorized';
+		$default_term->term_id = 1;
+
+		Functions\expect( 'get_term_by' )
+			->once()
+			->with( 'name', '', 'category' )
+			->andReturn( false );
+
+		Functions\expect( 'get_option' )
+			->once()
+			->with( 'default_category' )
+			->andReturn( '1' );
+
+		Functions\expect( 'get_term' )
+			->once()
+			->with( 1, 'category' )
+			->andReturn( $default_term );
+
+		$result = $this->instance->find_by_name( '' );
+
+		$this->assertInstanceOf( Category::class, $result );
+		$this->assertSame(
+			[
+				'name' => 'Uncategorized',
+				'id'   => 1,
+			],
+			$result->to_array(),
+		);
+	}
 }
