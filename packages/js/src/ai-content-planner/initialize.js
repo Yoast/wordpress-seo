@@ -5,7 +5,7 @@ import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
 import FeatureModal from "./containers/feature-modal";
 import { registerBannerBlock } from "./blocks/banner-block";
-import { registerContentSuggestionBlock } from "./blocks/content-suggestion-block";
+import "./blocks/content-suggestion-block";
 import { registerStore } from "./store";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
@@ -88,7 +88,6 @@ export const ContentPlannerEditorPlugin = () => {
  */
 export default function initContentPlanner() {
 	registerBannerBlock();
-	registerContentSuggestionBlock();
 	registerStore( {
 		[ CONTENT_SUGGESTIONS_NAME ]: {
 			endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
