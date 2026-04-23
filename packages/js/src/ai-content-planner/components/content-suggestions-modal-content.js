@@ -120,9 +120,9 @@ export const ContentSuggestionsModalContent = ( {
 					<SuggestionsList suggestions={ suggestions } onSuggestionClick={ onSuggestionClick } />
 				</Transition>
 				{ status === ASYNC_ACTION_STATUS.error && <ContentPlannerError
-					errorCode={ error.errorCode }
-					errorIdentifier={ error.errorIdentifier }
-					errorMessage={ error.errorMessage }
+					errorCode={ error?.errorCode }
+					errorIdentifier={ error?.errorIdentifier }
+					errorMessage={ error?.errorMessage }
 					onRetry={ fetchContentSuggestions }
 				/> }
 			</div>
