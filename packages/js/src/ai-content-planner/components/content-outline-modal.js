@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Badge, Button, Link, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
@@ -20,16 +21,16 @@ import { useDraggableStructure } from "../hooks";
 /**
  * Progress bar indicating the meta description character length.
  *
- * @param {string} value	The meta description text.
- * @param {string} date		The meta description date.
- * @param {string} locale	The content locale, used for meta description length calculation.
- * @param {boolean}	isCornerstone   Whether the cornerstone content toggle is on or off.
+ * @param {string} value		The meta description text.
+ * @param {string} [date=""]	The meta description date.
+ * @param {string} [locale=""]	The content locale, used for meta description length calculation.
+ * @param {boolean}	[isCornerstoneActive=false]   Whether the cornerstone content toggle inside a post is on or off.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
-const MetaDescriptionProgressBar = ( { value, date, locale, isCornerstone } ) => {
+const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstoneActive = false } ) => {
 	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
-	const { actual, score } = getDescriptionProgress( value, date, isCornerstone, false, locale );
+	const { actual, score } = getDescriptionProgress( value, date, isCornerstoneActive, false, locale );
 	const percentage = Math.min( ( actual / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
 
 	return (
@@ -40,6 +41,13 @@ const MetaDescriptionProgressBar = ( { value, date, locale, isCornerstone } ) =>
 			/>
 		</div>
 	);
+};
+
+MetaDescriptionProgressBar.propTypes = {
+	value: PropTypes.string.isRequired,
+	date: PropTypes.string,
+	locale: PropTypes.string,
+	isCornerstoneActive: PropTypes.bool,
 };
 
 /**
@@ -334,7 +342,7 @@ export const ContentOutlineModal = ( {
 											value={ metaDescription }
 											date={ date }
 											locale={ locale }
-											isCornerstone={ isCornerstoneActive }
+											isCornerstoneActive={ isCornerstoneActive }
 										/>
 									</div>
 								</div>
