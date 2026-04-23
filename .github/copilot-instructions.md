@@ -9,7 +9,7 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 - Every required section of the PR template must have content — no empty bullets.
 - At least one changelog bullet in the *Summary* section.
 - A `changelog:` label attached (`bugfix`, `enhancement`, `other`, `non-user-facing`). Milestones are set by the merger, not the author.
-- Bugfix entries follow `Fixes a bug where … (was …) when …` with past-tense inner verbs.
+- Bugfix entries: past tense, incorrect behaviour then triggering condition, no hypotheticals.
 - Multiple changelog bullets only when (a) the PR has two logically distinct changes, (b) types differ — then use `[repo type]` override on the divergent bullets, or (c) the change must land in multiple repos/packages, in which case each extra bullet is prefixed with `[<repo-or-package>]`.
 - Title under ~70 characters; Conventional Commits prefix where natural.
 - Prefer atomic commits: if the PR mixes unrelated changes in a single commit (e.g. bugfix + refactor + tooling), suggest splitting into separate commits (or separate PRs) when practical.

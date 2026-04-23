@@ -85,7 +85,7 @@ Before reporting the PR as created, verify:
 - [ ] Coverage increased or held flat — or the *Relevant technical choices* section explains why tests weren't feasible.
 - [ ] The body contains at least one changelog bullet, correctly prefixed for every affected changelog.
 - [ ] Exactly one `changelog:` label is attached; Shopify / Google Docs / innovation labels match the content.
-- [ ] Bugfix bullets follow the template's `Fixes a bug where … (was …) when …` pattern with past-tense inner verbs.
+- [ ] Bugfix bullets describe the incorrect behaviour followed by the triggering condition, in past tense, per the PR template's grammar rules.
 - [ ] Every PR-template section has content — no empty bullets, no leftover placeholder text.
 - [ ] No milestone was set.
 

@@ -222,7 +222,7 @@ If a check fails or you need to skip one (e.g. you can't run Docker locally for 
 
 Every PR needs a **changelog entry** in the Summary section of the PR body and a **changelog label** on the PR itself:
 
-* Write one bullet describing the change in present tense, 3rd person singular, ending with a full stop. For bugfixes use the template `Fixes a bug where … (was …) when …`.
+* Write one bullet describing the change in present tense, 3rd person singular, ending with a full stop. For bugfixes, describe the incorrect behaviour followed by the condition that triggered it, in clear past tense, avoiding hypothetical or nested conditionals (e.g. `Fixes a bug where X happened when Y` or `Fixes a bug where X was caused by Y`). See [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) for the full grammar and examples.
 * Attach one of: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 * If the change also affects another Yoast repo or package, add an extra bullet prefixed with `[<repo-or-package>]`. The PR template explains this in more detail.
 
