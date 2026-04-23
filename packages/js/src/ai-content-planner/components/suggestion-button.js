@@ -26,7 +26,7 @@ export const SuggestionButton = ( { suggestion, onClick } ) => {
 		>
 			<IntentBadge intent={ intent } className="yst-mb-2" cursor="pointer" />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800 group-hover:yst-text-slate-900">
-				<span className="group-hover:yst-border group-hover:yst-border-b group-hover:yst-border-slate-900">{ title }</span>
+				<span className="group-hover:yst-border-b group-hover:yst-border-slate-900">{ title }</span>
 			</div>
 			<p className="yst-text-slate-600">{ explanation }</p>
 		</button>
