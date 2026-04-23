@@ -47,5 +47,13 @@ export const useFetchContentOutline = () => {
 				...contentSuggestion,
 			},
 		} );
-	}, [ endpoint, postType, contentLocale, editorApiValue, fetchContentOutline, restoreContentOutlineFromCache, selectContentOutlineCache ] );
+	}, [ endpoint,
+		postType,
+		contentLocale,
+		editorApiValue,
+		fetchContentOutline,
+		restoreContentOutlineFromCache,
+		selectContentOutlineCache,
+		setFeatureModalStatus,
+	] );
 };
