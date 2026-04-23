@@ -8,7 +8,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useFetchContentSuggestions } from "../hooks";
 import { SuggestionsList } from "./suggestion-list";
 import { LoadingSuggestionButton } from "./suggestion-button";
-import { useState, useEffect } from "@wordpress/element";
+import { useState, useEffect, useRef } from "@wordpress/element";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -30,15 +30,19 @@ const LoadingSuggestionsModalContent = () => {
 		__( "Writing compelling headlines…", "wordpress-seo" ),
 	];
 
+	const timeoutRef = useRef( null );
 	useEffect( () => {
 		const interval = setInterval( () => {
 			setTextVisible( false );
-			setTimeout( () => {
+			timeoutRef.current = setTimeout( () => {
 				setTextIndex( ( prev ) => ( prev + 1 ) % loadingTexts.length );
 				setTextVisible( true );
 			}, 300 );
 		}, 3000 );
-		return () => clearInterval( interval );
+		return () => {
+			clearInterval( interval );
+			clearTimeout( timeoutRef.current );
+		};
 	}, [] );
 
 	return (
