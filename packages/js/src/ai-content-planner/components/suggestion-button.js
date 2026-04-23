@@ -24,7 +24,7 @@ export const SuggestionButton = ( { suggestion, onClick } ) => {
 			onClick={ handleClick }
 			className="hover:yst-bg-slate-50 yst-group yst-text-start yst-w-full yst-rounded-md yst-border yst-border-slate-200 yst-mb-4 yst-p-4 yst-shadow-sm focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500"
 		>
-			<IntentBadge intent={ intent } className="yst-mb-2" />
+			<IntentBadge intent={ intent } className="yst-mb-2" cursor="pointer" />
 			<div className="yst-font-medium yst-text-sm yst-mb-2 yst-text-slate-800 group-hover:yst-text-slate-900">
 				<span className="group-hover:yst-border group-hover:yst-border-b group-hover:yst-border-slate-900">{ title }</span>
 			</div>

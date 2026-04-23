@@ -136,9 +136,14 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.getByText( "Commercial" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders an unknown intent as a badge with the raw value", () => {
+		it( "renders the correct badge for transactional intent", () => {
 			renderModal( { suggestion: { ...defaultSuggestion, intent: "transactional" } } );
-			expect( screen.getByText( "transactional" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Transactional" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders an unknown intent as a badge with the raw value", () => {
+			renderModal( { suggestion: { ...defaultSuggestion, intent: "other" } } );
+			expect( screen.getByText( "other" ) ).toBeInTheDocument();
 		} );
 	} );
 
