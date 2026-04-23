@@ -4,6 +4,31 @@ Thanks for taking the time to contribute to Yoast SEO! Before filing a bug repor
 
 This file is the canonical contributor guide for this repository. It is written for both humans and AI coding tools. The repo-root [`AGENTS.md`](../AGENTS.md) adds a small set of behaviours specific to AI agents on top of the rules here; the [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) carries the detailed changelog and label rules.
 
+## Contents
+
+- [How to use GitHub](#how-to-use-github)
+- [Security issues](#security-issues)
+- [I have found a bug](#i-have-found-a-bug)
+- [I have a feature request](#i-have-a-feature-request)
+- [I want to create a patch](#i-want-to-create-a-patch)
+  - [License and copyright](#license-and-copyright)
+  - [Supported environment](#supported-environment)
+  - [Repository layout](#repository-layout)
+  - [Where to put new code](#where-to-put-new-code)
+    - [Onion dependency rules](#onion-dependency-rules)
+    - [Legacy folders (`admin/`, `inc/`)](#legacy-folders-admin-inc)
+  - [Dependency injection](#dependency-injection)
+  - [PHP workflow](#php-workflow)
+  - [JavaScript workflow](#javascript-workflow)
+  - [Testing](#testing)
+  - [Code style](#code-style)
+  - [Opening a pull request](#opening-a-pull-request)
+    - [Before you push or open/update a PR](#before-you-push-or-openupdate-a-pr)
+  - [Changelog entry and label](#changelog-entry-and-label)
+  - [Issues labelled _patch welcome_](#issues-labelled-_patch-welcome_)
+  - [Submitting an issue you have found](#submitting-an-issue-you-have-found)
+- [Additional resources](#additional-resources)
+
 ## How to use GitHub
 
 We use GitHub exclusively for well-documented bugs, feature requests, and code contributions. Communication is always done in English.
