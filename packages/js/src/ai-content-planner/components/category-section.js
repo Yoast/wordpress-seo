@@ -34,7 +34,7 @@ export const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) 
 				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
 			</p>
 		</div>
-		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
+		{ isEnabled && ! isLoading && category && <Badge variant="plain" className="yst-w-fit">{ category?.name }</Badge> }
 		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
 			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
 		</div> }
