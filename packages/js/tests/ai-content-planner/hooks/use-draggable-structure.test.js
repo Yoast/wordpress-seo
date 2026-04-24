@@ -64,7 +64,7 @@ describe( "useDraggableStructure", () => {
 			const { result, rerender } = renderHook( () => useDraggableStructure() );
 			expect( result.current.structure ).toHaveLength( 3 );
 
-			const newOutline = [ { heading: "Only section", id: "0-H2-Only section" } ];
+			const newOutline = [ { heading: "Only section", id: "0-Only section" } ];
 			setupUseSelect( newOutline );
 
 			act( () => {

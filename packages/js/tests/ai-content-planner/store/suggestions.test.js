@@ -46,7 +46,7 @@ const transformedSuggestions = [
 		// eslint-disable-next-line camelcase
 		meta_description: "Learn how to train your dog.",
 		category: "pets",
-		index: 0,
+		id: "suggestion-0",
 	},
 	{
 		intent: "commercial",
@@ -56,7 +56,7 @@ const transformedSuggestions = [
 		// eslint-disable-next-line camelcase
 		meta_description: "Find the best dog food brands.",
 		category: "pets",
-		index: 1,
+		id: "suggestion-1",
 	},
 ];
 
