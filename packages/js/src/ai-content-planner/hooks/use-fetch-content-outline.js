@@ -1,5 +1,5 @@
 import { useCallback } from "@wordpress/element";
-import { useSelect, useDispatch, select } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
 import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
@@ -16,19 +16,20 @@ import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
  * @returns {(contentSuggestion: Suggestion) => void} Callback to trigger the content outline fetch.
  */
 export const useFetchContentOutline = () => {
-	const { endpoint, postType, contentLocale, editorApiValue } = useSelect( ( select ) => {
+	const { endpoint, postType, contentLocale, editorApiValue, selectContentOutlineCache } = useSelect( ( select ) => {
 		return {
 			endpoint: select( CONTENT_PLANNER_STORE ).selectContentOutlineEndpoint(),
 			postType: select( "yoast-seo/editor" ).getPostType(),
 			contentLocale: select( "yoast-seo/editor" ).getContentLocale(),
 			editorApiValue: select( "yoast-seo/editor" ).getEditorTypeApiValue(),
+			selectContentOutlineCache: select( CONTENT_PLANNER_STORE ).selectContentOutlineCache,
 		};
 	}, [] );
 
 	const { fetchContentOutline, restoreContentOutlineFromCache, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( ( contentSuggestion ) => {
-		const cache = select( CONTENT_PLANNER_STORE ).selectContentOutlineCache( contentSuggestion.index );
+		const cache = selectContentOutlineCache( contentSuggestion.index );
 		if ( cache ) {
 			restoreContentOutlineFromCache( cache );
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
