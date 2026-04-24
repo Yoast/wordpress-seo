@@ -13,11 +13,14 @@ use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 class WordPress_Category_Repository implements Category_Repository_Interface {
 
 	/**
-	 * Finds a category by name, falling back to the blog's default category when no term matches.
+	 * Finds a category by name, returning the empty-category sentinel when no term matches.
+	 *
+	 * The empty-category sentinel is a Category with name "" and id -1. It signals "no category"
+	 * to the frontend so it can hide the category UI and skip applying any category to the post.
 	 *
 	 * @param string $name The category name.
 	 *
-	 * @return Category The resolved category, or the blog's default category when no term matches.
+	 * @return Category The resolved category, or the empty-category sentinel when no term matches.
 	 */
 	public function find_by_name( string $name ): Category {
 		$term = \get_term_by( 'name', $name, 'category' );
@@ -26,18 +29,6 @@ class WordPress_Category_Repository implements Category_Repository_Interface {
 			return new Category( $term->name, $term->term_id );
 		}
 
-		return $this->get_default_category();
-	}
-
-	/**
-	 * Retrieves the blog's default category as a Category.
-	 *
-	 * @return Category The default category.
-	 */
-	private function get_default_category(): Category {
-		$default_id   = (int) \get_option( 'default_category' );
-		$default_term = \get_term( $default_id, 'category' );
-
-		return new Category( $default_term->name, $default_term->term_id );
+		return new Category( '', -1 );
 	}
 }
