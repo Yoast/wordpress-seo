@@ -282,11 +282,11 @@ export const OutlineModalContent = ( {
 				/>
 			</Modal.Container.Content>
 			<Modal.Container.Footer className="yst-flex yst-items-center yst-justify-between yst-p-6 yst-border-t yst-border-slate-200">
-				<Button variant="secondary" onClick={ handleBackToSuggestions } className="yst-flex yst-items-center yst-gap-1.5">
+				<Button variant="secondary" onClick={ handleBackToSuggestions } className="yst-flex yst-items-center yst-gap-1.5" disabled={ isLoading }>
 					<ArrowLeftIcon className="yst-w-4 yst-h-4" />
 					{ __( "Content suggestions", "wordpress-seo" ) }
 				</Button>
-				<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading } isLoading={ isLoading }>
+				<Button variant="ai-primary" onClick={ handleApplyOutline } className="[&>.yst-button--sparkles-icon]:yst-hidden yst-ps-3" disabled={ isLoading }>
 					{ __( "Add outline to post", "wordpress-seo" ) }
 				</Button>
 			</Modal.Container.Footer>
