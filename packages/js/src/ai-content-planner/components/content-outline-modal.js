@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Badge, Button, Link, Modal, SkeletonLoader, TextField, TextareaField, Toggle, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
@@ -5,11 +6,10 @@ import { UsageCounter } from "@yoast/ai-frontend";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
+import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
-import { getProgressColor } from "../helpers/get-progress-color";
-import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure } from "../hooks";
 
@@ -21,21 +21,32 @@ import { useDraggableStructure } from "../hooks";
  * Progress bar indicating the meta description character length.
  *
  * @param {string} value The meta description text.
+ * @param {string} [date=""] The meta description date.
+ * @param {string} [locale=""] The content locale, used for meta description length calculation.
+ * @param {boolean} [isCornerstone=false] Whether the current post is marked as cornerstone content.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
-const MetaDescriptionProgressBar = ( { value } ) => {
-	const length = value ? value.length : 0;
-	const percentage = Math.min( ( length / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
+const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstone = false } ) => {
+	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
+	const { actual, score, max } = getDescriptionProgress( value, date, isCornerstone, false, locale );
+	const percentage = Math.min( ( actual / max ) * 100, 100 );
 
 	return (
-		<div className="yst-w-full yst-h-2 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
 			<div
 				className="yst-h-full yst-rounded-full yst-transition-all yst-duration-300"
-				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( length ) } }
+				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( score ) } }
 			/>
 		</div>
 	);
+};
+
+MetaDescriptionProgressBar.propTypes = {
+	value: PropTypes.string.isRequired,
+	date: PropTypes.string,
+	locale: PropTypes.string,
+	isCornerstone: PropTypes.bool,
 };
 
 /**
@@ -191,7 +202,9 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @param {Object|null}        error       The error object if the content outline failed to load, or null if there is no error.
  * @param {Function}           onRetry     The function to call to retry fetching the content outline.
  * @param {string}             modalHelpLink  The URL for the AI help link in the modal header.
- *
+ * @param {boolean}			isCornerstone Whether the current post is marked as cornerstone content (used for meta description progress calculation).
+ * @param {string}			date The date from settings (used for meta description progress calculation).
+ * @param {string}			locale	The content locale, used for meta description length calculation.
  * @returns {JSX.Element} The ContentOutlineModal component.
  */
 export const ContentOutlineModal = ( {
@@ -206,6 +219,9 @@ export const ContentOutlineModal = ( {
 	error,
 	onRetry,
 	modalHelpLink,
+	isCornerstone,
+	date,
+	locale,
 } ) => {
 	// eslint-disable-next-line camelcase
 	const { category, keyphrase, meta_description } = suggestion;
@@ -321,7 +337,12 @@ export const ContentOutlineModal = ( {
 											onChange={ handleMetaDescriptionChange }
 											className="yst-mb-2"
 										/>
-										<MetaDescriptionProgressBar value={ metaDescription } />
+										<MetaDescriptionProgressBar
+											value={ metaDescription }
+											date={ date }
+											locale={ locale }
+											isCornerstone={ isCornerstone }
+										/>
 									</div>
 								</div>
 								<hr className="yst-border-slate-200" />

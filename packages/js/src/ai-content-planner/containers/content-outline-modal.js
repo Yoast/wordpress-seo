@@ -19,7 +19,13 @@ export default compose( [
 			selectUsageCount,
 		} = select( STORE_NAME_AI );
 
-		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
+		const {
+			getIsPremium,
+			selectLink,
+			isCornerstoneContent,
+			getDateFromSettings,
+			getContentLocale,
+		} = select( "yoast-seo/editor" );
 
 		return {
 			suggestion: selectSuggestion(),
@@ -31,6 +37,9 @@ export default compose( [
 			isPremium: getIsPremium(),
 			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
 			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
+			isCornerstone: isCornerstoneContent(),
+			date: getDateFromSettings(),
+			locale: getContentLocale(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
