@@ -131,7 +131,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$post_type,
 				'normal',
 				apply_filters( 'wpseo_metabox_prio', 'high' ),
-				[ '__block_editor_compatible_meta_box' => true ],
+				[
+					'__block_editor_compatible_meta_box' => true,
+					'__rtc_compatible_meta_box'          => true,
+				],
 			);
 		}
 	}
@@ -251,7 +254,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$post_type,
 				'normal',
 				apply_filters( 'wpseo_metabox_prio', 'high' ),
-				[ '__block_editor_compatible_meta_box' => true ],
+				[
+					'__block_editor_compatible_meta_box' => true,
+					'__rtc_compatible_meta_box'          => true,
+				],
 			);
 		}
 	}
