@@ -1,7 +1,7 @@
 import { withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { CONTENT_PLANNER_STORE } from "../constants";
-import { ContentSuggestionsModalContent } from "../components/content-suggestions-modal-content";
+import { SuggestionsModalContent } from "../components/suggestions-modal-content";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -17,4 +17,4 @@ export default compose( [
 			error: selectSuggestionsError(),
 		};
 	} ),
-] )( ContentSuggestionsModalContent );
+] )( SuggestionsModalContent );

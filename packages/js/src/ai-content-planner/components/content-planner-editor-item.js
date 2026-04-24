@@ -8,15 +8,13 @@ import { FEATURE_MODAL_STATUS } from "../constants";
  *
  * @param {Object}   props           The component props.
  * @param {string}   props.location  The location where the editor item is rendered. Can be "sidebar" or "metabox".
- * @param {Function} props.openModal The function to open the content planner modal.
  * @param {Function} props.setFeatureModalStatus The function to set the feature modal status.
  * @returns {JSX.Element} The Content Planner section in the sidebar.
  */
-export const ContentPlannerEditorItem = ( { location, openModal, setFeatureModalStatus } ) => {
+export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) => {
 	const handleClick = useCallback( () => {
 		setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
-		openModal();
-	}, [ openModal, setFeatureModalStatus ] );
+	}, [ setFeatureModalStatus ] );
 
 	return <Root><div className="yst-p-4">
 		<Button variant="ai-secondary" onClick={ handleClick } className={ location === "sidebar" ? "yst-w-full" : "" }>

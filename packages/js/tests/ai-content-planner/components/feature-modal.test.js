@@ -108,7 +108,6 @@ const defaultStoreSelectors = {
 		selectContentOutlineEndpoint: () => "",
 		selectContentSuggestionsEndpoint: () => "",
 		selectFeatureModalStatus: () => "idle",
-		selectIsModalOpen: () => true,
 	},
 	"yoast-seo/editor": {
 		getIsPremium: () => false,
@@ -162,7 +161,6 @@ const setupMocks = ( selectOverrides = {} ) => {
 
 const createModalElement = ( { status = "idle", editedOutlineRef = { current: null }, ...props } = {} ) => (
 	<FeatureModal
-		isOpen={ true }
 		onClose={ jest.fn() }
 		isEmptyPost={ true }
 		isPremium={ false }

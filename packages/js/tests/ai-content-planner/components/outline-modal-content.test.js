@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
-import { ContentOutlineModalContent } from "../../../src/ai-content-planner/components/content-outline-modal-content";
+import { OutlineModalContent } from "../../../src/ai-content-planner/components/outline-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks";
 
@@ -53,7 +53,7 @@ const defaultSuggestion = {
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentOutlineModalContent
+			<OutlineModalContent
 				onBackToSuggestions={ jest.fn() }
 				onApplyOutline={ jest.fn() }
 				suggestion={ defaultSuggestion }

@@ -7,7 +7,7 @@ import { STORE_NAME_AI } from "../../ai-generator/constants";
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { selectFeatureModalStatus, selectIsModalOpen, selectSuggestionsStatus, selectContentOutlineStatus } = select( CONTENT_PLANNER_STORE );
+		const { selectFeatureModalStatus, selectSuggestionsStatus, selectContentOutlineStatus } = select( CONTENT_PLANNER_STORE );
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
 
@@ -18,7 +18,6 @@ export default compose( [
 		} = select( STORE_NAME_AI );
 
 		return {
-			isOpen: selectIsModalOpen(),
 			isEmptyPost: count( content, "words", {} ) === 0,
 			isPremium: getIsPremium(),
 			status: selectFeatureModalStatus(),

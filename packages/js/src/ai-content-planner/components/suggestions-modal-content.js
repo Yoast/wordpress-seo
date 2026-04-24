@@ -80,9 +80,9 @@ const LoadingSuggestionsModalContent = () => {
  * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
  * @param {Object|null} props.error The error object if the request failed, or null if there is no error.
  *
- * @returns {JSX.Element} The ContentSuggestionsModal component.
+ * @returns {JSX.Element} The SuggestionsModalContent component.
  */
-export const ContentSuggestionsModalContent = ( {
+export const SuggestionsModalContent = ( {
 	status,
 	onSuggestionClick = noop,
 	suggestions,
