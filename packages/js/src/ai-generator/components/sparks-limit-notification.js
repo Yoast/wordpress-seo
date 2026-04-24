@@ -140,10 +140,10 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 				_n(
 					"You've used %s spark this month.",
 					"You've used %s sparks this month.",
-					usageCountLimit,
+					usageCount,
 					"wordpress-seo"
 				),
-				usageCountLimit
+				usageCount
 			);
 		}
 
