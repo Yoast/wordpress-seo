@@ -108,9 +108,9 @@ export const ContentSuggestionsModalContent = ( {
 					<LoadingSuggestionsModalContent />
 				</Transition>
 				{ /*
-						 * yst-delay-300 matches the loading content's leave duration (yst-duration-300)
-						 * so the suggestions only fade in after the loading content has faded out.
-						 */ }
+					* yst-delay-300 matches the loading content's leave duration (yst-duration-300)
+					* so the suggestions only fade in after the loading content has faded out.
+					*/ }
 				<Transition
 					as="div"
 					show={ isSuccess }
