@@ -282,9 +282,16 @@ describe( "ContentOutlineModal", () => {
 	describe( "footer actions", () => {
 		it( "calls onBackToSuggestions when the back button is clicked", () => {
 			const onBackToSuggestions = jest.fn();
-			renderModal( { onBackToSuggestions } );
+			renderModal( { onBackToSuggestions, status: ASYNC_ACTION_STATUS.success } );
 			fireEvent.click( screen.getByRole( "button", { name: /Content suggestions/i } ) );
 			expect( onBackToSuggestions ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "doesnt call onBackToSuggestions when the back button is clicked while loading", () => {
+			const onBackToSuggestions = jest.fn();
+			renderModal( { onBackToSuggestions } );
+			fireEvent.click( screen.getByRole( "button", { name: /Content suggestions/i } ) );
+			expect( onBackToSuggestions ).not.toHaveBeenCalled();
 		} );
 
 		it( "calls onApplyOutline when the add button is clicked", () => {
