@@ -68,7 +68,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that cleanup delegates to the cleanup service and unschedules cron.
+	 * Tests that cleanup delegates to the cleanup service and clears all scheduled hooks.
 	 *
 	 * @covers ::cleanup
 	 *
@@ -77,31 +77,8 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	public function test_cleanup() {
 		$this->cleanup->expects( 'execute' )->once();
 
-		Functions\expect( 'wp_next_scheduled' )
+		Functions\expect( 'wp_clear_scheduled_hook' )
 			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
-			->once()
-			->andReturn( false );
-
-		$this->instance->cleanup();
-	}
-
-	/**
-	 * Tests that cleanup unschedules the cron event when it exists.
-	 *
-	 * @covers ::cleanup
-	 *
-	 * @return void
-	 */
-	public function test_cleanup_unschedules_cron_when_scheduled() {
-		$this->cleanup->expects( 'execute' )->once();
-
-		Functions\expect( 'wp_next_scheduled' )
-			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
-			->once()
-			->andReturn( 1_617_235_200 );
-
-		Functions\expect( 'wp_unschedule_event' )
-			->with( 1_617_235_200, 'Yoast\WP\SEO\myyoast_key_rotation' )
 			->once();
 
 		$this->instance->cleanup();
