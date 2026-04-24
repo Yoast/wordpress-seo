@@ -275,6 +275,14 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			);
 		}
 
+		if ( ! $result->is_successful() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
+			throw new Registration_Failed_Exception(
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
+				\sprintf( 'Registration read returned HTTP %d: %s', $result->get_status(), $error_message ),
+			);
+		}
+
 		$body = $result->get_body();
 		if ( ! \is_array( $body ) ) {
 			throw new Registration_Failed_Exception( 'Invalid response from registration endpoint.' );
