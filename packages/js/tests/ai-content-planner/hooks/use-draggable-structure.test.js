@@ -72,7 +72,7 @@ describe( "useDraggableStructure", () => {
 			} );
 
 			expect( result.current.structure ).toEqual( [
-				{ id: "0-H2-Only section", heading: "Only section" },
+				{ id: "0-Only section", heading: "Only section" },
 			] );
 		} );
 	} );
