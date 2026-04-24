@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { useSelect, useDispatch, select } from "@wordpress/data";
+import { useSelect, useDispatch } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../../../src/ai-content-planner/hooks";
 
@@ -55,14 +55,6 @@ jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn(),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/helpers/build-blocks-from-outline", () => ( {
-	buildBlocksFromOutline: jest.fn().mockReturnValue( [] ),
-} ) );
-
-jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline", () => ( {
-	applyPostMetaFromOutline: jest.fn().mockResolvedValue( undefined ),
-} ) );
-
 jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
 	useFetchContentSuggestions: jest.fn(),
 } ) );
@@ -71,18 +63,9 @@ jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-outline", ()
 	useFetchContentOutline: jest.fn(),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/hooks/use-apply-outline", () => ( {
-	useApplyOutline: jest.fn(),
-} ) );
-
-const mockFetchContentPlannerSuggestions = jest.fn();
-const mockFetchContentOutlineFn = jest.fn();
-const mockCloseModal = jest.fn();
-const mockResetBlocks = jest.fn();
-const mockRemoveBlock = jest.fn();
 const mockOpenReplaceContentModal = jest.fn();
 const mockSetHasVisitedReplace = jest.fn();
-const mockApplyOutline = jest.fn();
+const mockHandleApplyOutline = jest.fn();
 
 const mockSuggestion = {
 	intent: "informational",
@@ -133,8 +116,8 @@ const buildSelectFn = ( overrides = {} ) => ( storeName ) => ( {
 } );
 
 const setupMocks = ( selectOverrides = {} ) => {
-	useFetchContentSuggestions.mockReturnValue( mockFetchContentPlannerSuggestions );
-	useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
+	useFetchContentSuggestions.mockReturnValue( jest.fn() );
+	useFetchContentOutline.mockReturnValue( jest.fn() );
 
 	const selectFn = buildSelectFn( selectOverrides );
 	useSelect.mockImplementation( ( selector ) => {
@@ -147,15 +130,7 @@ const setupMocks = ( selectOverrides = {} ) => {
 	useDispatch.mockImplementation( () => ( {
 		fetchContentOutline: jest.fn().mockResolvedValue( undefined ),
 		fetchContentPlannerSuggestions: jest.fn(),
-		closeModal: mockCloseModal,
-		resetBlocks: mockResetBlocks,
-		removeBlock: mockRemoveBlock,
 		setFeatureModalStatus: jest.fn(),
-	} ) );
-
-	select.mockImplementation( () => ( {
-		selectContentOutline: jest.fn().mockReturnValue( [] ),
-		getBlocks: jest.fn().mockReturnValue( [] ),
 	} ) );
 };
 
@@ -168,6 +143,7 @@ const createModalElement = ( { status = "idle", editedOutlineRef = { current: nu
 		editedOutlineRef={ editedOutlineRef }
 		openReplaceContentModal={ mockOpenReplaceContentModal }
 		setHasVisitedReplace={ mockSetHasVisitedReplace }
+		handleApplyOutline={ mockHandleApplyOutline }
 		{ ...props }
 	/>
 );
@@ -237,7 +213,7 @@ describe( "FeatureModal", () => {
 		await act( async() => {
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		} );
-		expect( mockApplyOutline ).toHaveBeenCalled();
+		expect( mockHandleApplyOutline ).toHaveBeenCalledTimes( 1 );
 		expect( mockOpenReplaceContentModal ).not.toHaveBeenCalled();
 	} );
 
@@ -252,21 +228,7 @@ describe( "FeatureModal", () => {
 		fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 		expect( mockOpenReplaceContentModal ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetHasVisitedReplace ).toHaveBeenCalledWith( true );
-		expect( mockApplyOutline ).not.toHaveBeenCalled();
-	} );
-
-	it( "applies the outline when 'Add outline to post' is clicked on an empty post", async() => {
-		useApplyOutline.mockReturnValue( mockApplyOutline );
-		setupMocks( {
-			"yoast-seo/content-planner": {
-				selectSuggestion: () => mockSuggestion,
-			},
-		} );
-		renderModal( { isEmptyPost: true, status: "content-outline" } );
-		await act( async() => {
-			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
-		} );
-		expect( mockApplyOutline ).toHaveBeenCalledTimes( 1 );
+		expect( mockHandleApplyOutline ).not.toHaveBeenCalled();
 	} );
 
 	it( "skips the approve modal when status is 'content-suggestions'", () => {
