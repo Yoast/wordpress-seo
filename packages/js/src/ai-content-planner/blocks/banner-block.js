@@ -38,7 +38,6 @@ const Edit = ( { clientId } ) => {
 	}, [ removeBlock, clientId ] );
 
 	const handleClick = useCallback( () => {
-		setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 		if ( hasConsent ) {
 			fetchContentSuggestions();
 		} else {
