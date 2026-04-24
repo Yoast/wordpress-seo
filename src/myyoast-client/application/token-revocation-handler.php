@@ -16,7 +16,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
 /**
  * Revokes tokens at the authorization server (RFC 7009).
  *
- * Token revocation is best-effort — failures are silently ignored.
+ * Token revocation is best-effort: failures are logged as warnings and
+ * signalled to the caller via a `false` return value rather than rethrown.
  */
 class Token_Revocation_Handler implements LoggerAwareInterface {
 	use LoggerAwareTrait;
