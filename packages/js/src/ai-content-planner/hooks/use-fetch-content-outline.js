@@ -1,5 +1,5 @@
 import { useCallback } from "@wordpress/element";
-import { useSelect, useDispatch } from "@wordpress/data";
+import { useSelect, useDispatch, select } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
 import { removesLocaleVariantSuffixes } from "../../shared-admin/helpers";
 
@@ -25,12 +25,10 @@ export const useFetchContentOutline = () => {
 		};
 	}, [] );
 
-	const selectContentOutlineCache = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutlineCache );
-
 	const { fetchContentOutline, restoreContentOutlineFromCache, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( ( contentSuggestion ) => {
-		const cache = selectContentOutlineCache( contentSuggestion.index );
+		const cache = select( CONTENT_PLANNER_STORE ).selectContentOutlineCache( contentSuggestion.index );
 		if ( cache ) {
 			restoreContentOutlineFromCache( cache );
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
