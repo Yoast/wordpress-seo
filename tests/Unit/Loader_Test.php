@@ -4,10 +4,13 @@ namespace Yoast\WP\SEO\Tests\Unit;
 
 use Brain\Monkey;
 use Mockery;
+use WP_CLI;
 use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Conditional_Command_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Unconditional_Command_Double;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -270,5 +273,100 @@ final class Loader_Test extends TestCase {
 		$loader = new Loader( $container_mock );
 		$loader->register_initializer( \get_class( $initializer_mock ) );
 		$loader->load();
+	}
+
+	/**
+	 * Tests that a command that does not implement Loadable_Interface is loaded unconditionally.
+	 *
+	 * @covers ::register_command
+	 * @covers ::load_commands
+	 *
+	 * @return void
+	 */
+	public function test_loading_command_without_loadable_interface() {
+		$command_class    = Unconditional_Command_Double::class;
+		$command_instance = new Unconditional_Command_Double();
+
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( $command_class )->andReturn( $command_instance );
+
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
+		$cli->expects( 'add_command' )
+			->once()
+			->with( Unconditional_Command_Double::get_namespace(), $command_instance );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_command( $command_class );
+		$this->invoke_method( $loader, 'load_commands' );
+	}
+
+	/**
+	 * Tests that a conditional command is loaded when its conditional is met.
+	 *
+	 * @covers ::register_command
+	 * @covers ::load_commands
+	 *
+	 * @return void
+	 */
+	public function test_loading_conditional_command_when_met() {
+		$command_class    = Conditional_Command_Double::class;
+		$command_instance = new Conditional_Command_Double();
+
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
+
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->once()->with( $command_class )->andReturn( $command_instance );
+
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
+		$cli->expects( 'add_command' )
+			->once()
+			->with( Conditional_Command_Double::get_namespace(), $command_instance );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_command( $command_class );
+		$this->invoke_method( $loader, 'load_commands' );
+	}
+
+	/**
+	 * Tests that a conditional command is skipped when its conditional is not met.
+	 *
+	 * @covers ::register_command
+	 * @covers ::load_commands
+	 *
+	 * @return void
+	 */
+	public function test_loading_conditional_command_when_not_met() {
+		$command_class = Conditional_Command_Double::class;
+
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
+
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->never()->with( $command_class );
+
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
+		$cli->expects( 'add_command' )->never();
+
+		$loader = new Loader( $container_mock );
+		$loader->register_command( $command_class );
+		$this->invoke_method( $loader, 'load_commands' );
+	}
+
+	/**
+	 * Invokes a protected method on an object.
+	 *
+	 * @param object $object      The object to invoke the method on.
+	 * @param string $method_name The name of the method to invoke.
+	 *
+	 * @return mixed The return value of the invoked method.
+	 */
+	private function invoke_method( $object, $method_name ) {
+		$reflection = new \ReflectionMethod( $object, $method_name );
+		$reflection->setAccessible( true );
+
+		return $reflection->invoke( $object );
 	}
 }

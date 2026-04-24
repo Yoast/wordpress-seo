@@ -8,7 +8,9 @@ use Exception;
 use WP_CLI;
 use WP_CLI\ExitException;
 use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
+use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
@@ -23,7 +25,7 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
  * These commands are intended to be used with the global --user flag to set the
  * WordPress user context. For example: wp yoast auth status --user=admin
  */
-final class Auth_Command implements Command_Interface {
+final class Auth_Command implements Command_Interface, Loadable_Interface {
 
 	/**
 	 * The MyYoast client facade.
@@ -90,6 +92,15 @@ final class Auth_Command implements Command_Interface {
 	 */
 	public static function get_namespace() {
 		return Main::WP_CLI_NAMESPACE . ' auth';
+	}
+
+	/**
+	 * Returns the conditionals based on which this command should be registered.
+	 *
+	 * @return array<string> The array of conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ MyYoast_Connection_Conditional::class ];
 	}
 
 	/**

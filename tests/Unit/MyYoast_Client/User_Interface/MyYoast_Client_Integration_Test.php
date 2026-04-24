@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\MyYoast_Client_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -42,14 +43,17 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_conditionals returns an empty array.
+	 * Tests that get_conditionals returns the MyYoast connection feature flag conditional.
 	 *
 	 * @covers ::get_conditionals
 	 *
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame( [], MyYoast_Client_Integration::get_conditionals() );
+		$this->assertSame(
+			[ MyYoast_Connection_Conditional::class ],
+			MyYoast_Client_Integration::get_conditionals(),
+		);
 	}
 
 	/**

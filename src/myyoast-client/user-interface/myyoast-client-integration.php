@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
 use Exception;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
@@ -14,7 +14,6 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * Registers wp-cron for registration key rotation.
  */
 class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareInterface {
-	use No_Conditionals;
 	use LoggerAwareTrait;
 
 	private const CRON_HOOK                 = 'wpseo_myyoast_key_rotation';
@@ -36,6 +35,15 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	public function __construct( Client_Registration_Interface $client_registration ) {
 		$this->client_registration = $client_registration;
 		$this->logger              = new NullLogger();
+	}
+
+	/**
+	 * Returns the conditionals based on which this integration should be loaded.
+	 *
+	 * @return array<string> The array of conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ MyYoast_Connection_Conditional::class ];
 	}
 
 	/**

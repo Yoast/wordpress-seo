@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\MyYoast_Client\User_Interface;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 
@@ -10,7 +10,6 @@ use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
  * Handles cleanup of all MyYoast client data on plugin uninstall.
  */
 class MyYoast_Cleanup_Integration implements Integration_Interface {
-	use No_Conditionals;
 
 	/**
 	 * The cleanup service.
@@ -26,6 +25,15 @@ class MyYoast_Cleanup_Integration implements Integration_Interface {
 	 */
 	public function __construct( MyYoast_Client_Cleanup $cleanup ) {
 		$this->cleanup = $cleanup;
+	}
+
+	/**
+	 * Returns the conditionals based on which this integration should be loaded.
+	 *
+	 * @return array<string> The array of conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ MyYoast_Connection_Conditional::class ];
 	}
 
 	/**
