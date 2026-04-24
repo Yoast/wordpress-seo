@@ -18,6 +18,8 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
  */
 class JWT_Signer {
 
+	private const SIGNING_ALG = 'EdDSA';
+
 	/**
 	 * Signs a JWT with the given header and payload using an Ed25519 private key.
 	 *
@@ -74,7 +76,7 @@ class JWT_Signer {
 		$now = \time();
 
 		$header = [
-			'alg' => 'EdDSA',
+			'alg' => self::SIGNING_ALG,
 			'kid' => $key_pair->get_kid(),
 		];
 

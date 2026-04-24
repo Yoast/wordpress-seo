@@ -28,6 +28,10 @@ class ID_Token_Validator implements ID_Token_Validator_Interface, LoggerAwareInt
 	private const JWKS_TRANSIENT_PREFIX = 'wpseo_myyoast_jwks_';
 	private const JWKS_TTL              = \MONTH_IN_SECONDS;
 
+	private const EXPECTED_ALG = 'EdDSA';
+	private const EXPECTED_KTY = 'OKP';
+	private const EXPECTED_CRV = 'Ed25519';
+
 	/**
 	 * The discovery client.
 	 *
@@ -99,7 +103,7 @@ class ID_Token_Validator implements ID_Token_Validator_Interface, LoggerAwareInt
 			throw new ID_Token_Validation_Exception( 'Invalid ID token header.' );
 		}
 
-		if ( ( $header['alg'] ?? '' ) !== 'EdDSA' ) {
+		if ( ( $header['alg'] ?? '' ) !== self::EXPECTED_ALG ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new ID_Token_Validation_Exception( 'Unsupported ID token algorithm: ' . ( $header['alg'] ?? 'none' ) );
 		}
@@ -203,7 +207,7 @@ class ID_Token_Validator implements ID_Token_Validator_Interface, LoggerAwareInt
 	 */
 	private function find_ed25519_key( array $jwks, string $kid ): ?string {
 		foreach ( ( $jwks['keys'] ?? [] ) as $key ) {
-			if ( ( $key['kid'] ?? '' ) === $kid && ( $key['kty'] ?? '' ) === 'OKP' && ( $key['crv'] ?? '' ) === 'Ed25519' ) {
+			if ( ( $key['kid'] ?? '' ) === $kid && ( $key['kty'] ?? '' ) === self::EXPECTED_KTY && ( $key['crv'] ?? '' ) === self::EXPECTED_CRV ) {
 				$x = Base64url::decode( ( $key['x'] ?? '' ) );
 				if ( $x !== false && \strlen( $x ) === \SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES ) {
 					return $x;

@@ -21,6 +21,7 @@ class DPoP_Handler {
 
 	private const NONCE_TRANSIENT_PREFIX = 'wpseo_myyoast_dpop_nonce_';
 	private const NONCE_TTL_IN_SECONDS   = ( \MINUTE_IN_SECONDS * 5 );
+	private const PROOF_ALG              = 'EdDSA';
 
 	/**
 	 * The key pair manager.
@@ -86,7 +87,7 @@ class DPoP_Handler {
 
 		$header = [
 			'typ' => 'dpop+jwt',
-			'alg' => 'EdDSA',
+			'alg' => self::PROOF_ALG,
 			'jwk' => $jwk,
 		];
 

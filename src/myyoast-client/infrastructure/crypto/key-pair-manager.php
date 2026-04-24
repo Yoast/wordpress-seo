@@ -27,6 +27,10 @@ class Key_Pair_Manager implements LoggerAwareInterface {
 	private const OPTION_PREFIX  = 'wpseo_myyoast_key_pair_';
 	private const CONTEXT_PREFIX = 'yoast-myyoast-key-';
 
+	private const JWK_KTY = 'OKP';
+	private const JWK_CRV = 'Ed25519';
+	private const JWK_ALG = 'EdDSA';
+
 	/**
 	 * The encryption service.
 	 *
@@ -119,12 +123,12 @@ class Key_Pair_Manager implements LoggerAwareInterface {
 	 */
 	public function get_public_key_jwk( Key_Pair $key_pair ): array {
 		return [
-			'kty' => 'OKP',
-			'crv' => 'Ed25519',
+			'kty' => self::JWK_KTY,
+			'crv' => self::JWK_CRV,
 			'x'   => Base64url::encode( $key_pair->get_public_key() ),
 			'kid' => $key_pair->get_kid(),
 			'use' => 'sig',
-			'alg' => 'EdDSA',
+			'alg' => self::JWK_ALG,
 		];
 	}
 
@@ -175,12 +179,12 @@ class Key_Pair_Manager implements LoggerAwareInterface {
 		$kid = Base64url::encode( \hash( 'sha256', $public_key, true ) );
 
 		return [
-			'kty' => 'OKP',
-			'crv' => 'Ed25519',
+			'kty' => self::JWK_KTY,
+			'crv' => self::JWK_CRV,
 			'x'   => Base64url::encode( $public_key ),
 			'kid' => $kid,
 			'use' => 'sig',
-			'alg' => 'EdDSA',
+			'alg' => self::JWK_ALG,
 		];
 	}
 
