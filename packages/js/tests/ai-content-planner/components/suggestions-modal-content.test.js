@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { SuggestionsModalContent } from "../../../src/ai-content-planner/components/suggestions-modal-content";
+import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 
 const mockFetchContentSuggestions = jest.fn();
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
@@ -54,7 +55,7 @@ const mockSuggestions = [
 const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<SuggestionsModalContent status="loading" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
+			<SuggestionsModalContent status={ ASYNC_ACTION_STATUS.loading } isPremium={ false } suggestions={ suggestions } { ...props } />
 		</div>
 	</Modal>
 );
@@ -62,7 +63,7 @@ const renderLoadingModal = ( { onClose = jest.fn(), suggestions = mockSuggestion
 const renderSuccessModal = ( { onClose = jest.fn(), suggestions = mockSuggestions, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<SuggestionsModalContent status="success" isPremium={ false } suggestions={ suggestions } skipTransitions={ true } { ...props } />
+			<SuggestionsModalContent status={ ASYNC_ACTION_STATUS.success } isPremium={ false } suggestions={ suggestions } { ...props } />
 		</div>
 	</Modal>
 );
@@ -71,10 +72,9 @@ const renderErrorModal = ( { onClose = jest.fn(), error = { errorCode: 500 }, ..
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
 			<SuggestionsModalContent
-				status="error"
+				status={ ASYNC_ACTION_STATUS.error }
 				isPremium={ false }
 				suggestions={ [] }
-				skipTransitions={ true }
 				error={ error }
 				{ ...props }
 			/>
