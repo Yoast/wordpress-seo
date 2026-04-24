@@ -210,7 +210,7 @@ export const OutlineModalContent = ( {
 						leaveFrom="yst-opacity-100"
 						leaveTo="yst-opacity-0"
 					>
-						{ suggestion.category  && (
+						{ suggestion.category && (
 							<CategorySection
 								category={ suggestion.category }
 								isEnabled={ isCategoryEnabled }
