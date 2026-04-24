@@ -106,15 +106,14 @@ export const OutlineModalContent = ( {
 	suggestion,
 	onBackToSuggestions,
 	onApplyOutline,
+	closeButtonRef,
 } ) => {
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
 	const fetchContentOutline = useFetchContentOutline();
 	const handleRetry = useCallback( () => fetchContentOutline( suggestion ), [ fetchContentOutline, suggestion ] );
 	const [ isCategoryEnabled, setIsCategoryEnabled ] = useState( true );
-
 	const [ focusKeyphrase, setFocusKeyphrase ] = useState( suggestion.keyphrase );
 	const [ title, setTitle ] = useState( suggestion.title );
-
 	const [ metaDescription, setMetaDescription ] = useState( suggestion.meta_description );
 
 	const {
@@ -133,6 +132,12 @@ export const OutlineModalContent = ( {
 		setTitle( suggestion.title );
 		setMetaDescription( suggestion.meta_description );
 	}, [ suggestion ] );
+
+	useEffect( () => {
+		if ( isLoading && closeButtonRef?.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ isLoading, closeButtonRef ] );
 
 	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
 	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
