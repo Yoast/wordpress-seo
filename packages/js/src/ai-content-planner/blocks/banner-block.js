@@ -30,7 +30,7 @@ const Edit = ( { clientId } ) => {
 		};
 	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
-	const { openModal, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleDismiss = useCallback( () => {
@@ -38,13 +38,13 @@ const Edit = ( { clientId } ) => {
 	}, [ removeBlock, clientId ] );
 
 	const handleClick = useCallback( () => {
-		openModal();
+		setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 		if ( hasConsent ) {
 			fetchContentSuggestions();
 		} else {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.consent );
 		}
-	}, [ openModal, hasConsent, fetchContentSuggestions, setFeatureModalStatus ] );
+	}, [ hasConsent, fetchContentSuggestions, setFeatureModalStatus ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.
