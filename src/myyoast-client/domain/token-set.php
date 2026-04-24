@@ -56,7 +56,7 @@ class Token_Set {
 	private $scope;
 
 	/**
-	 * The token type (e.g. "DPoP" or "Bearer").
+	 * The token type (an Auth_Token_Type constant).
 	 *
 	 * @var string
 	 */
@@ -74,7 +74,7 @@ class Token_Set {
 	 *
 	 * @param string      $access_token  The access token.
 	 * @param int         $expires_at    Unix timestamp of token expiry.
-	 * @param string      $token_type    The token type (e.g. "DPoP").
+	 * @param string      $token_type    An Auth_Token_Type constant.
 	 * @param string|null $refresh_token The refresh token.
 	 * @param string|null $id_token      The OIDC ID token.
 	 * @param string|null $scope         The granted scope.
@@ -87,7 +87,7 @@ class Token_Set {
 		#[SensitiveParameter]
 		string $access_token,
 		int $expires_at,
-		string $token_type = 'DPoP',
+		string $token_type = Auth_Token_Type::DPOP,
 		// phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPNativeAttributeFound -- No-op on PHP < 8.2; redacts parameter from stack traces on PHP 8.2+.
 		#[SensitiveParameter]
 		?string $refresh_token = null,
@@ -249,7 +249,7 @@ class Token_Set {
 		return new self(
 			(string) ( $data['access_token'] ?? '' ),
 			(int) ( $data['expires_at'] ?? 0 ),
-			( $data['token_type'] ?? 'DPoP' ),
+			( $data['token_type'] ?? Auth_Token_Type::DPOP ),
 			( $data['refresh_token'] ?? null ),
 			( $data['id_token'] ?? null ),
 			( $data['scope'] ?? null ),
@@ -276,7 +276,7 @@ class Token_Set {
 		return new self(
 			$response['access_token'],
 			( \time() + $expires_in ),
-			( $response['token_type'] ?? 'DPoP' ),
+			( $response['token_type'] ?? Auth_Token_Type::DPOP ),
 			( $response['refresh_token'] ?? null ),
 			( $response['id_token'] ?? null ),
 			( $response['scope'] ?? null ),

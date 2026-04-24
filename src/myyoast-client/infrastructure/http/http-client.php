@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Expiring_Store\Application\Expiring_Store;
 use Yoast\WP\SEO\Expiring_Store\Domain\Corrupted_Value_Exception;
 use Yoast\WP\SEO\Expiring_Store\Domain\Key_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
@@ -99,7 +100,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 * @param string                                       $method       The HTTP method.
 	 * @param string                                       $url          The resource URL.
 	 * @param string                                       $access_token The access token.
-	 * @param string                                       $token_type   The token type ("DPoP" or "Bearer").
+	 * @param string                                       $token_type   An Auth_Token_Type constant.
 	 * @param array<string, string|int|bool|string[]|null> $options      Additional request options.
 	 *
 	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
@@ -110,7 +111,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 		// phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPNativeAttributeFound -- No-op on PHP < 8.2; redacts parameter from stack traces on PHP 8.2+.
 		#[SensitiveParameter]
 		string $access_token,
-		string $token_type = 'DPoP',
+		string $token_type = Auth_Token_Type::DPOP,
 		array $options = []
 	): array {
 		$headers = ( $options['headers'] ?? [] );
@@ -124,7 +125,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 				$options,
 				[
 					'headers'      => $headers,
-					'dpop'         => ( $token_type === 'DPoP' ),
+					'dpop'         => ( $token_type === Auth_Token_Type::DPOP ),
 					'access_token' => $access_token,
 				],
 			),

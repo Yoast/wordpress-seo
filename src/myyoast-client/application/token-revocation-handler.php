@@ -9,6 +9,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Authenticator_Interface
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Type_Hint;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
@@ -75,7 +76,7 @@ class Token_Revocation_Handler implements LoggerAwareInterface {
 	 * Revokes a token at the authorization server.
 	 *
 	 * @param string $token           The token to revoke.
-	 * @param string $token_type_hint The token type hint ("refresh_token" or "access_token").
+	 * @param string $token_type_hint A Token_Type_Hint constant.
 	 *
 	 * @return bool True if the revocation request was sent (regardless of server response).
 	 */
@@ -83,7 +84,7 @@ class Token_Revocation_Handler implements LoggerAwareInterface {
 		// phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPNativeAttributeFound -- No-op on PHP < 8.2; redacts parameter from stack traces on PHP 8.2+.
 		#[SensitiveParameter]
 		string $token,
-		string $token_type_hint = 'refresh_token'
+		string $token_type_hint = Token_Type_Hint::REFRESH_TOKEN
 	): bool {
 		try {
 			$registered_client = $this->client_registration->get_registered_client();

@@ -10,6 +10,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exceptio
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
@@ -252,7 +253,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			'GET',
 			$registered_client->get_registration_client_uri(),
 			$registered_client->get_registration_access_token(),
-			'Bearer',
+			Auth_Token_Type::BEARER,
 			[
 				'timeout' => 10,
 				'headers' => [ 'Accept' => 'application/json' ],
@@ -315,7 +316,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			'PUT',
 			$registered_client->get_registration_client_uri(),
 			$registered_client->get_registration_access_token(),
-			'Bearer',
+			Auth_Token_Type::BEARER,
 			[
 				'headers' => [
 					'Content-Type' => 'application/json',
@@ -361,7 +362,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			'DELETE',
 			$credentials->get_registration_client_uri(),
 			$credentials->get_registration_access_token(),
-			'Bearer',
+			Auth_Token_Type::BEARER,
 			[ 'timeout' => 10 ],
 		);
 
