@@ -46,9 +46,9 @@ class MyYoast_Cleanup_Integration implements Integration_Interface {
 		$this->cleanup->execute();
 
 		// Unschedule cron (WordPress-specific, stays in UI).
-		$timestamp = \wp_next_scheduled( 'yoast_myyoast_key_rotation' );
+		$timestamp = \wp_next_scheduled( 'Yoast\WP\SEO\myyoast_key_rotation' );
 		if ( $timestamp !== false ) {
-			\wp_unschedule_event( $timestamp, 'yoast_myyoast_key_rotation' );
+			\wp_unschedule_event( $timestamp, 'Yoast\WP\SEO\myyoast_key_rotation' );
 		}
 	}
 }

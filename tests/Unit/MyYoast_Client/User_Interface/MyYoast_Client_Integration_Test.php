@@ -65,7 +65,7 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 			->once();
 
 		Functions\expect( 'add_action' )
-			->with( 'yoast_myyoast_key_rotation', [ $this->instance, 'handle_key_rotation' ] )
+			->with( 'Yoast\WP\SEO\myyoast_key_rotation', [ $this->instance, 'handle_key_rotation' ] )
 			->once();
 
 		Functions\expect( 'add_filter' )
@@ -85,8 +85,8 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 	public function test_add_cron_schedule() {
 		$schedules = $this->instance->add_cron_schedule( [] );
 
-		$this->assertArrayHasKey( 'yoast_myyoast_90days', $schedules );
-		$this->assertSame( ( 90 * 86_400 ), $schedules['yoast_myyoast_90days']['interval'] );
+		$this->assertArrayHasKey( 'Yoast\WP\SEO\myyoast_90days', $schedules );
+		$this->assertSame( ( 90 * 86_400 ), $schedules['Yoast\WP\SEO\myyoast_90days']['interval'] );
 	}
 
 	/**
@@ -98,7 +98,7 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 	 */
 	public function test_schedule_key_rotation() {
 		Functions\expect( 'wp_next_scheduled' )
-			->with( 'yoast_myyoast_key_rotation' )
+			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
 			->andReturn( false );
 
 		Functions\expect( 'wp_schedule_event' )->once();

@@ -78,7 +78,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 		$this->cleanup->expects( 'execute' )->once();
 
 		Functions\expect( 'wp_next_scheduled' )
-			->with( 'yoast_myyoast_key_rotation' )
+			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
 			->once()
 			->andReturn( false );
 
@@ -96,12 +96,12 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 		$this->cleanup->expects( 'execute' )->once();
 
 		Functions\expect( 'wp_next_scheduled' )
-			->with( 'yoast_myyoast_key_rotation' )
+			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
 			->once()
 			->andReturn( 1_617_235_200 );
 
 		Functions\expect( 'wp_unschedule_event' )
-			->with( 1_617_235_200, 'yoast_myyoast_key_rotation' )
+			->with( 1_617_235_200, 'Yoast\WP\SEO\myyoast_key_rotation' )
 			->once();
 
 		$this->instance->cleanup();
