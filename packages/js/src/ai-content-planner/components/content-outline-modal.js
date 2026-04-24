@@ -10,7 +10,6 @@ import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
-import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure } from "../hooks";
 
@@ -21,17 +20,17 @@ import { useDraggableStructure } from "../hooks";
 /**
  * Progress bar indicating the meta description character length.
  *
- * @param {string} value		The meta description text.
- * @param {string} [date=""]	The meta description date.
- * @param {string} [locale=""]	The content locale, used for meta description length calculation.
- * @param {boolean}	[isCornerstoneActive=false]   Whether the cornerstone content toggle inside a post is on or off.
+ * @param {string} value The meta description text.
+ * @param {string} [date=""] The meta description date.
+ * @param {string} [locale=""] The content locale, used for meta description length calculation.
+ * @param {boolean} [isCornerstone=false] Whether the current post is marked as cornerstone content.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
-const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstoneActive = false } ) => {
+const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstone = false } ) => {
 	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
-	const { actual, score } = getDescriptionProgress( value, date, isCornerstoneActive, false, locale );
-	const percentage = Math.min( ( actual / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
+	const { actual, score, max } = getDescriptionProgress( value, date, isCornerstone, false, locale );
+	const percentage = Math.min( ( actual / max ) * 100, 100 );
 
 	return (
 		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
@@ -47,7 +46,7 @@ MetaDescriptionProgressBar.propTypes = {
 	value: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	locale: PropTypes.string,
-	isCornerstoneActive: PropTypes.bool,
+	isCornerstone: PropTypes.bool,
 };
 
 /**
@@ -203,7 +202,7 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @param {Object|null}        error       The error object if the content outline failed to load, or null if there is no error.
  * @param {Function}           onRetry     The function to call to retry fetching the content outline.
  * @param {string}             modalHelpLink  The URL for the AI help link in the modal header.
- * @param {boolean}			isCornerstoneActive Whether the cornerstone content feature is active (used for meta description progress calculation).
+ * @param {boolean}			isCornerstone Whether the current post is marked as cornerstone content (used for meta description progress calculation).
  * @param {string}			date The date from settings (used for meta description progress calculation).
  * @param {string}			locale	The content locale, used for meta description length calculation.
  * @returns {JSX.Element} The ContentOutlineModal component.
@@ -220,7 +219,7 @@ export const ContentOutlineModal = ( {
 	error,
 	onRetry,
 	modalHelpLink,
-	isCornerstoneActive,
+	isCornerstone,
 	date,
 	locale,
 } ) => {
@@ -342,7 +341,7 @@ export const ContentOutlineModal = ( {
 											value={ metaDescription }
 											date={ date }
 											locale={ locale }
-											isCornerstoneActive={ isCornerstoneActive }
+											isCornerstone={ isCornerstone }
 										/>
 									</div>
 								</div>

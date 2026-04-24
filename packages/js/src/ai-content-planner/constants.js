@@ -18,9 +18,6 @@ export const FEATURE_MODAL_STATUS = {
 	replaceContent: "replace-content",
 };
 
-export const META_DESCRIPTION_MAX_LENGTH = 156;
-export const META_DESCRIPTION_RECOMMENDED_MIN_LENGTH = 120;
-
 export const ERROR_DEFAULT = {
 	errorCode: null,
 	errorIdentifier: null,

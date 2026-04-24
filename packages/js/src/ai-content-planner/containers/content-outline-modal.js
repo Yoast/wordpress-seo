@@ -22,7 +22,7 @@ export default compose( [
 		const {
 			getIsPremium,
 			selectLink,
-			getPreferences,
+			isCornerstoneContent,
 			getDateFromSettings,
 			getContentLocale,
 		} = select( "yoast-seo/editor" );
@@ -37,7 +37,7 @@ export default compose( [
 			isPremium: getIsPremium(),
 			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
 			modalHelpLink: selectLink( "https://yoa.st/ai-content-planner-help-button-modal" ),
-			isCornerstoneActive: getPreferences().isCornerstoneActive,
+			isCornerstone: isCornerstoneContent(),
 			date: getDateFromSettings(),
 			locale: getContentLocale(),
 		};

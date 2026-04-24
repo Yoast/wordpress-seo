@@ -110,8 +110,8 @@ const defaultStoreSelectors = {
 		getContentLocale: () => "en",
 		getEditorTypeApiValue: () => "block",
 		selectLink: () => "",
-		getPreferences: () => ( { isCornerstoneActive: false } ),
-		getDateFromSettings: () => null,
+		isCornerstoneContent: () => false,
+		getDateFromSettings: () => "",
 	},
 	"yoast-seo/ai-generator": {
 		selectUsageCount: () => 1,
