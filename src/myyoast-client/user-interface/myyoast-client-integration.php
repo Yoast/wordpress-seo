@@ -55,7 +55,11 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	 *
 	 * @return array<string, array<string, string|int>> Modified schedules.
 	 */
-	public function add_cron_schedule( array $schedules ): array {
+	public function add_cron_schedule( $schedules ) {
+		if ( ! \is_array( $schedules ) ) {
+			$schedules = [];
+		}
+
 		$schedules[ self::ROTATION_INTERVAL ] = [
 			'interval' => ( 90 * 86_400 ), // 90 days in seconds.
 			'display'  => \esc_html__( 'Every 90 days', 'wordpress-seo' ),
