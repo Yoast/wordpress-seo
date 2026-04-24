@@ -22,6 +22,6 @@ If a rule appears to conflict between this file and `CONTRIBUTING.md` or [`.gith
 
 - **Respect the creator / merger split on PRs.** When opening a PR, never set the milestone and never add the `community-patch` label. Both are the merger's or automation's job. The full procedure lives in [`docs/workflows/create-pr.md`](./docs/workflows/create-pr.md) — follow it instead of reinventing the steps.
 
-- **Don't hand-edit generated or vendored files.** `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, `node_modules/` — regenerate via the appropriate tooling. The full list and the tool for each is in [CONTRIBUTING.md → "Repository layout"](./.github/CONTRIBUTING.md#repository-layout).
+- **Don't hand-edit generated or vendored files.** `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `languages/`, `node_modules/` — regenerate via the appropriate tooling. The full list and the tool for each is in [CONTRIBUTING.md → "Repository layout"](./.github/CONTRIBUTING.md#repository-layout).
 
 - **Default to CONTRIBUTING.md.** Anything not listed in this delta is in `CONTRIBUTING.md`, the PR template, or `src/README.md`. Read those before making assumptions.

@@ -100,7 +100,7 @@ The top-level folders you will touch (or explicitly avoid):
 | `lib/` | Low-level utilities (ORM, migrations). Touch only when needed. | Maintenance |
 | `src/generated/` | Compiled Symfony DI container. **Gitignored, not committed**; the release-build pipeline bundles it into the shipped artifact. | **Never hand-edit** — regenerate via `composer compile-di` |
 | `vendor/`, `vendor_prefixed/` | Composer dependencies (prefixed copies are scoped with `YoastSEO_Vendor`). | Never hand-edit |
-| `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, `node_modules/` | Generated or distribution artifacts. | Never hand-edit |
+| `build/`, `js/dist/`, `css/dist/`, `artifact/`, `languages/`, `node_modules/` | Generated or distribution artifacts. | Never hand-edit |
 | `wp-seo.php`, `wp-seo-main.php`, `index.php` | Plugin bootstrap. Change only when the bootstrap itself needs to change. | With care |
 
 ### Where to put new code

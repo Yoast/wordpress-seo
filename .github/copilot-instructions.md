@@ -31,7 +31,7 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 
 ### Safety
 
-- Flag any file under `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `svn-assets/`, `languages/`, or `node_modules/` appearing in the diff — these paths are generated or vendored and gitignored; they must not be committed.
+- Flag any file under `src/generated/`, `vendor/`, `vendor_prefixed/`, `build/`, `js/dist/`, `css/dist/`, `artifact/`, `languages/`, or `node_modules/` appearing in the diff — these paths are generated or vendored and gitignored; they must not be committed.
 - Flag any committed secrets, credentials, or API keys.
 - Flag disabled CS checks, skipped tests, or bypassed CI gates without explanation.
 - Breaking changes to public extension points (filters, actions, surfaces, REST routes) must be called out in the PR body.
