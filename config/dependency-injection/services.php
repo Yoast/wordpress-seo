@@ -54,8 +54,6 @@ include __DIR__ . '/deprecated-classes.php';
 $yoast_seo_excluded_files = [
 	'main.php',
 	'config/wincher-pkce-provider.php',
-	'myyoast-client/infrastructure/crypto/key-pair.php',
-	'myyoast-client/infrastructure/encoding/base64url.php',
 ];
 
 $yoast_seo_excluded_directories = [
@@ -71,9 +69,6 @@ $yoast_seo_excluded_directories = [
 	'values/oauth',
 	'values/robots',
 	'task-list/application/tasks/child-tasks',
-	'myyoast-client/domain',
-	'myyoast-client/application/grants',
-	'myyoast-client/application/exceptions',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
