@@ -8,6 +8,7 @@ use Exception;
 use WP_CLI;
 use WP_CLI\ExitException;
 use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
@@ -204,7 +205,7 @@ final class Auth_Command implements Command_Interface {
 		}
 
 		try {
-			$redirect_uri = \get_admin_url( null, 'admin.php?page=wpseo_dashboard&yoast_myyoast_oauth_callback=1' );
+			$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
 			$client       = $this->myyoast_client->ensure_registered( [ $redirect_uri ] );
 		} catch ( Exception $e ) {
 			WP_CLI::error( 'Registration failed: ' . $e->getMessage() );
@@ -580,7 +581,7 @@ final class Auth_Command implements Command_Interface {
 		}
 
 		// Phase 1: generate the authorization URL.
-		$redirect_uri = \get_admin_url( null, 'admin.php?page=wpseo_dashboard&yoast_myyoast_oauth_callback=1' );
+		$redirect_uri = \get_admin_url( null, 'admin.php?page=' . General_Page_Integration::PAGE . '&yoast_myyoast_oauth_callback=1' );
 
 		try {
 			$url = $this->myyoast_client->get_authorization_url( $user_id, $redirect_uri, $scopes );
