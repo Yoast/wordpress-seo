@@ -10,6 +10,7 @@ import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure } from "../hooks";
 import { Transition } from "@headlessui/react";
+import { noop } from "lodash";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -185,6 +186,7 @@ const LoadingContentOutlineModalContent = () => {
 	return <>
 		<CategorySection
 			isLoading={ true }
+			onToggle={ noop }
 		/>
 		<div className="yst-flex yst-flex-col yst-gap-4">
 			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
