@@ -17,8 +17,9 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	use No_Conditionals;
 	use LoggerAwareTrait;
 
-	private const CRON_HOOK         = 'Yoast\WP\SEO\myyoast_key_rotation';
-	private const ROTATION_INTERVAL = 'Yoast\WP\SEO\myyoast_90days';
+	private const CRON_HOOK                   = 'Yoast\WP\SEO\myyoast_key_rotation';
+	private const ROTATION_INTERVAL           = 'Yoast\WP\SEO\myyoast_90days';
+	private const ROTATION_INTERVAL_IN_DAYS   = 90;
 
 	/**
 	 * The registration manager.
@@ -61,7 +62,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 		}
 
 		$schedules[ self::ROTATION_INTERVAL ] = [
-			'interval' => ( 90 * 86_400 ), // 90 days in seconds.
+			'interval' => ( self::ROTATION_INTERVAL_IN_DAYS * \DAY_IN_SECONDS ),
 			'display'  => \esc_html__( 'Every 90 days', 'wordpress-seo' ),
 		];
 
@@ -75,7 +76,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	 */
 	public function schedule_key_rotation(): void {
 		if ( ! \wp_next_scheduled( self::CRON_HOOK ) ) {
-			\wp_schedule_event( ( \time() + ( 90 * 86_400 ) ), self::ROTATION_INTERVAL, self::CRON_HOOK );
+			\wp_schedule_event( ( \time() + ( self::ROTATION_INTERVAL_IN_DAYS * \DAY_IN_SECONDS ) ), self::ROTATION_INTERVAL, self::CRON_HOOK );
 		}
 	}
 
