@@ -72,8 +72,13 @@ class Key_Pair_Manager implements LoggerAwareInterface {
 	 */
 	public function get_or_create_key_pair( string $purpose ): Key_Pair {
 		$option_key = $this->get_option_key( $purpose );
-		if ( isset( $this->cached_key_pairs[ $option_key ] ) ) {
-			return $this->cached_key_pairs[ $option_key ];
+		if ( \array_key_exists( $option_key, $this->cached_key_pairs ) ) {
+			$cached = $this->cached_key_pairs[ $option_key ];
+			if ( $cached !== null ) {
+				return $cached;
+			}
+
+			return $this->generate_and_store_key_pair( $purpose );
 		}
 
 		try {
