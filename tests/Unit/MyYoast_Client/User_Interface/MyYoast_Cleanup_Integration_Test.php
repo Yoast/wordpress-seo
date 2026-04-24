@@ -68,7 +68,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that cleanup delegates to the cleanup service and clears all scheduled hooks.
+	 * Tests that cleanup delegates to the cleanup service.
 	 *
 	 * @covers ::cleanup
 	 *
@@ -76,10 +76,6 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	 */
 	public function test_cleanup() {
 		$this->cleanup->expects( 'execute' )->once();
-
-		Functions\expect( 'wp_clear_scheduled_hook' )
-			->with( 'wpseo_myyoast_key_rotation' )
-			->once();
 
 		$this->instance->cleanup();
 	}

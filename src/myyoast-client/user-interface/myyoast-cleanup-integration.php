@@ -44,8 +44,5 @@ class MyYoast_Cleanup_Integration implements Integration_Interface {
 	 */
 	public function cleanup(): void {
 		$this->cleanup->execute();
-
-		// Unschedule cron (WordPress-specific, stays in UI).
-		\wp_clear_scheduled_hook( 'wpseo_myyoast_key_rotation' );
 	}
 }

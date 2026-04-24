@@ -68,11 +68,30 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 			->with( 'wpseo_myyoast_key_rotation', [ $this->instance, 'handle_key_rotation' ] )
 			->once();
 
+		Functions\expect( 'add_action' )
+			->with( 'wpseo_deactivate', [ $this->instance, 'unschedule_key_rotation' ] )
+			->once();
+
 		Functions\expect( 'add_filter' )
 			->with( 'cron_schedules', [ $this->instance, 'add_cron_schedule' ] )
 			->once();
 
 		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests that unschedule_key_rotation clears all scheduled events for the hook.
+	 *
+	 * @covers ::unschedule_key_rotation
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_key_rotation() {
+		Functions\expect( 'wp_clear_scheduled_hook' )
+			->with( 'wpseo_myyoast_key_rotation' )
+			->once();
+
+		$this->instance->unschedule_key_rotation();
 	}
 
 	/**

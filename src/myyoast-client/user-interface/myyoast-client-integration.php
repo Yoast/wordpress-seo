@@ -46,6 +46,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'schedule_key_rotation' ] );
 		\add_action( self::CRON_HOOK, [ $this, 'handle_key_rotation' ] );
+		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_key_rotation' ] );
 		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand the self::ROTATION_INTERVAL_IN_DAYS reference.
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 	}
@@ -79,6 +80,15 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 		if ( ! \wp_next_scheduled( self::CRON_HOOK ) ) {
 			\wp_schedule_event( ( \time() + ( self::ROTATION_INTERVAL_IN_DAYS * \DAY_IN_SECONDS ) ), self::ROTATION_INTERVAL, self::CRON_HOOK );
 		}
+	}
+
+	/**
+	 * Clears all scheduled key rotation events.
+	 *
+	 * @return void
+	 */
+	public function unschedule_key_rotation(): void {
+		\wp_clear_scheduled_hook( self::CRON_HOOK );
 	}
 
 	/**
