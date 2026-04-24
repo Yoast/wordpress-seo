@@ -49,10 +49,6 @@ export const App = () => {
 		fetchContentSuggestions();
 	}, [ hasConsent, setFeatureModalStatus, fetchContentSuggestions ] );
 
-	const handleCancelReplace = useCallback( () => {
-		setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
-	}, [ setFeatureModalStatus ] );
-
 	const handleConfirmReplace = useCallback( () => {
 		handleApplyOutline();
 	}, [ handleApplyOutline ] );
@@ -74,7 +70,6 @@ export const App = () => {
 				setHasVisitedReplace={ setHasVisitedReplace }
 			/>
 			<ReplaceContentModal
-				onCancel={ handleCancelReplace }
 				onConfirm={ handleConfirmReplace }
 				isOpen={ replaceContentModalIsOpen && hasVisitedReplace }
 				onClose={ toggleReplaceContentModal }

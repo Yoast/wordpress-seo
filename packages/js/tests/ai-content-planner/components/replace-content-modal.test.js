@@ -1,9 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ReplaceContentModal } from "../../../src/ai-content-planner/components/replace-content-modal";
 
-const renderModal = ( { onCancel = jest.fn(), onClose = jest.fn(), onConfirm = jest.fn(), ...props } = {} ) => render(
+const renderModal = ( { onClose = jest.fn(), onConfirm = jest.fn(), ...props } = {} ) => render(
 	<ReplaceContentModal
-		onCancel={ onCancel }
 		onConfirm={ onConfirm }
 		isOpen={ true }
 		onClose={ onClose }
@@ -45,10 +44,10 @@ describe( "ReplaceContentModal", () => {
 
 	describe( "actions", () => {
 		it( "calls onCancel when the cancel button is clicked", () => {
-			const onCancel = jest.fn();
-			renderModal( { onCancel } );
+			const onClose = jest.fn();
+			renderModal( { onClose } );
 			fireEvent.click( screen.getByRole( "button", { name: "Cancel" } ) );
-			expect( onCancel ).toHaveBeenCalledTimes( 1 );
+			expect( onClose ).toHaveBeenCalledTimes( 1 );
 		} );
 
 		it( "calls onConfirm when the replace content button is clicked", () => {
