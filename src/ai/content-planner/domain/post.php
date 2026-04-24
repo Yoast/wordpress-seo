@@ -24,7 +24,7 @@ class Post {
 	/**
 	 * The category.
 	 *
-	 * @var Category
+	 * @var Category|null
 	 */
 	private $category;
 
@@ -59,18 +59,18 @@ class Post {
 	/**
 	 * The constructor.
 	 *
-	 * @param string   $title                 The title.
-	 * @param string   $description           The description.
-	 * @param Category $category              The category.
-	 * @param string   $primary_focus_keyword The primary focus keyword.
-	 * @param int      $is_cornerstone        Whether the post is cornerstone content.
-	 * @param string   $last_modified         The last modified date.
-	 * @param ?string  $schema_article_type   The schema article type.
+	 * @param string    $title                 The title.
+	 * @param string    $description           The description.
+	 * @param ?Category $category              The category, or null if the post has no category.
+	 * @param string    $primary_focus_keyword The primary focus keyword.
+	 * @param int       $is_cornerstone        Whether the post is cornerstone content.
+	 * @param string    $last_modified         The last modified date.
+	 * @param ?string   $schema_article_type   The schema article type.
 	 */
 	public function __construct(
 		string $title,
 		string $description,
-		Category $category,
+		?Category $category,
 		string $primary_focus_keyword,
 		int $is_cornerstone,
 		string $last_modified,
@@ -94,7 +94,7 @@ class Post {
 		$data = [
 			'title'                 => $this->title,
 			'description'           => $this->description,
-			'category'              => $this->category->to_array(),
+			'category'              => isset( $this->category ) ? $this->category->to_array() : null,
 			'primary_focus_keyword' => $this->primary_focus_keyword,
 			'is_cornerstone'        => $this->is_cornerstone,
 			'last_modified'         => $this->last_modified,
