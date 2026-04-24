@@ -71,12 +71,6 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
 );
 
 /**
- * @typedef {Object} StructureItem
- * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
- * @property {string} title The section title.
- */
-
-/**
  * Loading content Outline Modal Content.
  *
  * @returns {JSX.Element} The LoadingOutlineModalContent component.
@@ -103,9 +97,7 @@ const LoadingOutlineModalContent = () => {
  * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
  * @param {Function}           onApplyOutline      The function to call to add the outline to the post.
  * @param {OutlineSuggestion}  suggestion          The content outline suggestion to display.
- * @param {boolean}            isActive            Whether this panel is currently visible (used for focus management).
  * @param {Object|null}        error               The error object if the content outline failed to load, or null if there is no error.
- * @param {Function}           onRetry             The function to call to retry fetching the content outline.
  * @param {Object}             closeButtonRef      Ref object for the modal close button, used to manage focus.
  *
  * @returns {JSX.Element} The OutlineModalContent component.
