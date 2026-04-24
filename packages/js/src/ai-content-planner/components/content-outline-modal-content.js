@@ -1,4 +1,4 @@
-/* eslint-disable complexity */
+
 import { Button, Modal, SkeletonLoader, TextField, TextareaField } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { useState, useCallback, useEffect } from "@wordpress/element";
@@ -66,44 +66,6 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
 				<SkeletonLoader className="yst-w-1/3 yst-h-4 yst-rounded" />
 			) }
 		</div>
-	</div>
-);
-
-/**
- * The body and footer content of the Content Outline Modal.
- * Manages all editable field state, the draggable structure, and action buttons.
- *
- * @param {string}            status              The loading status of the content outline suggestion.
- * @param {Object|null}       error               The error object if the content outline failed to load, or null if there is no error.
- * @param {Suggestion}        suggestion          The content outline suggestion to display.
- * @param {Function}          onBackToSuggestions The function to call to go back to content suggestions.
- * @param {Function}          onApplyOutline      The function to call to add the outline to the post.
- *
- * @returns {JSX.Element} The ContentOutlineModalContent component.
- */
-const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
-	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm yst-mb-6">
-		<div className="yst-flex yst-flex-col yst-gap-1.5">
-			<div className="yst-flex yst-items-center yst-justify-between">
-				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-					{ __( "Suggest category", "wordpress-seo" ) }
-				</span>
-				<Toggle
-					id="suggest-category-toggle"
-					checked={ isEnabled }
-					onChange={ onToggle }
-					disabled={ isLoading }
-					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
-				/>
-			</div>
-			<p className="yst-text-sm yst-text-slate-600">
-				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
-			</p>
-		</div>
-		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
-		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
-			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
-		</div> }
 	</div>
 );
 
@@ -251,9 +213,9 @@ export const ContentOutlineModalContent = ( {
 						leaveFrom="yst-opacity-100"
 						leaveTo="yst-opacity-0"
 					>
-						{ category  && (
+						{ suggestion.category  && (
 							<CategorySection
-								category={ category }
+								category={ suggestion.category }
 								isEnabled={ isCategoryEnabled }
 								onToggle={ handleCategoryToggle }
 							/>
