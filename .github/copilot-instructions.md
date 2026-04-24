@@ -36,6 +36,10 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 - Flag disabled CS checks, skipped tests, or bypassed CI gates without explanation.
 - Breaking changes to public extension points (filters, actions, surfaces, REST routes) must be called out in the PR body.
 
+### Assets
+
+- If the diff adds or edits image files (`.png`, `.jpg`, `.gif`, `.svg` — primarily under `images/` or `svn-assets/`), the author must run `grunt build:images` (or plain `grunt build`) and commit the resulting optimised files. The *Quality assurance* checkbox "I have run `grunt build:images` and committed the results…" in the PR template is the canonical signal — if image files are in the diff and that checkbox is unticked, flag it. The release pipeline fails on images that haven't been pre-optimised.
+
 ### Security
 
 - Watch for SQL injection, XSS, CSRF, unescaped output, missing nonces on state-changing requests, and capability checks that are missing or wrong.

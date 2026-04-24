@@ -213,6 +213,7 @@ Run these checks locally and make sure each one is clean. CI will run the same c
 * `composer check-branch-cs` — checks the Yoast coding-standard ruleset against the files you changed on this branch. It must report **no new errors or warnings** introduced by your branch. Use `composer fix-cs` to auto-fix what it can, and address the rest by hand.
 * `composer lint-branch` — PHP parse-error check on the files changed on this branch.
 * For changes under `packages/*` or `js/`: run `yarn lint` and the relevant package's `yarn test`.
+* If your change adds or edits any image or SVG (`.png`, `.jpg`, `.gif`, `.svg` — primarily under `images/` or `svn-assets/`): run `grunt build:images` (or plain `grunt build`, which includes it) and commit the resulting optimised files. The release pipeline re-runs `imagemin` during artifact creation, and the build fails if the committed images aren't already optimised.
 
 **Coverage:** every PR should *increase* test coverage, or at minimum keep it flat. In practice this means the code you add should come with tests that exercise it. CI reports the coverage delta on the PR — if coverage drops, explain in the PR description why it was not possible to add tests for the new code (for example: pure wiring code that can only be exercised through a full WordPress boot, or a third-party API call that is impractical to mock).
 

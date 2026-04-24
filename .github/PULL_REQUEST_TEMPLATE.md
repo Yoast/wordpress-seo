@@ -85,7 +85,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 * [ ] I have checked that the base branch is correctly set.
-* [ ] I have run `grunt build:images` and commited the results, if my PR introduces new images or SVGs.
+* [ ] I have run `grunt build:images` and committed the results, if my PR introduces or edits images or SVGs.
 
 ## Innovation
 
