@@ -48,7 +48,8 @@ which type/editor/browser should be tested in particular, multisite with subfold
 ### Test instructions for QA when the code is in the RC
 <!--
 Sometimes some steps from the test instructions for the acceptance test aren't relevant anymore once the code has been merged or the feature is complete. If that is the case, do not check the checkbox below.
-QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release
+QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release.
+For non-user-facing PRs (documentation, pure refactors, internal tooling), write "Not applicable" in the steps below and leave the checkbox unticked — QA verifies user-visible behaviour at RC time, not internal changes.
 -->
 
 * [ ] QA should use the same steps as above.

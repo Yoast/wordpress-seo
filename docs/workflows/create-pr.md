@@ -59,7 +59,7 @@ Cover every section of `.github/PULL_REQUEST_TEMPLATE.md`:
 - **Relevant technical choices** — non-obvious decisions, trade-offs, architectural notes. **If coverage decreased, explain here why tests weren't feasible.**
 - **Test instructions (acceptance)** — step-by-step, aimed at non-technical users.
 - **Relevant test scenarios** — tick the boxes that apply and explain why for each ticked box.
-- **QA instructions** — tick the "same steps as above" box if applicable, otherwise write separate steps (or link to the epic).
+- **QA instructions** — for non-user-facing PRs (docs, pure refactors, tooling), leave the checkbox unticked and write "Not applicable". Otherwise tick "same steps as above" when acceptance and QA match, or write separate steps (or link to the epic).
 - **Impact check** — parts of the plugin that may need regression testing.
 - **Other environments** — tick Shopify / Google Docs boxes only when the corresponding entry is present in step 3.
 - **Documentation / Quality assurance / Innovation** checkboxes — tick only those that are actually true.
