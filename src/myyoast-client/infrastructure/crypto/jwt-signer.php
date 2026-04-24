@@ -39,10 +39,10 @@ class JWT_Signer {
 		string $private_key
 	): string {
 		try {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Using json_encode directly: JSON_THROW_ON_ERROR must propagate so encoding failures surface as exceptions, and wp_json_encode's silent UTF-8 transcoding would mutate JWT claim values.
-			$header_b64 = Base64url::encode( \json_encode( $header, \JSON_THROW_ON_ERROR ) );
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Using json_encode directly: JSON_THROW_ON_ERROR must propagate so encoding failures surface as exceptions, and wp_json_encode's silent UTF-8 transcoding would mutate JWT claim values.
-			$payload_b64 = Base64url::encode( \json_encode( $payload, \JSON_THROW_ON_ERROR ) );
+			// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- JSON_THROW_ON_ERROR is required to surface encoding errors as typed exceptions.
+			$header_b64 = Base64url::encode( \wp_json_encode( $header, \JSON_THROW_ON_ERROR ) );
+			// phpcs:ignore Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- JSON_THROW_ON_ERROR is required to surface encoding errors as typed exceptions.
+			$payload_b64 = Base64url::encode( \wp_json_encode( $payload, \JSON_THROW_ON_ERROR ) );
 		}
 		catch ( JsonException $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
