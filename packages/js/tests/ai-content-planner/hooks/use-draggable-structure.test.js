@@ -7,12 +7,9 @@ jest.mock( "@wordpress/data", () => ( {
 } ) );
 
 const mockOutline = [
-	// eslint-disable-next-line camelcase
-	{ subheading_text: "Introduction" },
-	// eslint-disable-next-line camelcase
-	{ subheading_text: "Body" },
-	// eslint-disable-next-line camelcase
-	{ subheading_text: "Conclusion" },
+	{ heading: "Introduction" },
+	{ heading: "Body" },
+	{ heading: "Conclusion" },
 ];
 
 /**
@@ -46,21 +43,6 @@ describe( "useDraggableStructure", () => {
 	} );
 
 	describe( "initial state", () => {
-		it( "builds structure from the outline with stable ids", () => {
-			const { result } = renderHook( () => useDraggableStructure() );
-			expect( result.current.structure ).toEqual( [
-				{ id: "0-H2-Introduction", title: "Introduction" },
-				{ id: "1-H2-Body", title: "Body" },
-				{ id: "2-H2-Conclusion", title: "Conclusion" },
-			] );
-		} );
-
-		it( "handles a null outline by producing an empty structure", () => {
-			setupUseSelect( null );
-			const { result } = renderHook( () => useDraggableStructure() );
-			expect( result.current.structure ).toEqual( [] );
-		} );
-
 		it( "initialises dragOverIndex to null", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
 			expect( result.current.dragOverIndex ).toBeNull();
@@ -82,8 +64,7 @@ describe( "useDraggableStructure", () => {
 			const { result, rerender } = renderHook( () => useDraggableStructure() );
 			expect( result.current.structure ).toHaveLength( 3 );
 
-			// eslint-disable-next-line camelcase
-			const newOutline = [ { subheading_text: "Only section" } ];
+			const newOutline = [ { heading: "Only section", id: "0-Only section" } ];
 			setupUseSelect( newOutline );
 
 			act( () => {
@@ -91,7 +72,7 @@ describe( "useDraggableStructure", () => {
 			} );
 
 			expect( result.current.structure ).toEqual( [
-				{ id: "0-H2-Only section", title: "Only section" },
+				{ id: "0-Only section", heading: "Only section" },
 			] );
 		} );
 	} );
@@ -148,7 +129,7 @@ describe( "useDraggableStructure", () => {
 
 			// Dragging index 0 to position 2: dest = 2-1 = 1
 			// [Introduction, Body, Conclusion] → [Body, Introduction, Conclusion]
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Body",
 				"Introduction",
 				"Conclusion",
@@ -167,7 +148,7 @@ describe( "useDraggableStructure", () => {
 
 			// Dragging index 2 to position 0: dest = 0 (dragIndex > dropIndex)
 			// [Introduction, Body, Conclusion] → [Conclusion, Introduction, Body]
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Conclusion",
 				"Introduction",
 				"Body",
@@ -176,7 +157,7 @@ describe( "useDraggableStructure", () => {
 
 		it( "does not reorder when dropping onto the same index", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
-			const originalTitles = result.current.structure.map( ( i ) => i.title );
+			const originalHeadings = result.current.structure.map( ( i ) => i.heading );
 
 			act( () => {
 				result.current.handleDragStart( mockEvent(), 1 );
@@ -185,7 +166,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleDrop( mockEvent(), 1 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( originalTitles );
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( originalHeadings );
 		} );
 
 		it( "resets dragOverIndex to null after a successful drop", () => {
@@ -253,7 +234,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleMoveUp( 1 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Body",
 				"Introduction",
 				"Conclusion",
@@ -267,7 +248,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleMoveUp( 2 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Introduction",
 				"Conclusion",
 				"Body",
@@ -283,7 +264,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleMoveDown( 0 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Body",
 				"Introduction",
 				"Conclusion",
@@ -297,7 +278,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleMoveDown( 1 );
 			} );
 
-			expect( result.current.structure.map( ( i ) => i.title ) ).toEqual( [
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
 				"Introduction",
 				"Conclusion",
 				"Body",

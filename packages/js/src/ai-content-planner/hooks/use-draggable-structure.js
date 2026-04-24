@@ -3,17 +3,6 @@ import { useSelect } from "@wordpress/data";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 /**
- * Assigns stable unique IDs to structure items for use as React keys.
- *
- * @param {Array} items The structure items.
- * @returns {Array} Items with `id` property added.
- */
-const withIds = ( items ) => items.map( ( item, i ) => {
-	const title = item.subheading_text ?? "";
-	return { title, id: `${ i }-H2-${ title }` };
-} );
-
-/**
  * Manages the draggable structure list state and all related drag-and-drop
  * and keyboard-move handlers. Reads the outline from the store and resets
  * the structure whenever it changes.
@@ -22,12 +11,12 @@ const withIds = ( items ) => items.map( ( item, i ) => {
  */
 export const useDraggableStructure = () => {
 	const outline = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutline(), [] );
-	const [ structure, setStructure ] = useState( () => withIds( outline ?? [] ) );
+	const [ structure, setStructure ] = useState( outline );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
 	const dragIndexRef = useRef( null );
 
 	useEffect( () => {
-		setStructure( withIds( outline ?? [] ) );
+		setStructure( outline );
 	}, [ outline ] );
 
 	const handleDragStart = useCallback( ( e, index ) => {

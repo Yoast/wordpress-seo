@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { OutlineModalContent } from "../../../src/ai-content-planner/components/outline-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
+import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => false ),
@@ -19,12 +20,13 @@ jest.mock( "../../../src/ai-content-planner/components/content-planner-error", (
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
+	useFetchContentOutline: jest.fn(),
 	useDraggableStructure: () => ( {
 		structure: [
-			{ id: "1", title: "Introduction" },
-			{ id: "2", title: "Why This Matters" },
-			{ id: "3", title: "Step-by-Step Guide" },
-			{ id: "4", title: "Conclusion" },
+			{ id: "1", heading: "Introduction" },
+			{ id: "2", heading: "Why This Matters" },
+			{ id: "3", heading: "Step-by-Step Guide" },
+			{ id: "4", heading: "Conclusion" },
 		],
 		dragOverIndex: null,
 		handleDragStart: jest.fn(),
@@ -36,6 +38,8 @@ jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	} ),
 } ) );
 
+const mockFetchContentOutlineFn = jest.fn();
+
 const defaultSuggestion = {
 	intent: "informational",
 	title: "The Ultimate Guide to Setting Up Your WordPress Blog",
@@ -43,6 +47,7 @@ const defaultSuggestion = {
 	keyphrase: "Guide to set up WordPress blog",
 	// eslint-disable-next-line camelcase
 	meta_description: "A comprehensive tutorial covering WordPress installation, theme selection, and essential plugins.",
+	index: 2,
 };
 
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
@@ -78,6 +83,7 @@ const renderLoadedModal = ( props ) => {
 describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
+		useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
 	} );
 
 	afterEach( () => {
@@ -276,9 +282,16 @@ describe( "ContentOutlineModal", () => {
 	describe( "footer actions", () => {
 		it( "calls onBackToSuggestions when the back button is clicked", () => {
 			const onBackToSuggestions = jest.fn();
-			renderModal( { onBackToSuggestions } );
+			renderModal( { onBackToSuggestions, status: ASYNC_ACTION_STATUS.success } );
 			fireEvent.click( screen.getByRole( "button", { name: /Content suggestions/i } ) );
 			expect( onBackToSuggestions ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "doesnt call onBackToSuggestions when the back button is clicked while loading", () => {
+			const onBackToSuggestions = jest.fn();
+			renderModal( { onBackToSuggestions } );
+			fireEvent.click( screen.getByRole( "button", { name: /Content suggestions/i } ) );
+			expect( onBackToSuggestions ).not.toHaveBeenCalled();
 		} );
 
 		it( "calls onApplyOutline when the add button is clicked", () => {
@@ -369,11 +382,11 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByRole( "button", { name: "Add outline to post" } ) ).not.toBeInTheDocument();
 		} );
 
-		it( "calls onRetry when the retry button is clicked", () => {
-			const onRetry = jest.fn();
-			renderErrorModal( { onRetry } );
+		it( "calls fetchContentOutline when the retry button is clicked", () => {
+			mockFetchContentOutlineFn.mockClear();
+			renderErrorModal();
 			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
-			expect( onRetry ).toHaveBeenCalledTimes( 1 );
+			expect( mockFetchContentOutlineFn ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );

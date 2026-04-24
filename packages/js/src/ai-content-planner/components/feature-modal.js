@@ -21,8 +21,8 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
  * @param {boolean}       isPremium                       Whether the user has a premium subscription or not.
  * @param {string|null}   status                          The current feature modal status from the store.
  * @param {string}        modalHelpLink                  The link to the help center article about the content planner feature.
- * @param {number}        usageCount                     The current usage count of the AI features.
- * @param {number}        usageCountLimit                The usage count limit of the AI features.
+ * @param {number}        [usageCount]                     The current usage count of the AI features.
+ * @param {number}        [usageCountLimit]                The usage count limit of the AI features.
  * @param {string}        contentSuggestionsStatus       The status of the content suggestions request.
  * @param {string}        contentOutlineStatus           The status of the content outline request.
  * @param {string}        usageCountStatus              The status of the usage count request.
