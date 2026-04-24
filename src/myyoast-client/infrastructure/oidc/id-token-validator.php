@@ -245,18 +245,18 @@ class ID_Token_Validator implements ID_Token_Validator_Interface, LoggerAwareInt
 			],
 		);
 
-		if ( $result['status'] !== 200 ) {
+		if ( $result->get_status() !== 200 ) {
 			$this->logger->warning(
 				'JWKS fetch returned HTTP {status} from {url}.',
 				[
-					'status' => $result['status'],
+					'status' => $result->get_status(),
 					'url'    => $jwks_uri,
 				],
 			);
 			return null;
 		}
 
-		$body = $result['body'];
+		$body = $result->get_body();
 		if ( ! \is_array( $body ) || empty( $body['keys'] ) ) {
 			$this->logger->warning( 'JWKS response from {url} has no keys.', [ 'url' => $jwks_uri ] );
 			return null;

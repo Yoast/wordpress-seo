@@ -17,6 +17,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Type_Hint;
@@ -394,9 +395,9 @@ class MyYoast_Client implements LoggerAwareInterface {
 	 * @param Token_Set                      $token_set The token set to use.
 	 * @param array<string, string|int|bool> $options   Additional request options.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The response.
+	 * @return HTTP_Response The response.
 	 */
-	public function authenticated_request( string $method, string $url, Token_Set $token_set, array $options = [] ): array {
+	public function authenticated_request( string $method, string $url, Token_Set $token_set, array $options = [] ): HTTP_Response {
 		return $this->http_client->authenticated_request(
 			$method,
 			$url,

@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Expiring_Store\Domain\Corrupted_Value_Exception;
 use Yoast\WP\SEO\Expiring_Store\Domain\Key_Not_Found_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
 use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
@@ -62,9 +63,9 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 * @param string                                       $url     The request URL.
 	 * @param array<string, string|int|bool|string[]|null> $options Request options: 'headers', 'body', 'timeout', 'dpop' (bool), 'access_token'.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
-	public function request( string $method, string $url, array $options = [] ): array {
+	public function request( string $method, string $url, array $options = [] ): HTTP_Response {
 		$cached_response = $this->get_cached_rate_limit_response( $url );
 		if ( $cached_response !== null ) {
 			return $cached_response;
@@ -74,7 +75,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 
 		// Handle DPoP nonce lifecycle when DPoP is active.
 		if ( ! empty( $options['dpop'] ) ) {
-			$this->dpop_handler->handle_nonce_response( $result['headers'] );
+			$this->dpop_handler->handle_nonce_response( $result->get_headers() );
 
 			// Retry once on use_dpop_nonce error with the fresh nonce.
 			if ( $this->is_dpop_nonce_error( $result ) ) {
@@ -86,7 +87,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 					],
 				);
 				$result = $this->do_request( $method, $url, $options );
-				$this->dpop_handler->handle_nonce_response( $result['headers'] );
+				$this->dpop_handler->handle_nonce_response( $result->get_headers() );
 			}
 		}
 
@@ -103,7 +104,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 * @param string                                       $token_type   An Auth_Token_Type constant.
 	 * @param array<string, string|int|bool|string[]|null> $options      Additional request options.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
 	public function authenticated_request(
 		string $method,
@@ -113,7 +114,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 		string $access_token,
 		string $token_type = Auth_Token_Type::DPOP,
 		array $options = []
-	): array {
+	): HTTP_Response {
 		$headers = ( $options['headers'] ?? [] );
 
 		$headers['Authorization'] = $token_type . ' ' . $access_token;
@@ -135,16 +136,12 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	/**
 	 * Checks if the response indicates a use_dpop_nonce error.
 	 *
-	 * @param array<string, string|int|array<string, string>> $result The parsed response.
+	 * @param HTTP_Response $result The parsed response.
 	 *
 	 * @return bool Whether this is a DPoP nonce error.
 	 */
-	private function is_dpop_nonce_error( array $result ): bool {
-		if ( ! \is_array( $result['body'] ) ) {
-			return false;
-		}
-
-		return ( $result['body']['error'] ?? '' ) === 'use_dpop_nonce';
+	private function is_dpop_nonce_error( HTTP_Response $result ): bool {
+		return ( $result->get_body_value( 'error' ) === 'use_dpop_nonce' );
 	}
 
 	/**
@@ -154,9 +151,9 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 * @param string                                       $url     The request URL.
 	 * @param array<string, string|int|bool|string[]|null> $options Request options.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
-	private function do_request( string $method, string $url, array $options ): array {
+	private function do_request( string $method, string $url, array $options ): HTTP_Response {
 		$headers = ( $options['headers'] ?? [] );
 		$timeout = ( $options['timeout'] ?? 10 );
 
@@ -174,14 +171,14 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 						'error'                        => $e->getMessage(),
 					],
 				);
-				return [
-					'status'  => 0,
-					'headers' => [],
-					'body'    => [
+				return new HTTP_Response(
+					0,
+					[],
+					[
 						'error'             => 'dpop_proof_failed',
 						'error_description' => $e->getMessage(),
 					],
-				];
+				);
 			}
 		}
 
@@ -206,9 +203,9 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 * @param array<string, string|int|array<string, string>>|WP_Error $response The raw WordPress response.
 	 * @param string                                                   $url      The request URL (for error messages).
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
-	private function parse_response( $response, string $url ): array {
+	private function parse_response( $response, string $url ): HTTP_Response {
 		if ( \is_wp_error( $response ) ) {
 			$this->logger->warning(
 				'Network error for {url}: {error}',
@@ -217,14 +214,14 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 					'error' => $response->get_error_message(),
 				],
 			);
-			return [
-				'status'  => 0,
-				'headers' => [],
-				'body'    => [
+			return new HTTP_Response(
+				0,
+				[],
+				[
 					'error'             => 'network_error',
 					'error_description' => $response->get_error_message(),
 				],
-			];
+			);
 		}
 
 		$status  = \wp_remote_retrieve_response_code( $response );
@@ -241,11 +238,11 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 
 		$decoded = \json_decode( $body, true );
 
-		$parsed = [
-			'status'  => (int) $status,
-			'headers' => $headers_array,
-			'body'    => ( \is_array( $decoded ) ? $decoded : $body ),
-		];
+		$parsed = new HTTP_Response(
+			(int) $status,
+			$headers_array,
+			( \is_array( $decoded ) ? $decoded : $body ),
+		);
 
 		if ( (int) $status === 429 ) {
 			$this->logger->warning( 'Rate limited (429) by {url}.', [ 'url' => $url ] );
@@ -260,9 +257,9 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 	 *
 	 * @param string $url The request URL.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string}|null The cached response or null.
+	 * @return HTTP_Response|null The cached response or null.
 	 */
-	private function get_cached_rate_limit_response( string $url ): ?array {
+	private function get_cached_rate_limit_response( string $url ): ?HTTP_Response {
 		$key = $this->get_rate_limit_key( $url );
 
 		try {
@@ -271,7 +268,7 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 			return null;
 		}
 
-		if ( ! \is_array( $cached ) || ! isset( $cached['stored_at'], $cached['backoff_seconds'], $cached['response'] ) ) {
+		if ( ! \is_array( $cached ) || ! isset( $cached['stored_at'], $cached['backoff_seconds'], $cached['status'], $cached['headers'], $cached['body'] ) ) {
 			return null;
 		}
 
@@ -280,22 +277,23 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 			return null;
 		}
 
-		$response                           = $cached['response'];
-		$response['headers']['retry-after'] = (string) $remaining;
+		$headers                = $cached['headers'];
+		$headers['retry-after'] = (string) $remaining;
 
-		return $response;
+		return new HTTP_Response( (int) $cached['status'], $headers, $cached['body'] );
 	}
 
 	/**
 	 * Stores a 429 response in the expiring store for later replay.
 	 *
-	 * @param string                                                                                     $url      The request URL.
-	 * @param array{status: int, headers: array<string, string>, body: array<string, string|int>|string} $response The parsed 429 response.
+	 * @param string        $url      The request URL.
+	 * @param HTTP_Response $response The parsed 429 response.
 	 *
 	 * @return void
 	 */
-	private function store_rate_limit_response( string $url, array $response ): void {
-		$retry_after = ( $response['headers']['retry-after'] ?? null );
+	private function store_rate_limit_response( string $url, HTTP_Response $response ): void {
+		$headers     = $response->get_headers();
+		$retry_after = ( $headers['retry-after'] ?? null );
 
 		if ( \is_numeric( $retry_after ) ) {
 			$backoff_seconds = (int) $retry_after;
@@ -309,7 +307,9 @@ class HTTP_Client implements OAuth_Server_Client_Interface, LoggerAwareInterface
 			[
 				'stored_at'       => \time(),
 				'backoff_seconds' => $backoff_seconds,
-				'response'        => $response,
+				'status'          => $response->get_status(),
+				'headers'         => $headers,
+				'body'            => $response->get_body(),
 			],
 			$backoff_seconds,
 		);

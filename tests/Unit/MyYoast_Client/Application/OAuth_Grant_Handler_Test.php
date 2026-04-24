@@ -11,6 +11,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -121,15 +122,15 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 				),
 			)
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => [
+				new HTTP_Response(
+					200,
+					[],
+					[
 						'access_token' => 'new-token',
 						'token_type'   => 'DPoP',
 						'expires_in'   => 900,
 					],
-				],
+				),
 			);
 
 		$result = $this->instance->request_token( $grant );
@@ -159,14 +160,14 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 		$this->token_endpoint_client
 			->expects( 'request' )
 			->andReturn(
-				[
-					'status'  => 401,
-					'headers' => [],
-					'body'    => [
+				new HTTP_Response(
+					401,
+					[],
+					[
 						'error'             => 'invalid_client',
 						'error_description' => 'Not found',
 					],
-				],
+				),
 			);
 
 		$this->expectException( Token_Request_Failed_Exception::class );
@@ -195,11 +196,11 @@ final class OAuth_Grant_Handler_Test extends TestCase {
 		$this->token_endpoint_client
 			->expects( 'request' )
 			->andReturn(
-				[
-					'status'  => 500,
-					'headers' => [],
-					'body'    => 'Internal Server Error',
-				],
+				new HTTP_Response(
+					500,
+					[],
+					'Internal Server Error',
+				),
 			);
 
 		$this->expectException( Token_Request_Failed_Exception::class );

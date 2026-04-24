@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\MyYoast_Client\Application\Ports;
 
 use SensitiveParameter;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Auth_Token_Type;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 
 /**
  * Port for communicating with the OAuth authorization/resource server.
@@ -20,9 +21,9 @@ interface OAuth_Server_Client_Interface {
 	 * @param string                                       $url     The request URL.
 	 * @param array<string, string|int|bool|string[]|null> $options Request options: 'headers', 'body', 'timeout', 'dpop' (bool), 'access_token'.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
-	public function request( string $method, string $url, array $options = [] ): array;
+	public function request( string $method, string $url, array $options = [] ): HTTP_Response;
 
 	/**
 	 * Sends an authenticated resource request with DPoP proof.
@@ -33,7 +34,7 @@ interface OAuth_Server_Client_Interface {
 	 * @param string                                       $token_type   An Auth_Token_Type constant.
 	 * @param array<string, string|int|bool|string[]|null> $options      Additional request options.
 	 *
-	 * @return array{status: int, headers: array<string, string>, body: array<string, string|int>|string} The parsed response.
+	 * @return HTTP_Response The parsed response.
 	 */
 	public function authenticated_request(
 		string $method,
@@ -43,5 +44,5 @@ interface OAuth_Server_Client_Interface {
 		string $access_token,
 		string $token_type = Auth_Token_Type::DPOP,
 		array $options = []
-	): array;
+	): HTTP_Response;
 }

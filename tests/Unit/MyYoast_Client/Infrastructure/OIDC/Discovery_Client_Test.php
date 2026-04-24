@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Discovery_Client;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
@@ -130,11 +131,7 @@ final class Discovery_Client_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => $this->valid_response,
-				],
+				new HTTP_Response( 200, [], $this->valid_response ),
 			);
 
 		Functions\expect( 'set_transient' )->once()->andReturn( true );
@@ -169,11 +166,7 @@ final class Discovery_Client_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => $config,
-				],
+				new HTTP_Response( 200, [], $config ),
 			);
 
 		$this->expectException( Server_Capability_Exception::class );
@@ -201,14 +194,14 @@ final class Discovery_Client_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 0,
-					'headers' => [],
-					'body'    => [
+				new HTTP_Response(
+					0,
+					[],
+					[
 						'error'             => 'network_error',
 						'error_description' => 'Connection timed out',
 					],
-				],
+				),
 			);
 
 		$this->expectException( Discovery_Failed_Exception::class );
@@ -292,11 +285,7 @@ final class Discovery_Client_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => $staging_response,
-				],
+				new HTTP_Response( 200, [], $staging_response ),
 			);
 
 		Functions\expect( 'set_transient' )->once()->andReturn( true );
@@ -336,11 +325,7 @@ final class Discovery_Client_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => $this->valid_response,
-				],
+				new HTTP_Response( 200, [], $this->valid_response ),
 			);
 
 		Functions\expect( 'set_transient' )->once()->andReturn( true );

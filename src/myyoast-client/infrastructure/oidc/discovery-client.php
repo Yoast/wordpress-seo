@@ -130,22 +130,22 @@ class Discovery_Client implements Discovery_Interface, LoggerAwareInterface {
 			],
 		);
 
-		if ( $result['status'] === 0 ) {
-			$error_message = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? '' ) : '';
+		if ( $result->is_transport_failure() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			throw new Discovery_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 				\sprintf( 'Failed to fetch OIDC discovery document from %s: %s', $url, $error_message ),
 			);
 		}
 
-		if ( $result['status'] !== 200 ) {
+		if ( $result->get_status() !== 200 ) {
 			throw new Discovery_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-				\sprintf( 'OIDC discovery returned HTTP %d from %s.', $result['status'], $url ),
+				\sprintf( 'OIDC discovery returned HTTP %d from %s.', $result->get_status(), $url ),
 			);
 		}
 
-		$body = $result['body'];
+		$body = $result->get_body();
 		if ( ! \is_array( $body ) ) {
 			throw new Discovery_Failed_Exception( 'OIDC discovery returned invalid JSON.' );
 		}

@@ -16,6 +16,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Site_URL_Provider_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\User_Token_Storage_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Token_Revocation_Handler;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Token_Set;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -626,17 +627,13 @@ final class MyYoast_Client_Test extends TestCase {
 			->with( 'GET', 'https://api.example.com/resource', 'my-access-token', 'DPoP', [] )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => [ 'data' => 'value' ],
-				],
+				new HTTP_Response( 200, [], [ 'data' => 'value' ] ),
 			);
 
 		$result = $this->instance->authenticated_request( 'GET', 'https://api.example.com/resource', $token_set );
 
-		$this->assertSame( 200, $result['status'] );
-		$this->assertSame( [ 'data' => 'value' ], $result['body'] );
+		$this->assertSame( 200, $result->get_status() );
+		$this->assertSame( [ 'data' => 'value' ], $result->get_body() );
 	}
 
 	/**

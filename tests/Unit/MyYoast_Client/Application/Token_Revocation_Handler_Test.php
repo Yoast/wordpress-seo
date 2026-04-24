@@ -9,6 +9,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\OAuth_Server_Client_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Token_Revocation_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Registered_Client;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -102,11 +103,7 @@ final class Token_Revocation_Handler_Test extends TestCase {
 			->expects( 'request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => '',
-				],
+				new HTTP_Response( 200, [], '' ),
 			);
 
 		$this->assertTrue( $this->instance->revoke( 'token-to-revoke' ) );

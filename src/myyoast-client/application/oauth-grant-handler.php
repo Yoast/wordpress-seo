@@ -128,29 +128,35 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 			],
 		);
 
-		if ( $result['status'] < 200 || $result['status'] >= 300 ) {
-			$error       = \is_array( $result['body'] ) ? ( $result['body']['error'] ?? 'unknown' ) : 'unknown';
-			$description = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? '' ) : '';
+		if ( ! $result->is_successful() ) {
+			$error       = (string) $result->get_body_value( 'error', 'unknown' );
+			$description = (string) $result->get_body_value( 'error_description', '' );
 			$this->logger->warning(
 				'Token request failed for grant {grant_type}: HTTP {status}, error={error} {description}',
 				[
 					'grant_type'  => $grant->get_grant_type(),
-					'status'      => $result['status'],
+					'status'      => $result->get_status(),
 					'error'       => $error,
 					'description' => $description,
 				],
 			);
 
-			if ( \is_array( $result['body'] ) && isset( $result['body']['error'] ) ) {
+			$body = $result->get_body();
+			if ( \is_array( $body ) && isset( $body['error'] ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-				throw Token_Request_Failed_Exception::from_response( $result['body'], $result['status'] );
+				throw Token_Request_Failed_Exception::from_response( $body, $result->get_status() );
 			}
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-			throw new Token_Request_Failed_Exception( 'token_request_failed', 'HTTP ' . $result['status'], $result['status'] );
+			throw new Token_Request_Failed_Exception( 'token_request_failed', 'HTTP ' . $result->get_status(), $result->get_status() );
+		}
+
+		$body = $result->get_body();
+		if ( ! \is_array( $body ) ) {
+			throw new Token_Request_Failed_Exception( 'invalid_token_response', 'Token endpoint did not return a JSON object.' );
 		}
 
 		try {
-			return Token_Set::from_response( $result['body'] );
+			return Token_Set::from_response( $body );
 		} catch ( InvalidArgumentException $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Token_Request_Failed_Exception( 'invalid_token_response', $e->getMessage(), 0, $e );

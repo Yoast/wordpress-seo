@@ -7,6 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\ID_Token_Validation_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Domain\Discovery_Document;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signer;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
@@ -789,11 +790,7 @@ final class ID_Token_Validator_Test extends TestCase {
 				Mockery::type( 'array' ),
 			)
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => $fresh_jwks,
-				],
+				new HTTP_Response( 200, [], $fresh_jwks ),
 			);
 
 		Functions\expect( 'set_transient' )

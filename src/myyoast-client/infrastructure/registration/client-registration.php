@@ -260,22 +260,22 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			],
 		);
 
-		if ( $result['status'] === 0 ) {
-			$error_message = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? '' ) : '';
+		if ( $result->is_transport_failure() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'Failed to read registration: ' . $error_message );
 		}
 
-		if ( $result['status'] === 401 || $result['status'] === 404 ) {
-			$this->logger->warning( 'Registration is no longer valid (HTTP {status}), clearing local registration.', [ 'status' => $result['status'] ] );
+		if ( $result->get_status() === 401 || $result->get_status() === 404 ) {
+			$this->logger->warning( 'Registration is no longer valid (HTTP {status}), clearing local registration.', [ 'status' => $result->get_status() ] );
 			$this->forget_registration();
 			throw new Registration_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-				'Registration is no longer valid (HTTP ' . $result['status'] . ').',
+				'Registration is no longer valid (HTTP ' . $result->get_status() . ').',
 			);
 		}
 
-		$body = $result['body'];
+		$body = $result->get_body();
 		if ( ! \is_array( $body ) ) {
 			throw new Registration_Failed_Exception( 'Invalid response from registration endpoint.' );
 		}
@@ -327,15 +327,15 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			],
 		);
 
-		if ( $result['status'] < 200 || $result['status'] >= 300 ) {
-			$error_message = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? $result['body']['error'] ?? '' ) : '';
+		if ( ! $result->is_successful() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
 			throw new Registration_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-				\sprintf( 'Key rotation returned HTTP %d: %s', $result['status'], $error_message ),
+				\sprintf( 'Key rotation returned HTTP %d: %s', $result->get_status(), $error_message ),
 			);
 		}
 
-		$body = $result['body'];
+		$body = $result->get_body();
 		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
 			throw new Registration_Failed_Exception( 'Key rotation returned invalid response.' );
 		}
@@ -368,7 +368,7 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 
 		$this->forget_registration();
 
-		return $result['status'] !== 0;
+		return ! $result->is_transport_failure();
 	}
 
 	/**
@@ -510,21 +510,21 @@ class Client_Registration implements Client_Registration_Interface, LoggerAwareI
 			],
 		);
 
-		if ( $result['status'] === 0 ) {
-			$error_message = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? '' ) : '';
+		if ( $result->is_transport_failure() ) {
+			$error_message = (string) $result->get_body_value( 'error_description', '' );
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Registration_Failed_Exception( 'DCR request failed: ' . $error_message );
 		}
 
-		if ( $result['status'] !== 201 ) {
-			$error_message = \is_array( $result['body'] ) ? ( $result['body']['error_description'] ?? $result['body']['error'] ?? '' ) : '';
+		if ( $result->get_status() !== 201 ) {
+			$error_message = (string) $result->get_body_value( 'error_description', $result->get_body_value( 'error', '' ) );
 			throw new Registration_Failed_Exception(
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-				\sprintf( 'DCR returned HTTP %d: %s', $result['status'], $error_message ),
+				\sprintf( 'DCR returned HTTP %d: %s', $result->get_status(), $error_message ),
 			);
 		}
 
-		$body = $result['body'];
+		$body = $result->get_body();
 		if ( ! \is_array( $body ) || empty( $body['client_id'] ) ) {
 			throw new Registration_Failed_Exception( 'DCR returned invalid response.' );
 		}

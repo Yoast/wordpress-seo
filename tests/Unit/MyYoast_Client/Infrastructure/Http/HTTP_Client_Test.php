@@ -8,6 +8,7 @@ use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Expiring_Store\Application\Expiring_Store;
 use Yoast\WP\SEO\Expiring_Store\Domain\Key_Not_Found_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Handler;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\DPoP\DPoP_Proof_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Http\HTTP_Client;
@@ -78,8 +79,9 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'GET', 'https://example.com/api' );
 
-		$this->assertSame( 200, $result['status'] );
-		$this->assertSame( [ 'key' => 'value' ], $result['body'] );
+		$this->assertInstanceOf( HTTP_Response::class, $result );
+		$this->assertSame( 200, $result->get_status() );
+		$this->assertSame( [ 'key' => 'value' ], $result->get_body() );
 	}
 
 	/**
@@ -107,8 +109,8 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'GET', 'https://example.com/api' );
 
-		$this->assertSame( 0, $result['status'] );
-		$this->assertSame( 'network_error', $result['body']['error'] );
+		$this->assertSame( 0, $result->get_status() );
+		$this->assertSame( 'network_error', $result->get_body_value( 'error' ) );
 	}
 
 	/**
@@ -136,9 +138,9 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'POST', 'https://example.com/token', [ 'dpop' => true ] );
 
-		$this->assertSame( 0, $result['status'] );
-		$this->assertSame( 'dpop_proof_failed', $result['body']['error'] );
-		$this->assertStringContainsString( 'Key generation failed', $result['body']['error_description'] );
+		$this->assertSame( 0, $result->get_status() );
+		$this->assertSame( 'dpop_proof_failed', $result->get_body_value( 'error' ) );
+		$this->assertStringContainsString( 'Key generation failed', (string) $result->get_body_value( 'error_description' ) );
 	}
 
 	/**
@@ -194,8 +196,8 @@ final class HTTP_Client_Test extends TestCase {
 			],
 		);
 
-		$this->assertSame( 200, $result['status'] );
-		$this->assertSame( 'tok', $result['body']['access_token'] );
+		$this->assertSame( 200, $result->get_status() );
+		$this->assertSame( 'tok', $result->get_body_value( 'access_token' ) );
 	}
 
 	/**
@@ -214,11 +216,9 @@ final class HTTP_Client_Test extends TestCase {
 				[
 					'stored_at'       => $stored_at,
 					'backoff_seconds' => 120,
-					'response'        => [
-						'status'  => 429,
-						'headers' => [ 'retry-after' => '120' ],
-						'body'    => [ 'error' => 'rate_limited' ],
-					],
+					'status'          => 429,
+					'headers'         => [ 'retry-after' => '120' ],
+					'body'            => [ 'error' => 'rate_limited' ],
 				],
 			);
 
@@ -231,9 +231,9 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'GET', 'https://example.com/api' );
 
-		$this->assertSame( 429, $result['status'] );
-		$this->assertSame( 'rate_limited', $result['body']['error'] );
-		$this->assertEqualsWithDelta( 90, (int) $result['headers']['retry-after'], 2 );
+		$this->assertSame( 429, $result->get_status() );
+		$this->assertSame( 'rate_limited', $result->get_body_value( 'error' ) );
+		$this->assertEqualsWithDelta( 90, (int) ( $result->get_headers()['retry-after'] ?? 0 ), 2 );
 	}
 
 	/**
@@ -253,9 +253,9 @@ final class HTTP_Client_Test extends TestCase {
 				Mockery::on(
 					static function ( $value ) {
 						return \is_array( $value )
-							&& isset( $value['stored_at'], $value['backoff_seconds'], $value['response'] )
+							&& isset( $value['stored_at'], $value['backoff_seconds'], $value['status'] )
 							&& $value['backoff_seconds'] === 120
-							&& $value['response']['status'] === 429;
+							&& $value['status'] === 429;
 					},
 				),
 				120,
@@ -276,7 +276,7 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'POST', 'https://example.com/register' );
 
-		$this->assertSame( 429, $result['status'] );
+		$this->assertSame( 429, $result->get_status() );
 	}
 
 	/**
@@ -317,6 +317,6 @@ final class HTTP_Client_Test extends TestCase {
 
 		$result = $this->instance->request( 'POST', 'https://example.com/register' );
 
-		$this->assertSame( 429, $result['status'] );
+		$this->assertSame( 429, $result->get_status() );
 	}
 }

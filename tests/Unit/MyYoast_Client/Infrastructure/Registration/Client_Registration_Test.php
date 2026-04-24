@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\SEO\Exceptions\Locking\Lock_Timeout_Exception;
 use Yoast\WP\SEO\Helpers\Lock_Helper;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Failed_Exception;
+use Yoast\WP\SEO\MyYoast_Client\Domain\HTTP_Response;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair_Manager;
@@ -268,15 +269,15 @@ final class Client_Registration_Test extends TestCase {
 			->expects( 'authenticated_request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => [
+				new HTTP_Response(
+					200,
+					[],
+					[
 						'client_id'                 => 'cid',
 						'registration_access_token' => 'new-rat',
 						'registration_client_uri'   => 'https://my.yoast.com/api/oauth/reg/cid',
 					],
-				],
+				),
 			);
 
 		$this->key_pair_manager->expects( 'store_key_pair' )->once()->with( Key_Pair_Manager::PURPOSE_REGISTRATION, $key_pair );
@@ -321,11 +322,7 @@ final class Client_Registration_Test extends TestCase {
 		$this->http_client
 			->expects( 'authenticated_request' )
 			->andReturn(
-				[
-					'status'  => 500,
-					'headers' => [],
-					'body'    => [ 'error' => 'server_error' ],
-				],
+				new HTTP_Response( 500, [], [ 'error' => 'server_error' ] ),
 			);
 
 		$this->key_pair_manager->expects( 'store_key_pair' )->never();
@@ -370,11 +367,7 @@ final class Client_Registration_Test extends TestCase {
 				Mockery::type( 'array' ),
 			)
 			->andReturn(
-				[
-					'status'  => 204,
-					'headers' => [],
-					'body'    => '',
-				],
+				new HTTP_Response( 204, [], '' ),
 			);
 
 		Functions\expect( 'delete_option' )
@@ -450,15 +443,15 @@ final class Client_Registration_Test extends TestCase {
 			->expects( 'authenticated_request' )
 			->once()
 			->andReturn(
-				[
-					'status'  => 200,
-					'headers' => [],
-					'body'    => [
+				new HTTP_Response(
+					200,
+					[],
+					[
 						'client_id'                 => 'cid',
 						'registration_access_token' => 'new-rat',
 						'registration_client_uri'   => 'https://my.yoast.com/api/oauth/reg/cid',
 					],
-				],
+				),
 			);
 
 		$this->key_pair_manager->expects( 'store_key_pair' )->once()->with( Key_Pair_Manager::PURPOSE_REGISTRATION, $key_pair );
