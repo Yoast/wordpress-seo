@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit;
 
 use Brain\Monkey;
 use Mockery;
+use ReflectionMethod;
 use WP_CLI;
 use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
@@ -356,17 +357,17 @@ final class Loader_Test extends TestCase {
 	}
 
 	/**
-	 * Invokes a protected method on an object.
+	 * Invokes a protected method on an instance.
 	 *
-	 * @param object $object      The object to invoke the method on.
+	 * @param object $instance    The instance to invoke the method on.
 	 * @param string $method_name The name of the method to invoke.
 	 *
 	 * @return mixed The return value of the invoked method.
 	 */
-	private function invoke_method( $object, $method_name ) {
-		$reflection = new \ReflectionMethod( $object, $method_name );
+	private function invoke_method( $instance, $method_name ) {
+		$reflection = new ReflectionMethod( $instance, $method_name );
 		$reflection->setAccessible( true );
 
-		return $reflection->invoke( $object );
+		return $reflection->invoke( $instance );
 	}
 }
