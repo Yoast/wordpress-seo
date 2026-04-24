@@ -51,6 +51,10 @@ export const FeatureModal = ( {
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
 	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
+	const isSuggestions = status === FEATURE_MODAL_STATUS.contentSuggestions;
+	const isSuggestionsError = contentSuggestionsStatus === ASYNC_ACTION_STATUS.error;
+	const isOutline = status === FEATURE_MODAL_STATUS.contentOutline;
+	const isOutlineError = contentOutlineStatus === ASYNC_ACTION_STATUS.error;
 
 	/**
 	 * Handles the click on a content suggestion.
@@ -63,6 +67,12 @@ export const FeatureModal = ( {
 		fetchContentOutline( suggestion );
 	}, [ fetchContentOutline ] );
 
+	/**
+	 * Handle the apply outline action when the user confirms applying the generated outline to their post.
+	 *
+	 * @param {Object} editedOutline The content outline with any edits the user has made in the OutlineModal.
+	 * @returns {void}
+	 */
 	const handleOnApplyOutline = useCallback( ( editedOutline ) => {
 		editedOutlineRef.current = editedOutline;
 		if ( isEmptyPost ) {
@@ -74,21 +84,16 @@ export const FeatureModal = ( {
 	}, [ isEmptyPost, handleApplyOutline, openReplaceContentModal, setHasVisitedReplace ] );
 
 	return (
-
-		<Modal
-			isOpen={ ! isConsentModalOpen &&
-				( status === FEATURE_MODAL_STATUS.contentSuggestions || status === FEATURE_MODAL_STATUS.contentOutline ) } onClose={ onClose }
-		>
+		<Modal isOpen={ ! isConsentModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
 			<Modal.Panel className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton
-					ref={ closeButtonRef } screenReaderText={ status === FEATURE_MODAL_STATUS.contentSuggestions
+					ref={ closeButtonRef } screenReaderText={ isSuggestions
 						? __( "Close content suggestions modal", "wordpress-seo" ) : __( "Close content outline modal", "wordpress-seo" ) }
 				/>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-12 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
 						<YoastIcon className="yst-fill-primary-500 yst-w-4 yst-mb-[1px]" { ...svgAriaProps } />
-						<Modal.Title size="2">{ status === FEATURE_MODAL_STATUS.contentSuggestions
-							? __( "Content suggestions", "wordpress-seo" ) : __( "Content outline", "wordpress-seo" ) }</Modal.Title>
+						<Modal.Title size="2">{ isSuggestions ? __( "Content suggestions", "wordpress-seo" ) : __( "Content outline", "wordpress-seo" ) }</Modal.Title>
 						<Link
 							href={ modalHelpLink }
 							variant="primary"
@@ -101,7 +106,8 @@ export const FeatureModal = ( {
 						</Link>
 						<span className="yst-flex-grow" />
 						<Badge size="small">{ __( "Beta", "wordpress-seo" ) }</Badge>
-						{ ( contentSuggestionsStatus !== ASYNC_ACTION_STATUS.error &&  contentOutlineStatus !== ASYNC_ACTION_STATUS.error ) &&
+						{ ( ( isSuggestions && ! isSuggestionsError ) ||
+                            ( isOutline && ! isOutlineError )   ) &&
 								(
 									<UsageCounter
 										className="yst-relative"
@@ -115,11 +121,11 @@ export const FeatureModal = ( {
 									/>
 								) }
 					</Modal.Container.Header>
-					{ status === FEATURE_MODAL_STATUS.contentSuggestions && <SuggestionsModalContent
+					{ isSuggestions && <SuggestionsModalContent
 						onSuggestionClick={ handleSuggestionClick }
 					/> }
 
-					{ status === FEATURE_MODAL_STATUS.contentOutline && (
+					{ isOutline && (
 						<OutlineModalContent
 							onApplyOutline={ handleOnApplyOutline }
 							closeButtonRef={ closeButtonRef }
@@ -135,7 +141,7 @@ export const FeatureModal = ( {
 					position="bottom-left"
 				>
 					{ contentSuggestionsStatus === ASYNC_ACTION_STATUS.success &&
-					contentOutlineStatus !== ASYNC_ACTION_STATUS.error && <SparksLimitNotification /> }
+					! isOutlineError && <SparksLimitNotification /> }
 				</Notifications>
 			</Modal.Panel>
 		</Modal>
