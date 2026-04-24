@@ -4,11 +4,14 @@
 
 namespace Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Recent_Content;
 
+use WP_Term;
+use WPSEO_Meta;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Post_List;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
  * Collects the most recent published posts from indexables.
@@ -40,12 +43,24 @@ class Recent_Content_Collector {
 	private $indexable_repository;
 
 	/**
+	 * The primary term repository.
+	 *
+	 * @var Primary_Term_Repository
+	 */
+	private $primary_term_repository;
+
+	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
+	 * @param Primary_Term_Repository $primary_term_repository The primary term repository.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		Primary_Term_Repository $primary_term_repository
+	) {
+		$this->indexable_repository    = $indexable_repository;
+		$this->primary_term_repository = $primary_term_repository;
 	}
 
 	/**
@@ -96,7 +111,7 @@ class Recent_Content_Collector {
 				new Post(
 					( $indexable->breadcrumb_title ?? '' ),
 					( $indexable->description ?? '' ),
-					new Category( 'My placeholder', '1' ),
+					$this->get_primary_category( $indexable->object_id ?? 0 ),
 					( $indexable->primary_focus_keyword ?? '' ),
 					( $indexable->is_cornerstone ?? false ),
 					( $indexable->object_last_modified ?? '' ),
@@ -106,5 +121,42 @@ class Recent_Content_Collector {
 		}
 
 		return $post_list;
+	}
+
+	/**
+	 * Resolves the post's primary category into a Category value object.
+	 *
+	 * Looks up Yoast's explicit primary term first, then the `_yoast_wpseo_primary_category` post meta,
+	 * and finally falls back to the first category WordPress has assigned to the post.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return Category|null The primary category, or null when the post has no category at all.
+	 */
+	private function get_primary_category( int $post_id ): ?Category {
+		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, 'category', false );
+
+		if ( $primary_term ) {
+			$term_id = $primary_term->term_id;
+		}
+		else {
+			$term_id = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
+		}
+
+		if ( empty( $term_id ) ) {
+			$category_ids = \wp_get_post_categories( $post_id );
+			$term_id      = ( $category_ids[0] ?? 0 );
+		}
+
+		if ( empty( $term_id ) ) {
+			return null;
+		}
+
+		$term = \get_term( (int) $term_id, 'category' );
+		if ( ! $term instanceof WP_Term ) {
+			return null;
+		}
+
+		return new Category( $term->name, $term->term_id );
 	}
 }
