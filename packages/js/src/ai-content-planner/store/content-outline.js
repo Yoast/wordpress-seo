@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get, isInteger } from "lodash";
+import { get } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { ERROR_DEFAULT } from "../constants";
 import { contentPlannerFetch } from "../helpers/fetch";
@@ -39,7 +39,7 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
 const INITIAL_OUTLINE = {
 	suggestion: null,
 	outline: [],
-	cache: [],
+	cache: {},
 	endpoint: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: ERROR_DEFAULT,
@@ -61,8 +61,8 @@ const slice = createSlice( {
 		},
 		saveOutlineEditsToCache: ( state, { payload } ) => {
 			const { suggestion, structure } = payload;
-			if ( isInteger( suggestion.index ) && suggestion.index >= 0 ) {
-				state.cache[ suggestion.index ] = {
+			if ( suggestion.id ) {
+				state.cache[ suggestion.id ] = {
 					outline: structure,
 					suggestion,
 				};

@@ -102,10 +102,10 @@ const LoadingOutlineModalContent = () => {
  */
 export const OutlineModalContent = ( {
 	status,
-	error,
-	suggestion,
 	onBackToSuggestions,
 	onApplyOutline,
+	suggestion,
+	error,
 	closeButtonRef,
 } ) => {
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;

@@ -29,7 +29,7 @@ export const useFetchContentOutline = () => {
 	const { fetchContentOutline, restoreContentOutlineFromCache, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( ( contentSuggestion ) => {
-		const cache = selectContentOutlineCache( contentSuggestion.index );
+		const cache = selectContentOutlineCache( contentSuggestion.id );
 		if ( cache ) {
 			restoreContentOutlineFromCache( cache );
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
