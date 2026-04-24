@@ -8,6 +8,7 @@ What do we want to achieve with this PR? Why did we write this code?
 ## Summary
 
 <!--
+Keep each bullet to one short sentence — put extra context in *Context* or *Relevant technical choices*, not here.
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 If the changelog item is a bugfix, describe the incorrect behaviour that occurred, followed by the condition that triggered it. Use clear, past tense language and avoid hypothetical or nested conditionals. Example structure: “Fixes a bug where... happened when/was caused by ...”
 If the changelog item is meant for the changelog of another add-on, start your changelog item with the name of that add-on's repo between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
@@ -47,7 +48,8 @@ which type/editor/browser should be tested in particular, multisite with subfold
 ### Test instructions for QA when the code is in the RC
 <!--
 Sometimes some steps from the test instructions for the acceptance test aren't relevant anymore once the code has been merged or the feature is complete. If that is the case, do not check the checkbox below.
-QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release
+QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release.
+For non-user-facing PRs (documentation, pure refactors, internal tooling), write "Not applicable" in the steps below and leave the checkbox unticked — QA verifies user-visible behaviour at RC time, not internal changes.
 -->
 
 * [ ] QA should use the same steps as above.
@@ -85,7 +87,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 * [ ] I have checked that the base branch is correctly set.
-* [ ] I have run `grunt build:images` and commited the results, if my PR introduces new images or SVGs.
+* [ ] I have run `grunt build:images` and committed the results, if my PR introduces or edits images or SVGs.
 
 ## Innovation
 
