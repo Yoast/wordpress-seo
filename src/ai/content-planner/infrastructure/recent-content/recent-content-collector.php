@@ -134,20 +134,24 @@ class Recent_Content_Collector {
 	 * @return Category|null The primary category, or null when the post has no category at all.
 	 */
 	private function get_primary_category( int $post_id ): ?Category {
+		// We try to find the primary term using the repository first, which uses indexables.
 		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, 'category', false );
 
 		if ( $primary_term ) {
 			$term_id = $primary_term->term_id;
 		}
+		// If the repository did not return a primary term, we try to find it using the post meta, which is how older versions of Yoast SEO stored the primary category.
 		else {
 			$term_id = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 		}
 
+		// No primary term has been set in Yoast SEO, so we fall back to the first category WordPress has assigned to the post, if any.
 		if ( empty( $term_id ) ) {
 			$category_ids = \wp_get_post_categories( $post_id );
 			$term_id      = ( $category_ids[0] ?? 0 );
 		}
 
+		// If there are no categories at all, we return null.
 		if ( empty( $term_id ) ) {
 			return null;
 		}
