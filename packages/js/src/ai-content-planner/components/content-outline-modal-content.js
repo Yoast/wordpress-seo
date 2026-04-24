@@ -12,6 +12,7 @@ import { getProgressColor } from "../helpers/get-progress-color";
 import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
+import { Transition } from "@headlessui/react";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -79,6 +80,71 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  * @param {Function}          onApplyOutline      The function to call to add the outline to the post.
  *
  * @returns {JSX.Element} The ContentOutlineModalContent component.
+ */
+const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
+	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm yst-mb-6">
+		<div className="yst-flex yst-flex-col yst-gap-1.5">
+			<div className="yst-flex yst-items-center yst-justify-between">
+				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+					{ __( "Suggest category", "wordpress-seo" ) }
+				</span>
+				<Toggle
+					id="suggest-category-toggle"
+					checked={ isEnabled }
+					onChange={ onToggle }
+					disabled={ isLoading }
+					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
+				/>
+			</div>
+			<p className="yst-text-sm yst-text-slate-600">
+				{ __( "Adds post to an existing category, when applicable.", "wordpress-seo" ) }
+			</p>
+		</div>
+		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
+		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
+		</div> }
+	</div>
+);
+
+/**
+ * @typedef {Object} StructureItem
+ * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
+ * @property {string} title The section title.
+ */
+
+/**
+ * Loading content Outline Modal Content.
+ *
+ * @returns {JSX.Element} The LoadingContentOutlineModalContent component.
+ */
+const LoadingContentOutlineModalContent = () => {
+	return <>
+		<CategorySection
+			isLoading={ true }
+		/>
+		<div className="yst-flex yst-flex-col yst-gap-4">
+			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+			<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+			<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+		</div>
+	</>;
+};
+
+/**
+ * Content Outline Modal panel component.
+ * Renders inside a parent Modal (managed by FeatureModal).
+ *
+ * @param {string}             status              The loading status of the content outline suggestion.
+ * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
+ * @param {Function}           onApplyOutline      The function to call to add the outline to the post.
+ * @param {OutlineSuggestion}  suggestion          The content outline suggestion to display.
+ * @param {boolean}            isActive            Whether this panel is currently visible (used for focus management).
+ * @param {Object|null}        error               The error object if the content outline failed to load, or null if there is no error.
+ * @param {Function}           onRetry             The function to call to retry fetching the content outline.
+ * @param {Object}             closeButtonRef      Ref object for the modal close button, used to manage focus.
+ *
+ * @returns {JSX.Element} The ContentOutlineModal component.
  */
 export const ContentOutlineModalContent = ( {
 	status,
@@ -162,22 +228,36 @@ export const ContentOutlineModalContent = ( {
 						{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 					</Modal.Description>
 					<hr className="yst-border-slate-200" />
-					{ ( suggestion?.category || isLoading ) && (
-						<CategorySection
-							category={ suggestion.category }
-							isEnabled={ isCategoryEnabled }
-							onToggle={ handleCategoryToggle }
-							isLoading={ isLoading }
-						/>
-					) }
-					{ isLoading && (
-						<div className="yst-flex yst-flex-col yst-gap-4">
-							<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-							<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-							<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
-						</div>
-					) }
-					{ ! isLoading && (
+					<Transition
+						as="div"
+						show={ isLoading }
+						enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						<LoadingContentOutlineModalContent />
+					</Transition>
+
+					<Transition
+						as="div"
+						show={ ! isLoading }
+						enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						{ category  && (
+							<CategorySection
+								category={ category }
+								isEnabled={ isCategoryEnabled }
+								onToggle={ handleCategoryToggle }
+							/>
+						) }
 						<div className="yst-flex yst-flex-col yst-gap-6">
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<TextField
@@ -230,7 +310,7 @@ export const ContentOutlineModalContent = ( {
 								) ) }
 							</div>
 						</div>
-					) }
+					</Transition>
 				</div>
 				<div
 					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
