@@ -25,7 +25,7 @@ export const App = () => {
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 		};
 	}, [] );
-	const { setStatus, closeModal } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus, closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const [ replaceContentModalIsOpen, toggleReplaceContentModal, , openReplaceContentModal  ] = useToggleState( false );
 	const editedOutlineRef = useRef( null );
@@ -43,15 +43,15 @@ export const App = () => {
 	 */
 	const handleGetSuggestionsClick = useCallback( () => {
 		if ( ! hasConsent ) {
-			setStatus( FEATURE_MODAL_STATUS.consent );
+			setFeatureModalStatus( FEATURE_MODAL_STATUS.consent );
 			return;
 		}
 		fetchContentSuggestions();
-	}, [ hasConsent, setStatus, fetchContentSuggestions ] );
+	}, [ hasConsent, setFeatureModalStatus, fetchContentSuggestions ] );
 
 	const handleCancelReplace = useCallback( () => {
-		setStatus( FEATURE_MODAL_STATUS.contentOutline );
-	}, [ setStatus ] );
+		setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
+	}, [ setFeatureModalStatus ] );
 
 	const handleConfirmReplace = useCallback( () => {
 		handleApplyOutline();
