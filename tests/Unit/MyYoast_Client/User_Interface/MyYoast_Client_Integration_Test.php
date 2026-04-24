@@ -83,10 +83,13 @@ final class MyYoast_Client_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_add_cron_schedule() {
+		Functions\when( 'esc_html__' )->returnArg();
+
 		$schedules = $this->instance->add_cron_schedule( [] );
 
 		$this->assertArrayHasKey( 'Yoast\WP\SEO\myyoast_90days', $schedules );
 		$this->assertSame( ( 90 * 86_400 ), $schedules['Yoast\WP\SEO\myyoast_90days']['interval'] );
+		$this->assertSame( 'Every 90 days', $schedules['Yoast\WP\SEO\myyoast_90days']['display'] );
 	}
 
 	/**
