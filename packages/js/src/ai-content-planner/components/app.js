@@ -66,6 +66,7 @@ export const App = () => {
 			/>
 			<FeatureModal
 				editedOutlineRef={ editedOutlineRef }
+				handleApplyOutline={ handleApplyOutline }
 				openReplaceContentModal={ openReplaceContentModal }
 				setHasVisitedReplace={ setHasVisitedReplace }
 			/>

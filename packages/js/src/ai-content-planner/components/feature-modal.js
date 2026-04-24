@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import SuggestionsModalContent from "../containers/suggestions-modal-content";
 import OutlineModalContent from "../containers/outline-modal-content";
 import { FEATURE_MODAL_STATUS } from "../constants";
-import { useFetchContentOutline, useApplyOutline } from "../hooks";
+import { useFetchContentOutline } from "../hooks";
 import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
@@ -29,6 +29,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
  * @param {Function}      openReplaceContentModal       Function to open the replace content confirmation modal.
  * @param {Function}      setHasVisitedReplace          Function to set whether the user has visited the replace content confirmation modal.
  * @param {Object}        editedOutlineRef              Ref object to store the edited content outline.
+ * @param {Function}      handleApplyOutline           Function to apply the content outline to the post.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -45,12 +46,12 @@ export const FeatureModal = ( {
 	openReplaceContentModal,
 	setHasVisitedReplace,
 	editedOutlineRef,
+	handleApplyOutline,
 } ) => {
 	const fetchContentOutline = useFetchContentOutline();
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
 	const svgAriaProps = useSvgAria();
 	const closeButtonRef = useRef( null );
-	const handleApplyOutline = useApplyOutline( { editedOutlineRef } );
 	const isSuggestions = status === FEATURE_MODAL_STATUS.contentSuggestions;
 	const isSuggestionsError = contentSuggestionsStatus === ASYNC_ACTION_STATUS.error;
 	const isOutline = status === FEATURE_MODAL_STATUS.contentOutline;
