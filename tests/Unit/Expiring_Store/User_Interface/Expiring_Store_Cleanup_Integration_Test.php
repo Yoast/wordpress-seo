@@ -80,24 +80,88 @@ final class Expiring_Store_Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'wpseo_misc_cleanup_tasks' )
+		Monkey\Actions\expectAdded( 'init' )
 			->once()
-			->with( [ $this->instance, 'add_cleanup_task' ] );
+			->with( [ $this->instance, 'schedule_cleanup' ] );
+
+		Monkey\Actions\expectAdded( Expiring_Store_Cleanup_Integration::CRON_HOOK )
+			->once()
+			->with( [ $this->instance, 'run_cleanup' ] );
+
+		Monkey\Actions\expectAdded( 'wpseo_deactivate' )
+			->once()
+			->with( [ $this->instance, 'unschedule_cleanup' ] );
 
 		$this->instance->register_hooks();
 	}
 
 	/**
-	 * Tests add_cleanup_task.
+	 * Tests schedule_cleanup schedules a weekly cron when none is scheduled yet.
 	 *
-	 * @covers ::add_cleanup_task
+	 * @covers ::schedule_cleanup
 	 *
 	 * @return void
 	 */
-	public function test_add_cleanup_task() {
-		$result = $this->instance->add_cleanup_task( [] );
+	public function test_schedule_cleanup_when_not_scheduled() {
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Expiring_Store_Cleanup_Integration::CRON_HOOK )
+			->andReturn( false );
 
-		$this->assertArrayHasKey( 'clean_expired_store_entries', $result );
-		$this->assertSame( 1, \count( $result ) );
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->once()
+			->with(
+				Mockery::type( 'int' ),
+				'weekly',
+				Expiring_Store_Cleanup_Integration::CRON_HOOK,
+			);
+
+		$this->instance->schedule_cleanup();
+	}
+
+	/**
+	 * Tests schedule_cleanup is a no-op when a cron is already scheduled.
+	 *
+	 * @covers ::schedule_cleanup
+	 *
+	 * @return void
+	 */
+	public function test_schedule_cleanup_when_already_scheduled() {
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Expiring_Store_Cleanup_Integration::CRON_HOOK )
+			->andReturn( 1_617_235_200 );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cleanup();
+	}
+
+	/**
+	 * Tests unschedule_cleanup clears all scheduled events for the cron hook.
+	 *
+	 * @covers ::unschedule_cleanup
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_cleanup() {
+		Monkey\Functions\expect( 'wp_clear_scheduled_hook' )
+			->once()
+			->with( Expiring_Store_Cleanup_Integration::CRON_HOOK );
+
+		$this->instance->unschedule_cleanup();
+	}
+
+	/**
+	 * Tests run_cleanup delegates to the expiring store.
+	 *
+	 * @covers ::run_cleanup
+	 *
+	 * @return void
+	 */
+	public function test_run_cleanup() {
+		$this->expiring_store->expects( 'cleanup_expired' )->once();
+
+		$this->instance->run_cleanup();
 	}
 }

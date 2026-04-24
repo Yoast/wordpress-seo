@@ -7,11 +7,13 @@ use Yoast\WP\SEO\Expiring_Store\Application\Expiring_Store;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Hooks expiring store cleanup into the existing cleanup cron system.
+ * Runs expiring store cleanup on a recurring weekly WP-Cron schedule.
  */
 class Expiring_Store_Cleanup_Integration implements Integration_Interface {
 
 	use No_Conditionals;
+
+	public const CRON_HOOK = 'Yoast\WP\SEO\expiring_store_cleanup';
 
 	/**
 	 * The expiring store.
@@ -35,24 +37,37 @@ class Expiring_Store_Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		\add_filter( 'wpseo_misc_cleanup_tasks', [ $this, 'add_cleanup_task' ] );
+		\add_action( 'init', [ $this, 'schedule_cleanup' ] );
+		\add_action( self::CRON_HOOK, [ $this, 'run_cleanup' ] );
+		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cleanup' ] );
 	}
 
 	/**
-	 * Adds the expiring store cleanup task to the cleanup integration.
+	 * Schedules the weekly cleanup cron if not already scheduled.
 	 *
-	 * @param array<string, callable> $tasks Array of cleanup tasks.
-	 *
-	 * @return array<string, callable> The tasks with the expiring store cleanup task added.
+	 * @return void
 	 */
-	public function add_cleanup_task( $tasks ) {
-		return \array_merge(
-			$tasks,
-			[
-				'clean_expired_store_entries' => function () {
-					return $this->expiring_store->cleanup_expired();
-				},
-			],
-		);
+	public function schedule_cleanup(): void {
+		if ( ! \wp_next_scheduled( self::CRON_HOOK ) ) {
+			\wp_schedule_event( \time(), 'weekly', self::CRON_HOOK );
+		}
+	}
+
+	/**
+	 * Clears all scheduled cleanup events.
+	 *
+	 * @return void
+	 */
+	public function unschedule_cleanup(): void {
+		\wp_clear_scheduled_hook( self::CRON_HOOK );
+	}
+
+	/**
+	 * Runs the expiring store cleanup.
+	 *
+	 * @return void
+	 */
+	public function run_cleanup(): void {
+		$this->expiring_store->cleanup_expired();
 	}
 }
