@@ -26,4 +26,6 @@ If a rule appears to conflict between this file and `CONTRIBUTING.md` or [`.gith
 
 - **Run `grunt build:images` when you touch images.** Adding or editing any `.png`, `.jpg`, `.gif`, or `.svg` file — primarily under `images/` or `svn-assets/` — requires running `grunt build:images` (or plain `grunt build`, which includes it) and committing the optimised output before the PR is opened or updated. The release pipeline re-runs `imagemin` and fails if the committed images aren't already optimised. Full detail in [CONTRIBUTING.md → "Before you push or open/update a PR"](./.github/CONTRIBUTING.md#before-you-push-or-openupdate-a-pr).
 
+- **Keep changelog bullets to one short sentence.** Extra context goes in *Context* or *Relevant technical choices*, not in the bullet. See [CONTRIBUTING.md → "Changelog entry and label"](./.github/CONTRIBUTING.md#changelog-entry-and-label).
+
 - **Default to CONTRIBUTING.md.** Anything not listed in this delta is in `CONTRIBUTING.md`, the PR template, or `src/README.md`. Read those before making assumptions.

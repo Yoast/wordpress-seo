@@ -89,5 +89,6 @@ Before reporting the PR as created, verify:
 - [ ] Every PR-template section has content — no empty bullets, no leftover placeholder text.
 - [ ] No milestone was set.
 - [ ] If the branch adds or edits any image or SVG, `grunt build:images` was run and its optimised output committed. Tick the matching *Quality assurance* checkbox in the PR body.
+- [ ] Each changelog bullet is one short sentence; extra context lives in *Context* or *Relevant technical choices*.
 
 If any item fails, fix it (edit the body or labels with `gh pr edit`) before returning the URL.

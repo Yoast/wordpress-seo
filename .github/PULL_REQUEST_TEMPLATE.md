@@ -8,6 +8,7 @@ What do we want to achieve with this PR? Why did we write this code?
 ## Summary
 
 <!--
+Keep each bullet to one short sentence — put extra context in *Context* or *Relevant technical choices*, not here.
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 If the changelog item is a bugfix, describe the incorrect behaviour that occurred, followed by the condition that triggered it. Use clear, past tense language and avoid hypothetical or nested conditionals. Example structure: “Fixes a bug where... happened when/was caused by ...”
 If the changelog item is meant for the changelog of another add-on, start your changelog item with the name of that add-on's repo between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....

@@ -13,7 +13,8 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 - Multiple changelog bullets only when (a) the PR has two logically distinct changes, (b) types differ — then use `[repo type]` override on the divergent bullets, or (c) the change must land in multiple repos/packages, in which case each extra bullet is prefixed with `[<repo-or-package>]`.
 - Title under ~70 characters; Conventional Commits prefix where natural.
 - Prefer atomic commits: if the PR mixes unrelated changes in a single commit (e.g. bugfix + refactor + tooling), suggest splitting into separate commits (or separate PRs) when practical.
-- Flag padded PR descriptions. *Context* and *Relevant technical choices* should be one or two sentences; *Test instructions* should be concrete steps, not prose. Replace restatements of linked issues/epics with the link itself.
+- Flag *Test instructions* written as prose rather than concrete steps, and restatements of linked issues/epics that should be links instead.
+- Flag changelog bullets that run more than one sentence, or stack multiple independent clauses with commas, colons, or semicolons. Long-form explanation belongs in *Context* / *Relevant technical choices*.
 - Release-branch PRs (`release/*`): unreleased-bug fixes use `changelog: non-user-facing` and `Fixes an unreleased bug where …`.
 
 ### Tests and coverage
@@ -50,4 +51,4 @@ Used here for **pull request reviews**. Canonical rules: [`CONTRIBUTING.md`](./C
 - Pre-existing issues in unchanged lines — focus on the diff.
 - Thresholded phpcs warnings in legacy code; only flag *new* errors/warnings attributable to this PR.
 - Style variants that match the surrounding file.
-- Minor changelog wording variations that still follow the PR-template grammar rules.
+- Cosmetic wording choices in changelog bullets that still respect the conciseness and grammar rules.

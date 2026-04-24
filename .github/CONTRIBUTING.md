@@ -202,7 +202,7 @@ Each package under `packages/*` has its own `package.json` with local scripts; p
 5. Write tests. We expect every PR that changes PHP behaviour to ship unit tests — see the commands in the checklist below.
 6. Use the [Conventional Commits](https://www.conventionalcommits.org/) format for commit messages (e.g. `fix: …`, `feat(dashboard): …`). **Prefer atomic commits whenever practical** — each commit should represent a single logical change that can be reviewed or reverted on its own. If your PR mixes unrelated changes (e.g. a bugfix plus a refactor plus a tooling tweak), split them into separate commits or ideally separate PRs. Combining closely coupled changes into one commit is fine when splitting would be artificial.
 7. Push your branch and open a pull request against `trunk`. **Use the pull request template** at [`.github/PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) and fill in every section — even for small changes.
-8. **Keep the PR description focused.** Fill every required section of the template with what the reviewer actually needs — no more. *Context* and *Relevant technical choices* are usually one or two clear sentences; *Test instructions* are concrete steps, not essays. Don't pad sections to look thorough; reviewers read every line, and padding makes the substance harder to find. Summarise — link to the epic, issue, or design doc instead of restating them.
+8. **Keep the PR description focused.** Fill every required section of the template — aim for what the reviewer actually needs. For *Context* and *Relevant technical choices*, brevity is welcome but not enforced. *Test instructions* should be concrete steps, not essays. Link to the epic, issue, or design doc rather than restating them.
 
 #### Before you push or open/update a PR
 
@@ -224,6 +224,7 @@ If a check fails or you need to skip one (e.g. you can't run Docker locally for 
 Every PR needs a **changelog entry** in the Summary section of the PR body and a **changelog label** on the PR itself:
 
 * Write one bullet describing the change in present tense, 3rd person singular, ending with a full stop. For bugfixes, describe the incorrect behaviour followed by the condition that triggered it, in clear past tense, avoiding hypothetical or nested conditionals (e.g. `Fixes a bug where X happened when Y` or `Fixes a bug where X was caused by Y`). See [`PULL_REQUEST_TEMPLATE.md`](./PULL_REQUEST_TEMPLATE.md) for the full grammar and examples.
+* Keep each bullet to one short sentence. If you need commas, semicolons, or colons to chain clauses together, the extra context belongs in *Context* or *Relevant technical choices* — not in the bullet.
 * Attach one of: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 * If the change also affects another Yoast repo or package, add an extra bullet prefixed with `[<repo-or-package>]`. The PR template explains this in more detail.
 
