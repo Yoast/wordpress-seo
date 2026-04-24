@@ -309,8 +309,8 @@ final class JWT_Signer_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_generate_jti_is_unique() {
-		$jti_a = JWT_Signer::generate_jti();
-		$jti_b = JWT_Signer::generate_jti();
+		$jti_a = $this->instance->generate_jti();
+		$jti_b = $this->instance->generate_jti();
 
 		$this->assertNotSame( $jti_a, $jti_b );
 		$this->assertNotEmpty( $jti_a );

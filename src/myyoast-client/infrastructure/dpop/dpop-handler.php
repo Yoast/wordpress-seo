@@ -7,6 +7,7 @@ use Exception;
 use SensitiveParameter;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Encryption_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signer;
+use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\JWT_Signing_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Crypto\Key_Pair_Manager;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\Encoding\Base64url;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
@@ -94,7 +95,7 @@ class DPoP_Handler {
 		// Strip query and fragment from URL per RFC 9449.
 		$htu = $this->normalize_url( $url );
 		try {
-			$jti = JWT_Signer::generate_jti();
+			$jti = $this->jwt_signer->generate_jti();
 		}
 		catch ( Exception $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
@@ -124,7 +125,7 @@ class DPoP_Handler {
 		try {
 			return $this->jwt_signer->sign( $header, $payload, $key_pair->get_private_key() );
 		}
-		catch ( Encryption_Exception $e ) {
+		catch ( JWT_Signing_Exception $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new DPoP_Proof_Exception( 'DPoP proof signing failed: ' . $e->getMessage(), 0, $e );
 		}

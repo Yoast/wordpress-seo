@@ -29,7 +29,7 @@ class JWT_Signer {
 	 *
 	 * @return string The compact-serialized JWT (header.payload.signature).
 	 *
-	 * @throws Encryption_Exception If signing fails.
+	 * @throws JWT_Signing_Exception If signing fails.
 	 */
 	public function sign(
 		array $header,
@@ -39,14 +39,14 @@ class JWT_Signer {
 		string $private_key
 	): string {
 		try {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Must produce compact JSON for JWT; wp_json_encode may add unnecessary escaping.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Using json_encode directly: JSON_THROW_ON_ERROR must propagate so encoding failures surface as exceptions, and wp_json_encode's silent UTF-8 transcoding would mutate JWT claim values.
 			$header_b64 = Base64url::encode( \json_encode( $header, \JSON_THROW_ON_ERROR ) );
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Must produce compact JSON for JWT; wp_json_encode may add unnecessary escaping.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode, Yoast.Yoast.JsonEncodeAlternative.FoundWithAdditionalParams -- Using json_encode directly: JSON_THROW_ON_ERROR must propagate so encoding failures surface as exceptions, and wp_json_encode's silent UTF-8 transcoding would mutate JWT claim values.
 			$payload_b64 = Base64url::encode( \json_encode( $payload, \JSON_THROW_ON_ERROR ) );
 		}
 		catch ( JsonException $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-			throw new Encryption_Exception( 'JWT encoding failed: ' . $e->getMessage(), 0, $e );
+			throw new JWT_Signing_Exception( 'JWT encoding failed: ' . $e->getMessage(), 0, $e );
 		}
 
 		$signing_input = $header_b64 . '.' . $payload_b64;
@@ -56,10 +56,12 @@ class JWT_Signer {
 		}
 		catch ( SodiumException $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-			throw new Encryption_Exception( 'JWT signing failed: ' . $e->getMessage(), 0, $e );
+			throw new JWT_Signing_Exception( 'JWT signing failed: ' . $e->getMessage(), 0, $e );
 		}
 
-		return $signing_input . '.' . Base64url::encode( $signature );
+		$signature_b64 = Base64url::encode( $signature );
+
+		return $signing_input . '.' . $signature_b64;
 	}
 
 	/**
@@ -70,7 +72,8 @@ class JWT_Signer {
 	 * @param Key_Pair $key_pair       The key pair to sign with.
 	 *
 	 * @return string The signed client_assertion JWT.
-	 * @throws Encryption_Exception If signing fails or jti generation fails.
+	 *
+	 * @throws JWT_Signing_Exception If signing fails or jti generation fails.
 	 */
 	public function create_client_assertion( string $client_id, string $token_endpoint, Key_Pair $key_pair ): string {
 		$now = \time();
@@ -81,10 +84,10 @@ class JWT_Signer {
 		];
 
 		try {
-			$jti = self::generate_jti();
+			$jti = $this->generate_jti();
 		} catch ( Exception $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
-			throw new Encryption_Exception( 'Failed to generate jti for client_assertion: ' . $e->getMessage(), 0, $e );
+			throw new JWT_Signing_Exception( 'Failed to generate jti for client_assertion: ' . $e->getMessage(), 0, $e );
 		}
 
 		$payload = [
@@ -125,6 +128,45 @@ class JWT_Signer {
 			throw new JWT_Signature_Exception( 'Invalid JWT format: expected 3 segments.' );
 		}
 
+		$this->verify_signature( $parts, $public_key );
+
+		$header  = \json_decode( Base64url::decode( $parts[0] ), true );
+		$payload = \json_decode( Base64url::decode( $parts[1] ), true );
+
+		if ( ! \is_array( $header ) || ! \is_array( $payload ) ) {
+			throw new JWT_Signature_Exception( 'Invalid JWT payload encoding.' );
+		}
+
+		$this->validate_time_claims( $payload, $leeway );
+
+		return [
+			'header'  => $header,
+			'payload' => $payload,
+		];
+	}
+
+	/**
+	 * Generates a unique JWT ID (jti).
+	 *
+	 * @return string A unique identifier.
+	 *
+	 * @throws RandomException If random bytes generation fails.
+	 */
+	public function generate_jti(): string {
+		return Base64url::encode( \random_bytes( 16 ) );
+	}
+
+	/**
+	 * Verifies the Ed25519 signature of a split JWT.
+	 *
+	 * @param array<int, string> $parts      The three JWT segments (header, payload, signature).
+	 * @param string             $public_key The 32-byte Ed25519 public key.
+	 *
+	 * @return void
+	 *
+	 * @throws JWT_Signature_Exception If the signature is invalid, malformed, or verification errors.
+	 */
+	private function verify_signature( array $parts, string $public_key ): void {
 		$signing_input = $parts[0] . '.' . $parts[1];
 		$signature     = Base64url::decode( $parts[2] );
 
@@ -143,14 +185,19 @@ class JWT_Signer {
 		if ( ! $valid ) {
 			throw new JWT_Signature_Exception( 'JWT signature verification failed.' );
 		}
+	}
 
-		$header  = \json_decode( Base64url::decode( $parts[0] ), true );
-		$payload = \json_decode( Base64url::decode( $parts[1] ), true );
-
-		if ( ! \is_array( $header ) || ! \is_array( $payload ) ) {
-			throw new JWT_Signature_Exception( 'Invalid JWT payload encoding.' );
-		}
-
+	/**
+	 * Validates RFC 7519 time-based claims (exp, nbf, iat).
+	 *
+	 * @param array<string, string|int|array<string, string>> $payload The decoded JWT payload.
+	 * @param int                                             $leeway  Clock-skew tolerance in seconds for exp/nbf.
+	 *
+	 * @return void
+	 *
+	 * @throws JWT_Validation_Exception If any time claim is invalid.
+	 */
+	private function validate_time_claims( array $payload, int $leeway ): void {
 		$now = \time();
 
 		// RFC 7519 Section 4.1.4: reject expired tokens.
@@ -167,20 +214,5 @@ class JWT_Signer {
 		if ( isset( $payload['iat'] ) && $payload['iat'] < ( $now - \HOUR_IN_SECONDS ) ) {
 			throw new JWT_Validation_Exception( 'JWT iat claim is too old.' );
 		}
-
-		return [
-			'header'  => $header,
-			'payload' => $payload,
-		];
-	}
-
-	/**
-	 * Generates a unique JWT ID (jti).
-	 *
-	 * @return string A unique identifier.
-	 * @throws RandomException If random bytes generation fails.
-	 */
-	public static function generate_jti(): string {
-		return Base64url::encode( \random_bytes( 16 ) );
 	}
 }

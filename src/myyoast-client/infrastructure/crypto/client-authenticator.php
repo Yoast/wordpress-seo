@@ -54,7 +54,7 @@ class Client_Authenticator implements Client_Authenticator_Interface {
 			$key_pair = $this->key_pair_manager->get_or_create_key_pair( Key_Pair_Manager::PURPOSE_REGISTRATION );
 
 			return $this->jwt_signer->create_client_assertion( $client_id, $audience, $key_pair );
-		} catch ( Encryption_Exception $e ) {
+		} catch ( Encryption_Exception | JWT_Signing_Exception $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception message.
 			throw new Client_Authentication_Exception( 'Client assertion signing failed: ' . $e->getMessage(), 0, $e );
 		}
