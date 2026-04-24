@@ -45,7 +45,7 @@ final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Tes
 	}
 
 	/**
-	 * Tests that the blog's default category is returned when the named term does not exist.
+	 * Tests that the empty-category sentinel is returned when the named term does not exist.
 	 *
 	 * @dataProvider data_provider_not_found
 	 *
@@ -53,40 +53,26 @@ final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Tes
 	 *
 	 * @return void
 	 */
-	public function test_returns_default_category_when_term_not_found( $return_value ) {
-		$default_term          = Mockery::mock( WP_Term::class );
-		$default_term->name    = 'Uncategorized';
-		$default_term->term_id = 1;
-
+	public function test_returns_empty_sentinel_when_term_not_found( $return_value ) {
 		Functions\expect( 'get_term_by' )
 			->once()
 			->with( 'name', 'Non Existent', 'category' )
 			->andReturn( $return_value );
-
-		Functions\expect( 'get_option' )
-			->once()
-			->with( 'default_category' )
-			->andReturn( '1' );
-
-		Functions\expect( 'get_term' )
-			->once()
-			->with( 1, 'category' )
-			->andReturn( $default_term );
 
 		$result = $this->instance->find_by_name( 'Non Existent' );
 
 		$this->assertInstanceOf( Category::class, $result );
 		$this->assertSame(
 			[
-				'name' => 'Uncategorized',
-				'id'   => 1,
+				'name' => '',
+				'id'   => -1,
 			],
 			$result->to_array(),
 		);
 	}
 
 	/**
-	 * Data provider for test_returns_default_category_when_term_not_found.
+	 * Data provider for test_returns_empty_sentinel_when_term_not_found.
 	 *
 	 * @return array<mixed>
 	 */
@@ -98,37 +84,23 @@ final class Find_By_Name_Test extends Abstract_WordPress_Category_Repository_Tes
 	}
 
 	/**
-	 * Tests that the empty-category sentinel name resolves to the blog's default category.
+	 * Tests that the empty-category sentinel is returned when called with an empty name.
 	 *
 	 * @return void
 	 */
-	public function test_returns_default_category_for_empty_sentinel_name() {
-		$default_term          = Mockery::mock( WP_Term::class );
-		$default_term->name    = 'Uncategorized';
-		$default_term->term_id = 1;
-
+	public function test_returns_empty_sentinel_for_empty_name() {
 		Functions\expect( 'get_term_by' )
 			->once()
 			->with( 'name', '', 'category' )
 			->andReturn( false );
-
-		Functions\expect( 'get_option' )
-			->once()
-			->with( 'default_category' )
-			->andReturn( '1' );
-
-		Functions\expect( 'get_term' )
-			->once()
-			->with( 1, 'category' )
-			->andReturn( $default_term );
 
 		$result = $this->instance->find_by_name( '' );
 
 		$this->assertInstanceOf( Category::class, $result );
 		$this->assertSame(
 			[
-				'name' => 'Uncategorized',
-				'id'   => 1,
+				'name' => '',
+				'id'   => -1,
 			],
 			$result->to_array(),
 		);

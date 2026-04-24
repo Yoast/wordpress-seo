@@ -84,18 +84,16 @@ final class Build_Suggestions_Array_Test extends Abstract_Content_Suggestion_Com
 	}
 
 	/**
-	 * Tests case 2: the suggested category does not exist in the blog (repository returns the default).
+	 * Tests case 2: the suggested category does not exist in the blog (repository returns the sentinel).
 	 *
 	 * @return void
 	 */
 	public function test_builds_suggestion_when_category_does_not_exist() {
-		$default_category = new Category( 'Uncategorized', 1 );
-
 		$this->category_repository
 			->expects( 'find_by_name' )
 			->once()
 			->with( 'Made Up Category' )
-			->andReturn( $default_category );
+			->andReturn( new Category( '', -1 ) );
 
 		$response = $this->build_single_choice_response(
 			[
@@ -116,8 +114,8 @@ final class Build_Suggestions_Array_Test extends Abstract_Content_Suggestion_Com
 						'keyphrase'        => 'AI usage',
 						'meta_description' => 'Learn how to use AI effectively.',
 						'category'         => [
-							'name' => 'Uncategorized',
-							'id'   => 1,
+							'name' => '',
+							'id'   => -1,
 						],
 					],
 				],
@@ -127,18 +125,16 @@ final class Build_Suggestions_Array_Test extends Abstract_Content_Suggestion_Com
 	}
 
 	/**
-	 * Tests case 3: the AI returns the empty-category sentinel (repository returns the default).
+	 * Tests case 3: the AI returns the empty-category sentinel (repository returns the sentinel).
 	 *
 	 * @return void
 	 */
 	public function test_builds_suggestion_for_empty_category_sentinel() {
-		$default_category = new Category( 'Uncategorized', 1 );
-
 		$this->category_repository
 			->expects( 'find_by_name' )
 			->once()
 			->with( '' )
-			->andReturn( $default_category );
+			->andReturn( new Category( '', -1 ) );
 
 		$response = $this->build_single_choice_response(
 			[
@@ -159,8 +155,8 @@ final class Build_Suggestions_Array_Test extends Abstract_Content_Suggestion_Com
 						'keyphrase'        => 'AI usage',
 						'meta_description' => 'Learn how to use AI effectively.',
 						'category'         => [
-							'name' => 'Uncategorized',
-							'id'   => 1,
+							'name' => '',
+							'id'   => -1,
 						],
 					],
 				],
