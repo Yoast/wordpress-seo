@@ -26,7 +26,7 @@ export const App = () => {
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 		};
 	}, [] );
-	const { setStatus, onClose } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setStatus, closeModal } = useDispatch( CONTENT_PLANNER_STORE );
 	const [ hasVisitedReplace, setHasVisitedReplace ] = useState( false );
 	const [ replaceContentModalIsOpen, toggleReplaceContentModal, , openReplaceContentModal  ] = useToggleState( false );
 	const editedOutlineRef = useRef( null );
@@ -81,7 +81,7 @@ export const App = () => {
 				onClose={ toggleReplaceContentModal }
 			/>
 
-			<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ onClose } className="yst-introduction-modal">
+			<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ closeModal } className="yst-introduction-modal">
 				<Modal.Panel
 					className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }
