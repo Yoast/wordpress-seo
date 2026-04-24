@@ -41,6 +41,17 @@ class Container_Compiler {
 				\define( 'WPSEO_VERSION', 'COMPILING' );
 			}
 
+			// WordPress time constants used in class constants; must be defined for DI compilation outside WP context.
+			if ( ! \defined( 'MINUTE_IN_SECONDS' ) ) {
+				// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Polyfill for WordPress time constants. Only to be defined for DI compilation outside WP context (e.g. Composer).
+				\define( 'MINUTE_IN_SECONDS', 60 );
+				\define( 'HOUR_IN_SECONDS', ( 60 * \MINUTE_IN_SECONDS ) );
+				\define( 'DAY_IN_SECONDS', ( 24 * \HOUR_IN_SECONDS ) );
+				\define( 'WEEK_IN_SECONDS', ( 7 * \DAY_IN_SECONDS ) );
+				\define( 'MONTH_IN_SECONDS', ( 30 * \DAY_IN_SECONDS ) );
+				\define( 'YEAR_IN_SECONDS', ( 365 * \DAY_IN_SECONDS ) );
+			}
+
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
 			$container_builder->addCompilerPass( new Interface_Injection_Pass() );
