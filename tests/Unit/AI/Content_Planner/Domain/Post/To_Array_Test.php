@@ -70,4 +70,36 @@ final class To_Array_Test extends Abstract_Post {
 		$this->assertSame( $expected, $post->to_array() );
 		$this->assertArrayNotHasKey( 'schema_article_type', $post->to_array() );
 	}
+
+	/**
+	 * Tests the to_array method when the post has no category.
+	 *
+	 * The `category` key is always emitted (with a null value when absent) because the AI API
+	 * contract requires the key to be present even when it carries no value.
+	 *
+	 * @return void
+	 */
+	public function test_to_array_without_category() {
+		$post = new Post(
+			'My Post Title',
+			'A description of the post.',
+			null,
+			'focus keyword',
+			1,
+			'2024-01-15',
+			'BlogPosting',
+		);
+
+		$expected = [
+			'title'                 => 'My Post Title',
+			'description'           => 'A description of the post.',
+			'category'              => null,
+			'primary_focus_keyword' => 'focus keyword',
+			'is_cornerstone'        => 1,
+			'last_modified'         => '2024-01-15',
+			'schema_article_type'   => 'BlogPosting',
+		];
+
+		$this->assertSame( $expected, $post->to_array() );
+	}
 }
