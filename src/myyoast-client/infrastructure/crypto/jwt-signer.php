@@ -121,6 +121,8 @@ class JWT_Signer {
 	 *
 	 * @throws JWT_Signature_Exception  If the signature is invalid, the JWT is malformed, or the token was tampered with.
 	 * @throws JWT_Validation_Exception If the token's time-based claims are invalid (expired, not yet valid, or too old).
+	 *
+	 * phpcs:ignore Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- JWT_Validation_Exception is thrown by validate_time_claims().
 	 */
 	public function verify( string $jwt, string $public_key, int $leeway = 60 ): array {
 		$parts = \explode( '.', $jwt );

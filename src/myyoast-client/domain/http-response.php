@@ -9,6 +9,8 @@ namespace Yoast\WP\SEO\MyYoast_Client\Domain;
  * Carries the HTTP status code (0 on transport failure), response headers,
  * and parsed body. The body is either an associative array (for JSON
  * responses) or a string (for everything else).
+ *
+ * phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- Response bodies are heterogeneous by design.
  */
 final class HTTP_Response {
 
@@ -36,9 +38,11 @@ final class HTTP_Response {
 	private $body;
 
 	/**
-	 * @param int                             $status  The HTTP status code.
-	 * @param array<string, string|string[]>  $headers The response headers.
-	 * @param array<string, mixed>|string     $body    The parsed body.
+	 * Constructs an HTTP_Response.
+	 *
+	 * @param int                            $status  The HTTP status code.
+	 * @param array<string, string|string[]> $headers The response headers.
+	 * @param array<string, mixed>|string    $body    The parsed body.
 	 */
 	public function __construct( int $status, array $headers, $body ) {
 		$this->status  = $status;
@@ -47,6 +51,8 @@ final class HTTP_Response {
 	}
 
 	/**
+	 * Returns the HTTP status code.
+	 *
 	 * @return int The HTTP status code (0 on transport failure).
 	 */
 	public function get_status(): int {
@@ -54,6 +60,8 @@ final class HTTP_Response {
 	}
 
 	/**
+	 * Returns the response headers.
+	 *
 	 * @return array<string, string|string[]> The response headers.
 	 */
 	public function get_headers(): array {
@@ -61,6 +69,8 @@ final class HTTP_Response {
 	}
 
 	/**
+	 * Returns the parsed response body.
+	 *
 	 * @return array<string, mixed>|string The parsed body.
 	 */
 	public function get_body() {
@@ -68,38 +78,44 @@ final class HTTP_Response {
 	}
 
 	/**
-	 * @return bool True if the body is an associative array (decoded JSON).
+	 * Whether the body is an associative array (decoded JSON).
+	 *
+	 * @return bool True if the body is an associative array.
 	 */
 	public function has_array_body(): bool {
 		return \is_array( $this->body );
 	}
 
 	/**
-	 * Returns a value from an array body by key, or a default when the
+	 * Returns a value from an array body by key, or a fallback when the
 	 * body is not an array or the key is missing.
 	 *
-	 * @param string $key     The key to look up.
-	 * @param mixed  $default The default value.
+	 * @param string $key      The key to look up.
+	 * @param mixed  $fallback The fallback value.
 	 *
-	 * @return mixed
+	 * @return mixed The looked-up value or the fallback.
 	 */
-	public function get_body_value( string $key, $default = null ) {
+	public function get_body_value( string $key, $fallback = null ) {
 		if ( ! \is_array( $this->body ) ) {
-			return $default;
+			return $fallback;
 		}
 
-		return ( $this->body[ $key ] ?? $default );
+		return ( $this->body[ $key ] ?? $fallback );
 	}
 
 	/**
-	 * @return bool True if the status indicates a successful response (2xx).
+	 * Whether the status indicates a successful response (2xx).
+	 *
+	 * @return bool True if the status is 2xx.
 	 */
 	public function is_successful(): bool {
 		return ( $this->status >= 200 && $this->status < 300 );
 	}
 
 	/**
-	 * @return bool True if no response was received (transport failure).
+	 * Whether no response was received (transport failure).
+	 *
+	 * @return bool True if the status is 0.
 	 */
 	public function is_transport_failure(): bool {
 		return ( $this->status === 0 );

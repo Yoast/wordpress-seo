@@ -17,9 +17,9 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	use No_Conditionals;
 	use LoggerAwareTrait;
 
-	private const CRON_HOOK                   = 'Yoast\WP\SEO\myyoast_key_rotation';
-	private const ROTATION_INTERVAL           = 'Yoast\WP\SEO\myyoast_90days';
-	private const ROTATION_INTERVAL_IN_DAYS   = 90;
+	private const CRON_HOOK                 = 'Yoast\WP\SEO\myyoast_key_rotation';
+	private const ROTATION_INTERVAL         = 'Yoast\WP\SEO\myyoast_90days';
+	private const ROTATION_INTERVAL_IN_DAYS = 90;
 
 	/**
 	 * The registration manager.
@@ -46,6 +46,7 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'schedule_key_rotation' ] );
 		\add_action( self::CRON_HOOK, [ $this, 'handle_key_rotation' ] );
+		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand the self::ROTATION_INTERVAL_IN_DAYS reference.
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 	}
 
