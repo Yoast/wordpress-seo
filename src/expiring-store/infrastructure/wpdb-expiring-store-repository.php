@@ -5,11 +5,11 @@ namespace Yoast\WP\SEO\Expiring_Store\Infrastructure;
 use Yoast\WP\SEO\Expiring_Store\Application\Ports\Expiring_Store_Repository_Interface;
 
 /**
- * Repository for the expiring store table.
+ * WPDB-backed repository for the expiring store table.
  *
  * Handles raw database queries against the network-wide yoast_expiring_store table.
  */
-class Expiring_Store_Repository implements Expiring_Store_Repository_Interface {
+class WPDB_Expiring_Store_Repository implements Expiring_Store_Repository_Interface {
 
 	/**
 	 * Inserts or replaces a value in the expiring store.

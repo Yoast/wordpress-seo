@@ -3,22 +3,22 @@
 namespace Yoast\WP\SEO\Tests\Unit\Expiring_Store\Infrastructure;
 
 use Mockery;
-use Yoast\WP\SEO\Expiring_Store\Infrastructure\Expiring_Store_Repository;
+use Yoast\WP\SEO\Expiring_Store\Infrastructure\WPDB_Expiring_Store_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Expiring_Store_Repository.
+ * Tests the WPDB_Expiring_Store_Repository.
  *
  * @group expiring-store
  *
- * @coversDefaultClass \Yoast\WP\SEO\Expiring_Store\Infrastructure\Expiring_Store_Repository
+ * @coversDefaultClass \Yoast\WP\SEO\Expiring_Store\Infrastructure\WPDB_Expiring_Store_Repository
  */
-final class Expiring_Store_Repository_Test extends TestCase {
+final class WPDB_Expiring_Store_Repository_Test extends TestCase {
 
 	/**
 	 * Holds the instance.
 	 *
-	 * @var Expiring_Store_Repository
+	 * @var WPDB_Expiring_Store_Repository
 	 */
 	private $instance;
 
@@ -41,7 +41,7 @@ final class Expiring_Store_Repository_Test extends TestCase {
 		$this->wpdb->base_prefix = 'wp_';
 		$GLOBALS['wpdb']         = $this->wpdb;
 
-		$this->instance = new Expiring_Store_Repository();
+		$this->instance = new WPDB_Expiring_Store_Repository();
 	}
 
 	/**
