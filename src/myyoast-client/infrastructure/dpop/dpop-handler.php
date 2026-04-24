@@ -20,7 +20,7 @@ use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
 class DPoP_Handler {
 
 	private const NONCE_TRANSIENT_PREFIX = 'wpseo_myyoast_dpop_nonce_';
-	private const NONCE_TTL_IN_SECONDS   = ( \MINUTE_IN_SECONDS * 5 ); // 5 minutes.
+	private const NONCE_TTL_IN_SECONDS   = ( \MINUTE_IN_SECONDS * 5 );
 
 	/**
 	 * The key pair manager.

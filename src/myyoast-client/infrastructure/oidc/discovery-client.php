@@ -22,7 +22,7 @@ class Discovery_Client implements Discovery_Interface, LoggerAwareInterface {
 	use LoggerAwareTrait;
 
 	private const CACHE_TRANSIENT_PREFIX = 'wpseo_myyoast_oidc_';
-	private const CACHE_TTL              = \DAY_IN_SECONDS; // 24 hours.
+	private const CACHE_TTL              = \DAY_IN_SECONDS;
 
 	/**
 	 * The issuer configuration.

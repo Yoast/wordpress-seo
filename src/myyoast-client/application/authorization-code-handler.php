@@ -35,7 +35,7 @@ class Authorization_Code_Handler implements LoggerAwareInterface {
 	use LoggerAwareTrait;
 
 	private const CURRENT_AUTH_FLOW_STATE_KEY = 'myyoast_current_authorization_state';
-	private const PKCE_TTL                    = ( \MINUTE_IN_SECONDS * 10 ); // 10 minutes.
+	private const PKCE_TTL                    = ( \MINUTE_IN_SECONDS * 10 );
 
 	/**
 	 * The discovery port.
