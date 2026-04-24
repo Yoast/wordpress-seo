@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { get, isInteger } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { ERROR_DEFAULT } from "../constants";
 import { contentPlannerFetch } from "../helpers/fetch";
@@ -61,9 +61,11 @@ const slice = createSlice( {
 		},
 		saveOutlineEditsToCache: ( state, { payload } ) => {
 			const { suggestion, structure } = payload;
-			if ( suggestion.index || suggestion.index === 0 ) {
-				state.cache[ suggestion.index ].outline = structure;
-				state.cache[ suggestion.index ].suggestion = suggestion;
+			if ( isInteger( suggestion.index ) && suggestion.index >= 0 ) {
+				state.cache[ suggestion.index ] = {
+					outline: structure,
+					suggestion,
+				};
 			}
 			state.suggestion = null;
 			state.outline = [];
