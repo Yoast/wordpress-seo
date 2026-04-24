@@ -180,9 +180,9 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 /**
  * Loading content Outline Modal Content.
  *
- * @returns {JSX.Element} The LoadingContentOutlineModalContent component.
+ * @returns {JSX.Element} The LoadingOutlineModalContent component.
  */
-const LoadingContentOutlineModalContent = () => {
+const LoadingOutlineModalContent = () => {
 	return <>
 		<CategorySection
 			isLoading={ true }
@@ -209,9 +209,9 @@ const LoadingContentOutlineModalContent = () => {
  * @param {Function}           onRetry             The function to call to retry fetching the content outline.
  * @param {Object}             closeButtonRef      Ref object for the modal close button, used to manage focus.
  *
- * @returns {JSX.Element} The ContentOutlineModal component.
+ * @returns {JSX.Element} The OutlineModalContent component.
  */
-export const ContentOutlineModalContent = ( {
+export const OutlineModalContent = ( {
 	status,
 	onBackToSuggestions,
 	onApplyOutline,
@@ -304,7 +304,7 @@ export const ContentOutlineModalContent = ( {
 						leaveFrom="yst-opacity-100"
 						leaveTo="yst-opacity-0"
 					>
-						<LoadingContentOutlineModalContent />
+						<LoadingOutlineModalContent />
 					</Transition>
 
 					<Transition

@@ -1,6 +1,6 @@
 import { compose } from "@wordpress/compose";
 import { withSelect, withDispatch } from "@wordpress/data";
-import { ContentOutlineModalContent } from "../components/content-outline-modal-content";
+import { OutlineModalContent } from "../components/outline-modal-content";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
 
 export default compose( [
@@ -33,4 +33,4 @@ export default compose( [
 			},
 		};
 	} ),
-] )( ContentOutlineModalContent );
+] )( OutlineModalContent );

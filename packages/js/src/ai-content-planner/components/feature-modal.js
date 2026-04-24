@@ -3,8 +3,8 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { Badge, Modal, Notifications, useSvgAria, Link } from "@yoast/ui-library";
 import { useCallback, useRef } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import ContentSuggestionsModalContent from "../containers/content-suggestions-modal-content";
-import ContentOutlineModalContent from "../containers/content-outline-modal-content";
+import SuggestionsModalContent from "../containers/suggestions-modal-content";
+import OutlineModalContent from "../containers/outline-modal-content";
 import { FEATURE_MODAL_STATUS } from "../constants";
 import { useFetchContentOutline, useApplyOutline } from "../hooks";
 import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
@@ -115,12 +115,12 @@ export const FeatureModal = ( {
 									/>
 								) }
 					</Modal.Container.Header>
-					{ status === FEATURE_MODAL_STATUS.contentSuggestions && <ContentSuggestionsModalContent
+					{ status === FEATURE_MODAL_STATUS.contentSuggestions && <SuggestionsModalContent
 						onSuggestionClick={ handleSuggestionClick }
 					/> }
 
 					{ status === FEATURE_MODAL_STATUS.contentOutline && (
-						<ContentOutlineModalContent
+						<OutlineModalContent
 							onApplyOutline={ handleOnApplyOutline }
 							closeButtonRef={ closeButtonRef }
 						/>
