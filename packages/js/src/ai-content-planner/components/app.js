@@ -18,10 +18,9 @@ import { useSelect, useDispatch } from "@wordpress/data";
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const App = () => {
-	const { isOpen, status, hasConsent } = useSelect( select => {
+	const { status, hasConsent } = useSelect( select => {
 		const contentPlannerSelectors = select( CONTENT_PLANNER_STORE );
 		return {
-			isOpen: contentPlannerSelectors.selectIsModalOpen(),
 			status: contentPlannerSelectors.selectFeatureModalStatus(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 		};
@@ -59,10 +58,10 @@ export const App = () => {
 	}, [ handleApplyOutline ] );
 
 	useEffect( () => {
-		if ( ! isOpen ) {
+		if ( ! status ) {
 			setHasVisitedReplace( false );
 		}
-	}, [ isOpen ] );
+	}, [ status ] );
 
 	return (
 		<>
@@ -81,7 +80,7 @@ export const App = () => {
 				onClose={ toggleReplaceContentModal }
 			/>
 
-			<Modal isOpen={ isOpen && isConsentModalOpen } onClose={ closeModal } className="yst-introduction-modal">
+			<Modal isOpen={ isConsentModalOpen } onClose={ closeModal } className="yst-introduction-modal">
 				<Modal.Panel
 					className="yst-max-w-lg yst-p-0 yst-rounded-3xl"
 					closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }

@@ -14,9 +14,6 @@ const slice = createSlice( {
 		featureModalStatus: null,
 	},
 	reducers: {
-		openModal: ( state ) => {
-			state.isOpen = true;
-		},
 		closeModal: () => slice.getInitialState(),
 		setFeatureModalStatus: ( state, { payload } ) => {
 			state.featureModalStatus = payload;
@@ -47,6 +44,5 @@ export const modalActions = {
 };
 
 export const modalSelectors = {
-	selectIsModalOpen: ( state ) => get( state, [ MODAL_NAME, "isOpen" ], slice.getInitialState().isOpen ),
 	selectFeatureModalStatus: ( state ) => get( state, [ MODAL_NAME, "featureModalStatus" ], slice.getInitialState().featureModalStatus ),
 };
