@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\MyYoast_Client\Application\Grants;
  * Used for site-level tokens without user context.
  * Includes the site URL for site identity.
  */
-class Client_Credentials_Grant implements Grant_Strategy_Interface {
+class Client_Credentials_Grant implements Grant_Interface {
 
 	/**
 	 * The scopes to request.

@@ -10,7 +10,7 @@ use SensitiveParameter;
  *
  * Exchanges a refresh token for new access and refresh tokens.
  */
-class Refresh_Token_Grant implements Grant_Strategy_Interface {
+class Refresh_Token_Grant implements Grant_Interface {
 
 	/**
 	 * The refresh token.

@@ -4,13 +4,13 @@
 namespace Yoast\WP\SEO\MyYoast_Client\Application\Grants;
 
 /**
- * Interface for OAuth grant type strategies.
+ * Interface for OAuth grant types.
  *
  * Each implementation provides the grant-specific parameters for a token
  * endpoint request. The shared logic (client assertion, error handling)
  * is handled by OAuth_Grant_Handler.
  */
-interface Grant_Strategy_Interface {
+interface Grant_Interface {
 
 	/**
 	 * Returns the OAuth grant type identifier (e.g. "authorization_code").

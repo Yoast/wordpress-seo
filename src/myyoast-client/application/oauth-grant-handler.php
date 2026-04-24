@@ -8,7 +8,7 @@ use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Client_Authentication_Exc
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Discovery_Failed_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Server_Capability_Exception;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Token_Request_Failed_Exception;
-use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Grant_Strategy_Interface;
+use Yoast\WP\SEO\MyYoast_Client\Application\Grants\Grant_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Authenticator_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Client_Registration_Interface;
 use Yoast\WP\SEO\MyYoast_Client\Application\Ports\Discovery_Interface;
@@ -22,7 +22,7 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * Central handler for OAuth token endpoint requests.
  *
  * Handles client authentication (private_key_jwt) and delegates grant-specific
- * parameters to the provided Grant_Strategy_Interface. Executes the token request via
+ * parameters to the provided Grant_Interface. Executes the token request via
  * the token endpoint client and handles error responses.
  */
 class OAuth_Grant_Handler implements LoggerAwareInterface {
@@ -83,13 +83,13 @@ class OAuth_Grant_Handler implements LoggerAwareInterface {
 	 * Ensures the client is registered, creates a client assertion, merges
 	 * grant-specific parameters, and sends the request.
 	 *
-	 * @param Grant_Strategy_Interface $grant The grant strategy providing grant-specific parameters.
+	 * @param Grant_Interface $grant The grant strategy providing grant-specific parameters.
 	 *
 	 * @return Token_Set The token set from the response.
 	 *
 	 * @throws Token_Request_Failed_Exception If the token request fails.
 	 */
-	public function request_token( Grant_Strategy_Interface $grant ): Token_Set {
+	public function request_token( Grant_Interface $grant ): Token_Set {
 		$registered_client = $this->client_registration->ensure_registered();
 
 		try {

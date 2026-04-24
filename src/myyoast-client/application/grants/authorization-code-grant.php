@@ -11,7 +11,7 @@ use SensitiveParameter;
  * Provides the authorization code, redirect URI, and PKCE code verifier
  * for the token exchange request.
  */
-class Authorization_Code_Grant implements Grant_Strategy_Interface {
+class Authorization_Code_Grant implements Grant_Interface {
 
 	/**
 	 * The authorization code received from the callback.
