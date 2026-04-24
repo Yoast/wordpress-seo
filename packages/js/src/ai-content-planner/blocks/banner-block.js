@@ -74,7 +74,17 @@ const Edit = ( { clientId } ) => {
 	);
 };
 
-registerBlockType( block, {
-	edit: Edit,
-	save: () => null,
-} );
+/**
+ * Registers the Content Planner Banner block.
+ *
+ * Deferred behind a function so registration only happens when the Content
+ * Planner feature initializes, not at module import time.
+ *
+ * @returns {void}
+ */
+export function registerBannerBlock() {
+	registerBlockType( block, {
+		edit: Edit,
+		save: () => null,
+	} );
+}
