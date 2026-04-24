@@ -78,7 +78,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 		$this->cleanup->expects( 'execute' )->once();
 
 		Functions\expect( 'wp_clear_scheduled_hook' )
-			->with( 'Yoast\WP\SEO\myyoast_key_rotation' )
+			->with( 'wpseo_myyoast_key_rotation' )
 			->once();
 
 		$this->instance->cleanup();

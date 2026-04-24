@@ -17,8 +17,8 @@ class MyYoast_Client_Integration implements Integration_Interface, LoggerAwareIn
 	use No_Conditionals;
 	use LoggerAwareTrait;
 
-	private const CRON_HOOK                 = 'Yoast\WP\SEO\myyoast_key_rotation';
-	private const ROTATION_INTERVAL         = 'Yoast\WP\SEO\myyoast_90days';
+	private const CRON_HOOK                 = 'wpseo_myyoast_key_rotation';
+	private const ROTATION_INTERVAL         = 'wpseo_myyoast_90days';
 	private const ROTATION_INTERVAL_IN_DAYS = 90;
 
 	/**

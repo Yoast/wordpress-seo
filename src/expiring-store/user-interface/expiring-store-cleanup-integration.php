@@ -13,7 +13,7 @@ class Expiring_Store_Cleanup_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
-	public const CRON_HOOK = 'Yoast\WP\SEO\expiring_store_cleanup';
+	public const CRON_HOOK = 'wpseo_expiring_store_cleanup';
 
 	/**
 	 * The expiring store.
