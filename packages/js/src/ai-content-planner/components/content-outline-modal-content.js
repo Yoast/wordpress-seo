@@ -9,6 +9,7 @@ import { getProgressColor } from "../helpers/get-progress-color";
 import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure } from "../hooks";
+import { Transition } from "@headlessui/react";
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -144,7 +145,7 @@ const SkeletonFormField = ( { label, multiline = false } ) => (
  * @returns {JSX.Element} The CategorySection component.
  */
 const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
-	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm">
+	<div className="yst-flex yst-flex-col yst-gap-3 yst-max-w-sm yst-mb-6">
 		<div className="yst-flex yst-flex-col yst-gap-1.5">
 			<div className="yst-flex yst-items-center yst-justify-between">
 				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
@@ -163,8 +164,8 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
 			</p>
 		</div>
 		{ isEnabled && ! isLoading && <Badge variant="plain" className="yst-w-fit">{ category.name }</Badge> }
-		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-fit yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
-			<SkeletonLoader className="yst-w-10 yst-h-3 yst-rounded" />
+		{ isLoading && <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
+			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
 		</div> }
 	</div>
 );
@@ -174,6 +175,24 @@ const CategorySection = ( { category, isEnabled, onToggle, isLoading } ) => (
  * @property {string} level The heading level (e.g. "H2") or type indicator (e.g. a list icon).
  * @property {string} title The section title.
  */
+
+/**
+ * Loading content Outline Modal Content.
+ *
+ * @returns {JSX.Element} The LoadingContentOutlineModalContent component.
+ */
+const LoadingContentOutlineModalContent = () => {
+	return <>
+		<CategorySection
+			isLoading={ true }
+		/>
+		<div className="yst-flex yst-flex-col yst-gap-4">
+			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+			<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+			<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+		</div>
+	</>;
+};
 
 /**
  * Content Outline Modal panel component.
@@ -273,22 +292,36 @@ export const ContentOutlineModalContent = ( {
 						{ __( "Review and customize your content outline before adding it to your post", "wordpress-seo" ) }
 					</Modal.Description>
 					<hr className="yst-border-slate-200" />
-					{ ( category || isLoading ) && (
-						<CategorySection
-							category={ category }
-							isEnabled={ isCategoryEnabled }
-							onToggle={ handleCategoryToggle }
-							isLoading={ isLoading }
-						/>
-					) }
-					{ isLoading && (
-						<div className="yst-flex yst-flex-col yst-gap-4">
-							<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-							<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-							<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
-						</div>
-					) }
-					{ ! isLoading && (
+					<Transition
+						as="div"
+						show={ isLoading }
+						enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						<LoadingContentOutlineModalContent />
+					</Transition>
+
+					<Transition
+						as="div"
+						show={ ! isLoading }
+						enter="yst-transition-opacity yst-duration-300 yst-delay-300"
+						enterFrom="yst-opacity-0"
+						enterTo="yst-opacity-100"
+						leave="yst-transition-opacity yst-duration-300"
+						leaveFrom="yst-opacity-100"
+						leaveTo="yst-opacity-0"
+					>
+						{ category  && (
+							<CategorySection
+								category={ category }
+								isEnabled={ isCategoryEnabled }
+								onToggle={ handleCategoryToggle }
+							/>
+						) }
 						<div className="yst-flex yst-flex-col yst-gap-6">
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<TextField
@@ -341,7 +374,7 @@ export const ContentOutlineModalContent = ( {
 								) ) }
 							</div>
 						</div>
-					) }
+					</Transition>
 				</div>
 				<div
 					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
