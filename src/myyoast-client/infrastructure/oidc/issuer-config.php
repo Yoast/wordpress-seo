@@ -36,17 +36,11 @@ class Issuer_Config {
 	/**
 	 * Returns the MyYoast issuer URL.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_issuer_url` and overridable via
-	 * the `YOAST_MYYOAST_ISSUER_URL` environment variable.
+	 * Filterable via `Yoast\WP\SEO\myyoast_issuer_url`.
 	 *
 	 * @return string The issuer URL (without trailing slash).
 	 */
 	public function get_issuer_url(): string {
-		$env = \getenv( 'YOAST_MYYOAST_ISSUER_URL' );
-		if ( $env !== false && $env !== '' ) {
-			return \rtrim( $env, '/' );
-		}
-
 		/**
 		 * Filters the MyYoast issuer URL.
 		 *
@@ -58,17 +52,11 @@ class Issuer_Config {
 	/**
 	 * Returns the software statement JWT.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_software_statement` and overridable via
-	 * the `YOAST_MYYOAST_SOFTWARE_STATEMENT` environment variable.
+	 * Filterable via `Yoast\WP\SEO\myyoast_software_statement`.
 	 *
 	 * @return string The signed software statement JWT.
 	 */
 	public function get_software_statement(): string {
-		$env = \getenv( 'YOAST_MYYOAST_SOFTWARE_STATEMENT' );
-		if ( $env !== false && $env !== '' ) {
-			return $env;
-		}
-
 		/**
 		 * Filters the MyYoast software statement JWT.
 		 *
@@ -80,17 +68,11 @@ class Issuer_Config {
 	/**
 	 * Returns the initial access token for Dynamic Client Registration.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_initial_access_token` and overridable via
-	 * the `YOAST_MYYOAST_INITIAL_ACCESS_TOKEN` environment variable.
+	 * Filterable via `Yoast\WP\SEO\myyoast_initial_access_token`.
 	 *
 	 * @return string The initial access token.
 	 */
 	public function get_initial_access_token(): string {
-		$env = \getenv( 'YOAST_MYYOAST_INITIAL_ACCESS_TOKEN' );
-		if ( $env !== false && $env !== '' ) {
-			return $env;
-		}
-
 		/**
 		 * Filters the MyYoast initial access token.
 		 *

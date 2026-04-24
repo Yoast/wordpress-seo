@@ -127,7 +127,6 @@ final class Auth_Command implements Command_Interface {
 		$user_id = \get_current_user_id();
 
 		$issuer_url        = $this->issuer_config->get_issuer_url();
-		$issuer_env        = \getenv( 'YOAST_MYYOAST_ISSUER_URL' );
 		$has_software      = ( $this->issuer_config->get_software_statement() !== '' );
 		$has_iat           = ( $this->issuer_config->get_initial_access_token() !== '' );
 		$is_registered     = $this->myyoast_client->is_registered();
@@ -146,7 +145,6 @@ final class Auth_Command implements Command_Interface {
 
 		$data = [
 			'issuer_url'           => $issuer_url,
-			'issuer_overridden'    => ( $issuer_env !== false && $issuer_env !== '' ) ? 'yes (env)' : 'no',
 			'software_statement'   => ( $has_software ) ? 'configured' : 'not configured',
 			'initial_access_token' => ( $has_iat ) ? 'configured' : 'not configured',
 			'registered'           => ( $is_registered ) ? 'yes' : 'no',
