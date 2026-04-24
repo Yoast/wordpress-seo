@@ -8,6 +8,7 @@ import initFeaturedImageIntegration from "./initializers/featured-image";
 import initTabs from "./initializers/metabox-tabs";
 import initPostScraper from "./initializers/post-scraper";
 import initPrimaryCategory from "./initializers/primary-category";
+import initRtcMetaSync from "./initializers/rtc-meta-sync";
 import initializeInsights from "./insights/initializer";
 
 // Backwards compatibility globals.
@@ -49,4 +50,9 @@ domReady( () => {
 
 	// Initialize the insights.
 	initializeInsights();
+
+	// Bridge the Yoast editor store to core-data post meta when the current
+	// post is in a WordPress 7.0+ Real-Time Collaboration session. No-op when
+	// collaboration is unavailable or disabled for this post.
+	initRtcMetaSync();
 } );
