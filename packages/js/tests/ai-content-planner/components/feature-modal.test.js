@@ -55,17 +55,26 @@ jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn(),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
+jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentSuggestions: jest.fn(),
-} ) );
-
-jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-outline", () => ( {
 	useFetchContentOutline: jest.fn(),
+	useApplyOutline: jest.fn(),
+	useDraggableStructure: jest.fn( () => ( {
+		structure: [],
+		dragOverIndex: null,
+		handleDragStart: jest.fn(),
+		handleDragOver: jest.fn(),
+		handleDrop: jest.fn(),
+		handleDragEnd: jest.fn(),
+		handleMoveUp: jest.fn(),
+		handleMoveDown: jest.fn(),
+	} ) ),
 } ) );
 
 const mockOpenReplaceContentModal = jest.fn();
 const mockSetHasVisitedReplace = jest.fn();
 const mockHandleApplyOutline = jest.fn();
+const mockApplyOutline = jest.fn();
 
 const mockSuggestion = {
 	intent: "informational",
