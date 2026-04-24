@@ -267,7 +267,13 @@ class WPSEO_Meta {
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
+					[
+						'type'              => 'string',
+						'single'            => true,
+						'show_in_rest'      => true,
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'auth_callback'     => [ self::class, 'can_edit_post_meta' ],
+					],
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -380,6 +386,27 @@ class WPSEO_Meta {
 		 * @return array
 		 */
 		return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs, $post_type );
+	}
+
+	/**
+	 * Authorizes REST writes to Yoast post meta keys.
+	 *
+	 * The internal meta keys are underscore-prefixed (protected), so WordPress'
+	 * default auth callback for register_meta would deny all REST writes. Since
+	 * these fields are edited through the Yoast meta box and sidebar — and must
+	 * be writable via the REST entity pipe so Real-Time Collaboration can sync
+	 * them between collaborators — we gate on the standard edit_post capability
+	 * for the specific post being edited.
+	 *
+	 * @param bool   $allowed   Whether the user can add/edit the meta (ignored).
+	 * @param string $meta_key  The full meta key including prefix (ignored).
+	 * @param int    $object_id The post ID the meta belongs to.
+	 * @param int    $user_id   The user attempting the write.
+	 *
+	 * @return bool Whether the user may edit this post's Yoast meta.
+	 */
+	public static function can_edit_post_meta( $allowed, $meta_key, $object_id, $user_id ) {
+		return user_can( $user_id, 'edit_post', $object_id );
 	}
 
 	/**
