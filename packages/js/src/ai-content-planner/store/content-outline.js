@@ -86,16 +86,12 @@ const slice = createSlice( {
 			const outlineData = payload.outline.map( ( section, i ) => {
 				const heading = section.subheading_text ?? "";
 				return {
+					id: `${ i }-${ heading }`,
 					heading,
-					id: `${ i }-H2-${ heading }`,
 					contentNotes: section.content_notes ?? [],
 				};
 			} );
 			state.outline = outlineData;
-			state.cache[ state.suggestion.index ] = {
-				suggestion: state.suggestion,
-				outline: outlineData,
-			};
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
