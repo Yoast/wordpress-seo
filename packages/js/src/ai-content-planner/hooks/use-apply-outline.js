@@ -32,7 +32,12 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 				focusKeyphrase: editedOutline.focusKeyphrase,
 				category: editedOutline.category,
 			}
-			: apiSuggestion;
+			: {
+				title: apiSuggestion.title,
+				metaDescription: apiSuggestion.meta_description,
+				focusKeyphrase: apiSuggestion.keyphrase,
+				category: apiSuggestion.category,
+			};
 
 		const structure = editedOutline ? editedOutline.structure : apiOutline;
 
