@@ -32,9 +32,35 @@ The premium link-suggestions meta box
 (`classes/metabox-link-suggestions.php`) early-returns when
 `WP_Screen::get()->is_block_editor()` and renders its UI through a React
 sidebar instead. It is already RTC-pattern-correct (it never appears as a
-legacy meta box in the block editor), so nothing in premium needs to change
-for premium-only sites to get RTC. Setting the flag on the free-plugin meta
-box is sufficient.
+legacy meta box in the block editor).
+
+However, Premium does add two post-meta keys via the
+`wpseo_metabox_entries_general` filter in `classes/multi-keyword.php:21-22`
+(`focuskeywords` and `keywordsynonyms`, JSON-encoded arrays of additional
+keyphrases and synonyms used by Premium's analysis). That filter only
+affects the metabox render path; it does not feed back into
+`WPSEO_Meta::$meta_fields`, so my registration loop in this branch does
+**not** pick those keys up — they remain non-`show_in_rest` post meta and
+therefore do **not** ride core-data's CRDT pipe.
+
+**Implication for Premium-on-RTC sites:** all the standard Yoast fields
+this branch tracks will sync between collaborators, but `focuskeywords`
+and `keywordsynonyms` will still suffer the stale-form clobber the bridge
+prevents elsewhere — User B's classic-form POST after editing the post
+will overwrite User A's recent change to either of those two fields.
+
+**Premium follow-up (one filter hook, separate PR):** in
+`classes/multi-keyword.php`, also hook `add_extra_wpseo_meta_fields` to
+inject the same two keys into `WPSEO_Meta::$meta_fields`. Once that lands,
+this branch's `WPSEO_Meta::init()` registration loop will pick them up
+automatically, exposing them via REST with the same sanitize / auth /
+type / single contract as the free fields. No code change in Free is
+needed for Premium to benefit — the plumbing is already in place.
+
+This branch deliberately does not reach across into Premium to make that
+fix; the wordpress-seo PR should stay scoped to the Free plugin so the
+diff is reviewable in isolation. The two-line Premium PR can ship right
+behind it.
 
 ### duplicate-post
 
