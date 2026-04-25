@@ -110,8 +110,15 @@ const FIELD_MAP = {
 		action: ( d, value ) => d.setNoFollow( value ),
 	},
 	"meta-robots-adv": {
-		selector: ( s ) => s.getAdvanced() || "",
-		action: ( d, value ) => d.setAdvanced( value ),
+		// Yoast Redux state holds the advanced robots options as an array (the
+		// MultiSelect prop is `array.isRequired`); post meta stores them as a
+		// comma-separated string. Round-trip through the bridge has to match
+		// each side's expected shape.
+		selector: ( s ) => {
+			const value = s.getAdvanced();
+			return Array.isArray( value ) ? value.join( "," ) : ( value || "" );
+		},
+		action: ( d, value ) => d.setAdvanced( value === "" ? [] : value.split( "," ) ),
 	},
 	bctitle: {
 		selector: ( s ) => s.getBreadcrumbsTitle() || "",
@@ -137,10 +144,6 @@ const FIELD_MAP = {
 		selector: ( s ) => s.getFacebookDescription() || "",
 		action: ( d, value ) => d.setFacebookPreviewDescription( value ),
 	},
-	"opengraph-image": {
-		selector: ( s ) => s.getFacebookImageUrl() || "",
-		action: ( d, value ) => d.setFacebookPreviewImage( { url: value } ),
-	},
 	"twitter-title": {
 		selector: ( s ) => s.getTwitterTitle() || "",
 		action: ( d, value ) => d.setTwitterPreviewTitle( value ),
@@ -149,10 +152,20 @@ const FIELD_MAP = {
 		selector: ( s ) => s.getTwitterDescription() || "",
 		action: ( d, value ) => d.setTwitterPreviewDescription( value ),
 	},
-	"twitter-image": {
-		selector: ( s ) => s.getTwitterImageUrl() || "",
-		action: ( d, value ) => d.setTwitterPreviewImage( { url: value } ),
-	},
+	/*
+	 * Note on image fields (`opengraph-image` / `twitter-image` and their
+	 * `*-image-id` counterparts): these are intentionally NOT in the bridge.
+	 * The Yoast image setters (`setFacebookPreviewImage`, `setTwitterPreviewImage`)
+	 * expect a full media object `{ id, url, alt, warnings }` and write all of
+	 * those into hidden form fields; dispatching with just `{ url }` would
+	 * leave the corresponding `*-image-id` hidden field at the literal string
+	 * "undefined". Image URL and ID still ride core-data's CRDT meta sync
+	 * (they are registered with `show_in_rest`), so concurrent saves remain
+	 * correct — the local Yoast preview UI just won't show a remote
+	 * collaborator's image picker change until the page reloads. Live image
+	 * sync would require treating URL+ID as a coupled descriptor, which is
+	 * out of scope for this initial bridge.
+	 */
 };
 /* eslint-enable camelcase */
 
@@ -328,15 +341,17 @@ export default function initRtcMetaSync() {
 	let lastMetaSnapshot = snapshotMeta( postType, postId );
 
 	const unsubscribe = subscribe( () => {
+		/*
+		 * Both branches commit the new snapshot BEFORE dispatching anything,
+		 * so a re-entrant subscriber call (triggered synchronously by the
+		 * dispatch we are about to make) sees the post-update baseline and
+		 * doesn't re-dispatch the same delta.
+		 */
 		const nextYoast = snapshotYoast();
 		if ( ! isEqual( nextYoast, lastYoastSnapshot ) ) {
-			const delta = diffYoastOutbound(
-				nextYoast,
-				lastYoastSnapshot,
-				inboundApplied,
-				outboundApplied
-			);
+			const previousYoast = lastYoastSnapshot;
 			lastYoastSnapshot = nextYoast;
+			const delta = diffYoastOutbound( nextYoast, previousYoast, inboundApplied, outboundApplied );
 			if ( Object.keys( delta ).length > 0 ) {
 				coreData.editEntityRecord( "postType", postType, postId, { meta: delta } );
 			}
@@ -344,8 +359,9 @@ export default function initRtcMetaSync() {
 
 		const nextMeta = snapshotMeta( postType, postId );
 		if ( ! isEqual( nextMeta, lastMetaSnapshot ) ) {
-			applyInbound( nextMeta, lastMetaSnapshot, inboundApplied, outboundApplied, yoastDispatch );
+			const previousMeta = lastMetaSnapshot;
 			lastMetaSnapshot = nextMeta;
+			applyInbound( nextMeta, previousMeta, inboundApplied, outboundApplied, yoastDispatch );
 		}
 	} );
 
@@ -353,5 +369,3 @@ export default function initRtcMetaSync() {
 		unsubscribe();
 	};
 }
-
-export { FIELD_MAP, META_PREFIX, isRtcActive };

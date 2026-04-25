@@ -60,17 +60,11 @@ const mockYoastActions = {
 	setFacebookPreviewDescription: jest.fn( ( value ) => {
 		mockYoastState.facebookDescription = value;
 	} ),
-	setFacebookPreviewImage: jest.fn( ( { url } ) => {
-		mockYoastState.facebookImage = url;
-	} ),
 	setTwitterPreviewTitle: jest.fn( ( value ) => {
 		mockYoastState.twitterTitle = value;
 	} ),
 	setTwitterPreviewDescription: jest.fn( ( value ) => {
 		mockYoastState.twitterDescription = value;
-	} ),
-	setTwitterPreviewImage: jest.fn( ( { url } ) => {
-		mockYoastState.twitterImage = url;
 	} ),
 };
 
@@ -101,17 +95,15 @@ jest.mock( "@wordpress/data", () => ( {
 				isCornerstoneContent: () => mockYoastState.isCornerstone ?? false,
 				getNoIndex: () => mockYoastState.noIndex ?? "",
 				getNoFollow: () => mockYoastState.noFollow ?? "",
-				getAdvanced: () => mockYoastState.advanced ?? "",
+				getAdvanced: () => mockYoastState.advanced ?? [],
 				getBreadcrumbsTitle: () => mockYoastState.breadcrumbsTitle ?? "",
 				getCanonical: () => mockYoastState.canonical ?? "",
 				getPageType: () => mockYoastState.pageType ?? "",
 				getArticleType: () => mockYoastState.articleType ?? "",
 				getFacebookTitle: () => mockYoastState.facebookTitle ?? "",
 				getFacebookDescription: () => mockYoastState.facebookDescription ?? "",
-				getFacebookImageUrl: () => mockYoastState.facebookImage ?? "",
 				getTwitterTitle: () => mockYoastState.twitterTitle ?? "",
 				getTwitterDescription: () => mockYoastState.twitterDescription ?? "",
-				getTwitterImageUrl: () => mockYoastState.twitterImage ?? "",
 			};
 		}
 		return null;
@@ -226,6 +218,31 @@ describe( "rtc-meta-sync", () => {
 		// No extra Yoast dispatch, no extra core-data write.
 		expect( mockYoastActions.setFocusKeyword ).toHaveBeenCalledTimes( 1 );
 		expect( mockEditEntityRecord ).not.toHaveBeenCalled();
+	} );
+
+	it( "translates meta-robots-adv between Yoast's array shape and the comma-separated DB form", () => {
+		installHiddenField( "meta-robots-adv", "" );
+		initRtcMetaSync();
+		mockSubscribeListener();
+
+		// Inbound: comma-separated string from DB should become an array.
+		mockMetaState[ "_yoast_wpseo_meta-robots-adv" ] = "noimageindex,noarchive";
+		mockSubscribeListener();
+		expect( mockYoastActions.setAdvanced ).toHaveBeenCalledWith( [ "noimageindex", "noarchive" ] );
+
+		// Outbound: Yoast's array should be joined with commas.
+		mockYoastState.advanced = [ "nosnippet" ];
+		mockSubscribeListener();
+		const advCall = mockEditEntityRecord.mock.calls.find(
+			( call ) => call[ 3 ].meta && call[ 3 ].meta[ "_yoast_wpseo_meta-robots-adv" ] !== undefined
+		);
+		expect( advCall ).toBeDefined();
+		expect( advCall[ 3 ].meta[ "_yoast_wpseo_meta-robots-adv" ] ).toBe( "nosnippet" );
+
+		// Empty string inbound should clear to an empty array, not a [""] array.
+		mockMetaState[ "_yoast_wpseo_meta-robots-adv" ] = "";
+		mockSubscribeListener();
+		expect( mockYoastActions.setAdvanced ).toHaveBeenLastCalledWith( [] );
 	} );
 
 	it( "translates cornerstone string values to and from the boolean the Yoast action expects", () => {

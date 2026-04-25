@@ -67,24 +67,97 @@ we do not want to set the flag on a meta box that still saves through
 ## Scope of the Yoast free meta box that IS covered
 
 The bridge in `packages/js/src/initializers/rtc-meta-sync.js` explicitly maps
-17 Yoast SEO fields between the Yoast Redux store and core-data meta:
+15 Yoast SEO fields between the Yoast Redux store and core-data meta for
+live UI sync:
 
 - Content: focus keyphrase, SEO title, meta description, cornerstone flag
 - Advanced: noindex, nofollow, advanced robots (noimageindex/noarchive/nosnippet),
   breadcrumb title, canonical URL
 - Schema: page type, article type
-- Social: Open Graph title/description/image, Twitter title/description/image
+- Social: Open Graph title/description, Twitter title/description
 
-Derived score fields (`linkdex`, `content_score`,
-`inclusive_language_score`) are intentionally not bridged — each client
-computes its own score from the post content, and a "last writer wins" on
-the persisted value is acceptable. Image-ID companion fields
-(`opengraph-image-id`, `twitter-image-id`) follow whichever client last set
-the image URL; the REST save path preserves the pairing.
+The bridge also handles two non-trivial value-shape transforms:
+- `is_cornerstone` is a boolean in the Yoast store but a `"1"`/`"0"` string in
+  post meta.
+- `meta-robots-adv` is an array in the Yoast store but a comma-separated
+  string in post meta.
+
+### Fields intentionally not bridged for live UI sync
+
+These still ride core-data's CRDT meta sync (because they are registered
+with `show_in_rest`) and therefore save correctly under concurrent editing,
+but their live values do not stream into the Yoast Redux store on inbound
+edits:
+
+- **Derived analysis scores** — `linkdex`, `content_score`,
+  `inclusive_language_score`. Each client computes its own from the post
+  content; "last writer wins" on the persisted score is acceptable.
+- **Social image fields** — `opengraph-image` / `twitter-image` and their
+  companion `opengraph-image-id` / `twitter-image-id` keys. Yoast's image
+  setters expect a coupled `{ id, url, alt, warnings }` object; bridging
+  just the URL would write the literal string `"undefined"` to the
+  companion ID hidden field. Treating URL+ID as a single coupled
+  descriptor is straightforward but out of scope for the initial bridge —
+  saves still propagate correctly via core-data, the local image preview
+  just doesn't redraw until the page reloads.
+- **`redirect`** — defined in `WPSEO_Meta::$meta_fields` but its UI lives
+  in Yoast Premium; there is no free-plugin Redux action to dispatch.
 
 Add-on plugins that inject additional Yoast meta via the
 `add_extra_wpseo_meta_fields` filter will have those fields correctly saved
 via the REST entity (same mechanism as the core fields), but their live
-values will not stream through the bridge unless the add-on extends the map.
-This is the correct factoring: add-ons that want live cross-collaborator
-editing of their own fields should own that wiring, not us.
+values will not stream through the bridge unless the add-on extends the
+map. This is the correct factoring: add-ons that want live cross-
+collaborator editing of their own fields should own that wiring, not us.
+
+## Verification status
+
+What was run locally against the branch:
+
+- `composer check-cs-thresholds` — **PASS**, exact match (2391 errors, 257
+  warnings, identical to trunk's baseline). The PHPCS gate in `cs.yml`
+  rejects any non-exact count, so this matches CI behavior.
+- `composer lint` — **PASS**, all 2775 PHP files parse cleanly.
+- `composer audit` — **PASS**, no security advisories on `composer.lock`.
+- `lerna run lint` (yarn lint:packages) for `packages/js` — **PASS**, exactly
+  43 warnings (unchanged from trunk; the package's `--max-warnings=43`
+  threshold is preserved).
+- Root `eslint . --max-warnings=0` (yarn lint:tooling) — **PASS**, clean.
+- `wp-scripts build --config config/webpack/webpack.config.js` — **PASS**,
+  webpack compiles all chunks (3 pre-existing size warnings, no errors).
+- `jest tests/initializers/rtcMetaSync.test.js` in `packages/js` — **PASS**,
+  11/11 cases including: no-op when RTC absent, outbound + inbound
+  mirroring, hidden-field input event dispatch, reentry-loop guards in
+  both directions, cornerstone bool↔string transform, meta-robots-adv
+  array↔comma-string transform, action-throw recovery.
+
+What was NOT run locally, with explanation:
+
+- **PHP integration tests under `composer test-wp` / `test-wp-env`**. Both
+  paths require the `vendor_prefixed/` directory, which is built by
+  composer's `prefix-dependencies` post-autoload script. That script
+  invokes `humbug/php-scoper`, which depends on `symfony/finder` at a
+  version that throws a fatal error under PHP 8.5 (`Return type of
+  Finder::getIterator() should ... be compatible with IteratorAggregate`).
+  The local development machine ships PHP 8.5; Yoast CI runs the scoper
+  under PHP 7.4–8.3 where it works. The new tests at
+  `tests/WP/Inc/Wpseo_Meta_Rest_Registration_Test.php` and
+  `tests/WP/Admin/Metabox/Metabox_Rtc_Compatible_Flag_Test.php` will be
+  exercised by the `WP Test:` matrix in `.github/workflows/test.yml`
+  (PHP 7.4 / 8.0 / 8.1 / 8.2 / 8.3 against WP 6.8 + WP latest +
+  WP trunk, single + multisite). They are written against the same base
+  class as the existing `Meta_Test` and `Metabox_Test` files, so the
+  matrix picks them up without configuration changes.
+- **TestJS jobs for the 11 sibling JS packages** other than `js` —
+  unchanged by this branch (no source files modified outside
+  `packages/js/src/`), but CI will run them anyway.
+- **CI-only checks** — Coveralls upload, label/milestone validation.
+
+What still needs to happen at PR time:
+
+- Add a `changelog:*` label so `pr-validation.yml` doesn't fail. The
+  appropriate label is likely `changelog:enhancements` or `changelog:other`
+  depending on Yoast's labeling conventions for compatibility work; the
+  PR author / Yoast triage chooses.
+- Add a milestone (the validation workflow currently warns but doesn't
+  fail on missing milestone, but a release manager will want one).
