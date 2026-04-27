@@ -66,7 +66,7 @@ const validateSuggestionsResponse = ( result ) => {
 		throw new Error( "Invalid suggestions response: expected an array of suggestions." );
 	}
 
-	return suggestions.map( ( suggestion, index ) => ( {
+	return suggestions.map( ( suggestion ) => ( {
 		title: suggestion.title,
 		intent: suggestion.intent,
 		keyphrase: suggestion.keyphrase,
@@ -74,7 +74,7 @@ const validateSuggestionsResponse = ( result ) => {
 		meta_description: suggestion.meta_description,
 		category: suggestion.category,
 		explanation: suggestion.explanation,
-		id: `suggestion-${ index }`,
+		id: `suggestion-${ suggestion.keyphrase }-${ suggestion.title }`,
 	} ) );
 };
 /**
