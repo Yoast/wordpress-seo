@@ -264,10 +264,12 @@ export const OutlineModalContent = ( {
 			title,
 			metaDescription,
 			focusKeyphrase,
-			category: isCategoryEnabled ? category : null,
+			category: isCategoryEnabled ? category : { name: "", id: -1 },
 			structure,
 		} );
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, category, structure ] );
+
+	const hasCategory = Boolean( category && category.id !== -1 );
 
 	if ( status === ASYNC_ACTION_STATUS.error ) {
 		return (
@@ -317,7 +319,7 @@ export const OutlineModalContent = ( {
 						leaveFrom="yst-opacity-100"
 						leaveTo="yst-opacity-0"
 					>
-						{ category  && (
+						{ hasCategory  && (
 							<CategorySection
 								category={ category }
 								isEnabled={ isCategoryEnabled }

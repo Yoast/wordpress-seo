@@ -121,7 +121,7 @@ class Get_Outline_Route implements Route_Interface {
 						'description' => 'The meta description of the chosen content suggestion.',
 					],
 					'category'         => [
-						'required'    => false,
+						'required'    => true,
 						'type'        => 'object',
 						'properties'  => [
 							'name' => [
@@ -133,7 +133,7 @@ class Get_Outline_Route implements Route_Interface {
 								'required' => true,
 							],
 						],
-						'description' => 'The category of the chosen content suggestion.',
+						'description' => 'The category of the chosen content suggestion. Use name "" and id -1 to indicate no category.',
 					],
 				],
 				'callback'            => [ $this, 'get_outline' ],
