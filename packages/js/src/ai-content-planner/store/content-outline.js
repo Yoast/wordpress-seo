@@ -4,6 +4,7 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../../shared-admin/cons
 import { ERROR_DEFAULT } from "../constants";
 import { contentPlannerFetch } from "../helpers/fetch";
 import { normalizeError } from "../helpers/normalize-error";
+import { FETCH_CONTENT_SUGGESTIONS_ACTION_NAME } from "./content-suggestions";
 
 export const CONTENT_OUTLINE_NAME = "contentOutline";
 export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
@@ -13,23 +14,32 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
  */
 
 /**
- * Type of on section in the outline structure.
- * @typedef {Object} OutlineSection
- * @property {string} subheading_text The title of the section.
- * @property {string[]} content_notes Content notes for the section.
+ * @typedef {Object} StructureItem
+ * @property {string} id The unique identifier for this structure item.
+ * @property {string} heading The heading text.
+ * @property {string[]} contentNotes Content notes for this section.
  */
 
+/**
+ * @typedef {Object} Cache
+ * @property {Suggestion} suggestion The content suggestion for which the outline is generated.
+ * @property {StructureItem[]} outline The generated content outline.
+ */
 /**
  * Initial state for the content outline slice.
  *
  * @type {Object}
  * @property {Suggestion|null} suggestion The content suggestion for which the outline is generated.
- * @property {OutlineSection[]} outline The generated content outline.
+ * @property {StructureItem[]} outline The generated content outline.
+ * @property {Cache[]} cache A cache of previously generated outlines, keyed by suggestion index.
  * @property {string} endpoint The API endpoint for fetching the content outline.
+ * @property {string} status The loading status of the content outline request.
+ * @property {Object|null} error The error object if the content outline request failed, or null if there is no error.
  */
 const INITIAL_OUTLINE = {
 	suggestion: null,
 	outline: [],
+	cache: {},
 	endpoint: "",
 	status: ASYNC_ACTION_STATUS.idle,
 	error: ERROR_DEFAULT,
@@ -42,6 +52,26 @@ const slice = createSlice( {
 		setSuggestionForOutline: ( state, { payload } ) => {
 			state.suggestion = payload;
 		},
+		restoreContentOutlineFromCache: ( state, { payload } ) => {
+			const cachedEntry = payload;
+			state.suggestion = cachedEntry.suggestion;
+			state.outline = cachedEntry.outline;
+			state.status = ASYNC_ACTION_STATUS.success;
+			state.error = ERROR_DEFAULT;
+		},
+		saveOutlineEditsToCache: ( state, { payload } ) => {
+			const { suggestion, structure } = payload;
+			if ( suggestion.id ) {
+				state.cache[ suggestion.id ] = {
+					outline: structure,
+					suggestion,
+				};
+			}
+			state.suggestion = null;
+			state.outline = [];
+			state.status = ASYNC_ACTION_STATUS.idle;
+			state.error = ERROR_DEFAULT;
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state, { payload } ) => {
@@ -51,11 +81,24 @@ const slice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			state.outline = payload.outline;
+			// Normalize the API response: the API returns snake_case keys (PHP convention),
+			// which are mapped to camelCase and renamed to match the JS codebase shape (see StructureItem typedef).
+			const outlineData = payload.outline.map( ( section, i ) => {
+				const heading = section.subheading_text ?? "";
+				return {
+					id: `${ i }-${ heading }`,
+					heading,
+					contentNotes: section.content_notes ?? [],
+				};
+			} );
+			state.outline = outlineData;
 		} );
 		builder.addCase( `${ FETCH_CONTENT_OUTLINE_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, { payload } ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
 			state.error = normalizeError( payload );
+		} );
+		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
+			return { ...INITIAL_OUTLINE, endpoint: state.endpoint };
 		} );
 	},
 } );
@@ -68,6 +111,7 @@ export const contentOutlineSelectors = {
 	selectContentOutline: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "outline" ], slice.getInitialState().outline ),
 	selectContentOutlineError: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "error" ], slice.getInitialState().error ),
 	selectSuggestion: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "suggestion" ], slice.getInitialState().suggestion ),
+	selectContentOutlineCache: ( state, index ) => get( state, [ CONTENT_OUTLINE_NAME, "cache", index ], null ),
 };
 
 /**
