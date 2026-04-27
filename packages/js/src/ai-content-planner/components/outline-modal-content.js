@@ -134,10 +134,10 @@ export const OutlineModalContent = ( {
 	}, [ suggestion ] );
 
 	useEffect( () => {
-		if ( isLoading && closeButtonRef?.current ) {
+		if ( closeButtonRef?.current ) {
 			closeButtonRef.current.focus();
 		}
-	}, [ isLoading, closeButtonRef ] );
+	}, [ closeButtonRef ] );
 
 	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
 	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
