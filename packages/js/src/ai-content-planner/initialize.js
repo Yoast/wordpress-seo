@@ -3,7 +3,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
-import FeatureModal from "./containers/feature-modal";
+import { App } from "./components/app";
 import { registerBannerBlock } from "./blocks/banner-block";
 import "./blocks/content-suggestion-block";
 import { registerStore } from "./store";
@@ -73,7 +73,7 @@ export const ContentPlannerEditorPlugin = () => {
 	}, [ blocks, isNewPost, postType, insertBlock ] );
 
 	return (
-		<FeatureModal />
+		<App />
 	);
 };
 
