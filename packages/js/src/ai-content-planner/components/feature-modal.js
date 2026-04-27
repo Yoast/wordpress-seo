@@ -1,13 +1,14 @@
 /* eslint-disable complexity */
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { Badge, Modal, Notifications, useSvgAria, Link } from "@yoast/ui-library";
-import { useCallback, useRef } from "@wordpress/element";
+import { useCallback, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import SuggestionsModalContent from "../containers/suggestions-modal-content";
 import OutlineModalContent from "../containers/outline-modal-content";
 import { FEATURE_MODAL_STATUS } from "../constants";
 import { useFetchContentOutline } from "../hooks";
 import { SparksLimitNotification } from "../../ai-generator/components/sparks-limit-notification";
+import { useMeasuredRef } from "../../ai-generator/hooks";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
@@ -57,6 +58,11 @@ export const FeatureModal = ( {
 	const isOutline = status === FEATURE_MODAL_STATUS.contentOutline;
 	const isOutlineError = contentOutlineStatus === ASYNC_ACTION_STATUS.error;
 
+	const [ panelHeight, setPanelHeight ] = useState( 0 );
+	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
+	const panelRef = useMeasuredRef( handlePanelMeasureChange );
+	const bottom = `calc( (${ panelHeight + 55 + "px" } - 100vh) / 2 )`;
+
 	/**
 	 * Handles the click on a content suggestion.
 	 * Sets the selected suggestion, updates the modal status to show the outline, and fetches the content outline for the selected suggestion.
@@ -86,7 +92,7 @@ export const FeatureModal = ( {
 
 	return (
 		<Modal isOpen={ ! isConsentModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
-			<Modal.Panel className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
+			<Modal.Panel ref={ panelRef } className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton
 					ref={ closeButtonRef } screenReaderText={ isSuggestions
 						? __( "Close content suggestions modal", "wordpress-seo" ) : __( "Close content outline modal", "wordpress-seo" ) }
@@ -134,11 +140,9 @@ export const FeatureModal = ( {
 					) }
 				</Modal.Container>
 				<Notifications
-					className={
-						// Margin tricks to break out of the container.
-						// Transition to prevent sudden location jumps when loading new suggestions.
-						"yst-mx-[calc(50%-50vw)] yst-transition-all"
-					}
+					// Position the notification outside the modal panel at the bottom left of the screen.
+					className="yst-mx-[calc(50%-50vw)] yst-transition-all"
+					style={ { bottom } }
 					position="bottom-left"
 				>
 					{ contentSuggestionsStatus === ASYNC_ACTION_STATUS.success &&

@@ -135,6 +135,7 @@ export const ModalContent = ( { height } ) => {
 	const previousHeight = usePrevious( height );
 	const currentHeight = suggestions.status === ASYNC_ACTION_STATUS.success ? height : previousHeight;
 	const margin = `calc(${ currentHeight === 0 ? "50%" : currentHeight / 2 + "px" } - 40vh)`;
+	const bottom = `calc( (${ height + 55 + "px" } - 100vh) / 2 )`;
 
 	const [ contentIsScrolling, setContentIsScrolling ] = useState( false );
 	const handleContentMeasureChange = useCallback( entry => {
@@ -403,10 +404,7 @@ export const ModalContent = ( { height } ) => {
 					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
-				style={ {
-					// Margin tricks to break out of the container.
-					marginTop: margin,
-				} }
+				style={ { bottom, margin } }
 				position="bottom-left"
 			>
 				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
