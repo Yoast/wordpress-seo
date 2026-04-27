@@ -15,7 +15,6 @@ export const FEATURE_MODAL_STATUS = {
 	consent: "consent",
 	contentSuggestions: "content-suggestions",
 	contentOutline: "content-outline",
-	replaceContent: "replace-content",
 };
 
 export const ERROR_DEFAULT = {
@@ -38,5 +37,5 @@ export const ERROR_DEFAULT = {
  * @property {string} explanation The explanation of the suggestion.
  * @property {string} keyphrase The keyphrase associated with the suggestion.
  * @property {string} meta_description The meta description associated with the suggestion.
- * @property {Category} category The category of the suggestion (optional).
+ * @property {Category} category The category of the suggestion.
  */

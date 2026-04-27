@@ -119,10 +119,7 @@ export const contentOutlineControls = {
 			keyphrase: payload.keyphrase,
 			// eslint-disable-next-line camelcase
 			meta_description: payload.meta_description,
-			category: payload?.category ?? {
-				name: "Uncategorized",
-				id: 1,
-			},
+			category: payload.category,
 		},
 	} ),
 };

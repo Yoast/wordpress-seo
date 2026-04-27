@@ -30,7 +30,7 @@ const Edit = ( { clientId } ) => {
 		};
 	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
-	const { openModal, setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 
 	const handleDismiss = useCallback( () => {
@@ -38,13 +38,12 @@ const Edit = ( { clientId } ) => {
 	}, [ removeBlock, clientId ] );
 
 	const handleClick = useCallback( () => {
-		openModal();
 		if ( hasConsent ) {
 			fetchContentSuggestions();
 		} else {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.consent );
 		}
-	}, [ openModal, hasConsent, fetchContentSuggestions, setFeatureModalStatus ] );
+	}, [ hasConsent, fetchContentSuggestions, setFeatureModalStatus ] );
 
 	useEffect( () => {
 		// Inject the Tailwind stylesheet into the editor iframe if needed.
@@ -74,7 +73,17 @@ const Edit = ( { clientId } ) => {
 	);
 };
 
-registerBlockType( block, {
-	edit: Edit,
-	save: () => null,
-} );
+/**
+ * Registers the Content Planner Banner block.
+ *
+ * Deferred behind a function so registration only happens when the Content
+ * Planner feature initializes, not at module import time.
+ *
+ * @returns {void}
+ */
+export function registerBannerBlock() {
+	registerBlockType( block, {
+		edit: Edit,
+		save: () => null,
+	} );
+}

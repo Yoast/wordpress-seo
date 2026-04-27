@@ -10,17 +10,8 @@ describe( "content planner store", () => {
 		registry.register( createStore() );
 	} );
 
-	it( "has modal closed by default", () => {
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( false );
-	} );
-
 	it( "has no modal status by default", () => {
 		expect( registry.select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus() ).toBeNull();
-	} );
-
-	it( "opens the modal", () => {
-		registry.dispatch( CONTENT_PLANNER_STORE ).openModal();
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( true );
 	} );
 
 	it( "sets feature modal status", () => {
@@ -29,10 +20,8 @@ describe( "content planner store", () => {
 	} );
 
 	it( "closes the modal and resets state", () => {
-		registry.dispatch( CONTENT_PLANNER_STORE ).openModal();
 		registry.dispatch( CONTENT_PLANNER_STORE ).setFeatureModalStatus( "content-outline" );
 		registry.dispatch( CONTENT_PLANNER_STORE ).closeModal();
-		expect( registry.select( CONTENT_PLANNER_STORE ).selectIsModalOpen() ).toBe( false );
 		expect( registry.select( CONTENT_PLANNER_STORE ).selectFeatureModalStatus() ).toBeNull();
 	} );
 } );

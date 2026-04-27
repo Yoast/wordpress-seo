@@ -1,13 +1,8 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
-import { ContentOutlineModal } from "../../../src/ai-content-planner/components/content-outline-modal";
+import { OutlineModalContent } from "../../../src/ai-content-planner/components/outline-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
-
-const mockUsageCounter = jest.fn( () => null );
-jest.mock( "@yoast/ai-frontend", () => ( {
-	UsageCounter: ( props ) => mockUsageCounter( props ),
-} ) );
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => false ),
@@ -59,14 +54,12 @@ const defaultSuggestion = {
 const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loading, ...props } = {} ) => render(
 	<Modal isOpen={ true } onClose={ onClose }>
 		<div>
-			<ContentOutlineModal
+			<OutlineModalContent
 				onBackToSuggestions={ jest.fn() }
 				onApplyOutline={ jest.fn() }
 				suggestion={ defaultSuggestion }
 				status={ status }
 				isPremium={ false }
-				sparksLimit={ undefined }
-				sparksUsage={ undefined }
 				isActive={ false }
 				date=""
 				locale="en_US"
@@ -93,7 +86,6 @@ const renderLoadedModal = ( props ) => {
 
 describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
-		mockUsageCounter.mockClear();
 		getDescriptionProgress.mockClear();
 		getProgressColor.mockClear();
 		jest.useFakeTimers();
@@ -103,56 +95,7 @@ describe( "ContentOutlineModal", () => {
 		jest.useRealTimers();
 	} );
 
-	describe( "close button", () => {
-		it( "calls onClose when the close button is clicked", () => {
-			const onClose = jest.fn();
-			renderModal( { onClose } );
-			fireEvent.click( screen.getByRole( "button", { name: /close/i } ) );
-			expect( onClose ).toHaveBeenCalledTimes( 1 );
-		} );
-	} );
-
-	describe( "header", () => {
-		it( "shows the 'Content outline' title", () => {
-			renderModal();
-			expect( screen.getByText( "Content outline" ) ).toBeInTheDocument();
-		} );
-
-		it( "shows the 'Beta' badge", () => {
-			renderModal();
-			expect( screen.getByText( "Beta" ) ).toBeInTheDocument();
-		} );
-
-		it( "shows the UsageCounter when sparksLimit is provided", () => {
-			renderModal( { sparksLimit: 10, sparksUsage: 3 } );
-			expect( mockUsageCounter ).toHaveBeenCalledWith(
-				expect.objectContaining( { limit: 10, requests: 3 } )
-			);
-		} );
-
-		it( "does not show the UsageCounter when sparksLimit is not provided", () => {
-			mockUsageCounter.mockClear();
-			renderModal();
-			expect( mockUsageCounter ).not.toHaveBeenCalled();
-		} );
-	} );
-
 	describe( "accessibility", () => {
-		it( "has a descriptive close button label", () => {
-			renderModal();
-			expect( screen.getByRole( "button", { name: "Close content outline" } ) ).toBeInTheDocument();
-		} );
-
-		it( "has an accessible dialog name from the title", () => {
-			renderModal();
-			expect( screen.getByRole( "dialog", { name: "Content outline" } ) ).toBeInTheDocument();
-		} );
-
-		it( "has an accessible description for the modal", () => {
-			renderModal();
-			expect( screen.getByText( "Review and customize your content outline before adding it to your post" ) ).toBeInTheDocument();
-		} );
-
 		it( "does not show the structure section when loading", () => {
 			renderModal();
 			act( () => {
@@ -319,6 +262,14 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
 		} );
 
+		it( "does not show the suggest category section for the empty-category sentinel when not loading", () => {
+			renderModal( {
+				status: ASYNC_ACTION_STATUS.success,
+				suggestion: { ...defaultSuggestion, category: { name: "", id: -1 } },
+			} );
+			expect( screen.queryByText( "Suggest category" ) ).not.toBeInTheDocument();
+		} );
+
 		it( "disables the toggle when loading", () => {
 			renderModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
 			act( () => {
@@ -435,11 +386,6 @@ describe( "ContentOutlineModal", () => {
 		it( "does not render the Add outline to post footer button while in error", () => {
 			renderErrorModal();
 			expect( screen.queryByRole( "button", { name: "Add outline to post" } ) ).not.toBeInTheDocument();
-		} );
-
-		it( "does not render the UsageCounter while in error", () => {
-			renderErrorModal( { sparksLimit: 10, sparksUsage: 2 } );
-			expect( mockUsageCounter ).not.toHaveBeenCalled();
 		} );
 
 		it( "calls onRetry when the retry button is clicked", () => {

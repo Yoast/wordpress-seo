@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\AI\Content_Planner\Domain\Content_Suggestion;
 
+use Yoast\WP\SEO\AI\Content_Planner\Domain\Category;
 use Yoast\WP\SEO\AI\Content_Planner\Domain\Content_Suggestion;
 
 /**
@@ -37,18 +38,18 @@ final class To_Array_Test extends Abstract_Content_Suggestion {
 	}
 
 	/**
-	 * Tests the to_array method without a category.
+	 * Tests the to_array method with the empty-category sentinel.
 	 *
 	 * @return void
 	 */
-	public function test_to_array_without_category() {
+	public function test_to_array_with_empty_category_sentinel() {
 		$instance = new Content_Suggestion(
 			'How to use AI',
 			'informational',
 			'This article explains AI usage.',
 			'AI usage',
 			'Learn how to use AI effectively.',
-			null,
+			new Category( '', -1 ),
 		);
 
 		$expected = [
@@ -57,6 +58,10 @@ final class To_Array_Test extends Abstract_Content_Suggestion {
 			'explanation'      => 'This article explains AI usage.',
 			'keyphrase'        => 'AI usage',
 			'meta_description' => 'Learn how to use AI effectively.',
+			'category'         => [
+				'name' => '',
+				'id'   => -1,
+			],
 		];
 
 		$this->assertSame( $expected, $instance->to_array() );

@@ -68,7 +68,7 @@ final class Register_Routes_Test extends Abstract_Get_Outline_Route_Test {
 
 		$this->assertArrayHasKey( 'category', $captured_config['args'] );
 		$category_arg = $captured_config['args']['category'];
-		$this->assertFalse( $category_arg['required'] );
+		$this->assertTrue( $category_arg['required'] );
 		$this->assertSame( 'object', $category_arg['type'] );
 		$this->assertArrayHasKey( 'name', $category_arg['properties'] );
 		$this->assertSame( 'string', $category_arg['properties']['name']['type'] );
