@@ -307,6 +307,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2026-04-28
 
+Introduces Yoast SEO Abilities API, allowing AI tools, dashboards, and automated workflows to automatically read SEO, readability, and inclusive language scores from your most recent posts. Read more in the [release post](https://yoa.st/56j). 
+
 #### Enhancements
 
 * Adds a Yoast ability for retrieving scores for Yoast analyses for recent posts, using the Abilities API.
@@ -314,7 +316,7 @@ Release date: 2026-04-28
 
 #### Bugfixes
 
-* Fixes a bug where the AI Generator's \"Generate with AI\" feature failed after a site's domain was changed, because stale callback URLs remained registered with the Yoast API from the original domain.
+* Fixes a bug where the AI Generator's "Generate with AI" feature failed after a site's domain was changed, because stale callback URLs remained registered with the Yoast API from the original domain.
 
 #### Other
 
