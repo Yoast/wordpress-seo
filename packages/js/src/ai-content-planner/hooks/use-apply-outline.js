@@ -22,6 +22,7 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 	return useCallback( async() => {
 		const editedOutline = editedOutlineRef.current;
 		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
+		const apiSuggestion = select( CONTENT_PLANNER_STORE ).selectSuggestion();
 
 		// Build metadata from the user's edits in the modal.
 		const metaOutline = editedOutline
@@ -31,24 +32,16 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 				focusKeyphrase: editedOutline.focusKeyphrase,
 				category: editedOutline.category,
 			}
-			: apiOutline;
+			: {
+				title: apiSuggestion.title,
+				metaDescription: apiSuggestion.meta_description,
+				focusKeyphrase: apiSuggestion.keyphrase,
+				category: apiSuggestion.category,
+			};
 
-		// Build blocks using the user's heading order and the API's content notes.
-		let blocksOutline = apiOutline;
-		if ( editedOutline ) {
-			const notesByHeading = apiOutline.reduce( ( map, section ) => {
-				map[ section.subheading_text ] = section.content_notes;
-				return map;
-			}, {} );
-			blocksOutline = editedOutline.structure.map( ( item ) => ( {
-				// eslint-disable-next-line camelcase
-				subheading_text: item.title,
-				// eslint-disable-next-line camelcase
-				content_notes: notesByHeading[ item.title ] || [],
-			} ) );
-		}
+		const structure = editedOutline ? editedOutline.structure : apiOutline;
 
-		resetBlocks( buildBlocksFromOutline( blocksOutline ) );
+		resetBlocks( buildBlocksFromOutline( structure ) );
 
 		applyPostMetaFromOutline( metaOutline );
 

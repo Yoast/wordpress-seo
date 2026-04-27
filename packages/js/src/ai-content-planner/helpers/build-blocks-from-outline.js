@@ -12,11 +12,11 @@ import { createBlock } from "@wordpress/blocks";
 export const buildBlocksFromOutline = ( outline ) => {
 	const blocks = [];
 
-	for ( const { subheading_text: heading, content_notes: contentNotes } of outline ) {
+	outline.forEach( ( { heading, contentNotes } ) => {
 		blocks.push( createBlock( "core/heading", { content: heading, level: 2 } ) );
 		blocks.push( createBlock( "yoast-seo/content-suggestion", { suggestions: contentNotes } ) );
 		blocks.push( createBlock( "core/paragraph" ) );
-	}
+	} );
 
 	return blocks;
 };

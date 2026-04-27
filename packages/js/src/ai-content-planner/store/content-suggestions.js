@@ -67,13 +67,14 @@ const validateSuggestionsResponse = ( result ) => {
 	}
 
 	return suggestions.map( ( suggestion ) => ( {
-		intent: suggestion.intent,
 		title: suggestion.title,
-		explanation: suggestion.explanation,
+		intent: suggestion.intent,
 		keyphrase: suggestion.keyphrase,
 		// eslint-disable-next-line camelcase
 		meta_description: suggestion.meta_description,
 		category: suggestion.category,
+		explanation: suggestion.explanation,
+		id: `suggestion-${ suggestion.keyphrase }-${ suggestion.title }`,
 	} ) );
 };
 /**

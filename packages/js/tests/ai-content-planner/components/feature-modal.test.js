@@ -1,8 +1,7 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
-import { useFetchContentSuggestions } from "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions";
-import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks/use-fetch-content-outline";
+import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../../../src/ai-content-planner/hooks";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
@@ -56,17 +55,26 @@ jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn(),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
+jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentSuggestions: jest.fn(),
-} ) );
-
-jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-outline", () => ( {
 	useFetchContentOutline: jest.fn(),
+	useApplyOutline: jest.fn(),
+	useDraggableStructure: jest.fn( () => ( {
+		structure: [],
+		dragOverIndex: null,
+		handleDragStart: jest.fn(),
+		handleDragOver: jest.fn(),
+		handleDrop: jest.fn(),
+		handleDragEnd: jest.fn(),
+		handleMoveUp: jest.fn(),
+		handleMoveDown: jest.fn(),
+	} ) ),
 } ) );
 
 const mockOpenReplaceContentModal = jest.fn();
 const mockSetHasVisitedReplace = jest.fn();
 const mockHandleApplyOutline = jest.fn();
+const mockApplyOutline = jest.fn();
 
 const mockSuggestion = {
 	intent: "informational",
@@ -75,6 +83,7 @@ const mockSuggestion = {
 	keyphrase: "dog training",
 	// eslint-disable-next-line camelcase
 	meta_description: "A guide to training your dog.",
+	index: 0,
 };
 
 const EMPTY_OUTLINE = [];
@@ -203,6 +212,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "directly applies the outline when 'Add outline to post' is clicked and post is empty", async() => {
+		useApplyOutline.mockReturnValue( mockApplyOutline );
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
@@ -217,6 +227,7 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "calls openReplaceContentModal and setHasVisitedReplace when 'Add outline to post' is clicked and post is not empty", () => {
+		useApplyOutline.mockReturnValue( mockApplyOutline );
 		setupMocks( {
 			"yoast-seo/content-planner": {
 				selectSuggestion: () => mockSuggestion,
