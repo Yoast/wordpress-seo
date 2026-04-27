@@ -3,13 +3,12 @@ import { Button, Modal, SkeletonLoader, TextField, TextareaField } from "@yoast/
 import { __ } from "@wordpress/i18n";
 import { useState, useCallback, useEffect } from "@wordpress/element";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
+import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
 import { StructureRow } from "./structure-row";
 import { CategorySection } from "./category-section";
-import { getProgressColor } from "../helpers/get-progress-color";
-import { META_DESCRIPTION_MAX_LENGTH } from "../constants";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 import { Transition } from "@headlessui/react";
@@ -22,18 +21,22 @@ import { Transition } from "@headlessui/react";
  * Progress bar indicating the meta description character length.
  *
  * @param {string} value The meta description text.
+ * @param {string} [date=""] The meta description date.
+ * @param {string} [locale=""] The content locale, used for meta description length calculation.
+ * @param {boolean} [isCornerstone=false] Whether the current post is marked as cornerstone content.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */
-const MetaDescriptionProgressBar = ( { value } ) => {
-	const length = value ? value.length : 0;
-	const percentage = Math.min( ( length / META_DESCRIPTION_MAX_LENGTH ) * 100, 100 );
+const MetaDescriptionProgressBar = ( { value, date = "", locale = "", isCornerstone = false } ) => {
+	// Content planner feature is not available in taxonomies. Hence, the `isTaxonomy` flag is set to false.
+	const { actual, score, max } = getDescriptionProgress( value, date, isCornerstone, false, locale );
+	const percentage = Math.min( ( actual / max ) * 100, 100 );
 
 	return (
-		<div className="yst-w-full yst-h-2 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
+		<div className="yst-w-full yst-h-1.5 yst-bg-slate-200 yst-rounded-full yst-overflow-hidden" aria-hidden="true">
 			<div
 				className="yst-h-full yst-rounded-full yst-transition-all yst-duration-300"
-				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( length ) } }
+				style={ { width: `${ percentage }%`, backgroundColor: getProgressColor( score ) } }
 			/>
 		</div>
 	);
@@ -91,12 +94,15 @@ const LoadingOutlineModalContent = () => {
  * Content Outline Modal panel component.
  * Renders inside a parent Modal (managed by FeatureModal).
  *
- * @param {string}             status              The loading status of the content outline suggestion.
- * @param {Function}           onBackToSuggestions The function to call to go back to content suggestions.
- * @param {Function}           onApplyOutline      The function to call to add the outline to the post.
- * @param {OutlineSuggestion}  suggestion          The content outline suggestion to display.
- * @param {Object|null}        error               The error object if the content outline failed to load, or null if there is no error.
- * @param {Object}             closeButtonRef      Ref object for the modal close button, used to manage focus.
+ * @param {string}      status              The loading status of the content outline suggestion.
+ * @param {Function}    onBackToSuggestions The function to call to go back to content suggestions.
+ * @param {Function}    onApplyOutline      The function to call to add the outline to the post.
+ * @param {Suggestion}  suggestion          The content outline suggestion to display.
+ * @param {Object|null} error               The error object if the content outline failed to load, or null if there is no error.
+ * @param {boolean}		isCornerstone       Is the current post is marked as cornerstone content (used for meta description progress calculation).
+ * @param {string}		date                The date from settings (used for meta description progress calculation).
+ * @param {string}		locale	            The content locale, used for meta description length calculation.
+ * @param {Object}      closeButtonRef      Ref object for the modal close button, used to manage focus.
  *
  * @returns {JSX.Element} The OutlineModalContent component.
  */
@@ -106,6 +112,9 @@ export const OutlineModalContent = ( {
 	onApplyOutline,
 	suggestion,
 	error,
+	isCornerstone,
+	date,
+	locale,
 	closeButtonRef,
 } ) => {
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
@@ -241,7 +250,13 @@ export const OutlineModalContent = ( {
 										onChange={ handleMetaDescriptionChange }
 										className="yst-mb-2"
 									/>
-									<MetaDescriptionProgressBar value={ metaDescription } />
+									<MetaDescriptionProgressBar
+										value={ metaDescription }
+										date={ date }
+										locale={ locale }
+										isCornerstone={ isCornerstone }
+									/>
+
 								</div>
 							</div>
 							<hr className="yst-border-slate-200" />

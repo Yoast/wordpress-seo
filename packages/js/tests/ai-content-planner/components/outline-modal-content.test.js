@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { Modal } from "@yoast/ui-library";
 import { OutlineModalContent } from "../../../src/ai-content-planner/components/outline-modal-content";
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
+import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -17,6 +18,11 @@ jest.mock( "../../../src/ai-content-planner/components/content-planner-error", (
 			<button type="button" onClick={ onRetry }>Mock retry</button>
 		</div>
 	),
+} ) );
+
+jest.mock( "@yoast/search-metadata-previews", () => ( {
+	getDescriptionProgress: jest.fn( () => ( { actual: 100, score: 9, max: 156 } ) ),
+	getProgressColor: jest.fn( () => "#2a9d8f" ),
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
@@ -60,6 +66,9 @@ const renderModal = ( { onClose = jest.fn(), status = ASYNC_ACTION_STATUS.loadin
 				status={ status }
 				isPremium={ false }
 				isActive={ false }
+				date=""
+				locale="en_US"
+				isCornerstone={ false }
 				{ ...props }
 			/>
 		</div>
@@ -82,6 +91,8 @@ const renderLoadedModal = ( props ) => {
 
 describe( "ContentOutlineModal", () => {
 	beforeEach( () => {
+		getDescriptionProgress.mockClear();
+		getProgressColor.mockClear();
 		jest.useFakeTimers();
 		useFetchContentOutline.mockReturnValue( mockFetchContentOutlineFn );
 	} );
@@ -395,6 +406,74 @@ describe( "ContentOutlineModal", () => {
 			renderErrorModal();
 			fireEvent.click( screen.getByRole( "button", { name: "Mock retry" } ) );
 			expect( mockFetchContentOutlineFn ).toHaveBeenCalledTimes( 1 );
+		} );
+	} );
+
+	describe( "MetaDescriptionProgressBar", () => {
+		it( "renders the progress bar container after loading", () => {
+			renderLoadedModal();
+			expect( document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200" ) ).not.toBeNull();
+		} );
+
+		it( "does not render the progress bar when loading", () => {
+			renderModal();
+			expect( document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200" ) ).toBeNull();
+		} );
+
+		it( "calls getDescriptionProgress with the meta description value, date, and locale after loading", () => {
+			renderLoadedModal( { date: "Apr 22, 2026", locale: "en_US", isCornerstone: false } );
+			expect( getDescriptionProgress ).toHaveBeenCalledWith(
+				defaultSuggestion.meta_description,
+				"Apr 22, 2026",
+				false,
+				false,
+				"en_US"
+			);
+		} );
+
+		it( "calls getDescriptionProgress with isTaxonomy=false always", () => {
+			renderLoadedModal( { isCornerstone: true } );
+			expect( getDescriptionProgress ).toHaveBeenCalledWith(
+				expect.anything(),
+				expect.anything(),
+				true,
+				false,
+				expect.anything()
+			);
+		} );
+
+		it( "calls getProgressColor with the score returned by getDescriptionProgress", () => {
+			getDescriptionProgress.mockReturnValueOnce( { actual: 80, score: 6, max: 156 } );
+			renderLoadedModal();
+			expect( getProgressColor ).toHaveBeenCalledWith( 6 );
+		} );
+
+		it( "re-calls getDescriptionProgress when the meta description field is updated", () => {
+			renderLoadedModal();
+			getDescriptionProgress.mockClear();
+			fireEvent.change( screen.getByDisplayValue( defaultSuggestion.meta_description ), { target: { value: "Updated description" } } );
+			expect( getDescriptionProgress ).toHaveBeenCalledWith(
+				"Updated description",
+				expect.anything(),
+				expect.anything(),
+				false,
+				expect.anything()
+			);
+		} );
+
+		it( "caps the progress bar width at 100% when description is very long", () => {
+			getDescriptionProgress.mockReturnValueOnce( { actual: 99999, score: 3, max: 156 } );
+			renderLoadedModal();
+			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
+			expect( innerBar ).toHaveStyle( "width: 100%" );
+		} );
+
+		it( "sets the progress bar background color from getProgressColor", () => {
+			getDescriptionProgress.mockReturnValueOnce( { actual: 10, score: 3, max: 156 } );
+			getProgressColor.mockReturnValueOnce( "#e63946" );
+			renderLoadedModal();
+			const innerBar = document.body.querySelector( ".yst-h-1\\.5.yst-bg-slate-200 > div" );
+			expect( innerBar ).toHaveStyle( "background-color: #e63946" );
 		} );
 	} );
 } );

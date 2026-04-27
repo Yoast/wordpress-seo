@@ -7,6 +7,11 @@ jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
 } ) );
 
+jest.mock( "@yoast/search-metadata-previews", () => ( {
+	getDescriptionProgress: () => ( { actual: 0, score: 0 } ),
+	getProgressColor: () => "transparent",
+} ) );
+
 jest.mock( "../../../src/ai-generator/components/sparks-limit-notification", () => ( {
 	SparksLimitNotification: () => null,
 } ) );
@@ -107,6 +112,8 @@ const defaultStoreSelectors = {
 		getContentLocale: () => "en",
 		getEditorTypeApiValue: () => "block",
 		selectLink: () => "",
+		isCornerstoneContent: () => false,
+		getDateFromSettings: () => "",
 	},
 	"yoast-seo/ai-generator": {
 		selectUsageCount: () => 1,

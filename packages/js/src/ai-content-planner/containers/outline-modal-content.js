@@ -15,6 +15,11 @@ export default compose( [
 
 		const { getIsPremium } = select( "yoast-seo/editor" );
 
+		const {
+			isCornerstoneContent,
+			getDateFromSettings,
+			getContentLocale,
+		} = select( "yoast-seo/editor" );
 		return {
 			suggestion: selectSuggestion(),
 			outline: selectContentOutline(),
@@ -22,6 +27,9 @@ export default compose( [
 			error: selectContentOutlineError(),
 			isPremium: getIsPremium(),
 			isActive: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.contentOutline,
+			locale: getContentLocale(),
+			date: getDateFromSettings(),
+			isCornerstone: isCornerstoneContent(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
