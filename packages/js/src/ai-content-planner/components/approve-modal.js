@@ -1,18 +1,31 @@
 import { Button, Modal, GradientSparklesIcon, useSvgAria } from "@yoast/ui-library";
+import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
+import { LockOpenIcon } from "@heroicons/react/outline";
+
 import { __, sprintf } from "@wordpress/i18n";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
+import { OutboundLink } from "../../shared-admin/components";
 import { OneSparkNote } from "./one-spark-note";
+
 /**
  * Get the content of the modal based on whether the canvas is empty or not.
  *
  * @param {boolean} isEmptyPost Whether the post has content or not.
+ * @param {boolean} isUpsell Whether the usage count limit has been reached.
  * @returns {Object} The content of the modal.
  */
-const getModalContent = ( isEmptyPost ) => {
+const getModalContent = ( isEmptyPost, isUpsell ) => {
+	if ( isUpsell ) {
+		return {
+			title: __( "You're out of free sparks", "wordpress-seo" ),
+			description: __( "Upgrade to keep finding content gaps, generating AI-powered titles and meta descriptions, and giving your content the best change of being found", "wordpress-seo" ),
+		};
+	}
+
 	if ( isEmptyPost ) {
 		return {
 			title: __( "Looking for inspiration?", "wordpress-seo" ),
-			description: __( "Yoast identifies content gaps in your site structure and recommends topics that strengthen your topical authority.", "wordpress-seo" ),
+			description: __( "The Yoast AI Content Planner identifies content gaps in your site structure and recommends topics that strengthen your topical authority.", "wordpress-seo" ),
 		};
 	}
 
@@ -21,15 +34,19 @@ const getModalContent = ( isEmptyPost ) => {
 		description: safeCreateInterpolateElement(
 			sprintf(
 			/* translators: %1$s and %2$s are opening and closing italic HTML tags respectively. */
-				__( "Yoast will analyze your site and recommend topics. %1$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%2$s", "wordpress-seo" ),
+				__( "The Yoast AI Content Planner will analyze your site and recommend topics.%1$s%2$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%3$s%4$s", "wordpress-seo" ),
+				"<p>",
 				"<i>",
-				"</i>"
+				"</i>",
+				"</p>"
 			),
 			{
 				i: <i />,
+				p: <p className="yst-mt-4" />,
 			} ),
 	};
 };
+
 
 /**
  * The modal that is shown when the user clicks the "Get content suggestions" button.
@@ -39,13 +56,23 @@ const getModalContent = ( isEmptyPost ) => {
  * @param {boolean} isUpsell Whether the modal is shown as an upsell or not.
  * @param {Function} onClick The function to call when the user clicks the "Get content suggestions" button.
  * @param {string} upsellLink The link to the upsell page.
+ * @param {string} learnMoreLink The link to the learn more page.
  * @param {boolean} isOpen Whether the modal is open or not.
  * @param {Function} onClose The function to call when the modal is closed.
  * @returns {JSX.Element} The ApproveModal content.
  */
-export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsellLink, isOpen, onClose } ) => {
-	const { title, description } = getModalContent( isEmptyPost );
+export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsellLink, learnMoreLink, isOpen, onClose } ) => {
+	const { title, description } = getModalContent( isEmptyPost, isUpsell );
 	const svgAriaProps = useSvgAria();
+
+	const learnMoreLinkStructure = {
+		a: <OutboundLink
+			href={ learnMoreLink }
+			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
+			variant="primary"
+		/>,
+		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
+	};
 
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
@@ -54,10 +81,12 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 					<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 				</div>
 				<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
-				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-6">{ description }</Modal.Description>
+				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-2">{ description }</Modal.Description>
+				{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mb-2" /> }
 				{ isUpsell ? <Button
 					variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
 				>
+					<LockOpenIcon className="yst-w-4 yst-h-4 yst-me-2 yst-shrink-0" { ...svgAriaProps } />
 					{ sprintf(
 					/* translators: %s is the name of the premium product, Yoast SEO Premium. */
 						__( "Unlock with %s", "wordpress-seo" ),
@@ -69,7 +98,21 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 					</span>
 				</Button>
 					: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
-				{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mt-2" /> }
+				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
+					{ safeCreateInterpolateElement(
+						sprintf(
+							/* translators: %1$s and %3$s are anchor tags; %2$s is the arrow icon. */
+							__(
+								"%1$sLearn more%2$s%3$s",
+								"wordpress-seo"
+							),
+							"<a>",
+							"<ArrowNarrowRightIcon />",
+							"</a>"
+						),
+						learnMoreLinkStructure
+					) }
+				</div>
 			</Modal.Panel>
 		</Modal>
 	);
