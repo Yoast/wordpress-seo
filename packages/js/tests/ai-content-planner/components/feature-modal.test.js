@@ -60,6 +60,10 @@ jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn(),
 } ) );
 
+jest.mock( "../../../src/ai-generator/hooks", () => ( {
+	useMeasuredRef: jest.fn( () => ( { current: null } ) ),
+} ) );
+
 jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 	useFetchContentSuggestions: jest.fn(),
 	useFetchContentOutline: jest.fn(),
