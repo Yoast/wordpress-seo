@@ -157,10 +157,12 @@ export const OutlineModalContent = ( {
 			title,
 			metaDescription,
 			focusKeyphrase,
-			category: isCategoryEnabled ? suggestion.category : null,
+			category: isCategoryEnabled ? suggestion.category : { name: "", id: -1 },
 			structure,
 		} );
 	}, [ onApplyOutline, title, metaDescription, focusKeyphrase, isCategoryEnabled, suggestion.category, structure ] );
+
+	const hasCategory = Boolean( suggestion.category && suggestion.category.id !== -1 );
 
 	if ( status === ASYNC_ACTION_STATUS.error ) {
 		return (
@@ -210,7 +212,7 @@ export const OutlineModalContent = ( {
 						leaveFrom="yst-opacity-100"
 						leaveTo="yst-opacity-0"
 					>
-						{ suggestion.category && (
+						{ hasCategory && (
 							<CategorySection
 								category={ suggestion.category }
 								isEnabled={ isCategoryEnabled }
