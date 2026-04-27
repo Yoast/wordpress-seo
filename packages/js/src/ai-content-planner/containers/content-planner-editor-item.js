@@ -5,9 +5,8 @@ import { CONTENT_PLANNER_STORE } from "../constants";
 
 export default compose( [
 	withDispatch( ( dispatch ) => {
-		const { openModal, setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
+		const { setFeatureModalStatus } = dispatch( CONTENT_PLANNER_STORE );
 		return {
-			openModal,
 			setFeatureModalStatus,
 		};
 	} ),

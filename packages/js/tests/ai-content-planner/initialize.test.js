@@ -38,11 +38,9 @@ jest.mock( "../../src/ai-content-planner/components/inline-banner", () => ( {
 	InlineBanner: () => null,
 } ) );
 
-jest.mock( "../../src/ai-content-planner/containers/feature-modal", () => {
-	const MockFeatureModal = ( props ) => props.isOpen ? <div data-testid="feature-modal" /> : null;
-	MockFeatureModal.displayName = "MockFeatureModal";
-	return { __esModule: true, "default": MockFeatureModal };
-} );
+jest.mock( "../../src/ai-content-planner/components/app", () => ( {
+	App: () => <div data-testid="app" />,
+} ) );
 
 jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", () => ( {
 	ContentSuggestionBlock: () => null,
@@ -99,15 +97,11 @@ describe( "insertBannerAfterFirstParagraph", () => {
 describe( "ContentPlannerEditorPlugin", () => {
 	let mockInsertBlock;
 	let mockRemoveBlock;
-	let mockCloseModal;
 
 	const defaultSelectOptions = {
 		isNewPost: true,
 		postType: "post",
 		blocks: [],
-		isModalOpen: false,
-		skipApprove: false,
-		isPremium: false,
 	};
 
 	/**
@@ -122,18 +116,9 @@ describe( "ContentPlannerEditorPlugin", () => {
 			"core/editor": {
 				isEditedPostNew: () => opts.isNewPost,
 				getCurrentPostType: () => opts.postType,
-				getEditedPostContent: () => "",
 			},
 			"core/block-editor": {
 				getBlocks: () => opts.blocks,
-			},
-			"yoast-seo/content-planner": {
-				selectIsModalOpen: () => opts.isModalOpen,
-				selectShouldSkipApprove: () => opts.skipApprove,
-			},
-			"yoast-seo/editor": {
-				getIsPremium: () => opts.isPremium,
-				selectLink: () => "https://example.com/upsell",
 			},
 		};
 		useSelect.mockImplementation( ( selector ) => selector( ( storeName ) => stores[ storeName ] ) );
@@ -142,13 +127,9 @@ describe( "ContentPlannerEditorPlugin", () => {
 	beforeEach( () => {
 		mockInsertBlock = jest.fn();
 		mockRemoveBlock = jest.fn();
-		mockCloseModal = jest.fn();
 		useDispatch.mockImplementation( ( storeName ) => {
 			if ( storeName === "core/block-editor" ) {
 				return { insertBlock: mockInsertBlock, removeBlock: mockRemoveBlock };
-			}
-			if ( storeName === "yoast-seo/content-planner" ) {
-				return { closeModal: mockCloseModal };
 			}
 			return {};
 		} );
@@ -159,7 +140,7 @@ describe( "ContentPlannerEditorPlugin", () => {
 	} );
 
 	test( "should render without crashing", () => {
-		mockSelect( { isModalOpen: true } );
+		mockSelect();
 		const { container } = render( <ContentPlannerEditorPlugin /> );
 		expect( container ).toBeInTheDocument();
 	} );
