@@ -137,7 +137,7 @@ export const OutlineModalContent = ( {
 		if ( closeButtonRef?.current ) {
 			closeButtonRef.current.focus();
 		}
-	}, [ closeButtonRef ] );
+	}, [ isLoading ] );
 
 	const handleFocusKeyphraseChange = useCallback( ( e ) => setFocusKeyphrase( e.target.value ), [] );
 	const handleTitleChange = useCallback( ( e ) => setTitle( e.target.value ), [] );
