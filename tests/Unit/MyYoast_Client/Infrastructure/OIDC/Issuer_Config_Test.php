@@ -41,7 +41,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_issuer_url_default() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_issuer_url', 'https://my.yoast.com' )
+			->with( 'wpseo_myyoast_issuer_url', 'https://my.yoast.com' )
 			->once()
 			->andReturn( 'https://my.yoast.com' );
 
@@ -57,7 +57,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_issuer_url_strips_trailing_slash() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_issuer_url', 'https://my.yoast.com' )
+			->with( 'wpseo_myyoast_issuer_url', 'https://my.yoast.com' )
 			->once()
 			->andReturn( 'https://staging.yoast.com/' );
 
@@ -74,7 +74,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_discovery_url() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_issuer_url', 'https://my.yoast.com' )
+			->with( 'wpseo_myyoast_issuer_url', 'https://my.yoast.com' )
 			->once()
 			->andReturn( 'https://my.yoast.com' );
 
@@ -94,7 +94,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_issuer_key() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_issuer_url', 'https://my.yoast.com' )
+			->with( 'wpseo_myyoast_issuer_url', 'https://my.yoast.com' )
 			->once()
 			->andReturn( 'https://my.yoast.com' );
 
@@ -113,7 +113,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_issuer_key_differs_per_issuer() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_issuer_url', 'https://my.yoast.com' )
+			->with( 'wpseo_myyoast_issuer_url', 'https://my.yoast.com' )
 			->andReturn( 'https://staging.yoast.com' );
 
 		$staging_suffix    = $this->instance->get_issuer_key();
@@ -131,7 +131,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_software_statement() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_software_statement', '' )
+			->with( 'wpseo_myyoast_software_statement', '' )
 			->once()
 			->andReturn( 'test-jwt' );
 
@@ -147,7 +147,7 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_initial_access_token() {
 		Functions\expect( 'apply_filters' )
-			->with( 'Yoast\WP\SEO\myyoast_initial_access_token', '' )
+			->with( 'wpseo_myyoast_initial_access_token', '' )
 			->once()
 			->andReturn( 'test-iat' );
 

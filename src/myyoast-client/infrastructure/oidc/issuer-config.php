@@ -36,7 +36,7 @@ class Issuer_Config {
 	/**
 	 * Returns the MyYoast issuer URL.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_issuer_url`.
+	 * Filterable via `wpseo_myyoast_issuer_url`.
 	 *
 	 * @return string The issuer URL (without trailing slash).
 	 */
@@ -46,13 +46,13 @@ class Issuer_Config {
 		 *
 		 * @param string $issuer_url The issuer URL.
 		 */
-		return \rtrim( \apply_filters( 'Yoast\WP\SEO\myyoast_issuer_url', self::DEFAULT_ISSUER_URL ), '/' );
+		return \rtrim( \apply_filters( 'wpseo_myyoast_issuer_url', self::DEFAULT_ISSUER_URL ), '/' );
 	}
 
 	/**
 	 * Returns the software statement JWT.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_software_statement`.
+	 * Filterable via `wpseo_myyoast_software_statement`.
 	 *
 	 * @return string The signed software statement JWT.
 	 */
@@ -62,13 +62,13 @@ class Issuer_Config {
 		 *
 		 * @param string $software_statement The software statement JWT.
 		 */
-		return \apply_filters( 'Yoast\WP\SEO\myyoast_software_statement', self::SOFTWARE_STATEMENT );
+		return \apply_filters( 'wpseo_myyoast_software_statement', self::SOFTWARE_STATEMENT );
 	}
 
 	/**
 	 * Returns the initial access token for Dynamic Client Registration.
 	 *
-	 * Filterable via `Yoast\WP\SEO\myyoast_initial_access_token`.
+	 * Filterable via `wpseo_myyoast_initial_access_token`.
 	 *
 	 * @return string The initial access token.
 	 */
@@ -78,7 +78,7 @@ class Issuer_Config {
 		 *
 		 * @param string $initial_access_token The initial access token.
 		 */
-		return \apply_filters( 'Yoast\WP\SEO\myyoast_initial_access_token', self::INITIAL_ACCESS_TOKEN );
+		return \apply_filters( 'wpseo_myyoast_initial_access_token', self::INITIAL_ACCESS_TOKEN );
 	}
 
 	/**
