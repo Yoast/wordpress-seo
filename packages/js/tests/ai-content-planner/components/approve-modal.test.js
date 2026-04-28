@@ -89,4 +89,17 @@ describe( "ApproveModal", () => {
 			expect( onClick ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
+	describe( "premium subscription with usage limit reached", () => {
+		it( "shows 'Get content suggestions' button (not upsell) when isUpsell is false even with premium", () => {
+			renderApproveModal( { isPremium: true, isUpsell: false } );
+			expect( screen.getByRole( "button", { name: "Get content suggestions" } ) ).toBeInTheDocument();
+			expect( screen.queryByText( "Unlock with Yoast SEO Premium" ) ).not.toBeInTheDocument();
+		} );
+
+		it( "shows upsell when isUpsell is true and user is not premium", () => {
+			renderApproveModal( { isPremium: false, isUpsell: true } );
+			expect( screen.getByText( "Unlock with Yoast SEO Premium" ) ).toBeInTheDocument();
+			expect( screen.queryByRole( "button", { name: "Get content suggestions" } ) ).not.toBeInTheDocument();
+		} );
+	} );
 } );
