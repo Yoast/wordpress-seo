@@ -37,7 +37,7 @@ export default compose( [
 
 		return {
 			onBackToSuggestions: ( suggestion, structure ) => {
-				saveOutlineEditsToCache( { suggestion, structure } );
+				saveOutlineEditsToCache( { id: suggestion.id, structure } );
 				setSuggestion( suggestion );
 				setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 			},

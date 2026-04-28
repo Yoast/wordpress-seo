@@ -31,7 +31,7 @@ export const useFetchContentOutline = () => {
 	return useCallback( ( contentSuggestion ) => {
 		const cache = selectContentOutlineCache( contentSuggestion.id );
 		if ( cache ) {
-			restoreContentOutlineFromCache( cache );
+			restoreContentOutlineFromCache( { suggestion: contentSuggestion, outline: cache } );
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.contentOutline );
 			return;
 		}
