@@ -15,7 +15,8 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  * @returns {Function} Callback to trigger the content suggestions fetch.
  */
 export const useFetchContentSuggestions = () => {
-	const { endpoint, postType, contentLocale, editorApiValue, isUsageCountLimitReached, usageCountEndpoint } = useSelect( ( select ) => {
+	const { endpoint, postType, contentLocale, editorApiValue, isUsageCountLimitReached,
+		usageCountEndpoint, hasValidPremiumSubscription } = useSelect( ( select ) => {
 		return {
 			endpoint: select( CONTENT_PLANNER_STORE ).selectContentSuggestionsEndpoint(),
 			postType: select( "yoast-seo/editor" ).getPostType(),
@@ -23,6 +24,7 @@ export const useFetchContentSuggestions = () => {
 			editorApiValue: select( "yoast-seo/editor" ).getEditorTypeApiValue(),
 			usageCountEndpoint: select( STORE_NAME_AI ).selectUsageCountEndpoint(),
 			isUsageCountLimitReached: select( STORE_NAME_AI ).isUsageCountLimitReached(),
+			hasValidPremiumSubscription: select( STORE_NAME_AI ).selectPremiumSubscription(),
 		};
 	}, [] );
 
@@ -32,7 +34,7 @@ export const useFetchContentSuggestions = () => {
 	// eslint-disable-next-line complexity
 	return useCallback( async() => {
 		// Before fetching usage count, check if it's already known that the limit has been reached to avoid unnecessary API calls.
-		if ( isUsageCountLimitReached ) {
+		if ( isUsageCountLimitReached && ! hasValidPremiumSubscription ) {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 			return;
 		}
@@ -42,7 +44,7 @@ export const useFetchContentSuggestions = () => {
 		const { payload } = await fetchUsageCount( { endpoint: usageCountEndpoint, isWooProductEntity: false } );
 		const sparksLimitReached = ( payload?.errorCode === 429 && payload?.errorIdentifier === "USAGE_LIMIT_REACHED" ) || payload.count >= payload.limit;
 
-		if ( sparksLimitReached ) {
+		if ( sparksLimitReached && ! hasValidPremiumSubscription ) {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 			setContentSuggestionsStatus( ASYNC_ACTION_STATUS.idle );
 			return;
@@ -55,6 +57,7 @@ export const useFetchContentSuggestions = () => {
 		contentLocale,
 		editorApiValue,
 		isUsageCountLimitReached,
+		hasValidPremiumSubscription,
 		usageCountEndpoint,
 		fetchContentPlannerSuggestions,
 		addUsageCount,
