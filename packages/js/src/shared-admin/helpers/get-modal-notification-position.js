@@ -6,6 +6,6 @@
  * @returns {Object} The CSS value for the bottom position of the notification.
  */
 export const getModalNotificationPosition = ( panelHeight ) => {
-	// The 32px is distance from the bottom of the screen for notifications. As done in the ui-library when the notification in not inside a modal.
+	// 32px is the distance from the bottom of the screen for notifications. As done in the ui-library when the notification in not inside a modal.
 	return { bottom: `calc( (${ panelHeight + "px" } - 100vh) / 2 + 32px )` };
 };
