@@ -111,7 +111,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=2392",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=2391",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=257",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
@@ -151,6 +151,15 @@
 		],
 		"integration-coverage": [
 			"@coverage-wp"
+		],
+		"test-wp-env": [
+			"config/scripts/run-wp-env-tests.sh"
+		],
+		"coverage-wp-env": [
+			"config/scripts/run-wp-env-tests.sh --coverage"
+		],
+		"wp-env:stop": [
+			"npx wp-env stop"
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
@@ -202,6 +211,9 @@
 		"coverage-wp": "Run the WP unit tests with code coverage.",
 		"integration-test": "Deprecated. Alias for the \"test-wp\" script.",
 		"integration-coverage": "Deprecated. Alias for the \"coverage-wp\" script.",
+		"test-wp-env": "Run the WP integration tests via wp-env (auto-starts Docker environment).",
+		"coverage-wp-env": "Run the WP integration tests via wp-env with code coverage.",
+		"wp-env:stop": "Stop the wp-env Docker environment.",
 		"prefix-dependencies": "Create the vendor_prefixed directory.",
 		"prefix-oauth2-client": "Prefix the OAuth2 Client dependencies and place them in the vendor_prefixed directory.",
 		"prefix-symfony": "Prefix the Symfony dependencies and place them in the vendor_prefixed directory.",

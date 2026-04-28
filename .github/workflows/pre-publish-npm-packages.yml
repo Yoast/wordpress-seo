@@ -95,7 +95,7 @@ jobs:
           done
 
       - name: Upload packed tarballs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm-pack-dry-run
           path: packed-tarballs/*.tgz
