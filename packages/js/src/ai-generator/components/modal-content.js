@@ -34,6 +34,7 @@ import {
 	useTypeContext,
 } from "../hooks";
 import { useOpenYoastSidebarWhenPublishing } from "../../hooks/use-open-yoast-sidebar-when-publishing";
+import { getModalNotificationPosition } from "../../shared-admin/helpers";
 
 /**
  * Aims to capture the text between badges.
@@ -134,8 +135,7 @@ export const ModalContent = ( { height } ) => {
 	// Used in an attempt to prevent the tip notification from moving too much when generating more suggestions.
 	const previousHeight = usePrevious( height );
 	const currentHeight = suggestions.status === ASYNC_ACTION_STATUS.success ? height : previousHeight;
-	const margin = `calc(${ currentHeight === 0 ? "50%" : currentHeight / 2 + "px" } - 40vh)`;
-	const bottom = `calc( (${ height + 55 + "px" } - 100vh) / 2 )`;
+	const { bottom } = getModalNotificationPosition( currentHeight );
 
 	const [ contentIsScrolling, setContentIsScrolling ] = useState( false );
 	const handleContentMeasureChange = useCallback( entry => {
@@ -404,8 +404,8 @@ export const ModalContent = ( { height } ) => {
 					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
-				// Margin and position tricks to break out of the container.
-				style={ { bottom, marginTop: margin } }
+				// Position tricks to break out of the container.
+				style={ { bottom } }
 				position="bottom-left"
 			>
 				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (

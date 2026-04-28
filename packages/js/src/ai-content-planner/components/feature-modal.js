@@ -12,6 +12,7 @@ import { useMeasuredRef } from "../../ai-generator/hooks";
 import { ReactComponent as YoastIcon } from "../../../images/Yoast_icon_kader.svg";
 import { UsageCounter } from "@yoast/ai-frontend";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import { getModalNotificationPosition } from "../../shared-admin/helpers";
 
 /**
  * The modal that orchestrates the flow between the approve, content suggestions,
@@ -61,7 +62,7 @@ export const FeatureModal = ( {
 	const [ panelHeight, setPanelHeight ] = useState( 0 );
 	const handlePanelMeasureChange = useCallback( entry => setPanelHeight( entry.borderBoxSize[ 0 ].blockSize ), [ setPanelHeight ] );
 	const panelRef = useMeasuredRef( handlePanelMeasureChange );
-	const bottom = `calc( (${ panelHeight + 55 + "px" } - 100vh) / 2 )`;
+	const { bottom } = getModalNotificationPosition( panelHeight );
 
 	/**
 	 * Handles the click on a content suggestion.
