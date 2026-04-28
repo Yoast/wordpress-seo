@@ -42,7 +42,7 @@ If you have purchased one of [our premium plugins](https://yoa.st/1y1) you will 
 
 ## Security issues
 
-Please do **not** report security issues on GitHub. Follow our [security program](https://yoast.com/security-program/) instead, or email the details to `security@yoast.com` so we can handle them quickly and responsibly.
+Please do **not** report security issues on GitHub. Follow our [security program](https://yoast.com/security-program/) instead — see [`yoast.com/security.txt`](https://yoast.com/security.txt) for the canonical contact details — so we can handle them quickly and responsibly.
 
 ## I have found a bug
 
