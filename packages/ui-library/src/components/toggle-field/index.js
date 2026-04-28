@@ -13,7 +13,7 @@ import Toggle from "../../elements/toggle";
  * @param {boolean} [checked] Default state.
  * @param {boolean} [disabled] Disabled state.
  * @param {Function} onChange Change callback.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {Object} props Other Toggle props.
  * @returns {JSX.Element} ToggleField component.
  */

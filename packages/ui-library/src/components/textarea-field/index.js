@@ -9,7 +9,7 @@ import { useDescribedBy } from "../../hooks";
 /**
  * @param {string} id The ID of the input.
  * @param {string} label The label.
- * @param {string} [className] The HTML class.
+ * @param {string} [className=""] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {Object} [validation] The validation state.
  * @param {boolean} disabled Whether the input is disabled.

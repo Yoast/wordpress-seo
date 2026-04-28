@@ -4,7 +4,7 @@ import React from "react";
 
 /**
  * @param {JSX.ElementClass} [as="span"] Base component.
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @param {React.ReactNode} [children=null] Content to determine the size.
  * @returns {JSX.Element} The element.
  */

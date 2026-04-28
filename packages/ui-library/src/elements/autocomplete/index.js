@@ -91,7 +91,7 @@ ClearSelection.propTypes = {
  * @param {Function} [onClear] Clear callback.
  * @param {Object} [validation] The validation state.
  * @param {string} [placeholder] Input placeholder.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {string} [clearButtonScreenReaderText] Screen reader text for the clear button.
  * @param {boolean} [nullable=false] Allow nullable values.
@@ -152,7 +152,7 @@ const Autocomplete = forwardRef( ( {
 					{ ...buttonProps }
 				>
 					<Combobox.Input
-						className="yst-autocomplete__input"
+						className="yst-autocomplete__input yst-border-0"
 						autoComplete="off"
 						placeholder={ placeholder }
 						displayValue={ getDisplayValue }
