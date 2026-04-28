@@ -111,7 +111,7 @@ export const FeatureModal = ( {
                             ( isOutline && ! isOutlineError )   ) &&
 								(
 									<UsageCounter
-										className="yst-relative"
+										className="yst-relative yst-flex yst-items-center"
 										limit={ usageCountLimit }
 										requests={ usageCount }
 										mentionBetaInTooltip={ isPremium }
