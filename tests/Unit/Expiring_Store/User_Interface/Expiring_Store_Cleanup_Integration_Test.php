@@ -80,7 +80,7 @@ final class Expiring_Store_Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'init' )
+		Monkey\Actions\expectAdded( 'admin_init' )
 			->once()
 			->with( [ $this->instance, 'schedule_cleanup' ] );
 

@@ -37,7 +37,7 @@ class Expiring_Store_Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		\add_action( 'init', [ $this, 'schedule_cleanup' ] );
+		\add_action( 'admin_init', [ $this, 'schedule_cleanup' ] );
 		\add_action( self::CRON_HOOK, [ $this, 'run_cleanup' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cleanup' ] );
 	}
