@@ -18,7 +18,7 @@ const getModalContent = ( isEmptyPost, isUpsell ) => {
 	if ( isUpsell ) {
 		return {
 			title: __( "You're out of free sparks", "wordpress-seo" ),
-			description: __( "Upgrade to keep finding content gaps, generating AI-powered titles and meta descriptions, and giving your content the best change of being found", "wordpress-seo" ),
+			description: __( "Upgrade to keep finding content gaps, generating AI-powered titles and meta descriptions, and giving your content the best chance of being found.", "wordpress-seo" ),
 		};
 	}
 
@@ -33,7 +33,8 @@ const getModalContent = ( isEmptyPost, isUpsell ) => {
 		title: __( "Get content suggestions", "wordpress-seo" ),
 		description: safeCreateInterpolateElement(
 			sprintf(
-			/* translators: %1$s and %2$s are opening and closing italic HTML tags respectively. */
+			/* translators: %1$s and %4$s are opening and closing paragraph HTML tags respectively.
+			   %2$s and %3$s are opening and closing italic HTML tags respectively. */
 				__( "The Yoast AI Content Planner will analyze your site and recommend topics.%1$s%2$sNote: Applying a content suggestion will replace your current blogpost content & metadata.%3$s%4$s", "wordpress-seo" ),
 				"<p>",
 				"<i>",
@@ -81,7 +82,7 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 					<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 				</div>
 				<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
-				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-2">{ description }</Modal.Description>
+				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-10">{ description }</Modal.Description>
 				{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mb-2" /> }
 				{ isUpsell ? <Button
 					variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
