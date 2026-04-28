@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Content_Planner_Route implements Route_Interface {
+class Get_Suggestions_Route implements Route_Interface {
 
 	/**
 	 * The namespace for this route.
