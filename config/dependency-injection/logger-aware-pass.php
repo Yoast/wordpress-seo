@@ -12,10 +12,10 @@ use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
  * A pass is a step in the compilation process of the container.
  *
  * This step automatically injects the Logger service into every registered
- * service whose class implements Psr\Log\LoggerAwareInterface (typically by
- * using the Psr\Log\LoggerAwareTrait). Developers only need to implement the
- * interface and use the trait; the dependency injection layer takes care of
- * supplying the logger.
+ * service whose class implements YoastSEO_Vendor\Psr\Log\LoggerAwareInterface
+ * (typically by using the YoastSEO_Vendor\Psr\Log\LoggerAwareTrait).
+ * Developers only need to implement that interface and use that trait; the
+ * dependency injection layer takes care of supplying the logger.
  */
 class Logger_Aware_Pass implements CompilerPassInterface {
 
@@ -43,7 +43,7 @@ class Logger_Aware_Pass implements CompilerPassInterface {
 
 			// Don't overwrite an explicit setLogger call configured elsewhere.
 			foreach ( $definition->getMethodCalls() as $method_call ) {
-				if ( isset( $method_call[0] ) && $method_call[0] === 'setLogger' ) {
+				if ( isset( $method_call[0] ) && \strtolower( $method_call[0] ) === 'setlogger' ) {
 					continue 2;
 				}
 			}
