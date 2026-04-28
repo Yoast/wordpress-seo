@@ -124,6 +124,7 @@ export const FeatureModal = ( {
 					</Modal.Container.Header>
 					{ isSuggestions && <SuggestionsModalContent
 						onSuggestionClick={ handleSuggestionClick }
+						closeButtonRef={ closeButtonRef }
 					/> }
 
 					{ isOutline && (
