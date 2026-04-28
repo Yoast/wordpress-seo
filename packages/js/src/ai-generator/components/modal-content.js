@@ -404,6 +404,7 @@ export const ModalContent = ( { height } ) => {
 					// Margin tricks to break out of the container. Transition to prevent sudden location jumps when loading new suggestions.
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
+				// Margin and position tricks to break out of the container.
 				style={ { bottom, margin } }
 				position="bottom-left"
 			>
