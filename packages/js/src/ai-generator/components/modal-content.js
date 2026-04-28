@@ -405,7 +405,7 @@ export const ModalContent = ( { height } ) => {
 					"yst-mx-[calc(50%-50vw)] yst-transition-all"
 				}
 				// Margin and position tricks to break out of the container.
-				style={ { bottom, margin } }
+				style={ { bottom, marginTop: margin } }
 				position="bottom-left"
 			>
 				{ suggestions.status !== ASYNC_ACTION_STATUS.loading && (
