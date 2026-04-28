@@ -48,6 +48,16 @@ describe( "ApproveModal", () => {
 	} );
 
 	describe( "upsell variant", () => {
+		it( "shows the 'You're out of free sparks' title when isUpsell is true", () => {
+			renderApproveModal( { isUpsell: true } );
+			expect( screen.getByRole( "heading", { name: "You're out of free sparks" } ) ).toBeInTheDocument();
+		} );
+
+		it( "shows the upsell description when isUpsell is true", () => {
+			renderApproveModal( { isUpsell: true } );
+			expect( screen.getByText( /Upgrade to keep finding content gaps/ ) ).toBeInTheDocument();
+		} );
+
 		it( "shows the 'Unlock with Yoast SEO Premium' label when isUpsell is true", () => {
 			renderApproveModal( { isUpsell: true } );
 			expect( screen.getByText( "Unlock with Yoast SEO Premium" ) ).toBeInTheDocument();
@@ -61,6 +71,23 @@ describe( "ApproveModal", () => {
 		it( "opens the upsell link in a new tab", () => {
 			renderApproveModal( { isUpsell: true, upsellLink: "https://yoa.st/content-planner-approve-modal" } );
 			expect( screen.getByRole( "link", { name: /Unlock with Yoast SEO Premium/ } ) ).toHaveAttribute( "target", "_blank" );
+		} );
+	} );
+
+	describe( "Learn more link", () => {
+		it( "renders the Learn more link with the provided href", () => {
+			renderApproveModal( { learnMoreLink: "https://yoa.st/content-planner-learn-more" } );
+			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-learn-more" );
+		} );
+
+		it( "opens the Learn more link in a new tab", () => {
+			renderApproveModal( { learnMoreLink: "https://yoa.st/content-planner-learn-more" } );
+			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toHaveAttribute( "target", "_blank" );
+		} );
+
+		it( "renders the Learn more link in the upsell variant", () => {
+			renderApproveModal( { isUpsell: true, learnMoreLink: "https://yoa.st/content-planner-learn-more" } );
+			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-learn-more" );
 		} );
 	} );
 

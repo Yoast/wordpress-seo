@@ -18,6 +18,7 @@ export default compose( [
 			isOpen: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.idle,
 			isPremium: getIsPremium(),
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
+			learnMoreLink: selectLink( "https://yoa.st/content-planner-learn-more" ),
 			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription,
 		};
 	} ),
