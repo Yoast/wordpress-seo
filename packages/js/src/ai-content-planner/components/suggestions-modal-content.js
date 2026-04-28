@@ -79,6 +79,8 @@ const LoadingSuggestionsModalContent = () => {
  * @param {Function} props.onSuggestionClick The function to call when a suggestion is clicked.
  * @param {Suggestion[]} props.suggestions The list of content suggestions to display.
  * @param {Object|null} props.error The error object if the request failed, or null if there is no error.
+ * @param {Object} props.closeButtonRef The ref for the close button element.
+
  *
  * @returns {JSX.Element} The SuggestionsModalContent component.
  */
@@ -87,10 +89,17 @@ export const SuggestionsModalContent = ( {
 	onSuggestionClick = noop,
 	suggestions,
 	error,
+	closeButtonRef,
 } ) => {
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const isLoading = status === ASYNC_ACTION_STATUS.loading;
 	const isSuccess = status === ASYNC_ACTION_STATUS.success;
+
+	useEffect( () => {
+		if ( closeButtonRef?.current ) {
+			closeButtonRef.current.focus();
+		}
+	}, [ isLoading ] );
 
 	return (
 		<Modal.Container.Content className="yst-overflow-y-auto yst-p-6 yst-m-0">
