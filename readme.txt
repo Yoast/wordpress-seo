@@ -303,6 +303,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 27.6 =
+
+Release date: 2026-05-12
+
+#### Enhancements
+
+* Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor.
+* Fixes position on the spark notification when using Content Planner or AI Generator.
+
+#### Other
+
+* Improves documentation in a docblock. Props to [@MukundaKatta](https://github.com/MukundaKatta).
+* Introduces a shared contributor guide for humans and AI coding tools.
+
 = 27.5 =
 
 Release date: 2026-04-28
@@ -322,24 +336,6 @@ Introduces Yoast SEO Abilities API, allowing AI tools, dashboards, and automated
 
 * Introduces a performance increase when calculating if the SEO optimization is completed for internal links. Props to [@adconecto](https://github.com/adconecto).
 * Removes the schemamap line from the `robots.txt` file.
-
-= 27.4 =
-
-Release date: 2026-04-14
-
-Yoast SEO 27.4 adds new tasks to the Task List, improves navigation within the editor, and fixes a bug where tasks were displaying in the wrong language. [Read the full release post here.](https://yoa.st/task-list)  
-
-#### Enhancements
-
-* Adds a "Yoast" tab to the WordPress Plugins screen that groups all installed Yoast plugins when two or more are present. Requires WordPress 7.0+.
-* Enhances the task list with a task about customizing meta descriptions in recent content.
-* Enhances the task list with a task about deleting the "Sample Page".
-* Improves the UX of completing tasks that require users to go to specific part of the post editor, by redirecting them to the exact spot they need to be.
-
-#### Bugfixes
-
-* Fixes a bug where alt text changes made via the inline image editor in How-to and FAQ blocks were not being reflected on the frontend. Props to [@param-chandarana](https://github.com/param-chandarana).
-* Fixes a bug where the task list copies were displayed in the site language instead of the user language.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
