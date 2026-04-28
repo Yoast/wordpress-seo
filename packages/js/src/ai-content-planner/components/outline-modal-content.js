@@ -99,7 +99,7 @@ const LoadingOutlineModalContent = () => {
  * @param {Function}    onApplyOutline      The function to call to add the outline to the post.
  * @param {Suggestion}  suggestion          The content outline suggestion to display.
  * @param {Object|null} error               The error object if the content outline failed to load, or null if there is no error.
- * @param {boolean}		isCornerstone       Is the current post is marked as cornerstone content (used for meta description progress calculation).
+ * @param {boolean}		isCornerstone       Is the current post marked as cornerstone content (used for meta description progress calculation).
  * @param {string}		date                The date from settings (used for meta description progress calculation).
  * @param {string}		locale	            The content locale, used for meta description length calculation.
  * @param {Object}      closeButtonRef      Ref object for the modal close button, used to manage focus.

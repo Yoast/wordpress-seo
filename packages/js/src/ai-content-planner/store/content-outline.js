@@ -21,17 +21,12 @@ export const FETCH_CONTENT_OUTLINE_ACTION_NAME = "fetchContentOutline";
  */
 
 /**
- * @typedef {Object} Cache
- * @property {Suggestion} suggestion The content suggestion for which the outline is generated.
- * @property {StructureItem[]} outline The generated content outline.
- */
-/**
  * Initial state for the content outline slice.
  *
  * @type {Object}
  * @property {Suggestion|null} suggestion The content suggestion for which the outline is generated.
  * @property {StructureItem[]} outline The generated content outline.
- * @property {Cache[]} cache A cache of previously generated outlines, keyed by suggestion index.
+ * @property {Object} cache A cache of previously generated outlines, keyed by suggestion id.
  * @property {string} endpoint The API endpoint for fetching the content outline.
  * @property {string} status The loading status of the content outline request.
  * @property {Object|null} error The error object if the content outline request failed, or null if there is no error.
@@ -53,19 +48,16 @@ const slice = createSlice( {
 			state.suggestion = payload;
 		},
 		restoreContentOutlineFromCache: ( state, { payload } ) => {
-			const cachedEntry = payload;
-			state.suggestion = cachedEntry.suggestion;
-			state.outline = cachedEntry.outline;
+			const { suggestion, outline } = payload;
+			state.suggestion = suggestion;
+			state.outline =  outline;
 			state.status = ASYNC_ACTION_STATUS.success;
 			state.error = ERROR_DEFAULT;
 		},
 		saveOutlineEditsToCache: ( state, { payload } ) => {
-			const { suggestion, structure } = payload;
-			if ( suggestion.id ) {
-				state.cache[ suggestion.id ] = {
-					outline: structure,
-					suggestion,
-				};
+			const { id, structure } = payload;
+			if ( id ) {
+				state.cache[ id ] = structure;
 			}
 			state.suggestion = null;
 			state.outline = [];
@@ -111,7 +103,7 @@ export const contentOutlineSelectors = {
 	selectContentOutline: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "outline" ], slice.getInitialState().outline ),
 	selectContentOutlineError: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "error" ], slice.getInitialState().error ),
 	selectSuggestion: ( state ) => get( state, [ CONTENT_OUTLINE_NAME, "suggestion" ], slice.getInitialState().suggestion ),
-	selectContentOutlineCache: ( state, index ) => get( state, [ CONTENT_OUTLINE_NAME, "cache", index ], null ),
+	selectContentOutlineCache: ( state, id ) => get( state, [ CONTENT_OUTLINE_NAME, "cache", id ], null ),
 };
 
 /**

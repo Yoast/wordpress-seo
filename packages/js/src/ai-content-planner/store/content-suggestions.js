@@ -25,6 +25,13 @@ const slice = createSlice( {
 		setContentSuggestionsStatus: ( state, { payload } ) => {
 			state.status = payload;
 		},
+		setSuggestion: ( state, { payload } ) => {
+			const index = state.suggestions.findIndex( ( s ) => s.id === payload.id );
+			if ( index === -1 ) {
+				return;
+			}
+			state.suggestions[ index ] = payload;
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {

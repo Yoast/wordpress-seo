@@ -5,12 +5,12 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\AI\Content_Planner\Infrastructure\Endpoints;
 
-use Yoast\WP\SEO\AI\Content_Planner\User_Interface\Content_Planner_Route;
+use Yoast\WP\SEO\AI\Content_Planner\User_Interface\Get_Suggestions_Route;
 
 /**
- * Represents the content planner endpoint.
+ * Represents the content planner endpoint to retrieve content suggestions.
  */
-class Content_Planner_Endpoint implements Content_Planner_Endpoint_Interface {
+class Get_Suggestions_Endpoint implements Content_Planner_Endpoint_Interface {
 
 	/**
 	 * Gets the name.
@@ -27,7 +27,7 @@ class Content_Planner_Endpoint implements Content_Planner_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_namespace(): string {
-		return Content_Planner_Route::ROUTE_NAMESPACE;
+		return Get_Suggestions_Route::ROUTE_NAMESPACE;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Content_Planner_Endpoint implements Content_Planner_Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_route(): string {
-		return Content_Planner_Route::ROUTE_PREFIX;
+		return Get_Suggestions_Route::ROUTE_PREFIX;
 	}
 
 	/**

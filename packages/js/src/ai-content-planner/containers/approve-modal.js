@@ -11,15 +11,15 @@ export default compose( [
 		const content = select( "core/editor" ).getEditedPostContent();
 		const { getIsPremium, selectLink } = select( "yoast-seo/editor" );
 
-		const { isUsageCountLimitReached } = select( STORE_NAME_AI );
-
+		const { isUsageCountLimitReached, selectPremiumSubscription } = select( STORE_NAME_AI );
+		const hasValidPremiumSubscription = selectPremiumSubscription();
 		return {
 			isEmptyPost: count( content, "words", {} ) === 0,
 			isOpen: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.idle,
 			isPremium: getIsPremium(),
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			learnMoreLink: selectLink( "https://yoa.st/content-planner-learn-more" ),
-			isUpsell: isUsageCountLimitReached(),
+			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
