@@ -33,11 +33,12 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setFeatureModalStatus, saveOutlineEditsToCache } = dispatch( CONTENT_PLANNER_STORE );
+		const { setFeatureModalStatus, saveOutlineEditsToCache, setSuggestion } = dispatch( CONTENT_PLANNER_STORE );
 
 		return {
 			onBackToSuggestions: ( suggestion, structure ) => {
 				saveOutlineEditsToCache( { suggestion, structure } );
+				setSuggestion( suggestion );
 				setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
 			},
 		};
