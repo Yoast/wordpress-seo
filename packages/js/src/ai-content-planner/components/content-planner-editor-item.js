@@ -1,7 +1,9 @@
 import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import { Button, Root } from "@yoast/ui-library";
-import { FEATURE_MODAL_STATUS } from "../constants";
+import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
+import classNames from "classnames";
 
 /**
  * The section for the content planner feature in the Yoast sidebar.
@@ -16,10 +18,27 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 		setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 	}, [ setFeatureModalStatus ] );
 
+	const minPostsMet = useSelect( select => select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(), [] );
+
 	return <Root><div className="yst-p-4">
-		<Button variant="ai-secondary" onClick={ handleClick } className={ location === "sidebar" ? "yst-w-full" : "" }>
+		<Button
+			variant="ai-secondary"
+			onClick={ handleClick }
+			disabled={ ! minPostsMet }
+			className={ location === "sidebar" ? "yst-w-full" : "" }
+		>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
 		</Button>
+		{ ! minPostsMet && (
+			<span
+				className={ classNames(
+					"yst-text-sm yst-flex yst-mt-1 yst-text-slate-500 yst-italic",
+					location === "sidebar" ? "yst-justify-center" : "yst-justify-start"
+				) }
+			>
+				{ __( "Available after 5 published posts", "wordpress-seo" ) }
+			</span>
+		) }
 	</div>
 	</Root>;
 };

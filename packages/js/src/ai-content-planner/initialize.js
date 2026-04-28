@@ -6,9 +6,11 @@ import { get } from "lodash";
 import { App } from "./components/app";
 import { registerBannerBlock } from "./blocks/banner-block";
 import "./blocks/content-suggestion-block";
+import { CONTENT_PLANNER_STORE } from "./constants";
 import { registerStore } from "./store";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
+import { AVAILABILITY_NAME } from "./store/availability";
 
 /**
  * Inserts a Content Planner Banner block after the first paragraph in the editor.
@@ -54,23 +56,24 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks } = useSelect( select => {
+	const { isNewPost, postType, blocks, minPostsMet } = useSelect( select => {
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			postType: select( "core/editor" ).getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
+			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 		};
 	}, [] );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
 
 	useEffect( () => {
-		if ( hasInserted.current || ! isNewPost || postType !== "post" ) {
+		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {
 			return;
 		}
 
 		hasInserted.current = insertBannerAfterFirstParagraph( blocks, insertBlock );
-	}, [ blocks, isNewPost, postType, insertBlock ] );
+	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
 
 	return (
 		<App />
@@ -94,6 +97,9 @@ export default function initContentPlanner() {
 		},
 		[ CONTENT_OUTLINE_NAME ]: {
 			endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
+		},
+		[ AVAILABILITY_NAME ]: {
+			minPostsMet: get( window, "wpseoContentPlanner.minPostsMet", false ),
 		},
 	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
