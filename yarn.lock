@@ -11190,6 +11190,11 @@
   dependencies:
     "@babel/runtime" "7.25.7"
 
+"@wordpress/wordcount@^4.27.0":
+  version "4.42.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/wordcount/-/wordcount-4.42.0.tgz#7132bc784d63eb1b45d13911bfa47307dbc8536e"
+  integrity sha512-H27okPtQPwgvuLNijYBRjFTbPx9ogSCKvly1/Ps/FFJ8xv1YCL/fPcSFwQ5limXikX0gr4o5DN9PbF22jvUe8A==
+
 "@wordpress/wordcount@^4.37.0":
   version "4.37.0"
   resolved "https://registry.yarnpkg.com/@wordpress/wordcount/-/wordcount-4.37.0.tgz#d81015c348651c0311b49d431e501ece35afe522"

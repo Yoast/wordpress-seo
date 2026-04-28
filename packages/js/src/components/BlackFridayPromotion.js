@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-
 import { useSelect, dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -15,12 +14,14 @@ import classNames from "classnames";
  *
  * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
  * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
+ * @param {boolean} [inEditorIntro=false] Whether rendered inside EditorIntro. Tightens margins.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
 export const BlackFridayPromotion = ( {
 	store = "yoast-seo/editor",
 	location = "sidebar",
+	inEditorIntro = false,
 } ) => {
 	const alertKey = "black-friday-promotion";
 	const isPremium = useSelect( select => select( store ).getIsPremium(), [ store ] );
@@ -49,8 +50,13 @@ export const BlackFridayPromotion = ( {
 			<div
 				className={
 					classNames(
-						location === "sidebar" && ! isElementorEditor  ? "yst-mx-0" : "yst-mx-4",
-						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-mt-6 yst-relative yst-shadow-sm",
+						inEditorIntro
+							? "yst-mx-0 yst-mt-3"
+							: [
+								location === "sidebar" && ! isElementorEditor ? "yst-mx-0" : "yst-mx-4",
+								"yst-mt-6",
+							],
+						"yst-border yst-rounded-lg yst-p-4 yst-max-w-md yst-relative yst-shadow-sm",
 						isWooCommerceActive ? "yst-border-woo-light" : "yst-border-primary-200" ) }
 			>
 				<Badge size="small"className="yst-text-[10px] yst-bg-black yst-text-amber-300 yst-absolute yst--top-2">
@@ -97,4 +103,5 @@ export const BlackFridayPromotion = ( {
 BlackFridayPromotion.propTypes = {
 	store: PropTypes.string,
 	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ),
+	inEditorIntro: PropTypes.bool,
 };

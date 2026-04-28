@@ -30,7 +30,7 @@
 			}
 		}
 
-		.yst-tooltip--top {
+		.yst-tooltip.yst-tooltip--top {
 			@apply yst--translate-x-1/2
 			rtl:yst-translate-x-1/2
 			yst--translate-y-full
@@ -56,7 +56,7 @@
 			}
 		}
 
-		.yst-tooltip--top-left {
+		.yst-tooltip.yst-tooltip--top-left {
 			@apply yst--translate-y-full
 			yst-end-0
 			yst-top-0
@@ -76,7 +76,7 @@
 			}
 		}
 
-		.yst-tooltip--top-right {
+		.yst-tooltip.yst-tooltip--top-right {
 			@apply yst--translate-y-full
 			yst-start-0
 			yst-top-0
@@ -96,7 +96,7 @@
 			}
 		}
 
-		.yst-tooltip--bottom {
+		.yst-tooltip.yst-tooltip--bottom {
 			@apply yst--translate-x-1/2
 			rtl:yst-translate-x-1/2
 			yst--translate-y-0
@@ -121,7 +121,7 @@
 			}
 		}
 
-		.yst-tooltip--bottom-left {
+		.yst-tooltip.yst-tooltip--bottom-left {
 			@apply yst-end-0
 			yst-top-full
 			yst-mt-3
@@ -139,7 +139,7 @@
 			}
 		}
 
-		.yst-tooltip--bottom-right {
+		.yst-tooltip.yst-tooltip--bottom-right {
 			@apply yst-start-0
 			yst-top-full
 			yst-mt-3
@@ -157,7 +157,7 @@
 			}
 		}
 
-		.yst-tooltip--right {
+		.yst-tooltip.yst-tooltip--right {
 			@apply yst--translate-x-0
 			yst--translate-y-1/2
 			yst-start-full
@@ -177,7 +177,7 @@
 			}
 		}
 
-		.yst-tooltip--left {
+		.yst-tooltip.yst-tooltip--left {
 			@apply yst--translate-y-1/2
 			yst-end-full
 			yst-top-1/2

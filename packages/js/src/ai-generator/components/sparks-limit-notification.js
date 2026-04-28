@@ -120,9 +120,11 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 
 	const [ showNotification, , setShowNotification, , hideNotification ] = useToggleState( usageCount === usageCountLimit );
 
+	const remainingSparks = Math.max( 0, usageCountLimit - usageCount );
+
 	useEffect( () => {
 		const showNotificationPremium = hasUnlimitedSparks && usageCount === usageCountLimit;
-		const showNotificationFree = ! hasUnlimitedSparks && isUsageCountLimitReached;
+		const showNotificationFree = ! hasUnlimitedSparks && remainingSparks <= 5;
 		setShowNotification( showNotificationPremium || showNotificationFree );
 	}, [ usageCount, usageCountLimit, hasUnlimitedSparks, isUsageCountLimitReached ] );
 
@@ -131,25 +133,42 @@ export const SparksLimitNotification = ( { className = "" } ) => {
 
 	const isWooUpsell = useMemo( () => isWooProductEntity && ! hasValidWooSubscription, [ isWooProductEntity, hasValidWooSubscription ] );
 
+	const getTitle = () => {
+		if ( hasUnlimitedSparks ) {
+			return sprintf(
+				/* translators: %s is the number of the sparks. */
+				_n(
+					"You've used %s spark this month.",
+					"You've used %s sparks this month.",
+					usageCount,
+					"wordpress-seo"
+				),
+				usageCount
+			);
+		}
+
+		if ( remainingSparks <= 5 && ! isUsageCountLimitReached ) {
+			return sprintf(
+				/* translators: %s is the number of the sparks. */
+				_n(
+					"%s free spark left!",
+					"%s free sparks left!",
+					remainingSparks,
+					"wordpress-seo"
+				),
+				remainingSparks
+			);
+		}
+		return __( "You're out of free sparks!", "wordpress-seo" );
+	};
+
 	return showNotification && (
 		<Notifications.Notification
 			id="ai-sparks-limit"
 			className={ className }
 			variant="info"
 			dismissScreenReaderLabel={ __( "Close", "wordpress-seo" ) }
-			title={ hasUnlimitedSparks
-				? sprintf(
-					/* translators: %s is the number of the sparks. */
-					_n(
-						"You've used %s spark this month.",
-						"You've used %s sparks this month.",
-						usageCountLimit,
-						"wordpress-seo"
-					),
-					usageCountLimit
-				)
-				: __( "You're out of free sparks!", "wordpress-seo" )
-			}
+			title={ getTitle() }
 			size={ hasUnlimitedSparks ? "default" : "large" }
 		>
 			{ hasUnlimitedSparks
