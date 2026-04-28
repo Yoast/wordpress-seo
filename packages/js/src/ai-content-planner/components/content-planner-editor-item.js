@@ -20,7 +20,12 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 
 	const minPostsMet = useSelect( select => select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(), [] );
 
-	return <Root><div className="yst-p-4">
+	return <Root><div
+		className={ classNames(
+			"yst-p-4",
+			location === "metabox" && "yst-flex yst-items-center yst-gap-3"
+		) }
+	>
 		<Button
 			variant="ai-secondary"
 			onClick={ handleClick }
@@ -32,8 +37,8 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 		{ ! minPostsMet && (
 			<span
 				className={ classNames(
-					"yst-text-sm yst-flex yst-mt-1 yst-text-slate-500 yst-italic",
-					location === "sidebar" ? "yst-justify-center" : "yst-justify-start"
+					"yst-text-sm yst-text-slate-500 yst-italic",
+					location === "sidebar" && "yst-flex yst-mt-1 yst-justify-center"
 				) }
 			>
 				{ __( "Available after 5 published posts", "wordpress-seo" ) }
