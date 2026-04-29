@@ -18,9 +18,10 @@ jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline
 } ) );
 
 const mockApiOutline = [ { heading: "Intro" }, { heading: "Body" } ];
-// eslint-disable-next-line camelcase
+
 const mockApiSuggestion = {
 	title: "API Title",
+	// eslint-disable-next-line camelcase
 	meta_description: "API Meta",
 	keyphrase: "api keyphrase",
 	category: "api-category",
@@ -186,7 +187,6 @@ describe( "useApplyOutline", () => {
 
 			expect( removeBlock ).not.toHaveBeenCalled();
 		} );
-
 	} );
 
 	describe( "modal close", () => {
