@@ -1,6 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useSelect } from "@wordpress/data";
 import { ContentPlannerEditorItem } from "../../../src/ai-content-planner/components/content-planner-editor-item";
 import { FEATURE_MODAL_STATUS } from "../../../src/ai-content-planner/constants";
+
+jest.mock( "@wordpress/data", () => ( {
+	useSelect: jest.fn(),
+} ) );
 
 const renderEditorItem = ( { setFeatureModalStatus = jest.fn(), location = "sidebar", ...props } = {} ) => render(
 	<ContentPlannerEditorItem
@@ -11,6 +16,16 @@ const renderEditorItem = ( { setFeatureModalStatus = jest.fn(), location = "side
 );
 
 describe( "ContentPlannerEditorItem", () => {
+	beforeEach( () => {
+		useSelect.mockImplementation( ( selector ) => selector( () => ( {
+			selectIsMinPostsMet: () => true,
+		} ) ) );
+	} );
+
+	afterEach( () => {
+		jest.clearAllMocks();
+	} );
+
 	it( "renders the Get content suggestions button", () => {
 		renderEditorItem();
 		expect( screen.getByRole( "button", { name: "Get content suggestions" } ) ).toBeInTheDocument();
