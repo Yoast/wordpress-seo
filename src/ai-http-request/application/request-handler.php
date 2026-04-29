@@ -15,6 +15,10 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\LogLevel;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class Request_Handler
@@ -22,7 +26,9 @@ use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
  *
  * @makePublic
  */
-class Request_Handler implements Request_Handler_Interface {
+class Request_Handler implements Request_Handler_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	private const TIMEOUT = 60;
 
@@ -49,6 +55,7 @@ class Request_Handler implements Request_Handler_Interface {
 	public function __construct( API_Client $api_client, Response_Parser $response_parser ) {
 		$this->api_client      = $api_client;
 		$this->response_parser = $response_parser;
+		$this->logger          = new NullLogger();
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -81,31 +88,74 @@ class Request_Handler implements Request_Handler_Interface {
 
 		$response = $this->response_parser->parse( $api_response );
 
+		$status_code = $response->get_response_code();
+		$action_path = $request->get_action_path();
+
 		// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
-		switch ( $response->get_response_code() ) {
+		switch ( $status_code ) {
 			case 200:
 				return $response;
 			case 401:
-				throw new Unauthorized_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Unauthorized_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			case 402:
-				throw new Payment_Required_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
+				$exception = new Payment_Required_Exception( $response->get_message(), $status_code, $response->get_error_code(), null, $response->get_missing_licenses() );
+				break;
 			case 403:
-				throw new Forbidden_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Forbidden_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			case 404:
-				throw new Not_Found_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Not_Found_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			case 408:
-				throw new Request_Timeout_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Request_Timeout_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			case 429:
-				throw new Too_Many_Requests_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code(), null, $response->get_missing_licenses() );
+				$exception = new Too_Many_Requests_Exception( $response->get_message(), $status_code, $response->get_error_code(), null, $response->get_missing_licenses() );
+				break;
 			case 500:
-				throw new Internal_Server_Error_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Internal_Server_Error_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			case 503:
-				throw new Service_Unavailable_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Service_Unavailable_Exception( $response->get_message(), $status_code, $response->get_error_code() );
+				break;
 			default:
-				throw new Bad_Request_Exception( $response->get_message(), $response->get_response_code(), $response->get_error_code() );
+				$exception = new Bad_Request_Exception( $response->get_message(), $status_code, $response->get_error_code() );
 		}
+
+		$this->log_failure( $action_path, $status_code, $response->get_error_code(), $exception );
+
+		throw $exception;
 		// phpcs:enable WordPress.Security.EscapeOutput.ExceptionNotEscaped
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
+
+	/**
+	 * Logs a non-200 response, with severity derived from the status code.
+	 *
+	 * The upstream message is not included because it can echo user-supplied content;
+	 * the Yoast-side error_code slug and the exception class are sufficient signals.
+	 *
+	 * @param string     $action_path The action path of the request.
+	 * @param int        $status_code The HTTP status code returned by the API.
+	 * @param string     $error_code  The Yoast-side error code slug.
+	 * @param \Exception $exception   The exception that will be thrown.
+	 *
+	 * @return void
+	 */
+	private function log_failure( string $action_path, int $status_code, string $error_code, \Exception $exception ): void {
+		$level = ( $status_code >= 500 ) ? LogLevel::ERROR : LogLevel::WARNING;
+
+		$this->logger->log(
+			$level,
+			'AI API request returned a non-200 response.',
+			[
+				'action_path' => $action_path,
+				'status_code' => $status_code,
+				'error_code'  => $error_code,
+				'exception'   => \get_class( $exception ),
+			],
+		);
+	}
 }

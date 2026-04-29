@@ -3,12 +3,24 @@
 namespace Yoast\WP\SEO\AI_HTTP_Request\Application;
 
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class Response_Parser
  * Parses the response from the AI API and creates a Response object.
  */
-class Response_Parser implements Response_Parser_Interface {
+class Response_Parser implements Response_Parser_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
+
+	/**
+	 * Response_Parser constructor.
+	 */
+	public function __construct() {
+		$this->logger = new NullLogger();
+	}
 
 	/**
 	 * Parses the response from the API.
@@ -31,6 +43,14 @@ class Response_Parser implements Response_Parser_Interface {
 				if ( $response_code === 402 || $response_code === 429 ) {
 					$missing_licenses = isset( $json_body->missing_licenses ) ? (array) $json_body->missing_licenses : [];
 				}
+			}
+			else {
+				$this->logger->warning(
+					'AI API returned a non-200 response with a non-JSON body.',
+					[
+						'status_code' => $response_code,
+					],
+				);
 			}
 		}
 

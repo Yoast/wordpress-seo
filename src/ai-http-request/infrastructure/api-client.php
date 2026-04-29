@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\AI_HTTP_Request\Infrastructure;
 
 use WPSEO_Utils;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class API_Client
@@ -11,7 +14,9 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\WP_Request_Exception;
  *
  * @makePublic
  */
-class API_Client implements API_Client_Interface {
+class API_Client implements API_Client_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The base URL for the API.
@@ -19,6 +24,13 @@ class API_Client implements API_Client_Interface {
 	 * @var string
 	 */
 	private $base_url = 'https://ai.yoa.st/api/v1';
+
+	/**
+	 * API_Client constructor.
+	 */
+	public function __construct() {
+		$this->logger = new NullLogger();
+	}
 
 	/**
 	 * Performs a request to the API.
@@ -53,13 +65,35 @@ class API_Client implements API_Client_Interface {
 		 *
 		 * @param string $url The default URL for the AI API.
 		 */
-		$url      = \apply_filters( 'Yoast\WP\SEO\ai_api_url', $this->base_url );
-		$response = ( $is_post ) ? \wp_remote_post( $url . $action_path, $arguments ) : \wp_remote_get( $url . $action_path, $arguments );
+		$url    = \apply_filters( 'Yoast\WP\SEO\ai_api_url', $this->base_url );
+		$method = ( $is_post ) ? 'POST' : 'GET';
+
+		$started_at = \microtime( true );
+		$response   = ( $is_post ) ? \wp_remote_post( $url . $action_path, $arguments ) : \wp_remote_get( $url . $action_path, $arguments );
 
 		if ( \is_wp_error( $response ) ) {
+			$this->logger->error(
+				'AI API request failed.',
+				[
+					'action_path' => $action_path,
+					'method'      => $method,
+					'error_code'  => $response->get_error_code(),
+					'duration_ms' => (int) \round( ( \microtime( true ) - $started_at ) * 1000 ),
+				],
+			);
 			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			throw new WP_Request_Exception( $response->get_error_message() );
 		}
+
+		$this->logger->debug(
+			'AI API request completed.',
+			[
+				'action_path' => $action_path,
+				'method'      => $method,
+				'status_code' => \wp_remote_retrieve_response_code( $response ),
+				'duration_ms' => (int) \round( ( \microtime( true ) - $started_at ) * 1000 ),
+			],
+		);
 
 		return $response;
 	}
