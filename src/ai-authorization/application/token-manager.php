@@ -22,6 +22,9 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Too_Many_Requests_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class Token_Manager
@@ -29,7 +32,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  *
  * @makePublic
  */
-class Token_Manager implements Token_Manager_Interface {
+class Token_Manager implements Token_Manager_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The access token repository.
@@ -117,6 +122,7 @@ class Token_Manager implements Token_Manager_Interface {
 		$this->request_handler          = $request_handler;
 		$this->code_verifier_repository = $code_verifier_repository;
 		$this->urls                     = $urls;
+		$this->logger                   = new NullLogger();
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -138,6 +144,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access token.
 	 */
 	public function token_invalidate( string $user_id ): void {
+		$this->logger->info( 'AI token invalidate requested.', [ 'user_id' => $user_id ] );
+
 		try {
 			$access_jwt = $this->access_token_repository->get_token( $user_id );
 		} catch ( RuntimeException $e ) {
@@ -159,8 +167,15 @@ class Token_Manager implements Token_Manager_Interface {
 					$request_headers,
 				),
 			);
-		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Reason: Ignored on purpose.
+		} catch ( Unauthorized_Exception | Forbidden_Exception $e ) {
 			// If the credentials in our request were already invalid, our job is done and we continue to remove the tokens client-side.
+			$this->logger->debug(
+				'AI token invalidate: upstream credentials already invalid, continuing.',
+				[
+					'user_id'   => $user_id,
+					'exception' => \get_class( $e ),
+				],
+			);
 		}
 
 		// Delete the stored JWT tokens.
@@ -189,8 +204,14 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws Unauthorized_Exception Unauthorized_Exception.
 	 */
 	public function token_request( WP_User $user ): void {
+		$this->logger->info( 'AI token request initiated.', [ 'user_id' => $user->ID ] );
+
 		// Ensure the user has given consent.
 		if ( $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_consent', true ) !== '1' ) {
+			$this->logger->warning(
+				'AI token request blocked: consent missing or revoked.',
+				[ 'user_id' => $user->ID ],
+			);
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			$this->consent_handler->revoke_consent( $user->ID );
 			throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );
@@ -245,6 +266,8 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the refresh token.
 	 */
 	public function token_refresh( WP_User $user ): void {
+		$this->logger->info( 'AI token refresh initiated.', [ 'user_id' => $user->ID ] );
+
 		$refresh_jwt = $this->refresh_token_repository->get_token( $user->ID );
 
 		// Generate a code verifier and store it in the database.
@@ -314,6 +337,10 @@ class Token_Manager implements Token_Manager_Interface {
 	public function get_or_request_access_token( WP_User $user ): string {
 		// If the site URL has changed since callback URLs were registered, delete stale tokens.
 		if ( $this->have_callback_urls_changed( $user ) ) {
+			$this->logger->warning(
+				'AI callback URL hash mismatch detected; clearing stored tokens.',
+				[ 'user_id' => $user->ID ],
+			);
 			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
 			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
 		}
@@ -324,12 +351,21 @@ class Token_Manager implements Token_Manager_Interface {
 			$access_jwt = $this->access_token_repository->get_token( $user->ID );
 		}
 		elseif ( $this->has_token_expired( $access_jwt ) ) {
+			$this->logger->info( 'AI access token expired; attempting refresh.', [ 'user_id' => $user->ID ] );
 			try {
 				$this->token_refresh( $user );
 			} catch ( Unauthorized_Exception $exception ) {
+				$this->logger->info(
+					'AI token refresh unauthorized; falling back to fresh token request.',
+					[ 'user_id' => $user->ID ],
+				);
 				$this->token_request( $user );
 			} catch ( Forbidden_Exception $exception ) {
 				// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+				$this->logger->warning(
+					'AI token refresh forbidden; Consent may be revoked upstream. revoking consent locally.',
+					[ 'user_id' => $user->ID ],
+				);
 				// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 				$this->consent_handler->revoke_consent( $user->ID );
 				throw new Forbidden_Exception( 'CONSENT_REVOKED', 403 );

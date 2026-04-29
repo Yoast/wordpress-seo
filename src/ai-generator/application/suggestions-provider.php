@@ -21,11 +21,16 @@ use Yoast\WP\SEO\AI_HTTP_Request\Domain\Exceptions\Unauthorized_Exception;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Request;
 use Yoast\WP\SEO\AI_HTTP_Request\Domain\Response;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * The class that handles the suggestions from the AI API.
  */
-class Suggestions_Provider {
+class Suggestions_Provider implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The consent handler instance.
@@ -73,6 +78,7 @@ class Suggestions_Provider {
 		$this->request_handler = $request_handler;
 		$this->token_manager   = $token_manager;
 		$this->user_helper     = $user_helper;
+		$this->logger          = new NullLogger();
 	}
 
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
@@ -128,6 +134,17 @@ class Suggestions_Provider {
 			'X-Yst-Cohort'  => $editor,
 		];
 
+		$log_context = [
+			'user_id'         => $user->ID,
+			'suggestion_type' => $suggestion_type,
+			'language'        => $language,
+			'platform'        => $platform,
+			'editor'          => $editor,
+			'is_retry'        => ! $retry_on_unauthorized,
+		];
+
+		$this->logger->debug( 'AI suggestions request initiated.', $log_context );
+
 		try {
 			$response = $this->request_handler->handle( new Request( "/openai/suggestions/$suggestion_type", $request_body, $request_headers ) );
 		} catch ( Unauthorized_Exception $exception ) {
@@ -136,13 +153,17 @@ class Suggestions_Provider {
 			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
 
 			if ( ! $retry_on_unauthorized ) {
+				$this->logger->warning( 'AI suggestions request still unauthorized after retry.', $log_context );
 				throw $exception;
 			}
+
+			$this->logger->info( 'AI suggestions request unauthorized; retrying with fresh tokens.', $log_context );
 
 			// Try again once more by fetching a new set of tokens and trying the suggestions endpoint again.
 			return $this->get_suggestions( $user, $suggestion_type, $prompt_content, $focus_keyphrase, $language, $platform, $editor, false );
 		} catch ( Forbidden_Exception $exception ) {
 			// Follow the API in the consent being revoked (Use case: user sent an e-mail to revoke?).
+			$this->logger->warning( 'AI suggestions request forbidden; Consent may be revoked upstream. revoking consent locally.', $log_context );
 			// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped -- false positive.
 			$this->consent_handler->revoke_consent( $user->ID );
 			throw new Forbidden_Exception( 'CONSENT_REVOKED', $exception->getCode() );
@@ -165,6 +186,13 @@ class Suggestions_Provider {
 		$suggestions_bucket = new Suggestions_Bucket();
 		$json               = \json_decode( $response->get_body() );
 		if ( $json === null || ! isset( $json->choices ) ) {
+			$this->logger->warning(
+				'AI suggestions response missing or malformed choices.',
+				[
+					'json_decoded'      => ( $json !== null ),
+					'has_choices_field' => isset( $json->choices ),
+				],
+			);
 			return $suggestions_bucket;
 		}
 		foreach ( $json->choices as $suggestion ) {
