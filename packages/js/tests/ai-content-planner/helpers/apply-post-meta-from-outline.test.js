@@ -1,14 +1,10 @@
 import { applyPostMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
 
-const mockEditPost = jest.fn();
 const mockUpdateData = jest.fn();
 const mockSetFocusKeyword = jest.fn();
 
 jest.mock( "@wordpress/data", () => ( {
 	dispatch: ( storeName ) => {
-		if ( storeName === "core/editor" ) {
-			return { editPost: mockEditPost };
-		}
 		if ( storeName === "yoast-seo/editor" ) {
 			return { updateData: mockUpdateData, setFocusKeyword: mockSetFocusKeyword };
 		}
@@ -18,35 +14,40 @@ jest.mock( "@wordpress/data", () => ( {
 
 describe( "applyPostMetaFromOutline", () => {
 	beforeEach( () => {
-		mockEditPost.mockClear();
 		mockUpdateData.mockClear();
 		mockSetFocusKeyword.mockClear();
 	} );
 
-	const baseOutline = {
-		title: "My post",
-		metaDescription: "Description",
-		focusKeyphrase: "keyphrase",
-	};
+	it( "writes the snippet preview data to the Yoast store", () => {
+		applyPostMetaFromOutline( {
+			title: "My post",
+			metaDescription: "Description",
+			focusKeyphrase: "keyphrase",
+		} );
 
-	it( "sets the post category when a valid category is provided", () => {
-		applyPostMetaFromOutline( { ...baseOutline, category: { name: "Tech", id: 5 } } );
-
-		expect( mockEditPost ).toHaveBeenCalledWith( { title: "My post" } );
-		expect( mockEditPost ).toHaveBeenCalledWith( { categories: [ 5 ] } );
+		expect( mockUpdateData ).toHaveBeenCalledWith( { title: "My post", description: "Description" } );
 	} );
 
-	it( "does not set the post category for the empty-category sentinel", () => {
-		applyPostMetaFromOutline( { ...baseOutline, category: { name: "", id: -1 } } );
+	it( "writes the focus keyphrase to the Yoast store", () => {
+		applyPostMetaFromOutline( {
+			title: "My post",
+			metaDescription: "Description",
+			focusKeyphrase: "keyphrase",
+		} );
 
-		expect( mockEditPost ).toHaveBeenCalledWith( { title: "My post" } );
-		expect( mockEditPost ).not.toHaveBeenCalledWith( { categories: [ -1 ] } );
+		expect( mockSetFocusKeyword ).toHaveBeenCalledWith( "keyphrase" );
 	} );
 
-	it( "does not set the post category when category is missing", () => {
-		applyPostMetaFromOutline( { ...baseOutline } );
+	it( "ignores the category — it's written to the post entity by the caller", () => {
+		applyPostMetaFromOutline( {
+			title: "My post",
+			metaDescription: "Description",
+			focusKeyphrase: "keyphrase",
+			category: { name: "Tech", id: 5 },
+		} );
 
-		expect( mockEditPost ).toHaveBeenCalledWith( { title: "My post" } );
-		expect( mockEditPost ).toHaveBeenCalledTimes( 1 );
+		// No editPost / Yoast call carries the category.
+		expect( mockUpdateData ).toHaveBeenCalledTimes( 1 );
+		expect( mockSetFocusKeyword ).toHaveBeenCalledTimes( 1 );
 	} );
 } );
