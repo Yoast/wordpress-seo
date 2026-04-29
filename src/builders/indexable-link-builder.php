@@ -13,11 +13,16 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Indexable link builder.
  */
-class Indexable_Link_Builder {
+class Indexable_Link_Builder implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The SEO links repository.
@@ -98,6 +103,7 @@ class Indexable_Link_Builder {
 		$this->options_helper          = $options_helper;
 		$this->indexable_helper        = $indexable_helper;
 		$this->image_content_extractor = $image_content_extractor;
+		$this->logger                  = new NullLogger();
 	}
 
 	/**
@@ -128,6 +134,8 @@ class Indexable_Link_Builder {
 			return [];
 		}
 
+		$started_at = \microtime( true );
+
 		global $post;
 		if ( $indexable->object_type === 'post' ) {
 			$post_backup = $post;
@@ -148,6 +156,8 @@ class Indexable_Link_Builder {
 			$indexable->link_count = 0;
 			$this->update_related_indexables( $indexable, [] );
 
+			$this->log_build_summary( $indexable, 0, 0, $started_at );
+
 			return [];
 		}
 
@@ -155,13 +165,40 @@ class Indexable_Link_Builder {
 			$this->update_first_content_image( $indexable, $images );
 		}
 
-		$links = $this->create_links( $indexable, $links, $images );
+		$built_links = $this->create_links( $indexable, $links, $images );
 
-		$this->update_related_indexables( $indexable, $links );
+		$this->update_related_indexables( $indexable, $built_links );
 
-		$indexable->link_count = $this->get_internal_link_count( $links );
+		$indexable->link_count = $this->get_internal_link_count( $built_links );
 
-		return $links;
+		$this->log_build_summary( $indexable, \count( $links ), \count( $images ), $started_at );
+
+		return $built_links;
+	}
+
+	/**
+	 * Emits a debug record summarising a build() call.
+	 *
+	 * @param Indexable $indexable    The indexable that was processed.
+	 * @param int       $links_found  Number of raw href matches found in content.
+	 * @param int       $images_found Number of images extracted from content.
+	 * @param float     $started_at   The microtime when the call started.
+	 *
+	 * @return void
+	 */
+	private function log_build_summary( Indexable $indexable, int $links_found, int $images_found, float $started_at ): void {
+		$this->logger->debug(
+			'Indexable link build complete.',
+			[
+				'indexable_id'    => $indexable->id,
+				'object_type'     => $indexable->object_type,
+				'object_sub_type' => $indexable->object_sub_type,
+				'links_found'     => $links_found,
+				'images_found'    => $images_found,
+				'internal_links'  => $indexable->link_count,
+				'duration_ms'     => (int) \round( ( \microtime( true ) - $started_at ) * 1000 ),
+			],
+		);
 	}
 
 	/**

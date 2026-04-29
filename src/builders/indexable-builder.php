@@ -8,13 +8,18 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Builder for the indexables.
  *
  * Creates all the indexables.
  */
-class Indexable_Builder {
+class Indexable_Builder implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The author builder.
@@ -149,6 +154,7 @@ class Indexable_Builder {
 		$this->indexable_helper          = $indexable_helper;
 		$this->version_manager           = $version_manager;
 		$this->link_builder              = $link_builder;
+		$this->logger                    = new NullLogger();
 	}
 
 	/**
@@ -381,6 +387,16 @@ class Indexable_Builder {
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		} catch ( Source_Exception $exception ) {
+			$this->logger->warning(
+				'Indexable build failed; marking as unindexed placeholder.',
+				[
+					'object_id'   => $indexable->object_id,
+					'object_type' => $indexable->object_type,
+					'exception'   => \get_class( $exception ),
+					'message'     => $exception->getMessage(),
+				],
+			);
+
 			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ! isset( $indexable->object_id ) ) {
 				return false;
 			}
@@ -407,6 +423,16 @@ class Indexable_Builder {
 
 			return $this->indexable_helper->save_indexable( $indexable, $indexable_before );
 		} catch ( Not_Built_Exception $exception ) {
+			$this->logger->warning(
+				'Indexable not built.',
+				[
+					'object_id'   => $indexable->object_id,
+					'object_type' => $indexable->object_type,
+					'exception'   => \get_class( $exception ),
+					'message'     => $exception->getMessage(),
+				],
+			);
+
 			return false;
 		}
 	}
