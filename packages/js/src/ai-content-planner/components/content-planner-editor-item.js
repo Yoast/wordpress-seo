@@ -19,6 +19,7 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 	}, [ setFeatureModalStatus ] );
 
 	const minPostsMet = useSelect( select => select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(), [] );
+	const helperTextId = "yoast-content-planner-min-posts-notice-" + location;
 
 	return <Root><div
 		className={ classNames(
@@ -30,12 +31,15 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 			variant="ai-secondary"
 			onClick={ handleClick }
 			disabled={ ! minPostsMet }
+			aria-disabled={ ! minPostsMet }
+			aria-describedby={ minPostsMet ? null : helperTextId }
 			className={ location === "sidebar" ? "yst-w-full" : "" }
 		>
 			{ __( "Get content suggestions", "wordpress-seo" ) }
 		</Button>
 		{ ! minPostsMet && (
 			<span
+				id={ helperTextId }
 				className={ classNames(
 					"yst-text-sm yst-text-slate-500 yst-italic",
 					location === "sidebar" && "yst-flex yst-mt-1 yst-justify-center"
