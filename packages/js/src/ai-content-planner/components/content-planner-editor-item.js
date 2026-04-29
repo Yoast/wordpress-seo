@@ -31,7 +31,6 @@ export const ContentPlannerEditorItem = ( { location, setFeatureModalStatus } ) 
 			variant="ai-secondary"
 			onClick={ handleClick }
 			disabled={ ! minPostsMet }
-			aria-disabled={ ! minPostsMet }
 			aria-describedby={ minPostsMet ? null : helperTextId }
 			className={ location === "sidebar" ? "yst-w-full" : "" }
 		>
