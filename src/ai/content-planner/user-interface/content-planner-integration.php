@@ -113,6 +113,8 @@ class Content_Planner_Integration implements Integration_Interface {
 		 * Filter: 'wpseo_content_planner_min_posts' - Allows overriding the minimum number of published posts
 		 * required for the Content Planner feature to be available.
 		 *
+		 * @internal Used internally by the Yoast SEO Content Planner UI to gate availability; not part of the plugin's public filter surface.
+		 *
 		 * @param int $min_posts The default minimum number of published posts.
 		 */
 		return (int) \apply_filters( 'wpseo_content_planner_min_posts', self::MIN_PUBLISHED_POSTS );
