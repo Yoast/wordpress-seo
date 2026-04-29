@@ -24,6 +24,13 @@ import {
 	modalSelectors,
 	getInitialModalState,
 } from "./modal";
+import {
+	AVAILABILITY_NAME,
+	availabilityActions,
+	availabilityReducer,
+	availabilitySelectors,
+	getInitialAvailabilityState,
+} from "./availability";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -37,11 +44,13 @@ export const createStore = ( initialState ) => {
 			...contentSuggestionsActions,
 			...contentOutlineActions,
 			...modalActions,
+			...availabilityActions,
 		},
 		selectors: {
 			...contentSuggestionsSelectors,
 			...contentOutlineSelectors,
 			...modalSelectors,
+			...availabilitySelectors,
 		},
 		controls: {
 			...contentSuggestionsControls,
@@ -53,6 +62,7 @@ export const createStore = ( initialState ) => {
 				[ CONTENT_SUGGESTIONS_NAME ]: getInitialContentSuggestionsState(),
 				[ CONTENT_OUTLINE_NAME ]: getInitialContentOutlineState(),
 				[ MODAL_NAME ]: getInitialModalState(),
+				[ AVAILABILITY_NAME ]: getInitialAvailabilityState(),
 			},
 			initialState
 		),
@@ -60,6 +70,7 @@ export const createStore = ( initialState ) => {
 			[ CONTENT_SUGGESTIONS_NAME ]: contentSuggestionsReducer,
 			[ CONTENT_OUTLINE_NAME ]: contentOutlineReducer,
 			[ MODAL_NAME ]: modalReducer,
+			[ AVAILABILITY_NAME ]: availabilityReducer,
 		} ),
 	} );
 };
