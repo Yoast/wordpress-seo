@@ -89,7 +89,7 @@ class Content_Planner_Integration implements Integration_Interface {
 	public function get_script_data(): array {
 		return [
 			'endpoints'   => $this->endpoints_repository->get_all_endpoints()->to_paths_array(),
-			'minPostsMet' => $this->is_minimum_published_posts_met(),
+			'minPostsMet' => $this->is_minimum_posts_met(),
 		];
 	}
 
@@ -126,7 +126,7 @@ class Content_Planner_Integration implements Integration_Interface {
 	 *
 	 * @return bool Whether the site has met the minimum-posts threshold.
 	 */
-	private function is_minimum_published_posts_met(): bool {
+	private function is_minimum_posts_met(): bool {
 		$threshold = $this->get_min_posts_threshold();
 		$posts     = $this->indexable_repository->get_recently_modified_posts( 'post', $threshold, false );
 
