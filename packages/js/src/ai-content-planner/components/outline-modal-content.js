@@ -136,6 +136,9 @@ export const OutlineModalContent = ( {
 		handleMoveDown,
 	} = useDraggableStructure();
 
+	const handleSentinelDragOver = useCallback( ( e ) => handleDragOver( e, structure.length ), [ handleDragOver, structure.length ] );
+	const handleSentinelDrop = useCallback( ( e ) => handleDrop( e, structure.length ), [ handleDrop, structure.length ] );
+
 	useEffect( () => {
 		setFocusKeyphrase( suggestion.keyphrase );
 		setTitle( suggestion.title );
@@ -284,6 +287,17 @@ export const OutlineModalContent = ( {
 										totalItems={ structure.length }
 									/>
 								) ) }
+								{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
+								<div
+									className={ classNames(
+										"yst-rounded-md yst-transition-all yst-border-2",
+										dragOverIndex === structure.length
+											? "yst-border-primary-500 yst-h-8"
+											: "yst-border-transparent yst-h-2"
+									) }
+									onDragOver={ handleSentinelDragOver }
+									onDrop={ handleSentinelDrop }
+								/>
 							</div>
 						</div>
 					</Transition>

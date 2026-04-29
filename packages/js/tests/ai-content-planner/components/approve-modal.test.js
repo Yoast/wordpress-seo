@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ApproveModal } from "../../../src/ai-content-planner/components/approve-modal";
 
-const renderApproveModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
+const renderApproveModal = ( { onClose = jest.fn(), learnMoreLink = "https://yoa.st/content-planner-learn-more", ...props } = {} ) => render(
 	<ApproveModal
 		isEmptyPost={ true }
 		isPremium={ false }
@@ -9,6 +9,7 @@ const renderApproveModal = ( { onClose = jest.fn(), ...props } = {} ) => render(
 		onClick={ jest.fn() }
 		isOpen={ true }
 		onClose={ onClose }
+		learnMoreLink={ learnMoreLink }
 		{ ...props }
 	/>
 );
