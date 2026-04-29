@@ -30,6 +30,8 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  *
  * Orchestrates registration, token lifecycle, and authenticated requests.
  * This is the main entry point for consuming code.
+ *
+ * @makePublic
  */
 class MyYoast_Client implements LoggerAwareInterface {
 	use LoggerAwareTrait;
