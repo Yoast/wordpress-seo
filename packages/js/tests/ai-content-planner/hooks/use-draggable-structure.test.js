@@ -43,6 +43,11 @@ describe( "useDraggableStructure", () => {
 	} );
 
 	describe( "initial state", () => {
+		it( "initialises structure from the outline", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			expect( result.current.structure ).toEqual( mockOutline );
+		} );
+
 		it( "initialises dragOverIndex to null", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
 			expect( result.current.dragOverIndex ).toBeNull();
@@ -208,6 +213,22 @@ describe( "useDraggableStructure", () => {
 			} );
 			expect( e.preventDefault ).toHaveBeenCalledTimes( 1 );
 		} );
+
+		it( "resets dragOverIndex to null and does not reorder when no drag was started", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			const originalHeadings = result.current.structure.map( ( i ) => i.heading );
+
+			act( () => {
+				result.current.handleDragOver( mockEvent(), 1 );
+			} );
+			act( () => {
+				// Drop without a prior handleDragStart — dragIndex is null.
+				result.current.handleDrop( mockEvent(), 1 );
+			} );
+
+			expect( result.current.dragOverIndex ).toBeNull();
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( originalHeadings );
+		} );
 	} );
 
 	describe( "handleDragEnd", () => {
@@ -254,6 +275,20 @@ describe( "useDraggableStructure", () => {
 				"Body",
 			] );
 		} );
+
+		it( "does nothing when called on the first item", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleMoveUp( 0 );
+			} );
+
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
+				"Introduction",
+				"Body",
+				"Conclusion",
+			] );
+		} );
 	} );
 
 	describe( "handleMoveDown", () => {
@@ -282,6 +317,20 @@ describe( "useDraggableStructure", () => {
 				"Introduction",
 				"Conclusion",
 				"Body",
+			] );
+		} );
+
+		it( "does nothing when called on the last item", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleMoveDown( 2 );
+			} );
+
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
+				"Introduction",
+				"Body",
+				"Conclusion",
 			] );
 		} );
 	} );
