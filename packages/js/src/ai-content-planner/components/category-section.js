@@ -9,7 +9,7 @@ import { noop } from "lodash";
 /**
  *
  * @param {Object} props
- * @param {string|null} props.categoryName The name of the category, or null.
+ * @param {string|null} [props.categoryName] The name of the category, or null.
  * @param {boolean} [props.isEnabled] Whether the category toggle is on.
  * @param {boolean} [props.isLoading] Whether content is still loading.
  *
