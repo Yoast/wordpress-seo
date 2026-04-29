@@ -7,7 +7,9 @@ import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
-import { StructureRow } from "./structure-row";
+import { StructureRow, StructureRowSkeleton } from "./structure-row";
+
+const SKELETON_ROW_COUNT = 4;
 import { CategorySection } from "./category-section";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
@@ -82,10 +84,31 @@ const LoadingOutlineModalContent = () => {
 		<CategorySection
 			isLoading={ true }
 		/>
-		<div className="yst-flex yst-flex-col yst-gap-4">
-			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+		<div className="yst-flex yst-flex-col yst-gap-6">
+			<div className="yst-flex yst-flex-col yst-gap-4">
+				<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+			</div>
+			<hr className="yst-border-slate-200" />
+			<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
+				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+					{ __( "Blog post structure", "wordpress-seo" ) }
+				</span>
+				<span className="yst-text-xs yst-text-slate-500">
+					{ __( "Drag to reorder", "wordpress-seo" ) }
+				</span>
+			</div>
+			<div
+				role="listbox"
+				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
+				aria-busy="true"
+				className="yst-flex yst-flex-col yst-gap-2"
+			>
+				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
+					<StructureRowSkeleton key={ `structure-row-skeleton-${ index }` } />
+				) ) }
+			</div>
 		</div>
 	</>;
 };

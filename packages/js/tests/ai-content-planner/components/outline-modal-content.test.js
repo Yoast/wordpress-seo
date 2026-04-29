@@ -102,12 +102,14 @@ describe( "ContentOutlineModal", () => {
 	} );
 
 	describe( "accessibility", () => {
-		it( "does not show the structure section when loading", () => {
+		it( "exposes the structure listbox as busy while loading", () => {
 			renderModal();
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByRole( "listbox" ) ).not.toBeInTheDocument();
+			const listbox = screen.getByRole( "listbox", { name: "Blog post structure" } );
+			expect( listbox ).toHaveAttribute( "aria-busy", "true" );
+			expect( screen.queryAllByRole( "option" ) ).toHaveLength( 0 );
 		} );
 
 		it( "renders the intent callout with role='note'", () => {
@@ -214,13 +216,25 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByDisplayValue( defaultSuggestion.meta_description ) ).not.toBeInTheDocument();
 		} );
 
-		it( "does not show the blog post structure section when loading", () => {
+		it( "shows the blog post structure section header when loading", () => {
 			renderModal();
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByText( "Blog post structure" ) ).not.toBeInTheDocument();
-			expect( screen.queryByText( "Drag to reorder" ) ).not.toBeInTheDocument();
+			expect( screen.getByText( "Blog post structure" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Drag to reorder" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders four skeleton structure rows when loading", () => {
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
+			const listbox = screen.getByRole( "listbox", { name: "Blog post structure" } );
+			expect( listbox ).toHaveAttribute( "aria-busy", "true" );
+			// Skeleton rows are aria-hidden placeholders, so they are not exposed as options.
+			expect( screen.queryAllByRole( "option" ) ).toHaveLength( 0 );
+			expect( listbox.children ).toHaveLength( 4 );
 		} );
 
 		it( "still shows the intent callout when loading", () => {
