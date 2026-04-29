@@ -102,6 +102,7 @@ describe( "ContentPlannerEditorPlugin", () => {
 		isNewPost: true,
 		postType: "post",
 		blocks: [],
+		minPostsMet: true,
 	};
 
 	/**
@@ -119,6 +120,9 @@ describe( "ContentPlannerEditorPlugin", () => {
 			},
 			"core/block-editor": {
 				getBlocks: () => opts.blocks,
+			},
+			"yoast-seo/content-planner": {
+				selectIsMinPostsMet: () => opts.minPostsMet,
 			},
 		};
 		useSelect.mockImplementation( ( selector ) => selector( ( storeName ) => stores[ storeName ] ) );
@@ -167,6 +171,12 @@ describe( "ContentPlannerEditorPlugin", () => {
 
 	test( "should not insert a block when the post type is not 'post'", () => {
 		mockSelect( { isNewPost: true, postType: "page", blocks: [] } );
+		render( <ContentPlannerEditorPlugin /> );
+		expect( mockInsertBlock ).not.toHaveBeenCalled();
+	} );
+
+	test( "should not insert a block when the minimum-posts threshold is not met", () => {
+		mockSelect( { isNewPost: true, postType: "post", blocks: [ { name: "core/paragraph" } ], minPostsMet: false } );
 		render( <ContentPlannerEditorPlugin /> );
 		expect( mockInsertBlock ).not.toHaveBeenCalled();
 	} );
