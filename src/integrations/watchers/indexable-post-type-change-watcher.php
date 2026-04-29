@@ -14,11 +14,16 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification_Center;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Post type change watcher.
  */
-class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
+class Indexable_Post_Type_Change_Watcher implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The indexing helper.
@@ -85,6 +90,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$this->post_type_helper    = $post_type_helper;
 		$this->notification_center = $notification_center;
 		$this->indexable_helper    = $indexable_helper;
+		$this->logger              = new NullLogger();
 	}
 
 	/**
@@ -133,6 +139,14 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		// Update the list of last known public post types in the database.
 		$this->options->set( 'last_known_public_post_types', $public_post_types );
 
+		$this->logger->info(
+			'Public post type visibility changed.',
+			[
+				'made_public'  => \array_values( $newly_made_public_post_types ),
+				'made_private' => \array_values( $newly_made_non_public_post_types ),
+			],
+		);
+
 		// There are new post types that have been made public.
 		if ( $newly_made_public_post_types ) {
 
@@ -151,6 +165,11 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
 			if ( $cleanup_not_yet_scheduled ) {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+
+				$this->logger->info(
+					'Scheduled cleanup for newly-private post types.',
+					[ 'made_private' => \array_values( $newly_made_non_public_post_types ) ],
+				);
 			}
 
 			\do_action( 'clean_new_public_post_type_notifications', $newly_made_non_public_post_types );

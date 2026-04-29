@@ -9,11 +9,16 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Watches Terms/Taxonomies to fill the related Indexable.
  */
-class Indexable_Term_Watcher implements Integration_Interface {
+class Indexable_Term_Watcher implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The indexable repository.
@@ -80,6 +85,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		$this->link_builder     = $link_builder;
 		$this->indexable_helper = $indexable_helper;
 		$this->site             = $site;
+		$this->logger           = new NullLogger();
 	}
 
 	/**
@@ -106,6 +112,15 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		if ( ! $indexable ) {
 			return;
 		}
+
+		$this->logger->debug(
+			'Deleting term indexable.',
+			[
+				'term_id'      => $term_id,
+				'indexable_id' => $indexable->id,
+				'taxonomy'     => $indexable->object_sub_type,
+			],
+		);
 
 		$indexable->delete();
 		\do_action( 'wpseo_indexable_deleted', $indexable );
@@ -140,6 +155,13 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		$indexable = $this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
 
 		if ( ! $indexable ) {
+			$this->logger->warning(
+				'Term indexable build returned no indexable; skipping.',
+				[
+					'term_id'  => $term_id,
+					'taxonomy' => $term->taxonomy,
+				],
+			);
 			return;
 		}
 

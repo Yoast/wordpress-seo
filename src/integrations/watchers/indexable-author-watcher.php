@@ -7,11 +7,16 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Watches an Author to save the meta information to an Indexable when updated.
  */
-class Indexable_Author_Watcher implements Integration_Interface {
+class Indexable_Author_Watcher implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The indexable repository.
@@ -58,6 +63,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 		$this->repository       = $repository;
 		$this->indexable_helper = $indexable_helper;
 		$this->builder          = $builder;
+		$this->logger           = new NullLogger();
 	}
 
 	/**
@@ -105,7 +111,13 @@ class Indexable_Author_Watcher implements Integration_Interface {
 		if ( $indexable ) {
 			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
 			$this->indexable_helper->save_indexable( $indexable );
+			return;
 		}
+
+		$this->logger->warning(
+			'Author indexable build returned no indexable; skipping.',
+			[ 'author_id' => $user_id ],
+		);
 	}
 
 	/**
@@ -117,6 +129,14 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function handle_user_delete( $user_id, $new_user_id = null ) {
+		$this->logger->info(
+			'Author deleted; cleaning up indexable.',
+			[
+				'author_id'     => $user_id,
+				'reassigned_to' => $new_user_id,
+			],
+		);
+
 		if ( $new_user_id !== null ) {
 			$this->maybe_reassign_user_indexables( $user_id, $new_user_id );
 		}
