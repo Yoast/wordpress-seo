@@ -214,6 +214,25 @@ describe( "useDraggableStructure", () => {
 			expect( e.preventDefault ).toHaveBeenCalledTimes( 1 );
 		} );
 
+		it( "places an item at the last position when dropped onto the sentinel (dropIndex equals length)", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleDragStart( mockEvent(), 0 );
+			} );
+			act( () => {
+				result.current.handleDrop( mockEvent(), 3 );
+			} );
+
+			// Dragging index 0 to sentinel (length=3): dest = 3-1 = 2
+			// [Introduction, Body, Conclusion] → [Body, Conclusion, Introduction]
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
+				"Body",
+				"Conclusion",
+				"Introduction",
+			] );
+		} );
+
 		it( "resets dragOverIndex to null and does not reorder when no drag was started", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
 			const originalHeadings = result.current.structure.map( ( i ) => i.heading );
