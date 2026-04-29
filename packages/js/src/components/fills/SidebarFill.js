@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
+import { Fragment, lazy, Suspense } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
@@ -23,8 +23,13 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import KeywordUpsell from "../modals/KeywordUpsell";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
-import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
 import { EditorIntro } from "../EditorIntro";
+
+// Lazy-loaded so the planner module is not bundled into block-editor.js.
+const ContentPlannerEditorItem = lazy( () => import(
+	/* webpackChunkName: "ai-content-planner-editor" */
+	"../../ai-content-planner/containers/content-planner-editor-item"
+) );
 
 /* eslint-disable complexity */
 /**
@@ -66,7 +71,9 @@ export default function SidebarFill( { settings } ) {
 					</EditorIntro>
 				</SidebarItem>
 				{ isPost && isBlockEditorActive && isAiFeatureActive && <SidebarItem key="content-planner" renderPriority={ 2 }>
-					<ContentPlannerEditorItem location="sidebar" />
+					<Suspense fallback={ null }>
+						<ContentPlannerEditorItem location="sidebar" />
+					</Suspense>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput

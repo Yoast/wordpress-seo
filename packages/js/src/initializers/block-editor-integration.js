@@ -27,7 +27,6 @@ import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { link } from "../inline-links/edit-link";
-import initContentPlanner from "../ai-content-planner/initialize";
 import { getIsAiFeatureEnabled } from "../redux/selectors/preferences";
 
 /**
@@ -211,7 +210,11 @@ export default function initBlockEditorIntegration( store ) {
 	registerFormats();
 	initializeAnnotations( store );
 	if ( getIsAiFeatureEnabled() ) {
-		initContentPlanner();
+		// Lazy-loaded so the planner module is not bundled into block-editor.js.
+		import(
+			/* webpackChunkName: "ai-content-planner-editor" */
+			"../ai-content-planner/initialize"
+		).then( ( { "default": initContentPlanner } ) => initContentPlanner() );
 	}
 
 	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );

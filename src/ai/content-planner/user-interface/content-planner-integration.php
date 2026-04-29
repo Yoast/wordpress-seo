@@ -61,8 +61,6 @@ class Content_Planner_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		// Enqueue after Elementor_Premium integration, which re-registers the assets.
-		\add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
 	}
 
 	/**
@@ -77,12 +75,12 @@ class Content_Planner_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Localizes the content planner script data.
+	 * Localizes the content planner script data onto the block-editor bundle,
+	 * which lazy-loads the planner module on demand.
 	 *
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		$this->asset_manager->enqueue_script( 'ai-content-planner' );
-		$this->asset_manager->localize_script( 'ai-content-planner', 'wpseoContentPlanner', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'block-editor', 'wpseoContentPlanner', $this->get_script_data() );
 	}
 }
