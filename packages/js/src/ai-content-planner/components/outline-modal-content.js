@@ -8,12 +8,12 @@ import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
 import { StructureRow, StructureRowSkeleton } from "./structure-row";
-
-const SKELETON_ROW_COUNT = 4;
 import { CategorySection } from "./category-section";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 import { Transition } from "@headlessui/react";
+
+const SKELETON_ROW_COUNT = 4;
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
