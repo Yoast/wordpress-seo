@@ -8,8 +8,8 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * Returns a callback that applies the content outline to the post.
  *
  * Fetches the outline from the API, merges it with the user's edits from the
- * modal, then replaces the editor blocks, dismisses the inline banner, and
- * closes the modal.
+ * modal, then writes the new blocks, title, and category in a single `editPost`
+ * call so a single Gutenberg undo reverts everything together.
  *
  * @param {Object} params                  The parameters.
  * @param {Object} params.editedOutlineRef Ref holding the user's edits from the outline modal.
@@ -17,7 +17,7 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * @returns {Function} Async callback to apply the outline.
  */
 export const useApplyOutline = ( { editedOutlineRef } ) => {
-	const { resetBlocks } = useDispatch( "core/block-editor" );
+	const { editPost } = useDispatch( "core/editor" );
 	const { closeModal, setBannerDismissed } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( async() => {
@@ -42,12 +42,23 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 
 		const structure = editedOutline ? editedOutline.structure : apiOutline;
 
-		resetBlocks( buildBlocksFromOutline( structure ) );
+		// Write blocks, title, and category in a single editPost call so they share one
+		// Gutenberg undo entry. Each separate dispatch on `core/editor` / `core/block-editor`
+		// would otherwise create its own undo level.
+		const edits = {
+			title: metaOutline.title,
+			blocks: buildBlocksFromOutline( structure ),
+		};
+		if ( metaOutline.category?.id && metaOutline.category.id !== -1 ) {
+			edits.categories = [ metaOutline.category.id ];
+		}
+		editPost( edits );
 
+		// Yoast SEO meta lives outside Gutenberg's undo manager and is applied separately.
 		applyPostMetaFromOutline( metaOutline );
 
 		setBannerDismissed();
 
 		closeModal();
-	}, [ resetBlocks, closeModal, setBannerDismissed ] );
+	}, [ editPost, closeModal, setBannerDismissed ] );
 };
