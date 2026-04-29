@@ -36,13 +36,13 @@ class Issuer_Config {
 	/**
 	 * Returns the MyYoast issuer URL.
 	 *
-	 * Filterable via `wpseo_myyoast_issuer_url`.
-	 *
 	 * @return string The issuer URL (without trailing slash).
 	 */
 	public function get_issuer_url(): string {
 		/**
 		 * Filters the MyYoast issuer URL.
+		 *
+		 * @internal
 		 *
 		 * @param string $issuer_url The issuer URL.
 		 */
@@ -52,13 +52,13 @@ class Issuer_Config {
 	/**
 	 * Returns the software statement JWT.
 	 *
-	 * Filterable via `wpseo_myyoast_software_statement`.
-	 *
 	 * @return string The signed software statement JWT.
 	 */
 	public function get_software_statement(): string {
 		/**
 		 * Filters the MyYoast software statement JWT.
+		 *
+		 * @internal
 		 *
 		 * @param string $software_statement The software statement JWT.
 		 */
@@ -68,13 +68,13 @@ class Issuer_Config {
 	/**
 	 * Returns the initial access token for Dynamic Client Registration.
 	 *
-	 * Filterable via `wpseo_myyoast_initial_access_token`.
-	 *
 	 * @return string The initial access token.
 	 */
 	public function get_initial_access_token(): string {
 		/**
 		 * Filters the MyYoast initial access token.
+		 *
+		 * @internal
 		 *
 		 * @param string $initial_access_token The initial access token.
 		 */
