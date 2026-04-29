@@ -82,7 +82,7 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 					<GradientSparklesIcon className="yst-h-6 yst-w-6" { ...svgAriaProps } />
 				</div>
 				<Modal.Title className="yst-text-slate-900 yst-font-medium yst-text-lg yst-mb-2">{ title }</Modal.Title>
-				<Modal.Description as="div" className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-10">{ description }</Modal.Description>
+				<Modal.Description className="yst-text-slate-600 yst-text-sm yst-mb-6 yst-mx-10">{ description }</Modal.Description>
 				{ ! isPremium && ! isUpsell && <OneSparkNote className="yst-mb-2" /> }
 				{ isUpsell ? <Button
 					variant="upsell" as="a" href={ upsellLink } target="_blank" className="yst-w-full" rel="noopener noreferrer"
