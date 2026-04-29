@@ -45,7 +45,7 @@ export const StructureRow = ( { heading, index, dragOverIndex, onDragStart, onDr
 		aria-roledescription={ __( "Draggable section", "wordpress-seo" ) }
 		tabIndex="0"
 		className={ classNames(
-			"yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-cursor-grab yst-select-none yst-transition-all",
+			"yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-cursor-grab yst-select-none yst-transition-all focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500",
 			dragOverIndex === index && "yst-border-primary-500 yst-border-2"
 		) }
 		draggable="true"
