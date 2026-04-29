@@ -310,7 +310,6 @@ Release date: 2026-05-12
 #### Enhancements
 
 * Adds the Content Planner feature, which allows users to get AI-powered content suggestions and structured outlines for new posts directly from the block editor.
-* Fixes position on the spark notification when using Content Planner or AI Generator.
 
 #### Other
 
