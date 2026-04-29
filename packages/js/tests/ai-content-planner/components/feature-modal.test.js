@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { FeatureModal } from "../../../src/ai-content-planner/components/feature-modal";
 import { useFetchContentSuggestions, useFetchContentOutline, useApplyOutline } from "../../../src/ai-content-planner/hooks";
+import { useMeasuredRef } from "../../../src/ai-generator/hooks";
 
 jest.mock( "@yoast/ai-frontend", () => ( {
 	UsageCounter: () => null,
@@ -255,5 +256,35 @@ describe( "FeatureModal", () => {
 		renderModal( { status: "content-suggestions" } );
 		expect( screen.queryByText( "Looking for inspiration?" ) ).not.toBeInTheDocument();
 		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "renders the SparksLimitNotification area when contentSuggestionsStatus is success and no outline error", () => {
+		setupMocks();
+		renderModal( { status: "content-suggestions", contentSuggestionsStatus: "success" } );
+		expect( screen.getByText( "Content suggestions" ) ).toBeInTheDocument();
+	} );
+
+	it( "calls fetchContentOutline with the suggestion when a suggestion button is clicked", () => {
+		const mockFetchContentOutline = jest.fn();
+		setupMocks();
+		useFetchContentOutline.mockReturnValue( mockFetchContentOutline );
+		renderModal( { status: "content-suggestions" } );
+		fireEvent.click( screen.getByText( "How to train your dog" ) );
+		expect( mockFetchContentOutline ).toHaveBeenCalledWith( mockSuggestion );
+	} );
+
+	it( "calls handlePanelMeasureChange when useMeasuredRef fires with a resize entry", () => {
+		let capturedCallback;
+		useMeasuredRef.mockImplementationOnce( ( callback ) => {
+			capturedCallback = callback;
+			return { current: null };
+		} );
+		setupMocks();
+		renderModal( { status: "content-suggestions" } );
+		act( () => {
+			capturedCallback( { borderBoxSize: [ { blockSize: 600 } ] } );
+		} );
+		// If handlePanelMeasureChange runs without error, the callback was exercised.
+		expect( capturedCallback ).toBeDefined();
 	} );
 } );

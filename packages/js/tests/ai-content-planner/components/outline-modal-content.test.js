@@ -296,9 +296,27 @@ describe( "ContentOutlineModal", () => {
 			} );
 			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
+
+		it( "hides the category badge when the toggle is switched off", () => {
+			renderLoadedModal( { suggestion: { ...defaultSuggestion, category: { name: "WordPress" } } } );
+			expect( screen.getByText( "WordPress" ) ).toBeInTheDocument();
+			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
+			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
+		} );
 	} );
 
 	describe( "footer actions", () => {
+		it( "passes the fallback category when isCategoryEnabled is toggled off before applying", () => {
+			const onApplyOutline = jest.fn();
+			const suggestionWithCategory = { ...defaultSuggestion, category: { name: "WordPress", id: 5 } };
+			renderLoadedModal( { onApplyOutline, suggestion: suggestionWithCategory } );
+			fireEvent.click( screen.getByRole( "switch", { name: "Suggest category" } ) );
+			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
+			expect( onApplyOutline ).toHaveBeenCalledWith(
+				expect.objectContaining( { category: { name: "", id: -1 } } )
+			);
+		} );
+
 		it( "calls onBackToSuggestions when the back button is clicked", () => {
 			const onBackToSuggestions = jest.fn();
 			renderModal( { onBackToSuggestions, status: ASYNC_ACTION_STATUS.success } );
@@ -318,6 +336,27 @@ describe( "ContentOutlineModal", () => {
 			renderLoadedModal( { onApplyOutline } );
 			fireEvent.click( screen.getByRole( "button", { name: /Add outline to post/i } ) );
 			expect( onApplyOutline ).toHaveBeenCalled();
+		} );
+
+		it( "calls focus on closeButtonRef.current when isLoading changes", () => {
+			const focusMock = jest.fn();
+			const closeButtonRef = { current: { focus: focusMock } };
+			renderLoadedModal( { closeButtonRef } );
+			expect( focusMock ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "updates the focus keyphrase field when its value changes", () => {
+			renderLoadedModal();
+			const input = screen.getByDisplayValue( defaultSuggestion.keyphrase );
+			fireEvent.change( input, { target: { value: "updated keyphrase" } } );
+			expect( screen.getByDisplayValue( "updated keyphrase" ) ).toBeInTheDocument();
+		} );
+
+		it( "updates the title field when its value changes", () => {
+			renderLoadedModal();
+			const input = screen.getByDisplayValue( defaultSuggestion.title );
+			fireEvent.change( input, { target: { value: "Updated title" } } );
+			expect( screen.getByDisplayValue( "Updated title" ) ).toBeInTheDocument();
 		} );
 	} );
 
