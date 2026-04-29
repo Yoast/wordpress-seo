@@ -23,7 +23,7 @@ import { Transition } from "@headlessui/react";
  * @param {string} value The meta description text.
  * @param {string} [date] The meta description date.
  * @param {string} [locale] The content locale, used for meta description length calculation.
- * @param {boolean} [isCornerstone=false] Whether the current post is marked as cornerstone content.
+ * @param {boolean} [isCornerstone] Whether the current post is marked as cornerstone content.
  *
  * @returns {JSX.Element} The MetaDescriptionProgressBar component.
  */

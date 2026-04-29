@@ -274,12 +274,12 @@ describe( "FeatureModal", () => {
 	} );
 
 	it( "calls handlePanelMeasureChange when useMeasuredRef fires with a resize entry", () => {
+		// beforeEach already calls setupMocks(); override useMeasuredRef after it to capture the callback.
 		let capturedCallback;
 		useMeasuredRef.mockImplementationOnce( ( callback ) => {
 			capturedCallback = callback;
 			return { current: null };
 		} );
-		setupMocks();
 		renderModal( { status: "content-suggestions" } );
 		act( () => {
 			capturedCallback( { borderBoxSize: [ { blockSize: 600 } ] } );
