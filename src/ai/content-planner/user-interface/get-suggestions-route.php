@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 /**
  * Registers a route to get content suggestions from the AI API.
  *
+ * @internal This route powers the Yoast SEO admin UI's Content Planner feature. It is not part of the plugin's public REST API surface, requires the `edit_posts` capability (see {@see self::check_permissions()}), and may change at any time without notice.
+ *
  * @makePublic
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
