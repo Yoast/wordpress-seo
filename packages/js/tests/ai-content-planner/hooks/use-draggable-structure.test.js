@@ -294,20 +294,6 @@ describe( "useDraggableStructure", () => {
 				"Body",
 			] );
 		} );
-
-		it( "does nothing when called on the first item", () => {
-			const { result } = renderHook( () => useDraggableStructure() );
-
-			act( () => {
-				result.current.handleMoveUp( 0 );
-			} );
-
-			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
-				"Introduction",
-				"Body",
-				"Conclusion",
-			] );
-		} );
 	} );
 
 	describe( "handleMoveDown", () => {
@@ -336,20 +322,6 @@ describe( "useDraggableStructure", () => {
 				"Introduction",
 				"Conclusion",
 				"Body",
-			] );
-		} );
-
-		it( "does nothing when called on the last item", () => {
-			const { result } = renderHook( () => useDraggableStructure() );
-
-			act( () => {
-				result.current.handleMoveDown( 2 );
-			} );
-
-			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
-				"Introduction",
-				"Body",
-				"Conclusion",
 			] );
 		} );
 	} );

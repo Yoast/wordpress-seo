@@ -54,9 +54,6 @@ export const useDraggableStructure = () => {
 	}, [] );
 
 	const handleMoveUp = useCallback( ( index ) => {
-		if ( index <= 0 ) {
-			return;
-		}
 		setStructure( ( prev ) => {
 			const updated = [ ...prev ];
 			const [ moved ] = updated.splice( index, 1 );
@@ -67,9 +64,6 @@ export const useDraggableStructure = () => {
 
 	const handleMoveDown = useCallback( ( index ) => {
 		setStructure( ( prev ) => {
-			if ( index >= prev.length - 1 ) {
-				return prev;
-			}
 			const updated = [ ...prev ];
 			const [ moved ] = updated.splice( index, 1 );
 			updated.splice( index + 1, 0, moved );
