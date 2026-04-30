@@ -53,6 +53,11 @@ describe( "useDraggableStructure", () => {
 			expect( result.current.dragOverIndex ).toBeNull();
 		} );
 
+		it( "initialises reorderMessage to an empty string", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			expect( result.current.reorderMessage ).toBe( "" );
+		} );
+
 		it( "returns all expected handler functions", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
 			expect( typeof result.current.handleDragStart ).toBe( "function" );
@@ -61,6 +66,7 @@ describe( "useDraggableStructure", () => {
 			expect( typeof result.current.handleDragEnd ).toBe( "function" );
 			expect( typeof result.current.handleMoveUp ).toBe( "function" );
 			expect( typeof result.current.handleMoveDown ).toBe( "function" );
+			expect( typeof result.current.handleAnnounce ).toBe( "function" );
 		} );
 	} );
 
@@ -293,6 +299,31 @@ describe( "useDraggableStructure", () => {
 				"Conclusion",
 				"Body",
 			] );
+		} );
+	} );
+
+	describe( "handleAnnounce", () => {
+		it( "sets reorderMessage using the heading, new position, and total items", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleAnnounce( "Introduction", 2 );
+			} );
+
+			expect( result.current.reorderMessage ).toBe( "Introduction moved to position 2 of 3." );
+		} );
+
+		it( "updates reorderMessage on subsequent calls", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleAnnounce( "Body", 1 );
+			} );
+			act( () => {
+				result.current.handleAnnounce( "Conclusion", 3 );
+			} );
+
+			expect( result.current.reorderMessage ).toBe( "Conclusion moved to position 3 of 3." );
 		} );
 	} );
 

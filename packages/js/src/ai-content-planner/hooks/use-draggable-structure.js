@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
+import { __, sprintf } from "@wordpress/i18n";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 /**
@@ -13,7 +14,18 @@ export const useDraggableStructure = () => {
 	const outline = useSelect( ( select ) => select( CONTENT_PLANNER_STORE ).selectContentOutline(), [] );
 	const [ structure, setStructure ] = useState( outline );
 	const [ dragOverIndex, setDragOverIndex ] = useState( null );
+	const [ reorderMessage, setReorderMessage ] = useState( "" );
 	const dragIndexRef = useRef( null );
+
+	const handleAnnounce = useCallback( ( heading, newPosition ) => {
+		setReorderMessage( sprintf(
+			/* translators: 1: heading text, 2: new 1-based position, 3: total items. */
+			__( "%1$s moved to position %2$d of %3$d.", "wordpress-seo" ),
+			heading,
+			newPosition,
+			structure.length
+		) );
+	}, [ structure.length ] );
 
 	useEffect( () => {
 		setStructure( outline );
@@ -74,6 +86,8 @@ export const useDraggableStructure = () => {
 	return {
 		structure,
 		dragOverIndex,
+		reorderMessage,
+		handleAnnounce,
 		handleDragStart,
 		handleDragOver,
 		handleDrop,
