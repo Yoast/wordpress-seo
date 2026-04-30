@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "yoast/content-planner-banner",
+	"title": "Yoast Content Planner Banner",
+	"category": "yoast-ai-blocks",
+	"supports": {
+		"inserter": false,
+		"html": false,
+		"reusable": false,
+		"multiple": false,
+		"lock": false
+	},
+	"textdomain": "wordpress-seo"
+}

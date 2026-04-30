@@ -538,6 +538,24 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns the most recently modified about page based on schema_page_type.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return Indexable|false The about page if its there.
+	 */
+	public function get_most_recent_about_page( $post_type ) {
+		$query = $this->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where( 'schema_page_type', 'AboutPage' )
+			->where_raw( '( is_public IS NULL OR is_public = 1 )' )
+			->order_by_desc( 'object_last_modified' );
+
+		return $query->find_one();
+	}
+
+	/**
 	 * Returns the most recently modified posts with keywords of a post type.
 	 *
 	 * @param string      $post_type  The post type.
@@ -547,7 +565,6 @@ class Indexable_Repository {
 	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
 	 */
 	public function get_recent_posts_with_keywords_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
-		// @TODO: make sure the post status, noindex and keyword score checks are exactly the same as they are and yield the same posts with the respective dashboard widget.
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'primary_focus_keyword_score' )
@@ -578,10 +595,9 @@ class Indexable_Repository {
 	 * @param int|null    $limit      The maximum number of posts to return.
 	 * @param string|null $date_limit Only include content modified after this date.
 	 *
-	 * @return array<array<string, string>>|false The array of indexable columns. False if the query failed.
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
 	 */
 	public function get_recent_posts_with_readability_scores_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
-		// @TODO: make sure the post status, noindex and readability score checks are exactly the same as they are and yield the same posts with the respective dashboard widget.
 		$query = $this->query()
 			->select( 'object_id' )
 			->select( 'readability_score' )
@@ -590,6 +606,37 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $post_type )
 			->where_not_null( 'estimated_reading_time_minutes' )
 			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->order_by_desc( 'object_last_modified' );
+
+		if ( $limit !== null ) {
+			$query->limit( $limit );
+		}
+
+		if ( $date_limit !== null ) {
+			$query->where_gte( 'object_last_modified', $date_limit );
+		}
+
+		return $query->find_array();
+	}
+
+	/**
+	 * Returns the most recently modified posts for a post type.
+	 *
+	 * @param string      $post_type  The post type.
+	 * @param int|null    $limit      The maximum number of posts to return.
+	 * @param string|null $date_limit Only include content modified after this date.
+	 *
+	 * @return array<array<string, string|null>>|false The array of indexable columns. False if the query failed.
+	 */
+	public function get_recent_posts_for_post_type( string $post_type, ?int $limit = null, ?string $date_limit = null ) {
+		$query = $this->query()
+			->select( 'object_id' )
+			->select( 'breadcrumb_title' )
+			->select( 'description' )
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', $post_type )
+			->where_raw( "( post_status = 'publish' OR post_status IS NULL )" )
+			->where_raw( '( is_robots_noindex IS NULL OR is_robots_noindex <> 1 )' )
 			->order_by_desc( 'object_last_modified' );
 
 		if ( $limit !== null ) {

@@ -42,13 +42,6 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	public const SITEMAP_FIELD = 'Sitemap';
 
 	/**
-	 * Text to be outputted for the schemamap rule.
-	 *
-	 * @var string
-	 */
-	public const SCHEMAMAP_FIELD = 'Schemamap';
-
-	/**
 	 * Holds the Robots_Txt_Helper.
 	 *
 	 * @var Robots_Txt_Helper
@@ -74,7 +67,6 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 		$robots_txt_content = $this->handle_user_agents( $robots_txt_content );
 
 		$robots_txt_content = $this->handle_site_maps( $robots_txt_content );
-		$robots_txt_content = $this->handle_schema_maps( $robots_txt_content );
 
 		return $robots_txt_content . self::YOAST_OUTPUT_AFTER_COMMENT;
 	}
@@ -159,16 +151,17 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	/**
 	 * Handles adding schema map content to the robots txt content.
 	 *
+	 * @phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	 *
+	 * @deprecated 27.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $robots_txt_content The current working robots txt string.
 	 *
 	 * @return string
 	 */
 	private function handle_schema_maps( $robots_txt_content ) {
-		$registered_schemamaps = $this->robots_txt_helper->get_schemamap_rules();
-		foreach ( $registered_schemamaps as $schemamap ) {
-			$robots_txt_content .= self::SCHEMAMAP_FIELD . ': ' . $schemamap . \PHP_EOL;
-		}
-
-		return $robots_txt_content;
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.5' );
+		return '';
 	}
 }
