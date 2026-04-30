@@ -4,11 +4,16 @@
 namespace Yoast\WP\SEO\Llms_Txt\Application\File;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Responsible for scheduling and unscheduling the cron.
  */
-class Llms_Txt_Cron_Scheduler {
+class Llms_Txt_Cron_Scheduler implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The name of the cron job.
@@ -31,6 +36,7 @@ class Llms_Txt_Cron_Scheduler {
 		Options_Helper $options_helper
 	) {
 		$this->options_helper = $options_helper;
+		$this->logger         = new NullLogger();
 	}
 
 	/**
@@ -45,7 +51,11 @@ class Llms_Txt_Cron_Scheduler {
 
 		if ( ! \wp_next_scheduled( self::LLMS_TXT_POPULATION ) ) {
 			\wp_schedule_event( ( \time() + \WEEK_IN_SECONDS ), 'weekly', self::LLMS_TXT_POPULATION );
+			$this->logger->info( 'Scheduled weekly llms.txt population.' );
+			return;
 		}
+
+		$this->logger->debug( 'Weekly llms.txt population already scheduled; skipping.' );
 	}
 
 	/**
@@ -63,6 +73,7 @@ class Llms_Txt_Cron_Scheduler {
 		}
 
 		\wp_schedule_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), 'weekly', self::LLMS_TXT_POPULATION );
+		$this->logger->info( 'Scheduled quick llms.txt population (in 5 minutes).' );
 	}
 
 	/**
@@ -74,6 +85,7 @@ class Llms_Txt_Cron_Scheduler {
 		$scheduled = \wp_next_scheduled( self::LLMS_TXT_POPULATION );
 		if ( $scheduled ) {
 			\wp_unschedule_event( $scheduled, self::LLMS_TXT_POPULATION );
+			$this->logger->info( 'Unscheduled llms.txt population.' );
 		}
 	}
 }

@@ -5,11 +5,16 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Cron_Integration class.
  */
-class Cron_Integration implements Integration_Interface {
+class Cron_Integration implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The indexing notification integration.
@@ -32,6 +37,7 @@ class Cron_Integration implements Integration_Interface {
 	 */
 	public function __construct( Date_Helper $date_helper ) {
 		$this->date_helper = $date_helper;
+		$this->logger      = new NullLogger();
 	}
 
 	/**
@@ -44,6 +50,7 @@ class Cron_Integration implements Integration_Interface {
 				'daily',
 				Indexing_Notification_Integration::NOTIFICATION_ID,
 			);
+			$this->logger->info( 'Scheduled daily indexing-notification cron.' );
 		}
 	}
 }
