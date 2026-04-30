@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Button, useModalContext } from "@yoast/ui-library";
 import { noop } from "lodash";
@@ -7,6 +8,7 @@ import {
 	BadWPRequestAlert,
 	GenericAlert,
 	RateLimitAlert,
+	SubscriptionError,
 	TimeoutAlert,
 } from "../../ai-generator/components/errors";
 import { SiteUnreachableAlert } from "../../ai-generator/components/errors/site-unreachable-alert";
@@ -15,6 +17,7 @@ import { SiteUnreachableAlert } from "../../ai-generator/components/errors/site-
  * @param {number} errorCode The error code.
  * @param {string} [errorIdentifier=""] The error identifier.
  * @param {string} [errorMessage=""] The error message.
+ * @param {string[]} [missingLicenses=[]] Products with an invalid subscription.
  * @param {function} [onRetry=noop] Called to retry.
  * @returns {JSX.Element} The element.
  */
@@ -22,9 +25,17 @@ export const ContentPlannerError = ( {
 	errorCode,
 	errorIdentifier = "",
 	errorMessage = "",
+	missingLicenses = [],
 	onRetry = noop,
 } ) => {
 	const { onClose } = useModalContext();
+	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
+
+	// Premium installed but licence missing/expired: surface the renew/activate flow.
+	// Free-only sites are handled earlier by the Approve modal upsell, so they fall through to the generic alert here.
+	if ( errorCode === 402 && isPremium ) {
+		return <SubscriptionError invalidSubscriptions={ missingLicenses } />;
+	}
 
 	let alert;
 	switch ( errorCode ) {
@@ -69,5 +80,6 @@ ContentPlannerError.propTypes = {
 	errorCode: PropTypes.number.isRequired,
 	errorIdentifier: PropTypes.string,
 	errorMessage: PropTypes.string,
+	missingLicenses: PropTypes.arrayOf( PropTypes.string ),
 	onRetry: PropTypes.func,
 };

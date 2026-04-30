@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Modal, useSvgAria } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ReactComponent as Yoast } from "../../../images/yoast.svg";
@@ -136,6 +137,7 @@ export const SuggestionsModalContent = ( {
 					errorCode={ error?.errorCode }
 					errorIdentifier={ error?.errorIdentifier }
 					errorMessage={ error?.errorMessage }
+					missingLicenses={ error?.missingLicenses }
 					onRetry={ fetchContentSuggestions }
 				/> }
 			</div>
