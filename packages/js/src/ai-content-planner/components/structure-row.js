@@ -16,10 +16,23 @@ import classNames from "classnames";
  * @param {Function} onMoveUp      Callback to move the row up.
  * @param {Function} onMoveDown    Callback to move the row down.
  * @param {number}   totalItems    Total number of rows in the list.
+ * @param {Function} onAnnounce    Callback to announce a reorder action to screen readers.
  *
  * @returns {JSX.Element} The StructureRow component.
  */
-export const StructureRow = ( { heading, index, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, onMoveUp, onMoveDown, totalItems } ) => {
+export const StructureRow = ( {
+	heading,
+	index,
+	dragOverIndex,
+	onDragStart,
+	onDragOver,
+	onDrop,
+	onDragEnd,
+	onMoveUp,
+	onMoveDown,
+	totalItems,
+	onAnnounce,
+} ) => {
 	const svgAriaProps = useSvgAria();
 	const handleDragStart = useCallback( ( e ) => onDragStart( e, index ), [ onDragStart, index ] );
 	const handleDragOver = useCallback( ( e ) => onDragOver( e, index ), [ onDragOver, index ] );
@@ -31,18 +44,23 @@ export const StructureRow = ( { heading, index, dragOverIndex, onDragStart, onDr
 		if ( e.key === "ArrowUp" && index > 0 ) {
 			e.preventDefault();
 			onMoveUp( index );
+			// New position is index (1-based).
+			onAnnounce( heading, index );
 		}
 		if ( e.key === "ArrowDown" && index < totalItems - 1 ) {
 			e.preventDefault();
 			onMoveDown( index );
+			// New position is index + 2 (1-based).
+			onAnnounce( heading, index + 2 );
 		}
-	}, [ index, totalItems, onMoveUp, onMoveDown ] );
+	}, [ index, totalItems, onMoveUp, onMoveDown, onAnnounce, heading ] );
 
-	return ( <div
-		role="option"
-		aria-selected="false"
+	/* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
+	return ( <li
 		aria-label={ `H2 ${ heading }` }
 		aria-roledescription={ __( "Draggable section", "wordpress-seo" ) }
+		aria-setsize={ totalItems }
+		aria-posinset={ index + 1 }
 		tabIndex="0"
 		className={ classNames(
 			"yst-bg-slate-50 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-cursor-grab yst-select-none yst-transition-all focus:yst-outline focus:yst-outline-2 focus:yst-outline-offset-2 focus:yst-outline-primary-500",
@@ -68,5 +86,5 @@ export const StructureRow = ( { heading, index, dragOverIndex, onDragStart, onDr
 			<span className="yst-font-medium yst-text-slate-500 yst-shrink-0">H2</span>
 			<span className="yst-text-slate-600">{ heading }</span>
 		</div>
-	</div> );
+	</li> ); /* eslint-enable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
 };

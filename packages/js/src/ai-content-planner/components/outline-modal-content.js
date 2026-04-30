@@ -128,6 +128,8 @@ export const OutlineModalContent = ( {
 	const {
 		structure,
 		dragOverIndex,
+		reorderMessage,
+		handleAnnounce,
 		handleDragStart,
 		handleDragOver,
 		handleDrop,
@@ -271,7 +273,9 @@ export const OutlineModalContent = ( {
 									{ __( "Drag to reorder", "wordpress-seo" ) }
 								</span>
 							</div>
-							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
+							{ /* Live region announces keyboard reorder results to screen readers. */ }
+							<div aria-live="assertive" aria-atomic="true" className="yst-sr-only">{ reorderMessage }</div>
+							<ul aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2 yst-list-none yst-p-0 yst-m-0">
 								{ structure.map( ( item, index ) => (
 									<StructureRow
 										key={ item.id }
@@ -285,20 +289,21 @@ export const OutlineModalContent = ( {
 										onMoveUp={ handleMoveUp }
 										onMoveDown={ handleMoveDown }
 										totalItems={ structure.length }
+										onAnnounce={ handleAnnounce }
 									/>
 								) ) }
-								{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
-								<div
-									className={ classNames(
-										"yst-rounded-md yst-transition-all yst-border-2",
-										dragOverIndex === structure.length
-											? "yst-border-primary-500 yst-h-8"
-											: "yst-border-transparent yst-h-2"
-									) }
-									onDragOver={ handleSentinelDragOver }
-									onDrop={ handleSentinelDrop }
-								/>
-							</div>
+							</ul>
+							{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
+							<div
+								className={ classNames(
+									"yst-rounded-md yst-transition-all yst-border-2",
+									dragOverIndex === structure.length
+										? "yst-border-primary-500 yst-h-8"
+										: "yst-border-transparent yst-h-2"
+								) }
+								onDragOver={ handleSentinelDragOver }
+								onDrop={ handleSentinelDrop }
+							/>
 						</div>
 					</Transition>
 				</div>
