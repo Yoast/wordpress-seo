@@ -11,7 +11,14 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
 /**
  * Higher-order component for `editor.BlockListBlock` that injects the Content
- * Planner inline banner after the first top-level block in the canvas.
+ * Planner inline banner before the first top-level block in the canvas.
+ *
+ * The banner sits before (not after) the wrapped block on purpose: rendering
+ * it after places it at the bottom edge of Gutenberg's block wrapper, where
+ * the between-block inserter (the blue "+" line) draws and visually cuts
+ * through the banner. Putting the banner first keeps the wrapper's bottom
+ * edge at the actual block, so the inserter renders below the block where
+ * Gutenberg expects it.
  *
  * The banner is purely UI here — it is NOT a block in the editor's data model,
  * so it does not affect Gutenberg's `isEditedPostEmpty` detection or the
@@ -23,10 +30,8 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
  * persists "1" on the next save.
  */
 const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => function WithInlineBanner( props ) {
-	const { isFirstBlock, isNewPost, isPostMatch, isBannerDismissed, isBannerRendered, hasConsent, isPremium } = useSelect( ( select ) => {
+	const { isFirstBlock, isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet } = useSelect( ( select ) => {
 		const firstBlockClientId = select( "core/block-editor" ).getBlockOrder()[ 0 ];
-		const status = select( "core/editor" ).getEditedPostAttribute( "status" );
-		const postType = select( "core/editor" ).getCurrentPostType();
 		const planner = select( CONTENT_PLANNER_STORE );
 
 		return {
@@ -84,7 +89,6 @@ const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => funct
 
 	return (
 		<>
-			<BlockListBlock { ...props } />
 			{ shouldShow && (
 				<div ref={ ref }>
 					<InlineBanner
@@ -94,6 +98,7 @@ const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => funct
 					/>
 				</div>
 			) }
+			<BlockListBlock { ...props } />
 		</>
 	);
 }, "withYoastContentPlannerBanner" );

@@ -102,12 +102,16 @@ describe( "withInlineBanner (editor.BlockListBlock filter)", () => {
 		jest.clearAllMocks();
 	} );
 
-	test( "renders the inline banner after the first block on a new post", () => {
+	test( "renders the inline banner before the first block on a new post", () => {
 		mockSelectors();
 		const Wrapped = getHoc();
-		const { getByTestId } = render( <Wrapped clientId="para-1" /> );
-		expect( getByTestId( "inner-block" ) ).toBeInTheDocument();
-		expect( getByTestId( "inline-banner" ) ).toBeInTheDocument();
+		const { getByTestId, container } = render( <Wrapped clientId="para-1" /> );
+		const banner = getByTestId( "inline-banner" );
+		const block = getByTestId( "inner-block" );
+		expect( banner ).toBeInTheDocument();
+		expect( block ).toBeInTheDocument();
+		const nodes = Array.from( container.querySelectorAll( "[data-testid]" ) );
+		expect( nodes.indexOf( banner ) ).toBeLessThan( nodes.indexOf( block ) );
 	} );
 
 	test( "marks the banner as rendered the first time it shows", () => {
@@ -173,11 +177,11 @@ describe( "withInlineBanner (editor.BlockListBlock filter)", () => {
 		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
 	} );
 
-	test( "does not render the banner when post status is publish", () => {
-		mockSelectors( { status: "publish" } );
+	test( "keeps rendering the banner after the post is published", () => {
+		mockSelectors( { status: "publish", isNewPost: false, isBannerRendered: true } );
 		const Wrapped = getHoc();
-		const { queryByTestId } = render( <Wrapped clientId="para-1" /> );
-		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
+		const { getByTestId } = render( <Wrapped clientId="para-1" /> );
+		expect( getByTestId( "inline-banner" ) ).toBeInTheDocument();
 	} );
 
 	test( "dispatches setBannerDismissed when dismiss is clicked", () => {
