@@ -21,6 +21,7 @@ export const ERROR_DEFAULT = {
 	errorCode: null,
 	errorIdentifier: null,
 	errorMessage: null,
+	missingLicenses: [],
 };
 
 /**
