@@ -20,9 +20,9 @@ export default compose( [
 			isPremium,
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			learnMoreLink: selectLink( "https://yoa.st/content-planner-learn-more" ),
-			// Premium-installed users with an invalid licence should fall through to the
-			// API call so the 402 response surfaces a "Subscription required" error, rather
-			// than the "Unlock with Premium" upsell intended for free-only users.
+			// Premium-installed users with an invalid licence should continue through the
+			// suggestions flow so the "Subscription required" syntethetic 402 UI error is shown,
+			// rather than the "Unlock with Premium" upsell intended for free-only users.
 			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription && ! isPremium,
 		};
 	} ),

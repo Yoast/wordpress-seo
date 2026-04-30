@@ -80,5 +80,7 @@ export const useFetchContentSuggestions = () => {
 		fetchContentPlannerSuggestions,
 		addUsageCount,
 		fetchUsageCount,
-		setFeatureModalStatus ] );
+		setFeatureModalStatus,
+		setContentSuggestionsStatus,
+		setSuggestionsError ] );
 };

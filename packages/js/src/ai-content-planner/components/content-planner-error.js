@@ -41,7 +41,10 @@ export const ContentPlannerError = ( {
 		( errorCode === 429 && errorIdentifier === "USAGE_LIMIT_REACHED" )
 	);
 	if ( isSubscriptionRequired ) {
-		return <SubscriptionError invalidSubscriptions={ missingLicenses } />;
+		// If the backend response has no `missingLicenses` we fall back to "Yoast SEO Premium" so the alert
+		// always renders with a product name, instead of "active undefined subscription".
+		const invalidSubscriptions = missingLicenses.length > 0 ? missingLicenses : [ "Yoast SEO Premium" ];
+		return <SubscriptionError invalidSubscriptions={ invalidSubscriptions } />;
 	}
 
 	let alert;

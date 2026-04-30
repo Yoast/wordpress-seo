@@ -116,6 +116,15 @@ describe( "ContentPlannerError", () => {
 			expect( screen.queryByRole( "button", { name: "Try again" } ) ).not.toBeInTheDocument();
 		} );
 
+		it( "falls back to Yoast SEO Premium when Premium is installed and the 402 response has no missingLicenses", () => {
+			mockIsPremium( true );
+			// Default missingLicenses=[] via prop default.
+			renderError( { errorCode: 402 } );
+			const alert = screen.getByTestId( "subscription-error" );
+			expect( alert ).toBeInTheDocument();
+			expect( alert ).toHaveTextContent( "Yoast SEO Premium" );
+		} );
+
 		it( "renders the GenericAlert for 402 when Premium is not installed", () => {
 			mockIsPremium( false );
 			renderError( { errorCode: 402, missingLicenses: [] } );
