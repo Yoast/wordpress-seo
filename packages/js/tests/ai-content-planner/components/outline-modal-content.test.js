@@ -4,6 +4,7 @@ import { OutlineModalContent } from "../../../src/ai-content-planner/components/
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks";
+import { SKELETON_ROW_COUNT } from "../../../src/ai-content-planner/constants";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => false ),
@@ -234,7 +235,7 @@ describe( "ContentOutlineModal", () => {
 			expect( listbox ).toHaveAttribute( "aria-busy", "true" );
 			// Skeleton rows are aria-hidden placeholders, so they are not exposed as options.
 			expect( screen.queryAllByRole( "option" ) ).toHaveLength( 0 );
-			expect( listbox.children ).toHaveLength( 4 );
+			expect( listbox.children ).toHaveLength( SKELETON_ROW_COUNT );
 		} );
 
 		it( "still shows the intent callout when loading", () => {

@@ -12,8 +12,7 @@ import { CategorySection } from "./category-section";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 import { Transition } from "@headlessui/react";
-
-const SKELETON_ROW_COUNT = 4;
+import { SKELETON_ROW_COUNT } from "../constants";
 
 /**
  * Section header for the Blog post structure list, shared by the loading and loaded states.
@@ -21,7 +20,7 @@ const SKELETON_ROW_COUNT = 4;
  * @returns {JSX.Element} The StructureSectionHeader component.
  */
 const StructureSectionHeader = () => (
-	<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
+	<div className="yst-flex yst-items-end yst-justify-between yst-mb-2">
 		<span className="yst-font-medium yst-text-sm yst-text-slate-800">
 			{ __( "Blog post structure", "wordpress-seo" ) }
 		</span>
@@ -100,13 +99,13 @@ const LoadingOutlineModalContent = () => {
 		<CategorySection
 			isLoading={ true }
 		/>
-		<div className="yst-flex yst-flex-col yst-gap-6">
+		<div className="yst-flex yst-flex-col">
 			<div className="yst-flex yst-flex-col yst-gap-4">
 				<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
 				<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
 				<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 			</div>
-			<hr className="yst-border-slate-200" />
+			<hr className="yst-border-slate-200 yst-my-6" />
 			<StructureSectionHeader />
 			<div
 				role="listbox"
@@ -263,7 +262,7 @@ export const OutlineModalContent = ( {
 								onToggle={ handleCategoryToggle }
 							/>
 						) }
-						<div className="yst-flex yst-flex-col yst-gap-6">
+						<div className="yst-flex yst-flex-col">
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<TextField
 									id="content-outline-focus-keyphrase"
@@ -294,7 +293,7 @@ export const OutlineModalContent = ( {
 
 								</div>
 							</div>
-							<hr className="yst-border-slate-200" />
+							<hr className="yst-border-slate-200 yst-my-6" />
 							<StructureSectionHeader />
 							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
 								{ structure.map( ( item, index ) => (
