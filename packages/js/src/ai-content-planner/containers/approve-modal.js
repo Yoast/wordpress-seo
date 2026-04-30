@@ -21,7 +21,7 @@ export default compose( [
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			learnMoreLink: selectLink( "https://yoa.st/content-planner-learn-more" ),
 			// Premium-installed users with an invalid licence should continue through the
-			// suggestions flow so the "Subscription required" syntethetic 402 UI error is shown,
+			// suggestions flow so the "Subscription required" synthetic 402 UI error is shown,
 			// rather than the "Unlock with Premium" upsell intended for free-only users.
 			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription && ! isPremium,
 		};
