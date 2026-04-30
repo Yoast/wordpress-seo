@@ -5,11 +5,16 @@ namespace Yoast\WP\SEO\Integrations;
 use Closure;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Adds cleanup hooks.
  */
-class Cleanup_Integration implements Integration_Interface {
+class Cleanup_Integration implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * Identifier used to determine the current task.
@@ -52,6 +57,7 @@ class Cleanup_Integration implements Integration_Interface {
 	) {
 		$this->cleanup_repository = $cleanup_repository;
 		$this->indexable_helper   = $indexable_helper;
+		$this->logger             = new NullLogger();
 	}
 
 	/**
@@ -85,6 +91,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$this->reset_cleanup();
 
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			$this->logger->info( 'Cleanup skipped: indexing is disabled.' );
 			\wp_unschedule_hook( self::START_HOOK );
 			return;
 		}
@@ -92,10 +99,22 @@ class Cleanup_Integration implements Integration_Interface {
 		$cleanups = $this->get_cleanup_tasks();
 		$limit    = $this->get_limit();
 
+		$this->logger->info( 'Cleanup started.', [ 'limit' => $limit, 'tasks' => \count( $cleanups ) ] );
+
 		foreach ( $cleanups as $name => $action ) {
 			$items_cleaned = $action( $limit );
 
+			$this->logger->debug(
+				'Cleanup task ran.',
+				[
+					'task'          => $name,
+					'items_cleaned' => $items_cleaned,
+					'limit'         => $limit,
+				],
+			);
+
 			if ( $items_cleaned === false ) {
+				$this->logger->warning( 'Cleanup task signalled abort; stopping run.', [ 'task' => $name ] );
 				return;
 			}
 
@@ -108,6 +127,8 @@ class Cleanup_Integration implements Integration_Interface {
 
 			return;
 		}
+
+		$this->logger->info( 'Cleanup completed all tasks within a single run.' );
 	}
 
 	/**
@@ -272,6 +293,14 @@ class Cleanup_Integration implements Integration_Interface {
 			'hourly',
 			self::CRON_HOOK,
 		);
+
+		$this->logger->info(
+			'Cleanup cron scheduled to resume task.',
+			[
+				'task'           => $task_name,
+				'next_run_in_s'  => $schedule_time,
+			],
+		);
 	}
 
 	/**
@@ -281,6 +310,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function run_cleanup_cron() {
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			$this->logger->info( 'Cleanup cron skipped: indexing is disabled.' );
 			$this->reset_cleanup();
 
 			return;
@@ -289,6 +319,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
 
 		if ( $current_task_name === false ) {
+			$this->logger->debug( 'Cleanup cron ran with no current task; resetting.' );
 			$this->reset_cleanup();
 
 			return;
@@ -299,6 +330,10 @@ class Cleanup_Integration implements Integration_Interface {
 
 		// The task may have been added by a filter that has been removed, in that case just start over.
 		if ( ! isset( $tasks[ $current_task_name ] ) ) {
+			$this->logger->warning(
+				'Cleanup current task no longer registered; restarting from first task.',
+				[ 'missing_task' => $current_task_name ],
+			);
 			$current_task_name = \key( $tasks );
 		}
 
@@ -313,7 +348,17 @@ class Cleanup_Integration implements Integration_Interface {
 			// Call the cleanup callback function that accompanies the current task.
 			$items_cleaned = $current_task( $limit );
 
+			$this->logger->debug(
+				'Cleanup cron task ran.',
+				[
+					'task'          => $current_task_name,
+					'items_cleaned' => $items_cleaned,
+					'limit'         => $limit,
+				],
+			);
+
 			if ( $items_cleaned === false ) {
+				$this->logger->warning( 'Cleanup cron task signalled abort; resetting.', [ 'task' => $current_task_name ] );
 				$this->reset_cleanup();
 
 				return;
@@ -322,6 +367,7 @@ class Cleanup_Integration implements Integration_Interface {
 			if ( $items_cleaned === 0 ) {
 				// Check if we are finished with all tasks.
 				if ( \next( $tasks ) === false ) {
+					$this->logger->info( 'Cleanup cron completed all tasks.' );
 					$this->reset_cleanup();
 
 					return;

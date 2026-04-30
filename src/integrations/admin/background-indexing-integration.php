@@ -11,13 +11,18 @@ use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class Background_Indexing_Integration.
  *
  * @package Yoast\WP\SEO\Integrations\Admin
  */
-class Background_Indexing_Integration implements Integration_Interface {
+class Background_Indexing_Integration implements Integration_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * Represents the indexing completed action.
@@ -95,6 +100,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
 		$this->get_request_conditional               = $get_request_conditional;
 		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
+		$this->logger                                = new NullLogger();
 	}
 
 	/**
@@ -153,17 +159,29 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function index() {
-		if ( \wp_doing_cron() && ! $this->should_index_on_cron() ) {
+		$is_cron = \wp_doing_cron();
+
+		if ( $is_cron && ! $this->should_index_on_cron() ) {
+			$this->logger->info( 'Background indexing cron unscheduling: should_index_on_cron is false.' );
 			$this->unschedule_cron_indexing();
 
 			return;
 		}
+
+		$this->logger->debug(
+			'Background indexing pass starting.',
+			[
+				'is_cron' => $is_cron,
+				'actions' => \count( $this->indexing_actions ),
+			],
+		);
 
 		foreach ( $this->indexing_actions as $indexation_action ) {
 			$indexation_action->index();
 		}
 
 		if ( $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) === 0 ) {
+			$this->logger->info( 'Background indexing reports zero unindexed; marking complete.' );
 			// We set this as complete, even though prominent words might not be complete. But that's the way we always treated that.
 			$this->complete_indexation_action->complete();
 		}
@@ -210,6 +228,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 
 		if ( ! \wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
+			$this->logger->info( 'Scheduled background indexing batch every fifteen minutes.' );
 		}
 	}
 
