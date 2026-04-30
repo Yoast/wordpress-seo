@@ -55,6 +55,7 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
+		parent::__construct();
 		$this->link_builder     = $link_builder;
 		$this->indexable_helper = $indexable_helper;
 		$this->repository       = $repository;
@@ -84,6 +85,15 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		}
+
+		$this->logger->debug(
+			'Link indexation batch completed.',
+			[
+				'action'  => static::class,
+				'fetched' => \count( $objects ),
+				'built'   => \count( $indexables ),
+			],
+		);
 
 		return $indexables;
 	}

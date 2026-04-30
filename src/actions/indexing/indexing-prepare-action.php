@@ -3,13 +3,18 @@
 namespace Yoast\WP\SEO\Actions\Indexing;
 
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Class Indexing_Prepare_Action.
  *
  * Action for preparing the indexing routine.
  */
-class Indexing_Prepare_Action {
+class Indexing_Prepare_Action implements LoggerAwareInterface {
+
+	use LoggerAwareTrait;
 
 	/**
 	 * The indexing helper.
@@ -25,6 +30,7 @@ class Indexing_Prepare_Action {
 	 */
 	public function __construct( Indexing_Helper $indexing_helper ) {
 		$this->indexing_helper = $indexing_helper;
+		$this->logger          = new NullLogger();
 	}
 
 	/**
@@ -33,6 +39,7 @@ class Indexing_Prepare_Action {
 	 * @return void
 	 */
 	public function prepare() {
+		$this->logger->info( 'Indexing prepare invoked.' );
 		$this->indexing_helper->prepare();
 	}
 }

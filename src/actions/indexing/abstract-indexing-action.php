@@ -2,10 +2,26 @@
 
 namespace Yoast\WP\SEO\Actions\Indexing;
 
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
+
 /**
  * Base class of indexing actions.
  */
-abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
+abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface, LoggerAwareInterface {
+
+	use LoggerAwareTrait;
+
+	/**
+	 * Abstract_Indexing_Action constructor.
+	 *
+	 * Subclasses MUST call parent::__construct() so the logger is initialised
+	 * to a NullLogger before the DI container substitutes the real one.
+	 */
+	public function __construct() {
+		$this->logger = new NullLogger();
+	}
 
 	/**
 	 * The transient name.
@@ -86,6 +102,13 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		$count = ( $query === '' ) ? 0 : $this->wpdb->get_var( $query );
 
 		if ( $count === null ) {
+			$this->logger->warning(
+				'Unindexed-count query returned null; treating as failure.',
+				[
+					'transient' => static::UNINDEXED_COUNT_TRANSIENT,
+					'action'    => static::class,
+				],
+			);
 			return false;
 		}
 

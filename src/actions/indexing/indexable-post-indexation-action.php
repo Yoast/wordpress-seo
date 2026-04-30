@@ -80,6 +80,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		Indexable_Builder_Versions $builder_versions,
 		Post_Helper $post_helper
 	) {
+		parent::__construct();
 		$this->post_type_helper = $post_type_helper;
 		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
@@ -93,7 +94,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query = $this->get_select_query( $this->get_limit() );
+		$limit = $this->get_limit();
+		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );
@@ -107,6 +109,15 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		}
+
+		$this->logger->debug(
+			'Post indexation batch completed.',
+			[
+				'limit'   => $limit,
+				'fetched' => \count( $post_ids ),
+				'built'   => \count( $indexables ),
+			],
+		);
 
 		return $indexables;
 	}

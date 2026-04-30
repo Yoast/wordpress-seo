@@ -68,6 +68,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		wpdb $wpdb,
 		Indexable_Builder_Versions $builder_versions
 	) {
+		parent::__construct();
 		$this->taxonomy   = $taxonomy;
 		$this->repository = $repository;
 		$this->wpdb       = $wpdb;
@@ -80,7 +81,8 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query = $this->get_select_query( $this->get_limit() );
+		$limit = $this->get_limit();
+		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$term_ids = ( $query === '' ) ? [] : $this->wpdb->get_col( $query );
@@ -94,6 +96,15 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		}
+
+		$this->logger->debug(
+			'Term indexation batch completed.',
+			[
+				'limit'   => $limit,
+				'fetched' => \count( $term_ids ),
+				'built'   => \count( $indexables ),
+			],
+		);
 
 		return $indexables;
 	}
