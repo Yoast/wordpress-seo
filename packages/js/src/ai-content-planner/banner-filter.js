@@ -7,7 +7,6 @@ import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "./constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../ai-generator/constants";
 import { useFetchContentSuggestions } from "./hooks/use-fetch-content-suggestions";
 
-const DRAFTABLE_STATUSES = [ "auto-draft", "draft" ];
 const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 
 /**
@@ -33,11 +32,11 @@ const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => funct
 		return {
 			isFirstBlock: firstBlockClientId === props.clientId,
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
-			isPostMatch: postType === "post" && planner.selectIsMinPostsMet() && DRAFTABLE_STATUSES.includes( status ),
 			isBannerDismissed: planner.selectIsBannerDismissed(),
 			isBannerRendered: planner.selectIsBannerRendered(),
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
+			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 		};
 	}, [ props.clientId ] );
 
@@ -45,8 +44,7 @@ const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => funct
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const ref = useRef( null );
 
-	const shouldShow = isFirstBlock && isPostMatch && ! isBannerDismissed && ( isNewPost || isBannerRendered );
-	console.log( { isFirstBlock, isPostMatch, isBannerDismissed, isBannerRendered, isNewPost } );
+	const shouldShow = isFirstBlock && ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
 
 	const handleDismiss = useCallback( () => {
 		setBannerDismissed();
