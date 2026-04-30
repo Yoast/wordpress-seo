@@ -1,36 +1,40 @@
 import { createBlock } from "@wordpress/blocks";
 import { useSelect, useDispatch } from "@wordpress/data";
+import domReady from "@wordpress/dom-ready";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
 import { App } from "./components/app";
-import { registerBannerBlock } from "./blocks/banner-block";
+import { registerBannerFilter } from "./banner-filter";
 import "./blocks/content-suggestion-block";
 import { CONTENT_PLANNER_STORE } from "./constants";
+import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
 import { registerStore } from "./store";
-import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
-import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 import { AVAILABILITY_NAME } from "./store/availability";
+import { BANNER_NAME } from "./store/banner";
+import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
+import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 
 /**
- * Inserts a Content Planner Banner block after the first paragraph in the editor.
+ * Ensures a fresh post has at least one block in the canvas, so the
+ * `editor.BlockListBlock` filter has something to attach the banner to.
  *
- * If the canvas is empty, inserts a paragraph block first. Returns true when
- * the banner has been inserted or was already present.
+ * Without this, a brand-new post shows only Gutenberg's empty-canvas appender
+ * (which is not a real block), so the filter never fires and the banner only
+ * appears once the user starts typing.
  *
  * @param {Array}    blocks      The current list of blocks in the editor.
  * @param {Function} insertBlock The block editor insertBlock dispatch function.
+ * @param {boolean} isBannerRendered Whether the banner is rendered already in the post.
  * @returns {boolean} Whether the banner insertion is complete.
  */
-export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
-	const hasBanner = blocks.some( b => b.name === "yoast/content-planner-banner" );
-	if ( hasBanner ) {
+export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
+	if ( isBannerRendered ) {
 		return true;
 	}
 
 	// If canvas is empty, insert a paragraph first; the effect will re-run.
 	if ( blocks.length === 0 ) {
-		// eslint-disable-next-line no-undefined
 		insertBlock( createBlock( "core/paragraph" ), 0, undefined, false );
 		return false;
 	}
@@ -40,8 +44,6 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
 		return false;
 	}
 
-	// eslint-disable-next-line no-undefined
-	insertBlock( createBlock( "yoast/content-planner-banner" ), firstParagraphIndex + 1, undefined, false );
 	return true;
 }
 
@@ -51,17 +53,18 @@ export function insertBannerAfterFirstParagraph( blocks, insertBlock ) {
  * after the first paragraph on new posts and renders the shared
  * FeatureModal controlled by the content planner store.
  *
- * @returns {JSX.Element} The FeatureModal element, with visibility controlled by the isOpen prop.
+ * @returns {void}
  */
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, minPostsMet } = useSelect( select => {
+	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered } = useSelect( select => {
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			postType: select( "core/editor" ).getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
+			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
 		};
 	}, [] );
 
@@ -72,7 +75,7 @@ export const ContentPlannerEditorPlugin = () => {
 			return;
 		}
 
-		hasInserted.current = insertBannerAfterFirstParagraph( blocks, insertBlock );
+		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
 	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
 
 	return (
@@ -84,23 +87,33 @@ export const ContentPlannerEditorPlugin = () => {
 /**
  * Initializes the Content Planner feature.
  *
- * Registers the editor plugin that handles auto-insertion of the
- * Content Planner Banner block on new posts.
+ * Registers the editor plugin (modals), the inline-banner filter, the legacy
+ * banner block (kept for parsing posts saved during RC2 that contain the block
+ * comment), and the content planner store.
  *
  * @returns {void}
  */
 export default function initContentPlanner() {
-	registerBannerBlock();
-	registerStore( {
-		[ CONTENT_SUGGESTIONS_NAME ]: {
-			endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
-		},
-		[ CONTENT_OUTLINE_NAME ]: {
-			endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
-		},
-		[ AVAILABILITY_NAME ]: {
-			minPostsMet: get( window, "wpseoContentPlanner.minPostsMet", false ),
-		},
+	// registerBannerBlock();
+	registerBannerFilter();
+	// The banner slice's initial state must come from the hidden inputs that the metabox renders into the DOM.
+	// Those inputs only exist after the document is ready, so the store registration is deferred until then.
+	domReady( () => {
+		registerStore( {
+			[ CONTENT_SUGGESTIONS_NAME ]: {
+				endpoint: get( window, "wpseoContentPlanner.endpoints.getSuggestions", "" ),
+			},
+			[ CONTENT_OUTLINE_NAME ]: {
+				endpoint: get( window, "wpseoContentPlanner.endpoints.getOutline", "" ),
+			},
+			[ AVAILABILITY_NAME ]: {
+				minPostsMet: get( window, "wpseoContentPlanner.minPostsMet", false ),
+			},
+			[ BANNER_NAME ]: {
+				isBannerDismissed: getIsBannerDismissedFromInput(),
+				isBannerRendered: getIsBannerRenderedFromInput(),
+			},
+		} );
 	} );
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }
