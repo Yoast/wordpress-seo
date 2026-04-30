@@ -125,32 +125,27 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 				continue;
 			}
 
-			$this->global_state_adapter->set_global_state( $indexable );
-			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
-			$context       = $this->memoizer->get( $indexable, $page_type );
-			$context_array = $this->adapter->meta_tags_context_to_array( $context );
-			$pieces_data   = $context_array['@graph'];
+			$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
+			$context   = $this->memoizer->get( $indexable, $page_type );
 
-			// Make for_current_page() resolve to the indexable being processed, so
-			// external schema generators (e.g. WPSEO_WooCommerce_Schema) read the
-			// correct per-product canonical / main_schema_id instead of a stale one.
-			$previous_current_page = $this->memoizer->swap_current_page( $context );
+			$this->global_state_adapter->set_global_state( $indexable, $context );
 			try {
+				$context_array = $this->adapter->meta_tags_context_to_array( $context );
+				$pieces_data   = $context_array['@graph'];
+
 				$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
-			} finally {
-				$this->memoizer->swap_current_page( $previous_current_page );
-			}
 
-			foreach ( $pieces_data as $piece_data ) {
-				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
-				$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
-				if ( $enhancer !== null ) {
-					$schema_piece = $enhancer->enhance( $schema_piece, $indexable );
+				foreach ( $pieces_data as $piece_data ) {
+					$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
+					$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
+					if ( $enhancer !== null ) {
+						$schema_piece = $enhancer->enhance( $schema_piece, $indexable );
+					}
+					$schema_pieces[] = $schema_piece;
 				}
-				$schema_pieces[] = $schema_piece;
+			} finally {
+				$this->global_state_adapter->reset_global_state();
 			}
-
-			$this->global_state_adapter->reset_global_state();
 		}
 
 		return new Schema_Piece_Collection( $schema_pieces );
