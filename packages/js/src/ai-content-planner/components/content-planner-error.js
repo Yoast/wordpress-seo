@@ -32,8 +32,15 @@ export const ContentPlannerError = ( {
 	const isPremium = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsPremium(), [] );
 
 	// Premium installed but licence missing/expired: surface the renew/activate flow.
-	// Free-only sites are handled earlier by the Approve modal upsell, so they fall through to the generic alert here.
-	if ( errorCode === 402 && isPremium ) {
+	// The backend returns 402 when the licence is invalid, and 429 with USAGE_LIMIT_REACHED
+	// once a no-licence Premium user exhausts the free sparks (Too_Many_Requests_Exception
+	// extends Payment_Required_Exception in the PHP layer).
+	// Free-only sites are handled earlier by the Approve modal upsell, so they fall through here.
+	const isSubscriptionRequired = isPremium && (
+		errorCode === 402 ||
+		( errorCode === 429 && errorIdentifier === "USAGE_LIMIT_REACHED" )
+	);
+	if ( isSubscriptionRequired ) {
 		return <SubscriptionError invalidSubscriptions={ missingLicenses } />;
 	}
 

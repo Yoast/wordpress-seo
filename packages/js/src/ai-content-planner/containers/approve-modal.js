@@ -13,13 +13,17 @@ export default compose( [
 
 		const { isUsageCountLimitReached, selectPremiumSubscription } = select( STORE_NAME_AI );
 		const hasValidPremiumSubscription = selectPremiumSubscription();
+		const isPremium = getIsPremium();
 		return {
 			isEmptyPost: count( content, "words", {} ) === 0,
 			isOpen: selectFeatureModalStatus() === FEATURE_MODAL_STATUS.idle,
-			isPremium: getIsPremium(),
+			isPremium,
 			upsellLink: selectLink( "https://yoa.st/content-planner-approve-modal" ),
 			learnMoreLink: selectLink( "https://yoa.st/content-planner-learn-more" ),
-			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription,
+			// Premium-installed users with an invalid licence should fall through to the
+			// API call so the 402 response surfaces a "Subscription required" error, rather
+			// than the "Unlock with Premium" upsell intended for free-only users.
+			isUpsell: isUsageCountLimitReached() && ! hasValidPremiumSubscription && ! isPremium,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

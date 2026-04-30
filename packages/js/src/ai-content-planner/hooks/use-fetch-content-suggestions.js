@@ -16,7 +16,7 @@ import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
  */
 export const useFetchContentSuggestions = () => {
 	const { endpoint, postType, contentLocale, editorApiValue, isUsageCountLimitReached,
-		usageCountEndpoint, hasValidPremiumSubscription } = useSelect( ( select ) => {
+		usageCountEndpoint, hasValidPremiumSubscription, isPremium } = useSelect( ( select ) => {
 		return {
 			endpoint: select( CONTENT_PLANNER_STORE ).selectContentSuggestionsEndpoint(),
 			postType: select( "yoast-seo/editor" ).getPostType(),
@@ -25,15 +25,32 @@ export const useFetchContentSuggestions = () => {
 			usageCountEndpoint: select( STORE_NAME_AI ).selectUsageCountEndpoint(),
 			isUsageCountLimitReached: select( STORE_NAME_AI ).isUsageCountLimitReached(),
 			hasValidPremiumSubscription: select( STORE_NAME_AI ).selectPremiumSubscription(),
+			isPremium: select( "yoast-seo/editor" ).getIsPremium(),
 		};
 	}, [] );
 
-	const { fetchContentPlannerSuggestions, setFeatureModalStatus, setContentSuggestionsStatus } = useDispatch( CONTENT_PLANNER_STORE );
+	const {
+		fetchContentPlannerSuggestions,
+		setFeatureModalStatus,
+		setContentSuggestionsStatus,
+		setSuggestionsError,
+	} = useDispatch( CONTENT_PLANNER_STORE );
 	const { fetchUsageCount, addUsageCount } = useDispatch( STORE_NAME_AI );
 
 	// eslint-disable-next-line complexity
 	return useCallback( async() => {
-		// Before fetching usage count, check if it's already known that the limit has been reached to avoid unnecessary API calls.
+		// Premium-installed users without a valid subscription get the "Subscription required"
+		// error directly — no API call, no ~2s site-analysis loading state. Free users still
+		// short-circuit to idle (the Approve modal upsell handled them earlier).
+		if ( isPremium && ! hasValidPremiumSubscription ) {
+			setFeatureModalStatus( FEATURE_MODAL_STATUS.contentSuggestions );
+			setSuggestionsError( {
+				errorCode: 402,
+				errorIdentifier: "PAYMENT_REQUIRED",
+				missingLicenses: [ "Yoast SEO Premium" ],
+			} );
+			return;
+		}
 		if ( isUsageCountLimitReached && ! hasValidPremiumSubscription ) {
 			setFeatureModalStatus( FEATURE_MODAL_STATUS.idle );
 			return;
@@ -58,6 +75,7 @@ export const useFetchContentSuggestions = () => {
 		editorApiValue,
 		isUsageCountLimitReached,
 		hasValidPremiumSubscription,
+		isPremium,
 		usageCountEndpoint,
 		fetchContentPlannerSuggestions,
 		addUsageCount,
