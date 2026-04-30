@@ -67,6 +67,8 @@ class AI_Brand_Insights_Post_Launch implements Introduction_Interface {
 	 * @return bool Whether this introduction should show.
 	 */
 	public function should_show() {
-		return $this->current_page_helper->is_yoast_seo_page() && ! $this->product_helper->is_premium();
+		return $this->current_page_helper->is_yoast_seo_page()
+			&& ! $this->product_helper->is_premium()
+			&& $this->is_user_allowed( [ 'wpseo_manage_options' ] );
 	}
 }

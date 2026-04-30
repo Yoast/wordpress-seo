@@ -7,7 +7,6 @@ use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -119,7 +118,7 @@ final class Introductions_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Admin_Conditional::class, User_Can_Manage_Wpseo_Options_Conditional::class ], Introductions_Integration::get_conditionals() );
+		$this->assertEquals( [ Admin_Conditional::class ], Introductions_Integration::get_conditionals() );
 	}
 
 	/**
