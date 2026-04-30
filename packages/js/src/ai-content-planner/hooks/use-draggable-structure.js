@@ -20,7 +20,7 @@ export const useDraggableStructure = () => {
 	const handleAnnounce = useCallback( ( heading, newPosition ) => {
 		setReorderMessage( sprintf(
 			/* translators: 1: heading text, 2: new 1-based position, 3: total items. */
-			__( "%1$s moved to position %2$d of %3$d.", "wordpress-seo" ),
+			__( "H2 %1$s moved to position %2$d of %3$d.", "wordpress-seo" ),
 			heading,
 			newPosition,
 			structure.length

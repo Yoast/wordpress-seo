@@ -11,6 +11,7 @@ const defaultProps = {
 	onDragEnd: jest.fn(),
 	onMoveUp: jest.fn(),
 	onMoveDown: jest.fn(),
+	onAnnounce: jest.fn(),
 	totalItems: 4,
 };
 

@@ -310,7 +310,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleAnnounce( "Introduction", 2 );
 			} );
 
-			expect( result.current.reorderMessage ).toBe( "Introduction moved to position 2 of 3." );
+			expect( result.current.reorderMessage ).toBe( "H2 Introduction moved to position 2 of 3." );
 		} );
 
 		it( "updates reorderMessage on subsequent calls", () => {
@@ -323,7 +323,7 @@ describe( "useDraggableStructure", () => {
 				result.current.handleAnnounce( "Conclusion", 3 );
 			} );
 
-			expect( result.current.reorderMessage ).toBe( "Conclusion moved to position 3 of 3." );
+			expect( result.current.reorderMessage ).toBe( "H2 Conclusion moved to position 3 of 3." );
 		} );
 	} );
 
