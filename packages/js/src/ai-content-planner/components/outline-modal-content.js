@@ -16,6 +16,22 @@ import { Transition } from "@headlessui/react";
 const SKELETON_ROW_COUNT = 4;
 
 /**
+ * Section header for the Blog post structure list, shared by the loading and loaded states.
+ *
+ * @returns {JSX.Element} The StructureSectionHeader component.
+ */
+const StructureSectionHeader = () => (
+	<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
+		<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+			{ __( "Blog post structure", "wordpress-seo" ) }
+		</span>
+		<span className="yst-text-xs yst-text-slate-500">
+			{ __( "Drag to reorder", "wordpress-seo" ) }
+		</span>
+	</div>
+);
+
+/**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
  */
 
@@ -91,18 +107,11 @@ const LoadingOutlineModalContent = () => {
 				<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
 			</div>
 			<hr className="yst-border-slate-200" />
-			<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
-				<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-					{ __( "Blog post structure", "wordpress-seo" ) }
-				</span>
-				<span className="yst-text-xs yst-text-slate-500">
-					{ __( "Drag to reorder", "wordpress-seo" ) }
-				</span>
-			</div>
+			<StructureSectionHeader />
 			<div
 				role="listbox"
 				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
-				aria-busy="true"
+				aria-busy={ true }
 				className="yst-flex yst-flex-col yst-gap-2"
 			>
 				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
@@ -286,14 +295,7 @@ export const OutlineModalContent = ( {
 								</div>
 							</div>
 							<hr className="yst-border-slate-200" />
-							<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
-								<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-									{ __( "Blog post structure", "wordpress-seo" ) }
-								</span>
-								<span className="yst-text-xs yst-text-slate-500">
-									{ __( "Drag to reorder", "wordpress-seo" ) }
-								</span>
-							</div>
+							<StructureSectionHeader />
 							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
 								{ structure.map( ( item, index ) => (
 									<StructureRow
