@@ -388,68 +388,49 @@ final class Meta_Tags_Context_Memoizer_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that swap_current_page returns null when no current_page context was cached.
+	 * Tests that set_for_current_page installs the given context as the current_page cache entry.
 	 *
-	 * @covers ::swap_current_page
+	 * @covers ::set_for_current_page
 	 *
 	 * @return void
 	 */
-	public function test_swap_current_page_returns_null_when_empty() {
+	public function test_set_for_current_page_installs_context() {
 		$new_context = new Meta_Tags_Context_Mock();
 
-		$previous = $this->instance->swap_current_page( $new_context );
+		$this->instance->set_for_current_page( $new_context );
 
-		$this->assertNull( $previous );
 		$this->assertSame( $new_context, $this->instance->get_cache()['current_page'] );
 	}
 
 	/**
-	 * Tests that swap_current_page returns the previously cached current_page context and installs the new one.
+	 * Tests that set_for_current_page overwrites a previously cached current_page context.
 	 *
-	 * @covers ::swap_current_page
+	 * @covers ::set_for_current_page
 	 *
 	 * @return void
 	 */
-	public function test_swap_current_page_returns_previous_context() {
+	public function test_set_for_current_page_overwrites_existing_context() {
 		$old_context = new Meta_Tags_Context_Mock();
 		$new_context = new Meta_Tags_Context_Mock();
 		$this->instance->set_cache( 'current_page', $old_context );
 
-		$previous = $this->instance->swap_current_page( $new_context );
+		$this->instance->set_for_current_page( $new_context );
 
-		$this->assertSame( $old_context, $previous );
 		$this->assertSame( $new_context, $this->instance->get_cache()['current_page'] );
 	}
 
 	/**
-	 * Tests that swap_current_page with null clears the current_page cache and returns the previous value.
+	 * Tests that set_for_current_page does not affect cache entries keyed by indexable id.
 	 *
-	 * @covers ::swap_current_page
-	 *
-	 * @return void
-	 */
-	public function test_swap_current_page_with_null_clears_cache() {
-		$old_context = new Meta_Tags_Context_Mock();
-		$this->instance->set_cache( 'current_page', $old_context );
-
-		$previous = $this->instance->swap_current_page( null );
-
-		$this->assertSame( $old_context, $previous );
-		$this->assertArrayNotHasKey( 'current_page', $this->instance->get_cache() );
-	}
-
-	/**
-	 * Tests that swap_current_page does not affect cache entries keyed by indexable id.
-	 *
-	 * @covers ::swap_current_page
+	 * @covers ::set_for_current_page
 	 *
 	 * @return void
 	 */
-	public function test_swap_current_page_leaves_indexable_cache_intact() {
+	public function test_set_for_current_page_leaves_indexable_cache_intact() {
 		$indexable_context = new Meta_Tags_Context_Mock();
 		$this->instance->set_cache( $this->indexable->id, $indexable_context );
 
-		$this->instance->swap_current_page( new Meta_Tags_Context_Mock() );
+		$this->instance->set_for_current_page( new Meta_Tags_Context_Mock() );
 
 		$this->assertSame( $indexable_context, $this->instance->get_cache()[ $this->indexable->id ] );
 	}

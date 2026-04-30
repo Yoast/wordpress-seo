@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 
 /**
  * Tests that get() primes the memoizer's current_page cache with the per-indexable context
- * around the external collect() call, and restores it afterwards (even on exception).
+ * before the external collect() call, and that reset_global_state() runs even when collect throws.
  *
  * @group schema-aggregator
  *
@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-final class Get_Swaps_Current_Page_Context_Test extends Abstract_Schema_Piece_Repository_Test {
+final class Get_Sets_Current_Page_Context_Test extends Abstract_Schema_Piece_Repository_Test {
 
 	/**
 	 * Builds an indexable with a product sub-type and the given id.
@@ -38,7 +38,7 @@ final class Get_Swaps_Current_Page_Context_Test extends Abstract_Schema_Piece_Re
 	}
 
 	/**
-	 * Stubs every collaborator that is not relevant to the swap behaviour, leaving the
+	 * Stubs every collaborator that is not relevant to the prime behaviour, leaving the
 	 * indexable iteration as the only orchestration the test inspects.
 	 *
 	 * @param array<Indexable_Mock>    $indexables    The indexables to feed into the loop.
@@ -57,14 +57,12 @@ final class Get_Swaps_Current_Page_Context_Test extends Abstract_Schema_Piece_Re
 		$this->config->shouldReceive( 'get_allowed_post_types' )->andReturn( [ 'product' ] );
 
 		foreach ( $indexables as $indexable ) {
-			$this->global_state_adapter->expects( 'set_global_state' )->with( $indexable );
-			if ( $expects_reset ) {
-				$this->global_state_adapter->expects( 'reset_global_state' );
-			}
-
 			$this->indexable_helper->expects( 'get_page_type_for_indexable' )->with( $indexable )->andReturn( 'Product' );
 			$this->memoizer->expects( 'get' )->with( $indexable, 'Product' )->andReturn( $contexts[ $indexable->id ] );
 			$this->adapter->expects( 'meta_tags_context_to_array' )->with( $contexts[ $indexable->id ] )->andReturn( [ '@graph' => [] ] );
+			if ( $expects_reset ) {
+				$this->global_state_adapter->expects( 'reset_global_state' );
+			}
 		}
 
 		$this->external_repository->shouldReceive( 'supports' )->with( 'product' )->andReturnTrue();
@@ -72,12 +70,12 @@ final class Get_Swaps_Current_Page_Context_Test extends Abstract_Schema_Piece_Re
 	}
 
 	/**
-	 * Tests that for each indexable, the memoizer's current_page cache is swapped to the
-	 * indexable's own context before collect() is called and restored afterwards.
+	 * Tests that for each indexable, set_global_state is called with the indexable and its
+	 * own context (so the adapter primes the memoizer's current_page slot) before collect().
 	 *
 	 * @return void
 	 */
-	public function test_swap_is_invoked_around_each_external_collect_call(): void {
+	public function test_set_global_state_is_called_with_per_indexable_context(): void {
 		$indexable_a = $this->make_product_indexable( 1 );
 		$indexable_b = $this->make_product_indexable( 2 );
 
@@ -92,54 +90,31 @@ final class Get_Swaps_Current_Page_Context_Test extends Abstract_Schema_Piece_Re
 			],
 		);
 
-		// Iteration 1: prime with context_a (no previous), collect, restore null.
-		$this->memoizer->expects( 'swap_current_page' )->with( $context_a )->ordered()->andReturnNull();
+		// Iteration 1: set_global_state primes with context_a, then collect.
+		$this->global_state_adapter->expects( 'set_global_state' )->with( $indexable_a, $context_a )->ordered();
 		$this->external_repository->expects( 'collect' )->with( 1 )->ordered()->andReturn( [] );
-		$this->memoizer->expects( 'swap_current_page' )->with( null )->ordered()->andReturnNull();
 
-		// Iteration 2: prime with context_b (previous is null because we restored above), collect, restore null.
-		$this->memoizer->expects( 'swap_current_page' )->with( $context_b )->ordered()->andReturnNull();
+		// Iteration 2: set_global_state primes with context_b, then collect.
+		$this->global_state_adapter->expects( 'set_global_state' )->with( $indexable_b, $context_b )->ordered();
 		$this->external_repository->expects( 'collect' )->with( 2 )->ordered()->andReturn( [] );
-		$this->memoizer->expects( 'swap_current_page' )->with( null )->ordered()->andReturnNull();
 
 		$this->instance->get( 1, 10, 'product' );
 	}
 
 	/**
-	 * Tests that whatever swap_current_page returned before collect() is the value passed back
-	 * after collect() — i.e. an existing current_page cache entry is preserved across the loop.
+	 * Tests that reset_global_state still runs when collect() throws — the iteration body
+	 * is wrapped in try/finally to guarantee teardown (which clears the memoizer slot).
 	 *
 	 * @return void
 	 */
-	public function test_swap_restores_the_previously_cached_current_page(): void {
-		$indexable = $this->make_product_indexable( 7 );
-		$context   = Mockery::mock( Meta_Tags_Context::class );
-		$previous  = Mockery::mock( Meta_Tags_Context::class );
-
-		$this->stub_iteration( [ $indexable ], [ 7 => $context ] );
-
-		$this->memoizer->expects( 'swap_current_page' )->with( $context )->ordered()->andReturn( $previous );
-		$this->external_repository->expects( 'collect' )->with( 7 )->ordered()->andReturn( [] );
-		$this->memoizer->expects( 'swap_current_page' )->with( $previous )->ordered()->andReturnNull();
-
-		$this->instance->get( 1, 10, 'product' );
-	}
-
-	/**
-	 * Tests that the previous current_page context is restored even when collect() throws.
-	 *
-	 * @return void
-	 */
-	public function test_swap_restores_when_collect_throws(): void {
+	public function test_reset_global_state_runs_when_collect_throws(): void {
 		$indexable = $this->make_product_indexable( 9 );
 		$context   = Mockery::mock( Meta_Tags_Context::class );
-		$previous  = Mockery::mock( Meta_Tags_Context::class );
 
-		$this->stub_iteration( [ $indexable ], [ 9 => $context ], false );
+		$this->stub_iteration( [ $indexable ], [ 9 => $context ] );
 
-		$this->memoizer->expects( 'swap_current_page' )->with( $context )->ordered()->andReturn( $previous );
+		$this->global_state_adapter->expects( 'set_global_state' )->with( $indexable, $context )->ordered();
 		$this->external_repository->expects( 'collect' )->with( 9 )->ordered()->andThrow( new RuntimeException( 'boom' ) );
-		$this->memoizer->expects( 'swap_current_page' )->with( $previous )->ordered()->andReturnNull();
 
 		$this->expectException( RuntimeException::class );
 		$this->instance->get( 1, 10, 'product' );

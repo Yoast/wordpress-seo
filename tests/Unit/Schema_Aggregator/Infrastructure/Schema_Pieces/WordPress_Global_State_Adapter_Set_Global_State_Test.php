@@ -56,7 +56,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $mock_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $mock_post, $post );
 		$this->assertSame( $mock_post, $wp_query->queried_object );
@@ -111,7 +111,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $mock_page );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $mock_page, $post );
 		$this->assertSame( $mock_page, $wp_query->queried_object );
@@ -164,7 +164,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $previous_post, $this->getPropertyValue( $this->instance, 'previous_post' ) );
 	}
@@ -206,7 +206,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( $previous_queried_object, $this->getPropertyValue( $this->instance, 'previous_queried_object' ) );
 	}
@@ -244,7 +244,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertSame( 456, $this->getPropertyValue( $this->instance, 'previous_queried_object_id' ) );
 	}
@@ -282,7 +282,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_post' ) );
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_queried_object' ) );
@@ -318,7 +318,7 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_post' ) );
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'previous_queried_object' ) );
@@ -359,11 +359,50 @@ final class WordPress_Global_State_Adapter_Set_Global_State_Test extends Abstrac
 			->once()
 			->with( $new_post );
 
-		$this->instance->set_global_state( $indexable );
+		$this->instance->set_global_state( $indexable, $this->context );
 
 		$previous_flags = $this->getPropertyValue( $this->instance, 'previous_query_flags' );
 		$this->assertTrue( $previous_flags['is_single'] );
 		$this->assertTrue( $previous_flags['is_singular'] );
 		$this->assertFalse( $previous_flags['is_page'] );
+	}
+
+	/**
+	 * Tests that set_global_state primes the memoizer's current_page slot with the given context.
+	 *
+	 * @return void
+	 */
+	public function test_set_global_state_primes_memoizer_current_page() {
+		global $post, $wp_query;
+
+		$post     = null;
+		$wp_query = (object) [
+			'queried_object'    => null,
+			'queried_object_id' => null,
+			'is_single'         => false,
+			'is_singular'       => false,
+			'is_page'           => false,
+		];
+
+		$indexable                  = new Indexable_Mock();
+		$indexable->object_id       = 123;
+		$indexable->object_sub_type = 'post';
+
+		$new_post            = Mockery::mock( WP_Post::class )->makePartial();
+		$new_post->ID        = 123;
+		$new_post->post_type = 'post';
+
+		Functions\expect( 'get_post' )
+			->twice()
+			->with( 123 )
+			->andReturn( $new_post );
+
+		Functions\expect( 'setup_postdata' )
+			->once()
+			->with( $new_post );
+
+		$this->memoizer->expects( 'set_for_current_page' )->once()->with( $this->context );
+
+		$this->instance->set_global_state( $indexable, $this->context );
 	}
 }
