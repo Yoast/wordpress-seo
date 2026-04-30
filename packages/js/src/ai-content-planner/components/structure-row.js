@@ -17,7 +17,7 @@ export const Row = ( { children, className, ...props } ) => {
 
 	return ( <div
 		className={ classNames(
-			"yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-py-2 yst-select-none",
+			"yst-h-10 yst-border yst-border-slate-300 yst-rounded-md yst-shadow yst-flex yst-items-center yst-gap-3 yst-px-3 yst-select-none",
 			className
 		) }
 		{ ...props }

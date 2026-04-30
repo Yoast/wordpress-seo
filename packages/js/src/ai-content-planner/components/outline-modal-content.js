@@ -316,7 +316,7 @@ export const OutlineModalContent = ( {
 									className={ classNames(
 										"yst-rounded-md yst-transition-all yst-border-2",
 										dragOverIndex === structure.length
-											? "yst-border-primary-500 yst-h-8"
+											? "yst-border-primary-500 yst-h-10"
 											: "yst-border-transparent yst-h-2"
 									) }
 									onDragOver={ handleSentinelDragOver }
