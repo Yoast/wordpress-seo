@@ -35,16 +35,13 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 
 	// If canvas is empty, insert a paragraph first; the effect will re-run.
 	if ( blocks.length === 0 ) {
+		// eslint-disable-next-line no-undefined
 		insertBlock( createBlock( "core/paragraph" ), 0, undefined, false );
 		return false;
 	}
 
 	const firstParagraphIndex = blocks.findIndex( b => b.name === "core/paragraph" );
-	if ( firstParagraphIndex === -1 ) {
-		return false;
-	}
-
-	return true;
+	return firstParagraphIndex !== -1;
 }
 
 
@@ -94,7 +91,6 @@ export const ContentPlannerEditorPlugin = () => {
  * @returns {void}
  */
 export default function initContentPlanner() {
-	// registerBannerBlock();
 	registerBannerFilter();
 	// The banner slice's initial state must come from the hidden inputs that the metabox renders into the DOM.
 	// Those inputs only exist after the document is ready, so the store registration is deferred until then.
