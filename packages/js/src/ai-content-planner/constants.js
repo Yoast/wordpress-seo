@@ -23,6 +23,8 @@ export const ERROR_DEFAULT = {
 	errorMessage: null,
 };
 
+export const SKELETON_ROW_COUNT = 4;
+
 /**
  * The category type for a content suggestion.
  * @typedef {Object} Category
