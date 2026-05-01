@@ -35,29 +35,26 @@ describe( "StructureRow", () => {
 			expect( screen.getByText( "H2" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders the row as a list item with an accessible label", () => {
+		it( "renders the row as a list item containing an accessible button", () => {
 			renderRow();
-			expect( screen.getByRole( "listitem", { name: "H2 Introduction" } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /H2 Introduction/ } ) ).toBeInTheDocument();
 		} );
 	} );
 
 	describe( "drag-over highlight", () => {
 		it( "applies the highlighted border class when dragOverIndex matches the row index", () => {
 			renderRow( { index: 2, dragOverIndex: 2 } );
-			const row = screen.getByRole( "listitem" );
-			expect( row ).toHaveClass( "yst-border-primary-500" );
+			expect( screen.getByRole( "button" ) ).toHaveClass( "yst-border-primary-500" );
 		} );
 
 		it( "does not apply the highlighted border class when dragOverIndex differs from the row index", () => {
 			renderRow( { index: 1, dragOverIndex: 3 } );
-			const row = screen.getByRole( "listitem" );
-			expect( row ).not.toHaveClass( "yst-border-primary-500" );
+			expect( screen.getByRole( "button" ) ).not.toHaveClass( "yst-border-primary-500" );
 		} );
 
 		it( "does not apply the highlighted border class when dragOverIndex is null", () => {
 			renderRow( { dragOverIndex: null } );
-			const row = screen.getByRole( "listitem" );
-			expect( row ).not.toHaveClass( "yst-border-primary-500" );
+			expect( screen.getByRole( "button" ) ).not.toHaveClass( "yst-border-primary-500" );
 		} );
 	} );
 
@@ -98,42 +95,42 @@ describe( "StructureRow", () => {
 		it( "calls onMoveUp with the index when Alt+ArrowUp is pressed and index > 0", () => {
 			const onMoveUp = jest.fn();
 			renderRow( { onMoveUp, index: 1 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowUp", altKey: true } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowUp", altKey: true } );
 			expect( onMoveUp ).toHaveBeenCalledWith( 1 );
 		} );
 
 		it( "does not call onMoveUp when Alt+ArrowUp is pressed and index is 0", () => {
 			const onMoveUp = jest.fn();
 			renderRow( { onMoveUp, index: 0 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowUp", altKey: true } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowUp", altKey: true } );
 			expect( onMoveUp ).not.toHaveBeenCalled();
 		} );
 
 		it( "calls onMoveDown with the index when Alt+ArrowDown is pressed and index < totalItems - 1", () => {
 			const onMoveDown = jest.fn();
 			renderRow( { onMoveDown, index: 1, totalItems: 4 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowDown", altKey: true } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowDown", altKey: true } );
 			expect( onMoveDown ).toHaveBeenCalledWith( 1 );
 		} );
 
 		it( "does not call onMoveDown when Alt+ArrowDown is pressed and index is the last item", () => {
 			const onMoveDown = jest.fn();
 			renderRow( { onMoveDown, index: 3, totalItems: 4 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowDown", altKey: true } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowDown", altKey: true } );
 			expect( onMoveDown ).not.toHaveBeenCalled();
 		} );
 
 		it( "ignores ArrowUp without the Alt modifier", () => {
 			const onMoveUp = jest.fn();
 			renderRow( { onMoveUp, index: 1 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowUp", altKey: false } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowUp", altKey: false } );
 			expect( onMoveUp ).not.toHaveBeenCalled();
 		} );
 
 		it( "ignores ArrowDown without the Alt modifier", () => {
 			const onMoveDown = jest.fn();
 			renderRow( { onMoveDown, index: 1 } );
-			fireEvent.keyDown( screen.getByRole( "listitem" ), { key: "ArrowDown", altKey: false } );
+			fireEvent.keyDown( screen.getByRole( "button" ), { key: "ArrowDown", altKey: false } );
 			expect( onMoveDown ).not.toHaveBeenCalled();
 		} );
 	} );

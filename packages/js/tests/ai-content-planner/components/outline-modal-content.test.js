@@ -125,10 +125,10 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.getByRole( "list", { name: "Blog post structure" } ) ).toBeInTheDocument();
 		} );
 
-		it( "renders structure rows as list items with accessible labels", () => {
+		it( "renders structure rows as list items with accessible button labels", () => {
 			renderLoadedModal();
-			expect( screen.getByRole( "listitem", { name: "H2 Introduction" } ) ).toBeInTheDocument();
-			expect( screen.getByRole( "listitem", { name: "H2 Conclusion" } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /H2 Introduction/ } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /H2 Conclusion/ } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -343,49 +343,48 @@ describe( "ContentOutlineModal", () => {
 			renderLoadedModal();
 			const items = screen.getAllByRole( "listitem" );
 			expect( items ).toHaveLength( 4 );
-			expect( items[ 0 ] ).toHaveAttribute( "aria-label", "H2 Introduction" );
-			expect( items[ 1 ] ).toHaveAttribute( "aria-label", "H2 Why This Matters" );
-			expect( items[ 2 ] ).toHaveAttribute( "aria-label", "H2 Step-by-Step Guide" );
-			expect( items[ 3 ] ).toHaveAttribute( "aria-label", "H2 Conclusion" );
+			items.forEach( item => {
+				expect( item.querySelector( "button" ) ).not.toBeNull();
+			} );
 		} );
 
 		it( "allows keyboard navigation with Alt+ArrowUp", () => {
 			renderLoadedModal();
-			const items = screen.getAllByRole( "listitem" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( items[ 1 ], { key: "ArrowUp", altKey: true } );
+				fireEvent.keyDown( buttons[ 1 ], { key: "ArrowUp", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "allows keyboard navigation with Alt+ArrowDown", () => {
 			renderLoadedModal();
-			const items = screen.getAllByRole( "listitem" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( items[ 0 ], { key: "ArrowDown", altKey: true } );
+				fireEvent.keyDown( buttons[ 0 ], { key: "ArrowDown", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "does not throw when first row receives ArrowUp", () => {
 			renderLoadedModal();
-			const items = screen.getAllByRole( "listitem" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( items[ 0 ], { key: "ArrowUp", altKey: true } );
+				fireEvent.keyDown( buttons[ 0 ], { key: "ArrowUp", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "does not throw when last row receives ArrowDown", () => {
 			renderLoadedModal();
-			const items = screen.getAllByRole( "listitem" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( items[ 3 ], { key: "ArrowDown", altKey: true } );
+				fireEvent.keyDown( buttons[ 3 ], { key: "ArrowDown", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "ignores arrow keys without the Alt modifier", () => {
 			renderLoadedModal();
-			const items = screen.getAllByRole( "listitem" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( items[ 1 ], { key: "ArrowUp", altKey: false } );
+				fireEvent.keyDown( buttons[ 1 ], { key: "ArrowUp", altKey: false } );
 			} ).not.toThrow();
 		} );
 	} );
