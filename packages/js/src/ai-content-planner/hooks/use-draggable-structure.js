@@ -29,6 +29,9 @@ export const useDraggableStructure = () => {
 
 	useEffect( () => {
 		setStructure( outline );
+		setReorderMessage( "" );
+		setDragOverIndex( null );
+		dragIndexRef.current = null;
 	}, [ outline ] );
 
 	const handleDragStart = useCallback( ( e, index ) => {
