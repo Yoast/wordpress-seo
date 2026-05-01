@@ -48,7 +48,7 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 
 
 /**
-* Editor plugin that auto-inserts the Content Planner Banner component (via the `editor.BlockListBlock` filter) in new posts of the "post" type,
+ * Editor plugin that auto-inserts the Content Planner Banner component (via the `editor.BlockListBlock` filter) in new posts of the "post" type,
  * after the first paragraph on new posts and renders the shared
  * FeatureModal controlled by the content planner store.
  *
@@ -122,7 +122,9 @@ export default function initContentPlanner() {
 				isBannerRendered: getIsBannerRenderedFromInput(),
 			},
 		} );
+		// Register the inline banner filter after the store is registered,
+		// so the banner component can read from the store to determine whether it should render.
+		registerInlineBanner();
 	} );
-	registerInlineBanner();
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }
