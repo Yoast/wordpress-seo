@@ -733,7 +733,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'content_planner' ),
 		);
 
 		// We can't detect in save_postdata whether the request is coming from the block editor, so we gate the content_planner fields on post type only.
