@@ -23,6 +23,8 @@ export const ERROR_DEFAULT = {
 	errorMessage: null,
 };
 
+export const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
+
 /**
  * The category type for a content suggestion.
  * @typedef {Object} Category

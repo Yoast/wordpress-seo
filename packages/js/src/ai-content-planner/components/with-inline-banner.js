@@ -2,39 +2,20 @@ import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
 import { InlineBanner } from "./inline-banner";
-import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS } from "../constants";
+import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 
-const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
-
 /**
- * Higher-order component for `editor.BlockListBlock` that injects the Content
- * Planner inline banner before the first top-level block in the canvas.
- *
- * The banner sits before (not after) the wrapped block on purpose: rendering
- * it after places it at the bottom edge of Gutenberg's block wrapper, where
- * the between-block inserter (the blue "+" line) draws and visually cuts
- * through the banner. Putting the banner first keeps the wrapper's bottom
- * edge at the actual block, so the inserter renders below the block where
- * Gutenberg expects it.
- *
- * The banner is purely UI here — it is NOT a block in the editor's data model,
- * so it does not affect Gutenberg's `isEditedPostEmpty` detection or the
- * Publish button's enabled state.
- *
- * Banner persistence rides on two hidden meta inputs registered via WPSEO_Meta;
- * the content planner store seeds its banner slice from those inputs at boot,
- * and the dispatched actions write back to them so the metabox save pipeline
- * persists "1" on the next save.
+ * The component that conditionally renders the Content Planner inline banner and injects the Tailwind stylesheet into the editor iframe.
+ * @param {Function}   BlockListBlock The Gutenberg block component to wrap.
+ * @param {Object}   props The block props passed by Gutenberg.
+ * @returns {JSX.Element} The wrapped block component with the inline banner conditionally rendered before it.
  */
-export const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => function WithInlineBanner( props ) {
-	const { isFirstBlock, isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet } = useSelect( ( select ) => {
-		const firstBlockClientId = select( "core/block-editor" ).getBlockOrder()[ 0 ];
+const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
+	const { isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet } = useSelect( ( select ) => {
 		const planner = select( CONTENT_PLANNER_STORE );
-
 		return {
-			isFirstBlock: firstBlockClientId === props.clientId,
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			isBannerDismissed: planner.selectIsBannerDismissed(),
 			isBannerRendered: planner.selectIsBannerRendered(),
@@ -42,13 +23,13 @@ export const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) =
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 		};
-	}, [ props.clientId ] );
+	}, [] );
 
 	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const ref = useRef( null );
 
-	const shouldShow = isFirstBlock && ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
+	const shouldShow = ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
 
 	const handleDismiss = useCallback( () => {
 		setBannerDismissed();
@@ -100,5 +81,38 @@ export const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) =
 			<BlockListBlock { ...props } />
 		</>
 	);
-}, "withYoastContentPlannerBanner" );
+};
 
+/**
+ * Higher-order component for `editor.BlockListBlock` that injects the Content
+ * Planner inline banner before the first top-level block in the canvas.
+ *
+ * The banner sits before (not after) the wrapped block on purpose: rendering
+ * it after places it at the bottom edge of Gutenberg's block wrapper, where
+ * the between-block inserter (the blue "+" line) draws and visually cuts
+ * through the banner. Putting the banner first keeps the wrapper's bottom
+ * edge at the actual block, so the inserter renders below the block where
+ * Gutenberg expects it.
+ *
+ * The banner is purely UI here — it is NOT a block in the editor's data model,
+ * so it does not affect Gutenberg's `isEditedPostEmpty` detection or the
+ * Publish button's enabled state.
+ *
+ * Banner persistence rides on two hidden meta inputs registered via WPSEO_Meta;
+ * the content planner store seeds its banner slice from those inputs at boot,
+ * and the dispatched actions write back to them so the metabox save pipeline
+ * persists "1" on the next save.
+ */
+export const withInlineBanner = createHigherOrderComponent( ( BlockListBlock ) => function WithInlineBanner( props ) {
+	const isFirstBlock = useSelect( ( select ) => {
+		return select( "core/block-editor" ).getBlockOrder()[ 0 ] === props.clientId;
+	}, [ props.clientId ] );
+
+	// Non-first blocks: zero additional overhead.
+	if ( ! isFirstBlock ) {
+		return <BlockListBlock { ...props } />;
+	}
+
+	// Only the first block renders the full component with all subscriptions.
+	return <FirstBlockWithBanner BlockListBlock={ BlockListBlock } props={ props } />;
+}, "withYoastContentPlannerBanner" );
