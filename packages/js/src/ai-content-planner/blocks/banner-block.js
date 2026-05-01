@@ -23,10 +23,11 @@ const INJECTED_STYLE_ID = "yoast-seo-tailwind-css";
 const Edit = ( { clientId } ) => {
 	const blockProps = useBlockProps();
 	const ref = useRef( null );
-	const { isPremium, hasConsent } = useSelect( select => {
+	const { isPremium, hasConsent, minPostsMet } = useSelect( select => {
 		return {
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
+			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 		};
 	}, [] );
 	const { removeBlock } = useDispatch( "core/block-editor" );
@@ -61,6 +62,10 @@ const Edit = ( { clientId } ) => {
 		link.href = mainLink.href;
 		ownerDoc.head.appendChild( link );
 	}, [] );
+
+	if ( ! minPostsMet ) {
+		return null;
+	}
 
 	return (
 		<div { ...blockProps } ref={ ref }>

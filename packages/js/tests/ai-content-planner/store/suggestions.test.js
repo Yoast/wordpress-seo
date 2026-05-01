@@ -14,6 +14,7 @@ const ERROR_DEFAULT = {
 	errorCode: null,
 	errorIdentifier: null,
 	errorMessage: null,
+	missingLicenses: [],
 };
 
 /* eslint-disable camelcase -- API field names use snake_case. */
@@ -134,6 +135,7 @@ describe( "suggestions store", () => {
 					errorCode: 403,
 					errorIdentifier: "forbidden",
 					errorMessage: "Access denied.",
+					missingLicenses: [],
 				},
 			} );
 		} );
@@ -148,6 +150,36 @@ describe( "suggestions store", () => {
 			);
 
 			expect( result.error.errorCode ).toBe( 502 );
+		} );
+
+		it( "setSuggestionsError sets the error state without an API call, clearing any prior suggestions", () => {
+			const previousState = {
+				endpoint: "",
+				status: ASYNC_ACTION_STATUS.success,
+				suggestions: transformedSuggestions,
+				error: ERROR_DEFAULT,
+			};
+
+			const result = contentSuggestionsReducer( previousState, {
+				type: `${ CONTENT_SUGGESTIONS_NAME }/setSuggestionsError`,
+				payload: {
+					errorCode: 402,
+					errorIdentifier: "PAYMENT_REQUIRED",
+					missingLicenses: [ "Yoast SEO Premium" ],
+				},
+			} );
+
+			expect( result ).toEqual( {
+				endpoint: "",
+				status: ASYNC_ACTION_STATUS.error,
+				suggestions: [],
+				error: {
+					errorCode: 402,
+					errorIdentifier: "PAYMENT_REQUIRED",
+					errorMessage: "",
+					missingLicenses: [ "Yoast SEO Premium" ],
+				},
+			} );
 		} );
 	} );
 
