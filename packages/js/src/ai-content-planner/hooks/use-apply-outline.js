@@ -8,7 +8,8 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * Returns a callback that applies the content outline to the post.
  *
  * Fetches the outline from the API, merges it with the user's edits from the
- * modal, then replaces the editor blocks, removes the banner block, and closes the modal.
+ * modal, then replaces the editor blocks, dismisses the inline banner, and
+ * closes the modal.
  *
  * @param {Object} params                  The parameters.
  * @param {Object} params.editedOutlineRef Ref holding the user's edits from the outline modal.
@@ -16,8 +17,8 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * @returns {Function} Async callback to apply the outline.
  */
 export const useApplyOutline = ( { editedOutlineRef } ) => {
-	const { resetBlocks, removeBlock } = useDispatch( "core/block-editor" );
-	const { closeModal } = useDispatch( CONTENT_PLANNER_STORE );
+	const { resetBlocks } = useDispatch( "core/block-editor" );
+	const { closeModal, setBannerDismissed } = useDispatch( CONTENT_PLANNER_STORE );
 
 	return useCallback( async() => {
 		const editedOutline = editedOutlineRef.current;
@@ -45,11 +46,8 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 
 		applyPostMetaFromOutline( metaOutline );
 
-		const banner = select( "core/block-editor" ).getBlocks().find( ( b ) => b.name === "yoast/content-planner-banner" );
-		if ( banner ) {
-			removeBlock( banner.clientId );
-		}
+		setBannerDismissed();
 
 		closeModal();
-	}, [ resetBlocks, removeBlock, closeModal ] );
+	}, [ resetBlocks, closeModal, setBannerDismissed ] );
 };

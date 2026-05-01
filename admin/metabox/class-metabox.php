@@ -358,6 +358,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
+		$screen          = WP_Screen::get();
+		$is_block_editor = $screen && $screen->is_block_editor();
+		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'content_planner' );
+		}
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
@@ -728,6 +735,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$social_fields,
 			WPSEO_Meta::get_meta_field_defs( 'schema', $post->post_type ),
 		);
+
+		// We can't detect in save_postdata whether the request is coming from the block editor, so we gate the content_planner fields on post type only.
+		if ( $post->post_type === 'post' ) {
+			$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'content_planner' ) );
+		}
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 
