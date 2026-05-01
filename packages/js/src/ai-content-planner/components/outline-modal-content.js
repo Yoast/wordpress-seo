@@ -7,11 +7,28 @@ import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
-import { StructureRow } from "./structure-row";
+import { StructureRow, StructureRowSkeleton } from "./structure-row";
 import { CategorySection } from "./category-section";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 import { Transition } from "@headlessui/react";
+import { SKELETON_ROW_COUNT } from "../constants";
+
+/**
+ * Section header for the Blog post structure list, shared by the loading and loaded states.
+ *
+ * @returns {JSX.Element} The StructureSectionHeader component.
+ */
+const StructureSectionHeader = () => (
+	<div className="yst-flex yst-items-end yst-justify-between yst-mb-2">
+		<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+			{ __( "Blog post structure", "wordpress-seo" ) }
+		</span>
+		<span className="yst-text-xs yst-text-slate-500">
+			{ __( "Drag to reorder", "wordpress-seo" ) }
+		</span>
+	</div>
+);
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -82,10 +99,24 @@ const LoadingOutlineModalContent = () => {
 		<CategorySection
 			isLoading={ true }
 		/>
-		<div className="yst-flex yst-flex-col yst-gap-4">
-			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+		<div className="yst-flex yst-flex-col">
+			<div className="yst-flex yst-flex-col yst-gap-4">
+				<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+			</div>
+			<hr className="yst-border-slate-200 yst-my-6" />
+			<StructureSectionHeader />
+			<div
+				role="listbox"
+				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
+				aria-busy={ true }
+				className="yst-flex yst-flex-col yst-gap-2"
+			>
+				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
+					<StructureRowSkeleton key={ `structure-row-skeleton-${ index }` } />
+				) ) }
+			</div>
 		</div>
 	</>;
 };
@@ -183,6 +214,7 @@ export const OutlineModalContent = ( {
 					errorCode={ error.errorCode }
 					errorIdentifier={ error.errorIdentifier }
 					errorMessage={ error.errorMessage }
+					missingLicenses={ error.missingLicenses }
 					onRetry={ handleRetry }
 				/>
 			</Modal.Container.Content>
@@ -231,7 +263,7 @@ export const OutlineModalContent = ( {
 								onToggle={ handleCategoryToggle }
 							/>
 						) }
-						<div className="yst-flex yst-flex-col yst-gap-6">
+						<div className="yst-flex yst-flex-col">
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<TextField
 									id="content-outline-focus-keyphrase"
@@ -262,15 +294,8 @@ export const OutlineModalContent = ( {
 
 								</div>
 							</div>
-							<hr className="yst-border-slate-200" />
-							<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
-								<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-									{ __( "Blog post structure", "wordpress-seo" ) }
-								</span>
-								<span className="yst-text-xs yst-text-slate-500">
-									{ __( "Drag to reorder", "wordpress-seo" ) }
-								</span>
-							</div>
+							<hr className="yst-border-slate-200 yst-my-6" />
+							<StructureSectionHeader />
 							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
 								{ structure.map( ( item, index ) => (
 									<StructureRow
@@ -292,7 +317,7 @@ export const OutlineModalContent = ( {
 									className={ classNames(
 										"yst-rounded-md yst-transition-all yst-border-2",
 										dragOverIndex === structure.length
-											? "yst-border-primary-500 yst-h-8"
+											? "yst-border-primary-500 yst-h-10"
 											: "yst-border-transparent yst-h-2"
 									) }
 									onDragOver={ handleSentinelDragOver }
