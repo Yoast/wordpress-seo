@@ -123,7 +123,6 @@ export default function initContentPlanner() {
 			},
 		} );
 	} );
-	// Register the inline banner after the store is registered, so the filter callback can access the store state.
 	registerInlineBanner();
 	registerPlugin( "yoast-content-planner", { render: ContentPlannerEditorPlugin } );
 }

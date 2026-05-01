@@ -2,7 +2,7 @@
  * Helper function to update the hidden fields of the post meta.
  *
  * @param {string} id The ID of the input element to update.
- * @returns {void} Updates the hidden fileds of the post meta.
+ * @returns {void} Updates the hidden fields of the post meta.
  */
 const updateInput = ( id ) => {
 	const input = document.getElementById( id );
