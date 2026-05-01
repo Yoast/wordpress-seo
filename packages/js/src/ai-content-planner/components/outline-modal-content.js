@@ -214,6 +214,7 @@ export const OutlineModalContent = ( {
 					errorCode={ error.errorCode }
 					errorIdentifier={ error.errorIdentifier }
 					errorMessage={ error.errorMessage }
+					missingLicenses={ error.missingLicenses }
 					onRetry={ handleRetry }
 				/>
 			</Modal.Container.Content>

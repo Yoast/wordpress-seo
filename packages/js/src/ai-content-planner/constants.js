@@ -21,6 +21,7 @@ export const ERROR_DEFAULT = {
 	errorCode: null,
 	errorIdentifier: null,
 	errorMessage: null,
+	missingLicenses: [],
 };
 
 export const SKELETON_ROW_COUNT = 4;

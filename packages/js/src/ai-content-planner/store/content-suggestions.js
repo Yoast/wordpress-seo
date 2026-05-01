@@ -32,6 +32,12 @@ const slice = createSlice( {
 			}
 			state.suggestions[ index ] = payload;
 		},
+		// Surface a synthetic error (e.g. known-invalid Premium subscription) without making an API call.
+		setSuggestionsError: ( state, { payload } ) => {
+			state.status = ASYNC_ACTION_STATUS.error;
+			state.suggestions = [];
+			state.error = normalizeError( payload );
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_CONTENT_SUGGESTIONS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
