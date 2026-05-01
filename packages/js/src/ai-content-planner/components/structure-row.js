@@ -12,7 +12,7 @@ import classNames from "classnames";
  *
  * @returns {JSX.Element} The Row component.
  */
-export const Row = ( { children, className, ...props } ) => {
+const Row = ( { children, className, ...props } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return ( <li
