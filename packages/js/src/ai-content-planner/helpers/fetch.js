@@ -51,6 +51,7 @@ async function buildHttpError( error ) {
 		errorCode: error.status || 502,
 		errorIdentifier: body.errorIdentifier || body.code || "",
 		errorMessage: body.message || "",
+		missingLicenses: body.missingLicenses || [],
 	};
 }
 
