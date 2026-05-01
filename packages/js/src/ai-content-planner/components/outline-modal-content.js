@@ -224,7 +224,7 @@ export const OutlineModalContent = ( {
 	return (
 		<>
 			<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
-				<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
+				<div className="yst-flex yst-flex-col yst-gap-6">
 					<IntentCallout
 						intent={ suggestion.intent }
 						description={ suggestion.explanation }
@@ -318,12 +318,7 @@ export const OutlineModalContent = ( {
 							</ul>
 							{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
 							<div
-								className={ classNames(
-									"yst-rounded-md yst-transition-all yst-border-2",
-									dragOverIndex === structure.length
-										? "yst-border-primary-500 yst-h-8"
-										: "yst-border-transparent yst-h-2"
-								) }
+								className="yst-h-8"
 								onDragOver={ handleSentinelDragOver }
 								onDrop={ handleSentinelDrop }
 							/>
@@ -331,7 +326,10 @@ export const OutlineModalContent = ( {
 					</Transition>
 				</div>
 				<div
-					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					className={ classNames(
+						isLoading ? "yst-sticky" : "yst-hidden",
+						"-yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					) }
 					aria-hidden="true"
 				/>
 			</Modal.Container.Content>
