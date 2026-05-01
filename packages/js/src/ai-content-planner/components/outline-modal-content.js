@@ -110,7 +110,7 @@ const LoadingOutlineModalContent = () => {
 			<ul
 				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
 				aria-busy={ true }
-				className="yst-flex yst-flex-col yst-gap-2"
+				className="yst-list-none yst-p-0 yst-m-0 yst-flex yst-flex-col yst-gap-2"
 			>
 				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
 					<StructureRowSkeleton key={ `structure-row-skeleton-${ index }` } />
