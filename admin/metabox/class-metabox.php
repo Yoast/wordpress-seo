@@ -737,7 +737,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 
 		// We can't detect in save_postdata whether the request is coming from the block editor, so we gate the content_planner fields on post type only.
-		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		$is_block_editor = WP_Screen::get()->is_block_editor();
 		if ( $post->post_type === 'post' && $is_block_editor ) {
 			$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'content_planner' ) );
 		}
