@@ -27,13 +27,4 @@ class Content_Planner_Block implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'init', [ $this, 'register_block' ], 11 );
 	}
-
-	/**
-	 * Registers the content planner banner block type.
-	 *
-	 * @return void
-	 */
-	public function register_block() {
-		\register_block_type( \WPSEO_PATH . 'blocks/ai-content-planner/block.json' );
-	}
 }
