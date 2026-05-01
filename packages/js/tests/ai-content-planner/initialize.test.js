@@ -1,11 +1,19 @@
 import { render } from "../test-utils";
-import { ContentPlannerEditorPlugin } from "../../src/ai-content-planner/initialize";
+import { ContentPlannerEditorPlugin, registerInlineBanner } from "../../src/ai-content-planner/initialize";
+import { addFilter } from "@wordpress/hooks";
 
 jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn(),
-	useDispatch: jest.fn(),
+	useSelect: jest.fn( () => ( {
+		isNewPost: false,
+		postType: "post",
+		blocks: [],
+		minPostsMet: false,
+		isBannerRendered: false,
+	} ) ),
+	useDispatch: jest.fn( () => ( { insertBlock: jest.fn() } ) ),
 	select: jest.fn( () => ( {
 		getBlocks: () => [],
+		isEditedPostNew: () => true,
 	} ) ),
 	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
@@ -52,6 +60,28 @@ describe( "ContentPlannerEditorPlugin", () => {
 	test( "renders the App without crashing", () => {
 		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
 		expect( getByTestId( "app" ) ).toBeInTheDocument();
+	} );
+} );
+
+describe( "registerInlineBanner", () => {
+	beforeEach( () => {
+		addFilter.mockClear();
+	} );
+
+	test( "registers the editor.BlockListBlock filter", () => {
+		registerInlineBanner();
+
+		expect( addFilter ).toHaveBeenCalledWith(
+			"editor.BlockListBlock",
+			"yoast/content-planner-banner",
+			expect.any( Function )
+		);
+	} );
+
+	test( "registers the filter only once per call", () => {
+		registerInlineBanner();
+
+		expect( addFilter ).toHaveBeenCalledTimes( 1 );
 	} );
 } );
 

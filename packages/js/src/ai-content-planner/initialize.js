@@ -5,7 +5,6 @@ import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 import { get } from "lodash";
 import { App } from "./components/app";
-import { registerBannerFilter } from "./banner-filter";
 import "./blocks/content-suggestion-block";
 import { CONTENT_PLANNER_STORE } from "./constants";
 import { getIsBannerDismissedFromInput, getIsBannerRenderedFromInput } from "./helpers/fields";
@@ -14,6 +13,9 @@ import { AVAILABILITY_NAME } from "./store/availability";
 import { BANNER_NAME } from "./store/banner";
 import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
+import { withInlineBanner } from "./components/with-inline-banner";
+import { addFilter } from "@wordpress/hooks";
+
 
 /**
  * Ensures a fresh post has at least one block in the canvas, so the
@@ -80,6 +82,17 @@ export const ContentPlannerEditorPlugin = () => {
 	);
 };
 
+/**
+ * Registers the editor.BlockListBlock filter that renders the inline banner.
+ *
+ * Deferred behind a function so the filter is only added when the Content
+ * Planner feature initializes, not at module import time.
+ *
+ * @returns {void}
+ */
+export function registerInlineBanner() {
+	addFilter( "editor.BlockListBlock", "yoast/content-planner-banner", withInlineBanner );
+}
 
 /**
  * Initializes the Content Planner feature.
@@ -91,7 +104,7 @@ export const ContentPlannerEditorPlugin = () => {
  * @returns {void}
  */
 export default function initContentPlanner() {
-	registerBannerFilter();
+	registerInlineBanner();
 	// The banner slice's initial state must come from the hidden inputs that the metabox renders into the DOM.
 	// Those inputs only exist after the document is ready, so the store registration is deferred until then.
 	domReady( () => {
