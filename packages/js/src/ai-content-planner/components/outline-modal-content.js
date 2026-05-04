@@ -107,16 +107,15 @@ const LoadingOutlineModalContent = () => {
 			</div>
 			<hr className="yst-border-slate-200 yst-my-6" />
 			<StructureSectionHeader />
-			<div
-				role="listbox"
+			<ul
 				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
 				aria-busy={ true }
-				className="yst-flex yst-flex-col yst-gap-2"
+				className="yst-list-none yst-p-0 yst-m-0 yst-flex yst-flex-col yst-gap-2"
 			>
 				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
 					<StructureRowSkeleton key={ `structure-row-skeleton-${ index }` } />
 				) ) }
-			</div>
+			</ul>
 		</div>
 	</>;
 };
@@ -159,6 +158,8 @@ export const OutlineModalContent = ( {
 	const {
 		structure,
 		dragOverIndex,
+		reorderMessage,
+		handleAnnounce,
 		handleDragStart,
 		handleDragOver,
 		handleDrop,
@@ -224,7 +225,7 @@ export const OutlineModalContent = ( {
 	return (
 		<>
 			<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
-				<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
+				<div className="yst-flex yst-flex-col yst-gap-6">
 					<IntentCallout
 						intent={ suggestion.intent }
 						description={ suggestion.explanation }
@@ -296,7 +297,9 @@ export const OutlineModalContent = ( {
 							</div>
 							<hr className="yst-border-slate-200 yst-my-6" />
 							<StructureSectionHeader />
-							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
+							{ /* Live region announces keyboard reorder results to screen readers. */ }
+							<div aria-live="assertive" aria-atomic="true" className="yst-sr-only">{ reorderMessage }</div>
+							<ul aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2 yst-list-none yst-p-0 yst-m-0">
 								{ structure.map( ( item, index ) => (
 									<StructureRow
 										key={ item.id }
@@ -310,25 +313,24 @@ export const OutlineModalContent = ( {
 										onMoveUp={ handleMoveUp }
 										onMoveDown={ handleMoveDown }
 										totalItems={ structure.length }
+										onAnnounce={ handleAnnounce }
 									/>
 								) ) }
-								{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
-								<div
-									className={ classNames(
-										"yst-rounded-md yst-transition-all yst-border-2",
-										dragOverIndex === structure.length
-											? "yst-border-primary-500 yst-h-10"
-											: "yst-border-transparent yst-h-2"
-									) }
-									onDragOver={ handleSentinelDragOver }
-									onDrop={ handleSentinelDrop }
-								/>
-							</div>
+							</ul>
+							{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
+							<div
+								className="yst-h-8"
+								onDragOver={ handleSentinelDragOver }
+								onDrop={ handleSentinelDrop }
+							/>
 						</div>
 					</Transition>
 				</div>
 				<div
-					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					className={ classNames(
+						isLoading ? "yst-sticky" : "yst-hidden",
+						"-yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					) }
 					aria-hidden="true"
 				/>
 			</Modal.Container.Content>
