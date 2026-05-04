@@ -4,6 +4,7 @@ import { OutlineModalContent } from "../../../src/ai-content-planner/components/
 import { ASYNC_ACTION_STATUS } from "../../../src/shared-admin/constants";
 import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata-previews";
 import { useFetchContentOutline } from "../../../src/ai-content-planner/hooks";
+import { SKELETON_ROW_COUNT } from "../../../src/ai-content-planner/constants";
 
 jest.mock( "@wordpress/data", () => ( {
 	useSelect: jest.fn( () => false ),
@@ -35,12 +36,14 @@ jest.mock( "../../../src/ai-content-planner/hooks", () => ( {
 			{ id: "4", heading: "Conclusion" },
 		],
 		dragOverIndex: null,
+		reorderMessage: "",
 		handleDragStart: jest.fn(),
 		handleDragOver: jest.fn(),
 		handleDrop: jest.fn(),
 		handleDragEnd: jest.fn(),
 		handleMoveUp: jest.fn(),
 		handleMoveDown: jest.fn(),
+		handleAnnounce: jest.fn(),
 	} ),
 } ) );
 
@@ -102,12 +105,14 @@ describe( "ContentOutlineModal", () => {
 	} );
 
 	describe( "accessibility", () => {
-		it( "does not show the structure section when loading", () => {
+		it( "exposes the structure list as busy while loading", () => {
 			renderModal();
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByRole( "listbox" ) ).not.toBeInTheDocument();
+			const list = screen.getByRole( "list", { name: "Blog post structure" } );
+			expect( list ).toHaveAttribute( "aria-busy", "true" );
+			expect( screen.queryAllByRole( "listitem" ) ).toHaveLength( 0 );
 		} );
 
 		it( "renders the intent callout with role='note'", () => {
@@ -115,15 +120,15 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.getByRole( "note" ) ).toBeInTheDocument();
 		} );
 
-		it( "renders the structure list as a listbox after loading", () => {
+		it( "renders the structure list as a list after loading", () => {
 			renderLoadedModal();
-			expect( screen.getByRole( "listbox", { name: "Blog post structure" } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "list", { name: "Blog post structure" } ) ).toBeInTheDocument();
 		} );
 
-		it( "renders structure rows as options with accessible labels", () => {
+		it( "renders structure rows as list items with accessible button labels", () => {
 			renderLoadedModal();
-			expect( screen.getByRole( "option", { name: "H2 Introduction" } ) ).toBeInTheDocument();
-			expect( screen.getByRole( "option", { name: "H2 Conclusion" } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /H2 Introduction/ } ) ).toBeInTheDocument();
+			expect( screen.getByRole( "button", { name: /H2 Conclusion/ } ) ).toBeInTheDocument();
 		} );
 	} );
 
@@ -214,13 +219,25 @@ describe( "ContentOutlineModal", () => {
 			expect( screen.queryByDisplayValue( defaultSuggestion.meta_description ) ).not.toBeInTheDocument();
 		} );
 
-		it( "does not show the blog post structure section when loading", () => {
+		it( "shows the blog post structure section header when loading", () => {
 			renderModal();
 			act( () => {
 				jest.advanceTimersByTime( 100 );
 			} );
-			expect( screen.queryByText( "Blog post structure" ) ).not.toBeInTheDocument();
-			expect( screen.queryByText( "Drag to reorder" ) ).not.toBeInTheDocument();
+			expect( screen.getByText( "Blog post structure" ) ).toBeInTheDocument();
+			expect( screen.getByText( "Drag to reorder" ) ).toBeInTheDocument();
+		} );
+
+		it( "renders four skeleton structure rows when loading", () => {
+			renderModal();
+			act( () => {
+				jest.advanceTimersByTime( 100 );
+			} );
+			const list = screen.getByRole( "list", { name: "Blog post structure" } );
+			expect( list ).toHaveAttribute( "aria-busy", "true" );
+			// Skeleton rows are aria-hidden placeholders, so they are not exposed as list items.
+			expect( screen.queryAllByRole( "listitem" ) ).toHaveLength( 0 );
+			expect( list.children ).toHaveLength( SKELETON_ROW_COUNT );
 		} );
 
 		it( "still shows the intent callout when loading", () => {
@@ -361,53 +378,52 @@ describe( "ContentOutlineModal", () => {
 	} );
 
 	describe( "keyboard reordering", () => {
-		it( "renders all structure rows as keyboard-accessible options", () => {
+		it( "renders all structure rows as keyboard-accessible list items", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
-			expect( options ).toHaveLength( 4 );
-			expect( options[ 0 ] ).toHaveAttribute( "aria-label", "H2 Introduction" );
-			expect( options[ 1 ] ).toHaveAttribute( "aria-label", "H2 Why This Matters" );
-			expect( options[ 2 ] ).toHaveAttribute( "aria-label", "H2 Step-by-Step Guide" );
-			expect( options[ 3 ] ).toHaveAttribute( "aria-label", "H2 Conclusion" );
+			const items = screen.getAllByRole( "listitem" );
+			expect( items ).toHaveLength( 4 );
+			items.forEach( item => {
+				expect( item.querySelector( "button" ) ).not.toBeNull();
+			} );
 		} );
 
 		it( "allows keyboard navigation with Alt+ArrowUp", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( options[ 1 ], { key: "ArrowUp", altKey: true } );
+				fireEvent.keyDown( buttons[ 1 ], { key: "ArrowUp", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "allows keyboard navigation with Alt+ArrowDown", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( options[ 0 ], { key: "ArrowDown", altKey: true } );
+				fireEvent.keyDown( buttons[ 0 ], { key: "ArrowDown", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "does not throw when first row receives ArrowUp", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( options[ 0 ], { key: "ArrowUp", altKey: true } );
+				fireEvent.keyDown( buttons[ 0 ], { key: "ArrowUp", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "does not throw when last row receives ArrowDown", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( options[ 3 ], { key: "ArrowDown", altKey: true } );
+				fireEvent.keyDown( buttons[ 3 ], { key: "ArrowDown", altKey: true } );
 			} ).not.toThrow();
 		} );
 
 		it( "ignores arrow keys without the Alt modifier", () => {
 			renderLoadedModal();
-			const options = screen.getAllByRole( "option" );
+			const buttons = screen.getAllByRole( "listitem" ).map( item => item.querySelector( "button" ) );
 			expect( () => {
-				fireEvent.keyDown( options[ 1 ], { key: "ArrowUp", altKey: false } );
+				fireEvent.keyDown( buttons[ 1 ], { key: "ArrowUp", altKey: false } );
 			} ).not.toThrow();
 		} );
 	} );

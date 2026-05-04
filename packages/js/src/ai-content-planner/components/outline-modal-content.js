@@ -7,11 +7,28 @@ import { getDescriptionProgress, getProgressColor } from "@yoast/search-metadata
 import { ContentPlannerError } from "./content-planner-error";
 import classNames from "classnames";
 import { IntentCallout } from "./intent-callout";
-import { StructureRow } from "./structure-row";
+import { StructureRow, StructureRowSkeleton } from "./structure-row";
 import { CategorySection } from "./category-section";
 import { ASYNC_ACTION_STATUS } from "../../shared-admin/constants";
 import { useDraggableStructure, useFetchContentOutline } from "../hooks";
 import { Transition } from "@headlessui/react";
+import { SKELETON_ROW_COUNT } from "../constants";
+
+/**
+ * Section header for the Blog post structure list, shared by the loading and loaded states.
+ *
+ * @returns {JSX.Element} The StructureSectionHeader component.
+ */
+const StructureSectionHeader = () => (
+	<div className="yst-flex yst-items-end yst-justify-between yst-mb-2">
+		<span className="yst-font-medium yst-text-sm yst-text-slate-800">
+			{ __( "Blog post structure", "wordpress-seo" ) }
+		</span>
+		<span className="yst-text-xs yst-text-slate-500">
+			{ __( "Drag to reorder", "wordpress-seo" ) }
+		</span>
+	</div>
+);
 
 /**
  * @typedef {import( "../constants" ).Suggestion} Suggestion
@@ -82,10 +99,23 @@ const LoadingOutlineModalContent = () => {
 		<CategorySection
 			isLoading={ true }
 		/>
-		<div className="yst-flex yst-flex-col yst-gap-4">
-			<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
-			<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+		<div className="yst-flex yst-flex-col">
+			<div className="yst-flex yst-flex-col yst-gap-4">
+				<SkeletonFormField label={ __( "Focus Keyphrase", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Title", "wordpress-seo" ) } />
+				<SkeletonFormField label={ __( "Meta description", "wordpress-seo" ) } multiline={ true } />
+			</div>
+			<hr className="yst-border-slate-200 yst-my-6" />
+			<StructureSectionHeader />
+			<ul
+				aria-label={ __( "Blog post structure", "wordpress-seo" ) }
+				aria-busy={ true }
+				className="yst-list-none yst-p-0 yst-m-0 yst-flex yst-flex-col yst-gap-2"
+			>
+				{ Array.from( { length: SKELETON_ROW_COUNT } ).map( ( _, index ) => (
+					<StructureRowSkeleton key={ `structure-row-skeleton-${ index }` } />
+				) ) }
+			</ul>
 		</div>
 	</>;
 };
@@ -128,6 +158,8 @@ export const OutlineModalContent = ( {
 	const {
 		structure,
 		dragOverIndex,
+		reorderMessage,
+		handleAnnounce,
 		handleDragStart,
 		handleDragOver,
 		handleDrop,
@@ -135,6 +167,9 @@ export const OutlineModalContent = ( {
 		handleMoveUp,
 		handleMoveDown,
 	} = useDraggableStructure();
+
+	const handleSentinelDragOver = useCallback( ( e ) => handleDragOver( e, structure.length ), [ handleDragOver, structure.length ] );
+	const handleSentinelDrop = useCallback( ( e ) => handleDrop( e, structure.length ), [ handleDrop, structure.length ] );
 
 	useEffect( () => {
 		setFocusKeyphrase( suggestion.keyphrase );
@@ -180,6 +215,7 @@ export const OutlineModalContent = ( {
 					errorCode={ error.errorCode }
 					errorIdentifier={ error.errorIdentifier }
 					errorMessage={ error.errorMessage }
+					missingLicenses={ error.missingLicenses }
 					onRetry={ handleRetry }
 				/>
 			</Modal.Container.Content>
@@ -189,7 +225,7 @@ export const OutlineModalContent = ( {
 	return (
 		<>
 			<Modal.Container.Content className="yst-overflow-y-auto yst-pt-6 yst-px-6 yst-pb-0 yst-m-0 yst-relative" aria-busy={ isLoading }>
-				<div className="yst-flex yst-flex-col yst-gap-6 yst-pb-4">
+				<div className="yst-flex yst-flex-col yst-gap-6">
 					<IntentCallout
 						intent={ suggestion.intent }
 						description={ suggestion.explanation }
@@ -228,7 +264,7 @@ export const OutlineModalContent = ( {
 								onToggle={ handleCategoryToggle }
 							/>
 						) }
-						<div className="yst-flex yst-flex-col yst-gap-6">
+						<div className="yst-flex yst-flex-col">
 							<div className="yst-flex yst-flex-col yst-gap-4">
 								<TextField
 									id="content-outline-focus-keyphrase"
@@ -259,16 +295,11 @@ export const OutlineModalContent = ( {
 
 								</div>
 							</div>
-							<hr className="yst-border-slate-200" />
-							<div className="yst-flex yst-items-end yst-justify-between" style={ { marginBottom: "-16px" } }>
-								<span className="yst-font-medium yst-text-sm yst-text-slate-800">
-									{ __( "Blog post structure", "wordpress-seo" ) }
-								</span>
-								<span className="yst-text-xs yst-text-slate-500">
-									{ __( "Drag to reorder", "wordpress-seo" ) }
-								</span>
-							</div>
-							<div role="listbox" aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2">
+							<hr className="yst-border-slate-200 yst-my-6" />
+							<StructureSectionHeader />
+							{ /* Live region announces keyboard reorder results to screen readers. */ }
+							<div aria-live="assertive" aria-atomic="true" className="yst-sr-only">{ reorderMessage }</div>
+							<ul aria-label={ __( "Blog post structure", "wordpress-seo" ) } className="yst-flex yst-flex-col yst-gap-2 yst-list-none yst-p-0 yst-m-0">
 								{ structure.map( ( item, index ) => (
 									<StructureRow
 										key={ item.id }
@@ -282,14 +313,24 @@ export const OutlineModalContent = ( {
 										onMoveUp={ handleMoveUp }
 										onMoveDown={ handleMoveDown }
 										totalItems={ structure.length }
+										onAnnounce={ handleAnnounce }
 									/>
 								) ) }
-							</div>
+							</ul>
+							{ /* Sentinel drop zone: allows dropping an item into the last position. */ }
+							<div
+								className="yst-h-8"
+								onDragOver={ handleSentinelDragOver }
+								onDrop={ handleSentinelDrop }
+							/>
 						</div>
 					</Transition>
 				</div>
 				<div
-					className="yst-sticky -yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					className={ classNames(
+						isLoading ? "yst-sticky" : "yst-hidden",
+						"-yst-left-6 -yst-right-6 yst-bottom-0 yst-h-10 yst-pointer-events-none yst-bg-gradient-to-t yst-from-white yst-to-transparent yst-transition-opacity"
+					) }
 					aria-hidden="true"
 				/>
 			</Modal.Container.Content>

@@ -43,9 +43,19 @@ describe( "useDraggableStructure", () => {
 	} );
 
 	describe( "initial state", () => {
+		it( "initialises structure from the outline", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			expect( result.current.structure ).toEqual( mockOutline );
+		} );
+
 		it( "initialises dragOverIndex to null", () => {
 			const { result } = renderHook( () => useDraggableStructure() );
 			expect( result.current.dragOverIndex ).toBeNull();
+		} );
+
+		it( "initialises reorderMessage to an empty string", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			expect( result.current.reorderMessage ).toBe( "" );
 		} );
 
 		it( "returns all expected handler functions", () => {
@@ -56,6 +66,7 @@ describe( "useDraggableStructure", () => {
 			expect( typeof result.current.handleDragEnd ).toBe( "function" );
 			expect( typeof result.current.handleMoveUp ).toBe( "function" );
 			expect( typeof result.current.handleMoveDown ).toBe( "function" );
+			expect( typeof result.current.handleAnnounce ).toBe( "function" );
 		} );
 	} );
 
@@ -208,6 +219,41 @@ describe( "useDraggableStructure", () => {
 			} );
 			expect( e.preventDefault ).toHaveBeenCalledTimes( 1 );
 		} );
+
+		it( "places an item at the last position when dropped onto the sentinel (dropIndex equals length)", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleDragStart( mockEvent(), 0 );
+			} );
+			act( () => {
+				result.current.handleDrop( mockEvent(), 3 );
+			} );
+
+			// Dragging index 0 to sentinel (length=3): dest = 3-1 = 2
+			// [Introduction, Body, Conclusion] → [Body, Conclusion, Introduction]
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( [
+				"Body",
+				"Conclusion",
+				"Introduction",
+			] );
+		} );
+
+		it( "resets dragOverIndex to null and does not reorder when no drag was started", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+			const originalHeadings = result.current.structure.map( ( i ) => i.heading );
+
+			act( () => {
+				result.current.handleDragOver( mockEvent(), 1 );
+			} );
+			act( () => {
+				// Drop without a prior handleDragStart — dragIndex is null.
+				result.current.handleDrop( mockEvent(), 1 );
+			} );
+
+			expect( result.current.dragOverIndex ).toBeNull();
+			expect( result.current.structure.map( ( i ) => i.heading ) ).toEqual( originalHeadings );
+		} );
 	} );
 
 	describe( "handleDragEnd", () => {
@@ -253,6 +299,31 @@ describe( "useDraggableStructure", () => {
 				"Conclusion",
 				"Body",
 			] );
+		} );
+	} );
+
+	describe( "handleAnnounce", () => {
+		it( "sets reorderMessage using the heading, new position, and total items", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleAnnounce( "Introduction", 2 );
+			} );
+
+			expect( result.current.reorderMessage ).toBe( "H2 Introduction moved to position 2 of 3." );
+		} );
+
+		it( "updates reorderMessage on subsequent calls", () => {
+			const { result } = renderHook( () => useDraggableStructure() );
+
+			act( () => {
+				result.current.handleAnnounce( "Body", 1 );
+			} );
+			act( () => {
+				result.current.handleAnnounce( "Conclusion", 3 );
+			} );
+
+			expect( result.current.reorderMessage ).toBe( "H2 Conclusion moved to position 3 of 3." );
 		} );
 	} );
 
