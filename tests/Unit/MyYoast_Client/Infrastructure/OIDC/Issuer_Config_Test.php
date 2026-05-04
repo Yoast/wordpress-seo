@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\Infrastructure\OIDC;
 
 use Brain\Monkey\Functions;
+use Mockery;
 use Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC\Issuer_Config;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -131,7 +132,10 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_software_statement() {
 		Functions\expect( 'apply_filters' )
-			->with( 'wpseo_myyoast_software_statement', '' )
+			->with(
+				'wpseo_myyoast_software_statement',
+				Mockery::on( static fn( $arg ) => \is_string( $arg ) ),
+			)
 			->once()
 			->andReturn( 'test-jwt' );
 
@@ -147,7 +151,10 @@ final class Issuer_Config_Test extends TestCase {
 	 */
 	public function test_get_initial_access_token() {
 		Functions\expect( 'apply_filters' )
-			->with( 'wpseo_myyoast_initial_access_token', '' )
+			->with(
+				'wpseo_myyoast_initial_access_token',
+				Mockery::on( static fn( $arg ) => \is_string( $arg ) ),
+			)
 			->once()
 			->andReturn( 'test-iat' );
 
