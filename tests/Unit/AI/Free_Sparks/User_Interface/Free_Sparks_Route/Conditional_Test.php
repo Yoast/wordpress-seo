@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Free_Sparks\User_Interface\Free_Sparks_Rout
 
 use Yoast\WP\SEO\AI\Free_Sparks\User_Interface\Free_Sparks_Route;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 
 /**
  * Tests the Free_Sparks_Route's conditional.
@@ -23,7 +22,7 @@ final class Conditional_Test extends Abstract_Free_Sparks_Route_Test {
 	 * @return void
 	 */
 	public function test_conditional() {
-		$expected = [ AI_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
+		$expected = [ AI_Conditional::class ];
 		$this->assertSame( $expected, Free_Sparks_Route::get_conditionals() );
 	}
 }

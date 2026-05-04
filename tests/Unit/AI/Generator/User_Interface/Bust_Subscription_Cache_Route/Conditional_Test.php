@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Generator\User_Interface\Bust_Subscription_
 
 use Yoast\WP\SEO\AI\Generator\User_Interface\Bust_Subscription_Cache_Route;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
-use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 
 /**
  * Tests the Bust_Subscription_Cache_Route's conditional.
@@ -23,7 +22,7 @@ final class Conditional_Test extends Abstract_Bust_Subscription_Cache_Route_Test
 	 * @return void
 	 */
 	public function test_conditional() {
-		$expected = [ AI_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
+		$expected = [ AI_Conditional::class ];
 		$this->assertSame( $expected, Bust_Subscription_Cache_Route::get_conditionals() );
 	}
 }
