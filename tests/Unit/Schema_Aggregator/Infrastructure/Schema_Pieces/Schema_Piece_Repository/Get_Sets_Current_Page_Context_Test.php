@@ -8,6 +8,7 @@ use RuntimeException;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Interface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Tests that get() primes the memoizer's current_page cache with the per-indexable context

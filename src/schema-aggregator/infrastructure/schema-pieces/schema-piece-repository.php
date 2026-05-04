@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces;
 
+use Throwable;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
@@ -12,11 +13,15 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * The Schema_Piece repository.
  */
-class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
+class Schema_Piece_Repository implements Schema_Piece_Repository_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	/**
 	 * The meta tags context memoizer.
@@ -104,6 +109,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$this->indexable_repository_factory = $indexable_repository_factory;
 		$this->global_state_adapter         = $global_state_adapter;
 		$this->external_repositories        = $external_repositories;
+		$this->logger                       = new NullLogger();
 	}
 
 	/**
@@ -143,6 +149,15 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 					}
 					$schema_pieces[] = $schema_piece;
 				}
+			} catch ( Throwable $e ) {
+				$this->logger->warning( 'Schema aggregation failed for indexable #{indexable_id} ({object_type}/{object_sub_type}): {message}',
+					[
+						'indexable_id' => $indexable->id,
+						'object_type' => $indexable->object_type,
+						'object_sub_type' => $indexable->object_sub_type,
+						'message' => $e->getMessage()
+					]
+				);
 			} finally {
 				$this->global_state_adapter->reset_global_state();
 			}
