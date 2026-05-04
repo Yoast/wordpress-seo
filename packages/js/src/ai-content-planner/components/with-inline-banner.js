@@ -70,7 +70,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 	return (
 		<>
 			{ shouldShow && (
-				<div ref={ ref }>
+				<div ref={ ref } className="wp-block">
 					<InlineBanner
 						isPremium={ isPremium }
 						onDismiss={ handleDismiss }
