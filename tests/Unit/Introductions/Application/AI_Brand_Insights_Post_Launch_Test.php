@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Introductions\Application;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -105,12 +104,10 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	 *
 	 * @dataProvider should_show_data
 	 *
-	 * @param bool $is_yoast_seo_page  Whether on a Yoast SEO page.
-	 * @param bool $is_premium         Whether Premium is installed.
-	 * @param int  $is_premium_times   How many times the `is_premium` method is expected to be called.
-	 * @param bool $can_manage_options Whether the user has the `wpseo_manage_options` capability.
-	 * @param int  $can_manage_times   How many times the capability check is expected to run.
-	 * @param bool $expected           The expected result.
+	 * @param bool $is_yoast_seo_page Whether on a Yoast SEO page.
+	 * @param bool $is_premium        Whether Premium is installed.
+	 * @param int  $is_premium_times  How many times the `is_premium` method is expected to be called.
+	 * @param bool $expected          The expected result.
 	 *
 	 * @return void
 	 */
@@ -118,8 +115,6 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 		$is_yoast_seo_page,
 		$is_premium,
 		$is_premium_times,
-		$can_manage_options,
-		$can_manage_times,
 		$expected
 	) {
 		$this->current_page_helper->expects( 'is_yoast_seo_page' )
@@ -130,10 +125,6 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 			->times( $is_premium_times )
 			->withNoArgs()
 			->andReturn( $is_premium );
-		Monkey\Functions\expect( 'current_user_can' )
-			->times( $can_manage_times )
-			->with( 'wpseo_manage_options' )
-			->andReturn( $can_manage_options );
 
 		$this->assertSame( $expected, $this->instance->should_show() );
 	}
@@ -145,45 +136,29 @@ final class AI_Brand_Insights_Post_Launch_Test extends TestCase {
 	 */
 	public static function should_show_data() {
 		return [
-			'on a Yoast admin page, with Premium disabled and the required capability' => [
-				'is_yoast_seo_page'  => true,
-				'is_premium'         => false,
-				'is_premium_times'   => 1,
-				'can_manage_options' => true,
-				'can_manage_times'   => 1,
-				'expected'           => true,
-			],
-			'on a Yoast admin page, with Premium disabled but without the required capability' => [
-				'is_yoast_seo_page'  => true,
-				'is_premium'         => false,
-				'is_premium_times'   => 1,
-				'can_manage_options' => false,
-				'can_manage_times'   => 1,
-				'expected'           => false,
+			'on a Yoast admin page, with Premium disabled' => [
+				'is_yoast_seo_page' => true,
+				'is_premium'        => false,
+				'is_premium_times'  => 1,
+				'expected'          => true,
 			],
 			'on a Yoast admin page, with Premium enabled' => [
-				'is_yoast_seo_page'  => true,
-				'is_premium'         => true,
-				'is_premium_times'   => 1,
-				'can_manage_options' => true,
-				'can_manage_times'   => 0,
-				'expected'           => false,
+				'is_yoast_seo_page' => true,
+				'is_premium'        => true,
+				'is_premium_times'  => 1,
+				'expected'          => false,
 			],
 			'not on a Yoast admin page, with Premium disabled' => [
-				'is_yoast_seo_page'  => false,
-				'is_premium'         => false,
-				'is_premium_times'   => 0,
-				'can_manage_options' => true,
-				'can_manage_times'   => 0,
-				'expected'           => false,
+				'is_yoast_seo_page' => false,
+				'is_premium'        => false,
+				'is_premium_times'  => 0,
+				'expected'          => false,
 			],
 			'not on a Yoast admin page, with Premium enabled' => [
-				'is_yoast_seo_page'  => false,
-				'is_premium'         => true,
-				'is_premium_times'   => 0,
-				'can_manage_options' => true,
-				'can_manage_times'   => 0,
-				'expected'           => false,
+				'is_yoast_seo_page' => false,
+				'is_premium'        => true,
+				'is_premium_times'  => 0,
+				'expected'          => false,
 			],
 		];
 	}
