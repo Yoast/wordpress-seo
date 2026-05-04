@@ -128,7 +128,7 @@ final class Get_Sets_Current_Page_Context_Test extends Abstract_Schema_Piece_Rep
 					'object_type'     => 'post',
 					'object_sub_type' => 'product',
 					'message'         => 'boom',
-				]
+				],
 			);
 		$this->instance->setLogger( $logger );
 

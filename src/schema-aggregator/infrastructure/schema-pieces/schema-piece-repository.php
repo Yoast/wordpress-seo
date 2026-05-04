@@ -157,7 +157,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface, Logg
 						'object_type'     => $indexable->object_type,
 						'object_sub_type' => $indexable->object_sub_type,
 						'message'         => $e->getMessage(),
-					]
+					],
 				);
 			} finally {
 				$this->global_state_adapter->reset_global_state();
