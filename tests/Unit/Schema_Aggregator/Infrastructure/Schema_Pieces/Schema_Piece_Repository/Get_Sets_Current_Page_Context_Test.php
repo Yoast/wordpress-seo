@@ -103,12 +103,13 @@ final class Get_Sets_Current_Page_Context_Test extends Abstract_Schema_Piece_Rep
 	}
 
 	/**
-	 * Tests that reset_global_state still runs when collect() throws — the iteration body
-	 * is wrapped in try/finally to guarantee teardown (which clears the memoizer slot).
+	 * Tests that a throwable raised inside the iteration is caught, logged via the PSR-3 logger
+	 * with structured context, and the iteration is unwound cleanly (reset_global_state runs).
+	 * The exception is swallowed — get() returns normally so other indexables can still be processed.
 	 *
 	 * @return void
 	 */
-	public function test_reset_global_state_runs_when_collect_throws(): void {
+	public function test_throwable_in_iteration_is_caught_logged_and_reset_runs(): void {
 		$indexable = $this->make_product_indexable( 9 );
 		$context   = Mockery::mock( Meta_Tags_Context::class );
 
@@ -117,7 +118,21 @@ final class Get_Sets_Current_Page_Context_Test extends Abstract_Schema_Piece_Rep
 		$this->global_state_adapter->expects( 'set_global_state' )->with( $indexable, $context )->ordered();
 		$this->external_repository->expects( 'collect' )->with( 9 )->ordered()->andThrow( new RuntimeException( 'boom' ) );
 
-		$this->expectException( RuntimeException::class );
+		$logger = Mockery::mock( LoggerInterface::class );
+		$logger->expects( 'warning' )
+			->once()
+			->with(
+				'Schema aggregation failed for indexable #{indexable_id} ({object_type}/{object_sub_type}): {message}',
+				[
+					'indexable_id'    => 9,
+					'object_type'     => 'post',
+					'object_sub_type' => 'product',
+					'message'         => 'boom',
+				]
+			);
+		$this->instance->setLogger( $logger );
+
+		// Should not throw — exception is caught and only logged.
 		$this->instance->get( 1, 10, 'product' );
 	}
 }
