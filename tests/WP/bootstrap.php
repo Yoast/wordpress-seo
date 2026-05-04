@@ -45,7 +45,6 @@ return [
 ",
 		'src/generated/assets/externals.php'              => '<?php return [];',
 		'src/generated/assets/languages.php'              => '<?php return [];',
-		'blocks/ai-content-planner/block.json'            => '{}',
 		'blocks/dynamic-blocks/breadcrumbs/block.json'    => '{}',
 		'blocks/structured-data-blocks/faq/block.json'    => '{}',
 		'blocks/structured-data-blocks/how-to/block.json' => '{}',
