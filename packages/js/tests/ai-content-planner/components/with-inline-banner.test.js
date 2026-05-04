@@ -203,7 +203,8 @@ describe( "withInlineBanner", () => {
 			const ref = {};
 			Object.defineProperty( ref, "current", {
 				get: () => ( { ownerDocument: mockDoc } ),
-				set: () => { /* no-op: prevents React from overwriting with the real DOM node */ },
+				/* no-op: prevents React from overwriting with the real DOM node */
+				set: () => {},
 				configurable: true,
 			} );
 			return ref;
