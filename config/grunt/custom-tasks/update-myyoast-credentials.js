@@ -138,7 +138,7 @@ const FALLBACK_INITIAL_ACCESS_TOKEN = "8rRr8F0Srp_4SCTWsTZJ096hUg0E1p_tbqydOnP2M
 
 const ISSUER_CONFIG_PATH = "src/myyoast-client/infrastructure/oidc/issuer-config.php";
 
-const SS_PATTERN  = /(private const SOFTWARE_STATEMENT = ')[^']*(';)/;
+const SS_PATTERN  = /(private const SOFTWARE_STATEMENT = ')([^']*)(';)/;
 const IAT_PATTERN = /(private const INITIAL_ACCESS_TOKEN = ')[^']*(';)/;
 
 /*
@@ -188,6 +188,58 @@ const SOFTWARE_STATEMENT_CLAIMS = {
 };
 
 const FALLBACK_SOFTWARE_VERSION = "0";
+
+/**
+ * Reads `Issuer_Config.php`, extracts the SOFTWARE_STATEMENT JWT, and decodes
+ * its `software_version` claim.
+ *
+ * Used to short-circuit credential fetches when the file is already baked
+ * with credentials matching the current build's plugin version. This avoids
+ * re-issuing identical SS+IAT pairs when `update-myyoast-credentials` runs
+ * twice during a release (once standalone before the version-bump commit,
+ * once again as part of `grunt artifact`), and also keeps `git blame` on
+ * the committed `Issuer_Config.php` consistent with what ships in the
+ * artifact.
+ *
+ * Returns an empty string when the constant is empty, the JWT is malformed,
+ * or the payload lacks a `software_version` claim. The caller treats those
+ * cases as "no version present" and proceeds with a normal fetch/fallback.
+ *
+ * Does NOT verify the JWT signature — this is a build-time hint, not a
+ * security check. The signature is verified server-side by MyYoast at DCR
+ * time.
+ *
+ * @param {Object} grunt The Grunt instance, used for `grunt.file.read`.
+ *
+ * @returns {string} The decoded `software_version` claim, or `""` if it
+ *                   cannot be determined.
+ */
+function readBakedSoftwareVersion( grunt ) {
+	const contents = grunt.file.read( ISSUER_CONFIG_PATH );
+	const match    = SS_PATTERN.exec( contents );
+	if ( ! match ) {
+		return "";
+	}
+	const jwt = match[ 2 ];
+	if ( jwt === "" ) {
+		return "";
+	}
+
+	const segments = jwt.split( "." );
+	if ( segments.length !== 3 ) {
+		return "";
+	}
+
+	try {
+		const payload = JSON.parse( Buffer.from( segments[ 1 ], "base64url" ).toString( "utf8" ) );
+		if ( typeof payload.software_version !== "string" ) {
+			return "";
+		}
+		return payload.software_version;
+	} catch ( error ) {
+		return "";
+	}
+}
 
 /**
  * Attempts to fetch a fresh software statement + initial access token bound
@@ -323,7 +375,7 @@ module.exports = function( grunt ) {
 		}
 
 		const updated = original
-			.replace( SS_PATTERN,  ( _match, prefix, suffix ) => prefix + softwareStatement + suffix )
+			.replace( SS_PATTERN,  ( _match, prefix, _oldValue, suffix ) => prefix + softwareStatement + suffix )
 			.replace( IAT_PATTERN, ( _match, prefix, suffix ) => prefix + initialAccessToken + suffix );
 
 		grunt.file.write( ISSUER_CONFIG_PATH, updated );
@@ -331,13 +383,23 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask(
 		"update-myyoast-credentials",
-		"Bakes a fresh MyYoast software statement and initial access token into Issuer_Config, with a public-by-design fallback when the fetch is not possible.",
+		"Bakes a fresh MyYoast software statement and initial access token into Issuer_Config, with a public-by-design fallback when the fetch is not possible. Skips when the baked SS already matches the current plugin version, unless --force is passed.",
 		async function() {
 			const done = this.async();
 
 			const token    = process.env.MYYOAST_SERVICE_ACCOUNT_TOKEN || "";
 			const endpoint = process.env.MYYOAST_CREDENTIAL_ENDPOINT || DEFAULT_ENDPOINT;
 			const version  = grunt.config.data.pluginVersion;
+			const force    = grunt.option( "force-myyoast-credentials" ) === true;
+
+			const bakedVersion = readBakedSoftwareVersion( grunt );
+			if ( ! force && bakedVersion !== "" && version && bakedVersion === version ) {
+				grunt.log.ok(
+					"Issuer_Config already carries credentials for software_version=" + bakedVersion +
+					"; skipping fetch. Pass --force-myyoast-credentials to override."
+				);
+				return done();
+			}
 
 			if ( token === "" ) {
 				grunt.log.warn(
@@ -348,6 +410,16 @@ module.exports = function( grunt ) {
 				return done();
 			}
 
+			if ( ! version ) {
+				grunt.fail.fatal(
+					"MYYOAST_SERVICE_ACCOUNT_TOKEN is set but pluginVersion is not configured " +
+					"in Grunt (`grunt.config.data.pluginVersion`). Run a Grunt alias that " +
+					"populates package.json's yoast.pluginVersion first (e.g. `grunt set-version`), " +
+					"or unset MYYOAST_SERVICE_ACCOUNT_TOKEN to use the v0 fallback."
+				);
+				return done();
+			}
+
 			try {
 				const { softwareStatement, initialAccessToken } = await fetchCredentials(
 					endpoint,
@@ -355,12 +427,14 @@ module.exports = function( grunt ) {
 					version
 				);
 				grunt.log.ok(
-					"Fetched fresh MyYoast credentials for software_version=" + version + "; baking into Issuer_Config."
+					"Fetched fresh MyYoast credentials for software_version=" + version +
+					" from " + endpoint + "; baking into Issuer_Config."
 				);
 				bakeInto( softwareStatement, initialAccessToken );
 			} catch ( error ) {
 				grunt.log.warn(
-					"MyYoast credential fetch failed (" + error.message + "); baking the public v0 fallback credentials instead."
+					"MyYoast credential fetch from " + endpoint + " failed (" + error.message +
+					"); baking the public v0 fallback credentials instead."
 				);
 				bakeInto( FALLBACK_SOFTWARE_STATEMENT, FALLBACK_INITIAL_ACCESS_TOKEN );
 			}
