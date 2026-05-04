@@ -23,7 +23,7 @@ const LoadingSuggestionsModalContent = () => {
 	const svgAriaProps = useSvgAria();
 	const [ textIndex, setTextIndex ] = useState( 0 );
 	const [ textVisible, setTextVisible ] = useState( true );
-	const [ logoPulse, setLogoPulse ] = useState( false );
+	const [ logoPulse, setLogoPulse ] = useState( true );
 
 	const loadingTexts = [
 		__( "Analyzing your site content…", "wordpress-seo" ),
