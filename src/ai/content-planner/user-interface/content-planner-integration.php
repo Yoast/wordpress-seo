@@ -104,21 +104,6 @@ class Content_Planner_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the minimum-posts threshold, allowing override via filter.
-	 *
-	 * @return int The minimum number of published posts required.
-	 */
-	private function get_min_posts_threshold(): int {
-		/**
-		 * Filter: 'wpseo_content_planner_min_posts' - Allows overriding the minimum number of published posts
-		 * required for the Content Planner feature to be available.
-		 *
-		 * @param int $min_posts The default minimum number of published posts.
-		 */
-		return (int) \apply_filters( 'wpseo_content_planner_min_posts', self::MIN_PUBLISHED_POSTS );
-	}
-
-	/**
 	 * Determines whether the site has at least the minimum number of published posts.
 	 *
 	 * Reuses Indexable_Repository::get_recently_modified_posts() with a limit equal to the threshold,
@@ -127,9 +112,8 @@ class Content_Planner_Integration implements Integration_Interface {
 	 * @return bool Whether the site has met the minimum-posts threshold.
 	 */
 	private function is_minimum_posts_met(): bool {
-		$threshold = $this->get_min_posts_threshold();
-		$posts     = $this->indexable_repository->get_recently_modified_posts( 'post', $threshold, false );
+		$posts = $this->indexable_repository->get_recently_modified_posts( 'post', self::MIN_PUBLISHED_POSTS, false );
 
-		return \count( $posts ) >= $threshold;
+		return \count( $posts ) >= self::MIN_PUBLISHED_POSTS;
 	}
 }
