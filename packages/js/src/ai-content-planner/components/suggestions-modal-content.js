@@ -49,7 +49,7 @@ const LoadingSuggestionsModalContent = () => {
 		<>
 			<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
 				<Yoast
-					className="yst-w-24 yst-mb-2 yst-transition-colors yst-duration-700 yst-text-primary-500"
+					className="yst-w-24 yst-mb-2 yst-mt-6 yst-animate-primaryShimmer"
 					{ ...svgAriaProps }
 				/>
 				<Modal.Description
