@@ -2,6 +2,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Schema_Pieces;
 
+use Throwable;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Schema_Aggregator\Application\Enhancement\Schema_Enhancement_Factory;
@@ -12,11 +13,15 @@ use Yoast\WP\SEO\Schema_Aggregator\Domain\Schema_Piece_Repository_Interface;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Aggregator_Config;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\Indexable_Repository_Factory;
 use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Meta_Tags_Context_Memoizer_Adapter;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerAwareTrait;
+use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * The Schema_Piece repository.
  */
-class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
+class Schema_Piece_Repository implements Schema_Piece_Repository_Interface, LoggerAwareInterface {
+	use LoggerAwareTrait;
 
 	/**
 	 * The meta tags context memoizer.
@@ -104,6 +109,7 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 		$this->indexable_repository_factory = $indexable_repository_factory;
 		$this->global_state_adapter         = $global_state_adapter;
 		$this->external_repositories        = $external_repositories;
+		$this->logger                       = new NullLogger();
 	}
 
 	/**
@@ -125,25 +131,37 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface {
 				continue;
 			}
 
-			$this->global_state_adapter->set_global_state( $indexable );
-			$page_type     = $this->indexable_helper->get_page_type_for_indexable( $indexable );
-			$context       = $this->memoizer->get( $indexable, $page_type );
-			$context_array = $this->adapter->meta_tags_context_to_array( $context );
-			$pieces_data   = $context_array['@graph'];
+			$page_type = $this->indexable_helper->get_page_type_for_indexable( $indexable );
+			$context   = $this->memoizer->get( $indexable, $page_type );
 
-			// Collect external schema pieces from all supporting repositories.
-			$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
+			$this->global_state_adapter->set_global_state( $indexable, $context );
+			try {
+				$context_array = $this->adapter->meta_tags_context_to_array( $context );
+				$pieces_data   = $context_array['@graph'];
 
-			foreach ( $pieces_data as $piece_data ) {
-				$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
-				$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
-				if ( $enhancer !== null ) {
-					$schema_piece = $enhancer->enhance( $schema_piece, $indexable );
+				$pieces_data = $this->collect_external_schema( $pieces_data, $post_type, $indexable->object_id );
+
+				foreach ( $pieces_data as $piece_data ) {
+					$schema_piece = new Schema_Piece( $piece_data, $piece_data['@type'] );
+					$enhancer     = $this->enhancement_factory->get_enhancer( $this->get_all_schema_types( $context_array['@graph'] ) );
+					if ( $enhancer !== null ) {
+						$schema_piece = $enhancer->enhance( $schema_piece, $indexable );
+					}
+					$schema_pieces[] = $schema_piece;
 				}
-				$schema_pieces[] = $schema_piece;
+			} catch ( Throwable $e ) {
+				$this->logger->warning(
+					'Schema aggregation failed for indexable #{indexable_id} ({object_type}/{object_sub_type}): {message}',
+					[
+						'indexable_id'    => $indexable->id,
+						'object_type'     => $indexable->object_type,
+						'object_sub_type' => $indexable->object_sub_type,
+						'message'         => $e->getMessage(),
+					],
+				);
+			} finally {
+				$this->global_state_adapter->reset_global_state();
 			}
-
-			$this->global_state_adapter->reset_global_state();
 		}
 
 		return new Schema_Piece_Collection( $schema_pieces );
