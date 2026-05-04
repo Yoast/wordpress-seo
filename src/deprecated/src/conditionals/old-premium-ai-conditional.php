@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
  * Conditional that is met when an older Yoast SEO Premium that predates the AI module restructure is active.
  *
  * Used to gate the legacy `src/ai-*` integrations and routes so they only run when an older Premium relies on them.
+ *
+ * @deprecated 27.7
+ * @codeCoverageIgnore
  */
 class Old_Premium_AI_Conditional implements Conditional {
 
@@ -28,18 +31,26 @@ class Old_Premium_AI_Conditional implements Conditional {
 	/**
 	 * Constructs Old_Premium_AI_Conditional.
 	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
+	 *
 	 * @param Product_Helper $product_helper The Product_Helper.
 	 */
 	public function __construct( Product_Helper $product_helper ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		$this->product_helper = $product_helper;
 	}
 
 	/**
 	 * Returns whether the legacy AI code paths should load.
 	 *
+	 * @deprecated 27.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool `true` when Premium is active and predates the AI restructure.
 	 */
 	public function is_met() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 27.7' );
 		if ( ! $this->product_helper->is_premium() ) {
 			return false;
 		}
