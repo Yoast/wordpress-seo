@@ -1,5 +1,6 @@
 import { render } from "../../test-utils";
 import { useSelect, useDispatch } from "@wordpress/data";
+import { useRef } from "@wordpress/element";
 import { withInlineBanner } from "../../../src/ai-content-planner/components/with-inline-banner";
 
 jest.mock( "@wordpress/data", () => ( {
@@ -9,6 +10,11 @@ jest.mock( "@wordpress/data", () => ( {
 
 jest.mock( "@wordpress/compose", () => ( {
 	createHigherOrderComponent: ( fn ) => fn,
+} ) );
+
+jest.mock( "@wordpress/element", () => ( {
+	...jest.requireActual( "@wordpress/element" ),
+	useRef: jest.fn(),
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/components/inline-banner", () => ( {
@@ -28,6 +34,7 @@ jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions"
 jest.mock( "../../../src/ai-content-planner/constants", () => ( {
 	CONTENT_PLANNER_STORE: "yoast-seo/content-planner",
 	FEATURE_MODAL_STATUS: { consent: "consent" },
+	INJECTED_STYLE_ID: "yoast-seo-tailwind-css",
 } ) );
 
 jest.mock( "../../../src/ai-generator/constants", () => ( {
@@ -89,6 +96,8 @@ const WithInlineBanner = withInlineBanner( MockBlockListBlock );
 describe( "withInlineBanner", () => {
 	beforeEach( () => {
 		jest.clearAllMocks();
+		// Restore useRef to its default behaviour so it does not affect unrelated tests.
+		useRef.mockImplementation( ( init ) => ( { current: init } ) );
 	} );
 
 	test( "renders the banner when conditions are met on a new post", () => {
@@ -178,6 +187,80 @@ describe( "withInlineBanner", () => {
 		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
 
 		expect( getByTestId( "block-list-block" ) ).toBeInTheDocument();
+	} );
+
+	test( "passes isPremium=true to the InlineBanner", () => {
+		setupMocks( { isPremium: true } );
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		expect( getByTestId( "inline-banner" ).dataset.isPremium ).toBe( "true" );
+	} );
+
+	describe( "stylesheet injection effect", () => {
+		const STYLE_ID = "yoast-seo-tailwind-css";
+
+		const makeIframeRef = ( mockDoc ) => {
+			const ref = {};
+			Object.defineProperty( ref, "current", {
+				get: () => ( { ownerDocument: mockDoc } ),
+				set: () => { /* no-op: prevents React from overwriting with the real DOM node */ },
+				configurable: true,
+			} );
+			return ref;
+		};
+
+		test( "does nothing when the style is already present in the iframe document", () => {
+			const mockDoc = {
+				getElementById: jest.fn().mockReturnValue( { id: STYLE_ID } ),
+				createElement: jest.fn(),
+				head: { appendChild: jest.fn() },
+			};
+			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.createElement ).not.toHaveBeenCalled();
+		} );
+
+		test( "does nothing when the main link element is absent from window.document", () => {
+			const mockDoc = {
+				getElementById: jest.fn().mockReturnValue( null ),
+				createElement: jest.fn(),
+				head: { appendChild: jest.fn() },
+			};
+			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.createElement ).not.toHaveBeenCalled();
+		} );
+
+		test( "injects a cloned stylesheet link when ownerDoc is a separate iframe document", () => {
+			const mockLink = { id: "", rel: "", href: "" };
+			const mockDoc = {
+				getElementById: jest.fn().mockReturnValue( null ),
+				createElement: jest.fn().mockReturnValue( mockLink ),
+				head: { appendChild: jest.fn() },
+			};
+
+			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
+
+			const mainLink = document.createElement( "link" );
+			mainLink.id = STYLE_ID;
+			mainLink.href = "https://example.com/tailwind.css";
+			document.head.appendChild( mainLink );
+
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.createElement ).toHaveBeenCalledWith( "link" );
+			expect( mockLink.id ).toBe( STYLE_ID );
+			expect( mockLink.rel ).toBe( "stylesheet" );
+			expect( mockLink.href ).toBe( "https://example.com/tailwind.css" );
+			expect( mockDoc.head.appendChild ).toHaveBeenCalledWith( mockLink );
+
+			document.head.removeChild( mainLink );
+		} );
 	} );
 } );
 
