@@ -31,6 +31,13 @@ import {
 	availabilitySelectors,
 	getInitialAvailabilityState,
 } from "./availability";
+import {
+	BANNER_NAME,
+	bannerActions,
+	bannerReducer,
+	bannerSelectors,
+	getInitialBannerState,
+} from "./banner";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -45,12 +52,14 @@ export const createStore = ( initialState ) => {
 			...contentOutlineActions,
 			...modalActions,
 			...availabilityActions,
+			...bannerActions,
 		},
 		selectors: {
 			...contentSuggestionsSelectors,
 			...contentOutlineSelectors,
 			...modalSelectors,
 			...availabilitySelectors,
+			...bannerSelectors,
 		},
 		controls: {
 			...contentSuggestionsControls,
@@ -63,6 +72,7 @@ export const createStore = ( initialState ) => {
 				[ CONTENT_OUTLINE_NAME ]: getInitialContentOutlineState(),
 				[ MODAL_NAME ]: getInitialModalState(),
 				[ AVAILABILITY_NAME ]: getInitialAvailabilityState(),
+				[ BANNER_NAME ]: getInitialBannerState(),
 			},
 			initialState
 		),
@@ -71,6 +81,7 @@ export const createStore = ( initialState ) => {
 			[ CONTENT_OUTLINE_NAME ]: contentOutlineReducer,
 			[ MODAL_NAME ]: modalReducer,
 			[ AVAILABILITY_NAME ]: availabilityReducer,
+			[ BANNER_NAME ]: bannerReducer,
 		} ),
 	} );
 };
