@@ -1,13 +1,19 @@
 import { render } from "../test-utils";
-import { useSelect, useDispatch } from "@wordpress/data";
-import { createBlock } from "@wordpress/blocks";
-import { insertBannerAfterFirstParagraph, ContentPlannerEditorPlugin } from "../../src/ai-content-planner/initialize";
+import { ContentPlannerEditorPlugin, registerInlineBanner } from "../../src/ai-content-planner/initialize";
+import { addFilter } from "@wordpress/hooks";
 
 jest.mock( "@wordpress/data", () => ( {
-	useSelect: jest.fn(),
-	useDispatch: jest.fn(),
+	useSelect: jest.fn( () => ( {
+		isNewPost: false,
+		postType: "post",
+		blocks: [],
+		minPostsMet: false,
+		isBannerRendered: false,
+	} ) ),
+	useDispatch: jest.fn( () => ( { insertBlock: jest.fn() } ) ),
 	select: jest.fn( () => ( {
 		getBlocks: () => [],
+		isEditedPostNew: () => true,
 	} ) ),
 	combineReducers: ( reducers ) => ( state = {}, action ) => Object.keys( reducers ).reduce(
 		( nextState, key ) => ( { ...nextState, [ key ]: reducers[ key ]( state[ key ], action ) } ),
@@ -30,6 +36,10 @@ jest.mock( "@wordpress/plugins", () => ( {
 	registerPlugin: jest.fn(),
 } ) );
 
+jest.mock( "@wordpress/hooks", () => ( {
+	addFilter: jest.fn(),
+} ) );
+
 jest.mock( "@wordpress/wordcount", () => ( {
 	count: jest.fn( () => 0 ),
 } ) );
@@ -46,158 +56,32 @@ jest.mock( "../../src/ai-content-planner/components/content-suggestion-block", (
 	ContentSuggestionBlock: () => null,
 } ) );
 
-describe( "insertBannerAfterFirstParagraph", () => {
-	let mockInsertBlock;
-
-	beforeEach( () => {
-		mockInsertBlock = jest.fn();
-	} );
-
-	afterEach( () => {
-		jest.clearAllMocks();
-	} );
-
-	test( "should return true and skip insertion when banner already exists", () => {
-		const blocks = [ { name: "core/paragraph" }, { name: "yoast/content-planner-banner" } ];
-		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
-		expect( result ).toBe( true );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should insert a paragraph block when canvas is empty and return false", () => {
-		const result = insertBannerAfterFirstParagraph( [], mockInsertBlock );
-		expect( result ).toBe( false );
-		expect( createBlock ).toHaveBeenCalledWith( "core/paragraph" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "core/paragraph" } ), 0, undefined, false );
-	} );
-
-	test( "should return false when there is no paragraph block to insert after", () => {
-		const blocks = [ { name: "core/heading" } ];
-		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
-		expect( result ).toBe( false );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should insert the banner after the first paragraph", () => {
-		const blocks = [ { name: "core/paragraph" }, { name: "core/heading" } ];
-		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
-		expect( result ).toBe( true );
-		expect( createBlock ).toHaveBeenCalledWith( "yoast/content-planner-banner" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 1, undefined, false );
-	} );
-
-	test( "should insert the banner after the first paragraph even when it is not the first block", () => {
-		const blocks = [ { name: "core/heading" }, { name: "core/paragraph" }, { name: "core/image" } ];
-		const result = insertBannerAfterFirstParagraph( blocks, mockInsertBlock );
-		expect( result ).toBe( true );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 2, undefined, false );
+describe( "ContentPlannerEditorPlugin", () => {
+	test( "renders the App without crashing", () => {
+		const { getByTestId } = render( <ContentPlannerEditorPlugin /> );
+		expect( getByTestId( "app" ) ).toBeInTheDocument();
 	} );
 } );
 
-describe( "ContentPlannerEditorPlugin", () => {
-	let mockInsertBlock;
-	let mockRemoveBlock;
-
-	const defaultSelectOptions = {
-		isNewPost: true,
-		postType: "post",
-		blocks: [],
-		minPostsMet: true,
-	};
-
-	/**
-	 * Mocks the useSelect hook with store-based selectors.
-	 *
-	 * @param {Object} options The mock options, merged with defaults.
-	 * @returns {void}
-	 */
-	const mockSelect = ( options = {} ) => {
-		const opts = { ...defaultSelectOptions, ...options };
-		const stores = {
-			"core/editor": {
-				isEditedPostNew: () => opts.isNewPost,
-				getCurrentPostType: () => opts.postType,
-			},
-			"core/block-editor": {
-				getBlocks: () => opts.blocks,
-			},
-			"yoast-seo/content-planner": {
-				selectIsMinPostsMet: () => opts.minPostsMet,
-			},
-		};
-		useSelect.mockImplementation( ( selector ) => selector( ( storeName ) => stores[ storeName ] ) );
-	};
-
+describe( "registerInlineBanner", () => {
 	beforeEach( () => {
-		mockInsertBlock = jest.fn();
-		mockRemoveBlock = jest.fn();
-		useDispatch.mockImplementation( ( storeName ) => {
-			if ( storeName === "core/block-editor" ) {
-				return { insertBlock: mockInsertBlock, removeBlock: mockRemoveBlock };
-			}
-			return {};
-		} );
+		addFilter.mockClear();
 	} );
 
-	afterEach( () => {
-		jest.clearAllMocks();
+	test( "registers the editor.BlockListBlock filter", () => {
+		registerInlineBanner();
+
+		expect( addFilter ).toHaveBeenCalledWith(
+			"editor.BlockListBlock",
+			"yoast/content-planner-banner",
+			expect.any( Function )
+		);
 	} );
 
-	test( "should render without crashing", () => {
-		mockSelect();
-		const { container } = render( <ContentPlannerEditorPlugin /> );
-		expect( container ).toBeInTheDocument();
-	} );
+	test( "registers the filter only once per call", () => {
+		registerInlineBanner();
 
-	test( "should insert a paragraph block when canvas is empty on a new post", () => {
-		mockSelect( { isNewPost: true, postType: "post", blocks: [] } );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( createBlock ).toHaveBeenCalledWith( "core/paragraph" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "core/paragraph" } ), 0, undefined, false );
-	} );
-
-	test( "should insert the banner after the first paragraph on a new post", () => {
-		mockSelect( { isNewPost: true, postType: "post", blocks: [ { name: "core/paragraph" } ] } );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( createBlock ).toHaveBeenCalledWith( "yoast/content-planner-banner" );
-		expect( mockInsertBlock ).toHaveBeenCalledWith( expect.objectContaining( { name: "yoast/content-planner-banner" } ), 1, undefined, false );
-	} );
-
-	test( "should not insert a block when the post is not new", () => {
-		mockSelect( { isNewPost: false, postType: "post", blocks: [] } );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should not insert a block when the post type is not 'post'", () => {
-		mockSelect( { isNewPost: true, postType: "page", blocks: [] } );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should not insert a block when the minimum-posts threshold is not met", () => {
-		mockSelect( { isNewPost: true, postType: "post", blocks: [ { name: "core/paragraph" } ], minPostsMet: false } );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should not insert a duplicate banner", () => {
-		mockSelect( {
-			isNewPost: true,
-			postType: "post",
-			blocks: [ { name: "core/paragraph" }, { name: "yoast/content-planner-banner" } ],
-		} );
-		render( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).not.toHaveBeenCalled();
-	} );
-
-	test( "should not re-insert on re-render after successful insertion", () => {
-		mockSelect( { isNewPost: true, postType: "post", blocks: [ { name: "core/paragraph" } ] } );
-		const { rerender } = render( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).toHaveBeenCalledTimes( 1 );
-
-		rerender( <ContentPlannerEditorPlugin /> );
-		expect( mockInsertBlock ).toHaveBeenCalledTimes( 1 );
+		expect( addFilter ).toHaveBeenCalledTimes( 1 );
 	} );
 } );
 
