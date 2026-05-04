@@ -150,12 +150,13 @@ class Schema_Piece_Repository implements Schema_Piece_Repository_Interface, Logg
 					$schema_pieces[] = $schema_piece;
 				}
 			} catch ( Throwable $e ) {
-				$this->logger->warning( 'Schema aggregation failed for indexable #{indexable_id} ({object_type}/{object_sub_type}): {message}',
+				$this->logger->warning(
+					'Schema aggregation failed for indexable #{indexable_id} ({object_type}/{object_sub_type}): {message}',
 					[
-						'indexable_id' => $indexable->id,
-						'object_type' => $indexable->object_type,
+						'indexable_id'    => $indexable->id,
+						'object_type'     => $indexable->object_type,
 						'object_sub_type' => $indexable->object_sub_type,
-						'message' => $e->getMessage()
+						'message'         => $e->getMessage(),
 					]
 				);
 			} finally {
