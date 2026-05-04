@@ -22,14 +22,9 @@ module.exports = {
 						opacity: 0,
 					},
 				},
-				primaryShimmer: {
-					"0%, 100%": { color: "#a61e69" },
-					"50%": { color: "#cd82ab" },
-				},
 			},
 			animation: {
 				slideRight: "slideRight .5s ease-in-out forwards",
-				primaryShimmer: "primaryShimmer 2s ease-in-out infinite",
 			},
 			fontFamily: {
 				wp: [

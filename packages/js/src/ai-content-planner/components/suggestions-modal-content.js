@@ -23,6 +23,7 @@ const LoadingSuggestionsModalContent = () => {
 	const svgAriaProps = useSvgAria();
 	const [ textIndex, setTextIndex ] = useState( 0 );
 	const [ textVisible, setTextVisible ] = useState( true );
+	const [ logoPulse, setLogoPulse ] = useState( false );
 
 	const loadingTexts = [
 		__( "Analyzing your site content…", "wordpress-seo" ),
@@ -45,11 +46,18 @@ const LoadingSuggestionsModalContent = () => {
 		};
 	}, [] );
 
+	useEffect( () => {
+		const pulseInterval = setInterval( () => {
+			setLogoPulse( ( prev ) => ! prev );
+		}, 1000 );
+		return () => clearInterval( pulseInterval );
+	}, [] );
+
 	return (
 		<>
 			<div className="yst-flex yst-flex-col yst-items-center yst-pb-8">
 				<Yoast
-					className="yst-w-24 yst-mb-2 yst-mt-6 yst-animate-primaryShimmer"
+					className={ `yst-w-24 yst-mb-2 yst-mt-6 yst-transition-colors yst-duration-1000 ${ logoPulse ? "yst-text-primary-300" : "yst-text-primary-500" }` }
 					{ ...svgAriaProps }
 				/>
 				<Modal.Description
