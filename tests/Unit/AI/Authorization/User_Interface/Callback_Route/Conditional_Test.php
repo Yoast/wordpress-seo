@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\AI\Authorization\User_Interface\Callback_Route
 
 use Yoast\WP\SEO\AI\Authorization\User_Interface\Callback_Route;
 use Yoast\WP\SEO\Conditionals\AI_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
 
 /**
  * Tests the Abstract_Callback_Route's conditional.
@@ -22,7 +23,7 @@ final class Conditional_Test extends Abstract_Callback_Route_Test {
 	 * @return void
 	 */
 	public function test_conditional() {
-		$expected = [ AI_Conditional::class ];
+		$expected = [ AI_Conditional::class, New_Premium_Or_Free_AI_Conditional::class ];
 		$this->assertSame( $expected, Callback_Route::get_conditionals() );
 	}
 }
