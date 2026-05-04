@@ -202,16 +202,22 @@ class Token_Manager implements Token_Manager_Interface {
 		$code_verifier = $this->code_verifier->generate( $user->user_email );
 		$this->code_verifier_repository->store_code_verifier( $user->ID, $code_verifier->get_code(), $code_verifier->get_created_at() );
 
+		$callback_url         = $this->urls->get_callback_url();
+		$refresh_callback_url = $this->urls->get_refresh_callback_url();
+
 		$request_body = [
 			'service'              => 'openai',
 			'code_challenge'       => \hash( 'sha256', $code_verifier->get_code() ),
 			'license_site_url'     => WPSEO_Utils::get_home_url(),
 			'user_id'              => (string) $user->ID,
-			'callback_url'         => $this->urls->get_callback_url(),
-			'refresh_callback_url' => $this->urls->get_refresh_callback_url(),
+			'callback_url'         => $callback_url,
+			'refresh_callback_url' => $refresh_callback_url,
 		];
 
 		$this->request_handler->handle( new Request( '/token/request', $request_body ) );
+
+		// Store a per-user hash of the callback URL to detect future site URL changes.
+		$this->user_helper->update_meta( $user->ID, '_yoast_wpseo_ai_generator_callback_url_hash', \md5( $callback_url ) );
 
 		// The callback saves the metadata. Because that is in another session, we need to delete the current cache here. Or we may get the old token.
 		\wp_cache_delete( $user->ID, 'user_meta' );
@@ -306,6 +312,12 @@ class Token_Manager implements Token_Manager_Interface {
 	 * @throws RuntimeException Unable to retrieve the access or refresh token.
 	 */
 	public function get_or_request_access_token( WP_User $user ): string {
+		// If the site URL has changed since callback URLs were registered, delete stale tokens.
+		if ( $this->have_callback_urls_changed( $user ) ) {
+			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt' );
+			$this->user_helper->delete_meta( $user->ID, '_yoast_wpseo_ai_generator_refresh_jwt' );
+		}
+
 		$access_jwt = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_access_jwt', true );
 		if ( ! \is_string( $access_jwt ) || $access_jwt === '' ) {
 			$this->token_request( $user );
@@ -330,4 +342,30 @@ class Token_Manager implements Token_Manager_Interface {
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
+
+	/**
+	 * Checks whether the callback URLs have changed since the last token request.
+	 *
+	 * Detects site URL changes (e.g., migrating from a staging URL to a production domain)
+	 * that would leave stale callback URLs registered with the Yoast AI service.
+	 * Uses a per-user hash so each user independently detects the change and re-registers.
+	 * The hash is immune to wp search-replace operations.
+	 *
+	 * When no hash is stored (first run after upgrade), returns true to force a fresh
+	 * token_request(). This ensures existing sites with stale callback URLs self-heal
+	 * without manual intervention.
+	 *
+	 * @param WP_User $user The current user.
+	 *
+	 * @return bool Whether the callback URLs may have changed.
+	 */
+	private function have_callback_urls_changed( WP_User $user ): bool {
+		$registered_hash = $this->user_helper->get_meta( $user->ID, '_yoast_wpseo_ai_generator_callback_url_hash', true );
+
+		if ( ! \is_string( $registered_hash ) || $registered_hash === '' ) {
+			return true;
+		}
+
+		return $registered_hash !== \md5( $this->urls->get_callback_url() );
+	}
 }

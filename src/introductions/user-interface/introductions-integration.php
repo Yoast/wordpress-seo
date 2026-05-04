@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Introductions\User_Interface;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -81,7 +80,7 @@ class Introductions_Integration implements Integration_Interface {
 	 * @return array<string>
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, User_Can_Manage_Wpseo_Options_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**

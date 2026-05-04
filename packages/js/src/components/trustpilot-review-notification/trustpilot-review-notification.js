@@ -10,9 +10,10 @@ const OutboundLink = makeOutboundLink();
 
 /**
  * The Trustpilot review notification.
+ * @param {Object} props The component props forwarded to the underlying notification (e.g. inEditorIntro).
  * @returns {JSX.Element|null} The notification or null.
  */
-export const TrustpilotReviewNotification = () => {
+export const TrustpilotReviewNotification = ( props ) => {
 	const { shouldShow, dismiss } = useTrustpilotReviewNotification();
 	const { locationContext } = useRootContext();
 	const trustpilotLink = useSelect( ( select ) => select( STORE_NAME ).selectLink( "https://yoa.st/trustpilot-review", { context: locationContext } ), [ locationContext ] );
@@ -26,6 +27,7 @@ export const TrustpilotReviewNotification = () => {
 			hasIcon={ false }
 			isAlertDismissed={ ! shouldShow }
 			onDismissed={ dismiss }
+			{ ...props }
 		>
 			{ __( "Happy with the plugin?", "wordpress-seo" ) }
 			{ " " }

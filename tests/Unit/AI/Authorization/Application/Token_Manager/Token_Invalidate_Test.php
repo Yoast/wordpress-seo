@@ -48,15 +48,15 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			)
 			->once();
 
-		// Mock user meta deletion.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Mock token deletion.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
 		$this->instance->token_invalidate( $user_id );
@@ -91,15 +91,15 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			)
 			->once();
 
-		// Mock user meta deletion.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Mock token deletion.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
 		$this->instance->token_invalidate( $user_id );
@@ -136,15 +136,15 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->once()
 			->andThrow( new Unauthorized_Exception( 'Unauthorized', 401 ) );
 
-		// Mock user meta deletion should still happen.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Mock token deletion should still happen.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
 		$this->instance->token_invalidate( $user_id );
@@ -181,15 +181,15 @@ final class Token_Invalidate_Test extends Abstract_Token_Manager_Test {
 			->once()
 			->andThrow( new Forbidden_Exception( 'Forbidden', 403 ) );
 
-		// Mock user meta deletion should still happen.
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_access_jwt' )
+		// Mock token deletion should still happen.
+		$this->access_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
-		$this->user_helper
-			->expects( 'delete_meta' )
-			->with( $user_id, '_yoast_wpseo_ai_generator_refresh_jwt' )
+		$this->refresh_token_repository
+			->expects( 'delete_token' )
+			->with( $user_id )
 			->once();
 
 		$this->instance->token_invalidate( $user_id );

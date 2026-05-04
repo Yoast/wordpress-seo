@@ -142,7 +142,6 @@ module.exports = function( grunt ) {
 				"set-version": "@yoast/grunt-plugin-tasks",
 				"update-changelog-to-latest": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
-				"notify-slack": "notify-slack",
 			},
 			customTasksDir: "config/grunt/custom-tasks",
 		},

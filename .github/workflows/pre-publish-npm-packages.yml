@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v4
         with:
           node-version-file: './.nvmrc'
           cache: 'yarn'
@@ -95,7 +95,7 @@ jobs:
           done
 
       - name: Upload packed tarballs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm-pack-dry-run
           path: packed-tarballs/*.tgz

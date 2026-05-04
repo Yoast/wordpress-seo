@@ -27,6 +27,8 @@ import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { link } from "../inline-links/edit-link";
+import initContentPlanner from "../ai-content-planner/initialize";
+import { getIsAiFeatureEnabled } from "../redux/selectors/preferences";
 
 /**
  * Registers the Yoast inline link format.
@@ -208,6 +210,9 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+	if ( getIsAiFeatureEnabled() ) {
+		initContentPlanner();
+	}
 
 	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );
 	if ( yoastTab === "readability" || yoastTab === "seo" ) {
