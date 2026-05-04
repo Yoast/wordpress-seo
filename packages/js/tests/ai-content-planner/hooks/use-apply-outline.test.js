@@ -25,12 +25,12 @@ const mockApiSuggestion = {
 	meta_description: "API Meta",
 	keyphrase: "api keyphrase",
 	category: "api-category",
+	id: "suggestion-api keyphrase-API Title",
 };
-const mockBanner = { name: "yoast/content-planner-banner", clientId: "banner-id" };
 
 const resetBlocks = jest.fn();
-const removeBlock = jest.fn();
 const closeModal = jest.fn();
+const setBannerDismissed = jest.fn();
 
 /**
  * Sets up useDispatch to return the correct mock per store.
@@ -38,30 +38,24 @@ const closeModal = jest.fn();
 const setupUseDispatch = () => {
 	useDispatch.mockImplementation( ( storeName ) => {
 		if ( storeName === "core/block-editor" ) {
-			return { resetBlocks, removeBlock };
+			return { resetBlocks };
 		}
-		return { closeModal };
+		return { closeModal, setBannerDismissed };
 	} );
 };
 
 /**
  * Sets up select to return the correct mock per store.
  *
- * @param {Object} params              Optional override values.
- * @param {Array}  params.blocks       Blocks returned by getBlocks.
- * @param {Array}  params.apiOutline   Outline returned by selectContentOutline.
+ * @param {Object} params               Optional override values.
+ * @param {Array}  params.apiOutline    Outline returned by selectContentOutline.
  * @param {Object} params.apiSuggestion Suggestion returned by selectSuggestion.
  */
-const setupSelect = ( { blocks = [], apiOutline = mockApiOutline, apiSuggestion = mockApiSuggestion } = {} ) => {
-	select.mockImplementation( ( storeName ) => {
-		if ( storeName === "core/block-editor" ) {
-			return { getBlocks: jest.fn( () => blocks ) };
-		}
-		return {
-			selectContentOutline: jest.fn( () => apiOutline ),
-			selectSuggestion: jest.fn( () => apiSuggestion ),
-		};
-	} );
+const setupSelect = ( { apiOutline = mockApiOutline, apiSuggestion = mockApiSuggestion } = {} ) => {
+	select.mockImplementation( () => ( {
+		selectContentOutline: jest.fn( () => apiOutline ),
+		selectSuggestion: jest.fn( () => apiSuggestion ),
+	} ) );
 };
 
 describe( "useApplyOutline", () => {
@@ -162,8 +156,7 @@ describe( "useApplyOutline", () => {
 			expect( resetBlocks ).toHaveBeenCalledWith( [ "block1" ] );
 		} );
 
-		it( "removes the banner block when one is present", async() => {
-			setupSelect( { blocks: [ mockBanner, { name: "core/paragraph", clientId: "p-id" } ] } );
+		it( "calls setBannerDismissed after applying the outline", async() => {
 			const editedOutlineRef = { current: null };
 
 			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
@@ -172,20 +165,7 @@ describe( "useApplyOutline", () => {
 				await result.current();
 			} );
 
-			expect( removeBlock ).toHaveBeenCalledWith( "banner-id" );
-		} );
-
-		it( "does not call removeBlock when no banner block is present", async() => {
-			setupSelect( { blocks: [ { name: "core/paragraph", clientId: "p-id" } ] } );
-			const editedOutlineRef = { current: null };
-
-			const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
-
-			await act( async() => {
-				await result.current();
-			} );
-
-			expect( removeBlock ).not.toHaveBeenCalled();
+			expect( setBannerDismissed ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 

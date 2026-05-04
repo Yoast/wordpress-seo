@@ -17,6 +17,7 @@ jest.mock( "../../../src/shared-admin/helpers", () => ( {
 const fetchContentPlannerSuggestions = jest.fn();
 const setFeatureModalStatus = jest.fn();
 const setContentSuggestionsStatus = jest.fn();
+const setSuggestionsError = jest.fn();
 const fetchUsageCount = jest.fn();
 const addUsageCount = jest.fn();
 
@@ -28,6 +29,7 @@ const defaultStoreValues = {
 	usageCountEndpoint: "https://example.com/usage",
 	isUsageCountLimitReached: false,
 	hasValidPremiumSubscription: false,
+	isPremium: false,
 };
 
 /**
@@ -48,6 +50,7 @@ const setupUseSelect = ( overrides = {} ) => {
 				getPostType: () => values.postType,
 				getContentLocale: () => values.contentLocale,
 				getEditorTypeApiValue: () => values.editorApiValue,
+				getIsPremium: () => values.isPremium,
 			};
 		}
 		if ( storeName === "yoast-seo/ai-generator" ) {
@@ -68,7 +71,7 @@ const setupUseDispatch = () => {
 		if ( storeName === "yoast-seo/ai-generator" ) {
 			return { fetchUsageCount, addUsageCount };
 		}
-		return { fetchContentPlannerSuggestions, setFeatureModalStatus, setContentSuggestionsStatus };
+		return { fetchContentPlannerSuggestions, setFeatureModalStatus, setContentSuggestionsStatus, setSuggestionsError };
 	} );
 };
 
@@ -78,6 +81,37 @@ describe( "useFetchContentSuggestions", () => {
 		setupUseSelect();
 		setupUseDispatch();
 		fetchUsageCount.mockResolvedValue( { payload: { count: 1, limit: 100 } } );
+	} );
+
+	describe( "premium installed but subscription invalid (pre-fetch check)", () => {
+		it( "sets featureModalStatus to contentSuggestions and calls setSuggestionsError when premium is installed but subscription is invalid", async() => {
+			setupUseSelect( { isPremium: true, hasValidPremiumSubscription: false } );
+
+			const { result } = renderHook( () => useFetchContentSuggestions() );
+
+			await act( async() => {
+				await result.current();
+			} );
+
+			expect( setFeatureModalStatus ).toHaveBeenCalledWith( FEATURE_MODAL_STATUS.contentSuggestions );
+			expect( setSuggestionsError ).toHaveBeenCalledWith( {
+				errorCode: 402,
+				errorIdentifier: "PAYMENT_REQUIRED",
+				missingLicenses: [ "Yoast SEO Premium" ],
+			} );
+		} );
+
+		it( "does not fetch usage count when premium is installed but subscription is invalid", async() => {
+			setupUseSelect( { isPremium: true, hasValidPremiumSubscription: false } );
+
+			const { result } = renderHook( () => useFetchContentSuggestions() );
+
+			await act( async() => {
+				await result.current();
+			} );
+
+			expect( fetchUsageCount ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	describe( "usage limit already reached (pre-fetch check)", () => {
