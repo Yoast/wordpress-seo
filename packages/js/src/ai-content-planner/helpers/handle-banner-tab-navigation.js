@@ -1,6 +1,5 @@
 import { focus } from "@wordpress/dom";
 
-
 /**
  * Get sibling function.
  *
@@ -21,6 +20,7 @@ const getFindSibling = ( event ) => {
  * @returns {boolean} Whether the banner is involved in the navigation.
  */
 const involvesBanner = ( bannerEl, target, next ) => bannerEl.contains( target ) || bannerEl.contains( next );
+
 /**
  * Keydown handler that keeps the inline banner reachable via Tab inside the Gutenberg
  * writing flow. Gutenberg's useTabNav hook intercepts Tab in the bubble phase and
