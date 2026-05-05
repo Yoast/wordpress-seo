@@ -161,12 +161,6 @@ const IAT_PATTERN = /(private const INITIAL_ACCESS_TOKEN = ')[^']*(';)/;
  * whitespace, control characters, angle brackets — is rejected. This makes
  * it structurally impossible for a malformed or hostile credential to
  * inject PHP into Issuer_Config.
- *
- * NOTE: this regex INTENTIONALLY also rejects the `<v0-…-placeholder>` strings
- * baked in this file as defaults. The placeholders are only there for the
- * pre-merge state of the PR; once real values are baked in by the MyYoast
- * team they will pass this check, and after that any future drift would be
- * caught here.
  */
 const SAFE_CREDENTIAL_PATTERN = /^[A-Za-z0-9._\-~=]+$/;
 
