@@ -5,9 +5,8 @@ jest.mock( "@wordpress/api-fetch" );
 
 /**
  * Returns a mock apiFetch implementation that rejects with an AbortError
- * when the provided signal fires or is already aborted.
+ * when `options.signal` fires or is already aborted.
  *
- * @param {AbortSignal} signal The signal to listen on.
  * @returns {Promise} A promise that rejects on abort.
  */
 const abortableMock = () => jest.fn( ( options ) => {
