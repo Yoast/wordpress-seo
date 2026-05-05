@@ -50,6 +50,7 @@ const setupMocks = ( overrides = {} ) => {
 		hasConsent: false,
 		isPremium: false,
 		minPostsMet: true,
+		learnMoreLink: "https://yoa.st/content-planner-learn-more",
 	};
 	const values = { ...defaults, ...overrides };
 
@@ -68,7 +69,7 @@ const setupMocks = ( overrides = {} ) => {
 			};
 		}
 		if ( storeName === "yoast-seo/editor" ) {
-			return { getIsPremium: () => values.isPremium };
+			return { getIsPremium: () => values.isPremium, selectLink: () => values.learnMoreLink };
 		}
 		if ( storeName === "yoast-seo/ai-generator" ) {
 			return { selectHasAiGeneratorConsent: () => values.hasConsent };

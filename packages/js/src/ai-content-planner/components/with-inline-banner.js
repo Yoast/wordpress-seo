@@ -14,7 +14,7 @@ import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigati
  * @returns {JSX.Element} The wrapped block component with the inline banner conditionally rendered before it.
  */
 const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
-	const { isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet } = useSelect( ( select ) => {
+	const { isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet, learnMoreLink } = useSelect( ( select ) => {
 		const planner = select( CONTENT_PLANNER_STORE );
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
@@ -23,6 +23,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
+			learnMoreLink: select( STORE_NAME_EDITOR ).selectLink( "https://yoa.st/content-planner-learn-more" ),
 		};
 	}, [] );
 
@@ -105,6 +106,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 						isPremium={ isPremium }
 						onDismiss={ handleDismiss }
 						onClick={ handleClick }
+						learnMoreLink={ learnMoreLink }
 					/>
 				</div>
 			) }
