@@ -13,6 +13,7 @@ import { focus } from "@wordpress/dom";
  * @param {KeyboardEvent} event   The keydown event.
  * @returns {void}
  */
+// eslint-disable-next-line complexity
 export function handleBannerTabNavigation( bannerEl, event ) {
 	if ( event.defaultPrevented || event.keyCode !== 9 || event.shiftKey || ! bannerEl ) {
 		return;
