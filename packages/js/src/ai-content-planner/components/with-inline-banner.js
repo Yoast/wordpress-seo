@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
@@ -5,6 +6,7 @@ import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
+import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigation";
 
 /**
  * The component that conditionally renders the Content Planner inline banner and injects the Tailwind stylesheet into the editor iframe.
@@ -67,10 +69,34 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		ownerDoc.head.appendChild( link );
 	}, [ shouldShow ] );
 
+	useEffect( () => {
+		if ( ! shouldShow ) {
+			return;
+		}
+
+		// Gutenberg's writing-flow Tab handler runs in the bubble phase and redirects
+		// focus to sentinel divs when the next tabbable is not inside the same block.
+		// The banner sits outside any [data-block] block wrapper, so it is always
+		// skipped. Attaching a capture-phase listener lets us act before Gutenberg does;
+		// once we call preventDefault(), Gutenberg's early-return guard fires and leaves
+		// focus alone.
+		const ownerDoc = ref.current?.ownerDocument;
+		if ( ! ownerDoc ) {
+			return;
+		}
+
+		function handleTabNavigation( event ) {
+			handleBannerTabNavigation( ref.current, event );
+		}
+
+		ownerDoc.addEventListener( "keydown", handleTabNavigation, { capture: true } );
+		return () => ownerDoc.removeEventListener( "keydown", handleTabNavigation, { capture: true } );
+	}, [ shouldShow ] );
+
 	return (
 		<>
 			{ shouldShow && (
-				<div ref={ ref } className="wp-block">
+				<div ref={ ref } className="wp-block" data-block="yoast-content-planner-banner">
 					<InlineBanner
 						isPremium={ isPremium }
 						onDismiss={ handleDismiss }
