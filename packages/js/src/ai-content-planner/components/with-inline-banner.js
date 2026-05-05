@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
@@ -85,6 +84,11 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 			return;
 		}
 
+		/**
+		 * Forwards keydown events to the banner Tab navigation helper.
+		 * @param {KeyboardEvent} event The keydown event.
+		 * @returns {void}
+		 */
 		function handleTabNavigation( event ) {
 			handleBannerTabNavigation( ref.current, event );
 		}
