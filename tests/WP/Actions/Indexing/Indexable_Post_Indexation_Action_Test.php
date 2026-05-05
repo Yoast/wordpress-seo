@@ -447,14 +447,14 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			[
 				'public' => true,
 				'label'  => 'Books',
-			]
+			],
 		);
 
 		$this->factory()->post->create(
 			[
 				'post_type'   => 'yoast_test_book',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		$this->delete_all_indexables();
@@ -479,7 +479,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			[
 				'public' => true,
 				'label'  => 'Events',
-			]
+			],
 		);
 
 		$this->factory()->post->create_many( 2 );
@@ -488,7 +488,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 			[
 				'post_type'   => 'yoast_test_event',
 				'post_status' => 'publish',
-			]
+			],
 		);
 
 		$this->delete_all_indexables();
@@ -645,7 +645,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 				[
 					'object_id'   => $post_id,
 					'object_type' => 'post',
-				]
+				],
 			);
 		}
 
@@ -665,7 +665,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb->update(
 			$wpdb->prefix . 'yoast_indexable',
 			[ 'version' => $version ],
-			[ 'object_type' => 'post' ]
+			[ 'object_type' => 'post' ],
 		);
 
 		$this->clear_transients();
@@ -689,7 +689,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 				[
 					'object_id'   => $post_id,
 					'object_type' => 'post',
-				]
+				],
 			);
 		}
 
@@ -718,7 +718,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 				'blog_id'         => \get_current_blog_id(),
 				'created_at'      => \current_time( 'mysql' ),
 				'updated_at'      => \current_time( 'mysql' ),
-			]
+			],
 		);
 	}
 
@@ -743,7 +743,7 @@ final class Indexable_Post_Indexation_Action_Test extends TestCase {
 				'blog_id'     => \get_current_blog_id(),
 				'created_at'  => \current_time( 'mysql' ),
 				'updated_at'  => \current_time( 'mysql' ),
-			]
+			],
 		);
 	}
 
