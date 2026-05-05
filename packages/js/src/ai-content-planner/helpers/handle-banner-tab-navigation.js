@@ -12,6 +12,16 @@ const getFindSibling = ( event ) => {
 };
 
 /**
+ * Returns whether a Tab navigation involves the banner — i.e. focus is currently inside
+ * the banner or is about to enter it.
+ *
+ * @param {HTMLElement} bannerEl The banner wrapper element.
+ * @param {HTMLElement} target   The currently focused element.
+ * @param {HTMLElement} next     The next tabbable element.
+ * @returns {boolean} Whether the banner is involved in the navigation.
+ */
+const involvesBanner = ( bannerEl, target, next ) => bannerEl.contains( target ) || bannerEl.contains( next );
+/**
  * Keydown handler that keeps the inline banner reachable via Tab inside the Gutenberg
  * writing flow. Gutenberg's useTabNav hook intercepts Tab in the bubble phase and
  * redirects focus to sentinel divs when the next tabbable element is not inside the
@@ -32,11 +42,9 @@ export function handleBannerTabNavigation( bannerEl, event ) {
 	const findSibling = getFindSibling( event );
 	const next = findSibling( event.target );
 
-	// Intercept whenever focus is inside the banner or entering it.
-	// Gutenberg's WritingFlow Tab handler redirects focus to the next block rather than
-	// moving between tabbable elements inside the banner wrapper, so we must handle all
-	// banner-related Tab navigation ourselves — both intra-banner and boundary-crossing.
-	if ( next && ( bannerEl.contains( event.target ) || bannerEl.contains( next ) ) ) {
+	// Intercept only when Tab or Shift+Tab crosses the banner boundary (entering or leaving).
+	// Intra-banner navigation is already handled by Gutenberg via the data-block attribute.
+	if ( next && involvesBanner( bannerEl, event.target, next ) ) {
 		event.preventDefault();
 		next.focus();
 	}
