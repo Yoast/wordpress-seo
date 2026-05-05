@@ -472,7 +472,7 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
 		 *
-		 * @param Indexable_Presention $presentation The indexable presentation.
+		 * @param Indexable_Presentation $presentation The indexable presentation.
 		 * @param Meta_Tags_Context    $context      The meta tags context for the current page.
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
