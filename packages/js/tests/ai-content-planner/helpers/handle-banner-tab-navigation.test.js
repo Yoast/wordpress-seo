@@ -19,7 +19,7 @@ jest.mock( "@wordpress/dom", () => ( {
  */
 const makeEvent = ( overrides = {} ) => ( {
 	defaultPrevented: false,
-	keyCode: 9,
+	key: "Tab",
 	shiftKey: false,
 	target: document.createElement( "button" ),
 	preventDefault: jest.fn(),
@@ -57,7 +57,7 @@ describe( "handleBannerTabNavigation", () => {
 		} );
 
 		it( "does nothing for non-Tab keys", () => {
-			const event = makeEvent( { keyCode: 13 } );
+			const event = makeEvent( { key: "Enter" } );
 			handleBannerTabNavigation( bannerEl, event );
 			expect( mockFindNext ).not.toHaveBeenCalled();
 			expect( event.preventDefault ).not.toHaveBeenCalled();

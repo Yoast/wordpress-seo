@@ -14,7 +14,7 @@ import { focus } from "@wordpress/dom";
  * @returns {void}
  */
 export function handleBannerTabNavigation( bannerEl, event ) {
-	if ( event.defaultPrevented || event.keyCode !== 9 || ! bannerEl ) {
+	if ( event.defaultPrevented || event.key !== "Tab" || ! bannerEl ) {
 		return;
 	}
 
