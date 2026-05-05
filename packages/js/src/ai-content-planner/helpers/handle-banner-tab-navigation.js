@@ -13,7 +13,6 @@ import { focus } from "@wordpress/dom";
  * @param {KeyboardEvent} event   The keydown event.
  * @returns {void}
  */
-// eslint-disable-next-line complexity
 export function handleBannerTabNavigation( bannerEl, event ) {
 	if ( event.defaultPrevented || event.keyCode !== 9 || ! bannerEl ) {
 		return;
@@ -21,13 +20,10 @@ export function handleBannerTabNavigation( bannerEl, event ) {
 
 	const findSibling = event.shiftKey ? focus.tabbable.findPrevious : focus.tabbable.findNext;
 	const next = findSibling( event.target );
-	if ( ! next ) {
-		return;
-	}
 
 	// Intercept only when Tab or Shift+Tab crosses the banner boundary (entering or leaving).
 	// Intra-banner navigation is already handled by Gutenberg via the data-block attribute.
-	if ( bannerEl.contains( event.target ) !== bannerEl.contains( next ) ) {
+	if ( next && bannerEl.contains( event.target ) !== bannerEl.contains( next ) ) {
 		event.preventDefault();
 		next.focus();
 	}
