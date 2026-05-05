@@ -15,17 +15,18 @@ import { focus } from "@wordpress/dom";
  */
 // eslint-disable-next-line complexity
 export function handleBannerTabNavigation( bannerEl, event ) {
-	if ( event.defaultPrevented || event.keyCode !== 9 || event.shiftKey || ! bannerEl ) {
+	if ( event.defaultPrevented || event.keyCode !== 9 || ! bannerEl ) {
 		return;
 	}
 
-	const next = focus.tabbable.findNext( event.target );
+	const findSibling = event.shiftKey ? focus.tabbable.findPrevious : focus.tabbable.findNext;
+	const next = findSibling( event.target );
 	if ( ! next ) {
 		return;
 	}
 
-	// Intercept only when Tab crosses the banner boundary (entering or leaving).
-	// Intra-banner Tab is already handled by Gutenberg via the data-block attribute.
+	// Intercept only when Tab or Shift+Tab crosses the banner boundary (entering or leaving).
+	// Intra-banner navigation is already handled by Gutenberg via the data-block attribute.
 	if ( bannerEl.contains( event.target ) !== bannerEl.contains( next ) ) {
 		event.preventDefault();
 		next.focus();

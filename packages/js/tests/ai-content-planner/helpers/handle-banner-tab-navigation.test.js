@@ -1,11 +1,13 @@
 import { handleBannerTabNavigation } from "../../../src/ai-content-planner/helpers/handle-banner-tab-navigation";
 
 const mockFindNext = jest.fn();
+const mockFindPrevious = jest.fn();
 
 jest.mock( "@wordpress/dom", () => ( {
 	focus: {
 		tabbable: {
 			findNext: ( ...args ) => mockFindNext( ...args ),
+			findPrevious: ( ...args ) => mockFindPrevious( ...args ),
 		},
 	},
 } ) );
@@ -39,6 +41,7 @@ describe( "handleBannerTabNavigation", () => {
 		document.body.appendChild( outsideButton );
 
 		mockFindNext.mockReset();
+		mockFindPrevious.mockReset();
 	} );
 
 	afterEach( () => {
@@ -60,13 +63,6 @@ describe( "handleBannerTabNavigation", () => {
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 
-		it( "does nothing for Shift+Tab", () => {
-			const event = makeEvent( { shiftKey: true } );
-			handleBannerTabNavigation( bannerEl, event );
-			expect( mockFindNext ).not.toHaveBeenCalled();
-			expect( event.preventDefault ).not.toHaveBeenCalled();
-		} );
-
 		it( "does nothing when bannerEl is null", () => {
 			const event = makeEvent();
 			handleBannerTabNavigation( null, event );
@@ -80,10 +76,17 @@ describe( "handleBannerTabNavigation", () => {
 			handleBannerTabNavigation( bannerEl, event );
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
+
+		it( "does nothing when there is no previous tabbable element (Shift+Tab)", () => {
+			mockFindPrevious.mockReturnValue( null );
+			const event = makeEvent( { shiftKey: true, target: outsideButton } );
+			handleBannerTabNavigation( bannerEl, event );
+			expect( event.preventDefault ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	describe( "Tab into banner", () => {
-		it( "focuses the first banner button and prevents default when tabbing from outside", () => {
+		it( "focuses the first banner button and prevents default when tabbing forward from outside", () => {
 			mockFindNext.mockReturnValue( insideButton );
 			const focusSpy = jest.spyOn( insideButton, "focus" );
 			const event = makeEvent( { target: outsideButton } );
@@ -93,13 +96,35 @@ describe( "handleBannerTabNavigation", () => {
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
 		} );
+
+		it( "focuses the last banner button and prevents default when shift-tabbing backward from outside", () => {
+			mockFindPrevious.mockReturnValue( insideButton );
+			const focusSpy = jest.spyOn( insideButton, "focus" );
+			const event = makeEvent( { shiftKey: true, target: outsideButton } );
+
+			handleBannerTabNavigation( bannerEl, event );
+
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
+		} );
 	} );
 
 	describe( "Tab out of banner", () => {
-		it( "focuses the next element outside the banner and prevents default when tabbing from the last button", () => {
+		it( "focuses the next element outside and prevents default when tabbing forward from the last button", () => {
 			mockFindNext.mockReturnValue( outsideButton );
 			const focusSpy = jest.spyOn( outsideButton, "focus" );
 			const event = makeEvent( { target: insideButton } );
+
+			handleBannerTabNavigation( bannerEl, event );
+
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "focuses the previous element outside and prevents default when shift-tabbing from the first button", () => {
+			mockFindPrevious.mockReturnValue( outsideButton );
+			const focusSpy = jest.spyOn( outsideButton, "focus" );
+			const event = makeEvent( { shiftKey: true, target: insideButton } );
 
 			handleBannerTabNavigation( bannerEl, event );
 
@@ -121,6 +146,19 @@ describe( "handleBannerTabNavigation", () => {
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 			expect( focusSpy ).not.toHaveBeenCalled();
 		} );
+
+		it( "does not intercept when both current and previous tabbable are inside the banner (Shift+Tab)", () => {
+			const secondInsideButton = document.createElement( "button" );
+			bannerEl.appendChild( secondInsideButton );
+			mockFindPrevious.mockReturnValue( insideButton );
+			const focusSpy = jest.spyOn( insideButton, "focus" );
+			const event = makeEvent( { shiftKey: true, target: secondInsideButton } );
+
+			handleBannerTabNavigation( bannerEl, event );
+
+			expect( event.preventDefault ).not.toHaveBeenCalled();
+			expect( focusSpy ).not.toHaveBeenCalled();
+		} );
 	} );
 
 	describe( "Tab outside banner entirely", () => {
@@ -130,6 +168,19 @@ describe( "handleBannerTabNavigation", () => {
 			mockFindNext.mockReturnValue( anotherOutsideButton );
 			const focusSpy = jest.spyOn( anotherOutsideButton, "focus" );
 			const event = makeEvent( { target: outsideButton } );
+
+			handleBannerTabNavigation( bannerEl, event );
+
+			expect( event.preventDefault ).not.toHaveBeenCalled();
+			expect( focusSpy ).not.toHaveBeenCalled();
+		} );
+
+		it( "does not intercept when both current and previous tabbable are outside the banner (Shift+Tab)", () => {
+			const anotherOutsideButton = document.createElement( "button" );
+			document.body.appendChild( anotherOutsideButton );
+			mockFindPrevious.mockReturnValue( anotherOutsideButton );
+			const focusSpy = jest.spyOn( anotherOutsideButton, "focus" );
+			const event = makeEvent( { shiftKey: true, target: outsideButton } );
 
 			handleBannerTabNavigation( bannerEl, event );
 
