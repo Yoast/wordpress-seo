@@ -1,7 +1,7 @@
 import { useCallback } from "@wordpress/element";
 import { useDispatch, select } from "@wordpress/data";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
-import { applyYoastMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../helpers/apply-yoast-meta-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 /**
@@ -14,13 +14,13 @@ import { CONTENT_PLANNER_STORE } from "../constants";
  * @param {Object} params                  The parameters.
  * @param {Object} params.editedOutlineRef Ref holding the user's edits from the outline modal.
  *
- * @returns {Function} Async callback to apply the outline.
+ * @returns {Function} Callback to apply the outline.
  */
 export const useApplyOutline = ( { editedOutlineRef } ) => {
 	const { editPost } = useDispatch( "core/editor" );
 	const { closeModal, setBannerDismissed } = useDispatch( CONTENT_PLANNER_STORE );
 
-	return useCallback( async() => {
+	return useCallback( () => {
 		const editedOutline = editedOutlineRef.current;
 		const apiOutline = select( CONTENT_PLANNER_STORE ).selectContentOutline();
 		const apiSuggestion = select( CONTENT_PLANNER_STORE ).selectSuggestion();
