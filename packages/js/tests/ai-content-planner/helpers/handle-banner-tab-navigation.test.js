@@ -134,7 +134,7 @@ describe( "handleBannerTabNavigation", () => {
 	} );
 
 	describe( "Tab within banner", () => {
-		it( "does not intercept when both current and next tabbable are inside the banner", () => {
+		it( "intercepts and moves focus when both current and next tabbable are inside the banner", () => {
 			const secondInsideButton = document.createElement( "button" );
 			bannerEl.appendChild( secondInsideButton );
 			mockFindNext.mockReturnValue( secondInsideButton );
@@ -143,11 +143,11 @@ describe( "handleBannerTabNavigation", () => {
 
 			handleBannerTabNavigation( bannerEl, event );
 
-			expect( event.preventDefault ).not.toHaveBeenCalled();
-			expect( focusSpy ).not.toHaveBeenCalled();
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
 		} );
 
-		it( "does not intercept when both current and previous tabbable are inside the banner (Shift+Tab)", () => {
+		it( "intercepts and moves focus when both current and previous tabbable are inside the banner (Shift+Tab)", () => {
 			const secondInsideButton = document.createElement( "button" );
 			bannerEl.appendChild( secondInsideButton );
 			mockFindPrevious.mockReturnValue( insideButton );
@@ -156,8 +156,8 @@ describe( "handleBannerTabNavigation", () => {
 
 			handleBannerTabNavigation( bannerEl, event );
 
-			expect( event.preventDefault ).not.toHaveBeenCalled();
-			expect( focusSpy ).not.toHaveBeenCalled();
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 

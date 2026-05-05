@@ -32,9 +32,11 @@ export function handleBannerTabNavigation( bannerEl, event ) {
 	const findSibling = getFindSibling( event );
 	const next = findSibling( event.target );
 
-	// Intercept only when Tab or Shift+Tab crosses the banner boundary (entering or leaving).
-	// Intra-banner navigation is already handled by Gutenberg via the data-block attribute.
-	if ( next && bannerEl.contains( event.target ) !== bannerEl.contains( next ) ) {
+	// Intercept whenever focus is inside the banner or entering it.
+	// Gutenberg's WritingFlow Tab handler redirects focus to the next block rather than
+	// moving between tabbable elements inside the banner wrapper, so we must handle all
+	// banner-related Tab navigation ourselves — both intra-banner and boundary-crossing.
+	if ( next && ( bannerEl.contains( event.target ) || bannerEl.contains( next ) ) ) {
 		event.preventDefault();
 		next.focus();
 	}
