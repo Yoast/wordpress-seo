@@ -382,7 +382,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask(
 		"update-myyoast-credentials",
-		"Bakes a fresh MyYoast software statement and initial access token into Issuer_Config, with a public-by-design fallback when the fetch is not possible. Skips when the baked SS already matches the current plugin version, unless --force is passed.",
+		"Bakes a fresh MyYoast software statement and initial access token into Issuer_Config, with a public-by-design fallback when the fetch is not possible. Skips when the baked SS already matches the current plugin version, unless --force-myyoast-credentials is passed.",
 		async function() {
 			const done = this.async();
 
