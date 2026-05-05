@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react";
 import { useDispatch, select as mockSelect } from "@wordpress/data";
 import { useApplyOutline } from "../../../src/ai-content-planner/hooks/use-apply-outline";
-import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-yoast-meta-from-outline";
 import { buildBlocksFromOutline } from "../../../src/ai-content-planner/helpers/build-blocks-from-outline";
 import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
@@ -10,7 +10,7 @@ jest.mock( "@wordpress/data", () => ( {
 	select: jest.fn(),
 } ) );
 
-jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline", () => ( {
+jest.mock( "../../../src/ai-content-planner/helpers/apply-yoast-meta-from-outline", () => ( {
 	applyYoastMetaFromOutline: jest.fn(),
 } ) );
 
@@ -84,6 +84,28 @@ describe( "useApplyOutline", () => {
 			categories: [ 9 ],
 		} );
 		expect( buildBlocksFromOutline ).toHaveBeenCalledWith( editedOutline.structure );
+	} );
+
+	it( "omits the categories field when category is null", async() => {
+		const editedOutline = {
+			title: "T",
+			metaDescription: "M",
+			focusKeyphrase: "K",
+			category: null,
+			structure: [],
+		};
+		const editedOutlineRef = { current: editedOutline };
+		const { result } = renderHook( () => useApplyOutline( { editedOutlineRef } ) );
+
+		await act( async() => {
+			await result.current();
+		} );
+
+		expect( mockEditPost ).toHaveBeenCalledTimes( 1 );
+		expect( mockEditPost ).toHaveBeenCalledWith( {
+			title: "T",
+			blocks: mockBlocks,
+		} );
 	} );
 
 	it( "omits the categories field when the empty-category sentinel is given", async() => {
