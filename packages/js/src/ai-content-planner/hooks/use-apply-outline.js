@@ -1,7 +1,7 @@
 import { useCallback } from "@wordpress/element";
 import { useDispatch, select } from "@wordpress/data";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
-import { applyPostMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../helpers/apply-post-meta-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 /**
@@ -55,7 +55,7 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		editPost( edits );
 
 		// Yoast SEO meta lives outside Gutenberg's undo manager and is applied separately.
-		applyPostMetaFromOutline( metaOutline );
+		applyYoastMetaFromOutline( metaOutline );
 
 		setBannerDismissed();
 

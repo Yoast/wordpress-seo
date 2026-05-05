@@ -1,4 +1,4 @@
-import { applyPostMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
 
 const mockUpdateData = jest.fn();
 const mockSetFocusKeyword = jest.fn();
@@ -12,14 +12,14 @@ jest.mock( "@wordpress/data", () => ( {
 	},
 } ) );
 
-describe( "applyPostMetaFromOutline", () => {
+describe( "applyYoastMetaFromOutline", () => {
 	beforeEach( () => {
 		mockUpdateData.mockClear();
 		mockSetFocusKeyword.mockClear();
 	} );
 
 	it( "writes the snippet preview data to the Yoast store", () => {
-		applyPostMetaFromOutline( {
+		applyYoastMetaFromOutline( {
 			title: "My post",
 			metaDescription: "Description",
 			focusKeyphrase: "keyphrase",
@@ -29,7 +29,7 @@ describe( "applyPostMetaFromOutline", () => {
 	} );
 
 	it( "writes the focus keyphrase to the Yoast store", () => {
-		applyPostMetaFromOutline( {
+		applyYoastMetaFromOutline( {
 			title: "My post",
 			metaDescription: "Description",
 			focusKeyphrase: "keyphrase",
@@ -39,7 +39,7 @@ describe( "applyPostMetaFromOutline", () => {
 	} );
 
 	it( "ignores the category — it's written to the post entity by the caller", () => {
-		applyPostMetaFromOutline( {
+		applyYoastMetaFromOutline( {
 			title: "My post",
 			metaDescription: "Description",
 			focusKeyphrase: "keyphrase",

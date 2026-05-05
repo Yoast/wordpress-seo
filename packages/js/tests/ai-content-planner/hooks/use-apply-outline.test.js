@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react";
 import { useDispatch, select as mockSelect } from "@wordpress/data";
 import { useApplyOutline } from "../../../src/ai-content-planner/hooks/use-apply-outline";
-import { applyPostMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
 import { buildBlocksFromOutline } from "../../../src/ai-content-planner/helpers/build-blocks-from-outline";
 import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
@@ -11,7 +11,7 @@ jest.mock( "@wordpress/data", () => ( {
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline", () => ( {
-	applyPostMetaFromOutline: jest.fn(),
+	applyYoastMetaFromOutline: jest.fn(),
 } ) );
 
 const mockBlocks = [ { name: "core/heading", attributes: {} } ];
@@ -37,7 +37,7 @@ beforeEach( () => {
 	mockEditPost.mockClear();
 	mockCloseModal.mockClear();
 	mockSetBannerDismissed.mockClear();
-	applyPostMetaFromOutline.mockClear();
+	applyYoastMetaFromOutline.mockClear();
 	buildBlocksFromOutline.mockClear();
 
 	useDispatch.mockImplementation( ( storeName ) => {
@@ -123,7 +123,7 @@ describe( "useApplyOutline", () => {
 			await result.current();
 		} );
 
-		expect( applyPostMetaFromOutline ).toHaveBeenCalledWith( {
+		expect( applyYoastMetaFromOutline ).toHaveBeenCalledWith( {
 			title: "Edited title",
 			metaDescription: "Edited meta",
 			focusKeyphrase: "edited keyphrase",
@@ -145,7 +145,7 @@ describe( "useApplyOutline", () => {
 			blocks: mockBlocks,
 			categories: [ apiSuggestion.category.id ],
 		} );
-		expect( applyPostMetaFromOutline ).toHaveBeenCalledWith( {
+		expect( applyYoastMetaFromOutline ).toHaveBeenCalledWith( {
 			title: apiSuggestion.title,
 			metaDescription: apiSuggestion.meta_description,
 			focusKeyphrase: apiSuggestion.keyphrase,

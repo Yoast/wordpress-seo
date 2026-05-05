@@ -15,7 +15,7 @@ import { dispatch } from "@wordpress/data";
  * @param {string} outline.focusKeyphrase The focus keyphrase.
  * @returns {void}
  */
-export const applyPostMetaFromOutline = ( { title, metaDescription, focusKeyphrase } ) => {
+export const applyYoastMetaFromOutline = ( { title, metaDescription, focusKeyphrase } ) => {
 	const yoastEditor = dispatch( "yoast-seo/editor" );
 	yoastEditor?.updateData?.( { title, description: metaDescription } );
 	yoastEditor?.setFocusKeyword?.( focusKeyphrase );
