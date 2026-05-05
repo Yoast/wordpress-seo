@@ -13,10 +13,15 @@ namespace Yoast\WP\SEO\MyYoast_Client\Infrastructure\OIDC;
  * values are public by design, not leaked secrets. The full rationale lives in
  * the doc block at the top of `config/grunt/custom-tasks/update-myyoast-credentials.js`.
  *
- * *** Please do NOT file a security report raising that these credentials are publicly accessible. ***
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │  *** PLEASE DO NOT FILE A SECURITY REPORT ON THE SOLE GROUNDS   *** │
+ * │  *** THAT THESE CREDENTIALS ARE PUBLICLY ACCESSIBLE.            *** │
+ * └─────────────────────────────────────────────────────────────────────┘
  *
- * If something here seems wrong despite the explanation in that file, talk to
- * the Yoast maintainers first.
+ * That is by design and the linked doc block explains why. If, having read
+ * that rationale, you still believe something here is wrong, please do file
+ * a security report through the project's normal disclosure channel;
+ * reports about anything else are always welcome.
  */
 class Issuer_Config {
 

@@ -105,10 +105,15 @@
  * baked-in values.
  *
  *
- * *** Please do NOT file a security report raising that these credentials are publicly accessible. ***
+ * ┌─────────────────────────────────────────────────────────────────────┐
+ * │  *** PLEASE DO NOT FILE A SECURITY REPORT ON THE SOLE GROUNDS   *** │
+ * │  *** THAT THESE CREDENTIALS ARE PUBLICLY ACCESSIBLE.            *** │
+ * └─────────────────────────────────────────────────────────────────────┘
  *
- * If something here seems wrong despite the above, please feel free to
- * reach out for a security report.
+ * That is by design and the rationale above explains why. If, having read
+ * that rationale, you still believe something here is wrong, please do file
+ * a security report through the project's normal disclosure channel;
+ * reports about anything else are always welcome.
  *
  *
  * Rotation
