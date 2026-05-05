@@ -90,7 +90,7 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 					</span>
 				</Button>
 					: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
-				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
+				<div className="yst-mt-2 yst-text-sm">
 					<Link as={ OutboundLink } href={ learnMoreLink } variant="primary" className="yst-inline yst-no-underline yst-font-medium">
 						{ __( "Learn more", "wordpress-seo" ) }
 						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180 yst-inline yst-ms-1.5" />
