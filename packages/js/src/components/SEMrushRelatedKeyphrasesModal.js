@@ -173,7 +173,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						id={ `yoast-get-related-keyphrases-${location}` }
 						onClick={ this.onModalOpen }
 					>
-						{ __( "Get related keyphrases", "wordpress-seo" ) }
+						{ this.props.buttonText }
 					</Button>
 				</div> }
 				<Modal
@@ -196,7 +196,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 							"response_type=code&scope=user.id" }
 						onClick={ this.onLinkClick }
 					>
-						{ __( "Get related keyphrases", "wordpress-seo" ) }
+						{ this.props.buttonText }
 						<span className="screen-reader-text">
 							{
 								/* translators: Hidden accessibility text. */
@@ -226,6 +226,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	countryCode: PropTypes.string,
 	learnMoreLink: PropTypes.string,
 	newRequest: PropTypes.func.isRequired,
+	buttonText: PropTypes.string,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -235,6 +236,7 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	isLoggedIn: false,
 	countryCode: "en_US",
 	learnMoreLink: "",
+	buttonText: __( "Get related keyphrases", "wordpress-seo" ),
 };
 
 export default SEMrushRelatedKeyphrasesModal;
