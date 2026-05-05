@@ -1,13 +1,15 @@
 /* External dependencies */
+import { SearchIcon } from "@heroicons/react/outline";
 import { Component } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { Button, Root } from "@yoast/ui-library";
 
 /* Internal dependencies */
 import { Modal } from "@yoast/related-keyphrase-suggestions";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -165,6 +167,13 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 		insightsLink.searchParams.append( "q", keyphrase );
 		insightsLink.searchParams.append( "db", countryCode );
 
+		const SEMrushButtonText = safeCreateInterpolateElement(
+			sprintf(
+				/* translators: %1$s is the search icon. */
+				__( "%1$s Discover related keyphrases", "wordpress-seo" ), "<SearchIcon />" ),
+			{ SearchIcon: <SearchIcon className="yst-w-4 yst-h-4 yst-text-slate-400" /> }
+		);
+
 		return (
 			<Root>
 				{ isLoggedIn && <div className={ "yoast" }>
@@ -172,8 +181,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						variant="secondary"
 						id={ `yoast-get-related-keyphrases-${location}` }
 						onClick={ this.onModalOpen }
+						className={ "yst-gap-1.5" }
 					>
-						{ this.props.buttonText }
+						{ SEMrushButtonText }
 					</Button>
 				</div> }
 				<Modal
@@ -195,8 +205,9 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
 							"response_type=code&scope=user.id" }
 						onClick={ this.onLinkClick }
+						className={ "yst-gap-1.5" }
 					>
-						{ this.props.buttonText }
+						{ SEMrushButtonText }
 						<span className="screen-reader-text">
 							{
 								/* translators: Hidden accessibility text. */
@@ -226,7 +237,6 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	countryCode: PropTypes.string,
 	learnMoreLink: PropTypes.string,
 	newRequest: PropTypes.func.isRequired,
-	buttonText: PropTypes.string,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -236,7 +246,6 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	isLoggedIn: false,
 	countryCode: "en_US",
 	learnMoreLink: "",
-	buttonText: __( "Get related keyphrases", "wordpress-seo" ),
 };
 
 export default SEMrushRelatedKeyphrasesModal;

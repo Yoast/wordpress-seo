@@ -1,5 +1,4 @@
 /* global wpseoAdminL10n */
-import { SearchIcon } from "@heroicons/react/outline";
 import { Slot } from "@wordpress/components";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
@@ -113,12 +112,6 @@ const KeywordInput = ( {
 			__( "Use the main word or phrase you want your content found for across search, AI, and beyond. %1$s", "wordpress-seo" ), "<OutboundLink />" ),
 		{ OutboundLink: <OutboundLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } variant={ "default" }>Learn more about best practices for keyphrases.</OutboundLink> }
 	);
-	const SEMrushButtonText = safeCreateInterpolateElement(
-		sprintf(
-			/* translators: %1$s is the search icon. */
-			__( "%1$s Discover related keyphrases", "wordpress-seo" ), "<SearchIcon />" ),
-		{ SearchIcon: <SearchIcon className="yst-me-1.5 yst-w-4 yst-h-4 yst-text-slate-400" /> }
-	);
 
 	return (
 		<Collapsible
@@ -143,7 +136,6 @@ const KeywordInput = ( {
 					<SEMrushModal
 						location={ location }
 						keyphrase={ keyword }
-						buttonText={ SEMrushButtonText }
 					/>
 				) }
 			</div>
