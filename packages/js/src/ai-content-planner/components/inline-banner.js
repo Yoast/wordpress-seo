@@ -15,7 +15,7 @@ import { OneSparkNote } from "./one-spark-note";
  */
 export const InlineBanner = ( { isPremium, onDismiss, onClick } ) => {
 	const ariaProps = useSvgAria();
-	return <Root><div className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w">
+	return <Root><div role="group" aria-label={ __( "Content suggestions banner", "wordpress-seo" ) } className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg yst-max-w-xl">
 		<div className="yst-flex yst-items-center yst-gap-2 yst-mb-1">
 			<GradientSparklesIcon className="yst-h-4 yst-w-4" { ...ariaProps } />
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>
