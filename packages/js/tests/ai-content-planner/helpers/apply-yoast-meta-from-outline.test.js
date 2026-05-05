@@ -1,4 +1,4 @@
-import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-post-meta-from-outline";
+import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-yoast-meta-from-outline";
 
 const mockUpdateData = jest.fn();
 const mockSetFocusKeyword = jest.fn();
@@ -38,15 +38,13 @@ describe( "applyYoastMetaFromOutline", () => {
 		expect( mockSetFocusKeyword ).toHaveBeenCalledWith( "keyphrase" );
 	} );
 
-	it( "ignores the category — it's written to the post entity by the caller", () => {
+	it( "only writes Yoast-store meta — category is written to the post entity by the caller", () => {
 		applyYoastMetaFromOutline( {
 			title: "My post",
 			metaDescription: "Description",
 			focusKeyphrase: "keyphrase",
-			category: { name: "Tech", id: 5 },
 		} );
 
-		// No editPost / Yoast call carries the category.
 		expect( mockUpdateData ).toHaveBeenCalledTimes( 1 );
 		expect( mockSetFocusKeyword ).toHaveBeenCalledTimes( 1 );
 	} );
