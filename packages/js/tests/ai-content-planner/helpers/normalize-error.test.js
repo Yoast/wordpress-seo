@@ -37,6 +37,13 @@ describe( "normalizeError", () => {
 		} );
 	} );
 
+	it( "maps a raw string payload to errorMessage", () => {
+		const result = normalizeError( "Something went wrong" );
+		expect( result.errorMessage ).toBe( "Something went wrong" );
+		expect( result.errorCode ).toBe( 502 );
+		expect( result.errorIdentifier ).toBe( "" );
+		expect( result.missingLicenses ).toEqual( [] );
+	} );
 	it( "fills in defaults for each missing field individually", () => {
 		expect( normalizeError( { errorCode: 500 } ) ).toEqual( {
 			errorCode: 500,

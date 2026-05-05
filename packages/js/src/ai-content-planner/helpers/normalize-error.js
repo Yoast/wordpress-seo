@@ -1,4 +1,4 @@
-import { mapValues } from "lodash";
+import { mapValues, isObject, isString } from "lodash";
 
 /**
  * Normalizes an error payload to the structured shape expected by `ContentPlannerError`.
@@ -17,7 +17,11 @@ export const normalizeError = ( payload ) => {
 
 	// Bad gateway error will not have a payload, so we set a default error.
 	// Normalize errorMessage to also accept the plain Error `message` property.
-	const source = { ...( payload || {} ), errorMessage: payload?.errorMessage || payload?.message };
+	const payloadObject = isObject( payload ) ? payload : {};
+	if ( isString( payload ) ) {
+		payloadObject.message = payload;
+	}
+	const source = { ...payloadObject, errorMessage: payloadObject?.errorMessage || payloadObject?.message };
 
 	return mapValues( defaultError, ( defaultVal, key ) => source[ key ] || defaultVal );
 };
