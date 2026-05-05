@@ -31,7 +31,7 @@ export const InlineBanner = ( { isPremium, onDismiss, onClick, learnMoreLink } )
 		</p>
 		<Link as={ OutboundLink } href={ learnMoreLink } variant="primary" className="yst-font-medium yst-no-underline">
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180 yst-inline yst-ms-1" />
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180 yst-inline yst-ms-1.5" />
 		</Link>
 		<div className="yst-mt-1 yst-flex yst-justify-end yst-gap-2 yst-items-center">
 			{ ! isPremium && <>

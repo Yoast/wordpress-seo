@@ -1,4 +1,4 @@
-import { Button, Modal, GradientSparklesIcon, useSvgAria } from "@yoast/ui-library";
+import { Button, Modal, GradientSparklesIcon, Link, useSvgAria } from "@yoast/ui-library";
 import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { LockOpenIcon } from "@heroicons/react/outline";
 
@@ -66,15 +66,6 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 	const { title, description } = getModalContent( isEmptyPost, isUpsell );
 	const svgAriaProps = useSvgAria();
 
-	const learnMoreLinkStructure = {
-		a: <OutboundLink
-			href={ learnMoreLink }
-			className="yst-inline-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
-			variant="primary"
-		/>,
-		ArrowNarrowRightIcon: <ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180" />,
-	};
-
 	return (
 		<Modal isOpen={ isOpen } onClose={ onClose }>
 			<Modal.Panel className="yst-text-center yst-w-96" closeButtonScreenReaderText={ __( "Close modal", "wordpress-seo" ) }>
@@ -100,19 +91,10 @@ export const ApproveModal = ( { isEmptyPost, isPremium, isUpsell, onClick, upsel
 				</Button>
 					: <Button onClick={ onClick } variant="ai-primary" className="yst-w-full"> { __( "Get content suggestions", "wordpress-seo" ) } </Button> }
 				<div className="yst-mt-2 yst-text-slate-600 yst-text-sm">
-					{ safeCreateInterpolateElement(
-						sprintf(
-							/* translators: %1$s and %3$s are anchor tags; %2$s is the arrow icon. */
-							__(
-								"%1$sLearn more%2$s%3$s",
-								"wordpress-seo"
-							),
-							"<a>",
-							"<ArrowNarrowRightIcon />",
-							"</a>"
-						),
-						learnMoreLinkStructure
-					) }
+					<Link as={ OutboundLink } href={ learnMoreLink } variant="primary" className="yst-inline yst-no-underline yst-font-medium">
+						{ __( "Learn more", "wordpress-seo" ) }
+						<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:yst-rotate-180 yst-inline yst-ms-1.5" />
+					</Link>
 				</div>
 			</Modal.Panel>
 		</Modal>
