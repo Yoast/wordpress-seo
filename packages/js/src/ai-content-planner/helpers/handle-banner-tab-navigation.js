@@ -1,5 +1,16 @@
 import { focus } from "@wordpress/dom";
 
+
+/**
+ * Get sibling function.
+ *
+ * @param {KeyboardEvent} event The keydown event.
+ * @returns {Function} The function to find the next or previous tabbable element.
+ */
+const getFindSibling = ( event ) => {
+	return event.shiftKey ? focus.tabbable.findPrevious : focus.tabbable.findNext;
+};
+
 /**
  * Keydown handler that keeps the inline banner reachable via Tab inside the Gutenberg
  * writing flow. Gutenberg's useTabNav hook intercepts Tab in the bubble phase and
@@ -18,7 +29,7 @@ export function handleBannerTabNavigation( bannerEl, event ) {
 		return;
 	}
 
-	const findSibling = event.shiftKey ? focus.tabbable.findPrevious : focus.tabbable.findNext;
+	const findSibling = getFindSibling( event );
 	const next = findSibling( event.target );
 
 	// Intercept only when Tab or Shift+Tab crosses the banner boundary (entering or leaving).
