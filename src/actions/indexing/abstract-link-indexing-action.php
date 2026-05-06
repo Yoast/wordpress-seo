@@ -85,7 +85,7 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 
 		$indexables = [];
 		foreach ( $objects as $object ) {
-			$indexable = $indexable_map[ $object->type ][ (int) $object->id ] ?? null;
+			$indexable = ( $indexable_map[ $object->type ][ (int) $object->id ] ?? null );
 			if ( $indexable ) {
 				$this->link_builder->build( $indexable, $object->content );
 				$this->indexable_helper->save_indexable( $indexable );
