@@ -1,7 +1,6 @@
 import { useCallback } from "@wordpress/element";
 import { useDispatch, select } from "@wordpress/data";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
-import { applyYoastMetaFromOutline } from "../helpers/apply-yoast-meta-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
 /**
@@ -48,14 +47,19 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 		const edits = {
 			title: metaOutline.title,
 			blocks: buildBlocksFromOutline( structure ),
+			meta: {
+				// eslint-disable-next-line camelcase
+				_yoast_wpseo_title: metaOutline.title,
+				// eslint-disable-next-line camelcase
+				_yoast_wpseo_metadesc: metaOutline.metaDescription,
+				// eslint-disable-next-line camelcase
+				_yoast_wpseo_focuskw: metaOutline.focusKeyphrase,
+			},
 		};
 		if ( metaOutline.category?.id && metaOutline.category.id !== -1 ) {
 			edits.categories = [ metaOutline.category.id ];
 		}
 		editPost( edits );
-
-		// Yoast SEO meta lives outside Gutenberg's undo manager and is applied separately.
-		applyYoastMetaFromOutline( metaOutline );
 
 		setBannerDismissed();
 
