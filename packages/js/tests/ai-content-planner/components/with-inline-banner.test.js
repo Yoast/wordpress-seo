@@ -50,6 +50,7 @@ const setupMocks = ( overrides = {} ) => {
 		hasConsent: false,
 		isPremium: false,
 		minPostsMet: true,
+		learnMoreLink: "https://yoa.st/content-planner-learn-more",
 	};
 	const values = { ...defaults, ...overrides };
 
@@ -68,7 +69,7 @@ const setupMocks = ( overrides = {} ) => {
 			};
 		}
 		if ( storeName === "yoast-seo/editor" ) {
-			return { getIsPremium: () => values.isPremium };
+			return { getIsPremium: () => values.isPremium, selectLink: () => values.learnMoreLink };
 		}
 		if ( storeName === "yoast-seo/ai-generator" ) {
 			return { selectHasAiGeneratorConsent: () => values.hasConsent };
@@ -178,6 +179,16 @@ describe( "withInlineBanner", () => {
 		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
 
 		expect( getByTestId( "block-list-block" ) ).toBeInTheDocument();
+	} );
+
+	test( "wraps the banner in a div with the wp-block class so it inherits Gutenberg's per-block content-width rule", () => {
+		// Regression guard: without this class, themes that constrain block width via the `.wp-block` selector
+		// (rather than via direct children of `.is-layout-constrained`) render the banner full-canvas-width instead of matching adjacent blocks.
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		const wrapper = getByTestId( "inline-banner" ).parentElement;
+		expect( wrapper ).toHaveClass( "wp-block" );
 	} );
 } );
 
