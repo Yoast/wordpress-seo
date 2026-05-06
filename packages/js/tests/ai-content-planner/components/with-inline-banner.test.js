@@ -18,8 +18,8 @@ jest.mock( "@wordpress/element", () => ( {
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/components/inline-banner", () => ( {
-	InlineBanner: ( { onDismiss, onClick, isPremium } ) => (
-		<div data-testid="inline-banner" data-is-premium={ isPremium }>
+	InlineBanner: ( { onDismiss, onClick, isPremium, learnMoreLink } ) => (
+		<div data-testid="inline-banner" data-is-premium={ isPremium } data-learn-more-link={ learnMoreLink }>
 			<button data-testid="dismiss-btn" onClick={ onDismiss } />
 			<button data-testid="click-btn" onClick={ onClick } />
 		</div>
@@ -29,6 +29,11 @@ jest.mock( "../../../src/ai-content-planner/components/inline-banner", () => ( {
 const mockFetchContentSuggestions = jest.fn();
 jest.mock( "../../../src/ai-content-planner/hooks/use-fetch-content-suggestions", () => ( {
 	useFetchContentSuggestions: () => mockFetchContentSuggestions,
+} ) );
+
+const mockHandleBannerTabNavigation = jest.fn();
+jest.mock( "../../../src/ai-content-planner/helpers/handle-banner-tab-navigation", () => ( {
+	handleBannerTabNavigation: ( ...args ) => mockHandleBannerTabNavigation( ...args ),
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/constants", () => ( {
@@ -207,6 +212,94 @@ describe( "withInlineBanner", () => {
 		expect( getByTestId( "inline-banner" ).dataset.isPremium ).toBe( "true" );
 	} );
 
+	test( "passes learnMoreLink to the InlineBanner", () => {
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		expect( getByTestId( "inline-banner" ).dataset.learnMoreLink ).toBe( "https://yoa.st/content-planner-learn-more" );
+	} );
+
+	test( "forwards extra props to the wrapped BlockListBlock", () => {
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" data-custom="yes" /> );
+
+		expect( getByTestId( "block-list-block" ) ).toHaveAttribute( "data-custom", "yes" );
+	} );
+
+	describe( "tab navigation effect", () => {
+		const makeTabRef = ( mockDoc ) => {
+			const ref = {};
+			Object.defineProperty( ref, "current", {
+				get: () => ( { ownerDocument: mockDoc } ),
+				set: () => {},
+				configurable: true,
+			} );
+			return ref;
+		};
+
+		const makeMockDoc = () => ( {
+			getElementById: jest.fn().mockReturnValue( null ),
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+		} );
+
+		test( "registers a capture-phase keydown listener when the banner is visible", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeTabRef( mockDoc ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.addEventListener ).toHaveBeenCalledWith( "keydown", expect.any( Function ), { capture: true } );
+		} );
+
+		test( "removes the keydown listener when the component unmounts", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeTabRef( mockDoc ) );
+			setupMocks();
+			const { unmount } = render( <WithInlineBanner clientId="client-1" /> );
+
+			unmount();
+
+			expect( mockDoc.removeEventListener ).toHaveBeenCalledWith( "keydown", expect.any( Function ), { capture: true } );
+		} );
+
+		test( "does not register a keydown listener when the banner is not shown", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeTabRef( mockDoc ) );
+			setupMocks( { isBannerDismissed: true } );
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			expect( mockDoc.addEventListener ).not.toHaveBeenCalled();
+		} );
+
+		test( "does nothing when ref.current has no ownerDocument", () => {
+			// makeTabRef with a null ownerDoc hits the !ownerDoc guard on line 85.
+			const nullDocRef = {};
+			Object.defineProperty( nullDocRef, "current", {
+				get: () => ( { ownerDocument: null } ),
+				set: () => {},
+				configurable: true,
+			} );
+			useRef.mockReturnValue( nullDocRef );
+			setupMocks();
+
+			expect( () => render( <WithInlineBanner clientId="client-1" /> ) ).not.toThrow();
+		} );
+
+		test( "invokes handleBannerTabNavigation when the registered keydown handler fires", () => {
+			const mockDoc = makeMockDoc();
+			useRef.mockReturnValue( makeTabRef( mockDoc ) );
+			setupMocks();
+			render( <WithInlineBanner clientId="client-1" /> );
+
+			const [ , registeredHandler ] = mockDoc.addEventListener.mock.calls.find( ( [ type ] ) => type === "keydown" );
+			const mockEvent = { key: "Tab", target: document.body, defaultPrevented: false };
+			registeredHandler( mockEvent );
+
+			expect( mockHandleBannerTabNavigation ).toHaveBeenCalledWith( expect.objectContaining( { ownerDocument: mockDoc } ), mockEvent );
+		} );
+	} );
+
 	describe( "stylesheet injection effect", () => {
 		const STYLE_ID = "yoast-seo-tailwind-css";
 
@@ -226,6 +319,8 @@ describe( "withInlineBanner", () => {
 				getElementById: jest.fn().mockReturnValue( { id: STYLE_ID } ),
 				createElement: jest.fn(),
 				head: { appendChild: jest.fn() },
+				addEventListener: jest.fn(),
+				removeEventListener: jest.fn(),
 			};
 			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
 			setupMocks();
@@ -239,6 +334,8 @@ describe( "withInlineBanner", () => {
 				getElementById: jest.fn().mockReturnValue( null ),
 				createElement: jest.fn(),
 				head: { appendChild: jest.fn() },
+				addEventListener: jest.fn(),
+				removeEventListener: jest.fn(),
 			};
 			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
 			setupMocks();
@@ -253,6 +350,8 @@ describe( "withInlineBanner", () => {
 				getElementById: jest.fn().mockReturnValue( null ),
 				createElement: jest.fn().mockReturnValue( mockLink ),
 				head: { appendChild: jest.fn() },
+				addEventListener: jest.fn(),
+				removeEventListener: jest.fn(),
 			};
 
 			useRef.mockReturnValue( makeIframeRef( mockDoc ) );
