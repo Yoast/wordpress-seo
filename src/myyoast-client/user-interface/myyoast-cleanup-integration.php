@@ -43,6 +43,18 @@ class MyYoast_Cleanup_Integration implements Integration_Interface {
 	 */
 	public function register_hooks(): void {
 		\add_action( 'uninstall_' . \WPSEO_BASENAME, [ $this, 'cleanup' ] );
+
+		/**
+		 * Public action that wipes all local MyYoast OAuth client state
+		 * (registered client, site/user tokens, key pairs, OIDC/JWKS/DPoP caches).
+		 *
+		 * Intended for development tooling that needs to reset state without
+		 * uninstalling the plugin. The handler is the same one that runs on
+		 * uninstall, so the effect is identical.
+		 *
+		 * @internal
+		 */
+		\add_action( 'wpseo_myyoast_clear_client_state', [ $this, 'cleanup' ] );
 	}
 
 	/**
