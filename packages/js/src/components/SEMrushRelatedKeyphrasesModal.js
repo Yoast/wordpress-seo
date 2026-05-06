@@ -31,7 +31,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
-	 * Handles the click event on the "Get related keyphrases" button.
+	 * Handles the click event on the "Discover related keyphrases" button.
 	 *
 	 * @returns {void}
 	 */
@@ -125,7 +125,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	}
 
 	/**
-	 * Get the tokens using the provided code after user has granted authorization.
+	 * Gets the tokens using the provided code after the user has granted authorization.
 	 *
 	 * @param {object} data The message data.
 	 *
@@ -150,7 +150,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				console.error( response.error );
 			}
 		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// URL() constructor throws a TypeError exception if the url is malformed.
 			console.error( e.message );
 		}
 	}
@@ -158,7 +158,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
-	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
+	 * @returns {JSX.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
 		const { keyphrase, location, whichModalOpen, isLoggedIn, onClose, countryCode, learnMoreLink } = this.props;
