@@ -19,4 +19,16 @@ final class Image_Utils_Double extends WPSEO_Image_Utils {
 	public static function get_first_image( $images ) {
 		return parent::get_first_image( $images );
 	}
+
+	/**
+	 * Exposes the protected get_full_size_image_data so its memoisation
+	 * behaviour can be exercised from a unit test.
+	 *
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return array|false Array when there is a full size image, false if not.
+	 */
+	public static function call_get_full_size_image_data( $attachment_id ) {
+		return parent::get_full_size_image_data( $attachment_id );
+	}
 }

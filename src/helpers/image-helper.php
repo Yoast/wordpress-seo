@@ -55,6 +55,20 @@ class Image_Helper {
 	private $url_helper;
 
 	/**
+	 * Per-request memo of attachment metadata, keyed by attachment ID.
+	 *
+	 * @var array<int, array>
+	 */
+	private $metadata_cache = [];
+
+	/**
+	 * Per-request memo of best-attachment-variation results, keyed by attachment ID.
+	 *
+	 * @var array<int, array|false>
+	 */
+	private $variation_cache = [];
+
+	/**
 	 * Image_Helper constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
@@ -228,16 +242,27 @@ class Image_Helper {
 	/**
 	 * Retrieves the attachment metadata.
 	 *
+	 * Memoised per request: a single attachment is commonly read by the
+	 * Schema Main_Image, Organization logo, and Open Graph generators on
+	 * the same render, and `wp_get_attachment_metadata` is a `wp_postmeta`
+	 * lookup whose cost is non-trivial without a persistent object cache.
+	 *
 	 * @param int $attachment_id Attachment ID.
 	 *
 	 * @return array The metadata, empty array when no metadata is found.
 	 */
 	public function get_metadata( $attachment_id ) {
-		$metadata = \wp_get_attachment_metadata( $attachment_id );
-		if ( ! $metadata || ! \is_array( $metadata ) ) {
-			return [];
+		if ( \array_key_exists( $attachment_id, $this->metadata_cache ) ) {
+			return $this->metadata_cache[ $attachment_id ];
 		}
 
+		$metadata = \wp_get_attachment_metadata( $attachment_id );
+		if ( ! $metadata || ! \is_array( $metadata ) ) {
+			$this->metadata_cache[ $attachment_id ] = [];
+			return $this->metadata_cache[ $attachment_id ];
+		}
+
+		$this->metadata_cache[ $attachment_id ] = $metadata;
 		return $metadata;
 	}
 
@@ -275,23 +300,32 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 * Memoised per request: the result is deterministic from the attachment ID
+	 * and the underlying `WPSEO_Image_Utils::get_variations` call drives several
+	 * `wp_get_attachment_metadata` lookups, so the same attachment used in both
+	 * Open Graph and the organisation/person logo only pays that cost once.
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return bool|string The attachment url or false when no variations found.
+	 * @return array|false The attachment data or false when no variations found.
 	 */
 	public function get_best_attachment_variation( $attachment_id ) {
+		if ( \array_key_exists( $attachment_id, $this->variation_cache ) ) {
+			return $this->variation_cache[ $attachment_id ];
+		}
+
 		$variations = WPSEO_Image_Utils::get_variations( $attachment_id );
 		$variations = WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
 		if ( empty( $variations ) ) {
+			$this->variation_cache[ $attachment_id ] = false;
 			return false;
 		}
 
 		// The variations are ordered so the first variations is by definition the best one.
-		return \reset( $variations );
+		$this->variation_cache[ $attachment_id ] = \reset( $variations );
+		return $this->variation_cache[ $attachment_id ];
 	}
 
 	/**

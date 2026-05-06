@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
+use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Image_Utils_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -31,6 +32,21 @@ final class Image_Utils_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance = new Image_Utils_Double();
+
+		// The class-level memo on `get_full_size_image_data` is process-wide;
+		// reset it so each test starts from a clean state.
+		WPSEO_Image_Utils::reset_full_size_image_data_cache();
+	}
+
+	/**
+	 * Tear down.
+	 *
+	 * @return void
+	 */
+	protected function tear_down() {
+		WPSEO_Image_Utils::reset_full_size_image_data_cache();
+
+		parent::tear_down();
 	}
 
 	/**
@@ -74,6 +90,66 @@ final class Image_Utils_Test extends TestCase {
 		$first_image = $this->instance->get_first_image( $images );
 
 		$this->assertEquals( $expected, $first_image, $message );
+	}
+
+	/**
+	 * Tests that get_full_size_image_data only issues a single
+	 * wp_get_attachment_metadata lookup when called multiple times for
+	 * the same attachment ID within a single request.
+	 *
+	 * @covers ::get_full_size_image_data
+	 *
+	 * @return void
+	 */
+	public function test_get_full_size_image_data_is_memoized() {
+		$metadata = [
+			'width'  => 800,
+			'height' => 600,
+			'file'   => 'image.jpg',
+		];
+
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( $metadata );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( 'https://example.org/image.jpg' );
+
+		Monkey\Functions\expect( 'get_attached_file' )
+			->once()
+			->with( 1337 )
+			->andReturn( '/path/to/image.jpg' );
+
+		$first  = Image_Utils_Double::call_get_full_size_image_data( 1337 );
+		$second = Image_Utils_Double::call_get_full_size_image_data( 1337 );
+
+		$this->assertSame( $first, $second );
+		$this->assertSame( 800, $first['width'] );
+		$this->assertSame( 'https://example.org/image.jpg', $first['url'] );
+	}
+
+	/**
+	 * Tests that a cached `false` result (no metadata) is also returned from
+	 * the memo, so a second call does not re-issue the lookup.
+	 *
+	 * @covers ::get_full_size_image_data
+	 *
+	 * @return void
+	 */
+	public function test_get_full_size_image_data_caches_false_result() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( false );
+
+		$first  = Image_Utils_Double::call_get_full_size_image_data( 1337 );
+		$second = Image_Utils_Double::call_get_full_size_image_data( 1337 );
+
+		$this->assertFalse( $first );
+		$this->assertFalse( $second );
 	}
 
 	/**

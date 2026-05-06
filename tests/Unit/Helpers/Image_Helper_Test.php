@@ -485,6 +485,86 @@ final class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that repeated calls for the same attachment ID hit the per-request
+	 * cache and only call wp_get_attachment_metadata once.
+	 *
+	 * @covers ::get_metadata
+	 *
+	 * @return void
+	 */
+	public function test_get_metadata_is_memoized() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( [ 'meta' => 'data' ] );
+
+		$first  = $this->instance->get_metadata( 1337 );
+		$second = $this->instance->get_metadata( 1337 );
+
+		$this->assertEquals( [ 'meta' => 'data' ], $first );
+		$this->assertEquals( [ 'meta' => 'data' ], $second );
+	}
+
+	/**
+	 * Tests that an empty-result lookup is also cached, so a second call does
+	 * not re-issue the wp_get_attachment_metadata query for an attachment that
+	 * has no metadata.
+	 *
+	 * @covers ::get_metadata
+	 *
+	 * @return void
+	 */
+	public function test_get_metadata_caches_empty_result() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( false );
+
+		$first  = $this->instance->get_metadata( 1337 );
+		$second = $this->instance->get_metadata( 1337 );
+
+		$this->assertEquals( [], $first );
+		$this->assertEquals( [], $second );
+	}
+
+	/**
+	 * Tests that get_best_attachment_variation memoises its result, so that
+	 * a second call for the same attachment does not re-run the underlying
+	 * variation lookup.
+	 *
+	 * @covers ::get_best_attachment_variation
+	 *
+	 * @return void
+	 */
+	public function test_get_best_attachment_variation_is_memoized() {
+		// Reset the legacy static cache so prior tests cannot influence the result.
+		\WPSEO_Image_Utils::reset_full_size_image_data_cache();
+
+		// Stub every underlying call so the first invocation walks through
+		// `WPSEO_Image_Utils::get_variations` and returns false (no variations).
+		Monkey\Functions\when( 'wp_get_attachment_metadata' )->justReturn( false );
+		Monkey\Functions\when( 'image_get_intermediate_size' )->justReturn( false );
+		Monkey\Functions\when( 'wp_get_attachment_image_src' )->justReturn( false );
+
+		$first = $this->actual_instance->get_best_attachment_variation( 1337 );
+		$this->assertFalse( $first );
+
+		// Change one of the underlying stubs to a value that would produce a
+		// different result if the cache were bypassed. Because the helper
+		// memoises the previous `false`, the second call must still return false.
+		Monkey\Functions\when( 'wp_get_attachment_metadata' )->justReturn(
+			[
+				'width'  => 1000,
+				'height' => 1000,
+				'file'   => 'image.jpg',
+			]
+		);
+
+		$second = $this->actual_instance->get_best_attachment_variation( 1337 );
+		$this->assertFalse( $second, 'Second call should return the cached result, not re-run the variation lookup.' );
+	}
+
+	/**
 	 * Tests retrieving the attachment image url.
 	 *
 	 * @covers ::get_attachment_image_url

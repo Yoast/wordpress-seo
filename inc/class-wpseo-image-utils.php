@@ -11,6 +11,13 @@
 class WPSEO_Image_Utils {
 
 	/**
+	 * Per-request memo of full-size attachment image data, keyed by attachment ID.
+	 *
+	 * @var array<int, array|false>
+	 */
+	protected static $full_size_image_data_cache = [];
+
+	/**
 	 * Find an attachment ID for a given URL.
 	 *
 	 * @param string $url The URL to find the attachment for.
@@ -239,13 +246,24 @@ class WPSEO_Image_Utils {
 	/**
 	 * Returns the image data for the full size image.
 	 *
+	 * Memoised per request: this is the lowest-level call site for
+	 * `wp_get_attachment_metadata` in the legacy image stack, hit repeatedly
+	 * by `get_variations()` (once per candidate size) and by every Open Graph
+	 * image generation. Caching here removes the duplicate `wp_postmeta`
+	 * reads on a typical post-with-image render.
+	 *
 	 * @param int $attachment_id Attachment ID.
 	 *
 	 * @return array|false Array when there is a full size image. False if not.
 	 */
 	protected static function get_full_size_image_data( $attachment_id ) {
+		if ( array_key_exists( $attachment_id, self::$full_size_image_data_cache ) ) {
+			return self::$full_size_image_data_cache[ $attachment_id ];
+		}
+
 		$image = wp_get_attachment_metadata( $attachment_id );
 		if ( ! is_array( $image ) ) {
+			self::$full_size_image_data_cache[ $attachment_id ] = false;
 			return false;
 		}
 
@@ -253,7 +271,20 @@ class WPSEO_Image_Utils {
 		$image['path'] = get_attached_file( $attachment_id );
 		$image['size'] = 'full';
 
+		self::$full_size_image_data_cache[ $attachment_id ] = $image;
 		return $image;
+	}
+
+	/**
+	 * Resets the in-memory full-size image data cache.
+	 *
+	 * Test-only helper: production code does not need to invalidate the cache,
+	 * but unit tests need a deterministic starting state across runs.
+	 *
+	 * @return void
+	 */
+	public static function reset_full_size_image_data_cache() {
+		self::$full_size_image_data_cache = [];
 	}
 
 	/**
