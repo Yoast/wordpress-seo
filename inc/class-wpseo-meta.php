@@ -101,18 +101,24 @@ class WPSEO_Meta {
 	public static $meta_fields = [
 		'general'         => [
 			'focuskw' => [
-				'type'  => 'hidden',
-				'title' => '',
+				'type'         => 'string',
+				'title'        => '',
+				'show_in_rest' => true,
+				'single'       => true,
 			],
 			'title' => [
-				'type'          => 'hidden',
+				'type'          => 'string',
 				'default_value' => '',
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'metadesc' => [
-				'type'          => 'hidden',
+				'type'          => 'string',
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
+				'show_in_rest'  => true,
+				'single'        => true,
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
@@ -274,10 +280,20 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
+				$register_meta_args = [
+					'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+
+				];
+
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
+					[
+						'show_in_rest'      => $field_def['show_in_rest'] ?? false,
+						'single'            => $field_def['single'] ?? false,
+						'type'              => isset( $field_def['type'] ) && $field_def['type'] !== 'hidden' ? $field_def['type'] : 'string',
+						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+					],
 				);
 
 				// Set the $fields_index property for efficiency.
