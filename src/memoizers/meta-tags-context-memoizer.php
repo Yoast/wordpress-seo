@@ -187,4 +187,19 @@ class Meta_Tags_Context_Memoizer {
 	public function clear_for_current_page() {
 		unset( $this->cache['current_page'] );
 	}
+
+	/**
+	 * Installs a context as the memoized current-page context.
+	 *
+	 * Allows callers to redirect what `for_current_page()` resolves to (e.g. while
+	 * iterating over indexables in the schema aggregator). The matching teardown
+	 * is `clear_for_current_page()`.
+	 *
+	 * @param Meta_Tags_Context $context The context to install.
+	 *
+	 * @return void
+	 */
+	public function set_for_current_page( Meta_Tags_Context $context ): void {
+		$this->cache['current_page'] = $context;
+	}
 }

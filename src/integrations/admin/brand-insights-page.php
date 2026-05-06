@@ -77,7 +77,7 @@ class Brand_Insights_Page implements Integration_Interface {
 			'wpseo_dashboard',
 			'',
 			$menu_title,
-			'edit_others_posts',
+			'edit_posts',
 			$page,
 			[ $this, 'show_brand_insights_page' ],
 		];
