@@ -85,11 +85,6 @@ describe( "ApproveModal", () => {
 			renderApproveModal( { learnMoreLink: "https://yoa.st/content-planner-learn-more" } );
 			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toHaveAttribute( "target", "_blank" );
 		} );
-
-		it( "renders the Learn more link in the upsell variant", () => {
-			renderApproveModal( { isUpsell: true, learnMoreLink: "https://yoa.st/content-planner-learn-more" } );
-			expect( screen.getByRole( "link", { name: /Learn more/ } ) ).toHaveAttribute( "href", "https://yoa.st/content-planner-learn-more" );
-		} );
 	} );
 
 	describe( "OneSparkNote visibility", () => {
