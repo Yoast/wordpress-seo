@@ -309,6 +309,30 @@ class WPSEO_Meta {
 		}
 		unset( $subset, $field_group, $key, $field_def );
 
+		// Strip meta fields that have show_in_rest enabled from REST responses for users
+		// without edit_post capability. register_meta's auth_callback only covers writes,
+		// so read access must be restricted separately via this filter.
+		add_filter(
+			'rest_prepare_post',
+			static function ( $response, $post, $request ) {
+				if ( current_user_can( 'edit_post', $post->ID ) ) {
+					return $response;
+				}
+				$data = $response->get_data();
+				foreach ( self::$meta_fields as $field_group ) {
+					foreach ( $field_group as $key => $field_def ) {
+						if ( ! empty( $field_def['show_in_rest'] ) ) {
+							unset( $data['meta'][ self::$meta_prefix . $key ] );
+						}
+					}
+				}
+				$response->set_data( $data );
+				return $response;
+			},
+			10,
+			3,
+		);
+
 		self::filter_schema_article_types();
 
 		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
