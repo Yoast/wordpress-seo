@@ -1,5 +1,5 @@
 import { createBlock } from "@wordpress/blocks";
-import { useSelect, useDispatch } from "@wordpress/data";
+import { dispatch, useSelect, useDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { useEffect, useRef } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
@@ -15,7 +15,6 @@ import { CONTENT_OUTLINE_NAME } from "./store/content-outline";
 import { CONTENT_SUGGESTIONS_NAME } from "./store/content-suggestions";
 import { withInlineBanner } from "./components/with-inline-banner";
 import { addFilter } from "@wordpress/hooks";
-
 
 /**
  * Ensures a fresh post has at least one block in the canvas, so the
@@ -57,17 +56,28 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
-	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered } = useSelect( select => {
+	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered, yoastTitle, yoastMetaDesc, yoastFocusKw } = useSelect( select => {
+		const coreEditor = select( "core/editor" );
+		const meta = coreEditor.getEditedPostAttribute( "meta" );
 		return {
-			isNewPost: select( "core/editor" ).isEditedPostNew(),
-			postType: select( "core/editor" ).getCurrentPostType(),
+			isNewPost: coreEditor.isEditedPostNew(),
+			postType: coreEditor.getCurrentPostType(),
 			blocks: select( "core/block-editor" ).getBlocks(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
 			isBannerRendered: select( CONTENT_PLANNER_STORE ).selectIsBannerRendered(),
+			yoastTitle: meta._yoast_wpseo_title ?? "",
+			yoastMetaDesc: meta._yoast_wpseo_metadesc ?? "",
+			yoastFocusKw: meta._yoast_wpseo_focuskw ?? "",
 		};
 	}, [] );
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
+
+	useEffect( () => {
+		const yoastEditor = dispatch( "yoast-seo/editor" );
+		yoastEditor?.updateData?.( { title: yoastTitle, description: yoastMetaDesc } );
+		yoastEditor?.setFocusKeyword?.( yoastFocusKw );
+	}, [ yoastTitle, yoastMetaDesc, yoastFocusKw ] );
 
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {
