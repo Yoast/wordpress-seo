@@ -361,8 +361,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$screen          = WP_Screen::get();
 		$is_block_editor = $screen && $screen->is_block_editor();
 		if ( $is_block_editor && $this->get_metabox_post()->post_type === 'post' ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
-			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'content_planner' );
+			/**
+			 * Filter: 'wpseo_enable_ai_content_planner_inline_banner' - Allows hiding the AI Content Planner inline banner site-wide.
+			 *
+			 * Returning false stops the hidden meta inputs from being rendered, which the editor JS treats as "banner disabled".
+			 *
+			 * @param bool $enabled Whether the inline banner should be available in the editor. Default true.
+			 */
+			if ( apply_filters( 'wpseo_enable_ai_content_planner_inline_banner', true ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
+				echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'content_planner' );
+			}
 		}
 
 		/**
