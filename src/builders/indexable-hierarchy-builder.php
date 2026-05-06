@@ -234,25 +234,8 @@ class Indexable_Hierarchy_Builder {
 		$term         = \get_term( $term_id );
 		$term_parents = $this->get_term_parents( $term );
 
-		if ( empty( $term_parents ) ) {
-			return;
-		}
-
-		$parent_ids = [];
 		foreach ( $term_parents as $parent ) {
-			$parent_ids[] = (int) $parent->term_id;
-		}
-
-		$ancestors    = $this->indexable_repository->find_by_multiple_ids_and_type( $parent_ids, 'term' );
-		$ancestor_map = [];
-		foreach ( $ancestors as $ancestor ) {
-			if ( \is_a( $ancestor, 'Yoast\WP\SEO\Models\Indexable' ) ) {
-				$ancestor_map[ (int) $ancestor->object_id ] = $ancestor;
-			}
-		}
-
-		foreach ( $term_parents as $parent ) {
-			$ancestor = $ancestor_map[ (int) $parent->term_id ] ?? null;
+			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				continue;
 			}

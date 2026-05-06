@@ -271,25 +271,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 			}
 		}
 
-		$post_ids = [];
-		foreach ( $aioseo_indexables as $aioseo_indexable ) {
-			$post_ids[] = (int) $aioseo_indexable['post_id'];
-		}
-
-		$indexable_map = [];
-		if ( ! empty( $post_ids ) ) {
-			foreach ( $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' ) as $indexable ) {
-				if ( \is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) ) {
-					$indexable_map[ (int) $indexable->object_id ] = $indexable;
-				}
-			}
-		}
-
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 
-			$indexable = $indexable_map[ (int) $aioseo_indexable['post_id'] ] ?? null;
+			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
 
 			// Let's ensure that the current post id represents something that we want to index (eg. *not* shop_order).
 			if ( ! \is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) ) {

@@ -710,7 +710,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->with( [ 3 ], 'term' )->andReturn( [ $grand_parent_indexable ] );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $grand_parent_indexable );
 
 		$this->post->expects( 'get_post' )
 			->once()
@@ -998,7 +998,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $parent_indexable );
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->with( [ 4 ], 'term' )->andReturn( [ $grand_parent_indexable ] );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 4, 'term' )->andReturn( $grand_parent_indexable );
 
 		$this->post->expects( 'get_post' )
 			->once()
@@ -1066,7 +1066,7 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->with( [ 2 ], 'term' )->andReturn( [ $parent_indexable ] );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
@@ -1119,9 +1119,9 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexable_repository
-			->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 2 ], 'term' )
-			->andReturn( [ $parent_indexable ] );
+			->expects( 'find_by_id_and_type' )
+			->with( 2, 'term' )
+			->andReturn( $parent_indexable );
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
@@ -1174,9 +1174,9 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexable_repository
-			->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 2 ], 'term' )
-			->andReturn( [ $indexable ] );
+			->expects( 'find_by_id_and_type' )
+			->with( 2, 'term' )
+			->andReturn( $indexable );
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 0, 0 );
 
@@ -1251,9 +1251,14 @@ final class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->never();
 
 		$this->indexable_repository
-			->expects( 'find_by_multiple_ids_and_type' )
-			->with( [ 2, 3 ], 'term' )
-			->andReturn( [ $parent_indexable, $parent_indexable ] );
+			->expects( 'find_by_id_and_type' )
+			->with( 2, 'term' )
+			->andReturn( $parent_indexable );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->with( 3, 'term' )
+			->andReturn( $parent_indexable );
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
