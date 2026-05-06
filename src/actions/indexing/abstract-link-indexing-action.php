@@ -69,9 +69,23 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 	public function index() {
 		$objects = $this->get_objects();
 
+		$objects_by_type = [];
+		foreach ( $objects as $object ) {
+			$objects_by_type[ $object->type ][] = (int) $object->id;
+		}
+
+		$indexable_map = [];
+		foreach ( $objects_by_type as $type => $ids ) {
+			foreach ( $this->repository->find_by_multiple_ids_and_type( $ids, $type ) as $indexable ) {
+				if ( $indexable ) {
+					$indexable_map[ $type ][ (int) $indexable->object_id ] = $indexable;
+				}
+			}
+		}
+
 		$indexables = [];
 		foreach ( $objects as $object ) {
-			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
+			$indexable = $indexable_map[ $object->type ][ (int) $object->id ] ?? null;
 			if ( $indexable ) {
 				$this->link_builder->build( $indexable, $object->content );
 				$this->indexable_helper->save_indexable( $indexable );

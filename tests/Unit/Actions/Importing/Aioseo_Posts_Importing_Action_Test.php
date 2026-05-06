@@ -279,7 +279,8 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			\define( 'ARRAY_A', 'ARRAY_A' );
 		}
-		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_id = 234;
 
 		$this->aioseo_helper->expects( 'aioseo_exists' )
 			->once()
@@ -317,9 +318,9 @@ final class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				->once()
 				->andReturn( $aioseo_indexables );
 
-			$this->indexable_repository->expects( 'find_by_id_and_type' )
+			$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )
 				->times( $check_if_default_times )
-				->andReturn( $indexable );
+				->andReturn( [ $indexable ] );
 
 			$expected_check_defaults_fields = [
 				'title',

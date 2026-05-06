@@ -255,9 +255,11 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'term' )
+			->andReturn( [ Mockery::mock() ] );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms_limited' );
@@ -280,9 +282,11 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [ 1, 3, 8 ], 'term' )
+			->andReturn( [ Mockery::mock() ] );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms_limited' );
@@ -324,6 +328,12 @@ final class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', 25 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [] );
+
+		$this->repository
+			->expects( 'find_by_multiple_ids_and_type' )
+			->once()
+			->with( [], 'term' )
+			->andReturn( [] );
 
 		$this->instance->index();
 	}
