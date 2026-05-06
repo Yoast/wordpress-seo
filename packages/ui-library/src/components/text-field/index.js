@@ -63,7 +63,7 @@ const TextField = forwardRef( ( {
 					{ validation.message }
 				</ValidationMessage>
 			) }
-			{ description && <p id={ ids.description } className="yst-text-field__description">{ description }</p> }
+			{ description && <p id={ ids.description } className="yst-text-field__description yst-mt-2">{ description }</p> }
 		</div>
 	);
 } );
