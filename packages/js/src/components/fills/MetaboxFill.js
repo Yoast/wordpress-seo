@@ -10,7 +10,7 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -80,7 +80,7 @@ export default function MetaboxFill( { settings } ) {
 					<ContentPlannerEditorItem location="metabox" />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">

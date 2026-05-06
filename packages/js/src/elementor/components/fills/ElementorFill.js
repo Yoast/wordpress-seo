@@ -11,7 +11,7 @@ import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import { useFirstEligibleNotification } from "../../../hooks/use-first-eligible-notification";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import SearchAppearanceModal from "../../../components/modals/editorModals/SearchAppearanceModal";
 import SocialAppearanceModal from "../../../components/modals/editorModals/SocialAppearanceModal";
@@ -60,7 +60,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					) }
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
