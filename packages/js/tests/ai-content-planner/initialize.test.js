@@ -3,12 +3,19 @@ import { ContentPlannerEditorPlugin, registerInlineBanner } from "../../src/ai-c
 import { addFilter } from "@wordpress/hooks";
 
 jest.mock( "@wordpress/data", () => ( {
+	dispatch: jest.fn( () => ( {
+		updateData: jest.fn(),
+		setFocusKeyword: jest.fn(),
+	} ) ),
 	useSelect: jest.fn( () => ( {
 		isNewPost: false,
 		postType: "post",
 		blocks: [],
 		minPostsMet: false,
 		isBannerRendered: false,
+		yoastTitle: "",
+		yoastMetaDesc: "",
+		yoastFocusKw: "",
 	} ) ),
 	useDispatch: jest.fn( () => ( { insertBlock: jest.fn() } ) ),
 	select: jest.fn( () => ( {
