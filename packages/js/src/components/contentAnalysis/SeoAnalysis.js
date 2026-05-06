@@ -10,7 +10,6 @@ import Results from "../../containers/Results";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
-import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
 import AIOptimizeButton from "../../ai-optimizer/components/ai-optimize-button";
 import { shouldRenderAIOptimizeButton } from "../../helpers/shouldRenderAIOptimizeButton";
@@ -116,7 +115,6 @@ class SeoAnalysis extends Component {
 											id={ `yoast-seo-analysis-collapsible-${ location }` }
 											initialIsOpen={ initialYoastTab === "seo" }
 										>
-											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <PremiumSeoAnalysisUpsellAd location={ location } /> }
 
 											<AnalysisHeader>
