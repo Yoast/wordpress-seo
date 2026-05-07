@@ -44,6 +44,7 @@ describe( "normalizeError", () => {
 		expect( result.errorIdentifier ).toBe( "" );
 		expect( result.missingLicenses ).toEqual( [] );
 	} );
+
 	it( "fills in defaults for each missing field individually", () => {
 		expect( normalizeError( { errorCode: 500 } ) ).toEqual( {
 			errorCode: 500,

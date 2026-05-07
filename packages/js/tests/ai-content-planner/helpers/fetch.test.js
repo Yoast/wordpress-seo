@@ -4,10 +4,10 @@ import { ABORTED_ERROR, contentPlannerFetch } from "../../../src/ai-content-plan
 jest.mock( "@wordpress/api-fetch" );
 
 /**
- * Returns a mock apiFetch implementation that rejects with an AbortError
+ * Creates a mock apiFetch implementation that rejects with an AbortError
  * when `options.signal` fires or is already aborted.
  *
- * @returns {Promise} A promise that rejects on abort.
+ * @returns {jest.Mock} A jest mock function that, when called with fetch options, returns a promise that rejects on abort.
  */
 const abortableMock = () => jest.fn( ( options ) => {
 	if ( options.signal.aborted ) {

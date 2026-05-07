@@ -17,9 +17,9 @@ export const normalizeError = ( payload ) => {
 
 	// Bad gateway error will not have a payload, so we set a default error.
 	// Normalize errorMessage to also accept the plain Error `message` property.
-	const payloadObject = isObject( payload ) ? payload : {};
+	let payloadObject = isObject( payload ) ? payload : {};
 	if ( isString( payload ) ) {
-		payloadObject.message = payload;
+		payloadObject = { message: payload };
 	}
 	const source = { ...payloadObject, errorMessage: payloadObject?.errorMessage || payloadObject?.message };
 
