@@ -19,7 +19,7 @@ import { handleBannerTabNavigation, preventArrowNavInMenu } from "../helpers/han
 function isClickOutsideDropdown( bannerEl, event ) {
 	const trigger = bannerEl?.querySelector( ".yst-dropdown-menu__icon-trigger[aria-expanded='true']" );
 	const menu = trigger && bannerEl.querySelector( "[role='menu']" );
-	return menu && ! trigger.contains( event.target ) && ! menu.contains( event.target );
+	return Boolean( menu ) && ! trigger.contains( event.target ) && ! menu.contains( event.target );
 }
 
 /**

@@ -50,7 +50,7 @@ const setupMocks = ( overrides = {} ) => {
 		isBannerDismissed: false,
 		isBannerPermanentlyDismissed: false,
 		isBannerRendered: false,
-		bannerPermanentDismissalEndpoint: "/wp-json/yoast/v1/ai_content_planner/banner_permanent_dismissal",
+		bannerPermanentDismissalEndpoint: "yoast/v1/ai_content_planner/banner_permanent_dismissal",
 		hasConsent: false,
 		isPremium: false,
 		minPostsMet: true,
@@ -164,7 +164,7 @@ describe( "withInlineBanner", () => {
 		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
 
 		getByTestId( "dismiss-permanently-btn" ).click();
-		expect( mockDismissBannerPermanently ).toHaveBeenCalledWith( "/wp-json/yoast/v1/ai_content_planner/banner_permanent_dismissal" );
+		expect( mockDismissBannerPermanently ).toHaveBeenCalledWith( "yoast/v1/ai_content_planner/banner_permanent_dismissal" );
 	} );
 
 	test( "calls fetchContentSuggestions when click button is clicked and has consent", () => {
