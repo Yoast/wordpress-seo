@@ -63,9 +63,13 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 	}, [ setBannerDismissed ] );
 
 	const handleDismissPermanently = useCallback( () => {
+		const path = get( window, "wpseoContentPlanner.endpoints.bannerPermanentDismissal", "" );
+		if ( ! path ) {
+			return;
+		}
 		setBannerPermanentlyDismissed();
 		apiFetch( {
-			path: get( window, "wpseoContentPlanner.endpoints.bannerPermanentDismissal", "" ),
+			path,
 			method: "POST",
 			// eslint-disable-next-line camelcase
 			data: { is_dismissed: true },

@@ -78,7 +78,7 @@ class Banner_Permanent_Dismissal_Route implements Route_Interface {
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 
@@ -94,11 +94,18 @@ class Banner_Permanent_Dismissal_Route implements Route_Interface {
 		$user_id      = $this->user_helper->get_current_user_id();
 		$result       = $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $is_dismissed );
 
+		// update_meta returns false both on failure and when the stored value is already identical.
+		// Check the existing value to distinguish the two cases and keep the endpoint idempotent.
+		if ( $result === false ) {
+			$existing = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
+			$result   = ( (bool) $existing === (bool) $is_dismissed );
+		}
+
 		return new WP_REST_Response(
 			[
 				'success' => (bool) $result,
 			],
-			( $result !== false ) ? 200 : 400
+			( $result !== false ) ? 200 : 400,
 		);
 	}
 

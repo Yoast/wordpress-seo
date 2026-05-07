@@ -95,7 +95,7 @@ class Content_Planner_Integration implements Integration_Interface {
 	/**
 	 * Returns the script data for the content planner.
 	 *
-	 * @return array{endpoints: array<string, string>, minPostsMet: bool}
+	 * @return array{endpoints: array<string, string>, minPostsMet: bool, isBannerPermanentlyDismissed: bool}
 	 */
 	public function get_script_data(): array {
 		return [
