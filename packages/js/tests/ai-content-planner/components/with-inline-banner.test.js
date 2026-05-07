@@ -41,7 +41,7 @@ const MockBlockListBlock = ( props ) => <div data-testid="block-list-block" { ..
 const mockSetFeatureModalStatus = jest.fn();
 const mockSetBannerDismissed = jest.fn();
 const mockSetBannerRendered = jest.fn();
-const mockSetBannerPermanentlyDismissed = jest.fn();
+const mockDismissBannerPermanently = jest.fn();
 
 const setupMocks = ( overrides = {} ) => {
 	const defaults = {
@@ -87,7 +87,7 @@ const setupMocks = ( overrides = {} ) => {
 		setFeatureModalStatus: mockSetFeatureModalStatus,
 		setBannerDismissed: mockSetBannerDismissed,
 		setBannerRendered: mockSetBannerRendered,
-		setBannerPermanentlyDismissed: mockSetBannerPermanentlyDismissed,
+		dismissBannerPermanently: mockDismissBannerPermanently,
 	} );
 };
 
@@ -157,6 +157,14 @@ describe( "withInlineBanner", () => {
 
 		getByTestId( "dismiss-btn" ).click();
 		expect( mockSetBannerDismissed ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	test( "calls dismissBannerPermanently with the endpoint when the permanently-dismiss button is clicked", () => {
+		setupMocks();
+		const { getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		getByTestId( "dismiss-permanently-btn" ).click();
+		expect( mockDismissBannerPermanently ).toHaveBeenCalledWith( "/wp-json/yoast/v1/ai_content_planner/banner_permanent_dismissal" );
 	} );
 
 	test( "calls fetchContentSuggestions when click button is clicked and has consent", () => {
