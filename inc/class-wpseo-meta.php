@@ -286,7 +286,7 @@ class WPSEO_Meta {
 					[
 						'show_in_rest'      => ( $field_def['show_in_rest'] ?? false ),
 						'single'            => ( $field_def['single'] ?? false ),
-						'type'              => ( isset( $field_def['type'] ) && $field_def['type'] !== 'hidden' ) ? $field_def['type'] : 'string',
+						'type'              => 'string',
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
 					],
 				);
