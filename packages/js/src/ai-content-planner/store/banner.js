@@ -9,6 +9,7 @@ const slice = createSlice( {
 	initialState: {
 		isBannerDismissed: false,
 		isBannerRendered: false,
+		isBannerPermanentlyDismissed: false,
 	},
 	reducers: {
 		setBannerRendered: ( state ) => {
@@ -16,6 +17,9 @@ const slice = createSlice( {
 		},
 		setBannerDismissed: ( state ) => {
 			state.isBannerDismissed = true;
+		},
+		setBannerPermanentlyDismissed: ( state ) => {
+			state.isBannerPermanentlyDismissed = true;
 		},
 	},
 } );
@@ -38,9 +42,11 @@ export const bannerActions = {
 		setBannerDismissedInput();
 		return slice.actions.setBannerDismissed();
 	},
+	setBannerPermanentlyDismissed: () => slice.actions.setBannerPermanentlyDismissed(),
 };
 
 export const bannerSelectors = {
 	selectIsBannerDismissed: ( state ) => get( state, [ BANNER_NAME, "isBannerDismissed" ], slice.getInitialState().isBannerDismissed ),
 	selectIsBannerRendered: ( state ) => get( state, [ BANNER_NAME, "isBannerRendered" ], slice.getInitialState().isBannerRendered ),
+	selectIsBannerPermanentlyDismissed: ( state ) => get( state, [ BANNER_NAME, "isBannerPermanentlyDismissed" ], slice.getInitialState().isBannerPermanentlyDismissed ),
 };

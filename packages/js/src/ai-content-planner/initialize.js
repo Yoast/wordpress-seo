@@ -120,6 +120,7 @@ export default function initContentPlanner() {
 			[ BANNER_NAME ]: {
 				isBannerDismissed: getIsBannerDismissedFromInput(),
 				isBannerRendered: getIsBannerRenderedFromInput(),
+				isBannerPermanentlyDismissed: get( window, "wpseoContentPlanner.isBannerPermanentlyDismissed", false ),
 			},
 		} );
 		// Register the inline banner filter after the store is registered,

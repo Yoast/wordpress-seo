@@ -1,11 +1,32 @@
+import apiFetch from "@wordpress/api-fetch";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
+import { get, noop } from "lodash";
 import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
 import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigation";
+
+/**
+ * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
+ * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
+ * set, so calling preventDefault() here lets HeadlessUI still process the key.
+ *
+ * @param {HTMLElement}  bannerEl The banner wrapper element.
+ * @param {KeyboardEvent} event   The keydown event.
+ * @returns {void}
+ */
+function preventArrowNavInMenu( bannerEl, event ) {
+	if ( ! [ "ArrowDown", "ArrowUp" ].includes( event.key ) ) {
+		return;
+	}
+	const menuEl = bannerEl?.querySelector( "[role='menu']" );
+	if ( menuEl && ( menuEl === event.target || menuEl.contains( event.target ) ) ) {
+		event.preventDefault();
+	}
+}
 
 /**
  * The component that conditionally renders the Content Planner inline banner and injects the Tailwind stylesheet into the editor iframe.
@@ -14,12 +35,16 @@ import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigati
  * @returns {JSX.Element} The wrapped block component with the inline banner conditionally rendered before it.
  */
 const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
-	const { isNewPost, isBannerDismissed, isBannerRendered, hasConsent, isPremium, minPostsMet, learnMoreLink } = useSelect( ( select ) => {
+	const {
+		isNewPost, isBannerDismissed, isBannerRendered, isBannerPermanentlyDismissed,
+		hasConsent, isPremium, minPostsMet, learnMoreLink,
+	} = useSelect( ( select ) => {
 		const planner = select( CONTENT_PLANNER_STORE );
 		return {
 			isNewPost: select( "core/editor" ).isEditedPostNew(),
 			isBannerDismissed: planner.selectIsBannerDismissed(),
 			isBannerRendered: planner.selectIsBannerRendered(),
+			isBannerPermanentlyDismissed: planner.selectIsBannerPermanentlyDismissed(),
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
@@ -27,15 +52,25 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		};
 	}, [] );
 
-	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered, setBannerPermanentlyDismissed } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const ref = useRef( null );
 
-	const shouldShow = ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
+	const shouldShow = ! isBannerPermanentlyDismissed && ! isBannerDismissed && ( isNewPost || isBannerRendered ) && minPostsMet;
 
 	const handleDismiss = useCallback( () => {
 		setBannerDismissed();
 	}, [ setBannerDismissed ] );
+
+	const handleDismissPermanently = useCallback( () => {
+		setBannerPermanentlyDismissed();
+		apiFetch( {
+			path: get( window, "wpseoContentPlanner.endpoints.bannerPermanentDismissal", "" ),
+			method: "POST",
+			// eslint-disable-next-line camelcase
+			data: { is_dismissed: true },
+		} ).catch( noop );
+	}, [ setBannerPermanentlyDismissed ] );
 
 	const handleClick = useCallback( () => {
 		if ( hasConsent ) {
@@ -80,22 +115,27 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		// skipped. Attaching a capture-phase listener lets us act before Gutenberg does;
 		// once we call preventDefault(), Gutenberg's early-return guard fires and leaves
 		// focus alone.
+		//
+		// The same guard applies to ArrowUp/ArrowDown: Gutenberg's use-arrow-nav
+		// handler bails early when defaultPrevented is set, so calling preventDefault()
+		// here lets HeadlessUI still process the key while Gutenberg stays out of the way.
 		const ownerDoc = ref.current?.ownerDocument;
 		if ( ! ownerDoc ) {
 			return;
 		}
 
 		/**
-		 * Forwards keydown events to the banner Tab navigation helper.
+		 * Handles keydown events for banner Tab and dropdown arrow-key navigation.
 		 * @param {KeyboardEvent} event The keydown event.
 		 * @returns {void}
 		 */
-		function handleTabNavigation( event ) {
+		function handleKeydownEvents( event ) {
 			handleBannerTabNavigation( ref.current, event );
+			preventArrowNavInMenu( ref.current, event );
 		}
 
-		ownerDoc.addEventListener( "keydown", handleTabNavigation, { capture: true } );
-		return () => ownerDoc.removeEventListener( "keydown", handleTabNavigation, { capture: true } );
+		ownerDoc.addEventListener( "keydown", handleKeydownEvents, { capture: true } );
+		return () => ownerDoc.removeEventListener( "keydown", handleKeydownEvents, { capture: true } );
 	}, [ shouldShow ] );
 
 	return (
@@ -105,6 +145,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 					<InlineBanner
 						isPremium={ isPremium }
 						onDismiss={ handleDismiss }
+						onDismissPermanently={ handleDismissPermanently }
 						onClick={ handleClick }
 						learnMoreLink={ learnMoreLink }
 					/>
