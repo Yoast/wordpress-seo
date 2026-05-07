@@ -280,6 +280,14 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
+				// Register for all post types: sanitise callback only, REST disabled.
+				register_meta(
+					'post',
+					self::$meta_prefix . $key,
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
+				);
+
+				// Re-register for the 'post' subtype with REST exposure and auth callback.
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
@@ -287,7 +295,11 @@ class WPSEO_Meta {
 						'show_in_rest'      => ( $field_def['show_in_rest'] ?? false ),
 						'single'            => ( $field_def['single'] ?? false ),
 						'type'              => 'string',
+						'object_subtype'    => 'post',
 						'sanitize_callback' => [ self::class, 'sanitize_post_meta' ],
+						'auth_callback'     => static function ( $allowed, $meta_key, $object_id ) {
+							return current_user_can( 'edit_post', $object_id );
+						},
 					],
 				);
 
@@ -311,11 +323,8 @@ class WPSEO_Meta {
 
 		// Strip meta fields that have show_in_rest enabled from REST responses for users
 		// without edit_post capability. register_meta's auth_callback only covers writes,
-		// so read access must be restricted separately via this filter. Register for every
-		// REST-enabled post type because the filter name is rest_prepare_{post_type}.
-		foreach ( get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
-			add_filter( "rest_prepare_{$post_type}", [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
-		}
+		// so read access must be restricted separately via this filter. Register only for post post type.
+		add_filter( 'rest_prepare_post', [ self::class, 'hide_meta_from_unauthorized_rest_response' ], 10, 2 );
 
 		self::filter_schema_article_types();
 
@@ -1063,7 +1072,7 @@ class WPSEO_Meta {
 	}
 
 	/**
-	 * Strips REST-exposed Yoast meta fields from the response for users without edit_post capability.
+	 * Strips REST-exposed Yoast meta fields from the response for users without edit_post capability on the post.
 	 *
 	 * @param WP_REST_Response $response The REST response.
 	 * @param WP_Post          $post     The post object.
