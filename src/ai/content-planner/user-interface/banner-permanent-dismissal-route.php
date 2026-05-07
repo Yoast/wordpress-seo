@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\AI\Content_Planner\User_Interface;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AI_Conditional;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  * Registers a route to permanently dismiss the AI Content Planner inline banner for the current user.
  */
 class Banner_Permanent_Dismissal_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The user meta key used to store the permanent dismissal state.
@@ -48,9 +46,20 @@ class Banner_Permanent_Dismissal_Route implements Route_Interface {
 	private $user_helper;
 
 	/**
+	 * Gets the conditionals required to load this class.
+	 *
+	 * @return array<string>
+	 */
+	public static function get_conditionals() {
+		return [ AI_Conditional::class ];
+	}
+
+	/**
 	 * Constructs the class.
 	 *
 	 * @param User_Helper $user_helper The user helper.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( User_Helper $user_helper ) {
 		$this->user_helper = $user_helper;
