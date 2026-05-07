@@ -3,7 +3,6 @@ import TopicInputsDefault, { TopicInputs } from "../../../src/components/content
 import { fireEvent, render, screen } from "../../test-utils";
 
 jest.mock( "../../../src/containers/SEMrushRelatedKeyphrasesModal", () => {
-	// eslint-disable-next-line global-require
 	const { createElement } = require( "@wordpress/element" );
 	return {
 		__esModule: true,
@@ -16,7 +15,6 @@ jest.mock( "../../../src/containers/SEMrushRelatedKeyphrasesModal", () => {
 } );
 
 jest.mock( "../../../src/components/MetaboxCollapsible", () => {
-	// eslint-disable-next-line global-require
 	const { createElement } = require( "@wordpress/element" );
 	return {
 		__esModule: true,
@@ -34,7 +32,6 @@ jest.mock( "../../../src/components/MetaboxCollapsible", () => {
 } );
 
 jest.mock( "../../../src/components/SidebarCollapsible", () => {
-	// eslint-disable-next-line global-require
 	const { createElement } = require( "@wordpress/element" );
 	return {
 		__esModule: true,
@@ -52,7 +49,6 @@ jest.mock( "../../../src/components/SidebarCollapsible", () => {
 } );
 
 jest.mock( "@wordpress/data", () => {
-	// eslint-disable-next-line global-require
 	const { createElement } = require( "@wordpress/element" );
 	const mockSetFocusKeyword = jest.fn();
 	const mockSetMarkerPauseStatus = jest.fn();
@@ -282,7 +278,7 @@ describe( "TopicInputs", () => {
 			expect( modal.getAttribute( "data-keyphrase" ) ).toBe( "test" );
 		} );
 
-		it( "doesn't render the SEMrush modal when the integration is inactive and uses the basic wrapper class", () => {
+		it( "doesn't render the SEMrush modal when the integration is inactive", () => {
 			renderWithLocation( <TopicInputs { ...props } keyword="yoast seo" />, "sidebar" );
 
 			expect( screen.queryByTestId( "semrush-modal" ) ).not.toBeInTheDocument();
@@ -290,9 +286,9 @@ describe( "TopicInputs", () => {
 			const input = document.getElementById( "focus-keyword-input-sidebar" );
 			const wrapper = input.closest( ".yst-root" );
 			expect( wrapper ).toHaveClass( "yst-root" );
-			expect( wrapper ).not.toHaveClass( "yst-flex" );
-			expect( wrapper ).not.toHaveClass( "yst-flex-col" );
-			expect( wrapper ).not.toHaveClass( "yst-gap-4" );
+			expect( wrapper ).toHaveClass( "yst-flex" );
+			expect( wrapper ).toHaveClass( "yst-flex-col" );
+			expect( wrapper ).toHaveClass( "yst-gap-4" );
 		} );
 	} );
 
