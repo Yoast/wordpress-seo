@@ -181,7 +181,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						variant="secondary"
 						id={ `yoast-get-related-keyphrases-${location}` }
 						onClick={ this.onModalOpen }
-						className={ "yst-gap-1.5" }
+						className={ "yst-gap-1.5 yst-mt-0" }
 					>
 						{ SEMrushButtonText }
 					</Button>
@@ -205,7 +205,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
 							"response_type=code&scope=user.id" }
 						onClick={ this.onLinkClick }
-						className={ "yst-gap-1.5" }
+						className={ "yst-gap-1.5 yst-mt-0" }
 					>
 						{ SEMrushButtonText }
 						<span className="screen-reader-text">
