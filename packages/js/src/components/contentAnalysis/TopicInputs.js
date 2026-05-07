@@ -4,7 +4,6 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { useCallback, useContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationContext } from "@yoast/externals/contexts";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
 import MetaboxCollapsible from "../MetaboxCollapsible";
@@ -111,15 +110,6 @@ const renderSEMrushModal = ( isActive, location, keyphrase ) => {
 };
 
 /**
- * Gets the wrapper className.
- *
- * @param {boolean} isSEMrushIntegrationActive Whether the SEMrush integration is active.
- * @returns {string} The wrapper className.
- */
-const getWrapperClassName = ( isSEMrushIntegrationActive ) =>
-	classNames( "yst-root", isSEMrushIntegrationActive && "yst-flex yst-flex-col yst-gap-4" );
-
-/**
  * Renders the topic input fields inside a collapsible that defaults to open.
  *
  * @param {Object} props The props.
@@ -155,7 +145,7 @@ const TopicInputs = ( {
 			title={ __( "Focus keyphrase", "wordpress-seo" ) }
 			initialIsOpen={ true }
 		>
-			<div className={ getWrapperClassName( isSEMrushIntegrationActive ) }>
+			<div className={ "yst-root yst-flex yst-flex-col yst-gap-4" }>
 				<KeywordInput
 					location={ location }
 					keyword={ keyword }
