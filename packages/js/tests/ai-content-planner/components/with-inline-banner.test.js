@@ -50,6 +50,7 @@ const setupMocks = ( overrides = {} ) => {
 		isBannerDismissed: false,
 		isBannerPermanentlyDismissed: false,
 		isBannerRendered: false,
+		bannerPermanentDismissalEndpoint: "/wp-json/yoast/v1/ai_content_planner/banner_permanent_dismissal",
 		hasConsent: false,
 		isPremium: false,
 		minPostsMet: true,
@@ -69,6 +70,7 @@ const setupMocks = ( overrides = {} ) => {
 				selectIsBannerDismissed: () => values.isBannerDismissed,
 				selectIsBannerRendered: () => values.isBannerRendered,
 				selectIsBannerPermanentlyDismissed: () => values.isBannerPermanentlyDismissed,
+				selectBannerPermanentDismissalEndpoint: () => values.bannerPermanentDismissalEndpoint,
 				selectIsMinPostsMet: () => values.minPostsMet,
 			};
 		}
