@@ -10,6 +10,7 @@ const slice = createSlice( {
 		isBannerDismissed: false,
 		isBannerRendered: false,
 		isBannerPermanentlyDismissed: false,
+		bannerPermanentDismissalEndpoint: "",
 	},
 	reducers: {
 		setBannerRendered: ( state ) => {
@@ -49,4 +50,5 @@ export const bannerSelectors = {
 	selectIsBannerDismissed: ( state ) => get( state, [ BANNER_NAME, "isBannerDismissed" ], slice.getInitialState().isBannerDismissed ),
 	selectIsBannerRendered: ( state ) => get( state, [ BANNER_NAME, "isBannerRendered" ], slice.getInitialState().isBannerRendered ),
 	selectIsBannerPermanentlyDismissed: ( state ) => get( state, [ BANNER_NAME, "isBannerPermanentlyDismissed" ], slice.getInitialState().isBannerPermanentlyDismissed ),
+	selectBannerPermanentDismissalEndpoint: ( state ) => get( state, [ BANNER_NAME, "bannerPermanentDismissalEndpoint" ], slice.getInitialState().bannerPermanentDismissalEndpoint ),
 };

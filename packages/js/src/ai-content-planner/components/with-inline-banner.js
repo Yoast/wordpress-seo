@@ -2,12 +2,12 @@ import apiFetch from "@wordpress/api-fetch";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
-import { get, noop } from "lodash";
+import { noop } from "lodash";
 import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
-import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigation";
+import { handleBannerTabNavigation, preventArrowNavInMenu } from "../helpers/handle-banner-tab-navigation";
 
 /**
  * Returns true when the mousedown target is outside the dropdown.
@@ -25,25 +25,6 @@ function isClickOutsideDropdown( bannerEl, event ) {
 }
 
 /**
- * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
- * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
- * set, so calling preventDefault() here lets HeadlessUI still process the key.
- *
- * @param {HTMLElement}  bannerEl The banner wrapper element.
- * @param {KeyboardEvent} event   The keydown event.
- * @returns {void}
- */
-function preventArrowNavInMenu( bannerEl, event ) {
-	if ( ! [ "ArrowDown", "ArrowUp" ].includes( event.key ) ) {
-		return;
-	}
-	const menuEl = bannerEl?.querySelector( "[role='menu']" );
-	if ( menuEl && ( menuEl === event.target || menuEl.contains( event.target ) ) ) {
-		event.preventDefault();
-	}
-}
-
-/**
  * The component that conditionally renders the Content Planner inline banner and injects the Tailwind stylesheet into the editor iframe.
  * @param {Function}   BlockListBlock The Gutenberg block component to wrap.
  * @param {Object}   props The block props passed by Gutenberg.
@@ -52,7 +33,7 @@ function preventArrowNavInMenu( bannerEl, event ) {
 const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 	const {
 		isNewPost, isBannerDismissed, isBannerRendered, isBannerPermanentlyDismissed,
-		hasConsent, isPremium, minPostsMet, learnMoreLink,
+		bannerPermanentDismissalEndpoint, hasConsent, isPremium, minPostsMet, learnMoreLink,
 	} = useSelect( ( select ) => {
 		const planner = select( CONTENT_PLANNER_STORE );
 		return {
@@ -60,6 +41,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 			isBannerDismissed: planner.selectIsBannerDismissed(),
 			isBannerRendered: planner.selectIsBannerRendered(),
 			isBannerPermanentlyDismissed: planner.selectIsBannerPermanentlyDismissed(),
+			bannerPermanentDismissalEndpoint: planner.selectBannerPermanentDismissalEndpoint(),
 			isPremium: select( STORE_NAME_EDITOR ).getIsPremium(),
 			hasConsent: select( STORE_NAME_AI ).selectHasAiGeneratorConsent(),
 			minPostsMet: select( CONTENT_PLANNER_STORE ).selectIsMinPostsMet(),
@@ -78,18 +60,17 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 	}, [ setBannerDismissed ] );
 
 	const handleDismissPermanently = useCallback( () => {
-		const path = get( window, "wpseoContentPlanner.endpoints.bannerPermanentDismissal", "" );
-		if ( ! path ) {
+		if ( ! bannerPermanentDismissalEndpoint ) {
 			return;
 		}
 		setBannerPermanentlyDismissed();
 		apiFetch( {
-			path,
+			path: bannerPermanentDismissalEndpoint,
 			method: "POST",
 			// eslint-disable-next-line camelcase
 			data: { is_dismissed: true },
 		} ).catch( noop );
-	}, [ setBannerPermanentlyDismissed ] );
+	}, [ setBannerPermanentlyDismissed, bannerPermanentDismissalEndpoint ] );
 
 	const handleClick = useCallback( () => {
 		if ( hasConsent ) {
