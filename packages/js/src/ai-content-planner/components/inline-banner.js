@@ -46,7 +46,7 @@ export const InlineBanner = ( { isPremium, onDismiss, onDismissPermanently, onCl
 			<p className="yst-grow yst-text-slate-800 yst-font-medium"> { __( "Stuck on what to write next?", "wordpress-seo" ) }</p>
 		</div>
 		<p className="yst-text-sm yst-text-slate-600 yst-mb-1 yst-max-w-xl">
-			{ __( "Let Yoast analyze your content and suggest high-impact topics that fill content gaps and strengthen your SEO strategy.", "wordpress-seo" ) }
+			{ __( "Let Yoast AI Content Planner analyze your content and suggest high-impact topics that fill content gaps and strengthen your SEO strategy.", "wordpress-seo" ) }
 		</p>
 		<Link as={ OutboundLink } href={ learnMoreLink } variant="primary" className="yst-font-medium yst-no-underline">
 			{ __( "Learn more", "wordpress-seo" ) }

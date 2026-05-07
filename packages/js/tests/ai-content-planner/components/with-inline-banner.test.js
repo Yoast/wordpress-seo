@@ -12,9 +12,10 @@ jest.mock( "@wordpress/compose", () => ( {
 } ) );
 
 jest.mock( "../../../src/ai-content-planner/components/inline-banner", () => ( {
-	InlineBanner: ( { onDismiss, onClick, isPremium } ) => (
+	InlineBanner: ( { onDismiss, onDismissPermanently, onClick, isPremium } ) => (
 		<div data-testid="inline-banner" data-is-premium={ isPremium }>
 			<button data-testid="dismiss-btn" onClick={ onDismiss } />
+			<button data-testid="dismiss-permanently-btn" onClick={ onDismissPermanently } />
 			<button data-testid="click-btn" onClick={ onClick } />
 		</div>
 	),
@@ -40,12 +41,14 @@ const MockBlockListBlock = ( props ) => <div data-testid="block-list-block" { ..
 const mockSetFeatureModalStatus = jest.fn();
 const mockSetBannerDismissed = jest.fn();
 const mockSetBannerRendered = jest.fn();
+const mockSetBannerPermanentlyDismissed = jest.fn();
 
 const setupMocks = ( overrides = {} ) => {
 	const defaults = {
 		isFirstBlock: true,
 		isNewPost: true,
 		isBannerDismissed: false,
+		isBannerPermanentlyDismissed: false,
 		isBannerRendered: false,
 		hasConsent: false,
 		isPremium: false,
@@ -65,6 +68,7 @@ const setupMocks = ( overrides = {} ) => {
 			return {
 				selectIsBannerDismissed: () => values.isBannerDismissed,
 				selectIsBannerRendered: () => values.isBannerRendered,
+				selectIsBannerPermanentlyDismissed: () => values.isBannerPermanentlyDismissed,
 				selectIsMinPostsMet: () => values.minPostsMet,
 			};
 		}
@@ -81,6 +85,7 @@ const setupMocks = ( overrides = {} ) => {
 		setFeatureModalStatus: mockSetFeatureModalStatus,
 		setBannerDismissed: mockSetBannerDismissed,
 		setBannerRendered: mockSetBannerRendered,
+		setBannerPermanentlyDismissed: mockSetBannerPermanentlyDismissed,
 	} );
 };
 
@@ -102,6 +107,14 @@ describe( "withInlineBanner", () => {
 
 	test( "does not render the banner when it is dismissed", () => {
 		setupMocks( { isBannerDismissed: true } );
+		const { queryByTestId, getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
+
+		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
+		expect( getByTestId( "block-list-block" ) ).toBeInTheDocument();
+	} );
+
+	test( "does not render the banner when it is permanently dismissed", () => {
+		setupMocks( { isBannerPermanentlyDismissed: true } );
 		const { queryByTestId, getByTestId } = render( <WithInlineBanner clientId="client-1" /> );
 
 		expect( queryByTestId( "inline-banner" ) ).not.toBeInTheDocument();
