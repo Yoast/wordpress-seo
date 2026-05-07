@@ -52,9 +52,8 @@ describe( "CategorySection", () => {
 		} );
 
 		it( "does not show the category badge when category name is absent", () => {
-			const { container } = renderCategorySection( { isEnabled: true } );
-			// CategoryBadge returns null when categoryName is falsy; no badge element is rendered.
-			expect( container.querySelector( ".yst-w-fit" ) ).toBeNull();
+			renderCategorySection( { isEnabled: true } );
+			expect( screen.queryByText( "WordPress" ) ).not.toBeInTheDocument();
 		} );
 
 		it( "shows a skeleton loader when isLoading is true instead of the badge", () => {

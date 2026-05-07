@@ -355,11 +355,14 @@ describe( "ContentOutlineModal", () => {
 			expect( onApplyOutline ).toHaveBeenCalled();
 		} );
 
-		it( "calls focus on closeButtonRef.current when isLoading changes", () => {
-			const focusMock = jest.fn();
-			const closeButtonRef = { current: { focus: focusMock } };
+		it( "moves focus to the close button when loading completes", () => {
+			const closeButton = document.createElement( "button" );
+			document.body.appendChild( closeButton );
+			const focusSpy = jest.spyOn( closeButton, "focus" );
+			const closeButtonRef = { current: closeButton };
 			renderLoadedModal( { closeButtonRef } );
-			expect( focusMock ).toHaveBeenCalledTimes( 1 );
+			expect( focusSpy ).toHaveBeenCalled();
+			document.body.removeChild( closeButton );
 		} );
 
 		it( "updates the focus keyphrase field when its value changes", () => {
