@@ -1,8 +1,6 @@
-import apiFetch from "@wordpress/api-fetch";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useRef } from "@wordpress/element";
-import { noop } from "lodash";
 import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
@@ -49,7 +47,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		};
 	}, [] );
 
-	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered, setBannerPermanentlyDismissed } = useDispatch( CONTENT_PLANNER_STORE );
+	const { setFeatureModalStatus, setBannerDismissed, setBannerRendered, dismissBannerPermanently } = useDispatch( CONTENT_PLANNER_STORE );
 	const fetchContentSuggestions = useFetchContentSuggestions();
 	const ref = useRef( null );
 
@@ -60,17 +58,8 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 	}, [ setBannerDismissed ] );
 
 	const handleDismissPermanently = useCallback( () => {
-		if ( ! bannerPermanentDismissalEndpoint ) {
-			return;
-		}
-		setBannerPermanentlyDismissed();
-		apiFetch( {
-			path: bannerPermanentDismissalEndpoint,
-			method: "POST",
-			// eslint-disable-next-line camelcase
-			data: { is_dismissed: true },
-		} ).catch( noop );
-	}, [ setBannerPermanentlyDismissed, bannerPermanentDismissalEndpoint ] );
+		dismissBannerPermanently( bannerPermanentDismissalEndpoint );
+	}, [ dismissBannerPermanently, bannerPermanentDismissalEndpoint ] );
 
 	const handleClick = useCallback( () => {
 		if ( hasConsent ) {
