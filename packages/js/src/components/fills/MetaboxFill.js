@@ -64,7 +64,7 @@ export default function MetaboxFill( { settings } ) {
 						key="editor-intro"
 						renderPriority={ 1 }
 					>
-						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isPost }>
+						<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isPost } isPost={ isPost }>
 							<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } inEditorIntro={ true } />
 						</EditorIntro>
 					</SidebarItem>
