@@ -1,6 +1,25 @@
 import { focus } from "@wordpress/dom";
 
 /**
+ * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
+ * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
+ * set, so calling preventDefault() here lets HeadlessUI still process the key.
+ *
+ * @param {HTMLElement}  bannerEl The banner wrapper element.
+ * @param {KeyboardEvent} event   The keydown event.
+ * @returns {void}
+ */
+export function preventArrowNavInMenu( bannerEl, event ) {
+	if ( ! [ "ArrowDown", "ArrowUp" ].includes( event.key ) ) {
+		return;
+	}
+	const menuEl = bannerEl?.querySelector( "[role='menu']" );
+	if ( menuEl && ( menuEl === event.target || menuEl.contains( event.target ) ) ) {
+		event.preventDefault();
+	}
+}
+
+/**
  * Get sibling function.
  *
  * @param {KeyboardEvent} event The keydown event.
