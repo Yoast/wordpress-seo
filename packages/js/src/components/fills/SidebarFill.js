@@ -61,7 +61,7 @@ export default function SidebarFill( { settings } ) {
 					key="editor-intro"
 					renderPriority={ 1 }
 				>
-					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }>
+					<EditorIntro withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost } isPost={ isPost }>
 						{ FirstEligibleNotification && <FirstEligibleNotification inEditorIntro={ true } /> }
 					</EditorIntro>
 				</SidebarItem>
