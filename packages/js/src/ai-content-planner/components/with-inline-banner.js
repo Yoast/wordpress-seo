@@ -10,6 +10,21 @@ import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestio
 import { handleBannerTabNavigation } from "../helpers/handle-banner-tab-navigation";
 
 /**
+ * Returns true when the mousedown target is outside the dropdown.
+ * HeadlessUI's built-in outside-click detection uses the top-level window and
+ * misses iframe clicks — replicated here via a capture-phase mousedown listener.
+ *
+ * @param {HTMLElement} bannerEl The banner wrapper element.
+ * @param {MouseEvent}  event    The mousedown event.
+ * @returns {boolean}
+ */
+function isClickOutsideDropdown( bannerEl, event ) {
+	const trigger = bannerEl?.querySelector( ".yst-dropdown-menu__icon-trigger[aria-expanded='true']" );
+	const menu = trigger && bannerEl.querySelector( "[role='menu']" );
+	return menu && ! trigger.contains( event.target ) && ! menu.contains( event.target );
+}
+
+/**
  * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
  * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
  * set, so calling preventDefault() here lets HeadlessUI still process the key.
@@ -138,8 +153,18 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 			preventArrowNavInMenu( ref.current, event );
 		}
 
+		const onMousedown = ( event ) => {
+			if ( isClickOutsideDropdown( ref.current, event ) ) {
+				ref.current.querySelector( ".yst-dropdown-menu__icon-trigger" ).click();
+			}
+		};
+
 		ownerDoc.addEventListener( "keydown", handleKeydownEvents, { capture: true } );
-		return () => ownerDoc.removeEventListener( "keydown", handleKeydownEvents, { capture: true } );
+		ownerDoc.addEventListener( "mousedown", onMousedown, { capture: true } );
+		return () => {
+			ownerDoc.removeEventListener( "keydown", handleKeydownEvents, { capture: true } );
+			ownerDoc.removeEventListener( "mousedown", onMousedown, { capture: true } );
+		};
 	}, [ shouldShow ] );
 
 	return (
