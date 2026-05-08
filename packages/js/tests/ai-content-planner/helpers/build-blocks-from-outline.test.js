@@ -52,20 +52,6 @@ describe( "buildBlocksFromOutline", () => {
 		expect( result[ 3 ] ).toEqual( { type: "core/heading", attrs: { content: "Second", level: 2 } } );
 	} );
 
-	it( "uses heading level 2 for all section headings", () => {
-		const outline = [
-			{ heading: "A", contentNotes: [] },
-			{ heading: "B", contentNotes: [] },
-		];
-
-		buildBlocksFromOutline( outline );
-
-		const headingCalls = createBlock.mock.calls.filter( ( [ type ] ) => type === "core/heading" );
-		headingCalls.forEach( ( [ , attrs ] ) => {
-			expect( attrs.level ).toBe( 2 );
-		} );
-	} );
-
 	it( "passes contentNotes as suggestions to the content-suggestion block", () => {
 		const contentNotes = [ "Use examples", "Add statistics", "Include a CTA" ];
 		const outline = [ { heading: "Body", contentNotes } ];

@@ -8,6 +8,10 @@ import {
 const DISMISSED_INPUT_ID = "yoast_wpseo_is_content_planner_banner_dismissed";
 const RENDERED_INPUT_ID = "yoast_wpseo_is_content_planner_banner_rendered";
 
+afterEach( () => {
+	document.body.innerHTML = "";
+} );
+
 const renderInput = ( id, value ) => {
 	const input = document.createElement( "input" );
 	input.id = id;
@@ -17,10 +21,6 @@ const renderInput = ( id, value ) => {
 };
 
 describe( "getIsBannerDismissedFromInput", () => {
-	afterEach( () => {
-		document.body.innerHTML = "";
-	} );
-
 	it( "returns true when the hidden input is absent so a server-side filter can hide the banner", () => {
 		expect( getIsBannerDismissedFromInput() ).toBe( true );
 	} );
@@ -37,10 +37,6 @@ describe( "getIsBannerDismissedFromInput", () => {
 } );
 
 describe( "getIsBannerRenderedFromInput", () => {
-	afterEach( () => {
-		document.body.innerHTML = "";
-	} );
-
 	it( "returns false when the hidden input is absent", () => {
 		expect( getIsBannerRenderedFromInput() ).toBe( false );
 	} );
@@ -57,10 +53,6 @@ describe( "getIsBannerRenderedFromInput", () => {
 } );
 
 describe( "setBannerRenderedInput", () => {
-	afterEach( () => {
-		document.body.innerHTML = "";
-	} );
-
 	it( "sets the hidden input value to \"1\"", () => {
 		renderInput( RENDERED_INPUT_ID, "0" );
 		setBannerRenderedInput();
@@ -73,10 +65,6 @@ describe( "setBannerRenderedInput", () => {
 } );
 
 describe( "setBannerDismissedInput", () => {
-	afterEach( () => {
-		document.body.innerHTML = "";
-	} );
-
 	it( "sets the hidden input value to \"1\"", () => {
 		renderInput( DISMISSED_INPUT_ID, "0" );
 		setBannerDismissedInput();
