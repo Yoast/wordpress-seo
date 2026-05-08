@@ -9,13 +9,13 @@ import { noop } from "lodash";
 /**
  *
  * @param {Object} props
- * @param {string|null} props.categoryName The name of the category, or null.
- * @param {boolean} [props.isEnabled=false] Whether the category toggle is on.
- * @param {boolean} [props.isLoading=false] Whether content is still loading.
+ * @param {string|null} [props.categoryName] The name of the category, or null.
+ * @param {boolean} [props.isEnabled] Whether the category toggle is on.
+ * @param {boolean} [props.isLoading] Whether content is still loading.
  *
  * @returns {JSX.Element|null} The CategoryBadge component.
  */
-const CategoryBadge = ( { categoryName, isEnabled = false, isLoading = false } ) => {
+const CategoryBadge = ( { categoryName, isEnabled, isLoading } ) => {
 	if ( isLoading ) {
 		return <div className="yst-inline-flex yst-items-center yst-w-20 yst-h-5 yst-px-2 yst-py-1 yst-rounded-full yst-border yst-border-slate-300">
 			<SkeletonLoader className="yst-w-16 yst-h-3 yst-rounded" />
