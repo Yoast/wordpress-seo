@@ -1,4 +1,4 @@
-import { handleBannerTabNavigation } from "../../../src/ai-content-planner/helpers/handle-banner-tab-navigation";
+import { handleBannerKeyNavigation } from "../../../src/ai-content-planner/helpers/handle-banner-tab-navigation";
 
 const mockFindNext = jest.fn();
 const mockFindPrevious = jest.fn();
@@ -26,7 +26,7 @@ const makeEvent = ( overrides = {} ) => ( {
 	...overrides,
 } );
 
-describe( "handleBannerTabNavigation", () => {
+describe( "handleBannerKeyNavigation", () => {
 	let bannerEl;
 	let insideButton;
 	let outsideButton;
@@ -51,21 +51,21 @@ describe( "handleBannerTabNavigation", () => {
 	describe( "early returns", () => {
 		it( "does nothing when event.defaultPrevented is true", () => {
 			const event = makeEvent( { defaultPrevented: true } );
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 			expect( mockFindNext ).not.toHaveBeenCalled();
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 
-		it( "does nothing for non-Tab keys", () => {
+		it( "does nothing for non-Tab, non-Arrow keys", () => {
 			const event = makeEvent( { key: "Enter" } );
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 			expect( mockFindNext ).not.toHaveBeenCalled();
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 
 		it( "does nothing when bannerEl is null", () => {
 			const event = makeEvent();
-			handleBannerTabNavigation( null, event );
+			handleBannerKeyNavigation( null, event );
 			expect( mockFindNext ).not.toHaveBeenCalled();
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
@@ -73,14 +73,14 @@ describe( "handleBannerTabNavigation", () => {
 		it( "does nothing when there is no next tabbable element", () => {
 			mockFindNext.mockReturnValue( null );
 			const event = makeEvent( { target: outsideButton } );
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 
 		it( "does nothing when there is no previous tabbable element (Shift+Tab)", () => {
 			mockFindPrevious.mockReturnValue( null );
 			const event = makeEvent( { shiftKey: true, target: outsideButton } );
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 	} );
@@ -91,7 +91,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( insideButton, "focus" );
 			const event = makeEvent( { target: outsideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -102,7 +102,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( insideButton, "focus" );
 			const event = makeEvent( { shiftKey: true, target: outsideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -115,7 +115,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( outsideButton, "focus" );
 			const event = makeEvent( { target: insideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -126,7 +126,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( outsideButton, "focus" );
 			const event = makeEvent( { shiftKey: true, target: insideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -141,7 +141,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( secondInsideButton, "focus" );
 			const event = makeEvent( { target: insideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -154,7 +154,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( insideButton, "focus" );
 			const event = makeEvent( { shiftKey: true, target: secondInsideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
 			expect( focusSpy ).toHaveBeenCalledTimes( 1 );
@@ -169,7 +169,7 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( anotherOutsideButton, "focus" );
 			const event = makeEvent( { target: outsideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 			expect( focusSpy ).not.toHaveBeenCalled();
@@ -182,10 +182,55 @@ describe( "handleBannerTabNavigation", () => {
 			const focusSpy = jest.spyOn( anotherOutsideButton, "focus" );
 			const event = makeEvent( { shiftKey: true, target: outsideButton } );
 
-			handleBannerTabNavigation( bannerEl, event );
+			handleBannerKeyNavigation( bannerEl, event );
 
 			expect( event.preventDefault ).not.toHaveBeenCalled();
 			expect( focusSpy ).not.toHaveBeenCalled();
+		} );
+	} );
+
+	describe( "ArrowDown / ArrowUp in dropdown menu", () => {
+		let menuEl;
+
+		beforeEach( () => {
+			menuEl = document.createElement( "ul" );
+			menuEl.setAttribute( "role", "menu" );
+			bannerEl.appendChild( menuEl );
+		} );
+
+		it( "prevents default on ArrowDown when focus is on the menu element itself", () => {
+			const event = makeEvent( { key: "ArrowDown", target: menuEl } );
+			handleBannerKeyNavigation( bannerEl, event );
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "prevents default on ArrowDown when focus is inside the menu", () => {
+			const menuItem = document.createElement( "li" );
+			menuEl.appendChild( menuItem );
+			const event = makeEvent( { key: "ArrowDown", target: menuItem } );
+			handleBannerKeyNavigation( bannerEl, event );
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "prevents default on ArrowUp when focus is inside the menu", () => {
+			const menuItem = document.createElement( "li" );
+			menuEl.appendChild( menuItem );
+			const event = makeEvent( { key: "ArrowUp", target: menuItem } );
+			handleBannerKeyNavigation( bannerEl, event );
+			expect( event.preventDefault ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		it( "does not prevent default on ArrowDown when focus is outside the menu", () => {
+			const event = makeEvent( { key: "ArrowDown", target: outsideButton } );
+			handleBannerKeyNavigation( bannerEl, event );
+			expect( event.preventDefault ).not.toHaveBeenCalled();
+		} );
+
+		it( "does not prevent default on ArrowDown when the banner has no menu", () => {
+			bannerEl.removeChild( menuEl );
+			const event = makeEvent( { key: "ArrowDown", target: insideButton } );
+			handleBannerKeyNavigation( bannerEl, event );
+			expect( event.preventDefault ).not.toHaveBeenCalled();
 		} );
 	} );
 } );

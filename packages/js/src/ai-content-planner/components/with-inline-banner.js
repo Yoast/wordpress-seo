@@ -5,7 +5,7 @@ import { InlineBanner } from "./inline-banner";
 import { CONTENT_PLANNER_STORE, FEATURE_MODAL_STATUS, INJECTED_STYLE_ID } from "../constants";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../ai-generator/constants";
 import { useFetchContentSuggestions } from "../hooks/use-fetch-content-suggestions";
-import { handleBannerTabNavigation, preventArrowNavInMenu } from "../helpers/handle-banner-tab-navigation";
+import { handleBannerKeyNavigation } from "../helpers/handle-banner-tab-navigation";
 
 /**
  * Returns true when the mousedown target is outside the dropdown.
@@ -119,8 +119,7 @@ const FirstBlockWithBanner = ( { BlockListBlock, props } ) => {
 		 * @returns {void}
 		 */
 		function handleKeydownEvents( event ) {
-			handleBannerTabNavigation( ref.current, event );
-			preventArrowNavInMenu( ref.current, event );
+			handleBannerKeyNavigation( ref.current, event );
 		}
 
 		const onMousedown = ( event ) => {

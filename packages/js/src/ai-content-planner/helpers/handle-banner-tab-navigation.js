@@ -1,25 +1,6 @@
 import { focus } from "@wordpress/dom";
 
 /**
- * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
- * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
- * set, so calling preventDefault() here lets HeadlessUI still process the key.
- *
- * @param {HTMLElement}  bannerEl The banner wrapper element.
- * @param {KeyboardEvent} event   The keydown event.
- * @returns {void}
- */
-export function preventArrowNavInMenu( bannerEl, event ) {
-	if ( ! [ "ArrowDown", "ArrowUp" ].includes( event.key ) ) {
-		return;
-	}
-	const menuEl = bannerEl?.querySelector( "[role='menu']" );
-	if ( menuEl && ( menuEl === event.target || menuEl.contains( event.target ) ) ) {
-		event.preventDefault();
-	}
-}
-
-/**
  * Get sibling function.
  *
  * @param {KeyboardEvent} event The keydown event.
@@ -41,23 +22,32 @@ const getFindSibling = ( event ) => {
 const involvesBanner = ( bannerEl, target, next ) => bannerEl.contains( target ) || bannerEl.contains( next );
 
 /**
- * Keydown handler that keeps the inline banner reachable via Tab inside the Gutenberg
- * writing flow. Gutenberg's useTabNav hook intercepts Tab in the bubble phase and
- * redirects focus to sentinel divs when the next tabbable element is not inside the
- * same [data-block] wrapper. Because the banner sits outside any real block, it is
- * normally skipped. This handler is meant to be attached in the capture phase so it
- * runs before Gutenberg; once it calls preventDefault(), Gutenberg's early-return guard
- * fires and leaves focus alone.
+ * Prevents Gutenberg's arrow-nav handler from stealing focus when the dropdown
+ * menu is open. Gutenberg's use-arrow-nav exits early when defaultPrevented is
+ * set, so calling preventDefault() here lets HeadlessUI still process the key.
  *
  * @param {HTMLElement}  bannerEl The banner wrapper element.
  * @param {KeyboardEvent} event   The keydown event.
  * @returns {void}
  */
-export function handleBannerTabNavigation( bannerEl, event ) {
-	if ( event.defaultPrevented || event.key !== "Tab" || ! bannerEl ) {
-		return;
+function handleArrowNavInMenu( bannerEl, event ) {
+	const menuEl = bannerEl.querySelector( "[role='menu']" );
+	if ( menuEl && ( menuEl === event.target || menuEl.contains( event.target ) ) ) {
+		event.preventDefault();
 	}
+}
 
+/**
+ * Handles Tab / Shift+Tab to keep the banner reachable inside Gutenberg's writing flow.
+ * Because the banner sits outside any real block, it is normally skipped. This handler is
+ * attached in the capture phase so it runs first; once it calls preventDefault(),
+ * Gutenberg's early-return guard fires and leaves focus alone.
+ *
+ * @param {HTMLElement}  bannerEl The banner wrapper element.
+ * @param {KeyboardEvent} event   The keydown event.
+ * @returns {void}
+ */
+function handleTabNavigation( bannerEl, event ) {
 	const findSibling = getFindSibling( event );
 	const next = findSibling( event.target );
 
@@ -66,5 +56,29 @@ export function handleBannerTabNavigation( bannerEl, event ) {
 	if ( next && involvesBanner( bannerEl, event.target, next ) ) {
 		event.preventDefault();
 		next.focus();
+	}
+}
+
+/**
+ * Keydown handler for the inline banner. Covers two cases:
+ *
+ * 1. Tab / Shift+Tab — keeps the banner reachable inside Gutenberg's writing flow.
+ * 2. ArrowUp / ArrowDown — prevents Gutenberg's use-arrow-nav handler from stealing
+ *    focus when the HeadlessUI dropdown menu is open.
+ *
+ * @param {HTMLElement}  bannerEl The banner wrapper element.
+ * @param {KeyboardEvent} event   The keydown event.
+ * @returns {void}
+ */
+export function handleBannerKeyNavigation( bannerEl, event ) {
+	if ( event.defaultPrevented || ! bannerEl ) {
+		return;
+	}
+	if ( [ "ArrowDown", "ArrowUp" ].includes( event.key ) ) {
+		handleArrowNavInMenu( bannerEl, event );
+		return;
+	}
+	if ( event.key === "Tab" ) {
+		handleTabNavigation( bannerEl, event );
 	}
 }
