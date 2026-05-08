@@ -69,6 +69,7 @@ export const App = () => {
 				handleApplyOutline={ handleApplyOutline }
 				openReplaceContentModal={ openReplaceContentModal }
 				setHasVisitedReplace={ setHasVisitedReplace }
+				isReplaceModalOpen={ replaceContentModalIsOpen && hasVisitedReplace }
 			/>
 			<ReplaceContentModal
 				onConfirm={ handleConfirmReplace }

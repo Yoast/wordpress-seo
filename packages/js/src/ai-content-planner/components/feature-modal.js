@@ -32,6 +32,7 @@ import { getModalNotificationPosition } from "../../shared-admin/helpers";
  * @param {Function}      setHasVisitedReplace          Function to set whether the user has visited the replace content confirmation modal.
  * @param {Object}        editedOutlineRef              Ref object to store the edited content outline.
  * @param {Function}      handleApplyOutline           Function to apply the content outline to the post.
+ * @param {boolean}       isReplaceModalOpen           Whether the replace content confirmation modal is open.
  * @returns {JSX.Element} The Content Planner Feature Modal.
  */
 export const FeatureModal = ( {
@@ -49,6 +50,7 @@ export const FeatureModal = ( {
 	setHasVisitedReplace,
 	editedOutlineRef,
 	handleApplyOutline,
+	isReplaceModalOpen,
 } ) => {
 	const fetchContentOutline = useFetchContentOutline();
 	const isConsentModalOpen = status === FEATURE_MODAL_STATUS.consent;
@@ -92,7 +94,7 @@ export const FeatureModal = ( {
 	}, [ isEmptyPost, handleApplyOutline, openReplaceContentModal, setHasVisitedReplace ] );
 
 	return (
-		<Modal isOpen={ ! isConsentModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
+		<Modal isOpen={ ! isConsentModalOpen && ! isReplaceModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
 			<Modal.Panel ref={ panelRef } className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton
 					ref={ closeButtonRef } screenReaderText={ isSuggestions
