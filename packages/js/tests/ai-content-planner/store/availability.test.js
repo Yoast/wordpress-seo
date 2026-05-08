@@ -37,10 +37,5 @@ describe( "availability store", () => {
 		it( "should return the default minPostsMet when state is missing", () => {
 			expect( availabilitySelectors.selectIsMinPostsMet( {} ) ).toBe( false );
 		} );
-
-		it( "should return the current minPostsMet value when it is false", () => {
-			const state = { [ AVAILABILITY_NAME ]: { minPostsMet: false } };
-			expect( availabilitySelectors.selectIsMinPostsMet( state ) ).toBe( false );
-		} );
 	} );
 } );

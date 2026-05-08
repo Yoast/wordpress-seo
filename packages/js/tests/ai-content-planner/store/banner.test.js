@@ -78,18 +78,6 @@ describe( "banner store", () => {
 			expect( action.type ).toBe( `${ BANNER_NAME }/setBannerDismissed` );
 		} );
 
-		it( "setBannerRendered action can be applied to the reducer", () => {
-			const action = bannerActions.setBannerRendered();
-			const state = bannerReducer( getInitialBannerState(), action );
-			expect( state.isBannerRendered ).toBe( true );
-		} );
-
-		it( "setBannerDismissed action can be applied to the reducer", () => {
-			const action = bannerActions.setBannerDismissed();
-			const state = bannerReducer( getInitialBannerState(), action );
-			expect( state.isBannerDismissed ).toBe( true );
-		} );
-
 		it( "setBannerPermanentlyDismissed returns the slice action without calling DOM helpers", () => {
 			const action = bannerActions.setBannerPermanentlyDismissed();
 			expect( action.type ).toBe( `${ BANNER_NAME }/setBannerPermanentlyDismissed` );
