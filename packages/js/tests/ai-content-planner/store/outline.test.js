@@ -387,12 +387,25 @@ describe( "content outline store", () => {
 
 			await contentOutlineControls[ FETCH_CONTENT_OUTLINE_ACTION_NAME ]( { payload } );
 
+			/* eslint-disable camelcase */
 			expect( contentPlannerFetch ).toHaveBeenCalledWith(
 				expect.objectContaining( {
 					method: "POST",
 					path: payload.endpoint,
+					data: expect.objectContaining( {
+						post_type: payload.postType,
+						language: payload.language,
+						editor: payload.editor,
+						title: payload.title,
+						intent: payload.intent,
+						explanation: payload.explanation,
+						keyphrase: payload.keyphrase,
+						meta_description: payload.meta_description,
+						category: payload.category,
+					} ),
 				} )
 			);
+			/* eslint-enable camelcase */
 		} );
 	} );
 } );

@@ -17,7 +17,7 @@ jest.mock( "../../../src/ai-content-planner/helpers/fields", () => ( {
 
 jest.mock( "@wordpress/api-fetch", () => jest.fn() );
 
-const apiFetch = require( "@wordpress/api-fetch" );
+import apiFetch from "@wordpress/api-fetch";
 
 describe( "banner store", () => {
 	beforeEach( () => {

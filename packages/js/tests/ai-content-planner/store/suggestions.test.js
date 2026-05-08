@@ -399,7 +399,17 @@ describe( "suggestions store", () => {
 
 			expect( contentPlannerFetch ).toHaveBeenCalledWith(
 				expect.objectContaining( {
-					path: expect.stringContaining( payload.endpoint ),
+					path: expect.stringContaining( `post_type=${ payload.postType }` ),
+				} )
+			);
+			expect( contentPlannerFetch ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					path: expect.stringContaining( `language=${ payload.language }` ),
+				} )
+			);
+			expect( contentPlannerFetch ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					path: expect.stringContaining( `editor=${ payload.editor }` ),
 				} )
 			);
 		} );
