@@ -1,17 +1,13 @@
+/* eslint-disable camelcase */
 import { renderHook, act } from "@testing-library/react";
 import { useDispatch, select as mockSelect } from "@wordpress/data";
 import { useApplyOutline } from "../../../src/ai-content-planner/hooks/use-apply-outline";
-import { applyYoastMetaFromOutline } from "../../../src/ai-content-planner/helpers/apply-yoast-meta-from-outline";
 import { buildBlocksFromOutline } from "../../../src/ai-content-planner/helpers/build-blocks-from-outline";
 import { CONTENT_PLANNER_STORE } from "../../../src/ai-content-planner/constants";
 
 jest.mock( "@wordpress/data", () => ( {
 	useDispatch: jest.fn(),
 	select: jest.fn(),
-} ) );
-
-jest.mock( "../../../src/ai-content-planner/helpers/apply-yoast-meta-from-outline", () => ( {
-	applyYoastMetaFromOutline: jest.fn(),
 } ) );
 
 const mockBlocks = [ { name: "core/heading", attributes: {} } ];
@@ -27,7 +23,7 @@ const apiOutline = [ { heading: "Intro" } ];
 // The API suggestion mirrors the snake_case shape returned by the Yoast Content Planner endpoint.
 const apiSuggestion = {
 	title: "API title",
-	// eslint-disable-next-line camelcase
+
 	meta_description: "API meta",
 	keyphrase: "api keyphrase",
 	category: { name: "API", id: 7 },
@@ -37,7 +33,6 @@ beforeEach( () => {
 	mockEditPost.mockClear();
 	mockCloseModal.mockClear();
 	mockSetBannerDismissed.mockClear();
-	applyYoastMetaFromOutline.mockClear();
 	buildBlocksFromOutline.mockClear();
 
 	useDispatch.mockImplementation( ( storeName ) => {
@@ -82,6 +77,11 @@ describe( "useApplyOutline", () => {
 			title: "Edited title",
 			blocks: mockBlocks,
 			categories: [ 9 ],
+			meta: {
+				_yoast_wpseo_title: "Edited title",
+				_yoast_wpseo_metadesc: "Edited meta",
+				_yoast_wpseo_focuskw: "edited keyphrase",
+			},
 		} );
 		expect( buildBlocksFromOutline ).toHaveBeenCalledWith( editedOutline.structure );
 	} );
@@ -105,6 +105,11 @@ describe( "useApplyOutline", () => {
 		expect( mockEditPost ).toHaveBeenCalledWith( {
 			title: "T",
 			blocks: mockBlocks,
+			meta: {
+				_yoast_wpseo_title: "T",
+				_yoast_wpseo_metadesc: "M",
+				_yoast_wpseo_focuskw: "K",
+			},
 		} );
 	} );
 
@@ -127,10 +132,15 @@ describe( "useApplyOutline", () => {
 		expect( mockEditPost ).toHaveBeenCalledWith( {
 			title: "T",
 			blocks: mockBlocks,
+			meta: {
+				_yoast_wpseo_title: "T",
+				_yoast_wpseo_metadesc: "M",
+				_yoast_wpseo_focuskw: "K",
+			},
 		} );
 	} );
 
-	it( "applies the Yoast meta to the Yoast store separately", async() => {
+	it( "includes Yoast meta fields in the editPost call", async() => {
 		const editedOutline = {
 			title: "Edited title",
 			metaDescription: "Edited meta",
@@ -145,12 +155,13 @@ describe( "useApplyOutline", () => {
 			await result.current();
 		} );
 
-		expect( applyYoastMetaFromOutline ).toHaveBeenCalledWith( {
-			title: "Edited title",
-			metaDescription: "Edited meta",
-			focusKeyphrase: "edited keyphrase",
-			category: { name: "Edited", id: 9 },
-		} );
+		expect( mockEditPost ).toHaveBeenCalledWith( expect.objectContaining( {
+			meta: {
+				_yoast_wpseo_title: "Edited title",
+				_yoast_wpseo_metadesc: "Edited meta",
+				_yoast_wpseo_focuskw: "edited keyphrase",
+			},
+		} ) );
 	} );
 
 	it( "falls back to the API suggestion when no edited outline is present", async() => {
@@ -166,12 +177,11 @@ describe( "useApplyOutline", () => {
 			title: apiSuggestion.title,
 			blocks: mockBlocks,
 			categories: [ apiSuggestion.category.id ],
-		} );
-		expect( applyYoastMetaFromOutline ).toHaveBeenCalledWith( {
-			title: apiSuggestion.title,
-			metaDescription: apiSuggestion.meta_description,
-			focusKeyphrase: apiSuggestion.keyphrase,
-			category: apiSuggestion.category,
+			meta: {
+				_yoast_wpseo_title: apiSuggestion.title,
+				_yoast_wpseo_metadesc: apiSuggestion.meta_description,
+				_yoast_wpseo_focuskw: apiSuggestion.keyphrase,
+			},
 		} );
 	} );
 
