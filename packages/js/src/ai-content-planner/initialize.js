@@ -47,12 +47,13 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 }
 
 /**
- * Auto-inserts a paragraph block on new "post" type posts so the inline banner
- * filter has a block to attach to.
+ * Editor plugin that renders the shared FeatureModal controlled by the content
+ * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
+ * banner on new posts of the "post" type.
  *
  * @returns {void}
  */
-function useAutoInsertBanner() {
+export const ContentPlannerEditorPlugin = () => {
 	const hasInserted = useRef( false );
 
 	const { isNewPost, postType, blocks, minPostsMet, isBannerRendered } = useSelect( select => {
@@ -68,6 +69,8 @@ function useAutoInsertBanner() {
 
 	const { insertBlock } = useDispatch( "core/block-editor" );
 
+	useYoastMetaSync();
+
 	useEffect( () => {
 		if ( hasInserted.current || ! isNewPost || postType !== "post" || ! minPostsMet ) {
 			return;
@@ -75,18 +78,6 @@ function useAutoInsertBanner() {
 
 		hasInserted.current = insertFirstParagraph( blocks, insertBlock, isBannerRendered );
 	}, [ blocks, isNewPost, postType, insertBlock, minPostsMet ] );
-}
-
-/**
- * Editor plugin that renders the shared FeatureModal controlled by the content
- * planner store, syncs Yoast meta fields on undo, and auto-inserts the inline
- * banner on new posts of the "post" type.
- *
- * @returns {void}
- */
-export const ContentPlannerEditorPlugin = () => {
-	useYoastMetaSync();
-	useAutoInsertBanner();
 
 	return (
 		<App />
